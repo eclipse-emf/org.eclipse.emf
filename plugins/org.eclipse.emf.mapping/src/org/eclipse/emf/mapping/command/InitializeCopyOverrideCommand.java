@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InitializeCopyOverrideCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: InitializeCopyOverrideCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.mapping.command;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
@@ -60,6 +59,7 @@ public class InitializeCopyOverrideCommand extends AbstractCommand
     this.initializeCommand = initializeCommand;
   }
 
+  @Override
   protected boolean prepare()
   {
     return true;
@@ -81,10 +81,9 @@ public class InitializeCopyOverrideCommand extends AbstractCommand
 
     // Copy the children references 
     //
-    Collection copyChildren = new ArrayList();
-    for (Iterator ownerChildren = mappingDomain.getChildren(owner).iterator(); ownerChildren.hasNext(); )
+    Collection<Object> copyChildren = new ArrayList<Object>();
+    for (Object copyChildObject : mappingDomain.getChildren(owner))
     {
-      Object copyChildObject = ownerChildren.next();
       if (copyChildObject instanceof EObject)
       {
         EObject copyChild = copyHelper.getCopy((EObject)copyChildObject);
@@ -128,6 +127,7 @@ public class InitializeCopyOverrideCommand extends AbstractCommand
     }
   }
 
+  @Override
   public void undo()
   {
     // no-op
@@ -138,12 +138,14 @@ public class InitializeCopyOverrideCommand extends AbstractCommand
     // no-op
   }
 
-  public Collection getResult()
+  @Override
+  public Collection<?> getResult()
   {
     return Collections.singleton(initializeCommand.getCopy());
   }
 
-  public Collection getAffectedObjects()
+  @Override
+  public Collection<?> getAffectedObjects()
   {
     return Collections.singleton(initializeCommand.getCopy());
   }
@@ -152,6 +154,7 @@ public class InitializeCopyOverrideCommand extends AbstractCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

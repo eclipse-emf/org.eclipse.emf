@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RemoveOverrideCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: RemoveOverrideCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -63,6 +63,7 @@ public class RemoveOverrideCommand extends AbstractCommand
     this.removeCommand = removeCommand;
   }
 
+  @Override
   protected boolean prepare()
   {
     return removeCommand.doCanExecute();
@@ -72,16 +73,15 @@ public class RemoveOverrideCommand extends AbstractCommand
   {
     MappingRoot mappingRoot = mappingDomain.getMappingRoot();
     CompoundCommand subcommands = new CompoundCommand();
-    for (Iterator removals = removeCommand.getCollection().iterator(); removals.hasNext(); )
+    for (Object removal : removeCommand.getCollection())
     {
-      ArrayList commandList = new ArrayList();
-      for (Iterator objects = mappingDomain.treeIterator(removals.next()); objects.hasNext(); )
+      ArrayList<Command> commandList = new ArrayList<Command>();
+      for (Iterator<?> objects = mappingDomain.treeIterator(removal); objects.hasNext(); )
       {
         Object object = objects.next();
-        for (Iterator mappings = mappingRoot.getMappings(object).iterator(); mappings.hasNext(); )
+        for (Mapping mapping : mappingRoot.getMappings(object))
         {
-          Mapping mapping = (Mapping)mappings.next();
-          Collection outputs = mapping.getOutputs();
+          Collection<?> outputs = mapping.getOutputs();
           if (outputs.size() == 1 && outputs.iterator().next() == object)
           {
             commandList.add(RemoveMappingCommand.create(mappingDomain, mapping));
@@ -93,15 +93,16 @@ public class RemoveOverrideCommand extends AbstractCommand
           }
         }
       }
-      for (ListIterator commands = commandList.listIterator(commandList.size()); commands.hasPrevious(); )
+      for (ListIterator<Command> commands = commandList.listIterator(commandList.size()); commands.hasPrevious(); )
       {
-        subcommands.appendAndExecute((Command)commands.previous());
+        subcommands.appendAndExecute(commands.previous());
       }
     }
     mapCommand = !subcommands.isEmpty() ? subcommands.unwrap() : null;
     removeCommand.doExecute();
   }
 
+  @Override
   public void undo()
   {
     removeCommand.doUndo();          
@@ -120,6 +121,7 @@ public class RemoveOverrideCommand extends AbstractCommand
     removeCommand.doRedo();
   }
 
+  @Override
   public void dispose()
   {
     if (mapCommand != null) 
@@ -129,12 +131,14 @@ public class RemoveOverrideCommand extends AbstractCommand
     removeCommand.doDispose();
   }
 
-  public Collection getResult()
+  @Override
+  public Collection<?> getResult()
   {
     return removeCommand.doGetResult();
   }
 
-  public Collection getAffectedObjects()
+  @Override
+  public Collection<?> getAffectedObjects()
   {
     return removeCommand.doGetAffectedObjects();
   }
@@ -143,6 +147,7 @@ public class RemoveOverrideCommand extends AbstractCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

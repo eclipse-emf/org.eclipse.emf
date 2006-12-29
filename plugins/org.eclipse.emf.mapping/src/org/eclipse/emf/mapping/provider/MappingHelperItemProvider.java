@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,18 +12,18 @@
  *
  * </copyright>
  *
- * $Id: MappingHelperItemProvider.java,v 1.6 2005/06/12 13:38:46 emerks Exp $
+ * $Id: MappingHelperItemProvider.java,v 1.7 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -66,7 +66,8 @@ public class MappingHelperItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -80,9 +81,8 @@ public class MappingHelperItemProvider
       if (!mappingHelper.getNested().isEmpty())
       {
         int count = 1;
-        for (Iterator helpers = mappingHelper.getNested().iterator(); helpers.hasNext(); ++count)
+        for (final MappingHelper childHelper : mappingHelper.getNested())
         {
-          final MappingHelper childHelper = (MappingHelper)helpers.next();
 
           String additionalLabel = 
             mapping.getInputs().contains(childHelper.getHelpedObject()) ? MappingPlugin.INSTANCE.getString("_UI_Input_label") :
@@ -105,15 +105,18 @@ public class MappingHelperItemProvider
                    new ItemPropertyDescriptor.PropertyValueWrapper
                      (((ComposeableAdapterFactory)getAdapterFactory()).getRootAdapterFactory(), object, propertyValue, object);
                }
+               @Override
                public Object getPropertyValue(Object o)
                {
                  return createPropertyValueWrapper(childHelper, childHelper.getHelpedObject());
                }
-               public Collection getChoiceOfValues(Object object)
+               @Override
+               public Collection<?> getChoiceOfValues(Object object)
                {
                  return null;
                }
              });
+          ++count;
         }
       }
     }
@@ -128,16 +131,33 @@ public class MappingHelperItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     return super.getChildrenFeatures(object);
   }
 
-  public Collection getChildren(Object object)
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EStructuralFeature getChildFeature(Object object, Object child)
+  {
+    // Check the type of the specified child object and return the proper feature to use for
+    // adding (see {@link AddCommand}) it as a child.
+
+    return super.getChildFeature(object, child);
+  }
+
+  @Override
+  public Collection<?> getChildren(Object object)
   {
     return ((MappingHelper)object).getNested();
   }
 
+  @Override
   public boolean hasChildren(Object object)
   {
     return !((MappingHelper)object).getNested().isEmpty();
@@ -146,6 +166,7 @@ public class MappingHelperItemProvider
   /**
    * This returns the mapper of the MappingHelper.
    */
+  @Override
   public Object getParent(Object object)
   {
     MappingHelper mappingHelper = (MappingHelper)object;
@@ -162,11 +183,13 @@ public class MappingHelperItemProvider
   /**
    * This returns MappingHelper.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     return MappingPlugin.getPlugin().getImage("full/obj16/MappingHelper");
   }
 
+  @Override
   public String getText(Object object)
   {
     return "MappingHelper";
@@ -175,6 +198,7 @@ public class MappingHelperItemProvider
   /**
    * This handles notification by delegating to {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     if (msg.getFeature() == MappingPackage.eINSTANCE.getMappingHelper_Mapper())
@@ -191,6 +215,7 @@ public class MappingHelperItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return MappingPlugin.INSTANCE;

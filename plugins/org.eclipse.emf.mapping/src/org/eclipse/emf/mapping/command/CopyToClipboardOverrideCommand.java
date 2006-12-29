@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CopyToClipboardOverrideCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: CopyToClipboardOverrideCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -33,18 +33,19 @@ public class CopyToClipboardOverrideCommand extends CopyToClipboardCommand
   /**
    * This is the collection of read-only (input) objects that don't need to actually be copied.
    */
-  protected Collection inputObjects;
+  protected Collection<?> inputObjects;
 
   /**
    * This constructs a command that copies the given collections of objects to the clipboard.
    */
-  public CopyToClipboardOverrideCommand(MappingDomain domain, Collection nonInputObjects, Collection inputObjects)
+  public CopyToClipboardOverrideCommand(MappingDomain domain, Collection<?> nonInputObjects, Collection<?> inputObjects)
   {
     super(domain, nonInputObjects);
 
     this.inputObjects = inputObjects;
   }
 
+  @Override
   protected boolean prepare()
   {
     // Since input objects are read-only, we don't need to make a copy of them for the clipboard.

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: NameMatchMappingCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: NameMatchMappingCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
@@ -44,15 +43,16 @@ public class NameMatchMappingCommand extends MatchMappingCommand
     super(domain, mapping);
   }
 
-  protected boolean match(Object inputObject, Object outputObject, Collection mappedObjects)
+  @Override
+  protected boolean match(Object inputObject, Object outputObject, Collection<Object> mappedObjects)
   {
     String inputName = domain.getName(inputObject);
     String outputName = domain.getName(outputObject);
 
     if (inputName != null && outputName != null)
     {
-      List parsedInputName = domain.parseInputName(inputName);
-      List parsedOutputName = domain.parseOutputName(outputName);
+      List<String> parsedInputName = domain.parseInputName(inputName);
+      List<String> parsedOutputName = domain.parseOutputName(outputName);
 
       if (concatName(parsedInputName).equalsIgnoreCase(concatName(parsedOutputName)))
       {
@@ -83,25 +83,25 @@ public class NameMatchMappingCommand extends MatchMappingCommand
     return !multipleMatchesAllowed; // return false if iteration should continue.
   }
 
-  protected String concatName(List parsedName)
+  protected String concatName(List<String> parsedName)
   {
-    String result = "";
-    for (Iterator nameIter = parsedName.iterator(); nameIter.hasNext(); )
+    StringBuilder result = new StringBuilder();
+    for (String nameComponent : parsedName)
     {
-      result += nameIter.next();
+      result.append(nameComponent);
     }
-    return result;
+    return result.toString();
   }
 
+  @Override
   public void execute()
   {
     super.execute();
 
     // Now we'll do recursive MatchMapping.
     // (We need to iterate over a copy, since we modify the underlying list in the loop.)
-    for (Iterator commands = new ArrayList(commandList).iterator(); commands.hasNext(); )
+    for (Command command : new ArrayList<Command>(commandList))
     {
-      Command command = (Command)commands.next();
       appendAndExecute(NameMatchMappingCommand.create(domain, (Mapping)command.getResult().iterator().next()));
     }
   }

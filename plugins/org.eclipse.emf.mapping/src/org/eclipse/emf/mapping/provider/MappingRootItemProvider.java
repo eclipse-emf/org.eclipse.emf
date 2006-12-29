@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootItemProvider.java,v 1.5 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingRootItemProvider.java,v 1.6 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -67,7 +68,8 @@ public class MappingRootItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -113,6 +115,7 @@ public class MappingRootItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public String getText(Object object)
   {
     return super.getText(object);
@@ -121,6 +124,7 @@ public class MappingRootItemProvider
   /**
    * This handles notification by delegating to {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     //MappingPackage ePackage = ((MappingRoot)msg.getNotifier()).ePackageMapping();
@@ -134,7 +138,8 @@ public class MappingRootItemProvider
     super.notifyChanged(msg);
   }
 
-  public Command createCommand(Object object, EditingDomain editingDomain, Class commandClass, CommandParameter commandParameter)
+  @Override
+  public Command createCommand(Object object, EditingDomain editingDomain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     if (editingDomain instanceof MappingDomain) // && commandParameter instanceof MappingCommandParameter)
     {
@@ -164,7 +169,7 @@ public class MappingRootItemProvider
   /**
    * This creates a primitive {@link org.eclipse.emf.mapping.command.CreateMappingCommand}.
    */
-  protected Command createCreateMappingCommand(MappingDomain domain, Collection collection)
+  protected Command createCreateMappingCommand(MappingDomain domain, Collection<?> collection)
   {
     return new CreateMappingCommand(domain, collection);
   }
@@ -172,7 +177,7 @@ public class MappingRootItemProvider
   /**
    * This creates a primitive {@link org.eclipse.emf.mapping.command.AddMappingCommand}.
    */
-  protected Command createAddMappingCommand(MappingDomain domain, Collection collection)
+  protected Command createAddMappingCommand(MappingDomain domain, Collection<?> collection)
   {
     return new AddMappingCommand(domain, collection);
   }
@@ -180,7 +185,7 @@ public class MappingRootItemProvider
   /**
    * This creates a primitive {@link org.eclipse.emf.mapping.command.RemoveMappingCommand}.
    */
-  protected Command createRemoveMappingCommand(MappingDomain domain, Collection collection)
+  protected Command createRemoveMappingCommand(MappingDomain domain, Collection<?> collection)
   {
     return new RemoveMappingCommand(domain, collection);
   }
@@ -199,6 +204,7 @@ public class MappingRootItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return MappingPlugin.INSTANCE;

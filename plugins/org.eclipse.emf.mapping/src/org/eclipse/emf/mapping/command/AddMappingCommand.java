@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddMappingCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: AddMappingCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.mapping.command;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
@@ -43,7 +42,7 @@ public class AddMappingCommand extends AbstractCommand
   /**
    * This creates a command that adds the new mappings in the collection into the appropriate place in the mapping root's.
    */
-  public static Command create(MappingDomain domain, Collection collection)
+  public static Command create(MappingDomain domain, Collection<?> collection)
   {
     return 
       domain.createCommand
@@ -77,7 +76,7 @@ public class AddMappingCommand extends AbstractCommand
   /**
    * This keeps track of the input and output objects that are to be mapped.
    */
-  protected Collection collection;
+  protected Collection<?> collection;
 
   /**
    * This keeps track of all the subcommand(s) use to implement this command.
@@ -87,7 +86,7 @@ public class AddMappingCommand extends AbstractCommand
   /**
    * This creates a command instance that adds the new mappings in the collection into the appropriate place in the mapping root's.
    */
-  public AddMappingCommand(MappingDomain domain, Collection collection)
+  public AddMappingCommand(MappingDomain domain, Collection<?> collection)
   {
     super(LABEL, DESCRIPTION);
 
@@ -95,12 +94,12 @@ public class AddMappingCommand extends AbstractCommand
     this.collection = collection;
   }
 
+  @Override
   protected boolean prepare() 
   {
     boolean result = domain != null;
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    for (Object object : collection)
     {
-      Object object = objects.next();
       if (!(object instanceof Mapping))
       {
         result = false;
@@ -119,9 +118,9 @@ public class AddMappingCommand extends AbstractCommand
 
     // For each mapping being added...
     //
-    for (Iterator mappings = collection.iterator(); mappings.hasNext(); )
+    for (Object object : collection)
     {
-      Mapping mapping = (Mapping)mappings.next();
+      Mapping mapping = (Mapping)object;
 
       // Find the appropriate parent mapping, which at the very least, should be the mapping root itself.
       //
@@ -139,10 +138,9 @@ public class AddMappingCommand extends AbstractCommand
         // Check all the siblings to see which if any should now be nested under this new mapping.
         // The are accumulated into a list so that they can be removed as a single command with a single notification.
         //
-        Collection siblingsToReparent = new ArrayList();
-        for (Iterator i = parentMapping.getNested().iterator(); i.hasNext(); )
+        Collection<Mapping> siblingsToReparent = new ArrayList<Mapping>();
+        for (Mapping siblingMapping : parentMapping.getNested())
         {
-          Mapping siblingMapping = (Mapping)i.next();
           if (siblingMapping != mapping)
           {
             if (domain.getMappingRoot().getParentMapping(siblingMapping.getMappedObjects()) == mapping)
@@ -174,11 +172,12 @@ public class AddMappingCommand extends AbstractCommand
     subcommand = subcommands.unwrap();
   }
 
+  @Override
   public void undo() 
   {
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    for (Object object : collection)
     {
-      Mapping mapping = (Mapping)objects.next();
+      Mapping mapping = (Mapping)object;
       domain.getMappingRoot().deregister(mapping);
     }
 
@@ -187,25 +186,28 @@ public class AddMappingCommand extends AbstractCommand
 
   public void redo()
   {
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    for (Object object : collection)
     {
-      Mapping mapping = (Mapping)objects.next();
+      Mapping mapping = (Mapping)object;
       domain.getMappingRoot().register(mapping);
     }
 
     subcommand.redo();
   }
 
-  public Collection getResult() 
+  @Override
+  public Collection<?> getResult() 
   {
     return collection;
   }
 
-  public Collection getAffectedObjects() 
+  @Override
+  public Collection<?> getAffectedObjects() 
   {
     return collection;
   }
 
+  @Override
   public void dispose()
   {
     if (subcommand != null)
@@ -219,6 +221,7 @@ public class AddMappingCommand extends AbstractCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TypeMatchMappingCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: TypeMatchMappingCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -41,7 +41,8 @@ public class TypeMatchMappingCommand extends MatchMappingCommand
     super(domain, mapping);
   }
 
-  protected boolean match(Object inputObject, Object outputObject, Collection mappedObjects)
+  @Override
+  protected boolean match(Object inputObject, Object outputObject, Collection<Object> mappedObjects)
   {
     if (mappedInputs.contains(inputObject) || !domain.getMappingRoot().getMappings(inputObject).isEmpty())
     {

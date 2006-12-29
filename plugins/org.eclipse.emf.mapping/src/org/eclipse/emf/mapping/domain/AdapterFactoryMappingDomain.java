@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryMappingDomain.java,v 1.5 2005/06/12 13:38:44 emerks Exp $
+ * $Id: AdapterFactoryMappingDomain.java,v 1.6 2006/12/29 18:29:09 marcelop Exp $
  */
 package org.eclipse.emf.mapping.domain;
 
@@ -88,8 +88,8 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
   public static final int LABEL_MIXED = 3;
   public static final char LABEL_NO_SEPARATOR = '\0';
 
-  protected HashMap topToBottomTypeTable = new HashMap();
-  protected HashMap bottomToTopTypeTable = new HashMap();
+  protected HashMap<String, String> topToBottomTypeTable = new HashMap<String, String>();
+  protected HashMap<String, String> bottomToTopTypeTable = new HashMap<String, String>();
 
   protected char topLabelSeparator = LABEL_NO_SEPARATOR;
   protected char bottomLabelSeparator = LABEL_NO_SEPARATOR;
@@ -97,11 +97,11 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
   protected int topLabelCase = LABEL_MIXED;
   protected int bottomLabelCase = LABEL_MIXED;
 
-  protected List topLabelLongForms = new ArrayList();
-  protected List bottomLabelLongForms = new ArrayList();
+  protected List<String> topLabelLongForms = new ArrayList<String>();
+  protected List<String> bottomLabelLongForms = new ArrayList<String>();
 
-  protected List topLabelShortForms = new ArrayList();
-  protected List bottomLabelShortForms = new ArrayList();
+  protected List<String> topLabelShortForms = new ArrayList<String>();
+  protected List<String> bottomLabelShortForms = new ArrayList<String>();
 
   protected char packageTypeSeparator = '|';
 
@@ -173,6 +173,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     }
 
     //public void fireNotifyChanged(Object object, int eventType, Object feature, Object oldValue, Object newValue, int index)
+    @Override
     public void fireNotifyChanged(Notification note)
     {
       super.fireNotifyChanged(note);
@@ -180,9 +181,8 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
       {
         if (parentAdapterFactory != null && getMappingRoot() != null && note.getNotifier() != null)
         {
-          for (Iterator mappings = getMappingRoot().getMappings(note.getNotifier()).iterator(); mappings.hasNext(); )
+          for (Mapping mapping : getMappingRoot().getMappings(note.getNotifier()))
           {
-            Mapping mapping = (Mapping)mappings.next();
             parentAdapterFactory.fireNotifyChanged(new NotificationWrapper(mapping, note));
 
             //FB Won't compile with VAJ or NO_JIKES 
@@ -192,7 +192,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
 
             if (treeItemContentProvider != null)
             {
-              for (Iterator children = treeItemContentProvider.getChildren(mapping).iterator(); children.hasNext(); )
+              for (Iterator<?> children = treeItemContentProvider.getChildren(mapping).iterator(); children.hasNext(); )
               {
                 Object child = children.next();
                 if (child instanceof MappedObjectItemProvider &&
@@ -227,7 +227,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
       this.editingDomain = editingDomain;
     }
 
-    public EditingDomainProvidingComposedAdapterFactory(Collection adapterFactories, EditingDomain editingDomain)
+    public EditingDomainProvidingComposedAdapterFactory(Collection<? extends AdapterFactory> adapterFactories, EditingDomain editingDomain)
     {
       super(adapterFactories);
       this.editingDomain = editingDomain;
@@ -310,7 +310,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     }
   }
 
-  public List parseOutputName(String outputName) 
+  public List<String> parseOutputName(String outputName) 
   {
     if (mappingRoot.isTopToBottom())
     {
@@ -322,7 +322,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     }
   }
 
-  public List parseInputName(String inputName) 
+  public List<String> parseInputName(String inputName) 
   {
     if (mappingRoot.isTopToBottom())
     {
@@ -416,10 +416,10 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     MappingRoot typeMappingRoot = mappingRoot.getTypeMappingRoot();
     if (typeMappingRoot != null)
     {
-      Collection mappings = typeMappingRoot.getMappings(inputType);
+      Collection<? extends Mapping> mappings = typeMappingRoot.getMappings(inputType);
       if (mappings.size() == 1)
       {
-        Mapping typeMapping = (Mapping)mappings.iterator().next();
+        Mapping typeMapping = mappings.iterator().next();
         outputType = typeMapping.getOutputs().iterator().next();
       }
     }
@@ -439,7 +439,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
   /**
    * This is called for every command created by the domain.
    */
-  public void handleCreateCommand(Class commandClass, CommandParameter commandParameter, Command command)
+  public void handleCreateCommand(Class<? extends Command> commandClass, CommandParameter commandParameter, Command command)
   {
     if (persistentCommandStack != null)
     {
@@ -447,7 +447,8 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     }
   }
 
-  public Command createCommand(Class commandClass, CommandParameter commandParameter)
+  @Override
+  public Command createCommand(Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     // This turns a featureless set command into an operation to create a mapping.
     // This is invoked during drag and drop.
@@ -460,9 +461,8 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     {
       boolean inputToOutput = mappingRoot.isOutputObject(commandParameter.getOwner());
       boolean okay = true;
-      for (Iterator objects = ((Collection)commandParameter.getValue()).iterator(); objects.hasNext(); )
+      for (Object object : (Collection<?>)commandParameter.getValue())
       {
-        Object object = objects.next();
         if (mappingRoot.isInputObject(object) != inputToOutput)
         {
           okay = false;
@@ -470,7 +470,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
       }
       if (okay)
       {
-        Collection mappedObjects = new ArrayList((Collection)commandParameter.getValue());
+        Collection<Object> mappedObjects = new ArrayList<Object>((Collection<?>)commandParameter.getValue());
         mappedObjects.add(commandParameter.getOwner());
         return CreateMappingCommand.create(this, mappedObjects);
       }
@@ -479,7 +479,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     {
       // If this is a RemoveCommand for a root input object, direct it to the MappingRoot.
       //
-      Collection collection = commandParameter.getCollection();
+      Collection<?> collection = commandParameter.getCollection();
       if (mappingRoot.getMappedObjects().containsAll(collection))
       {
         commandParameter.setOwner(mappingRoot);
@@ -504,6 +504,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     }
   }
 
+  @Override
   public Command createOverrideCommand(OverrideableCommand command)
   {
     if (command instanceof AddCommand)
@@ -628,12 +629,11 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
   {
     if (!(copyToClipboardCommand instanceof CopyToClipboardOverrideCommand))
     {
-      Collection inputObjects = new ArrayList();
-      Collection nonInputObjects = new ArrayList();
+      Collection<Object> inputObjects = new ArrayList<Object>();
+      Collection<Object> nonInputObjects = new ArrayList<Object>();
 
-      for (Iterator i = copyToClipboardCommand.getSourceObjects().iterator(); i.hasNext(); )
+      for (Object object : copyToClipboardCommand.getSourceObjects())
       {
-        Object object = i.next();
         if (mappingRoot.isInputObject(object))
         {
           inputObjects.add(object);
@@ -671,12 +671,12 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     return null;
   }
 
-  protected EObject getCorrespondingType(EObject sourceType, HashMap typeTable)
+  protected EObject getCorrespondingType(EObject sourceType, HashMap<String, String> typeTable)
   {
     EObject result = null;
     EClassifier sourceClassifier = (EClassifier)sourceType;
     String sourceTypeName = sourceClassifier.getEPackage().getNsURI() + packageTypeSeparator + sourceClassifier.getName();
-    String targetTypeName = (String)typeTable.get(sourceTypeName);
+    String targetTypeName = typeTable.get(sourceTypeName);
         
     if (targetTypeName != null) 
     {
@@ -701,9 +701,9 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     return result;
   } 
 
-  protected List parseName(String sourceName, char sourceSeparator)
+  protected List<String> parseName(String sourceName, char sourceSeparator)
   {
-    List result = new ArrayList();
+    List<String> result = new ArrayList<String>();
 
     StringBuffer currentWord = new StringBuffer();
     int length = sourceName.length();
@@ -751,12 +751,12 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     (String sourceName, 
      char sourceSeparator, 
      int sourceCase, 
-     List sourceShortForms, 
-     List sourceLongForms,
+     List<String> sourceShortForms, 
+     List<String> sourceLongForms,
      char targetSeparator, 
      int targetCase, 
-     List targetShortForms, 
-     List targetLongForms)
+     List<String> targetShortForms, 
+     List<String> targetLongForms)
   {
     String result = convertNameForm(sourceName, sourceShortForms, sourceLongForms);
 
@@ -878,16 +878,16 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
     return sourceName;
   } 
 
-  protected String convertNameForm(String name, List fromStrings, List toStrings) 
+  protected String convertNameForm(String name, List<String> fromStrings, List<String> toStrings) 
   {
     String newName = name;
 
     for (int i=0; i<fromStrings.size(); i++) 
     {
-      String fromString = (String)fromStrings.get(i);
+      String fromString = fromStrings.get(i);
       if (name.indexOf(fromString) != -1) 
       {
-        String toString = (String)toStrings.get(i);
+        String toString = toStrings.get(i);
         newName = change(newName, fromString, toString);
       }
     }

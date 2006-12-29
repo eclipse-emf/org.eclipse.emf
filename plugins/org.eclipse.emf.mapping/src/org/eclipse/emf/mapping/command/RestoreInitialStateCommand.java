@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RestoreInitialStateCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: RestoreInitialStateCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -75,6 +75,7 @@ public class RestoreInitialStateCommand extends AbstractCommand
     this.domain = domain;
   }
 
+  @Override
   protected boolean prepare() 
   {
     boolean result = true;
@@ -115,6 +116,7 @@ public class RestoreInitialStateCommand extends AbstractCommand
     commandStack.setEncoding(domain, mappingRoot.getCommandStack());
   }
 
+  @Override
   public void undo() 
   {
     if (removeCommand != null)
@@ -131,6 +133,7 @@ public class RestoreInitialStateCommand extends AbstractCommand
     }
   }
 
+  @Override
   public void dispose()
   {
     if (removeCommand != null)
@@ -145,6 +148,7 @@ public class RestoreInitialStateCommand extends AbstractCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

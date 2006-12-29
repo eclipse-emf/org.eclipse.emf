@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FunctionNamePairItemProvider.java,v 1.4 2005/06/08 06:21:43 nickb Exp $
+ * $Id: FunctionNamePairItemProvider.java,v 1.5 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -58,7 +59,8 @@ public class FunctionNamePairItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -91,6 +93,7 @@ public class FunctionNamePairItemProvider
 
   protected static final String DIVIDER = " " + MappingPlugin.getPlugin().getString("_UI_Mapping_label_divider") + " ";
 
+  @Override
   public String getText(Object object)
   {
     String out2in = ((FunctionNamePair)object).getOut2in();
@@ -101,6 +104,7 @@ public class FunctionNamePairItemProvider
   /**
    * This handles notification by delegating to {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     //MappingPackage ePackage = ((FunctionNamePair)msg.getNotifier()).ePackageMapping();
@@ -120,6 +124,7 @@ public class FunctionNamePairItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return MappingPlugin.INSTANCE;

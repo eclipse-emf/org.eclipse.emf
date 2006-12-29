@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: PasteFromClipboardOverrideCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: PasteFromClipboardOverrideCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
@@ -39,9 +38,10 @@ public class PasteFromClipboardOverrideCommand extends PasteFromClipboardCommand
     super(domain, command.getOwner(), command.getFeature(), command.getIndex(), domain.getOptimizeCopy());
   }
 
+  @Override
   protected boolean optimizedCanExecute()
   {
-    Collection collection = domain.getClipboard();
+    Collection<?> collection = domain.getClipboard();
     if (collection == null)
     {
       return false;
@@ -53,9 +53,9 @@ public class PasteFromClipboardOverrideCommand extends PasteFromClipboardCommand
     //
     CopyCommand.Helper copyHelper = new CopyCommand.Helper();
     CompoundCommand shallowCopyCommand = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    for (Object object : collection)
     {
-      if (!shallowCopyCommand.appendAndExecute(CreateCopyCommand.create(domain, objects.next(), copyHelper)))
+      if (!shallowCopyCommand.appendAndExecute(CreateCopyCommand.create(domain, object, copyHelper)))
       {
         shallowCopyCommand.dispose();
         return false;

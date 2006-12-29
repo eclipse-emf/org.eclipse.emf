@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappedObjectItemProvider.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappedObjectItemProvider.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -78,6 +78,7 @@ public class MappedObjectItemProvider
   /**
    * This returns the nestedIn of the Mapping.
    */
+  @Override
   public Object getParent(Object object)
   {
     // Returning null here causes RemoveCommand.create(domain, mappedObjectItemProvider) to be delegated
@@ -87,43 +88,50 @@ public class MappedObjectItemProvider
     return mapping;
   }
 
-  public Collection getElements(Object object)
+  @Override
+  public Collection<?> getElements(Object object)
   {
     return Collections.EMPTY_LIST;
   }
 
-  public Collection getChildren(Object object)
+  @Override
+  public Collection<?> getChildren(Object object)
   {
     return Collections.EMPTY_LIST;
   }
 
+  @Override
   public boolean hasChildren(Object object)
   {
     return false;
   }
 
+  @Override
   public Object getImage(Object object)
   {
     return super.getImage(mappedObject);
   }
 
+  @Override
   public String getText(Object object)
   {
     return super.getText(mappedObject);
   }
 
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
-    List descriptors = super.getPropertyDescriptors(mappedObject);
+    List<IItemPropertyDescriptor> descriptors = super.getPropertyDescriptors(mappedObject);
 
-    List result = new ArrayList();
+    List<IItemPropertyDescriptor> result = new ArrayList<IItemPropertyDescriptor>();
     for (int i = 0; i < descriptors.size(); ++i)
     {
-      result.add(new ItemPropertyDescriptorDecorator(mappedObject, (IItemPropertyDescriptor)descriptors.get(i)));
+      result.add(new ItemPropertyDescriptorDecorator(mappedObject, descriptors.get(i)));
     }
     return result;
   }
 
+  @Override
   public IItemPropertyDescriptor getPropertyDescriptor(Object object, Object propertyId)
   {
     IItemPropertyDescriptor descriptor = super.getPropertyDescriptor(mappedObject, propertyId);
@@ -137,6 +145,7 @@ public class MappedObjectItemProvider
   /**
    * This handles notification by delegating to {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg)
   {
     if (msg.getFeature() == null)
@@ -150,7 +159,8 @@ public class MappedObjectItemProvider
     }
   }
 
-  public Command createCommand(Object object, EditingDomain editingDomain, Class commandClass, CommandParameter commandParameter)
+  @Override
+  public Command createCommand(Object object, EditingDomain editingDomain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     if (commandClass == org.eclipse.emf.edit.command.DragAndDropCommand.class)
     {
@@ -172,6 +182,7 @@ public class MappedObjectItemProvider
     return mapping;
   }
 
+  @Override
   public void dispose()
   {
     mappedObjectState.removeListener(this);

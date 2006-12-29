@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateMappingCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: CreateMappingCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.mapping.command;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
@@ -40,48 +39,58 @@ public class CreateMappingCommand extends AbstractCommand
   /**
    * @deprecated - use MappingDomain.ENABLE_MULTIPLE_INPUTS
    */
+  @Deprecated
   public static final int ENABLE_MULTIPLE_INPUTS = 0x0001;
   /**
    * @deprecated - use MappingDomain.ENABLE_MULTIPLE_OUTPUTS
    */
+  @Deprecated
   public static final int ENABLE_MULTIPLE_OUTPUTS = 0x0002;
   /**
    * @deprecated - use MappingDomain.ENABLE_MULTIPLE_INPUT_MAPPINGS
    */
+  @Deprecated
   public static final int ENABLE_MAPPED_INPUTS = 0x0004;
   /**
    * @deprecated - use MappingDomain.ENABLE_MULTIPLE_OUTPUT_MAPPINGS
    */
+  @Deprecated
   public static final int ENABLE_MAPPED_OUTPUTS = 0x0008;
   /**
    * @deprecated - use MappingDomain.ENABLE_INCOMPATIBLE_METAOBJECTS
    */
+  @Deprecated
   public static final int ENABLE_INCOMPATIBLE_METAOBJECTS = 0x0010;
   /**
    * @deprecated - use MappingDomain.ENABLE_INCOMPATIBLE_TYPE_CLASSIFIERS
    */
+  @Deprecated
   public static final int ENABLE_INCOMPATIBLE_TYPE_CLASSIFIERS = 0x0020;
   /**
    * @deprecated - use MappingDomain.ENABLE_EMPTY_INPUTS
    */
+  @Deprecated
   public static final int ENABLE_EMPTY_INPUTS = 0x0040;
   /**
    * @deprecated - use MappingDomain.ENABLE_EMPTY_OUTPUTS
    */
+  @Deprecated
   public static final int ENABLE_EMPTY_OUTPUTS = 0x0080;
   /**
    * @deprecated - use MappingDomain.ENABLE_UNMAPPED_PARENTS
    */
+  @Deprecated
   public static final int ENABLE_UNMAPPED_PARENTS = 0x0100;
   /**
    * @deprecated - use MappingDomain.ENABLE_ALL
    */
+  @Deprecated
   public static final int ENABLE_ALL = 0xFFFF;
 
   /**
    * This creates a command that creates a new mapping involving the given domain's collection of input and output objects.
    */
-  public static Command create(MappingDomain domain, Collection collection)
+  public static Command create(MappingDomain domain, Collection<?> collection)
   {
     return 
       domain.createCommand
@@ -94,7 +103,7 @@ public class CreateMappingCommand extends AbstractCommand
    */
   public static Command create(MappingDomain domain, Object input, Object output)
   {
-    Collection collection = new ArrayList();
+    Collection<Object> collection = new ArrayList<Object>();
     collection.add(input);
     collection.add(output);
     return create(domain, collection);
@@ -103,9 +112,9 @@ public class CreateMappingCommand extends AbstractCommand
   /**
    * This creates a command that creates a new mapping with the given collections of inputs and outputs.
    */
-  public static Command create(MappingDomain domain, Collection inputs, Collection outputs)
+  public static Command create(MappingDomain domain, Collection<?> inputs, Collection<?> outputs)
   {
-    Collection collection = new ArrayList();
+    Collection<Object> collection = new ArrayList<Object>();
     collection.addAll(inputs);
     collection.addAll(outputs);
     return create(domain, collection);
@@ -114,9 +123,9 @@ public class CreateMappingCommand extends AbstractCommand
   /**
    * This creates a command that creates a new mapping with the given collection of inputs and output.
    */
-  public static Command create(MappingDomain domain, Collection inputs, Object output)
+  public static Command create(MappingDomain domain, Collection<?> inputs, Object output)
   {
-    Collection collection = new ArrayList();
+    Collection<Object> collection = new ArrayList<Object>();
     collection.addAll(inputs);
     collection.add(output);
     return create(domain, collection);
@@ -125,9 +134,9 @@ public class CreateMappingCommand extends AbstractCommand
   /**
    * This creates a command that creates a new mapping with the given input and collection of outputs.
    */
-  public static Command create(MappingDomain domain, Object input, Collection outputs)
+  public static Command create(MappingDomain domain, Object input, Collection<?> outputs)
   {
-    Collection collection = new ArrayList();
+    Collection<Object> collection = new ArrayList<Object>();
     collection.add(input);
     collection.addAll(outputs);
     return create(domain, collection);
@@ -151,12 +160,12 @@ public class CreateMappingCommand extends AbstractCommand
   /**
    * This keeps track of the input objects that are to be mapped.
    */
-  protected Collection inputs;
+  protected Collection<?> inputs;
 
   /**
    * This keeps track of the output objects that are to be mapped.
    */
-  protected Collection outputs;
+  protected Collection<?> outputs;
 
   /**
    * This is set during {@link #execute} to record the new mapping that is created.
@@ -171,7 +180,8 @@ public class CreateMappingCommand extends AbstractCommand
   /**
    * @deprecated
    */
-  public CreateMappingCommand(MappingDomain domain, Collection collection, int enablementFlags)
+  @Deprecated
+  public CreateMappingCommand(MappingDomain domain, Collection<?> collection, int enablementFlags)
   {
     this(domain, collection);
   }
@@ -179,24 +189,25 @@ public class CreateMappingCommand extends AbstractCommand
   /**
    * This creates a command that creates a new mapping involving the given domain's collection of input and output objects.
    */
-  public CreateMappingCommand(MappingDomain domain, Collection collection)
+  public CreateMappingCommand(MappingDomain domain, Collection<?> collection)
   {
     super(LABEL, DESCRIPTION);
 
     this.domain = domain;
 
-    inputs = new ArrayList();
-    outputs = new ArrayList();
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    ArrayList<Object> newInputs = new ArrayList<Object>();
+    ArrayList<Object> newOutputs = new ArrayList<Object>();
+    inputs = newInputs;
+    outputs = newOutputs;
+    for (Object object : collection)
     {
-      Object object = objects.next();
       if (domain.getMappingRoot().isInputObject(object))
       {
-        inputs.add(object);
+        newInputs.add(object);
       }
       else if (domain.getMappingRoot().isOutputObject(object))
       {
-        outputs.add(object);
+        newOutputs.add(object);
       }
       else
       {
@@ -206,6 +217,7 @@ public class CreateMappingCommand extends AbstractCommand
     }
   }
 
+  @Override
   protected boolean prepare() 
   {
     boolean result = 
@@ -226,6 +238,7 @@ public class CreateMappingCommand extends AbstractCommand
     subcommand = subcommands.unwrap();
   }
 
+  @Override
   public void undo() 
   {
     //domain.getMappingRoot().removeMapping(newMapping);
@@ -237,16 +250,19 @@ public class CreateMappingCommand extends AbstractCommand
     subcommand.redo();
   }
 
-  public Collection getResult() 
+  @Override
+  public Collection<?> getResult() 
   {
     return Collections.singleton(newMapping);
   }
 
-  public Collection getAffectedObjects()
+  @Override
+  public Collection<?> getAffectedObjects()
   {
     return Collections.singleton(newMapping);
   }
 
+  @Override
   public void dispose()
   {
     if (subcommand != null)
@@ -256,6 +272,7 @@ public class CreateMappingCommand extends AbstractCommand
     super.dispose();
   }
 
+  @Override
   public String getLabel()
   {
     if (inputs == null  || inputs.isEmpty() || outputs == null || outputs.isEmpty())
@@ -268,6 +285,7 @@ public class CreateMappingCommand extends AbstractCommand
     }
   }
 
+  @Override
   public String getDescription()
   {
     if (inputs == null || inputs.isEmpty() || outputs == null || outputs.isEmpty())
@@ -284,6 +302,7 @@ public class CreateMappingCommand extends AbstractCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

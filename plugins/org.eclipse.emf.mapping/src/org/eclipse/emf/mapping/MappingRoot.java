@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRoot.java,v 1.3 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingRoot.java,v 1.4 2006/12/29 18:29:09 marcelop Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -138,31 +138,31 @@ public interface MappingRoot extends Mapping
   /**
    * This returns a collection of the mappings that refer to the given object.
    */
-  Collection getMappings(Object object);
+  Collection<? extends Mapping> getMappings(Object object);
 
   /**
    * This returns the <bf>intersection</bf> of the result of {@link #getMappings(Object) getMappings(Object)} 
    * for each object of the collection.
    */
-  Collection getAllMappings(Collection collection);
+  Collection<? extends Mapping> getAllMappings(Collection<?> collection);
 
   /**
    * This returns the subset of mappings returned by {@link #getAllMappings} 
    * such that have each mapping has <bf>exactly</bf> the collection as its mapped objects,
    * i.e., as return by {@link org.eclipse.emf.mapping.Mapping#getMappedObjects() Mapping#getMappedObjects()}.
    */
-  Collection getExactMappings(Collection collection);
+  Collection<? extends Mapping> getExactMappings(Collection<?> collection);
 
   /**
    * This returns the mapping in the tree that would be the parent of a mapping that has the given collection as its mapped objects.
    */
-  Mapping getParentMapping(Collection collection);
+  Mapping getParentMapping(Collection<?> collection);
 
   /**
    * If mapping is null, this checks if a mapping can be created with the given inputs and outputs. If mapping is
    * not null, it checks if the specified mapping can be changed to the given inputs and outputs.
    */
-  boolean canCreateMapping(Collection inputs, Collection outputs, Mapping mapping);
+  boolean canCreateMapping(Collection<?> inputs, Collection<?> outputs, Mapping mapping);
 
   /**
    * This checks if the given mapping can be removed.
@@ -172,7 +172,7 @@ public interface MappingRoot extends Mapping
   /**
    * This creates a new, appropriately-parented, mapping object with the given collections of input and output objects.
    */
-  Mapping createMapping(Collection inputs, Collection outputs);
+  Mapping createMapping(Collection<?> inputs, Collection<?> outputs);
 
   /**
    * This method resets the mapping and output dirty flags.

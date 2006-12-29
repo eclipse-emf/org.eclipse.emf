@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RemoveMappingCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: RemoveMappingCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.mapping.command;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
@@ -51,7 +50,7 @@ public class RemoveMappingCommand extends AbstractCommand
   /**
    * This creates a command that removes the mappings in the collection from the mapping root.
    */
-  public static Command create(MappingDomain domain, Collection collection)
+  public static Command create(MappingDomain domain, Collection<?> collection)
   {
     return 
       domain.createCommand
@@ -77,7 +76,7 @@ public class RemoveMappingCommand extends AbstractCommand
   /**
    * This keeps track of the input and output objects that are to be mapped.
    */
-  protected Collection collection;
+  protected Collection<?> collection;
 
   /**
    * This keeps track of all the subcommand(s) use to implement this command.
@@ -88,7 +87,7 @@ public class RemoveMappingCommand extends AbstractCommand
   /**
    * This creates a command instance that removes the mappings in the collection from the mapping root.
    */
-  public RemoveMappingCommand(MappingDomain domain, Collection collection)
+  public RemoveMappingCommand(MappingDomain domain, Collection<?> collection)
   {
     super(LABEL, DESCRIPTION);
 
@@ -96,6 +95,7 @@ public class RemoveMappingCommand extends AbstractCommand
     this.collection = collection;
   }
 
+  @Override
   protected boolean prepare() 
   {
     boolean result = true;
@@ -106,9 +106,8 @@ public class RemoveMappingCommand extends AbstractCommand
     }
     else
     {
-      for (Iterator objects = collection.iterator(); objects.hasNext(); )
+      for (Object object : collection)
       {
-        Object object = objects.next();
         if (!(object instanceof Mapping))
         {
           result = false;
@@ -133,9 +132,9 @@ public class RemoveMappingCommand extends AbstractCommand
 
     // For each mapping being removed...
     //
-    for (Iterator mappings = collection.iterator(); mappings.hasNext(); )
+    for (Object object : collection)
     {
-      Mapping mapping = (Mapping)mappings.next();
+      Mapping mapping = (Mapping)object;
       Mapping parentMapping = mapping.getNestedIn();
 
       // Make sure the back pointers to this mapping from the mapped objects is set.
@@ -147,7 +146,7 @@ public class RemoveMappingCommand extends AbstractCommand
       //subcommands.appendAndExecute(new RemoveCommand(domain, parentMapping, parentMapping.ePackageMapping().getMapping_Nested(), mapping));
       subcommands.appendAndExecute(new RemoveCommand(domain, parentMapping, MappingPackage.eINSTANCE.getMapping_Nested(), mapping));
    
-      Collection nestedMappings = new ArrayList(mapping.getNested());
+      Collection<Mapping> nestedMappings = new ArrayList<Mapping>(mapping.getNested());
       if (!nestedMappings.isEmpty())
       {
         //subcommands.appendAndExecute(new RemoveCommand(domain, mapping, mapping.ePackageMapping().getMapping_Nested(), nestedMappings));
@@ -160,11 +159,12 @@ public class RemoveMappingCommand extends AbstractCommand
     subcommand = subcommands.unwrap();
   }
 
+  @Override
   public void undo() 
   {
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    for (Object object : collection)
     {
-      Mapping mapping = (Mapping)objects.next();
+      Mapping mapping = (Mapping)object;
       domain.getMappingRoot().register(mapping);
     }
 
@@ -173,20 +173,22 @@ public class RemoveMappingCommand extends AbstractCommand
 
   public void redo()
   {
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    for (Object object : collection)
     {
-      Mapping mapping = (Mapping)objects.next();
+      Mapping mapping = (Mapping)object;
       domain.getMappingRoot().deregister(mapping);
     }
 
     subcommand.redo();
   }
 
-  public Collection getResult() 
+  @Override
+  public Collection<?> getResult() 
   {
     return collection;
   }
 
+  @Override
   public void dispose()
   {
     if (subcommand != null)
@@ -200,6 +202,7 @@ public class RemoveMappingCommand extends AbstractCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

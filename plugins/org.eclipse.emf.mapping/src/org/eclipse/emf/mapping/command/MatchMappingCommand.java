@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: MatchMappingCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MatchMappingCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
@@ -44,7 +43,7 @@ public abstract class MatchMappingCommand extends CompoundCommand
   /**
    * This is the collection of inputs that have been matched by this command
    */
-  protected Collection mappedInputs;
+  protected Collection<?> mappedInputs;
 
   /**
    * This caches the label.
@@ -64,20 +63,21 @@ public abstract class MatchMappingCommand extends CompoundCommand
     this.mapping = mapping;
   }
 
+  @Override
   protected boolean prepare() 
   {
     if (domain != null && mapping != null)
     {
-      Collection inputChildren = new ArrayList(); 
-      for (Iterator inputs = mapping.getSenders().iterator(); inputs.hasNext(); )
+      Collection<Object> inputChildren = new ArrayList<Object>(); 
+      for (Object input : mapping.getSenders())
       {
-        inputChildren.addAll(domain.getChildren(inputs.next()));
+        inputChildren.addAll(domain.getChildren(input));
       }
 
-      Collection outputChildren = new ArrayList(); 
-      for (Iterator outputs = mapping.getReceivers().iterator(); outputs.hasNext(); )
+      Collection<Object> outputChildren = new ArrayList<Object>(); 
+      for (Object output : mapping.getReceivers())
       {
-        outputChildren.addAll(domain.getChildren(outputs.next()));
+        outputChildren.addAll(domain.getChildren(output));
       }
 
       matchChildren(inputChildren, outputChildren);
@@ -89,22 +89,21 @@ public abstract class MatchMappingCommand extends CompoundCommand
     return result;
   }
 
-  protected void matchChildren(Collection inputChildren, Collection outputChildren)
+  protected void matchChildren(Collection<?> inputChildren, Collection<?> outputChildren)
   {
-    mappedInputs = new ArrayList();
+    ArrayList<Object> newMappedInputs = new ArrayList<Object>();
+    mappedInputs = newMappedInputs;
     MappingRoot mappingRoot = domain.getMappingRoot();
     boolean multipleMatchesAllowed = (domain.getMappingEnablementFlags() & MappingDomain.ENABLE_MULTIPLE_INPUT_MAPPINGS) != 0;
 
-    for (Iterator childOutputs = outputChildren.iterator(); childOutputs.hasNext(); )
+    for (Object childOutput : outputChildren)
     {
-      Object childOutput = childOutputs.next();
       if (mappingRoot.getMappings(childOutput).isEmpty())
       {
-        Collection mappedObjects = new ArrayList();
+        Collection<Object> mappedObjects = new ArrayList<Object>();
 
-        for (Iterator childInputs = inputChildren.iterator(); childInputs.hasNext(); )
+        for (Object childInput : inputChildren)
         {
-          Object childInput = childInputs.next();
           boolean canCreateMapping = 
             multipleMatchesAllowed || (!mappedInputs.contains(childInput) && mappingRoot.getMappings(childInput).isEmpty());
           if (canCreateMapping && match(childInput, childOutput, mappedObjects))
@@ -115,7 +114,7 @@ public abstract class MatchMappingCommand extends CompoundCommand
 
         if (!mappedObjects.isEmpty())
         {
-          mappedInputs.addAll(mappedObjects);
+          newMappedInputs.addAll(mappedObjects);
           mappedObjects.add(childOutput);
 
           Command mapCommand = CreateMappingCommand.create(domain, mappedObjects);
@@ -125,12 +124,13 @@ public abstract class MatchMappingCommand extends CompoundCommand
     }
   }
 
-  protected abstract boolean match(Object inputObject, Object outputObject, Collection mappedObjects);
+  protected abstract boolean match(Object inputObject, Object outputObject, Collection<Object> mappedObjects);
 
   /**
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistentCommandStack.java,v 1.3 2005/06/12 13:38:46 emerks Exp $
+ * $Id: PersistentCommandStack.java,v 1.4 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.mapping.command;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
@@ -47,7 +46,7 @@ public class PersistentCommandStack extends BasicCommandStack
   /**
    * This keeps track of the mapping between commands and their {@link CommandCreationRecord}s.
    */
-  protected HashMap commandCreationMap = new HashMap();
+  protected HashMap<Command, CommandCreationRecord> commandCreationMap = new HashMap<Command, CommandCreationRecord>();
 
   protected MappingDomain domain; 
   protected ClassLoader classLoader;
@@ -65,7 +64,7 @@ public class PersistentCommandStack extends BasicCommandStack
   /**
    * This is called by the mapping domain whenever a command (that may subsequently be executed) is created.
    */
-  public void handleCreateCommand(Class commandClass, CommandParameter commandParameter, Command command)
+  public void handleCreateCommand(Class<? extends Command> commandClass, CommandParameter commandParameter, Command command)
   {
     // Just remember it; it's encoded later during execution, which is more efficient.
     //
@@ -92,9 +91,10 @@ public class PersistentCommandStack extends BasicCommandStack
   /**
    * This override of execute calls {@link CommandCreationRecord#encode} just before normal execution by super.
    */
+  @Override
   public void execute(Command command)
   {
-    CommandCreationRecord commandCreationRecord = (CommandCreationRecord)commandCreationMap.get(command);
+    CommandCreationRecord commandCreationRecord = commandCreationMap.get(command);
     if (commandCreationRecord != null)
     {
       // Do the encoding.
@@ -120,11 +120,11 @@ public class PersistentCommandStack extends BasicCommandStack
   { 
     // Record the records for the executed commands on the stack.
     //
-    Collection commandCreationRecordList = new ArrayList();
+    Collection<CommandCreationRecord> commandCreationRecordList = new ArrayList<CommandCreationRecord>();
 
     for (int i = 0; i <= top; ++i)
     {
-      CommandCreationRecord commandCreationRecord = (CommandCreationRecord)commandCreationMap.get(commandList.get(i));
+      CommandCreationRecord commandCreationRecord = commandCreationMap.get(commandList.get(i));
       if (commandCreationRecord == null)
       {
         System.out.println("UnregisteredCommand:" + commandList.get(i));
@@ -152,13 +152,13 @@ public class PersistentCommandStack extends BasicCommandStack
     Decoder decoder = createDecoder(domain.getMappingRoot(), domain.getResourceSet(), classLoader);
     decoder.setEncoding(encoding);
     encoding = null;
-    Collection commandCreationRecordList = (Collection)decoder.decode();
+    @SuppressWarnings("unchecked")
+    Collection<CommandCreationRecord> commandCreationRecordList = (Collection<CommandCreationRecord>)decoder.decode();
     if (commandCreationRecordList != null)
     {
       boolean failure = false;
-      for (Iterator commandCreationRecords = commandCreationRecordList.iterator(); commandCreationRecords.hasNext(); )
+      for (CommandCreationRecord commandCreationRecord : commandCreationRecordList)
       {
-        CommandCreationRecord commandCreationRecord = (CommandCreationRecord)commandCreationRecords.next();
         commandCreationRecord.decode(decoder);
 
         Command command =domain.createCommand(commandCreationRecord.getCommandClass(), commandCreationRecord.getCommandParameter());
@@ -220,7 +220,8 @@ public class PersistentCommandStack extends BasicCommandStack
        }
       else if (object instanceof Class)
       {
-        Class theClass = (Class)object;
+        @SuppressWarnings("unchecked")
+        Class<? extends Command> theClass = (Class<? extends Command>)object;
         buffer.append("<class name=\"" + theClass.getName() + "\"/>");
       }
       else if (object instanceof CommandParameter)
@@ -243,8 +244,8 @@ public class PersistentCommandStack extends BasicCommandStack
 
           if (mappingRoot != null)
           {
-            Collection mappedObjects = mapping.getMappedObjects();
-            Collection collection = mappingRoot.getExactMappings(mappedObjects);
+            Collection<?> mappedObjects = mapping.getMappedObjects();
+            Collection<?> collection = mappingRoot.getExactMappings(mappedObjects);
 
             // If there is more than one exact match, we must get an index number;
             //
@@ -253,7 +254,7 @@ public class PersistentCommandStack extends BasicCommandStack
             {
               // Iterate over the whole tree to do this.
               //
-              for (TreeIterator mappings = mappingRoot.treeIterator(); mappings.hasNext(); )
+              for (TreeIterator<?> mappings = mappingRoot.treeIterator(); mappings.hasNext(); )
               {
                 Object otherMapping = mappings.next();
                 if (otherMapping == mapping)
@@ -302,11 +303,10 @@ public class PersistentCommandStack extends BasicCommandStack
       }
       else if (object instanceof Collection)
       {
-        Collection collection = (Collection)object;
+        Collection<?> collection = (Collection<?>)object;
         buffer.append("<collection>");
-        for (Iterator objects = collection.iterator(); objects.hasNext(); )
+        for (Object member : collection)
         {
-          Object member = objects.next();
           encode(member);
         }
         buffer.append("</collection>");
@@ -337,6 +337,7 @@ public class PersistentCommandStack extends BasicCommandStack
       }
     }
 
+    @Override
     public String toString()
     {
       return buffer.toString();
@@ -432,7 +433,7 @@ public class PersistentCommandStack extends BasicCommandStack
 
           Object owner = decode();
           Object feature = decode();
-          Collection collection = (Collection)decode();
+          Collection<?> collection = (Collection<?>)decode();
           Object value = decode();
           int theIndex = ((Integer)decode()).intValue();
 
@@ -497,16 +498,16 @@ public class PersistentCommandStack extends BasicCommandStack
         else if (key.equals("mapping"))
         {
           index = string.indexOf(">", index) + 1;
-          Collection mappedObjects = (Collection)decode();
+          Collection<?> mappedObjects = (Collection<?>)decode();
           int value = ((Integer)decode()).intValue();
           index = string.indexOf(">", index) + 1;
 
-          Collection collection = mappingRoot.getExactMappings(mappedObjects);
+          Collection<?> collection = mappingRoot.getExactMappings(mappedObjects);
           if (collection.size() > 1)
           {
             // Iterate over the whole tree to do this.
             //
-            for (TreeIterator mappings = mappingRoot.treeIterator(); mappings.hasNext(); )
+            for (TreeIterator<?> mappings = mappingRoot.treeIterator(); mappings.hasNext(); )
             {
               Object mapping = mappings.next();
               if (collection.contains(mapping))
@@ -531,7 +532,7 @@ public class PersistentCommandStack extends BasicCommandStack
         }
         else if (key.equals("collection"))
         {
-          Collection collection = new ArrayList();
+          Collection<Object> collection = new ArrayList<Object>();
 
           index = string.indexOf(">", index) + 1;
 
@@ -603,6 +604,7 @@ public class PersistentCommandStack extends BasicCommandStack
       return result;
     }
 
+    @Override
     public String toString()
     {
       return index < string.length() ? string.substring(index) : "";
@@ -614,11 +616,11 @@ public class PersistentCommandStack extends BasicCommandStack
    */
   public static class CommandCreationRecord
   {
-    Class commandClass;
+    Class<? extends Command> commandClass;
     CommandParameter commandParameter;
     String encoding;
 
-    public CommandCreationRecord(Class commandClass, CommandParameter commandParameter)
+    public CommandCreationRecord(Class<? extends Command> commandClass, CommandParameter commandParameter)
     {
       this.commandClass = commandClass;
       this.commandParameter = commandParameter;
@@ -640,7 +642,7 @@ public class PersistentCommandStack extends BasicCommandStack
       return encoding;
     }
 
-    public Class getCommandClass()
+    public Class<? extends Command> getCommandClass()
     {
       return commandClass;
     }
@@ -652,13 +654,15 @@ public class PersistentCommandStack extends BasicCommandStack
       encoding = encoder.toString();
     }
 
+    @SuppressWarnings("unchecked")
     public void decode(Decoder decoder)
     {
       decoder.setEncoding(encoding);
-      commandClass = (Class)decoder.decode();
+      commandClass = (Class<? extends Command>)decoder.decode();
       commandParameter = (CommandParameter)decoder.decode();
     }
     
+    @Override
     public String toString()
     {
       return 

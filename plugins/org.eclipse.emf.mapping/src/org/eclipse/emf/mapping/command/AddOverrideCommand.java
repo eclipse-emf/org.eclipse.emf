@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddOverrideCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: AddOverrideCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -61,6 +61,7 @@ public class AddOverrideCommand extends AbstractCommand
     this.addCommand = addCommand;
   }
 
+  @Override
   protected boolean prepare()
   {
     return addCommand.doCanExecute();
@@ -72,9 +73,9 @@ public class AddOverrideCommand extends AbstractCommand
 
     MappingRoot mappingRoot = mappingDomain.getMappingRoot();
     CompoundCommand subcommands = new CompoundCommand();
-    for (Iterator additions = addCommand.getCollection().iterator(); additions.hasNext(); )
+    for (Object addition : addCommand.getCollection())
     {
-      for (Iterator objects = mappingDomain.treeIterator(additions.next()); objects.hasNext(); )
+      for (Iterator<?> objects = mappingDomain.treeIterator(addition); objects.hasNext(); )
       {
         Object object = objects.next();
         MappedObjectState mappedObjectState = mappingRoot.getMappedObjectState(object);
@@ -101,6 +102,7 @@ public class AddOverrideCommand extends AbstractCommand
     subcommands.appendAndExecute(CreateMappingCommand.create(mappingDomain, originatingInput, outputObject));
   }
 
+  @Override
   public void undo()
   {
     if (mapCommand != null)
@@ -119,6 +121,7 @@ public class AddOverrideCommand extends AbstractCommand
     }
   }
 
+  @Override
   public void dispose()
   {
     if (mapCommand != null) 
@@ -128,9 +131,10 @@ public class AddOverrideCommand extends AbstractCommand
     addCommand.doDispose();
   }
 
-  public Collection getResult()
+  @Override
+  public Collection<?> getResult()
   {
-    Collection result = new ArrayList();
+    Collection<Object> result = new ArrayList<Object>();
     result.addAll(addCommand.doGetResult());
     if (mapCommand != null)
     {
@@ -139,9 +143,10 @@ public class AddOverrideCommand extends AbstractCommand
     return result;
   }
 
-  public Collection getAffectedObjects()
+  @Override
+  public Collection<?> getAffectedObjects()
   {
-    Collection result = new ArrayList();
+    Collection<Object> result = new ArrayList<Object>();
     result.addAll(addCommand.doGetAffectedObjects());
     if (mapCommand != null)
     {
@@ -154,6 +159,7 @@ public class AddOverrideCommand extends AbstractCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

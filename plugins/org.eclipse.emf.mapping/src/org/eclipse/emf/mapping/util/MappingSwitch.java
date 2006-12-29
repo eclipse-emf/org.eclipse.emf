@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingSwitch.java,v 1.5 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingSwitch.java,v 1.6 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.util;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.mapping.*;
  * @see org.eclipse.emf.mapping.MappingPackage
  * @generated
  */
-public class MappingSwitch 
+public class MappingSwitch<T> 
 {
   /**
    * The cached model package
@@ -67,7 +67,7 @@ public class MappingSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -79,7 +79,7 @@ public class MappingSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -87,11 +87,11 @@ public class MappingSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -102,28 +102,28 @@ public class MappingSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case MappingPackage.MAPPING_HELPER:
       {
         MappingHelper mappingHelper = (MappingHelper)theEObject;
-        Object result = caseMappingHelper(mappingHelper);
+        T result = caseMappingHelper(mappingHelper);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case MappingPackage.MAPPING:
       {
         Mapping mapping = (Mapping)theEObject;
-        Object result = caseMapping(mapping);
+        T result = caseMapping(mapping);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case MappingPackage.TYPE_CONVERTER:
       {
         TypeConverter typeConverter = (TypeConverter)theEObject;
-        Object result = caseTypeConverter(typeConverter);
+        T result = caseTypeConverter(typeConverter);
         if (result == null) result = caseMappingHelper(typeConverter);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -131,7 +131,7 @@ public class MappingSwitch
       case MappingPackage.FUNCTION_PAIR:
       {
         FunctionPair functionPair = (FunctionPair)theEObject;
-        Object result = caseFunctionPair(functionPair);
+        T result = caseFunctionPair(functionPair);
         if (result == null) result = caseTypeConverter(functionPair);
         if (result == null) result = caseMappingHelper(functionPair);
         if (result == null) result = defaultCase(theEObject);
@@ -140,7 +140,7 @@ public class MappingSwitch
       case MappingPackage.FUNCTION_NAME_PAIR:
       {
         FunctionNamePair functionNamePair = (FunctionNamePair)theEObject;
-        Object result = caseFunctionNamePair(functionNamePair);
+        T result = caseFunctionNamePair(functionNamePair);
         if (result == null) result = caseTypeConverter(functionNamePair);
         if (result == null) result = caseMappingHelper(functionNamePair);
         if (result == null) result = defaultCase(theEObject);
@@ -149,7 +149,7 @@ public class MappingSwitch
       case MappingPackage.MAPPING_STRATEGY:
       {
         MappingStrategy mappingStrategy = (MappingStrategy)theEObject;
-        Object result = caseMappingStrategy(mappingStrategy);
+        T result = caseMappingStrategy(mappingStrategy);
         if (result == null) result = caseMappingHelper(mappingStrategy);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -157,7 +157,7 @@ public class MappingSwitch
       case MappingPackage.MAPPING_ROOT:
       {
         MappingRoot mappingRoot = (MappingRoot)theEObject;
-        Object result = caseMappingRoot(mappingRoot);
+        T result = caseMappingRoot(mappingRoot);
         if (result == null) result = caseMapping(mappingRoot);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -165,7 +165,7 @@ public class MappingSwitch
       case MappingPackage.COMPLEX_TYPE_CONVERTER:
       {
         ComplexTypeConverter complexTypeConverter = (ComplexTypeConverter)theEObject;
-        Object result = caseComplexTypeConverter(complexTypeConverter);
+        T result = caseComplexTypeConverter(complexTypeConverter);
         if (result == null) result = caseTypeConverter(complexTypeConverter);
         if (result == null) result = caseMappingHelper(complexTypeConverter);
         if (result == null) result = defaultCase(theEObject);
@@ -186,7 +186,7 @@ public class MappingSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseMappingHelper(MappingHelper object)
+  public T caseMappingHelper(MappingHelper object)
   {
     return null;
   }
@@ -202,7 +202,7 @@ public class MappingSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseMapping(Mapping object)
+  public T caseMapping(Mapping object)
   {
     return null;
   }
@@ -218,7 +218,7 @@ public class MappingSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseTypeConverter(TypeConverter object)
+  public T caseTypeConverter(TypeConverter object)
   {
     return null;
   }
@@ -234,7 +234,7 @@ public class MappingSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseFunctionPair(FunctionPair object)
+  public T caseFunctionPair(FunctionPair object)
   {
     return null;
   }
@@ -250,7 +250,7 @@ public class MappingSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseFunctionNamePair(FunctionNamePair object)
+  public T caseFunctionNamePair(FunctionNamePair object)
   {
     return null;
   }
@@ -266,7 +266,7 @@ public class MappingSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseMappingStrategy(MappingStrategy object)
+  public T caseMappingStrategy(MappingStrategy object)
   {
     return null;
   }
@@ -282,7 +282,7 @@ public class MappingSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseMappingRoot(MappingRoot object)
+  public T caseMappingRoot(MappingRoot object)
   {
     return null;
   }
@@ -298,7 +298,7 @@ public class MappingSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseComplexTypeConverter(ComplexTypeConverter object)
+  public T caseComplexTypeConverter(ComplexTypeConverter object)
   {
     return null;
   }
@@ -314,7 +314,7 @@ public class MappingSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

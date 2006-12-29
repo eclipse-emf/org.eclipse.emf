@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingStrategyImpl.java,v 1.5 2005/11/23 18:10:08 emerks Exp $
+ * $Id: MappingStrategyImpl.java,v 1.6 2006/12/29 18:29:09 marcelop Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -48,6 +48,7 @@ public class MappingStrategyImpl extends MappingHelperImpl implements MappingStr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return MappingPackage.Literals.MAPPING_STRATEGY;

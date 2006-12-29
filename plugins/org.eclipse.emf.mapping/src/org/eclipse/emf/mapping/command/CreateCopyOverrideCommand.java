@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateCopyOverrideCommand.java,v 1.3 2005/06/08 06:21:43 nickb Exp $
+ * $Id: CreateCopyOverrideCommand.java,v 1.4 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -68,6 +68,7 @@ public class CreateCopyOverrideCommand extends AbstractCommand implements Childr
     this.copyHelper = createCommand.getCopyHelper();
   }
 
+  @Override
   protected boolean prepare()
   {
     return true;
@@ -103,6 +104,7 @@ public class CreateCopyOverrideCommand extends AbstractCommand implements Childr
     }
   }
 
+  @Override
   public void undo()
   {
     copyHelper.remove(owner);
@@ -113,12 +115,13 @@ public class CreateCopyOverrideCommand extends AbstractCommand implements Childr
     copyHelper.put(owner, copy);
   }
 
-  public Collection getResult()
+  @Override
+  public Collection<?> getResult()
   {
     return Collections.singleton(copy);
   }
 
-  public Collection getChildrenToCopy()
+  public Collection<?> getChildrenToCopy()
   {
     return mappingDomain.getChildren(owner);
   }
@@ -127,6 +130,7 @@ public class CreateCopyOverrideCommand extends AbstractCommand implements Childr
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

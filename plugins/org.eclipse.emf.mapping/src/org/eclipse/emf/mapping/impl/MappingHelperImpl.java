@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelperImpl.java,v 1.10 2006/05/03 20:39:39 davidms Exp $
+ * $Id: MappingHelperImpl.java,v 1.11 2006/12/29 18:29:09 marcelop Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -71,7 +71,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * @generated
    * @ordered
    */
-  protected EList nested = null;
+  protected EList<MappingHelper> nested = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -88,6 +88,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return MappingPackage.Literals.MAPPING_HELPER;
@@ -231,11 +232,11 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getNested()
+  public EList<MappingHelper> getNested()
   {
     if (nested == null)
     {
-      nested = new EObjectContainmentWithInverseEList(MappingHelper.class, this, MappingPackage.MAPPING_HELPER__NESTED, MappingPackage.MAPPING_HELPER__NESTED_IN);
+      nested = new EObjectContainmentWithInverseEList<MappingHelper>(MappingHelper.class, this, MappingPackage.MAPPING_HELPER__NESTED, MappingPackage.MAPPING_HELPER__NESTED_IN);
     }
     return nested;
   }
@@ -245,6 +246,8 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -258,7 +261,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
           msgs = eBasicRemoveFromContainer(msgs);
         return basicSetNestedIn((MappingHelper)otherEnd, msgs);
       case MappingPackage.MAPPING_HELPER__NESTED:
-        return ((InternalEList)getNested()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getNested()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -268,6 +271,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -277,7 +281,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
       case MappingPackage.MAPPING_HELPER__NESTED_IN:
         return basicSetNestedIn(null, msgs);
       case MappingPackage.MAPPING_HELPER__NESTED:
-        return ((InternalEList)getNested()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getNested()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -287,6 +291,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -304,6 +309,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -326,6 +332,8 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -341,7 +349,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
         return;
       case MappingPackage.MAPPING_HELPER__NESTED:
         getNested().clear();
-        getNested().addAll((Collection)newValue);
+        getNested().addAll((Collection<? extends MappingHelper>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -352,6 +360,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -377,6 +386,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)

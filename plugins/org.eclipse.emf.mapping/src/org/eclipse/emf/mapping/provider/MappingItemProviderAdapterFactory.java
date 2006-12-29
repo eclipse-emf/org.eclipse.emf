@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProviderAdapterFactory.java,v 1.3 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingItemProviderAdapterFactory.java,v 1.4 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -69,7 +69,7 @@ public class MappingItemProviderAdapterFactory
   /**
    * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance from a domain notifier.
@@ -106,22 +106,25 @@ public class MappingItemProviderAdapterFactory
     this.parentAdapterFactory = parentAdapterFactory;
   }
 
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return super.isFactoryForType(type) || supportedTypes.contains(type);
   }
 
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
   }
 
+  @Override
   public Object adapt(Object object, Object type)
   {
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
@@ -130,6 +133,7 @@ public class MappingItemProviderAdapterFactory
     return null;
   }
 
+  @Override
   public Adapter adaptNew(Notifier object, Object type)
   {
     Adapter result = super.adaptNew(object, type);
@@ -174,6 +178,7 @@ public class MappingItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.emf.mapping.MappingRoot}.
    */
+  @Override
   public Adapter createMappingRootAdapter()
   {
     // EATM
@@ -196,6 +201,7 @@ public class MappingItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.emf.mapping.Mapping}.
    */
+  @Override
   public Adapter createMappingAdapter()
   {
     // EATM 
@@ -218,6 +224,7 @@ public class MappingItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.emf.mapping.FunctionPair}.
    */
+  @Override
   public Adapter createFunctionPairAdapter()
   {
     // if (functionPairItemProvider == null)
@@ -236,6 +243,7 @@ public class MappingItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.emf.mapping.TypeConverter}.
    */
+  @Override
   public Adapter createTypeConverterAdapter()
   {
     // if (typeConverterItemProvider == null)
@@ -254,6 +262,7 @@ public class MappingItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.emf.mapping.MappingHelper}.
    */
+  @Override
   public Adapter createMappingHelperAdapter()
   {
     // if (mappingHelperItemProvider == null)
@@ -272,6 +281,7 @@ public class MappingItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.emf.mapping.MappingStrategy}.
    */
+  @Override
   public Adapter createMappingStrategyAdapter()
   {
     // if (mappingStrategyItemProvider == null)
@@ -290,6 +300,7 @@ public class MappingItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.emf.mapping.FunctionNamePair}.
    */
+  @Override
   public Adapter createFunctionNamePairAdapter()
   {
     // if (functionNamePairItemProvider == null)
@@ -308,6 +319,7 @@ public class MappingItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.emf.mapping.ComplexTypeConverter}.
    */
+  @Override
   public Adapter createComplexTypeConverterAdapter()
   {
     // if (complexTypeConverterItemProvider == null)

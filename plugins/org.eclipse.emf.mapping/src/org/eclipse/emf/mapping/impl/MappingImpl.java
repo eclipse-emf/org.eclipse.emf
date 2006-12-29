@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingImpl.java,v 1.7 2006/05/03 20:40:09 davidms Exp $
+ * $Id: MappingImpl.java,v 1.8 2006/12/29 18:29:09 marcelop Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -79,7 +79,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * @generated
    * @ordered
    */
-  protected EList nested = null;
+  protected EList<Mapping> nested = null;
 
   /**
    * The cached value of the '{@link #getInputs() <em>Inputs</em>}' reference list.
@@ -89,7 +89,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * @generated
    * @ordered
    */
-  protected EList inputs = null;
+  protected EList<EObject> inputs = null;
 
   /**
    * The cached value of the '{@link #getOutputs() <em>Outputs</em>}' reference list.
@@ -99,7 +99,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * @generated
    * @ordered
    */
-  protected EList outputs = null;
+  protected EList<EObject> outputs = null;
 
   /**
    * The cached value of the '{@link #getTypeMapping() <em>Type Mapping</em>}' reference.
@@ -126,6 +126,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return MappingPackage.Literals.MAPPING;
@@ -184,11 +185,11 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getNested()
+  public EList<Mapping> getNested()
   {
     if (nested == null)
     {
-      nested = new EObjectContainmentWithInverseEList(Mapping.class, this, MappingPackage.MAPPING__NESTED, MappingPackage.MAPPING__NESTED_IN);
+      nested = new EObjectContainmentWithInverseEList<Mapping>(Mapping.class, this, MappingPackage.MAPPING__NESTED, MappingPackage.MAPPING__NESTED_IN);
     }
     return nested;
   }
@@ -243,11 +244,11 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getInputs()
+  public EList<EObject> getInputs()
   {
     if (inputs == null)
     {
-      inputs = new EObjectResolvingEList(EObject.class, this, MappingPackage.MAPPING__INPUTS);
+      inputs = new EObjectResolvingEList<EObject>(EObject.class, this, MappingPackage.MAPPING__INPUTS);
     }
     return inputs;
   }
@@ -257,11 +258,11 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getOutputs()
+  public EList<EObject> getOutputs()
   {
     if (outputs == null)
     {
-      outputs = new EObjectResolvingEList(EObject.class, this, MappingPackage.MAPPING__OUTPUTS);
+      outputs = new EObjectResolvingEList<EObject>(EObject.class, this, MappingPackage.MAPPING__OUTPUTS);
     }
     return outputs;
   }
@@ -314,6 +315,8 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -323,7 +326,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
           msgs = ((InternalEObject)helper).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MappingPackage.MAPPING__HELPER, null, msgs);
         return basicSetHelper((MappingHelper)otherEnd, msgs);
       case MappingPackage.MAPPING__NESTED:
-        return ((InternalEList)getNested()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getNested()).basicAdd(otherEnd, msgs);
       case MappingPackage.MAPPING__NESTED_IN:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
@@ -337,6 +340,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -344,7 +348,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
       case MappingPackage.MAPPING__HELPER:
         return basicSetHelper(null, msgs);
       case MappingPackage.MAPPING__NESTED:
-        return ((InternalEList)getNested()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getNested()).basicRemove(otherEnd, msgs);
       case MappingPackage.MAPPING__NESTED_IN:
         return basicSetNestedIn(null, msgs);
     }
@@ -356,6 +360,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -371,6 +376,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -397,6 +403,8 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -406,18 +414,18 @@ public class MappingImpl extends EObjectImpl implements Mapping
         return;
       case MappingPackage.MAPPING__NESTED:
         getNested().clear();
-        getNested().addAll((Collection)newValue);
+        getNested().addAll((Collection<? extends Mapping>)newValue);
         return;
       case MappingPackage.MAPPING__NESTED_IN:
         setNestedIn((Mapping)newValue);
         return;
       case MappingPackage.MAPPING__INPUTS:
         getInputs().clear();
-        getInputs().addAll((Collection)newValue);
+        getInputs().addAll((Collection<? extends EObject>)newValue);
         return;
       case MappingPackage.MAPPING__OUTPUTS:
         getOutputs().clear();
-        getOutputs().addAll((Collection)newValue);
+        getOutputs().addAll((Collection<? extends EObject>)newValue);
         return;
       case MappingPackage.MAPPING__TYPE_MAPPING:
         setTypeMapping((Mapping)newValue);
@@ -431,6 +439,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -462,6 +471,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -482,9 +492,9 @@ public class MappingImpl extends EObjectImpl implements Mapping
     return super.eIsSet(featureID);
   }
 
-  public Collection getMappedObjects()
+  public Collection<? extends EObject> getMappedObjects()
   {
-    Collection result = new HashSet();
+    Collection<EObject> result = new HashSet<EObject>();
     result.addAll(getInputs());
     result.addAll(getOutputs());
     return result;
@@ -520,7 +530,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
     return false;
   }
 
-  public EList getSenders()
+  public EList<EObject> getSenders()
   {
     return
       isReverse() ?
@@ -528,7 +538,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
         getInputs();
   }
 
-  public EList getReceivers()
+  public EList<EObject> getReceivers()
   {
     return
       isReverse() ?
@@ -536,7 +546,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
         getOutputs();
   }
 
-  public EList getTops()
+  public EList<EObject> getTops()
   {
     MappingRoot mappingRoot = getMappingRoot();
     return
@@ -545,7 +555,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
         getOutputs();
   }
 
-  public EList getBottoms()
+  public EList<EObject> getBottoms()
   {
     MappingRoot mappingRoot = getMappingRoot();
     return
@@ -557,8 +567,10 @@ public class MappingImpl extends EObjectImpl implements Mapping
   /**
    * This implements a tree iterator that will iterate over a mapping, all it's nested mappings, all their nested mappings, and so on.
    */
-  public static class MappingTreeIterator extends AbstractTreeIterator
+  public static class MappingTreeIterator extends AbstractTreeIterator<Mapping>
   {
+    private static final long serialVersionUID = 1L;
+
     /**
      * This creates a tree iterator that will iterate over a mapping, all it's nested mappings, all their nested mappings, and so on.
      */
@@ -576,11 +588,13 @@ public class MappingImpl extends EObjectImpl implements Mapping
       super(mapping, includeRoot);
     }
 
-    protected Iterator getChildren(Object o)
+    @Override
+    protected Iterator<Mapping> getChildren(Object o)
     {
       return ((Mapping)o).getNested().iterator();
     }
 
+    @Override
     public void remove()
     {
       // We either remove the root mapping or we use the iterator that returned the most recent next mapping.
@@ -596,16 +610,17 @@ public class MappingImpl extends EObjectImpl implements Mapping
     }
   }
 
-  public TreeIterator treeIterator()
+  public TreeIterator<Mapping> treeIterator()
   {
     return new MappingTreeIterator(this);
   }
 
-  public TreeIterator treeIterator(boolean includeRoot)
+  public TreeIterator<Mapping> treeIterator(boolean includeRoot)
   {
     return new MappingTreeIterator(this, includeRoot);
   }
 
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

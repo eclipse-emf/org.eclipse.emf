@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootImpl.java,v 1.9 2005/11/25 13:13:13 emerks Exp $
+ * $Id: MappingRootImpl.java,v 1.10 2006/12/29 18:29:09 marcelop Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -161,6 +162,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return MappingPackage.Literals.MAPPING_ROOT;
@@ -240,6 +242,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -259,6 +262,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -281,6 +285,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -303,6 +308,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -322,6 +328,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -357,6 +364,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       mappedObjectListener = 
         new AdapterImpl()
         {
+          @Override
           public void notifyChanged(Notification notification)
           {
             Object feature = notification.getFeature();
@@ -374,9 +382,9 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
 
   public void refreshMappedObjectStates(Mapping subtree)
   {
-    for (Iterator inputs = subtree.getInputs().iterator(); inputs.hasNext(); )
+    for (Object input : subtree.getInputs())
     {
-      for (Iterator objects = domain.treeIterator(inputs.next()); objects.hasNext(); )
+      for (Iterator<?> objects = domain.treeIterator(input); objects.hasNext(); )
       {
         Object object = objects.next();
         MappedObjectState mappedObjectState = getMappedObjectState(object);
@@ -387,9 +395,9 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       }
     }
 
-    for (Iterator outputs = subtree.getOutputs().iterator(); outputs.hasNext(); )
+    for (Object output : subtree.getOutputs())
     {
-      for (Iterator objects = domain.treeIterator(outputs.next()); objects.hasNext(); )
+      for (Iterator<?> objects = domain.treeIterator(output); objects.hasNext(); )
       {
         MappedObjectState mappedObjectState = getMappedObjectState(objects.next());
         if (mappedObjectState != null)
@@ -399,12 +407,11 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       }
     }
 
-    for (Iterator mappings = subtree.treeIterator(); mappings.hasNext(); )
+    for (Iterator<Mapping> mappings = subtree.treeIterator(); mappings.hasNext(); )
     {
-      Mapping mapping = (Mapping)mappings.next();
-      for (Iterator inputs = mapping.getInputs().iterator(); inputs.hasNext(); )
+      Mapping mapping = mappings.next();
+      for (Object input : mapping.getInputs())
       {
-        Object input = inputs.next();
         MappedObjectState mappedObjectState = getMappedObjectState(input);
         if (mappedObjectState != null)
         {
@@ -412,9 +419,8 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
         }
       }
 
-      for (Iterator outputs = mapping.getOutputs().iterator(); outputs.hasNext(); )
+      for (Object output : mapping.getOutputs())
       {
-        Object output = outputs.next();
         MappedObjectState mappedObjectState = getMappedObjectState(output);
         if (mappedObjectState != null)
         {
@@ -434,7 +440,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     }
   }
 
-  public Mapping getParentMapping(Collection collection)
+  public Mapping getParentMapping(Collection<?> collection)
   {
     // Barring a better result, this will be the result.
     //
@@ -442,24 +448,24 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
 
     // Cache the tree path for each object.
     //
-    final Collection allTreePaths = new ArrayList();
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    final Collection<List<?>> allTreePaths = new ArrayList<List<?>>();
+    for (Object object : collection)
     {
-      allTreePaths.add(domain.getTreePath(objects.next()));
+      allTreePaths.add(domain.getTreePath(object));
     }
 
     // Iterate over the mappings in the tree.
     //
-    OuterLoop: for (TreeIterator mappings = treeIterator(); mappings.hasNext(); )
+    OuterLoop: for (TreeIterator<Mapping> mappings = treeIterator(); mappings.hasNext(); )
     {
-      Mapping mapping = (Mapping)mappings.next();
+      Mapping mapping = mappings.next();
 
       // Check to make sure that every object in the collection has an ancestor that is contained in this mapping.
       //
-      for (Iterator treePaths = allTreePaths.iterator(); treePaths.hasNext(); )
+      for (Iterator<List<?>> treePaths = allTreePaths.iterator(); treePaths.hasNext(); )
       {
-        Collection treePath = (Collection)treePaths.next();
-        Collection mappedObjects = mapping.getMappedObjects();
+        List<?> treePath = treePaths.next();
+        Collection<?> mappedObjects = mapping.getMappedObjects();
         mappedObjects.retainAll(treePath);
 
         // If the intersection is empty, i.e., no ancestor is in the mapping...
@@ -475,7 +481,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
 
       // Make sure the collections aren't identical...
       //
-      Collection mappedObjects = mapping.getMappedObjects();
+      Collection<?> mappedObjects = mapping.getMappedObjects();
       if (!collection.containsAll(mappedObjects) || !mappedObjects.containsAll(collection))
       {
         result = mapping;
@@ -503,9 +509,8 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
 
   public void register(Mapping mapping)
   {
-    for (Iterator inputs = mapping.getInputs().iterator(); inputs.hasNext(); )
+    for (Object input : mapping.getInputs())
     {
-      Object input = inputs.next();
       MappedObjectState mappedObjectState = getMappedObjectState(input);
       if (mappedObjectState != null)
       {
@@ -513,9 +518,8 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       }
     }
 
-    for (Iterator outputs = mapping.getOutputs().iterator(); outputs.hasNext(); )
+    for (Object output : mapping.getOutputs())
     {
-      Object output = outputs.next();
       MappedObjectState mappedObjectState = getMappedObjectState(output);
       if (mappedObjectState != null)
       {
@@ -526,9 +530,8 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
 
   public void deregister(Mapping mapping)
   {
-    for (Iterator inputs = mapping.getInputs().iterator(); inputs.hasNext(); )
+    for (Object input : mapping.getInputs())
     {
-      Object input = inputs.next();
       MappedObjectState mappedObjectState = getMappedObjectState(input);
       if (mappedObjectState != null)
       {
@@ -536,9 +539,8 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       }
     }
 
-    for (Iterator outputs = mapping.getOutputs().iterator(); outputs.hasNext(); )
+    for (Object output : mapping.getOutputs())
     {
-      Object output = outputs.next();
       MappedObjectState mappedObjectState = getMappedObjectState(output);
       if (mappedObjectState != null)
       {
@@ -547,7 +549,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     }
   }
 
-  public boolean canCreateMapping(Collection inputs, Collection outputs, Mapping mapping)
+  public boolean canCreateMapping(Collection<?> inputs, Collection<?> outputs, Mapping mapping)
   {
     int enablementFlags = domain.getMappingEnablementFlags();
     if ((enablementFlags & MappingDomain.ENABLE_EMPTY_INPUTS) == 0 && inputs.size() == 0 ||
@@ -564,17 +566,17 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       return false;
     }
 
-    for (Iterator i = inputs.iterator(); i.hasNext(); )
+    for (Object input : inputs)
     {
-      if (!isAttachedObject(i.next()))
+      if (!isAttachedObject(input))
       {
         return false;
       }
     }
 
-    for (Iterator i = outputs.iterator(); i.hasNext(); )
+    for (Object output :  outputs)
     {
-      if (!isAttachedObject(i.next()))
+      if (!isAttachedObject(output))
       {
         return false;
       }
@@ -600,25 +602,25 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     return !mapping.getNested().isEmpty();
   }
 
-  protected boolean hasMappedParents(Collection inputs, Collection outputs) 
+  protected boolean hasMappedParents(Collection<?> inputs, Collection<?> outputs) 
   {
-    Collection parents = new HashSet();
-    for (Iterator inputIter = inputs.iterator(); inputIter.hasNext(); )
+    Collection<Object> parents = new HashSet<Object>();
+    for (Object input : inputs)
     {
-      parents.add(domain.getParent(inputIter.next()));
+      parents.add(domain.getParent(input));
     }
-    for (Iterator outputIter = outputs.iterator(); outputIter.hasNext(); )
+    for (Object output : outputs)
     {
-      parents.add(domain.getParent(outputIter.next()));
+      parents.add(domain.getParent(output));
     }
     return !getAllMappings(parents).isEmpty();
   }
 
-  protected boolean isMapped(Collection collection, Mapping mapping) 
+  protected boolean isMapped(Collection<?> collection, Mapping mapping) 
   {
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    for (Object object : collection)
     {
-      Collection mappings = getMappings(objects.next());
+      Collection<? extends Mapping> mappings = getMappings(object);
       if (!mappings.isEmpty())
       {
         if (mapping == null || mappings.size() > 1 || !mappings.contains(mapping))
@@ -630,15 +632,15 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     return false;
   }
 
-  protected boolean hasCompatibleMetaObjects(Collection inputs, Collection outputs)
+  protected boolean hasCompatibleMetaObjects(Collection<?> inputs, Collection<?> outputs)
   {
-    for (Iterator inputIter = inputs.iterator(); inputIter.hasNext(); )
+    for (Object input : inputs)
     {
-      EObject inputType = ((EObject)inputIter.next()).eClass();
+      EObject inputType = ((EObject)input).eClass();
       EObject convertedInputType = domain.getOutputMetaObject(inputType);
-      for (Iterator outputIter = outputs.iterator(); outputIter.hasNext(); )
+      for (Object output : outputs)
       {
-        EObject outputType = ((EObject)outputIter.next()).eClass();
+        EObject outputType = ((EObject)output).eClass();
         if (convertedInputType != outputType)
         {
           return false;
@@ -648,13 +650,13 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     return true;
   }
 
-  protected boolean hasCompatibleTypes(Collection inputs, Collection outputs)
+  protected boolean hasCompatibleTypes(Collection<?> inputs, Collection<?> outputs)
   {
     MappingRoot typeMappingRoot = getTypeMappingRoot();
     if (typeMappingRoot != null)
     {
-      Collection inputTypes = getTypeClassifiers(inputs);
-      Collection outputTypes = getTypeClassifiers(outputs);
+      Collection<Object> inputTypes = getTypeClassifiers(inputs);
+      Collection<Object> outputTypes = getTypeClassifiers(outputs);
 
       if (inputTypes.equals(outputTypes))
         return true;
@@ -671,33 +673,33 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     return true;
   }
 
-  protected Collection getTypeMappings(Collection inputTypes, Collection outputTypes)
+  protected Collection<?> getTypeMappings(Collection<?> inputTypes, Collection<?> outputTypes)
   {
-    Collection typeMappings;
+    Collection<?> typeMappings;
     if (outputTypes.isEmpty())
     {
       typeMappings = getTypeMappingRoot().getAllMappings(inputTypes);
     }
     else
     {
-      Collection allTypes = new ArrayList(inputTypes);
+      Collection<Object> allTypes = new ArrayList<Object>(inputTypes);
       allTypes.addAll(outputTypes);
       typeMappings = getTypeMappingRoot().getExactMappings(allTypes);
     }
     return typeMappings;
   }
 
-  protected boolean hasTypeMappings(Collection types)
+  protected boolean hasTypeMappings(Collection<?> types)
   {
     return !getTypeMappingRoot().getAllMappings(types).isEmpty();
   }
 
-  protected Collection getTypeClassifiers(Collection collection)
+  protected Collection<Object> getTypeClassifiers(Collection<?> collection)
   {
-    Collection types = new ArrayList();
-    for (Iterator iter = collection.iterator(); iter.hasNext(); )
+    Collection<Object> types = new ArrayList<Object>();
+    for (Object object : collection)
     {
-      Object type = domain.getTypeClassifier(iter.next());
+      Object type = domain.getTypeClassifier(object);
       if (type != null)
       {
         types.add(type);
@@ -706,7 +708,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     return types;
   }
 
-  public Mapping createMapping(Collection inputs, Collection outputs)
+  public Mapping createMapping(Collection<?> inputs, Collection<?> outputs)
   {
     Mapping newMapping = createMapping();
     initializeNewMapping(newMapping, inputs, outputs);
@@ -718,19 +720,23 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     return MappingFactory.eINSTANCE.createMapping();
   }
 
-  protected void initializeNewMapping(Mapping newMapping, Collection inputs, Collection outputs)
+  protected void initializeNewMapping(Mapping newMapping, Collection<?> inputs, Collection<?> outputs)
   {
-    newMapping.getInputs().addAll(inputs);
-    newMapping.getOutputs().addAll(outputs);
+    @SuppressWarnings("unchecked")
+    Collection<EObject> eObjectInputs = (Collection<EObject>)inputs;
+    @SuppressWarnings("unchecked")
+    Collection<EObject> eObjectOutputs = (Collection<EObject>)outputs;
+    newMapping.getInputs().addAll(eObjectInputs);
+    newMapping.getOutputs().addAll(eObjectOutputs);
 
     if (getTypeMappingRoot() != null)
     {
-      Collection inputTypes = getTypeClassifiers(inputs);
+      Collection<?> inputTypes = getTypeClassifiers(inputs);
       if (!inputTypes.isEmpty())
       {
-        Collection outputTypes = getTypeClassifiers(outputs);
+        Collection<?> outputTypes = getTypeClassifiers(outputs);
 
-        Collection typeMappings = getTypeMappings(inputTypes, outputTypes);
+        Collection<?> typeMappings = getTypeMappings(inputTypes, outputTypes);
         if (!typeMappings.isEmpty())
         {
           newMapping.setTypeMapping((Mapping)typeMappings.iterator().next());
@@ -793,21 +799,25 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     return getInputs().contains(root) || getOutputs().contains(root);
   }
 
-  public Collection getMappings(Object object) 
+  public Collection<? extends Mapping> getMappings(Object object) 
   {
     MappedObjectState mappedObjectState = getMappedObjectState(object);
-    return 
-      mappedObjectState == null ?
-        Collections.EMPTY_SET :
-        mappedObjectState.getMappings();
+    if (mappedObjectState == null)
+    {
+      return Collections.emptySet();
+    }
+    else
+    {
+      return  mappedObjectState.getMappings();
+    }
   }
 
-  public Collection getAllMappings(Collection collection) 
+  public Collection<? extends Mapping> getAllMappings(Collection<?> collection) 
   {
-    Iterator objects = collection.iterator(); 
+    Iterator<?> objects = collection.iterator(); 
     if (objects.hasNext())
     {
-      Collection result = new ArrayList(getMappings(objects.next()));
+      Collection<Mapping> result = new ArrayList<Mapping>(getMappings(objects.next()));
       while (objects.hasNext() && !result.isEmpty())
       {
         result.retainAll(getMappings(objects.next()));
@@ -816,16 +826,15 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     }
     else
     {
-      return Collections.EMPTY_SET;
+      return Collections.emptySet();
     }
   }
 
-  public Collection getExactMappings(Collection collection)
+  public Collection<? extends Mapping> getExactMappings(Collection<?> collection)
   {
-    Collection result = new ArrayList();
-    for (Iterator mappings = getAllMappings(collection).iterator(); mappings.hasNext(); )
+    Collection<Mapping> result = new ArrayList<Mapping>();
+    for (Mapping mapping : getAllMappings(collection))
     {
-      Mapping mapping = (Mapping)mappings.next();
       if (collection.containsAll(mapping.getMappedObjects()))
       {
         result.add(mapping);
@@ -858,19 +867,24 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     /**
      * This keeps track of all the mappings that involve the mapped object.
      */
-    protected Collection mappings = 
-      new NotifyingListImpl()
+    protected Collection<Mapping> mappings = 
+      new NotifyingListImpl<Mapping>()
       {
+        private static final long serialVersionUID = 1L;
+
+        @Override
         public Object getNotifier()
         {
           return getTarget();
         }
 
+        @Override
         protected boolean isNotificationRequired()
         {
           return true;
         }
 
+        @Override
         protected NotificationImpl createNotification(int eventType, Object oldObject, Object newObject, int index, boolean wasSet)
         {
           Object object = oldObject == null ? newObject : oldObject;
@@ -889,6 +903,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
           return notification;
         }
 
+        @Override
         protected boolean isUnique()
         {
           return true;
@@ -903,6 +918,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     /**
      * This returns when type is the {@link #mappedObjectStateAdapterFactory}.
      */
+    @Override
     public boolean isAdapterForType(Object type)
     {
       return type == mappedObjectStateAdapterFactory;
@@ -948,7 +964,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       this.originatingInput = originatingInput;
     }
 
-    public Collection getMappings()
+    public Collection<Mapping> getMappings()
     {
       return mappings;
     }
@@ -1009,23 +1025,28 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
 
     public MappedObjectStateAdapterFactory()
     {
+      super();
     }
 
+    @Override
     public Adapter createAdapter(Notifier target) 
     {
       return createMappedObjectStateAdapter(target);
     }
 
+    @Override
     public boolean isFactoryForType(Object type)
     {
       return super.isFactoryForType(type) || type == MappedObjectState.class;
     }
 
+    @Override
     public Adapter adapt(Notifier notifier, Object type)
     {
       return super.adapt(notifier, this);
     }
 
+    @Override
     public Object adapt(Object object, Object type)
     {
       Object result = super.adapt(object, type);
@@ -1033,6 +1054,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
         result instanceof MappedObjectState ? result : null;
     }
 
+    @Override
     public Adapter adaptNew(Notifier object, Object type)
     {
       Adapter result = super.adaptNew(object, type);
@@ -1073,28 +1095,25 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
   protected void printAdapters()
   {
     walk(this);
-    for (TreeIterator mappings = treeIterator(); mappings.hasNext(); )
+    for (TreeIterator<Mapping> mappings = treeIterator(); mappings.hasNext(); )
     {
-      for (Iterator objects = ((Mapping)mappings.next()).getMappedObjects().iterator(); objects.hasNext(); )
+      for (EObject eObject : mappings.next().getMappedObjects())
       {
-        walk((EObject)objects.next());
+        walk(eObject);
       }
     }
   }
 
   protected void walk(EObject object)
   {
-
-    for (Iterator iterator = object.eContents().iterator(); iterator.hasNext(); )
+    for (EObject child : object.eContents())
     {
-      EObject child = (EObject)iterator.next();
-      Collection adapters = child.eAdapters();
+      Collection<Adapter> adapters = child.eAdapters();
       if (adapters != null)
       {
         boolean once = false;
-        for (Iterator i = adapters.iterator();  i.hasNext(); )
+        for (Object adapter : adapters)
         {
-          Object adapter = i.next();
           if (adapter != null)
           {
             if (!once)

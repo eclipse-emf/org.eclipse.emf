@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProvider.java,v 1.9 2005/06/12 13:38:46 emerks Exp $
+ * $Id: MappingItemProvider.java,v 1.10 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -44,7 +44,6 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -100,11 +99,13 @@ public class MappingItemProvider
       this.typeMappingHelper = typeMappingHelper;
     }
 
+    @Override
     protected IItemPropertyDescriptor createPropertyDescriptorDecorator(Object object, IItemPropertyDescriptor decoratedDescriptor)
     {
       return 
         new ItemPropertyDescriptorDecorator(object, decoratedDescriptor)
         {
+          @Override
           public void setPropertyValue(Object thisObject, final Object value)
           {
             final MappingDomain domain = mapping.getMappingRoot().getDomain();
@@ -115,7 +116,8 @@ public class MappingItemProvider
             compound.append
               (new CommandWrapper()
                {
-                 protected Command createCommand()
+                 @Override
+                protected Command createCommand()
                  {
                    return SetCommand.create(domain, copyCommand.getResult().iterator().next(), feature, value);
                  }
@@ -123,7 +125,8 @@ public class MappingItemProvider
             compound.append
               (new CommandWrapper()
                {
-                 protected Command createCommand()
+                 @Override
+                protected Command createCommand()
                  {
                    return SetCommand.create(domain, mapping, MappingPackage.eINSTANCE.getMapping_Helper(), copyCommand.getResult().iterator().next());
                  }
@@ -131,6 +134,7 @@ public class MappingItemProvider
             domain.getCommandStack().execute(compound);
           }
 
+          @Override
           public void resetPropertyValue(Object thisObject)
           {
             //FB ????? 
@@ -153,6 +157,7 @@ public class MappingItemProvider
              MappingPackage.eINSTANCE.getMapping_Helper(),
              false)
           {
+            @Override
             public Object getPropertyValue(Object thisObject)
             {
               Mapping thisMapping = (Mapping)thisObject;
@@ -169,7 +174,8 @@ public class MappingItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -178,13 +184,12 @@ public class MappingItemProvider
       boolean isTypeMapping = mappingRoot != null && mappingRoot.getDomain() == null;
       MappingPackage ePackage = MappingPackage.eINSTANCE;
 
-      itemPropertyDescriptors = new ArrayList();
+      itemPropertyDescriptors = new ArrayList<IItemPropertyDescriptor>();
       if (isTypeMapping)
       {
         int count = 1;
-        for (Iterator mappings = mapping.getNested().iterator(); mappings.hasNext(); ++count)
+        for (final Mapping childMapping : mapping.getNested())
         {
-          final Mapping childMapping = (Mapping)mappings.next();
           IItemPropertyDescriptor childMappingItemPropertyDescriptor =
             new ItemPropertyDescriptor
                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
@@ -195,16 +200,19 @@ public class MappingItemProvider
           itemPropertyDescriptors.add
             (new ItemPropertyDescriptorDecorator(childMapping, childMappingItemPropertyDescriptor)
              {
+               @Override
                public Object getPropertyValue(Object o)
                {
                  super.getPropertyValue(o);
                  return this.object;
                }
-               public Collection getChoiceOfValues(Object o)
+               @Override
+               public Collection<?> getChoiceOfValues(Object o)
                {
                  return null;
                }
              });
+          ++count;
         }
       }
       else
@@ -222,11 +230,13 @@ public class MappingItemProvider
                 MappingPlugin.getPlugin().getString("_UI_Type_mapping_description"),
                 ePackage.getMapping_TypeMapping())
              {
-               public Object createPropertyValueWrapper(Object o, Object v)
+               @Override
+              public Object createPropertyValueWrapper(Object o, Object v)
                {
                  return v;
                }
-               public Collection getChoiceOfValues(Object o)
+               @Override
+              public Collection<?> getChoiceOfValues(Object o)
                {
                  return null;
                }
@@ -242,11 +252,12 @@ public class MappingItemProvider
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     Mapping mapping = (Mapping)object;
     MappingRoot mappingRoot = mapping.getMappingRoot();
-    Collection result = new ArrayList();
+    Collection<EStructuralFeature> result = new ArrayList<EStructuralFeature>();
     if (mappingRoot == null || mappingRoot.isTopToBottom())
     {
       result.add(MappingPackage.eINSTANCE.getMapping_Inputs());
@@ -263,6 +274,7 @@ public class MappingItemProvider
     return result;
   }
 
+  @Override
   protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     Mapping mapping = (Mapping)object;
@@ -295,6 +307,7 @@ public class MappingItemProvider
     return super.getChildFeature(object, child);
   }
 
+  @Override
   public EStructuralFeature getSetFeature(Object object, Object value)
   {
     Mapping mapping = (Mapping)object;
@@ -315,13 +328,12 @@ public class MappingItemProvider
   }
 
 
-  protected ArrayList mappedObjectItemProviderList = new ArrayList();
+  protected ArrayList<MappedObjectItemProvider> mappedObjectItemProviderList = new ArrayList<MappedObjectItemProvider>();
 
   protected MappedObjectItemProvider getMappedObjectItemProvider(Mapping mapping, Object mappedObject)
   {
-    for (Iterator mappedObjectItemProviders = mappedObjectItemProviderList.iterator(); mappedObjectItemProviders.hasNext(); )
+    for (MappedObjectItemProvider mappedObjectItemProvider : mappedObjectItemProviderList)
     {
-      MappedObjectItemProvider mappedObjectItemProvider = (MappedObjectItemProvider)mappedObjectItemProviders.next();
       if (mappedObjectItemProvider.getMappedObject() == mappedObject)
       {
         return mappedObjectItemProvider;
@@ -336,9 +348,8 @@ public class MappingItemProvider
   protected Object substituteMappedObjectItemProvider(Mapping mapping, Object object)
   {
     getChildren(mapping);
-    for (Iterator mappedObjectItemProviders = mappedObjectItemProviderList.iterator(); mappedObjectItemProviders.hasNext(); )
+    for (MappedObjectItemProvider mappedObjectItemProvider : mappedObjectItemProviderList)
     {
-      MappedObjectItemProvider mappedObjectItemProvider = (MappedObjectItemProvider)mappedObjectItemProviders.next();
       if (mappedObjectItemProvider.getMappedObject() == object)
       {
         return mappedObjectItemProvider;
@@ -347,13 +358,12 @@ public class MappingItemProvider
 
     if (object instanceof Collection)
     {
-      Collection result = new ArrayList();
-      LOOP: for (Iterator objects = ((Collection)object).iterator(); objects.hasNext(); )
+      Collection<Object> result = new ArrayList<Object>();
+      LOOP: 
+      for (Object o : (Collection<?>)object)
       {
-        Object o = objects.next();
-        for (Iterator mappedObjectItemProviders = mappedObjectItemProviderList.iterator(); mappedObjectItemProviders.hasNext(); )
+        for (MappedObjectItemProvider mappedObjectItemProvider : mappedObjectItemProviderList)
         {
-          MappedObjectItemProvider mappedObjectItemProvider = (MappedObjectItemProvider)mappedObjectItemProviders.next();
           if (mappedObjectItemProvider.getMappedObject() == o)
           {
             result.add(mappedObjectItemProvider);
@@ -377,10 +387,9 @@ public class MappingItemProvider
     }
     else if (object instanceof Collection)
     {
-      Collection result = new ArrayList();
-      for (Iterator objects = ((Collection)object).iterator(); objects.hasNext(); )
+      Collection<Object> result = new ArrayList<Object>();
+      for (Object o : (Collection<?>)object)
       {
-        Object o = objects.next();
         if (o instanceof MappedObjectItemProvider)
         {
           result.add(((MappedObjectItemProvider)o).getMappedObject());
@@ -396,7 +405,7 @@ public class MappingItemProvider
     return object;
   }
 
-  public static Iterator createValueIterator(Object object)
+  public static Iterator<?> createValueIterator(Object object)
   {
     if (object == null)
     {
@@ -404,7 +413,7 @@ public class MappingItemProvider
     }
     else if (object instanceof Collection)
     {
-      return ((Collection)object).iterator();
+      return ((Collection<?>)object).iterator();
     }
     else
     {
@@ -412,22 +421,21 @@ public class MappingItemProvider
     }
   }
 
-  public Collection getChildren(Object object)
+  @Override
+  public Collection<?> getChildren(Object object)
   {
     final Mapping mapping = (Mapping)object;
 
-    Collection result = new ArrayList();
+    Collection<Object> result = new ArrayList<Object>();
 
    
-    for (Iterator inputs = mapping.getInputs().iterator(); inputs.hasNext(); )
+    for (Object input : mapping.getInputs())
     {
-      Object input = inputs.next();
       result.add(getMappedObjectItemProvider(mapping, input));
     }
 
-    for (Iterator outputs = mapping.getOutputs().iterator(); outputs.hasNext(); )
+    for (Object output : mapping.getOutputs())
     {
-      Object output = outputs.next();
       result.add(getMappedObjectItemProvider(mapping, output));
     }
 
@@ -436,6 +444,7 @@ public class MappingItemProvider
     return result;
   }
 
+  @Override
   public boolean hasChildren(Object object)
   {
     return true;
@@ -444,23 +453,23 @@ public class MappingItemProvider
   /**
    * This returns the nestedIn of the Mapping.
    */
+  @Override
   public Object getParent(Object object)
   {
     return ((Mapping)object).getNestedIn();
   }
 
-  public static Object getImage(MappingRoot mappingRoot, String prefix, Collection collection)
+  public static Object getImage(MappingRoot mappingRoot, String prefix, Collection<?> collection)
   {
     return getImage(mappingRoot, prefix, collection, false);
   }
 
-  public static Object getImage(MappingRoot mappingRoot, String prefix, Collection collection, boolean supportNone)
+  public static Object getImage(MappingRoot mappingRoot, String prefix, Collection<?> collection, boolean supportNone)
   {
     int topsSize = 0;
     int bottomsSize = 0;
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    for (Object object : collection)
     {
-      Object object = objects.next();
       if (mappingRoot.isTopObject(object))
       {
         ++topsSize;
@@ -474,12 +483,12 @@ public class MappingItemProvider
     return getImage(prefix, topsSize, bottomsSize, supportNone);
   }
 
-  public static Object getImage(String prefix, Collection tops, Collection bottoms)
+  public static Object getImage(String prefix, Collection<?> tops, Collection<?> bottoms)
   {
     return getImage(prefix, tops, bottoms, false);
   }
 
-  public static Object getImage(String prefix, Collection tops, Collection bottoms, boolean supportNone)
+  public static Object getImage(String prefix, Collection<?> tops, Collection<?> bottoms, boolean supportNone)
   {
     return getImage(prefix, tops.size(), bottoms.size(), supportNone);
   }
@@ -536,6 +545,7 @@ public class MappingItemProvider
   /**
    * This returns Mapping.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     Mapping mapping = (Mapping)object;
@@ -550,7 +560,7 @@ public class MappingItemProvider
          !isTypeMapping);
   }
 
-  public static String getText(MappingRoot mappingRoot, AdapterFactory adapterFactory, Collection collection)
+  public static String getText(MappingRoot mappingRoot, AdapterFactory adapterFactory, Collection<?> collection)
   {
     return getText(mappingRoot, adapterFactory, collection, (String)null);
   }
@@ -558,7 +568,7 @@ public class MappingItemProvider
   protected static final String DIVIDER = " " + MappingPlugin.getPlugin().getString("_UI_Mapping_label_divider") + " ";
   protected static final String SEPARATOR = MappingPlugin.getPlugin().getString("_UI_Mapping_label_separator") + " ";
 
-  public static String getText(MappingRoot mappingRoot, AdapterFactory adapterFactory, Collection collection, String pathSeparator)
+  public static String getText(MappingRoot mappingRoot, AdapterFactory adapterFactory, Collection<?> collection, String pathSeparator)
   {
     return getText(mappingRoot, adapterFactory, collection, pathSeparator, SEPARATOR, DIVIDER);
   }
@@ -566,7 +576,7 @@ public class MappingItemProvider
   public static String getText
     (MappingRoot mappingRoot, 
      AdapterFactory adapterFactory, 
-     Collection collection, 
+     Collection<?> collection, 
      String pathSeparator, 
      String objectSeparator,
      String divider)
@@ -575,9 +585,9 @@ public class MappingItemProvider
     boolean needsComma = false;
     StringBuffer result = new StringBuffer();
 
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    for (Object object : collection)
     {
-      EObject input = (EObject)i.next();
+      EObject input = (EObject)object;
       if (mappingRoot.isTopObject(input))
       {
         if (needsComma)
@@ -605,9 +615,9 @@ public class MappingItemProvider
     result.append(divider);
 
     needsComma = false;
-    for (Iterator o = collection.iterator(); o.hasNext(); )
+    for (Object object : collection)
     {
-      EObject output = (EObject)o.next();
+      EObject output = (EObject)object;
       if (mappingRoot.isBottomObject(output))
       {
         if (needsComma)
@@ -635,21 +645,20 @@ public class MappingItemProvider
     return result.toString();
   }
 
-  public static String getText(MappingRoot mappingRoot, AdapterFactory adapterFactory, Collection inputs, Collection outputs)
+  public static String getText(MappingRoot mappingRoot, AdapterFactory adapterFactory, Collection<?> inputs, Collection<?> outputs)
   {
     return getText(mappingRoot, adapterFactory, inputs, outputs, SEPARATOR, DIVIDER);
   }
 
   public static String getText
-    (MappingRoot mappingRoot, AdapterFactory adapterFactory, Collection inputs, Collection outputs, String objectSeparator, String divider)
+    (MappingRoot mappingRoot, AdapterFactory adapterFactory, Collection<?> inputs, Collection<?> outputs, String objectSeparator, String divider)
   {
     AdapterFactoryItemDelegator labelProvider = new AdapterFactoryItemDelegator(adapterFactory);
     boolean needsComma = false;
     StringBuffer result = new StringBuffer();
 
-    for (Iterator i = inputs.iterator(); i.hasNext(); )
+    for (Object input : inputs)
     {
-      Object input = i.next();
       if (needsComma)
       {
         result.append(objectSeparator);
@@ -664,9 +673,8 @@ public class MappingItemProvider
     result.append(divider);
 
     needsComma = false;
-    for (Iterator o = outputs.iterator(); o.hasNext(); )
+    for (Object output : outputs)
     {
-      Object output = o.next();
       if (needsComma)
       {
         result.append(objectSeparator);
@@ -681,6 +689,7 @@ public class MappingItemProvider
     return result.toString();
   }
 
+  @Override
   public String getText(Object object)
   {
     Mapping mapping = (Mapping)object;
@@ -695,6 +704,7 @@ public class MappingItemProvider
   /**
    * This handles notification by delegating to {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     MappingPackage ePackage = MappingPackage.eINSTANCE;
@@ -730,7 +740,8 @@ public class MappingItemProvider
     }
   }
 
-  public Command createCommand(Object object, EditingDomain editingDomain, Class commandClass, CommandParameter commandParameter)
+  @Override
+  public Command createCommand(Object object, EditingDomain editingDomain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     if (editingDomain instanceof MappingDomain)
     {
@@ -747,7 +758,7 @@ public class MappingItemProvider
 
     // This ensures that we are dealing with actual MOF objects.
     //
-    commandParameter.collection = (Collection)substituteMappedObject((Mapping)object, commandParameter.getCollection());
+    commandParameter.collection = (Collection<?>)substituteMappedObject((Mapping)object, commandParameter.getCollection());
     commandParameter.value = substituteMappedObject((Mapping)object, commandParameter.getValue());
 
     return super.createCommand(object, editingDomain, commandClass, commandParameter);
@@ -769,25 +780,26 @@ public class MappingItemProvider
     return new TypeMatchMappingCommand(domain, mapping);
   }
 
-  protected Command createRemoveCommand(final EditingDomain domain, EObject owner, final EStructuralFeature feature, Collection collection)
+  @Override
+  protected Command createRemoveCommand(final EditingDomain domain, EObject owner, final EStructuralFeature feature, Collection<?> collection)
   {
     final Mapping mappingOwner = (Mapping)owner;
     final MappingRoot mappingRoot = mappingOwner.getMappingRoot();
 
     if (feature == MappingPackage.eINSTANCE.getMapping_Nested())
     {
-      final Collection mappingCollection = collection;
+      final Collection<?> mappingCollection = collection;
       return 
         new CommandWrapper(super.createRemoveCommand(domain, owner, feature, collection))
         {
           protected void register()
           {
-            for (Iterator objects = mappingCollection.iterator(); objects.hasNext(); )
+            for (Object object : mappingCollection)
             {
-              Mapping mapping = (Mapping)objects.next();
-              for (TreeIterator mappings = mapping.treeIterator(); mappings.hasNext(); )
+              Mapping mapping = (Mapping)object;
+              for (TreeIterator<Mapping> mappings = mapping.treeIterator(); mappings.hasNext(); )
               {
-                Mapping childMapping = (Mapping)mappings.next();
+                Mapping childMapping = mappings.next();
                 mappingRoot.register(childMapping);
               }
             }
@@ -795,29 +807,32 @@ public class MappingItemProvider
 
           protected void deregister()
           {
-            for (Iterator objects = mappingCollection.iterator(); objects.hasNext(); )
+            for (Object object : mappingCollection)
             {
-              Mapping mapping = (Mapping)objects.next();
-              for (TreeIterator mappings = mapping.treeIterator(); mappings.hasNext(); )
+              Mapping mapping = (Mapping)object;
+              for (TreeIterator<Mapping> mappings = mapping.treeIterator(); mappings.hasNext(); )
               {
-                Mapping childMapping = (Mapping)mappings.next();
+                Mapping childMapping = mappings.next();
                 mappingRoot.deregister(childMapping);
               }
             }
           }
 
+          @Override
           public void execute()
           {
             deregister();
             super.execute();
           }
 
+          @Override
           public void undo()
           {
             super.undo();
             register();
           }
 
+          @Override
           public void redo()
           {
             deregister();
@@ -828,26 +843,27 @@ public class MappingItemProvider
     else if (feature == MappingPackage.eINSTANCE.getMapping_Inputs() || 
                feature == MappingPackage.eINSTANCE.getMapping_Outputs())
     {
-      final Collection mappedObjectsCollection = collection;
+      final Collection<?> mappedObjectsCollection = collection;
       final boolean removingInputs = (feature == MappingPackage.eINSTANCE.getMapping_Inputs());
       return 
         new CommandWrapper(super.createRemoveCommand(domain, owner, feature, collection))
         {
           protected CompoundCommand commands; 
 
+          @Override
           protected boolean prepare()
           {
             boolean result = true;
-            Collection inputs = mappingOwner.getInputs();
-            Collection outputs = mappingOwner.getOutputs();
+            Collection<?> inputs = mappingOwner.getInputs();
+            Collection<?> outputs = mappingOwner.getOutputs();
             if (removingInputs)
             {
-              inputs = new ArrayList(inputs);
+              inputs = new ArrayList<Object>(inputs);
               inputs.removeAll(mappedObjectsCollection);
             }
             else
             {
-              outputs = new ArrayList(outputs);
+              outputs = new ArrayList<Object>(outputs);
               outputs.removeAll(mappedObjectsCollection);
             }
             if (!mappingRoot.canCreateMapping(inputs, outputs, mappingOwner))
@@ -859,40 +875,39 @@ public class MappingItemProvider
 
           protected void register()
           {
-            for (Iterator objects = mappedObjectsCollection.iterator(); objects.hasNext(); )
+            for (Object object : mappedObjectsCollection)
             {
-              Object object = objects.next();
               mappingRoot.getMappedObjectState(object).getMappings().add(mappingOwner);
             }
           }
 
           protected void deregister()
           {
-            for (Iterator objects = mappedObjectsCollection.iterator(); objects.hasNext(); )
+            for (Object object : mappedObjectsCollection)
             {
-              Object object = objects.next();
               mappingRoot.getMappedObjectState(object).getMappings().remove(mappingOwner);
             }
           }
 
+          @Override
           public void execute()
           {
             if (mappingOwner == mappingRoot) 
             {
               commands = new CompoundCommand();
-              Collection collectionOfDescendants = new HashSet();
-              for (Iterator objects = mappedObjectsCollection.iterator(); objects.hasNext(); )
+              Collection<Object> collectionOfDescendants = new HashSet<Object>();
+              for (Object object : mappedObjectsCollection)
               {
-                for (TreeIterator descendants = domain.treeIterator(objects.next()); descendants.hasNext(); )
+                for (TreeIterator<?> descendants = domain.treeIterator(object); descendants.hasNext(); )
                 {
                   Object descendant = descendants.next();
                   collectionOfDescendants.add(descendant);
                 }
               }
 
-              for (TreeIterator mappings = mappingRoot.treeIterator(false); mappings.hasNext(); )
+              for (TreeIterator<Mapping> mappings = mappingRoot.treeIterator(false); mappings.hasNext(); )
               {
-                Mapping mapping = (Mapping)mappings.next();
+                Mapping mapping = mappings.next();
                 if (!mapping.getInputs().isEmpty() && collectionOfDescendants.containsAll(mapping.getInputs()) || 
                       !mapping.getOutputs().isEmpty() && collectionOfDescendants.containsAll(mapping.getOutputs()))
                 {
@@ -903,7 +918,7 @@ public class MappingItemProvider
                 {
                   if (feature == MappingPackage.eINSTANCE.getMapping_Inputs())
                   {
-                    Collection inputsToRemove = new ArrayList(mapping.getInputs());
+                    Collection<?> inputsToRemove = new ArrayList<Object>(mapping.getInputs());
                     inputsToRemove.retainAll(collectionOfDescendants);
                     if (!inputsToRemove.isEmpty())
                     {
@@ -914,7 +929,7 @@ public class MappingItemProvider
                   }
                   else
                   {
-                    Collection outputsToRemove = new ArrayList(mapping.getOutputs());
+                    Collection<?> outputsToRemove = new ArrayList<Object>(mapping.getOutputs());
                     outputsToRemove.retainAll(collectionOfDescendants);
                     if (!outputsToRemove.isEmpty())
                     {
@@ -932,6 +947,7 @@ public class MappingItemProvider
             deregister();
           }
 
+          @Override
           public void undo()
           {
             super.undo();
@@ -942,6 +958,7 @@ public class MappingItemProvider
             register();
           }
 
+          @Override
           public void redo()
           {
             if (commands != null)
@@ -952,6 +969,7 @@ public class MappingItemProvider
             deregister();
           }
 
+          @Override
           public void dispose()
           {
             super.dispose();
@@ -968,12 +986,14 @@ public class MappingItemProvider
     }
   }
 
+  @Override
   protected Command factorAddCommand(EditingDomain domain, CommandParameter commandParameter)
   {
     return UnexecutableCommand.INSTANCE;
   }
 
-  protected Command createAddCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection collection, int index)
+  @Override
+  protected Command createAddCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection<?> collection, int index)
   {
     final Mapping mappingOwner = (Mapping)owner;
     final MappingRoot mappingRoot = mappingOwner.getMappingRoot();
@@ -981,25 +1001,30 @@ public class MappingItemProvider
     if (feature == MappingPackage.eINSTANCE.getMapping_Inputs() || 
           feature == MappingPackage.eINSTANCE.getMapping_Outputs())
     {
-      final Collection mappedObjectsCollection = collection;
+      final Collection<?> mappedObjectsCollection = collection;
       final boolean addingInputs = (feature == MappingPackage.eINSTANCE.getMapping_Inputs());
       return 
         new CommandWrapper(super.createAddCommand(domain, owner, feature, collection, index))
         {
+          @Override
           protected boolean prepare()
           {
             boolean result = true;
-            Collection inputs = mappingOwner.getInputs();
-            Collection outputs = mappingOwner.getOutputs();
+            Collection<EObject> inputs = mappingOwner.getInputs();
+            Collection<EObject> outputs = mappingOwner.getOutputs();
             if (addingInputs)
             {
-              inputs = new ArrayList(inputs);
-              inputs.addAll(mappedObjectsCollection);
+              inputs = new ArrayList<EObject>(inputs);
+              @SuppressWarnings("unchecked")
+              Collection<EObject> eObjects = (Collection<EObject>)mappedObjectsCollection;
+              inputs.addAll(eObjects);
             }
             else
             {
-              outputs = new ArrayList(outputs);
-              outputs.addAll(mappedObjectsCollection);
+              outputs = new ArrayList<EObject>(outputs);
+              @SuppressWarnings("unchecked")
+              Collection<EObject> eObjects = (Collection<EObject>)mappedObjectsCollection;
+              outputs.addAll(eObjects);
             }
             if (!mappingRoot.canCreateMapping(inputs, outputs, mappingOwner))
             {
@@ -1009,48 +1034,51 @@ public class MappingItemProvider
           }
           protected void register()
           {
-            for (Iterator objects = mappedObjectsCollection.iterator(); objects.hasNext(); )
+            for (Object object : mappedObjectsCollection)
             {
-              Object object = objects.next();
               mappingRoot.getMappedObjectState(object).getMappings().add(mappingOwner);
             }
           }
 
           protected void deregister()
           {
-            for (Iterator objects = mappedObjectsCollection.iterator(); objects.hasNext(); )
+            for (Object object : mappedObjectsCollection)
             {
-              Object object = objects.next();
               mappingRoot.getMappedObjectState(object).getMappings().remove(mappingOwner);
             }
           }
 
+          @Override
           public void execute()
           {
             super.execute();
             register();
           }
 
+          @Override
           public void undo()
           {
             deregister();
             super.undo();
           }
 
+          @Override
           public void redo()
           {
             super.redo();
             register();
           }
 
-          public Collection getAffectedObjects()
+          @Override
+          public Collection<?> getAffectedObjects()
           {
-            return (Collection)substituteMappedObjectItemProvider(mappingOwner, super.getAffectedObjects());
+            return (Collection<?>)substituteMappedObjectItemProvider(mappingOwner, super.getAffectedObjects());
           }
 
-          public Collection getResult()
+          @Override
+          public Collection<?> getResult()
           {
-            return (Collection)substituteMappedObjectItemProvider(mappingOwner, super.getResult());
+            return (Collection<?>)substituteMappedObjectItemProvider(mappingOwner, super.getResult());
           }
         };
     }
@@ -1072,14 +1100,16 @@ public class MappingItemProvider
       return 
         new CommandWrapper(super.createMoveCommand(domain, owner, feature, value, index))
         {
-          public Collection getAffectedObjects()
+          @Override
+          public Collection<?> getAffectedObjects()
           {
-            return (Collection)substituteMappedObjectItemProvider(mappingOwner, super.getAffectedObjects());
+            return (Collection<?>)substituteMappedObjectItemProvider(mappingOwner, super.getAffectedObjects());
           }
 
-          public Collection getResult()
+          @Override
+          public Collection<?> getResult()
           {
-            return (Collection)substituteMappedObjectItemProvider(mappingOwner, super.getResult());
+            return (Collection<?>)substituteMappedObjectItemProvider(mappingOwner, super.getResult());
           }
         };
     }
@@ -1092,6 +1122,7 @@ public class MappingItemProvider
   /**
    * This creates a primitive {@link SetCommand}.
    */
+  @Override
   protected Command createSetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value)
   {
     if (feature == MappingPackage.eINSTANCE.getMapping_Inputs() || 
@@ -1105,12 +1136,12 @@ public class MappingItemProvider
     }
   }
 
+  @Override
   public void dispose()
   {
-    for (Iterator providers = mappedObjectItemProviderList.iterator(); providers.hasNext(); )
+    for (MappedObjectItemProvider mappedObjectItemProvider : mappedObjectItemProviderList)
     {
-      Object provider = providers.next();
-      ((IDisposable)provider).dispose();
+      mappedObjectItemProvider.dispose();
     }
     super.dispose();
   }
@@ -1121,6 +1152,7 @@ public class MappingItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return MappingPlugin.INSTANCE;

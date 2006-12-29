@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetOverrideCommand.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: SetOverrideCommand.java,v 1.3 2006/12/29 18:29:10 marcelop Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -63,6 +63,7 @@ public class SetOverrideCommand extends AbstractCommand
     this.setCommand = setCommand;
   }
 
+  @Override
   protected boolean prepare()
   {
     return setCommand.doCanExecute();
@@ -78,13 +79,12 @@ public class SetOverrideCommand extends AbstractCommand
     if (setCommand.getOldValue() != null)
     {
       Object oldValue = setCommand.getOldValue();
-      for (Iterator objects = mappingDomain.treeIterator(oldValue); objects.hasNext(); )
+      for (Iterator<?> objects = mappingDomain.treeIterator(oldValue); objects.hasNext(); )
       {
         Object object = objects.next();
-        for (Iterator mappings = mappingRoot.getMappings(object).iterator(); mappings.hasNext(); )
+        for (Mapping mapping : mappingRoot.getMappings(object))
         {
-          Mapping mapping = (Mapping)mappings.next();
-          Collection outputs = mapping.getOutputs();
+          Collection<?> outputs = mapping.getOutputs();
           if (outputs.size() == 1 && outputs.iterator().next() == object)
           {
             subcommands.append(RemoveMappingCommand.create(mappingDomain, mapping));
@@ -102,7 +102,7 @@ public class SetOverrideCommand extends AbstractCommand
     if (setCommand.getValue() != null)
     {
       Object value = setCommand.getValue();
-      for (Iterator objects = mappingDomain.treeIterator(value); objects.hasNext(); )
+      for (Iterator<?> objects = mappingDomain.treeIterator(value); objects.hasNext(); )
       {
         Object object = objects.next();
         MappedObjectState mappedObjectState = mappingRoot.getMappedObjectState(object);
@@ -134,6 +134,7 @@ public class SetOverrideCommand extends AbstractCommand
     }
   }
 
+  @Override
   public void undo()
   {
     if (mapCommand != null)
@@ -152,6 +153,7 @@ public class SetOverrideCommand extends AbstractCommand
     }
   }
 
+  @Override
   public void dispose()
   {
     if (mapCommand != null) 
@@ -161,12 +163,14 @@ public class SetOverrideCommand extends AbstractCommand
     setCommand.doDispose();
   }
 
-  public Collection getResult()
+  @Override
+  public Collection<?> getResult()
   {
     return setCommand.doGetResult();
   }
 
-  public Collection getAffectedObjects()
+  @Override
+  public Collection<?> getAffectedObjects()
   {
     return setCommand.doGetAffectedObjects();
   }
@@ -175,6 +179,7 @@ public class SetOverrideCommand extends AbstractCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());
