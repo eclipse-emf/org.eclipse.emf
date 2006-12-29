@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditPlugin.java,v 1.2 2005/12/05 12:36:45 emerks Exp $
+ * $Id: EXTLibraryEditPlugin.java,v 1.3 2006/12/29 18:27:35 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -65,6 +65,7 @@ public final class EXTLibraryEditPlugin extends EMFPlugin
    * @return the singleton instance.
    * @generated
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

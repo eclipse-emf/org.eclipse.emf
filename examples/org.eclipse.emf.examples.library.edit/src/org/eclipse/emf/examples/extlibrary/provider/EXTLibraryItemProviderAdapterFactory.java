@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryItemProviderAdapterFactory.java,v 1.2 2005/12/05 12:36:45 emerks Exp $
+ * $Id: EXTLibraryItemProviderAdapterFactory.java,v 1.3 2006/12/29 18:27:35 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -70,7 +70,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance.
@@ -84,7 +84,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
-    supportedTypes.add(IItemPropertySource.class);		
+    supportedTypes.add(IItemPropertySource.class);
   }
 
   /**
@@ -101,6 +101,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createBookAdapter()
   {
     if (bookItemProvider == null)
@@ -125,6 +126,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createLibraryAdapter()
   {
     if (libraryItemProvider == null)
@@ -149,6 +151,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createWriterAdapter()
   {
     if (writerItemProvider == null)
@@ -173,6 +176,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createBookOnTapeAdapter()
   {
     if (bookOnTapeItemProvider == null)
@@ -197,6 +201,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createVideoCassetteAdapter()
   {
     if (videoCassetteItemProvider == null)
@@ -221,6 +226,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createBorrowerAdapter()
   {
     if (borrowerItemProvider == null)
@@ -245,6 +251,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createPersonAdapter()
   {
     if (personItemProvider == null)
@@ -269,6 +276,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEmployeeAdapter()
   {
     if (employeeItemProvider == null)
@@ -306,6 +314,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return supportedTypes.contains(type) || super.isFactoryForType(type);
@@ -317,6 +326,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
@@ -327,12 +337,13 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object adapt(Object object, Object type)
   {
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
