@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLItemProviderAdapterFactory.java,v 1.2 2005/06/21 16:16:58 khussey Exp $
+ * $Id: Ecore2XMLItemProviderAdapterFactory.java,v 1.3 2006/12/29 18:29:14 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -70,7 +70,7 @@ public class Ecore2XMLItemProviderAdapterFactory extends Ecore2XMLAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance.
@@ -84,7 +84,7 @@ public class Ecore2XMLItemProviderAdapterFactory extends Ecore2XMLAdapterFactory
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
-    supportedTypes.add(IItemPropertySource.class);		
+    supportedTypes.add(IItemPropertySource.class);
   }
 
   /**
@@ -101,6 +101,7 @@ public class Ecore2XMLItemProviderAdapterFactory extends Ecore2XMLAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createXMLInfoAdapter()
   {
     if (xmlInfoItemProvider == null)
@@ -125,6 +126,7 @@ public class Ecore2XMLItemProviderAdapterFactory extends Ecore2XMLAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createXMLMapAdapter()
   {
     if (xmlMapItemProvider == null)
@@ -149,6 +151,7 @@ public class Ecore2XMLItemProviderAdapterFactory extends Ecore2XMLAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createENamedElementToXMLInfoMapEntryAdapter()
   {
     if (eNamedElementToXMLInfoMapEntryItemProvider == null)
@@ -186,6 +189,7 @@ public class Ecore2XMLItemProviderAdapterFactory extends Ecore2XMLAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return supportedTypes.contains(type) || super.isFactoryForType(type);
@@ -197,6 +201,7 @@ public class Ecore2XMLItemProviderAdapterFactory extends Ecore2XMLAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
@@ -207,12 +212,13 @@ public class Ecore2XMLItemProviderAdapterFactory extends Ecore2XMLAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object adapt(Object object, Object type)
   {
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }

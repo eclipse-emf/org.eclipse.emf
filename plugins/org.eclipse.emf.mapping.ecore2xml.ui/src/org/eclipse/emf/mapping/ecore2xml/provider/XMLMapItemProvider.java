@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapItemProvider.java,v 1.9 2006/05/15 22:09:11 emerks Exp $
+ * $Id: XMLMapItemProvider.java,v 1.10 2006/12/29 18:29:14 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -23,9 +23,10 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.CommandParameter;
 //import org.eclipse.emf.ecore.EObject;
 //import org.eclipse.emf.ecore.EReference;
-//import org.eclipse.emf.ecore.EStructuralFeature;
 
 //import org.eclipse.emf.ecore.util.FeatureMap;
 //import org.eclipse.emf.ecore.util.FeatureMapUtil;
@@ -33,6 +34,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -78,7 +80,8 @@ public class XMLMapItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -144,7 +147,8 @@ public class XMLMapItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -155,11 +159,26 @@ public class XMLMapItemProvider
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EStructuralFeature getChildFeature(Object object, Object child)
+  {
+    // Check the type of the specified child object and return the proper feature to use for
+    // adding (see {@link AddCommand}) it as a child.
+
+    return super.getChildFeature(object, child);
+  }
+
+  /**
    * This returns XMLMap.gif.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getImage(Object object)
   {
     return overlayImage(object, getResourceLocator().getImage("full/obj16/XMLMap")); //$NON-NLS-1$
@@ -171,6 +190,7 @@ public class XMLMapItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     String label = ((XMLMap)object).getIDAttributeName();
@@ -186,6 +206,7 @@ public class XMLMapItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -209,7 +230,8 @@ public class XMLMapItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
 
@@ -225,6 +247,7 @@ public class XMLMapItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return Ecore2XMLUIPlugin.INSTANCE;

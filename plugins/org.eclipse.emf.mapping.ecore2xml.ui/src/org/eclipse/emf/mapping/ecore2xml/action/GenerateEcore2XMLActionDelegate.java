@@ -12,14 +12,13 @@
  *
  * </copyright>
  * 
- * $Id: GenerateEcore2XMLActionDelegate.java,v 1.9 2006/12/05 20:32:39 emerks Exp $
+ * $Id: GenerateEcore2XMLActionDelegate.java,v 1.10 2006/12/29 18:29:14 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.action;
 
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -106,8 +105,9 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
 
     if (eObject != null)
     {
-      new EcoreSwitch()
+      new EcoreSwitch<Object>()
         {
+          @Override
           public Object caseEPackage(EPackage ePackage)
           {
             xmlInfo.setName(ePackage.getName());
@@ -116,6 +116,7 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
             return xmlInfo;
           }
 
+          @Override
           public Object caseEClassifier(EClassifier eClassifier)
           {
             xmlInfo.setName(ExtendedMetaData.INSTANCE.getName(eClassifier));
@@ -124,6 +125,7 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
             return xmlInfo;
           }
 
+          @Override
           public Object caseEStructuralFeature(EStructuralFeature eStructuralFeature)
           {
             xmlInfo.setName(ExtendedMetaData.INSTANCE.getName(eStructuralFeature));
@@ -142,17 +144,17 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
   {
     final XMLResource.XMLMap xmlMap = Ecore2XMLFactory.eINSTANCE.createXMLMap();
 
-    for (TreeIterator mappings = mappingRoot.treeIterator(); mappings.hasNext();)
+    for (TreeIterator<Mapping> mappings = mappingRoot.treeIterator(); mappings.hasNext();)
     {
-      Mapping mapping = (Mapping)mappings.next();
-      EList inputs = mapping.getInputs();
-      final EObject input = inputs.isEmpty() ? null : (EObject)inputs.get(0);
+      Mapping mapping = mappings.next();
+      EList<EObject> inputs = mapping.getInputs();
+      final EObject input = inputs.isEmpty() ? null : inputs.get(0);
 
-      for (Iterator outputs = mapping.getOutputs().iterator(); outputs.hasNext();)
+      for (EObject output : mapping.getOutputs())
       {
-
-        new EcoreSwitch()
+        new EcoreSwitch<Object>()
           {
+            @Override
             public Object caseEPackage(EPackage ePackage)
             {
               XMLResource.XMLInfo xmlInfo = createXMLInfo(input);
@@ -160,6 +162,7 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
               return xmlInfo;
             }
 
+            @Override
             public Object caseEClassifier(EClassifier eClassifier)
             {
               XMLResource.XMLInfo xmlInfo = createXMLInfo(input);
@@ -167,6 +170,7 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
               return xmlInfo;
             }
 
+            @Override
             public Object caseEStructuralFeature(EStructuralFeature eStructuralFeature)
             {
               XMLResource.XMLInfo xmlInfo = createXMLInfo(input);
@@ -187,7 +191,7 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
               xmlMap.add(eStructuralFeature, xmlInfo);
               return xmlInfo;
             }
-          }.doSwitch((EObject)outputs.next());
+          }.doSwitch(output);
       }
     }
 
@@ -209,6 +213,7 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
    * 
    * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
    */
+  @Override
   public void run(IAction action)
   {
     final IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -218,6 +223,7 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
       new ProgressMonitorDialog(workbenchWindow.getShell()).run(false, true, new WorkspaceModifyOperation()
         {
         
+        @Override
         protected void execute(IProgressMonitor progressMonitor)
         {
           try
@@ -290,6 +296,7 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
    * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
    *      org.eclipse.jface.viewers.ISelection)
    */
+  @Override
   public void selectionChanged(IAction action, ISelection selection)
   {
     action.setEnabled(IStructuredSelection.class.isInstance(selection) && getMappingRoot((IStructuredSelection)selection) != null);

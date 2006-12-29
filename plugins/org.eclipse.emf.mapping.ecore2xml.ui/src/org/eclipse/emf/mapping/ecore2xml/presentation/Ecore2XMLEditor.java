@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.9 2006/10/18 03:30:16 davidms Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.10 2006/12/29 18:29:14 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -322,7 +322,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection selectionChangedListeners = new ArrayList();
+  protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 
   /**
    * This keeps track of the selection of the editor as a whole.
@@ -376,15 +376,19 @@ public class Ecore2XMLEditor
       }
       public void partBroughtToTop(IWorkbenchPart p)
       {
+        // Ignore.
       }
       public void partClosed(IWorkbenchPart p)
       {
+        // Ignore.
       }
       public void partDeactivated(IWorkbenchPart p)
       {
+        // Ignore.
       }
       public void partOpened(IWorkbenchPart p)
       {
+        // Ignore.
       }
     };
 
@@ -392,19 +396,19 @@ public class Ecore2XMLEditor
    * Resources that have been removed since last activation.
    * @generated
    */
-  protected Collection removedResources = new ArrayList();
+  protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
   /**
    * Resources that have been changed since last activation.
    * @generated
    */
-  protected Collection changedResources = new ArrayList();
+  protected Collection<Resource> changedResources = new ArrayList<Resource>();
 
   /**
    * Resources that have been saved.
    * @generated
    */
-  protected Collection savedResources = new ArrayList();
+  protected Collection<Resource> savedResources = new ArrayList<Resource>();
 
   /**
    * Map to store the diagnostic associated with a resource.
@@ -412,7 +416,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Map resourceToDiagnosticMap = new LinkedHashMap();
+  protected Map<Resource, Diagnostic> resourceToDiagnosticMap = new LinkedHashMap<Resource, Diagnostic>();
 
   /**
    * Controls whether the problem indication should be updated.
@@ -431,6 +435,7 @@ public class Ecore2XMLEditor
   protected EContentAdapter problemIndicationAdapter = 
     new EContentAdapter()
     {
+      @Override
       public void notifyChanged(Notification notification)
       {
         if (notification.getNotifier() instanceof Resource)
@@ -463,6 +468,7 @@ public class Ecore2XMLEditor
                      }
                    });
               }
+              break;
             }
           }
         }
@@ -472,11 +478,13 @@ public class Ecore2XMLEditor
         }
       }
 
+      @Override
       protected void setTarget(Resource target)
       {
         basicSetTarget(target);
       }
 
+      @Override
       protected void unsetTarget(Resource target)
       {
         basicUnsetTarget(target);
@@ -503,8 +511,8 @@ public class Ecore2XMLEditor
             class ResourceDeltaVisitor implements IResourceDeltaVisitor
             {
               protected ResourceSet resourceSet = editingDomain.getResourceSet();
-              protected Collection changedResources = new ArrayList();
-              protected Collection removedResources = new ArrayList();
+              protected Collection<Resource> changedResources = new ArrayList<Resource>();
+              protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
               public boolean visit(IResourceDelta delta)
               {
@@ -531,12 +539,12 @@ public class Ecore2XMLEditor
                 return true;
               }
 
-              public Collection getChangedResources()
+              public Collection<Resource> getChangedResources()
               {
                 return changedResources;
               }
 
-              public Collection getRemovedResources()
+              public Collection<Resource> getRemovedResources()
               {
                 return removedResources;
               }
@@ -637,9 +645,8 @@ public class Ecore2XMLEditor
       editingDomain.getCommandStack().flush();
 
       updateProblemIndication = false;
-      for (Iterator i = changedResources.iterator(); i.hasNext(); )
+      for (Resource resource : changedResources)
       {
-        Resource resource = (Resource)i.next();
         if (resource.isLoaded())
         {
           resource.unload();
@@ -678,9 +685,8 @@ public class Ecore2XMLEditor
            0,
            null,
            new Object [] { editingDomain.getResourceSet() });
-      for (Iterator i = resourceToDiagnosticMap.values().iterator(); i.hasNext(); )
+      for (Diagnostic childDiagnostic : resourceToDiagnosticMap.values())
       {
-        Diagnostic childDiagnostic = (Diagnostic)i.next();
         if (childDiagnostic.getSeverity() != Diagnostic.OK)
         {
           diagnostic.add(childDiagnostic);
@@ -757,7 +763,7 @@ public class Ecore2XMLEditor
 
     // Create an adapter factory that yields item providers.
     //
-    List factories = new ArrayList();
+    List<AdapterFactory> factories = new ArrayList<AdapterFactory>();
     factories.add(new ResourceItemProviderAdapterFactory());
     factories.add(new Ecore2XMLItemProviderAdapterFactory());
     factories.add(new EcoreItemProviderAdapterFactory());
@@ -801,7 +807,7 @@ public class Ecore2XMLEditor
 
     // Create the editing domain with a special command stack.
     //
-    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap());
+    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
   }
 
   /**
@@ -810,6 +816,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected void firePropertyChange(int action)
   {
     super.firePropertyChange(action);
@@ -821,9 +828,9 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setSelectionToViewer(Collection collection)
+  public void setSelectionToViewer(Collection<?> collection)
   {
-    final Collection theSelection = collection;
+    final Collection<?> theSelection = collection;
     // Make sure it's okay.
     //
     if (theSelection != null && !theSelection.isEmpty())
@@ -875,24 +882,28 @@ public class Ecore2XMLEditor
       super(adapterFactory);
     }
 
+    @Override
     public Object [] getElements(Object object)
     {
       Object parent = super.getParent(object);
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    @Override
     public Object [] getChildren(Object object)
     {
       Object parent = super.getParent(object);
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    @Override
     public boolean hasChildren(Object object)
     {
       Object parent = super.getParent(object);
       return parent != null;
     }
 
+    @Override
     public Object getParent(Object object)
     {
       return null;
@@ -1014,7 +1025,7 @@ public class Ecore2XMLEditor
     // Assumes that the input is a file object.
     //
     IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);;
+    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);
     Exception exception = null;
     Resource resource = null;
     try
@@ -1080,6 +1091,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void createPages()
   {
     // Creates the model from the editor input
@@ -1089,7 +1101,7 @@ public class Ecore2XMLEditor
     // Only creates the other pages if there is something that can be edited
     //
     if (!getEditingDomain().getResourceSet().getResources().isEmpty() &&
-        !((Resource)getEditingDomain().getResourceSet().getResources().get(0)).getContents().isEmpty())
+        !(getEditingDomain().getResourceSet().getResources().get(0)).getContents().isEmpty())
     {
       // Create a page for the selection tree view.
       //
@@ -1097,12 +1109,14 @@ public class Ecore2XMLEditor
         ViewerPane viewerPane =
           new ViewerPane(getSite().getPage(), Ecore2XMLEditor.this)
           {
+            @Override
             public Viewer createViewer(Composite composite)
             {
               Tree tree = new Tree(composite, SWT.MULTI);
               TreeViewer newTreeViewer = new TreeViewer(tree);
               return newTreeViewer;
             }
+            @Override
             public void requestActivation()
             {
               super.requestActivation();
@@ -1132,12 +1146,14 @@ public class Ecore2XMLEditor
         ViewerPane viewerPane =
           new ViewerPane(getSite().getPage(), Ecore2XMLEditor.this)
           {
+            @Override
             public Viewer createViewer(Composite composite)
             {
               Tree tree = new Tree(composite, SWT.MULTI);
               TreeViewer newTreeViewer = new TreeViewer(tree);
               return newTreeViewer;
             }
+            @Override
             public void requestActivation()
             {
               super.requestActivation();
@@ -1162,10 +1178,12 @@ public class Ecore2XMLEditor
         ViewerPane viewerPane =
           new ViewerPane(getSite().getPage(), Ecore2XMLEditor.this)
           {
+            @Override
             public Viewer createViewer(Composite composite)
             {
               return new ListViewer(composite);
             }
+            @Override
             public void requestActivation()
             {
               super.requestActivation();
@@ -1188,10 +1206,12 @@ public class Ecore2XMLEditor
         ViewerPane viewerPane =
           new ViewerPane(getSite().getPage(), Ecore2XMLEditor.this)
           {
+            @Override
             public Viewer createViewer(Composite composite)
             {
               return new TreeViewer(composite);
             }
+            @Override
             public void requestActivation()
             {
               super.requestActivation();
@@ -1216,10 +1236,12 @@ public class Ecore2XMLEditor
         ViewerPane viewerPane =
           new ViewerPane(getSite().getPage(), Ecore2XMLEditor.this)
           {
+            @Override
             public Viewer createViewer(Composite composite)
             {
               return new TableViewer(composite);
             }
+            @Override
             public void requestActivation()
             {
               super.requestActivation();
@@ -1260,10 +1282,12 @@ public class Ecore2XMLEditor
         ViewerPane viewerPane =
           new ViewerPane(getSite().getPage(), Ecore2XMLEditor.this)
           {
+            @Override
             public Viewer createViewer(Composite composite)
             {
               return new TreeViewer(composite);
             }
+            @Override
             public void requestActivation()
             {
               super.requestActivation();
@@ -1308,6 +1332,7 @@ public class Ecore2XMLEditor
       (new ControlAdapter()
        {
         boolean guard = false;
+        @Override
         public void controlResized(ControlEvent event)
         {
           if (!guard)
@@ -1370,6 +1395,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected void pageChange(int pageIndex)
   {
     super.pageChange(pageIndex);
@@ -1386,6 +1412,8 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public Object getAdapter(Class key)
   {
     if (key.equals(IContentOutlinePage.class))
@@ -1420,6 +1448,7 @@ public class Ecore2XMLEditor
       //
       class MyContentOutlinePage extends ContentOutlinePage
       {
+        @Override
         public void createControl(Composite parent)
         {
           super.createControl(parent);
@@ -1444,12 +1473,14 @@ public class Ecore2XMLEditor
           }
         }
 
+        @Override
         public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
         {
           super.makeContributions(menuManager, toolBarManager, statusLineManager);
           contentOutlineStatusLineManager = statusLineManager;
         }
 
+        @Override
         public void setActionBars(IActionBars actionBars)
         {
           super.setActionBars(actionBars);
@@ -1489,12 +1520,14 @@ public class Ecore2XMLEditor
       propertySheetPage =
         new ExtendedPropertySheetPage(editingDomain)
         {
-          public void setSelectionToViewer(List selection)
+          @Override
+          public void setSelectionToViewer(List<?> selection)
           {
             Ecore2XMLEditor.this.setSelectionToViewer(selection);
             Ecore2XMLEditor.this.setFocus();
           }
 
+          @Override
           public void setActionBars(IActionBars actionBars)
           {
             super.setActionBars(actionBars);
@@ -1517,7 +1550,7 @@ public class Ecore2XMLEditor
   {
     if (currentViewerPane != null && !selection.isEmpty() && selection instanceof IStructuredSelection)
     {
-      Iterator selectedElements = ((IStructuredSelection)selection).iterator();
+      Iterator<?> selectedElements = ((IStructuredSelection)selection).iterator();
       if (selectedElements.hasNext())
       {
         // Get the first selected element.
@@ -1528,7 +1561,7 @@ public class Ecore2XMLEditor
         //
         if (currentViewerPane.getViewer() == selectionViewer)
         {
-          ArrayList selectionList = new ArrayList();
+          ArrayList<Object> selectionList = new ArrayList<Object>();
           selectionList.add(selectedElement);
           while (selectedElements.hasNext())
           {
@@ -1559,6 +1592,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isDirty()
   {
     return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
@@ -1570,6 +1604,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void doSave(IProgressMonitor progressMonitor)
   {
     // Do the work within an operation because this is a long running activity that modifies the workbench.
@@ -1579,14 +1614,14 @@ public class Ecore2XMLEditor
       {
         // This is the method that gets invoked when the operation runs.
         //
+        @Override
         public void execute(IProgressMonitor monitor)
         {
           // Save the resources to the file system.
           //
           boolean first = true;
-          for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
+          for (Resource resource : editingDomain.getResourceSet().getResources())
           {
-            Resource resource = (Resource)i.next();
             if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
             {
               try
@@ -1647,6 +1682,7 @@ public class Ecore2XMLEditor
     }
     catch (IOException e)
     {
+      // Ignore
     }
     return result;
   }
@@ -1657,6 +1693,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSaveAsAllowed()
   {
     return true;
@@ -1668,6 +1705,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void doSaveAs()
   {
     SaveAsDialog saveAsDialog = new SaveAsDialog(getSite().getShell());
@@ -1690,7 +1728,7 @@ public class Ecore2XMLEditor
    */
   protected void doSaveAs(URI uri, IEditorInput editorInput)
   {
-    ((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
+    (editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
     setInputWithNotify(editorInput);
     setPartName(editorInput.getName());
     IProgressMonitor progressMonitor =
@@ -1735,6 +1773,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void init(IEditorSite site, IEditorInput editorInput)
   {
     setSite(site);
@@ -1750,6 +1789,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFocus()
   {
     if (currentViewerPane != null)
@@ -1806,9 +1846,8 @@ public class Ecore2XMLEditor
   {
     editorSelection = selection;
 
-    for (Iterator listeners = selectionChangedListeners.iterator(); listeners.hasNext(); )
+    for (ISelectionChangedListener listener : selectionChangedListeners)
     {
-      ISelectionChangedListener listener = (ISelectionChangedListener)listeners.next();
       listener.selectionChanged(new SelectionChangedEvent(this, selection));
     }
     setStatusLineManager(selection);
@@ -1828,7 +1867,7 @@ public class Ecore2XMLEditor
     {
       if (selection instanceof IStructuredSelection)
       {
-        Collection collection = ((IStructuredSelection)selection).toList();
+        Collection<?> collection = ((IStructuredSelection)selection).toList();
         switch (collection.size())
         {
           case 0:
@@ -1924,6 +1963,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void dispose()
   {
     updateProblemIndication = false;
