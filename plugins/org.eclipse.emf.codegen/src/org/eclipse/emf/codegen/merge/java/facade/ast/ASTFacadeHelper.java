@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.10 2006/12/21 17:49:26 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.11 2006/12/29 20:57:32 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -70,6 +70,17 @@ public class ASTFacadeHelper extends FacadeHelper
     protected ASTRewriteWithRemove(AST ast)
     {
       super(ast);
+    }
+    
+    /**
+     * Disposes this ASTRewriteWithRemove
+     */
+    @SuppressWarnings("restriction")
+    public void dispose()
+    {
+      getRewriteEventStore().clear();
+      getNodeStore().clear();
+      setTargetSourceRangeComputer(null);
     }
     
     /**
@@ -214,6 +225,14 @@ public class ASTFacadeHelper extends FacadeHelper
    */
   protected Map<ASTNode, String> nodeContents = new HashMap<ASTNode, String>();
 
+  @Override
+  public void reset()
+  {
+    nodeConverter = null;
+    nodeContents.clear();
+    super.reset();
+  }
+  
   /**
    * Creates and returns <code>ASTParser</code>.
    * 
@@ -232,10 +251,10 @@ public class ASTFacadeHelper extends FacadeHelper
    * @see org.eclipse.emf.codegen.merge.java.facade.FacadeHelper#createCompilationUnit(java.lang.String, java.lang.String)
    */
   @Override
-  public ASTJCompilationUnit createCompilationUnit(String name, String content)
+  public ASTJCompilationUnit createCompilationUnit(String name, String contents)
   {
     // set source
-    char[] contentAsCharArray = content.toCharArray();
+    char[] contentAsCharArray = contents.toCharArray();
     ASTParser astParser = createASTParser();
     astParser.setSource(contentAsCharArray);
 
@@ -262,7 +281,7 @@ public class ASTFacadeHelper extends FacadeHelper
     ASTRewrite rewriter = new ASTRewriteWithRemove(astCompilationUnit.getAST());
 
     // keep comments between nodes when removing or moving nodes
-    rewriter.setTargetSourceRangeComputer(new CommentAwareSourceRangeComputer(astCompilationUnit, content));
+    rewriter.setTargetSourceRangeComputer(new CommentAwareSourceRangeComputer(astCompilationUnit, contents));
 
     // set properties
     astCompilationUnit.setProperty(ASTJCompilationUnit.NAME_PROPERTY, name);
