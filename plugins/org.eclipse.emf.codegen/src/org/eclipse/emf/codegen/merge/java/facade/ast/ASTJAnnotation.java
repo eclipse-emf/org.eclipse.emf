@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJAnnotation.java,v 1.2 2006/12/15 20:26:12 marcelop Exp $
+ * $Id: ASTJAnnotation.java,v 1.3 2006/12/29 20:56:54 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -40,6 +40,13 @@ public class ASTJAnnotation extends ASTJNode<Annotation> implements JAnnotation
   {
     super(annotation);
     rewrittenASTNode = annotation;
+  }
+  
+  @Override
+  public void dispose()
+  {
+    rewrittenASTNode = null;
+    super.dispose();
   }
 
   /**
