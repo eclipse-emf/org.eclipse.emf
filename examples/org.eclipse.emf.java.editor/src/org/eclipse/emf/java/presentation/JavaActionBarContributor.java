@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaActionBarContributor.java,v 1.8 2006/05/15 21:56:21 emerks Exp $
+ * $Id: JavaActionBarContributor.java,v 1.9 2006/12/29 18:27:31 marcelop Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -80,6 +80,7 @@ public class JavaActionBarContributor
   protected IAction showPropertiesViewAction =
     new Action(JavaEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))
     {
+      @Override
       public void run()
       {
         try
@@ -103,11 +104,13 @@ public class JavaActionBarContributor
   protected IAction refreshViewerAction =
     new Action(JavaEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item"))
     {
+      @Override
       public boolean isEnabled()
       {
         return activeEditorPart instanceof IViewerProvider;
       }
 
+      @Override
       public void run()
       {
         if (activeEditorPart instanceof IViewerProvider)
@@ -141,6 +144,7 @@ public class JavaActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
     toolBarManager.add(new Separator("java-settings"));
@@ -154,6 +158,7 @@ public class JavaActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void contributeToMenu(IMenuManager menuManager)
   {
     super.contributeToMenu(menuManager);
@@ -177,6 +182,7 @@ public class JavaActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setActiveEditor(IEditorPart part)
   {
     super.setActiveEditor(part);
@@ -226,6 +232,7 @@ public class JavaActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void menuAboutToShow(IMenuManager menuManager)
   {
     super.menuAboutToShow(menuManager);
@@ -237,6 +244,7 @@ public class JavaActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected void addGlobalActions(IMenuManager menuManager)
   {
     menuManager.insertAfter("additions-end", new Separator("ui-actions"));
@@ -254,6 +262,7 @@ public class JavaActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected boolean removeAllReferencesOnDelete()
   {
     return true;

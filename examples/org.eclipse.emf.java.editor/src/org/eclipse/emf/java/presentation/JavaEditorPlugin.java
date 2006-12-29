@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditorPlugin.java,v 1.4 2005/08/19 16:48:41 davidms Exp $
+ * $Id: JavaEditorPlugin.java,v 1.5 2006/12/29 18:27:31 marcelop Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -57,8 +57,8 @@ public final class JavaEditorPlugin extends EMFPlugin
   {
     super
       (new ResourceLocator [] 
-       {
-       });
+      {
+      });
   }
 
   /**
@@ -68,6 +68,7 @@ public final class JavaEditorPlugin extends EMFPlugin
    * @return the singleton instance.
    * @generated
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;
@@ -102,7 +103,7 @@ public final class JavaEditorPlugin extends EMFPlugin
     public Implementation()
     {
       super();
-
+  
       // Remember the static instance.
       //
       plugin = this;
