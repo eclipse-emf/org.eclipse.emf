@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WriterImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
+ * $Id: WriterImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -68,7 +68,7 @@ public class WriterImpl extends PersonImpl implements Writer
    * @generated
    * @ordered
    */
-  protected EList books = null;
+  protected EList<Book> books = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -85,6 +85,7 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EXTLibraryPackage.Literals.WRITER;
@@ -160,11 +161,11 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getBooks()
+  public EList<Book> getBooks()
   {
     if (books == null)
     {
-      books = new EObjectWithInverseResolvingEList(Book.class, this, EXTLibraryPackage.WRITER__BOOKS, EXTLibraryPackage.BOOK__AUTHOR);
+      books = new EObjectWithInverseResolvingEList<Book>(Book.class, this, EXTLibraryPackage.WRITER__BOOKS, EXTLibraryPackage.BOOK__AUTHOR);
     }
     return books;
   }
@@ -174,12 +175,14 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EXTLibraryPackage.WRITER__BOOKS:
-        return ((InternalEList)getBooks()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getBooks()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -189,12 +192,13 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EXTLibraryPackage.WRITER__BOOKS:
-        return ((InternalEList)getBooks()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getBooks()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -204,6 +208,7 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -221,6 +226,8 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -230,7 +237,7 @@ public class WriterImpl extends PersonImpl implements Writer
         return;
       case EXTLibraryPackage.WRITER__BOOKS:
         getBooks().clear();
-        getBooks().addAll((Collection)newValue);
+        getBooks().addAll((Collection<? extends Book>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -241,6 +248,7 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -260,6 +268,7 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)

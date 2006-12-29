@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryAdapterFactory.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
+ * $Id: EXTLibraryAdapterFactory.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.util;
 
@@ -67,6 +67,7 @@ public class EXTLibraryAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -86,66 +87,81 @@ public class EXTLibraryAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EXTLibrarySwitch modelSwitch =
-    new EXTLibrarySwitch()
+  protected EXTLibrarySwitch<Adapter> modelSwitch =
+    new EXTLibrarySwitch<Adapter>()
     {
-      public Object caseBook(Book object)
+      @Override
+      public Adapter caseBook(Book object)
       {
         return createBookAdapter();
       }
-      public Object caseLibrary(Library object)
+      @Override
+      public Adapter caseLibrary(Library object)
       {
         return createLibraryAdapter();
       }
-      public Object caseWriter(Writer object)
+      @Override
+      public Adapter caseWriter(Writer object)
       {
         return createWriterAdapter();
       }
-      public Object caseItem(Item object)
+      @Override
+      public Adapter caseItem(Item object)
       {
         return createItemAdapter();
       }
-      public Object caseLendable(Lendable object)
+      @Override
+      public Adapter caseLendable(Lendable object)
       {
         return createLendableAdapter();
       }
-      public Object caseCirculatingItem(CirculatingItem object)
+      @Override
+      public Adapter caseCirculatingItem(CirculatingItem object)
       {
         return createCirculatingItemAdapter();
       }
-      public Object casePeriodical(Periodical object)
+      @Override
+      public Adapter casePeriodical(Periodical object)
       {
         return createPeriodicalAdapter();
       }
-      public Object caseAudioVisualItem(AudioVisualItem object)
+      @Override
+      public Adapter caseAudioVisualItem(AudioVisualItem object)
       {
         return createAudioVisualItemAdapter();
       }
-      public Object caseBookOnTape(BookOnTape object)
+      @Override
+      public Adapter caseBookOnTape(BookOnTape object)
       {
         return createBookOnTapeAdapter();
       }
-      public Object caseVideoCassette(VideoCassette object)
+      @Override
+      public Adapter caseVideoCassette(VideoCassette object)
       {
         return createVideoCassetteAdapter();
       }
-      public Object caseBorrower(Borrower object)
+      @Override
+      public Adapter caseBorrower(Borrower object)
       {
         return createBorrowerAdapter();
       }
-      public Object casePerson(Person object)
+      @Override
+      public Adapter casePerson(Person object)
       {
         return createPersonAdapter();
       }
-      public Object caseEmployee(Employee object)
+      @Override
+      public Adapter caseEmployee(Employee object)
       {
         return createEmployeeAdapter();
       }
-      public Object caseAddressable(Addressable object)
+      @Override
+      public Adapter caseAddressable(Addressable object)
       {
         return createAddressableAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -159,9 +175,10 @@ public class EXTLibraryAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

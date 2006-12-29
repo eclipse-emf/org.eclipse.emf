@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CirculatingItemImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
+ * $Id: CirculatingItemImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -81,7 +81,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * @generated
    * @ordered
    */
-  protected EList borrowers = null;
+  protected EList<Borrower> borrowers = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -98,6 +98,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EXTLibraryPackage.Literals.CIRCULATING_ITEM;
@@ -131,11 +132,11 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getBorrowers()
+  public EList<Borrower> getBorrowers()
   {
     if (borrowers == null)
     {
-      borrowers = new EObjectWithInverseResolvingEList.ManyInverse(Borrower.class, this, EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS, EXTLibraryPackage.BORROWER__BORROWED);
+      borrowers = new EObjectWithInverseResolvingEList.ManyInverse<Borrower>(Borrower.class, this, EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS, EXTLibraryPackage.BORROWER__BORROWED);
     }
     return borrowers;
   }
@@ -145,12 +146,14 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS:
-        return ((InternalEList)getBorrowers()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getBorrowers()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -160,12 +163,13 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS:
-        return ((InternalEList)getBorrowers()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getBorrowers()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -175,6 +179,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -192,6 +197,8 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -201,7 +208,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
         return;
       case EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS:
         getBorrowers().clear();
-        getBorrowers().addAll((Collection)newValue);
+        getBorrowers().addAll((Collection<? extends Borrower>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -212,6 +219,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -231,6 +239,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -248,7 +257,8 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
-  public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass)
+  @Override
+  public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass)
   {
     if (baseClass == Lendable.class)
     {
@@ -267,7 +277,8 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
-  public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass)
+  @Override
+  public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass)
   {
     if (baseClass == Lendable.class)
     {
@@ -286,6 +297,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

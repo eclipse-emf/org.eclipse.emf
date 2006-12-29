@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Library.java,v 1.2 2005/12/08 11:44:26 emerks Exp $
+ * $Id: Library.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -89,7 +89,7 @@ public interface Library extends Addressable
    *        extendedMetaData="group='#people'"
    * @generated
    */
-  EList getWriters();
+  EList<Writer> getWriters();
 
   /**
    * Returns the value of the '<em><b>Employees</b></em>' containment reference list.
@@ -106,7 +106,7 @@ public interface Library extends Addressable
    *        extendedMetaData="group='#people'"
    * @generated
    */
-  EList getEmployees();
+  EList<Employee> getEmployees();
 
   /**
    * Returns the value of the '<em><b>Borrowers</b></em>' containment reference list.
@@ -123,7 +123,7 @@ public interface Library extends Addressable
    *        extendedMetaData="group='#people'"
    * @generated
    */
-  EList getBorrowers();
+  EList<Borrower> getBorrowers();
 
   /**
    * Returns the value of the '<em><b>Stock</b></em>' containment reference list.
@@ -139,7 +139,7 @@ public interface Library extends Addressable
    * @model type="org.eclipse.emf.examples.extlibrary.Item" containment="true" ordered="false"
    * @generated
    */
-  EList getStock();
+  EList<Item> getStock();
 
   /**
    * Returns the value of the '<em><b>Books</b></em>' reference list.
@@ -155,7 +155,7 @@ public interface Library extends Addressable
    * @model type="org.eclipse.emf.examples.extlibrary.Book" transient="true" derived="true" ordered="false"
    * @generated
    */
-  EList getBooks();
+  EList<Book> getBooks();
 
   /**
    * Returns the value of the '<em><b>Branches</b></em>' containment reference list.
@@ -173,7 +173,7 @@ public interface Library extends Addressable
    * @model type="org.eclipse.emf.examples.extlibrary.Library" opposite="parentBranch" containment="true"
    * @generated
    */
-  EList getBranches();
+  EList<Library> getBranches();
 
   /**
    * Returns the value of the '<em><b>Parent Branch</b></em>' container reference.

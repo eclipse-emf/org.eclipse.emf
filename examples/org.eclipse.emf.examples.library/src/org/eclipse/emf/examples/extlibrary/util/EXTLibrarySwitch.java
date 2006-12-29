@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibrarySwitch.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
+ * $Id: EXTLibrarySwitch.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.util;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.examples.extlibrary.*;
  * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage
  * @generated
  */
-public class EXTLibrarySwitch {
+public class EXTLibrarySwitch<T> {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -68,7 +68,7 @@ public class EXTLibrarySwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -80,7 +80,7 @@ public class EXTLibrarySwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -88,11 +88,11 @@ public class EXTLibrarySwitch {
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -103,14 +103,14 @@ public class EXTLibrarySwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case EXTLibraryPackage.BOOK:
       {
         Book book = (Book)theEObject;
-        Object result = caseBook(book);
+        T result = caseBook(book);
         if (result == null) result = caseCirculatingItem(book);
         if (result == null) result = caseItem(book);
         if (result == null) result = caseLendable(book);
@@ -120,7 +120,7 @@ public class EXTLibrarySwitch {
       case EXTLibraryPackage.LIBRARY:
       {
         Library library = (Library)theEObject;
-        Object result = caseLibrary(library);
+        T result = caseLibrary(library);
         if (result == null) result = caseAddressable(library);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -128,7 +128,7 @@ public class EXTLibrarySwitch {
       case EXTLibraryPackage.WRITER:
       {
         Writer writer = (Writer)theEObject;
-        Object result = caseWriter(writer);
+        T result = caseWriter(writer);
         if (result == null) result = casePerson(writer);
         if (result == null) result = caseAddressable(writer);
         if (result == null) result = defaultCase(theEObject);
@@ -137,21 +137,21 @@ public class EXTLibrarySwitch {
       case EXTLibraryPackage.ITEM:
       {
         Item item = (Item)theEObject;
-        Object result = caseItem(item);
+        T result = caseItem(item);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case EXTLibraryPackage.LENDABLE:
       {
         Lendable lendable = (Lendable)theEObject;
-        Object result = caseLendable(lendable);
+        T result = caseLendable(lendable);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case EXTLibraryPackage.CIRCULATING_ITEM:
       {
         CirculatingItem circulatingItem = (CirculatingItem)theEObject;
-        Object result = caseCirculatingItem(circulatingItem);
+        T result = caseCirculatingItem(circulatingItem);
         if (result == null) result = caseItem(circulatingItem);
         if (result == null) result = caseLendable(circulatingItem);
         if (result == null) result = defaultCase(theEObject);
@@ -160,7 +160,7 @@ public class EXTLibrarySwitch {
       case EXTLibraryPackage.PERIODICAL:
       {
         Periodical periodical = (Periodical)theEObject;
-        Object result = casePeriodical(periodical);
+        T result = casePeriodical(periodical);
         if (result == null) result = caseItem(periodical);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -168,7 +168,7 @@ public class EXTLibrarySwitch {
       case EXTLibraryPackage.AUDIO_VISUAL_ITEM:
       {
         AudioVisualItem audioVisualItem = (AudioVisualItem)theEObject;
-        Object result = caseAudioVisualItem(audioVisualItem);
+        T result = caseAudioVisualItem(audioVisualItem);
         if (result == null) result = caseCirculatingItem(audioVisualItem);
         if (result == null) result = caseItem(audioVisualItem);
         if (result == null) result = caseLendable(audioVisualItem);
@@ -178,7 +178,7 @@ public class EXTLibrarySwitch {
       case EXTLibraryPackage.BOOK_ON_TAPE:
       {
         BookOnTape bookOnTape = (BookOnTape)theEObject;
-        Object result = caseBookOnTape(bookOnTape);
+        T result = caseBookOnTape(bookOnTape);
         if (result == null) result = caseAudioVisualItem(bookOnTape);
         if (result == null) result = caseCirculatingItem(bookOnTape);
         if (result == null) result = caseItem(bookOnTape);
@@ -189,7 +189,7 @@ public class EXTLibrarySwitch {
       case EXTLibraryPackage.VIDEO_CASSETTE:
       {
         VideoCassette videoCassette = (VideoCassette)theEObject;
-        Object result = caseVideoCassette(videoCassette);
+        T result = caseVideoCassette(videoCassette);
         if (result == null) result = caseAudioVisualItem(videoCassette);
         if (result == null) result = caseCirculatingItem(videoCassette);
         if (result == null) result = caseItem(videoCassette);
@@ -200,7 +200,7 @@ public class EXTLibrarySwitch {
       case EXTLibraryPackage.BORROWER:
       {
         Borrower borrower = (Borrower)theEObject;
-        Object result = caseBorrower(borrower);
+        T result = caseBorrower(borrower);
         if (result == null) result = casePerson(borrower);
         if (result == null) result = caseAddressable(borrower);
         if (result == null) result = defaultCase(theEObject);
@@ -209,7 +209,7 @@ public class EXTLibrarySwitch {
       case EXTLibraryPackage.PERSON:
       {
         Person person = (Person)theEObject;
-        Object result = casePerson(person);
+        T result = casePerson(person);
         if (result == null) result = caseAddressable(person);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -217,7 +217,7 @@ public class EXTLibrarySwitch {
       case EXTLibraryPackage.EMPLOYEE:
       {
         Employee employee = (Employee)theEObject;
-        Object result = caseEmployee(employee);
+        T result = caseEmployee(employee);
         if (result == null) result = casePerson(employee);
         if (result == null) result = caseAddressable(employee);
         if (result == null) result = defaultCase(theEObject);
@@ -226,7 +226,7 @@ public class EXTLibrarySwitch {
       case EXTLibraryPackage.ADDRESSABLE:
       {
         Addressable addressable = (Addressable)theEObject;
-        Object result = caseAddressable(addressable);
+        T result = caseAddressable(addressable);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -245,7 +245,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseBook(Book object)
+  public T caseBook(Book object)
   {
     return null;
   }
@@ -261,7 +261,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseLibrary(Library object)
+  public T caseLibrary(Library object)
   {
     return null;
   }
@@ -277,7 +277,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseWriter(Writer object)
+  public T caseWriter(Writer object)
   {
     return null;
   }
@@ -293,7 +293,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseItem(Item object)
+  public T caseItem(Item object)
   {
     return null;
   }
@@ -309,7 +309,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseLendable(Lendable object)
+  public T caseLendable(Lendable object)
   {
     return null;
   }
@@ -325,7 +325,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseCirculatingItem(CirculatingItem object)
+  public T caseCirculatingItem(CirculatingItem object)
   {
     return null;
   }
@@ -341,7 +341,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object casePeriodical(Periodical object)
+  public T casePeriodical(Periodical object)
   {
     return null;
   }
@@ -357,7 +357,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseAudioVisualItem(AudioVisualItem object)
+  public T caseAudioVisualItem(AudioVisualItem object)
   {
     return null;
   }
@@ -373,7 +373,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseBookOnTape(BookOnTape object)
+  public T caseBookOnTape(BookOnTape object)
   {
     return null;
   }
@@ -389,7 +389,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseVideoCassette(VideoCassette object)
+  public T caseVideoCassette(VideoCassette object)
   {
     return null;
   }
@@ -405,7 +405,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseBorrower(Borrower object)
+  public T caseBorrower(Borrower object)
   {
     return null;
   }
@@ -421,7 +421,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object casePerson(Person object)
+  public T casePerson(Person object)
   {
     return null;
   }
@@ -437,7 +437,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEmployee(Employee object)
+  public T caseEmployee(Employee object)
   {
     return null;
   }
@@ -453,7 +453,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseAddressable(Addressable object)
+  public T caseAddressable(Addressable object)
   {
     return null;
   }
@@ -469,7 +469,7 @@ public class EXTLibrarySwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

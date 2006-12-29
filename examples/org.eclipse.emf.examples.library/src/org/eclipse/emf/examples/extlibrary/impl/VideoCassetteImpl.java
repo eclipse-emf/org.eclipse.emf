@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: VideoCassetteImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
+ * $Id: VideoCassetteImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -51,7 +51,7 @@ public class VideoCassetteImpl extends AudioVisualItemImpl implements VideoCasse
    * @generated
    * @ordered
    */
-  protected EList cast = null;
+  protected EList<Person> cast = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -68,6 +68,7 @@ public class VideoCassetteImpl extends AudioVisualItemImpl implements VideoCasse
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EXTLibraryPackage.Literals.VIDEO_CASSETTE;
@@ -78,11 +79,11 @@ public class VideoCassetteImpl extends AudioVisualItemImpl implements VideoCasse
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getCast()
+  public EList<Person> getCast()
   {
     if (cast == null)
     {
-      cast = new EObjectResolvingEList(Person.class, this, EXTLibraryPackage.VIDEO_CASSETTE__CAST);
+      cast = new EObjectResolvingEList<Person>(Person.class, this, EXTLibraryPackage.VIDEO_CASSETTE__CAST);
     }
     return cast;
   }
@@ -92,6 +93,7 @@ public class VideoCassetteImpl extends AudioVisualItemImpl implements VideoCasse
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -107,13 +109,15 @@ public class VideoCassetteImpl extends AudioVisualItemImpl implements VideoCasse
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EXTLibraryPackage.VIDEO_CASSETTE__CAST:
         getCast().clear();
-        getCast().addAll((Collection)newValue);
+        getCast().addAll((Collection<? extends Person>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -124,6 +128,7 @@ public class VideoCassetteImpl extends AudioVisualItemImpl implements VideoCasse
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -140,6 +145,7 @@ public class VideoCassetteImpl extends AudioVisualItemImpl implements VideoCasse
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)

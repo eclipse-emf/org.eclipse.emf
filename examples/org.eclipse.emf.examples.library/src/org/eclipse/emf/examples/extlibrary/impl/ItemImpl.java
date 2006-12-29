@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
+ * $Id: ItemImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -79,6 +79,7 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EXTLibraryPackage.Literals.ITEM;
@@ -112,6 +113,7 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -127,6 +129,7 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -143,6 +146,7 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -159,6 +163,7 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -174,6 +179,7 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

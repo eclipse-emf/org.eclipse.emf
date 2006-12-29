@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Borrower.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: Borrower.java,v 1.2 2006/12/29 18:27:44 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -54,6 +54,6 @@ public interface Borrower extends Person
    * @model type="org.eclipse.emf.examples.extlibrary.Lendable" opposite="borrowers"
    * @generated
    */
-  EList getBorrowed();
+  EList<Lendable> getBorrowed();
 
 } // Borrower

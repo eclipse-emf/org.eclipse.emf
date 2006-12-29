@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BorrowerImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
+ * $Id: BorrowerImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -57,7 +57,7 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * @generated
    * @ordered
    */
-  protected EList borrowed = null;
+  protected EList<Lendable> borrowed = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -74,6 +74,7 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EXTLibraryPackage.Literals.BORROWER;
@@ -84,11 +85,11 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getBorrowed()
+  public EList<Lendable> getBorrowed()
   {
     if (borrowed == null)
     {
-      borrowed = new EObjectWithInverseResolvingEList.ManyInverse(Lendable.class, this, EXTLibraryPackage.BORROWER__BORROWED, EXTLibraryPackage.LENDABLE__BORROWERS);
+      borrowed = new EObjectWithInverseResolvingEList.ManyInverse<Lendable>(Lendable.class, this, EXTLibraryPackage.BORROWER__BORROWED, EXTLibraryPackage.LENDABLE__BORROWERS);
     }
     return borrowed;
   }
@@ -98,12 +99,14 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EXTLibraryPackage.BORROWER__BORROWED:
-        return ((InternalEList)getBorrowed()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getBorrowed()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -113,12 +116,13 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EXTLibraryPackage.BORROWER__BORROWED:
-        return ((InternalEList)getBorrowed()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getBorrowed()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -128,6 +132,7 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -143,13 +148,15 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EXTLibraryPackage.BORROWER__BORROWED:
         getBorrowed().clear();
-        getBorrowed().addAll((Collection)newValue);
+        getBorrowed().addAll((Collection<? extends Lendable>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -160,6 +167,7 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -176,6 +184,7 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)

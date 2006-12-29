@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryFactoryImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
+ * $Id: EXTLibraryFactoryImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -77,6 +77,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -99,6 +100,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
@@ -115,6 +117,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
@@ -252,6 +255,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static EXTLibraryPackage getPackage()
   {
     return EXTLibraryPackage.eINSTANCE;

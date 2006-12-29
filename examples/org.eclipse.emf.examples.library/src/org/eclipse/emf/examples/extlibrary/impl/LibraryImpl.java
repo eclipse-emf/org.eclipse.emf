@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.4 2006/04/03 18:00:31 emerks Exp $
+ * $Id: LibraryImpl.java,v 1.5 2006/12/29 18:27:44 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -34,9 +34,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.examples.extlibrary.Book;
+import org.eclipse.emf.examples.extlibrary.Borrower;
 import org.eclipse.emf.examples.extlibrary.EXTLibraryPackage;
+import org.eclipse.emf.examples.extlibrary.Employee;
 import org.eclipse.emf.examples.extlibrary.Item;
 import org.eclipse.emf.examples.extlibrary.Library;
+import org.eclipse.emf.examples.extlibrary.Writer;
 
 //import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
@@ -113,7 +116,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList stock = null;
+  protected EList<Item> stock = null;
 
   /**
    * The cached value of the '{@link #getBooks() <em>Books</em>}' reference list.
@@ -123,7 +126,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList books = null;
+  protected EList<Book> books = null;
 
   /**
    * The cached value of the '{@link #getBranches() <em>Branches</em>}' containment reference list.
@@ -133,7 +136,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList branches = null;
+  protected EList<Library> branches = null;
 
   /**
    * The cached value of the '{@link #getPeople() <em>People</em>}' attribute list.
@@ -160,6 +163,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EXTLibraryPackage.Literals.LIBRARY;
@@ -216,9 +220,9 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getWriters()
+  public EList<Writer> getWriters()
   {
-    return ((FeatureMap)getPeople()).list(EXTLibraryPackage.Literals.LIBRARY__WRITERS);
+    return getPeople().list(EXTLibraryPackage.Literals.LIBRARY__WRITERS);
   }
 
   /**
@@ -226,9 +230,9 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getEmployees()
+  public EList<Employee> getEmployees()
   {
-    return ((FeatureMap)getPeople()).list(EXTLibraryPackage.Literals.LIBRARY__EMPLOYEES);
+    return getPeople().list(EXTLibraryPackage.Literals.LIBRARY__EMPLOYEES);
   }
 
   /**
@@ -236,9 +240,9 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getBorrowers()
+  public EList<Borrower> getBorrowers()
   {
-    return ((FeatureMap)getPeople()).list(EXTLibraryPackage.Literals.LIBRARY__BORROWERS);
+    return getPeople().list(EXTLibraryPackage.Literals.LIBRARY__BORROWERS);
   }
 
   /**
@@ -246,26 +250,28 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getStock()
+  public EList<Item> getStock()
   {
     if (stock == null)
     {
       // create a custom list implementation that synchronizes its book
       //    content with the "books" subset
-      stock = new EObjectContainmentEList(Item.class, this, EXTLibraryPackage.LIBRARY__STOCK)
+      stock = new EObjectContainmentEList<Item>(Item.class, this, EXTLibraryPackage.LIBRARY__STOCK)
         {
           private static final long serialVersionUID = 1L;
 
-          protected void didAdd(int index, Object newObject)
+          @Override
+          protected void didAdd(int index, Item newObject)
           {
             if ((newObject instanceof Book) && !getBooks().contains(newObject))
             {
               // these lists are unordered, so index doesn't matter
-              getBooks().add(newObject);
+              getBooks().add((Book)newObject);
             }
           }
 
-          protected void didRemove(int index, Object oldObject)
+          @Override
+          protected void didRemove(int index, Item oldObject)
           {
             if ((oldObject instanceof Book) && getBooks().contains(oldObject))
             {
@@ -274,7 +280,8 @@ public class LibraryImpl extends EObjectImpl implements Library
             }
           }
 
-          protected void didSet(int index, Object newObject, Object oldObject)
+          @Override
+          protected void didSet(int index, Item newObject, Item oldObject)
           {
             didRemove(index, oldObject);
             didAdd(index, newObject);
@@ -289,17 +296,18 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getBooks()
+  public EList<Book> getBooks()
   {
     if (books == null)
     {
       // create a custom list implementation that synchronizes its content
       //    with the "stock" superset
-      books = new EObjectEList(Book.class, this, EXTLibraryPackage.LIBRARY__BOOKS)
+      books = new EObjectEList<Book>(Book.class, this, EXTLibraryPackage.LIBRARY__BOOKS)
         {
           private static final long serialVersionUID = 1L;
 
-          protected void didAdd(int index, Object newObject)
+          @Override
+          protected void didAdd(int index, Book newObject)
           {
             if (getStock().indexOf(newObject) == -1)
             {
@@ -308,7 +316,8 @@ public class LibraryImpl extends EObjectImpl implements Library
             }
           }
 
-          protected void didRemove(int index, Object oldObject)
+          @Override
+          protected void didRemove(int index, Book oldObject)
           {
             if (getStock().indexOf(oldObject) != -1)
             {
@@ -317,7 +326,8 @@ public class LibraryImpl extends EObjectImpl implements Library
             }
           }
 
-          protected void didSet(int index, Object newObject, Object oldObject)
+          @Override
+          protected void didSet(int index, Book newObject, Book oldObject)
           {
             didRemove(index, oldObject);
             didAdd(index, newObject);
@@ -333,11 +343,11 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getBranches()
+  public EList<Library> getBranches()
   {
     if (branches == null)
     {
-      branches = new EObjectContainmentWithInverseEList(Library.class, this, EXTLibraryPackage.LIBRARY__BRANCHES, EXTLibraryPackage.LIBRARY__PARENT_BRANCH);
+      branches = new EObjectContainmentWithInverseEList<Library>(Library.class, this, EXTLibraryPackage.LIBRARY__BRANCHES, EXTLibraryPackage.LIBRARY__PARENT_BRANCH);
     }
     return branches;
   }
@@ -406,12 +416,14 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EXTLibraryPackage.LIBRARY__BRANCHES:
-        return ((InternalEList)getBranches()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getBranches()).basicAdd(otherEnd, msgs);
       case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
@@ -425,24 +437,25 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EXTLibraryPackage.LIBRARY__WRITERS:
-        return ((InternalEList)getWriters()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getWriters()).basicRemove(otherEnd, msgs);
       case EXTLibraryPackage.LIBRARY__EMPLOYEES:
-        return ((InternalEList)getEmployees()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEmployees()).basicRemove(otherEnd, msgs);
       case EXTLibraryPackage.LIBRARY__BORROWERS:
-        return ((InternalEList)getBorrowers()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getBorrowers()).basicRemove(otherEnd, msgs);
       case EXTLibraryPackage.LIBRARY__STOCK:
-        return ((InternalEList)getStock()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getStock()).basicRemove(otherEnd, msgs);
       case EXTLibraryPackage.LIBRARY__BRANCHES:
-        return ((InternalEList)getBranches()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getBranches()).basicRemove(otherEnd, msgs);
       case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
         return basicSetParentBranch(null, msgs);
       case EXTLibraryPackage.LIBRARY__PEOPLE:
-        return ((InternalEList)getPeople()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getPeople()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -452,6 +465,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -467,6 +481,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -501,6 +516,8 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -513,27 +530,27 @@ public class LibraryImpl extends EObjectImpl implements Library
         return;
       case EXTLibraryPackage.LIBRARY__WRITERS:
         getWriters().clear();
-        getWriters().addAll((Collection)newValue);
+        getWriters().addAll((Collection<? extends Writer>)newValue);
         return;
       case EXTLibraryPackage.LIBRARY__EMPLOYEES:
         getEmployees().clear();
-        getEmployees().addAll((Collection)newValue);
+        getEmployees().addAll((Collection<? extends Employee>)newValue);
         return;
       case EXTLibraryPackage.LIBRARY__BORROWERS:
         getBorrowers().clear();
-        getBorrowers().addAll((Collection)newValue);
+        getBorrowers().addAll((Collection<? extends Borrower>)newValue);
         return;
       case EXTLibraryPackage.LIBRARY__STOCK:
         getStock().clear();
-        getStock().addAll((Collection)newValue);
+        getStock().addAll((Collection<? extends Item>)newValue);
         return;
       case EXTLibraryPackage.LIBRARY__BOOKS:
         getBooks().clear();
-        getBooks().addAll((Collection)newValue);
+        getBooks().addAll((Collection<? extends Book>)newValue);
         return;
       case EXTLibraryPackage.LIBRARY__BRANCHES:
         getBranches().clear();
-        getBranches().addAll((Collection)newValue);
+        getBranches().addAll((Collection<? extends Library>)newValue);
         return;
       case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
         setParentBranch((Library)newValue);
@@ -550,6 +567,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -593,6 +611,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -626,6 +645,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

@@ -7,7 +7,8 @@
     editPluginClass="org.eclipse.emf.examples.extlibrary.provider.EXTLibraryEditPlugin"
     editorPluginClass="org.eclipse.emf.examples.extlibrary.presentation.EXTLibraryEditorPlugin"
     nonNLSMarkers="true" testsDirectory="/org.eclipse.emf.examples.library.tests/src"
-    booleanFlagsField="eFlags" booleanFlagsReservedBits="8" importerID="org.eclipse.emf.importer.ecore">
+    booleanFlagsField="eFlags" booleanFlagsReservedBits="8" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0">
   <foreignModel>extlibrary.ecore</foreignModel>
   <genPackages prefix="EXTLibrary" basePackage="org.eclipse.emf.examples" disposableProviderFactory="true"
       ecorePackage="extlibrary.ecore#/">
