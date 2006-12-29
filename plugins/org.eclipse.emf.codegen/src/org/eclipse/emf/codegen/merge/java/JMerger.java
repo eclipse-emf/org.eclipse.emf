@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.15 2006/12/21 17:49:26 marcelop Exp $
+ * $Id: JMerger.java,v 1.16 2006/12/29 20:49:09 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -231,9 +231,9 @@ public class JMerger
   protected Map<JNode, List<JNode>> orderedSourceChildrenMap = new HashMap<JNode, List<JNode>>();
 
   protected boolean fixInterfaceBrace;
-  protected boolean isBlocked;
+  protected boolean isBlocked = false;
   protected boolean targetCompilationUnitExists;
-  protected boolean targetCompilationChanged;
+  protected boolean targetCompilationChanged = false;
   
   /**
    * This creates an empty instances, an when used as a runnable.
@@ -248,6 +248,33 @@ public class JMerger
     this();
     this.controlModel = controlModel;
     setFixInterfaceBrace(getControlModel().getFacadeHelper().fixInterfaceBrace());
+  }
+  
+  /**
+   * Resets this JMerger.  After calling this method, it is necessary to 
+   * set the source and target compilation unit to reuse this instance.
+   */
+  public void reset()
+  {
+    if (sourcePatternDictionary != null)
+    {
+      sourcePatternDictionary.reset();
+      sourcePatternDictionary = null;
+    }
+    if (targetPatternDictionary != null)
+    {
+      targetPatternDictionary.reset();
+      targetPatternDictionary = null;
+    }
+    sourceCompilationUnit = null;
+    targetCompilationUnit = null;
+    
+    sourceToTargetMap.clear();
+    targetToSourceMap.clear();
+    orderedSourceChildrenMap.clear();
+    
+    isBlocked = false;
+    targetCompilationChanged = false;
   }
 
   public void merge()
@@ -377,7 +404,7 @@ public class JMerger
   public String getTargetCompilationUnitContents()
   {
     String result = null;
-    if (!targetCompilationUnitExists || !targetCompilationChanged)
+    if (getControlModel().getFacadeHelper() != null && (!targetCompilationUnitExists || !targetCompilationChanged))
     {
       result = getControlModel().getFacadeHelper().getOriginalContents(targetCompilationUnit);
     }
@@ -1171,6 +1198,11 @@ public class JMerger
     
     merge();
     
-    return targetCompilationUnit.getContents();
+    String contents = getTargetCompilationUnitContents();
+    if (controlModel.getFacadeHelper() != null)
+    {
+      controlModel.getFacadeHelper().reset();
+    }
+    return contents;
   }
 }
