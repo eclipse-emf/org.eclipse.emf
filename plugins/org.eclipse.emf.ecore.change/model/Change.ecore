@@ -47,10 +47,18 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ListChange">
     <eOperations name="apply">
-      <eParameters name="originalList" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEList"/>
+      <eParameters name="originalList">
+        <eGenericType eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEList">
+          <eTypeArguments eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+        </eGenericType>
+      </eParameters>
     </eOperations>
     <eOperations name="applyAndReverse">
-      <eParameters name="originalList" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEList"/>
+      <eParameters name="originalList">
+        <eGenericType eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEList">
+          <eTypeArguments eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+        </eGenericType>
+      </eParameters>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ChangeKind"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataValues" upperBound="-1"
@@ -78,8 +86,12 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EResource"
         transient="true" derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEList"
-        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" changeable="false"
+        volatile="true" transient="true" derived="true">
+      <eGenericType eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEList">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="listChanges" upperBound="-1"
         eType="#//ListChange" containment="true"/>
   </eClassifiers>

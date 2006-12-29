@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2005 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.39 2006/05/05 01:52:26 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.40 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -38,7 +38,6 @@ import org.eclipse.emf.ecore.change.ChangeKind;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
-import org.eclipse.emf.ecore.change.impl.FeatureChangeImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -56,9 +55,9 @@ public class ChangeRecorder implements Adapter.Internal
 
   protected ChangeDescription changeDescription;
 
-  protected List targetObjects = new BasicEList.FastCompare();
+  protected List<Notifier> targetObjects = new BasicEList.FastCompare<Notifier>();
 
-  protected List originalTargetObjects = new BasicEList.FastCompare();
+  protected List<Notifier> originalTargetObjects = new BasicEList.FastCompare<Notifier>();
 
   protected boolean loadingTargets;
   
@@ -66,6 +65,7 @@ public class ChangeRecorder implements Adapter.Internal
 
   public ChangeRecorder()
   {
+    super();
   }
 
   public ChangeRecorder(EObject rootObject)
@@ -83,7 +83,7 @@ public class ChangeRecorder implements Adapter.Internal
     beginRecording(Collections.singleton(resourceSet));
   }
 
-  public ChangeRecorder(Collection rootObjects)
+  public ChangeRecorder(Collection<?> rootObjects)
   {
     beginRecording(rootObjects);
   }
@@ -117,7 +117,7 @@ public class ChangeRecorder implements Adapter.Internal
   {
     recording = false;
     
-    Notifier[] notifiers = (Notifier[])targetObjects.toArray(new Notifier [targetObjects.size()]);
+    Notifier[] notifiers = targetObjects.toArray(new Notifier [targetObjects.size()]);
     targetObjects.clear();    
     for (int i = 0, length = notifiers.length; i < length; i++)
     {
@@ -136,7 +136,7 @@ public class ChangeRecorder implements Adapter.Internal
    * Begins recording any changes made to the elements of the specifed collection.
    * @param rootObjects A collecion of instances of {@link Notifier}
    */
-  public void beginRecording(Collection rootObjects)
+  public void beginRecording(Collection<?> rootObjects)
   {
     beginRecording(null, rootObjects);
   }
@@ -154,9 +154,9 @@ public class ChangeRecorder implements Adapter.Internal
    * @param rootObjects A collecion of instances of {@link Notifier}
    * @since 2.1.0
    */
-  public void beginRecording(ChangeDescription changeDescription, Collection rootObjects)
+  public void beginRecording(ChangeDescription changeDescription, Collection<?> rootObjects)
   {
-    List insertedObjects = changeDescription == null ? 
+    List<EObject> insertedObjects = changeDescription == null ? 
       null
       : changeDescription.getObjectsToDetach();
     
@@ -165,9 +165,9 @@ public class ChangeRecorder implements Adapter.Internal
       : changeDescription;  
 
     loadingTargets = true;
-    for (Iterator i = rootObjects.iterator(); i.hasNext();)
+    for (Object rootObject : rootObjects)
     {
-      Notifier notifier = (Notifier)i.next();
+      Notifier notifier = (Notifier)rootObject;
       addAdapter(notifier);
     }
     loadingTargets = false;
@@ -227,9 +227,8 @@ public class ChangeRecorder implements Adapter.Internal
   protected void prepareChangeDescriptionForResume()
   {
     loadingTargets = true;
-    for (Iterator i = changeDescription.getObjectsToAttach().iterator(); i.hasNext();)
+    for (Notifier notifier : changeDescription.getObjectsToAttach())
     {
-      Notifier notifier = (Notifier)i.next();
       addAdapter(notifier);
     }
     loadingTargets = false;
@@ -237,18 +236,16 @@ public class ChangeRecorder implements Adapter.Internal
     changeDescription.getObjectsToAttach().clear();
     
     // Make sure that all the old values are cached.
-    for (Iterator i = changeDescription.getObjectChanges().values().iterator(); i.hasNext(); )
+    for (List<FeatureChange> featureChanges : changeDescription.getObjectChanges().values())
     {
-      for (Iterator j = ((List)i.next()).iterator(); j.hasNext(); )
+      for (FeatureChange featureChange : featureChanges)
       {
-        FeatureChange featureChange = (FeatureChange)j.next();
         featureChange.getValue();
       }
     }
         
-    for (Iterator i = changeDescription.getResourceChanges().iterator(); i.hasNext();)
+    for (ResourceChange resourceChange : changeDescription.getResourceChanges())
     {
-      ResourceChange resourceChange = (ResourceChange)i.next();
       resourceChange.getValue();
     }
   }
@@ -258,10 +255,9 @@ public class ChangeRecorder implements Adapter.Internal
    */
   protected void consolidateChanges()
   {
-    List orphanedObjects = changeDescription.getObjectsToAttach();
-    for (Iterator iter = targetObjects.iterator(); iter.hasNext();)
+    List<EObject> orphanedObjects = changeDescription.getObjectsToAttach();
+    for (Object target : targetObjects)
     {
-      Object target = iter.next();
       if (target instanceof EObject)
       {
         EObject eObject = (EObject)target;
@@ -279,19 +275,17 @@ public class ChangeRecorder implements Adapter.Internal
       }
     }
 
-    for (Iterator iter = changeDescription.getObjectChanges().iterator(); iter.hasNext();)
+    for (Map.Entry<EObject, EList<FeatureChange>> entry : changeDescription.getObjectChanges())
     {
-      Map.Entry mapEntry = (Map.Entry)iter.next();
-      EObject eObject = (EObject)mapEntry.getKey();
-      for (Iterator featureChangeIter = ((List)mapEntry.getValue()).iterator(); featureChangeIter.hasNext();)
+      EObject eObject = entry.getKey();
+      for (FeatureChange featureChange : entry.getValue())
       {
-        finalizeChange((FeatureChange)featureChangeIter.next(), eObject);
+        finalizeChange(featureChange, eObject);
       }
     }
 
-    for (Iterator iter = changeDescription.getResourceChanges().iterator(); iter.hasNext();)
+    for (ResourceChange resourceChange : changeDescription.getResourceChanges())
     {
-      ResourceChange resourceChange = (ResourceChange)iter.next();
       finalizeChange(resourceChange);
     }    
   }
@@ -328,9 +322,9 @@ public class ChangeRecorder implements Adapter.Internal
         case Resource.RESOURCE__IS_LOADED:
         {
           loadingTargets = true;
-          for (Iterator i = ((Resource)notification.getNotifier()).getContents().iterator(); i.hasNext();)
+          for (Notifier content : ((Resource)notification.getNotifier()).getContents())
           {
-            addAdapter((Notifier)i.next());
+            addAdapter(content);
           }
           loadingTargets = false;
           break;
@@ -357,11 +351,10 @@ public class ChangeRecorder implements Adapter.Internal
           case Notification.ADD_MANY:
           //case Notification.REMOVE_MANY:
           {
-            Collection resources = (Collection)notification.getNewValue();
+            @SuppressWarnings("unchecked") Collection<Resource> resources = (Collection<Resource>)notification.getNewValue();
             loadingTargets = true;
-            for (Iterator i = resources.iterator(); i.hasNext();)
+            for (Resource resource : resources)
             {
-              Resource resource = (Resource)i.next();
               addAdapter(resource);
             }
             loadingTargets = false;
@@ -378,7 +371,7 @@ public class ChangeRecorder implements Adapter.Internal
       && event != Notification.RESOLVE 
       && !feature.isDerived();
     
-    List changes = null;
+    List<FeatureChange> changes = null;
     FeatureChange change = null;
     if (shouldRecord)
     {
@@ -396,7 +389,7 @@ public class ChangeRecorder implements Adapter.Internal
         {
           if (feature.isMany())
           {
-            List oldValue = new BasicEList((Collection)eObject.eGet(feature));
+            List<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
             int index = notification.getPosition();
             if (index != Notification.NO_INDEX)
             {
@@ -409,7 +402,7 @@ public class ChangeRecorder implements Adapter.Internal
             Object oldValue = notification.getOldValue();
             change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
           }
-          ((InternalEList)changes).addUnique(change);
+          ((InternalEList<FeatureChange>)changes).addUnique(change);
         }
         if (containment != null)
         {
@@ -425,10 +418,10 @@ public class ChangeRecorder implements Adapter.Internal
       {
         if (change == null && shouldRecord)
         {
-          List oldValue = new BasicEList((Collection)eObject.eGet(feature));
+          List<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
           oldValue.remove(notification.getPosition());
           change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
-          ((InternalEList)changes).addUnique(change);
+          ((InternalEList<FeatureChange>)changes).addUnique(change);
         }
         if (containment != null)
         {
@@ -441,21 +434,20 @@ public class ChangeRecorder implements Adapter.Internal
       {
         if (change == null && shouldRecord)
         {
-          List oldValue = new BasicEList((Collection)eObject.eGet(feature));
+          List<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
           int position = notification.getPosition();
-          for (int i = ((Collection)notification.getNewValue()).size(); --i >= 0;)
+          for (int i = ((Collection<?>)notification.getNewValue()).size(); --i >= 0;)
           {
             oldValue.remove(position);
           }
           change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
-          ((InternalEList)changes).addUnique(change);
+          ((InternalEList<FeatureChange>)changes).addUnique(change);
         }
         if (containment != null)
         {
-          Collection newValues = (Collection)notification.getNewValue();
-          for (Iterator i = newValues.iterator(); i.hasNext();)
+          @SuppressWarnings("unchecked") Collection<Notifier> newValues = (Collection<Notifier>)notification.getNewValue();
+          for (Notifier newValue : newValues)
           {
-            Notifier newValue = (Notifier)i.next();
             addAdapter(newValue);
           }
         }
@@ -465,7 +457,7 @@ public class ChangeRecorder implements Adapter.Internal
       {
         if (change == null && shouldRecord)
         {
-          List oldValue = new BasicEList((Collection)eObject.eGet(feature));
+          List<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
 
           // If there's no position, the list is being cleared.
           //
@@ -476,7 +468,7 @@ public class ChangeRecorder implements Adapter.Internal
           }
           oldValue.add(position, notification.getOldValue());
           change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
-          ((InternalEList)changes).addUnique(change);
+          ((InternalEList<FeatureChange>)changes).addUnique(change);
         }
         break;
       }
@@ -484,8 +476,8 @@ public class ChangeRecorder implements Adapter.Internal
       {
         if (change == null && shouldRecord)
         {
-          List removedValues = (List)notification.getOldValue();
-          List oldValue = new BasicEList((Collection)eObject.eGet(feature));
+          @SuppressWarnings("unchecked") List<Object> removedValues = (List<Object>)notification.getOldValue();
+          List<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
           int[] positions = (int[])notification.getNewValue();
           if (positions == null)
           {
@@ -499,7 +491,7 @@ public class ChangeRecorder implements Adapter.Internal
             }
           }
           change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
-          ((InternalEList)changes).addUnique(change);
+          ((InternalEList<FeatureChange>)changes).addUnique(change);
         }
         break;
       }
@@ -507,12 +499,12 @@ public class ChangeRecorder implements Adapter.Internal
       {
         if (change == null && shouldRecord)
         {
-          EList oldValue = new BasicEList((Collection)eObject.eGet(feature));
+          EList<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
           int position = notification.getPosition();
           int oldPosition = ((Integer)notification.getOldValue()).intValue();
           oldValue.move(oldPosition, position);
           change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
-          ((InternalEList)changes).addUnique(change);
+          ((InternalEList<FeatureChange>)changes).addUnique(change);
         }
         break;
       }
@@ -537,7 +529,7 @@ public class ChangeRecorder implements Adapter.Internal
       {
         if (change == null && isRecording())
         {
-          EList oldValue = new BasicEList(resource.getContents());
+          EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
           int index = notification.getPosition();
           if (index != Notification.NO_INDEX)
           {
@@ -558,7 +550,7 @@ public class ChangeRecorder implements Adapter.Internal
       {
         if (change == null && isRecording())
         {
-          EList oldValue = new BasicEList(resource.getContents());
+          EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
           oldValue.remove(notification.getPosition());
           change = createResourceChange(resource, oldValue);
           getResourceChanges().add(change);
@@ -571,19 +563,18 @@ public class ChangeRecorder implements Adapter.Internal
       {
         if (change == null && isRecording())
         {
-          EList oldValue = new BasicEList(resource.getContents());
+          EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
           int position = notification.getPosition();
-          for (int i = ((Collection)notification.getNewValue()).size(); --i >= 0;)
+          for (int i = ((Collection<?>)notification.getNewValue()).size(); --i >= 0;)
           {
             oldValue.remove(position);
           }
           change = createResourceChange(resource, oldValue);
           getResourceChanges().add(change);
         }
-        Collection newValues = (Collection)notification.getNewValue();
-        for (Iterator i = newValues.iterator(); i.hasNext();)
+        @SuppressWarnings("unchecked") Collection<Notifier> newValues = (Collection<Notifier>)notification.getNewValue();
+        for (Notifier newValue : newValues)
         {
-          Notifier newValue = (Notifier)i.next();
           addAdapter(newValue);
         }
         break;
@@ -592,7 +583,7 @@ public class ChangeRecorder implements Adapter.Internal
       {
         if (change == null && isRecording())
         {
-          EList oldValue = new BasicEList(resource.getContents());
+          EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
 
           // If there's no position, the list is being cleared.
           //
@@ -611,8 +602,8 @@ public class ChangeRecorder implements Adapter.Internal
       {
         if (change == null && isRecording())
         {
-          List removedValues = (List)notification.getOldValue();
-          EList oldValue = new BasicEList(resource.getContents());
+          @SuppressWarnings("unchecked") List<Object> removedValues = (List<Object>)notification.getOldValue();
+          EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
           int[] positions = (int[])notification.getNewValue();
           if (positions == null)
           {
@@ -634,7 +625,7 @@ public class ChangeRecorder implements Adapter.Internal
       {
         if (change == null && isRecording())
         {
-          EList oldValue = new BasicEList(resource.getContents());
+          EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
           int position = notification.getPosition();
           int oldPosition = ((Integer)notification.getOldValue()).intValue();
           oldValue.move(oldPosition, position);
@@ -662,11 +653,11 @@ public class ChangeRecorder implements Adapter.Internal
       originalTargetObjects.add(target);
     }
 
-    Iterator contents = 
+    Iterator<?> contents = 
       target instanceof EObject ? 
         resolveProxies ?  
           ((EObject)target).eContents().iterator() : 
-          ((InternalEList)((EObject)target).eContents()).basicIterator() :
+          ((InternalEList<?>)((EObject)target).eContents()).basicIterator() :
         target instanceof ResourceSet ? 
           ((ResourceSet)target).getResources().iterator() : 
             target instanceof Resource ? 
@@ -692,9 +683,11 @@ public class ChangeRecorder implements Adapter.Internal
   {
     if (notifier != changeDescription)
     {
-      EList eAdapters = notifier.eAdapters();
+      EList<Adapter> eAdapters = notifier.eAdapters();
       if (!eAdapters.contains(this))
+      {
         eAdapters.add(this);
+      }
     }
   }
 
@@ -708,17 +701,17 @@ public class ChangeRecorder implements Adapter.Internal
     return false;
   }
 
-  protected EList getResourceChanges()
+  protected EList<ResourceChange> getResourceChanges()
   {
     return changeDescription.getResourceChanges();
   }
 
   protected ResourceChange getResourceChange(Resource resource)
   {
-    List resourceChanges = getResourceChanges();
+    List<ResourceChange> resourceChanges = getResourceChanges();
     for (int i = 0, size = resourceChanges.size(); i < size;)
     {
-      ResourceChange resourceChange = (ResourceChange)resourceChanges.get(i++);
+      ResourceChange resourceChange = resourceChanges.get(i++);
       if (resourceChange.getResource() == resource)
       {
         return resourceChange;
@@ -727,24 +720,24 @@ public class ChangeRecorder implements Adapter.Internal
     return null;
   }
 
-  protected List getFeatureChanges(EObject eObject)
+  protected List<FeatureChange> getFeatureChanges(EObject eObject)
   {
-    List featureChanges = (List)changeDescription.getObjectChanges().get(eObject);
+    List<FeatureChange> featureChanges = changeDescription.getObjectChanges().get(eObject);
     if (featureChanges == null)
     {
-      Map.Entry entry = ChangeFactory.eINSTANCE.createEObjectToChangesMapEntry(eObject);
+      Map.Entry<EObject, EList<FeatureChange>> entry = ChangeFactory.eINSTANCE.createEObjectToChangesMapEntry(eObject);
       changeDescription.getObjectChanges().add(entry);
-      featureChanges = (EList)entry.getValue();
+      featureChanges = entry.getValue();
     }
     return featureChanges;
   }
 
-  protected FeatureChange getFeatureChange(List featureChanges, EStructuralFeature eStructuralFeature)
+  protected FeatureChange getFeatureChange(List<FeatureChange> featureChanges, EStructuralFeature eStructuralFeature)
   {
-    EObjectContainmentEList changes = (EObjectContainmentEList)featureChanges;
+    EObjectContainmentEList<FeatureChange> changes = (EObjectContainmentEList<FeatureChange>)featureChanges;
     for (int i = 0, size = changes.size(); i < size;)
     {
-      FeatureChangeImpl featureChange = (FeatureChangeImpl)changes.get(i++);
+      FeatureChange featureChange = changes.get(i++);
       if (featureChange.getFeature() == eStructuralFeature)
       {
         return featureChange;
@@ -755,8 +748,8 @@ public class ChangeRecorder implements Adapter.Internal
 
   protected void finalizeChange(ResourceChange change)
   {
-    EList oldList = new BasicEList.FastCompare(change.getResource().getContents());
-    EList newList = change.getValue();
+    EList<Object> oldList = new BasicEList.FastCompare<Object>(change.getResource().getContents());
+    EList<?> newList = change.getValue();
     change.getListChanges().clear();
     createListChanges(oldList, newList, change.getListChanges());
   }
@@ -768,21 +761,20 @@ public class ChangeRecorder implements Adapter.Internal
       EStructuralFeature feature = change.getFeature();
       if (feature.isMany())
       {
-        EList oldList = new BasicEList((EList)eObject.eGet(feature));
-        EList newList = (EList)change.getValue();
-        EList listChanges = change.getListChanges();
+        EList<Object> oldList = new BasicEList<Object>((EList<?>)eObject.eGet(feature));
+        EList<?> newList = (EList<?>)change.getValue();
+        EList<ListChange> listChanges = change.getListChanges();
         listChanges.clear();
         createListChanges(oldList, newList, listChanges);
       }
     }
   }
 
-  protected void createListChanges(EList oldList, EList newList, EList changesList)
+  protected void createListChanges(EList<Object> oldList, EList<?> newList, EList<ListChange> changesList)
   {
     int index = 0;
-    for (Iterator objects = newList.iterator(); objects.hasNext(); ++index)
+    for (Object newObject : newList)
     {
-      Object newObject = objects.next();
       if (oldList.size() <= index)
       {
         createAddListChange(oldList, changesList, newObject, index);
@@ -827,6 +819,7 @@ public class ChangeRecorder implements Adapter.Internal
         }
         while (!done);
       }
+      ++index;
     }
     for (int i = oldList.size(); i > index;)
     {
@@ -839,7 +832,7 @@ public class ChangeRecorder implements Adapter.Internal
    * for the scenario in which an element was added to the monitored list.
    * @see #createListChanges(EList, EList, EList) 
    */
-  protected void createAddListChange(EList oldList, EList changesList, Object newObject, int index)
+  protected void createAddListChange(EList<Object> oldList, EList<ListChange> changesList, Object newObject, int index)
   {
     ListChange listChange = createListChange(changesList, ChangeKind.ADD_LITERAL, index);
     listChange.getValues().add(newObject);
@@ -851,7 +844,7 @@ public class ChangeRecorder implements Adapter.Internal
    * for the scenario in which an element was removed from the monitored list.
    * @see #createListChanges(EList, EList, EList) 
    */
-  protected void createRemoveListChange(EList oldList, EList changesList, Object newObject, int index)
+  protected void createRemoveListChange(EList<?> oldList, EList<ListChange> changesList, Object newObject, int index)
   {
     createListChange(changesList, ChangeKind.REMOVE_LITERAL, index);
     oldList.remove(index);
@@ -862,14 +855,14 @@ public class ChangeRecorder implements Adapter.Internal
    * for the scenario in which an element was moved in the monitored list.
    * @see #createListChanges(EList, EList, EList) 
    */
-  protected void createMoveListChange(EList oldList, EList changesList, Object newObject, int index, int toIndex)
+  protected void createMoveListChange(EList<?> oldList, EList<ListChange> changesList, Object newObject, int index, int toIndex)
   {
     ListChange listChange = createListChange(changesList, ChangeKind.MOVE_LITERAL, index);
     listChange.setMoveToIndex(toIndex);
     oldList.move(toIndex, index);
    }  
 
-  protected ListChange createListChange(EList changesList, ChangeKind kind, int index)
+  protected ListChange createListChange(EList<ListChange> changesList, ChangeKind kind, int index)
   {
     ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
     listChange.setKind(kind);
@@ -883,7 +876,7 @@ public class ChangeRecorder implements Adapter.Internal
     return ChangeFactory.eINSTANCE.createFeatureChange(eStructuralFeature, value, isSet);
   }
 
-  protected ResourceChange createResourceChange(Resource resource, EList value)
+  protected ResourceChange createResourceChange(Resource resource, EList<Object> value)
   {
     return ChangeFactory.eINSTANCE.createResourceChange(resource, value);
   }

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeFactoryImpl.java,v 1.8 2005/11/23 13:57:00 emerks Exp $
+ * $Id: ChangeFactoryImpl.java,v 1.9 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -80,6 +80,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -100,6 +101,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
@@ -116,6 +118,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
@@ -143,7 +146,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Map.Entry createEObjectToChangesMapEntry()
+  public Map.Entry<EObject, EList<FeatureChange>> createEObjectToChangesMapEntry()
   {
     EObjectToChangesMapEntryImpl eObjectToChangesMapEntry = new EObjectToChangesMapEntryImpl();
     return eObjectToChangesMapEntry;
@@ -188,7 +191,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
     return resourceChange;
   }
 
-  public ResourceChange createResourceChange(Resource resource, EList oldValue)
+  public ResourceChange createResourceChange(Resource resource, EList<Object> oldValue)
   {
     ResourceChangeImpl resourceChange = new ResourceChangeImpl(resource, oldValue);
     return resourceChange;
@@ -249,12 +252,13 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static ChangePackage getPackage()
   {
     return ChangePackage.eINSTANCE;
   }
 
-  public Map.Entry createEObjectToChangesMapEntry(EObject eObject)
+  public Map.Entry<EObject, EList<FeatureChange>> createEObjectToChangesMapEntry(EObject eObject)
   {
     EObjectToChangesMapEntryImpl eObjectToChangesMapEntry = new EObjectToChangesMapEntryImpl();
     eObjectToChangesMapEntry.setKey(eObject);

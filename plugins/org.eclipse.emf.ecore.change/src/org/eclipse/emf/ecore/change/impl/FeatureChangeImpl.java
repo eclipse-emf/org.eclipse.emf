@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.25 2006/01/20 16:08:50 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.26 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -130,7 +129,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * @generated
    * @ordered
    */
-  protected EList listChanges = null;
+  protected EList<ListChange> listChanges = null;
   
   protected EStructuralFeature feature = null;
   
@@ -163,6 +162,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return ChangePackage.Literals.FEATURE_CHANGE;
@@ -277,7 +277,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     {
       if (eContainer() instanceof EObjectToChangesMapEntryImpl)
       {
-        feature = ((EObject)((Map.Entry)eContainer()).getKey()).eClass().getEStructuralFeature(featureName);
+        feature = ((EObject)((Map.Entry<?, ?>)eContainer()).getKey()).eClass().getEStructuralFeature(featureName);
       }
     }
     else if ((eFlags & EPROXY_FEATURECHANGE) !=0)
@@ -392,11 +392,11 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getListChanges()
+  public EList<ListChange> getListChanges()
   {
     if (listChanges == null)
     {
-      listChanges = new EObjectContainmentEList(ListChange.class, this, ChangePackage.FEATURE_CHANGE__LIST_CHANGES);
+      listChanges = new EObjectContainmentEList<ListChange>(ListChange.class, this, ChangePackage.FEATURE_CHANGE__LIST_CHANGES);
     }
     return listChanges;
   }
@@ -413,7 +413,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     {
       if (value == null && eContainer() instanceof EObjectToChangesMapEntryImpl)
       {
-        value = getListValue((EList)((EObject)((Map.Entry)eContainer()).getKey()).eGet(feature));
+        value = getListValue((EList<?>)((EObject)((Map.Entry<?, ?>)eContainer()).getKey()).eGet(feature));
       }
     }
     else if (feature instanceof EReference)
@@ -451,16 +451,16 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     }    
   }
 
-  protected EList getListValue(EList originalList)
+  protected EList<?> getListValue(EList<?> originalList)
   {
     if (isSet() && getFeature().getUpperBound() != 1)
     {
       if (value instanceof EList) // cached already?
       {
-        return (EList)value;
+        return (EList<?>)value;
       }
       
-      EList changedList =  new BasicEList(originalList);
+      EList<Object> changedList =  new BasicEList<Object>(originalList);
       apply(changedList);
       value = changedList; // cache result
       return changedList;
@@ -492,11 +492,14 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
             // Bi-directional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
             //
-            ECollections.setEList((EList)originalObject.eGet(feature), (EList)getValue());
+            @SuppressWarnings("unchecked") EList<Object> result = (EList<Object>)originalObject.eGet(feature);
+            @SuppressWarnings("unchecked") EList<Object> prototype = (EList<Object>)getValue();
+            ECollections.setEList(result, prototype);
           }
           else
           {
-            apply((EList)originalObject.eGet(feature));
+            @SuppressWarnings("unchecked") EList<Object> list = (EList<Object>)originalObject.eGet(feature);
+            apply(list);
           }
         }
       }
@@ -526,11 +529,11 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
           ListChange listChange = createListChange(getListChanges(), ChangeKind.ADD_LITERAL, 0);
           if (isEReference && (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
           {
-            listChange.getValues().addAll((EList)getValue());
+            listChange.getValues().addAll((EList<?>)getValue());
           }
           else
           {
-            listChange.getValues().addAll((EList)originalObject.eGet(feature));
+            listChange.getValues().addAll((EList<?>)originalObject.eGet(feature));
           }
         }
         originalObject.eUnset(feature);
@@ -545,14 +548,15 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
             // Bi-directional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
             //
-            ECollections.setEList((EList)originalObject.eGet(feature), (EList)getValue());
+            @SuppressWarnings("unchecked") EList<Object> result = (EList<Object>)originalObject.eGet(feature);
+            @SuppressWarnings("unchecked") EList<Object> prototype = (EList<Object>)getValue();
+            ECollections.setEList(result, prototype);
           }
           else
           {
-            EList applyToList = (EList)originalObject.eGet(feature);
-            for (Iterator iter = getListChanges().iterator(); iter.hasNext(); )
+            @SuppressWarnings("unchecked") EList<Object> applyToList = (EList<Object>)originalObject.eGet(feature);
+            for (ListChange listChange : getListChanges())
             {
-              ListChange listChange = (ListChange)iter.next();
               listChange.applyAndReverse(applyToList);
             }
           }
@@ -579,12 +583,13 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case ChangePackage.FEATURE_CHANGE__LIST_CHANGES:
-        return ((InternalEList)getListChanges()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getListChanges()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -605,11 +610,10 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     }
   }
 
-  protected void apply(EList toList)
+  protected void apply(EList<Object> toList)
   {
-    for (Iterator iter = getListChanges().iterator(); iter.hasNext(); )
+    for (ListChange listChange : getListChanges())
     {
-      ListChange listChange = (ListChange)iter.next();
       listChange.apply(toList);
     }
   }
@@ -619,6 +623,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -648,6 +653,8 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -669,7 +676,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
         return;
       case ChangePackage.FEATURE_CHANGE__LIST_CHANGES:
         getListChanges().clear();
-        getListChanges().addAll((Collection)newValue);
+        getListChanges().addAll((Collection<? extends ListChange>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -680,6 +687,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -711,6 +719,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -738,6 +747,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -749,7 +759,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     return result.toString();
   }
 
-  protected ListChange createListChange(EList changesList, ChangeKind kind, int index)
+  protected ListChange createListChange(EList<ListChange> changesList, ChangeKind kind, int index)
   {
     ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
     listChange.setKind(kind);

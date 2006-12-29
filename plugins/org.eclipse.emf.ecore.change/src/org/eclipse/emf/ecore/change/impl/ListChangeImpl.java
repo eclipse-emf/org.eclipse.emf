@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.10 2005/11/25 13:35:04 emerks Exp $
+ * $Id: ListChangeImpl.java,v 1.11 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -99,7 +99,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * @generated
    * @ordered
    */
-  protected EList dataValues = null;
+  protected EList<String> dataValues = null;
 
   /**
    * The default value of the '{@link #getIndex() <em>Index</em>}' attribute.
@@ -149,7 +149,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * @generated
    * @ordered
    */
-  protected EList referenceValues = null;
+  protected EList<EObject> referenceValues = null;
 
   /**
    * The cached value of the '{@link #getFeature() <em>Feature</em>}' reference.
@@ -169,14 +169,14 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * @generated
    * @ordered
    */
-  protected EList featureMapEntryValues = null;
+  protected EList<FeatureMapEntry> featureMapEntryValues = null;
 
   /**
    * The data value delegating list is used to ensure that the elements
    * are properly converted to and from strings when added and removed
    * from the dataValues list. 
    */
-  protected EList dataValueDelegatingList = null;
+  protected EList<Object> dataValueDelegatingList = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -193,6 +193,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return ChangePackage.Literals.LIST_CHANGE;
@@ -226,11 +227,11 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getDataValues()
+  public EList<String> getDataValues()
   {
     if (dataValues == null)
     {
-      dataValues = new EDataTypeUniqueEList(String.class, this, ChangePackage.LIST_CHANGE__DATA_VALUES);
+      dataValues = new EDataTypeUniqueEList<String>(String.class, this, ChangePackage.LIST_CHANGE__DATA_VALUES);
     }
     return dataValues;
   }
@@ -238,18 +239,23 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
   /**
    * Creates the data value delegating list
    */
-  protected EList createDataValueDelegatingList()
+  protected EList<Object> createDataValueDelegatingList()
   {
     if (FeatureMapUtil.isFeatureMap(getFeature()))
     {
       return 
-        new DelegatingEList()
+        new DelegatingEList<Object>()
         {
-          protected List delegateList()
+          private static final long serialVersionUID = 1L;
+
+          @SuppressWarnings("unchecked")
+          @Override
+          protected List<Object> delegateList()
           {
-            return getFeatureMapEntryValues();
+            return (List<Object>)(List<?>)getFeatureMapEntryValues();
           }
           
+          @Override
           protected Object validate(int index, Object object)
           {
             if (object instanceof FeatureMapEntry)
@@ -267,19 +273,25 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
     else
     {
       return 
-        new DelegatingEList()
+        new DelegatingEList<Object>()
         {
-          protected List delegateList()
+          private static final long serialVersionUID = 1L;
+
+          @SuppressWarnings("unchecked")
+          @Override
+          protected List<Object> delegateList()
           {
-            return getDataValues();
+            return (List<Object>)(List<?>)getDataValues();
           }
             
+          @Override
           protected Object resolve(int index, Object object)
           {
             EDataType type = (EDataType)getFeature().getEType();
             return EcoreUtil.createFromString(type, (String)object);
           }
             
+          @Override
           protected Object validate(int index, Object object)
           {
             EDataType type = (EDataType)getFeature().getEType();
@@ -345,11 +357,11 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getReferenceValues()
+  public EList<EObject> getReferenceValues()
   {
     if (referenceValues == null)
     {
-      referenceValues = new EObjectResolvingEList(EObject.class, this, ChangePackage.LIST_CHANGE__REFERENCE_VALUES);
+      referenceValues = new EObjectResolvingEList<EObject>(EObject.class, this, ChangePackage.LIST_CHANGE__REFERENCE_VALUES);
     }
     return referenceValues;
   }
@@ -416,11 +428,11 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getFeatureMapEntryValues()
+  public EList<FeatureMapEntry> getFeatureMapEntryValues()
   {
     if (featureMapEntryValues == null)
     {
-      featureMapEntryValues = new EObjectContainmentEList(FeatureMapEntry.class, this, ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES);
+      featureMapEntryValues = new EObjectContainmentEList<FeatureMapEntry>(FeatureMapEntry.class, this, ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES);
     }
     return featureMapEntryValues;
   }
@@ -430,7 +442,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getValues()
+  public EList<Object> getValues()
   {
     EStructuralFeature feature = getFeature();
     if (feature instanceof EAttribute)
@@ -443,7 +455,8 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
     }
     else
     {
-      return getReferenceValues();
+      @SuppressWarnings("unchecked") EList<Object> result = (EList<Object>)(List<?>)getReferenceValues();
+      return result;
     }
   }
   
@@ -452,9 +465,9 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public void setValues(EList values)
+  public void setValues(EList<?> values)
   {
-    EList featureValues = getValues();
+    EList<Object> featureValues = getValues();
     featureValues.clear();
     featureValues.addAll(values);
   }
@@ -464,7 +477,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public void apply(EList originalList)
+  public void apply(EList<Object> originalList)
   {
     switch (getKind().getValue())
     {
@@ -496,7 +509,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public void applyAndReverse(EList originalList)
+  public void applyAndReverse(EList<Object> originalList)
   {
     switch (getKind().getValue())
     {
@@ -542,12 +555,13 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
-        return ((InternalEList)getFeatureMapEntryValues()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getFeatureMapEntryValues()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -557,6 +571,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -587,6 +602,8 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -596,7 +613,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
         return;
       case ChangePackage.LIST_CHANGE__DATA_VALUES:
         getDataValues().clear();
-        getDataValues().addAll((Collection)newValue);
+        getDataValues().addAll((Collection<? extends String>)newValue);
         return;
       case ChangePackage.LIST_CHANGE__INDEX:
         setIndex(((Integer)newValue).intValue());
@@ -606,18 +623,18 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
         return;
       case ChangePackage.LIST_CHANGE__VALUES:
         getValues().clear();
-        getValues().addAll((Collection)newValue);
+        getValues().addAll((Collection<? extends Object>)newValue);
         return;
       case ChangePackage.LIST_CHANGE__REFERENCE_VALUES:
         getReferenceValues().clear();
-        getReferenceValues().addAll((Collection)newValue);
+        getReferenceValues().addAll((Collection<? extends EObject>)newValue);
         return;
       case ChangePackage.LIST_CHANGE__FEATURE:
         setFeature((EStructuralFeature)newValue);
         return;
       case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
         getFeatureMapEntryValues().clear();
-        getFeatureMapEntryValues().addAll((Collection)newValue);
+        getFeatureMapEntryValues().addAll((Collection<? extends FeatureMapEntry>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -628,6 +645,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -665,6 +683,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -694,6 +713,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

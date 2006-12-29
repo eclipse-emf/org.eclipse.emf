@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChange.java,v 1.6 2005/06/08 06:16:16 nickb Exp $
+ * $Id: ListChange.java,v 1.7 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -51,10 +51,6 @@ public interface ListChange extends EObject
    * Returns the value of the '<em><b>Kind</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.ecore.change.ChangeKind}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Kind</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Kind</em>' attribute.
    * @see org.eclipse.emf.ecore.change.ChangeKind
@@ -80,26 +76,18 @@ public interface ListChange extends EObject
    * Returns the value of the '<em><b>Data Values</b></em>' attribute list.
    * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Data Values</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Data Values</em>' attribute list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_DataValues()
    * @model type="java.lang.String"
    * @generated
    */
-  EList getDataValues();
+  EList<String> getDataValues();
 
   /**
    * Returns the value of the '<em><b>Index</b></em>' attribute.
    * The default value is <code>"-1"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Index</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Index</em>' attribute.
    * @see #setIndex(int)
@@ -122,10 +110,6 @@ public interface ListChange extends EObject
   /**
    * Returns the value of the '<em><b>Move To Index</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Move To Index</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Move To Index</em>' attribute.
    * @see #setMoveToIndex(int)
@@ -149,25 +133,17 @@ public interface ListChange extends EObject
    * Returns the value of the '<em><b>Reference Values</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Reference Values</em>' reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Reference Values</em>' reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_ReferenceValues()
    * @model type="org.eclipse.emf.ecore.EObject"
    * @generated
    */
-  EList getReferenceValues();
+  EList<EObject> getReferenceValues();
 
   /**
    * Returns the value of the '<em><b>Feature</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Feature</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Feature</em>' reference.
    * @see #setFeature(EStructuralFeature)
@@ -191,17 +167,13 @@ public interface ListChange extends EObject
    * Returns the value of the '<em><b>Feature Map Entry Values</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.change.FeatureMapEntry}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Feature Map Entry Values</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Feature Map Entry Values</em>' containment reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_FeatureMapEntryValues()
    * @model type="org.eclipse.emf.ecore.change.FeatureMapEntry" containment="true"
    * @generated
    */
-  EList getFeatureMapEntryValues();
+  EList<FeatureMapEntry> getFeatureMapEntryValues();
 
   /**
    * Returns the value of the '<em><b>Values</b></em>' attribute list.
@@ -213,7 +185,7 @@ public interface ListChange extends EObject
    * @model type="java.lang.Object" transient="true" volatile="true" derived="true"
    * @generated
    */
-  EList getValues();
+  EList<Object> getValues();
 
   /**
    * <!-- begin-user-doc -->
@@ -221,7 +193,7 @@ public interface ListChange extends EObject
    * @model originalListMany="false"
    * @generated
    */
-  void apply(EList originalList);
+  void apply(EList<Object> originalList);
 
   /**
    * <!-- begin-user-doc -->
@@ -229,6 +201,6 @@ public interface ListChange extends EObject
    * @model originalListMany="false"
    * @generated
    */
-  void applyAndReverse(EList originalList);
+  void applyAndReverse(EList<Object> originalList);
 
 } // ListChange

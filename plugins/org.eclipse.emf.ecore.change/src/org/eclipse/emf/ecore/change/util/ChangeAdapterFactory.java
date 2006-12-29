@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeAdapterFactory.java,v 1.4 2005/06/08 06:16:16 nickb Exp $
+ * $Id: ChangeAdapterFactory.java,v 1.5 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -21,6 +21,7 @@ import java.util.Map;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.change.*;
 
@@ -65,6 +66,7 @@ public class ChangeAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -84,34 +86,41 @@ public class ChangeAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ChangeSwitch modelSwitch =
-    new ChangeSwitch()
+  protected ChangeSwitch<Adapter> modelSwitch =
+    new ChangeSwitch<Adapter>()
     {
-      public Object caseChangeDescription(ChangeDescription object)
+      @Override
+      public Adapter caseChangeDescription(ChangeDescription object)
       {
         return createChangeDescriptionAdapter();
       }
-      public Object caseEObjectToChangesMapEntry(Map.Entry object)
+      @Override
+      public Adapter caseEObjectToChangesMapEntry(Map.Entry<EObject, EList<FeatureChange>> object)
       {
         return createEObjectToChangesMapEntryAdapter();
       }
-      public Object caseFeatureChange(FeatureChange object)
+      @Override
+      public Adapter caseFeatureChange(FeatureChange object)
       {
         return createFeatureChangeAdapter();
       }
-      public Object caseListChange(ListChange object)
+      @Override
+      public Adapter caseListChange(ListChange object)
       {
         return createListChangeAdapter();
       }
-      public Object caseResourceChange(ResourceChange object)
+      @Override
+      public Adapter caseResourceChange(ResourceChange object)
       {
         return createResourceChangeAdapter();
       }
-      public Object caseFeatureMapEntry(FeatureMapEntry object)
+      @Override
+      public Adapter caseFeatureMapEntry(FeatureMapEntry object)
       {
         return createFeatureMapEntryAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -125,9 +134,10 @@ public class ChangeAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

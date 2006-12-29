@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryImpl.java,v 1.13 2005/11/25 13:35:04 emerks Exp $
+ * $Id: EObjectToChangesMapEntryImpl.java,v 1.14 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -49,7 +49,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEMap.Entry
+public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEMap.Entry<EObject,EList<FeatureChange>>
 {
   /**
    * The bit of {@link #eFlags} that is used to represent if key is a proxy.
@@ -74,7 +74,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * @generated
    * @ordered
    */
-  protected EList value = null;
+  protected EList<FeatureChange> value = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -91,6 +91,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return ChangePackage.Literals.EOBJECT_TO_CHANGES_MAP_ENTRY;
@@ -180,11 +181,11 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getTypedValue()
+  public EList<FeatureChange> getTypedValue()
   {
     if (value == null)
     {
-      value = new EObjectContainmentEList(FeatureChange.class, this, ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY__VALUE);
+      value = new EObjectContainmentEList<FeatureChange>(FeatureChange.class, this, ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY__VALUE);
     }
     return value;
   }
@@ -194,12 +195,13 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY__VALUE:
-        return ((InternalEList)getTypedValue()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getTypedValue()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -209,6 +211,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -227,6 +230,8 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -236,7 +241,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
         return;
       case ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY__VALUE:
         getTypedValue().clear();
-        getTypedValue().addAll((Collection)newValue);
+        getTypedValue().addAll((Collection<? extends FeatureChange>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -247,6 +252,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -266,6 +272,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -315,7 +322,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getKey()
+  public EObject getKey()
   {
     return getTypedKey();
   }
@@ -325,9 +332,9 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setKey(Object key)
+  public void setKey(EObject key)
   {
-    setTypedKey((EObject)key);
+    setTypedKey(key);
   }
 
   /**
@@ -335,7 +342,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getValue()
+  public EList<FeatureChange> getValue()
   {
     return getTypedValue();
   }
@@ -345,11 +352,11 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object setValue(Object value)
+  public EList<FeatureChange> setValue(EList<FeatureChange> value)
   {
-    Object oldValue = getValue();
+    EList<FeatureChange> oldValue = getValue();
     getTypedValue().clear();
-    getTypedValue().addAll((Collection)value);
+    getTypedValue().addAll(value);
     return oldValue;
   }
 
@@ -358,10 +365,11 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getEMap()
+  @SuppressWarnings("unchecked")
+  public EMap<EObject, EList<FeatureChange>> getEMap()
   {
     EObject container = eContainer();
-    return container == null ? null : (EMap)container.eGet(eContainmentFeature());
+    return container == null ? null : (EMap<EObject, EList<FeatureChange>>)container.eGet(eContainmentFeature());
   }
 
 } //EObjectToChangesMapEntryImpl

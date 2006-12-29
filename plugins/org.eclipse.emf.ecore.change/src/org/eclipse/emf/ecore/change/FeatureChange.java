@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChange.java,v 1.4 2005/06/08 06:16:16 nickb Exp $
+ * $Id: FeatureChange.java,v 1.5 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -49,10 +49,6 @@ public interface FeatureChange extends EObject
   /**
    * Returns the value of the '<em><b>Feature Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Feature Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Feature Name</em>' attribute.
    * @see #isSetFeatureName()
@@ -102,10 +98,6 @@ public interface FeatureChange extends EObject
   /**
    * Returns the value of the '<em><b>Data Value</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Data Value</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Data Value</em>' attribute.
    * @see #setDataValue(String)
@@ -129,10 +121,6 @@ public interface FeatureChange extends EObject
    * Returns the value of the '<em><b>Set</b></em>' attribute.
    * The default value is <code>"true"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Set</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Set</em>' attribute.
    * @see #setSet(boolean)
@@ -155,10 +143,6 @@ public interface FeatureChange extends EObject
   /**
    * Returns the value of the '<em><b>Feature</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Feature</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Feature</em>' reference.
    * @see #isSetFeature()
@@ -208,10 +192,6 @@ public interface FeatureChange extends EObject
   /**
    * Returns the value of the '<em><b>Reference Value</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Reference Value</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Reference Value</em>' reference.
    * @see #setReferenceValue(EObject)
@@ -235,17 +215,13 @@ public interface FeatureChange extends EObject
    * Returns the value of the '<em><b>List Changes</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.change.ListChange}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>List Changes</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>List Changes</em>' containment reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getFeatureChange_ListChanges()
    * @model type="org.eclipse.emf.ecore.change.ListChange" containment="true"
    * @generated
    */
-  EList getListChanges();
+  EList<ListChange> getListChanges();
 
   /**
    * Returns the value of the '<em><b>Value</b></em>' attribute.

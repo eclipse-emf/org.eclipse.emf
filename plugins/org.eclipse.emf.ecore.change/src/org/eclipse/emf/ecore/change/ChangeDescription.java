@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2005 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescription.java,v 1.6 2006/05/23 16:13:06 emerks Exp $
+ * $Id: ChangeDescription.java,v 1.7 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -48,17 +48,13 @@ public interface ChangeDescription extends EObject
    * The key is of type {@link org.eclipse.emf.ecore.EObject},
    * and the value is of type list of {@link org.eclipse.emf.ecore.change.FeatureChange},
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Object Changes</em>' map isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Object Changes</em>' map.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription_ObjectChanges()
    * @model mapType="org.eclipse.emf.ecore.change.EObjectToChangesMapEntry" keyType="org.eclipse.emf.ecore.EObject" valueType="org.eclipse.emf.ecore.change.FeatureChange"
    * @generated
    */
-  EMap getObjectChanges();
+  EMap<EObject, EList<FeatureChange>> getObjectChanges();
 
   /**
    * Returns the value of the '<em><b>Objects To Detach</b></em>' reference list.
@@ -74,39 +70,31 @@ public interface ChangeDescription extends EObject
    * @model type="org.eclipse.emf.ecore.EObject" resolveProxies="false" transient="true" derived="true"
    * @generated
    */
-  EList getObjectsToDetach();
+  EList<EObject> getObjectsToDetach();
 
   /**
    * Returns the value of the '<em><b>Objects To Attach</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Objects To Attach</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Objects To Attach</em>' containment reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription_ObjectsToAttach()
    * @model type="org.eclipse.emf.ecore.EObject" containment="true"
    * @generated
    */
-  EList getObjectsToAttach();
+  EList<EObject> getObjectsToAttach();
 
   /**
    * Returns the value of the '<em><b>Resource Changes</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.change.ResourceChange}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Resource Changes</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Resource Changes</em>' containment reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription_ResourceChanges()
    * @model type="org.eclipse.emf.ecore.change.ResourceChange" containment="true"
    * @generated
    */
-  EList getResourceChanges();
+  EList<ResourceChange> getResourceChanges();
 
   /**
    * <!-- begin-user-doc -->

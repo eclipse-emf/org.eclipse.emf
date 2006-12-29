@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePlugin.java,v 1.2 2005/06/15 10:55:05 emerks Exp $
+ * $Id: ChangePlugin.java,v 1.3 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -62,6 +62,7 @@ public final class ChangePlugin extends EMFPlugin
    * @return the singleton instance.
    * @generated
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

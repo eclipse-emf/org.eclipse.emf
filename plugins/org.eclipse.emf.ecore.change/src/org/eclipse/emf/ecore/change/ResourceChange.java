@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ResourceChange.java,v 1.3 2004/12/16 21:51:46 emerks Exp $
+ * $Id: ResourceChange.java,v 1.4 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -34,10 +44,6 @@ public interface ResourceChange extends EObject
   /**
    * Returns the value of the '<em><b>Resource URI</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Resource URI</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Resource URI</em>' attribute.
    * @see #setResourceURI(String)
@@ -60,10 +66,6 @@ public interface ResourceChange extends EObject
   /**
    * Returns the value of the '<em><b>Resource</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Resource</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Resource</em>' attribute.
    * @see #setResource(Resource)
@@ -86,33 +88,25 @@ public interface ResourceChange extends EObject
   /**
    * Returns the value of the '<em><b>Value</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Value</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' attribute.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getResourceChange_Value()
    * @model many="false" transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
-  EList getValue();
+  EList<?> getValue();
 
   /**
    * Returns the value of the '<em><b>List Changes</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.change.ListChange}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>List Changes</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>List Changes</em>' containment reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getResourceChange_ListChanges()
    * @model type="org.eclipse.emf.ecore.change.ListChange" containment="true"
    * @generated
    */
-  EList getListChanges();
+  EList<ListChange> getListChanges();
 
   /**
    * <!-- begin-user-doc -->

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeKind.java,v 1.4 2005/11/08 14:07:37 emerks Exp $
+ * $Id: ChangeKind.java,v 1.5 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -33,8 +33,38 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class ChangeKind extends AbstractEnumerator
+public enum ChangeKind implements Enumerator
 {
+  /**
+   * The '<em><b>ADD</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #ADD
+   * @generated
+   * @ordered
+   */
+  ADD_LITERAL(0, "ADD", "ADD"),
+
+  /**
+   * The '<em><b>REMOVE</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #REMOVE
+   * @generated
+   * @ordered
+   */
+  REMOVE_LITERAL(1, "REMOVE", "REMOVE"),
+
+  /**
+   * The '<em><b>MOVE</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #MOVE
+   * @generated
+   * @ordered
+   */
+  MOVE_LITERAL(2, "MOVE", "MOVE");
+
   /**
    * The '<em><b>ADD</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -69,48 +99,6 @@ public final class ChangeKind extends AbstractEnumerator
   public static final int MOVE = 2;
 
   /**
-   * The '<em><b>ADD</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>ADD</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #ADD
-   * @generated
-   * @ordered
-   */
-  public static final ChangeKind ADD_LITERAL = new ChangeKind(ADD, "ADD", "ADD");
-
-  /**
-   * The '<em><b>REMOVE</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>REMOVE</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #REMOVE
-   * @generated
-   * @ordered
-   */
-  public static final ChangeKind REMOVE_LITERAL = new ChangeKind(REMOVE, "REMOVE", "REMOVE");
-
-  /**
-   * The '<em><b>MOVE</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>MOVE</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #MOVE
-   * @generated
-   * @ordered
-   */
-  public static final ChangeKind MOVE_LITERAL = new ChangeKind(MOVE, "MOVE", "MOVE");
-
-  /**
    * An array of all the '<em><b>Kind</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -130,7 +118,7 @@ public final class ChangeKind extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<ChangeKind> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Kind</b></em>' literal with the specified literal value.
@@ -184,8 +172,29 @@ public final class ChangeKind extends AbstractEnumerator
       case REMOVE: return REMOVE_LITERAL;
       case MOVE: return MOVE_LITERAL;
     }
-    return null;	
+    return null;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
 
   /**
    * Only this class can construct instances.
@@ -195,7 +204,50 @@ public final class ChangeKind extends AbstractEnumerator
    */
   private ChangeKind(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
-} //ChangeKind
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+}

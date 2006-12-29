@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.11 2005/12/02 18:07:36 davidms Exp $
+ * $Id: ChangePackageImpl.java,v 1.12 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -22,6 +22,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -640,6 +641,10 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     // Obtain other dependent packages
     EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
+    // Create type parameters
+
+    // Set bounds for type parameters
+
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
@@ -683,15 +688,24 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     initEReference(getListChange_FeatureMapEntryValues(), this.getFeatureMapEntry(), null, "featureMapEntryValues", null, 0, -1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     op = addEOperation(listChangeEClass, null, "apply");
-    addEParameter(op, theEcorePackage.getEEList(), "originalList", 0, 1);
+    EGenericType g1 = createEGenericType(theEcorePackage.getEEList());
+    EGenericType g2 = createEGenericType(theEcorePackage.getEJavaObject());
+    g1.getETypeArguments().add(g2);
+    addEParameter(op, g1, "originalList", 0, 1);
 
     op = addEOperation(listChangeEClass, null, "applyAndReverse");
-    addEParameter(op, theEcorePackage.getEEList(), "originalList", 0, 1);
+    g1 = createEGenericType(theEcorePackage.getEEList());
+    g2 = createEGenericType(theEcorePackage.getEJavaObject());
+    g1.getETypeArguments().add(g2);
+    addEParameter(op, g1, "originalList", 0, 1);
 
     initEClass(resourceChangeEClass, ResourceChange.class, "ResourceChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getResourceChange_ResourceURI(), ecorePackage.getEString(), "resourceURI", null, 0, 1, ResourceChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getResourceChange_Resource(), theEcorePackage.getEResource(), "resource", null, 0, 1, ResourceChange.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-    initEAttribute(getResourceChange_Value(), theEcorePackage.getEEList(), "value", null, 0, 1, ResourceChange.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    g1 = createEGenericType(theEcorePackage.getEEList());
+    g2 = createEGenericType();
+    g1.getETypeArguments().add(g2);
+    initEAttribute(getResourceChange_Value(), g1, "value", null, 0, 1, ResourceChange.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getResourceChange_ListChanges(), this.getListChange(), null, "listChanges", null, 0, -1, ResourceChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     addEOperation(resourceChangeEClass, null, "apply");

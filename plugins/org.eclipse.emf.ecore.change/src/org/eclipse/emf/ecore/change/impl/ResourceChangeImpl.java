@@ -1,13 +1,22 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ResourceChangeImpl.java,v 1.6 2005/11/25 13:35:04 emerks Exp $
+ * $Id: ResourceChangeImpl.java,v 1.7 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -86,16 +95,6 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
   protected Resource resource = RESOURCE_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getValue()
-   * @generated
-   * @ordered
-   */
-  protected static final EList VALUE_EDEFAULT = null;
-
-  /**
    * The cached value of the '{@link #getListChanges() <em>List Changes</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -103,9 +102,9 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * @generated
    * @ordered
    */
-  protected EList listChanges = null;
+  protected EList<ListChange> listChanges = null;
 
-  protected EList valueField = null;
+  protected EList<Object> valueField = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -117,7 +116,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
     super();
   }
 
-  protected ResourceChangeImpl(Resource resource, EList value)
+  protected ResourceChangeImpl(Resource resource, EList<Object> value)
   {
     this();
     setResource(resource);
@@ -129,6 +128,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return ChangePackage.Literals.RESOURCE_CHANGE;
@@ -206,24 +206,24 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getValue()
+  public EList<Object> getValue()
   {
     if (valueField == null)
     {
       Resource resource = getResource();
       if (resource != null)
       {
-        EList changedList = new BasicEList(resource.getContents());
+        EList<Object> changedList = new BasicEList<Object>(resource.getContents());
         apply(changedList);
         valueField = changedList; // cache result
         return changedList;
       }
-      return ECollections.EMPTY_ELIST;
+      return ECollections.emptyEList();
     }
     return valueField;
   }
 
-  protected void setValue(EList value)
+  protected void setValue(EList<Object> value)
   {
     valueField = value;
   }
@@ -233,11 +233,11 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getListChanges()
+  public EList<ListChange> getListChanges()
   {
     if (listChanges == null)
     {
-      listChanges = new EObjectContainmentEList(ListChange.class, this, ChangePackage.RESOURCE_CHANGE__LIST_CHANGES);
+      listChanges = new EObjectContainmentEList<ListChange>(ListChange.class, this, ChangePackage.RESOURCE_CHANGE__LIST_CHANGES);
     }
     return listChanges;
   }
@@ -252,7 +252,8 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
     Resource resource = getResource();
     if (resource != null && listChanges != null)
     {
-      apply(resource.getContents());
+      @SuppressWarnings("unchecked") EList<Object> list = (EList<Object>)(EList<?>)resource.getContents();
+      apply(list);
     }
   }
 
@@ -266,10 +267,9 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
     Resource resource = getResource();
     if (resource != null && listChanges != null)
     {
-      EList applyToList = resource.getContents();
-      for (Iterator iter = getListChanges().iterator(); iter.hasNext(); )
+      @SuppressWarnings("unchecked") EList<Object> applyToList = (EList<Object>)(EList<?>)resource.getContents();
+      for (ListChange listChange : getListChanges())
       {
-        ListChange listChange = (ListChange)iter.next();
         listChange.applyAndReverse(applyToList);
       }
       ECollections.reverse(getListChanges());
@@ -282,21 +282,21 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case ChangePackage.RESOURCE_CHANGE__LIST_CHANGES:
-        return ((InternalEList)getListChanges()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getListChanges()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
-  protected void apply(EList toList)
+  protected void apply(EList<Object> toList)
   {
-    for (Iterator iter = getListChanges().iterator(); iter.hasNext(); )
+    for (ListChange listChange : getListChanges())
     {
-      ListChange listChange = (ListChange)iter.next();
       listChange.apply(toList);
     }
   }
@@ -306,6 +306,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -327,6 +328,8 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -339,7 +342,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
         return;
       case ChangePackage.RESOURCE_CHANGE__LIST_CHANGES:
         getListChanges().clear();
-        getListChanges().addAll((Collection)newValue);
+        getListChanges().addAll((Collection<? extends ListChange>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -350,6 +353,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -372,6 +376,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -381,7 +386,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
       case ChangePackage.RESOURCE_CHANGE__RESOURCE:
         return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
       case ChangePackage.RESOURCE_CHANGE__VALUE:
-        return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
+        return getValue() != null;
       case ChangePackage.RESOURCE_CHANGE__LIST_CHANGES:
         return listChanges != null && !listChanges.isEmpty();
     }
@@ -393,6 +398,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2005 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryImpl.java,v 1.8 2006/05/03 20:13:26 davidms Exp $
+ * $Id: FeatureMapEntryImpl.java,v 1.9 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -126,6 +126,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return ChangePackage.Literals.FEATURE_MAP_ENTRY;
@@ -237,7 +238,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
       EObject greatGrandParent = getGreatGrandParent();
       if (greatGrandParent instanceof EObjectToChangesMapEntryImpl)
       {
-        feature = ((EObject)((Map.Entry)greatGrandParent).getKey()).eClass().getEStructuralFeature(featureName);
+        feature = ((EObject)((Map.Entry<?, ?>)greatGrandParent).getKey()).eClass().getEStructuralFeature(featureName);
       }
     }
     else if ((eFlags & EPROXY_FEATURECHANGE) !=0)
@@ -352,6 +353,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -377,6 +379,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -402,6 +405,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -427,6 +431,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -488,7 +493,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
     }
   }
 
-  protected ListChange createListChange(EList changesList, ChangeKind kind, int index)
+  protected ListChange createListChange(EList<ListChange> changesList, ChangeKind kind, int index)
   {
     ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
     listChange.setKind(kind);

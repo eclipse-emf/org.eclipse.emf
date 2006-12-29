@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ChangeSwitch.java,v 1.6 2005/06/08 06:16:16 nickb Exp $
+ * $Id: ChangeSwitch.java,v 1.7 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.change.*;
@@ -37,7 +38,8 @@ import org.eclipse.emf.ecore.change.*;
  * @see org.eclipse.emf.ecore.change.ChangePackage
  * @generated
  */
-public class ChangeSwitch {
+public class ChangeSwitch<T>
+{
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -67,7 +69,7 @@ public class ChangeSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -79,7 +81,7 @@ public class ChangeSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -87,11 +89,11 @@ public class ChangeSwitch {
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -102,49 +104,49 @@ public class ChangeSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case ChangePackage.CHANGE_DESCRIPTION:
       {
         ChangeDescription changeDescription = (ChangeDescription)theEObject;
-        Object result = caseChangeDescription(changeDescription);
+        T result = caseChangeDescription(changeDescription);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY:
       {
-        Map.Entry eObjectToChangesMapEntry = (Map.Entry)theEObject;
-        Object result = caseEObjectToChangesMapEntry(eObjectToChangesMapEntry);
+        @SuppressWarnings("unchecked") Map.Entry<EObject, EList<FeatureChange>> eObjectToChangesMapEntry = (Map.Entry<EObject, EList<FeatureChange>>)theEObject;
+        T result = caseEObjectToChangesMapEntry(eObjectToChangesMapEntry);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case ChangePackage.FEATURE_CHANGE:
       {
         FeatureChange featureChange = (FeatureChange)theEObject;
-        Object result = caseFeatureChange(featureChange);
+        T result = caseFeatureChange(featureChange);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case ChangePackage.LIST_CHANGE:
       {
         ListChange listChange = (ListChange)theEObject;
-        Object result = caseListChange(listChange);
+        T result = caseListChange(listChange);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case ChangePackage.RESOURCE_CHANGE:
       {
         ResourceChange resourceChange = (ResourceChange)theEObject;
-        Object result = caseResourceChange(resourceChange);
+        T result = caseResourceChange(resourceChange);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case ChangePackage.FEATURE_MAP_ENTRY:
       {
         FeatureMapEntry featureMapEntry = (FeatureMapEntry)theEObject;
-        Object result = caseFeatureMapEntry(featureMapEntry);
+        T result = caseFeatureMapEntry(featureMapEntry);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -163,7 +165,7 @@ public class ChangeSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseChangeDescription(ChangeDescription object)
+  public T caseChangeDescription(ChangeDescription object)
   {
     return null;
   }
@@ -179,7 +181,7 @@ public class ChangeSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEObjectToChangesMapEntry(Map.Entry object)
+  public T caseEObjectToChangesMapEntry(Map.Entry<EObject, EList<FeatureChange>> object)
   {
     return null;
   }
@@ -195,7 +197,7 @@ public class ChangeSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseFeatureChange(FeatureChange object)
+  public T caseFeatureChange(FeatureChange object)
   {
     return null;
   }
@@ -211,7 +213,7 @@ public class ChangeSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseListChange(ListChange object)
+  public T caseListChange(ListChange object)
   {
     return null;
   }
@@ -227,7 +229,7 @@ public class ChangeSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseResourceChange(ResourceChange object)
+  public T caseResourceChange(ResourceChange object)
   {
     return null;
   }
@@ -243,7 +245,7 @@ public class ChangeSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseFeatureMapEntry(FeatureMapEntry object)
+  public T caseFeatureMapEntry(FeatureMapEntry object)
   {
     return null;
   }
@@ -259,7 +261,7 @@ public class ChangeSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

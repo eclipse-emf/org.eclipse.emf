@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeFactory.java,v 1.4 2005/11/23 13:57:00 emerks Exp $
+ * $Id: ChangeFactory.java,v 1.5 2006/12/29 18:21:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -81,7 +81,7 @@ public interface ChangeFactory extends EFactory{
    */
   ResourceChange createResourceChange();
 
-  ResourceChange createResourceChange(Resource resource, EList oldValue);
+  ResourceChange createResourceChange(Resource resource, EList<Object> oldValue);
 
   /**
    * Returns a new object of class '<em>Feature Map Entry</em>'.
@@ -103,6 +103,6 @@ public interface ChangeFactory extends EFactory{
    */
   ChangePackage getChangePackage();
 
-  Map.Entry createEObjectToChangesMapEntry(EObject eObject);
+  Map.Entry<EObject, EList<FeatureChange>> createEObjectToChangesMapEntry(EObject eObject);
 
 } //ChangeFactory
