@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractJNode.java,v 1.5 2006/12/15 20:35:58 marcelop Exp $
+ * $Id: AbstractJNode.java,v 1.6 2006/12/29 20:50:43 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -28,7 +28,9 @@ public abstract class AbstractJNode implements JNode
   
   protected String qualifiedName;
   
-  abstract public void dispose();  
+  abstract public void dispose();
+  abstract public boolean isDisposed();
+  
   abstract protected Object getWrappedObject();
   abstract public void setFacadeHelper(FacadeHelper facadeHelper);
   abstract public FacadeHelper getFacadeHelper();
@@ -115,7 +117,7 @@ public abstract class AbstractJNode implements JNode
   
   public List<JNode> getChildren()
   {
-    return Collections.<JNode>emptyList();
+    return Collections.emptyList();
   }  
   
   public int getFlags()
