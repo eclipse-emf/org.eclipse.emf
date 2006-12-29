@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaFactoryImpl.java,v 1.7 2005/11/23 13:57:05 emerks Exp $
+ * $Id: JavaFactoryImpl.java,v 1.8 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -76,6 +76,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -97,6 +98,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
@@ -115,6 +117,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
@@ -234,7 +237,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    */
   public Package createJavaPackageFromString(EDataType eDataType, String initialValue)
   {
-    return (Package)super.createFromString(eDataType, initialValue);
+    return (Package)super.createFromString(initialValue);
   }
 
   /**
@@ -244,7 +247,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    */
   public String convertJavaPackageToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return super.convertToString(instanceValue);
   }
 
   /**
@@ -263,6 +266,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static JavaPackage getPackage()
   {
     return JavaPackage.eINSTANCE;

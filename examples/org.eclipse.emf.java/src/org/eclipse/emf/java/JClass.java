@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClass.java,v 1.3 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JClass.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java;
 
@@ -168,12 +168,12 @@ public interface JClass extends JMember
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Java Class</em>' attribute.
-   * @see #setJavaClass(Class)
+   * @see #setJavaClass(Class<?>)
    * @see org.eclipse.emf.java.JavaPackage#getJClass_JavaClass()
    * @model dataType="org.eclipse.emf.java.JavaClass" transient="true"
    * @generated
    */
-  Class getJavaClass();
+  Class<?> getJavaClass();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.java.JClass#getJavaClass <em>Java Class</em>}' attribute.
@@ -183,7 +183,7 @@ public interface JClass extends JMember
    * @see #getJavaClass()
    * @generated
    */
-  void setJavaClass(Class value);
+  void setJavaClass(Class<?> value);
 
   /**
    * Returns the value of the '<em><b>Fields</b></em>' reference list.
@@ -199,7 +199,7 @@ public interface JClass extends JMember
    * @model type="org.eclipse.emf.java.JField" transient="true" volatile="true"
    * @generated
    */
-  EList getFields();
+  EList<JField> getFields();
 
   /**
    * Returns the value of the '<em><b>Methods</b></em>' reference list.
@@ -215,7 +215,7 @@ public interface JClass extends JMember
    * @model type="org.eclipse.emf.java.JMethod" transient="true" volatile="true"
    * @generated
    */
-  EList getMethods();
+  EList<JMethod> getMethods();
 
   /**
    * Returns the value of the '<em><b>Super Types</b></em>' reference list.
@@ -231,7 +231,7 @@ public interface JClass extends JMember
    * @model type="org.eclipse.emf.java.JClass"
    * @generated
    */
-  EList getSuperTypes();
+  EList<JClass> getSuperTypes();
 
   /**
    * Returns the value of the '<em><b>All Super Types</b></em>' reference list.
@@ -247,7 +247,7 @@ public interface JClass extends JMember
    * @model type="org.eclipse.emf.java.JClass" transient="true" volatile="true"
    * @generated
    */
-  EList getAllSuperTypes();
+  EList<JClass> getAllSuperTypes();
 
   /**
    * Returns the value of the '<em><b>Members</b></em>' containment reference list.
@@ -265,7 +265,7 @@ public interface JClass extends JMember
    * @model type="org.eclipse.emf.java.JMember" opposite="containingType" containment="true"
    * @generated
    */
-  EList getMembers();
+  EList<JMember> getMembers();
 
   /**
    * Returns the value of the '<em><b>Component Type</b></em>' container reference.
@@ -365,7 +365,7 @@ public interface JClass extends JMember
    * @model type="org.eclipse.emf.java.JMethod" transient="true" volatile="true"
    * @generated
    */
-  EList getAllMethods();
+  EList<JMethod> getAllMethods();
 
   /**
    * Returns the value of the '<em><b>All Fields</b></em>' reference list.
@@ -381,7 +381,7 @@ public interface JClass extends JMember
    * @model type="org.eclipse.emf.java.JField" transient="true" volatile="true"
    * @generated
    */
-  EList getAllFields();
+  EList<JField> getAllFields();
 
   /**
    * Returns the value of the '<em><b>Package</b></em>' reference.
@@ -425,7 +425,7 @@ public interface JClass extends JMember
    * @model type="org.eclipse.emf.java.JClass"
    * @generated
    */
-  EList getTypes();
+  EList<JClass> getTypes();
 
   /**
    * Returns the value of the '<em><b>All Types</b></em>' reference list.
@@ -441,7 +441,7 @@ public interface JClass extends JMember
    * @model type="org.eclipse.emf.java.JClass"
    * @generated
    */
-  EList getAllTypes();
+  EList<JClass> getAllTypes();
 
   JClass resolveJClass(String qualifiedName);
 

@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.java/src"
     creationCommands="false" modelPluginID="org.eclipse.emf.java" runtimeJar="true"
     modelName="Java" modelPluginClass="org.eclipse.emf.java.JavaPlugin" updateClasspath="false"
-    testsDirectory="" importerID="org.eclipse.emf.importer.rose">
+    testsDirectory="" importerID="org.eclipse.emf.importer.rose" complianceLevel="5.0">
   <foreignModel>Java.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
@@ -16,8 +16,12 @@
       <genEnumLiterals ecoreEnumLiteral="Java.ecore#//JVisibility/private"/>
       <genEnumLiterals ecoreEnumLiteral="Java.ecore#//JVisibility/package"/>
     </genEnums>
-    <genDataTypes ecoreDataType="Java.ecore#//JavaClass"/>
-    <genDataTypes ecoreDataType="Java.ecore#//JavaConstructor"/>
+    <genDataTypes ecoreDataType="Java.ecore#//JavaClass">
+      <genTypeParameters ecoreTypeParameter="Java.ecore#//JavaClass/T"/>
+    </genDataTypes>
+    <genDataTypes ecoreDataType="Java.ecore#//JavaConstructor">
+      <genTypeParameters ecoreTypeParameter="Java.ecore#//JavaConstructor/T"/>
+    </genDataTypes>
     <genDataTypes ecoreDataType="Java.ecore#//JavaField"/>
     <genDataTypes ecoreDataType="Java.ecore#//JavaMethod"/>
     <genDataTypes ecoreDataType="Java.ecore#//JavaPackage"/>

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackageImpl.java,v 1.6 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JavaPackageImpl.java,v 1.7 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -1059,6 +1060,12 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
     setNsPrefix(eNS_PREFIX);
     setNsURI(eNS_URI);
 
+    // Create type parameters
+    addETypeParameter(javaClassEDataType, "T");
+    addETypeParameter(javaConstructorEDataType, "T");
+
+    // Set bounds for type parameters
+
     // Add supertypes to classes
     jClassEClass.getESuperTypes().add(this.getJMember());
     jCompilationUnitEClass.getESuperTypes().add(this.getJModelElement());
@@ -1075,7 +1082,10 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
     initEAttribute(getJClass_Final(), ecorePackage.getEBoolean(), "final", null, 0, 1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getJClass_Interface(), ecorePackage.getEBoolean(), "interface", null, 0, 1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getJClass_Throwable(), ecorePackage.getEBoolean(), "throwable", null, 0, 1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getJClass_JavaClass(), this.getJavaClass(), "javaClass", null, 0, 1, JClass.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    EGenericType g1 = createEGenericType(this.getJavaClass());
+    EGenericType g2 = createEGenericType();
+    g1.getETypeArguments().add(g2);
+    initEAttribute(getJClass_JavaClass(), g1, "javaClass", null, 0, 1, JClass.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getJClass_Fields(), this.getJField(), null, "fields", null, 0, -1, JClass.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getJClass_Methods(), this.getJMethod(), null, "methods", null, 0, -1, JClass.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getJClass_SuperTypes(), this.getJClass(), null, "superTypes", null, 0, -1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1122,7 +1132,10 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
     initEAttribute(getJMethod_Synchronized(), ecorePackage.getEBoolean(), "synchronized", null, 0, 1, JMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getJMethod_JavaMethod(), this.getJavaMethod(), "javaMethod", null, 0, 1, JMethod.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getJMethod_Constructor(), ecorePackage.getEBoolean(), "constructor", null, 0, 1, JMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getJMethod_JavaConstructor(), this.getJavaConstructor(), "javaConstructor", null, 0, 1, JMethod.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    g1 = createEGenericType(this.getJavaConstructor());
+    g2 = createEGenericType();
+    g1.getETypeArguments().add(g2);
+    initEAttribute(getJMethod_JavaConstructor(), g1, "javaConstructor", null, 0, 1, JMethod.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getJMethod_Body(), ecorePackage.getEString(), "body", null, 0, 1, JMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getJMethod_Parameters(), this.getJParameter(), this.getJParameter_Method(), "parameters", null, 0, -1, JMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getJMethod_Exceptions(), this.getJClass(), null, "exceptions", null, 0, -1, JMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

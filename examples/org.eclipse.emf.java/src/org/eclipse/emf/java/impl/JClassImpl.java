@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.10 2006/05/03 20:21:01 davidms Exp $
+ * $Id: JClassImpl.java,v 1.11 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -23,12 +23,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jdt.core.Flags;
-import org.eclipse.jdt.core.jdom.IDOMNode;
-import org.eclipse.jdt.core.jdom.IDOMType;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -168,16 +165,6 @@ public class JClassImpl extends JMemberImpl implements JClass
   protected boolean throwable = THROWABLE_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getJavaClass() <em>Java Class</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getJavaClass()
-   * @generated
-   * @ordered
-   */
-  protected static final Class JAVA_CLASS_EDEFAULT = null;
-
-  /**
    * The cached value of the '{@link #getJavaClass() <em>Java Class</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -185,7 +172,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * @generated
    * @ordered
    */
-  protected Class javaClass = JAVA_CLASS_EDEFAULT;
+  protected Class<?> javaClass;
 
   /**
    * The cached value of the '{@link #getSuperTypes() <em>Super Types</em>}' reference list.
@@ -195,7 +182,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * @generated
    * @ordered
    */
-  protected EList superTypes = null;
+  protected EList<JClass> superTypes = null;
 
   /**
    * The cached value of the '{@link #getMembers() <em>Members</em>}' containment reference list.
@@ -205,7 +192,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * @generated
    * @ordered
    */
-  protected EList members = null;
+  protected EList<JMember> members = null;
 
   /**
    * The cached value of the '{@link #getArrayType() <em>Array Type</em>}' containment reference.
@@ -242,6 +229,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return JavaPackage.Literals.JCLASS;
@@ -344,7 +332,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public Class getJavaClass()
+  public Class<?> getJavaClass()
   {
     return javaClass;
   }
@@ -354,44 +342,48 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setJavaClass(Class newJavaClass)
+  public void setJavaClass(Class<?> newJavaClass)
   {
-    Class oldJavaClass = javaClass;
+    Class<?> oldJavaClass = javaClass;
     javaClass = newJavaClass;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, JavaPackage.JCLASS__JAVA_CLASS, oldJavaClass, javaClass));
   }
 
-  EList fields;
+  EList<JField> fields;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated EATM
    */
-  public EList getFields()
+  public EList<JField> getFields()
   {
     if (fields == null)
     {
-      fields = new EObjectResolvingEList(JField.class, this, JavaPackage.JCLASS__FIELDS);
-      fields.addAll(EcoreUtil.getObjectsByType(getMembers(), JavaPackage.eINSTANCE.getJField()));
+      fields = new EObjectResolvingEList<JField>(JField.class, this, JavaPackage.JCLASS__FIELDS);
+      @SuppressWarnings("unchecked")
+      List<JField> list = (List<JField>)(List<?>)EcoreUtil.getObjectsByType(getMembers(), JavaPackage.eINSTANCE.getJField());
+      fields.addAll(list);
     }
     return fields;
   }
 
-  EList methods;
+  EList<JMethod> methods;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated EATM
    */
-  public EList getMethods()
+  public EList<JMethod> getMethods()
   {
     if (methods == null)
     {
-      methods = new EObjectResolvingEList(JMethod.class, this, JavaPackage.JCLASS__METHODS);
-      methods.addAll(EcoreUtil.getObjectsByType(getMembers(), JavaPackage.eINSTANCE.getJMethod()));
+      methods = new EObjectResolvingEList<JMethod>(JMethod.class, this, JavaPackage.JCLASS__METHODS);
+      @SuppressWarnings("unchecked")
+      List<JMethod> list = (List<JMethod>)(List<?>)EcoreUtil.getObjectsByType(getMembers(), JavaPackage.eINSTANCE.getJMethod());
+      methods.addAll(list);
     }
     return methods;
   }
@@ -401,27 +393,27 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getSuperTypes()
+  public EList<JClass> getSuperTypes()
   {
     if (superTypes == null)
     {
-      superTypes = new EObjectResolvingEList(JClass.class, this, JavaPackage.JCLASS__SUPER_TYPES);
+      superTypes = new EObjectResolvingEList<JClass>(JClass.class, this, JavaPackage.JCLASS__SUPER_TYPES);
     }
     return superTypes;
   }
 
-  EList allSuperTypes;
+  EList<JClass> allSuperTypes;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated EATM
    */
-  public EList getAllSuperTypes()
+  public EList<JClass> getAllSuperTypes()
   {
     if (allSuperTypes == null)
     {
-      allSuperTypes = new EObjectResolvingEList(JClass.class, this, JavaPackage.JCLASS__ALL_SUPER_TYPES);
+      allSuperTypes = new EObjectResolvingEList<JClass>(JClass.class, this, JavaPackage.JCLASS__ALL_SUPER_TYPES);
       collectAll(JavaPackage.eINSTANCE.getJClass_AllSuperTypes(), allSuperTypes);
       allSuperTypes.addAll(getSuperTypes());
     }
@@ -429,12 +421,13 @@ public class JClassImpl extends JMemberImpl implements JClass
     return allSuperTypes;
   }
 
-  protected void collectAll(EStructuralFeature eStructuralFeature, EList target)
+  protected <T> void collectAll(EStructuralFeature eStructuralFeature, EList<T> target)
   {
-    for (Iterator i = getSuperTypes().iterator(); i.hasNext(); )
+    for (JClass jClass : getSuperTypes())
     {
-      JClass jClass = (JClass)i.next();
-      target.addAll((EList)jClass.eGet(eStructuralFeature));
+      @SuppressWarnings("unchecked")
+      EList<T> list = (EList<T>)jClass.eGet(eStructuralFeature);
+      target.addAll(list);
     }
   }
 
@@ -443,11 +436,11 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getMembers()
+  public EList<JMember> getMembers()
   {
     if (members == null)
     {
-      members = new EObjectContainmentWithInverseEList(JMember.class, this, JavaPackage.JCLASS__MEMBERS, JavaPackage.JMEMBER__CONTAINING_TYPE);
+      members = new EObjectContainmentWithInverseEList<JMember>(JMember.class, this, JavaPackage.JCLASS__MEMBERS, JavaPackage.JMEMBER__CONTAINING_TYPE);
     }
     return members;
   }
@@ -590,18 +583,18 @@ public class JClassImpl extends JMemberImpl implements JClass
       eNotify(new ENotificationImpl(this, Notification.SET, JavaPackage.JCLASS__UNIT, newUnit, newUnit));
   }
 
-  EList allMethods;
+  EList<JMethod> allMethods;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated EATM
    */
-  public EList getAllMethods()
+  public EList<JMethod> getAllMethods()
   {
     if (allMethods == null)
     {
-      allMethods = new EObjectResolvingEList(JMethod.class, this, JavaPackage.JCLASS__ALL_METHODS);
+      allMethods = new EObjectResolvingEList<JMethod>(JMethod.class, this, JavaPackage.JCLASS__ALL_METHODS);
       collectAll(JavaPackage.eINSTANCE.getJClass_AllMethods(), allMethods);
       allMethods.addAll(getMethods());
     }
@@ -609,18 +602,18 @@ public class JClassImpl extends JMemberImpl implements JClass
     return allMethods;
   }
 
-  EList allFields;
+  EList<JField> allFields;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated EATM
    */
-  public EList getAllFields()
+  public EList<JField> getAllFields()
   {
     if (allFields == null)
     {
-      allFields = new EObjectResolvingEList(JField.class, this, JavaPackage.JCLASS__ALL_FIELDS);
+      allFields = new EObjectResolvingEList<JField>(JField.class, this, JavaPackage.JCLASS__ALL_FIELDS);
       collectAll(JavaPackage.eINSTANCE.getJClass_AllFields(), allFields);
       allFields.addAll(getFields());
     }
@@ -695,36 +688,38 @@ public class JClassImpl extends JMemberImpl implements JClass
       eNotify(new ENotificationImpl(this, Notification.SET, JavaPackage.JCLASS__PACKAGE, newPackage, newPackage));
   }
 
-  protected EList types;
+  protected EList<JClass> types;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated EATM
    */
-  public EList getTypes()
+  public EList<JClass> getTypes()
   {
      if (types == null)
      {
-       types = new EObjectResolvingEList(JClass.class, this, JavaPackage.JCLASS__TYPES);
-       types.addAll(EcoreUtil.getObjectsByType(getMembers(), JavaPackage.eINSTANCE.getJClass()));
+       types = new EObjectResolvingEList<JClass>(JClass.class, this, JavaPackage.JCLASS__TYPES);
+       @SuppressWarnings("unchecked")
+       List<JClass> list = (List<JClass>)(List<?>)EcoreUtil.getObjectsByType(getMembers(), JavaPackage.eINSTANCE.getJClass());
+       types.addAll(list);
      }
 
      return types;
   }
 
-  protected EList allTypes;
+  protected EList<JClass> allTypes;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated EATM
    */
-  public EList getAllTypes()
+  public EList<JClass> getAllTypes()
   {
     if (allTypes == null)
     {
-      allTypes = new EObjectResolvingEList(JClass.class, this, JavaPackage.JCLASS__ALL_TYPES);
+      allTypes = new EObjectResolvingEList<JClass>(JClass.class, this, JavaPackage.JCLASS__ALL_TYPES);
       collectAll(JavaPackage.eINSTANCE.getJClass_AllTypes(), allTypes);
       allTypes.addAll(getTypes());
     }
@@ -736,12 +731,14 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case JavaPackage.JCLASS__MEMBERS:
-        return ((InternalEList)getMembers()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getMembers()).basicAdd(otherEnd, msgs);
       case JavaPackage.JCLASS__COMPONENT_TYPE:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
@@ -767,12 +764,13 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case JavaPackage.JCLASS__MEMBERS:
-        return ((InternalEList)getMembers()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getMembers()).basicRemove(otherEnd, msgs);
       case JavaPackage.JCLASS__COMPONENT_TYPE:
         return basicSetComponentType(null, msgs);
       case JavaPackage.JCLASS__ARRAY_TYPE:
@@ -790,6 +788,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -807,6 +806,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -857,6 +857,8 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -874,27 +876,27 @@ public class JClassImpl extends JMemberImpl implements JClass
         setThrowable(((Boolean)newValue).booleanValue());
         return;
       case JavaPackage.JCLASS__JAVA_CLASS:
-        setJavaClass((Class)newValue);
+        setJavaClass((Class<?>)newValue);
         return;
       case JavaPackage.JCLASS__FIELDS:
         getFields().clear();
-        getFields().addAll((Collection)newValue);
+        getFields().addAll((Collection<? extends JField>)newValue);
         return;
       case JavaPackage.JCLASS__METHODS:
         getMethods().clear();
-        getMethods().addAll((Collection)newValue);
+        getMethods().addAll((Collection<? extends JMethod>)newValue);
         return;
       case JavaPackage.JCLASS__SUPER_TYPES:
         getSuperTypes().clear();
-        getSuperTypes().addAll((Collection)newValue);
+        getSuperTypes().addAll((Collection<? extends JClass>)newValue);
         return;
       case JavaPackage.JCLASS__ALL_SUPER_TYPES:
         getAllSuperTypes().clear();
-        getAllSuperTypes().addAll((Collection)newValue);
+        getAllSuperTypes().addAll((Collection<? extends JClass>)newValue);
         return;
       case JavaPackage.JCLASS__MEMBERS:
         getMembers().clear();
-        getMembers().addAll((Collection)newValue);
+        getMembers().addAll((Collection<? extends JMember>)newValue);
         return;
       case JavaPackage.JCLASS__COMPONENT_TYPE:
         setComponentType((JClass)newValue);
@@ -907,22 +909,22 @@ public class JClassImpl extends JMemberImpl implements JClass
         return;
       case JavaPackage.JCLASS__ALL_METHODS:
         getAllMethods().clear();
-        getAllMethods().addAll((Collection)newValue);
+        getAllMethods().addAll((Collection<? extends JMethod>)newValue);
         return;
       case JavaPackage.JCLASS__ALL_FIELDS:
         getAllFields().clear();
-        getAllFields().addAll((Collection)newValue);
+        getAllFields().addAll((Collection<? extends JField>)newValue);
         return;
       case JavaPackage.JCLASS__PACKAGE:
         setPackage((JPackage)newValue);
         return;
       case JavaPackage.JCLASS__TYPES:
         getTypes().clear();
-        getTypes().addAll((Collection)newValue);
+        getTypes().addAll((Collection<? extends JClass>)newValue);
         return;
       case JavaPackage.JCLASS__ALL_TYPES:
         getAllTypes().clear();
-        getAllTypes().addAll((Collection)newValue);
+        getAllTypes().addAll((Collection<? extends JClass>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -933,6 +935,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -950,7 +953,7 @@ public class JClassImpl extends JMemberImpl implements JClass
         setThrowable(THROWABLE_EDEFAULT);
         return;
       case JavaPackage.JCLASS__JAVA_CLASS:
-        setJavaClass(JAVA_CLASS_EDEFAULT);
+        setJavaClass((Class<?>)null);
         return;
       case JavaPackage.JCLASS__FIELDS:
         getFields().clear();
@@ -1000,6 +1003,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -1013,7 +1017,7 @@ public class JClassImpl extends JMemberImpl implements JClass
       case JavaPackage.JCLASS__THROWABLE:
         return throwable != THROWABLE_EDEFAULT;
       case JavaPackage.JCLASS__JAVA_CLASS:
-        return JAVA_CLASS_EDEFAULT == null ? javaClass != null : !JAVA_CLASS_EDEFAULT.equals(javaClass);
+        return javaClass != null;
       case JavaPackage.JCLASS__FIELDS:
         return !getFields().isEmpty();
       case JavaPackage.JCLASS__METHODS:
@@ -1049,6 +1053,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -1068,6 +1073,7 @@ public class JClassImpl extends JMemberImpl implements JClass
     return result.toString();
   }
 
+  @Override
   protected void changeAttribute(Notification notification)
   {
     switch (notification.getFeatureID(JClass.class))
@@ -1080,12 +1086,12 @@ public class JClassImpl extends JMemberImpl implements JClass
       }
       case JavaPackage.JCLASS__JAVA_CLASS:
       {
-        Class theJavaClass = getJavaClass();
+        Class<?> theJavaClass = getJavaClass();
         if (theJavaClass != null)
         {
           String uri = JavaUtil.createJClassProxyURI(theJavaClass).fragment();
           setName(uri.substring(uri.lastIndexOf("/") + 1));
-          Collection theMembers = new ArrayList();
+          Collection<JMember> theMembers = new ArrayList<JMember>();
 
           try
           {
@@ -1105,7 +1111,7 @@ public class JClassImpl extends JMemberImpl implements JClass
               memberJMethod.setJavaMethod(memberMethods[i]);
             }
 
-            Constructor [] constructors = theJavaClass.getConstructors();
+            Constructor<?> [] constructors = theJavaClass.getConstructors();
             for (int i = 0; i < constructors.length; ++i)
             {
               JMethod memberJMethod = JavaFactory.eINSTANCE.createJMethod();
@@ -1113,7 +1119,7 @@ public class JClassImpl extends JMemberImpl implements JClass
               memberJMethod.setJavaConstructor(constructors[i]);
             }
 
-            Class [] memberTypes = theJavaClass.getDeclaredClasses();
+            Class<?> [] memberTypes = theJavaClass.getDeclaredClasses();
             for (int i = 0; i < memberTypes.length; ++i)
             {
               JClass memberJClass = JavaFactory.eINSTANCE.createJClass();
@@ -1123,12 +1129,12 @@ public class JClassImpl extends JMemberImpl implements JClass
 
             getMembers().addAll(theMembers);
 
-            Collection theSuperTypes = new ArrayList();
+            Collection<JClass> theSuperTypes = new ArrayList<JClass>();
             if (theJavaClass.getSuperclass() != null)
             {
               theSuperTypes.add(JavaUtil.createJClassProxy(theJavaClass.getSuperclass()));
             }
-            Class [] interfaces = theJavaClass.getInterfaces();
+            Class<?> [] interfaces = theJavaClass.getInterfaces();
             for (int i = 0; i < interfaces.length; ++i)
             {
               theSuperTypes.add(JavaUtil.createJClassProxy(interfaces[i]));
@@ -1137,6 +1143,7 @@ public class JClassImpl extends JMemberImpl implements JClass
           }
           catch (NoClassDefFoundError exception)
           {
+            // Ignore
           }
 
           if (theJavaClass.getComponentType() != null)
@@ -1160,9 +1167,10 @@ public class JClassImpl extends JMemberImpl implements JClass
 
   protected static class JDOMHelper
   {
+    @SuppressWarnings("deprecation")
     protected static void handleJNode(JClass jClass)
     { 
-      IDOMType iDOMType = (IDOMType)jClass.getJNode();
+      org.eclipse.jdt.core.jdom.IDOMType iDOMType = (org.eclipse.jdt.core.jdom.IDOMType)jClass.getJNode();
       if (iDOMType != null)
       {
         jClass.setName(iDOMType.getName());
@@ -1174,28 +1182,28 @@ public class JClassImpl extends JMemberImpl implements JClass
         jClass.setStatic((flags & Flags.AccStatic) != 0);
         jClass.setVisibility(JavaUtil.getFlagVisibility(flags));
 
-        Collection theMembers = jClass.getMembers();
-        for (IDOMNode child = iDOMType.getFirstChild(); child != null; child = child.getNextNode())
+        Collection<JMember> theMembers = jClass.getMembers();
+        for (org.eclipse.jdt.core.jdom.IDOMNode child = iDOMType.getFirstChild(); child != null; child = child.getNextNode())
         {
-          if (child.getNodeType() == IDOMNode.FIELD)
+          if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.FIELD)
           {
             JField jField = JavaFactory.eINSTANCE.createJField();
             jField.setJNode(child);
             theMembers.add(jField);
           }
-          else if (child.getNodeType() == IDOMNode.METHOD)
+          else if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.METHOD)
           {
             JMethod jMethod = JavaFactory.eINSTANCE.createJMethod();
             jMethod.setJNode(child);
             theMembers.add(jMethod);
           }
-          else if (child.getNodeType() == IDOMNode.INITIALIZER)
+          else if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.INITIALIZER)
           {
             JInitializer jInitializer = JavaFactory.eINSTANCE.createJInitializer();
             jInitializer.setJNode(child);
             theMembers.add(jInitializer);
           }
-          else if (child.getNodeType() == IDOMNode.TYPE)
+          else if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.TYPE)
           {
             JClass nestedJClass = JavaFactory.eINSTANCE.createJClass();
             nestedJClass.setJNode(child);
@@ -1206,12 +1214,15 @@ public class JClassImpl extends JMemberImpl implements JClass
     } 
   }
 
+  @Override
   protected void resolveIdentifiers()
   {
     if (jNode != null)
     {
-      List theSuperTypes = new ArrayList();
-      IDOMType iDOMType = (IDOMType)jNode;
+      List<JClass> theSuperTypes = new ArrayList<JClass>();
+      @SuppressWarnings("deprecation")
+      org.eclipse.jdt.core.jdom.IDOMType iDOMType = (org.eclipse.jdt.core.jdom.IDOMType)jNode;
+      @SuppressWarnings("deprecation")
       String superClass = iDOMType.getSuperclass();
       if (superClass != null)
       {
@@ -1225,6 +1236,7 @@ public class JClassImpl extends JMemberImpl implements JClass
         }
       }
 
+      @SuppressWarnings("deprecation")
       String superInterfaces[] = iDOMType.getSuperInterfaces();
       if (superInterfaces != null)
       {
@@ -1244,18 +1256,17 @@ public class JClassImpl extends JMemberImpl implements JClass
       ECollections.setEList(getSuperTypes(), theSuperTypes);
     }
 
-    for (Iterator i = getMembers().iterator(); i.hasNext(); )
+    for (JMember jMember : getMembers())
     {
-      JModelElementImpl jModelElement = (JModelElementImpl)i.next();
+      JModelElementImpl jModelElement = (JModelElementImpl)jMember;
       jModelElement.resolveIdentifiers();
     }
   }
 
   public JClass resolveJClass(String fullName)
   {
-    for (Iterator i = getAllTypes().iterator(); i.hasNext(); )
+    for (JClass jClass : getAllTypes())
     {
-      JClass jClass = (JClass)i.next();
       if (JavaUtil.isPrefixOf(jClass.getName(), fullName))
       {
         if (fullName.length() > jClass.getName().length())
@@ -1283,6 +1294,7 @@ public class JClassImpl extends JMemberImpl implements JClass
     }
   }
 
+  @Override
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
     if (uriFragmentSegment.startsWith("@"))
@@ -1302,9 +1314,8 @@ public class JClassImpl extends JMemberImpl implements JClass
     }
     else
     {
-      for (Iterator i = getMembers().iterator(); i.hasNext(); )
+      for (JMember jMember : getMembers())
       {
-        JMember jMember = (JMember)i.next();
         if (uriFragmentSegment.equals(jMember.getName()) && jMember instanceof JClass)
         {
           return jMember;
@@ -1315,6 +1326,7 @@ public class JClassImpl extends JMemberImpl implements JClass
     }
   }
 
+  @Override
   public String getQualifiedName()
   {
     if (getComponentType() != null)

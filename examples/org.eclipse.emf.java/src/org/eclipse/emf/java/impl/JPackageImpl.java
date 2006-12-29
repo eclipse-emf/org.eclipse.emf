@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackageImpl.java,v 1.6 2005/11/25 13:13:06 emerks Exp $
+ * $Id: JPackageImpl.java,v 1.7 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -78,7 +78,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * @generated
    * @ordered
    */
-  protected EList types = null;
+  protected EList<JClass> types = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -95,6 +95,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return JavaPackage.Literals.JPACKAGE;
@@ -128,11 +129,11 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getTypes()
+  public EList<JClass> getTypes()
   {
     if (types == null)
     {
-      types = new EObjectWithInverseResolvingEList(JClass.class, this, JavaPackage.JPACKAGE__TYPES, JavaPackage.JCLASS__PACKAGE);
+      types = new EObjectWithInverseResolvingEList<JClass>(JClass.class, this, JavaPackage.JPACKAGE__TYPES, JavaPackage.JCLASS__PACKAGE);
     }
     return types;
   }
@@ -142,12 +143,14 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case JavaPackage.JPACKAGE__TYPES:
-        return ((InternalEList)getTypes()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getTypes()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -157,12 +160,13 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case JavaPackage.JPACKAGE__TYPES:
-        return ((InternalEList)getTypes()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getTypes()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -172,6 +176,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -189,6 +194,8 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -198,7 +205,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
         return;
       case JavaPackage.JPACKAGE__TYPES:
         getTypes().clear();
-        getTypes().addAll((Collection)newValue);
+        getTypes().addAll((Collection<? extends JClass>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -209,6 +216,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -228,6 +236,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -245,6 +254,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -256,6 +266,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
     return result.toString();
   }
 
+  @Override
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
     if (uriFragmentSegment.startsWith("@"))
@@ -264,11 +275,11 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
     }
     else
     {
-      List theTypes = getTypes();
+      List<JClass> theTypes = getTypes();
       // EATM resolve problems
       for (int i = 0, size = theTypes.size(); i < size; ++i)
       {
-        JClass jClass = (JClass)theTypes.get(i);
+        JClass jClass = theTypes.get(i);
         String name = jClass.getName();
         if (uriFragmentSegment.equals(name))
         {

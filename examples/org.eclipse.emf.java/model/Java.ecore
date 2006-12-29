@@ -8,8 +8,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="final" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="interface" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="throwable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaClass" eType="#//JavaClass"
-        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaClass" transient="true">
+      <eGenericType eClassifier="#//JavaClass">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
         eType="#//JField" volatile="true" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
@@ -76,8 +79,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaMethod" eType="#//JavaMethod"
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="constructor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaConstructor" eType="#//JavaConstructor"
-        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaConstructor" transient="true">
+      <eGenericType eClassifier="#//JavaConstructor">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="body" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
         eType="#//JParameter" containment="true" eOpposite="#//JParameter/method"/>
@@ -102,9 +108,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//JClass"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="JavaClass" instanceClassName="java.lang.Class"
-      serializable="false"/>
+      serializable="false">
+    <eTypeParameters name="T"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="JavaConstructor" instanceClassName="java.lang.reflect.Constructor"
-      serializable="false"/>
+      serializable="false">
+    <eTypeParameters name="T"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="JavaField" instanceClassName="java.lang.reflect.Field"
       serializable="false"/>
   <eClassifiers xsi:type="ecore:EDataType" name="JavaMethod" instanceClassName="java.lang.reflect.Method"

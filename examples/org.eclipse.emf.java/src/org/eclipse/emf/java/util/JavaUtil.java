@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: JavaUtil.java,v 1.3 2005/06/08 06:21:06 nickb Exp $
+ * $Id: JavaUtil.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.util;
 
 
 import java.lang.reflect.Modifier;
-import java.util.Iterator;
 
 import org.eclipse.jdt.core.Flags;
 
@@ -53,7 +52,7 @@ public class JavaUtil
     return jPackage;
   }
 
-  public static URI createJClassProxyURI(Class javaClass)
+  public static URI createJClassProxyURI(Class<?> javaClass)
   {
     String suffix = "";
     while (javaClass.getComponentType() != null)
@@ -77,7 +76,7 @@ public class JavaUtil
     return JAVA_PACKAGE_RESOURCE_URI.appendFragment("/" + packageName + "/" + className.replace('$','/') + suffix);
   }
 
-  public static JClass createJClassProxy(Class javaClass)
+  public static JClass createJClassProxy(Class<?> javaClass)
   {
     JClass jClass = JavaFactory.eINSTANCE.createJClass();
     ((InternalEObject)jClass).eSetProxyURI(createJClassProxyURI(javaClass));
@@ -88,9 +87,6 @@ public class JavaUtil
   {
     StringBuffer result = new StringBuffer("/");
     result.append(className);
-    for (int i = 0; i < result.length(); ++i)
-    {
-    }
     int dotIndex = className.lastIndexOf(".");
     if (dotIndex != -1)
     {
@@ -231,9 +227,8 @@ public class JavaUtil
 
 
       System.out.println("All Methods of " + thisClass.getQualifiedName());
-      for (Iterator i = thisClass.getAllMethods().iterator(); i.hasNext(); )
+      for (JMethod jMethod : thisClass.getAllMethods())
       {
-        JMethod jMethod = (JMethod)i.next();
         System.out.println("  " + jMethod.getQualifiedName());
       }
 

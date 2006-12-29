@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackageResourceImpl.java,v 1.3 2005/06/12 13:37:24 emerks Exp $
+ * $Id: JavaPackageResourceImpl.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -50,25 +50,29 @@ public class JavaPackageResourceImpl extends ResourceImpl
     getContents().add(jCompilationUnit);
   }
 
-  protected void doLoad(InputStream inputStream, Map options) throws IOException
+  @Override
+  protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
   {
+    // Ignore
   }
 
-  protected void doSave(OutputStream outputStream, Map options) throws IOException
+  @Override
+  protected void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public EObject getEObject(String uriFragment)
   {
     return super.getEObject(uriFragment);
   }
 
+  @Override
   protected EObject getEObjectForURIFragmentRootSegment(String uriFragmentRootSegment)
   {
-    for (Iterator i = getContents().iterator(); i.hasNext(); )
+    for (Object object : getContents())
     {
-      Object object = i.next();
       if (object instanceof JPackage)
       {
         JPackage jPackage = (JPackage)object;
@@ -82,16 +86,17 @@ public class JavaPackageResourceImpl extends ResourceImpl
     return null;
   }
 
-  protected EObject getEObject(List uriFragmentPath)
+  @Override
+  protected EObject getEObject(List<String> uriFragmentPath)
   {
-    Iterator fragments = uriFragmentPath.iterator(); 
+    Iterator<String> fragments = uriFragmentPath.iterator(); 
     String packageName = !fragments.hasNext() ? "" : (String)fragments.next();
 
     EObject eObject = getEObjectForURIFragmentRootSegment(packageName);
     if (fragments.hasNext())
     {
       JPackage jPackage = (JPackage)eObject;
-      String typeName = (String)fragments.next();
+      String typeName = fragments.next();
       if (eObject == null || (eObject = ((InternalEObject)eObject).eObjectForURIFragmentSegment(typeName)) == null)
       {
         JClass jClass = demandLoad(packageName, typeName);
@@ -115,7 +120,7 @@ public class JavaPackageResourceImpl extends ResourceImpl
 
       while (fragments.hasNext() && eObject != null)
       {
-        eObject = ((InternalEObject)eObject).eObjectForURIFragmentSegment((String)fragments.next());
+        eObject = ((InternalEObject)eObject).eObjectForURIFragmentSegment(fragments.next());
       }
     }
     else if (eObject == null)
@@ -192,7 +197,7 @@ public class JavaPackageResourceImpl extends ResourceImpl
     }
     try
     {
-      Class theClass = null;
+      Class<?> theClass = null;
       if ("java.lang".equals(packageName) && index == -1)
       {
         if (typeName.equals("int"))
@@ -247,11 +252,11 @@ public class JavaPackageResourceImpl extends ResourceImpl
     }
     catch (ClassNotFoundException exception)
     {
+      // Ignore
     }
 
-    for (Iterator i = getSourceURIs().iterator(); i.hasNext(); )
+    for (String sourceURI : getSourceURIs())
     {
-      String sourceURI = (String)i.next();
       URI resolvedSourceURI = 
         URI.createURI
           (sourceURI.toString() + (packageName.length() == 0 ? "" : packageName.replace('.','/') + '/')  + typeName + ".java");
@@ -266,6 +271,7 @@ public class JavaPackageResourceImpl extends ResourceImpl
       }
       catch (IOException exception)
       {
+        // Ignore
       }
     }
 
@@ -300,9 +306,9 @@ public class JavaPackageResourceImpl extends ResourceImpl
     this.classLoader = classLoader;
   }
 
-  protected List sourceURIs = new ArrayList();
+  protected List<String> sourceURIs = new ArrayList<String>();
 
-  public List getSourceURIs()
+  public List<String> getSourceURIs()
   {
     return sourceURIs;
   }

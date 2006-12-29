@@ -82,7 +82,7 @@
 			    name       	"isTransient"
 			    value      	TRUE))
 		    quid       	"3D8B893E004C"
-		    type       	"JavaClass"
+		    type       	"JavaClass<?>"
 		    exportControl 	"Public"))
 	    language   	"none")
 	(object Class "JCompilationUnit"
@@ -248,7 +248,7 @@
 			    name       	"isTransient"
 			    value      	TRUE))
 		    quid       	"3D8B89680393"
-		    type       	"JavaConstructor"
+		    type       	"JavaConstructor<?>"
 		    exportControl 	"Public")
 		(object ClassAttribute "body"
 		    quid       	"3D7940F20267"
@@ -311,8 +311,12 @@
 	    quid       	"3D8B854A01E2"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
-		(object ClassAttribute "java.lang.Class"
+		(object ClassAttribute "T"
 		    quid       	"3D8B855D02F7"
+		    stereotype 	"parameter"
+		    exportControl 	"Public")
+		(object ClassAttribute "java.lang.Class"
+		    quid       	"45950BA80013"
 		    stereotype 	"javaclass"
 		    exportControl 	"Public"))
 	    abstract   	TRUE)
@@ -320,8 +324,12 @@
 	    quid       	"3D8B87E70025"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
-		(object ClassAttribute "java.lang.reflect.Constructor"
+		(object ClassAttribute "T"
 		    quid       	"3D8B8800005B"
+		    stereotype 	"parameter"
+		    exportControl 	"Public")
+		(object ClassAttribute "java.lang.reflect.Constructor"
+		    quid       	"45950EC200BF"
 		    stereotype 	"javaclass"
 		    exportControl 	"Public"))
 	    abstract   	TRUE)
@@ -1176,8 +1184,7 @@
 			max_width  	290)
 		    width      	302
 		    height     	186
-		    annotation 	8
-		    autoResize 	TRUE)
+		    annotation 	8)
 		(object ClassView "Class" "Logical View::java::JModelElement" @21
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeAttribute 	TRUE
@@ -1207,8 +1214,7 @@
 			max_width  	312)
 		    width      	328
 		    height     	236
-		    annotation 	8
-		    autoResize 	TRUE)
+		    annotation 	8)
 		(object InheritTreeView "" @22
 		    location   	(1169, 369)
 		    line_color 	8421504
@@ -1234,10 +1240,17 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3654AD780280"
+		    compartment 	(object Compartment
+			Parent_View 	@23
+			location   	(51, 2090)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	309)
 		    width      	413
 		    height     	181
-		    annotation 	8
-		    autoResize 	TRUE)
+		    annotation 	8)
 		(object InheritView "" @24
 		    stereotype 	TRUE
 		    line_color 	8421504
@@ -1252,23 +1265,30 @@
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
-		    location   	(1984, 1984)
+		    location   	(2015, 1984)
 		    label      	(object ItemLabel
 			Parent_View 	@25
-			location   	(1656, 1728)
+			location   	(1656, 1724)
 			fill_color 	13434879
 			nlines     	1
-			max_width  	656
+			max_width  	719
 			justify    	0
 			label      	"JMethod")
 		    icon_style 	"Icon"
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3654AE910271"
-		    width      	674
-		    height     	536
-		    annotation 	8
-		    autoResize 	TRUE)
+		    compartment 	(object Compartment
+			Parent_View 	@25
+			location   	(1656, 1784)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	9
+			max_width  	725)
+		    width      	737
+		    height     	544
+		    annotation 	8)
 		(object AssociationViewNew "$UNNAMED$0" @26
 		    location   	(1050, 2149)
 		    stereotype 	TRUE
@@ -1296,7 +1316,7 @@
 			    supplier   	@25
 			    line_style 	3
 			    origin_attachment 	(1050, 2149)
-			    terminal_attachment 	(1647, 2149))
+			    terminal_attachment 	(1678, 2149))
 			(object RoleView "parameters" @29
 			    Parent_View 	@26
 			    location   	(-128, 1684)
@@ -1359,8 +1379,7 @@
 			max_width  	418)
 		    width      	430
 		    height     	386
-		    annotation 	8
-		    autoResize 	TRUE)
+		    annotation 	8)
 		(object ClassView "Class" "Logical View::java::JMember" @33
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeAttribute 	TRUE
@@ -1390,8 +1409,7 @@
 			max_width  	409)
 		    width      	420
 		    height     	286
-		    annotation 	8
-		    autoResize 	TRUE)
+		    annotation 	8)
 		(object InheritTreeView "" @34
 		    location   	(2187, 1031)
 		    line_color 	8421504
@@ -1427,7 +1445,7 @@
 		    client     	@25
 		    supplier   	@33
 		    line_style 	3
-		    origin_attachment 	(1948, 1716)
+		    origin_attachment 	(1948, 1712)
 		    terminal_attachment 	(1948, 1031)
 		    drawSupplier 	@34)
 		(object InheritView "" @38
@@ -1467,8 +1485,7 @@
 			max_width  	562)
 		    width      	574
 		    height     	186
-		    annotation 	8
-		    autoResize 	TRUE)
+		    annotation 	8)
 		(object InheritView "" @40
 		    stereotype 	TRUE
 		    line_color 	8421504
@@ -1506,8 +1523,7 @@
 			max_width  	512)
 		    width      	524
 		    height     	236
-		    annotation 	8
-		    autoResize 	TRUE)
+		    annotation 	8)
 		(object AssociationViewNew "$UNNAMED$25" @42
 		    location   	(958, 581)
 		    stereotype 	TRUE
@@ -1647,11 +1663,10 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	5
-			max_width  	450)
+			max_width  	521)
 		    width      	899
 		    height     	618
-		    annotation 	8
-		    autoResize 	TRUE)
+		    annotation 	8)
 		(object AssociationViewNew "$UNNAMED$9" @54
 		    location   	(541, 1930)
 		    stereotype 	TRUE
@@ -2002,7 +2017,7 @@
 			    supplier   	@25
 			    line_style 	3
 			    origin_attachment 	(1271, 1799)
-			    terminal_attachment 	(1647, 1799)
+			    terminal_attachment 	(1678, 1799)
 			    label      	(object SegLabel @84
 				Parent_View 	@82
 				location   	(1560, 1763)
@@ -2016,17 +2031,17 @@
 				height     	37
 				orientation 	0))))
 		(object AssociationViewNew "$UNNAMED$1" @85
-		    location   	(1460, 1546)
+		    location   	(1458, 1546)
 		    stereotype 	TRUE
 		    line_color 	3342489
 		    quidu      	"3810B61B0178"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$2" @86
 			    Parent_View 	@85
-			    location   	(871, 1143)
+			    location   	(869, 1143)
 			    label      	(object SegLabel @87
 				Parent_View 	@86
-				location   	(1785, 1625)
+				location   	(1785, 1621)
 				hidden     	TRUE
 				anchor     	1
 				anchor_loc 	1
@@ -2043,15 +2058,15 @@
 			    client     	@85
 			    supplier   	@25
 			    vertices   	(list Points
-				(1460, 1546)
+				(1458, 1546)
 				(1743, 1546)
-				(1743, 1716))
+				(1743, 1712))
 			    line_style 	3
-			    origin_attachment 	(1460, 1546)
-			    terminal_attachment 	(1743, 1716))
+			    origin_attachment 	(1458, 1546)
+			    terminal_attachment 	(1743, 1712))
 			(object RoleView "exceptions" @88
 			    Parent_View 	@85
-			    location   	(871, 1143)
+			    location   	(869, 1143)
 			    label      	(object SegLabel @89
 				Parent_View 	@88
 				location   	(1284, 1510)
@@ -2070,11 +2085,11 @@
 			    client     	@85
 			    supplier   	@53
 			    line_style 	3
-			    origin_attachment 	(1460, 1546)
+			    origin_attachment 	(1458, 1546)
 			    terminal_attachment 	(1007, 1546)
 			    label      	(object SegLabel @90
 				Parent_View 	@88
-				location   	(1099, 1510)
+				location   	(1098, 1510)
 				anchor     	2
 				anchor_loc 	1
 				nlines     	1
@@ -2085,17 +2100,17 @@
 				height     	37
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$15" @91
-		    location   	(1381, 1640)
+		    location   	(1378, 1640)
 		    stereotype 	TRUE
 		    line_color 	3342489
 		    quidu      	"3D7928A6005B"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$16" @92
 			    Parent_View 	@91
-			    location   	(792, 1237)
+			    location   	(789, 1237)
 			    label      	(object SegLabel @93
 				Parent_View 	@92
-				location   	(1720, 1641)
+				location   	(1676, 1599)
 				hidden     	TRUE
 				anchor     	1
 				anchor_loc 	1
@@ -2112,18 +2127,18 @@
 			    client     	@91
 			    supplier   	@25
 			    vertices   	(list Points
-				(1381, 1640)
+				(1378, 1640)
 				(1678, 1640)
-				(1678, 1716))
+				(1678, 1712))
 			    line_style 	3
-			    origin_attachment 	(1381, 1640)
-			    terminal_attachment 	(1678, 1716))
+			    origin_attachment 	(1378, 1640)
+			    terminal_attachment 	(1678, 1712))
 			(object RoleView "returnType" @94
 			    Parent_View 	@91
-			    location   	(792, 1237)
+			    location   	(789, 1237)
 			    label      	(object SegLabel @95
 				Parent_View 	@94
-				location   	(1286, 1603)
+				location   	(1284, 1603)
 				anchor     	1
 				anchor_loc 	1
 				nlines     	1
@@ -2139,11 +2154,11 @@
 			    client     	@91
 			    supplier   	@53
 			    line_style 	3
-			    origin_attachment 	(1381, 1640)
+			    origin_attachment 	(1378, 1640)
 			    terminal_attachment 	(1007, 1640)
 			    label      	(object SegLabel @96
 				Parent_View 	@94
-				location   	(1102, 1600)
+				location   	(1101, 1600)
 				anchor     	2
 				anchor_loc 	1
 				nlines     	1
@@ -2209,7 +2224,7 @@
 			    supplier   	@25
 			    line_style 	3
 			    origin_attachment 	(1212, 1880)
-			    terminal_attachment 	(1647, 1880)
+			    terminal_attachment 	(1678, 1880)
 			    label      	(object SegLabel @102
 				Parent_View 	@100
 				location   	(1551, 1850)
@@ -2859,6 +2874,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3D8B84E90226"
+		    compartment 	(object Compartment
+			Parent_View 	@156
+			location   	(1116, 212)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	625)
 		    width      	638
 		    height     	192
 		    annotation 	8
@@ -2873,27 +2896,35 @@
 			italics    	TRUE)
 		    label      	(object ItemLabel
 			Parent_View 	@157
-			location   	(71, 586)
+			location   	(70, 561)
 			fill_color 	13434879
 			nlines     	1
-			max_width  	602
+			max_width  	604
 			justify    	0
 			label      	"JavaClass")
 		    stereotype 	(object ItemLabel
 			Parent_View 	@157
-			location   	(71, 536)
+			location   	(70, 511)
 			fill_color 	13434879
 			anchor     	10
 			nlines     	1
-			max_width  	602
+			max_width  	604
 			justify    	0
 			label      	"<<datatype>>")
 		    icon_style 	"Icon"
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3D8B854A01E2"
-		    width      	620
-		    height     	192
+		    compartment 	(object Compartment
+			Parent_View 	@157
+			location   	(70, 621)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	609)
+		    width      	622
+		    height     	242
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::java::JVisibility" @158
@@ -2923,6 +2954,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3B1E75DA00F3"
+		    compartment 	(object Compartment
+			Parent_View 	@158
+			location   	(86, 199)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	4
+			max_width  	228)
 		    width      	342
 		    height     	342
 		    annotation 	8
@@ -2956,6 +2995,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3D8B87C1000F"
+		    compartment 	(object Compartment
+			Parent_View 	@159
+			location   	(56, 956)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	762)
 		    width      	774
 		    height     	192
 		    annotation 	8
@@ -2970,27 +3017,35 @@
 			italics    	TRUE)
 		    label      	(object ItemLabel
 			Parent_View 	@160
-			location   	(949, 896)
+			location   	(948, 871)
 			fill_color 	13434879
 			nlines     	1
-			max_width  	830
+			max_width  	832
 			justify    	0
 			label      	"JavaConstructor")
 		    stereotype 	(object ItemLabel
 			Parent_View 	@160
-			location   	(949, 846)
+			location   	(948, 821)
 			fill_color 	13434879
 			anchor     	10
 			nlines     	1
-			max_width  	830
+			max_width  	832
 			justify    	0
 			label      	"<<datatype>>")
 		    icon_style 	"Icon"
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3D8B87E70025"
-		    width      	848
-		    height     	192
+		    compartment 	(object Compartment
+			Parent_View 	@160
+			location   	(948, 931)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	828)
+		    width      	850
+		    height     	242
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::java::JavaField" @161
@@ -3021,6 +3076,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3D8B88650172"
+		    compartment 	(object Compartment
+			Parent_View 	@161
+			location   	(1041, 646)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	715)
 		    width      	726
 		    height     	192
 		    annotation 	8
@@ -3051,6 +3114,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3D8BCA390000"
+		    compartment 	(object Compartment
+			Parent_View 	@162
+			location   	(74, 1303)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	665)
 		    width      	676
 		    height     	242
 		    annotation 	8

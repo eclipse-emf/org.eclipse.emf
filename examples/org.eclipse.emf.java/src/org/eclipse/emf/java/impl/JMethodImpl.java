@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodImpl.java,v 1.8 2005/11/25 13:13:06 emerks Exp $
+ * $Id: JMethodImpl.java,v 1.9 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.jdt.core.Flags;
-import org.eclipse.jdt.core.jdom.IDOMMethod;
-import org.eclipse.jdt.core.jdom.IDOMType;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -190,16 +188,6 @@ public class JMethodImpl extends JMemberImpl implements JMethod
   protected boolean constructor = CONSTRUCTOR_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getJavaConstructor() <em>Java Constructor</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getJavaConstructor()
-   * @generated
-   * @ordered
-   */
-  protected static final Constructor JAVA_CONSTRUCTOR_EDEFAULT = null;
-
-  /**
    * The cached value of the '{@link #getJavaConstructor() <em>Java Constructor</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -207,7 +195,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * @generated
    * @ordered
    */
-  protected Constructor javaConstructor = JAVA_CONSTRUCTOR_EDEFAULT;
+  protected Constructor<?> javaConstructor;
 
   /**
    * The default value of the '{@link #getBody() <em>Body</em>}' attribute.
@@ -237,7 +225,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * @generated
    * @ordered
    */
-  protected EList parameters = null;
+  protected EList<JParameter> parameters = null;
 
   /**
    * The cached value of the '{@link #getExceptions() <em>Exceptions</em>}' reference list.
@@ -247,7 +235,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * @generated
    * @ordered
    */
-  protected EList exceptions = null;
+  protected EList<JClass> exceptions = null;
 
   /**
    * The cached value of the '{@link #getReturnType() <em>Return Type</em>}' reference.
@@ -274,6 +262,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return JavaPackage.Literals.JMETHOD;
@@ -422,7 +411,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
-  public Constructor getJavaConstructor()
+  public Constructor<?> getJavaConstructor()
   {
     return javaConstructor;
   }
@@ -432,9 +421,9 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setJavaConstructor(Constructor newJavaConstructor)
+  public void setJavaConstructor(Constructor<?> newJavaConstructor)
   {
-    Constructor oldJavaConstructor = javaConstructor;
+    Constructor<?> oldJavaConstructor = javaConstructor;
     javaConstructor = newJavaConstructor;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, JavaPackage.JMETHOD__JAVA_CONSTRUCTOR, oldJavaConstructor, javaConstructor));
@@ -468,11 +457,11 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getParameters()
+  public EList<JParameter> getParameters()
   {
     if (parameters == null)
     {
-      parameters = new EObjectContainmentWithInverseEList(JParameter.class, this, JavaPackage.JMETHOD__PARAMETERS, JavaPackage.JPARAMETER__METHOD);
+      parameters = new EObjectContainmentWithInverseEList<JParameter>(JParameter.class, this, JavaPackage.JMETHOD__PARAMETERS, JavaPackage.JPARAMETER__METHOD);
     }
     return parameters;
   }
@@ -482,11 +471,11 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getExceptions()
+  public EList<JClass> getExceptions()
   {
     if (exceptions == null)
     {
-      exceptions = new EObjectResolvingEList(JClass.class, this, JavaPackage.JMETHOD__EXCEPTIONS);
+      exceptions = new EObjectResolvingEList<JClass>(JClass.class, this, JavaPackage.JMETHOD__EXCEPTIONS);
     }
     return exceptions;
   }
@@ -539,12 +528,14 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case JavaPackage.JMETHOD__PARAMETERS:
-        return ((InternalEList)getParameters()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getParameters()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -554,12 +545,13 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case JavaPackage.JMETHOD__PARAMETERS:
-        return ((InternalEList)getParameters()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -569,6 +561,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -605,6 +598,8 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -628,18 +623,18 @@ public class JMethodImpl extends JMemberImpl implements JMethod
         setConstructor(((Boolean)newValue).booleanValue());
         return;
       case JavaPackage.JMETHOD__JAVA_CONSTRUCTOR:
-        setJavaConstructor((Constructor)newValue);
+        setJavaConstructor((Constructor<?>)newValue);
         return;
       case JavaPackage.JMETHOD__BODY:
         setBody((String)newValue);
         return;
       case JavaPackage.JMETHOD__PARAMETERS:
         getParameters().clear();
-        getParameters().addAll((Collection)newValue);
+        getParameters().addAll((Collection<? extends JParameter>)newValue);
         return;
       case JavaPackage.JMETHOD__EXCEPTIONS:
         getExceptions().clear();
-        getExceptions().addAll((Collection)newValue);
+        getExceptions().addAll((Collection<? extends JClass>)newValue);
         return;
       case JavaPackage.JMETHOD__RETURN_TYPE:
         setReturnType((JClass)newValue);
@@ -653,6 +648,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -676,7 +672,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
         setConstructor(CONSTRUCTOR_EDEFAULT);
         return;
       case JavaPackage.JMETHOD__JAVA_CONSTRUCTOR:
-        setJavaConstructor(JAVA_CONSTRUCTOR_EDEFAULT);
+        setJavaConstructor((Constructor<?>)null);
         return;
       case JavaPackage.JMETHOD__BODY:
         setBody(BODY_EDEFAULT);
@@ -699,6 +695,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -716,7 +713,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
       case JavaPackage.JMETHOD__CONSTRUCTOR:
         return constructor != CONSTRUCTOR_EDEFAULT;
       case JavaPackage.JMETHOD__JAVA_CONSTRUCTOR:
-        return JAVA_CONSTRUCTOR_EDEFAULT == null ? javaConstructor != null : !JAVA_CONSTRUCTOR_EDEFAULT.equals(javaConstructor);
+        return javaConstructor != null;
       case JavaPackage.JMETHOD__BODY:
         return BODY_EDEFAULT == null ? body != null : !BODY_EDEFAULT.equals(body);
       case JavaPackage.JMETHOD__PARAMETERS:
@@ -734,6 +731,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -759,6 +757,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
     return result.toString();
   }
 
+  @Override
   protected void changeAttribute(Notification notification)
   {
     switch (notification.getFeatureID(JMethod.class))
@@ -776,22 +775,22 @@ public class JMethodImpl extends JMemberImpl implements JMethod
         {
           setName(theJavaMethod.getName());
 
-          Collection theParameters = new ArrayList();
-          Class [] parameterTypes = theJavaMethod.getParameterTypes();
+          Collection<JParameter> theParameters = new ArrayList<JParameter>();
+          Class<?> [] parameterTypes = theJavaMethod.getParameterTypes();
           for (int i = 0; i < parameterTypes.length; ++i)
           {
-            Class parameterType = parameterTypes[i];
+            Class<?> parameterType = parameterTypes[i];
             JParameter jParameter = JavaFactory.eINSTANCE.createJParameter();
             jParameter.setType(JavaUtil.createJClassProxy(parameterType));
             theParameters.add(jParameter);
           }
           getParameters().addAll(theParameters);
   
-          Collection theExceptions = new ArrayList();
-          Class [] exceptionTypes = theJavaMethod.getExceptionTypes();
+          Collection<JClass> theExceptions = new ArrayList<JClass>();
+          Class<?> [] exceptionTypes = theJavaMethod.getExceptionTypes();
           for (int i = 0; i < exceptionTypes.length; ++i)
           {
-            Class exceptionType = exceptionTypes[i];
+            Class<?> exceptionType = exceptionTypes[i];
             theExceptions.add(JavaUtil.createJClassProxy(exceptionType));
           }
           getExceptions().addAll(theExceptions);
@@ -811,29 +810,29 @@ public class JMethodImpl extends JMemberImpl implements JMethod
       }
       case JavaPackage.JMETHOD__JAVA_CONSTRUCTOR:
       {
-        Constructor theJavaConstructor = getJavaConstructor();
+        Constructor<?> theJavaConstructor = getJavaConstructor();
         if (theJavaConstructor != null)
         {
           String uri = JavaUtil.createJClassProxyURI(theJavaConstructor.getDeclaringClass()).fragment();
           setName(uri.substring(uri.lastIndexOf("/") + 1));
           setConstructor(true);
   
-          Collection theParameters = new ArrayList();
-          Class [] parameterTypes = theJavaConstructor.getParameterTypes();
+          Collection<JParameter> theParameters = new ArrayList<JParameter>();
+          Class<?> [] parameterTypes = theJavaConstructor.getParameterTypes();
           for (int i = 0; i < parameterTypes.length; ++i)
           {
-            Class parameterType = parameterTypes[i];
+            Class<?> parameterType = parameterTypes[i];
             JParameter jParameter = JavaFactory.eINSTANCE.createJParameter();
             jParameter.setType(JavaUtil.createJClassProxy(parameterType));
             theParameters.add(jParameter);
           }
           getParameters().addAll(theParameters);
   
-          Collection theExceptions = new ArrayList();
-          Class [] exceptionTypes = theJavaConstructor.getExceptionTypes();
+          Collection<JClass> theExceptions = new ArrayList<JClass>();
+          Class<?> [] exceptionTypes = theJavaConstructor.getExceptionTypes();
           for (int i = 0; i < exceptionTypes.length; ++i)
           {
-            Class exceptionType = exceptionTypes[i];
+            Class<?> exceptionType = exceptionTypes[i];
             theExceptions.add(JavaUtil.createJClassProxy(exceptionType));
           }
           getExceptions().addAll(theExceptions);
@@ -856,14 +855,15 @@ public class JMethodImpl extends JMemberImpl implements JMethod
 
   protected static class JDOMHelper
   {
+    @SuppressWarnings("deprecation")
     protected static void handleJNode(JMethod jMethod)
     {
-      IDOMMethod iDOMMethod = (IDOMMethod)jMethod.getJNode();
+      org.eclipse.jdt.core.jdom.IDOMMethod iDOMMethod = (org.eclipse.jdt.core.jdom.IDOMMethod)jMethod.getJNode();
       if (iDOMMethod != null)
       {
-        if (iDOMMethod.getName() == null && iDOMMethod.getParent() instanceof IDOMType)
+        if (iDOMMethod.getName() == null && iDOMMethod.getParent() instanceof org.eclipse.jdt.core.jdom.IDOMType)
         {
-          jMethod.setName(((IDOMType)iDOMMethod.getParent()).getName());
+          jMethod.setName(((org.eclipse.jdt.core.jdom.IDOMType)iDOMMethod.getParent()).getName());
           jMethod.setConstructor(true);
         }
         else
@@ -883,7 +883,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
         jMethod.setNative((flags & Flags.AccNative) != 0);
         jMethod.setSynchronized((flags & Flags.AccSynchronized) != 0);
 
-        Collection theParameters = jMethod.getParameters();
+        Collection<JParameter> theParameters = jMethod.getParameters();
         String [] parameterNames = iDOMMethod.getParameterNames();
         if (parameterNames != null)
         {
@@ -898,24 +898,26 @@ public class JMethodImpl extends JMemberImpl implements JMethod
     }
   }
 
+  @SuppressWarnings("deprecation")
+  @Override
   protected void resolveIdentifiers()
   {
     if (getJNode() != null)
     {
-      IDOMMethod iDOMMethod = (IDOMMethod)getJNode();
+      org.eclipse.jdt.core.jdom.IDOMMethod iDOMMethod = (org.eclipse.jdt.core.jdom.IDOMMethod)getJNode();
       String returnType = iDOMMethod.getReturnType();
       if (returnType != null)
       {
         setReturnType(getContainingType().resolveJClass(iDOMMethod.getReturnType()));
       }
 
-      EList theParameters = getParameters();
+      EList<JParameter> theParameters = getParameters();
       String [] parameterTypes = iDOMMethod.getParameterTypes();
       if (parameterTypes != null)
       {
         for (int i = 0; i < parameterTypes.length; ++i)
         {
-          JParameter jParameter = (JParameter)theParameters.get(i);
+          JParameter jParameter = theParameters.get(i);
           jParameter.setType(getContainingType().resolveJClass(parameterTypes[i]));
         }
       }

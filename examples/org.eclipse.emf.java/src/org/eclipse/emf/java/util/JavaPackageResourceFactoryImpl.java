@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackageResourceFactoryImpl.java,v 1.2 2005/06/08 06:21:06 nickb Exp $
+ * $Id: JavaPackageResourceFactoryImpl.java,v 1.3 2006/12/29 18:27:40 marcelop Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
  */
 public class JavaPackageResourceFactoryImpl extends ResourceFactoryImpl 
 {
+  @Override
   public Resource createResource(URI uri)
   {
     return new JavaPackageResourceImpl(uri);

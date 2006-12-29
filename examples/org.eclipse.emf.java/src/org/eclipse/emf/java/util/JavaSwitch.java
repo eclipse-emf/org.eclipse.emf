@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaSwitch.java,v 1.6 2005/06/08 06:21:06 nickb Exp $
+ * $Id: JavaSwitch.java,v 1.7 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -37,7 +37,7 @@ import org.eclipse.emf.java.*;
  * @see org.eclipse.emf.java.JavaPackage
  * @generated
  */
-public class JavaSwitch {
+public class JavaSwitch<T> {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -67,7 +67,7 @@ public class JavaSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -79,7 +79,7 @@ public class JavaSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -87,11 +87,11 @@ public class JavaSwitch {
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -102,14 +102,14 @@ public class JavaSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case JavaPackage.JCLASS:
       {
         JClass jClass = (JClass)theEObject;
-        Object result = caseJClass(jClass);
+        T result = caseJClass(jClass);
         if (result == null) result = caseJMember(jClass);
         if (result == null) result = caseJModelElement(jClass);
         if (result == null) result = defaultCase(theEObject);
@@ -118,7 +118,7 @@ public class JavaSwitch {
       case JavaPackage.JCOMPILATION_UNIT:
       {
         JCompilationUnit jCompilationUnit = (JCompilationUnit)theEObject;
-        Object result = caseJCompilationUnit(jCompilationUnit);
+        T result = caseJCompilationUnit(jCompilationUnit);
         if (result == null) result = caseJModelElement(jCompilationUnit);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -126,7 +126,7 @@ public class JavaSwitch {
       case JavaPackage.JFIELD:
       {
         JField jField = (JField)theEObject;
-        Object result = caseJField(jField);
+        T result = caseJField(jField);
         if (result == null) result = caseJMember(jField);
         if (result == null) result = caseJModelElement(jField);
         if (result == null) result = defaultCase(theEObject);
@@ -135,7 +135,7 @@ public class JavaSwitch {
       case JavaPackage.JINITIALIZER:
       {
         JInitializer jInitializer = (JInitializer)theEObject;
-        Object result = caseJInitializer(jInitializer);
+        T result = caseJInitializer(jInitializer);
         if (result == null) result = caseJMember(jInitializer);
         if (result == null) result = caseJModelElement(jInitializer);
         if (result == null) result = defaultCase(theEObject);
@@ -144,7 +144,7 @@ public class JavaSwitch {
       case JavaPackage.JMEMBER:
       {
         JMember jMember = (JMember)theEObject;
-        Object result = caseJMember(jMember);
+        T result = caseJMember(jMember);
         if (result == null) result = caseJModelElement(jMember);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -152,7 +152,7 @@ public class JavaSwitch {
       case JavaPackage.JMETHOD:
       {
         JMethod jMethod = (JMethod)theEObject;
-        Object result = caseJMethod(jMethod);
+        T result = caseJMethod(jMethod);
         if (result == null) result = caseJMember(jMethod);
         if (result == null) result = caseJModelElement(jMethod);
         if (result == null) result = defaultCase(theEObject);
@@ -161,14 +161,14 @@ public class JavaSwitch {
       case JavaPackage.JMODEL_ELEMENT:
       {
         JModelElement jModelElement = (JModelElement)theEObject;
-        Object result = caseJModelElement(jModelElement);
+        T result = caseJModelElement(jModelElement);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case JavaPackage.JPACKAGE:
       {
         JPackage jPackage = (JPackage)theEObject;
-        Object result = caseJPackage(jPackage);
+        T result = caseJPackage(jPackage);
         if (result == null) result = caseJModelElement(jPackage);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -176,7 +176,7 @@ public class JavaSwitch {
       case JavaPackage.JPARAMETER:
       {
         JParameter jParameter = (JParameter)theEObject;
-        Object result = caseJParameter(jParameter);
+        T result = caseJParameter(jParameter);
         if (result == null) result = caseJModelElement(jParameter);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -196,7 +196,7 @@ public class JavaSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseJClass(JClass object)
+  public T caseJClass(JClass object)
   {
     return null;
   }
@@ -212,7 +212,7 @@ public class JavaSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseJModelElement(JModelElement object)
+  public T caseJModelElement(JModelElement object)
   {
     return null;
   }
@@ -228,7 +228,7 @@ public class JavaSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseJMember(JMember object)
+  public T caseJMember(JMember object)
   {
     return null;
   }
@@ -244,7 +244,7 @@ public class JavaSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseJCompilationUnit(JCompilationUnit object)
+  public T caseJCompilationUnit(JCompilationUnit object)
   {
     return null;
   }
@@ -260,7 +260,7 @@ public class JavaSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseJField(JField object)
+  public T caseJField(JField object)
   {
     return null;
   }
@@ -276,7 +276,7 @@ public class JavaSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseJInitializer(JInitializer object)
+  public T caseJInitializer(JInitializer object)
   {
     return null;
   }
@@ -292,7 +292,7 @@ public class JavaSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseJMethod(JMethod object)
+  public T caseJMethod(JMethod object)
   {
     return null;
   }
@@ -308,7 +308,7 @@ public class JavaSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseJParameter(JParameter object)
+  public T caseJParameter(JParameter object)
   {
     return null;
   }
@@ -324,7 +324,7 @@ public class JavaSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseJPackage(JPackage object)
+  public T caseJPackage(JPackage object)
   {
     return null;
   }
@@ -340,7 +340,7 @@ public class JavaSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

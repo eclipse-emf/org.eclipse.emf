@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnit.java,v 1.3 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JCompilationUnit.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java;
 
@@ -83,7 +83,7 @@ public interface JCompilationUnit extends JModelElement
    * @model type="java.lang.String"
    * @generated
    */
-  EList getImports();
+  EList<String> getImports();
 
   /**
    * Returns the value of the '<em><b>Comment</b></em>' attribute.
@@ -127,7 +127,7 @@ public interface JCompilationUnit extends JModelElement
    * @model type="org.eclipse.emf.java.JClass" opposite="unit" containment="true"
    * @generated
    */
-  EList getTypes();
+  EList<JClass> getTypes();
 
   /**
    * Returns the value of the '<em><b>Imported Packages</b></em>' reference list.
@@ -143,7 +143,7 @@ public interface JCompilationUnit extends JModelElement
    * @model type="org.eclipse.emf.java.JPackage"
    * @generated
    */
-  EList getImportedPackages();
+  EList<JPackage> getImportedPackages();
 
   /**
    * Returns the value of the '<em><b>Imported Types</b></em>' reference list.
@@ -159,7 +159,7 @@ public interface JCompilationUnit extends JModelElement
    * @model type="org.eclipse.emf.java.JClass"
    * @generated
    */
-  EList getImportedTypes();
+  EList<JClass> getImportedTypes();
 
   /**
    * Resolves all package and class references based on the source; 

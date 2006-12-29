@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethod.java,v 1.3 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JMethod.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java;
 
@@ -216,12 +216,12 @@ public interface JMethod extends JMember
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Java Constructor</em>' attribute.
-   * @see #setJavaConstructor(Constructor)
+   * @see #setJavaConstructor(Constructor<?>)
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_JavaConstructor()
    * @model dataType="org.eclipse.emf.java.JavaConstructor" transient="true"
    * @generated
    */
-  Constructor getJavaConstructor();
+  Constructor<?> getJavaConstructor();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.java.JMethod#getJavaConstructor <em>Java Constructor</em>}' attribute.
@@ -231,7 +231,7 @@ public interface JMethod extends JMember
    * @see #getJavaConstructor()
    * @generated
    */
-  void setJavaConstructor(Constructor value);
+  void setJavaConstructor(Constructor<?> value);
 
   /**
    * Returns the value of the '<em><b>Body</b></em>' attribute.
@@ -275,7 +275,7 @@ public interface JMethod extends JMember
    * @model type="org.eclipse.emf.java.JParameter" opposite="method" containment="true"
    * @generated
    */
-  EList getParameters();
+  EList<JParameter> getParameters();
 
   /**
    * Returns the value of the '<em><b>Exceptions</b></em>' reference list.
@@ -291,7 +291,7 @@ public interface JMethod extends JMember
    * @model type="org.eclipse.emf.java.JClass"
    * @generated
    */
-  EList getExceptions();
+  EList<JClass> getExceptions();
 
   /**
    * Returns the value of the '<em><b>Return Type</b></em>' reference.

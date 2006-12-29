@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: JModelElementImpl.java,v 1.6 2005/11/25 13:13:06 emerks Exp $
+ * $Id: JModelElementImpl.java,v 1.7 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -102,6 +101,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return JavaPackage.Literals.JMODEL_ELEMENT;
@@ -162,9 +162,9 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
     {
       isReconciling = true;
       setJNodeGen(null);
-      for (Iterator contents = eContents().iterator(); contents.hasNext(); )
+      for (Object object : eContents())
       {
-        JModelElement content = (JModelElement)contents.next();
+        JModelElement content = (JModelElement)object;
         content.setJNode(null);
       }
       isReconciling = false;
@@ -180,6 +180,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -197,6 +198,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -205,7 +207,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
         setName((String)newValue);
         return;
       case JavaPackage.JMODEL_ELEMENT__JNODE:
-        setJNode((Object)newValue);
+        setJNode(newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -216,6 +218,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -235,6 +238,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -252,6 +256,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -268,11 +273,13 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
   /**
    * EATM
    */
+  @Override
   public boolean eNotificationRequired()
   {
     return true;
   }
 
+  @Override
   public void eNotify(Notification notification)
   {
     int eventType = notification.getEventType();
@@ -293,9 +300,9 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
           }
           case Notification.ADD_MANY:
           {
-            for (Iterator newValues = ((Collection)newValue).iterator();  newValues.hasNext(); )
+            for (Object object : (Collection<?>)newValue)
             {
-              JModelElement jModelElement = (JModelElement)newValues.next();
+              JModelElement jModelElement = (JModelElement)object;
               adoptContent(eReference, jModelElement);
             }
             break;
@@ -310,9 +317,9 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
           }
           case Notification.REMOVE_MANY:
           {
-            for (Iterator oldValues = ((Collection)oldValue).iterator();  oldValues.hasNext(); )
+            for (Object object : (Collection<?>)oldValue)
             {
-              JModelElement jModelElement = (JModelElement)oldValues.next();
+              JModelElement jModelElement = (JModelElement)object;
               orphanContent(eReference, jModelElement);
             }
             break;
@@ -378,26 +385,32 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
 
   protected void resolveIdentifiers()
   {
+    // Ignore
   }
 
   protected void changeAttribute(Notification notification)
   {
+    // Ignore
   }
 
   protected void changeReference(Notification notification)
   {
+    // Ignore
   }
 
   protected void adoptContent(EReference eReference, JModelElement jModelElement)
   {
+    // Ignore
   }
 
   protected void orphanContent(EReference eReference, JModelElement jModelElement)
   {
+    // Ignore
   }
 
   public void moveContent(EReference eReference, JModelElement jModelElement)
   {
+    // Ignore
   }
 
   public String getQualifiedName()

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaResourceImpl.java,v 1.2 2005/06/08 06:21:06 nickb Exp $
+ * $Id: JavaResourceImpl.java,v 1.3 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -22,9 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
-
-import org.eclipse.jdt.core.jdom.DOMFactory;
-import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -39,14 +36,16 @@ public class JavaResourceImpl extends ResourceImpl
   /**
    * The factory used to create JDOM.
    */
-  protected static DOMFactory jdomFactory = new DOMFactory();
+  @SuppressWarnings("deprecation")
+  protected static org.eclipse.jdt.core.jdom.DOMFactory jdomFactory = new org.eclipse.jdt.core.jdom.DOMFactory();
 
   public JavaResourceImpl(URI uri)
   {
     super(uri);
   }
 
-  protected void doLoad(InputStream inputStream, Map options) throws IOException
+  @Override
+  protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
   {
     try
     {
@@ -54,7 +53,8 @@ public class JavaResourceImpl extends ResourceImpl
       byte [] input = new byte [bufferedInputStream.available()];
       bufferedInputStream.read(input);
       bufferedInputStream.close();
-      IDOMCompilationUnit jdomCompilationUnit = jdomFactory.createCompilationUnit(new String(input), uri.lastSegment());
+      @SuppressWarnings("deprecation")
+      org.eclipse.jdt.core.jdom.IDOMCompilationUnit jdomCompilationUnit = jdomFactory.createCompilationUnit(new String(input), uri.lastSegment());
       JCompilationUnit jCompilationUnit = JavaFactory.eINSTANCE.createJCompilationUnit();
       getContents().add(jCompilationUnit);
       jCompilationUnit.setJNode(jdomCompilationUnit);
@@ -66,7 +66,8 @@ public class JavaResourceImpl extends ResourceImpl
     }
   }
 
-  protected void doSave(OutputStream outputStream, Map options) throws IOException
+  @Override
+  protected void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
     throw new UnsupportedOperationException();
   }

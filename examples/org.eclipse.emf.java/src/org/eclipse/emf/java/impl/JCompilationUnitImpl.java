@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitImpl.java,v 1.8 2005/11/25 13:13:06 emerks Exp $
+ * $Id: JCompilationUnitImpl.java,v 1.9 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -21,11 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
-import org.eclipse.jdt.core.jdom.IDOMImport;
-import org.eclipse.jdt.core.jdom.IDOMNode;
-import org.eclipse.jdt.core.jdom.IDOMPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -76,7 +71,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * @generated
    * @ordered
    */
-  protected EList imports = null;
+  protected EList<String> imports = null;
 
   /**
    * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
@@ -106,7 +101,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * @generated
    * @ordered
    */
-  protected EList types = null;
+  protected EList<JClass> types = null;
 
   /**
    * The cached value of the '{@link #getImportedPackages() <em>Imported Packages</em>}' reference list.
@@ -116,7 +111,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * @generated
    * @ordered
    */
-  protected EList importedPackages = null;
+  protected EList<JPackage> importedPackages = null;
 
   /**
    * The cached value of the '{@link #getImportedTypes() <em>Imported Types</em>}' reference list.
@@ -126,7 +121,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * @generated
    * @ordered
    */
-  protected EList importedTypes = null;
+  protected EList<JClass> importedTypes = null;
 
   /**
    * The cached value of the '{@link #getPackage() <em>Package</em>}' reference.
@@ -153,6 +148,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return JavaPackage.Literals.JCOMPILATION_UNIT;
@@ -206,12 +202,14 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case JavaPackage.JCOMPILATION_UNIT__TYPES:
-        return ((InternalEList)getTypes()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getTypes()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -221,12 +219,13 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case JavaPackage.JCOMPILATION_UNIT__TYPES:
-        return ((InternalEList)getTypes()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getTypes()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -236,11 +235,11 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getImports()
+  public EList<String> getImports()
   {
     if (imports == null)
     {
-      imports = new EDataTypeUniqueEList(String.class, this, JavaPackage.JCOMPILATION_UNIT__IMPORTS);
+      imports = new EDataTypeUniqueEList<String>(String.class, this, JavaPackage.JCOMPILATION_UNIT__IMPORTS);
     }
     return imports;
   }
@@ -273,11 +272,11 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getTypes()
+  public EList<JClass> getTypes()
   {
     if (types == null)
     {
-      types = new EObjectContainmentWithInverseEList(JClass.class, this, JavaPackage.JCOMPILATION_UNIT__TYPES, JavaPackage.JCLASS__UNIT);
+      types = new EObjectContainmentWithInverseEList<JClass>(JClass.class, this, JavaPackage.JCOMPILATION_UNIT__TYPES, JavaPackage.JCLASS__UNIT);
     }
     return types;
   }
@@ -287,11 +286,11 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getImportedPackages()
+  public EList<JPackage> getImportedPackages()
   {
     if (importedPackages == null)
     {
-      importedPackages = new EObjectResolvingEList(JPackage.class, this, JavaPackage.JCOMPILATION_UNIT__IMPORTED_PACKAGES);
+      importedPackages = new EObjectResolvingEList<JPackage>(JPackage.class, this, JavaPackage.JCOMPILATION_UNIT__IMPORTED_PACKAGES);
     }
     return importedPackages;
   }
@@ -301,11 +300,11 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getImportedTypes()
+  public EList<JClass> getImportedTypes()
   {
     if (importedTypes == null)
     {
-      importedTypes = new EObjectResolvingEList(JClass.class, this, JavaPackage.JCOMPILATION_UNIT__IMPORTED_TYPES);
+      importedTypes = new EObjectResolvingEList<JClass>(JClass.class, this, JavaPackage.JCOMPILATION_UNIT__IMPORTED_TYPES);
     }
     return importedTypes;
   }
@@ -315,6 +314,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -341,28 +341,30 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case JavaPackage.JCOMPILATION_UNIT__IMPORTS:
         getImports().clear();
-        getImports().addAll((Collection)newValue);
+        getImports().addAll((Collection<? extends String>)newValue);
         return;
       case JavaPackage.JCOMPILATION_UNIT__COMMENT:
         setComment((String)newValue);
         return;
       case JavaPackage.JCOMPILATION_UNIT__TYPES:
         getTypes().clear();
-        getTypes().addAll((Collection)newValue);
+        getTypes().addAll((Collection<? extends JClass>)newValue);
         return;
       case JavaPackage.JCOMPILATION_UNIT__IMPORTED_PACKAGES:
         getImportedPackages().clear();
-        getImportedPackages().addAll((Collection)newValue);
+        getImportedPackages().addAll((Collection<? extends JPackage>)newValue);
         return;
       case JavaPackage.JCOMPILATION_UNIT__IMPORTED_TYPES:
         getImportedTypes().clear();
-        getImportedTypes().addAll((Collection)newValue);
+        getImportedTypes().addAll((Collection<? extends JClass>)newValue);
         return;
       case JavaPackage.JCOMPILATION_UNIT__PACKAGE:
         setPackage((JPackage)newValue);
@@ -376,6 +378,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -407,6 +410,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -432,6 +436,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -445,6 +450,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
     return result.toString();
   }
 
+  @Override
   protected void changeAttribute(Notification notification)
   {
     switch (notification.getFeatureID(JCompilationUnit.class))
@@ -457,11 +463,10 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
       }
       case JavaPackage.JCOMPILATION_UNIT__IMPORTS:
       {
-        List theImportedPackages = new ArrayList();
-        List theImportedTypes = new ArrayList();
-        for (Iterator i = getImports().iterator(); i.hasNext(); )
+        List<JPackage> theImportedPackages = new ArrayList<JPackage>();
+        List<JClass> theImportedTypes = new ArrayList<JClass>();
+        for (String theImport : getImports())
         {
-          String theImport = (String)i.next();
           if (theImport.endsWith(".*"))
           {
             theImportedPackages.add(JavaUtil.createJPackageProxy(theImport.substring(0, theImport.length() - 2)));
@@ -482,27 +487,28 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
 
   protected static class JDOMHelper
   {
+    @SuppressWarnings("deprecation")
     protected static void handleJNode(JCompilationUnit jCompilationUnit)
     {
-      IDOMCompilationUnit iDOMCompilationUnit = (IDOMCompilationUnit)jCompilationUnit.getJNode();
+      org.eclipse.jdt.core.jdom.IDOMCompilationUnit iDOMCompilationUnit = (org.eclipse.jdt.core.jdom.IDOMCompilationUnit)jCompilationUnit.getJNode();
       if (iDOMCompilationUnit != null)
       {
         jCompilationUnit.setName(iDOMCompilationUnit.getName());
         jCompilationUnit.setComment(iDOMCompilationUnit.getHeader());
-        Collection theImports = new ArrayList();
-        Collection theTypes = new ArrayList();
-        for (IDOMNode child = iDOMCompilationUnit.getFirstChild(); child != null; child = child.getNextNode())
+        Collection<String> theImports = new ArrayList<String>();
+        Collection<JClass> theTypes = new ArrayList<JClass>();
+        for (org.eclipse.jdt.core.jdom.IDOMNode child = iDOMCompilationUnit.getFirstChild(); child != null; child = child.getNextNode())
         {
-          if (child.getNodeType() == IDOMNode.PACKAGE)
+          if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.PACKAGE)
           {
-            IDOMPackage iDOMPackage = (IDOMPackage)child;
+            org.eclipse.jdt.core.jdom.IDOMPackage iDOMPackage = (org.eclipse.jdt.core.jdom.IDOMPackage)child;
             jCompilationUnit.setPackage(JavaUtil.createJPackageProxy(iDOMPackage.getName()));
           }
-          else if (child.getNodeType() == IDOMNode.IMPORT)
+          else if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.IMPORT)
           {
-            theImports.add(((IDOMImport)child).getName());
+            theImports.add(((org.eclipse.jdt.core.jdom.IDOMImport)child).getName());
           }
-          else if (child.getNodeType() == IDOMNode.TYPE)
+          else if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.TYPE)
           {
             JClass jClass = JavaFactory.eINSTANCE.createJClass();
             jClass.setJNode(child);
@@ -521,21 +527,22 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
     }
   }
 
+  @Override
   public void resolveIdentifiers()
   {
-    List theTypes = getTypes();
+    List<JClass> theTypes = getTypes();
     if (!theTypes.isEmpty())
     {
       getPackage().getTypes().add(theTypes.get(0));
     }
 
-    for (Iterator i = getTypes().iterator(); i.hasNext(); )
+    for (JClass jClass : getTypes())
     {
-      JModelElementImpl jModelElement = (JModelElementImpl)i.next();
+      JModelElementImpl jModelElement = (JModelElementImpl)jClass;
       jModelElement.resolveIdentifiers();
     }
 
-    for (Iterator i = getImportedTypes().iterator(); i.hasNext(); )
+    for (Iterator<JClass> i = getImportedTypes().iterator(); i.hasNext(); )
     {
       i.next();
     }
@@ -545,9 +552,8 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
   {
     ResourceSet resourceSet = eResource().getResourceSet();
 
-    for (Iterator i = getTypes().iterator(); i.hasNext(); )
+    for (JClass jClass : getTypes())
     {
-      JClass jClass = (JClass)i.next();
       String name = jClass.getName();
       if (JavaUtil.isPrefixOf(name, fullName))
       {
@@ -562,9 +568,8 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
       }
     }
 
-    for (Iterator i = getImports().iterator(); i.hasNext(); )
+    for (String theImport : getImports())
     {
-      String theImport = (String)i.next();
       if (theImport.endsWith(".*"))
       {
         JClass result = handlePackageImport(resourceSet, theImport.substring(0, theImport.length() - 2), fullName);

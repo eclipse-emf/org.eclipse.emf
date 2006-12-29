@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: JInitializerImpl.java,v 1.7 2005/11/25 13:13:06 emerks Exp $
+ * $Id: JInitializerImpl.java,v 1.8 2006/12/29 18:27:41 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
-
-import org.eclipse.jdt.core.jdom.IDOMInitializer;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -76,6 +74,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return JavaPackage.Literals.JINITIALIZER;
@@ -109,6 +108,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -124,6 +124,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -140,6 +141,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -156,6 +158,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -171,6 +174,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -182,13 +186,15 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
     return result.toString();
   }
 
+  @SuppressWarnings("deprecation")
+  @Override
   protected void changeAttribute(Notification notification)
   {
     if (notification.getFeature() == JavaPackage.eINSTANCE.getJModelElement_JNode())
     {
       if (getJNode() != null)
       {
-        IDOMInitializer iDOMInitializer = (IDOMInitializer)getJNode();
+        org.eclipse.jdt.core.jdom.IDOMInitializer iDOMInitializer = (org.eclipse.jdt.core.jdom.IDOMInitializer)getJNode();
         setBody(iDOMInitializer.getBody());
       }
     }
