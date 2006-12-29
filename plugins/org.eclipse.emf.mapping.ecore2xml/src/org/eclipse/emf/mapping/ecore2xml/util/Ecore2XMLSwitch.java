@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLSwitch.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: Ecore2XMLSwitch.java,v 1.3 2006/12/29 18:29:11 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.mapping.ecore2xml.*;
 
@@ -36,7 +37,7 @@ import org.eclipse.emf.mapping.ecore2xml.*;
  * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage
  * @generated
  */
-public class Ecore2XMLSwitch {
+public class Ecore2XMLSwitch<T> {
   
   /**
    * The cached model package
@@ -67,7 +68,7 @@ public class Ecore2XMLSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -79,7 +80,7 @@ public class Ecore2XMLSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -87,11 +88,11 @@ public class Ecore2XMLSwitch {
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -102,28 +103,28 @@ public class Ecore2XMLSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case Ecore2XMLPackage.XML_INFO:
       {
         XMLInfo xmlInfo = (XMLInfo)theEObject;
-        Object result = caseXMLInfo(xmlInfo);
+        T result = caseXMLInfo(xmlInfo);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case Ecore2XMLPackage.XML_MAP:
       {
         XMLMap xmlMap = (XMLMap)theEObject;
-        Object result = caseXMLMap(xmlMap);
+        T result = caseXMLMap(xmlMap);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY:
       {
-        Map.Entry eNamedElementToXMLInfoMapEntry = (Map.Entry)theEObject;
-        Object result = caseENamedElementToXMLInfoMapEntry(eNamedElementToXMLInfoMapEntry);
+        @SuppressWarnings("unchecked") Map.Entry<ENamedElement, XMLInfo> eNamedElementToXMLInfoMapEntry = (Map.Entry<ENamedElement, XMLInfo>)theEObject;
+        T result = caseENamedElementToXMLInfoMapEntry(eNamedElementToXMLInfoMapEntry);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -142,7 +143,7 @@ public class Ecore2XMLSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXMLInfo(XMLInfo object)
+  public T caseXMLInfo(XMLInfo object)
   {
     return null;
   }
@@ -158,7 +159,7 @@ public class Ecore2XMLSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXMLMap(XMLMap object)
+  public T caseXMLMap(XMLMap object)
   {
     return null;
   }
@@ -174,7 +175,7 @@ public class Ecore2XMLSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseENamedElementToXMLInfoMapEntry(Map.Entry object)
+  public T caseENamedElementToXMLInfoMapEntry(Map.Entry<ENamedElement, XMLInfo> object)
   {
     return null;
   }
@@ -190,7 +191,7 @@ public class Ecore2XMLSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

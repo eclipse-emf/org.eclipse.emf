@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.5 2005/11/25 13:13:11 emerks Exp $
+ * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.6 2006/12/29 18:29:11 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -46,7 +46,7 @@ import org.eclipse.emf.mapping.ecore2xml.XMLInfo;
  *
  * @generated
  */
-public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements BasicEMap.Entry
+public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements BasicEMap.Entry<ENamedElement,XMLInfo>
 {
   
   /**
@@ -84,6 +84,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return Ecore2XMLPackage.Literals.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY;
@@ -185,6 +186,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -200,6 +202,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -218,6 +221,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -237,6 +241,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -256,6 +261,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -305,7 +311,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getKey()
+  public ENamedElement getKey()
   {
     return getTypedKey();
   }
@@ -315,9 +321,9 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setKey(Object key)
+  public void setKey(ENamedElement key)
   {
-    setTypedKey((ENamedElement)key);
+    setTypedKey(key);
   }
 
   /**
@@ -325,7 +331,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getValue()
+  public XMLInfo getValue()
   {
     return getTypedValue();
   }
@@ -335,10 +341,10 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object setValue(Object value)
+  public XMLInfo setValue(XMLInfo value)
   {
-    Object oldValue = getValue();
-    setTypedValue((XMLInfo)value);
+    XMLInfo oldValue = getValue();
+    setTypedValue(value);
     return oldValue;
   }
 
@@ -347,10 +353,11 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getEMap()
+  @SuppressWarnings("unchecked")
+  public EMap<ENamedElement, XMLInfo> getEMap()
   {
     EObject container = eContainer();
-    return container == null ? null : (EMap)container.eGet(eContainmentFeature());
+    return container == null ? null : (EMap<ENamedElement, XMLInfo>)container.eGet(eContainmentFeature());
   }
 
 } //ENamedElementToXMLInfoMapEntryImpl

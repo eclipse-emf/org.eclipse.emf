@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLFactoryImpl.java,v 1.4 2005/11/23 13:57:11 emerks Exp $
+ * $Id: Ecore2XMLFactoryImpl.java,v 1.5 2006/12/29 18:29:11 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.mapping.ecore2xml.impl;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.EPackage;
@@ -77,6 +78,7 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -116,7 +118,7 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
    * <!-- end-user-doc -->
    * @generated
    */
-  public Map.Entry createENamedElementToXMLInfoMapEntry()
+  public Map.Entry<ENamedElement, XMLInfo> createENamedElementToXMLInfoMapEntry()
   {
     ENamedElementToXMLInfoMapEntryImpl eNamedElementToXMLInfoMapEntry = new ENamedElementToXMLInfoMapEntryImpl();
     return eNamedElementToXMLInfoMapEntry;
@@ -138,6 +140,7 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static Ecore2XMLPackage getPackage()
   {
     return Ecore2XMLPackage.eINSTANCE;

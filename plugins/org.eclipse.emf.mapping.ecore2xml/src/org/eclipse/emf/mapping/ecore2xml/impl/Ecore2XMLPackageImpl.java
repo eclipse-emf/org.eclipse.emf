@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLPackageImpl.java,v 1.4 2005/12/02 18:07:24 davidms Exp $
+ * $Id: Ecore2XMLPackageImpl.java,v 1.5 2006/12/29 18:29:11 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -314,6 +314,10 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
 
     // Obtain other dependent packages
     EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
 

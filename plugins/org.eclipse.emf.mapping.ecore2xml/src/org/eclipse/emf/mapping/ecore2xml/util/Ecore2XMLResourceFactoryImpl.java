@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLResourceFactoryImpl.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: Ecore2XMLResourceFactoryImpl.java,v 1.3 2006/12/29 18:29:11 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
@@ -50,6 +50,7 @@ public class Ecore2XMLResourceFactoryImpl extends ResourceFactoryImpl implements
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public Resource createResource(URI uri)
   {
     Ecore2XMLResource result = new Ecore2XMLResourceImpl(uri);

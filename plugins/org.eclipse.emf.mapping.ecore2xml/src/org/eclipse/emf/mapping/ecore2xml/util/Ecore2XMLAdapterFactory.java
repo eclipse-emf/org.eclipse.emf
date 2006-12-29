@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLAdapterFactory.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: Ecore2XMLAdapterFactory.java,v 1.3 2006/12/29 18:29:11 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
@@ -23,6 +23,7 @@ import org.eclipse.emf.common.notify.Notifier;
 
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.mapping.ecore2xml.*;
 
@@ -67,6 +68,7 @@ public class Ecore2XMLAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -86,22 +88,26 @@ public class Ecore2XMLAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Ecore2XMLSwitch modelSwitch =
-    new Ecore2XMLSwitch()
+  protected Ecore2XMLSwitch<Adapter> modelSwitch =
+    new Ecore2XMLSwitch<Adapter>()
     {
-      public Object caseXMLInfo(XMLInfo object)
+      @Override
+      public Adapter caseXMLInfo(XMLInfo object)
       {
         return createXMLInfoAdapter();
       }
-      public Object caseXMLMap(XMLMap object)
+      @Override
+      public Adapter caseXMLMap(XMLMap object)
       {
         return createXMLMapAdapter();
       }
-      public Object caseENamedElementToXMLInfoMapEntry(Map.Entry object)
+      @Override
+      public Adapter caseENamedElementToXMLInfoMapEntry(Map.Entry<ENamedElement, XMLInfo> object)
       {
         return createENamedElementToXMLInfoMapEntryAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -115,9 +121,10 @@ public class Ecore2XMLAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+    @Override
     public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

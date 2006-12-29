@@ -12,15 +12,15 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLExtendedMetaData.java,v 1.4 2006/02/07 15:23:46 khussey Exp $
+ * $Id: Ecore2XMLExtendedMetaData.java,v 1.5 2006/12/29 18:29:11 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -37,7 +37,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   
   protected final Ecore2XMLRegistry ecore2xmlRegistry;
   
-  protected final Map xmlMaps = new HashMap();
+  protected final Map<String, XMLResource.XMLMap> xmlMaps = new HashMap<String, XMLResource.XMLMap>();
   
   public Ecore2XMLExtendedMetaData()
   {
@@ -58,7 +58,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   {
     super(annotationURI, ePackageRegistry);
 
-    extendedMetaDataHolderCache = new HashMap();
+    extendedMetaDataHolderCache = new HashMap<EModelElement, Object>();
 
     this.ecore2xmlRegistry = ecore2xmlRegistry;
   }
@@ -67,9 +67,13 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   {
     XMLResource.XMLInfo xmlInfo = null;
     
-    for (Iterator maps = xmlMaps.values().iterator(); xmlInfo == null && maps.hasNext();)
+    for (XMLResource.XMLMap xmlMap : xmlMaps.values())
     {
-      xmlInfo = ((XMLResource.XMLMap)maps.next()).getInfo(element);
+      xmlInfo = xmlMap.getInfo(element);
+      if (xmlInfo != null)
+      {
+        break;
+      }
     }
     
     return xmlInfo;
@@ -79,9 +83,13 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   {
     EClassifier classifier = null;
     
-    for (Iterator maps = xmlMaps.values().iterator(); classifier == null && maps.hasNext();)
+    for (XMLResource.XMLMap xmlMap : xmlMaps.values())
     {
-      classifier = ((XMLResource.XMLMap)maps.next()).getClassifier(namespaceURI, name);
+      classifier = xmlMap.getClassifier(namespaceURI, name);
+      if (classifier != null)
+      {
+        break;
+      }
     }
     
     return classifier;
@@ -92,6 +100,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
    * 
    * @see org.eclipse.emf.ecore.util.ExtendedMetaData#getPackage(java.lang.String)
    */
+  @Override
   public EPackage getPackage(String namespace)
   {
     XMLResource.XMLMap xmlMap = ecore2xmlRegistry.getXMLMap(namespace);
@@ -109,6 +118,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
    * 
    * @see org.eclipse.emf.ecore.util.ExtendedMetaData#getName(org.eclipse.emf.ecore.EClassifier)
    */
+  @Override
   public String getName(EClassifier eClassifier)
   {
     XMLResource.XMLInfo xmlInfo = getInfo(eClassifier);
@@ -126,6 +136,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
    * 
    * @see org.eclipse.emf.ecore.util.ExtendedMetaData#getName(org.eclipse.emf.ecore.EStructuralFeature)
    */
+  @Override
   public String getName(EStructuralFeature eStructuralFeature)
   {
     XMLResource.XMLInfo xmlInfo = getInfo(eStructuralFeature);
@@ -143,6 +154,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
    * 
    * @see org.eclipse.emf.ecore.util.ExtendedMetaData#getNamespace(org.eclipse.emf.ecore.EPackage)
    */
+  @Override
   public String getNamespace(EPackage ePackage)
   {
     XMLResource.XMLInfo xmlInfo = getInfo(ePackage);
@@ -161,6 +173,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
    * @see org.eclipse.emf.ecore.util.ExtendedMetaData#getType(org.eclipse.emf.ecore.EPackage,
    *      java.lang.String)
    */
+  @Override
   public EClassifier getType(EPackage ePackage, String name)
   {
     EClassifier type = super.getType(ePackage, name);
@@ -178,6 +191,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
    * 
    * @see org.eclipse.emf.ecore.util.ExtendedMetaData#getFeatureKind(org.eclipse.emf.ecore.EStructuralFeature)
    */
+  @Override
   public int getFeatureKind(EStructuralFeature eStructuralFeature)
   {
     XMLResource.XMLInfo xmlInfo = getInfo(eStructuralFeature);
@@ -201,6 +215,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
    * 
    * @see org.eclipse.emf.ecore.util.BasicExtendedMetaData#isFeatureKindSpecific()
    */
+  @Override
   protected boolean isFeatureKindSpecific()
   {
     return false;

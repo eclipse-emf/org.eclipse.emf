@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLRegistryImpl.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: Ecore2XMLRegistryImpl.java,v 1.3 2006/12/29 18:29:12 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -24,9 +24,10 @@ import org.eclipse.emf.mapping.ecore2xml.Ecore2XMLRegistry;
 /**
  *  
  */
-public class Ecore2XMLRegistryImpl extends HashMap implements Ecore2XMLRegistry
+public class Ecore2XMLRegistryImpl extends HashMap<String, Object> implements Ecore2XMLRegistry
 {
-  
+  private static final long serialVersionUID = 1L;
+
   protected Ecore2XMLRegistry delegateRegistry;
   
   public Ecore2XMLRegistryImpl()
@@ -67,9 +68,9 @@ public class Ecore2XMLRegistryImpl extends HashMap implements Ecore2XMLRegistry
     return delegateRegistry == null ? null : delegateRegistry.getXMLMap(nsURI);
   }
   
+  @Override
   public boolean containsKey(Object key)
   {
     return super.containsKey(key) || delegateRegistry != null && delegateRegistry.containsKey(key);
   }
-  
 }

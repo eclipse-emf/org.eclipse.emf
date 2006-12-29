@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,13 @@
  *
  * </copyright>
  * 
- * $Id: XMLMap.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: XMLMap.java,v 1.3 2006/12/29 18:29:12 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
 import org.eclipse.emf.common.util.EMap;
 
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.EPackage;
@@ -85,7 +86,7 @@ public interface XMLMap extends EObject, XMLResource.XMLMap{
    * @model mapType="org.eclipse.emf.mapping.ecore2xml.ENamedElementToXMLInfoMapEntry" keyType="org.eclipse.emf.ecore.ENamedElement" valueType="org.eclipse.emf.mapping.ecore2xml.XMLInfo"
    * @generated
    */
-  EMap getEcoreToXMLInfo();
+  EMap<ENamedElement, XMLInfo> getEcoreToXMLInfo();
 
   /**
    * Returns the value of the '<em><b>No Namespace Package</b></em>' reference.

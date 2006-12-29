@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapImpl.java,v 1.6 2005/11/25 13:13:11 emerks Exp $
+ * $Id: XMLMapImpl.java,v 1.7 2006/12/29 18:29:11 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -76,7 +76,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * @generated
    * @ordered
    */
-  protected EMap ecoreToXMLInfo = null;
+  protected EMap<ENamedElement, XMLInfo> ecoreToXMLInfo = null;
   
   /**
    * <!-- begin-user-doc -->
@@ -93,6 +93,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return Ecore2XMLPackage.Literals.XML_MAP;
@@ -126,11 +127,11 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getEcoreToXMLInfo()
+  public EMap<ENamedElement, XMLInfo> getEcoreToXMLInfo()
   {
     if (ecoreToXMLInfo == null)
     {
-      ecoreToXMLInfo = new EcoreEMap(Ecore2XMLPackage.Literals.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY, ENamedElementToXMLInfoMapEntryImpl.class, this, Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO);
+      ecoreToXMLInfo = new EcoreEMap<ENamedElement,XMLInfo>(Ecore2XMLPackage.Literals.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY, ENamedElementToXMLInfoMapEntryImpl.class, this, Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO);
     }
     return ecoreToXMLInfo;
   }
@@ -174,12 +175,13 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO:
-        return ((InternalEList)getEcoreToXMLInfo()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEcoreToXMLInfo()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -189,6 +191,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -210,6 +213,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -232,6 +236,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -254,6 +259,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -273,7 +279,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
     protected DelegateXMLMapImpl()
     {
       super();
-      this.ecoreToXMLInfo = XMLMapImpl.this.getEcoreToXMLInfo().map();
+      this.ecoreToXMLInfo.putAll(XMLMapImpl.this.getEcoreToXMLInfo().map());
     }
   }
   
@@ -306,7 +312,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   /* (non-Javadoc)
    * @see org.eclipse.emf.ecore.xmi.XMLResource.XMLMap#getFeatures(org.eclipse.emf.ecore.EClass)
    */
-  public List getFeatures(EClass eClass)
+  public List<EStructuralFeature> getFeatures(EClass eClass)
   {
     return delegateXMLMap.getFeatures(eClass);
   }

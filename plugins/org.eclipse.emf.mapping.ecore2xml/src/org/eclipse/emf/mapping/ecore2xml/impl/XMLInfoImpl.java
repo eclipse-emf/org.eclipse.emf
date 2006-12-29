@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfoImpl.java,v 1.6 2005/11/25 13:13:11 emerks Exp $
+ * $Id: XMLInfoImpl.java,v 1.7 2006/12/29 18:29:11 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -89,6 +89,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return Ecore2XMLPackage.Literals.XML_INFO;
@@ -168,6 +169,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -187,6 +189,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -209,6 +212,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -231,6 +235,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
