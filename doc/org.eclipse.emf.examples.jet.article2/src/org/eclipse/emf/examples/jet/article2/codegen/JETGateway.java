@@ -30,7 +30,7 @@ import org.eclipse.emf.common.util.Monitor;
  * This class encapsulates access to the JET and JMerge packages.
  * 
  * @author Remko Popma
- * @version $Revision: 1.4 $ ($Date: 2006/12/29 18:37:10 $)
+ * @version $Revision: 1.5 $ ($Date: 2006/12/29 21:12:36 $)
  */
 public class JETGateway
 {
@@ -131,12 +131,12 @@ public class JETGateway
     jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
 
     jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(targetFile.getContents(true)));
-    String oldContents = jMerger.getTargetCompilationUnit().getContents();
+    String oldContents = jControlModel.getFacadeHelper().getOriginalContents(jMerger.getTargetCompilationUnit());
 
     jMerger.merge();
     monitor.worked(1);
 
-    String result = jMerger.getTargetCompilationUnit().getContents();
+    String result = jMerger.getTargetCompilationUnitContents();
     if (oldContents.equals(result))
     {
       return result;
@@ -154,7 +154,7 @@ public class JETGateway
 
       jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(targetFile.getContents(true)));
       jMerger.remerge();
-      return jMerger.getTargetCompilationUnit().getContents();
+      return jMerger.getTargetCompilationUnitContents();
     }
     return result;
   }
