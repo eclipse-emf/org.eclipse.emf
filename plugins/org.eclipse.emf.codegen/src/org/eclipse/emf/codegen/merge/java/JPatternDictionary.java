@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.7 2006/12/16 18:42:59 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.8 2006/12/29 20:49:33 marcelop Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java;
@@ -79,6 +79,67 @@ public class JPatternDictionary extends FacadeVisitor
     }
   }
   
+  /**
+   * Resets this JPatternDictionary.  After calling this method, it is necessary to invoke 
+   * {@link #start(JNode)} passing a compilation unit to reuse this instance. 
+   */
+  public void reset()
+  {
+    jPackage = null;
+    
+    if (annotationMap != null)
+    {
+      annotationMap.clear();
+      annotationMap = null;
+    }
+    if (annotationTypeMemberMap != null)
+    {
+      annotationTypeMemberMap.clear();
+      annotationMap = null;
+    }
+    if (enumConstantMap != null)
+    {
+      enumConstantMap.clear();
+      enumConstantMap = null;
+    }
+    if (importMap != null)
+    {
+      importMap.clear();
+      importMap = null;
+    }
+    if (abstractTypeMap != null)
+    {
+      abstractTypeMap.clear();
+      abstractTypeMap = null;
+    }
+    if (initializerMap != null)
+    {
+      initializerMap.clear();
+      initializerMap = null;
+    }
+    if (fieldMap != null)
+    {
+      fieldMap.clear();
+      fieldMap = null;
+    }
+    if (methodMap != null)
+    {
+      methodMap.clear();
+      methodMap = null;
+    }
+    
+    if (markupMap != null)
+    {
+      markupMap.clear();
+      markupMap = null;      
+    }
+    if (noImportSet != null)
+    {
+      noImportSet.clear();
+      noImportSet = null;
+    }
+  }
+
   public JPackage getJPackage()
   {
     return jPackage;
