@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.39 2006/12/28 16:49:46 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.40 2006/12/29 22:49:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1804,10 +1804,12 @@ public class GenModelEditor
   {
     return false;
   }
+
   public void validate()
   {
     Resource mainResource = editingDomain.getResourceSet().getResources().get(0);
     GenModel genModel = (GenModel)mainResource.getContents().get(0);
+    genModel.setValidateModel(true);
     Diagnostic diagnostic = genModel.diagnose();
     if (diagnostic.getSeverity() != Diagnostic.OK)
     {
