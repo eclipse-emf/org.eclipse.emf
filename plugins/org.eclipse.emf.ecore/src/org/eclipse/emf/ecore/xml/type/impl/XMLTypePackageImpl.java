@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.18 2006/12/09 18:13:38 emerks Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.19 2006/12/29 18:09:56 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 

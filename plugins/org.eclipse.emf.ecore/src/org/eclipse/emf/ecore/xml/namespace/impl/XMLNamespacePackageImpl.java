@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2005 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackageImpl.java,v 1.12 2006/12/13 16:00:30 emerks Exp $
+ * $Id: XMLNamespacePackageImpl.java,v 1.13 2006/12/29 18:09:56 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
