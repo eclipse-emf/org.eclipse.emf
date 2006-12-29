@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeItemProviderAdapterFactory.java,v 1.4 2005/06/08 06:17:29 nickb Exp $
+ * $Id: ChangeItemProviderAdapterFactory.java,v 1.5 2006/12/29 18:23:37 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -68,7 +68,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance.
@@ -82,7 +82,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
-    supportedTypes.add(IItemPropertySource.class);		
+    supportedTypes.add(IItemPropertySource.class);
   }
 
   /**
@@ -99,6 +99,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createChangeDescriptionAdapter()
   {
     if (changeDescriptionItemProvider == null)
@@ -123,6 +124,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEObjectToChangesMapEntryAdapter()
   {
     if (eObjectToChangesMapEntryItemProvider == null)
@@ -147,6 +149,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createFeatureChangeAdapter()
   {
     if (featureChangeItemProvider == null)
@@ -171,6 +174,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createListChangeAdapter()
   {
     if (listChangeItemProvider == null)
@@ -195,6 +199,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createResourceChangeAdapter()
   {
     if (resourceChangeItemProvider == null)
@@ -219,6 +224,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createFeatureMapEntryAdapter()
   {
     if (featureMapEntryItemProvider == null)
@@ -256,6 +262,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return supportedTypes.contains(type) || super.isFactoryForType(type);
@@ -267,6 +274,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
@@ -277,12 +285,13 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object adapt(Object object, Object type)
   {
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
