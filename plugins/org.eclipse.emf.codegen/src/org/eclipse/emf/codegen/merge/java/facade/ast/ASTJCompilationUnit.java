@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJCompilationUnit.java,v 1.7 2006/12/20 16:12:47 marcelop Exp $
+ * $Id: ASTJCompilationUnit.java,v 1.8 2006/12/29 20:56:40 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -99,6 +99,21 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
     super(compilationUnit);
   }
   
+  @Override
+  public void dispose()
+  {
+    allTrackedContentsMap.clear();
+    headerString = null;
+    originalContents = null;
+    if (commentedOutNodes != null)
+    {
+      commentedOutNodes.clear();
+      commentedOutNodes = null;
+    }
+    
+    super.dispose();
+  }
+  
   /**
    * Sets original contents of the compilation unit to be used for converting nodes
    * to strings.
@@ -174,38 +189,45 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
   @Override
   public List<JNode> getChildren()
   {
-    List<JNode> children = new ArrayList<JNode>();
-    CompilationUnit astCompilationUnit = getASTNode();
-    PackageDeclaration astPackage = astCompilationUnit.getPackage();
-    if (astPackage != null)
+    if (!isDisposed())
     {
-      JNode child = getFacadeHelper().convertToNode(astPackage);
-      if (child != null)
+      CompilationUnit astCompilationUnit = getASTNode();
+      List<JNode> children = new ArrayList<JNode>();
+      PackageDeclaration astPackage = astCompilationUnit.getPackage();
+      if (astPackage != null)
       {
-        children.add(child);
+        JNode child = getFacadeHelper().convertToNode(astPackage);
+        if (child != null)
+        {
+          children.add(child);
+        }
+      }
+      
+      ListRewrite importsListRewrite = rewriter.getListRewrite(astCompilationUnit, CompilationUnit.IMPORTS_PROPERTY);
+      for (Object importDeclaration : importsListRewrite.getRewrittenList())
+      {
+        JNode child = getFacadeHelper().convertToNode(importDeclaration);
+        if (child != null)
+        {
+          children.add(child);
+        }
+      }
+      
+      ListRewrite typesListRewrite = rewriter.getListRewrite(astCompilationUnit, CompilationUnit.TYPES_PROPERTY);
+      for (Object type : typesListRewrite.getRewrittenList())
+      {
+        JNode child = getFacadeHelper().convertToNode(type);
+        if (child != null)
+        {
+          children.add(child);
+        }
+      }
+      if (!children.isEmpty())
+      {
+        return Collections.unmodifiableList(children);
       }
     }
-    
-    ListRewrite importsListRewrite = rewriter.getListRewrite(astCompilationUnit, CompilationUnit.IMPORTS_PROPERTY);
-    for (Object importDeclaration : importsListRewrite.getRewrittenList())
-    {
-      JNode child = getFacadeHelper().convertToNode(importDeclaration);
-      if (child != null)
-      {
-        children.add(child);
-      }
-    }
-    
-    ListRewrite typesListRewrite = rewriter.getListRewrite(astCompilationUnit, CompilationUnit.TYPES_PROPERTY);
-    for (Object type : typesListRewrite.getRewrittenList())
-    {
-      JNode child = getFacadeHelper().convertToNode(type);
-      if (child != null)
-      {
-        children.add(child);
-      }
-    }
-    return children.isEmpty() ? Collections.<JNode> emptyList() : Collections.<JNode> unmodifiableList(children);
+    return Collections.emptyList();
   }
 
   /**
