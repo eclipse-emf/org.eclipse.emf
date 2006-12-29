@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeHelper.java,v 1.8 2006/12/21 17:49:13 marcelop Exp $
+ * $Id: FacadeHelper.java,v 1.9 2006/12/29 20:52:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -36,6 +36,10 @@ public abstract class FacadeHelper
   {
     if (objectToNodeMap != null)
     {
+      for (JNode node : objectToNodeMap.values())
+      {
+        disposeNode(node);
+      }
       objectToNodeMap.clear();
     }   
   }
@@ -52,6 +56,47 @@ public abstract class FacadeHelper
   public String getClassPrefix()
   {
     return CLASS_PREFIX;
+  }
+  
+  /**
+   * <p>Disposes the node and its children.  If the node is null,
+   * this method doesn't do anything.</p>
+   * <p>After being disposed, the node and its children should not be
+   * reused.</p>
+   * @param node
+   */
+  public void dispose(JNode node)
+  {
+    for (JNode child : node.getChildren())
+    {
+      dispose(child);
+    }
+    disposeNode(node);      
+  }
+  
+  /**
+   * Disposes a single node.
+   * @param node
+   */
+  protected void disposeNode(JNode node)
+  {
+    if (node instanceof AbstractJNode)
+    {
+      ((AbstractJNode)node).dispose();
+    }
+  }
+  
+  /**
+   * Returns <code>true</code> if a node is
+   * disposed.
+   * @param node
+   * @return boolean
+   * @see #dispose(JNode)
+   */
+  public boolean isDisposed(JNode node)
+  {
+    return node instanceof AbstractJNode &&
+      ((AbstractJNode)node).isDisposed();
   }
   
   /**
@@ -110,7 +155,7 @@ public abstract class FacadeHelper
    */  
   public abstract Object getContext(JNode node);
   
-  public abstract JCompilationUnit createCompilationUnit(String name, String content);
+  public abstract JCompilationUnit createCompilationUnit(String name, String contents);
   protected abstract JNode doConvertToNode(Object object);
 
   /**
