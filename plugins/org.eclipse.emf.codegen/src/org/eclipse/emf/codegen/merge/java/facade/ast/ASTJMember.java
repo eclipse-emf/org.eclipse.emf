@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJMember.java,v 1.5 2006/12/19 18:53:06 marcelop Exp $
+ * $Id: ASTJMember.java,v 1.6 2006/12/29 20:55:32 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -51,6 +51,13 @@ public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> 
   public ASTJMember(T bodyDeclaration)
   {
     super(bodyDeclaration);
+  }
+  
+  @Override
+  public void dispose()
+  {
+    comment = null;
+    super.dispose();
   }
   
   /**
@@ -186,9 +193,16 @@ public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> 
   @Override
   public List<JNode> getChildren()
   {
-    List<JNode> children = new ArrayList<JNode>();
-    children.addAll(getAnnotationList());
-    return children.isEmpty() ? Collections.<JNode>emptyList() : Collections.unmodifiableList(children);
+    if (!isDisposed())
+    {
+      List<JNode> children = new ArrayList<JNode>();
+      children.addAll(getAnnotationList());
+      if (!children.isEmpty())
+      {
+        return Collections.unmodifiableList(children);
+      }
+    }
+    return Collections.emptyList();
   }
 
   protected List<JNode> getAnnotationList()
