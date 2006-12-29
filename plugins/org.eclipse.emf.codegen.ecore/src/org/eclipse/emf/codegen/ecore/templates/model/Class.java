@@ -1586,7 +1586,7 @@ public class Class
     stringBuffer.append(TEXT_77);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_78);
-    stringBuffer.append(genFeature.getRawImportedType());
+    stringBuffer.append(genFeature.getImportedType());
     stringBuffer.append(TEXT_79);
     stringBuffer.append(genFeature.getEDefault());
     if ("".equals(staticDefaultValue)) {

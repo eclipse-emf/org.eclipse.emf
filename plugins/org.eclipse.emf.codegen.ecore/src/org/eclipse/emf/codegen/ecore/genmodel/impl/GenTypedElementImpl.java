@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.13 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenTypedElementImpl.java,v 1.14 2006/12/29 21:56:24 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -121,6 +121,10 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     if (isMapType()) return getEffectiveMapType(getMapEntryTypeGenClass());
     if (isListType()) return getEffectiveListType(getEcoreTypedElement().getEGenericType());
     if (isEObjectType()) return getEffectiveEObjectType();
+    if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      return "java.util.List<" + getType(getListDataType().getEcoreDataType(), true) + ">";
+    }
     return getType(getEcoreTypedElement().getEGenericType(), false);
   }
 
@@ -139,6 +143,10 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType(getMapEntryTypeGenClass()));
     if (isListType()) return getGenModel().getImportedName(getEffectiveListType(getEcoreTypedElement().getEGenericType()));
     if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
+    if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      return getGenModel().getImportedName("java.util.List") + "<" + getImportedType(getListDataType().getEcoreDataType(), true) + ">";
+    }
     return getImportedType(getEcoreTypedElement().getEGenericType(), false);
   }
 
@@ -148,6 +156,10 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType(getMapEntryTypeGenClass()));
     if (isListType()) return getGenModel().getImportedName(getEffectiveListType(getEcoreTypedElement().getEGenericType()));
     if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
+    if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      return getGenModel().getImportedName("java.util.List") + "<" + getImportedType(getListDataType().getEcoreDataType(), true) + ">";
+    }
     return getImportedType(getEcoreTypedElement().getEGenericType(), true);
   }
 
@@ -160,6 +172,10 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
              getImportedEffectiveFeatureMapWrapperInternalInterface();
     if (isMapType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EMap") + getImportedMapTemplateArguments(); 
     if (isListType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EList") + getListTemplateArguments();
+    if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      return getGenModel().getImportedName("java.util.List") + "<" + getImportedType(getListDataType().getEcoreDataType(), true) + ">";
+    }
     return getImportedType(getEcoreTypedElement().getEGenericType(), false);
   }
 
@@ -225,7 +241,19 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
           eTypedElement instanceof EStructuralFeature && 
           XMLTypePackage.eNS_URI.equals(getExtendedMetaData().getNamespace((EStructuralFeature)eTypedElement));
   }
-  
+
+  public boolean isListDataType()
+  {
+    GenDataType genDataType = getTypeGenDataType();
+    return genDataType != null && ((GenDataTypeImpl)genDataType).getEffectiveItemType() != null;
+  }
+
+  public GenDataType getListDataType()
+  {
+    GenDataType genDataType = getTypeGenDataType();
+    return genDataType == null ? null : ((GenDataTypeImpl)genDataType).getEffectiveItemType();
+  }
+
   public String getListTemplateArguments()
   {
     return getEffectiveComplianceLevel().getValue() <= GenJDKLevel.JDK14 ? "" : "<" + getListItemType() + ">";
@@ -371,7 +399,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     {
       return true;
     }
-    if (isListType())
+    if (isListType() || isListDataType())
     {
       return true;
     }
