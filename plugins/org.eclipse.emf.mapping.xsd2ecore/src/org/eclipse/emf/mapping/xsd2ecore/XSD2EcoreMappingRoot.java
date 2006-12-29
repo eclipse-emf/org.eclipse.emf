@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreMappingRoot.java,v 1.4 2005/06/08 06:18:57 nickb Exp $
+ * $Id: XSD2EcoreMappingRoot.java,v 1.5 2006/12/29 18:29:00 marcelop Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore;
 
@@ -30,4 +30,5 @@ import org.eclipse.emf.mapping.MappingRoot;
  */
 public interface XSD2EcoreMappingRoot extends MappingRoot
 {
+  // No additional methods.
 } // XSD2EcoreMappingRoot

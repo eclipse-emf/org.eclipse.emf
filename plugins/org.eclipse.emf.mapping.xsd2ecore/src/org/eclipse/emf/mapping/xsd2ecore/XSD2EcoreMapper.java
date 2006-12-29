@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreMapper.java,v 1.2 2005/06/08 06:18:57 nickb Exp $
+ * $Id: XSD2EcoreMapper.java,v 1.3 2006/12/29 18:29:00 marcelop Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore;
 
@@ -42,6 +42,7 @@ public class XSD2EcoreMapper implements Mapper
 
   public XSD2EcoreMapper()
   {
+    super();
   }
 
   public EObject getRoot()
@@ -80,7 +81,7 @@ public class XSD2EcoreMapper implements Mapper
     return mappingRoot;
   }
 
-  public void map(Collection inputs, Collection outputs)
+  public void map(Collection<? extends EObject> inputs, Collection<? extends EObject> outputs)
   {
     Mapping mapping = 
       topToBottom ? 
@@ -88,9 +89,9 @@ public class XSD2EcoreMapper implements Mapper
         getMappingRoot().createMapping(outputs, inputs);
     Mapping parent = mappingRoot.getParentMapping(mapping.getMappedObjects());
     parent.getNested().add(mapping);
-    for (Iterator i = parent.getNested().iterator(); i.hasNext(); )
+    for (Iterator<Mapping> i = parent.getNested().iterator(); i.hasNext(); )
     {
-      Mapping otherMapping = (Mapping)i.next();
+      Mapping otherMapping = i.next();
       if (otherMapping != mapping && mappingRoot.getParentMapping(otherMapping.getMappedObjects()) == mapping)
       {
         i.remove();

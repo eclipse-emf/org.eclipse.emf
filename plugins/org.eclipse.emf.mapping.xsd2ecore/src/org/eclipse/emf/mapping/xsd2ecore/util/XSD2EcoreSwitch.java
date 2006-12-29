@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreSwitch.java,v 1.6 2005/11/08 14:24:46 emerks Exp $
+ * $Id: XSD2EcoreSwitch.java,v 1.7 2006/12/29 18:29:00 marcelop Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.util;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.mapping.xsd2ecore.*;
  * @see org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePackage
  * @generated
  */
-public class XSD2EcoreSwitch {
+public class XSD2EcoreSwitch<T> {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -68,7 +68,7 @@ public class XSD2EcoreSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -80,7 +80,7 @@ public class XSD2EcoreSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -88,11 +88,11 @@ public class XSD2EcoreSwitch {
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -103,14 +103,14 @@ public class XSD2EcoreSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case XSD2EcorePackage.XSD2_ECORE_MAPPING_ROOT:
       {
         XSD2EcoreMappingRoot xsd2EcoreMappingRoot = (XSD2EcoreMappingRoot)theEObject;
-        Object result = caseXSD2EcoreMappingRoot(xsd2EcoreMappingRoot);
+        T result = caseXSD2EcoreMappingRoot(xsd2EcoreMappingRoot);
         if (result == null) result = caseMappingRoot(xsd2EcoreMappingRoot);
         if (result == null) result = caseMapping(xsd2EcoreMappingRoot);
         if (result == null) result = defaultCase(theEObject);
@@ -131,7 +131,7 @@ public class XSD2EcoreSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSD2EcoreMappingRoot(XSD2EcoreMappingRoot object)
+  public T caseXSD2EcoreMappingRoot(XSD2EcoreMappingRoot object)
   {
     return null;
   }
@@ -147,7 +147,7 @@ public class XSD2EcoreSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseMapping(Mapping object)
+  public T caseMapping(Mapping object)
   {
     return null;
   }
@@ -163,7 +163,7 @@ public class XSD2EcoreSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseMappingRoot(MappingRoot object)
+  public T caseMappingRoot(MappingRoot object)
   {
     return null;
   }
@@ -179,7 +179,7 @@ public class XSD2EcoreSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

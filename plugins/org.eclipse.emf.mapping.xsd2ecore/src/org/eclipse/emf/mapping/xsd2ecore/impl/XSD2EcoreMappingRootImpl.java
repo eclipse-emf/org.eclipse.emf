@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreMappingRootImpl.java,v 1.5 2005/11/23 18:09:45 emerks Exp $
+ * $Id: XSD2EcoreMappingRootImpl.java,v 1.6 2006/12/29 18:29:00 marcelop Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -49,6 +49,7 @@ public class XSD2EcoreMappingRootImpl extends MappingRootImpl implements XSD2Eco
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSD2EcorePackage.Literals.XSD2_ECORE_MAPPING_ROOT;

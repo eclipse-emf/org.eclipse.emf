@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreItemProviderAdapterFactory.java,v 1.5 2005/11/08 14:24:46 emerks Exp $
+ * $Id: XSD2EcoreItemProviderAdapterFactory.java,v 1.6 2006/12/29 18:29:00 marcelop Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.provider;
 
@@ -70,7 +70,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance.
@@ -84,7 +84,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
-    supportedTypes.add(IItemPropertySource.class);		
+    supportedTypes.add(IItemPropertySource.class);
   }
 
   /**
@@ -101,6 +101,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createXSD2EcoreMappingRootAdapter()
   {
     if (xsd2EcoreMappingRootItemProvider == null)
@@ -138,6 +139,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return supportedTypes.contains(type) || super.isFactoryForType(type);
@@ -149,6 +151,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
@@ -159,12 +162,13 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object adapt(Object object, Object type)
   {
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
