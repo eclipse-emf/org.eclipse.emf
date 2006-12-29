@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidatorGeneratorUtil.java,v 1.2 2006/12/01 12:11:59 emerks Exp $
+ * $Id: ValidatorGeneratorUtil.java,v 1.3 2006/12/29 22:37:42 marcelop Exp $
  */
 package org.eclipse.emf.examples.generator.validator;
 
@@ -32,6 +32,7 @@ public class ValidatorGeneratorUtil
 {
   private ValidatorGeneratorUtil()
   {
+    super();
   }
 
   public final static String TEMPLATE_LOCATION = ValidatorGeneratorPlugin.INSTANCE.getBaseURL().toString() + "templates";
@@ -68,14 +69,14 @@ public class ValidatorGeneratorUtil
 
   public static String getSuperTypesExpression(GenClass genClass)
   {
-    List extendsList = genClass.getBaseGenClasses();
+    List<GenClass> extendsList = genClass.getBaseGenClasses();
     if (!extendsList.isEmpty())
     {
       StringBuffer result = new StringBuffer();
       result.append(" -> ");
-      for (Iterator i = extendsList.iterator(); i.hasNext(); )
+      for (Iterator<GenClass> i = extendsList.iterator(); i.hasNext(); )
       {
-        result.append(((GenClass)i.next()).getName());
+        result.append(i.next().getName());
         if (i.hasNext())
         {
           result.append(", ");
@@ -124,9 +125,9 @@ public class ValidatorGeneratorUtil
     StringBuffer result = new StringBuffer();
     result.append('(');
 
-    for (Iterator i = genOperation.getGenParameters().iterator(); i.hasNext(); )
+    for (Iterator<GenParameter> i = genOperation.getGenParameters().iterator(); i.hasNext(); )
     {
-      GenParameter genParameter = (GenParameter)i.next();
+      GenParameter genParameter = i.next();
       result.append(getTypeExpression(genParameter));
       if (i.hasNext())
       {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidatorGeneratorPlugin.java,v 1.1 2006/11/10 23:04:27 davidms Exp $
+ * $Id: ValidatorGeneratorPlugin.java,v 1.2 2006/12/29 22:37:42 marcelop Exp $
  */
 package org.eclipse.emf.examples.generator.validator;
 
@@ -48,6 +48,7 @@ public final class ValidatorGeneratorPlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

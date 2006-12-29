@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidatorGeneratorAdapterFactory.java,v 1.2 2006/11/13 17:50:42 emerks Exp $
+ * $Id: ValidatorGeneratorAdapterFactory.java,v 1.3 2006/12/29 22:37:42 marcelop Exp $
  */
 package org.eclipse.emf.examples.generator.validator;
 
@@ -23,9 +23,13 @@ public class ValidatorGeneratorAdapterFactory extends GenModelGeneratorAdapterFa
 {
   private static final boolean DISABLE = "false".equals(System.getProperty("org.eclipse.emf.examples.generator.validator"));
 
+  @Override
   public Adapter createGenPackageAdapter() { return null; }
+  
+  @Override
   public Adapter createGenEnumAdapter() { return null; }
 
+  @Override
   public Adapter createGenModelAdapter()
   {
     if (genModelGeneratorAdapter == null && !DISABLE)
@@ -35,6 +39,7 @@ public class ValidatorGeneratorAdapterFactory extends GenModelGeneratorAdapterFa
     return genModelGeneratorAdapter;
   }
 
+  @Override
   public Adapter createGenClassAdapter()
   {
     if (genClassGeneratorAdapter == null && !DISABLE)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelValidatorGeneratorAdapter.java,v 1.1 2006/11/10 23:04:27 davidms Exp $
+ * $Id: GenModelValidatorGeneratorAdapter.java,v 1.2 2006/12/29 22:37:42 marcelop Exp $
  */
 package org.eclipse.emf.examples.generator.validator;
 
@@ -42,6 +42,7 @@ public class GenModelValidatorGeneratorAdapter extends GenBaseGeneratorAdapter
 
   public GenModelValidatorGeneratorAdapter()
   {
+    super();
   }
 
   public GenModelValidatorGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
@@ -49,11 +50,13 @@ public class GenModelValidatorGeneratorAdapter extends GenBaseGeneratorAdapter
     super(generatorAdapterFactory);
   }
 
+  @Override
   public boolean canGenerate(Object object, Object projectType)
   {
     return MODEL_PROJECT_TYPE.equals(projectType) ? super.canGenerate(object, projectType) : false;
   }
 
+  @Override
   protected Diagnostic generateModel(Object object, Monitor monitor)
   {
     GenModel genModel = (GenModel)object;
@@ -76,12 +79,14 @@ public class GenModelValidatorGeneratorAdapter extends GenBaseGeneratorAdapter
     return Diagnostic.OK_INSTANCE;
   }
 
-  protected void addBaseTemplatePathEntries(List templatePath)
+  @Override
+  protected void addBaseTemplatePathEntries(List<String> templatePath)
   {
     templatePath.add(ValidatorGeneratorUtil.TEMPLATE_LOCATION);
     super.addBaseTemplatePathEntries(templatePath);
   }
 
+  @Override
   protected void addClasspathEntries(JETEmitter jetEmitter) throws JETException
   {
     super.addClasspathEntries(jetEmitter);

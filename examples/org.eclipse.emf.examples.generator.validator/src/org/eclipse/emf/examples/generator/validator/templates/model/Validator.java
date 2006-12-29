@@ -1,6 +1,5 @@
 package org.eclipse.emf.examples.generator.validator.templates.model;
 
-import java.util.*;
 import org.eclipse.emf.codegen.ecore.genmodel.*;
 import org.eclipse.emf.examples.generator.validator.ValidatorGeneratorUtil;
 
@@ -48,7 +47,7 @@ public class Validator
     stringBuffer.append(TEXT_7);
     stringBuffer.append(ValidatorGeneratorUtil.getValidatorInterfaceName(genClass));
     stringBuffer.append(TEXT_8);
-    for (Iterator fIter = genClass.getGenFeatures().iterator(); fIter.hasNext(); ) { GenFeature genFeature = (GenFeature)fIter.next(); 
+    for (GenFeature genFeature : genClass.getGenFeatures()) {
     stringBuffer.append(TEXT_9);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_10);

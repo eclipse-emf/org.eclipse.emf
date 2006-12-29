@@ -1,6 +1,5 @@
 package org.eclipse.emf.examples.generator.validator.templates.model;
 
-import java.util.*;
 import org.eclipse.emf.codegen.ecore.genmodel.*;
 import org.eclipse.emf.examples.generator.validator.ValidatorGeneratorUtil;
 
@@ -51,7 +50,7 @@ public class ModelDescription
     stringBuffer.append(TEXT_2);
     if (genModel.getGenPackages().size() > 1) {
     stringBuffer.append(TEXT_3);
-    for (Iterator iter = genModel.getGenPackages().iterator(); iter.hasNext(); ) { GenPackage genPackage = (GenPackage)iter.next();
+    for (GenPackage genPackage : genModel.getGenPackages()) {
     stringBuffer.append(TEXT_4);
     stringBuffer.append(genPackage.getPackageName());
     stringBuffer.append(TEXT_5);
@@ -60,18 +59,18 @@ public class ModelDescription
     }
     stringBuffer.append(TEXT_7);
     }
-    for (Iterator pIter = genModel.getGenPackages().iterator(); pIter.hasNext(); ) { GenPackage genPackage = (GenPackage)pIter.next();
+    for (GenPackage genPackage : genModel.getGenPackages()) {
     stringBuffer.append(TEXT_8);
     stringBuffer.append(genPackage.getPackageName());
     stringBuffer.append(TEXT_9);
     stringBuffer.append(genPackage.getNSURI());
     stringBuffer.append(TEXT_10);
-    for (Iterator cIter = genPackage.getGenClassifiers().iterator(); cIter.hasNext(); ) { GenClassifier genClassifier = (GenClassifier)cIter.next();
+    for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
     stringBuffer.append(TEXT_11);
     stringBuffer.append(genClass.getName());
     stringBuffer.append(ValidatorGeneratorUtil.getSuperTypesExpression(genClass));
-    for (Iterator fIter = genClass.getGenFeatures().iterator(); fIter.hasNext(); ) { GenFeature genFeature = (GenFeature)fIter.next();
+    for (GenFeature genFeature : genClass.getGenFeatures()) {
     String keyword = genFeature.isReferenceType() ? "Reference" : "Attribute";
     stringBuffer.append(TEXT_12);
     stringBuffer.append(keyword);
@@ -83,7 +82,7 @@ public class ModelDescription
     stringBuffer.append(TEXT_15);
     stringBuffer.append(ValidatorGeneratorUtil.getTypeExpression(genFeature));
     }
-    for (Iterator oIter = genClass.getGenOperations().iterator(); oIter.hasNext(); ) { GenOperation genOperation = (GenOperation)oIter.next();
+    for (GenOperation genOperation : genClass.getGenOperations()) {
     stringBuffer.append(TEXT_16);
     stringBuffer.append(genOperation.getName());
     stringBuffer.append(ValidatorGeneratorUtil.getParameterExpression(genOperation));
@@ -94,7 +93,7 @@ public class ModelDescription
     } else if (genClassifier instanceof GenEnum) { GenEnum genEnum = (GenEnum)genClassifier;
     stringBuffer.append(TEXT_19);
     stringBuffer.append(genEnum.getName());
-    for (Iterator lIter = genEnum.getGenEnumLiterals().iterator(); lIter.hasNext(); ) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)lIter.next();
+    for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {
     stringBuffer.append(TEXT_20);
     stringBuffer.append(genEnumLiteral.getName());
     stringBuffer.append(TEXT_21);
