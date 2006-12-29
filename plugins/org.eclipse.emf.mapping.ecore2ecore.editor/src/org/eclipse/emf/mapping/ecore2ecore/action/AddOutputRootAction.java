@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddOutputRootAction.java,v 1.5 2006/10/16 03:33:51 davidms Exp $
+ * $Id: AddOutputRootAction.java,v 1.6 2006/12/29 18:28:58 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.action;
 
@@ -47,9 +47,10 @@ public class AddOutputRootAction extends AddRootBottomAction
    * 
    * @see org.eclipse.emf.mapping.action.AddRootBottomAction#getBottomsToAdd()
    */
-  protected Collection getBottomsToAdd()
+  @Override
+  protected Collection<?> getBottomsToAdd()
   {
-    Collection bottomsToAdd = new ArrayList();
+    Collection<Object> bottomsToAdd = new ArrayList<Object>();
 
     ResourceSelectionDialog resourceSelectionDialog = new ResourceSelectionDialog(
       workbenchPart.getSite().getShell(),

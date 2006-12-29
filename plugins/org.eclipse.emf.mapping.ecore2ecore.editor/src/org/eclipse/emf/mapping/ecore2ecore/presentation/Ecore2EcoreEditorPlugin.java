@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreEditorPlugin.java,v 1.6 2005/08/19 16:48:23 davidms Exp $
+ * $Id: Ecore2EcoreEditorPlugin.java,v 1.7 2006/12/29 18:28:58 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -62,10 +62,10 @@ public final class Ecore2EcoreEditorPlugin extends EMFPlugin
   {
     super
       (new ResourceLocator [] 
-       {
-         MappingPlugin.INSTANCE,
-         EcoreEditPlugin.INSTANCE,
-       });
+      {
+        MappingPlugin.INSTANCE,
+        EcoreEditPlugin.INSTANCE,
+      });
   }
 
   /**
@@ -75,6 +75,7 @@ public final class Ecore2EcoreEditorPlugin extends EMFPlugin
    * @return the singleton instance.
    * @generated
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;
@@ -109,7 +110,7 @@ public final class Ecore2EcoreEditorPlugin extends EMFPlugin
     public Implementation()
     {
       super();
-
+  
       // Remember the static instance.
       //
       plugin = this;

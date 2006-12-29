@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MapToEcoreActionDelegate.java,v 1.5 2006/10/16 03:33:51 davidms Exp $
+ * $Id: MapToEcoreActionDelegate.java,v 1.6 2006/12/29 18:28:58 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.action;
 
@@ -99,6 +99,7 @@ public class MapToEcoreActionDelegate extends ActionDelegate
    * 
    * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
    */
+  @Override
   public void run(IAction action)
   {
     final IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -123,6 +124,7 @@ public class MapToEcoreActionDelegate extends ActionDelegate
         dialog.run(false, true,
           new WorkspaceModifyOperation()
           {
+            @Override
             protected void execute(IProgressMonitor progressMonitor)
             {
               try
@@ -232,6 +234,7 @@ public class MapToEcoreActionDelegate extends ActionDelegate
    * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
    *      org.eclipse.jface.viewers.ISelection)
    */
+  @Override
   public void selectionChanged(IAction action, ISelection selection)
   {
     action.setEnabled(IStructuredSelection.class.isInstance(selection) && getInputEPackage((IStructuredSelection)selection) != null);

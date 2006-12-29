@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreEditor.java,v 1.3 2005/06/08 06:23:41 nickb Exp $
+ * $Id: Ecore2EcoreEditor.java,v 1.4 2006/12/29 18:28:58 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -61,6 +61,7 @@ public class Ecore2EcoreEditor extends MappingEditor
       super(domain, initializeCommand);
     }
 
+    @Override
     public void execute()
     {
       super.execute();
@@ -82,6 +83,7 @@ public class Ecore2EcoreEditor extends MappingEditor
       setMappingEnablementFlags(MappingDomain.ENABLE_ALL);
     }
 
+    @Override
     protected Command createInitializeCopyOverrideCommand(InitializeCopyCommand initializeCopyCommand)
     {
       if (!isSameEditingDomainAdapterFactory)
@@ -93,6 +95,7 @@ public class Ecore2EcoreEditor extends MappingEditor
     }
   }
 
+  @Override
   protected AdapterFactoryMappingDomain createMappingDomain()
   {
     AdapterFactory mappingAdapterFactory = new ComposedAdapterFactory(new AdapterFactory[]
@@ -106,6 +109,7 @@ public class Ecore2EcoreEditor extends MappingEditor
     return new Ecore2EcoreMappingDomain(mappingAdapterFactory, ecoreAdapterFactory, ecoreAdapterFactory, new BasicCommandStack(), null);
   }
 
+  @Override
   protected void handleMissingModelFile()
   {
     try
@@ -113,7 +117,7 @@ public class Ecore2EcoreEditor extends MappingEditor
       IFile mappingModelFile = modelFile.getFile().getParent().getFile(
         new Path(new Path(modelFile.getName()).removeFileExtension().toOSString() + ".mapper")); //$NON-NLS-1$
 
-      MappingRoot originalRootObject = (MappingRoot)((Resource)mappingDomain.getResourceSet().getResources().iterator().next()).getContents().get(0);
+      MappingRoot originalRootObject = (MappingRoot)(mappingDomain.getResourceSet().getResources().iterator().next()).getContents().get(0);
 
       modelFile = new FileEditorInput(mappingModelFile);
 

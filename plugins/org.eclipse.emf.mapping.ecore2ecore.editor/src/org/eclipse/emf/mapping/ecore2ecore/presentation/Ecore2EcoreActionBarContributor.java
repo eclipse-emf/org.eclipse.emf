@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreActionBarContributor.java,v 1.6 2005/06/08 06:23:41 nickb Exp $
+ * $Id: Ecore2EcoreActionBarContributor.java,v 1.7 2006/12/29 18:28:58 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -40,6 +40,7 @@ public class Ecore2EcoreActionBarContributor extends EditingDomainActionBarContr
   /**
    * This adds Separators for editor additions to the tool bar.
    */
+  @Override
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
     toolBarManager.add(new Separator("ecore2ecore-settings"));
