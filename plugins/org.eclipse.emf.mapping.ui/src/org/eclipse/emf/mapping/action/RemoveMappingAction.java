@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: RemoveMappingAction.java,v 1.3 2005/06/08 06:23:57 nickb Exp $
+ * $Id: RemoveMappingAction.java,v 1.4 2006/12/29 18:29:02 marcelop Exp $
  */
 package org.eclipse.emf.mapping.action;
 
 
 import java.util.Collection;
 import java.util.EventObject;
-import java.util.Iterator;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -48,6 +47,7 @@ import org.eclipse.emf.mapping.provider.MappingItemProvider;
  */
 public class RemoveMappingAction extends CommandAction implements CommandStackListener
 {
+  @Override
   public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
   {
     if (editingDomain != null)
@@ -68,6 +68,7 @@ public class RemoveMappingAction extends CommandAction implements CommandStackLi
     selectionChanged(action, ((ISelectionProvider)workbenchPart).getSelection());
   }
 
+  @Override
   public void selectionChanged(IAction action, ISelection selection)
   {
     if (selection instanceof IComposedSelection)
@@ -91,7 +92,7 @@ public class RemoveMappingAction extends CommandAction implements CommandStackLi
   public static class CommandDelegate extends CommandWrapper implements CommandActionDelegate
   {
     protected MappingDomain mappingDomain;
-    protected Collection collection;
+    protected Collection<?> collection;
     public CommandDelegate(EditingDomain editingDomain, CommandParameter commandParameter)
     {
       super();
@@ -120,12 +121,12 @@ public class RemoveMappingAction extends CommandAction implements CommandStackLi
       return getDescription();
     }
 
+    @Override
     public Command createCommand()
     {
       boolean allMappings = true;
-      for (Iterator objects = collection.iterator(); objects.hasNext(); )
+      for (Object object : collection)
       {
-        Object object = objects.next();
         if (!(object instanceof Mapping))
         {
           allMappings = false;
@@ -139,12 +140,13 @@ public class RemoveMappingAction extends CommandAction implements CommandStackLi
       }
       else
       {
-        Collection mappings = mappingDomain.getMappingRoot().getExactMappings(collection);
+        Collection<? extends Mapping> mappings = mappingDomain.getMappingRoot().getExactMappings(collection);
         return RemoveMappingCommand.create(mappingDomain, mappings);
       }
     }
   }
 
+  @Override
   protected ImageDescriptor objectToImageDescriptor(Object object)
   {
     MappingDomain mappingDomain = (MappingDomain)editingDomain;
@@ -171,7 +173,8 @@ public class RemoveMappingAction extends CommandAction implements CommandStackLi
   /**
    * Create the command for this action
    */
-  protected Command createActionCommand(EditingDomain editingDomain, Collection collection)
+  @Override
+  protected Command createActionCommand(EditingDomain editingDomain, Collection<?> collection)
   {
     return editingDomain.createCommand(CommandDelegate.class, new CommandParameter(null, null, collection));
   }

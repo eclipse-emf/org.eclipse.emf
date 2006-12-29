@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.10 2006/10/16 03:45:24 davidms Exp $
+ * $Id: MappingEditor.java,v 1.11 2006/12/29 18:29:02 marcelop Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -33,10 +33,10 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -60,8 +60,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.custom.TableTree;
-import org.eclipse.swt.custom.TableTreeItem;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.Transfer;
@@ -105,7 +103,6 @@ import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.ui.ViewerPane;
-import org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -131,7 +128,6 @@ import org.eclipse.emf.edit.provider.ItemProvider;
 import org.eclipse.emf.edit.provider.ItemProviderDecorator;
 import org.eclipse.emf.edit.ui.action.DelegatingCommandAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
-import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTableTreeEditor;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
@@ -298,7 +294,7 @@ public abstract class MappingEditor
   /**
    * This keeps track of all the {@link org.eclipse.jface.viewers.ISelectionChangedListener}s that are listening to this editor.
    */
-  protected Collection selectionChangedListeners = new ArrayList();
+  protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 
   /**
    * This keeps track of the selection of the editor as a whole.
@@ -331,15 +327,19 @@ public abstract class MappingEditor
       }
       public void partBroughtToTop(IWorkbenchPart p)
       {
+        // Ignore
       }
       public void partClosed(IWorkbenchPart p)
       {
+        // Ignore
       }
       public void partDeactivated(IWorkbenchPart p)
       {
+        // Ignore
       }
       public void partOpened(IWorkbenchPart p)
       {
+        // Ignore
       }
     };
 
@@ -378,6 +378,7 @@ public abstract class MappingEditor
   /**
    * This simply calls super; it is here only so that inner classes can call it.
    */
+  @Override
   protected void firePropertyChange(int type) 
   {
     // VAJ kludge
@@ -398,7 +399,7 @@ public abstract class MappingEditor
   /**
    * This sets the selection into whichever viewer is active.
    */
-  public void setSelectionToViewer(final Collection collection)
+  public void setSelectionToViewer(final Collection<?> collection)
   {
     // Make sure it's okay.
     //
@@ -414,16 +415,15 @@ public abstract class MappingEditor
         { 
           public void run()
           {
-            Collection indirectMappedObjects = new ArrayList();
-            Collection mappedInputs = new ArrayList();
-            Collection mappedOutputs = new ArrayList();
-            Collection mappings = new ArrayList();
-            for (Iterator objects = collection.iterator(); objects.hasNext(); )
+            Collection<Object> indirectMappedObjects = new ArrayList<Object>();
+            Collection<Object> mappedInputs = new ArrayList<Object>();
+            Collection<Object> mappedOutputs = new ArrayList<Object>();
+            Collection<Mapping> mappings = new ArrayList<Mapping>();
+            for (Object object : collection)
             {
-              Object object = objects.next();
               if (object instanceof Mapping)
               {
-                mappings.add(object);
+                mappings.add((Mapping)object);
               }
               else if (mappingDomain.getMappingRoot().isInputObject(object))
               {
@@ -437,10 +437,9 @@ public abstract class MappingEditor
               }
             }
 
-            LOOP: for (Iterator i = mappings.iterator(); i.hasNext(); )
+            LOOP: 
+            for (Mapping mapping : mappings)
             {
-              Mapping mapping = (Mapping)i.next(); 
-
               indirectMappedObjects.addAll(mapping.getMappedObjects());
 
               for (Mapping parent = mapping.getNestedIn(); parent != null; parent = parent.getNestedIn())
@@ -474,7 +473,7 @@ public abstract class MappingEditor
             {
               if (affectedViewer == leftSelectionViewer)
               {
-                Collection topMappedObjects = mappingRoot.isTopToBottom() ? mappedInputs : mappedOutputs;
+                Collection<?> topMappedObjects = mappingRoot.isTopToBottom() ? mappedInputs : mappedOutputs;
                 if (!topMappedObjects.isEmpty())
                 {
                   leftSelectionViewer.setSelection(new StructuredSelection(topMappedObjects.toArray()), true);
@@ -482,7 +481,7 @@ public abstract class MappingEditor
               }
               else if (affectedViewer == rightSelectionViewer)
               {
-                Collection bottomMappedObjects = !mappingRoot.isTopToBottom() ? mappedInputs : mappedOutputs;
+                Collection<?> bottomMappedObjects = !mappingRoot.isTopToBottom() ? mappedInputs : mappedOutputs;
                 if (!bottomMappedObjects.isEmpty())
                 {
                   rightSelectionViewer.setSelection(new StructuredSelection(bottomMappedObjects.toArray()), true);
@@ -600,6 +599,7 @@ public abstract class MappingEditor
       typeMatchMappingAction = new DelegatingCommandAction(new TypeMatchMappingAction());
     }
 
+    @Override
     public void setActiveEditor(IEditorPart part)
     {
       super.setActiveEditor(part);
@@ -617,6 +617,7 @@ public abstract class MappingEditor
     }
 */
 
+    @Override
     public void contributeToToolBar(IToolBarManager toolBarManager)
     {
       toolBarManager.add(new Separator("mapping-settings"));
@@ -648,7 +649,8 @@ public abstract class MappingEditor
        transfers, 
        new EditingDomainViewerDropAdapter(mappingDomain, structuredViewer)
        {
-         public void drop(DropTargetEvent event)
+         @Override
+        public void drop(DropTargetEvent event)
          {
            dropViewer = structuredViewer;
            super.drop(event);
@@ -658,7 +660,7 @@ public abstract class MappingEditor
 
   protected class MyDecoratorAdapterFactory extends DecoratorAdapterFactory
   {
-    protected Collection listeningItemProviderDecorators = new HashSet();
+    protected Collection<Object> listeningItemProviderDecorators = new HashSet<Object>();
     protected Action action;
     protected Action multipleColumnsAction;
     protected boolean exclude;
@@ -676,12 +678,14 @@ public abstract class MappingEditor
       this.exclude = exclude;
     }
 
+    @Override
     public boolean isFactoryForType(Object t)
     {
       return super.isFactoryForType(t) || t == ITableItemLabelProvider.class;
 
     }
 
+    @Override
     public Object adapt(Object o, Object t)
     {
       Object result = super.adapt(o, t == ITableItemLabelProvider.class ? IItemLabelProvider.class : t);
@@ -705,14 +709,15 @@ public abstract class MappingEditor
 
     protected void doMappedObjectRefresh(Object object)
     {
+      // Do nothing
     }
 
-    public List getPrimaryMappedObjects(Mapping mapping)
+    public List<?> getPrimaryMappedObjects(Mapping mapping)
     {
       return Collections.EMPTY_LIST;
     }
   
-    public List getSecondaryMappedObjects(Mapping mapping)
+    public List<?> getSecondaryMappedObjects(Mapping mapping)
     {
       return Collections.EMPTY_LIST;
     }
@@ -728,22 +733,23 @@ public abstract class MappingEditor
         IItemLabelProvider,
         ITableItemLabelProvider
     {
-      protected Collection mappedObjectStates = new ArrayList();
+      protected Collection<MappedObjectState> mappedObjectStates = new ArrayList<MappedObjectState>();
 
       public MyItemProviderDecorator(AdapterFactory adapterFactory)
       {
         super(adapterFactory);
       }
 
-      public Collection getChildren(Object o)
+      @Override
+      public Collection<?> getChildren(Object o)
       {
         if (action.isChecked())
         {
-          Collection result = new ArrayList(super.getChildren(o));
-          LOOP : for (Iterator results = result.iterator(); results.hasNext(); )
+          Collection<Object> result = new ArrayList<Object>(super.getChildren(o));
+          LOOP : for (Iterator<Object> results = result.iterator(); results.hasNext(); )
           {
             Object child = results.next();
-            for (Iterator tree = new AdapterFactoryTreeIterator(getDecoratedAdapterFactory(), child, true); tree.hasNext(); )
+            for (Iterator<Object> tree = new AdapterFactoryTreeIterator<Object>(getDecoratedAdapterFactory(), child, true); tree.hasNext(); )
             {
               Object descendant = tree.next();
               if (mappingDomain.getMappingRoot().getMappings(descendant).isEmpty() == exclude)
@@ -761,11 +767,12 @@ public abstract class MappingEditor
         }
       }
 
+      @Override
       public boolean hasChildren(Object o)
       {
         if (action.isChecked())
         {
-          for (Iterator tree = new AdapterFactoryTreeIterator(getDecoratedAdapterFactory(), o, false); tree.hasNext(); )
+          for (Iterator<Object> tree = new AdapterFactoryTreeIterator<Object>(getDecoratedAdapterFactory(), o, false); tree.hasNext(); )
           {
             Object descendant = tree.next();
             if (mappingDomain.getMappingRoot().getMappings(descendant).isEmpty() == exclude)
@@ -786,6 +793,7 @@ public abstract class MappingEditor
         return getOverviewSummaryColumnImage(o);
       }
 
+      @Override
       public Object getColumnImage(Object o, int columnIndex)
       {
         if (columnIndex == 0)
@@ -800,14 +808,12 @@ public abstract class MappingEditor
           }
           else
           {
-            Collection mappedObjects = new ArrayList();
-            Collection mappings = mappingRoot.getMappings(o);
-            for (Iterator i = mappings.iterator(); i.hasNext(); )
+            Collection<Object> mappedObjects = new ArrayList<Object>();
+            Collection<? extends Mapping> mappings = mappingRoot.getMappings(o);
+            for (Mapping mapping : mappings)
             {
-              Mapping mapping = (Mapping)i.next();
-              for (Iterator j = getSecondaryMappedObjects(mapping).iterator(); j.hasNext(); )
+              for (Object mappedObject : getSecondaryMappedObjects(mapping))
               {
-                Object mappedObject = j.next();
                 if (!mappedObjects.contains(mappedObject))
                 {
                   mappedObjects.add(mappedObject);
@@ -816,9 +822,8 @@ public abstract class MappingEditor
             }
   
             Object result = null;
-            for (Iterator i = mappedObjects.iterator(); i.hasNext(); )
+            for (Object mappedObject : mappedObjects)
             {
-              Object mappedObject = i.next();
               IItemLabelProvider itemLabelProvider = 
                 (IItemLabelProvider)/* EATM getDecoratedAdapterFactory().*/adapt(mappedObject, IItemLabelProvider.class);
               Object image = itemLabelProvider.getImage(mappedObject);
@@ -838,30 +843,26 @@ public abstract class MappingEditor
         }
         else
         {
-          Collection secondaryMappedObjectsCollection = getSecondaryMappedObjects(mappingRoot);
+          Collection<?> secondaryMappedObjectsCollection = getSecondaryMappedObjects(mappingRoot);
           if (secondaryMappedObjectsCollection.size() == 1)
           {
             secondaryMappedObjectsCollection = mappingDomain.getChildren(secondaryMappedObjectsCollection.iterator().next());
           }
           int count = 0;
-          for (Iterator secondaryMappedObjects = secondaryMappedObjectsCollection.iterator(); secondaryMappedObjects.hasNext(); )
+          for (Object secondardMappedObject : secondaryMappedObjectsCollection)
           {
-            Object secondardMappedObject = secondaryMappedObjects.next();
             if (++count == columnIndex)
             {
-              Collection mappedObjects = new HashSet();
-              Collection mappings = mappingRoot.getMappings(o);
-              for (Iterator i = mappings.iterator(); i.hasNext(); )
+              Collection<Object> mappedObjects = new HashSet<Object>();
+              Collection<? extends Mapping> mappings = mappingRoot.getMappings(o);
+              for (Mapping mapping : mappings)
               {
-                Mapping mapping = (Mapping)i.next();
                 mappedObjects.addAll(getSecondaryMappedObjects(mapping));
               }
 
               Object result = null;
-              for (Iterator i = mappedObjects.iterator(); i.hasNext(); )
+              for (Object mappedObject : mappedObjects)
               {
-                Object mappedObject = i.next();
-                  //FB
                 for (Object parent = mappedObject; parent instanceof EObject; parent = mappingDomain.getParent(parent))
                 {
                   if (parent == secondardMappedObject)
@@ -895,6 +896,7 @@ public abstract class MappingEditor
         return getOverviewSummaryColumnText(o);
       }
 
+      @Override
       public String getColumnText(Object o, int columnIndex)
       {
         if (columnIndex == 0)
@@ -909,14 +911,12 @@ public abstract class MappingEditor
           }
           else
           {
-            Collection mappedObjects = new ArrayList();
-            Collection mappings = mappingRoot.getMappings(o);
-            for (Iterator i = mappings.iterator(); i.hasNext(); )
+            Collection<Object> mappedObjects = new ArrayList<Object>();
+            Collection<? extends Mapping> mappings = mappingRoot.getMappings(o);
+            for (Mapping mapping : mappings)
             {
-              Mapping mapping = (Mapping)i.next();
-              for (Iterator j = getSecondaryMappedObjects(mapping).iterator(); j.hasNext(); )
+              for (Object mappedObject : getSecondaryMappedObjects(mapping))
               {
-                Object mappedObject = j.next();
                 if (!mappedObjects.contains(mappedObject))
                 {
                   mappedObjects.add(mappedObject);
@@ -925,9 +925,8 @@ public abstract class MappingEditor
             }
 
             StringBuffer label = new StringBuffer(); 
-            for (Iterator i = mappedObjects.iterator(); i.hasNext(); )
+            for (Object mappedObject : mappedObjects)
             {
-              Object mappedObject = i.next();
               if (label.length() > 0)
               {
                 label.append(SEPARATOR);
@@ -942,30 +941,26 @@ public abstract class MappingEditor
         }
         else
         {
-          Collection secondaryMappedObjectsCollection = getSecondaryMappedObjects(mappingRoot);
+          Collection<?> secondaryMappedObjectsCollection = getSecondaryMappedObjects(mappingRoot);
           if (secondaryMappedObjectsCollection.size() == 1)
           {
             secondaryMappedObjectsCollection = mappingDomain.getChildren(secondaryMappedObjectsCollection.iterator().next());
           }
           int count = 0;
-          for (Iterator secondaryMappedObjects = secondaryMappedObjectsCollection.iterator(); secondaryMappedObjects.hasNext(); )
+          for (Object secondardMappedObject : secondaryMappedObjectsCollection)
           {
-            Object secondardMappedObject = secondaryMappedObjects.next();
             if (++count == columnIndex)
             {
-              Collection mappedObjects = new HashSet();
-              Collection mappings = mappingRoot.getMappings(o);
-              for (Iterator i = mappings.iterator(); i.hasNext(); )
+              Collection<Object> mappedObjects = new HashSet<Object>();
+              Collection<? extends Mapping> mappings = mappingRoot.getMappings(o);
+              for (Mapping mapping : mappings)
               {
-                Mapping mapping = (Mapping)i.next();
                 mappedObjects.addAll(getSecondaryMappedObjects(mapping));
               }
 
               StringBuffer label = new StringBuffer(); 
-              for (Iterator i = mappedObjects.iterator(); i.hasNext(); )
+              for (Object mappedObject : mappedObjects)
               {
-                Object mappedObject = i.next();
-                  //FB
                 for (Object parent = mappedObject; parent instanceof EObject; parent = mappingDomain.getParent(parent))
                 {
                   if (parent == secondardMappedObject)
@@ -990,11 +985,13 @@ public abstract class MappingEditor
         }
       }
 
+      @Override
       public void fireNotifyChanged(Notification note)
       {
         super.fireNotifyChanged(note);
       }
 
+      @Override
       public void notifyChanged(Notification note)
       {
         if (mappingDomain.getMappingRoot().isInputObject(note.getNotifier()) || 
@@ -1035,11 +1032,8 @@ public abstract class MappingEditor
 
                 if (note.getOldValue() instanceof Mapping)
                 {
-                  for (Iterator primaryMappedObjects = getPrimaryMappedObjects((Mapping)note.getOldValue()).iterator(); 
-                       primaryMappedObjects.hasNext(); )
+                  for (Object primaryMappedObject : getPrimaryMappedObjects((Mapping)note.getOldValue()))
                   {
-                    Object primaryMappedObject = primaryMappedObjects.next();
-                    
                      ENotificationImpl newNote2 = new ENotificationImpl(
                       (InternalEObject)primaryMappedObject, 
                       Notification.SET, 
@@ -1052,11 +1046,8 @@ public abstract class MappingEditor
                 }
                 else if (note.getNewValue() instanceof Mapping)
                 {
-                  for (Iterator primaryMappedObjects = getPrimaryMappedObjects((Mapping)note.getNewValue()).iterator(); 
-                       primaryMappedObjects.hasNext(); )
+                  for (Object primaryMappedObject : getPrimaryMappedObjects((Mapping)note.getNewValue()))
                   {
-                    Object primaryMappedObject = primaryMappedObjects.next();
-                    
                      ENotificationImpl newNote2 = new ENotificationImpl(
                       (InternalEObject)primaryMappedObject, 
                       Notification.SET, 
@@ -1072,7 +1063,7 @@ public abstract class MappingEditor
           }
           else if (note.getFeatureID(null) != Notification.NO_FEATURE_ID - 2)
           {
-            Collection additions = new ArrayList();
+            Collection<Object> additions = new ArrayList<Object>();
             switch (note.getEventType())
             {
               case Notification.ADD:
@@ -1082,7 +1073,7 @@ public abstract class MappingEditor
               }
               case Notification.ADD_MANY:
               {
-                additions.addAll((Collection)note.getNewValue());
+                additions.addAll((Collection<?>)note.getNewValue());
                 break;
               }
               case Notification.SET:
@@ -1099,10 +1090,9 @@ public abstract class MappingEditor
               }
             }
 
-            for (Iterator i = additions.iterator(); i.hasNext(); )
+            for (Object addition : additions)
             {
-              Object addition = i.next();
-              for (TreeIterator objects = new AdapterFactoryTreeIterator(mappingDomain.getAdapterFactory(), addition); 
+              for (TreeIterator<Object> objects = new AdapterFactoryTreeIterator<Object>(mappingDomain.getAdapterFactory(), addition); 
                    objects.hasNext(); )
               {
                 Object child = objects.next();
@@ -1122,13 +1112,13 @@ public abstract class MappingEditor
         mappedObjectStates.add(mappedObjectState);
       }
 
+      @Override
       public void dispose()
       {
         if (mappedObjectStates != null)
         {
-          for (Iterator i = mappedObjectStates.iterator(); i.hasNext(); )
+          for (MappedObjectState mappedObjectState : mappedObjectStates)
           {
-            MappedObjectState mappedObjectState = (MappedObjectState)i.next();
             mappedObjectState.removeListener(this);
           }
         }
@@ -1138,12 +1128,14 @@ public abstract class MappingEditor
       }
     }
 
+    @Override
     protected IItemProviderDecorator createItemProviderDecorator(Object object, Object type)
     {
       MyItemProviderDecorator result = new MyItemProviderDecorator(this);
       return result;
     }
 
+    @Override
     public void fireNotifyChanged(Notification note)
     {
       if (isNotificationEnabled())
@@ -1170,16 +1162,17 @@ public abstract class MappingEditor
                   note.getFeature() == MappingPackage.eINSTANCE.getMapping_Outputs() ||
                   getOverviewSummaryColumnLabel() != null && note.getFeature() == MappingPackage.eINSTANCE.getMapping_Helper())
             {
-              for (Iterator mappedObjects = mapping.getMappedObjects().iterator(); mappedObjects.hasNext(); )
+              for (Object mappedObject : mapping.getMappedObjects())
               {
-                ENotificationImpl newNote = new ENotificationImpl(
-                (InternalEObject)mappedObjects.next(), 
-                Notification.SET, 
-                null, 
-                null, 
-                null, 
-                Notification.NO_INDEX);
-                fireNotifyChanged(newNote);
+                ENotificationImpl newNote = 
+                  new ENotificationImpl
+                    ((InternalEObject)mappedObject,
+                     Notification.SET, 
+                     null, 
+                     null, 
+                     null, 
+                     Notification.NO_INDEX);
+                     fireNotifyChanged(newNote);
               }
             }
           }
@@ -1192,6 +1185,7 @@ public abstract class MappingEditor
       ((IChangeNotifier)decoratedAdapterFactory).addListener(notifyChangedListener);
     }
 
+    @Override
     public void fireNotifyChanged(Notification note)
     {
       MappingRoot mappingRoot = mappingDomain.getMappingRoot();
@@ -1199,12 +1193,12 @@ public abstract class MappingEditor
             (note.getFeature() == MappingPackage.eINSTANCE.getMapping_Outputs() 
             || note.getFeature() == MappingPackage.eINSTANCE.getMapping_Inputs()))
       {
-        overviewViewer.getControl().setVisible(false);
+        overviewViewer.setVisible(false);
         overviewViewer.preserveState();
         overviewViewer.init();
         overviewViewer.setInput(new ItemProvider(overviewViewer.getPrimaryMappedObjects(mappingDomain.getMappingRoot())));
         overviewViewer.restoreState();
-        overviewViewer.getControl().setVisible(true);
+        overviewViewer.setVisible(true);
       }
       else
       {
@@ -1219,31 +1213,32 @@ public abstract class MappingEditor
       }
     }
 
-    public List getPrimaryMappedObjects(Mapping mapping)
+    @Override
+    public List<?> getPrimaryMappedObjects(Mapping mapping)
     {
       return overviewViewer.getPrimaryMappedObjects(mapping);
     }
 
-    public List getSecondaryMappedObjects(Mapping mapping)
+    @Override
+    public List<?> getSecondaryMappedObjects(Mapping mapping)
     {
       return overviewViewer.getSecondaryMappedObjects(mapping);
     }
 
+    @Override
     protected void doMappedObjectRefresh(Object object)
     {
       MappingRoot mappingRoot = mappingDomain.getMappingRoot();
-      Collection mappings = mappingRoot.getMappings(object);
-      Collection primaryMappedObjects = new HashSet();
-      for (Iterator i = mappings.iterator(); i.hasNext(); )
+      Collection<? extends Mapping> mappings = mappingRoot.getMappings(object);
+      Collection<Object> primaryMappedObjects = new HashSet<Object>();
+      for (Mapping mapping : mappings)
       {
-        Mapping mapping = (Mapping)i.next();
         primaryMappedObjects.addAll(getPrimaryMappedObjects(mapping));
       }
       if (!primaryMappedObjects.contains(object))
       {
-        for (Iterator i = primaryMappedObjects.iterator(); i.hasNext(); )
+        for (Object primaryMappedObject : primaryMappedObjects)
         {
-          Object primaryMappedObject = i.next();
           if (isNotificationEnabled())
           {
             ENotificationImpl newNote = new ENotificationImpl(
@@ -1270,10 +1265,12 @@ public abstract class MappingEditor
       this.domain = domain;
       this.isTop = isTop;
     }
+    @Override
     public Viewer createViewer(Composite composite)
     {
       return new SimpleMappedObjectViewer(domain, new Tree(composite, SWT.MULTI), isTop);
     }
+    @Override
     public void requestActivation()
     {
       super.requestActivation();
@@ -1284,6 +1281,7 @@ public abstract class MappingEditor
   /**
    * This is the method used by the framework to install your own controls.
    */
+  @Override
   public void createPages()
   {
     // I assume that the editorInput is a file object.
@@ -1325,21 +1323,19 @@ public abstract class MappingEditor
            {
              if (currentViewer == contentOutlineViewer)
              {
-               Collection mappedObjects = getMappedObjects(event.getSelection());
+               Collection<?> mappedObjects = getMappedObjects(event.getSelection());
                IStructuredSelection selection = new StructuredSelection(mappedObjects.toArray());
                leftSelectionViewer.setSelection(selection, true);
                rightSelectionViewer.setSelection(selection, true);
 
-               Collection indirectMappedObjects = new HashSet();
-               Collection primaryMappedObjects = new HashSet();
-               for (Iterator objects = mappedObjects.iterator(); objects.hasNext(); )
+               Collection<Object> indirectMappedObjects = new HashSet<Object>();
+               Collection<Object> primaryMappedObjects = new HashSet<Object>();
+               for (Object object : mappedObjects)
                {
-                 Object object = objects.next();
                  if (overviewViewer.isSecondaryMappedObject(mappingRoot, object))
                  {
-                   for (Iterator mappings = mappingRoot.getMappings(object).iterator(); mappings.hasNext(); )
+                   for (Mapping mapping : mappingRoot.getMappings(object))
                    {
-                     Mapping mapping = (Mapping)mappings.next();
                      indirectMappedObjects.addAll(overviewViewer.getPrimaryMappedObjects(mapping));
                    }
                  }
@@ -1359,12 +1355,9 @@ public abstract class MappingEditor
              }
              else if (currentViewer == leftSelectionViewer || currentViewer == rightSelectionViewer)
              {
-               Collection mappedObjects = new HashSet();
-               for (Iterator mappings = 
-                      mappingRoot.getAllMappings(((IStructuredSelection)event.getSelection()).toList()).iterator();
-                    mappings.hasNext(); )
+               Collection<Object> mappedObjects = new HashSet<Object>();
+               for (Mapping mapping : mappingRoot.getAllMappings(((IStructuredSelection)event.getSelection()).toList()))
                {
-                 Mapping mapping = (Mapping)mappings.next();
                  mappedObjects.addAll(overviewViewer.getPrimaryMappedObjects(mapping));
                }
 
@@ -1384,14 +1377,14 @@ public abstract class MappingEditor
                {
                  contentOutlineViewer.setSelection(selection, true);
                }
-               Collection mappedObjects = getMappedObjects(selection);
+               Collection<?> mappedObjects = getMappedObjects(selection);
                leftSelectionViewer.setSelection(new StructuredSelection(mappedObjects.toArray()));
                rightSelectionViewer.setSelection(new StructuredSelection(mappedObjects.toArray()));
              }
 
              if (currentViewer == leftSelectionViewer || currentViewer == rightSelectionViewer)
              {
-               Collection mappings = 
+               Collection<? extends Mapping> mappings = 
                  mappingRoot.getAllMappings(((IComposedSelection)event.getSelection()).getCombinedSelection().toList());
                if (mappings.isEmpty())
                {
@@ -1414,6 +1407,7 @@ public abstract class MappingEditor
       leftSelectionFactory = 
         new MyDecoratorAdapterFactory(mappingDomain.getAdapterFactory(), leftSelectionViewer.getFilterMappedObjectsAction(), true)
         {
+          @Override
           protected boolean doMappingRefresh(Object object)
           {
             if (leftSelectionViewer.getFilterMappedObjectsAction().isChecked())
@@ -1429,6 +1423,7 @@ public abstract class MappingEditor
       leftSelectionViewer.setContentProvider
         (new AdapterFactoryContentProvider(leftSelectionFactory)
          {
+           @Override
            public void notifyChanged(Notification note)
            {
              if (note.getNotifier() == mappingRoot &&
@@ -1454,6 +1449,7 @@ public abstract class MappingEditor
       rightSelectionFactory = 
         new MyDecoratorAdapterFactory(mappingDomain.getAdapterFactory(), rightSelectionViewer.getFilterMappedObjectsAction(), true)
         {
+          @Override
           protected boolean doMappingRefresh(Object object)
           {
             if (rightSelectionViewer.getFilterMappedObjectsAction().isChecked())
@@ -1469,6 +1465,7 @@ public abstract class MappingEditor
       rightSelectionViewer.setContentProvider
         (new AdapterFactoryContentProvider(rightSelectionFactory)
          {
+           @Override
            public void notifyChanged(Notification note)
            {
              if (note.getNotifier() == mappingRoot &&
@@ -1492,15 +1489,18 @@ public abstract class MappingEditor
       overviewViewerPane =
         new ViewerPane(getSite().getPage(), MappingEditor.this)
         {
+          @Override
           public Viewer createViewer(Composite composite)
           {
             return createOverviewViewer(composite);
           }
+          @Override
           public void requestActivation()
           {
             super.requestActivation();
             setCurrentViewerPane(this);
           }
+          @Override
           public void showFocus(boolean inFocus)
           {
             super.showFocus(inFocus);
@@ -1530,11 +1530,12 @@ public abstract class MappingEditor
       overviewViewer.setContentProvider
         (new AdapterFactoryContentProvider(overviewFactory)
          {
-           public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
+           @Override
+          public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
            {
              if (newInput != null)
              {
-               for (TreeIterator children = new AdapterFactoryTreeIterator(mappingDomain.getAdapterFactory(), newInput); 
+               for (TreeIterator<Object> children = new AdapterFactoryTreeIterator<Object>(mappingDomain.getAdapterFactory(), newInput); 
                     children.hasNext(); )
                {
                  Object child = children.next();
@@ -1561,7 +1562,8 @@ public abstract class MappingEditor
       (new ControlAdapter()
        {
          boolean guard = false;
-         public void controlResized(ControlEvent event)
+         @Override
+        public void controlResized(ControlEvent event)
          {
            if (!guard)
            {
@@ -1661,7 +1663,7 @@ public abstract class MappingEditor
       // Select the root object in the view.
       //
       contentOutlineViewer.setInput(new ItemProvider(Collections.singleton(mappingRoot)));
-      ArrayList selection = new ArrayList();
+      ArrayList<Object> selection = new ArrayList<Object>();
       selection.add(mappingRoot);
       contentOutlineViewer.setSelection(new StructuredSelection(selection), true);
     }
@@ -1670,6 +1672,8 @@ public abstract class MappingEditor
   /**
    * This is how the framework determines which interfaces we implement.
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public Object getAdapter(Class key)
   {
     if (key.equals(IContentOutlinePage.class))
@@ -1697,6 +1701,7 @@ public abstract class MappingEditor
       //
       class MyContentOutlinePage extends ContentOutlinePage
       {
+        @Override
         public void createControl(Composite parent) 
         {
           contentOutlineFilterAction =
@@ -1704,14 +1709,14 @@ public abstract class MappingEditor
               (MappingUIPlugin.getPlugin().getString("_UI_FilterMappedObjects_menu_item"), 
                MappingUIPlugin.getPlugin().getImageDescriptor("full/elcl16/OutlineFilter"))
             {
+              @Override
               public void run()
               {
                 contentOutlineViewer.getControl().setVisible(false);
                 Object [] expandedElements = contentOutlineViewer.getExpandedElements();
-                Collection selectedObjects = new HashSet();
-                for (Iterator i = ((IStructuredSelection)contentOutlineViewer.getSelection()).iterator(); i.hasNext(); )
+                Collection<Object> selectedObjects = new HashSet<Object>();
+                for (Object selectedObject : ((IStructuredSelection)contentOutlineViewer.getSelection()).toList())
                 {
-                  Object selectedObject = i.next();
                   selectedObjects.add(selectedObject);
                   selectedObjects.add
                     (selectedObject instanceof MappedObjectItemProvider ? 
@@ -1726,6 +1731,7 @@ public abstract class MappingEditor
                 contentOutlineViewer.setSelection(new StructuredSelection(selectedObjects.toArray()), true);
                 contentOutlineViewer.getControl().setVisible(true);
               }
+              @Override
               public void setChecked(boolean checked)
               {
                 super.setChecked(checked);
@@ -1750,7 +1756,8 @@ public abstract class MappingEditor
           contentOutlineViewer.setContentProvider
             (new AdapterFactoryContentProvider(mappingDomain.getAdapterFactory())
              {
-               public Object [] getChildren(Object object)
+               @Override
+              public Object [] getChildren(Object object)
                {
                  return 
                    contentOutlineFilterAction.isChecked() ?
@@ -1758,7 +1765,8 @@ public abstract class MappingEditor
                      super.getChildren(object);
                }
 
-               public boolean hasChildren(Object object)
+               @Override
+              public boolean hasChildren(Object object)
                {
                  return 
                    contentOutlineFilterAction.isChecked() ?
@@ -1780,12 +1788,13 @@ public abstract class MappingEditor
           {
             // Select the root object in the view.
             //
-            ArrayList selection = new ArrayList();
+            ArrayList<Object> selection = new ArrayList<Object>();
             selection.add(mappingRoot);
             contentOutlineViewer.setSelection(new StructuredSelection(selection), true);
           }
         }
 
+        @Override
         public void setActionBars(IActionBars actionBars)
         {
           super.setActionBars(actionBars);
@@ -1813,6 +1822,7 @@ public abstract class MappingEditor
       propertySheetPage =
         new PropertySheetPage()
         {
+          @Override
           public void setActionBars(IActionBars actionBars)
           {
             super.setActionBars(actionBars);
@@ -1828,6 +1838,7 @@ public abstract class MappingEditor
   /**
    * This is for implementing {@link IEditorPart} and simply tests the command stack.
    */
+  @Override
   public boolean isDirty()
   {
     return ((BasicCommandStack)mappingDomain.getCommandStack()).isSaveNeeded();
@@ -1836,6 +1847,7 @@ public abstract class MappingEditor
   /**
    * This is for implementing {@link IEditorPart} and simply saves the model file.
    */
+  @Override
   public void doSave(IProgressMonitor progressMonitor)
   {
     doSaveHelper(modelFile.getFile());
@@ -1850,6 +1862,7 @@ public abstract class MappingEditor
       {
         // This is the method that gets invoked when the operation runs.
         //
+        @Override
         protected void execute(IProgressMonitor monitor) throws CoreException
         {
           try
@@ -1871,17 +1884,16 @@ public abstract class MappingEditor
 
             if (!mappingRoot.isOutputReadOnly())
             {
-              HashSet mappedObjectResources = new HashSet();
-              for (Iterator outputs = mappingRoot.getOutputs().iterator(); outputs.hasNext(); )
+              HashSet<Object> mappedObjectResources = new HashSet<Object>();
+              for (EObject output : mappingRoot.getOutputs())
               {
-                EObject output = (EObject)outputs.next();
                 Resource mappedObjectResource = output.eResource();
                 if (mappedObjectResource != null)
                 {
                   if (mappedObjectResources.add(mappedObjectResource))
                   {
                     mappedObjectResource.save(Collections.EMPTY_MAP);
-                    URL resolvedURL = Platform.resolve(new URL(mappedObjectResource.getURI().toString()));
+                    URL resolvedURL = FileLocator.resolve(new URL(mappedObjectResource.getURI().toString()));
                     IFile mappedObjectFile = 
                       ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(resolvedURL.getFile()));
                     if (mappedObjectFile != null)
@@ -1924,6 +1936,7 @@ public abstract class MappingEditor
   /**
    * This always returns false because it is not currently supported.
    */
+  @Override
   public boolean isSaveAsAllowed()
   {
     return true;
@@ -1932,6 +1945,7 @@ public abstract class MappingEditor
   /**
    * This also changes the model.
    */
+  @Override
   public void doSaveAs()
   {
     SaveAsDialog saveAsDialog= new SaveAsDialog(getSite().getShell());
@@ -1953,8 +1967,10 @@ public abstract class MappingEditor
 
   public void gotoMarker(IMarker marker)
   {
+    // Do nothing.
   }
 
+  @Override
   public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException
   {
     if (editorInput instanceof IFileEditorInput)
@@ -1979,6 +1995,7 @@ public abstract class MappingEditor
     }
   }
 
+  @Override
   public void setFocus()
   {
     // Doing this just makes focus go to the default control, not the control that last has focus.
@@ -2026,9 +2043,8 @@ public abstract class MappingEditor
   public void setSelection(ISelection selection)
   {
     editorSelection = selection;
-    for (Iterator listeners = selectionChangedListeners.iterator(); listeners.hasNext(); )
+    for (ISelectionChangedListener listener : selectionChangedListeners)
     {
-      ISelectionChangedListener listener = (ISelectionChangedListener)listeners.next();
       listener.selectionChanged(new SelectionChangedEvent(this, selection));
     }
     setStatusLineManager(selection);
@@ -2050,13 +2066,13 @@ public abstract class MappingEditor
 
     if (selection instanceof IComposedSelection)
     {
-      Collection objects = ((IComposedSelection)selection).getCombinedSelection().toList();
+      Collection<?> objects = ((IComposedSelection)selection).getCombinedSelection().toList();
       String text = MappingItemProvider.getText(mappingDomain.getMappingRoot(), mappingDomain.getAdapterFactory(), objects, "/");
       statusLineManager.setMessage(SELECTED_MAPPING_PREFIX + text);
     }
     else if (selection instanceof IStructuredSelection)
     {
-      Collection collection = ((IStructuredSelection)selection).toList();
+      Collection<?> collection = ((IStructuredSelection)selection).toList();
       switch (collection.size())
       {
         case 0:
@@ -2114,9 +2130,9 @@ public abstract class MappingEditor
   /**
    * This turns the selection into the set of RefObjects involved in the mapping.
    */
-  public Collection getMappedObjects(ISelection selection)
+  public Collection<?> getMappedObjects(ISelection selection)
   {
-    Collection result = new ArrayList();
+    Collection<Object> result = new ArrayList<Object>();
     if (selection instanceof IComposedSelection)
     {
       ISelection [] selections = ((IComposedSelection)selection).getSelections();
@@ -2127,10 +2143,8 @@ public abstract class MappingEditor
     }
     else if (selection instanceof IStructuredSelection)
     {
-      for (Iterator selectedElements = ((IStructuredSelection)selection).iterator(); selectedElements.hasNext(); )
+      for (Object selectedElement : ((IStructuredSelection)selection).toList())
       {
-        Object selectedElement = selectedElements.next();
-
         if (selectedElement instanceof MappedObjectItemProvider)
         {
           selectedElement = ((MappedObjectItemProvider)selectedElement).getMappedObject();
@@ -2166,18 +2180,16 @@ public abstract class MappingEditor
   /**
    * This turns the selection into the set of mappings, but only if all the objects are mappings.
    */
-  public Collection getMappings(ISelection selection)
+  public Collection<? extends Mapping> getMappings(ISelection selection)
   {
-    Collection result = new ArrayList();
+    Collection<Mapping> result = new ArrayList<Mapping>();
     if (selection instanceof IStructuredSelection)
     {
-      for (Iterator selectedElements = ((IStructuredSelection)selection).iterator(); selectedElements.hasNext(); )
+      for (Object selectedElement : ((IStructuredSelection)selection).toList())
       {
-        Object selectedElement = selectedElements.next();
-
         if (selectedElement instanceof Mapping)
         {
-          result.add(selectedElement);
+          result.add((Mapping)selectedElement);
         }
         else if (selectedElement instanceof MappedObjectItemProvider)
         {
@@ -2185,7 +2197,7 @@ public abstract class MappingEditor
         }
         else
         {
-          return Collections.EMPTY_LIST;
+          return Collections.emptyList();
         }
       }
     }
@@ -2203,6 +2215,7 @@ public abstract class MappingEditor
     return currentViewer;
   }
 
+  @Override
   public void dispose()
   {
     getSite().getPage().removePartListener(partListener);
@@ -2276,6 +2289,7 @@ public abstract class MappingEditor
 
   public void createLaunchedOverviewSummaryColumnEditor(Composite parent, Object object)
   {
+    // Do nothing
   }
 
   public boolean getDefaultCheckedShowTopFirst()
@@ -2308,7 +2322,11 @@ public abstract class MappingEditor
          overviewViewer.getMultipleColumnsAction());
   }
 
-  public static class OverviewViewer extends ExtendedTableTreeViewer
+  /**
+   * Unfortunately we've not had time to implement a replacement for this yet.
+   */
+  @Deprecated
+  public static class OverviewViewer extends org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer 
   {
     protected SimpleMappedObjectViewer otherViewer;
     protected MappingEditor mappingEditor;
@@ -2317,9 +2335,9 @@ public abstract class MappingEditor
     protected Action filterUnmappedObjects;
     protected Action multipleColumns;
     protected Action showTopFirst;
-    protected TableTree tableTree;
+    protected org.eclipse.swt.custom.TableTree tableTree;
     protected Table table;
-    protected AdapterFactoryTableTreeEditor tableTreeEditor;
+    protected org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTableTreeEditor tableTreeEditor;
 
 
     ControlListener controlListener = new DelayedColumnFitter();
@@ -2340,7 +2358,7 @@ public abstract class MappingEditor
       //
       org.eclipse.swt.widgets.TableItem item = new org.eclipse.swt.widgets.TableItem(table, SWT.NULL);
       item.setImage(1, ExtendedImageRegistry.getInstance().getImage(MappingPlugin.getPlugin().getImage("full/obj16/MultipleImages")));
-      TableTreeItem itemx = new TableTreeItem(tableTree, SWT.NULL, 0);
+      org.eclipse.swt.custom.TableTreeItem itemx = new org.eclipse.swt.custom.TableTreeItem(tableTree, SWT.NULL, 0);
       itemx.setImage(1, ExtendedImageRegistry.getInstance().getImage(MappingPlugin.getPlugin().getImage("full/obj16/MultipleImages")));
       itemx.dispose();
       item.dispose();
@@ -2348,14 +2366,15 @@ public abstract class MappingEditor
       table.addControlListener(controlListener);
 
       tableTreeEditor = 
-        new AdapterFactoryTableTreeEditor(tableTree, mappingDomain.getAdapterFactory())
+        new org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTableTreeEditor(tableTree, mappingDomain.getAdapterFactory())
         {
           TreeViewer dropDownTreeViewer;
-          Collection dropDownRoots;
-          Collection mappedObjects;
+          Collection<Object> dropDownRoots;
+          Collection<Object> mappedObjects;
           Mapping mapping;
-          HashMap filteredChildren;
+          HashMap<Object, Object> filteredChildren;
 
+          @Override
           public boolean hasDropDownEditor(Object object, int column)
           {
             if (column == 0 || column == this.table.getColumnCount() - 1 && mappingEditor.getOverviewSummaryColumnLabel() != null)
@@ -2366,24 +2385,23 @@ public abstract class MappingEditor
             MappingRoot mappingRoot = mappingDomain.getMappingRoot();
 
             dropDownTreeViewer = null;
-            dropDownRoots = new ArrayList();
-            mappedObjects = new ArrayList();
+            dropDownRoots = new ArrayList<Object>();
+            mappedObjects = new ArrayList<Object>();
             mapping = null;
-            filteredChildren = new HashMap();
+            filteredChildren = new HashMap<Object, Object>();
 
             if (multipleColumns == null || multipleColumns.isEnabled() && !multipleColumns.isChecked())
             {
-              Collection mappings = mappingRoot.getMappings(object);
-              for (Iterator i = mappings.iterator(); i.hasNext(); )
+              Collection<? extends Mapping> mappings = mappingRoot.getMappings(object);
+              for (Mapping mappingCandidate :  mappings)
               {
                 if (mapping != null)
                 {
                   return false;
                 }
-                mapping = (Mapping)i.next();
-                for (Iterator j = getSecondaryMappedObjects(mapping).iterator(); j.hasNext(); )
+                mapping = mappingCandidate;
+                for (Object mappedObject : getSecondaryMappedObjects(mapping))
                 {
-                  Object mappedObject = j.next();
                   if (!mappedObjects.contains(mappedObject))
                   {
                     mappedObjects.add(mappedObject);
@@ -2394,27 +2412,26 @@ public abstract class MappingEditor
             }
             else
             {
-              Collection secondaryMappedObjectsCollection = getSecondaryMappedObjects(mappingRoot);
+              Collection<?> secondaryMappedObjectsCollection = getSecondaryMappedObjects(mappingRoot);
               if (secondaryMappedObjectsCollection.size() == 1)
               {
                 secondaryMappedObjectsCollection = mappingDomain.getChildren(secondaryMappedObjectsCollection.iterator().next());
               }
               int count = 0;
-              for (Iterator secondaryMappedObjects = secondaryMappedObjectsCollection.iterator(); secondaryMappedObjects.hasNext(); )
+              for (Object secondaryMappedObject : secondaryMappedObjectsCollection)
               {
-                Object secondaryMappedObject = secondaryMappedObjects.next();
                 if (++count == column)
                 {
                   dropDownRoots.add(secondaryMappedObject);
-                  mappedObjects = new HashSet();
-                  Collection mappings = mappingRoot.getMappings(object);
-                  for (Iterator i = mappings.iterator(); i.hasNext(); )
+                  mappedObjects = new HashSet<Object>();
+                  Collection<? extends Mapping> mappings = mappingRoot.getMappings(object);
+                  for (Mapping mappingCandidate : mappings)
                   {
                     if (mapping != null)
                     {
                       return false;
                     }
-                    mapping = (Mapping)i.next();
+                    mapping = mappingCandidate;
                     mappedObjects.addAll(getSecondaryMappedObjects(mapping));
                   }
                   break;
@@ -2427,11 +2444,10 @@ public abstract class MappingEditor
               return false;
             }
 
-            Collection dropDownTree = new ArrayList();
-            Collection primaryMappedObjects = mapping != null ? (Collection)getPrimaryMappedObjects(mapping) : Collections.singleton(object);
-            for (Iterator i = dropDownRoots.iterator(); i.hasNext(); )
+            Collection<Object> dropDownTree = new ArrayList<Object>();
+            Collection<?> primaryMappedObjects = mapping != null ? getPrimaryMappedObjects(mapping) : Collections.singleton(object);
+            for (Object o  : dropDownRoots)
             {
-              Object o = i.next();
               if (filter(dropDownTree, mapping, primaryMappedObjects, o))
               {
                 dropDownTree.add(o);
@@ -2448,12 +2464,11 @@ public abstract class MappingEditor
             return true;
           }
 
-          protected boolean filter(Collection dropDownTree, Mapping mapping, Collection primaryMappedObjects, Object candidate)
+          protected boolean filter(Collection<?> dropDownTree, Mapping mapping, Collection<?> primaryMappedObjects, Object candidate)
           {
-            Collection children = new ArrayList();
-            for (Iterator i = mappingDomain.getChildren(candidate).iterator(); i.hasNext(); )
+            Collection<Object> children = new ArrayList<Object>();
+            for (Object child : mappingDomain.getChildren(candidate))
             {
-              Object child = i.next();
               if (filter(dropDownTree, mapping, primaryMappedObjects, child))
               {
                 children.add(child);
@@ -2464,7 +2479,7 @@ public abstract class MappingEditor
             return !children.isEmpty() || canCreateMapping(primaryMappedObjects, candidate);
           }
 
-          protected boolean canCreateMapping(Collection primaryObjects, Object secondaryObject)
+          protected boolean canCreateMapping(Collection<?> primaryObjects, Object secondaryObject)
           {
             if (!showTopFirst.isChecked() != mappingDomain.getMappingRoot().isTopToBottom())
             {
@@ -2476,6 +2491,7 @@ public abstract class MappingEditor
             }
           }
 
+          @Override
           public Control createDropDownEditor(Composite parent, Object object, int column)
           {
             dropDownTreeViewer = new TreeViewer(new Tree(parent, SWT.MULTI | SWT.FLAT));
@@ -2483,14 +2499,16 @@ public abstract class MappingEditor
             dropDownTreeViewer.setContentProvider
               (new AdapterFactoryContentProvider(this.adapterFactory)
                {
+                 @Override
                  public boolean hasChildren(Object o)
                  {
-                   Collection children = (Collection)filteredChildren.get(o);
+                   Collection<?> children = (Collection<?>)filteredChildren.get(o);
                    return children != null && !children.isEmpty();
                  }
+                 @Override
                  public Object [] getChildren(Object o)
                  {
-                   Collection children = (Collection)filteredChildren.get(o);
+                   Collection<?> children = (Collection<?>)filteredChildren.get(o);
                    return (children != null ? children : Collections.EMPTY_LIST).toArray();
                  }
                });
@@ -2505,6 +2523,7 @@ public abstract class MappingEditor
             return dropDownTreeViewer.getControl();
           }
 
+          @Override
           public boolean hasLaunchedEditor(Object object, int column)
           {    
             return 
@@ -2513,11 +2532,13 @@ public abstract class MappingEditor
               mappingEditor.hasLaunchedOverviewSummaryColumnEditor(object);
           }
 
+          @Override
           public void createLaunchedEditor(Composite parent, Object object, int column)
           {
             mappingEditor.createLaunchedOverviewSummaryColumnEditor(parent, object);
           }
 
+          @Override
           public void apply()
           {
             if (dropDownTreeViewer == null)
@@ -2525,7 +2546,8 @@ public abstract class MappingEditor
               return;
             }
 
-            final Collection selection = new ArrayList(((IStructuredSelection)dropDownTreeViewer.getSelection()).toList());
+            Collection<?> list = ((IStructuredSelection)dropDownTreeViewer.getSelection()).toList();
+            final Collection<Object> selection = new ArrayList<Object>(list);
             if (mapping == null)
             {
               if (!selection.isEmpty())
@@ -2538,8 +2560,8 @@ public abstract class MappingEditor
             else if (!selection.isEmpty()) 
             {
               boolean flip = !showTopFirst.isChecked() != mappingDomain.getMappingRoot().isTopToBottom();
-              final Collection inputs = flip ? selection : mapping.getInputs();
-              final Collection outputs = flip ? mapping.getOutputs() : selection;
+              final Collection<?> inputs = flip ? selection : mapping.getInputs();
+              final Collection<?> outputs = flip ? mapping.getOutputs() : selection;
               if (!inputs.containsAll(mapping.getInputs()) || !mapping.getInputs().containsAll(inputs) ||
                     !outputs.containsAll(mapping.getOutputs()) || !mapping.getOutputs().containsAll(outputs))
               {
@@ -2551,11 +2573,13 @@ public abstract class MappingEditor
                   {
                     protected Command createCommand;
 
+                    @Override
                     protected boolean prepare()
                     {
                       boolean result = super.prepare() && mappingDomain.getMappingRoot().canCreateMapping(inputs, outputs, mapping);
                       return result;
                     }
+                    @Override
                     public void execute()
                     {
                       super.execute();
@@ -2563,27 +2587,32 @@ public abstract class MappingEditor
                       createCommand.execute();
                     }
 
+                    @Override
                     public void undo()
                     {
                       createCommand.undo();
                       super.undo();
                     }
+                    @Override
                     public void redo()
                     {
                       super.redo();
                       createCommand.redo();
                     }
 
-                    public Collection getResult()
+                    @Override
+                    public Collection<?> getResult()
                     {
                       return createCommand.getResult();
                     }
 
-                    public Collection getAffectedObjects()
+                    @Override
+                    public Collection<?> getAffectedObjects()
                     {
                       return createCommand.getAffectedObjects();
                     }
 
+                    @Override
                     public void dispose()
                     {
                       super.dispose();
@@ -2604,6 +2633,7 @@ public abstract class MappingEditor
         };
     }
 
+    @Override
     public void cancelEditing()
     {
       super.cancelEditing();
@@ -2626,7 +2656,7 @@ public abstract class MappingEditor
           mappingRoot.isOutputObject(object);
     }
 
-    public List getPrimaryMappedObjects(Mapping mapping)
+    public List<?> getPrimaryMappedObjects(Mapping mapping)
     {
       return
         !showTopFirst.isChecked() == mappingDomain.getMappingRoot().isTopToBottom() ?
@@ -2634,7 +2664,7 @@ public abstract class MappingEditor
           mapping.getOutputs();
     }
 
-    public List getSecondaryMappedObjects(Mapping mapping)
+    public List<?> getSecondaryMappedObjects(Mapping mapping)
     {
       return
         !showTopFirst.isChecked() != mappingDomain.getMappingRoot().isTopToBottom() ?
@@ -2642,17 +2672,16 @@ public abstract class MappingEditor
           mapping.getOutputs();
     }
 
-    protected Collection expandedObjects = new HashSet();
-    protected Collection selectedObjects = new HashSet();
+    protected Collection<Object> expandedObjects = new HashSet<Object>();
+    protected Collection<Object> selectedObjects = new HashSet<Object>();
 
     public void preserveState()
     {
-      Collection oldExpandedObjects = expandedObjects;
-      expandedObjects = new HashSet(Arrays.asList(getExpandedElements()));
+      Collection<Object> oldExpandedObjects = expandedObjects;
+      expandedObjects = new HashSet<Object>(Arrays.asList(getExpandedElements()));
       oldExpandedObjects.removeAll(expandedObjects);
-      for (Iterator i = oldExpandedObjects.iterator(); i.hasNext(); )
+      for (Object oldExpandedObject : oldExpandedObjects)
       {
-        Object oldExpandedObject = i.next();
         Widget item = findItem(oldExpandedObject);
         if (item == null)
         {
@@ -2660,16 +2689,14 @@ public abstract class MappingEditor
         }
       }
 
-      Collection oldSelectedObjects = selectedObjects;
-      selectedObjects = new HashSet();
+      Collection<Object> oldSelectedObjects = selectedObjects;
+      selectedObjects = new HashSet<Object>();
       MappingRoot mappingRoot = mappingDomain.getMappingRoot();
-      for (Iterator i = ((IStructuredSelection)super.getSelection()).iterator(); i.hasNext(); )
+      for (Object selectedObject : ((IStructuredSelection)super.getSelection()).toList())
       {
-        Object selectedObject = i.next();
         selectedObjects.add(selectedObject);
-        for (Iterator mappings = mappingRoot.getMappings(selectedObject).iterator(); mappings.hasNext(); )
+        for (Mapping mapping  : mappingRoot.getMappings(selectedObject))
         {
-          Mapping mapping = (Mapping)mappings.next();
           selectedObjects.addAll(mapping.getInputs().contains(selectedObject) ? mapping.getOutputs() : mapping.getInputs());
         }
       }
@@ -2707,7 +2734,7 @@ public abstract class MappingEditor
 
       if (multipleColumns != null)
       {
-        Collection secondaryMappedObjects = getSecondaryMappedObjects(mappingDomain.getMappingRoot());
+        Collection<?> secondaryMappedObjects = getSecondaryMappedObjects(mappingDomain.getMappingRoot());
         multipleColumns.setEnabled
           (secondaryMappedObjects.size() > 1 || 
             secondaryMappedObjects.size() == 1 && mappingDomain.getChildren(secondaryMappedObjects.iterator().next()).size() > 1);
@@ -2742,16 +2769,14 @@ public abstract class MappingEditor
       }
       else
       {
-        Collection properties = new ArrayList();
-        Collection secondaryMappedObjectsCollection = getSecondaryMappedObjects(mappingDomain.getMappingRoot());
+        Collection<String> properties = new ArrayList<String>();
+        Collection<?> secondaryMappedObjectsCollection = getSecondaryMappedObjects(mappingDomain.getMappingRoot());
         if (secondaryMappedObjectsCollection.size() == 1)
         {
           secondaryMappedObjectsCollection = mappingDomain.getChildren(secondaryMappedObjectsCollection.iterator().next());
         }
-        for (Iterator secondaryMappedObjects = secondaryMappedObjectsCollection.iterator(); secondaryMappedObjects.hasNext(); )
+        for (Object mappedObject : secondaryMappedObjectsCollection)
         {
-          Object mappedObject = secondaryMappedObjects.next();
-
           TableColumn mappedObjectColumn = new TableColumn(table, SWT.NONE);
           mappedObjectColumn.addControlListener(controlListener);
           layout.addColumnData(new ColumnWeightData(2, true));
@@ -2773,8 +2798,8 @@ public abstract class MappingEditor
           summaryColumn.setText(summaryColumnLabel);
           summaryColumn.setResizable(true);
         }
-        setColumnProperties((String [])properties.toArray(new String [properties.size()]));
-        setColumnProperties((String [])properties.toArray(new String [properties.size()]));
+        setColumnProperties(properties.toArray(new String [properties.size()]));
+        setColumnProperties(properties.toArray(new String [properties.size()]));
       }
 
       table.layout();
@@ -2792,6 +2817,7 @@ public abstract class MappingEditor
           ("",
            MappingUIPlugin.getPlugin().getImageDescriptor("full/elcl16/ExchangeSourceAndTarget"))
         {
+          @Override
           public void run()
           {
             getControl().setVisible(false);
@@ -2803,18 +2829,19 @@ public abstract class MappingEditor
             getControl().setVisible(true);
           }
 
+          @Override
           public void setChecked(boolean checked)
           {
             super.setChecked(checked);
             setToolTipText
               (MessageFormat.format
                 (MappingUIPlugin.getPlugin().getString("_UI_ShowTopFirst_description"),
-                  new String [] { checked ? mappingEditor.getTopLabel() : mappingEditor.getBottomLabel() }));
+                  checked ? mappingEditor.getTopLabel() : mappingEditor.getBottomLabel()));
 
             setText
               (MessageFormat.format
                  (MappingUIPlugin.getPlugin().getString("_UI_ShowTopFirst_menu_item"), 
-                  new String [] { checked ? mappingEditor.getTopLabel() : mappingEditor.getBottomLabel() }));
+                  checked ? mappingEditor.getTopLabel() : mappingEditor.getBottomLabel()));
 
             mappingEditor.overviewViewerPane.setTitle
               (MappingUIPlugin.getPlugin().getString("_UI_Overview_label"), 
@@ -2834,6 +2861,7 @@ public abstract class MappingEditor
           (MappingUIPlugin.getPlugin().getString("_UI_ShowMultipleColumns_menu_item"), 
            MappingUIPlugin.getPlugin().getImageDescriptor("full/elcl16/ShowMultipleTopsOrBottoms"))
         {
+          @Override
           public void run()
           {
             getControl().setVisible(false);
@@ -2844,6 +2872,7 @@ public abstract class MappingEditor
             restoreState();
             getControl().setVisible(true);
           }
+          @Override
           public void setChecked(boolean checked)
           {
             super.setChecked(checked);
@@ -2855,7 +2884,7 @@ public abstract class MappingEditor
           }
         };
       multipleColumns.setChecked(mappingEditor.getDefaultShowMultipleColumns());
-      Collection secondaryMappedObjects = getSecondaryMappedObjects(mappingDomain.getMappingRoot());
+      Collection<?> secondaryMappedObjects = getSecondaryMappedObjects(mappingDomain.getMappingRoot());
       multipleColumns.setEnabled
         (secondaryMappedObjects.size() > 1 || 
           secondaryMappedObjects.size() == 1 && mappingDomain.getChildren(secondaryMappedObjects.iterator().next()).size() > 1);
@@ -2869,6 +2898,7 @@ public abstract class MappingEditor
           (MappingUIPlugin.getPlugin().getString("_UI_FilterUnmappedObjects_menu_item"), 
            MappingUIPlugin.getPlugin().getImageDescriptor("full/elcl16/ShowOnlyMappedObjects"))
         {
+          @Override
           public void run()
           {
             preserveState();
@@ -2876,6 +2906,7 @@ public abstract class MappingEditor
             setInput(getInput());
             restoreState();
           }
+          @Override
           public void setChecked(boolean checked)
           {
             super.setChecked(checked);
@@ -2913,13 +2944,13 @@ public abstract class MappingEditor
       return showTopFirst;
     }
 
+    @Override
     public ISelection getSelection()
     {
       IStructuredSelection theSelection = (IStructuredSelection)super.getSelection();
-      List result = new ArrayList();
-      for (Iterator objects = theSelection.iterator(); objects.hasNext(); )
+      List<Object> result = new ArrayList<Object>();
+      for (Object object : theSelection.toList())
       {
-        Object object = objects.next();
         result.addAll(mappingDomain.getMappingRoot().getMappings(object));
       }
 
@@ -2942,13 +2973,15 @@ public abstract class MappingEditor
     /**
      * This override ensures the objects which aren't in the view don't cause a failure.
      */
+    @SuppressWarnings("unchecked")
+    @Override
     protected void setSelectionToWidget(List list, boolean reveal)
     {
-      List filteredSelection = new ArrayList();
+      List<Object> filteredSelection = new ArrayList<Object>();
       if (list != null)
       {
         filteredSelection.addAll(list);
-        for (Iterator i = filteredSelection.iterator(); i.hasNext(); )
+        for (Iterator<Object> i = filteredSelection.iterator(); i.hasNext(); )
         {
           Object selectedObject = i.next();
           if (findItem(selectedObject) == null && internalExpand(selectedObject, false) == null)
@@ -2960,6 +2993,11 @@ public abstract class MappingEditor
 
       super.setSelectionToWidget(filteredSelection, reveal);
     }
+    
+    public void setVisible(boolean visible)
+    {
+      getControl().setVisible(visible);
+    }
   }
 
   protected static class DelayedColumnFitter extends ControlAdapter
@@ -2970,6 +3008,7 @@ public abstract class MappingEditor
     protected int oldWidth;
     protected boolean inLayout;
   
+    @Override
     public void controlResized(ControlEvent event)
     {
       if (event.getSource() instanceof Table)

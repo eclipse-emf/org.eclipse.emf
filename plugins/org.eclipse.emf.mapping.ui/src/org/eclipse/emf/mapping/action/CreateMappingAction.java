@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateMappingAction.java,v 1.3 2005/06/08 06:23:57 nickb Exp $
+ * $Id: CreateMappingAction.java,v 1.4 2006/12/29 18:29:02 marcelop Exp $
  */
 package org.eclipse.emf.mapping.action;
 
@@ -46,6 +46,7 @@ import org.eclipse.emf.mapping.provider.MappingItemProvider;
  */
 public class CreateMappingAction extends CommandAction implements CommandStackListener
 {
+  @Override
   public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
   {
     if (editingDomain != null)
@@ -66,6 +67,7 @@ public class CreateMappingAction extends CommandAction implements CommandStackLi
     selectionChanged(action, ((ISelectionProvider)workbenchPart).getSelection());
   }
 
+  @Override
   public void selectionChanged(IAction action, ISelection selection)
   {
     if (selection instanceof IComposedSelection)
@@ -89,7 +91,7 @@ public class CreateMappingAction extends CommandAction implements CommandStackLi
   public static class DelegateCommand extends CommandWrapper implements CommandActionDelegate
   {
     protected MappingDomain mappingDomain;
-    protected Collection collection;
+    protected Collection<?> collection;
 
     public DelegateCommand(EditingDomain editingDomain, CommandParameter commandParameter)
     {
@@ -120,6 +122,7 @@ public class CreateMappingAction extends CommandAction implements CommandStackLi
     }
   }
 
+  @Override
   protected ImageDescriptor objectToImageDescriptor(Object object)
   {
     MappingDomain mappingDomain = (MappingDomain)editingDomain;
@@ -146,7 +149,8 @@ public class CreateMappingAction extends CommandAction implements CommandStackLi
   /**
    * Create the command for this action
    */
-  protected Command createActionCommand(EditingDomain editingDomain, Collection collection)
+  @Override
+  protected Command createActionCommand(EditingDomain editingDomain, Collection<?> collection)
   {
     return editingDomain.createCommand(DelegateCommand.class, new CommandParameter(null, null, collection));
   }

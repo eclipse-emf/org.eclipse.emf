@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddRootTopAction.java,v 1.3 2005/06/08 06:23:57 nickb Exp $
+ * $Id: AddRootTopAction.java,v 1.4 2006/12/29 18:29:02 marcelop Exp $
  */
 package org.eclipse.emf.mapping.action;
 
@@ -39,7 +39,7 @@ public class AddRootTopAction extends CommandAction
    * This method should be overriden with a domain-specific implementation 
    * that returns the inputs to be added, e.g., by querying the user with a dialog.
    */
-  protected Collection getTopsToAdd()
+  protected Collection<?> getTopsToAdd()
   {
     return null;
   }
@@ -47,13 +47,16 @@ public class AddRootTopAction extends CommandAction
   /**
    * This action ignores the selection.
    */
+  @Override
   public void selectionChanged(IAction action, ISelection selection) 
   {
+    // Do nothing
   }
 
+  @Override
   public void run(IAction action)
   {
-    Collection additions = getTopsToAdd();
+    Collection<?> additions = getTopsToAdd();
     MappingRoot mappingRoot = ((MappingDomain)editingDomain).getMappingRoot();
     command = AddCommand.create
       (editingDomain, 
@@ -68,6 +71,7 @@ public class AddRootTopAction extends CommandAction
     super.run(action);
   }
 
+  @Override
   public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
   {
     super.setActiveWorkbenchPart(workbenchPart);

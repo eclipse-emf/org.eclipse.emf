@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NameMatchMappingAction.java,v 1.4 2005/06/12 13:39:41 emerks Exp $
+ * $Id: NameMatchMappingAction.java,v 1.5 2006/12/29 18:29:02 marcelop Exp $
  */
 package org.eclipse.emf.mapping.action;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.mapping.action;
 import java.util.Collection;
 import java.util.EventObject;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -51,6 +50,7 @@ import org.eclipse.emf.mapping.presentation.MappingUIPlugin;
  */
 public class NameMatchMappingAction extends CommandAction implements CommandStackListener
 {
+  @Override
   public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
   {
     if (editingDomain != null)
@@ -71,6 +71,7 @@ public class NameMatchMappingAction extends CommandAction implements CommandStac
     selectionChanged(action, ((ISelectionProvider)workbenchPart).getSelection());
   }
 
+  @Override
   public void selectionChanged(IAction action, ISelection selection)
   {
     if (selection instanceof IComposedSelection)
@@ -94,7 +95,7 @@ public class NameMatchMappingAction extends CommandAction implements CommandStac
   public static class DelegateCommand extends CompoundCommand implements CommandActionDelegate
   {
     protected MappingDomain mappingDomain;
-    protected Collection collection;
+    protected Collection<?> collection;
     protected Command createMappingCommand;
 
     public DelegateCommand(EditingDomain editingDomain, CommandParameter commandParameter)
@@ -107,19 +108,19 @@ public class NameMatchMappingAction extends CommandAction implements CommandStac
       mappingDomain = (MappingDomain)editingDomain;
     }
 
+    @Override
     protected boolean prepare()
     {
       boolean result = false;
 
       if (collection != null)
       {
-        Collection mappedObjects = new HashSet();
-        Collection mappingObjects = new HashSet();
+        Collection<Object> mappedObjects = new HashSet<Object>();
+        Collection<Object> mappingObjects = new HashSet<Object>();
         MappingRoot mappingRoot = mappingDomain.getMappingRoot();
     
-        for (Iterator objects = collection.iterator(); objects.hasNext(); )
+        for (Object object : collection)
         {
-          Object object = objects.next();
           if (object instanceof Mapping)
           {
             appendIfCanExecute(NameMatchMappingCommand.create(mappingDomain, (Mapping)object));
@@ -133,7 +134,7 @@ public class NameMatchMappingAction extends CommandAction implements CommandStac
 
         if (!mappedObjects.isEmpty())
         {
-          Collection mappings = mappingRoot.getAllMappings(mappedObjects);
+          Collection<? extends Mapping> mappings = mappingRoot.getAllMappings(mappedObjects);
           switch (mappings.size())
           {
             case 0:
@@ -144,7 +145,7 @@ public class NameMatchMappingAction extends CommandAction implements CommandStac
             }
             case 1:
             {
-              result = appendIfCanExecute(NameMatchMappingCommand.create(mappingDomain, (Mapping)mappings.iterator().next()));
+              result = appendIfCanExecute(NameMatchMappingCommand.create(mappingDomain, mappings.iterator().next()));
               break;
             }
             default:
@@ -159,6 +160,7 @@ public class NameMatchMappingAction extends CommandAction implements CommandStac
       return result;
     }
 
+    @Override
     public void execute()
     {
       super.execute();
@@ -190,6 +192,7 @@ public class NameMatchMappingAction extends CommandAction implements CommandStac
     }
   } 
 
+  @Override
   protected ImageDescriptor objectToImageDescriptor(Object object)
   {
     ((Action)action).setHoverImageDescriptor
@@ -205,7 +208,8 @@ public class NameMatchMappingAction extends CommandAction implements CommandStac
   /**
    * Match the command for this action
    */
-  protected Command createActionCommand(EditingDomain editingDomain, final Collection collection)
+  @Override
+  protected Command createActionCommand(EditingDomain editingDomain, final Collection<?> collection)
   {
     return editingDomain.createCommand(DelegateCommand.class, new CommandParameter(null, null, collection));
   }

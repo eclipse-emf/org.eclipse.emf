@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleMappedObjectViewer.java,v 1.3 2006/08/17 21:19:58 emerks Exp $
+ * $Id: SimpleMappedObjectViewer.java,v 1.4 2006/12/29 18:29:02 marcelop Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -20,7 +20,7 @@ package org.eclipse.emf.mapping.presentation;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
@@ -70,6 +70,7 @@ public class SimpleMappedObjectViewer extends TreeViewer
       setEnabled(objectToSelect != null);
     }
 
+    @Override
     public void run()
     {
       setSelection(new StructuredSelection(new Object [] { objectToSelect }), true);
@@ -91,7 +92,8 @@ public class SimpleMappedObjectViewer extends TreeViewer
     tree.addMouseListener
       (new MouseAdapter()
        {
-         public void mouseDoubleClick(MouseEvent event)
+         @Override
+        public void mouseDoubleClick(MouseEvent event)
          {
            selectOtherMappedObjects();
          }
@@ -129,17 +131,17 @@ public class SimpleMappedObjectViewer extends TreeViewer
 
   public void updateActions()
   {
-    Collection selection = ((IStructuredSelection)doGetSelection()).toList();
+    Collection<?> selection = ((IStructuredSelection)doGetSelection()).toList();
     boolean isReady = false;
     Object previousMapped = null;
     Object previousUnmapped = null;
     Object nextMapped = null;
     Object nextUnmapped = null;
     boolean selectionHasMappings = false;
-    LOOP: for (Iterator i = ((IStructuredItemContentProvider)getInput()).getElements(getInput()).iterator(); i.hasNext(); )
+    LOOP: 
+    for (Object object : ((IStructuredItemContentProvider)getInput()).getElements(getInput()))
     {
-      Object object = i.next();
-      for (TreeIterator treeIterator = new AdapterFactoryTreeIterator(adapterFactory, object); treeIterator.hasNext(); )
+      for (TreeIterator<Object> treeIterator = new AdapterFactoryTreeIterator<Object>(adapterFactory, object); treeIterator.hasNext(); )
       {
         Object child = treeIterator.next();
         if (selection.contains(child))
@@ -147,9 +149,8 @@ public class SimpleMappedObjectViewer extends TreeViewer
           isReady = true;
           if (!selectionHasMappings)
           {
-            for (Iterator mappings = mappingDomain.getMappingRoot().getMappings(child).iterator(); mappings.hasNext(); )
+            for (Mapping mapping : mappingDomain.getMappingRoot().getMappings(child))
             {
-              Mapping mapping = (Mapping)mappings.next();
               if (mapping.getInputs().contains(child) && !mapping.getOutputs().isEmpty() ||
                     mapping.getOutputs().contains(child) && !mapping.getInputs().isEmpty())
               {
@@ -206,24 +207,21 @@ public class SimpleMappedObjectViewer extends TreeViewer
 
   public void selectOtherMappedObjects()
   {
-    Collection result = new HashSet();
-    for (Iterator i = ((IStructuredSelection)doGetSelection()).iterator(); i.hasNext(); )
+    Collection<Object> result = new HashSet<Object>();
+    for (Object object : ((IStructuredSelection)doGetSelection()).toList())
     {
-      Object object = i.next();
-      Collection mappings = mappingDomain.getMappingRoot().getMappings(object);
+      Collection<? extends Mapping> mappings = mappingDomain.getMappingRoot().getMappings(object);
       if (mappingDomain.getMappingRoot().isInputObject(object))
       {
-        for (Iterator j = mappings.iterator(); j.hasNext(); )
+        for (Mapping mapping : mappings)
         {
-          Mapping mapping = (Mapping)j.next();
           result.addAll(mapping.getOutputs());
         }
       }
       else if (mappingDomain.getMappingRoot().isOutputObject(object))
       {
-        for (Iterator j = mappings.iterator(); j.hasNext(); )
+        for (Mapping mapping : mappings)
         {
-          Mapping mapping = (Mapping)j.next();
           result.addAll(mapping.getInputs());
         }
       }
@@ -231,6 +229,7 @@ public class SimpleMappedObjectViewer extends TreeViewer
     otherViewer.setSelection(new StructuredSelection(result.toArray()), true);
   }
 
+  @Override
   public ISelection getSelection()
   {
     ISelection basicSelection = doGetSelection();
@@ -306,6 +305,7 @@ public class SimpleMappedObjectViewer extends TreeViewer
         (MappingUIPlugin.getPlugin().getString("_UI_FilterMappedObjects_menu_item"),
          MappingUIPlugin.getPlugin().getImageDescriptor("full/elcl16/HideAllMappedObjects"))
       {
+        @Override
         public void run()
         {
           preserveState();
@@ -315,6 +315,7 @@ public class SimpleMappedObjectViewer extends TreeViewer
 
           updateActions();
         }
+        @Override
         public void setChecked(boolean checked)
         {
           super.setChecked(checked);
@@ -338,6 +339,7 @@ public class SimpleMappedObjectViewer extends TreeViewer
         (MappingUIPlugin.getPlugin().getString("_UI_SelectOtherMappedObjects_menu_item"),
          MappingUIPlugin.getPlugin().getImageDescriptor("full/elcl16/Select" + oppositeLabel + "MappedObjects"))
       {
+        @Override
         public void run()
         {
           selectOtherMappedObjects();
@@ -356,17 +358,16 @@ public class SimpleMappedObjectViewer extends TreeViewer
     menuManager.update(true);
   }
 
-  protected Collection expandedObjects = new HashSet();
-  protected Collection selectedObjects = new HashSet();
+  protected Collection<Object> expandedObjects = new HashSet<Object>();
+  protected Collection<Object> selectedObjects = new HashSet<Object>();
 
   public void preserveState()
   {
-    Collection oldExpandedObjects = expandedObjects;
-    expandedObjects = new HashSet(Arrays.asList(getExpandedElements()));
+    Collection<Object> oldExpandedObjects = expandedObjects;
+    expandedObjects = new HashSet<Object>(Arrays.asList(getExpandedElements()));
     oldExpandedObjects.removeAll(expandedObjects);
-    for (Iterator i = oldExpandedObjects.iterator(); i.hasNext(); )
+    for (Object oldExpandedObject : oldExpandedObjects)
     {
-      Object oldExpandedObject = i.next();
       Widget item = findItem(oldExpandedObject);
       if (item == null)
       {
@@ -374,8 +375,9 @@ public class SimpleMappedObjectViewer extends TreeViewer
       }
     }  
 
-    Collection oldSelectedObjects = selectedObjects;
-    selectedObjects = new HashSet(((IStructuredSelection)getSelection()).toList());
+    Collection<Object> oldSelectedObjects = selectedObjects;
+    List<?> list = ((IStructuredSelection)getSelection()).toList();
+    selectedObjects = new HashSet<Object>(list);
     if (selectedObjects.isEmpty())
     {
       selectedObjects = oldSelectedObjects;

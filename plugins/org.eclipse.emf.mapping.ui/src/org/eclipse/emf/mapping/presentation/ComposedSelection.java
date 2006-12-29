@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedSelection.java,v 1.2 2005/06/08 06:23:57 nickb Exp $
+ * $Id: ComposedSelection.java,v 1.3 2006/12/29 18:29:02 marcelop Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -45,12 +45,13 @@ public class ComposedSelection implements IStructuredSelection, IComposedSelecti
   /**
    * @deprecated
    */
-  public Iterator getElements()
+  @Deprecated
+  public Iterator<?>  getElements()
   {
     return primarySelection instanceof IStructuredSelection ? ((IStructuredSelection)primarySelection).iterator() : null;
   }
   
-  public Iterator iterator()
+  public Iterator<?> iterator()
   {
     return primarySelection instanceof IStructuredSelection ? ((IStructuredSelection)primarySelection).iterator() : null;
   }
@@ -60,7 +61,7 @@ public class ComposedSelection implements IStructuredSelection, IComposedSelecti
     return primarySelection instanceof IStructuredSelection ? ((IStructuredSelection)primarySelection).toArray() : null;
   }
 
-  public List toList()
+  public List<?> toList()
   {
     return primarySelection instanceof IStructuredSelection ? ((IStructuredSelection)primarySelection).toList() : null;
   }
@@ -92,22 +93,21 @@ public class ComposedSelection implements IStructuredSelection, IComposedSelecti
 
   public IStructuredSelection getCombinedSelection()
   {
-    List result = new ArrayList();
+    List<Object> result = new ArrayList<Object>();
     for (int i = 0; i < selections.length; ++i)
     {
       ISelection selection = selections[i];
       if (selection instanceof IStructuredSelection)
       {
-        for (Iterator subselections = ((IStructuredSelection)selection).iterator(); subselections.hasNext(); )
-        {
-          result.add(subselections.next());
-        }
+        List<?> list = ((IStructuredSelection)selection).toList();
+        result.addAll(list);
       }
     }
 
     return new StructuredSelection(result);
   }
 
+  @Override
   public boolean equals(Object that)
   {
     if (this == that)
@@ -151,6 +151,7 @@ public class ComposedSelection implements IStructuredSelection, IComposedSelecti
     }
   }
 
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer();

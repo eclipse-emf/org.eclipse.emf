@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingDomainLabelProvider.java,v 1.2 2005/06/08 06:23:57 nickb Exp $
+ * $Id: MappingDomainLabelProvider.java,v 1.3 2006/12/29 18:29:02 marcelop Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -26,6 +26,7 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.mapping.Mapping;
 import org.eclipse.emf.mapping.MappingPlugin;
 import org.eclipse.emf.mapping.domain.AdapterFactoryMappingDomain;
 import org.eclipse.emf.mapping.provider.MappedObjectItemProvider;
@@ -43,11 +44,13 @@ public class MappingDomainLabelProvider extends AdapterFactoryLabelProvider
       this.overlayImage = overlayImage;
     }
 
+    @Override
     public int hashCode()
     {
       return mainImage.hashCode() + overlayImage.hashCode();
     }
 
+    @Override
     public boolean equals(Object object)
     {
       if (object instanceof Key)
@@ -62,7 +65,7 @@ public class MappingDomainLabelProvider extends AdapterFactoryLabelProvider
     }
   }
 
-  protected static HashMap images = new HashMap();
+  protected static HashMap<Key, Object> images = new HashMap<Key, Object>();
 
   protected AdapterFactoryMappingDomain mappingDomain;
 
@@ -82,22 +85,26 @@ public class MappingDomainLabelProvider extends AdapterFactoryLabelProvider
       this.overlayImage = overlayImage;
     }
 
+    @Override
     public void drawCompositeImage(int width, int height)
     {
       drawImage(mainImage, 0, 0);
       drawImage(overlayImage, mainImage.width, 0);
     }
 
+    @Override
     public Point getSize()
     {
       return new Point(mainImage.width + overlayImage.width, Math.max(mainImage.height, overlayImage.height));
     }
 
+    @Override
     public int hashCode()
     {
       return mainImage.hashCode() + overlayImage.hashCode();
     }
 
+    @Override
     public boolean equals(Object object)
     {
       if (object instanceof MappingIndicatorCompositeImage)
@@ -112,6 +119,13 @@ public class MappingDomainLabelProvider extends AdapterFactoryLabelProvider
     }
   }
 
+  @Override
+  public Image getColumnImage(Object object, int columnIndex)
+  {
+    return getImage(object);
+  }
+
+  @Override
   public Image getImage(Object object)
   {
     Image result = super.getImage(object);
@@ -125,7 +139,7 @@ public class MappingDomainLabelProvider extends AdapterFactoryLabelProvider
           ((MappedObjectItemProvider)object).getMappedObject() :
           object;
 
-      Collection mappings = mappingDomain.getMappingRoot().getMappings(mappedObject);
+      Collection<? extends Mapping> mappings = mappingDomain.getMappingRoot().getMappings(mappedObject);
 
       if (mappingDomain.getMappingRoot().isTopObject(mappedObject))
       {
