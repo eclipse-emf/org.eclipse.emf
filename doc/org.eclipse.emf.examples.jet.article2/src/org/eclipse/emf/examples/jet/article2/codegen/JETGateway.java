@@ -18,8 +18,8 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
-import org.eclipse.emf.codegen.jmerge.JControlModel;
-import org.eclipse.emf.codegen.jmerge.JMerger;
+import org.eclipse.emf.codegen.merge.java.JControlModel;
+import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.DiagnosticException;
@@ -30,7 +30,7 @@ import org.eclipse.emf.common.util.Monitor;
  * This class encapsulates access to the JET and JMerge packages.
  * 
  * @author Remko Popma
- * @version $Revision: 1.3 $ ($Date: 2005/11/18 12:09:48 $)
+ * @version $Revision: 1.4 $ ($Date: 2006/12/29 18:37:10 $)
  */
 public class JETGateway
 {
@@ -125,8 +125,9 @@ public class JETGateway
       return emitterResult;
     }
 
-    JMerger jMerger = new JMerger();
-    jMerger.setControlModel(new JControlModel(config.getMergeXmlFullUri()));
+    JControlModel jControlModel = new JControlModel();
+    jControlModel.initialize(CodeGenUtil.instantiateFacadeHelper(JMerger.DEFAULT_FACADE_HELPER_CLASS), config.getMergeXmlFullUri());
+    JMerger jMerger = new JMerger(jControlModel);
     jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
 
     jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(targetFile.getContents(true)));
@@ -228,7 +229,7 @@ public class JETGateway
 
     IProgressMonitor sub = new SubProgressMonitor(progressMonitor, 1);
     IPath localLocation = null; // use default
-    IContainer container = CodeGenUtil.findOrCreateContainer(outputPath, true, localLocation, sub);
+    IContainer container = CodeGenUtil.EclipseUtil.findOrCreateContainer(outputPath, true, localLocation, sub);
     return container;
   }
 
@@ -263,6 +264,7 @@ public class JETGateway
         }
         catch (CoreException e)
         {
+          // Ignore
         }
       }
       else
