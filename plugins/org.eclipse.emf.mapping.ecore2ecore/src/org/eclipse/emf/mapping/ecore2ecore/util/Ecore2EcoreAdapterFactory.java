@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * 
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreAdapterFactory.java,v 1.3 2005/06/08 06:21:24 nickb Exp $
+ * $Id: Ecore2EcoreAdapterFactory.java,v 1.4 2006/12/29 18:29:16 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.util;
 
@@ -70,6 +70,7 @@ public class Ecore2EcoreAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -89,22 +90,26 @@ public class Ecore2EcoreAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Ecore2EcoreSwitch modelSwitch =
-    new Ecore2EcoreSwitch()
+  protected Ecore2EcoreSwitch<Adapter> modelSwitch =
+    new Ecore2EcoreSwitch<Adapter>()
     {
-      public Object caseEcore2EcoreMappingRoot(Ecore2EcoreMappingRoot object)
+      @Override
+      public Adapter caseEcore2EcoreMappingRoot(Ecore2EcoreMappingRoot object)
       {
         return createEcore2EcoreMappingRootAdapter();
       }
-      public Object caseMapping(Mapping object)
+      @Override
+      public Adapter caseMapping(Mapping object)
       {
         return createMappingAdapter();
       }
-      public Object caseMappingRoot(MappingRoot object)
+      @Override
+      public Adapter caseMappingRoot(MappingRoot object)
       {
         return createMappingRootAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -118,9 +123,10 @@ public class Ecore2EcoreAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

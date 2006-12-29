@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * 
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcorePackageImpl.java,v 1.9 2005/12/02 18:07:23 davidms Exp $
+ * $Id: Ecore2EcorePackageImpl.java,v 1.10 2006/12/29 18:29:16 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -189,6 +189,10 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
 
     // Obtain other dependent packages
     MappingPackage theMappingPackage = (MappingPackage)EPackage.Registry.INSTANCE.getEPackage(MappingPackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
     ecore2EcoreMappingRootEClass.getESuperTypes().add(theMappingPackage.getMappingRoot());

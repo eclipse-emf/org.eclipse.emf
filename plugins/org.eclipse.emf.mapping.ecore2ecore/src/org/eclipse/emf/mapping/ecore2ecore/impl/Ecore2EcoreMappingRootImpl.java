@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * 
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,15 +12,12 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreMappingRootImpl.java,v 1.7 2005/11/23 18:10:08 emerks Exp $
+ * $Id: Ecore2EcoreMappingRootImpl.java,v 1.8 2006/12/29 18:29:16 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
 
 import java.util.Collection;
-import java.util.Iterator;
-
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -58,6 +55,7 @@ public class Ecore2EcoreMappingRootImpl extends MappingRootImpl implements Ecore
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return Ecore2EcorePackage.Literals.ECORE2_ECORE_MAPPING_ROOT;
@@ -82,20 +80,21 @@ public class Ecore2EcoreMappingRootImpl extends MappingRootImpl implements Ecore
   /* (non-Javadoc)
    * @see org.eclipse.emf.mapping.MappingRoot#canCreateMapping(java.util.Collection, java.util.Collection, org.eclipse.emf.mapping.Mapping)
    */
-  public boolean canCreateMapping(Collection inputs, Collection outputs, Mapping mapping)
+  @Override
+  public boolean canCreateMapping(Collection<?> inputs, Collection<?> outputs, Mapping mapping)
   {
     if (mapping == this)
     {
-      for (Iterator i = inputs.iterator(); i.hasNext();)
+      for (Object object : inputs)
       {
-        if (!(i.next() instanceof EPackage))
+        if (!(object instanceof EPackage))
         {
           return false;
         }
       }
-      for (Iterator i = outputs.iterator(); i.hasNext();)
+      for (Object object : outputs)
       {
-        if (!(i.next() instanceof EPackage))
+        if (!(object instanceof EPackage))
         {
           return false;
         }

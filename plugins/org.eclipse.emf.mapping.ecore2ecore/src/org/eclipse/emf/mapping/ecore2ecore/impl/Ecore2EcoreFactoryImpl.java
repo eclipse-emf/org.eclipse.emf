@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * 
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreFactoryImpl.java,v 1.7 2005/11/23 13:57:01 emerks Exp $
+ * $Id: Ecore2EcoreFactoryImpl.java,v 1.8 2006/12/29 18:29:16 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -76,6 +76,7 @@ public class Ecore2EcoreFactoryImpl extends EFactoryImpl implements Ecore2EcoreF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -113,6 +114,7 @@ public class Ecore2EcoreFactoryImpl extends EFactoryImpl implements Ecore2EcoreF
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static Ecore2EcorePackage getPackage()
   {
     return Ecore2EcorePackage.eINSTANCE;

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  * 
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreSwitch.java,v 1.5 2005/06/08 06:21:24 nickb Exp $
+ * $Id: Ecore2EcoreSwitch.java,v 1.6 2006/12/29 18:29:16 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.util;
 
@@ -41,7 +41,7 @@ import org.eclipse.emf.mapping.ecore2ecore.*;
  * @see org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePackage
  * @generated
  */
-public class Ecore2EcoreSwitch {
+public class Ecore2EcoreSwitch<T> {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -71,7 +71,7 @@ public class Ecore2EcoreSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -83,7 +83,7 @@ public class Ecore2EcoreSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -91,11 +91,11 @@ public class Ecore2EcoreSwitch {
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -106,14 +106,14 @@ public class Ecore2EcoreSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case Ecore2EcorePackage.ECORE2_ECORE_MAPPING_ROOT:
       {
         Ecore2EcoreMappingRoot ecore2EcoreMappingRoot = (Ecore2EcoreMappingRoot)theEObject;
-        Object result = caseEcore2EcoreMappingRoot(ecore2EcoreMappingRoot);
+        T result = caseEcore2EcoreMappingRoot(ecore2EcoreMappingRoot);
         if (result == null) result = caseMappingRoot(ecore2EcoreMappingRoot);
         if (result == null) result = caseMapping(ecore2EcoreMappingRoot);
         if (result == null) result = defaultCase(theEObject);
@@ -134,7 +134,7 @@ public class Ecore2EcoreSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEcore2EcoreMappingRoot(Ecore2EcoreMappingRoot object)
+  public T caseEcore2EcoreMappingRoot(Ecore2EcoreMappingRoot object)
   {
     return null;
   }
@@ -150,7 +150,7 @@ public class Ecore2EcoreSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseMapping(Mapping object)
+  public T caseMapping(Mapping object)
   {
     return null;
   }
@@ -166,7 +166,7 @@ public class Ecore2EcoreSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseMappingRoot(MappingRoot object)
+  public T caseMappingRoot(MappingRoot object)
   {
     return null;
   }
@@ -182,7 +182,7 @@ public class Ecore2EcoreSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }
