@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJNode.java,v 1.6 2006/12/18 21:15:01 marcelop Exp $
+ * $Id: ASTJNode.java,v 1.7 2006/12/29 20:54:50 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -147,8 +147,22 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
   @Override
   public void dispose()
   {
-    facadeHelper = null;
+    if (rewriter != null)
+    {
+      ((ASTFacadeHelper.ASTRewriteWithRemove)rewriter).dispose();
+      rewriter = null;
+    }
+    trackedContentsMap.clear();
     wrappedObject = null;
+    removedASTNode = null;
+    astNode = null;
+    facadeHelper = null;
+  }
+  
+  @Override
+  public boolean isDisposed()
+  {
+    return rewriter == null;
   }
 
   @Override
