@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJAbstractType.java,v 1.2 2006/12/15 20:26:12 marcelop Exp $
+ * $Id: ASTJAbstractType.java,v 1.3 2006/12/29 20:57:14 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -71,10 +71,17 @@ public abstract class ASTJAbstractType<T extends AbstractTypeDeclaration> extend
   @Override
   public List<JNode> getChildren()
   {
-    List<JNode> children = new ArrayList<JNode>();
-    children.addAll(getAnnotationList());
-    children.addAll(getMembers());
-    return children.isEmpty() ? Collections.<JNode> emptyList() : Collections.unmodifiableList(children);
+    if (!isDisposed())
+    {
+      List<JNode> children = new ArrayList<JNode>();
+      children.addAll(getAnnotationList());
+      children.addAll(getMembers());
+      if (!children.isEmpty())
+      {
+        return Collections.unmodifiableList(children);
+      }
+    }
+    return Collections.emptyList();
   }
 
   /* (non-Javadoc)
