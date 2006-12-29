@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodItemProvider.java,v 1.7 2006/05/15 22:07:12 emerks Exp $
+ * $Id: JMethodItemProvider.java,v 1.8 2006/12/29 18:27:30 marcelop Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -24,9 +24,11 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -65,7 +67,8 @@ public class JMethodItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -347,7 +350,8 @@ public class JMethodItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -358,11 +362,26 @@ public class JMethodItemProvider
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EStructuralFeature getChildFeature(Object object, Object child)
+  {
+    // Check the type of the specified child object and return the proper feature to use for
+    // adding (see {@link AddCommand}) it as a child.
+
+    return super.getChildFeature(object, child);
+  }
+
+  /**
    * This returns JMethod.gif.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated EATM
    */
+  @Override
   public Object getImage(Object object)
   {
     JMethod jMethod = (JMethod)object;
@@ -373,15 +392,16 @@ public class JMethodItemProvider
    * This returns the label text for the adapted class.
    * @generated EATM
    */
+  @Override
   public String getText(Object object)
   {
     JMethod jMethod = (JMethod)object;
     StringBuffer result = new StringBuffer();
     result.append(jMethod.getName());
     result.append('('); // )
-    for (Iterator i = jMethod.getParameters().iterator(); i.hasNext(); )
+    for (Iterator<JParameter> i = jMethod.getParameters().iterator(); i.hasNext(); )
     {
-      JParameter jParameter = (JParameter)i.next();
+      JParameter jParameter = i.next();
       if (jParameter.getType() == null)
       {
         result.append('-');
@@ -412,6 +432,7 @@ public class JMethodItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -442,6 +463,7 @@ public class JMethodItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return JavaEditPlugin.INSTANCE;
