@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditUIUtil.java,v 1.3 2006/10/16 03:29:58 davidms Exp $
+ * $Id: EditUIUtil.java,v 1.4 2006/12/29 18:11:20 marcelop Exp $
  */
 
 package org.eclipse.emf.edit.ui.util;
