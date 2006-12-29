@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJNode.java,v 1.3 2006/12/06 03:48:07 marcelop Exp $
+ * $Id: JDOMJNode.java,v 1.4 2006/12/29 20:54:06 marcelop Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
@@ -48,6 +48,12 @@ public abstract class JDOMJNode extends AbstractJNode
   {
     facadeHelper = null;
     wrappedObject = null;
+  }
+  
+  @Override
+  public boolean isDisposed()
+  {
+    return wrappedObject == null;
   }
   
   @Override
@@ -102,13 +108,17 @@ public abstract class JDOMJNode extends AbstractJNode
   @Override
   public List getChildren()
   {
-    List children = new ArrayList();
-    for (Enumeration e = getWrappedObject().getChildren(); e.hasMoreElements();)
+    if (!isDisposed())
     {
-      IDOMNode node = (IDOMNode)e.nextElement();
-      JNode jNode = getFacadeHelper().convertToNode(node);
-      children.add(jNode);
+      List children = new ArrayList();
+      for (Enumeration e = getWrappedObject().getChildren(); e.hasMoreElements();)
+      {
+        IDOMNode node = (IDOMNode)e.nextElement();
+        JNode jNode = getFacadeHelper().convertToNode(node);
+        children.add(jNode);
+      }
+      return Collections.unmodifiableList(children);
     }
-    return Collections.unmodifiableList(children);
+    return Collections.emptyList();
   }
 }
