@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.14 2006/10/16 18:43:07 marcelop Exp $
+ * $Id: URITest.java,v 1.15 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -449,7 +449,7 @@ public class URITest extends TestCase
 
       String[] uriStrings = getResolvedURIs(preserve);
       String[] deresolvedStrings = getUnresolvedURIs();
-      List skipStrings = Arrays.asList(getNonCanonicalUnresolvedURIs(preserve));
+      List<String> skipStrings = Arrays.asList(getNonCanonicalUnresolvedURIs(preserve));
 
       for (int j = 0, len = uriStrings.length; j < len; j++)
       {
@@ -512,6 +512,7 @@ public class URITest extends TestCase
       }
       catch (IllegalArgumentException e)
       {
+        // Ignore
       }
     }
   }

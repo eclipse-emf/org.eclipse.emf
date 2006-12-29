@@ -2,23 +2,22 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbFactoryImpl.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
+ * $Id: DbFactoryImpl.java,v 1.3 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import org.eclipse.emf.common.util.AbstractEnumerator;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -32,6 +31,29 @@ import org.eclipse.emf.test.models.movie.db.*;
  */
 public class DbFactoryImpl extends EFactoryImpl implements DbFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static DbFactory init()
+  {
+    try
+    {
+      DbFactory theDbFactory = (DbFactory)EPackage.Registry.INSTANCE.getEFactory("http://org/eclipse/emf/test/models/MovieDB"); 
+      if (theDbFactory != null)
+      {
+        return theDbFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new DbFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -48,6 +70,7 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -67,16 +90,13 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
     {
       case DbPackage.GENRE_TYPES:
-      {
-        GenreTypes result = GenreTypes.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createGenreTypesFromString(eDataType, initialValue);
       case DbPackage.ACTORS_LIST:
         return createActorsListFromString(eDataType, initialValue);
       case DbPackage.GENRE_TYPES_OBJECT:
@@ -99,12 +119,13 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
     {
       case DbPackage.GENRE_TYPES:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertGenreTypesToString(eDataType, instanceValue);
       case DbPackage.ACTORS_LIST:
         return convertActorsListToString(eDataType, instanceValue);
       case DbPackage.GENRE_TYPES_OBJECT:
@@ -182,14 +203,36 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public List createActorsListFromString(EDataType eDataType, String initialValue)
+  public GenreTypes createGenreTypesFromString(EDataType eDataType, String initialValue)
+  {
+    GenreTypes result = GenreTypes.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertGenreTypesToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List<String> createActorsListFromString(EDataType eDataType, String initialValue)
   {
     if (initialValue == null) return null;
-    List result = new ArrayList();
+    List<String> result = new ArrayList<String>();
     for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
     {
       String item = stringTokenizer.nextToken();
-      result.add(XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNCName(), item));
+      result.add((String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.NC_NAME, item));
     }
     return result;
   }
@@ -202,12 +245,12 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
   public String convertActorsListToString(EDataType eDataType, Object instanceValue)
   {
     if (instanceValue == null) return null;
-    List list = (List)instanceValue;
+    List<?> list = (List<?>)instanceValue;
     if (list.isEmpty()) return "";
     StringBuffer result = new StringBuffer();
-    for (Iterator i = list.iterator(); i.hasNext(); )
+    for (Object item : list)
     {
-      result.append(XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getNCName(), i.next()));
+      result.append(XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.NC_NAME, item));
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
@@ -218,9 +261,9 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public AbstractEnumerator createGenreTypesObjectFromString(EDataType eDataType, String initialValue)
+  public GenreTypes createGenreTypesObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (AbstractEnumerator)DbFactory.eINSTANCE.createFromString(DbPackage.eINSTANCE.getGenreTypes(), initialValue);
+    return createGenreTypesFromString(DbPackage.Literals.GENRE_TYPES, initialValue);
   }
 
   /**
@@ -230,7 +273,7 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    */
   public String convertGenreTypesObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return DbFactory.eINSTANCE.convertToString(DbPackage.eINSTANCE.getGenreTypes(), instanceValue);
+    return convertGenreTypesToString(DbPackage.Literals.GENRE_TYPES, instanceValue);
   }
 
   /**
@@ -240,7 +283,7 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    */
   public Integer createRatingTypeFromString(EDataType eDataType, String initialValue)
   {
-    return (Integer)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getInt(), initialValue);
+    return (Integer)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.INT, initialValue);
   }
 
   /**
@@ -250,7 +293,7 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    */
   public String convertRatingTypeToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getInt(), instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.INT, instanceValue);
   }
 
   /**
@@ -260,7 +303,7 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    */
   public Integer createRatingTypeObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Integer)DbFactory.eINSTANCE.createFromString(DbPackage.eINSTANCE.getRatingType(), initialValue);
+    return createRatingTypeFromString(DbPackage.Literals.RATING_TYPE, initialValue);
   }
 
   /**
@@ -270,7 +313,7 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    */
   public String convertRatingTypeObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return DbFactory.eINSTANCE.convertToString(DbPackage.eINSTANCE.getRatingType(), instanceValue);
+    return convertRatingTypeToString(DbPackage.Literals.RATING_TYPE, instanceValue);
   }
 
   /**
@@ -280,7 +323,7 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    */
   public Integer createRatingValuesFromString(EDataType eDataType, String initialValue)
   {
-    return (Integer)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getInt(), initialValue);
+    return (Integer)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.INT, initialValue);
   }
 
   /**
@@ -290,7 +333,7 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    */
   public String convertRatingValuesToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getInt(), instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.INT, instanceValue);
   }
 
   /**
@@ -300,7 +343,7 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    */
   public Integer createRatingValuesObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Integer)DbFactory.eINSTANCE.createFromString(DbPackage.eINSTANCE.getRatingValues(), initialValue);
+    return createRatingValuesFromString(DbPackage.Literals.RATING_VALUES, initialValue);
   }
 
   /**
@@ -310,7 +353,7 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    */
   public String convertRatingValuesObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return DbFactory.eINSTANCE.convertToString(DbPackage.eINSTANCE.getRatingValues(), instanceValue);
+    return convertRatingValuesToString(DbPackage.Literals.RATING_VALUES, instanceValue);
   }
 
   /**
@@ -329,6 +372,7 @@ public class DbFactoryImpl extends EFactoryImpl implements DbFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static DbPackage getPackage()
   {
     return DbPackage.eINSTANCE;

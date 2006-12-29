@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibSwitch.java,v 1.1 2006/02/08 21:30:38 marcelop Exp $
+ * $Id: LibSwitch.java,v 1.2 2006/12/29 21:49:53 marcelop Exp $
  */
 package lib.util;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see lib.LibPackage
  * @generated
  */
-public class LibSwitch 
+public class LibSwitch<T> 
 {
   /**
    * The cached model package
@@ -57,7 +57,7 @@ public class LibSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -69,7 +69,7 @@ public class LibSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -77,11 +77,11 @@ public class LibSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -92,42 +92,42 @@ public class LibSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case LibPackage.LIBRARY:
       {
         Library library = (Library)theEObject;
-        Object result = caseLibrary(library);
+        T result = caseLibrary(library);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case LibPackage.BOOK:
       {
         Book book = (Book)theEObject;
-        Object result = caseBook(book);
+        T result = caseBook(book);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case LibPackage.ADDRESS:
       {
         Address address = (Address)theEObject;
-        Object result = caseAddress(address);
+        T result = caseAddress(address);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case LibPackage.PERSON:
       {
         Person person = (Person)theEObject;
-        Object result = casePerson(person);
+        T result = casePerson(person);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case LibPackage.CAFETERIA:
       {
         Cafeteria cafeteria = (Cafeteria)theEObject;
-        Object result = caseCafeteria(cafeteria);
+        T result = caseCafeteria(cafeteria);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -146,7 +146,7 @@ public class LibSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseLibrary(Library object)
+  public T caseLibrary(Library object)
   {
     return null;
   }
@@ -162,7 +162,7 @@ public class LibSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseBook(Book object)
+  public T caseBook(Book object)
   {
     return null;
   }
@@ -178,7 +178,7 @@ public class LibSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseAddress(Address object)
+  public T caseAddress(Address object)
   {
     return null;
   }
@@ -194,7 +194,7 @@ public class LibSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object casePerson(Person object)
+  public T casePerson(Person object)
   {
     return null;
   }
@@ -210,7 +210,7 @@ public class LibSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseCafeteria(Cafeteria object)
+  public T caseCafeteria(Cafeteria object)
   {
     return null;
   }
@@ -226,7 +226,7 @@ public class LibSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

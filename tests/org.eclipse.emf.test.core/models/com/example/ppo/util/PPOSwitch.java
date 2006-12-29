@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PPOSwitch.java,v 1.1 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: PPOSwitch.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package com.example.ppo.util;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see com.example.ppo.PPOPackage
  * @generated
  */
-public class PPOSwitch
+public class PPOSwitch<T>
 {
   /**
    * The cached model package
@@ -57,7 +57,7 @@ public class PPOSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -69,7 +69,7 @@ public class PPOSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -77,11 +77,11 @@ public class PPOSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -92,28 +92,28 @@ public class PPOSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case PPOPackage.ITEM:
       {
         Item item = (Item)theEObject;
-        Object result = caseItem(item);
+        T result = caseItem(item);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case PPOPackage.US_ADDRESS:
       {
         USAddress usAddress = (USAddress)theEObject;
-        Object result = caseUSAddress(usAddress);
+        T result = caseUSAddress(usAddress);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case PPOPackage.PURCHASE_ORDER:
       {
         PurchaseOrder purchaseOrder = (PurchaseOrder)theEObject;
-        Object result = casePurchaseOrder(purchaseOrder);
+        T result = casePurchaseOrder(purchaseOrder);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -132,7 +132,7 @@ public class PPOSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseItem(Item object)
+  public T caseItem(Item object)
   {
     return null;
   }
@@ -148,7 +148,7 @@ public class PPOSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseUSAddress(USAddress object)
+  public T caseUSAddress(USAddress object)
   {
     return null;
   }
@@ -164,7 +164,7 @@ public class PPOSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object casePurchaseOrder(PurchaseOrder object)
+  public T casePurchaseOrder(PurchaseOrder object)
   {
     return null;
   }
@@ -180,7 +180,7 @@ public class PPOSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

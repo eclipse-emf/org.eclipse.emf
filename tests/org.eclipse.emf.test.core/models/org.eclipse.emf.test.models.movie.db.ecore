@@ -143,7 +143,7 @@
     <eLiterals name="SciFi" value="10"/>
     <eLiterals name="Thriller" value="11"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="GenreTypesObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="GenreTypesObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="genreTypes:Object"/>
       <details key="baseType" value="genreTypes"/>

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MovieTypeImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: MovieTypeImpl.java,v 1.2 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -15,7 +15,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -27,6 +26,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.test.models.customer.CustomerType;
 
+import org.eclipse.emf.test.models.movie.db.CriticsReviewType;
 import org.eclipse.emf.test.models.movie.db.DbPackage;
 import org.eclipse.emf.test.models.movie.db.GenreTypes;
 import org.eclipse.emf.test.models.movie.db.MovieType;
@@ -83,7 +83,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * @generated
    * @ordered
    */
-  protected static final List ACTORS_EDEFAULT = null;
+  protected static final List<String> ACTORS_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getActors() <em>Actors</em>}' attribute.
@@ -93,7 +93,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * @generated
    * @ordered
    */
-  protected List actors = ACTORS_EDEFAULT;
+  protected List<String> actors = ACTORS_EDEFAULT;
 
   /**
    * The default value of the '{@link #getDirector() <em>Director</em>}' attribute.
@@ -229,9 +229,10 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return DbPackage.eINSTANCE.getMovieType();
+    return DbPackage.Literals.MOVIE_TYPE;
   }
 
   /**
@@ -262,7 +263,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getActors()
+  public List<String> getActors()
   {
     return actors;
   }
@@ -272,9 +273,9 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setActors(List newActors)
+  public void setActors(List<String> newActors)
   {
-    List oldActors = actors;
+    List<String> oldActors = actors;
     actors = newActors;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, DbPackage.MOVIE_TYPE__ACTORS, oldActors, actors));
@@ -395,9 +396,9 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getCriticsReview()
+  public EList<CriticsReviewType> getCriticsReview()
   {
-    return ((FeatureMap)getCriticsReviewGroup()).list(DbPackage.eINSTANCE.getMovieType_CriticsReview());
+    return getCriticsReviewGroup().list(DbPackage.Literals.MOVIE_TYPE__CRITICS_REVIEW);
   }
 
   /**
@@ -409,8 +410,8 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
   {
     if (checkedOutBy != null && checkedOutBy.eIsProxy())
     {
-      CustomerType oldCheckedOutBy = checkedOutBy;
-      checkedOutBy = (CustomerType)eResolveProxy((InternalEObject)checkedOutBy);
+      InternalEObject oldCheckedOutBy = (InternalEObject)checkedOutBy;
+      checkedOutBy = (CustomerType)eResolveProxy(oldCheckedOutBy);
       if (checkedOutBy != oldCheckedOutBy)
       {
         if (eNotificationRequired())
@@ -485,23 +486,19 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case DbPackage.MOVIE_TYPE__CRITICS_REVIEW_GROUP:
-          return ((InternalEList)getCriticsReviewGroup()).basicRemove(otherEnd, msgs);
-        case DbPackage.MOVIE_TYPE__CRITICS_REVIEW:
-          return ((InternalEList)getCriticsReview()).basicRemove(otherEnd, msgs);
-        case DbPackage.MOVIE_TYPE__ANY:
-          return ((InternalEList)getAny()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case DbPackage.MOVIE_TYPE__CRITICS_REVIEW_GROUP:
+        return ((InternalEList<?>)getCriticsReviewGroup()).basicRemove(otherEnd, msgs);
+      case DbPackage.MOVIE_TYPE__CRITICS_REVIEW:
+        return ((InternalEList<?>)getCriticsReview()).basicRemove(otherEnd, msgs);
+      case DbPackage.MOVIE_TYPE__ANY:
+        return ((InternalEList<?>)getAny()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -509,9 +506,10 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.MOVIE_TYPE__TITLE:
         return getTitle();
@@ -524,18 +522,20 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
       case DbPackage.MOVIE_TYPE__SUMMARY:
         return getSummary();
       case DbPackage.MOVIE_TYPE__CRITICS_REVIEW_GROUP:
-        return getCriticsReviewGroup();
+        if (coreType) return getCriticsReviewGroup();
+        return ((FeatureMap.Internal)getCriticsReviewGroup()).getWrapper();
       case DbPackage.MOVIE_TYPE__CRITICS_REVIEW:
         return getCriticsReview();
       case DbPackage.MOVIE_TYPE__CHECKED_OUT_BY:
         if (resolve) return getCheckedOutBy();
         return basicGetCheckedOutBy();
       case DbPackage.MOVIE_TYPE__ANY:
-        return getAny();
+        if (coreType) return getAny();
+        return ((FeatureMap.Internal)getAny()).getWrapper();
       case DbPackage.MOVIE_TYPE__ID:
         return getID();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -543,15 +543,17 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.MOVIE_TYPE__TITLE:
         setTitle((String)newValue);
         return;
       case DbPackage.MOVIE_TYPE__ACTORS:
-        setActors((List)newValue);
+        setActors((List<String>)newValue);
         return;
       case DbPackage.MOVIE_TYPE__DIRECTOR:
         setDirector((String)newValue);
@@ -563,25 +565,23 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
         setSummary((String)newValue);
         return;
       case DbPackage.MOVIE_TYPE__CRITICS_REVIEW_GROUP:
-        getCriticsReviewGroup().clear();
-        getCriticsReviewGroup().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getCriticsReviewGroup()).set(newValue);
         return;
       case DbPackage.MOVIE_TYPE__CRITICS_REVIEW:
         getCriticsReview().clear();
-        getCriticsReview().addAll((Collection)newValue);
+        getCriticsReview().addAll((Collection<? extends CriticsReviewType>)newValue);
         return;
       case DbPackage.MOVIE_TYPE__CHECKED_OUT_BY:
         setCheckedOutBy((CustomerType)newValue);
         return;
       case DbPackage.MOVIE_TYPE__ANY:
-        getAny().clear();
-        getAny().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getAny()).set(newValue);
         return;
       case DbPackage.MOVIE_TYPE__ID:
         setID((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -589,9 +589,10 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.MOVIE_TYPE__TITLE:
         setTitle(TITLE_EDEFAULT);
@@ -624,7 +625,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
         setID(ID_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -632,9 +633,10 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.MOVIE_TYPE__TITLE:
         return TITLE_EDEFAULT == null ? title != null : !TITLE_EDEFAULT.equals(title);
@@ -657,7 +659,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
       case DbPackage.MOVIE_TYPE__ID:
         return ID_EDEFAULT == null ? iD != null : !ID_EDEFAULT.equals(iD);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -665,6 +667,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

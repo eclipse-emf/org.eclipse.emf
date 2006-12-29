@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibAdapterFactory.java,v 1.1 2006/02/08 21:30:38 marcelop Exp $
+ * $Id: LibAdapterFactory.java,v 1.2 2006/12/29 21:49:53 marcelop Exp $
  */
 package lib.util;
 
@@ -55,6 +55,7 @@ public class LibAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,30 +75,36 @@ public class LibAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected LibSwitch modelSwitch =
-    new LibSwitch()
+  protected LibSwitch<Adapter> modelSwitch =
+    new LibSwitch<Adapter>()
     {
-      public Object caseLibrary(Library object)
+      @Override
+      public Adapter caseLibrary(Library object)
       {
         return createLibraryAdapter();
       }
-      public Object caseBook(Book object)
+      @Override
+      public Adapter caseBook(Book object)
       {
         return createBookAdapter();
       }
-      public Object caseAddress(Address object)
+      @Override
+      public Adapter caseAddress(Address object)
       {
         return createAddressAdapter();
       }
-      public Object casePerson(Person object)
+      @Override
+      public Adapter casePerson(Person object)
       {
         return createPersonAdapter();
       }
-      public Object caseCafeteria(Cafeteria object)
+      @Override
+      public Adapter caseCafeteria(Cafeteria object)
       {
         return createCafeteriaAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -111,9 +118,10 @@ public class LibAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.11 2005/12/15 00:07:02 marcelop Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.12 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -303,7 +303,7 @@ public class ChangeDescriptionTest extends TestCase
     assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedPack.getEClassifier(class4.getName())));
     assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedPack.getEClassifier(class5.getName())));
     assertEquals(1, loadedChangeDescription.getObjectsToAttach().size());
-    Set names = new HashSet();
+    Set<String> names = new HashSet<String>();
     names.add(((EClass)loadedChangeDescription.getObjectsToAttach().get(0)).getName());
     assertTrue(names.contains(class2.getName()));
   }
@@ -410,11 +410,9 @@ public class ChangeDescriptionTest extends TestCase
     
     loadedResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
     assertEquals(3, loadedResource.getContents().size());
-    assertTrue(loadedResource.getContents().get(0) instanceof EObject);
-    EObject loadedRoot1 = (EObject)loadedResource.getContents().get(0);
+    EObject loadedRoot1 = loadedResource.getContents().get(0);
     assertEquals(root1.eGet(name), loadedRoot1.eGet(name));
-    assertTrue(loadedResource.getContents().get(1) instanceof EObject);
-    EObject loadedRoot2 = (EObject)loadedResource.getContents().get(1);
+    EObject loadedRoot2 = loadedResource.getContents().get(1);
     assertEquals(root2.eGet(name), loadedRoot2.eGet(name));
     assertTrue(loadedResource.getContents().get(2) instanceof ChangeDescription);
     ChangeDescription loadedChangeDescription = (ChangeDescription)loadedResource.getContents().get(2);
@@ -467,7 +465,7 @@ public class ChangeDescriptionTest extends TestCase
     ePackage.getEAnnotations().add(eAnnotation);
     resource.getContents().add(ePackage);
 
-    List beforeChange = new ArrayList(eAnnotation.getContents());
+    List<EObject> beforeChange = new ArrayList<EObject>(eAnnotation.getContents());
 
     ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
     eAnnotation.getContents().add(EcoreFactory.eINSTANCE.createEClass());
@@ -480,7 +478,7 @@ public class ChangeDescriptionTest extends TestCase
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     String[] xmi = new String [2];
 
-    List afterChange = new ArrayList(eAnnotation.getContents());
+    List<EObject> afterChange = new ArrayList<EObject>(eAnnotation.getContents());
 
     for (int i = 1; i <= 20; i++)
     {

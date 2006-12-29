@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerResourceFactoryImpl.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
+ * $Id: CustomerResourceFactoryImpl.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer.util;
 
@@ -41,6 +41,7 @@ public class CustomerResourceFactoryImpl extends ResourceFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Resource createResource(URI uri)
   {
     XMLResource result = new CustomerResourceImpl(uri);
@@ -48,6 +49,8 @@ public class CustomerResourceFactoryImpl extends ResourceFactoryImpl
     result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+
+    result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
     result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);

@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: NotificationTest.java,v 1.2 2006/07/18 05:40:54 marcelop Exp $
+ * $Id: NotificationTest.java,v 1.3 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.core.common;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.Test;
@@ -27,6 +26,7 @@ import junit.framework.TestSuite;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -63,12 +63,13 @@ public class NotificationTest extends TestCase
     resource.getContents().add(EcoreFactory.eINSTANCE.createEPackage());       //9
     resource.getContents().add(EcoreFactory.eINSTANCE.createEParameter());     //10
     
-    List initialContents = new ArrayList(resource.getContents());
+    List<EObject> initialContents = new ArrayList<EObject>(resource.getContents());
     
     class MyAdapter extends AdapterImpl
     {
       public NotificationImpl mergedNotification;
       
+      @Override
       public void notifyChanged(Notification msg)
       {
         if (mergedNotification == null)
@@ -85,12 +86,11 @@ public class NotificationTest extends TestCase
     MyAdapter myAdapter = new MyAdapter();
     resource.eAdapters().add(myAdapter);
 
-    List removedObjects = new ArrayList();
+    List<EObject> removedObjects = new ArrayList<EObject>();
     
     // Remove all, one by one
-    for (Iterator i = initialContents.iterator(); i.hasNext();)
+    for (EObject item : initialContents)
     {
-      Object item = (Object)i.next();
       if (resource.getContents().remove(item))
       {
         removedObjects.add(item);
@@ -106,9 +106,8 @@ public class NotificationTest extends TestCase
     
     // Remove odd items
     int count = 0;
-    for (Iterator i = initialContents.iterator(); i.hasNext(); count++)
+    for (EObject item : initialContents)
     {
-      Object item = (Object)i.next();
       if ((count % 2) != 0)
       {
         if (resource.getContents().remove(item))
@@ -116,6 +115,7 @@ public class NotificationTest extends TestCase
           removedObjects.add(item);
         }
       }
+      ++count;
     }
     removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);    
 
@@ -127,9 +127,8 @@ public class NotificationTest extends TestCase
     
     // Remove even items
     count = 0;
-    for (Iterator i = initialContents.iterator(); i.hasNext(); count++)
+    for (EObject item : initialContents)
     {
-      Object item = (Object)i.next();
       if ((count % 2) == 0)
       {
         if (resource.getContents().remove(item))
@@ -137,6 +136,7 @@ public class NotificationTest extends TestCase
           removedObjects.add(item);
         }
       }
+      ++count;
     }
     removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);    
 
@@ -182,11 +182,11 @@ public class NotificationTest extends TestCase
     removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);    
   }
 
-  private void removeNotificationMergeCheck(List removedItems, List initialContents, NotificationImpl mergedNotification)
+  private void removeNotificationMergeCheck(List<?> removedItems, List<?> initialContents, NotificationImpl mergedNotification)
   {
     assertEquals(Notification.REMOVE_MANY, mergedNotification.getEventType());
     
-    List oldValue = (List)mergedNotification.getOldValue();
+    List<?> oldValue = (List<?>)mergedNotification.getOldValue();
     int[] newValue = (int[])mergedNotification.getNewValue();
     
     assertEquals(removedItems.size(), oldValue.size());

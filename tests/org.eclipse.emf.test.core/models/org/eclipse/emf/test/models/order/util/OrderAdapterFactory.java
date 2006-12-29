@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: OrderAdapterFactory.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: OrderAdapterFactory.java,v 1.2 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.order.util;
 
@@ -55,6 +55,7 @@ public class OrderAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,22 +75,26 @@ public class OrderAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected OrderSwitch modelSwitch =
-    new OrderSwitch()
+  protected OrderSwitch<Adapter> modelSwitch =
+    new OrderSwitch<Adapter>()
     {
-      public Object caseCustomerOrder(CustomerOrder object)
+      @Override
+      public Adapter caseCustomerOrder(CustomerOrder object)
       {
         return createCustomerOrderAdapter();
       }
-      public Object caseDocumentRoot(DocumentRoot object)
+      @Override
+      public Adapter caseDocumentRoot(DocumentRoot object)
       {
         return createDocumentRootAdapter();
       }
-      public Object caseOrder(Order object)
+      @Override
+      public Adapter caseOrder(Order object)
       {
         return createOrderAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -103,9 +108,10 @@ public class OrderAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

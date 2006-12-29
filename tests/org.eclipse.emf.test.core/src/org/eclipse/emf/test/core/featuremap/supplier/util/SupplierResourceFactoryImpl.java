@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SupplierResourceFactoryImpl.java,v 1.1 2004/08/20 22:47:32 marcelop Exp $
+ * $Id: SupplierResourceFactoryImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier.util;
 
@@ -10,11 +10,8 @@ import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
-
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,15 +20,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
  * @see org.eclipse.emf.test.core.featuremap.supplier.util.SupplierResourceImpl
  * @generated
  */
-public class SupplierResourceFactoryImpl extends XMLResourceFactoryImpl
+public class SupplierResourceFactoryImpl extends ResourceFactoryImpl
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected ExtendedMetaData extendedMetaData;
-
   /**
    * Creates an instance of the resource factory.
    * <!-- begin-user-doc -->
@@ -41,7 +31,6 @@ public class SupplierResourceFactoryImpl extends XMLResourceFactoryImpl
   public SupplierResourceFactoryImpl()
   {
     super();
-    extendedMetaData = ExtendedMetaData.INSTANCE;
   }
 
   /**
@@ -50,13 +39,16 @@ public class SupplierResourceFactoryImpl extends XMLResourceFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Resource createResource(URI uri)
   {
     XMLResource result = new SupplierResourceImpl(uri);
-    result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-    result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
+    result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
+    result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+
+    result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
     result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);

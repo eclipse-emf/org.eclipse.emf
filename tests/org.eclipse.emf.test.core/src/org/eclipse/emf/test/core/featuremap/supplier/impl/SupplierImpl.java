@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SupplierImpl.java,v 1.1 2004/08/20 22:47:32 marcelop Exp $
+ * $Id: SupplierImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier.impl;
 
@@ -14,7 +14,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -24,6 +23,7 @@ import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
 import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
 import org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage;
 
@@ -90,9 +90,10 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return SupplierPackage.eINSTANCE.getSupplier();
+    return SupplierPackage.Literals.SUPPLIER;
   }
 
   /**
@@ -137,9 +138,9 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getPreferredOrders()
+  public EList<PurchaseOrder> getPreferredOrders()
   {
-    return ((FeatureMap)getOrders()).list(SupplierPackage.eINSTANCE.getSupplier_PreferredOrders());
+    return getOrders().list(SupplierPackage.Literals.SUPPLIER__PREFERRED_ORDERS);
   }
 
   /**
@@ -147,9 +148,9 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getStandardOrders()
+  public EList<PurchaseOrder> getStandardOrders()
   {
-    return ((FeatureMap)getOrders()).list(SupplierPackage.eINSTANCE.getSupplier_StandardOrders());
+    return getOrders().list(SupplierPackage.Literals.SUPPLIER__STANDARD_ORDERS);
   }
 
   /**
@@ -157,23 +158,19 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case SupplierPackage.SUPPLIER__ORDERS:
-          return ((InternalEList)getOrders()).basicRemove(otherEnd, msgs);
-        case SupplierPackage.SUPPLIER__PREFERRED_ORDERS:
-          return ((InternalEList)getPreferredOrders()).basicRemove(otherEnd, msgs);
-        case SupplierPackage.SUPPLIER__STANDARD_ORDERS:
-          return ((InternalEList)getStandardOrders()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case SupplierPackage.SUPPLIER__ORDERS:
+        return ((InternalEList<?>)getOrders()).basicRemove(otherEnd, msgs);
+      case SupplierPackage.SUPPLIER__PREFERRED_ORDERS:
+        return ((InternalEList<?>)getPreferredOrders()).basicRemove(otherEnd, msgs);
+      case SupplierPackage.SUPPLIER__STANDARD_ORDERS:
+        return ((InternalEList<?>)getStandardOrders()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -181,20 +178,22 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case SupplierPackage.SUPPLIER__NAME:
         return getName();
       case SupplierPackage.SUPPLIER__ORDERS:
-        return getOrders();
+        if (coreType) return getOrders();
+        return ((FeatureMap.Internal)getOrders()).getWrapper();
       case SupplierPackage.SUPPLIER__PREFERRED_ORDERS:
         return getPreferredOrders();
       case SupplierPackage.SUPPLIER__STANDARD_ORDERS:
         return getStandardOrders();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -202,27 +201,28 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case SupplierPackage.SUPPLIER__NAME:
         setName((String)newValue);
         return;
       case SupplierPackage.SUPPLIER__ORDERS:
-        getOrders().clear();
-        getOrders().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getOrders()).set(newValue);
         return;
       case SupplierPackage.SUPPLIER__PREFERRED_ORDERS:
         getPreferredOrders().clear();
-        getPreferredOrders().addAll((Collection)newValue);
+        getPreferredOrders().addAll((Collection<? extends PurchaseOrder>)newValue);
         return;
       case SupplierPackage.SUPPLIER__STANDARD_ORDERS:
         getStandardOrders().clear();
-        getStandardOrders().addAll((Collection)newValue);
+        getStandardOrders().addAll((Collection<? extends PurchaseOrder>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -230,9 +230,10 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case SupplierPackage.SUPPLIER__NAME:
         setName(NAME_EDEFAULT);
@@ -247,7 +248,7 @@ public class SupplierImpl extends EObjectImpl implements Supplier
         getStandardOrders().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -255,9 +256,10 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case SupplierPackage.SUPPLIER__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -268,7 +270,7 @@ public class SupplierImpl extends EObjectImpl implements Supplier
       case SupplierPackage.SUPPLIER__STANDARD_ORDERS:
         return !getStandardOrders().isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -276,6 +278,7 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

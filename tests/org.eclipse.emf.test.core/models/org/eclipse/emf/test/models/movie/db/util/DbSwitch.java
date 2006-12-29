@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbSwitch.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: DbSwitch.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db.util;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.test.models.movie.db.*;
  * @see org.eclipse.emf.test.models.movie.db.DbPackage
  * @generated
  */
-public class DbSwitch
+public class DbSwitch<T>
 {
   /**
    * The cached model package
@@ -57,7 +57,7 @@ public class DbSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -69,7 +69,7 @@ public class DbSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -77,11 +77,11 @@ public class DbSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -92,21 +92,21 @@ public class DbSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case DbPackage.CRITICS_REVIEW_TYPE:
       {
         CriticsReviewType criticsReviewType = (CriticsReviewType)theEObject;
-        Object result = caseCriticsReviewType(criticsReviewType);
+        T result = caseCriticsReviewType(criticsReviewType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case DbPackage.CUSTOMER_REVIEW_TYPE:
       {
         CustomerReviewType customerReviewType = (CustomerReviewType)theEObject;
-        Object result = caseCustomerReviewType(customerReviewType);
+        T result = caseCustomerReviewType(customerReviewType);
         if (result == null) result = caseCriticsReviewType(customerReviewType);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -114,21 +114,21 @@ public class DbSwitch
       case DbPackage.DOCUMENT_ROOT:
       {
         DocumentRoot documentRoot = (DocumentRoot)theEObject;
-        Object result = caseDocumentRoot(documentRoot);
+        T result = caseDocumentRoot(documentRoot);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case DbPackage.MOVIE_DB_TYPE:
       {
         MovieDBType movieDBType = (MovieDBType)theEObject;
-        Object result = caseMovieDBType(movieDBType);
+        T result = caseMovieDBType(movieDBType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case DbPackage.MOVIE_TYPE:
       {
         MovieType movieType = (MovieType)theEObject;
-        Object result = caseMovieType(movieType);
+        T result = caseMovieType(movieType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -147,7 +147,7 @@ public class DbSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseCriticsReviewType(CriticsReviewType object)
+  public T caseCriticsReviewType(CriticsReviewType object)
   {
     return null;
   }
@@ -163,7 +163,7 @@ public class DbSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseCustomerReviewType(CustomerReviewType object)
+  public T caseCustomerReviewType(CustomerReviewType object)
   {
     return null;
   }
@@ -179,7 +179,7 @@ public class DbSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseDocumentRoot(DocumentRoot object)
+  public T caseDocumentRoot(DocumentRoot object)
   {
     return null;
   }
@@ -195,7 +195,7 @@ public class DbSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseMovieDBType(MovieDBType object)
+  public T caseMovieDBType(MovieDBType object)
   {
     return null;
   }
@@ -211,7 +211,7 @@ public class DbSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseMovieType(MovieType object)
+  public T caseMovieType(MovieType object)
   {
     return null;
   }
@@ -227,7 +227,7 @@ public class DbSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

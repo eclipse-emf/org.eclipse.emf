@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MovieType.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: MovieType.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -79,13 +79,13 @@ public interface MovieType extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Actors</em>' attribute.
-   * @see #setActors(List)
+   * @see #setActors(List<String>)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_Actors()
    * @model unique="false" dataType="org.eclipse.emf.test.models.movie.db.ActorsList" required="true" many="false"
    *        extendedMetaData="kind='element' name='actors'"
    * @generated
    */
-  List getActors();
+  List<String> getActors();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.movie.db.MovieType#getActors <em>Actors</em>}' attribute.
@@ -95,7 +95,7 @@ public interface MovieType extends EObject
    * @see #getActors()
    * @generated
    */
-  void setActors(List value);
+  void setActors(List<String> value);
 
   /**
    * Returns the value of the '<em><b>Director</b></em>' attribute.
@@ -237,11 +237,11 @@ public interface MovieType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Critics Review</em>' containment reference list.
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_CriticsReview()
-   * @model type="org.eclipse.emf.test.models.movie.db.CriticsReviewType" containment="true" resolveProxies="false" transient="true" volatile="true" derived="true"
+   * @model type="org.eclipse.emf.test.models.movie.db.CriticsReviewType" containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='criticsReview' namespace='##targetNamespace' group='criticsReview:group'"
    * @generated
    */
-  EList getCriticsReview();
+  EList<CriticsReviewType> getCriticsReview();
 
   /**
    * Returns the value of the '<em><b>Checked Out By</b></em>' reference.

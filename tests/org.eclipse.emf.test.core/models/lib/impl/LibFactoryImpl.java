@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibFactoryImpl.java,v 1.1 2006/02/08 21:30:37 marcelop Exp $
+ * $Id: LibFactoryImpl.java,v 1.2 2006/12/29 21:49:46 marcelop Exp $
  */
 package lib.impl;
 
@@ -63,6 +63,7 @@ public class LibFactoryImpl extends EFactoryImpl implements LibFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -148,6 +149,7 @@ public class LibFactoryImpl extends EFactoryImpl implements LibFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static LibPackage getPackage()
   {
     return LibPackage.eINSTANCE;

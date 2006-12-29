@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerTypeImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomerTypeImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
@@ -10,7 +10,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -144,9 +143,10 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return CustomerPackage.eINSTANCE.getCustomerType();
+    return CustomerPackage.Literals.CUSTOMER_TYPE;
   }
 
   /**
@@ -346,21 +346,17 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case CustomerPackage.CUSTOMER_TYPE__ADDRESS:
-          return basicSetAddress(null, msgs);
-        case CustomerPackage.CUSTOMER_TYPE__CREDIT_CARD:
-          return basicSetCreditCard(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case CustomerPackage.CUSTOMER_TYPE__ADDRESS:
+        return basicSetAddress(null, msgs);
+      case CustomerPackage.CUSTOMER_TYPE__CREDIT_CARD:
+        return basicSetCreditCard(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -368,9 +364,10 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.CUSTOMER_TYPE__NAME:
         return getName();
@@ -383,7 +380,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
       case CustomerPackage.CUSTOMER_TYPE__ID:
         return getID();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -391,9 +388,10 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.CUSTOMER_TYPE__NAME:
         setName((String)newValue);
@@ -405,13 +403,13 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
         setCreditCard((CreditInfo)newValue);
         return;
       case CustomerPackage.CUSTOMER_TYPE__PAYMENT_DAY:
-        setPaymentDay((Object)newValue);
+        setPaymentDay(newValue);
         return;
       case CustomerPackage.CUSTOMER_TYPE__ID:
         setID((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -419,9 +417,10 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.CUSTOMER_TYPE__NAME:
         setName(NAME_EDEFAULT);
@@ -439,7 +438,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
         setID(ID_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -447,9 +446,10 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.CUSTOMER_TYPE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -462,7 +462,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
       case CustomerPackage.CUSTOMER_TYPE__ID:
         return ID_EDEFAULT == null ? iD != null : !ID_EDEFAULT.equals(iD);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -470,6 +470,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

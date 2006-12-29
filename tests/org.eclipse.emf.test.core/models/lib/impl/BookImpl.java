@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.1 2006/02/08 21:30:37 marcelop Exp $
+ * $Id: BookImpl.java,v 1.2 2006/12/29 21:49:51 marcelop Exp $
  */
 package lib.impl;
 
@@ -66,6 +66,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return LibPackage.Literals.BOOK;
@@ -99,6 +100,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -114,6 +116,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -130,6 +133,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -146,6 +150,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -161,6 +166,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

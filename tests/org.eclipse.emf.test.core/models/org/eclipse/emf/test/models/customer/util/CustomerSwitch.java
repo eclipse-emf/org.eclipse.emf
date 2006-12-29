@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerSwitch.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
+ * $Id: CustomerSwitch.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer.util;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.test.models.customer.*;
  * @see org.eclipse.emf.test.models.customer.CustomerPackage
  * @generated
  */
-public class CustomerSwitch {
+public class CustomerSwitch<T> {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -56,7 +56,7 @@ public class CustomerSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -68,7 +68,7 @@ public class CustomerSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -76,11 +76,11 @@ public class CustomerSwitch {
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -91,21 +91,21 @@ public class CustomerSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case CustomerPackage.ADDRESS_TYPE:
       {
         AddressType addressType = (AddressType)theEObject;
-        Object result = caseAddressType(addressType);
+        T result = caseAddressType(addressType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case CustomerPackage.CANADA_ADDR:
       {
         CanadaAddr canadaAddr = (CanadaAddr)theEObject;
-        Object result = caseCanadaAddr(canadaAddr);
+        T result = caseCanadaAddr(canadaAddr);
         if (result == null) result = caseAddressType(canadaAddr);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -113,35 +113,35 @@ public class CustomerSwitch {
       case CustomerPackage.CREDIT_INFO:
       {
         CreditInfo creditInfo = (CreditInfo)theEObject;
-        Object result = caseCreditInfo(creditInfo);
+        T result = caseCreditInfo(creditInfo);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case CustomerPackage.CUSTOMERS_TYPE:
       {
         CustomersType customersType = (CustomersType)theEObject;
-        Object result = caseCustomersType(customersType);
+        T result = caseCustomersType(customersType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case CustomerPackage.CUSTOMER_TYPE:
       {
         CustomerType customerType = (CustomerType)theEObject;
-        Object result = caseCustomerType(customerType);
+        T result = caseCustomerType(customerType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case CustomerPackage.DOCUMENT_ROOT:
       {
         DocumentRoot documentRoot = (DocumentRoot)theEObject;
-        Object result = caseDocumentRoot(documentRoot);
+        T result = caseDocumentRoot(documentRoot);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case CustomerPackage.US_ADDR:
       {
         USAddr usAddr = (USAddr)theEObject;
-        Object result = caseUSAddr(usAddr);
+        T result = caseUSAddr(usAddr);
         if (result == null) result = caseAddressType(usAddr);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -161,7 +161,7 @@ public class CustomerSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseAddressType(AddressType object)
+  public T caseAddressType(AddressType object)
   {
     return null;
   }
@@ -177,7 +177,7 @@ public class CustomerSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseCanadaAddr(CanadaAddr object)
+  public T caseCanadaAddr(CanadaAddr object)
   {
     return null;
   }
@@ -193,7 +193,7 @@ public class CustomerSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseCreditInfo(CreditInfo object)
+  public T caseCreditInfo(CreditInfo object)
   {
     return null;
   }
@@ -209,7 +209,7 @@ public class CustomerSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseCustomersType(CustomersType object)
+  public T caseCustomersType(CustomersType object)
   {
     return null;
   }
@@ -225,7 +225,7 @@ public class CustomerSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseCustomerType(CustomerType object)
+  public T caseCustomerType(CustomerType object)
   {
     return null;
   }
@@ -241,7 +241,7 @@ public class CustomerSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseDocumentRoot(DocumentRoot object)
+  public T caseDocumentRoot(DocumentRoot object)
   {
     return null;
   }
@@ -257,7 +257,7 @@ public class CustomerSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseUSAddr(USAddr object)
+  public T caseUSAddr(USAddr object)
   {
     return null;
   }
@@ -273,7 +273,7 @@ public class CustomerSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

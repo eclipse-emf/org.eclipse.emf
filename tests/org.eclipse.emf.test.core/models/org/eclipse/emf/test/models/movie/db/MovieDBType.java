@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MovieDBType.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: MovieDBType.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -60,11 +60,11 @@ public interface MovieDBType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Movie</em>' containment reference list.
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieDBType_Movie()
-   * @model type="org.eclipse.emf.test.models.movie.db.MovieType" containment="true" resolveProxies="false" required="true" transient="true" volatile="true" derived="true"
+   * @model type="org.eclipse.emf.test.models.movie.db.MovieType" containment="true" required="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='movie' namespace='##targetNamespace' group='#:group'"
    * @generated
    */
-  EList getMovie();
+  EList<MovieType> getMovie();
 
   /**
    * Returns the value of the '<em><b>Comment</b></em>' attribute.

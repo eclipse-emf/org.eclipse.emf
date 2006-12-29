@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.1 2006/02/08 21:30:37 marcelop Exp $
+ * $Id: LibraryImpl.java,v 1.2 2006/12/29 21:49:50 marcelop Exp $
  */
 package lib.impl;
 
@@ -78,7 +78,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList books = null;
+  protected EList<Book> books = null;
 
   /**
    * The cached value of the '{@link #getAddress() <em>Address</em>}' containment reference.
@@ -98,7 +98,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList writers = null;
+  protected EList<Person> writers = null;
 
   /**
    * The cached value of the '{@link #getCafeteria() <em>Cafeteria</em>}' containment reference.
@@ -125,6 +125,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return LibPackage.Literals.LIBRARY;
@@ -158,11 +159,11 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getBooks()
+  public EList<Book> getBooks()
   {
     if (books == null)
     {
-      books = new EObjectContainmentEList.Resolving(Book.class, this, LibPackage.LIBRARY__BOOKS);
+      books = new EObjectContainmentEList.Resolving<Book>(Book.class, this, LibPackage.LIBRARY__BOOKS);
     }
     return books;
   }
@@ -247,11 +248,11 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getWriters()
+  public EList<Person> getWriters()
   {
     if (writers == null)
     {
-      writers = new EObjectContainmentWithInverseEList.Resolving(Person.class, this, LibPackage.LIBRARY__WRITERS, LibPackage.PERSON__LIBRARY);
+      writers = new EObjectContainmentWithInverseEList.Resolving<Person>(Person.class, this, LibPackage.LIBRARY__WRITERS, LibPackage.PERSON__LIBRARY);
     }
     return writers;
   }
@@ -336,12 +337,14 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case LibPackage.LIBRARY__WRITERS:
-        return ((InternalEList)getWriters()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getWriters()).basicAdd(otherEnd, msgs);
       case LibPackage.LIBRARY__CAFETERIA:
         if (cafeteria != null)
           msgs = ((InternalEObject)cafeteria).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LibPackage.LIBRARY__CAFETERIA, null, msgs);
@@ -355,16 +358,17 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case LibPackage.LIBRARY__BOOKS:
-        return ((InternalEList)getBooks()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getBooks()).basicRemove(otherEnd, msgs);
       case LibPackage.LIBRARY__ADDRESS:
         return basicSetAddress(null, msgs);
       case LibPackage.LIBRARY__WRITERS:
-        return ((InternalEList)getWriters()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getWriters()).basicRemove(otherEnd, msgs);
       case LibPackage.LIBRARY__CAFETERIA:
         return basicSetCafeteria(null, msgs);
     }
@@ -376,6 +380,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -401,6 +406,8 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -410,14 +417,14 @@ public class LibraryImpl extends EObjectImpl implements Library
         return;
       case LibPackage.LIBRARY__BOOKS:
         getBooks().clear();
-        getBooks().addAll((Collection)newValue);
+        getBooks().addAll((Collection<? extends Book>)newValue);
         return;
       case LibPackage.LIBRARY__ADDRESS:
         setAddress((Address)newValue);
         return;
       case LibPackage.LIBRARY__WRITERS:
         getWriters().clear();
-        getWriters().addAll((Collection)newValue);
+        getWriters().addAll((Collection<? extends Person>)newValue);
         return;
       case LibPackage.LIBRARY__CAFETERIA:
         setCafeteria((Cafeteria)newValue);
@@ -431,6 +438,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -459,6 +467,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -482,6 +491,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

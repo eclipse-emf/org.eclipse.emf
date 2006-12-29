@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.5 2006/02/21 06:26:27 marcelop Exp $
+ * $Id: TestUtil.java,v 1.6 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -35,6 +35,7 @@ public class TestUtil
     }
     catch (Throwable t)
     {
+      // Ignore
     }
 
     URL url = ClassLoader.getSystemResource(CLASS_FILE);
@@ -63,7 +64,7 @@ public class TestUtil
     return null;
   }
   
-  public static boolean areEqual(List list1, List list2)
+  public static boolean areEqual(List<?> list1, List<?> list2)
   {
     if (list1 == null) return list2 == null;
     if (list2 == null) return false; 
@@ -100,6 +101,7 @@ public class TestUtil
     }
     catch (Throwable t)
     {
+      // Ignore
     }
     
     return false;

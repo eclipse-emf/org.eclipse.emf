@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PurchaseOrder.java,v 1.2 2005/03/16 04:30:13 marcelop Exp $
+ * $Id: PurchaseOrder.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package com.example.ppo;
 
@@ -47,7 +47,7 @@ public interface PurchaseOrder extends EObject{
    * @model type="com.example.ppo.Item" containment="true" lower="2"
    * @generated
    */
-  EList getItems();
+  EList<Item> getItems();
 
   /**
    * Returns the value of the '<em><b>Comment</b></em>' attribute.

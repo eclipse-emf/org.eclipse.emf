@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PersonImpl.java,v 1.1 2006/02/08 21:30:37 marcelop Exp $
+ * $Id: PersonImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package lib.impl;
 
@@ -69,6 +69,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return LibPackage.Literals.PERSON;
@@ -124,6 +125,17 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetLibrary(Library newLibrary, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newLibrary, LibPackage.PERSON__LIBRARY, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setLibrary(Library newLibrary)
   {
     if (newLibrary != eInternalContainer() || (eContainerFeatureID != LibPackage.PERSON__LIBRARY && newLibrary != null))
@@ -135,7 +147,7 @@ public class PersonImpl extends EObjectImpl implements Person
         msgs = eBasicRemoveFromContainer(msgs);
       if (newLibrary != null)
         msgs = ((InternalEObject)newLibrary).eInverseAdd(this, LibPackage.LIBRARY__WRITERS, Library.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newLibrary, LibPackage.PERSON__LIBRARY, msgs);
+      msgs = basicSetLibrary(newLibrary, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -147,6 +159,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -154,7 +167,7 @@ public class PersonImpl extends EObjectImpl implements Person
       case LibPackage.PERSON__LIBRARY:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, LibPackage.PERSON__LIBRARY, msgs);
+        return basicSetLibrary((Library)otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -164,12 +177,13 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case LibPackage.PERSON__LIBRARY:
-        return eBasicSetContainer(null, LibPackage.PERSON__LIBRARY, msgs);
+        return basicSetLibrary(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -179,6 +193,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -194,6 +209,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -212,6 +228,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -231,6 +248,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -250,6 +268,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -267,6 +286,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidationTest.java,v 1.4 2006/01/20 16:18:28 marcelop Exp $
+ * $Id: ValidationTest.java,v 1.5 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -63,6 +63,7 @@ public class ValidationTest extends TestCase
     return ts;
   }
   
+  @Override
   protected void setUp()
   {
     Item item = PPOFactory.eINSTANCE.createItem();
@@ -89,6 +90,7 @@ public class ValidationTest extends TestCase
     }
     catch (InterruptedException e)
     {
+      // Ignore
     }
     purchaseOrder.setOrderDate(new Date(System.currentTimeMillis()));
   }
@@ -123,9 +125,8 @@ public class ValidationTest extends TestCase
     assertEquals(purchaseOrder, diagnostic.getData().get(0));
     
     assertEquals(5, diagnostic.getChildren().size());
-    for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext();)
+    for (Diagnostic childDiagnostic : diagnostic.getChildren())
     {
-      Diagnostic childDiagnostic = (Diagnostic)i.next();
       assertEquals(Diagnostic.ERROR, childDiagnostic.getSeverity());
       if (childDiagnostic.getData().get(0) == purchaseOrder.getBillTo())
       {
@@ -173,9 +174,8 @@ public class ValidationTest extends TestCase
     }
 
     PPOValidator validator = PPOValidator.INSTANCE;
-    for (Iterator i = purchaseOrder.getItems().iterator(); i.hasNext();)
+    for (Item item : purchaseOrder.getItems())
     {
-      Item item = (Item)i.next();
       if (!validator.validateItem_NonNegativeQuantity(item, null, null) && !validator.validateItem_ValidShipDate(item, null, null))
       {
         return false;
@@ -204,9 +204,9 @@ public class ValidationTest extends TestCase
       return false;
     }
 
-    for (Iterator i = purchaseOrder.getItems().iterator(); i.hasNext();)
+    for (Item item : purchaseOrder.getItems())
     {
-      if (!validator.validateItem((Item)i.next(), null, null))
+      if (!validator.validateItem(item, null, null))
       {
         return false;
       }
@@ -227,9 +227,9 @@ public class ValidationTest extends TestCase
         return false;
       }
 
-      for (Iterator i = eObject.eAllContents(); i.hasNext();)
+      for (Iterator<EObject> i = eObject.eAllContents(); i.hasNext();)
       {
-        if (!validator.validate((EObject)i.next(), null, null))
+        if (!validator.validate(i.next(), null, null))
         {
           return false;
         }

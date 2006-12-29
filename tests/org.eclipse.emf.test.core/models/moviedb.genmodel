@@ -4,56 +4,11 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.core/models"
     editDirectory="/org.eclipse.emf.test.core.edit/src" editorDirectory="/org.eclipse.emf.test.core.editor/src"
     modelPluginID="org.eclipse.emf.test.core" runtimeJar="true" modelName="MovieDB"
-    editPluginClass="" editorPluginClass="" runtimeCompatibility="false">
-  <foreignModel>../../../org.eclipse.emf.test.core/models/order.xsd</foreignModel>
-  <foreignModel>../../../org.eclipse.emf.test.core/models/moviedb.xsd</foreignModel>
-  <foreignModel>../../../org.eclipse.emf.test.core/models/customer.xsd</foreignModel>
-  <genPackages prefix="Customer" basePackage="org.eclipse.emf.test.models" resource="XML"
-      disposableProviderFactory="true" ecorePackage="org.eclipse.emf.test.models.customer.ecore#/">
-    <genEnums ecoreEnum="org.eclipse.emf.test.models.customer.ecore#//USState">
-      <genEnumLiterals ecoreEnumLiteral="org.eclipse.emf.test.models.customer.ecore#//USState/AK"/>
-      <genEnumLiterals ecoreEnumLiteral="org.eclipse.emf.test.models.customer.ecore#//USState/AL"/>
-      <genEnumLiterals ecoreEnumLiteral="org.eclipse.emf.test.models.customer.ecore#//USState/AR"/>
-    </genEnums>
-    <genDataTypes ecoreDataType="org.eclipse.emf.test.models.customer.ecore#//USStateObject"/>
-    <genDataTypes ecoreDataType="org.eclipse.emf.test.models.customer.ecore#//ZipCodes"/>
-    <genDataTypes ecoreDataType="org.eclipse.emf.test.models.customer.ecore#//ZipUnion"/>
-    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//AddressType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//AddressType/street"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//AddressType/town"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//CanadaAddr">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CanadaAddr/zip"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CanadaAddr/province"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//CreditInfo">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CreditInfo/holder"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CreditInfo/ccNumber"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CreditInfo/expireDate"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//CustomersType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CustomersType/mixed"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//CustomersType/customer"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//CustomerType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CustomerType/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//CustomerType/address"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//CustomerType/creditCard"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CustomerType/paymentDay"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CustomerType/iD"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//DocumentRoot">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//DocumentRoot/mixed"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//DocumentRoot/xMLNSPrefixMap"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//DocumentRoot/xSISchemaLocation"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//DocumentRoot/customers"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//DocumentRoot/id"/>
-    </genClasses>
-    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//USAddr">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//USAddr/zip"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//USAddr/state"/>
-    </genClasses>
-  </genPackages>
+    editPluginClass="" editorPluginClass="" importerID="org.eclipse.xsd.ecore.importer"
+    complianceLevel="5.0">
+  <foreignModel>order.xsd</foreignModel>
+  <foreignModel>moviedb.xsd</foreignModel>
+  <foreignModel>customer.xsd</foreignModel>
   <genPackages prefix="Db" basePackage="org.eclipse.emf.test.models.movie" resource="XML"
       disposableProviderFactory="true" ecorePackage="org.eclipse.emf.test.models.movie.db.ecore#/">
     <genEnums ecoreEnum="org.eclipse.emf.test.models.movie.db.ecore#//GenreTypes">
@@ -110,6 +65,52 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.movie.db.ecore#//MovieType/checkedOutBy"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.movie.db.ecore#//MovieType/any"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.movie.db.ecore#//MovieType/iD"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Customer" basePackage="org.eclipse.emf.test.models" resource="XML"
+      disposableProviderFactory="true" ecorePackage="org.eclipse.emf.test.models.customer.ecore#/">
+    <genEnums ecoreEnum="org.eclipse.emf.test.models.customer.ecore#//USState">
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.emf.test.models.customer.ecore#//USState/AK"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.emf.test.models.customer.ecore#//USState/AL"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.emf.test.models.customer.ecore#//USState/AR"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="org.eclipse.emf.test.models.customer.ecore#//USStateObject"/>
+    <genDataTypes ecoreDataType="org.eclipse.emf.test.models.customer.ecore#//ZipCodes"/>
+    <genDataTypes ecoreDataType="org.eclipse.emf.test.models.customer.ecore#//ZipUnion"/>
+    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//AddressType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//AddressType/street"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//AddressType/town"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//CanadaAddr">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CanadaAddr/zip"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CanadaAddr/province"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//CreditInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CreditInfo/holder"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CreditInfo/ccNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CreditInfo/expireDate"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//CustomersType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CustomersType/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//CustomersType/customer"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//CustomerType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CustomerType/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//CustomerType/address"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//CustomerType/creditCard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CustomerType/paymentDay"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//CustomerType/iD"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//DocumentRoot">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference org.eclipse.emf.test.models.customer.ecore#//DocumentRoot/customers"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//DocumentRoot/iD"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.emf.test.models.customer.ecore#//USAddr">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//USAddr/zip"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.emf.test.models.customer.ecore#//USAddr/state"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Order" basePackage="org.eclipse.emf.test.models" resource="XML"

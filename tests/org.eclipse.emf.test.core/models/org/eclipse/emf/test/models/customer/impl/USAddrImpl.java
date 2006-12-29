@@ -2,15 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: USAddrImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: USAddrImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.test.models.customer.CustomerPackage;
@@ -87,9 +85,10 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return CustomerPackage.eINSTANCE.getUSAddr();
+    return CustomerPackage.Literals.US_ADDR;
   }
 
   /**
@@ -143,20 +142,17 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case CustomerPackage.US_ADDR__STREET:
-        return getStreet();
-      case CustomerPackage.US_ADDR__TOWN:
-        return getTown();
       case CustomerPackage.US_ADDR__ZIP:
         return getZip();
       case CustomerPackage.US_ADDR__STATE:
         return getState();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -164,24 +160,19 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case CustomerPackage.US_ADDR__STREET:
-        setStreet((String)newValue);
-        return;
-      case CustomerPackage.US_ADDR__TOWN:
-        setTown((String)newValue);
-        return;
       case CustomerPackage.US_ADDR__ZIP:
-        setZip((Object)newValue);
+        setZip(newValue);
         return;
       case CustomerPackage.US_ADDR__STATE:
         setState((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -189,16 +180,11 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case CustomerPackage.US_ADDR__STREET:
-        setStreet(STREET_EDEFAULT);
-        return;
-      case CustomerPackage.US_ADDR__TOWN:
-        setTown(TOWN_EDEFAULT);
-        return;
       case CustomerPackage.US_ADDR__ZIP:
         setZip(ZIP_EDEFAULT);
         return;
@@ -206,7 +192,7 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
         setState(STATE_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -214,20 +200,17 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case CustomerPackage.US_ADDR__STREET:
-        return STREET_EDEFAULT == null ? street != null : !STREET_EDEFAULT.equals(street);
-      case CustomerPackage.US_ADDR__TOWN:
-        return TOWN_EDEFAULT == null ? town != null : !TOWN_EDEFAULT.equals(town);
       case CustomerPackage.US_ADDR__ZIP:
         return ZIP_EDEFAULT == null ? zip != null : !ZIP_EDEFAULT.equals(zip);
       case CustomerPackage.US_ADDR__STATE:
         return STATE_EDEFAULT == null ? state != null : !STATE_EDEFAULT.equals(state);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -235,6 +218,7 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

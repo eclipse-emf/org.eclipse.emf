@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerOrder.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomerOrder.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.order;
 
@@ -42,7 +42,7 @@ public interface CustomerOrder extends EObject
    * @return the value of the '<em>Movies To See</em>' containment reference.
    * @see #setMoviesToSee(Order)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getCustomerOrder_MoviesToSee()
-   * @model containment="true" resolveProxies="false" required="true"
+   * @model containment="true" required="true"
    *        extendedMetaData="kind='element' name='moviesToSee'"
    * @generated
    */
@@ -69,7 +69,7 @@ public interface CustomerOrder extends EObject
    * @return the value of the '<em>Movies Seen</em>' containment reference.
    * @see #setMoviesSeen(Order)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getCustomerOrder_MoviesSeen()
-   * @model containment="true" resolveProxies="false"
+   * @model containment="true"
    *        extendedMetaData="kind='element' name='moviesSeen'"
    * @generated
    */

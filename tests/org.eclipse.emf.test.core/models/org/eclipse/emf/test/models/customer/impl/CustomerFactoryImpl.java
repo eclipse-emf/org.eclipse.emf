@@ -2,20 +2,21 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerFactoryImpl.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
+ * $Id: CustomerFactoryImpl.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
 import java.math.BigInteger;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -29,6 +30,29 @@ import org.eclipse.emf.test.models.customer.*;
  */
 public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static CustomerFactory init()
+  {
+    try
+    {
+      CustomerFactory theCustomerFactory = (CustomerFactory)EPackage.Registry.INSTANCE.getEFactory("http://org/eclipse/emf/test/models/Customer"); 
+      if (theCustomerFactory != null)
+      {
+        return theCustomerFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new CustomerFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -45,6 +69,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -65,16 +90,13 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
     {
       case CustomerPackage.US_STATE:
-      {
-        USState result = USState.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createUSStateFromString(eDataType, initialValue);
       case CustomerPackage.US_STATE_OBJECT:
         return createUSStateObjectFromString(eDataType, initialValue);
       case CustomerPackage.ZIP_CODES:
@@ -91,12 +113,13 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
     {
       case CustomerPackage.US_STATE:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertUSStateToString(eDataType, instanceValue);
       case CustomerPackage.US_STATE_OBJECT:
         return convertUSStateObjectToString(eDataType, instanceValue);
       case CustomerPackage.ZIP_CODES:
@@ -179,9 +202,31 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public AbstractEnumerator createUSStateObjectFromString(EDataType eDataType, String initialValue)
+  public USState createUSStateFromString(EDataType eDataType, String initialValue)
   {
-    return (AbstractEnumerator)CustomerFactory.eINSTANCE.createFromString(CustomerPackage.eINSTANCE.getUSState(), initialValue);
+    USState result = USState.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertUSStateToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public USState createUSStateObjectFromString(EDataType eDataType, String initialValue)
+  {
+    return createUSStateFromString(CustomerPackage.Literals.US_STATE, initialValue);
   }
 
   /**
@@ -191,7 +236,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    */
   public String convertUSStateObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return CustomerFactory.eINSTANCE.convertToString(CustomerPackage.eINSTANCE.getUSState(), instanceValue);
+    return convertUSStateToString(CustomerPackage.Literals.US_STATE, instanceValue);
   }
 
   /**
@@ -201,7 +246,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    */
   public BigInteger createZipCodesFromString(EDataType eDataType, String initialValue)
   {
-    return (BigInteger)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getInteger(), initialValue);
+    return (BigInteger)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.INTEGER, initialValue);
   }
 
   /**
@@ -211,7 +256,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    */
   public String convertZipCodesToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getInteger(), instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.INTEGER, instanceValue);
   }
 
   /**
@@ -221,18 +266,36 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    */
   public Object createZipUnionFromString(EDataType eDataType, String initialValue)
   {
+    if (initialValue == null) return null;
+    Object result = null;
+    RuntimeException exception = null;
     try
     {
-      Object result = (Object)CustomerFactory.eINSTANCE.createFromString(CustomerPackage.eINSTANCE.getUSState(), initialValue);
-      if (result != null)
+      result = createUSStateFromString(CustomerPackage.Literals.US_STATE, initialValue);
+      if (result != null && Diagnostician.INSTANCE.validate(eDataType, result, null, null))
       {
         return result;
       }
     }
-    catch (RuntimeException exception)
+    catch (RuntimeException e)
     {
+      exception = e;
     }
-    return (Object)CustomerFactory.eINSTANCE.createFromString(CustomerPackage.eINSTANCE.getZipCodes(), initialValue);
+    try
+    {
+      result = createZipCodesFromString(CustomerPackage.Literals.ZIP_CODES, initialValue);
+      if (result != null && Diagnostician.INSTANCE.validate(eDataType, result, null, null))
+      {
+        return result;
+      }
+    }
+    catch (RuntimeException e)
+    {
+      exception = e;
+    }
+    if (result != null || exception == null) return result;
+    
+    throw exception;
   }
 
   /**
@@ -242,26 +305,29 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    */
   public String convertZipUnionToString(EDataType eDataType, Object instanceValue)
   {
-    if (CustomerPackage.eINSTANCE.getUSState().isInstance(instanceValue))
+    if (instanceValue == null) return null;
+    if (CustomerPackage.Literals.US_STATE.isInstance(instanceValue))
     {
       try
       {
-        String value = CustomerFactory.eINSTANCE.convertToString(CustomerPackage.eINSTANCE.getUSState(), instanceValue);
+        String value = convertUSStateToString(CustomerPackage.Literals.US_STATE, instanceValue);
         if (value != null) return value;
       }
       catch (Exception e)
       {
+        // Keep trying other member types until all have failed.
       }
     }
-    if (CustomerPackage.eINSTANCE.getZipCodes().isInstance(instanceValue))
+    if (CustomerPackage.Literals.ZIP_CODES.isInstance(instanceValue))
     {
       try
       {
-        String value = CustomerFactory.eINSTANCE.convertToString(CustomerPackage.eINSTANCE.getZipCodes(), instanceValue);
+        String value = convertZipCodesToString(CustomerPackage.Literals.ZIP_CODES, instanceValue);
         if (value != null) return value;
       }
       catch (Exception e)
       {
+        // Keep trying other member types until all have failed.
       }
     }
     throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+eDataType.getName());
@@ -283,6 +349,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static CustomerPackage getPackage()
   {
     return CustomerPackage.eINSTANCE;

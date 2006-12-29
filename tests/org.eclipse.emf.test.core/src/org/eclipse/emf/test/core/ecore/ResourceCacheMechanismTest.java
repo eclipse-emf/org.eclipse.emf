@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceCacheMechanismTest.java,v 1.4 2005/06/08 06:17:44 nickb Exp $
+ * $Id: ResourceCacheMechanismTest.java,v 1.5 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -66,6 +66,7 @@ public class ResourceCacheMechanismTest extends TestCase
     return testSuite;
   }  
   
+  @Override
   protected void setUp() throws Exception
   {
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage(); 
@@ -105,7 +106,7 @@ public class ResourceCacheMechanismTest extends TestCase
     Resource resource = new ResourceImpl();
     
     //Setting the map before adding the objects
-    Map map = new HashMap();
+    Map<String, EObject> map = new HashMap<String, EObject>();
     ((ResourceImpl)resource).setIntrinsicIDToEObjectMap(map);
     
     resource.getContents().add(john);
@@ -291,7 +292,7 @@ public class ResourceCacheMechanismTest extends TestCase
     xmlResource.setID(john, "externalIDForJohn");
     
     //Setting the map before adding the objects
-    Map map = new HashMap();
+    Map<String, EObject> map = new HashMap<String, EObject>();
     ((ResourceImpl)xmlResource).setIntrinsicIDToEObjectMap(map);
         
     xmlResource.getContents().add(john);
@@ -357,7 +358,7 @@ public class ResourceCacheMechanismTest extends TestCase
     resource2.setURI(URI.createURI("http://www.eclipse.org/emf"));
     resource2.getContents().add(johnDoe);
         
-    Map map = new HashMap();
+    Map<URI, Resource> map = new HashMap<URI, Resource>();
     ((ResourceSetImpl)resourceSet).setURIResourceMap(map);
     
     resourceSet.getResources().add(resource1);
@@ -403,7 +404,9 @@ public class ResourceCacheMechanismTest extends TestCase
     employees.setEType(person);
     
     EObject company1 = pack.getEFactoryInstance().create(company);
-    ((List)company1.eGet(employees)).add(john);
+    @SuppressWarnings("unchecked")
+    List<EObject> company1Employees = ((List<EObject>)company1.eGet(employees));
+    company1Employees.add(john);
     assertEquals(company1, john.eContainer());
     
     XMLResource xmlResource = new XMLResourceImpl();
@@ -415,9 +418,11 @@ public class ResourceCacheMechanismTest extends TestCase
     assertEquals(john, xmlResource.getEObject("JOHN"));
     
     EObject company2 = pack.getEFactoryInstance().create(company);
-    ((List)company2.eGet(employees)).add(john);
+    @SuppressWarnings("unchecked")
+    List<EObject> company2Employees = ((List<EObject>)company2.eGet(employees));
+    company2Employees.add(john);
     assertEquals(company2, john.eContainer());
-    assertTrue(((List)company1.eGet(employees)).isEmpty());
+    assertTrue(((List<?>)company1.eGet(employees)).isEmpty());
     
     assertTrue(((XMLResourceImpl)xmlResource).getEObjectToIDMap().isEmpty());
     assertTrue(((XMLResourceImpl)xmlResource).getIDToEObjectMap().isEmpty());

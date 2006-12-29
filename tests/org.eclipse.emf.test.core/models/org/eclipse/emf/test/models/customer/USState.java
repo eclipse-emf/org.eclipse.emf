@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: USState.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: USState.java,v 1.2 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,8 +21,35 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class USState extends AbstractEnumerator
+public enum USState implements Enumerator
 {
+  /**
+   * The '<em><b>AK</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #AK
+   * @generated
+   * @ordered
+   */
+  AK_LITERAL(0, "AK", "AK"),
+  /**
+   * The '<em><b>AL</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #AL
+   * @generated
+   * @ordered
+   */
+  AL_LITERAL(1, "AL", "AL"),
+  /**
+   * The '<em><b>AR</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #AR
+   * @generated
+   * @ordered
+   */
+  AR_LITERAL(2, "AR", "AR");
   /**
    * The '<em><b>AK</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -69,36 +96,6 @@ public final class USState extends AbstractEnumerator
   public static final int AR = 2;
 
   /**
-   * The '<em><b>AK</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #AK
-   * @generated
-   * @ordered
-   */
-  public static final USState AK_LITERAL = new USState(AK, "AK");
-
-  /**
-   * The '<em><b>AL</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #AL
-   * @generated
-   * @ordered
-   */
-  public static final USState AL_LITERAL = new USState(AL, "AL");
-
-  /**
-   * The '<em><b>AR</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #AR
-   * @generated
-   * @ordered
-   */
-  public static final USState AR_LITERAL = new USState(AR, "AR");
-
-  /**
    * An array of all the '<em><b>US State</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -118,20 +115,20 @@ public final class USState extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<USState> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>US State</b></em>' literal with the specified name.
+   * Returns the '<em><b>US State</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static USState get(String name)
+  public static USState get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       USState result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -140,7 +137,26 @@ public final class USState extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>US State</b></em>' literal with the specified value.
+   * Returns the '<em><b>US State</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static USState getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      USState result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>US State</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -153,8 +169,29 @@ public final class USState extends AbstractEnumerator
       case AL: return AL_LITERAL;
       case AR: return AR_LITERAL;
     }
-    return null;	
+    return null;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
 
   /**
    * Only this class can construct instances.
@@ -162,9 +199,52 @@ public final class USState extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private USState(int value, String name)
+  private USState(int value, String name, String literal)
   {
-    super(value, name);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
-} //USState
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+}

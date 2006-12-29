@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: MultivalueAttributeTest.java,v 1.9 2005/06/08 06:17:44 nickb Exp $
+ * $Id: MultivalueAttributeTest.java,v 1.10 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.Test;
@@ -70,6 +69,7 @@ public class MultivalueAttributeTest extends TestCase
   /* (non-Javadoc)
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
@@ -96,24 +96,26 @@ public class MultivalueAttributeTest extends TestCase
     thing = ePackage.getEFactoryInstance().create(thingEClass);
   }
   
-  private List getManyInt()
+  private List<Integer> getManyInt()
   {
     return getManyInt(thing);
   }
 
-  private List getManyInt(EObject eObject)
+  @SuppressWarnings("unchecked")
+  private List<Integer> getManyInt(EObject eObject)
   {
-    return (List)eObject.eGet(manyInt);
+    return (List<Integer>)eObject.eGet(manyInt);
   }
   
-  private List getManyString()
+  private List<String> getManyString()
   {
     return getManyString(thing);
   }
 
-  private List getManyString(EObject eObject)
+  @SuppressWarnings("unchecked")
+  private List<String> getManyString(EObject eObject)
   {
-    return (List)eObject.eGet(manyString);
+    return (List<String>)eObject.eGet(manyString);
   }  
    
   public void testMultiValueAttributeChange() throws Exception
@@ -129,17 +131,16 @@ public class MultivalueAttributeTest extends TestCase
     ChangeDescription changeDescription = changeRecorder.endRecording();
         
     assertEquals(1, changeDescription.getObjectChanges().size());
-    EMap objectChanges = changeDescription.getObjectChanges();
+    EMap<EObject, EList<FeatureChange>> objectChanges = changeDescription.getObjectChanges();
     assertEquals(thing, objectChanges.keySet().iterator().next());
-    EList changes = (EList)objectChanges.values().iterator().next();
+    EList<FeatureChange> changes = objectChanges.values().iterator().next();
     assertEquals(1, changes.size());
-    FeatureChange featureChange = (FeatureChange)changes.get(0);
+    FeatureChange featureChange = changes.get(0);
     assertEquals(3, featureChange.getListChanges().size());
     //
     int count = 0;
-    for (Iterator i = featureChange.getListChanges().iterator(); i.hasNext();)
+    for (ListChange listChange : featureChange.getListChanges())
     {
-      ListChange listChange = (ListChange)i.next();
       switch(listChange.getKind().getValue())
       {
         case ChangeKind.ADD:
@@ -170,14 +171,14 @@ public class MultivalueAttributeTest extends TestCase
    */
   public void testApplyAndReverse() throws Exception
   {
-    List beforeChange = new ArrayList(getManyInt());
+    List<Integer> beforeChange = new ArrayList<Integer>(getManyInt());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(thing);
     getManyInt().add(new Integer(2));
     getManyInt().add(new Integer(3));
     ChangeDescription changeDescription = changeRecorder.endRecording();
     
-    List afterChange = new ArrayList(getManyInt());
+    List<Integer> afterChange = new ArrayList<Integer>(getManyInt());
     
     //current != before && current == after
     assertFalse(TestUtil.areEqual(beforeChange, getManyInt()));
@@ -201,8 +202,8 @@ public class MultivalueAttributeTest extends TestCase
   {
     getManyInt().add(new Integer(1));
     getManyString().add("a");
-    List intBeforeChange = new ArrayList(getManyInt());
-    List stringBeforeChange = new ArrayList(getManyString());
+    List<Integer> intBeforeChange = new ArrayList<Integer>(getManyInt());
+    List<String> stringBeforeChange = new ArrayList<String>(getManyString());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(thing);
     getManyInt().add(new Integer(2));
@@ -211,8 +212,8 @@ public class MultivalueAttributeTest extends TestCase
     getManyString().add("c");
     ChangeDescription changeDescription = changeRecorder.endRecording();
     
-    List intAfterChange = new ArrayList(getManyInt());
-    List stringAfterChange = new ArrayList(getManyString());
+    List<Integer> intAfterChange = new ArrayList<Integer>(getManyInt());
+    List<String> stringAfterChange = new ArrayList<String>(getManyString());
     
     //current != before && current == after
     assertFalse(TestUtil.areEqual(intBeforeChange, getManyInt()));
@@ -238,7 +239,7 @@ public class MultivalueAttributeTest extends TestCase
     Resource loadedThingResource = new XMIResourceImpl(URI.createFileURI("thing.xmi"));
     loadedThingResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
     assertEquals(1, loadedThingResource.getContents().size());
-    EObject loadedThing = (EObject)loadedThingResource.getContents().get(0);
+    EObject loadedThing = loadedThingResource.getContents().get(0);
     
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResources().add(loadedChangeDescriptionResource);

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PPOAdapterFactory.java,v 1.1 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: PPOAdapterFactory.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package com.example.ppo.util;
 
@@ -55,6 +55,7 @@ public class PPOAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,22 +75,26 @@ public class PPOAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected PPOSwitch modelSwitch =
-    new PPOSwitch()
+  protected PPOSwitch<Adapter> modelSwitch =
+    new PPOSwitch<Adapter>()
     {
-      public Object caseItem(Item object)
+      @Override
+      public Adapter caseItem(Item object)
       {
         return createItemAdapter();
       }
-      public Object caseUSAddress(USAddress object)
+      @Override
+      public Adapter caseUSAddress(USAddress object)
       {
         return createUSAddressAdapter();
       }
-      public Object casePurchaseOrder(PurchaseOrder object)
+      @Override
+      public Adapter casePurchaseOrder(PurchaseOrder object)
       {
         return createPurchaseOrderAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -103,9 +108,10 @@ public class PPOAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

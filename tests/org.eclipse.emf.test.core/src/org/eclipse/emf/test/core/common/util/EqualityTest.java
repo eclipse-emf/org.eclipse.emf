@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EqualityTest.java,v 1.5 2005/06/08 06:17:44 nickb Exp $
+ * $Id: EqualityTest.java,v 1.6 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -89,6 +89,7 @@ public class EqualityTest extends TestCase
   /*
    * @see TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     if (employeePackage == null)
@@ -114,6 +115,7 @@ public class EqualityTest extends TestCase
   /*
    * @see TestCase#tearDown()
    */
+  @Override
   protected void tearDown() throws Exception
   {
     super.tearDown();
@@ -186,8 +188,10 @@ public class EqualityTest extends TestCase
     EObject employee1 = createEmployee("Mr. J. C.");
     EObject employee2 = EcoreUtil.copy(employee1);
     assertTrue(EcoreUtil.equals(employee1, employee2));
-    List ratings1 = (List)employee1.eGet(ratingsAttr);
-    List ratings2 = (List)employee2.eGet(ratingsAttr);
+    @SuppressWarnings("unchecked")
+    List<Integer> ratings1 = (List<Integer>)employee1.eGet(ratingsAttr);
+    @SuppressWarnings("unchecked")
+    List<Integer> ratings2 = (List<Integer>)employee2.eGet(ratingsAttr);
     ratings1.add(new Integer(456));
     ratings1.add(new Integer(123));
     ratings2.add(new Integer(123));
@@ -220,10 +224,10 @@ public class EqualityTest extends TestCase
     assertTrue(EcoreUtil.equals(supplier1, supplier2));
     supplier1.getStandardOrders().add(po1);
     supplier1.getPreferredOrders().add(po2);
-    supplier1.getStandardOrders().add(EcoreUtil.copy(po2));
-    supplier2.getStandardOrders().add(EcoreUtil.copy(po1));
-    supplier2.getPreferredOrders().add(EcoreUtil.copy(po2));
-    supplier2.getStandardOrders().add(EcoreUtil.copy(po2));
+    supplier1.getStandardOrders().add((PurchaseOrder)EcoreUtil.copy(po2));
+    supplier2.getStandardOrders().add((PurchaseOrder)EcoreUtil.copy(po1));
+    supplier2.getPreferredOrders().add((PurchaseOrder)EcoreUtil.copy(po2));
+    supplier2.getStandardOrders().add((PurchaseOrder)EcoreUtil.copy(po2));
     assertTrue(EcoreUtil.equals(supplier1, supplier2));
 
     EObject employee1 = createEmployee("Mr. M. D.");
@@ -231,17 +235,21 @@ public class EqualityTest extends TestCase
 
     // test FeatureMaps with EAttributes entries
     assertTrue(EcoreUtil.equals(employee1, employee2));
-    List standards1 = (List)employee1.eGet(standardAttr);
+    @SuppressWarnings("unchecked")
+    List<String> standards1 = (List<String>)employee1.eGet(standardAttr);
     standards1.add("abcd");
     assertTrue(!EcoreUtil.equals(employee1, employee2));
-    List standards2 = (List)employee2.eGet(standardAttr);
+    @SuppressWarnings("unchecked")
+    List<String> standards2 = (List<String>)employee2.eGet(standardAttr);
     standards2.add("abcd");
     assertTrue(EcoreUtil.equals(employee1, employee2));
     standards1.add("efgh");
-    List preferreds2 = (List)employee2.eGet(preferredAttr);
+    @SuppressWarnings("unchecked")
+    List<String> preferreds2 = (List<String>)employee2.eGet(preferredAttr);
     preferreds2.add("efgh");
     assertTrue(!EcoreUtil.equals(employee1, employee2));
-    List preferreds1 = (List)employee1.eGet(preferredAttr);
+    @SuppressWarnings("unchecked")
+    List<String> preferreds1 = (List<String>)employee1.eGet(preferredAttr);
     preferreds1.add("efgh");
     standards1.remove("efgh");
     assertTrue(EcoreUtil.equals(employee1, employee2));
@@ -295,12 +303,14 @@ public class EqualityTest extends TestCase
     assertTrue(EcoreUtil.equals(employee1, employee3));
 
     // adding employee2 to employee1's employees
-    List employees1 = (List)employee1.eGet(employeesRef);
+    @SuppressWarnings("unchecked")
+    List<EObject> employees1 = (List<EObject>)employee1.eGet(employeesRef);
     employees1.add(employee2);
     // adding employee3 to employee1's employees
     employees1.add(employee3);
     // adding employee2 to employee3's employees
-    List employees3 = (List)employee3.eGet(employeesRef);
+    @SuppressWarnings("unchecked")
+    List<EObject> employees3 = (List<EObject>)employee3.eGet(employeesRef);
     employees3.add(employee2);
 
     // create a clone of this employee graph
@@ -308,11 +318,13 @@ public class EqualityTest extends TestCase
     EObject employee1Prime = EcoreUtil.copy(employee1);
     EObject employee2Prime = EcoreUtil.copy(employee2);
     EObject employee3Prime = EcoreUtil.copy(employee3);
-    List employees1Prime = (List)employee1Prime.eGet(employeesRef);
+    @SuppressWarnings("unchecked")
+    List<EObject> employees1Prime = (List<EObject>)employee1Prime.eGet(employeesRef);
     employees1Prime.clear();
     employees1Prime.add(employee2Prime);
     employees1Prime.add(employee3Prime);
-    List employees3Prime = (List)employee3Prime.eGet(employeesRef);
+    @SuppressWarnings("unchecked")
+    List<EObject> employees3Prime = (List<EObject>)employee3Prime.eGet(employeesRef);
     employees3Prime.clear();
     employees3Prime.add(employee2Prime);
     assertTrue(EcoreUtil.equals(employee1, employee1Prime));
@@ -330,8 +342,10 @@ public class EqualityTest extends TestCase
     employees3.add(employee2Prime);
     assertTrue(EcoreUtil.equals(employee1, employee1Prime));
 
-    List employees2 = (List)employee2.eGet(employeesRef);
-    List employees2Prime = (List)employee2Prime.eGet(employeesRef);
+    @SuppressWarnings("unchecked")
+    List<EObject> employees2 = (List<EObject>)employee2.eGet(employeesRef);
+    @SuppressWarnings("unchecked")
+    List<EObject> employees2Prime = (List<EObject>)employee2Prime.eGet(employeesRef);
 
     employees1.clear();
     employees2.clear();

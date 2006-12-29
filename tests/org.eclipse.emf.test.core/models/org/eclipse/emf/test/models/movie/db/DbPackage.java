@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbPackage.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
+ * $Id: DbPackage.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.models.movie.db.DbFactory
+ * @model kind="package"
  * @generated
  */
 public interface DbPackage extends EPackage{
@@ -89,7 +90,7 @@ public interface DbPackage extends EPackage{
   int CRITICS_REVIEW_TYPE__REVIEWED_BY = 1;
 
   /**
-   * The number of structural features of the the '<em>Critics Review Type</em>' class.
+   * The number of structural features of the '<em>Critics Review Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -135,7 +136,7 @@ public interface DbPackage extends EPackage{
   int CUSTOMER_REVIEW_TYPE__COMMENT = CRITICS_REVIEW_TYPE_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the the '<em>Customer Review Type</em>' class.
+   * The number of structural features of the '<em>Customer Review Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -235,7 +236,7 @@ public interface DbPackage extends EPackage{
   int DOCUMENT_ROOT__SPECIAL_FEATURES = 8;
 
   /**
-   * The number of structural features of the the '<em>Document Root</em>' class.
+   * The number of structural features of the '<em>Document Root</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -281,7 +282,7 @@ public interface DbPackage extends EPackage{
   int MOVIE_DB_TYPE__COMMENT = 2;
 
   /**
-   * The number of structural features of the the '<em>Movie DB Type</em>' class.
+   * The number of structural features of the '<em>Movie DB Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -390,7 +391,7 @@ public interface DbPackage extends EPackage{
   int MOVIE_TYPE__ID = 9;
 
   /**
-   * The number of structural features of the the '<em>Movie Type</em>' class.
+   * The number of structural features of the '<em>Movie Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -422,7 +423,7 @@ public interface DbPackage extends EPackage{
    * The meta object id for the '<em>Genre Types Object</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.emf.common.util.AbstractEnumerator
+   * @see org.eclipse.emf.test.models.movie.db.GenreTypes
    * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getGenreTypesObject()
    * @generated
    */
@@ -815,12 +816,12 @@ public interface DbPackage extends EPackage{
   EDataType getActorsList();
 
   /**
-   * Returns the meta object for data type '{@link org.eclipse.emf.common.util.AbstractEnumerator <em>Genre Types Object</em>}'.
+   * Returns the meta object for data type '{@link org.eclipse.emf.test.models.movie.db.GenreTypes <em>Genre Types Object</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Genre Types Object</em>'.
-   * @see org.eclipse.emf.common.util.AbstractEnumerator
-   * @model instanceClass="org.eclipse.emf.common.util.AbstractEnumerator"
+   * @see org.eclipse.emf.test.models.movie.db.GenreTypes
+   * @model instanceClass="org.eclipse.emf.test.models.movie.db.GenreTypes"
    *        extendedMetaData="name='genreTypes:Object' baseType='genreTypes'" 
    * @generated
    */
@@ -880,5 +881,339 @@ public interface DbPackage extends EPackage{
    * @generated
    */
   DbFactory getDbFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.movie.db.impl.CriticsReviewTypeImpl <em>Critics Review Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.movie.db.impl.CriticsReviewTypeImpl
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getCriticsReviewType()
+     * @generated
+     */
+    EClass CRITICS_REVIEW_TYPE = eINSTANCE.getCriticsReviewType();
+
+    /**
+     * The meta object literal for the '<em><b>Rating</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CRITICS_REVIEW_TYPE__RATING = eINSTANCE.getCriticsReviewType_Rating();
+
+    /**
+     * The meta object literal for the '<em><b>Reviewed By</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CRITICS_REVIEW_TYPE__REVIEWED_BY = eINSTANCE.getCriticsReviewType_ReviewedBy();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.movie.db.impl.CustomerReviewTypeImpl <em>Customer Review Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.movie.db.impl.CustomerReviewTypeImpl
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getCustomerReviewType()
+     * @generated
+     */
+    EClass CUSTOMER_REVIEW_TYPE = eINSTANCE.getCustomerReviewType();
+
+    /**
+     * The meta object literal for the '<em><b>Comment</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CUSTOMER_REVIEW_TYPE__COMMENT = eINSTANCE.getCustomerReviewType_Comment();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.movie.db.impl.DocumentRootImpl <em>Document Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.movie.db.impl.DocumentRootImpl
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getDocumentRoot()
+     * @generated
+     */
+    EClass DOCUMENT_ROOT = eINSTANCE.getDocumentRoot();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__MIXED = eINSTANCE.getDocumentRoot_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>XMLNS Prefix Map</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XMLNS_PREFIX_MAP = eINSTANCE.getDocumentRoot_XMLNSPrefixMap();
+
+    /**
+     * The meta object literal for the '<em><b>XSI Schema Location</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getDocumentRoot_XSISchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>Checked Out By</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__CHECKED_OUT_BY = eINSTANCE.getDocumentRoot_CheckedOutBy();
+
+    /**
+     * The meta object literal for the '<em><b>Critics Review</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__CRITICS_REVIEW = eINSTANCE.getDocumentRoot_CriticsReview();
+
+    /**
+     * The meta object literal for the '<em><b>Customer Review</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__CUSTOMER_REVIEW = eINSTANCE.getDocumentRoot_CustomerReview();
+
+    /**
+     * The meta object literal for the '<em><b>Language</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__LANGUAGE = eINSTANCE.getDocumentRoot_Language();
+
+    /**
+     * The meta object literal for the '<em><b>Movie DB</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__MOVIE_DB = eINSTANCE.getDocumentRoot_MovieDB();
+
+    /**
+     * The meta object literal for the '<em><b>Special Features</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__SPECIAL_FEATURES = eINSTANCE.getDocumentRoot_SpecialFeatures();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.movie.db.impl.MovieDBTypeImpl <em>Movie DB Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.movie.db.impl.MovieDBTypeImpl
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getMovieDBType()
+     * @generated
+     */
+    EClass MOVIE_DB_TYPE = eINSTANCE.getMovieDBType();
+
+    /**
+     * The meta object literal for the '<em><b>Movie DB Feature Map</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MOVIE_DB_TYPE__MOVIE_DB_FEATURE_MAP = eINSTANCE.getMovieDBType_MovieDBFeatureMap();
+
+    /**
+     * The meta object literal for the '<em><b>Movie</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MOVIE_DB_TYPE__MOVIE = eINSTANCE.getMovieDBType_Movie();
+
+    /**
+     * The meta object literal for the '<em><b>Comment</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MOVIE_DB_TYPE__COMMENT = eINSTANCE.getMovieDBType_Comment();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.movie.db.impl.MovieTypeImpl <em>Movie Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.movie.db.impl.MovieTypeImpl
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getMovieType()
+     * @generated
+     */
+    EClass MOVIE_TYPE = eINSTANCE.getMovieType();
+
+    /**
+     * The meta object literal for the '<em><b>Title</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MOVIE_TYPE__TITLE = eINSTANCE.getMovieType_Title();
+
+    /**
+     * The meta object literal for the '<em><b>Actors</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MOVIE_TYPE__ACTORS = eINSTANCE.getMovieType_Actors();
+
+    /**
+     * The meta object literal for the '<em><b>Director</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MOVIE_TYPE__DIRECTOR = eINSTANCE.getMovieType_Director();
+
+    /**
+     * The meta object literal for the '<em><b>Genre</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MOVIE_TYPE__GENRE = eINSTANCE.getMovieType_Genre();
+
+    /**
+     * The meta object literal for the '<em><b>Summary</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MOVIE_TYPE__SUMMARY = eINSTANCE.getMovieType_Summary();
+
+    /**
+     * The meta object literal for the '<em><b>Critics Review Group</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MOVIE_TYPE__CRITICS_REVIEW_GROUP = eINSTANCE.getMovieType_CriticsReviewGroup();
+
+    /**
+     * The meta object literal for the '<em><b>Critics Review</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MOVIE_TYPE__CRITICS_REVIEW = eINSTANCE.getMovieType_CriticsReview();
+
+    /**
+     * The meta object literal for the '<em><b>Checked Out By</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MOVIE_TYPE__CHECKED_OUT_BY = eINSTANCE.getMovieType_CheckedOutBy();
+
+    /**
+     * The meta object literal for the '<em><b>Any</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MOVIE_TYPE__ANY = eINSTANCE.getMovieType_Any();
+
+    /**
+     * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MOVIE_TYPE__ID = eINSTANCE.getMovieType_ID();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.movie.db.GenreTypes <em>Genre Types</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.movie.db.GenreTypes
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getGenreTypes()
+     * @generated
+     */
+    EEnum GENRE_TYPES = eINSTANCE.getGenreTypes();
+
+    /**
+     * The meta object literal for the '<em>Actors List</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.List
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getActorsList()
+     * @generated
+     */
+    EDataType ACTORS_LIST = eINSTANCE.getActorsList();
+
+    /**
+     * The meta object literal for the '<em>Genre Types Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.movie.db.GenreTypes
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getGenreTypesObject()
+     * @generated
+     */
+    EDataType GENRE_TYPES_OBJECT = eINSTANCE.getGenreTypesObject();
+
+    /**
+     * The meta object literal for the '<em>Rating Type</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getRatingType()
+     * @generated
+     */
+    EDataType RATING_TYPE = eINSTANCE.getRatingType();
+
+    /**
+     * The meta object literal for the '<em>Rating Type Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Integer
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getRatingTypeObject()
+     * @generated
+     */
+    EDataType RATING_TYPE_OBJECT = eINSTANCE.getRatingTypeObject();
+
+    /**
+     * The meta object literal for the '<em>Rating Values</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getRatingValues()
+     * @generated
+     */
+    EDataType RATING_VALUES = eINSTANCE.getRatingValues();
+
+    /**
+     * The meta object literal for the '<em>Rating Values Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Integer
+     * @see org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl#getRatingValuesObject()
+     * @generated
+     */
+    EDataType RATING_VALUES_OBJECT = eINSTANCE.getRatingValuesObject();
+
+  }
 
 } //DbPackage

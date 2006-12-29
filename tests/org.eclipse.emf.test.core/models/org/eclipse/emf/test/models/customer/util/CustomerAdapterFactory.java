@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerAdapterFactory.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
+ * $Id: CustomerAdapterFactory.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer.util;
 
@@ -55,6 +55,7 @@ public class CustomerAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,38 +75,46 @@ public class CustomerAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected CustomerSwitch modelSwitch =
-    new CustomerSwitch()
+  protected CustomerSwitch<Adapter> modelSwitch =
+    new CustomerSwitch<Adapter>()
     {
-      public Object caseAddressType(AddressType object)
+      @Override
+      public Adapter caseAddressType(AddressType object)
       {
         return createAddressTypeAdapter();
       }
-      public Object caseCanadaAddr(CanadaAddr object)
+      @Override
+      public Adapter caseCanadaAddr(CanadaAddr object)
       {
         return createCanadaAddrAdapter();
       }
-      public Object caseCreditInfo(CreditInfo object)
+      @Override
+      public Adapter caseCreditInfo(CreditInfo object)
       {
         return createCreditInfoAdapter();
       }
-      public Object caseCustomersType(CustomersType object)
+      @Override
+      public Adapter caseCustomersType(CustomersType object)
       {
         return createCustomersTypeAdapter();
       }
-      public Object caseCustomerType(CustomerType object)
+      @Override
+      public Adapter caseCustomerType(CustomerType object)
       {
         return createCustomerTypeAdapter();
       }
-      public Object caseDocumentRoot(DocumentRoot object)
+      @Override
+      public Adapter caseDocumentRoot(DocumentRoot object)
       {
         return createDocumentRootAdapter();
       }
-      public Object caseUSAddr(USAddr object)
+      @Override
+      public Adapter caseUSAddr(USAddr object)
       {
         return createUSAddrAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -119,9 +128,10 @@ public class CustomerAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

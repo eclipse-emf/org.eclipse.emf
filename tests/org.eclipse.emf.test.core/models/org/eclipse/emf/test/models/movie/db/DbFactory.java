@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbFactory.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: DbFactory.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -24,7 +24,7 @@ public interface DbFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  DbFactory eINSTANCE = new org.eclipse.emf.test.models.movie.db.impl.DbFactoryImpl();
+  DbFactory eINSTANCE = org.eclipse.emf.test.models.movie.db.impl.DbFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Critics Review Type</em>'.

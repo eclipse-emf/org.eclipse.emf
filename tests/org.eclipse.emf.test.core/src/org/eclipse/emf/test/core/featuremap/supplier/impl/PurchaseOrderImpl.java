@@ -2,15 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PurchaseOrderImpl.java,v 1.1 2004/08/20 22:47:32 marcelop Exp $
+ * $Id: PurchaseOrderImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -67,9 +65,10 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return SupplierPackage.eINSTANCE.getPurchaseOrder();
+    return SupplierPackage.Literals.PURCHASE_ORDER;
   }
 
   /**
@@ -100,14 +99,15 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case SupplierPackage.PURCHASE_ORDER__ID:
         return getId();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -115,15 +115,16 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case SupplierPackage.PURCHASE_ORDER__ID:
         setId((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -131,15 +132,16 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case SupplierPackage.PURCHASE_ORDER__ID:
         setId(ID_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -147,14 +149,15 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case SupplierPackage.PURCHASE_ORDER__ID:
         return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -162,6 +165,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

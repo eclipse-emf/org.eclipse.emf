@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentRoot.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: DocumentRoot.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.order;
 
@@ -66,7 +66,7 @@ public interface DocumentRoot extends EObject
    *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
-  EMap getXMLNSPrefixMap();
+  EMap<String, String> getXMLNSPrefixMap();
 
   /**
    * Returns the value of the '<em><b>XSI Schema Location</b></em>' map.
@@ -84,7 +84,7 @@ public interface DocumentRoot extends EObject
    *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */
-  EMap getXSISchemaLocation();
+  EMap<String, String> getXSISchemaLocation();
 
   /**
    * Returns the value of the '<em><b>Order</b></em>' containment reference.
@@ -97,7 +97,7 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Order</em>' containment reference.
    * @see #setOrder(CustomerOrder)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getDocumentRoot_Order()
-   * @model containment="true" resolveProxies="false" upper="-2" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='order' namespace='##targetNamespace'"
    * @generated
    */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.2 2005/06/08 06:17:44 nickb Exp $
+ * $Id: AllSuites.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -42,7 +42,7 @@ public class AllSuites extends TestSuite
     populateSuite();
   }
 
-  public AllSuites(Class theClass)
+  public AllSuites(Class<?> theClass)
   {
     super(theClass);
     populateSuite();

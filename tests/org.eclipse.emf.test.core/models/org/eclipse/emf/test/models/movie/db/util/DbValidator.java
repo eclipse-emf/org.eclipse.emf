@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbValidator.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
+ * $Id: DbValidator.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db.util;
 
@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.ecore.EPackage;
@@ -92,6 +91,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EPackage getEPackage()
   {
     return DbPackage.eINSTANCE;
@@ -103,7 +103,8 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map context)
+  @Override
+  protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     switch (classifierID)
     {
@@ -118,11 +119,11 @@ public class DbValidator extends EObjectValidator
       case DbPackage.MOVIE_TYPE:
         return validateMovieType((MovieType)value, diagnostics, context);
       case DbPackage.GENRE_TYPES:
-        return validateGenreTypes((Object)value, diagnostics, context);
+        return validateGenreTypes((GenreTypes)value, diagnostics, context);
       case DbPackage.ACTORS_LIST:
-        return validateActorsList((List)value, diagnostics, context);
+        return validateActorsList((List<?>)value, diagnostics, context);
       case DbPackage.GENRE_TYPES_OBJECT:
-        return validateGenreTypesObject((AbstractEnumerator)value, diagnostics, context);
+        return validateGenreTypesObject((GenreTypes)value, diagnostics, context);
       case DbPackage.RATING_TYPE:
         return validateRatingType(((Integer)value).intValue(), diagnostics, context);
       case DbPackage.RATING_TYPE_OBJECT:
@@ -141,7 +142,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateCriticsReviewType(CriticsReviewType criticsReviewType, DiagnosticChain diagnostics, Map context)
+  public boolean validateCriticsReviewType(CriticsReviewType criticsReviewType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(criticsReviewType, diagnostics, context);
   }
@@ -151,7 +152,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateCustomerReviewType(CustomerReviewType customerReviewType, DiagnosticChain diagnostics, Map context)
+  public boolean validateCustomerReviewType(CustomerReviewType customerReviewType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(customerReviewType, diagnostics, context);
   }
@@ -161,7 +162,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateDocumentRoot(DocumentRoot documentRoot, DiagnosticChain diagnostics, Map context)
+  public boolean validateDocumentRoot(DocumentRoot documentRoot, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(documentRoot, diagnostics, context);
   }
@@ -171,7 +172,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateMovieDBType(MovieDBType movieDBType, DiagnosticChain diagnostics, Map context)
+  public boolean validateMovieDBType(MovieDBType movieDBType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(movieDBType, diagnostics, context);
   }
@@ -181,7 +182,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateMovieType(MovieType movieType, DiagnosticChain diagnostics, Map context)
+  public boolean validateMovieType(MovieType movieType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(movieType, diagnostics, context);
   }
@@ -191,7 +192,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateGenreTypes(Object genreTypes, DiagnosticChain diagnostics, Map context)
+  public boolean validateGenreTypes(GenreTypes genreTypes, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -201,7 +202,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateActorsList(List actorsList, DiagnosticChain diagnostics, Map context)
+  public boolean validateActorsList(List<?> actorsList, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateActorsList_ItemType(actorsList, diagnostics, context);
     return result;
@@ -213,20 +214,20 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateActorsList_ItemType(List actorsList, DiagnosticChain diagnostics, Map context)
+  public boolean validateActorsList_ItemType(List<?> actorsList, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
-    for (Iterator i = actorsList.iterator(); i.hasNext() && (result || diagnostics != null); )
+    for (Iterator<?> i = actorsList.iterator(); i.hasNext() && (result || diagnostics != null); )
     {
       Object item = i.next();
-      if (XMLTypePackage.eINSTANCE.getNCName().isInstance(item))
+      if (XMLTypePackage.Literals.NC_NAME.isInstance(item))
       {
         result &= xmlTypeValidator.validateNCName((String)item, diagnostics, context);
       }
       else
       {
         result = false;
-        reportDataValueTypeViolation(XMLTypePackage.eINSTANCE.getNCName(), item, diagnostics, context);
+        reportDataValueTypeViolation(XMLTypePackage.Literals.NC_NAME, item, diagnostics, context);
       }
     }
     return result;
@@ -237,7 +238,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateGenreTypesObject(AbstractEnumerator genreTypesObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateGenreTypesObject(GenreTypes genreTypesObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -247,7 +248,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateRatingType(int ratingType, DiagnosticChain diagnostics, Map context)
+  public boolean validateRatingType(int ratingType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateRatingType_Min(ratingType, diagnostics, context);
     if (result || diagnostics != null) result &= validateRatingType_Max(ratingType, diagnostics, context);
@@ -268,11 +269,11 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateRatingType_Min(int ratingType, DiagnosticChain diagnostics, Map context)
+  public boolean validateRatingType_Min(int ratingType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = ratingType >= RATING_TYPE__MIN__VALUE;
     if (!result && diagnostics != null) 
-      reportMinViolation(DbPackage.eINSTANCE.getRatingType(), new Integer(ratingType), new Integer(RATING_TYPE__MIN__VALUE), true, diagnostics, context);
+      reportMinViolation(DbPackage.Literals.RATING_TYPE, new Integer(ratingType), new Integer(RATING_TYPE__MIN__VALUE), true, diagnostics, context);
     return result;
   }
 
@@ -290,11 +291,11 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateRatingType_Max(int ratingType, DiagnosticChain diagnostics, Map context)
+  public boolean validateRatingType_Max(int ratingType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = ratingType <= RATING_TYPE__MAX__VALUE;
     if (!result && diagnostics != null) 
-      reportMaxViolation(DbPackage.eINSTANCE.getRatingType(), new Integer(ratingType), new Integer(RATING_TYPE__MAX__VALUE), true, diagnostics, context);
+      reportMaxViolation(DbPackage.Literals.RATING_TYPE, new Integer(ratingType), new Integer(RATING_TYPE__MAX__VALUE), true, diagnostics, context);
     return result; 
   }
 
@@ -303,7 +304,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateRatingTypeObject(Integer ratingTypeObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateRatingTypeObject(Integer ratingTypeObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateRatingType_Min(ratingTypeObject.intValue(), diagnostics, context);
     if (result || diagnostics != null) result &= validateRatingType_Max(ratingTypeObject.intValue(), diagnostics, context);
@@ -315,7 +316,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateRatingValues(int ratingValues, DiagnosticChain diagnostics, Map context)
+  public boolean validateRatingValues(int ratingValues, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateRatingValues_Min(ratingValues, diagnostics, context);
     if (result || diagnostics != null) result &= validateRatingValues_Max(ratingValues, diagnostics, context);
@@ -336,11 +337,11 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateRatingValues_Min(int ratingValues, DiagnosticChain diagnostics, Map context)
+  public boolean validateRatingValues_Min(int ratingValues, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = ratingValues >= RATING_VALUES__MIN__VALUE;
     if (!result && diagnostics != null) 
-      reportMinViolation(DbPackage.eINSTANCE.getRatingValues(), new Integer(ratingValues), new Integer(RATING_VALUES__MIN__VALUE), true, diagnostics, context);
+      reportMinViolation(DbPackage.Literals.RATING_VALUES, new Integer(ratingValues), new Integer(RATING_VALUES__MIN__VALUE), true, diagnostics, context);
     return result;
   }
 
@@ -358,11 +359,11 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateRatingValues_Max(int ratingValues, DiagnosticChain diagnostics, Map context)
+  public boolean validateRatingValues_Max(int ratingValues, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = ratingValues <= RATING_VALUES__MAX__VALUE;
     if (!result && diagnostics != null) 
-      reportMaxViolation(DbPackage.eINSTANCE.getRatingValues(), new Integer(ratingValues), new Integer(RATING_VALUES__MAX__VALUE), true, diagnostics, context);
+      reportMaxViolation(DbPackage.Literals.RATING_VALUES, new Integer(ratingValues), new Integer(RATING_VALUES__MAX__VALUE), true, diagnostics, context);
     return result; 
   }
 
@@ -371,7 +372,7 @@ public class DbValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateRatingValuesObject(Integer ratingValuesObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateRatingValuesObject(Integer ratingValuesObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateRatingValues_Min(ratingValuesObject.intValue(), diagnostics, context);
     if (result || diagnostics != null) result &= validateRatingValues_Max(ratingValuesObject.intValue(), diagnostics, context);

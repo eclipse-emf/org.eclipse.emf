@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.21 2006/07/18 05:38:37 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.22 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,12 +43,14 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -108,9 +109,9 @@ public class SpecialCasesTest  extends TestCase
     PurchaseOrder po3 = SupplierFactory.eINSTANCE.createPurchaseOrder();
     PurchaseOrder po4 = SupplierFactory.eINSTANCE.createPurchaseOrder();
     
-    List ordersBeforeChange = new ArrayList(supplier.getOrders());
-    List preferredOrdersBeforeChange = new ArrayList(supplier.getPreferredOrders());
-    List standardOrdersBeforeChange = new ArrayList(supplier.getStandardOrders());
+    List<FeatureMap.Entry> ordersBeforeChange = new ArrayList<FeatureMap.Entry>(supplier.getOrders());
+    List<PurchaseOrder> preferredOrdersBeforeChange = new ArrayList<PurchaseOrder>(supplier.getPreferredOrders());
+    List<PurchaseOrder> standardOrdersBeforeChange = new ArrayList<PurchaseOrder>(supplier.getStandardOrders());
     if (DEBUG) resource.save(System.out, null);
     
     ChangeRecorder changeRecorder = new ChangeRecorder(supplier);
@@ -137,10 +138,10 @@ public class SpecialCasesTest  extends TestCase
     assertEquals(po2, changeDescription.getObjectsToAttach().get(0));
     
     assertEquals(2, changeDescription.getObjectChanges().size());
-    List featureChanges = (List)changeDescription.getObjectChanges().get(po3);
+    List<FeatureChange> featureChanges = changeDescription.getObjectChanges().get(po3);
     assertEquals(1, featureChanges.size());
     
-    featureChanges = (List)changeDescription.getObjectChanges().get(supplier);
+    featureChanges = changeDescription.getObjectChanges().get(supplier);
     assertEquals(1, featureChanges.size());
     
     changeDescription.apply();
@@ -177,8 +178,10 @@ public class SpecialCasesTest  extends TestCase
     
     // Instantiating the model
     EObject john = pack.getEFactoryInstance().create(person);
-    List johnFriends = (List)john.eGet(friendsReference);
-    List johnEnemies = (List)john.eGet(enemiesReference);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnFriends = (List<EObject>)john.eGet(friendsReference);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnEnemies = (List<EObject>)john.eGet(enemiesReference);
     new ResourceImpl().getContents().add(john);
     
     EObject mary = pack.getEFactoryInstance().create(person);
@@ -322,7 +325,8 @@ public class SpecialCasesTest  extends TestCase
     
     EObject acme = pack.getEFactoryInstance().create(company);
     new ResourceImpl().getContents().add(acme);
-    List acmeEmployess = (List)acme.eGet(employeesReference);
+    @SuppressWarnings("unchecked")
+    List<EObject> acmeEmployess = (List<EObject>)acme.eGet(employeesReference);
     acmeEmployess.add(mary);
     
     // Instantiated Model: Initial state
@@ -400,7 +404,7 @@ public class SpecialCasesTest  extends TestCase
     Resource changeDescriptionResource = new XMIResourceImpl(changeDescriptionURI);
     changeDescriptionResource.getContents().add(changeDescription);
     
-    Map options = new HashMap();
+    Map<Object, Object> options = new HashMap<Object, Object>();
     options.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
     changeDescriptionResource.save(options);
     johnResource.save(null);
@@ -420,7 +424,7 @@ public class SpecialCasesTest  extends TestCase
     Resource loadedJohnResource = resourceSet.getResource(johnURI, true);
     assertNotNull(loadedJohnResource);
     assertEquals(1, loadedJohnResource.getContents().size());
-    EObject loadedJohn = (EObject)loadedJohnResource.getContents().get(0);
+    EObject loadedJohn = loadedJohnResource.getContents().get(0);
     assertNull(loadedJohn.eGet(name));
     
     loadedChangeDescription.apply();
@@ -465,6 +469,8 @@ public class SpecialCasesTest  extends TestCase
     
     EObject john = pack.getEFactoryInstance().create(person);
     john.eSet(id, "123");
+    @SuppressWarnings("unchecked")
+    List<Object> friendsOfJohn = ((List<Object>)john.eGet(friendsReference));
     EObject mary = pack.getEFactoryInstance().create(person);
     mary.eSet(name, "Mary");
     
@@ -475,20 +481,20 @@ public class SpecialCasesTest  extends TestCase
     assertNull(john.eGet(name));
     assertEquals("123", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertTrue(((List)john.eGet(friendsReference)).isEmpty());
+    assertTrue(friendsOfJohn.isEmpty());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(john);
     john.eSet(name, "John");
     john.eSet(id, "456");
-    ((List)john.eGet(friendsReference)).add(mary);
+    friendsOfJohn.add(mary);
     ChangeDescription changeDescription = changeRecorder.endRecording();
 
     // State 1
     assertEquals("John", john.eGet(name));
     assertEquals("456", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(mary, friendsOfJohn.get(0));
         
     ChangeDescription copiedChangeDescription = (ChangeDescription)EcoreUtil.copy(changeDescription);
 
@@ -498,7 +504,7 @@ public class SpecialCasesTest  extends TestCase
     assertNull(john.eGet(name));
     assertEquals("123", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertTrue(((List)john.eGet(friendsReference)).isEmpty());
+    assertTrue(friendsOfJohn.isEmpty());
     
     copiedChangeDescription.apply();
 
@@ -506,8 +512,8 @@ public class SpecialCasesTest  extends TestCase
     assertEquals("John", john.eGet(name));
     assertEquals("456", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(mary, friendsOfJohn.get(0));
   }
   
   /*
@@ -541,6 +547,8 @@ public class SpecialCasesTest  extends TestCase
     
     EObject john = pack.getEFactoryInstance().create(person);
     john.eSet(id, "123");
+    @SuppressWarnings("unchecked")
+    List<EObject> friendsOfJohn = ((List<EObject>)john.eGet(friendsReference));
     EObject mary = pack.getEFactoryInstance().create(person);
     mary.eSet(name, "Mary");
     
@@ -551,32 +559,31 @@ public class SpecialCasesTest  extends TestCase
     assertNull(john.eGet(name));
     assertEquals("123", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertTrue(((List)john.eGet(friendsReference)).isEmpty());
+    assertTrue(friendsOfJohn.isEmpty());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(john);
     john.eSet(name, "John");
     john.eSet(id, "456");
-    ((List)john.eGet(friendsReference)).add(mary);
+    friendsOfJohn.add(mary);
     ChangeDescription changeDescription = changeRecorder.endRecording();
 
     // State 1
     assertEquals("John", john.eGet(name));
     assertEquals("456", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(mary, friendsOfJohn.get(0));
         
-    List objects = new ArrayList();
+    List<EObject> objects = new ArrayList<EObject>();
     objects.add(john);
     objects.add(changeDescription);
-    Collection copiedObjects = EcoreUtil.copyAll(objects);
+    Collection<EObject> copiedObjects = EcoreUtil.copyAll(objects);
     assertEquals(objects.size(), copiedObjects.size());
     
     EObject copiedJohn = null;
     ChangeDescription copiedChangeDescription = null;
-    for (Iterator i = copiedObjects.iterator(); i.hasNext();)
+    for (EObject eObject : copiedObjects)
     {
-      EObject eObject = (EObject)i.next();
       if (eObject instanceof ChangeDescription)
       {
         copiedChangeDescription = (ChangeDescription)eObject;
@@ -588,12 +595,14 @@ public class SpecialCasesTest  extends TestCase
     }
     assertFalse(john.equals(copiedJohn));
     assertFalse(changeDescription.equals(copiedChangeDescription));
+    @SuppressWarnings("unchecked")
+    List<EObject> friendsOfCopiedJohn = ((List<EObject>)copiedJohn.eGet(friendsReference));
 
     // State 1
     assertEquals("John", copiedJohn.eGet(name));
     assertEquals("456", copiedJohn.eGet(id));
-    assertEquals(1, ((List)copiedJohn.eGet(friendsReference)).size());
-    EObject copiedMary = (EObject)((List)copiedJohn.eGet(friendsReference)).get(0);
+    assertEquals(1, friendsOfCopiedJohn.size());
+    EObject copiedMary = friendsOfCopiedJohn.get(0);
     assertFalse(mary.equals(copiedMary));
     assertEquals("Mary", copiedMary.eGet(name));
     
@@ -603,7 +612,7 @@ public class SpecialCasesTest  extends TestCase
     assertNull(copiedJohn.eGet(name));
     assertEquals("123", copiedJohn.eGet(id));
     assertEquals("Mary", copiedMary.eGet(name));
-    assertTrue(((List)copiedJohn.eGet(friendsReference)).isEmpty());
+    assertTrue(friendsOfCopiedJohn.isEmpty());
     
     copiedChangeDescription.apply();
 
@@ -611,8 +620,8 @@ public class SpecialCasesTest  extends TestCase
     assertEquals("John", copiedJohn.eGet(name));
     assertEquals("456", copiedJohn.eGet(id));
     assertEquals("Mary", copiedMary.eGet(name));
-    assertEquals(1, ((List)copiedJohn.eGet(friendsReference)).size());
-    assertEquals(copiedMary, ((List)copiedJohn.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfCopiedJohn.size());
+    assertEquals(copiedMary, friendsOfCopiedJohn.get(0));
   }
 
   /*
@@ -652,22 +661,24 @@ public class SpecialCasesTest  extends TestCase
     Resource resource = new ResourceImpl();
     resource.getContents().add(john);
 
-    ((List)john.eGet(friendsReference)).add(mary);
+    @SuppressWarnings("unchecked")
+    List<EObject> friendsOfJohn = ((List<EObject>)john.eGet(friendsReference));
+    friendsOfJohn.add(mary);
     
     // State 0
     assertNull(john.eGet(name));
     assertEquals("123", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(mary, friendsOfJohn.get(0));
     
     ChangeRecorder changeRecorder = new ChangeRecorder(john);
     john.eSet(name, "John");
     john.eSet(id, "456");
-    ((List)john.eGet(friendsReference)).remove(mary);
+    friendsOfJohn.remove(mary);
     mary.eSet(id, "1");
     mary.eSet(name, "Mary P");
-    ((List)john.eGet(friendsReference)).add(mary);
+    friendsOfJohn.add(mary);
     ChangeDescription changeDescription = changeRecorder.endRecording();
     
     assertTrue(changeDescription.getObjectsToAttach().isEmpty());
@@ -677,8 +688,8 @@ public class SpecialCasesTest  extends TestCase
     // State 1
     assertEquals("John", john.eGet(name));
     assertEquals("456", john.eGet(id));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(mary, friendsOfJohn.get(0));
     assertEquals("Mary P", mary.eGet(name));
     assertEquals("1", mary.eGet(id));
   }
@@ -714,6 +725,8 @@ public class SpecialCasesTest  extends TestCase
     
     EObject john = pack.getEFactoryInstance().create(person);
     john.eSet(id, "123");
+    @SuppressWarnings("unchecked")
+    List<EObject> friendsOfJohn = ((List<EObject>)john.eGet(friendsReference));
     EObject mary = pack.getEFactoryInstance().create(person);
     mary.eSet(name, "Mary");
     
@@ -727,12 +740,12 @@ public class SpecialCasesTest  extends TestCase
     assertEquals("123", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
     assertEquals("0", mary.eGet(id));
-    assertTrue(((List)john.eGet(friendsReference)).isEmpty());
+    assertTrue(friendsOfJohn.isEmpty());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(john);
     john.eSet(name, "John");
     john.eSet(id, "456");
-    ((List)john.eGet(friendsReference)).add(mary);
+    friendsOfJohn.add(mary);
     ChangeDescription changeDescription = changeRecorder.endRecording();
     changeRecorder = new ChangeRecorder();
     changeRecorder.beginRecording(changeDescription, Collections.singleton(john));
@@ -741,7 +754,7 @@ public class SpecialCasesTest  extends TestCase
     changeRecorder.endRecording();
     changeRecorder = new ChangeRecorder();
     changeRecorder.beginRecording(changeDescription, Collections.singleton(john));
-    ((List)john.eGet(friendsReference)).remove(mary);
+    friendsOfJohn.remove(mary);
     changeRecorder.endRecording();
     
     assertTrue(changeDescription.getObjectsToAttach().isEmpty());
@@ -751,7 +764,7 @@ public class SpecialCasesTest  extends TestCase
     // State 1
     assertEquals("John", john.eGet(name));
     assertEquals("456", john.eGet(id));
-    assertTrue(((List)john.eGet(friendsReference)).isEmpty());
+    assertTrue(friendsOfJohn.isEmpty());
     assertEquals("Mary P", mary.eGet(name));
     assertEquals("1", mary.eGet(id));
     
@@ -768,14 +781,14 @@ public class SpecialCasesTest  extends TestCase
     // State 2
     assertEquals("John", john.eGet(name));
     assertEquals("456", john.eGet(id));
-    assertTrue(((List)john.eGet(friendsReference)).isEmpty());
+    assertTrue(friendsOfJohn.isEmpty());
     
     changeDescription.applyAndReverse();
 
     // State 0
     assertNull(john.eGet(name));
     assertEquals("123", john.eGet(id));
-    assertTrue(((List)john.eGet(friendsReference)).isEmpty());
+    assertTrue(friendsOfJohn.isEmpty());
     // Mary was not changed
     assertEquals("Mary P", mary.eGet(name));
     assertEquals("2", mary.eGet(id));    
@@ -849,7 +862,9 @@ public class SpecialCasesTest  extends TestCase
       EObject johnsFamily = pack.getEFactoryInstance().create(family);
       johnsFamily.eSet(spouse1, john);
       johnsFamily.eSet(spouse2, mary);
-      ((List)johnsFamily.eGet(children)).add(paul);
+      @SuppressWarnings("unchecked")
+      List<EObject> johnsFamilyChildren = ((List<EObject>)johnsFamily.eGet(children));
+      johnsFamilyChildren.add(paul);
             
       int changeDescriptionURIIndex = 3;
 
@@ -858,16 +873,16 @@ public class SpecialCasesTest  extends TestCase
       
       ChangeRecorder changeRecorder = new ChangeRecorder(johnsFamily);
       johnsFamily.eSet(spouse2, lisa);
-      ((List)johnsFamily.eGet(children)).add(anna);
+      johnsFamilyChildren.add(anna);
       ChangeDescription changeDescription = changeRecorder.endRecording();
       Resource changeDescriptionResource = changeDescriptionURIIndex <= 1? familyResource :  new XMIResourceImpl(changeDescriptionURIs[changeDescriptionURIIndex]);
       changeDescriptionResource.getContents().add(changeDescription);
       
-      List objectsToDetach = changeDescription.getObjectsToDetach();
+      List<EObject> objectsToDetach = changeDescription.getObjectsToDetach();
       assertEquals(2, objectsToDetach.size());
       assertTrue(objectsToDetach.contains(lisa));
       assertTrue(objectsToDetach.contains(anna));
-      List objectsToAttach = changeDescription.getObjectsToAttach();
+      List<EObject> objectsToAttach = changeDescription.getObjectsToAttach();
       assertEquals(1, objectsToAttach.size());
       assertTrue(objectsToAttach.contains(mary));
       
@@ -891,26 +906,27 @@ public class SpecialCasesTest  extends TestCase
       assertEquals(file, 1, changeDescription.getObjectsToAttach().size());
       
       Resource familyResource = i <= 1 ? changeDescriptionResource : resourceSet.getResource(familyURI, true);      
-      EObject johnsFamily = (EObject)familyResource.getContents().get(0);
+      EObject johnsFamily = familyResource.getContents().get(0);
       EObject john = (EObject)johnsFamily.eGet(spouse1);
       assertEquals("John", john.eGet(name));
       EObject lisa = (EObject)johnsFamily.eGet(spouse2);
       assertEquals("Lisa", lisa.eGet(name));
-      EObject paul = (EObject)((List)johnsFamily.eGet(children)).get(0);
+      @SuppressWarnings("unchecked")
+      List<EObject> johnsFamilyChildren = ((List<EObject>)johnsFamily.eGet(children));
+      EObject paul = johnsFamilyChildren.get(0);
       assertEquals("Paul", paul.eGet(name));
-      EObject anna = (EObject)((List)johnsFamily.eGet(children)).get(1);
+      EObject anna = johnsFamilyChildren.get(1);
       assertEquals("Anna", anna.eGet(name));
 
-      List resolvedObjectsToDetach = new ArrayList(2);
-      for (Iterator j = changeDescription.getObjectsToDetach().iterator(); j.hasNext();)
+      List<EObject> resolvedObjectsToDetach = new ArrayList<EObject>(2);
+      for (EObject eObject : changeDescription.getObjectsToDetach())
       {
-        EObject eObject = (EObject)j.next();
         resolvedObjectsToDetach.add(eObject.eIsProxy()?EcoreUtil.resolve(eObject, resourceSet):eObject);
       }
       
       assertTrue(file, resolvedObjectsToDetach.contains(lisa));
       assertTrue(file, resolvedObjectsToDetach.contains(anna));
-      EObject mary = (EObject)changeDescription.getObjectsToAttach().get(0);
+      EObject mary = changeDescription.getObjectsToAttach().get(0);
       assertEquals(file, "Mary", mary.eGet(name));      
     }    
   }
@@ -1036,9 +1052,9 @@ public class SpecialCasesTest  extends TestCase
     resource.unload();
     resource.load(new ByteArrayInputStream(baos.toByteArray()), null);
     
-    EObject loadedJohn =  (EObject)resource.getContents().get(0);
+    EObject loadedJohn =  resource.getContents().get(0);
     assertEquals("John", loadedJohn.eGet(name));
-    EObject loadedMary =  (EObject)resource.getContents().get(1);
+    EObject loadedMary =  resource.getContents().get(1);
     assertEquals("Mary", loadedMary.eGet(name));
 
     //State 1
@@ -1107,7 +1123,7 @@ public class SpecialCasesTest  extends TestCase
         
     Resource maryResource = resourceSet.getResource(maryURI, true);
     
-    EObject mary = (EObject)maryResource.getContents().get(0);
+    EObject mary = maryResource.getContents().get(0);
     assertEquals("Mary", mary.eGet(name));
     
     EObject proxyToJohn = (EObject)mary.eGet(father, false);
@@ -1150,7 +1166,8 @@ public class SpecialCasesTest  extends TestCase
     
     // Instantiating the model
     EObject john = pack.getEFactoryInstance().create(person);
-    List johnFriends = (List)john.eGet(friendsReference);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnFriends = (List<EObject>)john.eGet(friendsReference);
     new ResourceImpl().getContents().add(john);
     
     EObject mary = pack.getEFactoryInstance().create(person);
@@ -1189,7 +1206,7 @@ public class SpecialCasesTest  extends TestCase
     assertEquals(mark, johnFriends.get(3));
     assertEquals(beth, johnFriends.get(4));
     
-    List list = new ArrayList();
+    List<EObject> list = new ArrayList<EObject>();
     list.add(joe);
     list.add(mark);
     list.add(mary);
@@ -1217,7 +1234,8 @@ public class SpecialCasesTest  extends TestCase
     //======
     
     
-    List johnEnemies = (List)john.eGet(enemiesReference);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnEnemies = (List<EObject>)john.eGet(enemiesReference);
     
     // Part of State 0
     assertTrue(johnEnemies.isEmpty());

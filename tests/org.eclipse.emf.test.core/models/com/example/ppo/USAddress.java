@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: USAddress.java,v 1.1 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: USAddress.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package com.example.ppo;
 
@@ -187,6 +187,6 @@ public interface USAddress extends EObject
    * @model
    * @generated
    */
-  boolean hasUSState(DiagnosticChain diagnostics, Map context);
+  boolean hasUSState(DiagnosticChain diagnostics, Map<Object, Object> context);
 
 } // USAddress

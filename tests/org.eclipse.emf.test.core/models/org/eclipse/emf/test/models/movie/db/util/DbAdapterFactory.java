@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbAdapterFactory.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: DbAdapterFactory.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db.util;
 
@@ -55,6 +55,7 @@ public class DbAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,30 +75,36 @@ public class DbAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected DbSwitch modelSwitch =
-    new DbSwitch()
+  protected DbSwitch<Adapter> modelSwitch =
+    new DbSwitch<Adapter>()
     {
-      public Object caseCriticsReviewType(CriticsReviewType object)
+      @Override
+      public Adapter caseCriticsReviewType(CriticsReviewType object)
       {
         return createCriticsReviewTypeAdapter();
       }
-      public Object caseCustomerReviewType(CustomerReviewType object)
+      @Override
+      public Adapter caseCustomerReviewType(CustomerReviewType object)
       {
         return createCustomerReviewTypeAdapter();
       }
-      public Object caseDocumentRoot(DocumentRoot object)
+      @Override
+      public Adapter caseDocumentRoot(DocumentRoot object)
       {
         return createDocumentRootAdapter();
       }
-      public Object caseMovieDBType(MovieDBType object)
+      @Override
+      public Adapter caseMovieDBType(MovieDBType object)
       {
         return createMovieDBTypeAdapter();
       }
-      public Object caseMovieType(MovieType object)
+      @Override
+      public Adapter caseMovieType(MovieType object)
       {
         return createMovieTypeAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -111,9 +118,10 @@ public class DbAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

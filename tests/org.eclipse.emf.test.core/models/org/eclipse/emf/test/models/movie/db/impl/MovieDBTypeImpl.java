@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MovieDBTypeImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: MovieDBTypeImpl.java,v 1.2 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -13,7 +13,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -24,6 +23,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.test.models.movie.db.DbPackage;
 import org.eclipse.emf.test.models.movie.db.MovieDBType;
+import org.eclipse.emf.test.models.movie.db.MovieType;
 
 /**
  * <!-- begin-user-doc -->
@@ -77,9 +77,10 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return DbPackage.eINSTANCE.getMovieDBType();
+    return DbPackage.Literals.MOVIE_DB_TYPE;
   }
 
   /**
@@ -101,9 +102,9 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getMovie()
+  public EList<MovieType> getMovie()
   {
-    return ((FeatureMap)getMovieDBFeatureMap()).list(DbPackage.eINSTANCE.getMovieDBType_Movie());
+    return getMovieDBFeatureMap().list(DbPackage.Literals.MOVIE_DB_TYPE__MOVIE);
   }
 
   /**
@@ -113,7 +114,7 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    */
   public String getComment()
   {
-    return (String)getMovieDBFeatureMap().get(DbPackage.eINSTANCE.getMovieDBType_Comment(), true);
+    return (String)getMovieDBFeatureMap().get(DbPackage.Literals.MOVIE_DB_TYPE__COMMENT, true);
   }
 
   /**
@@ -123,7 +124,7 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    */
   public void setComment(String newComment)
   {
-    ((FeatureMap.Internal)getMovieDBFeatureMap()).set(DbPackage.eINSTANCE.getMovieDBType_Comment(), newComment);
+    ((FeatureMap.Internal)getMovieDBFeatureMap()).set(DbPackage.Literals.MOVIE_DB_TYPE__COMMENT, newComment);
   }
 
   /**
@@ -131,40 +132,38 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case DbPackage.MOVIE_DB_TYPE__MOVIE_DB_FEATURE_MAP:
-          return ((InternalEList)getMovieDBFeatureMap()).basicRemove(otherEnd, msgs);
-        case DbPackage.MOVIE_DB_TYPE__MOVIE:
-          return ((InternalEList)getMovie()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.MOVIE_DB_TYPE__MOVIE_DB_FEATURE_MAP:
-        return getMovieDBFeatureMap();
+        return ((InternalEList<?>)getMovieDBFeatureMap()).basicRemove(otherEnd, msgs);
+      case DbPackage.MOVIE_DB_TYPE__MOVIE:
+        return ((InternalEList<?>)getMovie()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case DbPackage.MOVIE_DB_TYPE__MOVIE_DB_FEATURE_MAP:
+        if (coreType) return getMovieDBFeatureMap();
+        return ((FeatureMap.Internal)getMovieDBFeatureMap()).getWrapper();
       case DbPackage.MOVIE_DB_TYPE__MOVIE:
         return getMovie();
       case DbPackage.MOVIE_DB_TYPE__COMMENT:
         return getComment();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -172,23 +171,24 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.MOVIE_DB_TYPE__MOVIE_DB_FEATURE_MAP:
-        getMovieDBFeatureMap().clear();
-        getMovieDBFeatureMap().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getMovieDBFeatureMap()).set(newValue);
         return;
       case DbPackage.MOVIE_DB_TYPE__MOVIE:
         getMovie().clear();
-        getMovie().addAll((Collection)newValue);
+        getMovie().addAll((Collection<? extends MovieType>)newValue);
         return;
       case DbPackage.MOVIE_DB_TYPE__COMMENT:
         setComment((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -196,9 +196,10 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.MOVIE_DB_TYPE__MOVIE_DB_FEATURE_MAP:
         getMovieDBFeatureMap().clear();
@@ -210,7 +211,7 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
         setComment(COMMENT_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -218,9 +219,10 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.MOVIE_DB_TYPE__MOVIE_DB_FEATURE_MAP:
         return movieDBFeatureMap != null && !movieDBFeatureMap.isEmpty();
@@ -229,7 +231,7 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
       case DbPackage.MOVIE_DB_TYPE__COMMENT:
         return COMMENT_EDEFAULT == null ? getComment() != null : !COMMENT_EDEFAULT.equals(getComment());
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -237,6 +239,7 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

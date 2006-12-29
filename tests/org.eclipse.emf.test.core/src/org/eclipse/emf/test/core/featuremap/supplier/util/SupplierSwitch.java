@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SupplierSwitch.java,v 1.1 2004/08/20 22:47:32 marcelop Exp $
+ * $Id: SupplierSwitch.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier.util;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.test.core.featuremap.supplier.*;
  * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage
  * @generated
  */
-public class SupplierSwitch
+public class SupplierSwitch<T>
 {
   /**
    * The cached model package
@@ -57,7 +57,7 @@ public class SupplierSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -69,7 +69,7 @@ public class SupplierSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -77,11 +77,11 @@ public class SupplierSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -92,21 +92,21 @@ public class SupplierSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case SupplierPackage.PURCHASE_ORDER:
       {
         PurchaseOrder purchaseOrder = (PurchaseOrder)theEObject;
-        Object result = casePurchaseOrder(purchaseOrder);
+        T result = casePurchaseOrder(purchaseOrder);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case SupplierPackage.SUPPLIER:
       {
         Supplier supplier = (Supplier)theEObject;
-        Object result = caseSupplier(supplier);
+        T result = caseSupplier(supplier);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -125,7 +125,7 @@ public class SupplierSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object casePurchaseOrder(PurchaseOrder object)
+  public T casePurchaseOrder(PurchaseOrder object)
   {
     return null;
   }
@@ -141,7 +141,7 @@ public class SupplierSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseSupplier(Supplier object)
+  public T caseSupplier(Supplier object)
   {
     return null;
   }
@@ -157,7 +157,7 @@ public class SupplierSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

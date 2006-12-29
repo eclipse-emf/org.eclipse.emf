@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Library.java,v 1.1 2006/02/08 21:30:38 marcelop Exp $
+ * $Id: Library.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package lib;
 
@@ -69,10 +69,10 @@ public interface Library extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' containment reference list.
    * @see lib.LibPackage#getLibrary_Books()
-   * @model type="lib.Book" containment="true"
+   * @model type="lib.Book" containment="true" resolveProxies="true"
    * @generated
    */
-  EList getBooks();
+  EList<Book> getBooks();
 
   /**
    * Returns the value of the '<em><b>Address</b></em>' containment reference.
@@ -85,7 +85,7 @@ public interface Library extends EObject
    * @return the value of the '<em>Address</em>' containment reference.
    * @see #setAddress(Address)
    * @see lib.LibPackage#getLibrary_Address()
-   * @model containment="true" required="true"
+   * @model containment="true" resolveProxies="true" required="true"
    * @generated
    */
   Address getAddress();
@@ -113,10 +113,10 @@ public interface Library extends EObject
    * @return the value of the '<em>Writers</em>' containment reference list.
    * @see lib.LibPackage#getLibrary_Writers()
    * @see lib.Person#getLibrary
-   * @model type="lib.Person" opposite="library" containment="true"
+   * @model type="lib.Person" opposite="library" containment="true" resolveProxies="true"
    * @generated
    */
-  EList getWriters();
+  EList<Person> getWriters();
 
   /**
    * Returns the value of the '<em><b>Cafeteria</b></em>' containment reference.
@@ -131,7 +131,7 @@ public interface Library extends EObject
    * @see #setCafeteria(Cafeteria)
    * @see lib.LibPackage#getLibrary_Cafeteria()
    * @see lib.Cafeteria#getLibrary
-   * @model opposite="library" containment="true"
+   * @model opposite="library" containment="true" resolveProxies="true"
    * @generated
    */
   Cafeteria getCafeteria();

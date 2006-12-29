@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PPOFactory.java,v 1.1 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: PPOFactory.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package com.example.ppo;
 
@@ -24,7 +24,7 @@ public interface PPOFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  PPOFactory eINSTANCE = new com.example.ppo.impl.PPOFactoryImpl();
+  PPOFactory eINSTANCE = com.example.ppo.impl.PPOFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Item</em>'.

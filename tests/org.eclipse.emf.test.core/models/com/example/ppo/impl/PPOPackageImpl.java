@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PPOPackageImpl.java,v 1.2 2005/03/16 04:30:13 marcelop Exp $
+ * $Id: PPOPackageImpl.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package com.example.ppo.impl;
 
@@ -19,6 +19,7 @@ import java.util.Date;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -452,6 +453,10 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
     setNsPrefix(eNS_PREFIX);
     setNsURI(eNS_URI);
 
+    // Create type parameters
+
+    // Set bounds for type parameters
+
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
@@ -471,9 +476,14 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
     initEAttribute(getUSAddress_Zip(), ecorePackage.getEInt(), "zip", null, 0, 1, USAddress.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getUSAddress_Country(), ecorePackage.getEString(), "country", "US", 0, 1, USAddress.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    EOperation op = addEOperation(usAddressEClass, ecorePackage.getEBoolean(), "hasUSState");
-    addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics");
-    addEParameter(op, ecorePackage.getEMap(), "context");
+    EOperation op = addEOperation(usAddressEClass, ecorePackage.getEBoolean(), "hasUSState", 0, 1);
+    addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1);
+    EGenericType g1 = createEGenericType(ecorePackage.getEMap());
+    EGenericType g2 = createEGenericType(ecorePackage.getEJavaObject());
+    g1.getETypeArguments().add(g2);
+    g2 = createEGenericType(ecorePackage.getEJavaObject());
+    g1.getETypeArguments().add(g2);
+    addEParameter(op, g1, "context", 0, 1);
 
     initEClass(purchaseOrderEClass, PurchaseOrder.class, "PurchaseOrder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getPurchaseOrder_Items(), this.getItem(), null, "items", null, 2, -1, PurchaseOrder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

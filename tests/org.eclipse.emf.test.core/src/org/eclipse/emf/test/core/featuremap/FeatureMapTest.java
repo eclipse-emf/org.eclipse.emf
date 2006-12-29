@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapTest.java,v 1.4 2005/06/08 06:17:44 nickb Exp $
+ * $Id: FeatureMapTest.java,v 1.5 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap;
 
@@ -51,6 +51,7 @@ public class FeatureMapTest extends TestCase
     return testSuite;
   }
   
+  @Override
   protected void setUp()
   {
     SupplierFactory supplierFactory = SupplierPackage.eINSTANCE.getSupplierFactory();
@@ -59,6 +60,7 @@ public class FeatureMapTest extends TestCase
     supplier.setName("ACME");    
   }
   
+  @Override
   protected void tearDown()
   {
     supplier.getOrders().clear();
@@ -142,12 +144,12 @@ public class FeatureMapTest extends TestCase
     //
     assertEquals(supplier.getPreferredOrders().size(), loadedSupplier.getPreferredOrders().size());
     assertEquals(1, loadedSupplier.getPreferredOrders().size());
-    assertEquals(po1.getId(), ((PurchaseOrder)loadedSupplier.getPreferredOrders().get(0)).getId());
+    assertEquals(po1.getId(), (loadedSupplier.getPreferredOrders().get(0)).getId());
     assertEquals(po1.getId(), ((PurchaseOrder)loadedSupplier.getOrders().getValue(0)).getId());
     //
     assertEquals(supplier.getStandardOrders().size(), loadedSupplier.getStandardOrders().size());
     assertEquals(1, loadedSupplier.getStandardOrders().size());
-    assertEquals(po2.getId(), ((PurchaseOrder)loadedSupplier.getStandardOrders().get(0)).getId());
+    assertEquals(po2.getId(), (loadedSupplier.getStandardOrders().get(0)).getId());
     assertEquals(po2.getId(), ((PurchaseOrder)loadedSupplier.getOrders().getValue(1)).getId());
     
     new File(supplierURI.toFileString()).delete();

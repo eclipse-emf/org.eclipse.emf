@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: USAddressImpl.java,v 1.3 2005/03/16 18:52:33 marcelop Exp $
+ * $Id: USAddressImpl.java,v 1.4 2006/12/29 21:49:52 marcelop Exp $
  */
 package com.example.ppo.impl;
 
@@ -20,8 +20,6 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -184,9 +182,10 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return PPOPackage.eINSTANCE.getUSAddress();
+    return PPOPackage.Literals.US_ADDRESS;
   }
 
   /**
@@ -319,7 +318,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public boolean hasUSState(DiagnosticChain diagnostics, Map context)
+  public boolean hasUSState(DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     if ("US".equals(getCountry()) && getState() == null)
     {
@@ -343,9 +342,10 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PPOPackage.US_ADDRESS__NAME:
         return getName();
@@ -360,7 +360,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
       case PPOPackage.US_ADDRESS__COUNTRY:
         return getCountry();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -368,9 +368,10 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PPOPackage.US_ADDRESS__NAME:
         setName((String)newValue);
@@ -388,7 +389,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
         setZip(((Integer)newValue).intValue());
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -396,9 +397,10 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PPOPackage.US_ADDRESS__NAME:
         setName(NAME_EDEFAULT);
@@ -416,7 +418,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
         setZip(ZIP_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -424,9 +426,10 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PPOPackage.US_ADDRESS__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -441,7 +444,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
       case PPOPackage.US_ADDRESS__COUNTRY:
         return COUNTRY_EDEFAULT == null ? country != null : !COUNTRY_EDEFAULT.equals(country);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -449,6 +452,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

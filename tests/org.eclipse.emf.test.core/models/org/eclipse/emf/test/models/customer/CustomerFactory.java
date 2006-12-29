@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerFactory.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
+ * $Id: CustomerFactory.java,v 1.3 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -24,7 +24,7 @@ public interface CustomerFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  CustomerFactory eINSTANCE = new org.eclipse.emf.test.models.customer.impl.CustomerFactoryImpl();
+  CustomerFactory eINSTANCE = org.eclipse.emf.test.models.customer.impl.CustomerFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Canada Addr</em>'.

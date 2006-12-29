@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SupplierFactory.java,v 1.1 2004/08/20 22:47:32 marcelop Exp $
+ * $Id: SupplierFactory.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier;
 
@@ -24,7 +24,7 @@ public interface SupplierFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  SupplierFactory eINSTANCE = new org.eclipse.emf.test.core.featuremap.supplier.impl.SupplierFactoryImpl();
+  SupplierFactory eINSTANCE = org.eclipse.emf.test.core.featuremap.supplier.impl.SupplierFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Purchase Order</em>'.

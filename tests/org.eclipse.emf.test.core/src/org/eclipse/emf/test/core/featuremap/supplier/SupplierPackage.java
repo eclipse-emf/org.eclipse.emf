@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SupplierPackage.java,v 1.1 2004/08/20 22:47:32 marcelop Exp $
+ * $Id: SupplierPackage.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier;
 
@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierFactory
+ * @model kind="package"
  * @generated
  */
 public interface SupplierPackage extends EPackage
@@ -79,7 +80,7 @@ public interface SupplierPackage extends EPackage
   int PURCHASE_ORDER__ID = 0;
 
   /**
-   * The number of structural features of the the '<em>Purchase Order</em>' class.
+   * The number of structural features of the '<em>Purchase Order</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -134,7 +135,7 @@ public interface SupplierPackage extends EPackage
   int SUPPLIER__STANDARD_ORDERS = 3;
 
   /**
-   * The number of structural features of the the '<em>Supplier</em>' class.
+   * The number of structural features of the '<em>Supplier</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -226,5 +227,81 @@ public interface SupplierPackage extends EPackage
    * @generated
    */
   SupplierFactory getSupplierFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.core.featuremap.supplier.impl.PurchaseOrderImpl <em>Purchase Order</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.core.featuremap.supplier.impl.PurchaseOrderImpl
+     * @see org.eclipse.emf.test.core.featuremap.supplier.impl.SupplierPackageImpl#getPurchaseOrder()
+     * @generated
+     */
+    EClass PURCHASE_ORDER = eINSTANCE.getPurchaseOrder();
+
+    /**
+     * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PURCHASE_ORDER__ID = eINSTANCE.getPurchaseOrder_Id();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.core.featuremap.supplier.impl.SupplierImpl <em>Supplier</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.core.featuremap.supplier.impl.SupplierImpl
+     * @see org.eclipse.emf.test.core.featuremap.supplier.impl.SupplierPackageImpl#getSupplier()
+     * @generated
+     */
+    EClass SUPPLIER = eINSTANCE.getSupplier();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute SUPPLIER__NAME = eINSTANCE.getSupplier_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Orders</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute SUPPLIER__ORDERS = eINSTANCE.getSupplier_Orders();
+
+    /**
+     * The meta object literal for the '<em><b>Preferred Orders</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference SUPPLIER__PREFERRED_ORDERS = eINSTANCE.getSupplier_PreferredOrders();
+
+    /**
+     * The meta object literal for the '<em><b>Standard Orders</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference SUPPLIER__STANDARD_ORDERS = eINSTANCE.getSupplier_StandardOrders();
+
+  }
 
 } //SupplierPackage

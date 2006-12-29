@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Supplier.java,v 1.1 2004/08/20 22:47:32 marcelop Exp $
+ * $Id: Supplier.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * </p>
  *
  * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getSupplier()
- * @model 
+ * @model extendedMetaData="name='Supplier' kind='elementOnly'"
  * @generated
  */
 public interface Supplier extends EObject
@@ -45,6 +45,7 @@ public interface Supplier extends EObject
    * @see #setName(String)
    * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getSupplier_Name()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='name'"
    * @generated
    */
   String getName();
@@ -71,6 +72,7 @@ public interface Supplier extends EObject
    * @return the value of the '<em>Orders</em>' attribute list.
    * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getSupplier_Orders()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='group' name='orders:1'"
    * @generated
    */
   FeatureMap getOrders();
@@ -86,10 +88,11 @@ public interface Supplier extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Preferred Orders</em>' containment reference list.
    * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getSupplier_PreferredOrders()
-   * @model type="org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder" containment="true" resolveProxies="false" transient="true" volatile="true" derived="true"
+   * @model type="org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder" containment="true" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='preferredOrders' group='#orders:1'"
    * @generated
    */
-  EList getPreferredOrders();
+  EList<PurchaseOrder> getPreferredOrders();
 
   /**
    * Returns the value of the '<em><b>Standard Orders</b></em>' containment reference list.
@@ -102,9 +105,10 @@ public interface Supplier extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Standard Orders</em>' containment reference list.
    * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getSupplier_StandardOrders()
-   * @model type="org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder" containment="true" resolveProxies="false" transient="true" volatile="true" derived="true"
+   * @model type="org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder" containment="true" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='standardOrders' group='#orders:1'"
    * @generated
    */
-  EList getStandardOrders();
+  EList<PurchaseOrder> getStandardOrders();
 
 } // Supplier

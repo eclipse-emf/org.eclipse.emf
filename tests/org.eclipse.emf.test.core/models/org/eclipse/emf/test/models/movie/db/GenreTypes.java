@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenreTypes.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: GenreTypes.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,8 +21,116 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class GenreTypes extends AbstractEnumerator
+public enum GenreTypes implements Enumerator
 {
+  /**
+   * The '<em><b>New Release</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #NEW_RELEASE
+   * @generated
+   * @ordered
+   */
+  NEW_RELEASE_LITERAL(0, "NewRelease", "NewRelease"),
+  /**
+   * The '<em><b>Action</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #ACTION
+   * @generated
+   * @ordered
+   */
+  ACTION_LITERAL(1, "Action", "Action"),
+  /**
+   * The '<em><b>Animation</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #ANIMATION
+   * @generated
+   * @ordered
+   */
+  ANIMATION_LITERAL(2, "Animation", "Animation"),
+  /**
+   * The '<em><b>Family</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #FAMILY
+   * @generated
+   * @ordered
+   */
+  FAMILY_LITERAL(3, "Family", "Family"),
+  /**
+   * The '<em><b>Classics</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #CLASSICS
+   * @generated
+   * @ordered
+   */
+  CLASSICS_LITERAL(4, "Classics", "Classics"),
+  /**
+   * The '<em><b>Comedy</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #COMEDY
+   * @generated
+   * @ordered
+   */
+  COMEDY_LITERAL(5, "Comedy", "Comedy"),
+  /**
+   * The '<em><b>Documentary</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #DOCUMENTARY
+   * @generated
+   * @ordered
+   */
+  DOCUMENTARY_LITERAL(6, "Documentary", "Documentary"),
+  /**
+   * The '<em><b>Drama</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #DRAMA
+   * @generated
+   * @ordered
+   */
+  DRAMA_LITERAL(7, "Drama", "Drama"),
+  /**
+   * The '<em><b>Horror</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #HORROR
+   * @generated
+   * @ordered
+   */
+  HORROR_LITERAL(8, "Horror", "Horror"),
+  /**
+   * The '<em><b>Romance</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #ROMANCE
+   * @generated
+   * @ordered
+   */
+  ROMANCE_LITERAL(9, "Romance", "Romance"),
+  /**
+   * The '<em><b>Sci Fi</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #SCI_FI
+   * @generated
+   * @ordered
+   */
+  SCI_FI_LITERAL(10, "SciFi", "SciFi"),
+  /**
+   * The '<em><b>Thriller</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #THRILLER
+   * @generated
+   * @ordered
+   */
+  THRILLER_LITERAL(11, "Thriller", "Thriller");
   /**
    * The '<em><b>New Release</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -204,126 +312,6 @@ public final class GenreTypes extends AbstractEnumerator
   public static final int THRILLER = 11;
 
   /**
-   * The '<em><b>New Release</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #NEW_RELEASE
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes NEW_RELEASE_LITERAL = new GenreTypes(NEW_RELEASE, "NewRelease");
-
-  /**
-   * The '<em><b>Action</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #ACTION
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes ACTION_LITERAL = new GenreTypes(ACTION, "Action");
-
-  /**
-   * The '<em><b>Animation</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #ANIMATION
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes ANIMATION_LITERAL = new GenreTypes(ANIMATION, "Animation");
-
-  /**
-   * The '<em><b>Family</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #FAMILY
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes FAMILY_LITERAL = new GenreTypes(FAMILY, "Family");
-
-  /**
-   * The '<em><b>Classics</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #CLASSICS
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes CLASSICS_LITERAL = new GenreTypes(CLASSICS, "Classics");
-
-  /**
-   * The '<em><b>Comedy</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #COMEDY
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes COMEDY_LITERAL = new GenreTypes(COMEDY, "Comedy");
-
-  /**
-   * The '<em><b>Documentary</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #DOCUMENTARY
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes DOCUMENTARY_LITERAL = new GenreTypes(DOCUMENTARY, "Documentary");
-
-  /**
-   * The '<em><b>Drama</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #DRAMA
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes DRAMA_LITERAL = new GenreTypes(DRAMA, "Drama");
-
-  /**
-   * The '<em><b>Horror</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #HORROR
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes HORROR_LITERAL = new GenreTypes(HORROR, "Horror");
-
-  /**
-   * The '<em><b>Romance</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #ROMANCE
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes ROMANCE_LITERAL = new GenreTypes(ROMANCE, "Romance");
-
-  /**
-   * The '<em><b>Sci Fi</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #SCI_FI
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes SCI_FI_LITERAL = new GenreTypes(SCI_FI, "SciFi");
-
-  /**
-   * The '<em><b>Thriller</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #THRILLER
-   * @generated
-   * @ordered
-   */
-  public static final GenreTypes THRILLER_LITERAL = new GenreTypes(THRILLER, "Thriller");
-
-  /**
    * An array of all the '<em><b>Genre Types</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -352,20 +340,20 @@ public final class GenreTypes extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<GenreTypes> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Genre Types</b></em>' literal with the specified name.
+   * Returns the '<em><b>Genre Types</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static GenreTypes get(String name)
+  public static GenreTypes get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       GenreTypes result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -374,7 +362,26 @@ public final class GenreTypes extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Genre Types</b></em>' literal with the specified value.
+   * Returns the '<em><b>Genre Types</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static GenreTypes getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      GenreTypes result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Genre Types</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -396,8 +403,29 @@ public final class GenreTypes extends AbstractEnumerator
       case SCI_FI: return SCI_FI_LITERAL;
       case THRILLER: return THRILLER_LITERAL;
     }
-    return null;	
+    return null;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
 
   /**
    * Only this class can construct instances.
@@ -405,9 +433,52 @@ public final class GenreTypes extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private GenreTypes(int value, String name)
+  private GenreTypes(int value, String name, String literal)
   {
-    super(value, name);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
-} //GenreTypes
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+}

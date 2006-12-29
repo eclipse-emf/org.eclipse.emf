@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: OrderFactory.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: OrderFactory.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.order;
 
@@ -24,7 +24,7 @@ public interface OrderFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  OrderFactory eINSTANCE = new org.eclipse.emf.test.models.order.impl.OrderFactoryImpl();
+  OrderFactory eINSTANCE = org.eclipse.emf.test.models.order.impl.OrderFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Customer Order</em>'.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.13 2005/08/11 05:08:58 marcelop Exp $
+ * $Id: SimpleModelTest.java,v 1.14 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -92,6 +92,7 @@ public class SimpleModelTest extends TestCase
   /**
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
@@ -142,6 +143,7 @@ public class SimpleModelTest extends TestCase
   /**
    * @see junit.framework.TestCase#tearDown()
    */
+  @Override
   protected void tearDown() throws Exception
   {
     employeeName = null;
@@ -206,7 +208,8 @@ public class SimpleModelTest extends TestCase
 
     EObject department1 = companyFactory.create(departmentClass);
 
-    List department1Employees = (List)department1.eGet(departmentEmployees);
+    @SuppressWarnings("unchecked")
+    List<EObject> department1Employees = (List<EObject>)department1.eGet(departmentEmployees);
     assertNotNull(department1Employees);
 
     department1Employees.add(employee1);
@@ -227,7 +230,8 @@ public class SimpleModelTest extends TestCase
 
     EObject department2 = companyFactory.create(departmentClass);
 
-    List department2Employees = (List)department2.eGet(departmentEmployees);
+    @SuppressWarnings("unchecked")
+    List<EObject> department2Employees = (List<EObject>)department2.eGet(departmentEmployees);
     assertNotNull(department2Employees);
 
     department2Employees.add(employee1);
@@ -250,9 +254,11 @@ public class SimpleModelTest extends TestCase
     EObject employee2 = companyFactory.create(employeeClass);
 
     EObject department1 = companyFactory.create(departmentClass);
-    List department1Employees = (List)department1.eGet(departmentEmployees);
+    @SuppressWarnings("unchecked")
+    List<EObject> department1Employees = (List<EObject>)department1.eGet(departmentEmployees);
     EObject department2 = companyFactory.create(departmentClass);
-    List department2Employees = (List)department2.eGet(departmentEmployees);
+    @SuppressWarnings("unchecked")
+    List<EObject> department2Employees = (List<EObject>)department2.eGet(departmentEmployees);
 
     department1Employees.add(employee1);
     assertEquals(department1, employee1.eContainer());
@@ -280,7 +286,8 @@ public class SimpleModelTest extends TestCase
 
     EObject department = companyFactory.create(departmentClass);
     department.eSet(departmentName, "ACME1");
-    List employeesList = (List)department.eGet(departmentEmployees);
+    @SuppressWarnings("unchecked")
+    List<EObject> employeesList = (List<EObject>)department.eGet(departmentEmployees);
     employeesList.add(employee1);
     employeesList.add(employee2);
 
@@ -300,6 +307,7 @@ public class SimpleModelTest extends TestCase
           /* (non-Javadoc)
            * @see org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl#createResource(org.eclipse.emf.common.util.URI)
            */
+          @Override
           public Resource createResource(URI uri)
           {
             XMLResource result = (XMLResource)super.createResource(uri);
@@ -311,19 +319,19 @@ public class SimpleModelTest extends TestCase
     Resource loadedResource = resourceSet.getResource(departmentsURI, true);
     assertEquals(1, resourceSet.getResources().size());
     assertEquals(1, loadedResource.getContents().size());
-    assertTrue(loadedResource.getContents().get(0) instanceof EObject);
 
-    EObject loadedDepartment = (EObject)loadedResource.getContents().get(0);
+    EObject loadedDepartment = loadedResource.getContents().get(0);
     assertEquals(department.eClass(), loadedDepartment.eClass());
     assertEquals(department.eGet(departmentName), loadedDepartment.eGet(departmentName));
 
     //Get Employess
-    List loadedEmployees = (List)department.eGet(departmentEmployees);
+    @SuppressWarnings("unchecked")
+    List<EObject> loadedEmployees = (List<EObject>)department.eGet(departmentEmployees);
     assertEquals(2, loadedEmployees.size());
-    EObject loadedEmployee = (EObject)loadedEmployees.get(0);
+    EObject loadedEmployee = loadedEmployees.get(0);
     assertEquals(employee1.eClass(), loadedEmployee.eClass());
     assertEquals(employee1.eGet(employeeName), loadedEmployee.eGet(employeeName));
-    loadedEmployee = (EObject)loadedEmployees.get(1);
+    loadedEmployee = loadedEmployees.get(1);
     assertEquals(employee2.eClass(), loadedEmployee.eClass());
     assertEquals(employee2.eGet(employeeName), loadedEmployee.eGet(employeeName));
 
@@ -344,7 +352,8 @@ public class SimpleModelTest extends TestCase
 
     EObject department = companyFactory.create(departmentClass);
     department.eSet(departmentName, "ACME1");
-    List employeesList = (List)department.eGet(departmentEmployees);
+    @SuppressWarnings("unchecked")
+    List<EObject> employeesList = (List<EObject>)department.eGet(departmentEmployees);
     employeesList.add(employee1);
     employeesList.add(employee2);
 
@@ -366,19 +375,19 @@ public class SimpleModelTest extends TestCase
     Resource loadedResource = resourceSet.getResource(departmentsURI, true);
     assertEquals(1, resourceSet.getResources().size());
     assertEquals(1, loadedResource.getContents().size());
-    assertTrue(loadedResource.getContents().get(0) instanceof EObject);
 
-    EObject loadedDepartment = (EObject)loadedResource.getContents().get(0);
+    EObject loadedDepartment = loadedResource.getContents().get(0);
     assertEquals(department.eClass(), loadedDepartment.eClass());
     assertEquals(department.eGet(departmentName), loadedDepartment.eGet(departmentName));
 
     //Get Employess
-    List loadedEmployees = (List)department.eGet(departmentEmployees);
+    @SuppressWarnings("unchecked")
+    List<EObject> loadedEmployees = (List<EObject>)department.eGet(departmentEmployees);
     assertEquals(2, loadedEmployees.size());
-    EObject loadedEmployee = (EObject)loadedEmployees.get(0);
+    EObject loadedEmployee = loadedEmployees.get(0);
     assertEquals(employee1.eClass(), loadedEmployee.eClass());
     assertEquals(employee1.eGet(employeeName), loadedEmployee.eGet(employeeName));
-    loadedEmployee = (EObject)loadedEmployees.get(1);
+    loadedEmployee = loadedEmployees.get(1);
     assertEquals(employee2.eClass(), loadedEmployee.eClass());
     assertEquals(employee2.eGet(employeeName), loadedEmployee.eGet(employeeName));
 
@@ -402,7 +411,8 @@ public class SimpleModelTest extends TestCase
     //Instanciating the model
     EObject department = companyFactory.create(departmentClass);
     department.eSet(departmentName, "ACME1");
-    List associateDepartmentsList = (List)department.eGet(associateDepartments);
+    @SuppressWarnings("unchecked")
+    List<EObject> associateDepartmentsList = (List<EObject>)department.eGet(associateDepartments);
     URI departmentURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/department.xmi");
     Resource departmentResource = new XMIResourceFactoryImpl().createResource(departmentURI);
     departmentResource.getContents().add(department);
@@ -438,16 +448,14 @@ public class SimpleModelTest extends TestCase
 
     Resource loadedResource = resourceSet.getResource(departmentURI, true);
     assertEquals(1, loadedResource.getContents().size());
-    assertTrue(loadedResource.getContents().get(0) instanceof EObject);
     
-    EObject loadedDepartment = (EObject)loadedResource.getContents().get(0);
-    BasicEList loadedAssociateDepartmentsList = (BasicEList)loadedDepartment.eGet(associateDepartments, false);
+    EObject loadedDepartment = loadedResource.getContents().get(0);
+    @SuppressWarnings("unchecked")
+    BasicEList<EObject> loadedAssociateDepartmentsList = (BasicEList<EObject>)loadedDepartment.eGet(associateDepartments, false);
     assertEquals(2, loadedAssociateDepartmentsList.size());
-    assertTrue(loadedAssociateDepartmentsList.basicGet(0) instanceof EObject);
-    assertTrue(loadedAssociateDepartmentsList.basicGet(1) instanceof EObject);
     
-    EObject loadedDepartment1 = (EObject)loadedAssociateDepartmentsList.basicGet(0);
-    EObject loadedDepartment2 = (EObject)loadedAssociateDepartmentsList.basicGet(1);
+    EObject loadedDepartment1 = loadedAssociateDepartmentsList.basicGet(0);
+    EObject loadedDepartment2 = loadedAssociateDepartmentsList.basicGet(1);
     
     assertTrue(loadedDepartment1.eIsProxy());
     assertEquals(department1URI.toFileString(), ((InternalEObject)loadedDepartment1).eProxyURI().toFileString());
@@ -480,8 +488,10 @@ public class SimpleModelTest extends TestCase
   {
     Resource resource = new ResourceImpl()
     {
-      protected void doSave(OutputStream outputStream,Map options) throws IOException
+      @Override
+      protected void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
       {
+        // Ignore
       }
     };
     assertFalse(resource.isTrackingModification());
@@ -490,7 +500,9 @@ public class SimpleModelTest extends TestCase
     EFactory companyFactory = companyPackage.getEFactoryInstance();
     EObject employee = companyFactory.create(employeeClass);
     EObject department = companyFactory.create(departmentClass);
-    ((List)department.eGet(departmentEmployees)).add(employee);
+    @SuppressWarnings("unchecked")
+    List<EObject> employess = ((List<EObject>)department.eGet(departmentEmployees));
+    employess.add(employee);
     
     resource.getContents().add(department);
     assertFalse(resource.isTrackingModification());
@@ -523,7 +535,9 @@ public class SimpleModelTest extends TestCase
    
     EObject employee1 = companyFactory.create(employeeClass);
     EObject department1 = companyFactory.create(departmentClass);
-    ((List)department1.eGet(departmentEmployees)).add(employee1);
+    @SuppressWarnings("unchecked")
+    List<EObject> department1Employees = ((List<EObject>)department1.eGet(departmentEmployees));
+    department1Employees.add(employee1);
     resource.getContents().add(department1);
     assertTrue(resource.isTrackingModification());
     assertTrue(resource.isModified());
@@ -558,7 +572,8 @@ public class SimpleModelTest extends TestCase
     EFactory companyFactory = companyPackage.getEFactoryInstance();
 
     EObject department1 = companyFactory.create(departmentClass);
-    List department1Employees = (List)department1.eGet(departmentEmployees);
+    @SuppressWarnings("unchecked")
+    List<EObject> department1Employees = (List<EObject>)department1.eGet(departmentEmployees);
     assertEquals(0, department1Employees.size());
 
     EObject employee1 = companyFactory.create(employeeClass);
@@ -578,7 +593,7 @@ public class SimpleModelTest extends TestCase
     assertEquals(1, department1Employees.size());
     assertEquals(0, department1Employees.indexOf(employee1));
     
-    Object[] data = ((BasicEList)department1Employees).data();
+    Object[] data = ((BasicEList<?>)department1Employees).data();
     assertEquals(employee1, data[0]);
     assertNull(data[1]);
   }

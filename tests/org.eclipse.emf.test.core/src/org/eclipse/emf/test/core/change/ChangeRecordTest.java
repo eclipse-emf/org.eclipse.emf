@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.14 2006/05/05 01:52:42 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.15 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -23,13 +23,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
@@ -109,6 +109,7 @@ extends TestCase
   }
   
   
+  @Override
   protected void setUp() throws Exception
   {
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
@@ -144,24 +145,21 @@ extends TestCase
     
     ChangeDescription changeDescription = changeRecorder.endRecording();
     
-    EMap objectChanges = changeDescription.getObjectChanges();
+    EMap<EObject, EList<FeatureChange>> objectChanges = changeDescription.getObjectChanges();
     assertEquals(1, objectChanges.size());
     assertTrue(objectChanges.containsKey(eAnnotation));
     assertEquals(1, objectChanges.values().size());
-    assertTrue(objectChanges.values().iterator().next() instanceof EList);
     
-    EList eList = (EList)objectChanges.values().iterator().next();
+    EList<FeatureChange> eList = objectChanges.values().iterator().next();
     assertEquals(1, eList.size());
-    assertTrue(eList.iterator().next() instanceof FeatureChange);
     
-    FeatureChange featureChange = (FeatureChange)eList.iterator().next();
+    FeatureChange featureChange = eList.iterator().next();
     assertEquals(EcorePackage.eINSTANCE.getEAnnotation_Contents(), featureChange.getFeature());
     assertEquals(2, featureChange.getListChanges().size());
     
     int checker = 0;
-    for (Iterator i = featureChange.getListChanges().iterator(); i.hasNext();)
+    for (ListChange listChange : featureChange.getListChanges())
     {
-      ListChange listChange = (ListChange)i.next();
       switch (listChange.getKind().getValue())
       {
         case ChangeKind.ADD:
@@ -190,7 +188,7 @@ extends TestCase
     eClass1.setName("testEClass1");
     eAnnotation.getContents().add(eClass1);
     
-    List beforeChange = new ArrayList(eAnnotation.getContents());
+    List<EObject> beforeChange = new ArrayList<EObject>(eAnnotation.getContents());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(eAnnotation);
     if (callSummarize)
@@ -206,14 +204,13 @@ extends TestCase
       assertEquals(1, changeDescription.getObjectsToAttach().size());
       assertEquals(0, changeDescription.getObjectsToDetach().size());
       assertEquals(eClass0, changeDescription.getObjectsToAttach().get(0));
-      EMap objectChanges = changeDescription.getObjectChanges(); 
+      EMap<EObject, EList<FeatureChange>> objectChanges = changeDescription.getObjectChanges(); 
       assertEquals(1, objectChanges.size());
-      assertTrue(objectChanges.get(eAnnotation) instanceof EList);
-      EList featureChanges = (EList)objectChanges.get(eAnnotation);
+      EList<FeatureChange> featureChanges = objectChanges.get(eAnnotation);
       assertEquals(1, featureChanges.size());
-      FeatureChange featureChange = (FeatureChange)featureChanges.get(0);
+      FeatureChange featureChange = featureChanges.get(0);
       assertEquals(1, featureChange.getListChanges().size());
-      ListChange listChange = (ListChange)featureChange.getListChanges().get(0);
+      ListChange listChange = featureChange.getListChanges().get(0);
       assertEquals(ChangeKind.ADD_LITERAL, listChange.getKind());
       assertEquals(1, listChange.getReferenceValues().size());
       assertEquals(eClass0, listChange.getReferenceValues().get(0));
@@ -228,14 +225,13 @@ extends TestCase
       assertEquals(1, changeDescription.getObjectsToAttach().size());
       assertEquals(0, changeDescription.getObjectsToDetach().size());
       assertEquals(eClass0, changeDescription.getObjectsToAttach().get(0));
-      EMap objectChanges = changeDescription.getObjectChanges(); 
+      EMap<EObject, EList<FeatureChange>> objectChanges = changeDescription.getObjectChanges(); 
       assertEquals(1, objectChanges.size());
-      assertTrue(objectChanges.get(eAnnotation) instanceof EList);
-      EList featureChanges = (EList)objectChanges.get(eAnnotation);
+      EList<FeatureChange> featureChanges = objectChanges.get(eAnnotation);
       assertEquals(1, featureChanges.size());
-      FeatureChange featureChange = (FeatureChange)featureChanges.get(0);
+      FeatureChange featureChange = featureChanges.get(0);
       assertEquals(1, featureChange.getListChanges().size());
-      ListChange listChange = (ListChange)featureChange.getListChanges().get(0);
+      ListChange listChange = featureChange.getListChanges().get(0);
       assertEquals(ChangeKind.ADD_LITERAL, listChange.getKind());
       assertEquals(1, listChange.getReferenceValues().size());
       assertEquals(eClass0, listChange.getReferenceValues().get(0));
@@ -249,7 +245,7 @@ extends TestCase
     EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
     eClass1.setName("testEClass1");    
     
-    List beforeChange = new ArrayList(eAnnotation.getContents());
+    List<EObject> beforeChange = new ArrayList<EObject>(eAnnotation.getContents());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(eAnnotation);
     if (callSummarize)
@@ -265,14 +261,13 @@ extends TestCase
       assertEquals(0, changeDescription.getObjectsToAttach().size());
       assertEquals(1, changeDescription.getObjectsToDetach().size());
       assertEquals(eClass1, changeDescription.getObjectsToDetach().get(0));
-      EMap objectChanges = changeDescription.getObjectChanges(); 
+      EMap<EObject, EList<FeatureChange>> objectChanges = changeDescription.getObjectChanges(); 
       assertEquals(1, objectChanges.size());
-      assertTrue(objectChanges.get(eAnnotation) instanceof EList);
-      EList featureChanges = (EList)objectChanges.get(eAnnotation);
+      EList<FeatureChange> featureChanges = objectChanges.get(eAnnotation);
       assertEquals(1, featureChanges.size());
-      FeatureChange featureChange = (FeatureChange)featureChanges.get(0);
+      FeatureChange featureChange = featureChanges.get(0);
       assertEquals(1, featureChange.getListChanges().size());
-      ListChange listChange = (ListChange)featureChange.getListChanges().get(0);
+      ListChange listChange = featureChange.getListChanges().get(0);
       assertEquals(ChangeKind.REMOVE_LITERAL, listChange.getKind());
       assertEquals(1, listChange.getIndex());
       
@@ -286,14 +281,13 @@ extends TestCase
       assertEquals(0, changeDescription.getObjectsToAttach().size());
       assertEquals(1, changeDescription.getObjectsToDetach().size());
       assertEquals(eClass1, changeDescription.getObjectsToDetach().get(0));
-      EMap objectChanges = changeDescription.getObjectChanges(); 
+      EMap<EObject, EList<FeatureChange>> objectChanges = changeDescription.getObjectChanges(); 
       assertEquals(1, objectChanges.size());
-      assertTrue(objectChanges.get(eAnnotation) instanceof EList);
-      EList featureChanges = (EList)objectChanges.get(eAnnotation);
+      EList<FeatureChange> featureChanges = objectChanges.get(eAnnotation);
       assertEquals(1, featureChanges.size());
-      FeatureChange featureChange = (FeatureChange)featureChanges.get(0);
+      FeatureChange featureChange = featureChanges.get(0);
       assertEquals(1, featureChange.getListChanges().size());
-      ListChange listChange = (ListChange)featureChange.getListChanges().get(0);
+      ListChange listChange = featureChange.getListChanges().get(0);
       assertEquals(ChangeKind.REMOVE_LITERAL, listChange.getKind());
       assertEquals(1, listChange.getIndex());
     }
@@ -312,7 +306,7 @@ extends TestCase
     
     eAnnotation.getContents().add(eClass1);
     
-    List beforeChange = new ArrayList(eAnnotation.getContents());
+    List<EObject> beforeChange = new ArrayList<EObject>(eAnnotation.getContents());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(eAnnotation);
     if (callSummarize)
@@ -327,14 +321,13 @@ extends TestCase
       //Tests if the change description has what we expect
       assertEquals(0, changeDescription.getObjectsToAttach().size());
       assertEquals(0, changeDescription.getObjectsToDetach().size());
-      EMap objectChanges = changeDescription.getObjectChanges(); 
+      EMap<EObject, EList<FeatureChange>> objectChanges = changeDescription.getObjectChanges(); 
       assertEquals(1, objectChanges.size());
-      assertTrue(objectChanges.get(eAnnotation) instanceof EList);
-      EList featureChanges = (EList)objectChanges.get(eAnnotation);
+      EList<FeatureChange> featureChanges = objectChanges.get(eAnnotation);
       assertEquals(1, featureChanges.size());
-      FeatureChange featureChange = (FeatureChange)featureChanges.get(0);
+      FeatureChange featureChange = featureChanges.get(0);
       assertEquals(1, featureChange.getListChanges().size());
-      ListChange listChange = (ListChange)featureChange.getListChanges().get(0);
+      ListChange listChange = featureChange.getListChanges().get(0);
       assertEquals(ChangeKind.MOVE_LITERAL, listChange.getKind());
       if(listChange.getIndex() == 1)
       {
@@ -355,14 +348,13 @@ extends TestCase
       //Tests if the change description has what we expect
       assertEquals(0, changeDescription.getObjectsToAttach().size());
       assertEquals(0, changeDescription.getObjectsToDetach().size());
-      EMap objectChanges = changeDescription.getObjectChanges(); 
+      EMap<EObject, EList<FeatureChange>> objectChanges = changeDescription.getObjectChanges(); 
       assertEquals(1, objectChanges.size());
-      assertTrue(objectChanges.get(eAnnotation) instanceof EList);
-      EList featureChanges = (EList)objectChanges.get(eAnnotation);
+      EList<FeatureChange> featureChanges = objectChanges.get(eAnnotation);
       assertEquals(1, featureChanges.size());
-      FeatureChange featureChange = (FeatureChange)featureChanges.get(0);
+      FeatureChange featureChange = featureChanges.get(0);
       assertEquals(1, featureChange.getListChanges().size());
-      ListChange listChange = (ListChange)featureChange.getListChanges().get(0);
+      ListChange listChange = featureChange.getListChanges().get(0);
       assertEquals(ChangeKind.MOVE_LITERAL, listChange.getKind());
       if(listChange.getIndex() == 1)
       {
@@ -384,7 +376,7 @@ extends TestCase
     eClass1.setName("testEClass1");
     eAnnotation.getContents().add(eClass1);
     
-    List beforeChange = new ArrayList(eAnnotation.getContents());
+    List<EObject> beforeChange = new ArrayList<EObject>(eAnnotation.getContents());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(eAnnotation);
     if (callSummarize)
@@ -422,7 +414,7 @@ extends TestCase
     eClass1.setName("testEClass1");
     eAnnotation.getContents().add(eClass1);
     
-    List beforeChange = new ArrayList(eAnnotation.getContents());
+    List<EObject> beforeChange = new ArrayList<EObject>(eAnnotation.getContents());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(eAnnotation);
     eAnnotation.getContents().add(EcoreFactory.eINSTANCE.createEClass());
@@ -436,7 +428,7 @@ extends TestCase
     eAnnotation.getContents().remove(callSummarize?1:3);
     
     ChangeDescription changeDescription = changeRecorder.endRecording();   
-    List afterChange = new ArrayList(eAnnotation.getContents());
+    List<EObject> afterChange = new ArrayList<EObject>(eAnnotation.getContents());
     
     //current != before && current == after
     assertFalse(TestUtil.areEqual(beforeChange, eAnnotation.getContents()));
@@ -488,7 +480,7 @@ extends TestCase
   
   public void testResource()
   {
-    Resource resource = (Resource)resourceSet.getResources().get(0);
+    Resource resource = resourceSet.getResources().get(0);
     assertEquals(1, resource.getContents().size());
     EPackage ePackage = (EPackage)resource.getContents().get(0);
     
@@ -508,13 +500,12 @@ extends TestCase
     assertTrue(eClass0 != resource.getContents().get(1));
     
     assertEquals(1, changeDescription.getResourceChanges().size());
-    ResourceChange resourceChange = (ResourceChange)changeDescription.getResourceChanges().get(0);
+    ResourceChange resourceChange = changeDescription.getResourceChanges().get(0);
     assertEquals(3, resourceChange.getListChanges().size());
     
     int hasCorrectKinds = 0;
-    for (Iterator i = resourceChange.getListChanges().iterator(); i.hasNext();)
+    for (ListChange listChange : resourceChange.getListChanges())
     {
-      ListChange listChange = (ListChange)i.next();
       switch(listChange.getKind().getValue())
       {
         case ChangeKind.REMOVE:
@@ -558,7 +549,7 @@ extends TestCase
     assertEquals(previousSource, eAnnotation.getSource());    
   }
   
-  protected void applyCheck(ChangeDescription changeDescription, List beforeChange, boolean initialListAreDifferent)
+  protected void applyCheck(ChangeDescription changeDescription, List<EObject> beforeChange, boolean initialListAreDifferent)
   {
     if (initialListAreDifferent)
     {
@@ -620,7 +611,9 @@ extends TestCase
     mary.eSet(name, "Mary");
     EObject peter = pack.getEFactoryInstance().create(person);
     peter.eSet(name, "Peter");
-    ((List)john.eGet(friendsReference)).add(peter);
+    @SuppressWarnings("unchecked")
+    List<EObject> friendsOfJohn = ((List<EObject>)john.eGet(friendsReference));
+    friendsOfJohn.add(peter);
     
     Resource resource = new ResourceImpl();
     resource.getContents().add(john);
@@ -630,14 +623,14 @@ extends TestCase
     assertNull(john.eGet(name));
     assertEquals("123", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(peter, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(peter, friendsOfJohn.get(0));
     
     ChangeRecorder changeRecorder = new ChangeRecorder(john);
     john.eSet(name, "John");
     john.eSet(id, "456");
-    ((List)john.eGet(friendsReference)).add(mary);
-    ((List)john.eGet(friendsReference)).remove(peter);
+    friendsOfJohn.add(mary);
+    friendsOfJohn.remove(peter);
     ChangeDescription changeDescription = callSummarize ? changeRecorder.endRecording() : changeRecorder.summarize();
 
     // State 1
@@ -646,8 +639,8 @@ extends TestCase
     assertEquals("John", john.eGet(name));
     assertEquals("456", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(mary, friendsOfJohn.get(0));
     assertEquals(1, changeDescription.getObjectsToDetach().size());
     assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
     
@@ -657,7 +650,7 @@ extends TestCase
     john.eSet(id, "789");
     EObject joe = pack.getEFactoryInstance().create(person);
     joe.eSet(name, "Joe");
-    ((List)john.eGet(friendsReference)).add(joe);
+    friendsOfJohn.add(joe);
     if (callSummarize) changeRecorder.summarize(); else changeRecorder.endRecording();
     
     // State 2
@@ -667,9 +660,9 @@ extends TestCase
     assertEquals("789", john.eGet(id));
     assertEquals("Mary P", mary.eGet(name));
     assertEquals("Joe", joe.eGet(name));
-    assertEquals(2, ((List)john.eGet(friendsReference)).size());
-    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
-    assertEquals(joe, ((List)john.eGet(friendsReference)).get(1));
+    assertEquals(2, friendsOfJohn.size());
+    assertEquals(mary, friendsOfJohn.get(0));
+    assertEquals(joe, friendsOfJohn.get(1));
     assertEquals(2, changeDescription.getObjectsToDetach().size());
     assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
     assertEquals(joe, changeDescription.getObjectsToDetach().get(1));
@@ -682,8 +675,8 @@ extends TestCase
     assertNull(john.eGet(name));
     assertEquals("123", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(peter, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(peter, friendsOfJohn.get(0));
     assertEquals(1, changeDescription.getObjectsToDetach().size());
     assertEquals(peter, changeDescription.getObjectsToDetach().get(0));
     
@@ -696,9 +689,9 @@ extends TestCase
     assertEquals("789", john.eGet(id));
     assertEquals("Mary P", mary.eGet(name));
     assertEquals("Joe", joe.eGet(name));
-    assertEquals(2, ((List)john.eGet(friendsReference)).size());
-    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
-    assertEquals(joe, ((List)john.eGet(friendsReference)).get(1));
+    assertEquals(2, friendsOfJohn.size());
+    assertEquals(mary, friendsOfJohn.get(0));
+    assertEquals(joe, friendsOfJohn.get(1));
     assertEquals(2, changeDescription.getObjectsToDetach().size());
     assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
     assertEquals(joe, changeDescription.getObjectsToDetach().get(1));
@@ -708,10 +701,10 @@ extends TestCase
     john.eSet(id, "0");
     EObject jane = pack.getEFactoryInstance().create(person);
     jane.eSet(name, "Jane");
-    ((List)john.eGet(friendsReference)).add(jane);
+    friendsOfJohn.add(jane);
     // Mary was added when recording, so now she will be removed from the ChangeDescription completely
-    ((List)john.eGet(friendsReference)).remove(mary);
-    ((List)john.eGet(friendsReference)).remove(joe);
+    friendsOfJohn.remove(mary);
+    friendsOfJohn.remove(joe);
     resource.getContents().remove(0);
     if (callSummarize) changeRecorder.summarize(); else changeRecorder.endRecording();
     
@@ -722,8 +715,8 @@ extends TestCase
     assertEquals("Mary Po", mary.eGet(name));
     assertEquals("Joe", joe.eGet(name));
     assertEquals("Jane", jane.eGet(name));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(jane, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(jane, friendsOfJohn.get(0));
     assertEquals(1, changeDescription.getObjectsToDetach().size());
     assertEquals(jane, changeDescription.getObjectsToDetach().get(0));
     
@@ -734,8 +727,8 @@ extends TestCase
     assertEquals(john, resource.getContents().get(0));
     assertNull(john.eGet(name));
     assertEquals("123", john.eGet(id));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(peter, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(peter, friendsOfJohn.get(0));
     assertEquals("Mary Po", mary.eGet(name));
 
     changeDescription.apply();
@@ -746,17 +739,17 @@ extends TestCase
     assertEquals("0", john.eGet(id));
     assertEquals("Joe", joe.eGet(name));
     assertEquals("Jane", jane.eGet(name));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(jane, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(jane, friendsOfJohn.get(0));
     assertEquals("Mary Po", mary.eGet(name));
 
     changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{john, mary}));
     mary.eSet(name, "Mary Pop");
     john.eSet(id, "1");
     jane.eSet(id, "2");
-    ((List)john.eGet(friendsReference)).set(0, joe);
+    friendsOfJohn.set(0, joe);
     joe.eSet(id, "123");
-    ((List)john.eGet(friendsReference)).add(jane);
+    friendsOfJohn.add(jane);
     resource.getContents().add(mary);
     if (callSummarize) changeRecorder.summarize(); else changeRecorder.endRecording();
     
@@ -770,9 +763,9 @@ extends TestCase
     assertEquals("123", joe.eGet(id));
     assertEquals("Jane", jane.eGet(name));
     assertEquals("2", jane.eGet(id));
-    assertEquals(2, ((List)john.eGet(friendsReference)).size());
-    assertEquals(joe, ((List)john.eGet(friendsReference)).get(0));
-    assertEquals(jane, ((List)john.eGet(friendsReference)).get(1));
+    assertEquals(2, friendsOfJohn.size());
+    assertEquals(joe, friendsOfJohn.get(0));
+    assertEquals(jane, friendsOfJohn.get(1));
     
     changeDescription.applyAndReverse();   
     
@@ -783,8 +776,8 @@ extends TestCase
     assertEquals("Mary Po", mary.eGet(name));
     assertEquals("Joe", joe.eGet(name));
     assertEquals("Jane", jane.eGet(name));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(jane, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(jane, friendsOfJohn.get(0));
   }
   
   /*
@@ -819,6 +812,8 @@ extends TestCase
     
     EObject john = pack.getEFactoryInstance().create(person);
     john.eSet(id, "123");
+    @SuppressWarnings("unchecked")
+    List<EObject> friendsOfJohn = ((List<EObject>)john.eGet(friendsReference));
     EObject mary = pack.getEFactoryInstance().create(person);
     mary.eSet(name, "Mary");
 
@@ -833,12 +828,12 @@ extends TestCase
     assertNull(john.eGet(name));
     assertEquals("123", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertTrue(((List)john.eGet(friendsReference)).isEmpty());
+    assertTrue(friendsOfJohn.isEmpty());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(john);
     john.eSet(name, "John");
     john.eSet(id, "456");
-    ((List)john.eGet(friendsReference)).add(mary);
+    friendsOfJohn.add(mary);
     ChangeDescription changeDescription = callSummarize ? changeRecorder.endRecording() : changeRecorder.summarize();
     
     XMLResource changeDescriptionResource = new XMLResourceImpl(changeDescriptionURI);
@@ -850,8 +845,8 @@ extends TestCase
     assertEquals("John", john.eGet(name));
     assertEquals("456", john.eGet(id));
     assertEquals("Mary", mary.eGet(name));
-    assertEquals(1, ((List)john.eGet(friendsReference)).size());
-    assertEquals(mary, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfJohn.size());
+    assertEquals(mary, friendsOfJohn.get(0));
 
     johnResource.save(null);
     changeDescriptionResource.save(null);
@@ -861,8 +856,10 @@ extends TestCase
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
     
     Resource loadedJohnResource = resourceSet.getResource(johnURI, true);
-    EObject loadedJohn = (EObject)loadedJohnResource.getContents().get(0);
-    EObject loadedMary = (EObject)((List)loadedJohn.eGet(friendsReference)).get(0);
+    EObject loadedJohn = loadedJohnResource.getContents().get(0);
+    @SuppressWarnings("unchecked")
+    List<EObject> friendsOfLoadedJohn = ((List<EObject>)loadedJohn.eGet(friendsReference));
+    EObject loadedMary = friendsOfLoadedJohn.get(0);
     Resource loadedChangeDescriptionResource = resourceSet.getResource(changeDescriptionURI, true);
     ChangeDescription loadedChangeDescription = (ChangeDescription)loadedChangeDescriptionResource.getContents().get(0);
     
@@ -872,8 +869,8 @@ extends TestCase
     assertEquals("John", loadedJohn.eGet(name));
     assertEquals("456", loadedJohn.eGet(id));
     assertEquals("Mary", loadedMary.eGet(name));
-    assertEquals(1, ((List)loadedJohn.eGet(friendsReference)).size());
-    assertEquals(loadedMary, ((List)loadedJohn.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfLoadedJohn.size());
+    assertEquals(loadedMary, friendsOfLoadedJohn.get(0));
     
     loadedChangeDescription.applyAndReverse();
     
@@ -882,14 +879,14 @@ extends TestCase
     assertNull(loadedJohn.eGet(name));
     assertEquals("123", loadedJohn.eGet(id));
     assertEquals("Mary", loadedMary.eGet(name));
-    assertTrue(((List)loadedJohn.eGet(friendsReference)).isEmpty());
+    assertTrue(friendsOfLoadedJohn.isEmpty());
     
     changeRecorder.beginRecording(loadedChangeDescription, Arrays.asList(new Object[]{loadedJohn, loadedMary}));
     loadedMary.eSet(name, "Mary P");
     loadedJohn.eSet(id, "789");
     EObject joe = pack.getEFactoryInstance().create(person);
     joe.eSet(name, "Joe");
-    ((List)loadedJohn.eGet(friendsReference)).add(joe);    
+    friendsOfLoadedJohn.add(joe);    
     if (callSummarize) changeRecorder.summarize(); else changeRecorder.endRecording();
     
     // State 2
@@ -899,8 +896,8 @@ extends TestCase
     assertEquals("789", loadedJohn.eGet(id));
     assertEquals("Mary P", loadedMary.eGet(name));
     assertEquals("Joe", joe.eGet(name));
-    assertEquals(1, ((List)loadedJohn.eGet(friendsReference)).size());
-    assertEquals(joe, ((List)loadedJohn.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfLoadedJohn.size());
+    assertEquals(joe, friendsOfLoadedJohn.get(0));
     
     loadedChangeDescription.applyAndReverse();
 
@@ -910,8 +907,8 @@ extends TestCase
     assertEquals("John", loadedJohn.eGet(name));
     assertEquals("456", loadedJohn.eGet(id));
     assertEquals("Mary", loadedMary.eGet(name));
-    assertEquals(1, ((List)loadedJohn.eGet(friendsReference)).size());
-    assertEquals(loadedMary, ((List)loadedJohn.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfLoadedJohn.size());
+    assertEquals(loadedMary, friendsOfLoadedJohn.get(0));
 
 
     EObject aVeryDifferentPerson = pack.getEFactoryInstance().create(person);
@@ -934,8 +931,8 @@ extends TestCase
     assertEquals("789", loadedJohn.eGet(id));
     assertEquals("Mary P", loadedMary.eGet(name));
     assertEquals("Joe", joe.eGet(name));
-    assertEquals(1, ((List)loadedJohn.eGet(friendsReference)).size());
-    assertEquals(joe, ((List)loadedJohn.eGet(friendsReference)).get(0));
+    assertEquals(1, friendsOfLoadedJohn.size());
+    assertEquals(joe, friendsOfLoadedJohn.get(0));
     
     File file = new File(johnURI.toFileString());
     file.delete();
@@ -1031,7 +1028,7 @@ extends TestCase
     EClass bClass = EcoreFactory.eINSTANCE.createEClass();
     resource2.getContents().add(bClass);
     
-    List list = new ArrayList();
+    List<Resource> list = new ArrayList<Resource>();
     list.add(resource1);
     list.add(resource2);
     
@@ -1077,7 +1074,8 @@ extends TestCase
     friends.setEType(person);
     
     EObject john = EcoreUtil.create(person);
-    List johnsFriends = (List)john.eGet(friends);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnsFriends = (List<EObject>)john.eGet(friends);
     assertTrue(johnsFriends.isEmpty());
     assertFalse(john.eIsSet(friends));
     
@@ -1149,11 +1147,11 @@ extends TestCase
         super(resourceSet);
       }
       
-      public List getOriginalTargetObjects()
+      public List<Notifier> getOriginalTargetObjects()
       {
         return originalTargetObjects;
       }
-    };
+    }
     
     MyChangeRecorder changeRecorder = new MyChangeRecorder(resourceSet);
     resource2 = resourceSet.createResource(resource2.getURI());

@@ -2,13 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerPackageImpl.java,v 1.3 2005/06/12 13:57:39 emerks Exp $
+ * $Id: CustomerPackageImpl.java,v 1.4 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
 import java.math.BigInteger;
-
-import org.eclipse.emf.common.util.AbstractEnumerator;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -21,8 +19,6 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 import org.eclipse.emf.test.models.customer.AddressType;
 import org.eclipse.emf.test.models.customer.CanadaAddr;
@@ -189,7 +185,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     isInited = true;
 
     // Initialize simple dependencies
-    XMLTypePackageImpl.init();
+    XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
     DbPackageImpl theDbPackage = (DbPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) instanceof DbPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) : DbPackage.eINSTANCE);
@@ -467,7 +463,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getDocumentRoot_Id()
+  public EAttribute getDocumentRoot_ID()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(4);
   }
@@ -641,7 +637,11 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
     canadaAddrEClass.getESuperTypes().add(this.getAddressType());
@@ -677,7 +677,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getDocumentRoot_Customers(), this.getCustomersType(), null, "customers", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-    initEAttribute(getDocumentRoot_Id(), theXMLTypePackage.getID(), "id", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getDocumentRoot_ID(), theXMLTypePackage.getID(), "iD", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(usAddrEClass, USAddr.class, "USAddr", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getUSAddr_Zip(), this.getZipUnion(), "zip", null, 1, 1, USAddr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -690,7 +690,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     addEEnumLiteral(usStateEEnum, USState.AR_LITERAL);
 
     // Initialize data types
-    initEDataType(usStateObjectEDataType, AbstractEnumerator.class, "USStateObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(usStateObjectEDataType, USState.class, "USStateObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
     initEDataType(zipCodesEDataType, BigInteger.class, "ZipCodes", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(zipUnionEDataType, Object.class, "ZipUnion", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
@@ -907,7 +907,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        "namespace", "##targetNamespace"
        });		
     addAnnotation
-      (getDocumentRoot_Id(), 
+      (getDocumentRoot_ID(), 
        source, 
        new String[] 
        {

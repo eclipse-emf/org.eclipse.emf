@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SupplierAdapterFactory.java,v 1.1 2004/08/20 22:47:32 marcelop Exp $
+ * $Id: SupplierAdapterFactory.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier.util;
 
@@ -55,6 +55,7 @@ public class SupplierAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,18 +75,21 @@ public class SupplierAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected SupplierSwitch modelSwitch =
-    new SupplierSwitch()
+  protected SupplierSwitch<Adapter> modelSwitch =
+    new SupplierSwitch<Adapter>()
     {
-      public Object casePurchaseOrder(PurchaseOrder object)
+      @Override
+      public Adapter casePurchaseOrder(PurchaseOrder object)
       {
         return createPurchaseOrderAdapter();
       }
-      public Object caseSupplier(Supplier object)
+      @Override
+      public Adapter caseSupplier(Supplier object)
       {
         return createSupplierAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -99,9 +103,10 @@ public class SupplierAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

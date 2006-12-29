@@ -53,22 +53,21 @@ public class ECollectionsTest extends TestCase
 
   public void testSortEList()
   {
-    Comparator comparator = new Comparator()
+    Comparator<String> comparator = new Comparator<String>()
     {
-      public int compare(Object o1,Object o2)
+      public int compare(String c1, String c2)
       {
-        Comparable c1 = (Comparable)o1;
-        Comparable c2 = (Comparable)o2;
         return -1 * c1.compareTo(c2);
       }
       
+      @Override
       public boolean equals(Object obj)
       {
         return obj == this;
       }
     };
     
-    List initialList = new ArrayList();
+    List<String> initialList = new ArrayList<String>();
     initialList.add("k");
     initialList.add("a");
     initialList.add("f");
@@ -76,40 +75,40 @@ public class ECollectionsTest extends TestCase
     initialList.add("z");
     initialList.add("a");
     initialList.add("b");
-    List sortedList = new ArrayList(initialList);
+    List<String> sortedList = new ArrayList<String>(initialList);
     Collections.sort(sortedList);
     
-    EList eList = new BasicEList(initialList);
+    EList<String> eList = new BasicEList<String>(initialList);
     assertTrue(TestUtil.areEqual(initialList, eList));
     ECollections.sort(eList);
     assertTrue(TestUtil.areEqual(sortedList, eList));
         
-    sortedList = new ArrayList(initialList);
+    sortedList = new ArrayList<String>(initialList);
     Collections.sort(sortedList, comparator);
     
-    eList = new BasicEList(initialList);
+    eList = new BasicEList<String>(initialList);
     assertTrue(TestUtil.areEqual(initialList, eList));
     ECollections.sort(eList, comparator);
     assertTrue(TestUtil.areEqual(sortedList, eList));    
 
-    initialList = new ArrayList();
+    initialList = new ArrayList<String>();
     initialList.add("k");
     initialList.add("f");
     initialList.add("b");
     initialList.add("z");
     initialList.add("a");
-    sortedList = new ArrayList(initialList);
+    sortedList = new ArrayList<String>(initialList);
     Collections.sort(sortedList);
     
-    eList = new UniqueEList(initialList);
+    eList = new UniqueEList<String>(initialList);
     assertTrue(TestUtil.areEqual(initialList, eList));
     ECollections.sort(eList);
     assertTrue(TestUtil.areEqual(sortedList, eList));
 
-    sortedList = new ArrayList(initialList);
+    sortedList = new ArrayList<String>(initialList);
     Collections.sort(sortedList, comparator);
     
-    eList = new BasicEList(initialList);
+    eList = new BasicEList<String>(initialList);
     assertTrue(TestUtil.areEqual(initialList, eList));
     ECollections.sort(eList, comparator);
     assertTrue(TestUtil.areEqual(sortedList, eList));    
@@ -117,7 +116,7 @@ public class ECollectionsTest extends TestCase
   
   public void testIndexOf1()
   {
-    EList eList = new BasicEList();
+    EList<String> eList = new BasicEList<String>();
     eList.add("k");
     eList.add("a");
     eList.add("f");
@@ -139,7 +138,7 @@ public class ECollectionsTest extends TestCase
     assertEquals(6, ECollections.indexOf(eList, "a", 3));
     assertEquals(7, ECollections.indexOf(eList, "b", 5));
     
-    eList = new UniqueEList();
+    eList = new UniqueEList<String>();
     eList.add("k");
     eList.add("a");
     eList.add("f");
@@ -164,19 +163,19 @@ public class ECollectionsTest extends TestCase
   
   public void testIndexOf2()
   {
-    assertIndexOf(populateList(new ArrayList()));
-    assertIndexOf(populateList(new LinkedList()));
-    assertIndexOf(populateList(new BasicEList()));
+    assertIndexOf(populateList(new ArrayList<Object>()));
+    assertIndexOf(populateList(new LinkedList<Object>()));
+    assertIndexOf(populateList(new BasicEList<Object>()));
   }
   
   public void testSetEList()
   {
-    assertSetEList(populateList(new ArrayList()));
-    assertSetEList(populateList(new LinkedList()));
-    assertSetEList(populateList(new UniqueEList()));
+    assertSetEList(populateList(new ArrayList<Object>()));
+    assertSetEList(populateList(new LinkedList<Object>()));
+    assertSetEList(populateList(new UniqueEList<Object>()));
   }  
   
-  protected List populateList(List list)
+  protected List<Object> populateList(List<Object> list)
   {
     list.add(null);            //0
     list.add(Boolean.FALSE);   //1
@@ -191,7 +190,7 @@ public class ECollectionsTest extends TestCase
     return list;
   }
   
-  protected void assertIndexOf(List list)
+  protected void assertIndexOf(List<?> list)
   {
     assertEquals(0, ECollections.indexOf(list, null, 0));
     assertEquals(4, ECollections.indexOf(list, null, 1));
@@ -212,19 +211,19 @@ public class ECollectionsTest extends TestCase
     assertEquals(-1, ECollections.indexOf(list, "String", 1000));
   }
     
-  protected void assertSetEList(List prototypeList)
+  protected void assertSetEList(List<?> prototypeList)
   {
-    EList eList = new BasicEList();
+    EList<Object> eList = new BasicEList<Object>();
     ECollections.setEList(eList, prototypeList);
     assertTrue("Empty list test", TestUtil.areEqual(prototypeList, eList));
     
-    eList = new BasicEList();
+    eList = new BasicEList<Object>();
     eList.add(0, "String");
     eList.add(Boolean.FALSE);
     ECollections.setEList(eList, prototypeList);
     assertTrue("Smaller list test", TestUtil.areEqual(prototypeList, eList));
     
-    eList = (EList)populateList(new BasicEList());
+    eList = (EList<Object>)populateList(new BasicEList<Object>());
     ECollections.setEList(eList, prototypeList);
     assertTrue("Same list test", TestUtil.areEqual(prototypeList, eList));
 
@@ -246,14 +245,14 @@ public class ECollectionsTest extends TestCase
    */
   public void testMoveIntInt() throws Exception
   {
-    EList originalList = new BasicEList();
+    EList<Object> originalList = new BasicEList<Object>();
     originalList.add("pos0");
     originalList.add("pos1");
     originalList.add(new Integer(2));
     originalList.add("pos3");
     
-    EList eList = new BasicEList(originalList);
-    List list = new ArrayList(originalList);
+    EList<Object> eList = new BasicEList<Object>(originalList);
+    List<Object> list = new ArrayList<Object>(originalList);
     
     int target = 2, source = 3;
     originalList.move(target, source);
@@ -289,14 +288,14 @@ public class ECollectionsTest extends TestCase
    */
   public void testMoveIntObject() throws Exception
   {
-    EList originalList = new BasicEList();
+    EList<Object> originalList = new BasicEList<Object>();
     originalList.add("pos0");
     originalList.add("pos1");
     originalList.add(new Integer(2));
     originalList.add("pos3");
     
-    EList eList = new BasicEList(originalList);
-    List list = new ArrayList(originalList);
+    EList<Object> eList = new BasicEList<Object>(originalList);
+    List<Object> list = new ArrayList<Object>(originalList);
     
     int target = 2; Object object = originalList.get(3);
     originalList.move(target, object);

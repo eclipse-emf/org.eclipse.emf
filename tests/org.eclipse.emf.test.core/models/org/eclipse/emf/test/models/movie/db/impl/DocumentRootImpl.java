@@ -2,11 +2,9 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DocumentRootImpl.java,v 1.2 2005/02/22 23:08:12 marcelop Exp $
+ * $Id: DocumentRootImpl.java,v 1.3 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
-
-import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -74,7 +72,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected EMap xMLNSPrefixMap = null;
+  protected EMap<String, String> xMLNSPrefixMap = null;
 
   /**
    * The cached value of the '{@link #getXSISchemaLocation() <em>XSI Schema Location</em>}' map.
@@ -84,7 +82,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected EMap xSISchemaLocation = null;
+  protected EMap<String, String> xSISchemaLocation = null;
 
   /**
    * The default value of the '{@link #getLanguage() <em>Language</em>}' attribute.
@@ -121,9 +119,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return DbPackage.eINSTANCE.getDocumentRoot();
+    return DbPackage.Literals.DOCUMENT_ROOT;
   }
 
   /**
@@ -145,11 +144,11 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getXMLNSPrefixMap()
+  public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
     {
-      xMLNSPrefixMap = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, DbPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
+      xMLNSPrefixMap = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, DbPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
     }
     return xMLNSPrefixMap;
   }
@@ -159,11 +158,11 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getXSISchemaLocation()
+  public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)
     {
-      xSISchemaLocation = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, DbPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
+      xSISchemaLocation = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, DbPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
     }
     return xSISchemaLocation;
   }
@@ -176,7 +175,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
   public CustomerType getCheckedOutBy()
   {
     CustomerType checkedOutBy = basicGetCheckedOutBy();
-    return checkedOutBy == null ? null : (CustomerType)eResolveProxy((InternalEObject)checkedOutBy);
+    return checkedOutBy != null && checkedOutBy.eIsProxy() ? (CustomerType)eResolveProxy((InternalEObject)checkedOutBy) : checkedOutBy;
   }
 
   /**
@@ -186,7 +185,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public CustomerType basicGetCheckedOutBy()
   {
-    return (CustomerType)getMixed().get(DbPackage.eINSTANCE.getDocumentRoot_CheckedOutBy(), false);
+    return (CustomerType)getMixed().get(DbPackage.Literals.DOCUMENT_ROOT__CHECKED_OUT_BY, false);
   }
 
   /**
@@ -196,7 +195,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public void setCheckedOutBy(CustomerType newCheckedOutBy)
   {
-    ((FeatureMap.Internal)getMixed()).set(DbPackage.eINSTANCE.getDocumentRoot_CheckedOutBy(), newCheckedOutBy);
+    ((FeatureMap.Internal)getMixed()).set(DbPackage.Literals.DOCUMENT_ROOT__CHECKED_OUT_BY, newCheckedOutBy);
   }
 
   /**
@@ -206,7 +205,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public CriticsReviewType getCriticsReview()
   {
-    return (CriticsReviewType)getMixed().get(DbPackage.eINSTANCE.getDocumentRoot_CriticsReview(), true);
+    return (CriticsReviewType)getMixed().get(DbPackage.Literals.DOCUMENT_ROOT__CRITICS_REVIEW, true);
   }
 
   /**
@@ -216,7 +215,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public NotificationChain basicSetCriticsReview(CriticsReviewType newCriticsReview, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.eINSTANCE.getDocumentRoot_CriticsReview(), newCriticsReview, msgs);
+    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.Literals.DOCUMENT_ROOT__CRITICS_REVIEW, newCriticsReview, msgs);
   }
 
   /**
@@ -226,7 +225,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public void setCriticsReview(CriticsReviewType newCriticsReview)
   {
-    ((FeatureMap.Internal)getMixed()).set(DbPackage.eINSTANCE.getDocumentRoot_CriticsReview(), newCriticsReview);
+    ((FeatureMap.Internal)getMixed()).set(DbPackage.Literals.DOCUMENT_ROOT__CRITICS_REVIEW, newCriticsReview);
   }
 
   /**
@@ -236,7 +235,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public CustomerReviewType getCustomerReview()
   {
-    return (CustomerReviewType)getMixed().get(DbPackage.eINSTANCE.getDocumentRoot_CustomerReview(), true);
+    return (CustomerReviewType)getMixed().get(DbPackage.Literals.DOCUMENT_ROOT__CUSTOMER_REVIEW, true);
   }
 
   /**
@@ -246,7 +245,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public NotificationChain basicSetCustomerReview(CustomerReviewType newCustomerReview, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.eINSTANCE.getDocumentRoot_CustomerReview(), newCustomerReview, msgs);
+    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.Literals.DOCUMENT_ROOT__CUSTOMER_REVIEW, newCustomerReview, msgs);
   }
 
   /**
@@ -256,7 +255,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public void setCustomerReview(CustomerReviewType newCustomerReview)
   {
-    ((FeatureMap.Internal)getMixed()).set(DbPackage.eINSTANCE.getDocumentRoot_CustomerReview(), newCustomerReview);
+    ((FeatureMap.Internal)getMixed()).set(DbPackage.Literals.DOCUMENT_ROOT__CUSTOMER_REVIEW, newCustomerReview);
   }
 
   /**
@@ -266,7 +265,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public String getLanguage()
   {
-    return (String)getMixed().get(DbPackage.eINSTANCE.getDocumentRoot_Language(), true);
+    return (String)getMixed().get(DbPackage.Literals.DOCUMENT_ROOT__LANGUAGE, true);
   }
 
   /**
@@ -276,7 +275,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public void setLanguage(String newLanguage)
   {
-    ((FeatureMap.Internal)getMixed()).set(DbPackage.eINSTANCE.getDocumentRoot_Language(), newLanguage);
+    ((FeatureMap.Internal)getMixed()).set(DbPackage.Literals.DOCUMENT_ROOT__LANGUAGE, newLanguage);
   }
 
   /**
@@ -286,7 +285,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public MovieDBType getMovieDB()
   {
-    return (MovieDBType)getMixed().get(DbPackage.eINSTANCE.getDocumentRoot_MovieDB(), true);
+    return (MovieDBType)getMixed().get(DbPackage.Literals.DOCUMENT_ROOT__MOVIE_DB, true);
   }
 
   /**
@@ -296,7 +295,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public NotificationChain basicSetMovieDB(MovieDBType newMovieDB, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.eINSTANCE.getDocumentRoot_MovieDB(), newMovieDB, msgs);
+    return ((FeatureMap.Internal)getMixed()).basicAdd(DbPackage.Literals.DOCUMENT_ROOT__MOVIE_DB, newMovieDB, msgs);
   }
 
   /**
@@ -306,7 +305,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public void setMovieDB(MovieDBType newMovieDB)
   {
-    ((FeatureMap.Internal)getMixed()).set(DbPackage.eINSTANCE.getDocumentRoot_MovieDB(), newMovieDB);
+    ((FeatureMap.Internal)getMixed()).set(DbPackage.Literals.DOCUMENT_ROOT__MOVIE_DB, newMovieDB);
   }
 
   /**
@@ -316,7 +315,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public String getSpecialFeatures()
   {
-    return (String)getMixed().get(DbPackage.eINSTANCE.getDocumentRoot_SpecialFeatures(), true);
+    return (String)getMixed().get(DbPackage.Literals.DOCUMENT_ROOT__SPECIAL_FEATURES, true);
   }
 
   /**
@@ -326,7 +325,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public void setSpecialFeatures(String newSpecialFeatures)
   {
-    ((FeatureMap.Internal)getMixed()).set(DbPackage.eINSTANCE.getDocumentRoot_SpecialFeatures(), newSpecialFeatures);
+    ((FeatureMap.Internal)getMixed()).set(DbPackage.Literals.DOCUMENT_ROOT__SPECIAL_FEATURES, newSpecialFeatures);
   }
 
   /**
@@ -334,46 +333,46 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case DbPackage.DOCUMENT_ROOT__MIXED:
-          return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
-        case DbPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-          return ((InternalEList)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
-        case DbPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-          return ((InternalEList)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
-        case DbPackage.DOCUMENT_ROOT__CRITICS_REVIEW:
-          return basicSetCriticsReview(null, msgs);
-        case DbPackage.DOCUMENT_ROOT__CUSTOMER_REVIEW:
-          return basicSetCustomerReview(null, msgs);
-        case DbPackage.DOCUMENT_ROOT__MOVIE_DB:
-          return basicSetMovieDB(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.DOCUMENT_ROOT__MIXED:
-        return getMixed();
+        return ((InternalEList<?>)getMixed()).basicRemove(otherEnd, msgs);
       case DbPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        return getXMLNSPrefixMap();
+        return ((InternalEList<?>)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
       case DbPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        return getXSISchemaLocation();
+        return ((InternalEList<?>)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
+      case DbPackage.DOCUMENT_ROOT__CRITICS_REVIEW:
+        return basicSetCriticsReview(null, msgs);
+      case DbPackage.DOCUMENT_ROOT__CUSTOMER_REVIEW:
+        return basicSetCustomerReview(null, msgs);
+      case DbPackage.DOCUMENT_ROOT__MOVIE_DB:
+        return basicSetMovieDB(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case DbPackage.DOCUMENT_ROOT__MIXED:
+        if (coreType) return getMixed();
+        return ((FeatureMap.Internal)getMixed()).getWrapper();
+      case DbPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        if (coreType) return getXMLNSPrefixMap();
+        else return getXMLNSPrefixMap().map();
+      case DbPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        if (coreType) return getXSISchemaLocation();
+        else return getXSISchemaLocation().map();
       case DbPackage.DOCUMENT_ROOT__CHECKED_OUT_BY:
         if (resolve) return getCheckedOutBy();
         return basicGetCheckedOutBy();
@@ -388,7 +387,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
       case DbPackage.DOCUMENT_ROOT__SPECIAL_FEATURES:
         return getSpecialFeatures();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -396,21 +395,19 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.DOCUMENT_ROOT__MIXED:
-        getMixed().clear();
-        getMixed().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getMixed()).set(newValue);
         return;
       case DbPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        getXMLNSPrefixMap().clear();
-        getXMLNSPrefixMap().addAll((Collection)newValue);
+        ((EStructuralFeature.Setting)getXMLNSPrefixMap()).set(newValue);
         return;
       case DbPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        getXSISchemaLocation().clear();
-        getXSISchemaLocation().addAll((Collection)newValue);
+        ((EStructuralFeature.Setting)getXSISchemaLocation()).set(newValue);
         return;
       case DbPackage.DOCUMENT_ROOT__CHECKED_OUT_BY:
         setCheckedOutBy((CustomerType)newValue);
@@ -431,7 +428,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         setSpecialFeatures((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -439,9 +436,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.DOCUMENT_ROOT__MIXED:
         getMixed().clear();
@@ -471,7 +469,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         setSpecialFeatures(SPECIAL_FEATURES_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -479,9 +477,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.DOCUMENT_ROOT__MIXED:
         return mixed != null && !mixed.isEmpty();
@@ -502,7 +501,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
       case DbPackage.DOCUMENT_ROOT__SPECIAL_FEATURES:
         return SPECIAL_FEATURES_EDEFAULT == null ? getSpecialFeatures() != null : !SPECIAL_FEATURES_EDEFAULT.equals(getSpecialFeatures());
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -510,6 +509,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

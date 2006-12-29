@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerType.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomerType.java,v 1.2 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -68,7 +68,7 @@ public interface CustomerType extends EObject
    * @return the value of the '<em>Address</em>' containment reference.
    * @see #setAddress(AddressType)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType_Address()
-   * @model containment="true" resolveProxies="false" required="true"
+   * @model containment="true" required="true"
    *        extendedMetaData="kind='element' name='address'"
    * @generated
    */
@@ -95,7 +95,7 @@ public interface CustomerType extends EObject
    * @return the value of the '<em>Credit Card</em>' containment reference.
    * @see #setCreditCard(CreditInfo)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType_CreditCard()
-   * @model containment="true" resolveProxies="false" required="true"
+   * @model containment="true" required="true"
    *        extendedMetaData="kind='element' name='creditCard'"
    * @generated
    */

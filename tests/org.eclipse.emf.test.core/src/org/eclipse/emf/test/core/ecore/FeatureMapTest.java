@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapTest.java,v 1.4 2006/02/10 17:54:04 marcelop Exp $
+ * $Id: FeatureMapTest.java,v 1.5 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,8 +108,10 @@ public class FeatureMapTest extends TestCase
     assertFalse(FeatureMapUtil.isFeatureMap(standardAtt));
        
     EObject eObject = myPack.getEFactoryInstance().create(employeeClass);
-    List preferredList = (List)eObject.eGet(preferredAtt);
-    List standardList = (List)eObject.eGet(standardAtt);  
+    @SuppressWarnings("unchecked")
+    List<String> preferredList = (List<String>)eObject.eGet(preferredAtt);
+    @SuppressWarnings("unchecked")
+    List<String> standardList = (List<String>)eObject.eGet(standardAtt);  
     
     preferredList.add("String1");
     preferredList.add("String2");
@@ -181,8 +182,10 @@ public class FeatureMapTest extends TestCase
     ExtendedMetaData.INSTANCE.setGroup(standardRef, ordersAttr);
     
     EObject eObject = myPack.getEFactoryInstance().create(employeeClass);
-    List preferredList = (List)eObject.eGet(preferredRef);
-    List standardList = (List)eObject.eGet(standardRef);  
+    @SuppressWarnings("unchecked")
+    List<EObject> preferredList = (List<EObject>)eObject.eGet(preferredRef);
+    @SuppressWarnings("unchecked")
+    List<EObject> standardList = (List<EObject>)eObject.eGet(standardRef);  
 
     EObject order1 = myPack.getEFactoryInstance().create(orderClass);
     EObject order2 = myPack.getEFactoryInstance().create(orderClass);
@@ -289,23 +292,23 @@ public class FeatureMapTest extends TestCase
 
     FeatureMap thingsFeatureMap = (FeatureMap)john.eGet(things);
     
-    final List referenceNotificationCount = new ArrayList();
-    final List attributeNotificationCount = new ArrayList();
-    final Map referenceByValueMap = new LinkedHashMap();    
+    final List<Adapter> referenceNotificationCount = new ArrayList<Adapter>();
+    final List<Adapter> attributeNotificationCount = new ArrayList<Adapter>();
+    final Map<EObject, EReference> referenceByValueMap = new LinkedHashMap<EObject, EReference>();    
     if (withNotification)
     {
       final FeatureMap theFeatureMap = thingsFeatureMap;
       Adapter adapter = new AdapterImpl()
         {
+          @Override
           public void notifyChanged(Notification msg)
           {
             assertEquals(referenceByValueMap.size(), theFeatureMap.size());              
 
             int valueCount = 0;
             int index=0;
-            for (Iterator i = referenceByValueMap.entrySet().iterator(); i.hasNext();)
+            for (Map.Entry<?, ?> entry  : referenceByValueMap.entrySet())
             {
-              Map.Entry entry = (Map.Entry)i.next();
               assertEquals(entry.getValue(), theFeatureMap.getEStructuralFeature(index));
               assertEquals(entry.getKey(), theFeatureMap.getValue(index));
 
@@ -335,11 +338,15 @@ public class FeatureMapTest extends TestCase
     }
     
     if (withNotification) referenceByValueMap.put(house1, houses);  
-    ((List)john.eGet(houses)).add(house1);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnHouses = ((List<EObject>)john.eGet(houses));
+    johnHouses.add(house1);
     if (withNotification) assertEquals(1, referenceNotificationCount.size());
     if (withNotification) assertEquals(1, attributeNotificationCount.size());
     if (withNotification) referenceByValueMap.put(car1, cars);
-    ((List)john.eGet(cars)).add(car1);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnCars = ((List<EObject>)john.eGet(cars));
+    johnCars.add(car1);
     if (withNotification) assertEquals(2, referenceNotificationCount.size());
     if (withNotification) assertEquals(2, attributeNotificationCount.size());
         

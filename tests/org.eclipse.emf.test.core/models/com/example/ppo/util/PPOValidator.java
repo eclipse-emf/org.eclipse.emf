@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PPOValidator.java,v 1.2 2005/06/12 13:52:15 emerks Exp $
+ * $Id: PPOValidator.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package com.example.ppo.util;
 
@@ -49,7 +49,7 @@ public class PPOValidator extends EObjectValidator
   public static final String DIAGNOSTIC_SOURCE = "com.example.ppo";
 
   /**
-   * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'has US State' of 'US Address'.
+   * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Has US State' of 'US Address'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -89,6 +89,7 @@ public class PPOValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EPackage getEPackage()
   {
     return PPOPackage.eINSTANCE;
@@ -100,7 +101,8 @@ public class PPOValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map context)
+  @Override
+  protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     switch (classifierID)
     {
@@ -124,12 +126,15 @@ public class PPOValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateItem(Item item, DiagnosticChain diagnostics, Map context)
+  public boolean validateItem(Item item, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validate_EveryMultiplicityConforms(item, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(item, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(item, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(item, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_UniqueID(item, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryKeyUnique(item, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(item, diagnostics, context);
     if (result || diagnostics != null) result &= validateItem_NonNegativeQuantity(item, diagnostics, context);
     if (result || diagnostics != null) result &= validateItem_ValidShipDate(item, diagnostics, context);
     return result;
@@ -141,7 +146,7 @@ public class PPOValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public boolean validateItem_NonNegativeQuantity(Item item, DiagnosticChain diagnostics, Map context)
+  public boolean validateItem_NonNegativeQuantity(Item item, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     if (item.getQuantity() < 0)
     {
@@ -166,7 +171,7 @@ public class PPOValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public boolean validateItem_ValidShipDate(Item item, DiagnosticChain diagnostics, Map context)
+  public boolean validateItem_ValidShipDate(Item item, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     if (item.eContainer() instanceof PurchaseOrder)
     {
@@ -196,12 +201,15 @@ public class PPOValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUSAddress(USAddress usAddress, DiagnosticChain diagnostics, Map context)
+  public boolean validateUSAddress(USAddress usAddress, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validate_EveryMultiplicityConforms(usAddress, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(usAddress, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(usAddress, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(usAddress, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_UniqueID(usAddress, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryKeyUnique(usAddress, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(usAddress, diagnostics, context);
     if (result || diagnostics != null) result &= validateUSAddress_hasUSState(usAddress, diagnostics, context);
     return result;
   }
@@ -212,7 +220,7 @@ public class PPOValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUSAddress_hasUSState(USAddress usAddress, DiagnosticChain diagnostics, Map context)
+  public boolean validateUSAddress_hasUSState(USAddress usAddress, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return usAddress.hasUSState(diagnostics, context);
   }
@@ -222,7 +230,7 @@ public class PPOValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validatePurchaseOrder(PurchaseOrder purchaseOrder, DiagnosticChain diagnostics, Map context)
+  public boolean validatePurchaseOrder(PurchaseOrder purchaseOrder, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(purchaseOrder, diagnostics, context);
   }
@@ -232,7 +240,7 @@ public class PPOValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateSKU(String sku, DiagnosticChain diagnostics, Map context)
+  public boolean validateSKU(String sku, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -242,7 +250,7 @@ public class PPOValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateDate(Date date, DiagnosticChain diagnostics, Map context)
+  public boolean validateDate(Date date, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }

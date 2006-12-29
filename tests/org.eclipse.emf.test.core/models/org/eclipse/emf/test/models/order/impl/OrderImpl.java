@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: OrderImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: OrderImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.order.impl;
 
@@ -11,8 +11,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -84,7 +82,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * @generated
    * @ordered
    */
-  protected static final List MOVIES_EDEFAULT = null;
+  protected static final List<String> MOVIES_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getMovies() <em>Movies</em>}' attribute.
@@ -94,7 +92,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * @generated
    * @ordered
    */
-  protected List movies = MOVIES_EDEFAULT;
+  protected List<String> movies = MOVIES_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -111,9 +109,10 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return OrderPackage.eINSTANCE.getOrder();
+    return OrderPackage.Literals.ORDER;
   }
 
   /**
@@ -167,7 +166,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getMovies()
+  public List<String> getMovies()
   {
     return movies;
   }
@@ -177,9 +176,9 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setMovies(List newMovies)
+  public void setMovies(List<String> newMovies)
   {
-    List oldMovies = movies;
+    List<String> oldMovies = movies;
     movies = newMovies;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, OrderPackage.ORDER__MOVIES, oldMovies, movies));
@@ -190,9 +189,10 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case OrderPackage.ORDER__DATE_REQUESTED:
         return getDateRequested();
@@ -201,7 +201,7 @@ public class OrderImpl extends EObjectImpl implements Order
       case OrderPackage.ORDER__MOVIES:
         return getMovies();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -209,21 +209,23 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case OrderPackage.ORDER__DATE_REQUESTED:
-        setDateRequested((Object)newValue);
+        setDateRequested(newValue);
         return;
       case OrderPackage.ORDER__LAST_UPDATED:
-        setLastUpdated((Object)newValue);
+        setLastUpdated(newValue);
         return;
       case OrderPackage.ORDER__MOVIES:
-        setMovies((List)newValue);
+        setMovies((List<String>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -231,9 +233,10 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case OrderPackage.ORDER__DATE_REQUESTED:
         setDateRequested(DATE_REQUESTED_EDEFAULT);
@@ -245,7 +248,7 @@ public class OrderImpl extends EObjectImpl implements Order
         setMovies(MOVIES_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -253,9 +256,10 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case OrderPackage.ORDER__DATE_REQUESTED:
         return DATE_REQUESTED_EDEFAULT == null ? dateRequested != null : !DATE_REQUESTED_EDEFAULT.equals(dateRequested);
@@ -264,7 +268,7 @@ public class OrderImpl extends EObjectImpl implements Order
       case OrderPackage.ORDER__MOVIES:
         return MOVIES_EDEFAULT == null ? movies != null : !MOVIES_EDEFAULT.equals(movies);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -272,6 +276,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

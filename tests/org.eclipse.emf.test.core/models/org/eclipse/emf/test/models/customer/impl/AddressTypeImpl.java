@@ -2,15 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: AddressTypeImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: AddressTypeImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -88,9 +86,10 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return CustomerPackage.eINSTANCE.getAddressType();
+    return CustomerPackage.Literals.ADDRESS_TYPE;
   }
 
   /**
@@ -144,16 +143,17 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.ADDRESS_TYPE__STREET:
         return getStreet();
       case CustomerPackage.ADDRESS_TYPE__TOWN:
         return getTown();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -161,9 +161,10 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.ADDRESS_TYPE__STREET:
         setStreet((String)newValue);
@@ -172,7 +173,7 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
         setTown((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -180,9 +181,10 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.ADDRESS_TYPE__STREET:
         setStreet(STREET_EDEFAULT);
@@ -191,7 +193,7 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
         setTown(TOWN_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -199,16 +201,17 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.ADDRESS_TYPE__STREET:
         return STREET_EDEFAULT == null ? street != null : !STREET_EDEFAULT.equals(street);
       case CustomerPackage.ADDRESS_TYPE__TOWN:
         return TOWN_EDEFAULT == null ? town != null : !TOWN_EDEFAULT.equals(town);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -216,6 +219,7 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

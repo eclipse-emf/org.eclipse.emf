@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibPackageImpl.java,v 1.1 2006/02/08 21:30:37 marcelop Exp $
+ * $Id: LibPackageImpl.java,v 1.2 2006/12/29 21:49:50 marcelop Exp $
  */
 package lib.impl;
 
@@ -370,6 +370,10 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
     setName(eNAME);
     setNsPrefix(eNS_PREFIX);
     setNsURI(eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
 

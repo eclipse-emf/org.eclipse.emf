@@ -2,17 +2,14 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerOrderImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomerOrderImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.order.impl;
-
-import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -109,9 +106,10 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return OrderPackage.eINSTANCE.getCustomerOrder();
+    return OrderPackage.Literals.CUSTOMER_ORDER;
   }
 
   /**
@@ -252,23 +250,19 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case OrderPackage.CUSTOMER_ORDER__MOVIES_TO_SEE:
-          return basicSetMoviesToSee(null, msgs);
-        case OrderPackage.CUSTOMER_ORDER__MOVIES_SEEN:
-          return basicSetMoviesSeen(null, msgs);
-        case OrderPackage.CUSTOMER_ORDER__ANY:
-          return ((InternalEList)getAny()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case OrderPackage.CUSTOMER_ORDER__MOVIES_TO_SEE:
+        return basicSetMoviesToSee(null, msgs);
+      case OrderPackage.CUSTOMER_ORDER__MOVIES_SEEN:
+        return basicSetMoviesSeen(null, msgs);
+      case OrderPackage.CUSTOMER_ORDER__ANY:
+        return ((InternalEList<?>)getAny()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -276,20 +270,22 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case OrderPackage.CUSTOMER_ORDER__MOVIES_TO_SEE:
         return getMoviesToSee();
       case OrderPackage.CUSTOMER_ORDER__MOVIES_SEEN:
         return getMoviesSeen();
       case OrderPackage.CUSTOMER_ORDER__ANY:
-        return getAny();
+        if (coreType) return getAny();
+        return ((FeatureMap.Internal)getAny()).getWrapper();
       case OrderPackage.CUSTOMER_ORDER__CUSTOMER_ID:
         return getCustomerID();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -297,9 +293,10 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case OrderPackage.CUSTOMER_ORDER__MOVIES_TO_SEE:
         setMoviesToSee((Order)newValue);
@@ -308,14 +305,13 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
         setMoviesSeen((Order)newValue);
         return;
       case OrderPackage.CUSTOMER_ORDER__ANY:
-        getAny().clear();
-        getAny().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getAny()).set(newValue);
         return;
       case OrderPackage.CUSTOMER_ORDER__CUSTOMER_ID:
         setCustomerID((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -323,9 +319,10 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case OrderPackage.CUSTOMER_ORDER__MOVIES_TO_SEE:
         setMoviesToSee((Order)null);
@@ -340,7 +337,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
         setCustomerID(CUSTOMER_ID_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -348,9 +345,10 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case OrderPackage.CUSTOMER_ORDER__MOVIES_TO_SEE:
         return moviesToSee != null;
@@ -361,7 +359,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
       case OrderPackage.CUSTOMER_ORDER__CUSTOMER_ID:
         return CUSTOMER_ID_EDEFAULT == null ? customerID != null : !CUSTOMER_ID_EDEFAULT.equals(customerID);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -369,6 +367,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

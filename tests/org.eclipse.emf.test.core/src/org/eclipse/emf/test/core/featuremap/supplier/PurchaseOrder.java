@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PurchaseOrder.java,v 1.1 2004/08/20 22:47:32 marcelop Exp $
+ * $Id: PurchaseOrder.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier;
 
@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getPurchaseOrder()
- * @model 
+ * @model extendedMetaData="name='PurchaseOrder' kind='elementOnly'"
  * @generated
  */
 public interface PurchaseOrder extends EObject
@@ -38,6 +38,7 @@ public interface PurchaseOrder extends EObject
    * @see #setId(String)
    * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getPurchaseOrder_Id()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='id'"
    * @generated
    */
   String getId();

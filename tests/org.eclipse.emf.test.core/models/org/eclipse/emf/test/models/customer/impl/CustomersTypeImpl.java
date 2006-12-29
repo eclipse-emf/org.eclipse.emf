@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomersTypeImpl.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
+ * $Id: CustomersTypeImpl.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
@@ -13,7 +13,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -23,6 +22,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.test.models.customer.CustomerPackage;
+import org.eclipse.emf.test.models.customer.CustomerType;
 import org.eclipse.emf.test.models.customer.CustomersType;
 
 /**
@@ -66,9 +66,10 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return CustomerPackage.eINSTANCE.getCustomersType();
+    return CustomerPackage.Literals.CUSTOMERS_TYPE;
   }
 
   /**
@@ -90,9 +91,9 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getCustomer()
+  public EList<CustomerType> getCustomer()
   {
-    return ((FeatureMap)getMixed()).list(CustomerPackage.eINSTANCE.getCustomersType_Customer());
+    return getMixed().list(CustomerPackage.Literals.CUSTOMERS_TYPE__CUSTOMER);
   }
 
   /**
@@ -100,38 +101,36 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case CustomerPackage.CUSTOMERS_TYPE__MIXED:
-          return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
-        case CustomerPackage.CUSTOMERS_TYPE__CUSTOMER:
-          return ((InternalEList)getCustomer()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.CUSTOMERS_TYPE__MIXED:
-        return getMixed();
+        return ((InternalEList<?>)getMixed()).basicRemove(otherEnd, msgs);
+      case CustomerPackage.CUSTOMERS_TYPE__CUSTOMER:
+        return ((InternalEList<?>)getCustomer()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case CustomerPackage.CUSTOMERS_TYPE__MIXED:
+        if (coreType) return getMixed();
+        return ((FeatureMap.Internal)getMixed()).getWrapper();
       case CustomerPackage.CUSTOMERS_TYPE__CUSTOMER:
         return getCustomer();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -139,20 +138,21 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.CUSTOMERS_TYPE__MIXED:
-        getMixed().clear();
-        getMixed().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getMixed()).set(newValue);
         return;
       case CustomerPackage.CUSTOMERS_TYPE__CUSTOMER:
         getCustomer().clear();
-        getCustomer().addAll((Collection)newValue);
+        getCustomer().addAll((Collection<? extends CustomerType>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -160,9 +160,10 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.CUSTOMERS_TYPE__MIXED:
         getMixed().clear();
@@ -171,7 +172,7 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
         getCustomer().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -179,16 +180,17 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case CustomerPackage.CUSTOMERS_TYPE__MIXED:
         return mixed != null && !mixed.isEmpty();
       case CustomerPackage.CUSTOMERS_TYPE__CUSTOMER:
         return !getCustomer().isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -196,6 +198,7 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

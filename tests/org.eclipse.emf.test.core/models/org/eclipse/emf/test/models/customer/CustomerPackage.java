@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerPackage.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
+ * $Id: CustomerPackage.java,v 1.3 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.models.customer.CustomerFactory
+ * @model kind="package"
  * @generated
  */
 public interface CustomerPackage extends EPackage
@@ -90,7 +91,7 @@ public interface CustomerPackage extends EPackage
   int ADDRESS_TYPE__TOWN = 1;
 
   /**
-   * The number of structural features of the the '<em>Address Type</em>' class.
+   * The number of structural features of the '<em>Address Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -145,7 +146,7 @@ public interface CustomerPackage extends EPackage
   int CANADA_ADDR__PROVINCE = ADDRESS_TYPE_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>Canada Addr</em>' class.
+   * The number of structural features of the '<em>Canada Addr</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -191,7 +192,7 @@ public interface CustomerPackage extends EPackage
   int CREDIT_INFO__EXPIRE_DATE = 2;
 
   /**
-   * The number of structural features of the the '<em>Credit Info</em>' class.
+   * The number of structural features of the '<em>Credit Info</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -228,7 +229,7 @@ public interface CustomerPackage extends EPackage
   int CUSTOMERS_TYPE__CUSTOMER = 1;
 
   /**
-   * The number of structural features of the the '<em>Customers Type</em>' class.
+   * The number of structural features of the '<em>Customers Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -292,7 +293,7 @@ public interface CustomerPackage extends EPackage
   int CUSTOMER_TYPE__ID = 4;
 
   /**
-   * The number of structural features of the the '<em>Type</em>' class.
+   * The number of structural features of the '<em>Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -347,7 +348,7 @@ public interface CustomerPackage extends EPackage
   int DOCUMENT_ROOT__CUSTOMERS = 3;
 
   /**
-   * The feature id for the '<em><b>Id</b></em>' attribute.
+   * The feature id for the '<em><b>ID</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -356,7 +357,7 @@ public interface CustomerPackage extends EPackage
   int DOCUMENT_ROOT__ID = 4;
 
   /**
-   * The number of structural features of the the '<em>Document Root</em>' class.
+   * The number of structural features of the '<em>Document Root</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -411,7 +412,7 @@ public interface CustomerPackage extends EPackage
   int US_ADDR__STATE = ADDRESS_TYPE_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>US Addr</em>' class.
+   * The number of structural features of the '<em>US Addr</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -433,7 +434,7 @@ public interface CustomerPackage extends EPackage
    * The meta object id for the '<em>US State Object</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.emf.common.util.AbstractEnumerator
+   * @see org.eclipse.emf.test.models.customer.USState
    * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getUSStateObject()
    * @generated
    */
@@ -719,15 +720,15 @@ public interface CustomerPackage extends EPackage
   EReference getDocumentRoot_Customers();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.models.customer.DocumentRoot#getId <em>Id</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.models.customer.DocumentRoot#getID <em>ID</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Id</em>'.
-   * @see org.eclipse.emf.test.models.customer.DocumentRoot#getId()
+   * @return the meta object for the attribute '<em>ID</em>'.
+   * @see org.eclipse.emf.test.models.customer.DocumentRoot#getID()
    * @see #getDocumentRoot()
    * @generated
    */
-  EAttribute getDocumentRoot_Id();
+  EAttribute getDocumentRoot_ID();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.test.models.customer.USAddr <em>US Addr</em>}'.
@@ -772,12 +773,12 @@ public interface CustomerPackage extends EPackage
   EEnum getUSState();
 
   /**
-   * Returns the meta object for data type '{@link org.eclipse.emf.common.util.AbstractEnumerator <em>US State Object</em>}'.
+   * Returns the meta object for data type '{@link org.eclipse.emf.test.models.customer.USState <em>US State Object</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>US State Object</em>'.
-   * @see org.eclipse.emf.common.util.AbstractEnumerator
-   * @model instanceClass="org.eclipse.emf.common.util.AbstractEnumerator"
+   * @see org.eclipse.emf.test.models.customer.USState
+   * @model instanceClass="org.eclipse.emf.test.models.customer.USState"
    *        extendedMetaData="name='USState:Object' baseType='USState'" 
    * @generated
    */
@@ -815,5 +816,299 @@ public interface CustomerPackage extends EPackage
    * @generated
    */
   CustomerFactory getCustomerFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.customer.impl.AddressTypeImpl <em>Address Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.customer.impl.AddressTypeImpl
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getAddressType()
+     * @generated
+     */
+    EClass ADDRESS_TYPE = eINSTANCE.getAddressType();
+
+    /**
+     * The meta object literal for the '<em><b>Street</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ADDRESS_TYPE__STREET = eINSTANCE.getAddressType_Street();
+
+    /**
+     * The meta object literal for the '<em><b>Town</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ADDRESS_TYPE__TOWN = eINSTANCE.getAddressType_Town();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.customer.impl.CanadaAddrImpl <em>Canada Addr</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.customer.impl.CanadaAddrImpl
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getCanadaAddr()
+     * @generated
+     */
+    EClass CANADA_ADDR = eINSTANCE.getCanadaAddr();
+
+    /**
+     * The meta object literal for the '<em><b>Zip</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CANADA_ADDR__ZIP = eINSTANCE.getCanadaAddr_Zip();
+
+    /**
+     * The meta object literal for the '<em><b>Province</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CANADA_ADDR__PROVINCE = eINSTANCE.getCanadaAddr_Province();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.customer.impl.CreditInfoImpl <em>Credit Info</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.customer.impl.CreditInfoImpl
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getCreditInfo()
+     * @generated
+     */
+    EClass CREDIT_INFO = eINSTANCE.getCreditInfo();
+
+    /**
+     * The meta object literal for the '<em><b>Holder</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CREDIT_INFO__HOLDER = eINSTANCE.getCreditInfo_Holder();
+
+    /**
+     * The meta object literal for the '<em><b>Cc Number</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CREDIT_INFO__CC_NUMBER = eINSTANCE.getCreditInfo_CcNumber();
+
+    /**
+     * The meta object literal for the '<em><b>Expire Date</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CREDIT_INFO__EXPIRE_DATE = eINSTANCE.getCreditInfo_ExpireDate();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.customer.impl.CustomersTypeImpl <em>Customers Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.customer.impl.CustomersTypeImpl
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getCustomersType()
+     * @generated
+     */
+    EClass CUSTOMERS_TYPE = eINSTANCE.getCustomersType();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CUSTOMERS_TYPE__MIXED = eINSTANCE.getCustomersType_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>Customer</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CUSTOMERS_TYPE__CUSTOMER = eINSTANCE.getCustomersType_Customer();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.customer.impl.CustomerTypeImpl <em>Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerTypeImpl
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getCustomerType()
+     * @generated
+     */
+    EClass CUSTOMER_TYPE = eINSTANCE.getCustomerType();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CUSTOMER_TYPE__NAME = eINSTANCE.getCustomerType_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Address</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CUSTOMER_TYPE__ADDRESS = eINSTANCE.getCustomerType_Address();
+
+    /**
+     * The meta object literal for the '<em><b>Credit Card</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CUSTOMER_TYPE__CREDIT_CARD = eINSTANCE.getCustomerType_CreditCard();
+
+    /**
+     * The meta object literal for the '<em><b>Payment Day</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CUSTOMER_TYPE__PAYMENT_DAY = eINSTANCE.getCustomerType_PaymentDay();
+
+    /**
+     * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CUSTOMER_TYPE__ID = eINSTANCE.getCustomerType_ID();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.customer.impl.DocumentRootImpl <em>Document Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.customer.impl.DocumentRootImpl
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getDocumentRoot()
+     * @generated
+     */
+    EClass DOCUMENT_ROOT = eINSTANCE.getDocumentRoot();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__MIXED = eINSTANCE.getDocumentRoot_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>XMLNS Prefix Map</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XMLNS_PREFIX_MAP = eINSTANCE.getDocumentRoot_XMLNSPrefixMap();
+
+    /**
+     * The meta object literal for the '<em><b>XSI Schema Location</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getDocumentRoot_XSISchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>Customers</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__CUSTOMERS = eINSTANCE.getDocumentRoot_Customers();
+
+    /**
+     * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__ID = eINSTANCE.getDocumentRoot_ID();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.customer.impl.USAddrImpl <em>US Addr</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.customer.impl.USAddrImpl
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getUSAddr()
+     * @generated
+     */
+    EClass US_ADDR = eINSTANCE.getUSAddr();
+
+    /**
+     * The meta object literal for the '<em><b>Zip</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute US_ADDR__ZIP = eINSTANCE.getUSAddr_Zip();
+
+    /**
+     * The meta object literal for the '<em><b>State</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute US_ADDR__STATE = eINSTANCE.getUSAddr_State();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.customer.USState <em>US State</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.customer.USState
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getUSState()
+     * @generated
+     */
+    EEnum US_STATE = eINSTANCE.getUSState();
+
+    /**
+     * The meta object literal for the '<em>US State Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.customer.USState
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getUSStateObject()
+     * @generated
+     */
+    EDataType US_STATE_OBJECT = eINSTANCE.getUSStateObject();
+
+    /**
+     * The meta object literal for the '<em>Zip Codes</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.math.BigInteger
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getZipCodes()
+     * @generated
+     */
+    EDataType ZIP_CODES = eINSTANCE.getZipCodes();
+
+    /**
+     * The meta object literal for the '<em>Zip Union</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl#getZipUnion()
+     * @generated
+     */
+    EDataType ZIP_UNION = eINSTANCE.getZipUnion();
+
+  }
 
 } //CustomerPackage

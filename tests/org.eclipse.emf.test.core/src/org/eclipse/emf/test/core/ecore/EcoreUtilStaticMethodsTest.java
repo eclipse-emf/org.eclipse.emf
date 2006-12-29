@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.11 2005/06/08 06:17:44 nickb Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.12 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -67,7 +67,7 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     
   public void testGenerateUUID()
   {
-    final Collection set = new HashSet();
+    final Collection<Object> set = new HashSet<Object>();
     
     set.add(EcoreUtil.generateUUID());
     set.add(EcoreUtil.generateUUID());
@@ -86,6 +86,7 @@ public class EcoreUtilStaticMethodsTest extends TestCase
         }
         catch (InterruptedException e)
         {
+          // Ignore
         }
         
         set.add(EcoreUtil.generateUUID());
@@ -105,6 +106,7 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     }
     catch (InterruptedException e)
     {
+      // Ignore
     }    
     assertEquals(12, set.size());
   }    
@@ -145,38 +147,48 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     
     EObject o1 = pack.getEFactoryInstance().create(aClass);
     o1.eSet(singleAtt, "o1.singleAtt");
-    ((List)o1.eGet(multiAtt)).add("o1.multiAtt.0");
-    ((List)o1.eGet(multiAtt)).add("o1.multiAtt.1");
+    @SuppressWarnings("unchecked")
+    List<String> o1List = ((List<String>)o1.eGet(multiAtt));
+    o1List.add("o1.multiAtt.0");
+    o1List.add("o1.multiAtt.1");
     
     EObject o2 = pack.getEFactoryInstance().create(aClass);
     o2.eSet(singleAtt, "o2.singleAtt");
-    ((List)o2.eGet(multiAtt)).add("o2.multiAtt.0");
-    ((List)o2.eGet(multiAtt)).add("o2.multiAtt.1");
+    @SuppressWarnings("unchecked")
+    List<String> o2List = ((List<String>)o2.eGet(multiAtt));
+    o2List.add("o2.multiAtt.0");
+    o2List.add("o2.multiAtt.1");
 
     EObject o3 = pack.getEFactoryInstance().create(aClass);
     o3.eSet(singleAtt, "o3.singleAtt");
-    ((List)o3.eGet(multiAtt)).add("o3.multiAtt.0");
-    ((List)o3.eGet(multiAtt)).add("o3.multiAtt.1");
+    @SuppressWarnings("unchecked")
+    List<String> o3List = ((List<String>)o3.eGet(multiAtt));
+    o3List.add("o3.multiAtt.0");
+    o3List.add("o3.multiAtt.1");
 
     EObject o4 = pack.getEFactoryInstance().create(aClass);
     o4.eSet(singleAtt, "o4.singleAtt");
-    ((List)o4.eGet(multiAtt)).add("o4.multiAtt.0");
-    ((List)o4.eGet(multiAtt)).add("o4.multiAtt.1");
+    @SuppressWarnings("unchecked")
+    List<String> o4List = ((List<String>)o4.eGet(multiAtt));
+    o4List.add("o4.multiAtt.0");
+    o4List.add("o4.multiAtt.1");
     
     o1.eSet(singleRef, o2);
     o2.eSet(singleRef, o3);
     o3.eSet(singleRef, o4);
     o4.eSet(singleRef, o1);
     
-    ((List)o1.eGet(multiRef)).add(o3);
-    ((List)o1.eGet(multiRef)).add(o4);
+    @SuppressWarnings("unchecked")
+    List<EObject> o1ReferenceList = ((List<EObject>)o1.eGet(multiRef));
+    o1ReferenceList.add(o3);
+    o1ReferenceList.add(o4);
     
     EObject cpO1 = EcoreUtil.copy(o1);
     
     assertEquals(o1.eGet(singleAtt), cpO1.eGet(singleAtt));
-    assertTrue(TestUtil.areEqual((List)o1.eGet(multiAtt), (List)cpO1.eGet(multiAtt)));
+    assertTrue(TestUtil.areEqual((List<?>)o1.eGet(multiAtt), (List<?>)cpO1.eGet(multiAtt)));
     assertEquals(o1.eGet(singleRef), cpO1.eGet(singleRef));
-    assertTrue(TestUtil.areEqual((List)o1.eGet(multiRef), (List)cpO1.eGet(multiRef)));
+    assertTrue(TestUtil.areEqual((List<?>)o1.eGet(multiRef), (List<?>)cpO1.eGet(multiRef)));
   }
   
   /*
@@ -192,7 +204,7 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     EClass aClass = EcoreFactory.eINSTANCE.createEClass();
     aClass.getEAnnotations().add(constraintAnnotation);
     
-    List constraints = EcoreUtil.getConstraints(aClass);
+    List<String> constraints = EcoreUtil.getConstraints(aClass);
     assertEquals(2, constraints.size());
     assertTrue(constraints.contains("c1"));
     assertTrue(constraints.contains("c2"));

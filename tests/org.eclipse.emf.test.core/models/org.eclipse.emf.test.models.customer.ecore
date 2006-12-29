@@ -172,7 +172,7 @@
         <details key="namespace" value="##targetNamespace"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//ID"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iD" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//ID"
         iD="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -209,7 +209,7 @@
     <eLiterals name="AL" value="1"/>
     <eLiterals name="AR" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="USStateObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="USStateObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="USState:Object"/>
       <details key="baseType" value="USState"/>

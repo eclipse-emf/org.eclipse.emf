@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Order.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: Order.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.order;
 
@@ -97,13 +97,13 @@ public interface Order extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Movies</em>' attribute.
-   * @see #setMovies(List)
+   * @see #setMovies(List<String>)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder_Movies()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.IDREFS" required="true" many="false"
    *        extendedMetaData="kind='element' name='movies'"
    * @generated
    */
-  List getMovies();
+  List<String> getMovies();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.order.Order#getMovies <em>Movies</em>}' attribute.
@@ -113,6 +113,6 @@ public interface Order extends EObject
    * @see #getMovies()
    * @generated
    */
-  void setMovies(List value);
+  void setMovies(List<String> value);
 
 } // Order

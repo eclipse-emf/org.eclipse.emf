@@ -2,13 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DbPackageImpl.java,v 1.3 2005/06/12 13:57:39 emerks Exp $
+ * $Id: DbPackageImpl.java,v 1.4 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
 import java.util.List;
-
-import org.eclipse.emf.common.util.AbstractEnumerator;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -21,8 +19,6 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 import org.eclipse.emf.test.models.customer.CustomerPackage;
 
@@ -194,7 +190,7 @@ public class DbPackageImpl extends EPackageImpl implements DbPackage
     isInited = true;
 
     // Initialize simple dependencies
-    XMLTypePackageImpl.init();
+    XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
     CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) : CustomerPackage.eINSTANCE);
@@ -699,8 +695,12 @@ public class DbPackageImpl extends EPackageImpl implements DbPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
-    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    CustomerPackage theCustomerPackage = (CustomerPackage)EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
     customerReviewTypeEClass.getESuperTypes().add(this.getCriticsReviewType());
@@ -758,7 +758,7 @@ public class DbPackageImpl extends EPackageImpl implements DbPackage
 
     // Initialize data types
     initEDataType(actorsListEDataType, List.class, "ActorsList", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(genreTypesObjectEDataType, AbstractEnumerator.class, "GenreTypesObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(genreTypesObjectEDataType, GenreTypes.class, "GenreTypesObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
     initEDataType(ratingTypeEDataType, int.class, "RatingType", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(ratingTypeObjectEDataType, Integer.class, "RatingTypeObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(ratingValuesEDataType, int.class, "RatingValues", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

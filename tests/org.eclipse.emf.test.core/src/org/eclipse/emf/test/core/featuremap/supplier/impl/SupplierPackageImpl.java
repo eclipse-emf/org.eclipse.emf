@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SupplierPackageImpl.java,v 1.1 2004/08/20 22:47:32 marcelop Exp $
+ * $Id: SupplierPackageImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier.impl;
 
@@ -14,8 +14,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
 import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
@@ -103,13 +101,16 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
     isInited = true;
 
     // Initialize simple dependencies
-    XMLTypePackageImpl.init();
+    XMLTypePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theSupplierPackage.createPackageContents();
 
     // Initialize created meta-data
     theSupplierPackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theSupplierPackage.freeze();
 
     return theSupplierPackage;
   }
@@ -249,7 +250,11 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListTest.java,v 1.1 2006/03/17 21:57:29 emerks Exp $
+ * $Id: ListTest.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -70,25 +70,32 @@ public class ListTest extends TestCase
    */
   public void testRemoveAllNotUnique()
   {
-    List list = new DelegatingNotifyingListImpl()
+    List<String> list = new DelegatingNotifyingListImpl<String>()
     {
-      List delegateList = new BasicEList();
+      private static final long serialVersionUID = 1L;
+
+      List<String> delegateList = new BasicEList<String>();
       
+      @Override
       public boolean isUnique()
       {
         return false;
       }
       
+      @Override
       public boolean isNotificationRequired()
       {
         return true;
       }
       
+      @Override
       public void dispatchNotification(Notification notification)
       {
+        // Ignore
       }
 
-      protected List delegateList()
+      @Override
+      protected List<String> delegateList()
       {
         return delegateList;
       }
@@ -139,31 +146,7 @@ public class ListTest extends TestCase
     eClassB.getESuperTypes().removeAll(Collections.singleton(eClassA));
     assertEquals(true, eClassB.getESuperTypes().isEmpty());
     
-    EClass eClassC = 
-      new EClassImpl()
-      {
-        public EList getESuperTypesGen()
-        {
-          if (eSuperTypes == null)
-          {
-            eSuperTypes = 
-              new DelegatingEcoreEList.Dynamic(this, EcorePackage.Literals.ECLASS__ESUPER_TYPES)
-              {
-                List list;
-                protected List delegateList()
-                {
-                  if (list == null)
-                  {
-                    list = new ArrayList();
-                  }
-                  return list;
-                }
-              
-              };
-          }
-          return eSuperTypes;
-        }
-      };
+    EClass eClassC = EcoreFactory.eINSTANCE.createEClass(); 
     ePackageB.getEClassifiers().add(eClassC);
     eClassC.getESuperTypes().add(eClassProxyA);
     eClassC.getESuperTypes().removeAll(Collections.singleton(eClassA));
@@ -197,7 +180,8 @@ public class ListTest extends TestCase
     final EObject rio = pack.getEFactoryInstance().create(city);
     
     EObject john = pack.getEFactoryInstance().create(person);
-    List johnTrips = (List)john.eGet(trips);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnTrips = (List<EObject>)john.eGet(trips);
     johnTrips.add(paris);
     johnTrips.add(ny);
     johnTrips.add(rio);
@@ -211,6 +195,7 @@ public class ListTest extends TestCase
     
     Adapter adapter = new AdapterImpl()
     {
+      @Override
       public void notifyChanged(Notification msg)
       {
         switch(notificationCount++)

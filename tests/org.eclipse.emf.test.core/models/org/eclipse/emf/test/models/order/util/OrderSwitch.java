@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: OrderSwitch.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: OrderSwitch.java,v 1.2 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.order.util;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.test.models.order.*;
  * @see org.eclipse.emf.test.models.order.OrderPackage
  * @generated
  */
-public class OrderSwitch
+public class OrderSwitch<T>
 {
   /**
    * The cached model package
@@ -57,7 +57,7 @@ public class OrderSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -69,7 +69,7 @@ public class OrderSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -77,11 +77,11 @@ public class OrderSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -92,28 +92,28 @@ public class OrderSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case OrderPackage.CUSTOMER_ORDER:
       {
         CustomerOrder customerOrder = (CustomerOrder)theEObject;
-        Object result = caseCustomerOrder(customerOrder);
+        T result = caseCustomerOrder(customerOrder);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case OrderPackage.DOCUMENT_ROOT:
       {
         DocumentRoot documentRoot = (DocumentRoot)theEObject;
-        Object result = caseDocumentRoot(documentRoot);
+        T result = caseDocumentRoot(documentRoot);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case OrderPackage.ORDER:
       {
         Order order = (Order)theEObject;
-        Object result = caseOrder(order);
+        T result = caseOrder(order);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -132,7 +132,7 @@ public class OrderSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseCustomerOrder(CustomerOrder object)
+  public T caseCustomerOrder(CustomerOrder object)
   {
     return null;
   }
@@ -148,7 +148,7 @@ public class OrderSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseDocumentRoot(DocumentRoot object)
+  public T caseDocumentRoot(DocumentRoot object)
   {
     return null;
   }
@@ -164,7 +164,7 @@ public class OrderSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseOrder(Order object)
+  public T caseOrder(Order object)
   {
     return null;
   }
@@ -180,7 +180,7 @@ public class OrderSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

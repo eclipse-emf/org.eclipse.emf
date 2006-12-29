@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PPOPackage.java,v 1.1 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: PPOPackage.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package com.example.ppo;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see com.example.ppo.PPOFactory
+ * @model kind="package"
  * @generated
  */
 public interface PPOPackage extends EPackage
@@ -125,7 +126,7 @@ public interface PPOPackage extends EPackage
   int ITEM__PART_NUM = 5;
 
   /**
-   * The number of structural features of the the '<em>Item</em>' class.
+   * The number of structural features of the '<em>Item</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -198,7 +199,7 @@ public interface PPOPackage extends EPackage
   int US_ADDRESS__COUNTRY = 5;
 
   /**
-   * The number of structural features of the the '<em>US Address</em>' class.
+   * The number of structural features of the '<em>US Address</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -262,7 +263,7 @@ public interface PPOPackage extends EPackage
   int PURCHASE_ORDER__SHIP_TO = 4;
 
   /**
-   * The number of structural features of the the '<em>Purchase Order</em>' class.
+   * The number of structural features of the '<em>Purchase Order</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -538,5 +539,207 @@ public interface PPOPackage extends EPackage
    * @generated
    */
   PPOFactory getPPOFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link com.example.ppo.impl.ItemImpl <em>Item</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.example.ppo.impl.ItemImpl
+     * @see com.example.ppo.impl.PPOPackageImpl#getItem()
+     * @generated
+     */
+    EClass ITEM = eINSTANCE.getItem();
+
+    /**
+     * The meta object literal for the '<em><b>Product Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ITEM__PRODUCT_NAME = eINSTANCE.getItem_ProductName();
+
+    /**
+     * The meta object literal for the '<em><b>Quantity</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ITEM__QUANTITY = eINSTANCE.getItem_Quantity();
+
+    /**
+     * The meta object literal for the '<em><b>US Price</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ITEM__US_PRICE = eINSTANCE.getItem_USPrice();
+
+    /**
+     * The meta object literal for the '<em><b>Comment</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ITEM__COMMENT = eINSTANCE.getItem_Comment();
+
+    /**
+     * The meta object literal for the '<em><b>Ship Date</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ITEM__SHIP_DATE = eINSTANCE.getItem_ShipDate();
+
+    /**
+     * The meta object literal for the '<em><b>Part Num</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ITEM__PART_NUM = eINSTANCE.getItem_PartNum();
+
+    /**
+     * The meta object literal for the '{@link com.example.ppo.impl.USAddressImpl <em>US Address</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.example.ppo.impl.USAddressImpl
+     * @see com.example.ppo.impl.PPOPackageImpl#getUSAddress()
+     * @generated
+     */
+    EClass US_ADDRESS = eINSTANCE.getUSAddress();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute US_ADDRESS__NAME = eINSTANCE.getUSAddress_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Street</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute US_ADDRESS__STREET = eINSTANCE.getUSAddress_Street();
+
+    /**
+     * The meta object literal for the '<em><b>City</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute US_ADDRESS__CITY = eINSTANCE.getUSAddress_City();
+
+    /**
+     * The meta object literal for the '<em><b>State</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute US_ADDRESS__STATE = eINSTANCE.getUSAddress_State();
+
+    /**
+     * The meta object literal for the '<em><b>Zip</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute US_ADDRESS__ZIP = eINSTANCE.getUSAddress_Zip();
+
+    /**
+     * The meta object literal for the '<em><b>Country</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute US_ADDRESS__COUNTRY = eINSTANCE.getUSAddress_Country();
+
+    /**
+     * The meta object literal for the '{@link com.example.ppo.impl.PurchaseOrderImpl <em>Purchase Order</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.example.ppo.impl.PurchaseOrderImpl
+     * @see com.example.ppo.impl.PPOPackageImpl#getPurchaseOrder()
+     * @generated
+     */
+    EClass PURCHASE_ORDER = eINSTANCE.getPurchaseOrder();
+
+    /**
+     * The meta object literal for the '<em><b>Items</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PURCHASE_ORDER__ITEMS = eINSTANCE.getPurchaseOrder_Items();
+
+    /**
+     * The meta object literal for the '<em><b>Comment</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PURCHASE_ORDER__COMMENT = eINSTANCE.getPurchaseOrder_Comment();
+
+    /**
+     * The meta object literal for the '<em><b>Order Date</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PURCHASE_ORDER__ORDER_DATE = eINSTANCE.getPurchaseOrder_OrderDate();
+
+    /**
+     * The meta object literal for the '<em><b>Bill To</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PURCHASE_ORDER__BILL_TO = eINSTANCE.getPurchaseOrder_BillTo();
+
+    /**
+     * The meta object literal for the '<em><b>Ship To</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PURCHASE_ORDER__SHIP_TO = eINSTANCE.getPurchaseOrder_ShipTo();
+
+    /**
+     * The meta object literal for the '<em>SKU</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see com.example.ppo.impl.PPOPackageImpl#getSKU()
+     * @generated
+     */
+    EDataType SKU = eINSTANCE.getSKU();
+
+    /**
+     * The meta object literal for the '<em>Date</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.Date
+     * @see com.example.ppo.impl.PPOPackageImpl#getDate()
+     * @generated
+     */
+    EDataType DATE = eINSTANCE.getDate();
+
+  }
 
 } //PPOPackage

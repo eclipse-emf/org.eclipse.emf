@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ItemImpl.java,v 1.1 2005/03/14 22:15:58 marcelop Exp $
+ * $Id: ItemImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
  */
 package com.example.ppo.impl;
 
@@ -14,8 +14,6 @@ import java.util.Date;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -174,9 +172,10 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return PPOPackage.eINSTANCE.getItem();
+    return PPOPackage.Literals.ITEM;
   }
 
   /**
@@ -322,9 +321,10 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PPOPackage.ITEM__PRODUCT_NAME:
         return getProductName();
@@ -339,7 +339,7 @@ public class ItemImpl extends EObjectImpl implements Item
       case PPOPackage.ITEM__PART_NUM:
         return getPartNum();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -347,9 +347,10 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PPOPackage.ITEM__PRODUCT_NAME:
         setProductName((String)newValue);
@@ -370,7 +371,7 @@ public class ItemImpl extends EObjectImpl implements Item
         setPartNum((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -378,9 +379,10 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PPOPackage.ITEM__PRODUCT_NAME:
         setProductName(PRODUCT_NAME_EDEFAULT);
@@ -401,7 +403,7 @@ public class ItemImpl extends EObjectImpl implements Item
         setPartNum(PART_NUM_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -409,9 +411,10 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PPOPackage.ITEM__PRODUCT_NAME:
         return PRODUCT_NAME_EDEFAULT == null ? productName != null : !PRODUCT_NAME_EDEFAULT.equals(productName);
@@ -426,7 +429,7 @@ public class ItemImpl extends EObjectImpl implements Item
       case PPOPackage.ITEM__PART_NUM:
         return PART_NUM_EDEFAULT == null ? partNum != null : !PART_NUM_EDEFAULT.equals(partNum);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -434,6 +437,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

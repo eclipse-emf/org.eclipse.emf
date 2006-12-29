@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.8 2006/04/04 14:33:33 marcelop Exp $
+ * $Id: PersistenceTest.java,v 1.9 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -87,6 +87,7 @@ public class PersistenceTest extends TestCase
     return ts;
   }
   
+  @Override
   protected void setUp()
   {
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
@@ -143,10 +144,14 @@ public class PersistenceTest extends TestCase
     herbie = pack.getEFactoryInstance().create(car);
     herbie.eSet(brand, "vw");
     
-    ((List)john.eGet(children)).add(mary);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnChildren = ((List<EObject>)john.eGet(children));
+    johnChildren.add(mary);
     assertEquals(john, mary.eGet(father));
     
-    ((List)john.eGet(cars)).add(herbie);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnCars = ((List<EObject>)john.eGet(cars));
+    johnCars.add(herbie);
     assertEquals(john, herbie.eContainer());
   }
 
@@ -159,6 +164,7 @@ public class PersistenceTest extends TestCase
   {
     oneFileTest(new XMIResourceFactoryImpl()
     {
+      @Override
       public Resource createResource(URI uri)
       {
         XMIResource xmiResource = (XMIResource)super.createResource(uri);
@@ -177,6 +183,7 @@ public class PersistenceTest extends TestCase
   {
     twoFileTest(new XMIResourceFactoryImpl(), new XMIResourceFactoryImpl()
     {
+      @Override
       public Resource createResource(URI uri)
       {
         XMIResource xmiResource = (XMIResource)super.createResource(uri);
@@ -190,6 +197,7 @@ public class PersistenceTest extends TestCase
   {
     Resource.Factory zipResourceFactory = new XMIResourceFactoryImpl()
     {
+      @Override
       public Resource createResource(URI uri)
       {
         XMIResource xmiResource = (XMIResource)super.createResource(uri);
@@ -223,8 +231,8 @@ public class PersistenceTest extends TestCase
     assertNotNull(loadedResource);
     assertEquals(2, loadedResource.getContents().size());
     
-    checkIsJohn((EObject)loadedResource.getContents().get(0));
-    checkIsMary((EObject)loadedResource.getContents().get(1));
+    checkIsJohn(loadedResource.getContents().get(0));
+    checkIsMary(loadedResource.getContents().get(1));
     
     new File(uri.toFileString()).delete();
     assertFalse(new File(uri.toFileString()).exists());
@@ -257,9 +265,9 @@ public class PersistenceTest extends TestCase
     assertNotNull(loadedResource);
     assertEquals(1, loadedResource.getContents().size());
     
-    EObject eObject = (EObject)loadedResource.getContents().get(0); 
+    EObject eObject = loadedResource.getContents().get(0); 
     checkIsJohn(eObject);
-    checkIsMary((EObject)((List)eObject.eGet(children)).get(0));
+    checkIsMary((EObject)((List<?>)eObject.eGet(children)).get(0));
     
     resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("john", johnResourceFactory);
@@ -269,7 +277,7 @@ public class PersistenceTest extends TestCase
     assertNotNull(loadedResource);
     assertEquals(1, loadedResource.getContents().size());
     
-    eObject = (EObject)loadedResource.getContents().get(0); 
+    eObject = loadedResource.getContents().get(0); 
     checkIsMary(eObject);
     checkIsJohn((EObject)eObject.eGet(father));    
     
@@ -282,17 +290,17 @@ public class PersistenceTest extends TestCase
   private void checkIsJohn(EObject person)
   {
     assertEquals(john.eGet(name), person.eGet(name));
-    assertEquals(1, ((List)person.eGet(children)).size());
-    assertEquals(mary.eGet(name), ((EObject)((List)person.eGet(children)).get(0)).eGet(name));
-    assertEquals(1, ((List)person.eGet(cars)).size());
-    assertEquals(herbie.eGet(brand), ((EObject)((List)person.eGet(cars)).get(0)).eGet(brand));
+    assertEquals(1, ((List<?>)person.eGet(children)).size());
+    assertEquals(mary.eGet(name), ((EObject)((List<?>)person.eGet(children)).get(0)).eGet(name));
+    assertEquals(1, ((List<?>)person.eGet(cars)).size());
+    assertEquals(herbie.eGet(brand), ((EObject)((List<?>)person.eGet(cars)).get(0)).eGet(brand));
   }
   
   private void checkIsMary(EObject person)
   {
     assertEquals(mary.eGet(name), person.eGet(name));
     assertEquals(john.eGet(name), ((EObject)person.eGet(father)).eGet(name));
-    assertTrue(((List)person.eGet(cars)).isEmpty());
+    assertTrue(((List<?>)person.eGet(cars)).isEmpty());
   }
   
   public void testEDataType() throws Exception
@@ -339,7 +347,7 @@ public class PersistenceTest extends TestCase
     loadedXMIResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
     assertEquals(1, loadedXMIResource.getContents().size());
     
-    EObject loadedJohn = (EObject)loadedXMIResource.getContents().get(0);
+    EObject loadedJohn = loadedXMIResource.getContents().get(0);
     assertTrue(loadedJohn.eGet(birthday) instanceof Date);
     assertEquals(dateValue, ((Date)loadedJohn.eGet(birthday)).getTime());
   }
@@ -374,7 +382,9 @@ public class PersistenceTest extends TestCase
     john.eSet(name, "john");
     EObject mary = EcoreUtil.create(person);
     mary.eSet(name, "mary");
-    ((List)john.eGet(children)).add(mary);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnChildren = ((List<EObject>)john.eGet(children));
+    johnChildren.add(mary);
     
     assertNull(john.eResource());
     assertNull(mary.eResource());
@@ -382,6 +392,7 @@ public class PersistenceTest extends TestCase
     
     XMLResource johnResource = new XMLResourceImpl(URI.createFileURI("john"))
     {
+      @Override
       protected boolean useUUIDs()
       {
         return true;
@@ -400,6 +411,7 @@ public class PersistenceTest extends TestCase
     
     XMLResource maryResource = new XMLResourceImpl(URI.createFileURI("mary"))
     {
+      @Override
       protected boolean useUUIDs()
       {
         return true;
@@ -509,13 +521,17 @@ public class PersistenceTest extends TestCase
     john.eSet(spouse, jane);
     EObject mary = EcoreUtil.create(person);
     mary.eSet(name, "mary");
-    ((List)john.eGet(children)).add(mary);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnChildren = ((List<EObject>)john.eGet(children));
+    johnChildren.add(mary);
     EObject johnsHome = EcoreUtil.create(house);
     johnsHome.eSet(postalCode, "abcdefg");
     john.eSet(home, johnsHome);
     EObject house1 = EcoreUtil.create(house);
     house1.eSet(postalCode, "house 1");
-    ((List)john.eGet(houses)).add(house1);
+    @SuppressWarnings("unchecked")
+    List<EObject> johnHouses = ((List<EObject>)john.eGet(houses));
+    johnHouses.add(house1);
     
     assertNull(john.eResource());
     assertNull(jane.eResource());
@@ -579,11 +595,11 @@ public class PersistenceTest extends TestCase
     resource2 = resourceSet.createResource(uri2);
     resource2.load(new ByteArrayInputStream(baos2.toByteArray()), null);
     
-    john = (EObject)johnResource.getContents().get(0);
-    jane = (EObject)resource2.getContents().get(0);
-    mary = (EObject)resource2.getContents().get(1);
-    johnsHome = (EObject)resource2.getContents().get(2);
-    house1 = (EObject)resource2.getContents().get(3);
+    john = johnResource.getContents().get(0);
+    jane = resource2.getContents().get(0);
+    mary = resource2.getContents().get(1);
+    johnsHome = resource2.getContents().get(2);
+    house1 = resource2.getContents().get(3);
 
     assertEquals("john", john.eGet(name));
     assertEquals("jane", jane.eGet(name));

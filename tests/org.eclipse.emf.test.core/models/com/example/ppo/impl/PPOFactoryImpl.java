@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PPOFactoryImpl.java,v 1.2 2005/06/12 13:51:58 emerks Exp $
+ * $Id: PPOFactoryImpl.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package com.example.ppo.impl;
 
@@ -14,7 +14,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,6 +26,29 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
  */
 public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static PPOFactory init()
+  {
+    try
+    {
+      PPOFactory thePPOFactory = (PPOFactory)EPackage.Registry.INSTANCE.getEFactory("http:///com/example/ppo.ecore"); 
+      if (thePPOFactory != null)
+      {
+        return thePPOFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new PPOFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -40,6 +65,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -57,6 +83,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
@@ -75,6 +102,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
@@ -128,7 +156,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    */
   public String createSKUFromString(EDataType eDataType, String initialValue)
   {
-    return (String)super.createFromString(eDataType, initialValue);
+    return (String)super.createFromString(initialValue);
   }
 
   /**
@@ -138,7 +166,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    */
   public String convertSKUToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return super.convertToString(instanceValue);
   }
 
   /**
@@ -148,7 +176,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    */
   public Date createDateFromString(EDataType eDataType, String initialValue)
   {
-    return (Date)super.createFromString(eDataType, initialValue);
+    return (Date)super.createFromString(initialValue);
   }
 
   /**
@@ -158,7 +186,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    */
   public String convertDateToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return super.convertToString(instanceValue);
   }
 
   /**
@@ -177,6 +205,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static PPOPackage getPackage()
   {
     return PPOPackage.eINSTANCE;

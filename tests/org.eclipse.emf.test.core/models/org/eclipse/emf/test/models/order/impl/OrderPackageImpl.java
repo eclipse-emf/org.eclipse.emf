@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: OrderPackageImpl.java,v 1.2 2005/02/22 23:08:12 marcelop Exp $
+ * $Id: OrderPackageImpl.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.order.impl;
 
@@ -14,8 +14,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 import org.eclipse.emf.test.models.customer.CustomerPackage;
 
@@ -119,21 +117,21 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
     isInited = true;
 
     // Initialize simple dependencies
-    XMLTypePackageImpl.init();
+    XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
-    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) : CustomerPackage.eINSTANCE);
     DbPackageImpl theDbPackage = (DbPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) instanceof DbPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) : DbPackage.eINSTANCE);
+    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) : CustomerPackage.eINSTANCE);
 
     // Create package meta-data objects
     theOrderPackage.createPackageContents();
-    theCustomerPackage.createPackageContents();
     theDbPackage.createPackageContents();
+    theCustomerPackage.createPackageContents();
 
     // Initialize created meta-data
     theOrderPackage.initializePackageContents();
-    theCustomerPackage.initializePackageContents();
     theDbPackage.initializePackageContents();
+    theCustomerPackage.initializePackageContents();
 
     // Mark meta-data to indicate it can't be changed
     theOrderPackage.freeze();
@@ -354,7 +352,11 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
 

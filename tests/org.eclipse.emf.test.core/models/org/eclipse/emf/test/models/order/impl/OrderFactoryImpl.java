@@ -2,15 +2,17 @@
  * <copyright>
  * </copyright>
  *
- * $Id: OrderFactoryImpl.java,v 1.2 2005/06/12 13:57:39 emerks Exp $
+ * $Id: OrderFactoryImpl.java,v 1.3 2006/12/29 21:49:52 marcelop Exp $
  */
 package org.eclipse.emf.test.models.order.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.test.models.order.*;
 
 /**
@@ -21,6 +23,29 @@ import org.eclipse.emf.test.models.order.*;
  */
 public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static OrderFactory init()
+  {
+    try
+    {
+      OrderFactory theOrderFactory = (OrderFactory)EPackage.Registry.INSTANCE.getEFactory("http://org/eclipse/emf/test/models/Order"); 
+      if (theOrderFactory != null)
+      {
+        return theOrderFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new OrderFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -37,6 +62,7 @@ public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -98,6 +124,7 @@ public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static OrderPackage getPackage()
   {
     return OrderPackage.eINSTANCE;

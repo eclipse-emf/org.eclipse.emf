@@ -5,8 +5,8 @@
     editDirectory="/org.eclipse.emf.test.core.edit/src" editorDirectory="/org.eclipse.emf.test.core.editor/src"
     modelPluginID="org.eclipse.emf.test.core" runtimeJar="true" modelName="PrimerPO"
     editPluginClass="com.example.ppo.provider.PrimerPOEditPlugin" editorPluginClass="com.example.ppo.presentation.PrimerPOEditorPlugin"
-    runtimeCompatibility="false" testsDirectory="/org.eclipse.emf.test.core.tests/src"
-    testSuiteClass="com.example.ppo.tests.PrimerPOAllTests">
+    testsDirectory="/org.eclipse.emf.test.core.tests/src" testSuiteClass="com.example.ppo.tests.PrimerPOAllTests"
+    importerID="org.eclipse.emf.importer.rose" complianceLevel="5.0">
   <foreignModel>PrimerPO.mdl</foreignModel>
   <genPackages prefix="PPO" basePackage="com.example" disposableProviderFactory="true"
       ecorePackage="PrimerPO.ecore#/">

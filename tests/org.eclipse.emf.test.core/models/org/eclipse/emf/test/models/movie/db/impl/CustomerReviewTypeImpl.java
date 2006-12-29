@@ -2,15 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CustomerReviewTypeImpl.java,v 1.1 2005/02/08 20:54:12 marcelop Exp $
+ * $Id: CustomerReviewTypeImpl.java,v 1.2 2006/12/29 21:49:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.test.models.movie.db.CustomerReviewType;
@@ -66,9 +64,10 @@ public class CustomerReviewTypeImpl extends CriticsReviewTypeImpl implements Cus
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return DbPackage.eINSTANCE.getCustomerReviewType();
+    return DbPackage.Literals.CUSTOMER_REVIEW_TYPE;
   }
 
   /**
@@ -99,18 +98,15 @@ public class CustomerReviewTypeImpl extends CriticsReviewTypeImpl implements Cus
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case DbPackage.CUSTOMER_REVIEW_TYPE__RATING:
-        return new Integer(getRating());
-      case DbPackage.CUSTOMER_REVIEW_TYPE__REVIEWED_BY:
-        return getReviewedBy();
       case DbPackage.CUSTOMER_REVIEW_TYPE__COMMENT:
         return getComment();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -118,21 +114,16 @@ public class CustomerReviewTypeImpl extends CriticsReviewTypeImpl implements Cus
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case DbPackage.CUSTOMER_REVIEW_TYPE__RATING:
-        setRating(((Integer)newValue).intValue());
-        return;
-      case DbPackage.CUSTOMER_REVIEW_TYPE__REVIEWED_BY:
-        setReviewedBy((String)newValue);
-        return;
       case DbPackage.CUSTOMER_REVIEW_TYPE__COMMENT:
         setComment((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -140,21 +131,16 @@ public class CustomerReviewTypeImpl extends CriticsReviewTypeImpl implements Cus
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case DbPackage.CUSTOMER_REVIEW_TYPE__RATING:
-        unsetRating();
-        return;
-      case DbPackage.CUSTOMER_REVIEW_TYPE__REVIEWED_BY:
-        setReviewedBy(REVIEWED_BY_EDEFAULT);
-        return;
       case DbPackage.CUSTOMER_REVIEW_TYPE__COMMENT:
         setComment(COMMENT_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -162,18 +148,15 @@ public class CustomerReviewTypeImpl extends CriticsReviewTypeImpl implements Cus
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case DbPackage.CUSTOMER_REVIEW_TYPE__RATING:
-        return isSetRating();
-      case DbPackage.CUSTOMER_REVIEW_TYPE__REVIEWED_BY:
-        return REVIEWED_BY_EDEFAULT == null ? reviewedBy != null : !REVIEWED_BY_EDEFAULT.equals(reviewedBy);
       case DbPackage.CUSTOMER_REVIEW_TYPE__COMMENT:
         return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -181,6 +164,7 @@ public class CustomerReviewTypeImpl extends CriticsReviewTypeImpl implements Cus
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
