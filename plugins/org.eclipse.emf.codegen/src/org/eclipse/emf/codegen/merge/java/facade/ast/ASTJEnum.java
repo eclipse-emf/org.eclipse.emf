@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJEnum.java,v 1.1 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: ASTJEnum.java,v 1.2 2006/12/29 20:56:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -154,11 +154,18 @@ public class ASTJEnum extends ASTJAbstractType<EnumDeclaration> implements JEnum
   @Override
   public List<JNode> getChildren()
   {
-    List<JNode> children = new ArrayList<JNode>();
-    children.addAll(getAnnotationList());
-    children.addAll(getEnumConstants());
-    children.addAll(getMembers());
-    return children.isEmpty() ? Collections.<JNode> emptyList() : Collections.unmodifiableList(children);
+    if (!isDisposed())
+    {
+      List<JNode> children = new ArrayList<JNode>();
+      children.addAll(getAnnotationList());
+      children.addAll(getEnumConstants());
+      children.addAll(getMembers());
+      if (!children.isEmpty())
+      {
+        return Collections.unmodifiableList(children);
+      }
+    }
+    return Collections.emptyList();
   }
 
   protected List<JNode> getEnumConstants()
