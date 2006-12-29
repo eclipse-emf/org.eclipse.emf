@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelWizard.java,v 1.5 2006/10/16 03:36:27 davidms Exp $
+ * $Id: XSDModelWizard.java,v 1.6 2006/12/29 18:34:03 marcelop Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -152,6 +152,7 @@ public class XSDModelWizard extends Wizard implements INewWizard
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean performFinish()
   {
     try
@@ -165,6 +166,7 @@ public class XSDModelWizard extends Wizard implements INewWizard
       WorkspaceModifyOperation operation =
         new WorkspaceModifyOperation()
         {
+          @Override
           protected void execute(IProgressMonitor progressMonitor)
           {
             try
@@ -280,6 +282,7 @@ public class XSDModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     protected boolean validatePage()
     {
       if (super.validatePage())
@@ -423,6 +426,7 @@ public class XSDModelWizard extends Wizard implements INewWizard
         
             public void keyPressed(KeyEvent e)
             {
+              // Ignore
             }
           });
       }
@@ -478,7 +482,7 @@ public class XSDModelWizard extends Wizard implements INewWizard
     {
       XSDSchema xsdSchema = XSDFactory.eINSTANCE.createXSDSchema();
 
-      Map map = xsdSchema.getQNamePrefixToNamespaceMap();
+      Map<String, String> map = xsdSchema.getQNamePrefixToNamespaceMap();
       map.put(schemaForSchemaPrefixText.getText(), schemaForSchemaNamespaceText.getText());
       xsdSchema.setSchemaForSchemaQNamePrefix(schemaForSchemaPrefixText.getText());
       if (schemaNamespaceText.getText() != null && schemaNamespaceText.getText().trim().length() != 0)
@@ -489,6 +493,7 @@ public class XSDModelWizard extends Wizard implements INewWizard
       return xsdSchema;
     }
 
+    @Override
     public void setVisible(boolean visible)
     {
       if (visible && !isCustomSchemaNamespace)
@@ -505,6 +510,7 @@ public class XSDModelWizard extends Wizard implements INewWizard
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void addPages()
   {
     // Create a page, set the title, and the initial model file name.

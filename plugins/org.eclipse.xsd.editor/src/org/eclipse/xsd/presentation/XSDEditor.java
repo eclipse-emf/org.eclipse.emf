@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.21 2006/10/16 03:36:27 davidms Exp $
+ * $Id: XSDEditor.java,v 1.22 2006/12/29 18:34:04 marcelop Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
@@ -131,12 +130,12 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.SAXWrapper;
 import org.eclipse.emf.ecore.xmi.impl.SAXXMLHandler;
 import org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.EncodingMap;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -264,7 +263,7 @@ public class XSDEditor
   /**
    * This keeps track of all the {@link org.eclipse.jface.viewers.ISelectionChangedListener}s that are listening to this editor.
    */
-  protected Collection selectionChangedListeners = new ArrayList();
+  protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 
   /**
    * This keeps track of the selection of the editor as a whole.
@@ -303,15 +302,19 @@ public class XSDEditor
       }
       public void partBroughtToTop(IWorkbenchPart p)
       {
+        // Ignore
       }
       public void partClosed(IWorkbenchPart p)
       {
+        // Ignore
       }
       public void partDeactivated(IWorkbenchPart p)
       {
+        // Ignore
       }
       public void partOpened(IWorkbenchPart p)
       {
+        // Ignore
       }
     };
 
@@ -477,6 +480,7 @@ public class XSDEditor
   /**
    * This is here for the listener to be able to call it.
    */
+  @Override
   protected void firePropertyChange(int action)
   {
     super.firePropertyChange(action);
@@ -485,7 +489,7 @@ public class XSDEditor
   /**
    * This sets the selection into whichever viewer is active.
    */
-  public void setSelectionToViewer(final Collection collection)
+  public void setSelectionToViewer(final Collection<?> collection)
   {
     // Make sure it's okay.
     //
@@ -607,11 +611,13 @@ public class XSDEditor
     protected IAction refreshViewerAction =
       new Action(XSDEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item"))
       {
+        @Override
         public boolean isEnabled()
         {
           return activeEditorPart instanceof IViewerProvider;
         }
 
+        @Override
         public void run()
         {
           if (activeEditorPart instanceof IViewerProvider)
@@ -631,6 +637,7 @@ public class XSDEditor
     protected IAction showPropertiesViewAction =
       new Action(XSDEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))
       {
+        @Override
         public void run()
         {
           try
@@ -650,6 +657,7 @@ public class XSDEditor
     protected IAction validateAutomaticallyAction =
       new Action(XSDEditorPlugin.INSTANCE.getString("_UI_ValidateAutomatically_menu_item"))
       {
+        @Override
         public void run()
         {
           ((XSDEditor)activeEditorPart).setValidateAutomatically(isChecked());
@@ -660,7 +668,7 @@ public class XSDEditor
      * This will contain one CreateChildAction corresponding to each
      * descriptor generated for the current selection.
      */
-    protected Collection createChildActions = Collections.EMPTY_LIST;
+    protected Collection<IAction> createChildActions = Collections.emptyList();
 
     /**
      * This is the menu manager into which menu contribution items should be
@@ -672,7 +680,7 @@ public class XSDEditor
      * This will contain one CreateSiblingAction corresponding to each
      * descriptor generated for the current selection's parent.
      */
-    protected Collection createSiblingActions = Collections.EMPTY_LIST;
+    protected Collection<IAction> createSiblingActions = Collections.emptyList();
 
     /**
      * This is the menu manager into which menu contribution items should be
@@ -694,6 +702,7 @@ public class XSDEditor
      * accessible for modification in code.  Also, sub-menus are created for
      * the addition and removal of child and sibling creation items.
      */
+    @Override
     public void contributeToMenu(IMenuManager menuManager)
     {
       super.contributeToMenu(menuManager);
@@ -732,6 +741,7 @@ public class XSDEditor
     /**
      * This adds Separators to the tool bar.
      */
+    @Override
     public void contributeToToolBar(IToolBarManager toolBarManager)
     {
       toolBarManager.add(new Separator("xsd-settings"));
@@ -742,6 +752,7 @@ public class XSDEditor
      * When the active editor changes, this remembers the change, and
      * registers with it as a selection provider.
      */
+    @Override
     public void setActiveEditor(IEditorPart part)
     {
       super.setActiveEditor(part);
@@ -784,8 +795,8 @@ public class XSDEditor
       }
 
       // query new selection for appropriate new child/sibling descriptors...
-      Collection newChildDescriptors = Collections.EMPTY_LIST;
-      Collection newSiblingDescriptors = Collections.EMPTY_LIST;
+      Collection<CommandParameter> newChildDescriptors = Collections.emptyList();
+      Collection<CommandParameter> newSiblingDescriptors = Collections.emptyList();
       ISelection sel = event.getSelection();
 
       if (sel instanceof IStructuredSelection
@@ -801,10 +812,8 @@ public class XSDEditor
       }
 
       // generate actions for selection, populate and redraw menu
-      createChildActions = generateCreateChildActions(
-        newChildDescriptors, sel);
-      createSiblingActions = generateCreateSiblingActions(
-        newSiblingDescriptors, sel);
+      createChildActions = generateCreateChildActions(newChildDescriptors, sel);
+      createSiblingActions = generateCreateSiblingActions(newSiblingDescriptors, sel);
 
       if (createChildMenuManager != null)
       {
@@ -822,13 +831,12 @@ public class XSDEditor
      * This generates a {@link CreateChildAction} for each object in
      * <code>descriptors</code>, and returns the collection of these actions.
      */
-    protected Collection generateCreateChildActions(Collection descriptors,
-                                                    ISelection sel)
+    protected Collection<IAction> generateCreateChildActions(Collection<CommandParameter> descriptors, ISelection selection)
     {
-      Collection actions = new LinkedList();
-      for (Iterator i = descriptors.iterator(); i.hasNext(); )
+      Collection<IAction> actions = new LinkedList<IAction>();
+      for (CommandParameter descriptor : descriptors)
       {
-        actions.add(new CreateChildAction(activeEditorPart, sel, i.next()));
+        actions.add(new CreateChildAction(activeEditorPart, selection, descriptor));
       }
       return actions;
     }
@@ -837,13 +845,12 @@ public class XSDEditor
      * This generates a {@link CreateSiblingAction} for each object in
      * <code>descriptors</code>, and returns the collection of these actions.
      */
-    protected Collection generateCreateSiblingActions(Collection descriptors,
-                                                      ISelection sel)
+    protected Collection<IAction> generateCreateSiblingActions(Collection<CommandParameter> descriptors, ISelection selection)
     {
-      Collection actions = new LinkedList();
-      for (Iterator i = descriptors.iterator(); i.hasNext(); )
+      Collection<IAction> actions = new LinkedList<IAction>();
+      for (CommandParameter descriptor : descriptors)
       {
-        actions.add(new CreateSiblingAction(activeEditorPart, sel, i.next()));
+        actions.add(new CreateSiblingAction(activeEditorPart, selection, descriptor));
       }
       return actions;
     }
@@ -854,12 +861,10 @@ public class XSDEditor
      * the actions collection, by inserting them before the specified
      * contribution item ID.  If ID is null, they are simply added.
      */
-    protected void populateManager(IContributionManager manager,
-                                   Collection actions,  String ID)
+    protected void populateManager(IContributionManager manager, Collection<IAction> actions,  String ID)
     {
-      for (Iterator i = actions.iterator(); i.hasNext(); )
+      for (IAction action : actions)
       {
-        IAction action = (IAction) i.next();
         if (ID != null)
         {
           manager.insertBefore(ID, action);
@@ -876,8 +881,7 @@ public class XSDEditor
      * ActionContributionItems based on the IActions contained in the
      * actions collection.
      */
-    protected void depopulateManager(IContributionManager manager,
-                                     Collection actions)
+    protected void depopulateManager(IContributionManager manager, Collection<IAction> actions)
     {
       IContributionItem[] item = manager.getItems();
       for (int i = 0; i < item.length; i++)
@@ -904,6 +908,7 @@ public class XSDEditor
     /**
      * This populates the pop-up menu before it appears.
      */
+    @Override
     public void menuAboutToShow(IMenuManager menuManager)
     {
       super.menuAboutToShow(menuManager);
@@ -920,6 +925,7 @@ public class XSDEditor
     /**
      * This inserts global actions before the "additions-end" separator.
      */
+    @Override
     protected void addGlobalActions(IMenuManager menuManager)
     {
       menuManager.insertAfter("additions-end", new Separator("ui-actions"));
@@ -963,6 +969,7 @@ public class XSDEditor
   /**
    * This is the method used by the framework to install your own controls.
    */
+  @Override
   public void createPages()
   {
     createSourcePage();
@@ -1012,6 +1019,7 @@ public class XSDEditor
       {
         // This is the method that gets invoked when the operation runs.
         //
+        @Override
         protected void execute(IProgressMonitor progressMonitor) throws CoreException
         {
           try
@@ -1076,6 +1084,7 @@ public class XSDEditor
       }
       catch (BadLocationException exception)
       {
+        // Ignore
       }
       int column = offset - lineOffset;
       // System.out.println("[" + line + "," + column + "]");
@@ -1118,12 +1127,11 @@ public class XSDEditor
   }
 
 
-  public void handleSelectedNodes(Collection nodes)
+  public void handleSelectedNodes(Collection<? extends Node> nodes)
   {
-    Collection selection = new ArrayList();
-    for (Iterator i = nodes.iterator(); i.hasNext(); )
+    Collection<Object> selection = new ArrayList<Object>();
+    for (Node node : nodes)
     {
-      Node node = (Node)i.next();
       XSDConcreteComponent bestXSDConcreteComponent = xsdSchema.getCorrespondingComponent(node);
       if (bestXSDConcreteComponent != null)
       {
@@ -1165,7 +1173,7 @@ public class XSDEditor
   {
     try
     {
-      XSDParser xsdParser = new XSDParser();
+      XSDParser xsdParser = new XSDParser(null);
       String documentContent = sourceViewer.getDocument().get();
       xsdParser.parseString(documentContent);
       xsdSchema.clearDiagnostics();
@@ -1191,13 +1199,15 @@ public class XSDEditor
       textEditor =
         new TextEditor()
         {
+          @Override
           public ISourceViewer createSourceViewer(Composite parent, IVerticalRuler ruler, int styles)
           {
             final ISourceViewer result = super.createSourceViewer(parent, ruler, styles);
             result.getTextWidget().addMouseListener
               (new MouseAdapter()
                {
-                 public void mouseDown(MouseEvent event)
+                 @Override
+                public void mouseDown(MouseEvent event)
                  {
                    handleSourceCaretPosition();
                  }
@@ -1205,7 +1215,8 @@ public class XSDEditor
             result.getTextWidget().addKeyListener
               (new KeyAdapter()
                {
-                 public void keyPressed(KeyEvent event)
+                 @Override
+                public void keyPressed(KeyEvent event)
                  {
                    switch (event.keyCode)
                    {
@@ -1246,7 +1257,9 @@ public class XSDEditor
 
            public void documentAboutToBeChanged(DocumentEvent documentEvent)
            {
+             // Ingore
            }
+
            public void documentChanged(final DocumentEvent documentEvent)
            {
              try
@@ -1270,7 +1283,8 @@ public class XSDEditor
                  timerTask =
                    new TimerTask()
                    {
-                     public void run()
+                     @Override
+                    public void run()
                      {
                        getSite().getShell().getDisplay().asyncExec
                          (new Runnable()
@@ -1307,12 +1321,14 @@ public class XSDEditor
       ViewerPane viewerPane =
         new ViewerPane(getSite().getPage(), XSDEditor.this)
         {
+          @Override
           public Viewer createViewer(Composite composite)
           {
             Tree tree = new Tree(composite, SWT.MULTI);
             TreeViewer newTreeViewer = new TreeViewer(tree);
             return newTreeViewer;
           }
+          @Override
           public void requestActivation()
           {
             super.requestActivation();
@@ -1359,12 +1375,14 @@ public class XSDEditor
       ViewerPane viewerPane =
         new ViewerPane(getSite().getPage(), XSDEditor.this)
         {
+          @Override
           public Viewer createViewer(Composite composite)
           {
             Tree tree = new Tree(composite, SWT.MULTI);
             TreeViewer newTreeViewer = new TreeViewer(tree);
             return newTreeViewer;
           }
+          @Override
           public void requestActivation()
           {
             super.requestActivation();
@@ -1413,6 +1431,7 @@ public class XSDEditor
       }
       catch (BadLocationException exception)
       {
+        // Ignore
       }
     }
     else
@@ -1459,13 +1478,12 @@ public class XSDEditor
         IFile file = modelFile.getFile();
 
         IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ZERO);
-        Collection deletableMarkers = new ArrayList(Arrays.asList(markers));
+        Collection<IMarker> deletableMarkers = new ArrayList<IMarker>(Arrays.asList(markers));
 
         if (validateAutomatically)
         {
-          for (Iterator xsdDiagnostics = xsdSchema.getAllDiagnostics().iterator(); xsdDiagnostics.hasNext(); )
+          for (XSDDiagnostic xsdDiagnostic : xsdSchema.getAllDiagnostics())
           {
-            XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)xsdDiagnostics.next();
             String uriReferencePath = xsdSchema.eResource().getURIFragment(xsdDiagnostic);
 
             IMarker marker = null;
@@ -1515,9 +1533,8 @@ public class XSDEditor
           }
         }
 
-        for (Iterator i = deletableMarkers.iterator(); i.hasNext(); )
+        for (IMarker marker : deletableMarkers)
         {
-          IMarker marker = (IMarker)i.next();
           marker.delete();
         }
       }
@@ -1561,6 +1578,7 @@ public class XSDEditor
   /**
    * This is used to track the active viewer.
    */
+  @Override
   protected void pageChange(int pageIndex)
   {
     super.pageChange(pageIndex);
@@ -1589,6 +1607,8 @@ public class XSDEditor
   /**
    * This is how the framework determines which interfaces we implement.
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public Object getAdapter(Class key)
   {
     if (key.equals(IContentOutlinePage.class))
@@ -1611,28 +1631,34 @@ public class XSDEditor
   public static XSDConcreteComponent getResolvedObject(XSDConcreteComponent xsdConcreteComponent)
   {
     XSDConcreteComponent result =
-      (XSDConcreteComponent)new XSDSwitch()
+      (XSDConcreteComponent)new XSDSwitch<Object>()
       {
+        @Override
         public Object caseXSDAttributeUse(XSDAttributeUse xsdAttributeUse)
         {
           return xsdAttributeUse.getAttributeDeclaration().getResolvedAttributeDeclaration();
         }
+        @Override
         public Object caseXSDAttributeDeclaration(XSDAttributeDeclaration xsdAttributeDeclaration)
         {
           return xsdAttributeDeclaration.getResolvedAttributeDeclaration();
         }
+        @Override
         public Object caseXSDAttributeGroupDefinition(XSDAttributeGroupDefinition xsdAttributeGroupDefinition)
         {
           return xsdAttributeGroupDefinition.getResolvedAttributeGroupDefinition();
         }
+        @Override
         public Object caseXSDElementDeclaration(XSDElementDeclaration xsdElementDeclaration)
         {
           return xsdElementDeclaration.getResolvedElementDeclaration();
         }
+        @Override
         public Object caseXSDModelGroupDefinition(XSDModelGroupDefinition xsdModelGroupDefinition)
         {
           return xsdModelGroupDefinition.getResolvedModelGroupDefinition();
         }
+        @Override
         public Object caseXSDParticle(XSDParticle xsdParticle)
         {
           Object resolvedObject = getResolvedObject(xsdParticle.getContent());
@@ -1661,6 +1687,7 @@ public class XSDEditor
       //
       class MyContentOutlinePage extends ContentOutlinePage
       {
+        @Override
         public void createControl(Composite parent)
         {
           super.createControl(parent);
@@ -1677,23 +1704,24 @@ public class XSDEditor
           contentOutlineViewer.getTree().addMouseListener
             (new MouseAdapter()
              {
-               public void mouseDoubleClick(MouseEvent event)
+               @Override
+              public void mouseDoubleClick(MouseEvent event)
                {
                  // Do fancy navigation selections when double clicking.
                  //
                  IStructuredSelection selection = (IStructuredSelection)contentOutlineViewer.getSelection();
-                 for (Iterator objects = selection.toList().iterator(); objects.hasNext(); )
+                 for (Object object :  selection.toList())
                  {
-                   XSDConcreteComponent object = (XSDConcreteComponent)objects.next();
-                   Object resolvedObject = getResolvedObject(object);
-                   if (object != resolvedObject)
+                   XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)object;
+                   Object resolvedObject = getResolvedObject(xsdConcreteComponent);
+                   if (xsdConcreteComponent != resolvedObject)
                    {
                      contentOutlineViewer.setSelection(new StructuredSelection(new Object [] {resolvedObject}), true);
                      break;
                    }
-                   else if (object instanceof XSDAttributeDeclaration)
+                   else if (xsdConcreteComponent instanceof XSDAttributeDeclaration)
                    {
-                     XSDAttributeDeclaration xsdAttributeDeclaration = (XSDAttributeDeclaration)object;
+                     XSDAttributeDeclaration xsdAttributeDeclaration = (XSDAttributeDeclaration)xsdConcreteComponent;
                      XSDSimpleTypeDefinition typeDefinition = xsdAttributeDeclaration.getTypeDefinition();
                      if (typeDefinition != null && typeDefinition.getSchema() == xsdAttributeDeclaration.getSchema())
                      {
@@ -1701,9 +1729,9 @@ public class XSDEditor
                        break;
                      }
                    }
-                   else if (object instanceof XSDElementDeclaration)
+                   else if (xsdConcreteComponent instanceof XSDElementDeclaration)
                    {
-                     XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)object;
+                     XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)xsdConcreteComponent;
                      XSDTypeDefinition typeDefinition = xsdElementDeclaration.getTypeDefinition();
                      if (typeDefinition != null && typeDefinition.getSchema() == xsdElementDeclaration.getSchema())
                      {
@@ -1711,9 +1739,9 @@ public class XSDEditor
                        break;
                      }
                    }
-                   else if (object instanceof XSDSimpleTypeDefinition)
+                   else if (xsdConcreteComponent instanceof XSDSimpleTypeDefinition)
                    {
-                     XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)object;
+                     XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)xsdConcreteComponent;
                      XSDSimpleTypeDefinition baseTypeDefinition = xsdSimpleTypeDefinition.getBaseTypeDefinition();
                      if (baseTypeDefinition != null && baseTypeDefinition.getSchema() == xsdSimpleTypeDefinition.getSchema())
                      {
@@ -1726,16 +1754,16 @@ public class XSDEditor
                        contentOutlineViewer.setSelection(new StructuredSelection(new Object [] {itemTypeDefinition}), true);
                        break;
                      }
-                     List memberTypeDefinitions = xsdSimpleTypeDefinition.getMemberTypeDefinitions();
+                     List<?> memberTypeDefinitions = xsdSimpleTypeDefinition.getMemberTypeDefinitions();
                      if (!memberTypeDefinitions.isEmpty())
                      {
                        contentOutlineViewer.setSelection(new StructuredSelection(memberTypeDefinitions.toArray()), true);
                        break;
                      }
                    }
-                   else if (object instanceof XSDComplexTypeDefinition)
+                   else if (xsdConcreteComponent instanceof XSDComplexTypeDefinition)
                    {
-                     XSDComplexTypeDefinition xsdComplexTypeDefinition = (XSDComplexTypeDefinition)object;
+                     XSDComplexTypeDefinition xsdComplexTypeDefinition = (XSDComplexTypeDefinition)xsdConcreteComponent;
                      XSDTypeDefinition baseTypeDefinition = xsdComplexTypeDefinition.getBaseTypeDefinition();
                      if (baseTypeDefinition != null && baseTypeDefinition.getSchema() == xsdComplexTypeDefinition.getSchema())
                      {
@@ -1759,7 +1787,7 @@ public class XSDEditor
 
           // Select the root object in the view.
           //
-          ArrayList selection = new ArrayList();
+          ArrayList<Object> selection = new ArrayList<Object>();
           selection.add(xsdSchema);
           contentOutlineViewer.setSelection(new StructuredSelection(selection), true);
 
@@ -1786,6 +1814,7 @@ public class XSDEditor
              });
         }
 
+        @Override
         public void setActionBars(IActionBars actionBars)
         {
           super.setActionBars(actionBars);
@@ -1841,11 +1870,13 @@ public class XSDEditor
       propertySheetPage =
         new PropertySheetPage()
         {
+          @Override
           public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
           {
             super.makeContributions(menuManager, toolBarManager, statusLineManager);
           }
 
+          @Override
           public void setActionBars(IActionBars actionBars)
           {
             super.setActionBars(actionBars);
@@ -1855,17 +1886,20 @@ public class XSDEditor
       propertySheetPage.setPropertySourceProvider
         (new AdapterFactoryContentProvider(syntacticAdapterFactory)
          {
-           protected IPropertySource createPropertySource(Object object, IItemPropertySource itemPropertySource)
+           @Override
+          protected IPropertySource createPropertySource(Object object, IItemPropertySource itemPropertySource)
            {
              return
                new PropertySource(object, itemPropertySource)
                {
-                 protected IPropertyDescriptor createPropertyDescriptor(IItemPropertyDescriptor itemPropertyDescriptor)
+                 @Override
+                protected IPropertyDescriptor createPropertyDescriptor(IItemPropertyDescriptor itemPropertyDescriptor)
                  {
                    return
                      new PropertyDescriptor(this.object, itemPropertyDescriptor)
                      {
-                       public CellEditor createPropertyEditor(Composite composite)
+                       @Override
+                      public CellEditor createPropertyEditor(Composite composite)
                        {
                          if (!this.itemPropertyDescriptor.canSetProperty(this.object))
                          {
@@ -1881,12 +1915,12 @@ public class XSDEditor
                            EObject getEType = feature.getEType();
                            if (getEType == ecorePackage.getEBoolean())
                            {
-                             Collection choiceOfValues = this.itemPropertyDescriptor.getChoiceOfValues(this.object);
+                             Collection<?> choiceOfValues = this.itemPropertyDescriptor.getChoiceOfValues(this.object);
                              if (choiceOfValues != null)
                              {
                                result =
                                  new ExtendedComboBoxCellEditor
-                                   (composite, new ArrayList(choiceOfValues), getLabelProvider(), true);
+                                   (composite, new ArrayList<Object>(choiceOfValues), getLabelProvider(), true);
                              }
                            }
                          }
@@ -1925,10 +1959,10 @@ public class XSDEditor
       }
       else if (currentViewerPane.getViewer() == semanticSelectionViewer)
       {
-        ArrayList selectionList = new ArrayList();
-        for (Iterator elements = ((IStructuredSelection)selection).iterator(); elements.hasNext(); )
+        ArrayList<Object> selectionList = new ArrayList<Object>();
+        for (Object object : ((IStructuredSelection)selection).toList())
         {
-          selectionList.add(getResolvedObject((XSDConcreteComponent)elements.next()));
+          selectionList.add(getResolvedObject((XSDConcreteComponent)object));
         }
 
         // Set the selection to the widget.
@@ -1992,6 +2026,7 @@ public class XSDEditor
   /**
    * This is for implementing {@link IEditorPart} and simply tests the command stack.
    */
+  @Override
   public boolean isDirty()
   {
     return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded() || textEditor != null && textEditor.isDirty();
@@ -2000,6 +2035,7 @@ public class XSDEditor
   /**
    * This is for implementing {@link IEditorPart} and simply saves the model file.
    */
+  @Override
   public void doSave(IProgressMonitor progressMonitor)
   {
     // Do the work within an operation because this is a long running activity that modifies the workbench.
@@ -2009,6 +2045,7 @@ public class XSDEditor
       {
         // This is the method that gets invoked when the operation runs.
         //
+        @Override
         protected void execute(IProgressMonitor monitor) throws CoreException
         {
           try
@@ -2048,6 +2085,7 @@ public class XSDEditor
   /**
    * This always returns false because it is not current supported.
    */
+  @Override
   public boolean isSaveAsAllowed()
   {
     return true;
@@ -2056,6 +2094,7 @@ public class XSDEditor
   /**
    * This also changes the editor's input.
    */
+  @Override
   public void doSaveAs()
   {
     SaveAsDialog saveAsDialog = new SaveAsDialog(getSite().getShell());
@@ -2098,6 +2137,7 @@ public class XSDEditor
   /**
    * This is called during startup.
    */
+  @Override
   public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException
   {
     if (editorInput instanceof IFileEditorInput)
@@ -2114,6 +2154,7 @@ public class XSDEditor
     }
   }
 
+  @Override
   public void setFocus()
   {
     getControl(getActivePage()).setFocus();
@@ -2153,9 +2194,8 @@ public class XSDEditor
 
     SelectionChangedEvent selectionChangedEvent = new SelectionChangedEvent(this, selection);
     ((MultiPageSelectionProvider)getSite().getSelectionProvider()).fireSelectionChanged(selectionChangedEvent);
-    for (Iterator listeners = selectionChangedListeners.iterator(); listeners.hasNext(); )
+    for (ISelectionChangedListener listener : selectionChangedListeners)
     {
-      ISelectionChangedListener listener = (ISelectionChangedListener)listeners.next();
       listener.selectionChanged(selectionChangedEvent);
     }
 
@@ -2174,7 +2214,7 @@ public class XSDEditor
     {
       if (selection instanceof IStructuredSelection)
       {
-        Collection collection = ((IStructuredSelection)selection).toList();
+        Collection<?> collection = ((IStructuredSelection)selection).toList();
         switch (collection.size())
         {
           case 0:
@@ -2192,7 +2232,7 @@ public class XSDEditor
               XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)object;
               if (!xsdConcreteComponent.getDiagnostics().isEmpty())
               {
-                text = ((XSDDiagnostic)xsdConcreteComponent.getDiagnostics().get(0)).getMessage();
+                text = (xsdConcreteComponent.getDiagnostics().get(0)).getMessage();
               }
             }
 
@@ -2241,6 +2281,7 @@ public class XSDEditor
   /**
    * This is called when the editor is disposed.
    */
+  @Override
   public void dispose()
   {
     super.dispose();
@@ -2273,7 +2314,7 @@ public class XSDEditor
    */
   class SelectObjectAction extends Action
   {
-    protected Collection objectsToSelect;
+    protected Collection<?> objectsToSelect;
     protected StructuredViewer structuredViewer;
 
     public SelectObjectAction(StructuredViewer structuredViewer, String text, ImageDescriptor imageDescriptor)
@@ -2288,15 +2329,16 @@ public class XSDEditor
       setObjectsToSelect
         (objectToSelect != null ?
            Collections.singleton(objectToSelect) :
-           (Collection)Collections.EMPTY_LIST);
+           Collections.EMPTY_LIST);
     }
 
-    public void setObjectsToSelect(Collection objectsToSelect)
+    public void setObjectsToSelect(Collection<?> objectsToSelect)
     {
-      this.objectsToSelect = new ArrayList(objectsToSelect);
+      this.objectsToSelect = new ArrayList<Object>(objectsToSelect);
       setEnabled(!objectsToSelect.isEmpty());
     }
 
+    @Override
     public void run()
     {
       structuredViewer.setSelection(new StructuredSelection(objectsToSelect.toArray()), true);
@@ -2335,12 +2377,12 @@ public class XSDEditor
       setCurrentObjects(((IStructuredSelection)structuredViewer.getSelection()).toList());
     }
 
-    public void setCurrentObjects(List objects)
+    public void setCurrentObjects(List<?> objects)
     {
       XSDConcreteComponent result = null;
 
       boolean isStarted = false;
-      for (TreeIterator tree = editingDomain.treeIterator(xsdSchema); tree.hasNext(); )
+      for (TreeIterator<?> tree = editingDomain.treeIterator(xsdSchema); tree.hasNext(); )
       {
         XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)tree.next();
         if (!isForward && objects.contains(xsdConcreteComponent))
@@ -2407,14 +2449,14 @@ public class XSDEditor
       setCurrentObjects(((IStructuredSelection)structuredViewer.getSelection()).toList());
     }
 
-    public void setCurrentObjects(List objects)
+    public void setCurrentObjects(List<?> objects)
     {
       XSDConcreteComponent result = null;
 
-      final List resolvedObjects = new ArrayList();
-      for (Iterator i = objects.iterator(); i.hasNext(); )
+      final List<Object> resolvedObjects = new ArrayList<Object>();
+      for (Object object : objects)
       {
-        XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)i.next();
+        XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)object;
         XSDConcreteComponent resolvedObject = getResolvedObject(xsdConcreteComponent);
         if (resolvedObject != this)
         {
@@ -2423,7 +2465,7 @@ public class XSDEditor
       }
 
       boolean isStarted = false;
-      for (TreeIterator tree = editingDomain.treeIterator(xsdSchema); tree.hasNext(); )
+      for (TreeIterator<?> tree = editingDomain.treeIterator(xsdSchema); tree.hasNext(); )
       {
         XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)tree.next();
         if (!isForward && objects.contains(xsdConcreteComponent))
@@ -2463,6 +2505,7 @@ public class XSDEditor
       super();
     }
 
+    @Override
     public Resource createResource(URI uri)
     {
       XMLResource result = new GenericXMLResourceImpl(uri);
@@ -2488,35 +2531,37 @@ public class XSDEditor
       super(uri);
     }
 
+    @Override
     protected XMLLoad createXMLLoad()
     {
       return 
         new XMLLoadImpl(createXMLHelper())
         {
+          @Override
           protected DefaultHandler makeDefaultHandler()
           {
             return 
-              new SAXWrapper
-                (new SAXXMLHandler(resource, helper, options)
-                 {
-                   protected void handleTopLocations(String prefix, String name)
-                   {
-                     if (urisToLocations != null)
-                     {
-                       xsdEcoreBuilder = new XSDEcoreBuilder(extendedMetaData);
-                       Collection resources = xsdEcoreBuilder.generateResources(urisToLocations.values());
-                       resource.getResourceSet().getResources().addAll(resources);
-                     }
+              new SAXXMLHandler(resource, helper, options)
+              {
+                @Override
+               protected void handleTopLocations(String prefix, String name)
+                {
+                  if (urisToLocations != null)
+                  {
+                    xsdEcoreBuilder = new XSDEcoreBuilder(extendedMetaData);
+                    Collection<Resource> resources = xsdEcoreBuilder.generateResources(urisToLocations.values());
+                    resource.getResourceSet().getResources().addAll(resources);
+                  }
 
-                     // Ensure that anything can be handled, even if it's not recognized.
-                     //
-                     String namespaceURI = helper.getURI(prefix);
-                     if (extendedMetaData.getPackage(namespaceURI) == null)
-                     {
-                       extendedMetaData.demandFeature(namespaceURI, name, true);
-                     }
-                   }
-                 });
+                  // Ensure that anything can be handled, even if it's not recognized.
+                  //
+                  String namespaceURI = helper.getURI(prefix);
+                  if (extendedMetaData.getPackage(namespaceURI) == null)
+                  {
+                    extendedMetaData.demandFeature(namespaceURI, name, true);
+                  }
+                }
+              };
           }
         };
     }
@@ -2750,8 +2795,10 @@ public class XSDEditor
 
     public GenericXMLLoadAction()
     {
+      super();
     }
 
+    @Override
     public void run(IAction action)
     {
       if (file != null)
@@ -2812,16 +2859,14 @@ public class XSDEditor
         exception.printStackTrace();
       }
 
-      List ePackages = new ArrayList();
-      for (Iterator i = resourceSet.getResources().iterator(); i.hasNext(); )
+      List<EPackage> ePackages = new ArrayList<EPackage>();
+      for (Resource otherResource : resourceSet.getResources())
       {
-        Resource otherResource = (Resource)i.next();
-        for (Iterator j = otherResource.getContents().iterator(); j.hasNext(); )
+        for (Object object : otherResource.getContents())
         {
-          Object object = j.next();
           if (object instanceof EPackage)
           {
-            ePackages.add(object);
+            ePackages.add((EPackage)object);
           }
         }
       }
@@ -2840,7 +2885,7 @@ public class XSDEditor
 
       try
       {
-        XSDParser xsdParser = new XSDParser();
+        XSDParser xsdParser = new XSDParser(null);
         xsdParser.parse(URI.createPlatformResourceURI(file.getFullPath().toString(), true).toString());
         Document document = xsdParser.getDocument();
         OutputStream outputStream = 
@@ -2857,7 +2902,7 @@ public class XSDEditor
 
       try
       {
-        XSDParser xsdParser = new XSDParser();
+        XSDParser xsdParser = new XSDParser(null);
         xsdParser.parse(URI.createPlatformResourceURI(file.getFullPath().toString() + ".save.xml", true).toString());
         Document document = xsdParser.getDocument();
         OutputStream outputStream = 
@@ -2873,6 +2918,7 @@ public class XSDEditor
       }
     }
 
+    @Override
     public void selectionChanged(IAction action, ISelection selection)
     {
       if (selection instanceof IStructuredSelection)
