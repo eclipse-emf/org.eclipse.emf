@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.15 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenParameterImpl.java,v 1.16 2006/12/29 18:06:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 

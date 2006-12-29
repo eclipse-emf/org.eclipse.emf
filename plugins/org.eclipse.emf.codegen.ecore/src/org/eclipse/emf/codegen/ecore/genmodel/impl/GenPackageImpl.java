@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.65 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.66 2006/12/29 18:06:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -42,6 +42,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
@@ -3791,6 +3792,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getAnnotatedModelElementAccessor(EAnnotation eAnnotation)
   {
+    final boolean useGenerics = getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50;
     EModelElement eModelElement = eAnnotation.getEModelElement();
     String result =
         new EcoreSwitch<String>()
@@ -3818,9 +3820,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           {
             EClass eClass = eOperation.getEContainingClass();
             return 
-              "(" +
-                getGenModel().getImportedName("org.eclipse.emf.ecore.EOperation") + 
-                ")" + 
+              (useGenerics ?  "" : "(" + getGenModel().getImportedName("org.eclipse.emf.ecore.EOperation") +  ")") + 
                 caseEClassifier(eClass) + 
                 ".getEOperations().get(" +
                 eClass.getEOperations().indexOf(eOperation) +
@@ -3831,9 +3831,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           {
             EEnum eEnum = eEnumLiteral.getEEnum();
             return 
-              "(" + 
-                getGenModel().getImportedName("org.eclipse.emf.ecore.EEnumLiteral") + 
-                ")" + 
+              (useGenerics ? "" : "(" + getGenModel().getImportedName("org.eclipse.emf.ecore.EEnumLiteral") +  ")") + 
                 caseEClassifier(eEnum) + 
                 ".getELiterals().get(" +
                 eEnum.getELiterals().indexOf(eEnumLiteral) +
@@ -3845,9 +3843,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           {
             EOperation eOperation = eParameter.getEOperation();
             return 
-              "(" + 
-                getGenModel().getImportedName("org.eclipse.emf.ecore.EParameter") + 
-                ")(" + 
+              (useGenerics ? "" : "(" +  getGenModel().getImportedName("org.eclipse.emf.ecore.EParameter") +  ")") + 
+                "(" + 
                 caseEOperation(eOperation) +
                 ").getEParameters().get(" +
                 eOperation.getEParameters().indexOf(eParameter) +
