@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.17 2006/12/15 18:59:56 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.18 2006/12/29 18:16:23 marcelop Exp $
  */
 package org.eclipse.xsd.ecore;
 

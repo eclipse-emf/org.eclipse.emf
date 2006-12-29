@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDBase64BinaryType.java,v 1.4 2006/12/15 18:59:56 emerks Exp $
+ * $Id: XSDBase64BinaryType.java,v 1.5 2006/12/29 18:16:23 marcelop Exp $
  */
 package org.eclipse.xsd.impl.type;
 
