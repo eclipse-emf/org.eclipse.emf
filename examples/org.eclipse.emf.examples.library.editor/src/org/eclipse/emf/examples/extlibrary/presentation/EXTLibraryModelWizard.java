@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryModelWizard.java,v 1.3 2006/10/16 03:31:24 davidms Exp $
+ * $Id: EXTLibraryModelWizard.java,v 1.4 2006/12/29 18:27:34 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -159,7 +158,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
    * <!-- end-user-doc -->
    * @generated
    */
-  protected List initialObjectNames;
+  protected List<String> initialObjectNames;
 
   /**
    * This just records the information.
@@ -181,14 +180,13 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection getInitialObjectNames()
+  protected Collection<String> getInitialObjectNames()
   {
     if (initialObjectNames == null)
     {
-      initialObjectNames = new ArrayList();
-      for (Iterator classifiers = extLibraryPackage.getEClassifiers().iterator(); classifiers.hasNext(); )
+      initialObjectNames = new ArrayList<String>();
+      for (EClassifier eClassifier : extLibraryPackage.getEClassifiers())
       {
-        EClassifier eClassifier = (EClassifier)classifiers.next();
         if (eClassifier instanceof EClass)
         {
           EClass eClass = (EClass)eClassifier;
@@ -222,6 +220,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean performFinish()
   {
     try
@@ -235,6 +234,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
       WorkspaceModifyOperation operation =
         new WorkspaceModifyOperation()
         {
+          @Override
           protected void execute(IProgressMonitor progressMonitor)
           {
             try
@@ -261,7 +261,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
 
               // Save the contents of the resource to the file system.
               //
-              Map options = new HashMap();
+              Map<Object, Object> options = new HashMap<Object, Object>();
               options.put(XMLResource.OPTION_ENCODING, initialObjectCreationPage.getEncoding());
               resource.save(options);
             }
@@ -344,6 +344,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     protected boolean validatePage()
     {
       if (super.validatePage())
@@ -399,7 +400,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      */
-    protected List encodings;
+    protected List<String> encodings;
 
     /**
      * <!-- begin-user-doc -->
@@ -457,9 +458,9 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
         initialObjectField.setLayoutData(data);
       }
 
-      for (Iterator i = getInitialObjectNames().iterator(); i.hasNext(); )
+      for (String objectName : getInitialObjectNames())
       {
-        initialObjectField.add(getLabel((String)i.next()));
+        initialObjectField.add(getLabel(objectName));
       }
 
       if (initialObjectField.getItemCount() == 1)
@@ -484,9 +485,9 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
         encodingField.setLayoutData(data);
       }
 
-      for (Iterator i = getEncodings().iterator(); i.hasNext(); )
+      for (String encoding : getEncodings())
       {
-        encodingField.add((String)i.next());
+        encodingField.add(encoding);
       }
 
       encodingField.select(0);
@@ -525,6 +526,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public void setVisible(boolean visible)
     {
       super.setVisible(visible);
@@ -552,9 +554,8 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
     {
       String label = initialObjectField.getText();
 
-      for (Iterator i = getInitialObjectNames().iterator(); i.hasNext(); )
+      for (String name : getInitialObjectNames())
       {
-        String name = (String)i.next();
         if (getLabel(name).equals(label))
         {
           return name;
@@ -597,11 +598,11 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
-    protected Collection getEncodings()
+    protected Collection<String> getEncodings()
     {
       if (encodings == null)
       {
-        encodings = new ArrayList();
+        encodings = new ArrayList<String>();
         for (StringTokenizer stringTokenizer = new StringTokenizer(EXTLibraryEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); ) //$NON-NLS-1$
         {
           encodings.add(stringTokenizer.nextToken());
@@ -617,6 +618,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void addPages()
   {
     // Create a page, set the title, and the initial model file name.

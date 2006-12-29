@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditorPlugin.java,v 1.1 2005/11/10 18:57:56 marcelop Exp $
+ * $Id: EXTLibraryEditorPlugin.java,v 1.2 2006/12/29 18:27:34 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -58,8 +58,8 @@ public final class EXTLibraryEditorPlugin extends EMFPlugin
   {
     super
       (new ResourceLocator [] 
-       {
-       });
+      {
+      });
   }
 
   /**
@@ -69,6 +69,7 @@ public final class EXTLibraryEditorPlugin extends EMFPlugin
    * @return the singleton instance.
    * @generated
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;
@@ -103,7 +104,7 @@ public final class EXTLibraryEditorPlugin extends EMFPlugin
     public Implementation()
     {
       super();
-
+  
       // Remember the static instance.
       //
       plugin = this;

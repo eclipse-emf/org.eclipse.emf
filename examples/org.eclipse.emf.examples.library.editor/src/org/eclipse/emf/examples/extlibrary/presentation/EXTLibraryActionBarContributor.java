@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,17 +12,16 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryActionBarContributor.java,v 1.3 2006/05/15 21:56:33 emerks Exp $
+ * $Id: EXTLibraryActionBarContributor.java,v 1.4 2006/12/29 18:27:33 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 
@@ -90,6 +89,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
   protected IAction showPropertiesViewAction =
     new Action(EXTLibraryEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item")) //$NON-NLS-1$
     {
+      @Override
       public void run()
       {
         try
@@ -113,11 +113,13 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
   protected IAction refreshViewerAction =
     new Action(EXTLibraryEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item")) //$NON-NLS-1$
     {
+      @Override
       public boolean isEnabled()
       {
         return activeEditorPart instanceof IViewerProvider;
       }
 
+      @Override
       public void run()
       {
         if (activeEditorPart instanceof IViewerProvider)
@@ -138,7 +140,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection createChildActions;
+  protected Collection<IAction> createChildActions;
 
   /**
    * This is the menu manager into which menu contribution items should be added for CreateChild actions.
@@ -155,7 +157,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection createSiblingActions;
+  protected Collection<IAction> createSiblingActions;
 
   /**
    * This is the menu manager into which menu contribution items should be added for CreateSibling actions.
@@ -185,6 +187,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
     toolBarManager.add(new Separator("extlibrary-settings")); //$NON-NLS-1$
@@ -198,6 +201,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void contributeToMenu(IMenuManager menuManager)
   {
     super.contributeToMenu(menuManager);
@@ -239,6 +243,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setActiveEditor(IEditorPart part)
   {
     super.setActiveEditor(part);
@@ -291,8 +296,8 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
 
     // Query the new selection for appropriate new child/sibling descriptors
     //
-    Collection newChildDescriptors = null;
-    Collection newSiblingDescriptors = null;
+    Collection<CommandParameter> newChildDescriptors = null;
+    Collection<CommandParameter> newSiblingDescriptors = null;
 
     ISelection selection = event.getSelection();
     if (selection instanceof IStructuredSelection && ((IStructuredSelection)selection).size() == 1)
@@ -329,14 +334,14 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection generateCreateChildActions(Collection descriptors, ISelection selection)
+  protected Collection<IAction> generateCreateChildActions(Collection<? extends CommandParameter> descriptors, ISelection selection)
   {
-    Collection actions = new ArrayList();
+    Collection<IAction> actions = new ArrayList<IAction>();
     if (descriptors != null)
     {
-      for (Iterator i = descriptors.iterator(); i.hasNext(); )
+      for (CommandParameter descriptor : descriptors)
       {
-        actions.add(new CreateChildAction(activeEditorPart, selection, i.next()));
+        actions.add(new CreateChildAction(activeEditorPart, selection, descriptor));
       }
     }
     return actions;
@@ -349,14 +354,14 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection generateCreateSiblingActions(Collection descriptors, ISelection selection)
+  protected Collection<IAction> generateCreateSiblingActions(Collection<? extends CommandParameter> descriptors, ISelection selection)
   {
-    Collection actions = new ArrayList();
+    Collection<IAction> actions = new ArrayList<IAction>();
     if (descriptors != null)
     {
-      for (Iterator i = descriptors.iterator(); i.hasNext(); )
+      for (CommandParameter descriptor : descriptors)
       {
-        actions.add(new CreateSiblingAction(activeEditorPart, selection, i.next()));
+        actions.add(new CreateSiblingAction(activeEditorPart, selection, descriptor));
       }
     }
     return actions;
@@ -371,13 +376,12 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void populateManager(IContributionManager manager, Collection actions, String contributionID)
+  protected void populateManager(IContributionManager manager, Collection<? extends IAction> actions, String contributionID)
   {
     if (actions != null)
     {
-      for (Iterator i = actions.iterator(); i.hasNext(); )
+      for (IAction action : actions)
       {
-        IAction action = (IAction)i.next();
         if (contributionID != null)
         {
           manager.insertBefore(contributionID, action);
@@ -397,7 +401,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void depopulateManager(IContributionManager manager, Collection actions)
+  protected void depopulateManager(IContributionManager manager, Collection<? extends IAction> actions)
   {
     if (actions != null)
     {
@@ -432,6 +436,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void menuAboutToShow(IMenuManager menuManager)
   {
     super.menuAboutToShow(menuManager);
@@ -452,6 +457,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected void addGlobalActions(IMenuManager menuManager)
   {
     menuManager.insertAfter("additions-end", new Separator("ui-actions")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -469,6 +475,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected boolean removeAllReferencesOnDelete()
   {
     return true;
