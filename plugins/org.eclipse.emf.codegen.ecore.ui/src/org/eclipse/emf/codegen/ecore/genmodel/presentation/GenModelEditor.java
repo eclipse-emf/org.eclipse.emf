@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.40 2006/12/29 22:49:44 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.41 2006/12/30 04:44:08 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -883,11 +883,21 @@ public class GenModelEditor
    */
   public class ReverseAdapterFactoryContentProvider extends AdapterFactoryContentProvider
   {
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public ReverseAdapterFactoryContentProvider(AdapterFactory adapterFactory)
     {
       super(adapterFactory);
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object [] getElements(Object object)
     {
@@ -895,6 +905,11 @@ public class GenModelEditor
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object [] getChildren(Object object)
     {
@@ -902,6 +917,11 @@ public class GenModelEditor
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public boolean hasChildren(Object object)
     {
@@ -909,6 +929,11 @@ public class GenModelEditor
       return parent != null;
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object getParent(Object object)
     {
