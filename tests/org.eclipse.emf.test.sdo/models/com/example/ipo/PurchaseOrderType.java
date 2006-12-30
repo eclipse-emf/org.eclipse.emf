@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PurchaseOrderType.java,v 1.2 2006/12/30 03:44:07 marcelop Exp $
+ * $Id: PurchaseOrderType.java,v 1.3 2006/12/30 07:13:48 marcelop Exp $
  */
 package com.example.ipo;
 
@@ -157,7 +157,7 @@ public interface PurchaseOrderType {
    * @return the value of the '<em>Order Date</em>' attribute.
    * @see #setOrderDate(Object)
    * @see com.example.ipo.IpoPackage#getPurchaseOrderType_OrderDate()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Date"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.DateTime"
    *        extendedMetaData="kind='attribute' name='orderDate'"
    * @generated
    */

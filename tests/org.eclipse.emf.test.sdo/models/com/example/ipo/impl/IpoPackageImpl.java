@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IpoPackageImpl.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
+ * $Id: IpoPackageImpl.java,v 1.3 2006/12/30 07:13:48 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -696,7 +696,7 @@ public class IpoPackageImpl extends EPackageImpl implements IpoPackage {
     initEReference(getPurchaseOrderType_BillTo(), this.getAddress(), null, "billTo", null, 1, 1, PurchaseOrderType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getPurchaseOrderType_Comment(), theXMLTypePackage.getString(), "comment", null, 0, 1, PurchaseOrderType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getPurchaseOrderType_Items(), this.getItems(), null, "items", null, 1, 1, PurchaseOrderType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getPurchaseOrderType_OrderDate(), theXMLTypePackage.getDate(), "orderDate", null, 0, 1, PurchaseOrderType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getPurchaseOrderType_OrderDate(), theXMLTypePackage.getDateTime(), "orderDate", null, 0, 1, PurchaseOrderType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(ukAddressEClass, UKAddress.class, "UKAddress", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getUKAddress_Postcode(), this.getUKPostcode(), "postcode", null, 1, 1, UKAddress.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
