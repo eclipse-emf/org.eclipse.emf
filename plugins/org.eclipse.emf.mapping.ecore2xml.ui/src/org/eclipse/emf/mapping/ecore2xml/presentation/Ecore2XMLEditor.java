@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.10 2006/12/29 18:29:14 marcelop Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.11 2006/12/30 04:44:11 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -877,11 +877,21 @@ public class Ecore2XMLEditor
    */
   public class ReverseAdapterFactoryContentProvider extends AdapterFactoryContentProvider
   {
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public ReverseAdapterFactoryContentProvider(AdapterFactory adapterFactory)
     {
       super(adapterFactory);
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object [] getElements(Object object)
     {
@@ -889,6 +899,11 @@ public class Ecore2XMLEditor
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object [] getChildren(Object object)
     {
@@ -896,6 +911,11 @@ public class Ecore2XMLEditor
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public boolean hasChildren(Object object)
     {
@@ -903,6 +923,11 @@ public class Ecore2XMLEditor
       return parent != null;
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object getParent(Object object)
     {
