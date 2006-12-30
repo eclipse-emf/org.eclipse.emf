@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IpoPackage.java,v 1.3 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: IpoPackage.java,v 1.4 2006/12/30 07:12:34 marcelop Exp $
  */
 package com.example.ipo;
 
@@ -35,7 +35,10 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
- *        International Purchase order schema for Example.com       Copyright 2000 Example.com. All rights reserved.     
+ * 
+ *       International Purchase order schema for Example.com
+ *       Copyright 2000 Example.com. All rights reserved.
+ *     
  * <!-- end-model-doc -->
  * @see com.example.ipo.IpoFactory
  * @model kind="package"

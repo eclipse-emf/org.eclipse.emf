@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: USAddressImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: USAddressImpl.java,v 1.3 2006/12/30 07:12:34 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -51,7 +51,7 @@ public class USAddressImpl extends AddressImpl implements USAddress
    * @generated
    * @ordered
    */
-  protected static final USState STATE_EDEFAULT = USState.AK;
+  protected static final USState STATE_EDEFAULT = USState.AK_LITERAL;
 
   /**
    * The cached value of the '{@link #getState() <em>State</em>}' attribute.

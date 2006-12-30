@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: USState.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: USState.java,v 1.3 2006/12/30 07:12:34 marcelop Exp $
  */
 package com.example.ipo;
 
@@ -37,35 +37,35 @@ public enum USState implements Enumerator
    * The '<em><b>AK</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #AK_VALUE
+   * @see #AK
    * @generated
    * @ordered
    */
-  AK(0, "AK", "AK"), /**
+  AK_LITERAL(0, "AK", "AK"), /**
    * The '<em><b>AL</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #AL_VALUE
+   * @see #AL
    * @generated
    * @ordered
    */
-  AL(1, "AL", "AL"), /**
+  AL_LITERAL(1, "AL", "AL"), /**
    * The '<em><b>AR</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #AR_VALUE
+   * @see #AR
    * @generated
    * @ordered
    */
-  AR(2, "AR", "AR"), /**
+  AR_LITERAL(2, "AR", "AR"), /**
    * The '<em><b>PA</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #PA_VALUE
+   * @see #PA
    * @generated
    * @ordered
    */
-  PA(3, "PA", "PA");
+  PA_LITERAL(3, "PA", "PA");
   /**
    * The '<em><b>AK</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -74,12 +74,12 @@ public enum USState implements Enumerator
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #AK
+   * @see #AK_LITERAL
    * @model
    * @generated
    * @ordered
    */
-  public static final int AK_VALUE = 0;
+  public static final int AK = 0;
 
   /**
    * The '<em><b>AL</b></em>' literal value.
@@ -89,12 +89,12 @@ public enum USState implements Enumerator
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #AL
+   * @see #AL_LITERAL
    * @model
    * @generated
    * @ordered
    */
-  public static final int AL_VALUE = 1;
+  public static final int AL = 1;
 
   /**
    * The '<em><b>AR</b></em>' literal value.
@@ -104,12 +104,12 @@ public enum USState implements Enumerator
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #AR
+   * @see #AR_LITERAL
    * @model
    * @generated
    * @ordered
    */
-  public static final int AR_VALUE = 2;
+  public static final int AR = 2;
 
   /**
    * The '<em><b>PA</b></em>' literal value.
@@ -119,12 +119,12 @@ public enum USState implements Enumerator
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #PA
+   * @see #PA_LITERAL
    * @model
    * @generated
    * @ordered
    */
-  public static final int PA_VALUE = 3;
+  public static final int PA = 3;
 
   /**
    * An array of all the '<em><b>US State</b></em>' enumerators.
@@ -135,10 +135,10 @@ public enum USState implements Enumerator
   private static final USState[] VALUES_ARRAY =
     new USState[]
     {
-      AK,
-      AL,
-      AR,
-      PA,
+      AK_LITERAL,
+      AL_LITERAL,
+      AR_LITERAL,
+      PA_LITERAL,
     };
 
   /**
@@ -197,10 +197,10 @@ public enum USState implements Enumerator
   {
     switch (value)
     {
-      case AK_VALUE: return AK;
-      case AL_VALUE: return AL;
-      case AR_VALUE: return AR;
-      case PA_VALUE: return PA;
+      case AK: return AK_LITERAL;
+      case AL: return AL_LITERAL;
+      case AR: return AR_LITERAL;
+      case PA: return PA_LITERAL;
     }
     return null;
   }

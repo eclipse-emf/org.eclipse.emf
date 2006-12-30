@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IpoPackageImpl.java,v 1.3 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: IpoPackageImpl.java,v 1.4 2006/12/30 07:12:34 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -751,10 +751,10 @@ public class IpoPackageImpl extends EPackageImpl implements IpoPackage
 
     // Initialize enums and add enum literals
     initEEnum(usStateEEnum, USState.class, "USState");
-    addEEnumLiteral(usStateEEnum, USState.AK);
-    addEEnumLiteral(usStateEEnum, USState.AL);
-    addEEnumLiteral(usStateEEnum, USState.AR);
-    addEEnumLiteral(usStateEEnum, USState.PA);
+    addEEnumLiteral(usStateEEnum, USState.AK_LITERAL);
+    addEEnumLiteral(usStateEEnum, USState.AL_LITERAL);
+    addEEnumLiteral(usStateEEnum, USState.AR_LITERAL);
+    addEEnumLiteral(usStateEEnum, USState.PA_LITERAL);
 
     // Initialize data types
     initEDataType(postcodeEDataType, String.class, "Postcode", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
