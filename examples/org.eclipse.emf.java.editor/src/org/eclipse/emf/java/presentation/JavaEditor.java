@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.19 2006/12/29 18:27:31 marcelop Exp $
+ * $Id: JavaEditor.java,v 1.20 2006/12/30 04:44:06 marcelop Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -854,11 +854,21 @@ public class JavaEditor
    */
   public class ReverseAdapterFactoryContentProvider extends AdapterFactoryContentProvider
   {
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public ReverseAdapterFactoryContentProvider(AdapterFactory adapterFactory)
     {
       super(adapterFactory);
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object [] getElements(Object object)
     {
@@ -866,6 +876,11 @@ public class JavaEditor
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object [] getChildren(Object object)
     {
@@ -873,6 +888,11 @@ public class JavaEditor
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public boolean hasChildren(Object object)
     {
@@ -880,6 +900,11 @@ public class JavaEditor
       return parent != null;
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object getParent(Object object)
     {
