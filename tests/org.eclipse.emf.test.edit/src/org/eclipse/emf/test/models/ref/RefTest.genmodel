@@ -50,7 +50,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//C3/d"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//C3/c"/>
     </genClasses>
-    <nestedGenPackages prefix="URef" disposableProviderFactory="true" ecorePackage="RefTest.ecore#//unsettable">
+    <nestedGenPackages prefix="URef" basePackage="org.eclipse.emf.test.models.ref"
+        disposableProviderFactory="true" ecorePackage="RefTest.ecore#//unsettable">
       <genClasses image="false" ecoreClass="RefTest.ecore#//unsettable/C1U">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/C1U/au"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RefTest.ecore#//unsettable/C1U/bu"/>
