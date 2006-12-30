@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOUtilProtectedGetTest.java,v 1.4 2005/11/26 09:39:56 emerks Exp $
+ * $Id: SDOUtilProtectedGetTest.java,v 1.5 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo.types;
 
@@ -39,11 +39,11 @@ public class SDOUtilProtectedGetTest extends TestCase
 {
   private static class TypeConverter
   {
-    private static Map methodByClass = new HashMap();
+    private static Map<String, Method> methodByClass = new HashMap<String, Method>();
 
     private static Object get(String methodName, Object value) throws Exception
     {
-      Method getMethod = (Method)methodByClass.get(methodName);
+      Method getMethod = methodByClass.get(methodName);
       if (getMethod == null)
       {
         getMethod = SDOUtil.class.getDeclaredMethod(methodName, new Class []{ Object.class });

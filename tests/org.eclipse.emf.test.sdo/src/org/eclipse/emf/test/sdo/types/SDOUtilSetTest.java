@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOUtilSetTest.java,v 1.3 2005/06/08 06:17:25 nickb Exp $
+ * $Id: SDOUtilSetTest.java,v 1.4 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo.types;
 
@@ -49,6 +49,7 @@ public class SDOUtilSetTest extends TestCase
   /* (non-Javadoc)
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     thing = TypesFactory.eINSTANCE.createAThing();
@@ -59,7 +60,7 @@ public class SDOUtilSetTest extends TestCase
    */
   public void testSetManyBoolean() throws Exception
   {
-    List list = thing.getManyBoolean();
+    List<Boolean> list = thing.getManyBoolean();
     String pathWithNoIndex = "manyBoolean";
 
     int size = (int)(Math.random()*50)+1;
@@ -73,11 +74,11 @@ public class SDOUtilSetTest extends TestCase
     
     SDOUtil.set((EObject)thing, path, Boolean.TRUE);
     assertEquals(size, list.size());
-    assertEquals("size=" + size + " index=" + index, true, ((Boolean)list.get(index)).booleanValue());   
+    assertEquals("size=" + size + " index=" + index, true, list.get(index).booleanValue());   
 
     SDOUtil.setBoolean((EObject)thing, path, false);
     assertEquals(size, list.size());
-    assertEquals("size=" + size + " index=" + index, false, ((Boolean)list.get(index)).booleanValue());   
+    assertEquals("size=" + size + " index=" + index, false, list.get(index).booleanValue());   
   }
   
   /*
@@ -85,7 +86,7 @@ public class SDOUtilSetTest extends TestCase
    */
   public void testSetManyByte() throws Exception
   {
-    List list = thing.getManyByte();
+    List<Byte> list = thing.getManyByte();
     String pathWithNoIndex = "manyByte";
 
     int size = (int)(Math.random()*50)+1;
@@ -111,7 +112,7 @@ public class SDOUtilSetTest extends TestCase
    */
   public void testSetManyBytes() throws Exception
   {
-    List list = thing.getManyBytes();
+    List<byte[]> list = thing.getManyBytes();
     String pathWithNoIndex = "manyBytes";
 
     int size = (int)(Math.random()*50)+1;
@@ -125,11 +126,11 @@ public class SDOUtilSetTest extends TestCase
     
     SDOUtil.set((EObject)thing, path, "emf & sdo".getBytes());
     assertEquals(size, list.size());
-    assertTrue("size=" + size + " index=" + index, Arrays.equals("emf & sdo".getBytes(), (byte[])list.get(index)));   
+    assertTrue("size=" + size + " index=" + index, Arrays.equals("emf & sdo".getBytes(), list.get(index)));   
 
     SDOUtil.setBytes((EObject)thing, path, "FEDMNEB".getBytes());
     assertEquals(size, list.size());
-    assertTrue("size=" + size + " index=" + index, Arrays.equals("FEDMNEB".getBytes(), (byte[])list.get(index)));   
+    assertTrue("size=" + size + " index=" + index, Arrays.equals("FEDMNEB".getBytes(), list.get(index)));   
   }
 
   /*
@@ -137,7 +138,7 @@ public class SDOUtilSetTest extends TestCase
    */
   public void testSetManyDecimal() throws Exception
   {
-    List list = thing.getManyDecimal();
+    List<BigDecimal> list = thing.getManyDecimal();
     String pathWithNoIndex = "manyDecimal";
 
     int size = (int)(Math.random()*50)+1;
@@ -167,7 +168,7 @@ public class SDOUtilSetTest extends TestCase
    */
   public void testSetManyInt() throws Exception
   {
-    List list = thing.getManyInt();
+    List<Integer> list = thing.getManyInt();
     String pathWithNoIndex = "manyInt";
 
     int size = (int)(Math.random()*50)+1;
@@ -193,7 +194,7 @@ public class SDOUtilSetTest extends TestCase
    */
   public void testSetManyLong() throws Exception
   {
-    List list = thing.getManyLong();
+    List<Long> list = thing.getManyLong();
     String pathWithNoIndex = "manyLong";
 
     int size = (int)(Math.random()*50)+1;
@@ -219,7 +220,7 @@ public class SDOUtilSetTest extends TestCase
    */
   public void testSetManyString() throws Exception
   {
-    List list = thing.getManyString();
+    List<String> list = thing.getManyString();
     String pathWithNoIndex = "manyString";
 
     int size = (int)(Math.random()*50)+1;

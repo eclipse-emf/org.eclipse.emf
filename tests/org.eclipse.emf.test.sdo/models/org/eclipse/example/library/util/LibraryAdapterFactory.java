@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: LibraryAdapterFactory.java,v 1.2 2005/06/12 14:07:23 emerks Exp $
+ * $Id: LibraryAdapterFactory.java,v 1.3 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.example.library.util;
 
@@ -57,6 +67,7 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -76,22 +87,26 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected LibrarySwitch modelSwitch =
-    new LibrarySwitch()
+  protected LibrarySwitch<Adapter> modelSwitch =
+    new LibrarySwitch<Adapter>()
     {
-      public Object caseBook(Book object)
+      @Override
+      public Adapter caseBook(Book object)
       {
         return createBookAdapter();
       }
-      public Object caseLibrary(Library object)
+      @Override
+      public Adapter caseLibrary(Library object)
       {
         return createLibraryAdapter();
       }
-      public Object caseWriter(Writer object)
+      @Override
+      public Adapter caseWriter(Writer object)
       {
         return createWriterAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -105,9 +120,10 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

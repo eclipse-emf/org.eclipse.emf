@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: TypesPackage.java,v 1.2 2005/06/12 14:05:03 emerks Exp $
+ * $Id: TypesPackage.java,v 1.3 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo.types.model.types;
 
@@ -23,6 +33,7 @@ import org.eclipse.emf.ecore.EPackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.sdo.types.model.types.TypesFactory
+ * @model kind="package"
  * @generated
  */
 public interface TypesPackage extends EPackage
@@ -358,7 +369,7 @@ public interface TypesPackage extends EPackage
   int ATHING__MANY_THREAD = 31;
 
   /**
-   * The number of structural features of the the '<em>AThing</em>' class.
+   * The number of structural features of the '<em>AThing</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -887,5 +898,355 @@ public interface TypesPackage extends EPackage
    * @generated
    */
   TypesFactory getTypesFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl <em>AThing</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.sdo.types.model.types.impl.AThingImpl
+     * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getAThing()
+     * @generated
+     */
+    EClass ATHING = eINSTANCE.getAThing();
+
+    /**
+     * The meta object literal for the '<em><b>ABoolean</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ABOOLEAN = eINSTANCE.getAThing_ABoolean();
+
+    /**
+     * The meta object literal for the '<em><b>AByte</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ABYTE = eINSTANCE.getAThing_AByte();
+
+    /**
+     * The meta object literal for the '<em><b>ADecimal</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ADECIMAL = eINSTANCE.getAThing_ADecimal();
+
+    /**
+     * The meta object literal for the '<em><b>AFloat</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__AFLOAT = eINSTANCE.getAThing_AFloat();
+
+    /**
+     * The meta object literal for the '<em><b>ADouble</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ADOUBLE = eINSTANCE.getAThing_ADouble();
+
+    /**
+     * The meta object literal for the '<em><b>AInt</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__AINT = eINSTANCE.getAThing_AInt();
+
+    /**
+     * The meta object literal for the '<em><b>AInteger</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__AINTEGER = eINSTANCE.getAThing_AInteger();
+
+    /**
+     * The meta object literal for the '<em><b>ALong</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ALONG = eINSTANCE.getAThing_ALong();
+
+    /**
+     * The meta object literal for the '<em><b>AShort</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ASHORT = eINSTANCE.getAThing_AShort();
+
+    /**
+     * The meta object literal for the '<em><b>AString</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ASTRING = eINSTANCE.getAThing_AString();
+
+    /**
+     * The meta object literal for the '<em><b>AChar</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ACHAR = eINSTANCE.getAThing_AChar();
+
+    /**
+     * The meta object literal for the '<em><b>ADate</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ADATE = eINSTANCE.getAThing_ADate();
+
+    /**
+     * The meta object literal for the '<em><b>ABytes</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ABYTES = eINSTANCE.getAThing_ABytes();
+
+    /**
+     * The meta object literal for the '<em><b>ANumber</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ANUMBER = eINSTANCE.getAThing_ANumber();
+
+    /**
+     * The meta object literal for the '<em><b>AObject</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__AOBJECT = eINSTANCE.getAThing_AObject();
+
+    /**
+     * The meta object literal for the '<em><b>AThread</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__ATHREAD = eINSTANCE.getAThing_AThread();
+
+    /**
+     * The meta object literal for the '<em><b>Many Boolean</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_BOOLEAN = eINSTANCE.getAThing_ManyBoolean();
+
+    /**
+     * The meta object literal for the '<em><b>Many Byte</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_BYTE = eINSTANCE.getAThing_ManyByte();
+
+    /**
+     * The meta object literal for the '<em><b>Many Decimal</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_DECIMAL = eINSTANCE.getAThing_ManyDecimal();
+
+    /**
+     * The meta object literal for the '<em><b>Many Float</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_FLOAT = eINSTANCE.getAThing_ManyFloat();
+
+    /**
+     * The meta object literal for the '<em><b>Many Double</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_DOUBLE = eINSTANCE.getAThing_ManyDouble();
+
+    /**
+     * The meta object literal for the '<em><b>Many Int</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_INT = eINSTANCE.getAThing_ManyInt();
+
+    /**
+     * The meta object literal for the '<em><b>Many Integer</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_INTEGER = eINSTANCE.getAThing_ManyInteger();
+
+    /**
+     * The meta object literal for the '<em><b>Many Long</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_LONG = eINSTANCE.getAThing_ManyLong();
+
+    /**
+     * The meta object literal for the '<em><b>Many Short</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_SHORT = eINSTANCE.getAThing_ManyShort();
+
+    /**
+     * The meta object literal for the '<em><b>Many String</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_STRING = eINSTANCE.getAThing_ManyString();
+
+    /**
+     * The meta object literal for the '<em><b>Many Char</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_CHAR = eINSTANCE.getAThing_ManyChar();
+
+    /**
+     * The meta object literal for the '<em><b>Many Date</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_DATE = eINSTANCE.getAThing_ManyDate();
+
+    /**
+     * The meta object literal for the '<em><b>Many Bytes</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_BYTES = eINSTANCE.getAThing_ManyBytes();
+
+    /**
+     * The meta object literal for the '<em><b>Many Number</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_NUMBER = eINSTANCE.getAThing_ManyNumber();
+
+    /**
+     * The meta object literal for the '<em><b>Many Object</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_OBJECT = eINSTANCE.getAThing_ManyObject();
+
+    /**
+     * The meta object literal for the '<em><b>Many Thread</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ATHING__MANY_THREAD = eINSTANCE.getAThing_ManyThread();
+
+    /**
+     * The meta object literal for the '<em>My Bytes</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyBytes()
+     * @generated
+     */
+    EDataType MY_BYTES = eINSTANCE.getMyBytes();
+
+    /**
+     * The meta object literal for the '<em>My Char</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyChar()
+     * @generated
+     */
+    EDataType MY_CHAR = eINSTANCE.getMyChar();
+
+    /**
+     * The meta object literal for the '<em>My Char Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Character
+     * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyCharObject()
+     * @generated
+     */
+    EDataType MY_CHAR_OBJECT = eINSTANCE.getMyCharObject();
+
+    /**
+     * The meta object literal for the '<em>My Date</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.Date
+     * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyDate()
+     * @generated
+     */
+    EDataType MY_DATE = eINSTANCE.getMyDate();
+
+    /**
+     * The meta object literal for the '<em>My Number</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Number
+     * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyNumber()
+     * @generated
+     */
+    EDataType MY_NUMBER = eINSTANCE.getMyNumber();
+
+    /**
+     * The meta object literal for the '<em>My Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyObject()
+     * @generated
+     */
+    EDataType MY_OBJECT = eINSTANCE.getMyObject();
+
+    /**
+     * The meta object literal for the '<em>My Thread</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Thread
+     * @see org.eclipse.emf.test.sdo.types.model.types.impl.TypesPackageImpl#getMyThread()
+     * @generated
+     */
+    EDataType MY_THREAD = eINSTANCE.getMyThread();
+
+  }
 
 } //TypesPackage

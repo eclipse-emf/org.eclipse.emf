@@ -1,42 +1,45 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: PersonTypeImpl.java,v 1.2 2006/12/05 20:31:59 emerks Exp $
+ * $Id: PersonTypeImpl.java,v 1.3 2006/12/30 03:44:07 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed.impl;
 
-import commonj.sdo.Sequence;
-
 import java.math.BigInteger;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
-
-import org.eclipse.emf.ecore.sdo.util.BasicESequence;
-import org.eclipse.emf.ecore.sdo.util.ESequence;
-
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.emf.test.models.personal.mixed.ContrType;
 import org.eclipse.emf.test.models.personal.mixed.LinkType;
 import org.eclipse.emf.test.models.personal.mixed.MixedPackage;
 import org.eclipse.emf.test.models.personal.mixed.NameType;
 import org.eclipse.emf.test.models.personal.mixed.PersonType;
+import org.eclipse.emf.test.models.personal.mixed.UrlType;
+
+import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
+import org.eclipse.emf.ecore.sdo.util.BasicESequence;
+import org.eclipse.emf.ecore.sdo.util.ESequence;
+
+import commonj.sdo.Sequence;
 
 /**
  * <!-- begin-user-doc -->
@@ -61,6 +64,13 @@ import org.eclipse.emf.test.models.personal.mixed.PersonType;
  */
 public class PersonTypeImpl extends EDataObjectImpl implements PersonType
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private static final long serialVersionUID = 1L;
+
   /**
    * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -155,9 +165,10 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return MixedPackage.eINSTANCE.getPersonType();
+    return MixedPackage.Literals.PERSON_TYPE;
   }
 
   /**
@@ -181,7 +192,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    */
   public NameType getName()
   {
-    return (NameType)((ESequence)getMixed()).featureMap().get(MixedPackage.eINSTANCE.getPersonType_Name(), true);
+    return (NameType)((FeatureMap.Internal.Wrapper)getMixed()).featureMap().get(MixedPackage.Literals.PERSON_TYPE__NAME, true);
   }
 
   /**
@@ -191,7 +202,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    */
   public NotificationChain basicSetName(NameType newName, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)((ESequence)getMixed()).featureMap()).basicAdd(MixedPackage.eINSTANCE.getPersonType_Name(), newName, msgs);
+    return ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).basicAdd(MixedPackage.Literals.PERSON_TYPE__NAME, newName, msgs);
   }
 
   /**
@@ -201,7 +212,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    */
   public void setName(NameType newName)
   {
-    ((FeatureMap.Internal)((ESequence)getMixed()).featureMap()).set(MixedPackage.eINSTANCE.getPersonType_Name(), newName);
+    ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).set(MixedPackage.Literals.PERSON_TYPE__NAME, newName);
   }
 
   /**
@@ -209,9 +220,9 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getEmail()
+  public List<String> getEmail()
   {
-    return ((ESequence)getMixed()).featureMap().list(MixedPackage.eINSTANCE.getPersonType_Email());
+    return ((FeatureMap.Internal.Wrapper)getMixed()).featureMap().list(MixedPackage.Literals.PERSON_TYPE__EMAIL);
   }
 
   /**
@@ -219,9 +230,9 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getUrl()
+  public List<UrlType> getUrl()
   {
-    return ((ESequence)getMixed()).featureMap().list(MixedPackage.eINSTANCE.getPersonType_Url());
+    return ((FeatureMap.Internal.Wrapper)getMixed()).featureMap().list(MixedPackage.Literals.PERSON_TYPE__URL);
   }
 
   /**
@@ -231,7 +242,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    */
   public LinkType getLink()
   {
-    return (LinkType)((ESequence)getMixed()).featureMap().get(MixedPackage.eINSTANCE.getPersonType_Link(), true);
+    return (LinkType)((FeatureMap.Internal.Wrapper)getMixed()).featureMap().get(MixedPackage.Literals.PERSON_TYPE__LINK, true);
   }
 
   /**
@@ -241,7 +252,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    */
   public NotificationChain basicSetLink(LinkType newLink, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)((ESequence)getMixed()).featureMap()).basicAdd(MixedPackage.eINSTANCE.getPersonType_Link(), newLink, msgs);
+    return ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).basicAdd(MixedPackage.Literals.PERSON_TYPE__LINK, newLink, msgs);
   }
 
   /**
@@ -251,7 +262,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    */
   public void setLink(LinkType newLink)
   {
-    ((FeatureMap.Internal)((ESequence)getMixed()).featureMap()).set(MixedPackage.eINSTANCE.getPersonType_Link(), newLink);
+    ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).set(MixedPackage.Literals.PERSON_TYPE__LINK, newLink);
   }
 
   /**
@@ -261,7 +272,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    */
   public Sequence getAny()
   {
-    return new BasicESequence((FeatureMap.Internal)(EList)((ESequence)getMixed()).featureMap().list(MixedPackage.eINSTANCE.getPersonType_Any()));
+    return new BasicESequence((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getMixed()).featureMap().<FeatureMap.Entry>list(MixedPackage.Literals.PERSON_TYPE__ANY));
   }
 
   /**
@@ -365,27 +376,23 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case MixedPackage.PERSON_TYPE__MIXED:
-        return ((InternalEList)((ESequence)getMixed()).featureMap()).basicRemove(otherEnd, msgs);
-        case MixedPackage.PERSON_TYPE__NAME:
-          return basicSetName(null, msgs);
-        case MixedPackage.PERSON_TYPE__URL:
-          return ((InternalEList)getUrl()).basicRemove(otherEnd, msgs);
-        case MixedPackage.PERSON_TYPE__LINK:
-          return basicSetLink(null, msgs);
-        case MixedPackage.PERSON_TYPE__ANY:
-        return ((InternalEList)((ESequence)getAny()).featureMap()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case MixedPackage.PERSON_TYPE__MIXED:
+        return ((InternalEList<?>)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).basicRemove(otherEnd, msgs);
+      case MixedPackage.PERSON_TYPE__NAME:
+        return basicSetName(null, msgs);
+      case MixedPackage.PERSON_TYPE__URL:
+        return ((InternalEList<?>)getUrl()).basicRemove(otherEnd, msgs);
+      case MixedPackage.PERSON_TYPE__LINK:
+        return basicSetLink(null, msgs);
+      case MixedPackage.PERSON_TYPE__ANY:
+        return ((InternalEList<?>)((FeatureMap.Internal.Wrapper)getAny()).featureMap()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -393,12 +400,14 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.PERSON_TYPE__MIXED:
-        return ((ESequence)getMixed()).featureMap();
+        if (coreType) return ((FeatureMap.Internal.Wrapper)getMixed()).featureMap();
+        return getMixed();
       case MixedPackage.PERSON_TYPE__NAME:
         return getName();
       case MixedPackage.PERSON_TYPE__EMAIL:
@@ -408,7 +417,8 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
       case MixedPackage.PERSON_TYPE__LINK:
         return getLink();
       case MixedPackage.PERSON_TYPE__ANY:
-        return ((ESequence)getAny()).featureMap();
+        if (coreType) return ((FeatureMap.Internal.Wrapper)getAny()).featureMap();
+        return getAny();
       case MixedPackage.PERSON_TYPE__CONTR:
         return getContr();
       case MixedPackage.PERSON_TYPE__ID:
@@ -416,7 +426,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
       case MixedPackage.PERSON_TYPE__SALARY:
         return getSalary();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -424,31 +434,31 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.PERSON_TYPE__MIXED:
-        ((ESequence)getMixed()).featureMap().clear();
-        ((ESequence)getMixed()).featureMap().addAll((Collection)newValue);
+        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).set(newValue);
         return;
       case MixedPackage.PERSON_TYPE__NAME:
         setName((NameType)newValue);
         return;
       case MixedPackage.PERSON_TYPE__EMAIL:
         getEmail().clear();
-        getEmail().addAll((Collection)newValue);
+        getEmail().addAll((Collection<? extends String>)newValue);
         return;
       case MixedPackage.PERSON_TYPE__URL:
         getUrl().clear();
-        getUrl().addAll((Collection)newValue);
+        getUrl().addAll((Collection<? extends UrlType>)newValue);
         return;
       case MixedPackage.PERSON_TYPE__LINK:
         setLink((LinkType)newValue);
         return;
       case MixedPackage.PERSON_TYPE__ANY:
-        ((ESequence)getAny()).featureMap().clear();
-        ((ESequence)getAny()).featureMap().addAll((Collection)newValue);
+        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getAny()).featureMap()).set(newValue);
         return;
       case MixedPackage.PERSON_TYPE__CONTR:
         setContr((ContrType)newValue);
@@ -460,7 +470,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
         setSalary((BigInteger)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -468,12 +478,13 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.PERSON_TYPE__MIXED:
-        ((ESequence)getMixed()).featureMap().clear();
+        ((FeatureMap.Internal.Wrapper)getMixed()).featureMap().clear();
         return;
       case MixedPackage.PERSON_TYPE__NAME:
         setName((NameType)null);
@@ -488,7 +499,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
         setLink((LinkType)null);
         return;
       case MixedPackage.PERSON_TYPE__ANY:
-        ((ESequence)getAny()).featureMap().clear();
+        ((FeatureMap.Internal.Wrapper)getAny()).featureMap().clear();
         return;
       case MixedPackage.PERSON_TYPE__CONTR:
         unsetContr();
@@ -500,7 +511,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
         setSalary(SALARY_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -508,9 +519,10 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.PERSON_TYPE__MIXED:
         return mixed != null && !mixed.featureMap().isEmpty();
@@ -523,7 +535,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
       case MixedPackage.PERSON_TYPE__LINK:
         return getLink() != null;
       case MixedPackage.PERSON_TYPE__ANY:
-        return !((ESequence)getAny()).featureMap().isEmpty();
+        return !((FeatureMap.Internal.Wrapper)getAny()).featureMap().isEmpty();
       case MixedPackage.PERSON_TYPE__CONTR:
         return isSetContr();
       case MixedPackage.PERSON_TYPE__ID:
@@ -531,7 +543,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
       case MixedPackage.PERSON_TYPE__SALARY:
         return SALARY_EDEFAULT == null ? salary != null : !SALARY_EDEFAULT.equals(salary);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -539,6 +551,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

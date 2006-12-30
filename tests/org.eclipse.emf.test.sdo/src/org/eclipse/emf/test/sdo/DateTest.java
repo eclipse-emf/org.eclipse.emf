@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DateTest.java,v 1.4 2006/06/01 20:51:43 marcelop Exp $
+ * $Id: DateTest.java,v 1.5 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -56,7 +57,7 @@ public class DateTest extends TestCase
 
   Resource resource;
 
-  HashMap options;
+  Map<String, Object> options;
 
   // constants for the set date APIs
   protected final static int generated = 0, eSet = 1, set = 2, setDate = 3;
@@ -79,9 +80,10 @@ public class DateTest extends TestCase
     return testSuite;
   }
 
+  @Override
   protected void setUp() throws Exception
   {
-    options = new HashMap();
+    options = new HashMap<String, Object>();
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, registerModel());
 
     String DATA = TestUtil.getPluginDirectory() + "/data/";
@@ -150,7 +152,7 @@ public class DateTest extends TestCase
         // use EObject::eSet to set the dateTime value
         EObject poEObject = (EObject)this.po;
         EClass poEClass = poEObject.eClass();
-        EAttribute orderDateAttr = (EAttribute)poEClass.getEAllAttributes().get(1);
+        EAttribute orderDateAttr = poEClass.getEAllAttributes().get(1);
         poEObject.eSet(orderDateAttr, then);
         break;
       }
@@ -198,7 +200,7 @@ public class DateTest extends TestCase
 
     EObject poEObject = (EObject)po;
     EClass poEClass = poEObject.eClass();
-    EAttribute orderDateAttr = (EAttribute)poEClass.getEAllAttributes().get(1);
+    EAttribute orderDateAttr = poEClass.getEAllAttributes().get(1);
     // this returns the XMLCalendar value
     Object eSetOrderDateValue = poEObject.eGet(orderDateAttr);
     assertTrue(eSetOrderDateValue != null);

@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: Items.java,v 1.1 2005/06/08 20:47:30 bportier Exp $
+ * $Id: Items.java,v 1.2 2006/12/30 03:44:07 marcelop Exp $
  */
 package com.example.ipo;
 
@@ -26,20 +36,20 @@ import java.util.List;
  */
 public interface Items {
 	/**
-	 * Returns the value of the '<em><b>Item</b></em>' containment reference list.
-	 * The list contents are of type {@link com.example.ipo.ItemType}.
-	 * <!-- begin-user-doc -->
+   * Returns the value of the '<em><b>Item</b></em>' containment reference list.
+   * The list contents are of type {@link com.example.ipo.ItemType}.
+   * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Item</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Item</em>' containment reference list.
-	 * @see com.example.ipo.IpoPackage#getItems_Item()
-	 * @model type="com.example.ipo.ItemType" containment="true" resolveProxies="false"
-	 *        extendedMetaData="kind='element' name='item'"
-	 * @generated
-	 */
-	List getItem();
+   * @return the value of the '<em>Item</em>' containment reference list.
+   * @see com.example.ipo.IpoPackage#getItems_Item()
+   * @model type="com.example.ipo.ItemType" containment="true"
+   *        extendedMetaData="kind='element' name='item'"
+   * @generated
+   */
+	List<ItemType> getItem();
 
 } // Items

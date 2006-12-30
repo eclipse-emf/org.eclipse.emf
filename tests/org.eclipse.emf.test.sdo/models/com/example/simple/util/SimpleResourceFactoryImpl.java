@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: SimpleResourceFactoryImpl.java,v 1.2 2005/06/12 14:04:20 emerks Exp $
+ * $Id: SimpleResourceFactoryImpl.java,v 1.3 2006/12/30 03:44:07 marcelop Exp $
  */
 package com.example.simple.util;
 
@@ -41,6 +51,7 @@ public class SimpleResourceFactoryImpl extends ResourceFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Resource createResource(URI uri)
   {
     XMLResource result = new SimpleResourceImpl(uri);
@@ -48,6 +59,8 @@ public class SimpleResourceFactoryImpl extends ResourceFactoryImpl
     result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+
+    result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
     result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);

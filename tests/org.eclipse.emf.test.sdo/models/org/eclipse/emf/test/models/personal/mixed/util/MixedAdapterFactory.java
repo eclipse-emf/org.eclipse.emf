@@ -1,19 +1,32 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: MixedAdapterFactory.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: MixedAdapterFactory.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.personal.mixed.*;
+import org.eclipse.emf.test.models.personal.mixed.DocumentRoot;
+import org.eclipse.emf.test.models.personal.mixed.LinkType;
+import org.eclipse.emf.test.models.personal.mixed.MixedPackage;
+import org.eclipse.emf.test.models.personal.mixed.NameType;
+import org.eclipse.emf.test.models.personal.mixed.PersonType;
+import org.eclipse.emf.test.models.personal.mixed.PersonnelType;
+import org.eclipse.emf.test.models.personal.mixed.UrlType;
 
 /**
  * <!-- begin-user-doc -->
@@ -55,6 +68,7 @@ public class MixedAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,34 +88,41 @@ public class MixedAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected MixedSwitch modelSwitch =
-    new MixedSwitch()
+  protected MixedSwitch<Adapter> modelSwitch =
+    new MixedSwitch<Adapter>()
     {
-      public Object caseDocumentRoot(DocumentRoot object)
+      @Override
+      public Adapter caseDocumentRoot(DocumentRoot object)
       {
         return createDocumentRootAdapter();
       }
-      public Object caseLinkType(LinkType object)
+      @Override
+      public Adapter caseLinkType(LinkType object)
       {
         return createLinkTypeAdapter();
       }
-      public Object caseNameType(NameType object)
+      @Override
+      public Adapter caseNameType(NameType object)
       {
         return createNameTypeAdapter();
       }
-      public Object casePersonnelType(PersonnelType object)
+      @Override
+      public Adapter casePersonnelType(PersonnelType object)
       {
         return createPersonnelTypeAdapter();
       }
-      public Object casePersonType(PersonType object)
+      @Override
+      public Adapter casePersonType(PersonType object)
       {
         return createPersonTypeAdapter();
       }
-      public Object caseUrlType(UrlType object)
+      @Override
+      public Adapter caseUrlType(UrlType object)
       {
         return createUrlTypeAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -115,9 +136,10 @@ public class MixedAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

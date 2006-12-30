@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOUtilGetTest.java,v 1.3 2005/06/08 06:17:25 nickb Exp $
+ * $Id: SDOUtilGetTest.java,v 1.4 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo.types;
 
@@ -48,6 +48,7 @@ public class SDOUtilGetTest extends TestCase
   /* (non-Javadoc)
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     thing = TypesFactory.eINSTANCE.createAThing();

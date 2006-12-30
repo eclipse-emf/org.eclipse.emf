@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: TypesFactoryImpl.java,v 1.2 2005/06/12 14:05:03 emerks Exp $
+ * $Id: TypesFactoryImpl.java,v 1.3 2006/12/30 03:44:07 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo.types.model.types.impl;
 
@@ -12,8 +22,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.test.sdo.types.model.types.*;
 
 /**
@@ -24,6 +36,29 @@ import org.eclipse.emf.test.sdo.types.model.types.*;
  */
 public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static TypesFactory init()
+  {
+    try
+    {
+      TypesFactory theTypesFactory = (TypesFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.com/types"); 
+      if (theTypesFactory != null)
+      {
+        return theTypesFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new TypesFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -40,6 +75,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -55,6 +91,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
@@ -83,6 +120,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
@@ -124,9 +162,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public byte[] createMyBytesFromString(EDataType eDataType, String initialValue)
   {
-    // TODO: implement this method
-    // Ensure that you remove @generated or mark it @generated NOT
-    throw new UnsupportedOperationException();
+    return (byte[])super.createFromString(initialValue);
   }
 
   /**
@@ -136,9 +172,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyBytesToString(EDataType eDataType, Object instanceValue)
   {
-    // TODO: implement this method
-    // Ensure that you remove @generated or mark it @generated NOT
-    throw new UnsupportedOperationException();
+    return super.convertToString(instanceValue);
   }
 
   /**
@@ -148,7 +182,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Character createMyCharFromString(EDataType eDataType, String initialValue)
   {
-    return (Character)super.createFromString(eDataType, initialValue);
+    return (Character)super.createFromString(initialValue);
   }
 
   /**
@@ -158,7 +192,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyCharToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return super.convertToString(instanceValue);
   }
 
   /**
@@ -168,7 +202,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Character createMyCharObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Character)TypesFactory.eINSTANCE.createFromString(TypesPackage.eINSTANCE.getMyChar(), initialValue);
+    return createMyCharFromString(TypesPackage.Literals.MY_CHAR, initialValue);
   }
 
   /**
@@ -178,7 +212,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyCharObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return TypesFactory.eINSTANCE.convertToString(TypesPackage.eINSTANCE.getMyChar(), instanceValue);
+    return convertMyCharToString(TypesPackage.Literals.MY_CHAR, instanceValue);
   }
 
   /**
@@ -188,7 +222,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Date createMyDateFromString(EDataType eDataType, String initialValue)
   {
-    return (Date)super.createFromString(eDataType, initialValue);
+    return (Date)super.createFromString(initialValue);
   }
 
   /**
@@ -198,7 +232,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyDateToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return super.convertToString(instanceValue);
   }
 
   /**
@@ -208,7 +242,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Number createMyNumberFromString(EDataType eDataType, String initialValue)
   {
-    return (Number)super.createFromString(eDataType, initialValue);
+    return (Number)super.createFromString(initialValue);
   }
 
   /**
@@ -218,7 +252,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyNumberToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return super.convertToString(instanceValue);
   }
 
   /**
@@ -228,7 +262,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Object createMyObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)super.createFromString(eDataType, initialValue);
+    return super.createFromString(initialValue);
   }
 
   /**
@@ -238,7 +272,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return super.convertToString(instanceValue);
   }
 
   /**
@@ -248,7 +282,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Thread createMyThreadFromString(EDataType eDataType, String initialValue)
   {
-    return (Thread)super.createFromString(eDataType, initialValue);
+    return (Thread)super.createFromString(initialValue);
   }
 
   /**
@@ -258,7 +292,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyThreadToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return super.convertToString(instanceValue);
   }
 
   /**
@@ -277,6 +311,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static TypesPackage getPackage()
   {
     return TypesPackage.eINSTANCE;

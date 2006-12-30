@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: MixedPackage.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: MixedPackage.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed;
 
@@ -25,6 +35,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.models.personal.mixed.MixedFactory
+ * @model kind="package"
  * @generated
  */
 public interface MixedPackage extends EPackage
@@ -171,7 +182,7 @@ public interface MixedPackage extends EPackage
   int DOCUMENT_ROOT__URL = 10;
 
   /**
-   * The number of structural features of the the '<em>Document Root</em>' class.
+   * The number of structural features of the '<em>Document Root</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -217,7 +228,7 @@ public interface MixedPackage extends EPackage
   int LINK_TYPE__SUBORDINATES = 2;
 
   /**
-   * The number of structural features of the the '<em>Link Type</em>' class.
+   * The number of structural features of the '<em>Link Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -263,7 +274,7 @@ public interface MixedPackage extends EPackage
   int NAME_TYPE__GIVEN = 2;
 
   /**
-   * The number of structural features of the the '<em>Name Type</em>' class.
+   * The number of structural features of the '<em>Name Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -291,7 +302,7 @@ public interface MixedPackage extends EPackage
   int PERSONNEL_TYPE__PERSON = 0;
 
   /**
-   * The number of structural features of the the '<em>Personnel Type</em>' class.
+   * The number of structural features of the '<em>Personnel Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -391,7 +402,7 @@ public interface MixedPackage extends EPackage
   int PERSON_TYPE__SALARY = 8;
 
   /**
-   * The number of structural features of the the '<em>Person Type</em>' class.
+   * The number of structural features of the '<em>Person Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -419,7 +430,7 @@ public interface MixedPackage extends EPackage
   int URL_TYPE__HREF = 0;
 
   /**
-   * The number of structural features of the the '<em>Url Type</em>' class.
+   * The number of structural features of the '<em>Url Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -846,5 +857,325 @@ public interface MixedPackage extends EPackage
    * @generated
    */
   MixedFactory getMixedFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.personal.mixed.impl.DocumentRootImpl <em>Document Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.DocumentRootImpl
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.MixedPackageImpl#getDocumentRoot()
+     * @generated
+     */
+    EClass DOCUMENT_ROOT = eINSTANCE.getDocumentRoot();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__MIXED = eINSTANCE.getDocumentRoot_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>XMLNS Prefix Map</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XMLNS_PREFIX_MAP = eINSTANCE.getDocumentRoot_XMLNSPrefixMap();
+
+    /**
+     * The meta object literal for the '<em><b>XSI Schema Location</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getDocumentRoot_XSISchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>Email</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__EMAIL = eINSTANCE.getDocumentRoot_Email();
+
+    /**
+     * The meta object literal for the '<em><b>Family</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__FAMILY = eINSTANCE.getDocumentRoot_Family();
+
+    /**
+     * The meta object literal for the '<em><b>Given</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__GIVEN = eINSTANCE.getDocumentRoot_Given();
+
+    /**
+     * The meta object literal for the '<em><b>Link</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__LINK = eINSTANCE.getDocumentRoot_Link();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__NAME = eINSTANCE.getDocumentRoot_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Person</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__PERSON = eINSTANCE.getDocumentRoot_Person();
+
+    /**
+     * The meta object literal for the '<em><b>Personnel</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__PERSONNEL = eINSTANCE.getDocumentRoot_Personnel();
+
+    /**
+     * The meta object literal for the '<em><b>Url</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__URL = eINSTANCE.getDocumentRoot_Url();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.personal.mixed.impl.LinkTypeImpl <em>Link Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.LinkTypeImpl
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.MixedPackageImpl#getLinkType()
+     * @generated
+     */
+    EClass LINK_TYPE = eINSTANCE.getLinkType();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LINK_TYPE__MIXED = eINSTANCE.getLinkType_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>Manager</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LINK_TYPE__MANAGER = eINSTANCE.getLinkType_Manager();
+
+    /**
+     * The meta object literal for the '<em><b>Subordinates</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LINK_TYPE__SUBORDINATES = eINSTANCE.getLinkType_Subordinates();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.personal.mixed.impl.NameTypeImpl <em>Name Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.NameTypeImpl
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.MixedPackageImpl#getNameType()
+     * @generated
+     */
+    EClass NAME_TYPE = eINSTANCE.getNameType();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute NAME_TYPE__MIXED = eINSTANCE.getNameType_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>Family</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute NAME_TYPE__FAMILY = eINSTANCE.getNameType_Family();
+
+    /**
+     * The meta object literal for the '<em><b>Given</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute NAME_TYPE__GIVEN = eINSTANCE.getNameType_Given();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.personal.mixed.impl.PersonnelTypeImpl <em>Personnel Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.PersonnelTypeImpl
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.MixedPackageImpl#getPersonnelType()
+     * @generated
+     */
+    EClass PERSONNEL_TYPE = eINSTANCE.getPersonnelType();
+
+    /**
+     * The meta object literal for the '<em><b>Person</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PERSONNEL_TYPE__PERSON = eINSTANCE.getPersonnelType_Person();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.personal.mixed.impl.PersonTypeImpl <em>Person Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.PersonTypeImpl
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.MixedPackageImpl#getPersonType()
+     * @generated
+     */
+    EClass PERSON_TYPE = eINSTANCE.getPersonType();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERSON_TYPE__MIXED = eINSTANCE.getPersonType_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PERSON_TYPE__NAME = eINSTANCE.getPersonType_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Email</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERSON_TYPE__EMAIL = eINSTANCE.getPersonType_Email();
+
+    /**
+     * The meta object literal for the '<em><b>Url</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PERSON_TYPE__URL = eINSTANCE.getPersonType_Url();
+
+    /**
+     * The meta object literal for the '<em><b>Link</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PERSON_TYPE__LINK = eINSTANCE.getPersonType_Link();
+
+    /**
+     * The meta object literal for the '<em><b>Any</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERSON_TYPE__ANY = eINSTANCE.getPersonType_Any();
+
+    /**
+     * The meta object literal for the '<em><b>Contr</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERSON_TYPE__CONTR = eINSTANCE.getPersonType_Contr();
+
+    /**
+     * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERSON_TYPE__ID = eINSTANCE.getPersonType_Id();
+
+    /**
+     * The meta object literal for the '<em><b>Salary</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERSON_TYPE__SALARY = eINSTANCE.getPersonType_Salary();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.personal.mixed.impl.UrlTypeImpl <em>Url Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.UrlTypeImpl
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.MixedPackageImpl#getUrlType()
+     * @generated
+     */
+    EClass URL_TYPE = eINSTANCE.getUrlType();
+
+    /**
+     * The meta object literal for the '<em><b>Href</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute URL_TYPE__HREF = eINSTANCE.getUrlType_Href();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.personal.mixed.ContrType <em>Contr Type</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.personal.mixed.ContrType
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.MixedPackageImpl#getContrType()
+     * @generated
+     */
+    EEnum CONTR_TYPE = eINSTANCE.getContrType();
+
+    /**
+     * The meta object literal for the '<em>Contr Type Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.personal.mixed.ContrType
+     * @see org.eclipse.emf.test.models.personal.mixed.impl.MixedPackageImpl#getContrTypeObject()
+     * @generated
+     */
+    EDataType CONTR_TYPE_OBJECT = eINSTANCE.getContrTypeObject();
+
+  }
 
 } //MixedPackage

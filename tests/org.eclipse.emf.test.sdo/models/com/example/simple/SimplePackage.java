@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: SimplePackage.java,v 1.1 2004/12/19 04:02:21 marcelop Exp $
+ * $Id: SimplePackage.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package com.example.simple;
 
@@ -23,6 +33,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see com.example.simple.SimpleFactory
+ * @model kind="package"
  * @generated
  */
 public interface SimplePackage extends EPackage
@@ -151,7 +162,7 @@ public interface SimplePackage extends EPackage
   int QUOTE__QUOTES = 8;
 
   /**
-   * The number of structural features of the the '<em>Quote</em>' class.
+   * The number of structural features of the '<em>Quote</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -277,5 +288,103 @@ public interface SimplePackage extends EPackage
    * @generated
    */
   SimpleFactory getSimpleFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link com.example.simple.impl.QuoteImpl <em>Quote</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.example.simple.impl.QuoteImpl
+     * @see com.example.simple.impl.SimplePackageImpl#getQuote()
+     * @generated
+     */
+    EClass QUOTE = eINSTANCE.getQuote();
+
+    /**
+     * The meta object literal for the '<em><b>Symbol</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute QUOTE__SYMBOL = eINSTANCE.getQuote_Symbol();
+
+    /**
+     * The meta object literal for the '<em><b>Company Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute QUOTE__COMPANY_NAME = eINSTANCE.getQuote_CompanyName();
+
+    /**
+     * The meta object literal for the '<em><b>Price</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute QUOTE__PRICE = eINSTANCE.getQuote_Price();
+
+    /**
+     * The meta object literal for the '<em><b>Open1</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute QUOTE__OPEN1 = eINSTANCE.getQuote_Open1();
+
+    /**
+     * The meta object literal for the '<em><b>High</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute QUOTE__HIGH = eINSTANCE.getQuote_High();
+
+    /**
+     * The meta object literal for the '<em><b>Low</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute QUOTE__LOW = eINSTANCE.getQuote_Low();
+
+    /**
+     * The meta object literal for the '<em><b>Volume</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute QUOTE__VOLUME = eINSTANCE.getQuote_Volume();
+
+    /**
+     * The meta object literal for the '<em><b>Change1</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute QUOTE__CHANGE1 = eINSTANCE.getQuote_Change1();
+
+    /**
+     * The meta object literal for the '<em><b>Quotes</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference QUOTE__QUOTES = eINSTANCE.getQuote_Quotes();
+
+  }
 
 } //SimplePackage

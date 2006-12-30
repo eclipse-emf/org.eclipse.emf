@@ -2,12 +2,12 @@
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.sdo/models"
-    editDirectory="/org.eclipse.emf.test.sdo.edit/models" editorDirectory="/org.eclipse.emf.test.sdo.editor/models"
-    modelPluginID="org.eclipse.emf.test.sdo" modelName="Types" editPluginClass=""
-    editorPluginClass="" rootExtendsInterface="" rootExtendsClass="org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl"
+    editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.test.sdo" modelName="Types"
+    editPluginClass="" editorPluginClass="" rootExtendsInterface="" rootExtendsClass="org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl"
     rootImplementsInterface="org.eclipse.emf.ecore.sdo.InternalEDataObject" suppressEMFTypes="true"
     featureMapWrapperInterface="commonj.sdo.Sequence" featureMapWrapperInternalInterface="org.eclipse.emf.ecore.sdo.util.ESequence"
-    featureMapWrapperClass="org.eclipse.emf.ecore.sdo.util.BasicESequence">
+    featureMapWrapperClass="org.eclipse.emf.ecore.sdo.util.BasicESequence" testsDirectory=""
+    complianceLevel="5.0">
   <foreignModel>types.xsd</foreignModel>
   <staticPackages>http://www.eclipse.org/emf/2003/SDO</staticPackages>
   <modelPluginVariables>EMF_COMMONJ_SDO=org.eclipse.emf.commonj.sdo</modelPluginVariables>

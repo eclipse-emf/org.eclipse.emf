@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: PersonType.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: PersonType.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed;
 
@@ -40,7 +50,6 @@ public interface PersonType
 {
   /**
    * Returns the value of the '<em><b>Mixed</b></em>' attribute list.
-   * The list contents are of type {@link org.eclipse.emf.ecore.util.FeatureMap.Entry}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Mixed</em>' attribute list isn't clear,
@@ -66,7 +75,7 @@ public interface PersonType
    * @return the value of the '<em>Name</em>' containment reference.
    * @see #setName(NameType)
    * @see org.eclipse.emf.test.models.personal.mixed.MixedPackage#getPersonType_Name()
-   * @model containment="true" resolveProxies="false" required="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" required="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='name' namespace='##targetNamespace'"
    * @generated
    */
@@ -97,7 +106,7 @@ public interface PersonType
    *        extendedMetaData="kind='element' name='email' namespace='##targetNamespace'"
    * @generated
    */
-  List getEmail();
+  List<String> getEmail();
 
   /**
    * Returns the value of the '<em><b>Url</b></em>' containment reference list.
@@ -110,11 +119,11 @@ public interface PersonType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Url</em>' containment reference list.
    * @see org.eclipse.emf.test.models.personal.mixed.MixedPackage#getPersonType_Url()
-   * @model type="org.eclipse.emf.test.models.personal.mixed.UrlType" containment="true" resolveProxies="false" transient="true" volatile="true" derived="true"
+   * @model type="org.eclipse.emf.test.models.personal.mixed.UrlType" containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='url' namespace='##targetNamespace'"
    * @generated
    */
-  List getUrl();
+  List<UrlType> getUrl();
 
   /**
    * Returns the value of the '<em><b>Link</b></em>' containment reference.
@@ -127,7 +136,7 @@ public interface PersonType
    * @return the value of the '<em>Link</em>' containment reference.
    * @see #setLink(LinkType)
    * @see org.eclipse.emf.test.models.personal.mixed.MixedPackage#getPersonType_Link()
-   * @model containment="true" resolveProxies="false" required="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" required="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='link' namespace='##targetNamespace'"
    * @generated
    */
@@ -145,7 +154,6 @@ public interface PersonType
 
   /**
    * Returns the value of the '<em><b>Any</b></em>' attribute list.
-   * The list contents are of type {@link org.eclipse.emf.ecore.util.FeatureMap.Entry}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Any</em>' attribute list isn't clear,

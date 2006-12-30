@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: SimpleFactoryImpl.java,v 1.2 2005/06/12 14:04:08 emerks Exp $
+ * $Id: SimpleFactoryImpl.java,v 1.3 2006/12/30 03:44:08 marcelop Exp $
  */
 package com.example.simple.impl;
 
@@ -11,7 +21,9 @@ import com.example.simple.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,6 +33,29 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
  */
 public class SimpleFactoryImpl extends EFactoryImpl implements SimpleFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static SimpleFactory init()
+  {
+    try
+    {
+      SimpleFactory theSimpleFactory = (SimpleFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.com/simple"); 
+      if (theSimpleFactory != null)
+      {
+        return theSimpleFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new SimpleFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -37,6 +72,7 @@ public class SimpleFactoryImpl extends EFactoryImpl implements SimpleFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -74,6 +110,7 @@ public class SimpleFactoryImpl extends EFactoryImpl implements SimpleFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static SimplePackage getPackage()
   {
     return SimplePackage.eINSTANCE;

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeSummaryTest.java,v 1.8 2005/08/04 14:34:31 marcelop Exp $
+ * $Id: ChangeSummaryTest.java,v 1.9 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -29,6 +29,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -39,7 +40,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.ChangeKind;
@@ -127,7 +128,7 @@ public class ChangeSummaryTest extends TestCase
 
   public void testPersonal() throws Exception
   {
-    HashMap options = new HashMap();
+    HashMap<String, Object> options = new HashMap<String, Object>();
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, registerPersonal());
     FileInputStream fileInputStream = new FileInputStream(DATA + "personal.xml");
     byte[] dataGraphBytes = new byte [fileInputStream.available()];
@@ -143,15 +144,15 @@ public class ChangeSummaryTest extends TestCase
 
     // get some data
     DataObject personnel = (DataObject)dataGraph.getRootObject().get("personnel");
-    List personList = (List)personnel.get("person");
-    DataObject bigBoss = ((DataObject)personList.get(0));
-    DataObject oneWorker = ((DataObject)personList.get(1));
-    DataObject twoWorker = ((DataObject)personList.get(2));
-    DataObject fiveWorker = ((DataObject)personList.get(5));
-    DataObject bigBossLink = ((DataObject)bigBoss.get("link"));
-    DataObject twoWorkerLink = ((DataObject)twoWorker.get("link"));
-    List emailList = fiveWorker.getList("email");
-    List subordinates = bigBossLink.getList("subordinates");
+    @SuppressWarnings("unchecked") List<DataObject> personList = (List<DataObject>)personnel.get("person");
+    DataObject bigBoss = personList.get(0);
+    DataObject oneWorker = personList.get(1);
+    DataObject twoWorker = personList.get(2);
+    DataObject fiveWorker = personList.get(5);
+    DataObject bigBossLink = (DataObject)bigBoss.get("link");
+    DataObject twoWorkerLink = (DataObject)twoWorker.get("link");
+    @SuppressWarnings("unchecked") List<String> emailList = fiveWorker.getList("email");
+    List<?> subordinates = bigBossLink.getList("subordinates");
 
     // copy data that will be changed for later comparison
     DataObject oneWorkerCopy = (DataObject)EcoreUtil.copy((EObject)oneWorker);
@@ -161,17 +162,19 @@ public class ChangeSummaryTest extends TestCase
     changeSummary.beginLogging();
     twoWorkerLink.delete();
     oneWorker.delete();
-    List newList = new ArrayList();
+    List<Object> newList = new ArrayList<Object>();
     newList.addAll(subordinates);
     newList.remove(0);
     bigBossLink.setList("subordinates", newList);
     emailList.add("five_extra@foo.com");
     changeSummary.endLogging();
 
-    List objectsToAttach = ((EChangeSummary)changeSummary).getObjectsToAttach();
+    List<EObject> objectsToAttach = ((EChangeSummary)changeSummary).getObjectsToAttach();
     // make a copy so we can modify it
-    List objectsToAttachCopy = new ArrayList(((EChangeSummary)changeSummary).getObjectsToAttach());
-    List changedDOList = new ArrayList(changeSummary.getChangedDataObjects());
+    List<EObject> objectsToAttachCopy = new ArrayList<EObject>(((EChangeSummary)changeSummary).getObjectsToAttach());
+    
+    @SuppressWarnings("unchecked")
+    List<Object> changedDOList = new ArrayList<Object>(changeSummary.getChangedDataObjects());
 
     // verify that we have correct values for objects to attach
     DataObject personType = getDO(objectsToAttachCopy, "PersonType");
@@ -186,7 +189,7 @@ public class ChangeSummaryTest extends TestCase
     for (int i = 0; i < changedDOList.size(); i++)
     {
       DataObject o = (DataObject)changedDOList.get(i);
-      List settings = changeSummary.getOldValues(o);
+      List<?> settings = changeSummary.getOldValues(o);
       String featureName = o.getType().getName();
       if (featureName.equals("PersonType"))
       {
@@ -204,7 +207,7 @@ public class ChangeSummaryTest extends TestCase
           for (int k = 0; k < settings.size(); k++)
           {
             FeatureChange change = (FeatureChange)settings.get(k);
-            ListChange lchange = (ListChange)change.getListChanges().get(0);
+            ListChange lchange = change.getListChanges().get(0);
             assertEquals(ChangeKind.REMOVE, lchange.getKind().getValue());
             assertEquals(1, lchange.getIndex());
             assertEquals("email", lchange.getFeature().getName());
@@ -220,11 +223,11 @@ public class ChangeSummaryTest extends TestCase
         for (int k = 0; k < settings.size(); k++)
         {
           FeatureChange change = (FeatureChange)settings.get(k);
-          ListChange lchange = (ListChange)change.getListChanges().get(0);
+          ListChange lchange = change.getListChanges().get(0);
           assertEquals(ChangeKind.ADD, lchange.getKind().getValue());
           assertEquals(1, lchange.getIndex());
           assertEquals(0, lchange.getMoveToIndex());
-          assertEquals(true, EcoreUtil.equals((EObject)personType, (EObject)lchange.getReferenceValues().get(0)));
+          assertEquals(true, EcoreUtil.equals((EObject)personType, lchange.getReferenceValues().get(0)));
         }
       }
       else if (featureName.equals("LinkType"))
@@ -262,9 +265,9 @@ public class ChangeSummaryTest extends TestCase
 
   }
 
-  private void verifyType(DataObject o, DataObject copyDO, List objectsToAttach, ChangeSummary changeSummary)
+  private void verifyType(DataObject o, DataObject copyDO, List<?> objectsToAttach, ChangeSummary changeSummary)
   {
-    List settings = changeSummary.getOldValues(o);
+    List<?> settings = changeSummary.getOldValues(o);
     for (int k = 0; k < settings.size(); k++)
     {
       ChangeSummary.Setting s = (ChangeSummary.Setting)settings.get(k);
@@ -285,7 +288,7 @@ public class ChangeSummaryTest extends TestCase
 
   public void testPersonalMixed() throws Exception
   {
-    HashMap options = new HashMap();
+    Map<String, Object> options = new HashMap<String, Object>();
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, registerPersonalMixed());
     FileInputStream fileInputStream = new FileInputStream(DATA + "personalMixed.xml");
     byte[] dataGraphBytes = new byte [fileInputStream.available()];
@@ -301,15 +304,15 @@ public class ChangeSummaryTest extends TestCase
 
     // Get some values
     DataObject personnel = (DataObject)dataGraph.getRootObject().get("personnel");
-    List personList = (List)personnel.get("person");
+    List<?> personList = (List<?>)personnel.get("person");
     DataObject bigBoss = ((DataObject)personList.get(0));
     DataObject oneWorker = ((DataObject)personList.get(1));
     DataObject twoWorker = ((DataObject)personList.get(2));
     DataObject fiveWorker = ((DataObject)personList.get(5));
     DataObject bigBossLink = ((DataObject)bigBoss.get("link"));
     DataObject twoWorkerLink = ((DataObject)twoWorker.get("link"));
-    List emailList = fiveWorker.getList("email");
-    List subordinates = bigBossLink.getList("subordinates");
+    @SuppressWarnings("unchecked") List<String> emailList = fiveWorker.getList("email");
+    List<?> subordinates = bigBossLink.getList("subordinates");
 
     // make copy of original to compare with recorded values in change summary
     DataObject oneWorkerCopy = (DataObject)EcoreUtil.copy((EObject)oneWorker);
@@ -319,7 +322,7 @@ public class ChangeSummaryTest extends TestCase
     changeSummary.beginLogging();
     twoWorkerLink.delete();
     oneWorker.delete();
-    List newList = new ArrayList();
+    List<Object> newList = new ArrayList<Object>();
     newList.addAll(subordinates);
     newList.remove(0);
     bigBossLink.setList("subordinates", newList);
@@ -327,7 +330,7 @@ public class ChangeSummaryTest extends TestCase
     fiveWorker.getDataObject("name").delete();
     changeSummary.endLogging();
 
-    List objectsToAttach = ((EChangeSummary)changeSummary).getObjectsToAttach();
+    List<EObject> objectsToAttach = ((EChangeSummary)changeSummary).getObjectsToAttach();
 
     DataObject personType = getDO(objectsToAttach, "PersonType");
 
@@ -356,7 +359,7 @@ public class ChangeSummaryTest extends TestCase
     CompareXML.compareFiles(new ByteArrayInputStream(changedstream.toByteArray()), new ByteArrayInputStream(changedstream2.toByteArray()));
   }
 
-  private DataObject getDO(List list, String name)
+  private DataObject getDO(List<?> list, String name)
   {
     for (int i = 0; i < list.size(); i++)
     {
@@ -375,7 +378,7 @@ public class ChangeSummaryTest extends TestCase
     {
       System.out.println("processing..." + o);
     }
-    List properties = copyDO.getType().getProperties();
+    List<?> properties = copyDO.getType().getProperties();
     for (int i = 0; i < properties.size(); i++)
     {
       EProperty p = (EProperty)properties.get(i);
@@ -400,7 +403,7 @@ public class ChangeSummaryTest extends TestCase
 
   private void testGetOldValues(DataObject o, DataObject copyDO)
   {
-    List settings = changeSummary.getOldValues(o);
+    List<?> settings = changeSummary.getOldValues(o);
     if (DEBUG)
     {
       System.out.println("**testGetOldValues");
@@ -457,10 +460,10 @@ public class ChangeSummaryTest extends TestCase
         compareValues(changedValue, originalValue, isTestGetOldValue);
       }
     }
-    else if (originalValue instanceof List)
+    else if (originalValue instanceof List<?>)
     {
-      List list = (List)originalValue;
-      List changedList = (List)changedValue;
+      List<?> list = (List<?>)originalValue;
+      List<?> changedList = (List<?>)changedValue;
       for (int i = 0; i < list.size(); i++)
       {
         compareValues(changedList.get(i), list.get(i), isTestGetOldValue);
@@ -529,10 +532,10 @@ public class ChangeSummaryTest extends TestCase
 
     eDataGraph2.getChangeSummary().endLogging();
     log = eDataGraph2.getChangeSummary();
-    List changedDOList = eDataGraph2.getChangeSummary().getChangedDataObjects();
+    List<?> changedDOList = eDataGraph2.getChangeSummary().getChangedDataObjects();
 
     assertEquals(2, changedDOList.size());
-    DataObject[] dataObjects = (DataObject[])changedDOList.toArray(new DataObject [changedDOList.size()]);
+    DataObject[] dataObjects = changedDOList.toArray(new DataObject [changedDOList.size()]);
     String deletedTypeName = dataObjects[0].getType().getName();
     String updatedTypeName = dataObjects[1].getType().getName();
     if (log.isDeleted(dataObjects[1]))
@@ -578,12 +581,18 @@ public class ChangeSummaryTest extends TestCase
   public static class MyDataGraphImpl extends EDataGraphImpl
   {
     /**
+     * 
+     */
+    private static final long serialVersionUID = 2L;
+
+    /**
      * A derived data graph externalizable that records the logging state and restores it.
      */
     public static class MyDataGraphExternalizable extends EDataGraphExternalizable
     {
       public MyDataGraphExternalizable()
       {
+        super();
       }
 
       public MyDataGraphExternalizable(EDataGraph eDataGraph)
@@ -591,12 +600,14 @@ public class ChangeSummaryTest extends TestCase
         super(eDataGraph);
       }
 
+      @Override
       public void writeExternal(ObjectOutput objectOutput) throws IOException
       {
         super.writeExternal(objectOutput);
         objectOutput.writeBoolean(eDataGraph.getChangeSummary().isLogging());
       }
 
+      @Override
       public void readExternal(ObjectInput objectInput) throws IOException
       {
         super.readExternal(objectInput);
@@ -611,6 +622,7 @@ public class ChangeSummaryTest extends TestCase
       }
     }
 
+    @Override
     protected EDataGraphExternalizable createEDataGraphExternalizable()
     {
       // Create the derived externalizable.
@@ -669,6 +681,7 @@ public class ChangeSummaryTest extends TestCase
     EPackage.Registry.INSTANCE.put(pkg.getNsURI(), pkg);
     EFactoryImpl dofac = (new EFactoryImpl()
       {
+        @Override
         public EObject basicCreate(EClass eClass)
         {
           return new DynamicEDataObjectImpl(eClass);
@@ -698,7 +711,7 @@ public class ChangeSummaryTest extends TestCase
     EReference employeeEmployeesFeature = EcoreFactory.eINSTANCE.createEReference();
     employeeEmployeesFeature.setName("employees");
     employeeEmployeesFeature.setEType(employeeClass);
-    employeeEmployeesFeature.setUpperBound(EStructuralFeature.UNBOUNDED_MULTIPLICITY);
+    employeeEmployeesFeature.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     employeeEmployeesFeature.setContainment(true); // must be true so that
     // nested employees will
     // be in the graph
@@ -718,10 +731,14 @@ public class ChangeSummaryTest extends TestCase
     boss.eSet(employeeNameFeature, "Boss");
     EDataObject employeeA = (EDataObject)EcoreUtil.create(employeeClass);
     employeeA.eSet(employeeNameFeature, "employeeA");
-    ((List)boss.eGet(employeeEmployeesFeature)).add(employeeA);
+    
+    @SuppressWarnings("unchecked")
+    List<Object> employees = (List<Object>)boss.eGet(employeeEmployeesFeature);
+    
+    employees.add(employeeA);
     EDataObject employeeB = (EDataObject)EcoreUtil.create(employeeClass);
     employeeB.eSet(employeeNameFeature, "employeeB");
-    ((List)boss.eGet(employeeEmployeesFeature)).add(employeeB);
+    employees.add(employeeB);
     EDataObject employeeC = (EDataObject)EcoreUtil.create(employeeClass);
     employeeC.eSet(employeeNameFeature, "employeeC");
     
@@ -730,8 +747,8 @@ public class ChangeSummaryTest extends TestCase
     employeeGraph.setERootObject(boss);
     employeeGraph.getChangeSummary().beginLogging();
     
-    ((List)boss.eGet(employeeEmployeesFeature)).add(employeeC);
-    ((List)boss.eGet(employeeEmployeesFeature)).remove(0); //remove employeeA
+    employees.add(employeeC);
+    employees.remove(0); //remove employeeA
     
     EChangeSummary eChangeSummary = employeeGraph.getEChangeSummary();
     eChangeSummary.endLogging();
@@ -743,11 +760,11 @@ public class ChangeSummaryTest extends TestCase
     assertTrue(eChangeSummary.getOldValues(employeeB).isEmpty());
     assertTrue(eChangeSummary.getOldValues(employeeC).isEmpty());
     
-    List changeSummarySettings = eChangeSummary.getOldValues(boss);
+    List<?> changeSummarySettings = eChangeSummary.getOldValues(boss);
     assertEquals(1, changeSummarySettings.size());
     ChangeSummary.Setting setting = (ChangeSummary.Setting)changeSummarySettings.get(0);
     assertEquals(employeeEmployeesFeature, ((EChangeSummarySetting)setting).getFeature());
-    List value = (List)((EChangeSummarySetting)setting).getValue();
+    List<?> value = (List<?>)((EChangeSummarySetting)setting).getValue();
     assertEquals(2, value.size());
     assertTrue(value.contains(employeeA));
     assertTrue(value.contains(employeeB));
@@ -755,7 +772,7 @@ public class ChangeSummaryTest extends TestCase
     //
     
     employeeGraph.getChangeSummary().beginLogging();
-    ((List)boss.eGet(employeeEmployeesFeature)).remove(1); //remove employeeC
+    ((List<?>)boss.eGet(employeeEmployeesFeature)).remove(1); //remove employeeC
     
     eChangeSummary = employeeGraph.getEChangeSummary();
     eChangeSummary.endLogging();
@@ -770,7 +787,7 @@ public class ChangeSummaryTest extends TestCase
     assertEquals(1, changeSummarySettings.size());
     setting = (ChangeSummary.Setting)changeSummarySettings.get(0);
     assertEquals(employeeEmployeesFeature, ((EChangeSummarySetting)setting).getFeature());
-    value = (List)((EChangeSummarySetting)setting).getValue();
+    value = (List<?>)((EChangeSummarySetting)setting).getValue();
     assertEquals(2, value.size());
     assertTrue(value.contains(employeeB));
     assertTrue(value.contains(employeeC));

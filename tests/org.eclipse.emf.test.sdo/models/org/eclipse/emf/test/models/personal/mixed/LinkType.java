@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: LinkType.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: LinkType.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed;
 
@@ -32,7 +42,6 @@ public interface LinkType
 {
   /**
    * Returns the value of the '<em><b>Mixed</b></em>' attribute list.
-   * The list contents are of type {@link org.eclipse.emf.ecore.util.FeatureMap.Entry}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Mixed</em>' attribute list isn't clear,
@@ -83,13 +92,13 @@ public interface LinkType
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Subordinates</em>' attribute.
-   * @see #setSubordinates(List)
+   * @see #setSubordinates(List<String>)
    * @see org.eclipse.emf.test.models.personal.mixed.MixedPackage#getLinkType_Subordinates()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.IDREFS" many="false"
    *        extendedMetaData="kind='attribute' name='subordinates'"
    * @generated
    */
-  List getSubordinates();
+  List<String> getSubordinates();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.personal.mixed.LinkType#getSubordinates <em>Subordinates</em>}' attribute.
@@ -99,6 +108,6 @@ public interface LinkType
    * @see #getSubordinates()
    * @generated
    */
-  void setSubordinates(List value);
+  void setSubordinates(List<String> value);
 
 } // LinkType

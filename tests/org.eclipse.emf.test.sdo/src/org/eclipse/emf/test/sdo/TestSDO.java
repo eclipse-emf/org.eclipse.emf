@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestSDO.java,v 1.6 2006/12/05 20:31:59 emerks Exp $
+ * $Id: TestSDO.java,v 1.7 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -23,6 +23,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Test;
@@ -70,6 +71,7 @@ public class TestSDO extends TestCase
     return ts;
   }
   
+  @Override
   protected void setUp() throws Exception
   {
     EcorePackage.eINSTANCE.getEFactoryInstance();
@@ -83,7 +85,8 @@ public class TestSDO extends TestCase
     ePackage.setEFactoryInstance
       (new EFactoryImpl()
        {
-         public EObject basicCreate(EClass eClass) 
+         @Override
+        public EObject basicCreate(EClass eClass) 
          {
            return new DynamicEDataObjectImpl(eClass);
          }
@@ -101,12 +104,15 @@ public class TestSDO extends TestCase
     modelTest(resourceSet, (DataObject)eFactory.create((EClass)ePackage.getEClassifier("Quote")));
   }
   
+  @Override
   protected void tearDown() throws Exception
   {
     EDataObject root = (EDataObject)eFactory.create((EClass)ePackage.getEClassifier("Quote")); 
     EDataObject child = (EDataObject)eFactory.create((EClass)ePackage.getEClassifier("Quote"));
     child.createDataObject("quotes");
-    root.getList("quotes").add(child);
+    
+    @SuppressWarnings("unchecked") List<EDataObject> dataObjects = root.getList("quotes");
+    dataObjects.add(child);
     eDataGraph.setERootObject(root);
     if (SYSOUT) eDataGraph.getDataGraphResource().save(System.out, null);
 
@@ -134,7 +140,7 @@ public class TestSDO extends TestCase
     Resource quoteResource = resourceSet.createResource(URI.createURI("quote.xml"));
     quoteResource.getContents().add((EObject)quote);
     
-    Map options = new HashMap();
+    Map<String, Object> options = new HashMap<String, Object>();
     options.put(XMLResource.OPTION_LINE_WIDTH, new Integer(10));
     if (SYSOUT) quoteResource.save(System.out, options);
 

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.6 2006/07/09 13:40:09 emerks Exp $
+ * $Id: DataGraphTest.java,v 1.7 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -52,7 +52,7 @@ public class DataGraphTest extends TestCase
 {
   private EDataGraph eDataGraph;
 
-  private Map xmlOptions;
+  private Map<String, Object> xmlOptions;
 
   private String expectedXML;
 
@@ -78,9 +78,10 @@ public class DataGraphTest extends TestCase
     return ts;
   }
 
+  @Override
   protected void setUp() throws Exception
   {
-    xmlOptions = new HashMap();
+    xmlOptions = new HashMap<String, Object>();
     xmlOptions.put(XMLResource.OPTION_DECLARE_XML, Boolean.FALSE);
     xmlOptions.put(XMLResource.OPTION_LINE_WIDTH, new Integer(Integer.MAX_VALUE));
     xmlOptions.put(XMLResource.OPTION_FORMATTED, Boolean.FALSE);
@@ -182,21 +183,21 @@ public class DataGraphTest extends TestCase
     DataObject loadedObject = (DataObject)loadedDataGraph.getERootObject();
     assertEquals(expectedObject.get("name"), loadedObject.get("name"));
     assertTrue(loadedObject.get("child") instanceof List);
-    assertEquals(1, ((List)loadedObject.get("child")).size());
-    assertTrue(((List)loadedObject.get("child")).get(0) instanceof DataObject);
+    assertEquals(1, ((List<?>)loadedObject.get("child")).size());
+    assertTrue(((List<?>)loadedObject.get("child")).get(0) instanceof DataObject);
 
     expectedObject = expectedObject.getDataObject("child.0");
     loadedObject = loadedObject.getDataObject("child.0");
     assertEquals(expectedObject.get("name"), loadedObject.get("name"));
     assertTrue(loadedObject.get("child") instanceof List);
-    assertEquals(1, ((List)loadedObject.get("child")).size());
-    assertTrue(((List)loadedObject.get("child")).get(0) instanceof DataObject);
+    assertEquals(1, ((List<?>)loadedObject.get("child")).size());
+    assertTrue(((List<?>)loadedObject.get("child")).get(0) instanceof DataObject);
 
     expectedObject = expectedObject.getDataObject("child.0");
     loadedObject = loadedObject.getDataObject("child.0");
     assertEquals(expectedObject.get("name"), loadedObject.get("name"));
     assertTrue(loadedObject.get("child") instanceof List);
-    assertEquals(0, ((List)loadedObject.get("child")).size());
+    assertEquals(0, ((List<?>)loadedObject.get("child")).size());
   }
 
   // bugzilla 70560,70561,70562 

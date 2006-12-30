@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: MixedSwitch.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: MixedSwitch.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed.util;
 
@@ -10,8 +20,13 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.test.models.personal.mixed.*;
+import org.eclipse.emf.test.models.personal.mixed.DocumentRoot;
+import org.eclipse.emf.test.models.personal.mixed.LinkType;
+import org.eclipse.emf.test.models.personal.mixed.MixedPackage;
+import org.eclipse.emf.test.models.personal.mixed.NameType;
+import org.eclipse.emf.test.models.personal.mixed.PersonType;
+import org.eclipse.emf.test.models.personal.mixed.PersonnelType;
+import org.eclipse.emf.test.models.personal.mixed.UrlType;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,7 +41,7 @@ import org.eclipse.emf.test.models.personal.mixed.*;
  * @see org.eclipse.emf.test.models.personal.mixed.MixedPackage
  * @generated
  */
-public class MixedSwitch
+public class MixedSwitch<T>
 {
   /**
    * The cached model package
@@ -57,7 +72,7 @@ public class MixedSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -69,7 +84,7 @@ public class MixedSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -77,11 +92,11 @@ public class MixedSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -92,49 +107,49 @@ public class MixedSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case MixedPackage.DOCUMENT_ROOT:
       {
         DocumentRoot documentRoot = (DocumentRoot)theEObject;
-        Object result = caseDocumentRoot(documentRoot);
+        T result = caseDocumentRoot(documentRoot);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case MixedPackage.LINK_TYPE:
       {
         LinkType linkType = (LinkType)theEObject;
-        Object result = caseLinkType(linkType);
+        T result = caseLinkType(linkType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case MixedPackage.NAME_TYPE:
       {
         NameType nameType = (NameType)theEObject;
-        Object result = caseNameType(nameType);
+        T result = caseNameType(nameType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case MixedPackage.PERSONNEL_TYPE:
       {
         PersonnelType personnelType = (PersonnelType)theEObject;
-        Object result = casePersonnelType(personnelType);
+        T result = casePersonnelType(personnelType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case MixedPackage.PERSON_TYPE:
       {
         PersonType personType = (PersonType)theEObject;
-        Object result = casePersonType(personType);
+        T result = casePersonType(personType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case MixedPackage.URL_TYPE:
       {
         UrlType urlType = (UrlType)theEObject;
-        Object result = caseUrlType(urlType);
+        T result = caseUrlType(urlType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -153,7 +168,7 @@ public class MixedSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseDocumentRoot(DocumentRoot object)
+  public T caseDocumentRoot(DocumentRoot object)
   {
     return null;
   }
@@ -169,7 +184,7 @@ public class MixedSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseLinkType(LinkType object)
+  public T caseLinkType(LinkType object)
   {
     return null;
   }
@@ -185,7 +200,7 @@ public class MixedSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseNameType(NameType object)
+  public T caseNameType(NameType object)
   {
     return null;
   }
@@ -201,7 +216,7 @@ public class MixedSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object casePersonnelType(PersonnelType object)
+  public T casePersonnelType(PersonnelType object)
   {
     return null;
   }
@@ -217,7 +232,7 @@ public class MixedSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object casePersonType(PersonType object)
+  public T casePersonType(PersonType object)
   {
     return null;
   }
@@ -233,7 +248,7 @@ public class MixedSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseUrlType(UrlType object)
+  public T caseUrlType(UrlType object)
   {
     return null;
   }
@@ -249,7 +264,7 @@ public class MixedSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

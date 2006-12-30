@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: IpoSwitch.java,v 1.1 2005/06/08 20:47:30 bportier Exp $
+ * $Id: IpoSwitch.java,v 1.2 2006/12/30 03:44:07 marcelop Exp $
  */
 package com.example.ipo.util;
 
@@ -26,233 +36,244 @@ import org.eclipse.emf.ecore.EObject;
  * @see com.example.ipo.IpoPackage
  * @generated
  */
-public class IpoSwitch {
+public class IpoSwitch<T> {
 	/**
-	 * The cached model package
-	 * <!-- begin-user-doc -->
+   * The cached model package
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected static IpoPackage modelPackage;
 
 	/**
-	 * Creates an instance of the switch.
-	 * <!-- begin-user-doc -->
+   * Creates an instance of the switch.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public IpoSwitch() {
-		if (modelPackage == null) {
-			modelPackage = IpoPackage.eINSTANCE;
-		}
-	}
+    if (modelPackage == null)
+    {
+      modelPackage = IpoPackage.eINSTANCE;
+    }
+  }
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
-	public Object doSwitch(EObject theEObject) {
-		return doSwitch(theEObject.eClass(), theEObject);
-	}
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+	public T doSwitch(EObject theEObject) {
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
-	protected Object doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage) {
-			return doSwitch(theEClass.getClassifierID(), theEObject);
-		}
-		else {
-			List eSuperTypes = theEClass.getESuperTypes();
-			return
-				eSuperTypes.isEmpty() ?
-					defaultCase(theEObject) :
-					doSwitch((EClass)eSuperTypes.get(0), theEObject);
-		}
-	}
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+	protected T doSwitch(EClass theEClass, EObject theEObject) {
+    if (theEClass.eContainer() == modelPackage)
+    {
+      return doSwitch(theEClass.getClassifierID(), theEObject);
+    }
+    else
+    {
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch(eSuperTypes.get(0), theEObject);
+    }
+  }
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
-	protected Object doSwitch(int classifierID, EObject theEObject) {
-		switch (classifierID) {
-			case IpoPackage.ADDRESS: {
-				Address address = (Address)theEObject;
-				Object result = caseAddress(address);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case IpoPackage.DOCUMENT_ROOT: {
-				DocumentRoot documentRoot = (DocumentRoot)theEObject;
-				Object result = caseDocumentRoot(documentRoot);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case IpoPackage.ITEMS: {
-				Items items = (Items)theEObject;
-				Object result = caseItems(items);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case IpoPackage.ITEM_TYPE: {
-				ItemType itemType = (ItemType)theEObject;
-				Object result = caseItemType(itemType);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case IpoPackage.PURCHASE_ORDER_TYPE: {
-				PurchaseOrderType purchaseOrderType = (PurchaseOrderType)theEObject;
-				Object result = casePurchaseOrderType(purchaseOrderType);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case IpoPackage.UK_ADDRESS: {
-				UKAddress ukAddress = (UKAddress)theEObject;
-				Object result = caseUKAddress(ukAddress);
-				if (result == null) result = caseAddress(ukAddress);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case IpoPackage.US_ADDRESS: {
-				USAddress usAddress = (USAddress)theEObject;
-				Object result = caseUSAddress(usAddress);
-				if (result == null) result = caseAddress(usAddress);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			default: return defaultCase(theEObject);
-		}
-	}
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+	protected T doSwitch(int classifierID, EObject theEObject) {
+    switch (classifierID)
+    {
+      case IpoPackage.ADDRESS:
+      {
+        Address address = (Address)theEObject;
+        T result = caseAddress(address);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IpoPackage.DOCUMENT_ROOT:
+      {
+        DocumentRoot documentRoot = (DocumentRoot)theEObject;
+        T result = caseDocumentRoot(documentRoot);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IpoPackage.ITEMS:
+      {
+        Items items = (Items)theEObject;
+        T result = caseItems(items);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IpoPackage.ITEM_TYPE:
+      {
+        ItemType itemType = (ItemType)theEObject;
+        T result = caseItemType(itemType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IpoPackage.PURCHASE_ORDER_TYPE:
+      {
+        PurchaseOrderType purchaseOrderType = (PurchaseOrderType)theEObject;
+        T result = casePurchaseOrderType(purchaseOrderType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IpoPackage.UK_ADDRESS:
+      {
+        UKAddress ukAddress = (UKAddress)theEObject;
+        T result = caseUKAddress(ukAddress);
+        if (result == null) result = caseAddress(ukAddress);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case IpoPackage.US_ADDRESS:
+      {
+        USAddress usAddress = (USAddress)theEObject;
+        T result = caseUSAddress(usAddress);
+        if (result == null) result = caseAddress(usAddress);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Address</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>Address</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Address</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseAddress(Address object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Address</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+	public T caseAddress(Address object) {
+    return null;
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Document Root</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>Document Root</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Document Root</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseDocumentRoot(DocumentRoot object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Document Root</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+	public T caseDocumentRoot(DocumentRoot object) {
+    return null;
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Items</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>Items</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Items</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseItems(Items object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Items</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+	public T caseItems(Items object) {
+    return null;
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Item Type</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>Item Type</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Item Type</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseItemType(ItemType object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Item Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+	public T caseItemType(ItemType object) {
+    return null;
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Purchase Order Type</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>Purchase Order Type</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Purchase Order Type</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object casePurchaseOrderType(PurchaseOrderType object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Purchase Order Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+	public T casePurchaseOrderType(PurchaseOrderType object) {
+    return null;
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>UK Address</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>UK Address</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>UK Address</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseUKAddress(UKAddress object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>UK Address</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+	public T caseUKAddress(UKAddress object) {
+    return null;
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>US Address</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>US Address</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>US Address</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseUSAddress(USAddress object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>US Address</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+	public T caseUSAddress(USAddress object) {
+    return null;
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
-	 * @generated
-	 */
-	public Object defaultCase(EObject object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject)
+   * @generated
+   */
+	public T defaultCase(EObject object) {
+    return null;
+  }
 
 } //IpoSwitch

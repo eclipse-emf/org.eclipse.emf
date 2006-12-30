@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicSequenceTest.java,v 1.4 2005/06/08 06:17:25 nickb Exp $
+ * $Id: DynamicSequenceTest.java,v 1.5 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -59,6 +59,7 @@ public class DynamicSequenceTest extends TestCase
   /*
    * @see TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     if (epoPackage == null)
@@ -71,6 +72,7 @@ public class DynamicSequenceTest extends TestCase
   /*
    * @see TestCase#tearDown()
    */
+  @Override
   protected void tearDown() throws Exception
   {
     super.tearDown();
@@ -137,7 +139,8 @@ public class DynamicSequenceTest extends TestCase
     EObject order1 = epoFactory.create(poClass);
     order1.eSet(commentAttr, "A very interesting comment...");
 
-    ((List)supplier.eGet(preferredRef)).add(order1);
+    @SuppressWarnings("unchecked") List<EObject> preferredSupplier = (List<EObject>)supplier.eGet(preferredRef);
+    preferredSupplier.add(order1);
 
     return supplier;
   }

@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: LibraryPackage.java,v 1.2 2005/06/12 14:07:23 emerks Exp $
+ * $Id: LibraryPackage.java,v 1.3 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.example.library;
 
@@ -26,6 +36,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.example.library.LibraryFactory
+ * @model kind="package"
  * @generated
  */
 public interface LibraryPackage extends EPackage
@@ -109,7 +120,7 @@ public interface LibraryPackage extends EPackage
   int BOOK__AUTHOR = 3;
 
   /**
-   * The number of structural features of the the '<em>Book</em>' class.
+   * The number of structural features of the '<em>Book</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -155,7 +166,7 @@ public interface LibraryPackage extends EPackage
   int LIBRARY__BOOKS = 2;
 
   /**
-   * The number of structural features of the the '<em>Library</em>' class.
+   * The number of structural features of the '<em>Library</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -192,7 +203,7 @@ public interface LibraryPackage extends EPackage
   int WRITER__BOOKS = 1;
 
   /**
-   * The number of structural features of the the '<em>Writer</em>' class.
+   * The number of structural features of the '<em>Writer</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -357,5 +368,133 @@ public interface LibraryPackage extends EPackage
    * @generated
    */
   LibraryFactory getLibraryFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.example.library.impl.BookImpl <em>Book</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.example.library.impl.BookImpl
+     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getBook()
+     * @generated
+     */
+    EClass BOOK = eINSTANCE.getBook();
+
+    /**
+     * The meta object literal for the '<em><b>Title</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__TITLE = eINSTANCE.getBook_Title();
+
+    /**
+     * The meta object literal for the '<em><b>Pages</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__PAGES = eINSTANCE.getBook_Pages();
+
+    /**
+     * The meta object literal for the '<em><b>Category</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__CATEGORY = eINSTANCE.getBook_Category();
+
+    /**
+     * The meta object literal for the '<em><b>Author</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BOOK__AUTHOR = eINSTANCE.getBook_Author();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.example.library.impl.LibraryImpl <em>Library</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.example.library.impl.LibraryImpl
+     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getLibrary()
+     * @generated
+     */
+    EClass LIBRARY = eINSTANCE.getLibrary();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LIBRARY__NAME = eINSTANCE.getLibrary_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Writers</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__WRITERS = eINSTANCE.getLibrary_Writers();
+
+    /**
+     * The meta object literal for the '<em><b>Books</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__BOOKS = eINSTANCE.getLibrary_Books();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.example.library.impl.WriterImpl <em>Writer</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.example.library.impl.WriterImpl
+     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getWriter()
+     * @generated
+     */
+    EClass WRITER = eINSTANCE.getWriter();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute WRITER__NAME = eINSTANCE.getWriter_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Books</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference WRITER__BOOKS = eINSTANCE.getWriter_Books();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.example.library.BookCategory <em>Book Category</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.example.library.BookCategory
+     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getBookCategory()
+     * @generated
+     */
+    EEnum BOOK_CATEGORY = eINSTANCE.getBookCategory();
+
+  }
 
 } //LibraryPackage

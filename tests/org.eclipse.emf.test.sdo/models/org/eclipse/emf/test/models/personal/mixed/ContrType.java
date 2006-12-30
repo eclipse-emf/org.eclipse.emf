@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ContrType.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: ContrType.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed;
 
@@ -10,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,8 +31,26 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class ContrType extends AbstractEnumerator
+public enum ContrType implements Enumerator
 {
+  /**
+   * The '<em><b>True</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #TRUE
+   * @generated
+   * @ordered
+   */
+  TRUE_LITERAL(0, "true", "true"),
+  /**
+   * The '<em><b>False</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #FALSE
+   * @generated
+   * @ordered
+   */
+  FALSE_LITERAL(1, "false", "false");
   /**
    * The '<em><b>True</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -54,26 +82,6 @@ public final class ContrType extends AbstractEnumerator
   public static final int FALSE = 1;
 
   /**
-   * The '<em><b>True</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #TRUE
-   * @generated
-   * @ordered
-   */
-  public static final ContrType TRUE_LITERAL = new ContrType(TRUE, "true");
-
-  /**
-   * The '<em><b>False</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #FALSE
-   * @generated
-   * @ordered
-   */
-  public static final ContrType FALSE_LITERAL = new ContrType(FALSE, "false");
-
-  /**
    * An array of all the '<em><b>Contr Type</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -92,20 +100,20 @@ public final class ContrType extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<ContrType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Contr Type</b></em>' literal with the specified name.
+   * Returns the '<em><b>Contr Type</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static ContrType get(String name)
+  public static ContrType get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       ContrType result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -114,7 +122,26 @@ public final class ContrType extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Contr Type</b></em>' literal with the specified value.
+   * Returns the '<em><b>Contr Type</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static ContrType getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      ContrType result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Contr Type</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -126,8 +153,29 @@ public final class ContrType extends AbstractEnumerator
       case TRUE: return TRUE_LITERAL;
       case FALSE: return FALSE_LITERAL;
     }
-    return null;	
+    return null;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
 
   /**
    * Only this class can construct instances.
@@ -135,9 +183,52 @@ public final class ContrType extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private ContrType(int value, String name)
+  private ContrType(int value, String name, String literal)
   {
-    super(value, name);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
-} //ContrType
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+}

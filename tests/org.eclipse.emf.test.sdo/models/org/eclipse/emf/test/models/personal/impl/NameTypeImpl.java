@@ -1,16 +1,24 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: NameTypeImpl.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: NameTypeImpl.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
@@ -34,6 +42,13 @@ import org.eclipse.emf.test.models.personal.PersonalPackage;
  */
 public class NameTypeImpl extends EDataObjectImpl implements NameType
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private static final long serialVersionUID = 1L;
+
   /**
    * The default value of the '{@link #getFamily() <em>Family</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -89,9 +104,10 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return PersonalPackage.eINSTANCE.getNameType();
+    return PersonalPackage.Literals.NAME_TYPE;
   }
 
   /**
@@ -145,16 +161,17 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.NAME_TYPE__FAMILY:
         return getFamily();
       case PersonalPackage.NAME_TYPE__GIVEN:
         return getGiven();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -162,9 +179,10 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.NAME_TYPE__FAMILY:
         setFamily((String)newValue);
@@ -173,7 +191,7 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
         setGiven((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -181,9 +199,10 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.NAME_TYPE__FAMILY:
         setFamily(FAMILY_EDEFAULT);
@@ -192,7 +211,7 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
         setGiven(GIVEN_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -200,16 +219,17 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.NAME_TYPE__FAMILY:
         return FAMILY_EDEFAULT == null ? family != null : !FAMILY_EDEFAULT.equals(family);
       case PersonalPackage.NAME_TYPE__GIVEN:
         return GIVEN_EDEFAULT == null ? given != null : !GIVEN_EDEFAULT.equals(given);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -217,6 +237,7 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

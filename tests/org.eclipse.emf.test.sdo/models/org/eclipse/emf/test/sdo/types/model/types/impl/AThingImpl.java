@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: AThingImpl.java,v 1.1 2004/12/19 04:02:20 marcelop Exp $
+ * $Id: AThingImpl.java,v 1.2 2006/12/30 03:44:07 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo.types.model.types.impl;
 
@@ -18,8 +28,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
@@ -75,6 +83,13 @@ import org.eclipse.emf.test.sdo.types.model.types.TypesPackage;
  */
 public class AThingImpl extends EDataObjectImpl implements AThing
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private static final long serialVersionUID = 1L;
+
   /**
    * The default value of the '{@link #isABoolean() <em>ABoolean</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -475,7 +490,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyBoolean = null;
+  protected EList<Boolean> manyBoolean = null;
 
   /**
    * The cached value of the '{@link #getManyByte() <em>Many Byte</em>}' attribute list.
@@ -485,7 +500,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyByte = null;
+  protected EList<Byte> manyByte = null;
 
   /**
    * The cached value of the '{@link #getManyDecimal() <em>Many Decimal</em>}' attribute list.
@@ -495,7 +510,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyDecimal = null;
+  protected EList<BigDecimal> manyDecimal = null;
 
   /**
    * The cached value of the '{@link #getManyFloat() <em>Many Float</em>}' attribute list.
@@ -505,7 +520,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyFloat = null;
+  protected EList<Float> manyFloat = null;
 
   /**
    * The cached value of the '{@link #getManyDouble() <em>Many Double</em>}' attribute list.
@@ -515,7 +530,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyDouble = null;
+  protected EList<Double> manyDouble = null;
 
   /**
    * The cached value of the '{@link #getManyInt() <em>Many Int</em>}' attribute list.
@@ -525,7 +540,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyInt = null;
+  protected EList<Integer> manyInt = null;
 
   /**
    * The cached value of the '{@link #getManyInteger() <em>Many Integer</em>}' attribute list.
@@ -535,7 +550,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyInteger = null;
+  protected EList<BigInteger> manyInteger = null;
 
   /**
    * The cached value of the '{@link #getManyLong() <em>Many Long</em>}' attribute list.
@@ -545,7 +560,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyLong = null;
+  protected EList<Long> manyLong = null;
 
   /**
    * The cached value of the '{@link #getManyShort() <em>Many Short</em>}' attribute list.
@@ -555,7 +570,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyShort = null;
+  protected EList<Short> manyShort = null;
 
   /**
    * The cached value of the '{@link #getManyString() <em>Many String</em>}' attribute list.
@@ -565,7 +580,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyString = null;
+  protected EList<String> manyString = null;
 
   /**
    * The cached value of the '{@link #getManyChar() <em>Many Char</em>}' attribute list.
@@ -575,7 +590,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyChar = null;
+  protected EList<Character> manyChar = null;
 
   /**
    * The cached value of the '{@link #getManyDate() <em>Many Date</em>}' attribute list.
@@ -585,7 +600,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyDate = null;
+  protected EList<Date> manyDate = null;
 
   /**
    * The cached value of the '{@link #getManyBytes() <em>Many Bytes</em>}' attribute list.
@@ -595,7 +610,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyBytes = null;
+  protected EList<byte[]> manyBytes = null;
 
   /**
    * The cached value of the '{@link #getManyNumber() <em>Many Number</em>}' attribute list.
@@ -605,7 +620,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyNumber = null;
+  protected EList<Number> manyNumber = null;
 
   /**
    * The cached value of the '{@link #getManyObject() <em>Many Object</em>}' attribute list.
@@ -615,7 +630,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyObject = null;
+  protected EList<Object> manyObject = null;
 
   /**
    * The cached value of the '{@link #getManyThread() <em>Many Thread</em>}' attribute list.
@@ -625,7 +640,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList manyThread = null;
+  protected EList<Thread> manyThread = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -642,9 +657,10 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return TypesPackage.eINSTANCE.getAThing();
+    return TypesPackage.Literals.ATHING;
   }
 
   /**
@@ -1236,11 +1252,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyBoolean()
+  public List<Boolean> getManyBoolean()
   {
     if (manyBoolean == null)
     {
-      manyBoolean = new EDataTypeEList(Boolean.class, this, TypesPackage.ATHING__MANY_BOOLEAN);
+      manyBoolean = new EDataTypeEList<Boolean>(Boolean.class, this, TypesPackage.ATHING__MANY_BOOLEAN);
     }
     return manyBoolean;
   }
@@ -1250,11 +1266,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyByte()
+  public List<Byte> getManyByte()
   {
     if (manyByte == null)
     {
-      manyByte = new EDataTypeEList(Byte.class, this, TypesPackage.ATHING__MANY_BYTE);
+      manyByte = new EDataTypeEList<Byte>(Byte.class, this, TypesPackage.ATHING__MANY_BYTE);
     }
     return manyByte;
   }
@@ -1264,11 +1280,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyDecimal()
+  public List<BigDecimal> getManyDecimal()
   {
     if (manyDecimal == null)
     {
-      manyDecimal = new EDataTypeEList(BigDecimal.class, this, TypesPackage.ATHING__MANY_DECIMAL);
+      manyDecimal = new EDataTypeEList<BigDecimal>(BigDecimal.class, this, TypesPackage.ATHING__MANY_DECIMAL);
     }
     return manyDecimal;
   }
@@ -1278,11 +1294,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyFloat()
+  public List<Float> getManyFloat()
   {
     if (manyFloat == null)
     {
-      manyFloat = new EDataTypeEList(Float.class, this, TypesPackage.ATHING__MANY_FLOAT);
+      manyFloat = new EDataTypeEList<Float>(Float.class, this, TypesPackage.ATHING__MANY_FLOAT);
     }
     return manyFloat;
   }
@@ -1292,11 +1308,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyDouble()
+  public List<Double> getManyDouble()
   {
     if (manyDouble == null)
     {
-      manyDouble = new EDataTypeEList(Double.class, this, TypesPackage.ATHING__MANY_DOUBLE);
+      manyDouble = new EDataTypeEList<Double>(Double.class, this, TypesPackage.ATHING__MANY_DOUBLE);
     }
     return manyDouble;
   }
@@ -1306,11 +1322,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyInt()
+  public List<Integer> getManyInt()
   {
     if (manyInt == null)
     {
-      manyInt = new EDataTypeEList(Integer.class, this, TypesPackage.ATHING__MANY_INT);
+      manyInt = new EDataTypeEList<Integer>(Integer.class, this, TypesPackage.ATHING__MANY_INT);
     }
     return manyInt;
   }
@@ -1320,11 +1336,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyInteger()
+  public List<BigInteger> getManyInteger()
   {
     if (manyInteger == null)
     {
-      manyInteger = new EDataTypeEList(BigInteger.class, this, TypesPackage.ATHING__MANY_INTEGER);
+      manyInteger = new EDataTypeEList<BigInteger>(BigInteger.class, this, TypesPackage.ATHING__MANY_INTEGER);
     }
     return manyInteger;
   }
@@ -1334,11 +1350,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyLong()
+  public List<Long> getManyLong()
   {
     if (manyLong == null)
     {
-      manyLong = new EDataTypeEList(Long.class, this, TypesPackage.ATHING__MANY_LONG);
+      manyLong = new EDataTypeEList<Long>(Long.class, this, TypesPackage.ATHING__MANY_LONG);
     }
     return manyLong;
   }
@@ -1348,11 +1364,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyShort()
+  public List<Short> getManyShort()
   {
     if (manyShort == null)
     {
-      manyShort = new EDataTypeEList(Short.class, this, TypesPackage.ATHING__MANY_SHORT);
+      manyShort = new EDataTypeEList<Short>(Short.class, this, TypesPackage.ATHING__MANY_SHORT);
     }
     return manyShort;
   }
@@ -1362,11 +1378,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyString()
+  public List<String> getManyString()
   {
     if (manyString == null)
     {
-      manyString = new EDataTypeEList(String.class, this, TypesPackage.ATHING__MANY_STRING);
+      manyString = new EDataTypeEList<String>(String.class, this, TypesPackage.ATHING__MANY_STRING);
     }
     return manyString;
   }
@@ -1376,11 +1392,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyChar()
+  public List<Character> getManyChar()
   {
     if (manyChar == null)
     {
-      manyChar = new EDataTypeEList(Character.class, this, TypesPackage.ATHING__MANY_CHAR);
+      manyChar = new EDataTypeEList<Character>(Character.class, this, TypesPackage.ATHING__MANY_CHAR);
     }
     return manyChar;
   }
@@ -1390,11 +1406,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyDate()
+  public List<Date> getManyDate()
   {
     if (manyDate == null)
     {
-      manyDate = new EDataTypeEList(Date.class, this, TypesPackage.ATHING__MANY_DATE);
+      manyDate = new EDataTypeEList<Date>(Date.class, this, TypesPackage.ATHING__MANY_DATE);
     }
     return manyDate;
   }
@@ -1404,11 +1420,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyBytes()
+  public List<byte[]> getManyBytes()
   {
     if (manyBytes == null)
     {
-      manyBytes = new EDataTypeEList(byte[].class, this, TypesPackage.ATHING__MANY_BYTES);
+      manyBytes = new EDataTypeEList<byte[]>(byte[].class, this, TypesPackage.ATHING__MANY_BYTES);
     }
     return manyBytes;
   }
@@ -1418,11 +1434,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyNumber()
+  public List<Number> getManyNumber()
   {
     if (manyNumber == null)
     {
-      manyNumber = new EDataTypeEList(Number.class, this, TypesPackage.ATHING__MANY_NUMBER);
+      manyNumber = new EDataTypeEList<Number>(Number.class, this, TypesPackage.ATHING__MANY_NUMBER);
     }
     return manyNumber;
   }
@@ -1432,11 +1448,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyObject()
+  public List<Object> getManyObject()
   {
     if (manyObject == null)
     {
-      manyObject = new EDataTypeEList(Object.class, this, TypesPackage.ATHING__MANY_OBJECT);
+      manyObject = new EDataTypeEList<Object>(Object.class, this, TypesPackage.ATHING__MANY_OBJECT);
     }
     return manyObject;
   }
@@ -1446,11 +1462,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getManyThread()
+  public List<Thread> getManyThread()
   {
     if (manyThread == null)
     {
-      manyThread = new EDataTypeEList(Thread.class, this, TypesPackage.ATHING__MANY_THREAD);
+      manyThread = new EDataTypeEList<Thread>(Thread.class, this, TypesPackage.ATHING__MANY_THREAD);
     }
     return manyThread;
   }
@@ -1460,9 +1476,10 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case TypesPackage.ATHING__ABOOLEAN:
         return isABoolean() ? Boolean.TRUE : Boolean.FALSE;
@@ -1529,7 +1546,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
       case TypesPackage.ATHING__MANY_THREAD:
         return getManyThread();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -1537,9 +1554,11 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case TypesPackage.ATHING__ABOOLEAN:
         setABoolean(((Boolean)newValue).booleanValue());
@@ -1584,77 +1603,77 @@ public class AThingImpl extends EDataObjectImpl implements AThing
         setANumber((Number)newValue);
         return;
       case TypesPackage.ATHING__AOBJECT:
-        setAObject((Object)newValue);
+        setAObject(newValue);
         return;
       case TypesPackage.ATHING__ATHREAD:
         setAThread((Thread)newValue);
         return;
       case TypesPackage.ATHING__MANY_BOOLEAN:
         getManyBoolean().clear();
-        getManyBoolean().addAll((Collection)newValue);
+        getManyBoolean().addAll((Collection<? extends Boolean>)newValue);
         return;
       case TypesPackage.ATHING__MANY_BYTE:
         getManyByte().clear();
-        getManyByte().addAll((Collection)newValue);
+        getManyByte().addAll((Collection<? extends Byte>)newValue);
         return;
       case TypesPackage.ATHING__MANY_DECIMAL:
         getManyDecimal().clear();
-        getManyDecimal().addAll((Collection)newValue);
+        getManyDecimal().addAll((Collection<? extends BigDecimal>)newValue);
         return;
       case TypesPackage.ATHING__MANY_FLOAT:
         getManyFloat().clear();
-        getManyFloat().addAll((Collection)newValue);
+        getManyFloat().addAll((Collection<? extends Float>)newValue);
         return;
       case TypesPackage.ATHING__MANY_DOUBLE:
         getManyDouble().clear();
-        getManyDouble().addAll((Collection)newValue);
+        getManyDouble().addAll((Collection<? extends Double>)newValue);
         return;
       case TypesPackage.ATHING__MANY_INT:
         getManyInt().clear();
-        getManyInt().addAll((Collection)newValue);
+        getManyInt().addAll((Collection<? extends Integer>)newValue);
         return;
       case TypesPackage.ATHING__MANY_INTEGER:
         getManyInteger().clear();
-        getManyInteger().addAll((Collection)newValue);
+        getManyInteger().addAll((Collection<? extends BigInteger>)newValue);
         return;
       case TypesPackage.ATHING__MANY_LONG:
         getManyLong().clear();
-        getManyLong().addAll((Collection)newValue);
+        getManyLong().addAll((Collection<? extends Long>)newValue);
         return;
       case TypesPackage.ATHING__MANY_SHORT:
         getManyShort().clear();
-        getManyShort().addAll((Collection)newValue);
+        getManyShort().addAll((Collection<? extends Short>)newValue);
         return;
       case TypesPackage.ATHING__MANY_STRING:
         getManyString().clear();
-        getManyString().addAll((Collection)newValue);
+        getManyString().addAll((Collection<? extends String>)newValue);
         return;
       case TypesPackage.ATHING__MANY_CHAR:
         getManyChar().clear();
-        getManyChar().addAll((Collection)newValue);
+        getManyChar().addAll((Collection<? extends Character>)newValue);
         return;
       case TypesPackage.ATHING__MANY_DATE:
         getManyDate().clear();
-        getManyDate().addAll((Collection)newValue);
+        getManyDate().addAll((Collection<? extends Date>)newValue);
         return;
       case TypesPackage.ATHING__MANY_BYTES:
         getManyBytes().clear();
-        getManyBytes().addAll((Collection)newValue);
+        getManyBytes().addAll((Collection<? extends byte[]>)newValue);
         return;
       case TypesPackage.ATHING__MANY_NUMBER:
         getManyNumber().clear();
-        getManyNumber().addAll((Collection)newValue);
+        getManyNumber().addAll((Collection<? extends Number>)newValue);
         return;
       case TypesPackage.ATHING__MANY_OBJECT:
         getManyObject().clear();
-        getManyObject().addAll((Collection)newValue);
+        getManyObject().addAll((Collection<? extends Object>)newValue);
         return;
       case TypesPackage.ATHING__MANY_THREAD:
         getManyThread().clear();
-        getManyThread().addAll((Collection)newValue);
+        getManyThread().addAll((Collection<? extends Thread>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -1662,9 +1681,10 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case TypesPackage.ATHING__ABOOLEAN:
         unsetABoolean();
@@ -1763,7 +1783,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
         getManyThread().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -1771,9 +1791,10 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case TypesPackage.ATHING__ABOOLEAN:
         return isSetABoolean();
@@ -1840,7 +1861,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
       case TypesPackage.ATHING__MANY_THREAD:
         return manyThread != null && !manyThread.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -1848,6 +1869,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

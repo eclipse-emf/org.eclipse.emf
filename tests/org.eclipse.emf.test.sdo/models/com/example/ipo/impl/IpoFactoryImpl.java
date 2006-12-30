@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: IpoFactoryImpl.java,v 1.1 2005/06/08 20:47:30 bportier Exp $
+ * $Id: IpoFactoryImpl.java,v 1.2 2006/12/30 03:44:07 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -14,8 +24,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -27,262 +39,311 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  */
 public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory {
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static IpoFactory init()
+  {
+    try
+    {
+      IpoFactory theIpoFactory = (IpoFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.com/IPO"); 
+      if (theIpoFactory != null)
+      {
+        return theIpoFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new IpoFactoryImpl();
+  }
+
+  /**
+   * Creates an instance of the factory.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public IpoFactoryImpl() {
-		super();
-	}
+    super();
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case IpoPackage.ADDRESS: return (EObject)createAddress();
-			case IpoPackage.DOCUMENT_ROOT: return (EObject)createDocumentRoot();
-			case IpoPackage.ITEMS: return (EObject)createItems();
-			case IpoPackage.ITEM_TYPE: return (EObject)createItemType();
-			case IpoPackage.PURCHASE_ORDER_TYPE: return (EObject)createPurchaseOrderType();
-			case IpoPackage.UK_ADDRESS: return (EObject)createUKAddress();
-			case IpoPackage.US_ADDRESS: return (EObject)createUSAddress();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+   * @generated
+   */
+	@Override
+  public EObject create(EClass eClass) {
+    switch (eClass.getClassifierID())
+    {
+      case IpoPackage.ADDRESS: return (EObject)createAddress();
+      case IpoPackage.DOCUMENT_ROOT: return (EObject)createDocumentRoot();
+      case IpoPackage.ITEMS: return (EObject)createItems();
+      case IpoPackage.ITEM_TYPE: return (EObject)createItemType();
+      case IpoPackage.PURCHASE_ORDER_TYPE: return (EObject)createPurchaseOrderType();
+      case IpoPackage.UK_ADDRESS: return (EObject)createUKAddress();
+      case IpoPackage.US_ADDRESS: return (EObject)createUSAddress();
+      default:
+        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+    }
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object createFromString(EDataType eDataType, String initialValue) {
-		switch (eDataType.getClassifierID()) {
-			case IpoPackage.US_STATE: {
-				USState result = USState.get(initialValue);
-				if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-				return result;
-			}
-			case IpoPackage.POSTCODE:
-				return createPostcodeFromString(eDataType, initialValue);
-			case IpoPackage.QUANTITY_TYPE:
-				return createQuantityTypeFromString(eDataType, initialValue);
-			case IpoPackage.SKU:
-				return createSKUFromString(eDataType, initialValue);
-			case IpoPackage.UK_POSTCODE:
-				return createUKPostcodeFromString(eDataType, initialValue);
-			case IpoPackage.US_STATE_OBJECT:
-				return createUSStateObjectFromString(eDataType, initialValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
+   * @generated
+   */
+	@Override
+  public Object createFromString(EDataType eDataType, String initialValue) {
+    switch (eDataType.getClassifierID())
+    {
+      case IpoPackage.US_STATE:
+        return createUSStateFromString(eDataType, initialValue);
+      case IpoPackage.POSTCODE:
+        return createPostcodeFromString(eDataType, initialValue);
+      case IpoPackage.QUANTITY_TYPE:
+        return createQuantityTypeFromString(eDataType, initialValue);
+      case IpoPackage.SKU:
+        return createSKUFromString(eDataType, initialValue);
+      case IpoPackage.UK_POSTCODE:
+        return createUKPostcodeFromString(eDataType, initialValue);
+      case IpoPackage.US_STATE_OBJECT:
+        return createUSStateObjectFromString(eDataType, initialValue);
+      default:
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+    }
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertToString(EDataType eDataType, Object instanceValue) {
-		switch (eDataType.getClassifierID()) {
-			case IpoPackage.US_STATE:
-				return instanceValue == null ? null : instanceValue.toString();
-			case IpoPackage.POSTCODE:
-				return convertPostcodeToString(eDataType, instanceValue);
-			case IpoPackage.QUANTITY_TYPE:
-				return convertQuantityTypeToString(eDataType, instanceValue);
-			case IpoPackage.SKU:
-				return convertSKUToString(eDataType, instanceValue);
-			case IpoPackage.UK_POSTCODE:
-				return convertUKPostcodeToString(eDataType, instanceValue);
-			case IpoPackage.US_STATE_OBJECT:
-				return convertUSStateObjectToString(eDataType, instanceValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
+   * @generated
+   */
+	@Override
+  public String convertToString(EDataType eDataType, Object instanceValue) {
+    switch (eDataType.getClassifierID())
+    {
+      case IpoPackage.US_STATE:
+        return convertUSStateToString(eDataType, instanceValue);
+      case IpoPackage.POSTCODE:
+        return convertPostcodeToString(eDataType, instanceValue);
+      case IpoPackage.QUANTITY_TYPE:
+        return convertQuantityTypeToString(eDataType, instanceValue);
+      case IpoPackage.SKU:
+        return convertSKUToString(eDataType, instanceValue);
+      case IpoPackage.UK_POSTCODE:
+        return convertUKPostcodeToString(eDataType, instanceValue);
+      case IpoPackage.US_STATE_OBJECT:
+        return convertUSStateObjectToString(eDataType, instanceValue);
+      default:
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+    }
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public Address createAddress() {
-		AddressImpl address = new AddressImpl();
-		return address;
-	}
+    AddressImpl address = new AddressImpl();
+    return address;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public DocumentRoot createDocumentRoot() {
-		DocumentRootImpl documentRoot = new DocumentRootImpl();
-		return documentRoot;
-	}
+    DocumentRootImpl documentRoot = new DocumentRootImpl();
+    return documentRoot;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public Items createItems() {
-		ItemsImpl items = new ItemsImpl();
-		return items;
-	}
+    ItemsImpl items = new ItemsImpl();
+    return items;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public ItemType createItemType() {
-		ItemTypeImpl itemType = new ItemTypeImpl();
-		return itemType;
-	}
+    ItemTypeImpl itemType = new ItemTypeImpl();
+    return itemType;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public PurchaseOrderType createPurchaseOrderType() {
-		PurchaseOrderTypeImpl purchaseOrderType = new PurchaseOrderTypeImpl();
-		return purchaseOrderType;
-	}
+    PurchaseOrderTypeImpl purchaseOrderType = new PurchaseOrderTypeImpl();
+    return purchaseOrderType;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public UKAddress createUKAddress() {
-		UKAddressImpl ukAddress = new UKAddressImpl();
-		return ukAddress;
-	}
+    UKAddressImpl ukAddress = new UKAddressImpl();
+    return ukAddress;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public USAddress createUSAddress() {
-		USAddressImpl usAddress = new USAddressImpl();
-		return usAddress;
-	}
+    USAddressImpl usAddress = new USAddressImpl();
+    return usAddress;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public USState createUSStateFromString(EDataType eDataType, String initialValue)
+  {
+    USState result = USState.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertUSStateToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public String createPostcodeFromString(EDataType eDataType, String initialValue) {
-		return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getString(), initialValue);
-	}
+    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.STRING, initialValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public String convertPostcodeToString(EDataType eDataType, Object instanceValue) {
-		return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getString(), instanceValue);
-	}
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.STRING, instanceValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public BigInteger createQuantityTypeFromString(EDataType eDataType, String initialValue) {
-		return (BigInteger)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getPositiveInteger(), initialValue);
-	}
+    return (BigInteger)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.POSITIVE_INTEGER, initialValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public String convertQuantityTypeToString(EDataType eDataType, Object instanceValue) {
-		return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getPositiveInteger(), instanceValue);
-	}
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.POSITIVE_INTEGER, instanceValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public String createSKUFromString(EDataType eDataType, String initialValue) {
-		return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getString(), initialValue);
-	}
+    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.STRING, initialValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public String convertSKUToString(EDataType eDataType, Object instanceValue) {
-		return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getString(), instanceValue);
-	}
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.STRING, instanceValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public String createUKPostcodeFromString(EDataType eDataType, String initialValue) {
-		return (String)IpoFactory.eINSTANCE.createFromString(IpoPackage.eINSTANCE.getPostcode(), initialValue);
-	}
+    return createPostcodeFromString(IpoPackage.Literals.POSTCODE, initialValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public String convertUKPostcodeToString(EDataType eDataType, Object instanceValue) {
-		return IpoFactory.eINSTANCE.convertToString(IpoPackage.eINSTANCE.getPostcode(), instanceValue);
-	}
+    return convertPostcodeToString(IpoPackage.Literals.POSTCODE, instanceValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public USState createUSStateObjectFromString(EDataType eDataType, String initialValue) {
-		return (USState)IpoFactory.eINSTANCE.createFromString(IpoPackage.eINSTANCE.getUSState(), initialValue);
-	}
+    return createUSStateFromString(IpoPackage.Literals.US_STATE, initialValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public String convertUSStateObjectToString(EDataType eDataType, Object instanceValue) {
-		return IpoFactory.eINSTANCE.convertToString(IpoPackage.eINSTANCE.getUSState(), instanceValue);
-	}
+    return convertUSStateToString(IpoPackage.Literals.US_STATE, instanceValue);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public IpoPackage getIpoPackage() {
-		return (IpoPackage)getEPackage();
-	}
+    return (IpoPackage)getEPackage();
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
-	public static IpoPackage getPackage() {
-		return IpoPackage.eINSTANCE;
-	}
+   * @deprecated
+   * @generated
+   */
+	@Deprecated
+  public static IpoPackage getPackage() {
+    return IpoPackage.eINSTANCE;
+  }
 
 } //IpoFactoryImpl

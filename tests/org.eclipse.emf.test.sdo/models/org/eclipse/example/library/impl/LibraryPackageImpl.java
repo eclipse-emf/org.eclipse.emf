@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: LibraryPackageImpl.java,v 1.2 2005/06/12 14:07:23 emerks Exp $
+ * $Id: LibraryPackageImpl.java,v 1.3 2006/12/30 03:44:07 marcelop Exp $
  */
 package org.eclipse.example.library.impl;
 
@@ -331,6 +341,10 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     setName(eNAME);
     setNsPrefix(eNS_PREFIX);
     setNsURI(eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
 

@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: Library.java,v 1.2 2005/06/12 14:07:23 emerks Exp $
+ * $Id: Library.java,v 1.3 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.example.library;
 
@@ -70,7 +80,7 @@ public interface Library
    * @model type="org.eclipse.example.library.Writer" containment="true"
    * @generated
    */
-  List getWriters();
+  List<Writer> getWriters();
 
   /**
    * Returns the value of the '<em><b>Books</b></em>' containment reference list.
@@ -86,6 +96,6 @@ public interface Library
    * @model type="org.eclipse.example.library.Book" containment="true"
    * @generated
    */
-  List getBooks();
+  List<Book> getBooks();
 
 } // Library

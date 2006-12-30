@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: PersonalFactoryImpl.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: PersonalFactoryImpl.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.impl;
 
@@ -10,8 +20,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.test.models.personal.*;
 
 /**
@@ -22,6 +34,29 @@ import org.eclipse.emf.test.models.personal.*;
  */
 public class PersonalFactoryImpl extends EFactoryImpl implements PersonalFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static PersonalFactory init()
+  {
+    try
+    {
+      PersonalFactory thePersonalFactory = (PersonalFactory)EPackage.Registry.INSTANCE.getEFactory("http://org/eclipse/emf/test/models/personal"); 
+      if (thePersonalFactory != null)
+      {
+        return thePersonalFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new PersonalFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -38,6 +73,7 @@ public class PersonalFactoryImpl extends EFactoryImpl implements PersonalFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -58,16 +94,13 @@ public class PersonalFactoryImpl extends EFactoryImpl implements PersonalFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
     {
       case PersonalPackage.CONTR_TYPE:
-      {
-        ContrType result = ContrType.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createContrTypeFromString(eDataType, initialValue);
       case PersonalPackage.CONTR_TYPE_OBJECT:
         return createContrTypeObjectFromString(eDataType, initialValue);
       default:
@@ -80,12 +113,13 @@ public class PersonalFactoryImpl extends EFactoryImpl implements PersonalFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
     {
       case PersonalPackage.CONTR_TYPE:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertContrTypeToString(eDataType, instanceValue);
       case PersonalPackage.CONTR_TYPE_OBJECT:
         return convertContrTypeObjectToString(eDataType, instanceValue);
       default:
@@ -164,9 +198,31 @@ public class PersonalFactoryImpl extends EFactoryImpl implements PersonalFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public ContrType createContrTypeFromString(EDataType eDataType, String initialValue)
+  {
+    ContrType result = ContrType.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertContrTypeToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public ContrType createContrTypeObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (ContrType)PersonalFactory.eINSTANCE.createFromString(PersonalPackage.eINSTANCE.getContrType(), initialValue);
+    return createContrTypeFromString(PersonalPackage.Literals.CONTR_TYPE, initialValue);
   }
 
   /**
@@ -176,7 +232,7 @@ public class PersonalFactoryImpl extends EFactoryImpl implements PersonalFactory
    */
   public String convertContrTypeObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return PersonalFactory.eINSTANCE.convertToString(PersonalPackage.eINSTANCE.getContrType(), instanceValue);
+    return convertContrTypeToString(PersonalPackage.Literals.CONTR_TYPE, instanceValue);
   }
 
   /**
@@ -195,6 +251,7 @@ public class PersonalFactoryImpl extends EFactoryImpl implements PersonalFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static PersonalPackage getPackage()
   {
     return PersonalPackage.eINSTANCE;

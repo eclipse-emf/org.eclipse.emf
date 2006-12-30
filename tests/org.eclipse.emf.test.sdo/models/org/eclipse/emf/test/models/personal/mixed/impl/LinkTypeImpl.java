@@ -1,35 +1,39 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: LinkTypeImpl.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: LinkTypeImpl.java,v 1.2 2006/12/30 03:44:07 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed.impl;
 
-import commonj.sdo.Sequence;
-
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.BasicFeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.test.models.personal.mixed.LinkType;
+import org.eclipse.emf.test.models.personal.mixed.MixedPackage;
 
 import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
-
 import org.eclipse.emf.ecore.sdo.util.BasicESequence;
 import org.eclipse.emf.ecore.sdo.util.ESequence;
 
-import org.eclipse.emf.ecore.util.BasicFeatureMap;
-import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.emf.test.models.personal.mixed.LinkType;
-import org.eclipse.emf.test.models.personal.mixed.MixedPackage;
+import commonj.sdo.Sequence;
 
 /**
  * <!-- begin-user-doc -->
@@ -48,6 +52,13 @@ import org.eclipse.emf.test.models.personal.mixed.MixedPackage;
  */
 public class LinkTypeImpl extends EDataObjectImpl implements LinkType
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private static final long serialVersionUID = 1L;
+
   /**
    * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -86,7 +97,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * @generated
    * @ordered
    */
-  protected static final List SUBORDINATES_EDEFAULT = null;
+  protected static final List<String> SUBORDINATES_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getSubordinates() <em>Subordinates</em>}' attribute.
@@ -96,7 +107,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * @generated
    * @ordered
    */
-  protected List subordinates = SUBORDINATES_EDEFAULT;
+  protected List<String> subordinates = SUBORDINATES_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -113,9 +124,10 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return MixedPackage.eINSTANCE.getLinkType();
+    return MixedPackage.Literals.LINK_TYPE;
   }
 
   /**
@@ -160,7 +172,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getSubordinates()
+  public List<String> getSubordinates()
   {
     return subordinates;
   }
@@ -170,9 +182,9 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setSubordinates(List newSubordinates)
+  public void setSubordinates(List<String> newSubordinates)
   {
-    List oldSubordinates = subordinates;
+    List<String> oldSubordinates = subordinates;
     subordinates = newSubordinates;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, MixedPackage.LINK_TYPE__SUBORDINATES, oldSubordinates, subordinates));
@@ -183,19 +195,15 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case MixedPackage.LINK_TYPE__MIXED:
-        return ((InternalEList)((ESequence)getMixed()).featureMap()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case MixedPackage.LINK_TYPE__MIXED:
+        return ((InternalEList<?>)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -203,18 +211,20 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.LINK_TYPE__MIXED:
-        return ((ESequence)getMixed()).featureMap();
+        if (coreType) return ((FeatureMap.Internal.Wrapper)getMixed()).featureMap();
+        return getMixed();
       case MixedPackage.LINK_TYPE__MANAGER:
         return getManager();
       case MixedPackage.LINK_TYPE__SUBORDINATES:
         return getSubordinates();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -222,22 +232,23 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.LINK_TYPE__MIXED:
-        ((ESequence)getMixed()).featureMap().clear();
-        ((ESequence)getMixed()).featureMap().addAll((Collection)newValue);
+        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).set(newValue);
         return;
       case MixedPackage.LINK_TYPE__MANAGER:
         setManager((String)newValue);
         return;
       case MixedPackage.LINK_TYPE__SUBORDINATES:
-        setSubordinates((List)newValue);
+        setSubordinates((List<String>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -245,12 +256,13 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.LINK_TYPE__MIXED:
-        ((ESequence)getMixed()).featureMap().clear();
+        ((FeatureMap.Internal.Wrapper)getMixed()).featureMap().clear();
         return;
       case MixedPackage.LINK_TYPE__MANAGER:
         setManager(MANAGER_EDEFAULT);
@@ -259,7 +271,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
         setSubordinates(SUBORDINATES_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -267,9 +279,10 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.LINK_TYPE__MIXED:
         return mixed != null && !mixed.featureMap().isEmpty();
@@ -278,7 +291,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
       case MixedPackage.LINK_TYPE__SUBORDINATES:
         return SUBORDINATES_EDEFAULT == null ? subordinates != null : !SUBORDINATES_EDEFAULT.equals(subordinates);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -286,6 +299,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

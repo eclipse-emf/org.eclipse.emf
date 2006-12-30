@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: DocumentRoot.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: DocumentRoot.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal;
 
@@ -40,7 +50,6 @@ public interface DocumentRoot
 {
   /**
    * Returns the value of the '<em><b>Mixed</b></em>' attribute list.
-   * The list contents are of type {@link org.eclipse.emf.ecore.util.FeatureMap.Entry}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Mixed</em>' attribute list isn't clear,
@@ -71,7 +80,7 @@ public interface DocumentRoot
    *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
-  Map getXMLNSPrefixMap();
+  Map<String, String> getXMLNSPrefixMap();
 
   /**
    * Returns the value of the '<em><b>XSI Schema Location</b></em>' map.
@@ -89,7 +98,7 @@ public interface DocumentRoot
    *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */
-  Map getXSISchemaLocation();
+  Map<String, String> getXSISchemaLocation();
 
   /**
    * Returns the value of the '<em><b>Email</b></em>' attribute.
@@ -183,7 +192,7 @@ public interface DocumentRoot
    * @return the value of the '<em>Link</em>' containment reference.
    * @see #setLink(LinkType)
    * @see org.eclipse.emf.test.models.personal.PersonalPackage#getDocumentRoot_Link()
-   * @model containment="true" resolveProxies="false" upper="-2" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='link' namespace='##targetNamespace'"
    * @generated
    */
@@ -210,7 +219,7 @@ public interface DocumentRoot
    * @return the value of the '<em>Name</em>' containment reference.
    * @see #setName(NameType)
    * @see org.eclipse.emf.test.models.personal.PersonalPackage#getDocumentRoot_Name()
-   * @model containment="true" resolveProxies="false" upper="-2" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='name' namespace='##targetNamespace'"
    * @generated
    */
@@ -237,7 +246,7 @@ public interface DocumentRoot
    * @return the value of the '<em>Person</em>' containment reference.
    * @see #setPerson(PersonType)
    * @see org.eclipse.emf.test.models.personal.PersonalPackage#getDocumentRoot_Person()
-   * @model containment="true" resolveProxies="false" upper="-2" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='person' namespace='##targetNamespace'"
    * @generated
    */
@@ -264,7 +273,7 @@ public interface DocumentRoot
    * @return the value of the '<em>Personnel</em>' containment reference.
    * @see #setPersonnel(PersonnelType)
    * @see org.eclipse.emf.test.models.personal.PersonalPackage#getDocumentRoot_Personnel()
-   * @model containment="true" resolveProxies="false" upper="-2" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='personnel' namespace='##targetNamespace'"
    * @generated
    */
@@ -291,7 +300,7 @@ public interface DocumentRoot
    * @return the value of the '<em>Url</em>' containment reference.
    * @see #setUrl(UrlType)
    * @see org.eclipse.emf.test.models.personal.PersonalPackage#getDocumentRoot_Url()
-   * @model containment="true" resolveProxies="false" upper="-2" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='url' namespace='##targetNamespace'"
    * @generated
    */

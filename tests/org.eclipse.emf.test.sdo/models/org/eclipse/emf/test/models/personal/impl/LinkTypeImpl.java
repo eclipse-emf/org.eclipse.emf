@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: LinkTypeImpl.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: LinkTypeImpl.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.impl;
 
@@ -11,8 +21,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
@@ -36,6 +44,13 @@ import org.eclipse.emf.test.models.personal.PersonalPackage;
  */
 public class LinkTypeImpl extends EDataObjectImpl implements LinkType
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private static final long serialVersionUID = 1L;
+
   /**
    * The default value of the '{@link #getManager() <em>Manager</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -64,7 +79,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * @generated
    * @ordered
    */
-  protected static final List SUBORDINATES_EDEFAULT = null;
+  protected static final List<String> SUBORDINATES_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getSubordinates() <em>Subordinates</em>}' attribute.
@@ -74,7 +89,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * @generated
    * @ordered
    */
-  protected List subordinates = SUBORDINATES_EDEFAULT;
+  protected List<String> subordinates = SUBORDINATES_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -91,9 +106,10 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return PersonalPackage.eINSTANCE.getLinkType();
+    return PersonalPackage.Literals.LINK_TYPE;
   }
 
   /**
@@ -124,7 +140,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getSubordinates()
+  public List<String> getSubordinates()
   {
     return subordinates;
   }
@@ -134,9 +150,9 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setSubordinates(List newSubordinates)
+  public void setSubordinates(List<String> newSubordinates)
   {
-    List oldSubordinates = subordinates;
+    List<String> oldSubordinates = subordinates;
     subordinates = newSubordinates;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, PersonalPackage.LINK_TYPE__SUBORDINATES, oldSubordinates, subordinates));
@@ -147,16 +163,17 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.LINK_TYPE__MANAGER:
         return getManager();
       case PersonalPackage.LINK_TYPE__SUBORDINATES:
         return getSubordinates();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -164,18 +181,20 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.LINK_TYPE__MANAGER:
         setManager((String)newValue);
         return;
       case PersonalPackage.LINK_TYPE__SUBORDINATES:
-        setSubordinates((List)newValue);
+        setSubordinates((List<String>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -183,9 +202,10 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.LINK_TYPE__MANAGER:
         setManager(MANAGER_EDEFAULT);
@@ -194,7 +214,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
         setSubordinates(SUBORDINATES_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -202,16 +222,17 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.LINK_TYPE__MANAGER:
         return MANAGER_EDEFAULT == null ? manager != null : !MANAGER_EDEFAULT.equals(manager);
       case PersonalPackage.LINK_TYPE__SUBORDINATES:
         return SUBORDINATES_EDEFAULT == null ? subordinates != null : !SUBORDINATES_EDEFAULT.equals(subordinates);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -219,6 +240,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.2 2005/06/12 14:07:23 emerks Exp $
+ * $Id: LibraryImpl.java,v 1.3 2006/12/30 03:44:07 marcelop Exp $
  */
 package org.eclipse.example.library.impl;
 
@@ -16,7 +26,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -50,6 +59,13 @@ import org.eclipse.example.library.Writer;
 public class LibraryImpl extends EDataObjectImpl implements Library
 {
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private static final long serialVersionUID = 1L;
+
+  /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -77,7 +93,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList writers = null;
+  protected EList<Writer> writers = null;
 
   /**
    * The cached value of the '{@link #getBooks() <em>Books</em>}' containment reference list.
@@ -87,7 +103,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList books = null;
+  protected EList<Book> books = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -104,9 +120,10 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return LibraryPackage.eINSTANCE.getLibrary();
+    return LibraryPackage.Literals.LIBRARY;
   }
 
   /**
@@ -137,11 +154,11 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getWriters()
+  public List<Writer> getWriters()
   {
     if (writers == null)
     {
-      writers = new EObjectContainmentEList(Writer.class, this, LibraryPackage.LIBRARY__WRITERS);
+      writers = new EObjectContainmentEList<Writer>(Writer.class, this, LibraryPackage.LIBRARY__WRITERS);
     }
     return writers;
   }
@@ -151,11 +168,11 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getBooks()
+  public List<Book> getBooks()
   {
     if (books == null)
     {
-      books = new EObjectContainmentEList(Book.class, this, LibraryPackage.LIBRARY__BOOKS);
+      books = new EObjectContainmentEList<Book>(Book.class, this, LibraryPackage.LIBRARY__BOOKS);
     }
     return books;
   }
@@ -165,21 +182,17 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case LibraryPackage.LIBRARY__WRITERS:
-          return ((InternalEList)getWriters()).basicRemove(otherEnd, msgs);
-        case LibraryPackage.LIBRARY__BOOKS:
-          return ((InternalEList)getBooks()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case LibraryPackage.LIBRARY__WRITERS:
+        return ((InternalEList<?>)getWriters()).basicRemove(otherEnd, msgs);
+      case LibraryPackage.LIBRARY__BOOKS:
+        return ((InternalEList<?>)getBooks()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -187,9 +200,10 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.LIBRARY__NAME:
         return getName();
@@ -198,7 +212,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
       case LibraryPackage.LIBRARY__BOOKS:
         return getBooks();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -206,23 +220,25 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.LIBRARY__NAME:
         setName((String)newValue);
         return;
       case LibraryPackage.LIBRARY__WRITERS:
         getWriters().clear();
-        getWriters().addAll((Collection)newValue);
+        getWriters().addAll((Collection<? extends Writer>)newValue);
         return;
       case LibraryPackage.LIBRARY__BOOKS:
         getBooks().clear();
-        getBooks().addAll((Collection)newValue);
+        getBooks().addAll((Collection<? extends Book>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -230,9 +246,10 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.LIBRARY__NAME:
         setName(NAME_EDEFAULT);
@@ -244,7 +261,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
         getBooks().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -252,9 +269,10 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.LIBRARY__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -263,7 +281,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
       case LibraryPackage.LIBRARY__BOOKS:
         return books != null && !books.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -271,6 +289,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

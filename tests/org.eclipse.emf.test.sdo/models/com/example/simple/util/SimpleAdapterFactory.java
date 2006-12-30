@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: SimpleAdapterFactory.java,v 1.1 2004/12/19 04:02:20 marcelop Exp $
+ * $Id: SimpleAdapterFactory.java,v 1.2 2006/12/30 03:44:07 marcelop Exp $
  */
 package com.example.simple.util;
 
@@ -55,6 +65,7 @@ public class SimpleAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,14 +85,16 @@ public class SimpleAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected SimpleSwitch modelSwitch =
-    new SimpleSwitch()
+  protected SimpleSwitch<Adapter> modelSwitch =
+    new SimpleSwitch<Adapter>()
     {
-      public Object caseQuote(Quote object)
+      @Override
+      public Adapter caseQuote(Quote object)
       {
         return createQuoteAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -95,9 +108,10 @@ public class SimpleAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

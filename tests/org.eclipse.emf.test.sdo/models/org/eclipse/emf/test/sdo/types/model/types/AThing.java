@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: AThing.java,v 1.2 2005/06/12 14:05:03 emerks Exp $
+ * $Id: AThing.java,v 1.3 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo.types.model.types;
 
@@ -724,7 +734,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyBoolean'"
    * @generated
    */
-  List getManyBoolean();
+  List<Boolean> getManyBoolean();
 
   /**
    * Returns the value of the '<em><b>Many Byte</b></em>' attribute list.
@@ -741,7 +751,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyByte'"
    * @generated
    */
-  List getManyByte();
+  List<Byte> getManyByte();
 
   /**
    * Returns the value of the '<em><b>Many Decimal</b></em>' attribute list.
@@ -758,7 +768,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyDecimal'"
    * @generated
    */
-  List getManyDecimal();
+  List<BigDecimal> getManyDecimal();
 
   /**
    * Returns the value of the '<em><b>Many Float</b></em>' attribute list.
@@ -775,7 +785,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyFloat'"
    * @generated
    */
-  List getManyFloat();
+  List<Float> getManyFloat();
 
   /**
    * Returns the value of the '<em><b>Many Double</b></em>' attribute list.
@@ -792,7 +802,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyDouble'"
    * @generated
    */
-  List getManyDouble();
+  List<Double> getManyDouble();
 
   /**
    * Returns the value of the '<em><b>Many Int</b></em>' attribute list.
@@ -809,7 +819,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyInt'"
    * @generated
    */
-  List getManyInt();
+  List<Integer> getManyInt();
 
   /**
    * Returns the value of the '<em><b>Many Integer</b></em>' attribute list.
@@ -826,7 +836,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyInteger'"
    * @generated
    */
-  List getManyInteger();
+  List<BigInteger> getManyInteger();
 
   /**
    * Returns the value of the '<em><b>Many Long</b></em>' attribute list.
@@ -843,7 +853,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyLong'"
    * @generated
    */
-  List getManyLong();
+  List<Long> getManyLong();
 
   /**
    * Returns the value of the '<em><b>Many Short</b></em>' attribute list.
@@ -860,7 +870,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyShort'"
    * @generated
    */
-  List getManyShort();
+  List<Short> getManyShort();
 
   /**
    * Returns the value of the '<em><b>Many String</b></em>' attribute list.
@@ -877,7 +887,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyString'"
    * @generated
    */
-  List getManyString();
+  List<String> getManyString();
 
   /**
    * Returns the value of the '<em><b>Many Char</b></em>' attribute list.
@@ -894,7 +904,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyChar'"
    * @generated
    */
-  List getManyChar();
+  List<Character> getManyChar();
 
   /**
    * Returns the value of the '<em><b>Many Date</b></em>' attribute list.
@@ -911,7 +921,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyDate'"
    * @generated
    */
-  List getManyDate();
+  List<Date> getManyDate();
 
   /**
    * Returns the value of the '<em><b>Many Bytes</b></em>' attribute list.
@@ -928,7 +938,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyBytes'"
    * @generated
    */
-  List getManyBytes();
+  List<byte[]> getManyBytes();
 
   /**
    * Returns the value of the '<em><b>Many Number</b></em>' attribute list.
@@ -945,7 +955,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyNumber'"
    * @generated
    */
-  List getManyNumber();
+  List<Number> getManyNumber();
 
   /**
    * Returns the value of the '<em><b>Many Object</b></em>' attribute list.
@@ -962,7 +972,7 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyObject'"
    * @generated
    */
-  List getManyObject();
+  List<Object> getManyObject();
 
   /**
    * Returns the value of the '<em><b>Many Thread</b></em>' attribute list.
@@ -979,6 +989,6 @@ public interface AThing
    *        extendedMetaData="kind='element' name='manyThread'"
    * @generated
    */
-  List getManyThread();
+  List<Thread> getManyThread();
 
 } // AThing

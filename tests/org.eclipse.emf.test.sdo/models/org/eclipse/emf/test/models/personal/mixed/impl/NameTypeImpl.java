@@ -1,32 +1,35 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: NameTypeImpl.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: NameTypeImpl.java,v 1.2 2006/12/30 03:44:07 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed.impl;
 
-import commonj.sdo.Sequence;
-
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
-
-import org.eclipse.emf.ecore.sdo.util.BasicESequence;
-import org.eclipse.emf.ecore.sdo.util.ESequence;
-
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.emf.test.models.personal.mixed.MixedPackage;
 import org.eclipse.emf.test.models.personal.mixed.NameType;
+
+import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
+import org.eclipse.emf.ecore.sdo.util.BasicESequence;
+import org.eclipse.emf.ecore.sdo.util.ESequence;
+
+import commonj.sdo.Sequence;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,6 +48,13 @@ import org.eclipse.emf.test.models.personal.mixed.NameType;
  */
 public class NameTypeImpl extends EDataObjectImpl implements NameType
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private static final long serialVersionUID = 1L;
+
   /**
    * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -90,9 +100,10 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return MixedPackage.eINSTANCE.getNameType();
+    return MixedPackage.Literals.NAME_TYPE;
   }
 
   /**
@@ -116,7 +127,7 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    */
   public String getFamily()
   {
-    return (String)((ESequence)getMixed()).featureMap().get(MixedPackage.eINSTANCE.getNameType_Family(), true);
+    return (String)((FeatureMap.Internal.Wrapper)getMixed()).featureMap().get(MixedPackage.Literals.NAME_TYPE__FAMILY, true);
   }
 
   /**
@@ -126,7 +137,7 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    */
   public void setFamily(String newFamily)
   {
-    ((FeatureMap.Internal)((ESequence)getMixed()).featureMap()).set(MixedPackage.eINSTANCE.getNameType_Family(), newFamily);
+    ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).set(MixedPackage.Literals.NAME_TYPE__FAMILY, newFamily);
   }
 
   /**
@@ -136,7 +147,7 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    */
   public String getGiven()
   {
-    return (String)((ESequence)getMixed()).featureMap().get(MixedPackage.eINSTANCE.getNameType_Given(), true);
+    return (String)((FeatureMap.Internal.Wrapper)getMixed()).featureMap().get(MixedPackage.Literals.NAME_TYPE__GIVEN, true);
   }
 
   /**
@@ -146,7 +157,7 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    */
   public void setGiven(String newGiven)
   {
-    ((FeatureMap.Internal)((ESequence)getMixed()).featureMap()).set(MixedPackage.eINSTANCE.getNameType_Given(), newGiven);
+    ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).set(MixedPackage.Literals.NAME_TYPE__GIVEN, newGiven);
   }
 
   /**
@@ -154,38 +165,36 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case MixedPackage.NAME_TYPE__MIXED:
-        return ((InternalEList)((ESequence)getMixed()).featureMap()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.NAME_TYPE__MIXED:
-        return ((ESequence)getMixed()).featureMap();
+        return ((InternalEList<?>)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case MixedPackage.NAME_TYPE__MIXED:
+        if (coreType) return ((FeatureMap.Internal.Wrapper)getMixed()).featureMap();
+        return getMixed();
       case MixedPackage.NAME_TYPE__FAMILY:
         return getFamily();
       case MixedPackage.NAME_TYPE__GIVEN:
         return getGiven();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -193,13 +202,13 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.NAME_TYPE__MIXED:
-        ((ESequence)getMixed()).featureMap().clear();
-        ((ESequence)getMixed()).featureMap().addAll((Collection)newValue);
+        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getMixed()).featureMap()).set(newValue);
         return;
       case MixedPackage.NAME_TYPE__FAMILY:
         setFamily((String)newValue);
@@ -208,7 +217,7 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
         setGiven((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -216,12 +225,13 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.NAME_TYPE__MIXED:
-        ((ESequence)getMixed()).featureMap().clear();
+        ((FeatureMap.Internal.Wrapper)getMixed()).featureMap().clear();
         return;
       case MixedPackage.NAME_TYPE__FAMILY:
         setFamily(FAMILY_EDEFAULT);
@@ -230,7 +240,7 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
         setGiven(GIVEN_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -238,9 +248,10 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MixedPackage.NAME_TYPE__MIXED:
         return mixed != null && !mixed.featureMap().isEmpty();
@@ -249,7 +260,7 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
       case MixedPackage.NAME_TYPE__GIVEN:
         return GIVEN_EDEFAULT == null ? getGiven() != null : !GIVEN_EDEFAULT.equals(getGiven());
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -257,6 +268,7 @@ public class NameTypeImpl extends EDataObjectImpl implements NameType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: SimpleSwitch.java,v 1.1 2004/12/19 04:02:20 marcelop Exp $
+ * $Id: SimpleSwitch.java,v 1.2 2006/12/30 03:44:07 marcelop Exp $
  */
 package com.example.simple.util;
 
@@ -26,7 +36,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see com.example.simple.SimplePackage
  * @generated
  */
-public class SimpleSwitch
+public class SimpleSwitch<T>
 {
   /**
    * The cached model package
@@ -57,7 +67,7 @@ public class SimpleSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -69,7 +79,7 @@ public class SimpleSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -77,11 +87,11 @@ public class SimpleSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -92,14 +102,14 @@ public class SimpleSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case SimplePackage.QUOTE:
       {
         Quote quote = (Quote)theEObject;
-        Object result = caseQuote(quote);
+        T result = caseQuote(quote);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -118,7 +128,7 @@ public class SimpleSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseQuote(Quote object)
+  public T caseQuote(Quote object)
   {
     return null;
   }
@@ -134,7 +144,7 @@ public class SimpleSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

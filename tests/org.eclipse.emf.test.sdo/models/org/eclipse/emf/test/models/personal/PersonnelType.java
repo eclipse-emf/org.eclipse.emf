@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: PersonnelType.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: PersonnelType.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal;
 
@@ -37,10 +47,10 @@ public interface PersonnelType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Person</em>' containment reference list.
    * @see org.eclipse.emf.test.models.personal.PersonalPackage#getPersonnelType_Person()
-   * @model type="org.eclipse.emf.test.models.personal.PersonType" containment="true" resolveProxies="false" required="true"
+   * @model type="org.eclipse.emf.test.models.personal.PersonType" containment="true" required="true"
    *        extendedMetaData="kind='element' name='person' namespace='##targetNamespace'"
    * @generated
    */
-  List getPerson();
+  List<PersonType> getPerson();
 
 } // PersonnelType

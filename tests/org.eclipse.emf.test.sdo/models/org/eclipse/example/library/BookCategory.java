@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: BookCategory.java,v 1.2 2005/06/12 14:07:23 emerks Exp $
+ * $Id: BookCategory.java,v 1.3 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.example.library;
 
@@ -11,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -23,8 +33,47 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class BookCategory extends AbstractEnumerator
+public enum BookCategory implements Enumerator
 {
+  /**
+   * The '<em><b>Mystery</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>Mystery</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #MYSTERY
+   * @generated
+   * @ordered
+   */
+  MYSTERY_LITERAL(0, "Mystery", "Mystery"),
+  /**
+   * The '<em><b>Science Fiction</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>Science Fiction</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #SCIENCE_FICTION
+   * @generated
+   * @ordered
+   */
+  SCIENCE_FICTION_LITERAL(1, "ScienceFiction", "ScienceFiction"),
+  /**
+   * The '<em><b>Biography</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>Biography</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #BIOGRAPHY
+   * @generated
+   * @ordered
+   */
+  BIOGRAPHY_LITERAL(2, "Biography", "Biography");
   /**
    * The '<em><b>Mystery</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -59,48 +108,6 @@ public final class BookCategory extends AbstractEnumerator
   public static final int BIOGRAPHY = 2;
 
   /**
-   * The '<em><b>Mystery</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Mystery</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #MYSTERY
-   * @generated
-   * @ordered
-   */
-  public static final BookCategory MYSTERY_LITERAL = new BookCategory(MYSTERY, "Mystery");
-
-  /**
-   * The '<em><b>Science Fiction</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Science Fiction</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #SCIENCE_FICTION
-   * @generated
-   * @ordered
-   */
-  public static final BookCategory SCIENCE_FICTION_LITERAL = new BookCategory(SCIENCE_FICTION, "ScienceFiction");
-
-  /**
-   * The '<em><b>Biography</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Biography</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #BIOGRAPHY
-   * @generated
-   * @ordered
-   */
-  public static final BookCategory BIOGRAPHY_LITERAL = new BookCategory(BIOGRAPHY, "Biography");
-
-  /**
    * An array of all the '<em><b>Book Category</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -120,20 +127,20 @@ public final class BookCategory extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<BookCategory> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Book Category</b></em>' literal with the specified name.
+   * Returns the '<em><b>Book Category</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static BookCategory get(String name)
+  public static BookCategory get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       BookCategory result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -142,7 +149,26 @@ public final class BookCategory extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>Book Category</b></em>' literal with the specified value.
+   * Returns the '<em><b>Book Category</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static BookCategory getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      BookCategory result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>Book Category</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -155,8 +181,29 @@ public final class BookCategory extends AbstractEnumerator
       case SCIENCE_FICTION: return SCIENCE_FICTION_LITERAL;
       case BIOGRAPHY: return BIOGRAPHY_LITERAL;
     }
-    return null;	
+    return null;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
 
   /**
    * Only this class can construct instances.
@@ -164,9 +211,52 @@ public final class BookCategory extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private BookCategory(int value, String name)
+  private BookCategory(int value, String name, String literal)
   {
-    super(value, name);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
-} //BookCategory
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+}

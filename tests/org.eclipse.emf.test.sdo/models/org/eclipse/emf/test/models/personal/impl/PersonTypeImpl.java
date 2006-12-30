@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: PersonTypeImpl.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: PersonTypeImpl.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.models.personal.impl;
 
@@ -17,7 +27,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -57,6 +66,13 @@ import org.eclipse.emf.test.models.personal.UrlType;
 public class PersonTypeImpl extends EDataObjectImpl implements PersonType
 {
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private static final long serialVersionUID = 1L;
+
+  /**
    * The cached value of the '{@link #getName() <em>Name</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -74,7 +90,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * @generated
    * @ordered
    */
-  protected EList email = null;
+  protected EList<String> email = null;
 
   /**
    * The cached value of the '{@link #getUrl() <em>Url</em>}' containment reference list.
@@ -84,7 +100,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * @generated
    * @ordered
    */
-  protected EList url = null;
+  protected EList<UrlType> url = null;
 
   /**
    * The cached value of the '{@link #getLink() <em>Link</em>}' containment reference.
@@ -180,9 +196,10 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return PersonalPackage.eINSTANCE.getPersonType();
+    return PersonalPackage.Literals.PERSON_TYPE;
   }
 
   /**
@@ -238,11 +255,11 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getEmail()
+  public List<String> getEmail()
   {
     if (email == null)
     {
-      email = new EDataTypeEList(String.class, this, PersonalPackage.PERSON_TYPE__EMAIL);
+      email = new EDataTypeEList<String>(String.class, this, PersonalPackage.PERSON_TYPE__EMAIL);
     }
     return email;
   }
@@ -252,11 +269,11 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getUrl()
+  public List<UrlType> getUrl()
   {
     if (url == null)
     {
-      url = new EObjectContainmentEList(UrlType.class, this, PersonalPackage.PERSON_TYPE__URL);
+      url = new EObjectContainmentEList<UrlType>(UrlType.class, this, PersonalPackage.PERSON_TYPE__URL);
     }
     return url;
   }
@@ -410,23 +427,19 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case PersonalPackage.PERSON_TYPE__NAME:
-          return basicSetName(null, msgs);
-        case PersonalPackage.PERSON_TYPE__URL:
-          return ((InternalEList)getUrl()).basicRemove(otherEnd, msgs);
-        case PersonalPackage.PERSON_TYPE__LINK:
-          return basicSetLink(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case PersonalPackage.PERSON_TYPE__NAME:
+        return basicSetName(null, msgs);
+      case PersonalPackage.PERSON_TYPE__URL:
+        return ((InternalEList<?>)getUrl()).basicRemove(otherEnd, msgs);
+      case PersonalPackage.PERSON_TYPE__LINK:
+        return basicSetLink(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -434,9 +447,10 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.PERSON_TYPE__NAME:
         return getName();
@@ -453,7 +467,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
       case PersonalPackage.PERSON_TYPE__SALARY:
         return getSalary();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -461,20 +475,22 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.PERSON_TYPE__NAME:
         setName((NameType)newValue);
         return;
       case PersonalPackage.PERSON_TYPE__EMAIL:
         getEmail().clear();
-        getEmail().addAll((Collection)newValue);
+        getEmail().addAll((Collection<? extends String>)newValue);
         return;
       case PersonalPackage.PERSON_TYPE__URL:
         getUrl().clear();
-        getUrl().addAll((Collection)newValue);
+        getUrl().addAll((Collection<? extends UrlType>)newValue);
         return;
       case PersonalPackage.PERSON_TYPE__LINK:
         setLink((LinkType)newValue);
@@ -489,7 +505,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
         setSalary((BigInteger)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -497,9 +513,10 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.PERSON_TYPE__NAME:
         setName((NameType)null);
@@ -523,7 +540,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
         setSalary(SALARY_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -531,9 +548,10 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case PersonalPackage.PERSON_TYPE__NAME:
         return name != null;
@@ -550,7 +568,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
       case PersonalPackage.PERSON_TYPE__SALARY:
         return SALARY_EDEFAULT == null ? salary != null : !SALARY_EDEFAULT.equals(salary);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -558,6 +576,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

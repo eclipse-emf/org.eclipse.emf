@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: TypesFactory.java,v 1.1 2004/12/19 04:02:20 marcelop Exp $
+ * $Id: TypesFactory.java,v 1.2 2006/12/30 03:44:08 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo.types.model.types;
 
@@ -24,7 +34,7 @@ public interface TypesFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  TypesFactory eINSTANCE = new org.eclipse.emf.test.sdo.types.model.types.impl.TypesFactoryImpl();
+  TypesFactory eINSTANCE = org.eclipse.emf.test.sdo.types.model.types.impl.TypesFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>AThing</em>'.
