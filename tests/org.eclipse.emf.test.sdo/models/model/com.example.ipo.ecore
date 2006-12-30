@@ -184,7 +184,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="orderDate" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Date">
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
         <details key="name" value="orderDate"/>

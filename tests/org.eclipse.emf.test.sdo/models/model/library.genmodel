@@ -8,7 +8,7 @@
     suppressEMFTypes="true" featureMapWrapperInterface="commonj.sdo.Sequence" featureMapWrapperInternalInterface="org.eclipse.emf.ecore.sdo.util.ESequence"
     featureMapWrapperClass="org.eclipse.emf.ecore.sdo.util.BasicESequence" testsDirectory=""
     complianceLevel="5.0">
-  <foreignModel>/home/pnehrer/library.mdl</foreignModel>
+  <foreignModel>library.mdl</foreignModel>
   <staticPackages>http://www.eclipse.org/emf/2003/SDO</staticPackages>
   <modelPluginVariables>EMF_COMMONJ_SDO=org.eclipse.emf.commonj.sdo</modelPluginVariables>
   <modelPluginVariables>EMF_ECORE_SDO=org.eclipse.emf.ecore.sdo</modelPluginVariables>

@@ -7,7 +7,7 @@
     rootImplementsInterface="org.eclipse.emf.ecore.sdo.InternalEDataObject" suppressEMFTypes="true"
     featureMapWrapperInterface="commonj.sdo.Sequence" featureMapWrapperInternalInterface="org.eclipse.emf.ecore.sdo.util.ESequence"
     featureMapWrapperClass="org.eclipse.emf.ecore.sdo.util.BasicESequence" testsDirectory=""
-    complianceLevel="5.0">
+    importerID="org.eclipse.xsd.ecore.importer" complianceLevel="5.0">
   <foreignModel>types.xsd</foreignModel>
   <staticPackages>http://www.eclipse.org/emf/2003/SDO</staticPackages>
   <modelPluginVariables>EMF_COMMONJ_SDO=org.eclipse.emf.commonj.sdo</modelPluginVariables>
