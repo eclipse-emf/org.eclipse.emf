@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: TreePackageImpl.java,v 1.1 2006/05/08 21:59:44 davidms Exp $
+ * $Id: TreePackageImpl.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.tree.impl;
 
@@ -265,6 +275,10 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
     setName(eNAME);
     setNsPrefix(eNS_PREFIX);
     setNsURI(eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
 

@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: FItemProvider.java,v 1.2 2005/08/09 04:43:10 davidms Exp $
+ * $Id: FItemProvider.java,v 1.3 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ext.provider;
 
@@ -17,6 +27,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -61,7 +72,8 @@ public class FItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -86,8 +98,10 @@ public class FItemProvider
          getResourceLocator(),
          getString("_UI_F_id_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_F_id_feature", "_UI_F_type"),
-         ExtPackage.eINSTANCE.getF_Id(),
+         ExtPackage.Literals.F__ID,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -99,6 +113,7 @@ public class FItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     String label = ((F)object).getId();
@@ -114,6 +129,7 @@ public class FItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -133,6 +149,7 @@ public class FItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return RefTestEditPlugin.INSTANCE;

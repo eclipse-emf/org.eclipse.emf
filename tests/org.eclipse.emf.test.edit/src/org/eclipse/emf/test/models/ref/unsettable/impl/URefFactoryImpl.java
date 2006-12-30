@@ -1,16 +1,28 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: URefFactoryImpl.java,v 1.1 2005/08/09 04:43:08 davidms Exp $
+ * $Id: URefFactoryImpl.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.test.models.ref.unsettable.*;
 
 /**
@@ -21,6 +33,29 @@ import org.eclipse.emf.test.models.ref.unsettable.*;
  */
 public class URefFactoryImpl extends EFactoryImpl implements URefFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static URefFactory init()
+  {
+    try
+    {
+      URefFactory theURefFactory = (URefFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org/eclipse/emf/test/models/ref/unsettable.ecore"); 
+      if (theURefFactory != null)
+      {
+        return theURefFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new URefFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -37,6 +72,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -170,6 +206,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static URefPackage getPackage()
   {
     return URefPackage.eINSTANCE;

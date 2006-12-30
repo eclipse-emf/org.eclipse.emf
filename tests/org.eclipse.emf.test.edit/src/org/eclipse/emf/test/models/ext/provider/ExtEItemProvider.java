@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ExtEItemProvider.java,v 1.2 2005/08/09 04:43:09 davidms Exp $
+ * $Id: ExtEItemProvider.java,v 1.3 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ext.provider;
 
@@ -15,9 +25,11 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -62,7 +74,8 @@ public class ExtEItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -87,8 +100,10 @@ public class ExtEItemProvider
          getResourceLocator(),
          getString("_UI_ExtE_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ExtE_value_feature", "_UI_ExtE_type"),
-         ExtPackage.eINSTANCE.getExtE_Value(),
+         ExtPackage.Literals.EXT_E__VALUE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));
@@ -102,14 +117,29 @@ public class ExtEItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(ExtPackage.eINSTANCE.getExtE_F());
+      childrenFeatures.add(ExtPackage.Literals.EXT_E__F);
     }
     return childrenFeatures;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EStructuralFeature getChildFeature(Object object, Object child)
+  {
+    // Check the type of the specified child object and return the proper feature to use for
+    // adding (see {@link AddCommand}) it as a child.
+
+    return super.getChildFeature(object, child);
   }
 
   /**
@@ -118,6 +148,7 @@ public class ExtEItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     String label = ((ExtE)object).getName();
@@ -133,6 +164,7 @@ public class ExtEItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -155,6 +187,7 @@ public class ExtEItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return RefTestEditPlugin.INSTANCE;

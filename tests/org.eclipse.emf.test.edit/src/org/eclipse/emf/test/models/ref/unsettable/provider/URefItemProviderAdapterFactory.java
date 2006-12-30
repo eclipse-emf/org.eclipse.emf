@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: URefItemProviderAdapterFactory.java,v 1.1 2005/08/09 04:43:09 davidms Exp $
+ * $Id: URefItemProviderAdapterFactory.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.provider;
 
@@ -60,7 +70,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance.
@@ -74,7 +84,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
-    supportedTypes.add(IItemPropertySource.class);		
+    supportedTypes.add(IItemPropertySource.class);
   }
 
   /**
@@ -91,6 +101,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createC1UAdapter()
   {
     if (c1UItemProvider == null)
@@ -115,6 +126,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createC2UAdapter()
   {
     if (c2UItemProvider == null)
@@ -139,6 +151,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createAUAdapter()
   {
     if (auItemProvider == null)
@@ -163,6 +176,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createBUAdapter()
   {
     if (buItemProvider == null)
@@ -187,6 +201,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createCUAdapter()
   {
     if (cuItemProvider == null)
@@ -211,6 +226,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createDUAdapter()
   {
     if (duItemProvider == null)
@@ -235,6 +251,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createC4UAdapter()
   {
     if (c4UItemProvider == null)
@@ -259,6 +276,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createC3UAdapter()
   {
     if (c3UItemProvider == null)
@@ -283,6 +301,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEUAdapter()
   {
     if (euItemProvider == null)
@@ -320,6 +339,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return supportedTypes.contains(type) || super.isFactoryForType(type);
@@ -331,6 +351,7 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
@@ -341,12 +362,13 @@ public class URefItemProviderAdapterFactory extends URefAdapterFactory implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object adapt(Object object, Object type)
   {
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }

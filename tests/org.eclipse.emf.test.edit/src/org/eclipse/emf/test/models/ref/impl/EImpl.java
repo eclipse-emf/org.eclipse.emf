@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: EImpl.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: EImpl.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -14,7 +24,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -75,7 +84,7 @@ public class EImpl extends EObjectImpl implements E
    * @generated
    * @ordered
    */
-  protected EList ids = null;
+  protected EList<String> ids = null;
 
   /**
    * The cached value of the '{@link #getLabels() <em>Labels</em>}' attribute list.
@@ -85,7 +94,7 @@ public class EImpl extends EObjectImpl implements E
    * @generated
    * @ordered
    */
-  protected EList labels = null;
+  protected EList<String> labels = null;
 
   /**
    * The cached value of the '{@link #getD() <em>D</em>}' reference list.
@@ -95,7 +104,7 @@ public class EImpl extends EObjectImpl implements E
    * @generated
    * @ordered
    */
-  protected EList d = null;
+  protected EList<D> d = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -112,9 +121,10 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return RefPackage.eINSTANCE.getE();
+    return RefPackage.Literals.E;
   }
 
   /**
@@ -145,11 +155,11 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getIds()
+  public EList<String> getIds()
   {
     if (ids == null)
     {
-      ids = new EDataTypeUniqueEList(String.class, this, RefPackage.E__IDS);
+      ids = new EDataTypeUniqueEList<String>(String.class, this, RefPackage.E__IDS);
     }
     return ids;
   }
@@ -159,11 +169,11 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getLabels()
+  public EList<String> getLabels()
   {
     if (labels == null)
     {
-      labels = new EDataTypeEList(String.class, this, RefPackage.E__LABELS);
+      labels = new EDataTypeEList<String>(String.class, this, RefPackage.E__LABELS);
     }
     return labels;
   }
@@ -173,11 +183,11 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getD()
+  public EList<D> getD()
   {
     if (d == null)
     {
-      d = new EObjectWithInverseResolvingEList.ManyInverse(D.class, this, RefPackage.E__D, RefPackage.D__E);
+      d = new EObjectWithInverseResolvingEList.ManyInverse<D>(D.class, this, RefPackage.E__D, RefPackage.D__E);
     }
     return d;
   }
@@ -187,21 +197,16 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @SuppressWarnings("unchecked")
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case RefPackage.E__D:
-          return ((InternalEList)getD()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case RefPackage.E__D:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getD()).basicAdd(otherEnd, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -209,19 +214,15 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case RefPackage.E__D:
-          return ((InternalEList)getD()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case RefPackage.E__D:
+        return ((InternalEList<?>)getD()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -229,9 +230,10 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.E__NAME:
         return getName();
@@ -242,7 +244,7 @@ public class EImpl extends EObjectImpl implements E
       case RefPackage.E__D:
         return getD();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -250,27 +252,29 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.E__NAME:
         setName((String)newValue);
         return;
       case RefPackage.E__IDS:
         getIds().clear();
-        getIds().addAll((Collection)newValue);
+        getIds().addAll((Collection<? extends String>)newValue);
         return;
       case RefPackage.E__LABELS:
         getLabels().clear();
-        getLabels().addAll((Collection)newValue);
+        getLabels().addAll((Collection<? extends String>)newValue);
         return;
       case RefPackage.E__D:
         getD().clear();
-        getD().addAll((Collection)newValue);
+        getD().addAll((Collection<? extends D>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -278,9 +282,10 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.E__NAME:
         setName(NAME_EDEFAULT);
@@ -295,7 +300,7 @@ public class EImpl extends EObjectImpl implements E
         getD().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -303,9 +308,10 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.E__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -316,7 +322,7 @@ public class EImpl extends EObjectImpl implements E
       case RefPackage.E__D:
         return d != null && !d.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -324,6 +330,7 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TypeSearchTest.java,v 1.1 2006/11/09 12:09:48 emerks Exp $
+ * $Id: TypeSearchTest.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.edit.provider;
 
@@ -183,6 +183,7 @@ public class TypeSearchTest extends TestCase
   /**
    * Setup the test case
    */
+  @Override
   protected void setUp() throws Exception
   {
     createEClasses();
@@ -196,7 +197,7 @@ public class TypeSearchTest extends TestCase
    */
   public void testFindMultiType() throws Exception
   {
-    Collection orders = ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, poClass);
+    Collection<EObject> orders = ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, poClass);
     assertEquals(orders.size(), DATASETSIZE);
   }
 
@@ -206,7 +207,7 @@ public class TypeSearchTest extends TestCase
    */
   public void testFindMultiType2() throws Exception
   {
-    Collection items = ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, itemClass);
+    Collection<EObject> items = ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, itemClass);
     assertEquals(items.size(), DATASETSIZE / 10);
   }
 
@@ -217,7 +218,7 @@ public class TypeSearchTest extends TestCase
    */
   public void testFindWithSuperTypes() throws Exception
   {
-    Collection c = ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, superClass);
+    Collection<EObject> c = ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, superClass);
     assertEquals(c.size(), DATASETSIZE + (DATASETSIZE / 10));
   }
 
@@ -227,7 +228,7 @@ public class TypeSearchTest extends TestCase
    */
   public void testFindSingleType() throws Exception
   {
-    List others = (List)ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, otherClass);
+    List<EObject> others = (List<EObject>)ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, otherClass);
     assertEquals(others.size(), 1);
     assertEquals(others.get(0), otherItemObject);
   }
@@ -239,7 +240,7 @@ public class TypeSearchTest extends TestCase
    */
   public void testFindNoType() throws Exception
   {
-    Collection others = ItemPropertyDescriptor.getReachableObjectsOfType(otherItemObject, poClass);
+    Collection<EObject> others = ItemPropertyDescriptor.getReachableObjectsOfType(otherItemObject, poClass);
     assertEquals(others.size(), 0);
   }
 
@@ -250,7 +251,7 @@ public class TypeSearchTest extends TestCase
    */
   public void testFindFirstObject() throws Exception
   {
-    List c = (List)ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, firstClass);
+    List<EObject> c = (List<EObject>)ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, firstClass);
     assertEquals(c.size(), 1);
     assertEquals(c.get(0), firstObject);
   }
@@ -262,7 +263,7 @@ public class TypeSearchTest extends TestCase
    */
   public void testFindLastObject() throws Exception
   {
-    List c = (List)ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, lastClass);
+    List<EObject> c = (List<EObject>)ItemPropertyDescriptor.getReachableObjectsOfType(firstObject, lastClass);
     assertEquals(c.size(), 1);
     assertEquals(c.get(0), lastObject);
   }

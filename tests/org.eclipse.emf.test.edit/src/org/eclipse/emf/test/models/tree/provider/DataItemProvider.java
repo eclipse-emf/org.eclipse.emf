@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: DataItemProvider.java,v 1.1 2006/05/08 21:59:44 davidms Exp $
+ * $Id: DataItemProvider.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.tree.provider;
 
@@ -22,9 +32,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -69,7 +81,8 @@ public class DataItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -97,6 +110,8 @@ public class DataItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Data_name_feature", "_UI_Data_type"),
          TreePackage.Literals.DATA__NAME,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -118,6 +133,8 @@ public class DataItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Data_node_feature", "_UI_Data_type"),
          TreePackage.Literals.DATA__NODE,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -129,6 +146,7 @@ public class DataItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     String label = ((Data)object).getName();
@@ -144,6 +162,7 @@ public class DataItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -164,7 +183,8 @@ public class DataItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
   }
@@ -175,7 +195,8 @@ public class DataItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getCreateChildImage(Object owner, Object feature, Object child, Collection selection)
+  @Override
+  public Object getCreateChildImage(Object owner, Object feature, Object child, Collection<?> selection)
   {
     if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
     {
@@ -207,6 +228,7 @@ public class DataItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return RefTestEditPlugin.INSTANCE;

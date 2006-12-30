@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteCommandTest.java,v 1.2 2006/05/08 21:56:11 davidms Exp $
+ * $Id: DeleteCommandTest.java,v 1.3 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
@@ -104,6 +105,7 @@ public class DeleteCommandTest extends TestCase
    */
   protected Resource resource;
 
+  @Override
   protected void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
@@ -383,7 +385,7 @@ public class DeleteCommandTest extends TestCase
     e3.getD().add(d0);
     e3.getD().add(d1);
 
-    Collection collection = new ArrayList();
+    Collection<EObject> collection = new ArrayList<EObject>();
     collection.add(c);
     collection.add(d0);
     Command delete = DeleteCommand.create(editingDomain, collection);

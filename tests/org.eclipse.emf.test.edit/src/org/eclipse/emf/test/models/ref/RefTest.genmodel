@@ -5,7 +5,7 @@
     creationCommands="false" editDirectory="/org.eclipse.emf.test.edit/src" editorDirectory=""
     modelPluginID="org.eclipse.emf.test.edit" runtimeJar="true" modelName="RefTest"
     editPluginClass="org.eclipse.emf.test.models.ref.provider.RefTestEditPlugin" testsDirectory=""
-    importerID="org.eclipse.emf.importer.rose">
+    importerID="org.eclipse.emf.importer.rose" complianceLevel="5.0">
   <foreignModel>..\..\..\..\..\..\..\data\rose\RefTest.mdl</foreignModel>
   <genPackages prefix="Ref" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
       ecorePackage="RefTest.ecore#/">

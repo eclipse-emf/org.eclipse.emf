@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ExtSwitch.java,v 1.1 2005/07/14 19:35:16 davidms Exp $
+ * $Id: ExtSwitch.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ext.util;
 
@@ -28,7 +38,7 @@ import org.eclipse.emf.test.models.ref.E;
  * @see org.eclipse.emf.test.models.ext.ExtPackage
  * @generated
  */
-public class ExtSwitch {
+public class ExtSwitch<T> {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -58,7 +68,7 @@ public class ExtSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -70,7 +80,7 @@ public class ExtSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -78,11 +88,11 @@ public class ExtSwitch {
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -93,14 +103,14 @@ public class ExtSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case ExtPackage.EXT_E:
       {
         ExtE extE = (ExtE)theEObject;
-        Object result = caseExtE(extE);
+        T result = caseExtE(extE);
         if (result == null) result = caseE(extE);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -108,7 +118,7 @@ public class ExtSwitch {
       case ExtPackage.F:
       {
         F f = (F)theEObject;
-        Object result = caseF(f);
+        T result = caseF(f);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -127,7 +137,7 @@ public class ExtSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseExtE(ExtE object)
+  public T caseExtE(ExtE object)
   {
     return null;
   }
@@ -143,7 +153,7 @@ public class ExtSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseF(F object)
+  public T caseF(F object)
   {
     return null;
   }
@@ -159,7 +169,7 @@ public class ExtSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseE(E object)
+  public T caseE(E object)
   {
     return null;
   }
@@ -175,7 +185,7 @@ public class ExtSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedAdapterFactoryTest.java,v 1.1 2005/07/14 19:41:46 davidms Exp $
+ * $Id: ComposedAdapterFactoryTest.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.edit.provider;
 
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.test.models.ext.ExtE;
@@ -95,6 +96,7 @@ public class ComposedAdapterFactoryTest extends TestCase
    */
   protected ComposedAdapterFactory adapterFactory;
 
+  @Override
   protected void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
@@ -108,7 +110,7 @@ public class ComposedAdapterFactoryTest extends TestCase
 
   public void testAdapt()
   {
-    List factories = new ArrayList();
+    List<AdapterFactory> factories = new ArrayList<AdapterFactory>();
     factories.add(refAdapterFactory);
     factories.add(extAdapterFactory);
     adapterFactory = new ComposedAdapterFactory(factories);
@@ -129,7 +131,7 @@ public class ComposedAdapterFactoryTest extends TestCase
 
   public void testAdaptSubclass()
   {
-    List factories = new ArrayList();
+    List<AdapterFactory> factories = new ArrayList<AdapterFactory>();
     factories.add(refAdapterFactory);
     factories.add(extAdapterFactory);
     adapterFactory = new ComposedAdapterFactory(factories);

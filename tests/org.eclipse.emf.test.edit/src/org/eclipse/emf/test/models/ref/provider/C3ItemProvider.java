@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: C3ItemProvider.java,v 1.2 2005/08/09 04:43:09 davidms Exp $
+ * $Id: C3ItemProvider.java,v 1.3 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -19,6 +29,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -60,7 +71,8 @@ public class C3ItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -78,13 +90,14 @@ public class C3ItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(RefPackage.eINSTANCE.getC3_D());
-      childrenFeatures.add(RefPackage.eINSTANCE.getC3_C());
+      childrenFeatures.add(RefPackage.Literals.C3__D);
+      childrenFeatures.add(RefPackage.Literals.C3__C);
     }
     return childrenFeatures;
   }
@@ -94,6 +107,7 @@ public class C3ItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     // Check the type of the specified child object and return the proper feature to use for
@@ -108,6 +122,7 @@ public class C3ItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     return getString("_UI_C3_type");
@@ -120,6 +135,7 @@ public class C3ItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -140,6 +156,7 @@ public class C3ItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return RefTestEditPlugin.INSTANCE;

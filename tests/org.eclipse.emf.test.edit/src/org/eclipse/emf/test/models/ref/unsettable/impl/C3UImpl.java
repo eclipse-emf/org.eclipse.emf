@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: C3UImpl.java,v 1.1 2005/08/09 04:43:08 davidms Exp $
+ * $Id: C3UImpl.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -14,7 +24,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -71,7 +80,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    * @generated
    * @ordered
    */
-  protected EList du = null;
+  protected EList<DU> du = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -88,9 +97,10 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return URefPackage.eINSTANCE.getC3U();
+    return URefPackage.Literals.C3U;
   }
 
   /**
@@ -140,12 +150,12 @@ public class C3UImpl extends EObjectImpl implements C3U
       if (msgs != null) msgs.dispatch();
     }
     else
-    	{
+    {
       boolean oldCuESet = cuESet;
       cuESet = true;
       if (eNotificationRequired())
         eNotify(new ENotificationImpl(this, Notification.SET, URefPackage.C3U__CU, newCu, newCu, !oldCuESet));
-    	}
+    }
   }
 
   /**
@@ -182,12 +192,12 @@ public class C3UImpl extends EObjectImpl implements C3U
       if (msgs != null) msgs.dispatch();
     }
     else
-    	{
+    {
       boolean oldCuESet = cuESet;
       cuESet = false;
       if (eNotificationRequired())
         eNotify(new ENotificationImpl(this, Notification.UNSET, URefPackage.C3U__CU, null, null, oldCuESet));
-    	}
+    }
   }
 
   /**
@@ -205,11 +215,11 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getDu()
+  public EList<DU> getDu()
   {
     if (du == null)
     {
-      du = new EObjectContainmentEList.Unsettable(DU.class, this, URefPackage.C3U__DU);
+      du = new EObjectContainmentEList.Unsettable<DU>(DU.class, this, URefPackage.C3U__DU);
     }
     return du;
   }
@@ -221,7 +231,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    */
   public void unsetDu()
   {
-    ((InternalEList.Unsettable)getDu()).unset();
+    if (du != null) ((InternalEList.Unsettable<?>)du).unset();
   }
 
   /**
@@ -231,7 +241,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    */
   public boolean isSetDu()
   {
-    return du != null && ((InternalEList.Unsettable)du).isSet();
+    return du != null && ((InternalEList.Unsettable<?>)du).isSet();
   }
 
   /**
@@ -239,21 +249,17 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case URefPackage.C3U__CU:
-          return basicUnsetCu(msgs);
-        case URefPackage.C3U__DU:
-          return ((InternalEList)getDu()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case URefPackage.C3U__CU:
+        return basicUnsetCu(msgs);
+      case URefPackage.C3U__DU:
+        return ((InternalEList<?>)getDu()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -261,16 +267,17 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.C3U__CU:
         return getCu();
       case URefPackage.C3U__DU:
         return getDu();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -278,19 +285,21 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.C3U__CU:
         setCu((CU)newValue);
         return;
       case URefPackage.C3U__DU:
         getDu().clear();
-        getDu().addAll((Collection)newValue);
+        getDu().addAll((Collection<? extends DU>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -298,9 +307,10 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.C3U__CU:
         unsetCu();
@@ -309,7 +319,7 @@ public class C3UImpl extends EObjectImpl implements C3U
         unsetDu();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -317,16 +327,17 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.C3U__CU:
         return isSetCu();
       case URefPackage.C3U__DU:
         return isSetDu();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
 } //C3UImpl

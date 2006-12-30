@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: BImpl.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: BImpl.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -14,7 +24,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -64,7 +73,7 @@ public class BImpl extends EObjectImpl implements B
    * @generated
    * @ordered
    */
-  protected EList d = null;
+  protected EList<D> d = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -81,9 +90,10 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return RefPackage.eINSTANCE.getB();
+    return RefPackage.Literals.B;
   }
 
   /**
@@ -95,8 +105,8 @@ public class BImpl extends EObjectImpl implements B
   {
     if (a != null && a.eIsProxy())
     {
-      A oldA = a;
-      a = (A)eResolveProxy((InternalEObject)a);
+      InternalEObject oldA = (InternalEObject)a;
+      a = (A)eResolveProxy(oldA);
       if (a != oldA)
       {
         if (eNotificationRequired())
@@ -162,7 +172,18 @@ public class BImpl extends EObjectImpl implements B
   public C2 getC2()
   {
     if (eContainerFeatureID != RefPackage.B__C2) return null;
-    return (C2)eContainer;
+    return (C2)eContainer();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetC2(C2 newC2, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newC2, RefPackage.B__C2, msgs);
+    return msgs;
   }
 
   /**
@@ -172,16 +193,16 @@ public class BImpl extends EObjectImpl implements B
    */
   public void setC2(C2 newC2)
   {
-    if (newC2 != eContainer || (eContainerFeatureID != RefPackage.B__C2 && newC2 != null))
+    if (newC2 != eInternalContainer() || (eContainerFeatureID != RefPackage.B__C2 && newC2 != null))
     {
       if (EcoreUtil.isAncestor(this, newC2))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newC2 != null)
         msgs = ((InternalEObject)newC2).eInverseAdd(this, RefPackage.C2__B, C2.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newC2, RefPackage.B__C2, msgs);
+      msgs = basicSetC2(newC2, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -193,11 +214,11 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getD()
+  public EList<D> getD()
   {
     if (d == null)
     {
-      d = new EObjectResolvingEList(D.class, this, RefPackage.B__D);
+      d = new EObjectResolvingEList<D>(D.class, this, RefPackage.B__D);
     }
     return d;
   }
@@ -207,27 +228,21 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case RefPackage.B__A:
-          if (a != null)
-            msgs = ((InternalEObject)a).eInverseRemove(this, RefPackage.A__B, A.class, msgs);
-          return basicSetA((A)otherEnd, msgs);
-        case RefPackage.B__C2:
-          if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, RefPackage.B__C2, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case RefPackage.B__A:
+        if (a != null)
+          msgs = ((InternalEObject)a).eInverseRemove(this, RefPackage.A__B, A.class, msgs);
+        return basicSetA((A)otherEnd, msgs);
+      case RefPackage.B__C2:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return basicSetC2((C2)otherEnd, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -235,21 +250,17 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case RefPackage.B__A:
-          return basicSetA(null, msgs);
-        case RefPackage.B__C2:
-          return eBasicSetContainer(null, RefPackage.B__C2, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case RefPackage.B__A:
+        return basicSetA(null, msgs);
+      case RefPackage.B__C2:
+        return basicSetC2(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -257,19 +268,15 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  @Override
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case RefPackage.B__C2:
-          return eContainer.eInverseRemove(this, RefPackage.C2__B, C2.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case RefPackage.B__C2:
+        return eInternalContainer().eInverseRemove(this, RefPackage.C2__B, C2.class, msgs);
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return super.eBasicRemoveFromContainerFeature(msgs);
   }
 
   /**
@@ -277,9 +284,10 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.B__A:
         if (resolve) return getA();
@@ -289,7 +297,7 @@ public class BImpl extends EObjectImpl implements B
       case RefPackage.B__D:
         return getD();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -297,9 +305,11 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.B__A:
         setA((A)newValue);
@@ -309,10 +319,10 @@ public class BImpl extends EObjectImpl implements B
         return;
       case RefPackage.B__D:
         getD().clear();
-        getD().addAll((Collection)newValue);
+        getD().addAll((Collection<? extends D>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -320,9 +330,10 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.B__A:
         setA((A)null);
@@ -334,7 +345,7 @@ public class BImpl extends EObjectImpl implements B
         getD().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -342,9 +353,10 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.B__A:
         return a != null;
@@ -353,7 +365,7 @@ public class BImpl extends EObjectImpl implements B
       case RefPackage.B__D:
         return d != null && !d.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
 } //BImpl

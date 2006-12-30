@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ExtEImpl.java,v 1.1 2005/07/14 19:35:16 davidms Exp $
+ * $Id: ExtEImpl.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ext.impl;
 
@@ -10,23 +20,15 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.emf.test.models.ext.ExtE;
 import org.eclipse.emf.test.models.ext.ExtPackage;
-
 import org.eclipse.emf.test.models.ext.F;
-
 import org.eclipse.emf.test.models.ref.impl.EImpl;
 
 /**
@@ -73,7 +75,7 @@ public class ExtEImpl extends EImpl implements ExtE
    * @generated
    * @ordered
    */
-  protected EList f = null;
+  protected EList<F> f = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -90,9 +92,10 @@ public class ExtEImpl extends EImpl implements ExtE
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return ExtPackage.eINSTANCE.getExtE();
+    return ExtPackage.Literals.EXT_E;
   }
 
   /**
@@ -123,11 +126,11 @@ public class ExtEImpl extends EImpl implements ExtE
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getF()
+  public EList<F> getF()
   {
     if (f == null)
     {
-      f = new EObjectContainmentWithInverseEList(F.class, this, ExtPackage.EXT_E__F, ExtPackage.F__E);
+      f = new EObjectContainmentWithInverseEList<F>(F.class, this, ExtPackage.EXT_E__F, ExtPackage.F__E);
     }
     return f;
   }
@@ -137,23 +140,16 @@ public class ExtEImpl extends EImpl implements ExtE
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @SuppressWarnings("unchecked")
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case ExtPackage.EXT_E__D:
-          return ((InternalEList)getD()).basicAdd(otherEnd, msgs);
-        case ExtPackage.EXT_E__F:
-          return ((InternalEList)getF()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case ExtPackage.EXT_E__F:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getF()).basicAdd(otherEnd, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -161,21 +157,15 @@ public class ExtEImpl extends EImpl implements ExtE
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case ExtPackage.EXT_E__D:
-          return ((InternalEList)getD()).basicRemove(otherEnd, msgs);
-        case ExtPackage.EXT_E__F:
-          return ((InternalEList)getF()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case ExtPackage.EXT_E__F:
+        return ((InternalEList<?>)getF()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -183,24 +173,17 @@ public class ExtEImpl extends EImpl implements ExtE
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case ExtPackage.EXT_E__NAME:
-        return getName();
-      case ExtPackage.EXT_E__IDS:
-        return getIds();
-      case ExtPackage.EXT_E__LABELS:
-        return getLabels();
-      case ExtPackage.EXT_E__D:
-        return getD();
       case ExtPackage.EXT_E__VALUE:
         return new Integer(getValue());
       case ExtPackage.EXT_E__F:
         return getF();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -208,34 +191,21 @@ public class ExtEImpl extends EImpl implements ExtE
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case ExtPackage.EXT_E__NAME:
-        setName((String)newValue);
-        return;
-      case ExtPackage.EXT_E__IDS:
-        getIds().clear();
-        getIds().addAll((Collection)newValue);
-        return;
-      case ExtPackage.EXT_E__LABELS:
-        getLabels().clear();
-        getLabels().addAll((Collection)newValue);
-        return;
-      case ExtPackage.EXT_E__D:
-        getD().clear();
-        getD().addAll((Collection)newValue);
-        return;
       case ExtPackage.EXT_E__VALUE:
         setValue(((Integer)newValue).intValue());
         return;
       case ExtPackage.EXT_E__F:
         getF().clear();
-        getF().addAll((Collection)newValue);
+        getF().addAll((Collection<? extends F>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -243,22 +213,11 @@ public class ExtEImpl extends EImpl implements ExtE
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case ExtPackage.EXT_E__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case ExtPackage.EXT_E__IDS:
-        getIds().clear();
-        return;
-      case ExtPackage.EXT_E__LABELS:
-        getLabels().clear();
-        return;
-      case ExtPackage.EXT_E__D:
-        getD().clear();
-        return;
       case ExtPackage.EXT_E__VALUE:
         setValue(VALUE_EDEFAULT);
         return;
@@ -266,7 +225,7 @@ public class ExtEImpl extends EImpl implements ExtE
         getF().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -274,24 +233,17 @@ public class ExtEImpl extends EImpl implements ExtE
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case ExtPackage.EXT_E__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case ExtPackage.EXT_E__IDS:
-        return ids != null && !ids.isEmpty();
-      case ExtPackage.EXT_E__LABELS:
-        return labels != null && !labels.isEmpty();
-      case ExtPackage.EXT_E__D:
-        return d != null && !d.isEmpty();
       case ExtPackage.EXT_E__VALUE:
         return value != VALUE_EDEFAULT;
       case ExtPackage.EXT_E__F:
         return f != null && !f.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -299,6 +251,7 @@ public class ExtEImpl extends EImpl implements ExtE
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

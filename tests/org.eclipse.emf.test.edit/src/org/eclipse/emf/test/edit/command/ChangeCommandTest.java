@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeCommandTest.java,v 1.1 2006/04/12 15:28:27 marcelop Exp $
+ * $Id: ChangeCommandTest.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
@@ -72,6 +72,7 @@ public class ChangeCommandTest extends TestCase
    */
   protected EditingDomain editingDomain;
 
+  @Override
   protected void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
@@ -90,9 +91,10 @@ public class ChangeCommandTest extends TestCase
     
     ChangeCommand changeCommand = new ChangeCommand(e)
     {
+      @Override
       protected void doExecute()
       {
-        EList ids = e.getIds();
+        EList<String> ids = e.getIds();
         ids.add("0");
         ids.add("1");
         ids.add("2");        
@@ -140,12 +142,13 @@ public class ChangeCommandTest extends TestCase
     
     ChangeCommand changeCommand = new ChangeCommand(r)
     {
+      @Override
       protected void doExecute()
       {
         r.getContents().set(0, refPackage);
         r.getContents().add(e);
         
-        EList ids = e.getIds();
+        EList<String> ids = e.getIds();
         ids.add("0");
         ids.add("1");
         ids.add("2");
@@ -203,6 +206,7 @@ public class ChangeCommandTest extends TestCase
     
     ChangeCommand changeCommand = new ChangeCommand(rs)
     {
+      @Override
       protected void doExecute()
       {
         rs.getResources().add(r);
@@ -210,7 +214,7 @@ public class ChangeCommandTest extends TestCase
         r.getContents().set(0, refPackage);
         r.getContents().add(e);
         
-        EList ids = e.getIds();
+        EList<String> ids = e.getIds();
         ids.add("0");
         ids.add("1");
         ids.add("2");        

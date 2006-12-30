@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: URefSwitch.java,v 1.1 2005/08/09 04:43:09 davidms Exp $
+ * $Id: URefSwitch.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.util;
 
@@ -26,7 +36,7 @@ import org.eclipse.emf.test.models.ref.unsettable.*;
  * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage
  * @generated
  */
-public class URefSwitch
+public class URefSwitch<T>
 {
   /**
    * The cached model package
@@ -57,7 +67,7 @@ public class URefSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -69,7 +79,7 @@ public class URefSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -77,11 +87,11 @@ public class URefSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -92,70 +102,70 @@ public class URefSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case URefPackage.C1U:
       {
         C1U c1U = (C1U)theEObject;
-        Object result = caseC1U(c1U);
+        T result = caseC1U(c1U);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case URefPackage.C2U:
       {
         C2U c2U = (C2U)theEObject;
-        Object result = caseC2U(c2U);
+        T result = caseC2U(c2U);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case URefPackage.AU:
       {
         AU au = (AU)theEObject;
-        Object result = caseAU(au);
+        T result = caseAU(au);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case URefPackage.BU:
       {
         BU bu = (BU)theEObject;
-        Object result = caseBU(bu);
+        T result = caseBU(bu);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case URefPackage.CU:
       {
         CU cu = (CU)theEObject;
-        Object result = caseCU(cu);
+        T result = caseCU(cu);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case URefPackage.DU:
       {
         DU du = (DU)theEObject;
-        Object result = caseDU(du);
+        T result = caseDU(du);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case URefPackage.C4U:
       {
         C4U c4U = (C4U)theEObject;
-        Object result = caseC4U(c4U);
+        T result = caseC4U(c4U);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case URefPackage.C3U:
       {
         C3U c3U = (C3U)theEObject;
-        Object result = caseC3U(c3U);
+        T result = caseC3U(c3U);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case URefPackage.EU:
       {
         EU eu = (EU)theEObject;
-        Object result = caseEU(eu);
+        T result = caseEU(eu);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -174,7 +184,7 @@ public class URefSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseC1U(C1U object)
+  public T caseC1U(C1U object)
   {
     return null;
   }
@@ -190,7 +200,7 @@ public class URefSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseC2U(C2U object)
+  public T caseC2U(C2U object)
   {
     return null;
   }
@@ -206,7 +216,7 @@ public class URefSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseAU(AU object)
+  public T caseAU(AU object)
   {
     return null;
   }
@@ -222,7 +232,7 @@ public class URefSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseBU(BU object)
+  public T caseBU(BU object)
   {
     return null;
   }
@@ -238,7 +248,7 @@ public class URefSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseCU(CU object)
+  public T caseCU(CU object)
   {
     return null;
   }
@@ -254,7 +264,7 @@ public class URefSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseDU(DU object)
+  public T caseDU(DU object)
   {
     return null;
   }
@@ -270,7 +280,7 @@ public class URefSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseC4U(C4U object)
+  public T caseC4U(C4U object)
   {
     return null;
   }
@@ -286,7 +296,7 @@ public class URefSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseC3U(C3U object)
+  public T caseC3U(C3U object)
   {
     return null;
   }
@@ -302,7 +312,7 @@ public class URefSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEU(EU object)
+  public T caseEU(EU object)
   {
     return null;
   }
@@ -318,7 +328,7 @@ public class URefSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

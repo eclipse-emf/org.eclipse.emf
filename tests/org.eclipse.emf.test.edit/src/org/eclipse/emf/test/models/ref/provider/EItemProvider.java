@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: EItemProvider.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
+ * $Id: EItemProvider.java,v 1.3 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -17,6 +27,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -59,7 +70,8 @@ public class EItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -87,8 +99,10 @@ public class EItemProvider
          getResourceLocator(),
          getString("_UI_E_name_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_E_name_feature", "_UI_E_type"),
-         RefPackage.eINSTANCE.getE_Name(),
+         RefPackage.Literals.E__NAME,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -108,8 +122,10 @@ public class EItemProvider
          getResourceLocator(),
          getString("_UI_E_ids_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_E_ids_feature", "_UI_E_type"),
-         RefPackage.eINSTANCE.getE_Ids(),
+         RefPackage.Literals.E__IDS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -129,8 +145,10 @@ public class EItemProvider
          getResourceLocator(),
          getString("_UI_E_labels_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_E_labels_feature", "_UI_E_type"),
-         RefPackage.eINSTANCE.getE_Labels(),
+         RefPackage.Literals.E__LABELS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -150,8 +168,10 @@ public class EItemProvider
          getResourceLocator(),
          getString("_UI_E_d_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_E_d_feature", "_UI_E_type"),
-         RefPackage.eINSTANCE.getE_D(),
+         RefPackage.Literals.E__D,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -163,6 +183,7 @@ public class EItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     String label = ((E)object).getName();
@@ -178,6 +199,7 @@ public class EItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -199,6 +221,7 @@ public class EItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return RefTestEditPlugin.INSTANCE;

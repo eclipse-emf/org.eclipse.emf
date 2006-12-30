@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: C.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
+ * $Id: C.java,v 1.3 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -45,7 +55,7 @@ public interface C extends EObject
    * @model type="org.eclipse.emf.test.models.ref.D" opposite="c"
    * @generated
    */
-  EList getD();
+  EList<D> getD();
 
   /**
    * Returns the value of the '<em><b>C4</b></em>' container reference.

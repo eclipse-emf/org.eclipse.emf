@@ -1,16 +1,28 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ExtFactoryImpl.java,v 1.1 2005/07/14 19:35:16 davidms Exp $
+ * $Id: ExtFactoryImpl.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ext.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.test.models.ext.*;
 
 /**
@@ -21,6 +33,29 @@ import org.eclipse.emf.test.models.ext.*;
  */
 public class ExtFactoryImpl extends EFactoryImpl implements ExtFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static ExtFactory init()
+  {
+    try
+    {
+      ExtFactory theExtFactory = (ExtFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org/eclipse/emf/test/models/ext.ecore"); 
+      if (theExtFactory != null)
+      {
+        return theExtFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new ExtFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -37,6 +72,7 @@ public class ExtFactoryImpl extends EFactoryImpl implements ExtFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -86,6 +122,7 @@ public class ExtFactoryImpl extends EFactoryImpl implements ExtFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static ExtPackage getPackage()
   {
     return ExtPackage.eINSTANCE;

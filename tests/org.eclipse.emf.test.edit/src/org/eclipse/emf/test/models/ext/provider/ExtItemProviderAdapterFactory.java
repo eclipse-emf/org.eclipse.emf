@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ExtItemProviderAdapterFactory.java,v 1.1 2005/07/14 19:35:16 davidms Exp $
+ * $Id: ExtItemProviderAdapterFactory.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ext.provider;
 
@@ -60,7 +70,7 @@ public class ExtItemProviderAdapterFactory extends ExtAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance.
@@ -74,7 +84,7 @@ public class ExtItemProviderAdapterFactory extends ExtAdapterFactory implements 
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
-    supportedTypes.add(IItemPropertySource.class);		
+    supportedTypes.add(IItemPropertySource.class);
   }
 
   /**
@@ -91,6 +101,7 @@ public class ExtItemProviderAdapterFactory extends ExtAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createExtEAdapter()
   {
     if (extEItemProvider == null)
@@ -115,6 +126,7 @@ public class ExtItemProviderAdapterFactory extends ExtAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createFAdapter()
   {
     if (fItemProvider == null)
@@ -152,6 +164,7 @@ public class ExtItemProviderAdapterFactory extends ExtAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return supportedTypes.contains(type) || super.isFactoryForType(type);
@@ -163,6 +176,7 @@ public class ExtItemProviderAdapterFactory extends ExtAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
@@ -173,12 +187,13 @@ public class ExtItemProviderAdapterFactory extends ExtAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object adapt(Object object, Object type)
   {
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }

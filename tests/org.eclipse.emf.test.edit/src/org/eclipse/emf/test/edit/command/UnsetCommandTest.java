@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,16 @@
  *
  * </copyright>
  *
- * $Id: UnsetCommandTest.java,v 1.1 2005/08/09 04:44:17 davidms Exp $
+ * $Id: UnsetCommandTest.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
 import java.util.Arrays;
 import java.util.List;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
@@ -49,10 +53,6 @@ import org.eclipse.emf.test.models.ref.unsettable.EU;
 import org.eclipse.emf.test.models.ref.unsettable.URefFactory;
 import org.eclipse.emf.test.models.ref.unsettable.URefPackage;
 import org.eclipse.emf.test.models.ref.unsettable.provider.URefItemProviderAdapterFactory;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * Tests for unsetting use of SetCommand.  In each case, the model is built, the command is created, executed, undone,
@@ -124,6 +124,7 @@ public class UnsetCommandTest extends TestCase
    */
   protected EditingDomain editingDomain;
 
+  @Override
   protected void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
@@ -201,7 +202,7 @@ public class UnsetCommandTest extends TestCase
   public void testAttributeMany()
   {
     E e = refFactory.createE();
-    Object[] ids =  { "x1", "aa", "cmd", "lh" };
+    String[] ids =  { "x1", "aa", "cmd", "lh" };
     e.getIds().addAll(Arrays.asList(ids));
   
     EStructuralFeature feature = refPackage.getE_Ids();
@@ -344,7 +345,7 @@ public class UnsetCommandTest extends TestCase
   public void testUnsettableAttributeMany()
   {
     EU eu = uRefFactory.createEU();
-    Object[] ids =  { "x1", "aa", "cmd", "lh" };
+    String[] ids =  { "x1", "aa", "cmd", "lh" };
     eu.getIds().addAll(Arrays.asList(ids));
 
     EStructuralFeature feature = uRefPackage.getEU_Ids();
@@ -862,7 +863,7 @@ public class UnsetCommandTest extends TestCase
     assertFalse(owner.eIsSet(feature));
     if (feature.isMany())
     {
-      assertTrue(((EList)owner.eGet(feature)).isEmpty());
+      assertTrue(((EList<?>)owner.eGet(feature)).isEmpty());
     }
     else
     {
@@ -883,7 +884,7 @@ public class UnsetCommandTest extends TestCase
     assertTrue(feature.isMany());
     assertTrue(owner.eIsSet(feature));
 
-    EList actualValues = (EList)owner.eGet(feature);
+    EList<?> actualValues = (EList<?>)owner.eGet(feature);
     assertEquals(values.length, actualValues.size());
     for (int i = 0, len = values.length; i < len; i++)
     {
@@ -905,7 +906,7 @@ public class UnsetCommandTest extends TestCase
         Object oppositeValue = eObject.eGet(opposite);
         if (opposite.isMany())
         {
-          assertTrue(((List)oppositeValue).contains(owner));
+          assertTrue(((List<?>)oppositeValue).contains(owner));
         }
         else
         {

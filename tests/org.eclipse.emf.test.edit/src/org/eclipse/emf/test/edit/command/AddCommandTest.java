@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddCommandTest.java,v 1.3 2005/07/08 02:18:27 davidms Exp $
+ * $Id: AddCommandTest.java,v 1.4 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
@@ -69,6 +69,7 @@ public class AddCommandTest extends TestCase
    */
   protected EditingDomain editingDomain;
 
+  @Override
   protected void setUp() throws Exception
   {
     refPackage = RefPackage.eINSTANCE;
@@ -88,7 +89,7 @@ public class AddCommandTest extends TestCase
     String s2 = "2";
     String s3 = new String(s0);
 
-    EList ids = e.getIds();
+    EList<String> ids = e.getIds();
     ids.add(s0);
     ids.add(s1);
     ids.add(s2);
@@ -109,7 +110,7 @@ public class AddCommandTest extends TestCase
     String s1 = "1";
     String s2 = "2";
 
-    EList labels = e.getLabels();
+    EList<String> labels = e.getLabels();
     labels.add(s0);
     labels.add(s1);
     labels.add(s2);
@@ -160,7 +161,7 @@ public class AddCommandTest extends TestCase
     String s2 = "2";
     String s3 = new String(s0);
 
-    EList labels = e.getLabels();
+    EList<String> labels = e.getLabels();
     labels.add(s0);
     labels.add(s1);
     labels.add(s2);

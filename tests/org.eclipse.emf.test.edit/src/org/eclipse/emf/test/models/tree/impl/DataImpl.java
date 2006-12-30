@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: DataImpl.java,v 1.1 2006/05/08 21:59:44 davidms Exp $
+ * $Id: DataImpl.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.tree.impl;
 
@@ -80,6 +90,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return TreePackage.Literals.DATA;
@@ -181,6 +192,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -198,6 +210,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -213,6 +226,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -231,6 +245,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -250,6 +265,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -269,6 +285,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -286,6 +303,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

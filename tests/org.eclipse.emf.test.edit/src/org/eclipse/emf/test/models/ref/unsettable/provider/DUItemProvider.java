@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: DUItemProvider.java,v 1.1 2005/08/09 04:43:09 davidms Exp $
+ * $Id: DUItemProvider.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.provider;
 
@@ -17,6 +27,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -58,7 +69,8 @@ public class DUItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -84,8 +96,10 @@ public class DUItemProvider
          getResourceLocator(),
          getString("_UI_DU_cu_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_DU_cu_feature", "_UI_DU_type"),
-         URefPackage.eINSTANCE.getDU_Cu(),
+         URefPackage.Literals.DU__CU,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -105,8 +119,10 @@ public class DUItemProvider
          getResourceLocator(),
          getString("_UI_DU_eu_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_DU_eu_feature", "_UI_DU_type"),
-         URefPackage.eINSTANCE.getDU_Eu(),
+         URefPackage.Literals.DU__EU,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -118,6 +134,7 @@ public class DUItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     return getString("_UI_DU_type");
@@ -130,6 +147,7 @@ public class DUItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -142,6 +160,7 @@ public class DUItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return RefTestEditPlugin.INSTANCE;

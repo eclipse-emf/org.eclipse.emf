@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: AUImpl.java,v 1.1 2005/08/09 04:43:08 davidms Exp $
+ * $Id: AUImpl.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -10,7 +20,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -94,9 +103,10 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return URefPackage.eINSTANCE.getAU();
+    return URefPackage.Literals.AU;
   }
 
   /**
@@ -108,8 +118,8 @@ public class AUImpl extends EObjectImpl implements AU
   {
     if (bu != null && bu.eIsProxy())
     {
-      BU oldBu = bu;
-      bu = (BU)eResolveProxy((InternalEObject)bu);
+      InternalEObject oldBu = (InternalEObject)bu;
+      bu = (BU)eResolveProxy(oldBu);
       if (bu != oldBu)
       {
         if (eNotificationRequired())
@@ -166,12 +176,12 @@ public class AUImpl extends EObjectImpl implements AU
       if (msgs != null) msgs.dispatch();
     }
     else
-    	{
+    {
       boolean oldBuESet = buESet;
       buESet = true;
       if (eNotificationRequired())
         eNotify(new ENotificationImpl(this, Notification.SET, URefPackage.AU__BU, newBu, newBu, !oldBuESet));
-    	}
+    }
   }
 
   /**
@@ -208,12 +218,12 @@ public class AUImpl extends EObjectImpl implements AU
       if (msgs != null) msgs.dispatch();
     }
     else
-    	{
+    {
       boolean oldBuESet = buESet;
       buESet = false;
       if (eNotificationRequired())
         eNotify(new ENotificationImpl(this, Notification.UNSET, URefPackage.AU__BU, null, null, oldBuESet));
-    	}
+    }
   }
 
   /**
@@ -234,7 +244,18 @@ public class AUImpl extends EObjectImpl implements AU
   public C2U getC2u()
   {
     if (eContainerFeatureID != URefPackage.AU__C2U) return null;
-    return (C2U)eContainer;
+    return (C2U)eContainer();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetC2u(C2U newC2u, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newC2u, URefPackage.AU__C2U, msgs);
+    return msgs;
   }
 
   /**
@@ -244,16 +265,16 @@ public class AUImpl extends EObjectImpl implements AU
    */
   public void setC2u(C2U newC2u)
   {
-    if (newC2u != eContainer || (eContainerFeatureID != URefPackage.AU__C2U && newC2u != null))
+    if (newC2u != eInternalContainer() || (eContainerFeatureID != URefPackage.AU__C2U && newC2u != null))
     {
       if (EcoreUtil.isAncestor(this, newC2u))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newC2u != null)
         msgs = ((InternalEObject)newC2u).eInverseAdd(this, URefPackage.C2U__AU, C2U.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newC2u, URefPackage.AU__C2U, msgs);
+      msgs = basicSetC2u(newC2u, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -269,8 +290,8 @@ public class AUImpl extends EObjectImpl implements AU
   {
     if (cu != null && cu.eIsProxy())
     {
-      CU oldCu = cu;
-      cu = (CU)eResolveProxy((InternalEObject)cu);
+      InternalEObject oldCu = (InternalEObject)cu;
+      cu = (CU)eResolveProxy(oldCu);
       if (cu != oldCu)
       {
         if (eNotificationRequired())
@@ -335,27 +356,21 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case URefPackage.AU__BU:
-          if (bu != null)
-            msgs = ((InternalEObject)bu).eInverseRemove(this, URefPackage.BU__AU, BU.class, msgs);
-          return basicSetBu((BU)otherEnd, msgs);
-        case URefPackage.AU__C2U:
-          if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, URefPackage.AU__C2U, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case URefPackage.AU__BU:
+        if (bu != null)
+          msgs = ((InternalEObject)bu).eInverseRemove(this, URefPackage.BU__AU, BU.class, msgs);
+        return basicSetBu((BU)otherEnd, msgs);
+      case URefPackage.AU__C2U:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return basicSetC2u((C2U)otherEnd, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -363,21 +378,17 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case URefPackage.AU__BU:
-          return basicUnsetBu(msgs);
-        case URefPackage.AU__C2U:
-          return eBasicSetContainer(null, URefPackage.AU__C2U, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case URefPackage.AU__BU:
+        return basicUnsetBu(msgs);
+      case URefPackage.AU__C2U:
+        return basicSetC2u(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -385,19 +396,15 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  @Override
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case URefPackage.AU__C2U:
-          return eContainer.eInverseRemove(this, URefPackage.C2U__AU, C2U.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case URefPackage.AU__C2U:
+        return eInternalContainer().eInverseRemove(this, URefPackage.C2U__AU, C2U.class, msgs);
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return super.eBasicRemoveFromContainerFeature(msgs);
   }
 
   /**
@@ -405,9 +412,10 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.AU__BU:
         if (resolve) return getBu();
@@ -418,7 +426,7 @@ public class AUImpl extends EObjectImpl implements AU
         if (resolve) return getCu();
         return basicGetCu();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -426,9 +434,10 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.AU__BU:
         setBu((BU)newValue);
@@ -440,7 +449,7 @@ public class AUImpl extends EObjectImpl implements AU
         setCu((CU)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -448,9 +457,10 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.AU__BU:
         unsetBu();
@@ -462,7 +472,7 @@ public class AUImpl extends EObjectImpl implements AU
         unsetCu();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -470,9 +480,10 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.AU__BU:
         return isSetBu();
@@ -481,7 +492,7 @@ public class AUImpl extends EObjectImpl implements AU
       case URefPackage.AU__CU:
         return isSetCu();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
 } //AUImpl

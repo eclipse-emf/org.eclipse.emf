@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: URefPackage.java,v 1.1 2005/08/09 04:43:09 davidms Exp $
+ * $Id: URefPackage.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable;
 
@@ -89,7 +99,7 @@ public interface URefPackage extends EPackage
   int C1U__BU = 1;
 
   /**
-   * The number of structural features of the the '<em>C1U</em>' class.
+   * The number of structural features of the '<em>C1U</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -126,7 +136,7 @@ public interface URefPackage extends EPackage
   int C2U__BU = 1;
 
   /**
-   * The number of structural features of the the '<em>C2U</em>' class.
+   * The number of structural features of the '<em>C2U</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -172,7 +182,7 @@ public interface URefPackage extends EPackage
   int AU__CU = 2;
 
   /**
-   * The number of structural features of the the '<em>AU</em>' class.
+   * The number of structural features of the '<em>AU</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -218,7 +228,7 @@ public interface URefPackage extends EPackage
   int BU__DU = 2;
 
   /**
-   * The number of structural features of the the '<em>BU</em>' class.
+   * The number of structural features of the '<em>BU</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -255,7 +265,7 @@ public interface URefPackage extends EPackage
   int CU__C4U = 1;
 
   /**
-   * The number of structural features of the the '<em>CU</em>' class.
+   * The number of structural features of the '<em>CU</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -301,7 +311,7 @@ public interface URefPackage extends EPackage
   int DU__EU = 2;
 
   /**
-   * The number of structural features of the the '<em>DU</em>' class.
+   * The number of structural features of the '<em>DU</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -338,7 +348,7 @@ public interface URefPackage extends EPackage
   int C4U__DU = 1;
 
   /**
-   * The number of structural features of the the '<em>C4U</em>' class.
+   * The number of structural features of the '<em>C4U</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -375,7 +385,7 @@ public interface URefPackage extends EPackage
   int C3U__DU = 1;
 
   /**
-   * The number of structural features of the the '<em>C3U</em>' class.
+   * The number of structural features of the '<em>C3U</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -430,7 +440,7 @@ public interface URefPackage extends EPackage
   int EU__DU = 3;
 
   /**
-   * The number of structural features of the the '<em>EU</em>' class.
+   * The number of structural features of the '<em>EU</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -790,5 +800,295 @@ public interface URefPackage extends EPackage
    * @generated
    */
   URefFactory getURefFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.ref.unsettable.impl.C1UImpl <em>C1U</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.C1UImpl
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.URefPackageImpl#getC1U()
+     * @generated
+     */
+    EClass C1U = eINSTANCE.getC1U();
+
+    /**
+     * The meta object literal for the '<em><b>Au</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference C1U__AU = eINSTANCE.getC1U_Au();
+
+    /**
+     * The meta object literal for the '<em><b>Bu</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference C1U__BU = eINSTANCE.getC1U_Bu();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.ref.unsettable.impl.C2UImpl <em>C2U</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.C2UImpl
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.URefPackageImpl#getC2U()
+     * @generated
+     */
+    EClass C2U = eINSTANCE.getC2U();
+
+    /**
+     * The meta object literal for the '<em><b>Au</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference C2U__AU = eINSTANCE.getC2U_Au();
+
+    /**
+     * The meta object literal for the '<em><b>Bu</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference C2U__BU = eINSTANCE.getC2U_Bu();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.ref.unsettable.impl.AUImpl <em>AU</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.AUImpl
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.URefPackageImpl#getAU()
+     * @generated
+     */
+    EClass AU = eINSTANCE.getAU();
+
+    /**
+     * The meta object literal for the '<em><b>Bu</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference AU__BU = eINSTANCE.getAU_Bu();
+
+    /**
+     * The meta object literal for the '<em><b>C2u</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference AU__C2U = eINSTANCE.getAU_C2u();
+
+    /**
+     * The meta object literal for the '<em><b>Cu</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference AU__CU = eINSTANCE.getAU_Cu();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.ref.unsettable.impl.BUImpl <em>BU</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.BUImpl
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.URefPackageImpl#getBU()
+     * @generated
+     */
+    EClass BU = eINSTANCE.getBU();
+
+    /**
+     * The meta object literal for the '<em><b>Au</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BU__AU = eINSTANCE.getBU_Au();
+
+    /**
+     * The meta object literal for the '<em><b>C2u</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BU__C2U = eINSTANCE.getBU_C2u();
+
+    /**
+     * The meta object literal for the '<em><b>Du</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BU__DU = eINSTANCE.getBU_Du();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.ref.unsettable.impl.CUImpl <em>CU</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.CUImpl
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.URefPackageImpl#getCU()
+     * @generated
+     */
+    EClass CU = eINSTANCE.getCU();
+
+    /**
+     * The meta object literal for the '<em><b>Du</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CU__DU = eINSTANCE.getCU_Du();
+
+    /**
+     * The meta object literal for the '<em><b>C4u</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CU__C4U = eINSTANCE.getCU_C4u();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.ref.unsettable.impl.DUImpl <em>DU</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.DUImpl
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.URefPackageImpl#getDU()
+     * @generated
+     */
+    EClass DU = eINSTANCE.getDU();
+
+    /**
+     * The meta object literal for the '<em><b>Cu</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DU__CU = eINSTANCE.getDU_Cu();
+
+    /**
+     * The meta object literal for the '<em><b>C4u</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DU__C4U = eINSTANCE.getDU_C4u();
+
+    /**
+     * The meta object literal for the '<em><b>Eu</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DU__EU = eINSTANCE.getDU_Eu();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.ref.unsettable.impl.C4UImpl <em>C4U</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.C4UImpl
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.URefPackageImpl#getC4U()
+     * @generated
+     */
+    EClass C4U = eINSTANCE.getC4U();
+
+    /**
+     * The meta object literal for the '<em><b>Cu</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference C4U__CU = eINSTANCE.getC4U_Cu();
+
+    /**
+     * The meta object literal for the '<em><b>Du</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference C4U__DU = eINSTANCE.getC4U_Du();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.ref.unsettable.impl.C3UImpl <em>C3U</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.C3UImpl
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.URefPackageImpl#getC3U()
+     * @generated
+     */
+    EClass C3U = eINSTANCE.getC3U();
+
+    /**
+     * The meta object literal for the '<em><b>Cu</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference C3U__CU = eINSTANCE.getC3U_Cu();
+
+    /**
+     * The meta object literal for the '<em><b>Du</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference C3U__DU = eINSTANCE.getC3U_Du();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.ref.unsettable.impl.EUImpl <em>EU</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.EUImpl
+     * @see org.eclipse.emf.test.models.ref.unsettable.impl.URefPackageImpl#getEU()
+     * @generated
+     */
+    EClass EU = eINSTANCE.getEU();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EU__NAME = eINSTANCE.getEU_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Ids</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EU__IDS = eINSTANCE.getEU_Ids();
+
+    /**
+     * The meta object literal for the '<em><b>Labels</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EU__LABELS = eINSTANCE.getEU_Labels();
+
+    /**
+     * The meta object literal for the '<em><b>Du</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EU__DU = eINSTANCE.getEU_Du();
+
+  }
 
 } //URefPackage

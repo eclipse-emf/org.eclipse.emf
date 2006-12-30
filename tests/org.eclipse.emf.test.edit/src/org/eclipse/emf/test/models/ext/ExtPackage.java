@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ExtPackage.java,v 1.1 2005/07/14 19:35:16 davidms Exp $
+ * $Id: ExtPackage.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ext;
 
@@ -127,7 +137,7 @@ public interface ExtPackage extends EPackage{
   int EXT_E__F = RefPackage.E_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the the '<em>E</em>' class.
+   * The number of structural features of the '<em>E</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -165,7 +175,7 @@ public interface ExtPackage extends EPackage{
   int F__E = 1;
 
   /**
-   * The number of structural features of the the '<em>F</em>' class.
+   * The number of structural features of the '<em>F</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -246,5 +256,73 @@ public interface ExtPackage extends EPackage{
    * @generated
    */
   ExtFactory getExtFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.ext.impl.ExtEImpl <em>E</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.ext.impl.ExtEImpl
+     * @see org.eclipse.emf.test.models.ext.impl.ExtPackageImpl#getExtE()
+     * @generated
+     */
+    EClass EXT_E = eINSTANCE.getExtE();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EXT_E__VALUE = eINSTANCE.getExtE_Value();
+
+    /**
+     * The meta object literal for the '<em><b>F</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EXT_E__F = eINSTANCE.getExtE_F();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.ext.impl.FImpl <em>F</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.ext.impl.FImpl
+     * @see org.eclipse.emf.test.models.ext.impl.ExtPackageImpl#getF()
+     * @generated
+     */
+    EClass F = eINSTANCE.getF();
+
+    /**
+     * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute F__ID = eINSTANCE.getF_Id();
+
+    /**
+     * The meta object literal for the '<em><b>E</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference F__E = eINSTANCE.getF_E();
+
+  }
 
 } //ExtPackage

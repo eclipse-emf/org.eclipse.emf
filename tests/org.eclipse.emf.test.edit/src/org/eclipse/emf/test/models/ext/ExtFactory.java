@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ExtFactory.java,v 1.1 2005/07/14 19:35:16 davidms Exp $
+ * $Id: ExtFactory.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ext;
 
@@ -23,7 +33,7 @@ public interface ExtFactory extends EFactory{
    * <!-- end-user-doc -->
    * @generated
    */
-  ExtFactory eINSTANCE = new org.eclipse.emf.test.models.ext.impl.ExtFactoryImpl();
+  ExtFactory eINSTANCE = org.eclipse.emf.test.models.ext.impl.ExtFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>E</em>'.

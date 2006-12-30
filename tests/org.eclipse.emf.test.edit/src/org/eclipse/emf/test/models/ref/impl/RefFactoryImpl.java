@@ -1,16 +1,28 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: RefFactoryImpl.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
+ * $Id: RefFactoryImpl.java,v 1.3 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.test.models.ref.*;
 
 /**
@@ -21,6 +33,29 @@ import org.eclipse.emf.test.models.ref.*;
  */
 public class RefFactoryImpl extends EFactoryImpl implements RefFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static RefFactory init()
+  {
+    try
+    {
+      RefFactory theRefFactory = (RefFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org/eclipse/emf/test/models/ref.ecore"); 
+      if (theRefFactory != null)
+      {
+        return theRefFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new RefFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -37,6 +72,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -170,6 +206,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static RefPackage getPackage()
   {
     return RefPackage.eINSTANCE;

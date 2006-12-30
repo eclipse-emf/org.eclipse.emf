@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: TreeFactoryImpl.java,v 1.1 2006/05/08 21:59:44 davidms Exp $
+ * $Id: TreeFactoryImpl.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.tree.impl;
 
@@ -63,6 +73,7 @@ public class TreeFactoryImpl extends EFactoryImpl implements TreeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -112,6 +123,7 @@ public class TreeFactoryImpl extends EFactoryImpl implements TreeFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static TreePackage getPackage()
   {
     return TreePackage.eINSTANCE;

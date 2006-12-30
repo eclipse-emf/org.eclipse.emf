@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: RefItemProviderAdapterFactory.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
+ * $Id: RefItemProviderAdapterFactory.java,v 1.3 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -60,7 +70,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance.
@@ -74,7 +84,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
-    supportedTypes.add(IItemPropertySource.class);		
+    supportedTypes.add(IItemPropertySource.class);
   }
 
   /**
@@ -91,6 +101,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createAAdapter()
   {
     if (aItemProvider == null)
@@ -115,6 +126,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createBAdapter()
   {
     if (bItemProvider == null)
@@ -139,6 +151,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createC1Adapter()
   {
     if (c1ItemProvider == null)
@@ -163,6 +176,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createC2Adapter()
   {
     if (c2ItemProvider == null)
@@ -187,6 +201,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createCAdapter()
   {
     if (cItemProvider == null)
@@ -211,6 +226,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createDAdapter()
   {
     if (dItemProvider == null)
@@ -235,6 +251,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEAdapter()
   {
     if (eItemProvider == null)
@@ -259,6 +276,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createC4Adapter()
   {
     if (c4ItemProvider == null)
@@ -283,6 +301,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createC3Adapter()
   {
     if (c3ItemProvider == null)
@@ -320,6 +339,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return supportedTypes.contains(type) || super.isFactoryForType(type);
@@ -331,6 +351,7 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
@@ -341,12 +362,13 @@ public class RefItemProviderAdapterFactory extends RefAdapterFactory implements 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object adapt(Object object, Object type)
   {
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }

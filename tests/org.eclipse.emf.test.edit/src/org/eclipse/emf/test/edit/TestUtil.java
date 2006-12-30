@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.4 2006/02/21 06:26:29 marcelop Exp $
+ * $Id: TestUtil.java,v 1.5 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.edit;
 
@@ -34,6 +34,7 @@ public class TestUtil
     }
     catch (Throwable t)
     {
+      // Ignore
     }
 
     URL url = ClassLoader.getSystemResource(CLASS_FILE);

@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: C2UImpl.java,v 1.1 2005/08/09 04:43:08 davidms Exp $
+ * $Id: C2UImpl.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -14,7 +24,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -71,7 +80,7 @@ public class C2UImpl extends EObjectImpl implements C2U
    * @generated
    * @ordered
    */
-  protected EList bu = null;
+  protected EList<BU> bu = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -88,9 +97,10 @@ public class C2UImpl extends EObjectImpl implements C2U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return URefPackage.eINSTANCE.getC2U();
+    return URefPackage.Literals.C2U;
   }
 
   /**
@@ -140,12 +150,12 @@ public class C2UImpl extends EObjectImpl implements C2U
       if (msgs != null) msgs.dispatch();
     }
     else
-    	{
+    {
       boolean oldAuESet = auESet;
       auESet = true;
       if (eNotificationRequired())
         eNotify(new ENotificationImpl(this, Notification.SET, URefPackage.C2U__AU, newAu, newAu, !oldAuESet));
-    	}
+    }
   }
 
   /**
@@ -182,12 +192,12 @@ public class C2UImpl extends EObjectImpl implements C2U
       if (msgs != null) msgs.dispatch();
     }
     else
-    	{
+    {
       boolean oldAuESet = auESet;
       auESet = false;
       if (eNotificationRequired())
         eNotify(new ENotificationImpl(this, Notification.UNSET, URefPackage.C2U__AU, null, null, oldAuESet));
-    	}
+    }
   }
 
   /**
@@ -205,11 +215,11 @@ public class C2UImpl extends EObjectImpl implements C2U
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getBu()
+  public EList<BU> getBu()
   {
     if (bu == null)
     {
-      bu = new EObjectContainmentWithInverseEList.Unsettable(BU.class, this, URefPackage.C2U__BU, URefPackage.BU__C2U);
+      bu = new EObjectContainmentWithInverseEList.Unsettable<BU>(BU.class, this, URefPackage.C2U__BU, URefPackage.BU__C2U);
     }
     return bu;
   }
@@ -221,7 +231,7 @@ public class C2UImpl extends EObjectImpl implements C2U
    */
   public void unsetBu()
   {
-    ((InternalEList.Unsettable)getBu()).unset();
+    if (bu != null) ((InternalEList.Unsettable<?>)bu).unset();
   }
 
   /**
@@ -231,7 +241,7 @@ public class C2UImpl extends EObjectImpl implements C2U
    */
   public boolean isSetBu()
   {
-    return bu != null && ((InternalEList.Unsettable)bu).isSet();
+    return bu != null && ((InternalEList.Unsettable<?>)bu).isSet();
   }
 
   /**
@@ -239,25 +249,20 @@ public class C2UImpl extends EObjectImpl implements C2U
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @SuppressWarnings("unchecked")
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case URefPackage.C2U__AU:
-          if (au != null)
-            msgs = ((InternalEObject)au).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - URefPackage.C2U__AU, null, msgs);
-          return basicSetAu((AU)otherEnd, msgs);
-        case URefPackage.C2U__BU:
-          return ((InternalEList)getBu()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case URefPackage.C2U__AU:
+        if (au != null)
+          msgs = ((InternalEObject)au).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - URefPackage.C2U__AU, null, msgs);
+        return basicSetAu((AU)otherEnd, msgs);
+      case URefPackage.C2U__BU:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getBu()).basicAdd(otherEnd, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -265,21 +270,17 @@ public class C2UImpl extends EObjectImpl implements C2U
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case URefPackage.C2U__AU:
-          return basicUnsetAu(msgs);
-        case URefPackage.C2U__BU:
-          return ((InternalEList)getBu()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case URefPackage.C2U__AU:
+        return basicUnsetAu(msgs);
+      case URefPackage.C2U__BU:
+        return ((InternalEList<?>)getBu()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -287,16 +288,17 @@ public class C2UImpl extends EObjectImpl implements C2U
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.C2U__AU:
         return getAu();
       case URefPackage.C2U__BU:
         return getBu();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -304,19 +306,21 @@ public class C2UImpl extends EObjectImpl implements C2U
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.C2U__AU:
         setAu((AU)newValue);
         return;
       case URefPackage.C2U__BU:
         getBu().clear();
-        getBu().addAll((Collection)newValue);
+        getBu().addAll((Collection<? extends BU>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -324,9 +328,10 @@ public class C2UImpl extends EObjectImpl implements C2U
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.C2U__AU:
         unsetAu();
@@ -335,7 +340,7 @@ public class C2UImpl extends EObjectImpl implements C2U
         unsetBu();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -343,16 +348,17 @@ public class C2UImpl extends EObjectImpl implements C2U
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.C2U__AU:
         return isSetAu();
       case URefPackage.C2U__BU:
         return isSetBu();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
 } //C2UImpl

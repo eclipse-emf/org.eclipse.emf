@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: DImpl.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
+ * $Id: DImpl.java,v 1.3 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -14,7 +24,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -65,7 +74,7 @@ public class DImpl extends EObjectImpl implements D
    * @generated
    * @ordered
    */
-  protected EList e = null;
+  protected EList<E> e = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -82,9 +91,10 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return RefPackage.eINSTANCE.getD();
+    return RefPackage.Literals.D;
   }
 
   /**
@@ -96,8 +106,8 @@ public class DImpl extends EObjectImpl implements D
   {
     if (c != null && c.eIsProxy())
     {
-      C oldC = c;
-      c = (C)eResolveProxy((InternalEObject)c);
+      InternalEObject oldC = (InternalEObject)c;
+      c = (C)eResolveProxy(oldC);
       if (c != oldC)
       {
         if (eNotificationRequired())
@@ -160,11 +170,11 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getE()
+  public EList<E> getE()
   {
     if (e == null)
     {
-      e = new EObjectWithInverseResolvingEList.ManyInverse(E.class, this, RefPackage.D__E, RefPackage.E__D);
+      e = new EObjectWithInverseResolvingEList.ManyInverse<E>(E.class, this, RefPackage.D__E, RefPackage.E__D);
     }
     return e;
   }
@@ -177,7 +187,18 @@ public class DImpl extends EObjectImpl implements D
   public C4 getC4()
   {
     if (eContainerFeatureID != RefPackage.D__C4) return null;
-    return (C4)eContainer;
+    return (C4)eContainer();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetC4(C4 newC4, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newC4, RefPackage.D__C4, msgs);
+    return msgs;
   }
 
   /**
@@ -187,16 +208,16 @@ public class DImpl extends EObjectImpl implements D
    */
   public void setC4(C4 newC4)
   {
-    if (newC4 != eContainer || (eContainerFeatureID != RefPackage.D__C4 && newC4 != null))
+    if (newC4 != eInternalContainer() || (eContainerFeatureID != RefPackage.D__C4 && newC4 != null))
     {
       if (EcoreUtil.isAncestor(this, newC4))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newC4 != null)
         msgs = ((InternalEObject)newC4).eInverseAdd(this, RefPackage.C4__D, C4.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newC4, RefPackage.D__C4, msgs);
+      msgs = basicSetC4(newC4, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -208,29 +229,24 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @SuppressWarnings("unchecked")
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case RefPackage.D__C:
-          if (c != null)
-            msgs = ((InternalEObject)c).eInverseRemove(this, RefPackage.C__D, C.class, msgs);
-          return basicSetC((C)otherEnd, msgs);
-        case RefPackage.D__E:
-          return ((InternalEList)getE()).basicAdd(otherEnd, msgs);
-        case RefPackage.D__C4:
-          if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, RefPackage.D__C4, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case RefPackage.D__C:
+        if (c != null)
+          msgs = ((InternalEObject)c).eInverseRemove(this, RefPackage.C__D, C.class, msgs);
+        return basicSetC((C)otherEnd, msgs);
+      case RefPackage.D__E:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getE()).basicAdd(otherEnd, msgs);
+      case RefPackage.D__C4:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return basicSetC4((C4)otherEnd, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -238,23 +254,19 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case RefPackage.D__C:
-          return basicSetC(null, msgs);
-        case RefPackage.D__E:
-          return ((InternalEList)getE()).basicRemove(otherEnd, msgs);
-        case RefPackage.D__C4:
-          return eBasicSetContainer(null, RefPackage.D__C4, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case RefPackage.D__C:
+        return basicSetC(null, msgs);
+      case RefPackage.D__E:
+        return ((InternalEList<?>)getE()).basicRemove(otherEnd, msgs);
+      case RefPackage.D__C4:
+        return basicSetC4(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -262,19 +274,15 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  @Override
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case RefPackage.D__C4:
-          return eContainer.eInverseRemove(this, RefPackage.C4__D, C4.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case RefPackage.D__C4:
+        return eInternalContainer().eInverseRemove(this, RefPackage.C4__D, C4.class, msgs);
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return super.eBasicRemoveFromContainerFeature(msgs);
   }
 
   /**
@@ -282,9 +290,10 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.D__C:
         if (resolve) return getC();
@@ -294,7 +303,7 @@ public class DImpl extends EObjectImpl implements D
       case RefPackage.D__C4:
         return getC4();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -302,22 +311,24 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.D__C:
         setC((C)newValue);
         return;
       case RefPackage.D__E:
         getE().clear();
-        getE().addAll((Collection)newValue);
+        getE().addAll((Collection<? extends E>)newValue);
         return;
       case RefPackage.D__C4:
         setC4((C4)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -325,9 +336,10 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.D__C:
         setC((C)null);
@@ -339,7 +351,7 @@ public class DImpl extends EObjectImpl implements D
         setC4((C4)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -347,9 +359,10 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.D__C:
         return c != null;
@@ -358,7 +371,7 @@ public class DImpl extends EObjectImpl implements D
       case RefPackage.D__C4:
         return getC4() != null;
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
 } //DImpl

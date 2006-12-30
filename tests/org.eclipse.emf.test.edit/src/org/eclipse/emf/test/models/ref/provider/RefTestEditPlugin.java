@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: RefTestEditPlugin.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
+ * $Id: RefTestEditPlugin.java,v 1.3 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.provider;
 
@@ -11,7 +21,7 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
 /**
- * This is the central singleton for the RefTest edit plugin.
+ * This is the central singleton for the Tree edit plugin.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
@@ -55,6 +65,7 @@ public final class RefTestEditPlugin extends EMFPlugin
    * @return the singleton instance.
    * @generated
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

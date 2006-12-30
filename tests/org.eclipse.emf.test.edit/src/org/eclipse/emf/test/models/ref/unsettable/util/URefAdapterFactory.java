@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: URefAdapterFactory.java,v 1.1 2005/08/09 04:43:09 davidms Exp $
+ * $Id: URefAdapterFactory.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.util;
 
@@ -55,6 +65,7 @@ public class URefAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,46 +85,56 @@ public class URefAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected URefSwitch modelSwitch =
-    new URefSwitch()
+  protected URefSwitch<Adapter> modelSwitch =
+    new URefSwitch<Adapter>()
     {
-      public Object caseC1U(C1U object)
+      @Override
+      public Adapter caseC1U(C1U object)
       {
         return createC1UAdapter();
       }
-      public Object caseC2U(C2U object)
+      @Override
+      public Adapter caseC2U(C2U object)
       {
         return createC2UAdapter();
       }
-      public Object caseAU(AU object)
+      @Override
+      public Adapter caseAU(AU object)
       {
         return createAUAdapter();
       }
-      public Object caseBU(BU object)
+      @Override
+      public Adapter caseBU(BU object)
       {
         return createBUAdapter();
       }
-      public Object caseCU(CU object)
+      @Override
+      public Adapter caseCU(CU object)
       {
         return createCUAdapter();
       }
-      public Object caseDU(DU object)
+      @Override
+      public Adapter caseDU(DU object)
       {
         return createDUAdapter();
       }
-      public Object caseC4U(C4U object)
+      @Override
+      public Adapter caseC4U(C4U object)
       {
         return createC4UAdapter();
       }
-      public Object caseC3U(C3U object)
+      @Override
+      public Adapter caseC3U(C3U object)
       {
         return createC3UAdapter();
       }
-      public Object caseEU(EU object)
+      @Override
+      public Adapter caseEU(EU object)
       {
         return createEUAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -127,9 +148,10 @@ public class URefAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

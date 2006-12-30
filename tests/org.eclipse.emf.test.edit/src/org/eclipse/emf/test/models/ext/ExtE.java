@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ExtE.java,v 1.1 2005/07/14 19:35:16 davidms Exp $
+ * $Id: ExtE.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ext;
 
@@ -70,6 +80,6 @@ public interface ExtE extends E{
    * @model type="org.eclipse.emf.test.models.ext.F" opposite="e" containment="true"
    * @generated
    */
-  EList getF();
+  EList<F> getF();
 
 } // ExtE

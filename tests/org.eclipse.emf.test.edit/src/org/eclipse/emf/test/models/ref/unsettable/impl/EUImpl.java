@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: EUImpl.java,v 1.1 2005/08/09 04:43:08 davidms Exp $
+ * $Id: EUImpl.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -14,7 +24,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -83,7 +92,7 @@ public class EUImpl extends EObjectImpl implements EU
    * @generated
    * @ordered
    */
-  protected EList ids = null;
+  protected EList<String> ids = null;
 
   /**
    * The cached value of the '{@link #getLabels() <em>Labels</em>}' attribute list.
@@ -93,7 +102,7 @@ public class EUImpl extends EObjectImpl implements EU
    * @generated
    * @ordered
    */
-  protected EList labels = null;
+  protected EList<String> labels = null;
 
   /**
    * The cached value of the '{@link #getDu() <em>Du</em>}' reference list.
@@ -103,7 +112,7 @@ public class EUImpl extends EObjectImpl implements EU
    * @generated
    * @ordered
    */
-  protected EList du = null;
+  protected EList<DU> du = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -120,9 +129,10 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return URefPackage.eINSTANCE.getEU();
+    return URefPackage.Literals.EU;
   }
 
   /**
@@ -180,11 +190,11 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getIds()
+  public EList<String> getIds()
   {
     if (ids == null)
     {
-      ids = new EDataTypeUniqueEList.Unsettable(String.class, this, URefPackage.EU__IDS);
+      ids = new EDataTypeUniqueEList.Unsettable<String>(String.class, this, URefPackage.EU__IDS);
     }
     return ids;
   }
@@ -196,7 +206,7 @@ public class EUImpl extends EObjectImpl implements EU
    */
   public void unsetIds()
   {
-    ((InternalEList.Unsettable)getIds()).unset();
+    if (ids != null) ((InternalEList.Unsettable<?>)ids).unset();
   }
 
   /**
@@ -206,7 +216,7 @@ public class EUImpl extends EObjectImpl implements EU
    */
   public boolean isSetIds()
   {
-    return ids != null && ((InternalEList.Unsettable)ids).isSet();
+    return ids != null && ((InternalEList.Unsettable<?>)ids).isSet();
   }
 
   /**
@@ -214,11 +224,11 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getLabels()
+  public EList<String> getLabels()
   {
     if (labels == null)
     {
-      labels = new EDataTypeUniqueEList.Unsettable(String.class, this, URefPackage.EU__LABELS);
+      labels = new EDataTypeUniqueEList.Unsettable<String>(String.class, this, URefPackage.EU__LABELS);
     }
     return labels;
   }
@@ -230,7 +240,7 @@ public class EUImpl extends EObjectImpl implements EU
    */
   public void unsetLabels()
   {
-    ((InternalEList.Unsettable)getLabels()).unset();
+    if (labels != null) ((InternalEList.Unsettable<?>)labels).unset();
   }
 
   /**
@@ -240,7 +250,7 @@ public class EUImpl extends EObjectImpl implements EU
    */
   public boolean isSetLabels()
   {
-    return labels != null && ((InternalEList.Unsettable)labels).isSet();
+    return labels != null && ((InternalEList.Unsettable<?>)labels).isSet();
   }
 
   /**
@@ -248,11 +258,11 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getDu()
+  public EList<DU> getDu()
   {
     if (du == null)
     {
-      du = new EObjectWithInverseResolvingEList.Unsettable.ManyInverse(DU.class, this, URefPackage.EU__DU, URefPackage.DU__EU);
+      du = new EObjectWithInverseResolvingEList.Unsettable.ManyInverse<DU>(DU.class, this, URefPackage.EU__DU, URefPackage.DU__EU);
     }
     return du;
   }
@@ -264,7 +274,7 @@ public class EUImpl extends EObjectImpl implements EU
    */
   public void unsetDu()
   {
-    ((InternalEList.Unsettable)getDu()).unset();
+    if (du != null) ((InternalEList.Unsettable<?>)du).unset();
   }
 
   /**
@@ -274,7 +284,7 @@ public class EUImpl extends EObjectImpl implements EU
    */
   public boolean isSetDu()
   {
-    return du != null && ((InternalEList.Unsettable)du).isSet();
+    return du != null && ((InternalEList.Unsettable<?>)du).isSet();
   }
 
   /**
@@ -282,21 +292,16 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @SuppressWarnings("unchecked")
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case URefPackage.EU__DU:
-          return ((InternalEList)getDu()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case URefPackage.EU__DU:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getDu()).basicAdd(otherEnd, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -304,19 +309,15 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case URefPackage.EU__DU:
-          return ((InternalEList)getDu()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case URefPackage.EU__DU:
+        return ((InternalEList<?>)getDu()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -324,9 +325,10 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.EU__NAME:
         return getName();
@@ -337,7 +339,7 @@ public class EUImpl extends EObjectImpl implements EU
       case URefPackage.EU__DU:
         return getDu();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -345,27 +347,29 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.EU__NAME:
         setName((String)newValue);
         return;
       case URefPackage.EU__IDS:
         getIds().clear();
-        getIds().addAll((Collection)newValue);
+        getIds().addAll((Collection<? extends String>)newValue);
         return;
       case URefPackage.EU__LABELS:
         getLabels().clear();
-        getLabels().addAll((Collection)newValue);
+        getLabels().addAll((Collection<? extends String>)newValue);
         return;
       case URefPackage.EU__DU:
         getDu().clear();
-        getDu().addAll((Collection)newValue);
+        getDu().addAll((Collection<? extends DU>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -373,9 +377,10 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.EU__NAME:
         unsetName();
@@ -390,7 +395,7 @@ public class EUImpl extends EObjectImpl implements EU
         unsetDu();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -398,9 +403,10 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case URefPackage.EU__NAME:
         return isSetName();
@@ -411,7 +417,7 @@ public class EUImpl extends EObjectImpl implements EU
       case URefPackage.EU__DU:
         return isSetDu();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -419,6 +425,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

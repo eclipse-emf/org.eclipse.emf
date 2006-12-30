@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: RefSwitch.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
+ * $Id: RefSwitch.java,v 1.3 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.util;
 
@@ -26,7 +36,7 @@ import org.eclipse.emf.test.models.ref.*;
  * @see org.eclipse.emf.test.models.ref.RefPackage
  * @generated
  */
-public class RefSwitch {
+public class RefSwitch<T> {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -56,7 +66,7 @@ public class RefSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -68,7 +78,7 @@ public class RefSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -76,11 +86,11 @@ public class RefSwitch {
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -91,70 +101,70 @@ public class RefSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case RefPackage.A:
       {
         A a = (A)theEObject;
-        Object result = caseA(a);
+        T result = caseA(a);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case RefPackage.B:
       {
         B b = (B)theEObject;
-        Object result = caseB(b);
+        T result = caseB(b);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case RefPackage.C1:
       {
         C1 c1 = (C1)theEObject;
-        Object result = caseC1(c1);
+        T result = caseC1(c1);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case RefPackage.C2:
       {
         C2 c2 = (C2)theEObject;
-        Object result = caseC2(c2);
+        T result = caseC2(c2);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case RefPackage.C:
       {
         C c = (C)theEObject;
-        Object result = caseC(c);
+        T result = caseC(c);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case RefPackage.D:
       {
         D d = (D)theEObject;
-        Object result = caseD(d);
+        T result = caseD(d);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case RefPackage.E:
       {
         E e = (E)theEObject;
-        Object result = caseE(e);
+        T result = caseE(e);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case RefPackage.C4:
       {
         C4 c4 = (C4)theEObject;
-        Object result = caseC4(c4);
+        T result = caseC4(c4);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case RefPackage.C3:
       {
         C3 c3 = (C3)theEObject;
-        Object result = caseC3(c3);
+        T result = caseC3(c3);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -173,7 +183,7 @@ public class RefSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseA(A object)
+  public T caseA(A object)
   {
     return null;
   }
@@ -189,7 +199,7 @@ public class RefSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseB(B object)
+  public T caseB(B object)
   {
     return null;
   }
@@ -205,7 +215,7 @@ public class RefSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseC1(C1 object)
+  public T caseC1(C1 object)
   {
     return null;
   }
@@ -221,7 +231,7 @@ public class RefSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseC2(C2 object)
+  public T caseC2(C2 object)
   {
     return null;
   }
@@ -237,7 +247,7 @@ public class RefSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseC(C object)
+  public T caseC(C object)
   {
     return null;
   }
@@ -253,7 +263,7 @@ public class RefSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseD(D object)
+  public T caseD(D object)
   {
     return null;
   }
@@ -269,7 +279,7 @@ public class RefSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseE(E object)
+  public T caseE(E object)
   {
     return null;
   }
@@ -285,7 +295,7 @@ public class RefSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseC4(C4 object)
+  public T caseC4(C4 object)
   {
     return null;
   }
@@ -301,7 +311,7 @@ public class RefSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseC3(C3 object)
+  public T caseC3(C3 object)
   {
     return null;
   }
@@ -317,7 +327,7 @@ public class RefSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

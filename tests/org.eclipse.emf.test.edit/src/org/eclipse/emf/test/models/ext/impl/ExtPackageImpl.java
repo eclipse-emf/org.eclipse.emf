@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ExtPackageImpl.java,v 1.2 2005/08/09 04:43:09 davidms Exp $
+ * $Id: ExtPackageImpl.java,v 1.3 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ext.impl;
 
@@ -250,7 +260,11 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    RefPackageImpl theRefPackage = (RefPackageImpl)EPackage.Registry.INSTANCE.getEPackage(RefPackage.eNS_URI);
+    RefPackage theRefPackage = (RefPackage)EPackage.Registry.INSTANCE.getEPackage(RefPackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
     extEEClass.getESuperTypes().add(theRefPackage.getE());

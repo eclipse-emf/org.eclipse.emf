@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: RefAdapterFactory.java,v 1.2 2005/07/08 02:16:32 davidms Exp $
+ * $Id: RefAdapterFactory.java,v 1.3 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.util;
 
@@ -55,6 +65,7 @@ public class RefAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,46 +85,56 @@ public class RefAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected RefSwitch modelSwitch =
-    new RefSwitch()
+  protected RefSwitch<Adapter> modelSwitch =
+    new RefSwitch<Adapter>()
     {
-      public Object caseA(A object)
+      @Override
+      public Adapter caseA(A object)
       {
         return createAAdapter();
       }
-      public Object caseB(B object)
+      @Override
+      public Adapter caseB(B object)
       {
         return createBAdapter();
       }
-      public Object caseC1(C1 object)
+      @Override
+      public Adapter caseC1(C1 object)
       {
         return createC1Adapter();
       }
-      public Object caseC2(C2 object)
+      @Override
+      public Adapter caseC2(C2 object)
       {
         return createC2Adapter();
       }
-      public Object caseC(C object)
+      @Override
+      public Adapter caseC(C object)
       {
         return createCAdapter();
       }
-      public Object caseD(D object)
+      @Override
+      public Adapter caseD(D object)
       {
         return createDAdapter();
       }
-      public Object caseE(E object)
+      @Override
+      public Adapter caseE(E object)
       {
         return createEAdapter();
       }
-      public Object caseC4(C4 object)
+      @Override
+      public Adapter caseC4(C4 object)
       {
         return createC4Adapter();
       }
-      public Object caseC3(C3 object)
+      @Override
+      public Adapter caseC3(C3 object)
       {
         return createC3Adapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -127,9 +148,10 @@ public class RefAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

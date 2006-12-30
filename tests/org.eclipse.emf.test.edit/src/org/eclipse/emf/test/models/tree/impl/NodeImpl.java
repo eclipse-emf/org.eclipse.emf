@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: NodeImpl.java,v 1.1 2006/05/08 21:59:44 davidms Exp $
+ * $Id: NodeImpl.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
  */
 package org.eclipse.emf.test.models.tree.impl;
 
@@ -75,7 +85,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * @generated
    * @ordered
    */
-  protected EList children = null;
+  protected EList<Node> children = null;
 
   /**
    * The cached value of the '{@link #getData() <em>Data</em>}' reference.
@@ -95,7 +105,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * @generated
    * @ordered
    */
-  protected EList relatedNodes = null;
+  protected EList<Node> relatedNodes = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -112,6 +122,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return TreePackage.Literals.NODE;
@@ -190,11 +201,11 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getChildren()
+  public EList<Node> getChildren()
   {
     if (children == null)
     {
-      children = new EObjectContainmentWithInverseEList(Node.class, this, TreePackage.NODE__CHILDREN, TreePackage.NODE__PARENT);
+      children = new EObjectContainmentWithInverseEList<Node>(Node.class, this, TreePackage.NODE__CHILDREN, TreePackage.NODE__PARENT);
     }
     return children;
   }
@@ -272,11 +283,11 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getRelatedNodes()
+  public EList<Node> getRelatedNodes()
   {
     if (relatedNodes == null)
     {
-      relatedNodes = new EObjectResolvingEList(Node.class, this, TreePackage.NODE__RELATED_NODES);
+      relatedNodes = new EObjectResolvingEList<Node>(Node.class, this, TreePackage.NODE__RELATED_NODES);
     }
     return relatedNodes;
   }
@@ -286,6 +297,8 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -295,7 +308,7 @@ public class NodeImpl extends EObjectImpl implements Node
           msgs = eBasicRemoveFromContainer(msgs);
         return basicSetParent((Node)otherEnd, msgs);
       case TreePackage.NODE__CHILDREN:
-        return ((InternalEList)getChildren()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getChildren()).basicAdd(otherEnd, msgs);
       case TreePackage.NODE__DATA:
         if (data != null)
           msgs = ((InternalEObject)data).eInverseRemove(this, TreePackage.DATA__NODE, Data.class, msgs);
@@ -309,6 +322,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -316,7 +330,7 @@ public class NodeImpl extends EObjectImpl implements Node
       case TreePackage.NODE__PARENT:
         return basicSetParent(null, msgs);
       case TreePackage.NODE__CHILDREN:
-        return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
       case TreePackage.NODE__DATA:
         return basicSetData(null, msgs);
     }
@@ -328,6 +342,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -343,6 +358,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -367,6 +383,8 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -379,14 +397,14 @@ public class NodeImpl extends EObjectImpl implements Node
         return;
       case TreePackage.NODE__CHILDREN:
         getChildren().clear();
-        getChildren().addAll((Collection)newValue);
+        getChildren().addAll((Collection<? extends Node>)newValue);
         return;
       case TreePackage.NODE__DATA:
         setData((Data)newValue);
         return;
       case TreePackage.NODE__RELATED_NODES:
         getRelatedNodes().clear();
-        getRelatedNodes().addAll((Collection)newValue);
+        getRelatedNodes().addAll((Collection<? extends Node>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -397,6 +415,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -425,6 +444,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -448,6 +468,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

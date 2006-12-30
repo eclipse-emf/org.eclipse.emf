@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: C1Impl.java,v 1.1 2004/11/04 05:52:03 marcelop Exp $
+ * $Id: C1Impl.java,v 1.2 2006/12/30 03:43:25 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -14,7 +24,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -62,7 +71,7 @@ public class C1Impl extends EObjectImpl implements C1
    * @generated
    * @ordered
    */
-  protected EList b = null;
+  protected EList<B> b = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -79,9 +88,10 @@ public class C1Impl extends EObjectImpl implements C1
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return RefPackage.eINSTANCE.getC1();
+    return RefPackage.Literals.C1;
   }
 
   /**
@@ -137,11 +147,11 @@ public class C1Impl extends EObjectImpl implements C1
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getB()
+  public EList<B> getB()
   {
     if (b == null)
     {
-      b = new EObjectContainmentEList(B.class, this, RefPackage.C1__B);
+      b = new EObjectContainmentEList<B>(B.class, this, RefPackage.C1__B);
     }
     return b;
   }
@@ -151,21 +161,17 @@ public class C1Impl extends EObjectImpl implements C1
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case RefPackage.C1__A:
-          return basicSetA(null, msgs);
-        case RefPackage.C1__B:
-          return ((InternalEList)getB()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case RefPackage.C1__A:
+        return basicSetA(null, msgs);
+      case RefPackage.C1__B:
+        return ((InternalEList<?>)getB()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -173,16 +179,17 @@ public class C1Impl extends EObjectImpl implements C1
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.C1__A:
         return getA();
       case RefPackage.C1__B:
         return getB();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -190,19 +197,21 @@ public class C1Impl extends EObjectImpl implements C1
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.C1__A:
         setA((A)newValue);
         return;
       case RefPackage.C1__B:
         getB().clear();
-        getB().addAll((Collection)newValue);
+        getB().addAll((Collection<? extends B>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -210,9 +219,10 @@ public class C1Impl extends EObjectImpl implements C1
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.C1__A:
         setA((A)null);
@@ -221,7 +231,7 @@ public class C1Impl extends EObjectImpl implements C1
         getB().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -229,16 +239,17 @@ public class C1Impl extends EObjectImpl implements C1
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case RefPackage.C1__A:
         return a != null;
       case RefPackage.C1__B:
         return b != null && !b.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
 } //C1Impl
