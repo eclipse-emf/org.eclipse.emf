@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.63 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.64 2006/12/30 07:12:57 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -158,7 +158,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     USAddress shipToAddress = ipoFactoryInstance.createUSAddress();
     shipToAddress.setCity("Austin");
     shipToAddress.setName("The Address");
-    shipToAddress.setState(USState.AR);
+    shipToAddress.setState(USState.AR_LITERAL);
     shipToAddress.setStreet("24 Lakeshore Dr.");
     shipToAddress.setZip(new BigInteger("78741"));
     po.setShipTo(shipToAddress);
@@ -171,7 +171,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     USAddress billToAddress = ipoFactoryInstance.createUSAddress();
     billToAddress.setCity("Paris");
     billToAddress.setName("One of many");
-    billToAddress.setState(USState.AK);
+    billToAddress.setState(USState.AK_LITERAL);
     billToAddress.setStreet("411 Duplex Av.");
     billToAddress.setZip(new BigInteger("14665"));
     po.setBillTo(billToAddress);
@@ -217,14 +217,14 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     USAddress shipToAddress = ipoFactoryInstance.createUSAddress();
     shipToAddress.setCity("Austin");
     shipToAddress.setName("The Address");
-    shipToAddress.setState(USState.AR);
+    shipToAddress.setState(USState.AR_LITERAL);
     shipToAddress.setStreet("24 Lakeshore Dr.");
     shipToAddress.setZip(new BigInteger("78741"));
 
     USAddress billToAddress = ipoFactoryInstance.createUSAddress();
     billToAddress.setCity("Paris");
     billToAddress.setName("One of many");
-    billToAddress.setState(USState.AK);
+    billToAddress.setState(USState.AK_LITERAL);
     billToAddress.setStreet("411 Duplex Av.");
     billToAddress.setZip(new BigInteger("14665"));
 
