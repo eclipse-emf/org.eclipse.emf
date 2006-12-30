@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -10,7 +20,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -95,9 +104,10 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return DbitemPackage.eINSTANCE.getDbType();
+    return DbitemPackage.Literals.DB_TYPE;
   }
 
   /**
@@ -297,25 +307,21 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case DbitemPackage.DB_TYPE__RED_PEN:
-          return basicSetRedPen(null, msgs);
-        case DbitemPackage.DB_TYPE__BLUE_PEN:
-          return basicSetBluePen(null, msgs);
-        case DbitemPackage.DB_TYPE__RED_PENCIL:
-          return basicSetRedPencil(null, msgs);
-        case DbitemPackage.DB_TYPE__BLUE_PENCIL:
-          return basicSetBluePencil(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case DbitemPackage.DB_TYPE__RED_PEN:
+        return basicSetRedPen(null, msgs);
+      case DbitemPackage.DB_TYPE__BLUE_PEN:
+        return basicSetBluePen(null, msgs);
+      case DbitemPackage.DB_TYPE__RED_PENCIL:
+        return basicSetRedPencil(null, msgs);
+      case DbitemPackage.DB_TYPE__BLUE_PENCIL:
+        return basicSetBluePencil(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -323,9 +329,10 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbitemPackage.DB_TYPE__RED_PEN:
         return getRedPen();
@@ -336,7 +343,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
       case DbitemPackage.DB_TYPE__BLUE_PENCIL:
         return getBluePencil();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -344,9 +351,10 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbitemPackage.DB_TYPE__RED_PEN:
         setRedPen((PenType)newValue);
@@ -361,7 +369,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
         setBluePencil((PencilType)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -369,9 +377,10 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbitemPackage.DB_TYPE__RED_PEN:
         setRedPen((PenType)null);
@@ -386,7 +395,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
         setBluePencil((PencilType)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -394,9 +403,10 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbitemPackage.DB_TYPE__RED_PEN:
         return redPen != null;
@@ -407,7 +417,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
       case DbitemPackage.DB_TYPE__BLUE_PENCIL:
         return bluePencil != null;
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
 } //DbTypeImpl

@@ -1,12 +1,21 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
  */
 package org.eclipse.emf.test.models.qname.impl;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -73,7 +82,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected EMap xMLNSPrefixMap = null;
+  protected EMap<String, String> xMLNSPrefixMap = null;
 
   /**
    * The cached value of the '{@link #getXSISchemaLocation() <em>XSI Schema Location</em>}' map.
@@ -83,7 +92,27 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected EMap xSISchemaLocation = null;
+  protected EMap<String, String> xSISchemaLocation = null;
+
+  /**
+   * The default value of the '{@link #getAnyE() <em>Any E</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAnyE()
+   * @generated
+   * @ordered
+   */
+  protected static final Object ANY_E_EDEFAULT = null;
+
+  /**
+   * The default value of the '{@link #getAnyEU() <em>Any EU</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getAnyEU()
+   * @generated
+   * @ordered
+   */
+  protected static final List<Object> ANY_EU_EDEFAULT = null;
 
   /**
    * The default value of the '{@link #getAInt() <em>AInt</em>}' attribute.
@@ -142,7 +171,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected static final List AUNION_EDEFAULT = null;
+  protected static final List<Object> AUNION_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getAUnion() <em>AUnion</em>}' attribute.
@@ -152,7 +181,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected List aUnion = AUNION_EDEFAULT;
+  protected List<Object> aUnion = AUNION_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -169,9 +198,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return QnamePackage.eINSTANCE.getDocumentRoot();
+    return QnamePackage.Literals.DOCUMENT_ROOT;
   }
 
   /**
@@ -193,11 +223,11 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getXMLNSPrefixMap()
+  public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
     {
-      xMLNSPrefixMap = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, QnamePackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
+      xMLNSPrefixMap = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, QnamePackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
     }
     return xMLNSPrefixMap;
   }
@@ -207,11 +237,11 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getXSISchemaLocation()
+  public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)
     {
-      xSISchemaLocation = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, QnamePackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
+      xSISchemaLocation = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, QnamePackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
     }
     return xSISchemaLocation;
   }
@@ -223,7 +253,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public Object getAnyE()
   {
-    return (Object)getMixed().get(QnamePackage.eINSTANCE.getDocumentRoot_AnyE(), true);
+    return (Object)getMixed().get(QnamePackage.Literals.DOCUMENT_ROOT__ANY_E, true);
   }
 
   /**
@@ -233,7 +263,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public void setAnyE(Object newAnyE)
   {
-    ((FeatureMap.Internal)getMixed()).set(QnamePackage.eINSTANCE.getDocumentRoot_AnyE(), newAnyE);
+    ((FeatureMap.Internal)getMixed()).set(QnamePackage.Literals.DOCUMENT_ROOT__ANY_E, newAnyE);
   }
 
   /**
@@ -241,9 +271,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getAnyEU()
+  public List<Object> getAnyEU()
   {
-    return (List)getMixed().get(QnamePackage.eINSTANCE.getDocumentRoot_AnyEU(), true);
+    return (List<Object>)getMixed().get(QnamePackage.Literals.DOCUMENT_ROOT__ANY_EU, true);
   }
 
   /**
@@ -251,9 +281,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setAnyEU(List newAnyEU)
+  public void setAnyEU(List<Object> newAnyEU)
   {
-    ((FeatureMap.Internal)getMixed()).set(QnamePackage.eINSTANCE.getDocumentRoot_AnyEU(), newAnyEU);
+    ((FeatureMap.Internal)getMixed()).set(QnamePackage.Literals.DOCUMENT_ROOT__ANY_EU, newAnyEU);
   }
 
   /**
@@ -263,7 +293,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public ResourceType getResource()
   {
-    return (ResourceType)getMixed().get(QnamePackage.eINSTANCE.getDocumentRoot_Resource(), true);
+    return (ResourceType)getMixed().get(QnamePackage.Literals.DOCUMENT_ROOT__RESOURCE, true);
   }
 
   /**
@@ -273,7 +303,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public NotificationChain basicSetResource(ResourceType newResource, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)getMixed()).basicAdd(QnamePackage.eINSTANCE.getDocumentRoot_Resource(), newResource, null);
+    return ((FeatureMap.Internal)getMixed()).basicAdd(QnamePackage.Literals.DOCUMENT_ROOT__RESOURCE, newResource, msgs);
   }
 
   /**
@@ -283,7 +313,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public void setResource(ResourceType newResource)
   {
-    ((FeatureMap.Internal)getMixed()).set(QnamePackage.eINSTANCE.getDocumentRoot_Resource(), newResource);
+    ((FeatureMap.Internal)getMixed()).set(QnamePackage.Literals.DOCUMENT_ROOT__RESOURCE, newResource);
   }
 
   /**
@@ -364,7 +394,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getAUnion()
+  public List<Object> getAUnion()
   {
     return aUnion;
   }
@@ -374,9 +404,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setAUnion(List newAUnion)
+  public void setAUnion(List<Object> newAUnion)
   {
-    List oldAUnion = aUnion;
+    List<Object> oldAUnion = aUnion;
     aUnion = newAUnion;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, QnamePackage.DOCUMENT_ROOT__AUNION, oldAUnion, aUnion));
@@ -387,25 +417,21 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case QnamePackage.DOCUMENT_ROOT__MIXED:
-          return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
-        case QnamePackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-          return ((InternalEList)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
-        case QnamePackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-          return ((InternalEList)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
-        case QnamePackage.DOCUMENT_ROOT__RESOURCE:
-          return basicSetResource(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case QnamePackage.DOCUMENT_ROOT__MIXED:
+        return ((InternalEList<?>)getMixed()).basicRemove(otherEnd, msgs);
+      case QnamePackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        return ((InternalEList<?>)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
+      case QnamePackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        return ((InternalEList<?>)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
+      case QnamePackage.DOCUMENT_ROOT__RESOURCE:
+        return basicSetResource(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -413,16 +439,20 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case QnamePackage.DOCUMENT_ROOT__MIXED:
-        return getMixed();
+        if (coreType) return getMixed();
+        return ((FeatureMap.Internal)getMixed()).getWrapper();
       case QnamePackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        return getXMLNSPrefixMap();
+        if (coreType) return getXMLNSPrefixMap();
+        else return getXMLNSPrefixMap().map();
       case QnamePackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        return getXSISchemaLocation();
+        if (coreType) return getXSISchemaLocation();
+        else return getXSISchemaLocation().map();
       case QnamePackage.DOCUMENT_ROOT__ANY_E:
         return getAnyE();
       case QnamePackage.DOCUMENT_ROOT__ANY_EU:
@@ -436,7 +466,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
       case QnamePackage.DOCUMENT_ROOT__AUNION:
         return getAUnion();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -444,27 +474,26 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case QnamePackage.DOCUMENT_ROOT__MIXED:
-        getMixed().clear();
-        getMixed().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getMixed()).set(newValue);
         return;
       case QnamePackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        getXMLNSPrefixMap().clear();
-        getXMLNSPrefixMap().addAll((Collection)newValue);
+        ((EStructuralFeature.Setting)getXMLNSPrefixMap()).set(newValue);
         return;
       case QnamePackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        getXSISchemaLocation().clear();
-        getXSISchemaLocation().addAll((Collection)newValue);
+        ((EStructuralFeature.Setting)getXSISchemaLocation()).set(newValue);
         return;
       case QnamePackage.DOCUMENT_ROOT__ANY_E:
-        setAnyE((Object)newValue);
+        setAnyE(newValue);
         return;
       case QnamePackage.DOCUMENT_ROOT__ANY_EU:
-        setAnyEU((List)newValue);
+        setAnyEU((List<Object>)newValue);
         return;
       case QnamePackage.DOCUMENT_ROOT__RESOURCE:
         setResource((ResourceType)newValue);
@@ -473,13 +502,13 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         setAInt(((Integer)newValue).intValue());
         return;
       case QnamePackage.DOCUMENT_ROOT__AQNAME:
-        setAQname((Object)newValue);
+        setAQname(newValue);
         return;
       case QnamePackage.DOCUMENT_ROOT__AUNION:
-        setAUnion((List)newValue);
+        setAUnion((List<Object>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -487,9 +516,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case QnamePackage.DOCUMENT_ROOT__MIXED:
         getMixed().clear();
@@ -501,10 +531,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         getXSISchemaLocation().clear();
         return;
       case QnamePackage.DOCUMENT_ROOT__ANY_E:
-        setAnyE((Object)null);
+        setAnyE(ANY_E_EDEFAULT);
         return;
       case QnamePackage.DOCUMENT_ROOT__ANY_EU:
-        setAnyEU((List)null);
+        setAnyEU(ANY_EU_EDEFAULT);
         return;
       case QnamePackage.DOCUMENT_ROOT__RESOURCE:
         setResource((ResourceType)null);
@@ -519,7 +549,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         setAUnion(AUNION_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -527,9 +557,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case QnamePackage.DOCUMENT_ROOT__MIXED:
         return mixed != null && !mixed.isEmpty();
@@ -538,9 +569,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
       case QnamePackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
         return xSISchemaLocation != null && !xSISchemaLocation.isEmpty();
       case QnamePackage.DOCUMENT_ROOT__ANY_E:
-        return getAnyE() != null;
+        return ANY_E_EDEFAULT == null ? getAnyE() != null : !ANY_E_EDEFAULT.equals(getAnyE());
       case QnamePackage.DOCUMENT_ROOT__ANY_EU:
-        return getAnyEU() != null;
+        return ANY_EU_EDEFAULT == null ? getAnyEU() != null : !ANY_EU_EDEFAULT.equals(getAnyEU());
       case QnamePackage.DOCUMENT_ROOT__RESOURCE:
         return getResource() != null;
       case QnamePackage.DOCUMENT_ROOT__AINT:
@@ -550,7 +581,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
       case QnamePackage.DOCUMENT_ROOT__AUNION:
         return AUNION_EDEFAULT == null ? aUnion != null : !AUNION_EDEFAULT.equals(aUnion);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -558,6 +589,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

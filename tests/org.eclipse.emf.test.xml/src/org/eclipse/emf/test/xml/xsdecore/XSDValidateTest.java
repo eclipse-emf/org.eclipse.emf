@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.8 2006/12/11 16:16:41 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.9 2006/12/30 03:43:44 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -629,17 +628,11 @@ public class XSDValidateTest extends TestCase
   /**
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
-  }
-
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  protected void tearDown() throws Exception
-  {
   }
 
   /** Use this method to print all validation error messages for a given 'xsdFile'
@@ -653,19 +646,16 @@ public class XSDValidateTest extends TestCase
     
     // Iterate over all the resources, i.e., the main resource and those that have been included or imported.
     //
-    for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext();)
+    for (Object resource : resourceSet.getResources())
     {
-      Object resource = resources.next();
       if (resource instanceof XSDResourceImpl)
       {
         XSDResourceImpl xsdResource = (XSDResourceImpl)resource;
         XSDSchema xsdSchema = xsdResource.getSchema();
         xsdSchema.validate();
 
-        EList diagnostics = xsdSchema.getAllDiagnostics();
-        for (Iterator i = diagnostics.iterator(); i.hasNext();)
+        for (XSDDiagnostic xsdDiagnostic : xsdSchema.getAllDiagnostics())
         {
-          XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
           System.err.println('"' + xsdDiagnostic.getMessage() + '"' + ',');
           msgErrorCounter++;
         }
@@ -682,9 +672,8 @@ public class XSDValidateTest extends TestCase
 
       // Iterate over all the resources, i.e., the main resource and those that have been included or imported.
       //
-      for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext();)
+      for (Object resource : resourceSet.getResources())
       {
-        Object resource = resources.next();
         if (resource instanceof XSDResourceImpl)
         {
           XSDResourceImpl xsdResource = (XSDResourceImpl)resource;
@@ -695,13 +684,12 @@ public class XSDValidateTest extends TestCase
           }
           XSDSchema xsdSchema = xsdResource.getSchema();
           xsdSchema.validate();
-          EList diagnostics = xsdSchema.getAllDiagnostics();
+          EList<XSDDiagnostic> diagnostics = xsdSchema.getAllDiagnostics();
           
           assertFalse(diagnostics.isEmpty());
           
-          for (Iterator i = diagnostics.iterator(); i.hasNext();)
+          for (XSDDiagnostic xsdDiagnostic : diagnostics)
           {
-            XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
             String message = xsdDiagnostic.getMessage();
             int index = message.indexOf("; expecting");
             int index2 = message.indexOf("The identity constraint");

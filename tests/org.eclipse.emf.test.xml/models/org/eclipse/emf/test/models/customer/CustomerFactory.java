@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -24,7 +34,7 @@ public interface CustomerFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  CustomerFactory eINSTANCE = new org.eclipse.emf.test.models.customer.impl.CustomerFactoryImpl();
+  CustomerFactory eINSTANCE = org.eclipse.emf.test.models.customer.impl.CustomerFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Canada Addr</em>'.
@@ -45,10 +55,10 @@ public interface CustomerFactory extends EFactory
   CreditInfo createCreditInfo();
 
   /**
-   * Returns a new object of class '<em>sType</em>'.
+   * Returns a new object of class '<em>Customers Type</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>sType</em>'.
+   * @return a new object of class '<em>Customers Type</em>'.
    * @generated
    */
   CustomersType createCustomersType();

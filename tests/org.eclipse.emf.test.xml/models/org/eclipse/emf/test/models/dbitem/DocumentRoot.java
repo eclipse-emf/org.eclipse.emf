@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -28,7 +38,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * </p>
  *
  * @see org.eclipse.emf.test.models.dbitem.DbitemPackage#getDocumentRoot()
- * @model 
+ * @model extendedMetaData="name='' kind='mixed'"
  * @generated
  */
 public interface DocumentRoot extends EObject
@@ -45,6 +55,7 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Mixed</em>' attribute list.
    * @see org.eclipse.emf.test.models.dbitem.DbitemPackage#getDocumentRoot_Mixed()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='elementWildcard' name=':mixed'"
    * @generated
    */
   FeatureMap getMixed();
@@ -62,9 +73,10 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.test.models.dbitem.DbitemPackage#getDocumentRoot_XMLNSPrefixMap()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
-  EMap getXMLNSPrefixMap();
+  EMap<String, String> getXMLNSPrefixMap();
 
   /**
    * Returns the value of the '<em><b>XSI Schema Location</b></em>' map.
@@ -79,9 +91,10 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.test.models.dbitem.DbitemPackage#getDocumentRoot_XSISchemaLocation()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */
-  EMap getXSISchemaLocation();
+  EMap<String, String> getXSISchemaLocation();
 
   /**
    * Returns the value of the '<em><b>Dbitem</b></em>' containment reference.
@@ -94,7 +107,8 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Dbitem</em>' containment reference.
    * @see #setDbitem(DbType)
    * @see org.eclipse.emf.test.models.dbitem.DbitemPackage#getDocumentRoot_Dbitem()
-   * @model containment="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='dbitem' namespace='##targetNamespace'"
    * @generated
    */
   DbType getDbitem();

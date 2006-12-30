@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -22,6 +32,7 @@ import org.eclipse.emf.ecore.EPackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.models.dbprice.DbpriceFactory
+ * @model kind="package"
  * @generated
  */
 public interface DbpricePackage extends EPackage
@@ -78,7 +89,7 @@ public interface DbpricePackage extends EPackage
   int PENCIL_TYPE__PRICE = 0;
 
   /**
-   * The number of structural features of the the '<em>Pencil Type</em>' class.
+   * The number of structural features of the '<em>Pencil Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -106,7 +117,7 @@ public interface DbpricePackage extends EPackage
   int PEN_TYPE__PRICE = 0;
 
   /**
-   * The number of structural features of the the '<em>Pen Type</em>' class.
+   * The number of structural features of the '<em>Pen Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -165,5 +176,57 @@ public interface DbpricePackage extends EPackage
    * @generated
    */
   DbpriceFactory getDbpriceFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.dbprice.impl.PencilTypeImpl <em>Pencil Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.dbprice.impl.PencilTypeImpl
+     * @see org.eclipse.emf.test.models.dbprice.impl.DbpricePackageImpl#getPencilType()
+     * @generated
+     */
+    EClass PENCIL_TYPE = eINSTANCE.getPencilType();
+
+    /**
+     * The meta object literal for the '<em><b>Price</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PENCIL_TYPE__PRICE = eINSTANCE.getPencilType_Price();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.dbprice.impl.PenTypeImpl <em>Pen Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.dbprice.impl.PenTypeImpl
+     * @see org.eclipse.emf.test.models.dbprice.impl.DbpricePackageImpl#getPenType()
+     * @generated
+     */
+    EClass PEN_TYPE = eINSTANCE.getPenType();
+
+    /**
+     * The meta object literal for the '<em><b>Price</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PEN_TYPE__PRICE = eINSTANCE.getPenType_Price();
+
+  }
 
 } //DbpricePackage

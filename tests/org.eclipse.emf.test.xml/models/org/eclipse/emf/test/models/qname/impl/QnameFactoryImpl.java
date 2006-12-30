@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -7,7 +17,6 @@
 package org.eclipse.emf.test.models.qname.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -15,8 +24,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -31,7 +43,30 @@ import org.eclipse.emf.test.models.qname.*;
 public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static QnameFactory init()
+  {
+    try
+    {
+      QnameFactory theQnameFactory = (QnameFactory)EPackage.Registry.INSTANCE.getEFactory("http://org/eclipse/emf/test/models/qname"); 
+      if (theQnameFactory != null)
+      {
+        return theQnameFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new QnameFactoryImpl();
+  }
+
+  /**
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -46,6 +81,7 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -62,6 +98,7 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
@@ -84,6 +121,7 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
@@ -130,18 +168,36 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
    */
   public Object createIntQNameUnionFromString(EDataType eDataType, String initialValue)
   {
+    if (initialValue == null) return null;
+    Object result = null;
+    RuntimeException exception = null;
     try
     {
-      Object result = (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getInt(), initialValue);
-      if (result != null)
+      result = XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.INT, initialValue);
+      if (result != null && Diagnostician.INSTANCE.validate(eDataType, result, null, null))
       {
         return result;
       }
     }
-    catch (RuntimeException exception)
+    catch (RuntimeException e)
     {
+      exception = e;
     }
-    return (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getQName(), initialValue);
+    try
+    {
+      result = XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.QNAME, initialValue);
+      if (result != null && Diagnostician.INSTANCE.validate(eDataType, result, null, null))
+      {
+        return result;
+      }
+    }
+    catch (RuntimeException e)
+    {
+      exception = e;
+    }
+    if (result != null || exception == null) return result;
+    
+    throw exception;
   }
 
   /**
@@ -151,15 +207,32 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
    */
   public String convertIntQNameUnionToString(EDataType eDataType, Object instanceValue)
   {
-    if (XMLTypePackage.eINSTANCE.getInt().isInstance(instanceValue))
+    if (instanceValue == null) return null;
+    if (XMLTypePackage.Literals.INT.isInstance(instanceValue))
     {
-      return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getInt(), instanceValue);
+      try
+      {
+        String value = XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.INT, instanceValue);
+        if (value != null) return value;
+      }
+      catch (Exception e)
+      {
+        // Keep trying other member types until all have failed.
+      }
     }
-    if (XMLTypePackage.eINSTANCE.getQName().isInstance(instanceValue))
+    if (XMLTypePackage.Literals.QNAME.isInstance(instanceValue))
     {
-      return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getQName(), instanceValue);
+      try
+      {
+        String value = XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.QNAME, instanceValue);
+        if (value != null) return value;
+      }
+      catch (Exception e)
+      {
+        // Keep trying other member types until all have failed.
+      }
     }
-    return null;
+    throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+eDataType.getName());
   }
 
   /**
@@ -167,14 +240,14 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public List createListUnionFromString(EDataType eDataType, String initialValue)
+  public List<Object> createListUnionFromString(EDataType eDataType, String initialValue)
   {
     if (initialValue == null) return null;
-    List result = new ArrayList();
+    List<Object> result = new ArrayList<Object>();
     for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
     {
       String item = stringTokenizer.nextToken();
-      result.add(QnameFactory.eINSTANCE.createFromString(QnamePackage.eINSTANCE.getUnion(), item));
+      result.add(createUnionFromString(QnamePackage.Literals.UNION, item));
     }
     return result;
   }
@@ -187,12 +260,12 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
   public String convertListUnionToString(EDataType eDataType, Object instanceValue)
   {
     if (instanceValue == null) return null;
-    List list = (List)instanceValue;
+    List<?> list = (List<?>)instanceValue;
     if (list.isEmpty()) return "";
     StringBuffer result = new StringBuffer();
-    for (Iterator i = list.iterator(); i.hasNext(); )
+    for (Object item : list)
     {
-      result.append(QnameFactory.eINSTANCE.convertToString(QnamePackage.eINSTANCE.getUnion(), i.next()));
+      result.append(convertUnionToString(QnamePackage.Literals.UNION, item));
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
@@ -203,14 +276,14 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public List createQnameListFromString(EDataType eDataType, String initialValue)
+  public List<Object> createQnameListFromString(EDataType eDataType, String initialValue)
   {
     if (initialValue == null) return null;
-    List result = new ArrayList();
+    List<Object> result = new ArrayList<Object>();
     for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
     {
       String item = stringTokenizer.nextToken();
-      result.add(XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getQName(), item));
+      result.add(XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.QNAME, item));
     }
     return result;
   }
@@ -223,12 +296,12 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
   public String convertQnameListToString(EDataType eDataType, Object instanceValue)
   {
     if (instanceValue == null) return null;
-    List list = (List)instanceValue;
+    List<?> list = (List<?>)instanceValue;
     if (list.isEmpty()) return "";
     StringBuffer result = new StringBuffer();
-    for (Iterator i = list.iterator(); i.hasNext(); )
+    for (Object item : list)
     {
-      result.append(XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getQName(), i.next()));
+      result.append(XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.QNAME, item));
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
@@ -241,18 +314,36 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
    */
   public Object createUnionFromString(EDataType eDataType, String initialValue)
   {
+    if (initialValue == null) return null;
+    Object result = null;
+    RuntimeException exception = null;
     try
     {
-      Object result = (Object)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getBoolean(), initialValue);
-      if (result != null)
+      result = XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.BOOLEAN, initialValue);
+      if (result != null && Diagnostician.INSTANCE.validate(eDataType, result, null, null))
       {
         return result;
       }
     }
-    catch (RuntimeException exception)
+    catch (RuntimeException e)
     {
+      exception = e;
     }
-    return (Object)QnameFactory.eINSTANCE.createFromString(QnamePackage.eINSTANCE.getIntQNameUnion(), initialValue);
+    try
+    {
+      result = createIntQNameUnionFromString(QnamePackage.Literals.INT_QNAME_UNION, initialValue);
+      if (result != null && Diagnostician.INSTANCE.validate(eDataType, result, null, null))
+      {
+        return result;
+      }
+    }
+    catch (RuntimeException e)
+    {
+      exception = e;
+    }
+    if (result != null || exception == null) return result;
+    
+    throw exception;
   }
 
   /**
@@ -262,15 +353,32 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
    */
   public String convertUnionToString(EDataType eDataType, Object instanceValue)
   {
-    if (XMLTypePackage.eINSTANCE.getBoolean().isInstance(instanceValue))
+    if (instanceValue == null) return null;
+    if (XMLTypePackage.Literals.BOOLEAN.isInstance(instanceValue))
     {
-      return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getBoolean(), instanceValue);
+      try
+      {
+        String value = XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.BOOLEAN, instanceValue);
+        if (value != null) return value;
+      }
+      catch (Exception e)
+      {
+        // Keep trying other member types until all have failed.
+      }
     }
-    if (QnamePackage.eINSTANCE.getIntQNameUnion().isInstance(instanceValue))
+    if (QnamePackage.Literals.INT_QNAME_UNION.isInstance(instanceValue))
     {
-      return QnameFactory.eINSTANCE.convertToString(QnamePackage.eINSTANCE.getIntQNameUnion(), instanceValue);
+      try
+      {
+        String value = convertIntQNameUnionToString(QnamePackage.Literals.INT_QNAME_UNION, instanceValue);
+        if (value != null) return value;
+      }
+      catch (Exception e)
+      {
+        // Keep trying other member types until all have failed.
+      }
     }
-    return null;
+    throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+eDataType.getName());
   }
 
   /**
@@ -289,6 +397,7 @@ public class QnameFactoryImpl extends EFactoryImpl implements QnameFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static QnamePackage getPackage()
   {
     return QnamePackage.eINSTANCE;

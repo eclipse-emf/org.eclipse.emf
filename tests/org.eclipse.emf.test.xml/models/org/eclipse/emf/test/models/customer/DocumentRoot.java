@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -24,12 +34,12 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.eclipse.emf.test.models.customer.DocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.DocumentRoot#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
  *   <li>{@link org.eclipse.emf.test.models.customer.DocumentRoot#getCustomers <em>Customers</em>}</li>
- *   <li>{@link org.eclipse.emf.test.models.customer.DocumentRoot#getId <em>Id</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.models.customer.DocumentRoot#getID <em>ID</em>}</li>
  * </ul>
  * </p>
  *
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getDocumentRoot()
- * @model 
+ * @model extendedMetaData="name='' kind='mixed'"
  * @generated
  */
 public interface DocumentRoot extends EObject
@@ -46,6 +56,7 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Mixed</em>' attribute list.
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getDocumentRoot_Mixed()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='elementWildcard' name=':mixed'"
    * @generated
    */
   FeatureMap getMixed();
@@ -63,9 +74,10 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getDocumentRoot_XMLNSPrefixMap()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
-  EMap getXMLNSPrefixMap();
+  EMap<String, String> getXMLNSPrefixMap();
 
   /**
    * Returns the value of the '<em><b>XSI Schema Location</b></em>' map.
@@ -80,9 +92,10 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getDocumentRoot_XSISchemaLocation()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */
-  EMap getXSISchemaLocation();
+  EMap<String, String> getXSISchemaLocation();
 
   /**
    * Returns the value of the '<em><b>Customers</b></em>' containment reference.
@@ -95,7 +108,8 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Customers</em>' containment reference.
    * @see #setCustomers(CustomersType)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getDocumentRoot_Customers()
-   * @model containment="true" resolveProxies="false" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='customers' namespace='##targetNamespace'"
    * @generated
    */
   CustomersType getCustomers();
@@ -111,29 +125,30 @@ public interface DocumentRoot extends EObject
   void setCustomers(CustomersType value);
 
   /**
-   * Returns the value of the '<em><b>Id</b></em>' attribute.
+   * Returns the value of the '<em><b>ID</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Id</em>' attribute isn't clear,
+   * If the meaning of the '<em>ID</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Id</em>' attribute.
-   * @see #setId(String)
-   * @see org.eclipse.emf.test.models.customer.CustomerPackage#getDocumentRoot_Id()
+   * @return the value of the '<em>ID</em>' attribute.
+   * @see #setID(String)
+   * @see org.eclipse.emf.test.models.customer.CustomerPackage#getDocumentRoot_ID()
    * @model unique="false" id="true" dataType="org.eclipse.emf.ecore.xml.type.ID"
+   *        extendedMetaData="kind='attribute' name='ID' namespace='##targetNamespace'"
    * @generated
    */
-  String getId();
+  String getID();
 
   /**
-   * Sets the value of the '{@link org.eclipse.emf.test.models.customer.DocumentRoot#getId <em>Id</em>}' attribute.
+   * Sets the value of the '{@link org.eclipse.emf.test.models.customer.DocumentRoot#getID <em>ID</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Id</em>' attribute.
-   * @see #getId()
+   * @param value the new value of the '<em>ID</em>' attribute.
+   * @see #getID()
    * @generated
    */
-  void setId(String value);
+  void setID(String value);
 
 } // DocumentRoot

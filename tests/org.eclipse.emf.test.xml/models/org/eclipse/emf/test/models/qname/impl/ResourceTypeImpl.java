@@ -1,19 +1,27 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
  */
 package org.eclipse.emf.test.models.qname.impl;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -74,7 +82,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * @generated
    * @ordered
    */
-  protected static final List QNAMELIST_EDEFAULT = null;
+  protected static final List<Object> QNAMELIST_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getQnamelist() <em>Qnamelist</em>}' attribute.
@@ -84,7 +92,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * @generated
    * @ordered
    */
-  protected List qnamelist = QNAMELIST_EDEFAULT;
+  protected List<Object> qnamelist = QNAMELIST_EDEFAULT;
 
   /**
    * The default value of the '{@link #getIntvalue() <em>Intvalue</em>}' attribute.
@@ -133,7 +141,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * @generated
    * @ordered
    */
-  protected static final List MY_QNAME_EDEFAULT = null;
+  protected static final List<Object> MY_QNAME_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getMyQname() <em>My Qname</em>}' attribute.
@@ -143,7 +151,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * @generated
    * @ordered
    */
-  protected List myQname = MY_QNAME_EDEFAULT;
+  protected List<Object> myQname = MY_QNAME_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getAnyAttribute() <em>Any Attribute</em>}' attribute list.
@@ -170,9 +178,10 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return QnamePackage.eINSTANCE.getResourceType();
+    return QnamePackage.Literals.RESOURCE_TYPE;
   }
 
   /**
@@ -203,7 +212,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getQnamelist()
+  public List<Object> getQnamelist()
   {
     return qnamelist;
   }
@@ -213,9 +222,9 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setQnamelist(List newQnamelist)
+  public void setQnamelist(List<Object> newQnamelist)
   {
-    List oldQnamelist = qnamelist;
+    List<Object> oldQnamelist = qnamelist;
     qnamelist = newQnamelist;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, QnamePackage.RESOURCE_TYPE__QNAMELIST, oldQnamelist, qnamelist));
@@ -290,7 +299,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getMyQname()
+  public List<Object> getMyQname()
   {
     return myQname;
   }
@@ -300,9 +309,9 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setMyQname(List newMyQname)
+  public void setMyQname(List<Object> newMyQname)
   {
-    List oldMyQname = myQname;
+    List<Object> oldMyQname = myQname;
     myQname = newMyQname;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, QnamePackage.RESOURCE_TYPE__MY_QNAME, oldMyQname, myQname));
@@ -327,21 +336,17 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case QnamePackage.RESOURCE_TYPE__ANY:
-          return ((InternalEList)getAny()).basicRemove(otherEnd, msgs);
-        case QnamePackage.RESOURCE_TYPE__ANY_ATTRIBUTE:
-          return ((InternalEList)getAnyAttribute()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case QnamePackage.RESOURCE_TYPE__ANY:
+        return ((InternalEList<?>)getAny()).basicRemove(otherEnd, msgs);
+      case QnamePackage.RESOURCE_TYPE__ANY_ATTRIBUTE:
+        return ((InternalEList<?>)getAnyAttribute()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -349,9 +354,10 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case QnamePackage.RESOURCE_TYPE__UNIONVALUE:
         return getUnionvalue();
@@ -360,13 +366,15 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
       case QnamePackage.RESOURCE_TYPE__INTVALUE:
         return new Integer(getIntvalue());
       case QnamePackage.RESOURCE_TYPE__ANY:
-        return getAny();
+        if (coreType) return getAny();
+        return ((FeatureMap.Internal)getAny()).getWrapper();
       case QnamePackage.RESOURCE_TYPE__MY_QNAME:
         return getMyQname();
       case QnamePackage.RESOURCE_TYPE__ANY_ATTRIBUTE:
-        return getAnyAttribute();
+        if (coreType) return getAnyAttribute();
+        return ((FeatureMap.Internal)getAnyAttribute()).getWrapper();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -374,32 +382,32 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case QnamePackage.RESOURCE_TYPE__UNIONVALUE:
-        setUnionvalue((Object)newValue);
+        setUnionvalue(newValue);
         return;
       case QnamePackage.RESOURCE_TYPE__QNAMELIST:
-        setQnamelist((List)newValue);
+        setQnamelist((List<Object>)newValue);
         return;
       case QnamePackage.RESOURCE_TYPE__INTVALUE:
         setIntvalue(((Integer)newValue).intValue());
         return;
       case QnamePackage.RESOURCE_TYPE__ANY:
-        getAny().clear();
-        getAny().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getAny()).set(newValue);
         return;
       case QnamePackage.RESOURCE_TYPE__MY_QNAME:
-        setMyQname((List)newValue);
+        setMyQname((List<Object>)newValue);
         return;
       case QnamePackage.RESOURCE_TYPE__ANY_ATTRIBUTE:
-        getAnyAttribute().clear();
-        getAnyAttribute().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getAnyAttribute()).set(newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -407,9 +415,10 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case QnamePackage.RESOURCE_TYPE__UNIONVALUE:
         setUnionvalue(UNIONVALUE_EDEFAULT);
@@ -430,7 +439,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
         getAnyAttribute().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -438,9 +447,10 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case QnamePackage.RESOURCE_TYPE__UNIONVALUE:
         return UNIONVALUE_EDEFAULT == null ? unionvalue != null : !UNIONVALUE_EDEFAULT.equals(unionvalue);
@@ -455,7 +465,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
       case QnamePackage.RESOURCE_TYPE__ANY_ATTRIBUTE:
         return anyAttribute != null && !anyAttribute.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -463,6 +473,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

@@ -1,11 +1,22 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
  */
 package org.eclipse.emf.test.models.dbitem.util;
 
+import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -24,7 +35,7 @@ import org.eclipse.emf.test.models.dbitem.*;
  * @see org.eclipse.emf.test.models.dbitem.DbitemPackage
  * @generated
  */
-public class DbitemSwitch
+public class DbitemSwitch<T>
 {
   /**
    * The cached model package
@@ -55,31 +66,61 @@ public class DbitemSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
-    EClass theEClass = theEObject.eClass();
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected T doSwitch(EClass theEClass, EObject theEObject)
+  {
     if (theEClass.eContainer() == modelPackage)
     {
-      switch (theEClass.getClassifierID())
-      {
-        case DbitemPackage.DB_TYPE:
-        {
-          DbType dbType = (DbType)theEObject;
-          Object result = caseDbType(dbType);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case DbitemPackage.DOCUMENT_ROOT:
-        {
-          DocumentRoot documentRoot = (DocumentRoot)theEObject;
-          Object result = caseDocumentRoot(documentRoot);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        default: return defaultCase(theEObject);
-      }
+      return doSwitch(theEClass.getClassifierID(), theEObject);
     }
-    return defaultCase(theEObject);
+    else
+    {
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch(eSuperTypes.get(0), theEObject);
+    }
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected T doSwitch(int classifierID, EObject theEObject)
+  {
+    switch (classifierID)
+    {
+      case DbitemPackage.DB_TYPE:
+      {
+        DbType dbType = (DbType)theEObject;
+        T result = caseDbType(dbType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case DbitemPackage.DOCUMENT_ROOT:
+      {
+        DocumentRoot documentRoot = (DocumentRoot)theEObject;
+        T result = caseDocumentRoot(documentRoot);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
   }
 
   /**
@@ -93,7 +134,7 @@ public class DbitemSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseDbType(DbType object)
+  public T caseDbType(DbType object)
   {
     return null;
   }
@@ -109,7 +150,7 @@ public class DbitemSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseDocumentRoot(DocumentRoot object)
+  public T caseDocumentRoot(DocumentRoot object)
   {
     return null;
   }
@@ -125,7 +166,7 @@ public class DbitemSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

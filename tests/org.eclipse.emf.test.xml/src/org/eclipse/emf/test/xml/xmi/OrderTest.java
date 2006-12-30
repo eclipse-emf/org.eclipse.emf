@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: OrderTest.java,v 1.4 2005/06/12 12:38:45 emerks Exp $
+ * $Id: OrderTest.java,v 1.5 2006/12/30 03:43:43 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -44,7 +44,7 @@ public class OrderTest extends TestCase
 
   String inputXML;
 
-  HashMap options;
+  HashMap<String, Object> options;
 
   public OrderTest(String name)
   {
@@ -61,6 +61,7 @@ public class OrderTest extends TestCase
   /**
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     OrderPackage.eINSTANCE.getName();
@@ -68,12 +69,13 @@ public class OrderTest extends TestCase
     DbPackage.eINSTANCE.getName();
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
     inputXML = BASE_XML_URI + "order.xml";
-    options = new HashMap();
+    options = new HashMap<String, Object>();
   }
 
   /**
    * @see junit.framework.TestCase#tearDown()
    */
+  @Override
   protected void tearDown() throws Exception
   {
     options = null;

@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -22,7 +32,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.test.models.movie.db.DbPackage#getCriticsReviewType()
- * @model 
+ * @model extendedMetaData="name='criticsReviewType' kind='elementOnly'"
  * @generated
  */
 public interface CriticsReviewType extends EObject
@@ -41,6 +51,7 @@ public interface CriticsReviewType extends EObject
    * @see #setRating(int)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getCriticsReviewType_Rating()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.test.models.movie.db.RatingType" required="true"
+   *        extendedMetaData="kind='element' name='rating'"
    * @generated
    */
   int getRating();
@@ -92,6 +103,7 @@ public interface CriticsReviewType extends EObject
    * @see #setReviewedBy(String)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getCriticsReviewType_ReviewedBy()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='attribute' name='ReviewedBy'"
    * @generated
    */
   String getReviewedBy();

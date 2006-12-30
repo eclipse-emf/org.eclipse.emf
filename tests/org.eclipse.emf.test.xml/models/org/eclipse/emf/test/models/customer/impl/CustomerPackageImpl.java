@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -20,8 +30,6 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
-
 import org.eclipse.emf.test.models.customer.AddressType;
 import org.eclipse.emf.test.models.customer.CanadaAddr;
 import org.eclipse.emf.test.models.customer.CreditInfo;
@@ -35,6 +43,10 @@ import org.eclipse.emf.test.models.customer.USState;
 
 import org.eclipse.emf.test.models.customer.util.CustomerValidator;
 
+import org.eclipse.emf.test.models.dbitem.DbitemPackage;
+import org.eclipse.emf.test.models.dbitem.impl.DbitemPackageImpl;
+import org.eclipse.emf.test.models.dbprice.DbpricePackage;
+import org.eclipse.emf.test.models.dbprice.impl.DbpricePackageImpl;
 import org.eclipse.emf.test.models.movie.db.DbPackage;
 
 import org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl;
@@ -42,6 +54,8 @@ import org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl;
 import org.eclipse.emf.test.models.order.OrderPackage;
 
 import org.eclipse.emf.test.models.order.impl.OrderPackageImpl;
+import org.eclipse.emf.test.models.qname.QnamePackage;
+import org.eclipse.emf.test.models.qname.impl.QnamePackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -179,32 +193,52 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    */
   public static CustomerPackage init()
   {
-    if (isInited) return (CustomerPackage)EPackage.Registry.INSTANCE.get(CustomerPackage.eNS_URI);
+    if (isInited) return (CustomerPackage)EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI);
 
     // Obtain or create and register package
-    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new CustomerPackageImpl());
+    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new CustomerPackageImpl());
 
     isInited = true;
 
     // Initialize simple dependencies
-    XMLTypePackageImpl.init();
+    XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
-    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.get(OrderPackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(OrderPackage.eNS_URI) : OrderPackage.eINSTANCE);
-    DbPackageImpl theDbPackage = (DbPackageImpl)(EPackage.Registry.INSTANCE.get(DbPackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(DbPackage.eNS_URI) : DbPackage.eINSTANCE);
+    DbitemPackageImpl theDbitemPackage = (DbitemPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbitemPackage.eNS_URI) instanceof DbitemPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbitemPackage.eNS_URI) : DbitemPackage.eINSTANCE);
+    DbpricePackageImpl theDbpricePackage = (DbpricePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbpricePackage.eNS_URI) instanceof DbpricePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbpricePackage.eNS_URI) : DbpricePackage.eINSTANCE);
+    DbPackageImpl theDbPackage = (DbPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) instanceof DbPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) : DbPackage.eINSTANCE);
+    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) : OrderPackage.eINSTANCE);
+    QnamePackageImpl theQnamePackage = (QnamePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(QnamePackage.eNS_URI) instanceof QnamePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(QnamePackage.eNS_URI) : QnamePackage.eINSTANCE);
 
     // Create package meta-data objects
     theCustomerPackage.createPackageContents();
-    theOrderPackage.createPackageContents();
+    theDbitemPackage.createPackageContents();
+    theDbpricePackage.createPackageContents();
     theDbPackage.createPackageContents();
+    theOrderPackage.createPackageContents();
+    theQnamePackage.createPackageContents();
 
     // Initialize created meta-data
     theCustomerPackage.initializePackageContents();
-    theOrderPackage.initializePackageContents();
+    theDbitemPackage.initializePackageContents();
+    theDbpricePackage.initializePackageContents();
     theDbPackage.initializePackageContents();
+    theOrderPackage.initializePackageContents();
+    theQnamePackage.initializePackageContents();
 
     // Register package validator
-    EValidator.Registry.INSTANCE.put(theCustomerPackage, CustomerValidator.INSTANCE);
+    EValidator.Registry.INSTANCE.put
+      (theCustomerPackage, 
+       new EValidator.Descriptor()
+       {
+         public EValidator getEValidator()
+         {
+           return CustomerValidator.INSTANCE;
+         }
+       });
+
+    // Mark meta-data to indicate it can't be changed
+    theCustomerPackage.freeze();
 
     return theCustomerPackage;
   }
@@ -454,7 +488,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getDocumentRoot_Id()
+  public EAttribute getDocumentRoot_ID()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(4);
   }
@@ -572,9 +606,9 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     createEAttribute(creditInfoEClass, CREDIT_INFO__CC_NUMBER);
     createEAttribute(creditInfoEClass, CREDIT_INFO__EXPIRE_DATE);
 
-    customersTypeEClass = createEClass(CUSTOMER_STYPE);
-    createEAttribute(customersTypeEClass, CUSTOMER_STYPE__MIXED);
-    createEReference(customersTypeEClass, CUSTOMER_STYPE__CUSTOMER);
+    customersTypeEClass = createEClass(CUSTOMERS_TYPE);
+    createEAttribute(customersTypeEClass, CUSTOMERS_TYPE__MIXED);
+    createEReference(customersTypeEClass, CUSTOMERS_TYPE__CUSTOMER);
 
     customerTypeEClass = createEClass(CUSTOMER_TYPE);
     createEAttribute(customerTypeEClass, CUSTOMER_TYPE__NAME);
@@ -628,7 +662,11 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
     canadaAddrEClass.getESuperTypes().add(this.getAddressType());
@@ -636,45 +674,45 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(addressTypeEClass, AddressType.class, "AddressType", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getAddressType_Street(), theXMLTypePackage.getString(), "street", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAddressType_Town(), theXMLTypePackage.getString(), "town", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAddressType_Street(), theXMLTypePackage.getString(), "street", null, 1, 1, AddressType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getAddressType_Town(), theXMLTypePackage.getString(), "town", null, 1, 1, AddressType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(canadaAddrEClass, CanadaAddr.class, "CanadaAddr", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getCanadaAddr_Zip(), theXMLTypePackage.getString(), "zip", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getCanadaAddr_Province(), theXMLTypePackage.getString(), "province", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCanadaAddr_Zip(), theXMLTypePackage.getString(), "zip", null, 1, 1, CanadaAddr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCanadaAddr_Province(), theXMLTypePackage.getString(), "province", null, 1, 1, CanadaAddr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(creditInfoEClass, CreditInfo.class, "CreditInfo", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getCreditInfo_Holder(), theXMLTypePackage.getString(), "holder", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getCreditInfo_CcNumber(), theXMLTypePackage.getInteger(), "ccNumber", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getCreditInfo_ExpireDate(), theXMLTypePackage.getGYearMonth(), "expireDate", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCreditInfo_Holder(), theXMLTypePackage.getString(), "holder", null, 1, 1, CreditInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCreditInfo_CcNumber(), theXMLTypePackage.getInteger(), "ccNumber", null, 1, 1, CreditInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCreditInfo_ExpireDate(), theXMLTypePackage.getGYearMonth(), "expireDate", null, 1, 1, CreditInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(customersTypeEClass, CustomersType.class, "CustomersType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getCustomersType_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getCustomersType_Customer(), this.getCustomerType(), null, "customer", null, 1, -1, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCustomersType_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, CustomersType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getCustomersType_Customer(), this.getCustomerType(), null, "customer", null, 1, -1, CustomersType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
     initEClass(customerTypeEClass, CustomerType.class, "CustomerType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getCustomerType_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getCustomerType_Address(), this.getAddressType(), null, "address", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getCustomerType_CreditCard(), this.getCreditInfo(), null, "creditCard", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getCustomerType_PaymentDay(), theXMLTypePackage.getGDay(), "paymentDay", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getCustomerType_ID(), theXMLTypePackage.getID(), "iD", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCustomerType_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, CustomerType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getCustomerType_Address(), this.getAddressType(), null, "address", null, 1, 1, CustomerType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getCustomerType_CreditCard(), this.getCreditInfo(), null, "creditCard", null, 1, 1, CustomerType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCustomerType_PaymentDay(), theXMLTypePackage.getGDay(), "paymentDay", null, 1, 1, CustomerType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCustomerType_ID(), theXMLTypePackage.getID(), "iD", null, 1, 1, CustomerType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getDocumentRoot_Customers(), this.getCustomersType(), null, "customers", null, 0, -2, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-    initEAttribute(getDocumentRoot_Id(), theXMLTypePackage.getID(), "id", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_Customers(), this.getCustomersType(), null, "customers", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getDocumentRoot_ID(), theXMLTypePackage.getID(), "iD", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(usAddrEClass, USAddr.class, "USAddr", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getUSAddr_Zip(), this.getZipUnion(), "zip", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getUSAddr_State(), theXMLTypePackage.getString(), "state", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getUSAddr_Zip(), this.getZipUnion(), "zip", null, 1, 1, USAddr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getUSAddr_State(), theXMLTypePackage.getString(), "state", null, 1, 1, USAddr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(usStateEEnum, USState.class, "USState");
-    addEEnumLiteral(usStateEEnum, USState.AK_LITERAL);
-    addEEnumLiteral(usStateEEnum, USState.AL_LITERAL);
-    addEEnumLiteral(usStateEEnum, USState.AR_LITERAL);
+    addEEnumLiteral(usStateEEnum, USState.AK);
+    addEEnumLiteral(usStateEEnum, USState.AL);
+    addEEnumLiteral(usStateEEnum, USState.AR);
 
     // Initialize data types
     initEDataType(usStateObjectEDataType, USState.class, "USStateObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
@@ -894,7 +932,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
        "namespace", "##targetNamespace"
        });		
     addAnnotation
-      (getDocumentRoot_Id(), 
+      (getDocumentRoot_ID(), 
        source, 
        new String[] 
        {

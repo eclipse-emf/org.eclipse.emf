@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -9,8 +19,10 @@ package org.eclipse.emf.test.models.dbitem.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.test.models.dbitem.*;
 
 /**
@@ -22,7 +34,30 @@ import org.eclipse.emf.test.models.dbitem.*;
 public class DbitemFactoryImpl extends EFactoryImpl implements DbitemFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static DbitemFactory init()
+  {
+    try
+    {
+      DbitemFactory theDbitemFactory = (DbitemFactory)EPackage.Registry.INSTANCE.getEFactory("http://org/eclipse/emf/test/models/dbitem"); 
+      if (theDbitemFactory != null)
+      {
+        return theDbitemFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new DbitemFactoryImpl();
+  }
+
+  /**
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -37,6 +72,7 @@ public class DbitemFactoryImpl extends EFactoryImpl implements DbitemFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -86,6 +122,7 @@ public class DbitemFactoryImpl extends EFactoryImpl implements DbitemFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static DbitemPackage getPackage()
   {
     return DbitemPackage.eINSTANCE;

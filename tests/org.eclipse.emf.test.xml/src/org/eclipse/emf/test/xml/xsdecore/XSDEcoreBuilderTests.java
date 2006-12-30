@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilderTests.java,v 1.4 2006/05/07 12:10:42 emerks Exp $
+ * $Id: XSDEcoreBuilderTests.java,v 1.5 2006/12/30 03:43:44 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.test.xml.xsdecore;
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -39,6 +38,7 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.test.xml.TestUtil;
+
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
@@ -68,6 +68,7 @@ public class XSDEcoreBuilderTests extends TestCase
   /**
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
 
@@ -78,27 +79,19 @@ public class XSDEcoreBuilderTests extends TestCase
 
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  protected void tearDown() throws Exception
-  {
-  }
-
   public void testMyIPO() throws Exception
   {
-
     // SET SCHEMA URI
-    Collection packageList = xsdEcoreBuilder.generate(URI.createURI(BASE_XSD_URI + "myipo.xsd"));
+    @SuppressWarnings("unchecked")
+    Collection<EPackage> packageList = (Collection)xsdEcoreBuilder.generate(URI.createURI(BASE_XSD_URI + "myipo.xsd"));
 
-    HashMap options = new HashMap();
+    HashMap<String, Object> options = new HashMap<String, Object>();
     options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl(true));
 
     ResourceSet rs = new ResourceSetImpl();
     Registry packageRegistry = rs.getPackageRegistry();
-    for (Iterator packageIterator = packageList.iterator(); packageIterator.hasNext();)
+    for (EPackage epackage : packageList)
     {
-      EPackage epackage = (EPackage)packageIterator.next();
       String nsURI = epackage.getNsURI();
       packageRegistry.put(nsURI, epackage);
     }

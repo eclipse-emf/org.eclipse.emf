@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -15,12 +25,14 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
-
 import org.eclipse.emf.test.models.customer.CustomerPackage;
 
 import org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl;
 
+import org.eclipse.emf.test.models.dbitem.DbitemPackage;
+import org.eclipse.emf.test.models.dbitem.impl.DbitemPackageImpl;
+import org.eclipse.emf.test.models.dbprice.DbpricePackage;
+import org.eclipse.emf.test.models.dbprice.impl.DbpricePackageImpl;
 import org.eclipse.emf.test.models.movie.db.DbPackage;
 
 import org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl;
@@ -30,6 +42,8 @@ import org.eclipse.emf.test.models.order.DocumentRoot;
 import org.eclipse.emf.test.models.order.Order;
 import org.eclipse.emf.test.models.order.OrderFactory;
 import org.eclipse.emf.test.models.order.OrderPackage;
+import org.eclipse.emf.test.models.qname.QnamePackage;
+import org.eclipse.emf.test.models.qname.impl.QnamePackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -111,29 +125,41 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    */
   public static OrderPackage init()
   {
-    if (isInited) return (OrderPackage)EPackage.Registry.INSTANCE.get(OrderPackage.eNS_URI);
+    if (isInited) return (OrderPackage)EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI);
 
     // Obtain or create and register package
-    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new OrderPackageImpl());
+    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new OrderPackageImpl());
 
     isInited = true;
 
     // Initialize simple dependencies
-    XMLTypePackageImpl.init();
+    XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
-    DbPackageImpl theDbPackage = (DbPackageImpl)(EPackage.Registry.INSTANCE.get(DbPackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(DbPackage.eNS_URI) : DbPackage.eINSTANCE);
-    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.get(CustomerPackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(CustomerPackage.eNS_URI) : CustomerPackage.eINSTANCE);
+    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) : CustomerPackage.eINSTANCE);
+    DbitemPackageImpl theDbitemPackage = (DbitemPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbitemPackage.eNS_URI) instanceof DbitemPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbitemPackage.eNS_URI) : DbitemPackage.eINSTANCE);
+    DbpricePackageImpl theDbpricePackage = (DbpricePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbpricePackage.eNS_URI) instanceof DbpricePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbpricePackage.eNS_URI) : DbpricePackage.eINSTANCE);
+    DbPackageImpl theDbPackage = (DbPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) instanceof DbPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) : DbPackage.eINSTANCE);
+    QnamePackageImpl theQnamePackage = (QnamePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(QnamePackage.eNS_URI) instanceof QnamePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(QnamePackage.eNS_URI) : QnamePackage.eINSTANCE);
 
     // Create package meta-data objects
     theOrderPackage.createPackageContents();
-    theDbPackage.createPackageContents();
     theCustomerPackage.createPackageContents();
+    theDbitemPackage.createPackageContents();
+    theDbpricePackage.createPackageContents();
+    theDbPackage.createPackageContents();
+    theQnamePackage.createPackageContents();
 
     // Initialize created meta-data
     theOrderPackage.initializePackageContents();
-    theDbPackage.initializePackageContents();
     theCustomerPackage.initializePackageContents();
+    theDbitemPackage.initializePackageContents();
+    theDbpricePackage.initializePackageContents();
+    theDbPackage.initializePackageContents();
+    theQnamePackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theOrderPackage.freeze();
 
     return theOrderPackage;
   }
@@ -351,27 +377,31 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
     initEClass(customerOrderEClass, CustomerOrder.class, "CustomerOrder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getCustomerOrder_MoviesToSee(), this.getOrder(), null, "moviesToSee", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getCustomerOrder_MoviesSeen(), this.getOrder(), null, "moviesSeen", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getCustomerOrder_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 1, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getCustomerOrder_CustomerID(), theXMLTypePackage.getIDREF(), "customerID", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getCustomerOrder_MoviesToSee(), this.getOrder(), null, "moviesToSee", null, 1, 1, CustomerOrder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getCustomerOrder_MoviesSeen(), this.getOrder(), null, "moviesSeen", null, 0, 1, CustomerOrder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCustomerOrder_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 1, -1, CustomerOrder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCustomerOrder_CustomerID(), theXMLTypePackage.getIDREF(), "customerID", null, 0, 1, CustomerOrder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getDocumentRoot_Order(), this.getCustomerOrder(), null, "order", null, 0, -2, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_Order(), this.getCustomerOrder(), null, "order", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
     initEClass(orderEClass, Order.class, "Order", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getOrder_DateRequested(), theXMLTypePackage.getDate(), "dateRequested", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getOrder_LastUpdated(), theXMLTypePackage.getDate(), "lastUpdated", null, 0, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getOrder_Movies(), theXMLTypePackage.getIDREFS(), "movies", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getOrder_DateRequested(), theXMLTypePackage.getDate(), "dateRequested", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getOrder_LastUpdated(), theXMLTypePackage.getDate(), "lastUpdated", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getOrder_Movies(), theXMLTypePackage.getIDREFS(), "movies", null, 1, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);
@@ -523,7 +553,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
        source, 
        new String[] 
        {
-       "appinfo", "\r\n           <hasElement>date</hasElement>\r\n        "
+       "appinfo", "Information:<hasElement>date</hasElement>."
        });				
   }
 

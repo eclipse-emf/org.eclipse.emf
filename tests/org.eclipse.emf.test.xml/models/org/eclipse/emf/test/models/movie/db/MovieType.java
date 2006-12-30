@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -38,7 +48,7 @@ import org.eclipse.emf.test.models.customer.CustomerType;
  * </p>
  *
  * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType()
- * @model 
+ * @model extendedMetaData="name='movie' kind='elementOnly'"
  * @generated
  */
 public interface MovieType extends EObject
@@ -55,6 +65,7 @@ public interface MovieType extends EObject
    * @see #setTitle(String)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_Title()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='title'"
    * @generated
    */
   String getTitle();
@@ -78,12 +89,13 @@ public interface MovieType extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Actors</em>' attribute.
-   * @see #setActors(List)
+   * @see #setActors(List<String>)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_Actors()
    * @model unique="false" dataType="org.eclipse.emf.test.models.movie.db.ActorsList" required="true" many="false"
+   *        extendedMetaData="kind='element' name='actors'"
    * @generated
    */
-  List getActors();
+  List<String> getActors();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.movie.db.MovieType#getActors <em>Actors</em>}' attribute.
@@ -93,7 +105,7 @@ public interface MovieType extends EObject
    * @see #getActors()
    * @generated
    */
-  void setActors(List value);
+  void setActors(List<String> value);
 
   /**
    * Returns the value of the '<em><b>Director</b></em>' attribute.
@@ -107,6 +119,7 @@ public interface MovieType extends EObject
    * @see #setDirector(String)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_Director()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='director'"
    * @generated
    */
   String getDirector();
@@ -138,6 +151,7 @@ public interface MovieType extends EObject
    * @see #setGenre(GenreTypes)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_Genre()
    * @model default="NewRelease" unique="false" unsettable="true" required="true"
+   *        extendedMetaData="kind='element' name='genre'"
    * @generated
    */
   GenreTypes getGenre();
@@ -190,6 +204,7 @@ public interface MovieType extends EObject
    * @see #setSummary(String)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_Summary()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='summary'"
    * @generated
    */
   String getSummary();
@@ -216,6 +231,7 @@ public interface MovieType extends EObject
    * @return the value of the '<em>Critics Review Group</em>' attribute list.
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_CriticsReviewGroup()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='group' name='criticsReview:group' namespace='##targetNamespace'"
    * @generated
    */
   FeatureMap getCriticsReviewGroup();
@@ -231,10 +247,11 @@ public interface MovieType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Critics Review</em>' containment reference list.
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_CriticsReview()
-   * @model type="org.eclipse.emf.test.models.movie.db.CriticsReviewType" containment="true" resolveProxies="false" transient="true" volatile="true" derived="true"
+   * @model type="org.eclipse.emf.test.models.movie.db.CriticsReviewType" containment="true" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='criticsReview' namespace='##targetNamespace' group='criticsReview:group'"
    * @generated
    */
-  EList getCriticsReview();
+  EList<CriticsReviewType> getCriticsReview();
 
   /**
    * Returns the value of the '<em><b>Checked Out By</b></em>' reference.
@@ -248,6 +265,7 @@ public interface MovieType extends EObject
    * @see #setCheckedOutBy(CustomerType)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_CheckedOutBy()
    * @model required="true"
+   *        extendedMetaData="kind='element' name='checkedOutBy' namespace='##targetNamespace'"
    * @generated
    */
   CustomerType getCheckedOutBy();
@@ -274,6 +292,7 @@ public interface MovieType extends EObject
    * @return the value of the '<em>Any</em>' attribute list.
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_Any()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry"
+   *        extendedMetaData="kind='elementWildcard' wildcards='##any' name=':8' processing='strict'"
    * @generated
    */
   FeatureMap getAny();
@@ -290,6 +309,7 @@ public interface MovieType extends EObject
    * @see #setID(String)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieType_ID()
    * @model unique="false" id="true" dataType="org.eclipse.emf.ecore.xml.type.ID" required="true"
+   *        extendedMetaData="kind='attribute' name='ID' namespace='http://org/eclipse/emf/test/models/Customer'"
    * @generated
    */
   String getID();

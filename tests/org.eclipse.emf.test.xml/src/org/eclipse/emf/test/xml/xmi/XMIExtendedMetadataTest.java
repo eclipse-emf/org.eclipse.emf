@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -52,7 +52,7 @@ public class XMIExtendedMetadataTest extends TestCase
 
   ResourceSet resourceSet;
 
-  HashMap options;
+  HashMap<String, Object> options;
 
   public XMIExtendedMetadataTest(String name)
   {
@@ -69,12 +69,13 @@ public class XMIExtendedMetadataTest extends TestCase
   /**
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-    options = new HashMap();
+    options = new HashMap<String, Object>();
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
     Resource ecore = resourceSet.createResource(URI.createFileURI(BASE_ECORE_URI + "profile.ecore"));
@@ -87,6 +88,7 @@ public class XMIExtendedMetadataTest extends TestCase
   /**
    * @see junit.framework.TestCase#tearDown()
    */
+  @Override
   protected void tearDown() throws Exception
   {
     options = null;
@@ -99,7 +101,7 @@ public class XMIExtendedMetadataTest extends TestCase
     Resource resource = resourceSet.createResource(URI.createFileURI(BASE_XML_URI + "profile.xmi"));
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, ExtendedMetaData.INSTANCE);
     resource.load(options);
-    EObject description = (EObject)resource.getContents().get(0);
+    EObject description = resource.getContents().get(0);
     EStructuralFeature value = description.eClass().getEStructuralFeature("value");
     assertNotNull("Description value must not be null", description.eGet(value));
   }
@@ -110,8 +112,10 @@ public class XMIExtendedMetadataTest extends TestCase
     Resource resource = resourceSet.createResource(URI.createFileURI(BASE_XML_URI + "profileNested.xmi"));
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, ExtendedMetaData.INSTANCE);
     resource.load(options);
-    EObject classification = (EObject)resource.getContents().get(0);
+    EObject classification = resource.getContents().get(0);
     EStructuralFeature descriptorGroupFeature = classification.eClass().getEStructuralFeature("descriptorGroup");
+    
+    @SuppressWarnings("unchecked")
     EObject descriptorGroup = (EObject)((EList)classification.eGet(descriptorGroupFeature)).get(0);
 
     EStructuralFeature descriptionFeature = descriptorGroup.eClass().getEStructuralFeature("description");
@@ -135,7 +139,7 @@ public class XMIExtendedMetadataTest extends TestCase
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, ExtendedMetaData.INSTANCE);
     resource.load(options);
 
-    EObject proxyRoot = (EObject)resource.getContents().get(0);
+    EObject proxyRoot = resource.getContents().get(0);
 
     EStructuralFeature contextFeature = proxyRoot.eClass().getEStructuralFeature("context");
     EObject context = (EObject)proxyRoot.eGet(contextFeature, false);

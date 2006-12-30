@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreTest.java,v 1.4 2006/11/04 15:58:33 emerks Exp $
+ * $Id: XSD2EcoreTest.java,v 1.5 2006/12/30 03:43:44 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -57,10 +57,10 @@ public class XSD2EcoreTest extends TestCase
   Resource resource;
 
   // list of xsd files to generate .ecore
-  Vector xsdfiles;
+  Vector<String> xsdfiles;
 
   // expected output for .ecore files for given xsd files
-  Vector ecorefiles;
+  Vector<String> ecorefiles;
 
   // base uri of the xsd and ecore files
   final static String BASE_XSD_URI = TestUtil.getPluginDirectory() + "/data/xsd/";
@@ -84,11 +84,12 @@ public class XSD2EcoreTest extends TestCase
   /**
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     xsdEcoreBuilder = new XSDEcoreBuilder();
-    ecorefiles = new Vector();
-    xsdfiles = new Vector();
+    ecorefiles = new Vector<String>();
+    xsdfiles = new Vector<String>();
 
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
@@ -108,6 +109,7 @@ public class XSD2EcoreTest extends TestCase
   /**
    * @see junit.framework.TestCase#tearDown()
    */
+  @Override
   protected void tearDown() throws Exception
   {
     builder = null;
@@ -124,19 +126,19 @@ public class XSD2EcoreTest extends TestCase
     for (int k = 0; k < xsdfiles.size(); k++)
     {
       
-      File file = new File((String)xsdfiles.get(k));
+      File file = new File(xsdfiles.get(k));
       uri = URI.createFileURI(file.getCanonicalFile().toString());
 
       // generate resources
-      Collection resources = xsdEcoreBuilder.generateResources(uri);
+      Collection<Resource> resources = xsdEcoreBuilder.generateResources(uri);
       
       // fix ecore generated resources
       resources = fixEcoreResorces(resources);
       int counter = 0;
 
-      for (Iterator rs = resources.iterator(); rs.hasNext();)
+      for (Iterator<Resource> rs = resources.iterator(); rs.hasNext();)
       {
-        resource = (Resource)rs.next();
+        resource = rs.next();
         ByteArrayOutputStream outputstream = new ByteArrayOutputStream(2064);
         resource.save(outputstream, Collections.EMPTY_MAP);
 
@@ -147,18 +149,18 @@ public class XSD2EcoreTest extends TestCase
           resource.save(fileoutput, Collections.EMPTY_MAP);
           //resource.save(System.out, Collections.EMPTY_MAP);
         }
-        String expectedOutput = (String) ecorefiles.get(counter++);
+        String expectedOutput = ecorefiles.get(counter++);
         CompareXML.compareFiles(builder, expectedOutput ,new ByteArrayInputStream(outputstream.toByteArray()) );
       }
     }
 
   }
-  Collection fixEcoreResorces(Collection generatedResources)
+  
+  Collection<Resource> fixEcoreResorces(Collection<Resource> generatedResources)
   {
     ResourceSet resourceSet = new ResourceSetImpl();
-    for (Iterator i = generatedResources.iterator(); i.hasNext();)
+    for (Resource resource : generatedResources)
     {
-      Resource resource = (Resource)i.next();
       if (resource instanceof XMIResource)
       {
         // fix resource URI

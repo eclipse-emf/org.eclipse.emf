@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -30,7 +40,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * </p>
  *
  * @see org.eclipse.emf.test.models.qname.QnamePackage#getResourceType()
- * @model 
+ * @model extendedMetaData="name='resourceType' kind='elementOnly'"
  * @generated
  */
 public interface ResourceType extends EObject
@@ -47,6 +57,7 @@ public interface ResourceType extends EObject
    * @see #setUnionvalue(Object)
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getResourceType_Unionvalue()
    * @model unique="false" dataType="org.eclipse.emf.test.models.qname.IntQNameUnion" required="true"
+   *        extendedMetaData="kind='element' name='unionvalue' namespace='##targetNamespace'"
    * @generated
    */
   Object getUnionvalue();
@@ -70,12 +81,13 @@ public interface ResourceType extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Qnamelist</em>' attribute.
-   * @see #setQnamelist(List)
+   * @see #setQnamelist(List<Object>)
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getResourceType_Qnamelist()
    * @model unique="false" dataType="org.eclipse.emf.test.models.qname.QnameList" required="true" many="false"
+   *        extendedMetaData="kind='element' name='qnamelist' namespace='##targetNamespace'"
    * @generated
    */
-  List getQnamelist();
+  List<Object> getQnamelist();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.qname.ResourceType#getQnamelist <em>Qnamelist</em>}' attribute.
@@ -85,7 +97,7 @@ public interface ResourceType extends EObject
    * @see #getQnamelist()
    * @generated
    */
-  void setQnamelist(List value);
+  void setQnamelist(List<Object> value);
 
   /**
    * Returns the value of the '<em><b>Intvalue</b></em>' attribute.
@@ -101,6 +113,7 @@ public interface ResourceType extends EObject
    * @see #setIntvalue(int)
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getResourceType_Intvalue()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+   *        extendedMetaData="kind='element' name='intvalue' namespace='##targetNamespace'"
    * @generated
    */
   int getIntvalue();
@@ -152,6 +165,7 @@ public interface ResourceType extends EObject
    * @return the value of the '<em>Any</em>' attribute list.
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getResourceType_Any()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry"
+   *        extendedMetaData="kind='elementWildcard' wildcards='##any' name=':3' processing='strict'"
    * @generated
    */
   FeatureMap getAny();
@@ -165,12 +179,13 @@ public interface ResourceType extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>My Qname</em>' attribute.
-   * @see #setMyQname(List)
+   * @see #setMyQname(List<Object>)
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getResourceType_MyQname()
    * @model unique="false" dataType="org.eclipse.emf.test.models.qname.QnameList" many="false"
+   *        extendedMetaData="kind='attribute' name='myQname'"
    * @generated
    */
-  List getMyQname();
+  List<Object> getMyQname();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.qname.ResourceType#getMyQname <em>My Qname</em>}' attribute.
@@ -180,7 +195,7 @@ public interface ResourceType extends EObject
    * @see #getMyQname()
    * @generated
    */
-  void setMyQname(List value);
+  void setMyQname(List<Object> value);
 
   /**
    * Returns the value of the '<em><b>Any Attribute</b></em>' attribute list.
@@ -194,6 +209,7 @@ public interface ResourceType extends EObject
    * @return the value of the '<em>Any Attribute</em>' attribute list.
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getResourceType_AnyAttribute()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='attributeWildcard' wildcards='##any' name=':5' processing='strict'"
    * @generated
    */
   FeatureMap getAnyAttribute();

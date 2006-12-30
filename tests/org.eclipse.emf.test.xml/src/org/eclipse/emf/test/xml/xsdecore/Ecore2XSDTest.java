@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2XSDTest.java,v 1.3 2006/12/05 20:31:51 emerks Exp $
+ * $Id: Ecore2XSDTest.java,v 1.4 2006/12/30 03:43:44 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -93,6 +93,7 @@ public class Ecore2XSDTest extends TestCase
   /**
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     ecoreXSDBuilder = new EcoreXMLSchemaBuilder();
@@ -126,13 +127,6 @@ public class Ecore2XSDTest extends TestCase
 
   }
 
-  /**
-   * @see junit.framework.TestCase#tearDown()
-   */
-  protected void tearDown() throws Exception
-  {
-  }
-  
   public void testMultipleInheritanceA() throws Exception
   {
     ecore2xsd(multipleInheritanceA);
@@ -156,10 +150,10 @@ public class Ecore2XSDTest extends TestCase
     Resource ecore = rs.createResource(uri);
     ecore.load(null);
 
-    Collection c = ecoreXSDBuilder.generate((EPackage)ecore.getContents().get(0));
+    Collection<EObject> c = ecoreXSDBuilder.generate((EPackage)ecore.getContents().get(0));
 
     Resource schema = rs.createResource(URI.createURI("my.xsd"));
-    schema.getContents().add((EObject)c.iterator().next());
+    schema.getContents().add(c.iterator().next());
     ByteArrayOutputStream outputstream = new ByteArrayOutputStream(2064);
     schema.save(outputstream, null);
 
@@ -173,20 +167,23 @@ public class Ecore2XSDTest extends TestCase
   {
     int errors;
 
-    ArrayList list = new ArrayList();
+    ArrayList<String> list = new ArrayList<String>();
 
+    @Override
     public void startDocument() throws SAXException
     {
       errors = 0;
       list.clear();
     }
 
+    @Override
     public void error(SAXParseException arg0) throws SAXException
     {
       errors++;
       list.add(arg0.toString());
     }
 
+    @Override
     public void fatalError(SAXParseException arg0) throws SAXException
     {
       Assert.assertEquals(arg0.toString(), 1, 0);

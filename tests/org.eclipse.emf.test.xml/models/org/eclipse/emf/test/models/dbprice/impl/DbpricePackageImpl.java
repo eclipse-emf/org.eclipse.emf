@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -14,8 +24,8 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
-
+import org.eclipse.emf.test.models.customer.CustomerPackage;
+import org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl;
 import org.eclipse.emf.test.models.dbitem.DbitemPackage;
 
 import org.eclipse.emf.test.models.dbitem.impl.DbitemPackageImpl;
@@ -24,6 +34,12 @@ import org.eclipse.emf.test.models.dbprice.DbpriceFactory;
 import org.eclipse.emf.test.models.dbprice.DbpricePackage;
 import org.eclipse.emf.test.models.dbprice.PenType;
 import org.eclipse.emf.test.models.dbprice.PencilType;
+import org.eclipse.emf.test.models.movie.db.DbPackage;
+import org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl;
+import org.eclipse.emf.test.models.order.OrderPackage;
+import org.eclipse.emf.test.models.order.impl.OrderPackageImpl;
+import org.eclipse.emf.test.models.qname.QnamePackage;
+import org.eclipse.emf.test.models.qname.impl.QnamePackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -98,26 +114,41 @@ public class DbpricePackageImpl extends EPackageImpl implements DbpricePackage
    */
   public static DbpricePackage init()
   {
-    if (isInited) return (DbpricePackage)EPackage.Registry.INSTANCE.get(DbpricePackage.eNS_URI);
+    if (isInited) return (DbpricePackage)EPackage.Registry.INSTANCE.getEPackage(DbpricePackage.eNS_URI);
 
-    // Obtain or create and register package.
-    DbpricePackageImpl theDbpricePackage = (DbpricePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DbpricePackageImpl());
+    // Obtain or create and register package
+    DbpricePackageImpl theDbpricePackage = (DbpricePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof DbpricePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new DbpricePackageImpl());
 
     isInited = true;
 
     // Initialize simple dependencies
-    XMLTypePackageImpl.init();
+    XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
-    DbitemPackageImpl theDbitemPackage = (DbitemPackageImpl)(EPackage.Registry.INSTANCE.get(DbitemPackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(DbitemPackage.eNS_URI) : DbitemPackage.eINSTANCE);
+    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) : CustomerPackage.eINSTANCE);
+    DbitemPackageImpl theDbitemPackage = (DbitemPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbitemPackage.eNS_URI) instanceof DbitemPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbitemPackage.eNS_URI) : DbitemPackage.eINSTANCE);
+    DbPackageImpl theDbPackage = (DbPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) instanceof DbPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) : DbPackage.eINSTANCE);
+    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) : OrderPackage.eINSTANCE);
+    QnamePackageImpl theQnamePackage = (QnamePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(QnamePackage.eNS_URI) instanceof QnamePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(QnamePackage.eNS_URI) : QnamePackage.eINSTANCE);
 
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theDbpricePackage.createPackageContents();
+    theCustomerPackage.createPackageContents();
     theDbitemPackage.createPackageContents();
+    theDbPackage.createPackageContents();
+    theOrderPackage.createPackageContents();
+    theQnamePackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theDbpricePackage.initializePackageContents();
+    theCustomerPackage.initializePackageContents();
     theDbitemPackage.initializePackageContents();
+    theDbPackage.initializePackageContents();
+    theOrderPackage.initializePackageContents();
+    theQnamePackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theDbpricePackage.freeze();
 
     return theDbpricePackage;
   }
@@ -224,16 +255,20 @@ public class DbpricePackageImpl extends EPackageImpl implements DbpricePackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
-    initEClass(pencilTypeEClass, PencilType.class, "PencilType", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getPencilType_Price(), theXMLTypePackage.getInt(), "price", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
+    initEClass(pencilTypeEClass, PencilType.class, "PencilType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getPencilType_Price(), theXMLTypePackage.getInt(), "price", null, 1, 1, PencilType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(penTypeEClass, PenType.class, "PenType", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getPenType_Price(), theXMLTypePackage.getInt(), "price", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
+    initEClass(penTypeEClass, PenType.class, "PenType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getPenType_Price(), theXMLTypePackage.getInt(), "price", null, 1, 1, PenType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);

@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -27,7 +37,7 @@ import org.eclipse.emf.test.models.dbprice.PencilType;
  * </p>
  *
  * @see org.eclipse.emf.test.models.dbitem.DbitemPackage#getDbType()
- * @model 
+ * @model extendedMetaData="name='dbType' kind='elementOnly'"
  * @generated
  */
 public interface DbType extends EObject
@@ -44,6 +54,7 @@ public interface DbType extends EObject
    * @see #setRedPen(PenType)
    * @see org.eclipse.emf.test.models.dbitem.DbitemPackage#getDbType_RedPen()
    * @model containment="true" required="true"
+   *        extendedMetaData="kind='element' name='red_pen' namespace='##targetNamespace'"
    * @generated
    */
   PenType getRedPen();
@@ -70,6 +81,7 @@ public interface DbType extends EObject
    * @see #setBluePen(PenType)
    * @see org.eclipse.emf.test.models.dbitem.DbitemPackage#getDbType_BluePen()
    * @model containment="true" required="true"
+   *        extendedMetaData="kind='element' name='blue_pen'"
    * @generated
    */
   PenType getBluePen();
@@ -96,6 +108,7 @@ public interface DbType extends EObject
    * @see #setRedPencil(PencilType)
    * @see org.eclipse.emf.test.models.dbitem.DbitemPackage#getDbType_RedPencil()
    * @model containment="true" required="true"
+   *        extendedMetaData="kind='element' name='red_pencil' namespace='##targetNamespace'"
    * @generated
    */
   PencilType getRedPencil();
@@ -122,6 +135,7 @@ public interface DbType extends EObject
    * @see #setBluePencil(PencilType)
    * @see org.eclipse.emf.test.models.dbitem.DbitemPackage#getDbType_BluePencil()
    * @model containment="true" required="true"
+   *        extendedMetaData="kind='element' name='blue_pencil'"
    * @generated
    */
   PencilType getBluePencil();

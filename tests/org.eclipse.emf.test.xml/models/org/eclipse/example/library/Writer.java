@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -24,7 +34,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.example.library.LibraryPackage#getWriter()
- * @model 
+ * @model
  * @generated
  */
 public interface Writer extends EObject
@@ -40,7 +50,7 @@ public interface Writer extends EObject
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
    * @see org.eclipse.example.library.LibraryPackage#getWriter_Name()
-   * @model 
+   * @model
    * @generated
    */
   String getName();
@@ -71,6 +81,6 @@ public interface Writer extends EObject
    * @model type="org.eclipse.example.library.Book" opposite="author"
    * @generated
    */
-  EList getBooks();
+  EList<Book> getBooks();
 
 } // Writer

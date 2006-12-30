@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -27,7 +37,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * </p>
  *
  * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieDBType()
- * @model 
+ * @model extendedMetaData="name='movieDBType' kind='elementOnly'"
  * @generated
  */
 public interface MovieDBType extends EObject
@@ -44,6 +54,7 @@ public interface MovieDBType extends EObject
    * @return the value of the '<em>Movie DB Feature Map</em>' attribute list.
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieDBType_MovieDBFeatureMap()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="name=':group' kind='group'"
    * @generated
    */
   FeatureMap getMovieDBFeatureMap();
@@ -59,10 +70,11 @@ public interface MovieDBType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Movie</em>' containment reference list.
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieDBType_Movie()
-   * @model type="org.eclipse.emf.test.models.movie.db.MovieType" containment="true" resolveProxies="false" required="true" transient="true" volatile="true" derived="true"
+   * @model type="org.eclipse.emf.test.models.movie.db.MovieType" containment="true" required="true" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='movie' namespace='##targetNamespace' group='#:group'"
    * @generated
    */
-  EList getMovie();
+  EList<MovieType> getMovie();
 
   /**
    * Returns the value of the '<em><b>Comment</b></em>' attribute.
@@ -76,6 +88,7 @@ public interface MovieDBType extends EObject
    * @see #setComment(String)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getMovieDBType_Comment()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='comment' group='#:group'"
    * @generated
    */
   String getComment();

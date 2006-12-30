@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -35,7 +45,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * </p>
  *
  * @see org.eclipse.emf.test.models.qname.QnamePackage#getDocumentRoot()
- * @model 
+ * @model extendedMetaData="name='' kind='mixed'"
  * @generated
  */
 public interface DocumentRoot extends EObject
@@ -52,6 +62,7 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Mixed</em>' attribute list.
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getDocumentRoot_Mixed()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='elementWildcard' name=':mixed'"
    * @generated
    */
   FeatureMap getMixed();
@@ -69,9 +80,10 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getDocumentRoot_XMLNSPrefixMap()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
-  EMap getXMLNSPrefixMap();
+  EMap<String, String> getXMLNSPrefixMap();
 
   /**
    * Returns the value of the '<em><b>XSI Schema Location</b></em>' map.
@@ -86,9 +98,10 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getDocumentRoot_XSISchemaLocation()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */
-  EMap getXSISchemaLocation();
+  EMap<String, String> getXSISchemaLocation();
 
   /**
    * Returns the value of the '<em><b>Any E</b></em>' attribute.
@@ -101,7 +114,8 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Any E</em>' attribute.
    * @see #setAnyE(Object)
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getDocumentRoot_AnyE()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.QName" transient="true" volatile="true" derived="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.QName" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='anyE' namespace='##targetNamespace'"
    * @generated
    */
   Object getAnyE();
@@ -125,12 +139,13 @@ public interface DocumentRoot extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Any EU</em>' attribute.
-   * @see #setAnyEU(List)
+   * @see #setAnyEU(List<Object>)
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getDocumentRoot_AnyEU()
-   * @model unique="false" dataType="org.eclipse.emf.test.models.qname.ListUnion" transient="true" volatile="true" derived="true"
+   * @model unique="false" dataType="org.eclipse.emf.test.models.qname.ListUnion" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='anyEU' namespace='##targetNamespace'"
    * @generated
    */
-  List getAnyEU();
+  List<Object> getAnyEU();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.qname.DocumentRoot#getAnyEU <em>Any EU</em>}' attribute.
@@ -140,7 +155,7 @@ public interface DocumentRoot extends EObject
    * @see #getAnyEU()
    * @generated
    */
-  void setAnyEU(List value);
+  void setAnyEU(List<Object> value);
 
   /**
    * Returns the value of the '<em><b>Resource</b></em>' containment reference.
@@ -153,7 +168,8 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Resource</em>' containment reference.
    * @see #setResource(ResourceType)
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getDocumentRoot_Resource()
-   * @model containment="true" resolveProxies="false" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='resource' namespace='##targetNamespace'"
    * @generated
    */
   ResourceType getResource();
@@ -182,6 +198,7 @@ public interface DocumentRoot extends EObject
    * @see #setAInt(int)
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getDocumentRoot_AInt()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+   *        extendedMetaData="kind='attribute' name='aInt' namespace='##targetNamespace'"
    * @generated
    */
   int getAInt();
@@ -233,6 +250,7 @@ public interface DocumentRoot extends EObject
    * @see #setAQname(Object)
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getDocumentRoot_AQname()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.QName"
+   *        extendedMetaData="kind='attribute' name='aQname' namespace='##targetNamespace'"
    * @generated
    */
   Object getAQname();
@@ -256,12 +274,13 @@ public interface DocumentRoot extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>AUnion</em>' attribute.
-   * @see #setAUnion(List)
+   * @see #setAUnion(List<Object>)
    * @see org.eclipse.emf.test.models.qname.QnamePackage#getDocumentRoot_AUnion()
-   * @model unique="false" dataType="org.eclipse.emf.test.models.qname.ListUnion"
+   * @model unique="false" dataType="org.eclipse.emf.test.models.qname.ListUnion" many="false"
+   *        extendedMetaData="kind='attribute' name='aUnion' namespace='##targetNamespace'"
    * @generated
    */
-  List getAUnion();
+  List<Object> getAUnion();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.qname.DocumentRoot#getAUnion <em>AUnion</em>}' attribute.
@@ -271,6 +290,6 @@ public interface DocumentRoot extends EObject
    * @see #getAUnion()
    * @generated
    */
-  void setAUnion(List value);
+  void setAUnion(List<Object> value);
 
 } // DocumentRoot

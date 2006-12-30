@@ -2,7 +2,6 @@
  * <copyright>
  *
  * Copyright (c) 2006 IBM Corporation and others.
- * 
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProcessingInstructionTest.java,v 1.1 2006/12/09 18:22:04 emerks Exp $
+ * $Id: ProcessingInstructionTest.java,v 1.2 2006/12/30 03:43:44 marcelop Exp $
  */
 package org.eclipse.emf.test.xml;
 
@@ -56,7 +55,7 @@ public class ProcessingInstructionTest extends TestCase
 
   private XMLProcessor processor;
   
-  private HashMap options;
+  private HashMap<String, Object> options;
   
   private InputSource input;
   
@@ -72,11 +71,12 @@ public class ProcessingInstructionTest extends TestCase
     return ts;
   }
 
+  @Override
   protected void setUp() throws Exception
   {
     super.setUp();
     processor = new XMLProcessor();
-    options = new HashMap();
+    options = new HashMap<String, Object>();
     XMLOptions xmlOptions = new XMLOptionsImpl();
     xmlOptions.setProcessAnyXML(true);
     options.put(XMLResource.OPTION_XML_OPTIONS, xmlOptions);

@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -55,6 +65,7 @@ public class DbAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,30 +85,36 @@ public class DbAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected DbSwitch modelSwitch =
-    new DbSwitch()
+  protected DbSwitch<Adapter> modelSwitch =
+    new DbSwitch<Adapter>()
     {
-      public Object caseCriticsReviewType(CriticsReviewType object)
+      @Override
+      public Adapter caseCriticsReviewType(CriticsReviewType object)
       {
         return createCriticsReviewTypeAdapter();
       }
-      public Object caseCustomerReviewType(CustomerReviewType object)
+      @Override
+      public Adapter caseCustomerReviewType(CustomerReviewType object)
       {
         return createCustomerReviewTypeAdapter();
       }
-      public Object caseDocumentRoot(DocumentRoot object)
+      @Override
+      public Adapter caseDocumentRoot(DocumentRoot object)
       {
         return createDocumentRootAdapter();
       }
-      public Object caseMovieDBType(MovieDBType object)
+      @Override
+      public Adapter caseMovieDBType(MovieDBType object)
       {
         return createMovieDBTypeAdapter();
       }
-      public Object caseMovieType(MovieType object)
+      @Override
+      public Adapter caseMovieType(MovieType object)
       {
         return createMovieTypeAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -111,9 +128,10 @@ public class DbAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

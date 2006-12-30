@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -24,7 +34,7 @@ public interface DbpriceFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  DbpriceFactory eINSTANCE = new org.eclipse.emf.test.models.dbprice.impl.DbpriceFactoryImpl();
+  DbpriceFactory eINSTANCE = org.eclipse.emf.test.models.dbprice.impl.DbpriceFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Pencil Type</em>'.

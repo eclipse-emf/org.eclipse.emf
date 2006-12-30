@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -23,6 +33,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.models.order.OrderFactory
+ * @model kind="package"
  * @generated
  */
 public interface OrderPackage extends EPackage
@@ -106,7 +117,7 @@ public interface OrderPackage extends EPackage
   int CUSTOMER_ORDER__CUSTOMER_ID = 3;
 
   /**
-   * The number of structural features of the the '<em>Customer Order</em>' class.
+   * The number of structural features of the '<em>Customer Order</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -161,7 +172,7 @@ public interface OrderPackage extends EPackage
   int DOCUMENT_ROOT__ORDER = 3;
 
   /**
-   * The number of structural features of the the '<em>Document Root</em>' class.
+   * The number of structural features of the '<em>Document Root</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -207,7 +218,7 @@ public interface OrderPackage extends EPackage
   int ORDER__MOVIES = 2;
 
   /**
-   * The number of structural features of the the '<em>Order</em>' class.
+   * The number of structural features of the '<em>Order</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -375,5 +386,139 @@ public interface OrderPackage extends EPackage
    * @generated
    */
   OrderFactory getOrderFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.order.impl.CustomerOrderImpl <em>Customer Order</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.order.impl.CustomerOrderImpl
+     * @see org.eclipse.emf.test.models.order.impl.OrderPackageImpl#getCustomerOrder()
+     * @generated
+     */
+    EClass CUSTOMER_ORDER = eINSTANCE.getCustomerOrder();
+
+    /**
+     * The meta object literal for the '<em><b>Movies To See</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CUSTOMER_ORDER__MOVIES_TO_SEE = eINSTANCE.getCustomerOrder_MoviesToSee();
+
+    /**
+     * The meta object literal for the '<em><b>Movies Seen</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CUSTOMER_ORDER__MOVIES_SEEN = eINSTANCE.getCustomerOrder_MoviesSeen();
+
+    /**
+     * The meta object literal for the '<em><b>Any</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CUSTOMER_ORDER__ANY = eINSTANCE.getCustomerOrder_Any();
+
+    /**
+     * The meta object literal for the '<em><b>Customer ID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CUSTOMER_ORDER__CUSTOMER_ID = eINSTANCE.getCustomerOrder_CustomerID();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.order.impl.DocumentRootImpl <em>Document Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.order.impl.DocumentRootImpl
+     * @see org.eclipse.emf.test.models.order.impl.OrderPackageImpl#getDocumentRoot()
+     * @generated
+     */
+    EClass DOCUMENT_ROOT = eINSTANCE.getDocumentRoot();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__MIXED = eINSTANCE.getDocumentRoot_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>XMLNS Prefix Map</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XMLNS_PREFIX_MAP = eINSTANCE.getDocumentRoot_XMLNSPrefixMap();
+
+    /**
+     * The meta object literal for the '<em><b>XSI Schema Location</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getDocumentRoot_XSISchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>Order</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__ORDER = eINSTANCE.getDocumentRoot_Order();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.order.impl.OrderImpl <em>Order</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.order.impl.OrderImpl
+     * @see org.eclipse.emf.test.models.order.impl.OrderPackageImpl#getOrder()
+     * @generated
+     */
+    EClass ORDER = eINSTANCE.getOrder();
+
+    /**
+     * The meta object literal for the '<em><b>Date Requested</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ORDER__DATE_REQUESTED = eINSTANCE.getOrder_DateRequested();
+
+    /**
+     * The meta object literal for the '<em><b>Last Updated</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ORDER__LAST_UPDATED = eINSTANCE.getOrder_LastUpdated();
+
+    /**
+     * The meta object literal for the '<em><b>Movies</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ORDER__MOVIES = eINSTANCE.getOrder_Movies();
+
+  }
 
 } //OrderPackage

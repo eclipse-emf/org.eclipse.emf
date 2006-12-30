@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -330,6 +340,10 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     setNsPrefix(eNS_PREFIX);
     setNsURI(eNS_URI);
 
+    // Create type parameters
+
+    // Set bounds for type parameters
+
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
@@ -350,9 +364,9 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
 
     // Initialize enums and add enum literals
     initEEnum(bookCategoryEEnum, BookCategory.class, "BookCategory");
-    addEEnumLiteral(bookCategoryEEnum, BookCategory.MYSTERY_LITERAL);
-    addEEnumLiteral(bookCategoryEEnum, BookCategory.SCIENCE_FICTION_LITERAL);
-    addEEnumLiteral(bookCategoryEEnum, BookCategory.BIOGRAPHY_LITERAL);
+    addEEnumLiteral(bookCategoryEEnum, BookCategory.MYSTERY);
+    addEEnumLiteral(bookCategoryEEnum, BookCategory.SCIENCE_FICTION);
+    addEEnumLiteral(bookCategoryEEnum, BookCategory.BIOGRAPHY);
 
     // Create resource
     createResource(eNS_URI);

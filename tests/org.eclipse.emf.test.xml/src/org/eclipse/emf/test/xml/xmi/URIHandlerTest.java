@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,22 +12,16 @@
  *
  * </copyright>
  *
- * $Id: URIHandlerTest.java,v 1.1 2006/12/10 14:08:43 emerks Exp $
+ * $Id: URIHandlerTest.java,v 1.2 2006/12/30 03:43:43 marcelop Exp $
  */
 
 package org.eclipse.emf.test.xml.xmi;
 
 
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
-import java.util.Collections;
-
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -44,14 +38,8 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLResource.ResourceEntityHandler;
-import org.eclipse.emf.ecore.xmi.XMLResource.URIHandler;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.ResourceEntityHandlerImpl;
-import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
-import org.eclipse.emf.test.models.dbitem.DbitemPackage;
-import org.eclipse.emf.test.models.dbitem.util.DbitemResourceFactoryImpl;
-import org.eclipse.emf.test.models.dbprice.DbpricePackage;
 import org.eclipse.emf.test.xml.TestUtil;
 import org.eclipse.example.library.Book;
 import org.eclipse.example.library.Library;
@@ -83,6 +71,7 @@ public class URIHandlerTest extends TestCase
   /**
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     resourceSet = new ResourceSetImpl();
@@ -106,6 +95,7 @@ public class URIHandlerTest extends TestCase
   /**
    * @see junit.framework.TestCase#tearDown()
    */
+  @Override
   protected void tearDown() throws Exception
   {
     resourceSet = null;
@@ -147,7 +137,7 @@ public class URIHandlerTest extends TestCase
     mainLibraryResource.getContents().add(mainLibrary);
     
     ResourceEntityHandler resourceEntityHandler = 
-      (ResourceEntityHandler)((XMLResource)mainLibraryResource).getDefaultLoadOptions().get(XMLResource.OPTION_RESOURCE_ENTITY_HANDLER);
+      (ResourceEntityHandler)(mainLibraryResource).getDefaultLoadOptions().get(XMLResource.OPTION_RESOURCE_ENTITY_HANDLER);
     resourceEntityHandler.handleEntity("first", firstLibraryResource.getURI().toString());
     resourceEntityHandler.handleEntity("second", secondLibraryResource.getURI().toString());
     
@@ -185,8 +175,8 @@ public class URIHandlerTest extends TestCase
     Resource reloadedMainLibraryResource = resourceSet.createResource(URI.createFileURI(BASE_XML_URI + "/vault/main2.library"));
     reloadedMainLibraryResource.load(new URIConverter.ReadableInputStream(mainWriter.toString()), null);
     Library reloadedMainLibrary = ((Library)reloadedMainLibraryResource.getContents().get(0));
-    Writer reloadedFirstAuthor = ((Writer)reloadedMainLibrary.getWriters().get(0));
-    Book reloadedFirstBook = ((Book)reloadedFirstAuthor.getBooks().get(0));
+    Writer reloadedFirstAuthor = reloadedMainLibrary.getWriters().get(0);
+    Book reloadedFirstBook = reloadedFirstAuthor.getBooks().get(0);
     assertEquals(firstLibraryResource.getURI(), reloadedFirstBook.eResource().getURI());
   }
 }

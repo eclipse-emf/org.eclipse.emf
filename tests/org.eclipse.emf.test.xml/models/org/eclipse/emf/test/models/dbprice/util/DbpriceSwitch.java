@@ -1,11 +1,22 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
  */
 package org.eclipse.emf.test.models.dbprice.util;
 
+import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -24,7 +35,7 @@ import org.eclipse.emf.test.models.dbprice.*;
  * @see org.eclipse.emf.test.models.dbprice.DbpricePackage
  * @generated
  */
-public class DbpriceSwitch
+public class DbpriceSwitch<T>
 {
   /**
    * The cached model package
@@ -55,31 +66,61 @@ public class DbpriceSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
-    EClass theEClass = theEObject.eClass();
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected T doSwitch(EClass theEClass, EObject theEObject)
+  {
     if (theEClass.eContainer() == modelPackage)
     {
-      switch (theEClass.getClassifierID())
-      {
-        case DbpricePackage.PENCIL_TYPE:
-        {
-          PencilType pencilType = (PencilType)theEObject;
-          Object result = casePencilType(pencilType);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        case DbpricePackage.PEN_TYPE:
-        {
-          PenType penType = (PenType)theEObject;
-          Object result = casePenType(penType);
-          if (result == null) result = defaultCase(theEObject);
-          return result;
-        }
-        default: return defaultCase(theEObject);
-      }
+      return doSwitch(theEClass.getClassifierID(), theEObject);
     }
-    return defaultCase(theEObject);
+    else
+    {
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch(eSuperTypes.get(0), theEObject);
+    }
+  }
+
+  /**
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+  protected T doSwitch(int classifierID, EObject theEObject)
+  {
+    switch (classifierID)
+    {
+      case DbpricePackage.PENCIL_TYPE:
+      {
+        PencilType pencilType = (PencilType)theEObject;
+        T result = casePencilType(pencilType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case DbpricePackage.PEN_TYPE:
+      {
+        PenType penType = (PenType)theEObject;
+        T result = casePenType(penType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
   }
 
   /**
@@ -93,7 +134,7 @@ public class DbpriceSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object casePencilType(PencilType object)
+  public T casePencilType(PencilType object)
   {
     return null;
   }
@@ -109,7 +150,7 @@ public class DbpriceSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object casePenType(PenType object)
+  public T casePenType(PenType object)
   {
     return null;
   }
@@ -125,7 +166,7 @@ public class DbpriceSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -9,8 +19,6 @@ package org.eclipse.emf.test.models.movie.db.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -97,9 +105,10 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return DbPackage.eINSTANCE.getCriticsReviewType();
+    return DbPackage.Literals.CRITICS_REVIEW_TYPE;
   }
 
   /**
@@ -180,16 +189,17 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.CRITICS_REVIEW_TYPE__RATING:
         return new Integer(getRating());
       case DbPackage.CRITICS_REVIEW_TYPE__REVIEWED_BY:
         return getReviewedBy();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -197,9 +207,10 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.CRITICS_REVIEW_TYPE__RATING:
         setRating(((Integer)newValue).intValue());
@@ -208,7 +219,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
         setReviewedBy((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -216,9 +227,10 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.CRITICS_REVIEW_TYPE__RATING:
         unsetRating();
@@ -227,7 +239,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
         setReviewedBy(REVIEWED_BY_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -235,16 +247,17 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case DbPackage.CRITICS_REVIEW_TYPE__RATING:
         return isSetRating();
       case DbPackage.CRITICS_REVIEW_TYPE__REVIEWED_BY:
         return REVIEWED_BY_EDEFAULT == null ? reviewedBy != null : !REVIEWED_BY_EDEFAULT.equals(reviewedBy);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -252,6 +265,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

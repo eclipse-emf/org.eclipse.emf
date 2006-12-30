@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -13,6 +23,8 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.eclipse.emf.test.models.customer.CustomerPackage;
+import org.eclipse.emf.test.models.customer.impl.CustomerPackageImpl;
 import org.eclipse.emf.test.models.dbitem.DbType;
 import org.eclipse.emf.test.models.dbitem.DbitemFactory;
 import org.eclipse.emf.test.models.dbitem.DbitemPackage;
@@ -21,6 +33,12 @@ import org.eclipse.emf.test.models.dbitem.DocumentRoot;
 import org.eclipse.emf.test.models.dbprice.DbpricePackage;
 
 import org.eclipse.emf.test.models.dbprice.impl.DbpricePackageImpl;
+import org.eclipse.emf.test.models.movie.db.DbPackage;
+import org.eclipse.emf.test.models.movie.db.impl.DbPackageImpl;
+import org.eclipse.emf.test.models.order.OrderPackage;
+import org.eclipse.emf.test.models.order.impl.OrderPackageImpl;
+import org.eclipse.emf.test.models.qname.QnamePackage;
+import org.eclipse.emf.test.models.qname.impl.QnamePackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -95,23 +113,38 @@ public class DbitemPackageImpl extends EPackageImpl implements DbitemPackage
    */
   public static DbitemPackage init()
   {
-    if (isInited) return (DbitemPackage)EPackage.Registry.INSTANCE.get(DbitemPackage.eNS_URI);
+    if (isInited) return (DbitemPackage)EPackage.Registry.INSTANCE.getEPackage(DbitemPackage.eNS_URI);
 
-    // Obtain or create and register package.
-    DbitemPackageImpl theDbitemPackage = (DbitemPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DbitemPackageImpl());
+    // Obtain or create and register package
+    DbitemPackageImpl theDbitemPackage = (DbitemPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof DbitemPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new DbitemPackageImpl());
 
     isInited = true;
 
     // Obtain or create and register interdependencies
-    DbpricePackageImpl theDbpricePackage = (DbpricePackageImpl)(EPackage.Registry.INSTANCE.get(DbpricePackage.eNS_URI) instanceof EPackage ? EPackage.Registry.INSTANCE.get(DbpricePackage.eNS_URI) : DbpricePackage.eINSTANCE);
+    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) : CustomerPackage.eINSTANCE);
+    DbpricePackageImpl theDbpricePackage = (DbpricePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbpricePackage.eNS_URI) instanceof DbpricePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbpricePackage.eNS_URI) : DbpricePackage.eINSTANCE);
+    DbPackageImpl theDbPackage = (DbPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) instanceof DbPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DbPackage.eNS_URI) : DbPackage.eINSTANCE);
+    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) : OrderPackage.eINSTANCE);
+    QnamePackageImpl theQnamePackage = (QnamePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(QnamePackage.eNS_URI) instanceof QnamePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(QnamePackage.eNS_URI) : QnamePackage.eINSTANCE);
 
-    // Step 1: create meta-model objects
+    // Create package meta-data objects
     theDbitemPackage.createPackageContents();
+    theCustomerPackage.createPackageContents();
     theDbpricePackage.createPackageContents();
+    theDbPackage.createPackageContents();
+    theOrderPackage.createPackageContents();
+    theQnamePackage.createPackageContents();
 
-    // Step 2: complete initialization
+    // Initialize created meta-data
     theDbitemPackage.initializePackageContents();
+    theCustomerPackage.initializePackageContents();
     theDbpricePackage.initializePackageContents();
+    theDbPackage.initializePackageContents();
+    theOrderPackage.initializePackageContents();
+    theQnamePackage.initializePackageContents();
+
+    // Mark meta-data to indicate it can't be changed
+    theDbitemPackage.freeze();
 
     return theDbitemPackage;
   }
@@ -284,22 +317,26 @@ public class DbitemPackageImpl extends EPackageImpl implements DbitemPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    DbpricePackageImpl theDbpricePackage = (DbpricePackageImpl)EPackage.Registry.INSTANCE.getEPackage(DbpricePackage.eNS_URI);
+    DbpricePackage theDbpricePackage = (DbpricePackage)EPackage.Registry.INSTANCE.getEPackage(DbpricePackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
-    initEClass(dbTypeEClass, DbType.class, "DbType", !IS_ABSTRACT, !IS_INTERFACE);
-    initEReference(getDbType_RedPen(), theDbpricePackage.getPenType(), null, "redPen", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getDbType_BluePen(), theDbpricePackage.getPenType(), null, "bluePen", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getDbType_RedPencil(), theDbpricePackage.getPencilType(), null, "redPencil", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
-    initEReference(getDbType_BluePencil(), theDbpricePackage.getPencilType(), null, "bluePencil", null, 1, 1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED);
+    initEClass(dbTypeEClass, DbType.class, "DbType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getDbType_RedPen(), theDbpricePackage.getPenType(), null, "redPen", null, 1, 1, DbType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDbType_BluePen(), theDbpricePackage.getPenType(), null, "bluePen", null, 1, 1, DbType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDbType_RedPencil(), theDbpricePackage.getPencilType(), null, "redPencil", null, 1, 1, DbType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDbType_BluePencil(), theDbpricePackage.getPencilType(), null, "bluePencil", null, 1, 1, DbType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE);
-    initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED);
-    initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED);
-    initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED);
-    initEReference(getDocumentRoot_Dbitem(), this.getDbType(), null, "dbitem", null, 0, -2, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED);
+    initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getDocumentRoot_Dbitem(), this.getDbType(), null, "dbitem", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);

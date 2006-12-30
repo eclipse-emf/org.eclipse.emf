@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -26,7 +36,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * </p>
  *
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomersType()
- * @model 
+ * @model extendedMetaData="name='customersType' kind='mixed'"
  * @generated
  */
 public interface CustomersType extends EObject
@@ -43,6 +53,7 @@ public interface CustomersType extends EObject
    * @return the value of the '<em>Mixed</em>' attribute list.
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomersType_Mixed()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='elementWildcard' name=':mixed'"
    * @generated
    */
   FeatureMap getMixed();
@@ -58,9 +69,10 @@ public interface CustomersType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Customer</em>' containment reference list.
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomersType_Customer()
-   * @model type="org.eclipse.emf.test.models.customer.CustomerType" containment="true" resolveProxies="false" required="true" transient="true" volatile="true" derived="true"
+   * @model type="org.eclipse.emf.test.models.customer.CustomerType" containment="true" required="true" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='customer' namespace='##targetNamespace'"
    * @generated
    */
-  EList getCustomer();
+  EList<CustomerType> getCustomer();
 
 } // CustomersType

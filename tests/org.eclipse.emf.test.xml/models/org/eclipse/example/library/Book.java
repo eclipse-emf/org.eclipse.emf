@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -24,7 +34,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.example.library.LibraryPackage#getBook()
- * @model 
+ * @model
  * @generated
  */
 public interface Book extends EObject
@@ -40,7 +50,7 @@ public interface Book extends EObject
    * @return the value of the '<em>Title</em>' attribute.
    * @see #setTitle(String)
    * @see org.eclipse.example.library.LibraryPackage#getBook_Title()
-   * @model 
+   * @model
    * @generated
    */
   String getTitle();
@@ -95,7 +105,7 @@ public interface Book extends EObject
    * @see org.eclipse.example.library.BookCategory
    * @see #setCategory(BookCategory)
    * @see org.eclipse.example.library.LibraryPackage#getBook_Category()
-   * @model 
+   * @model
    * @generated
    */
   BookCategory getCategory();

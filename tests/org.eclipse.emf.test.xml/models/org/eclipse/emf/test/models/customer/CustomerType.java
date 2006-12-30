@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -25,7 +35,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType()
- * @model 
+ * @model extendedMetaData="name='dbcustomer' kind='elementOnly'"
  * @generated
  */
 public interface CustomerType extends EObject
@@ -42,6 +52,7 @@ public interface CustomerType extends EObject
    * @see #setName(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType_Name()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='name'"
    * @generated
    */
   String getName();
@@ -67,7 +78,8 @@ public interface CustomerType extends EObject
    * @return the value of the '<em>Address</em>' containment reference.
    * @see #setAddress(AddressType)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType_Address()
-   * @model containment="true" resolveProxies="false" required="true"
+   * @model containment="true" required="true"
+   *        extendedMetaData="kind='element' name='address'"
    * @generated
    */
   AddressType getAddress();
@@ -93,7 +105,8 @@ public interface CustomerType extends EObject
    * @return the value of the '<em>Credit Card</em>' containment reference.
    * @see #setCreditCard(CreditInfo)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType_CreditCard()
-   * @model containment="true" resolveProxies="false" required="true"
+   * @model containment="true" required="true"
+   *        extendedMetaData="kind='element' name='creditCard'"
    * @generated
    */
   CreditInfo getCreditCard();
@@ -122,6 +135,7 @@ public interface CustomerType extends EObject
    * @see #setPaymentDay(Object)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType_PaymentDay()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.GDay" required="true"
+   *        extendedMetaData="kind='element' name='paymentDay'"
    * @generated
    */
   Object getPaymentDay();
@@ -173,6 +187,7 @@ public interface CustomerType extends EObject
    * @see #setID(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType_ID()
    * @model unique="false" id="true" dataType="org.eclipse.emf.ecore.xml.type.ID" required="true"
+   *        extendedMetaData="kind='attribute' name='ID' namespace='##targetNamespace'"
    * @generated
    */
   String getID();

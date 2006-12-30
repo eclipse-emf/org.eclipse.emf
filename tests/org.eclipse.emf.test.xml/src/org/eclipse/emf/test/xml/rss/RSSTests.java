@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RSSTests.java,v 1.2 2005/11/01 22:07:45 nickb Exp $
+ * $Id: RSSTests.java,v 1.3 2006/12/30 03:43:44 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.rss;
 
@@ -45,6 +45,7 @@ import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 import org.eclipse.emf.test.xml.TestUtil;
 import org.eclipse.emf.test.xml.xmi.CompareXML;
 
+import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDDiagnosticSeverity;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.impl.XSDDiagnosticImpl;
@@ -79,6 +80,7 @@ public class RSSTests extends TestCase
   /**
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     xsdEcoreBuilder = new XSDEcoreBuilder();
@@ -117,8 +119,8 @@ public class RSSTests extends TestCase
 
     // this is still the EMF2.1 way
     xsdEcoreBuilder.generate(schemaURI);
-    List results = xsdEcoreBuilder.getDiagnostics();
-    for (Iterator iter = results.iterator(); iter.hasNext();) {
+    List<XSDDiagnostic> results = xsdEcoreBuilder.getDiagnostics();
+    for (Iterator<XSDDiagnostic> iter = results.iterator(); iter.hasNext();) {
       assertTrue(getXSDDiagnosticMessage((XSDDiagnosticImpl)iter.next()).toString(),false);
     }
   }
@@ -126,13 +128,12 @@ public class RSSTests extends TestCase
   // EMF 2.1 way of loading an xml doc using schema
   protected void loadAndSaveEMF21(String schema, String rss) throws Exception
   {
-    HashMap options = new HashMap();
+    HashMap<String, Object> options = new HashMap<String, Object>();
     ResourceSet rs = new ResourceSetImpl();
     Registry packageRegistry = rs.getPackageRegistry();
-    Collection packageList = xsdEcoreBuilder.generate(schemaURI);
-    for (Iterator packageIterator = packageList.iterator(); packageIterator.hasNext();)
+    @SuppressWarnings("unchecked") Collection<EPackage> packageList = (Collection)xsdEcoreBuilder.generate(schemaURI);
+    for (EPackage epackage : packageList)
     {
-      EPackage epackage = (EPackage)packageIterator.next();
       String nsURI = epackage.getNsURI();
       packageRegistry.put(nsURI, epackage);
     }

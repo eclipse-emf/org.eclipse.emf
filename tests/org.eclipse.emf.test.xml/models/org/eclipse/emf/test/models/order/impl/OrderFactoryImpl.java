@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -9,8 +19,10 @@ package org.eclipse.emf.test.models.order.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.test.models.order.*;
 
 /**
@@ -22,7 +34,30 @@ import org.eclipse.emf.test.models.order.*;
 public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
 {
   /**
-   * Creates and instance of the factory.
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static OrderFactory init()
+  {
+    try
+    {
+      OrderFactory theOrderFactory = (OrderFactory)EPackage.Registry.INSTANCE.getEFactory("http://org/eclipse/emf/test/models/Order"); 
+      if (theOrderFactory != null)
+      {
+        return theOrderFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new OrderFactoryImpl();
+  }
+
+  /**
+   * Creates an instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -37,6 +72,7 @@ public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -98,6 +134,7 @@ public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static OrderPackage getPackage()
   {
     return OrderPackage.eINSTANCE;

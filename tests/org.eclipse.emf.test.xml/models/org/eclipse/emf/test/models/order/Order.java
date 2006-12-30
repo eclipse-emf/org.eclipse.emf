@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -16,9 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- *            Describes a movie order which includes date and the list of movies
- *         
+ * Describes a movie order which includes date and the list of movies
  * <!-- end-model-doc -->
  *
  * <p>
@@ -31,7 +39,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder()
- * @model 
+ * @model extendedMetaData="name='order' kind='elementOnly'"
  * @generated
  */
 public interface Order extends EObject
@@ -48,6 +56,7 @@ public interface Order extends EObject
    * @see #setDateRequested(Object)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder_DateRequested()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Date"
+   *        extendedMetaData="kind='element' name='dateRequested'"
    * @generated
    */
   Object getDateRequested();
@@ -74,6 +83,7 @@ public interface Order extends EObject
    * @see #setLastUpdated(Object)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder_LastUpdated()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Date"
+   *        extendedMetaData="kind='element' name='lastUpdated'"
    * @generated
    */
   Object getLastUpdated();
@@ -97,12 +107,13 @@ public interface Order extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Movies</em>' attribute.
-   * @see #setMovies(List)
+   * @see #setMovies(List<String>)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder_Movies()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.IDREFS" required="true" many="false"
+   *        extendedMetaData="kind='element' name='movies'"
    * @generated
    */
-  List getMovies();
+  List<String> getMovies();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.order.Order#getMovies <em>Movies</em>}' attribute.
@@ -112,6 +123,6 @@ public interface Order extends EObject
    * @see #getMovies()
    * @generated
    */
-  void setMovies(List value);
+  void setMovies(List<String> value);
 
 } // Order

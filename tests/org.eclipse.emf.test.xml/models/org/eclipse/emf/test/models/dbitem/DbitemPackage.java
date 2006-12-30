@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -23,6 +33,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.models.dbitem.DbitemFactory
+ * @model kind="package"
  * @generated
  */
 public interface DbitemPackage extends EPackage
@@ -106,7 +117,7 @@ public interface DbitemPackage extends EPackage
   int DB_TYPE__BLUE_PENCIL = 3;
 
   /**
-   * The number of structural features of the the '<em>Db Type</em>' class.
+   * The number of structural features of the '<em>Db Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -161,7 +172,7 @@ public interface DbitemPackage extends EPackage
   int DOCUMENT_ROOT__DBITEM = 3;
 
   /**
-   * The number of structural features of the the '<em>Document Root</em>' class.
+   * The number of structural features of the '<em>Document Root</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -286,5 +297,105 @@ public interface DbitemPackage extends EPackage
    * @generated
    */
   DbitemFactory getDbitemFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.dbitem.impl.DbTypeImpl <em>Db Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.dbitem.impl.DbTypeImpl
+     * @see org.eclipse.emf.test.models.dbitem.impl.DbitemPackageImpl#getDbType()
+     * @generated
+     */
+    EClass DB_TYPE = eINSTANCE.getDbType();
+
+    /**
+     * The meta object literal for the '<em><b>Red Pen</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DB_TYPE__RED_PEN = eINSTANCE.getDbType_RedPen();
+
+    /**
+     * The meta object literal for the '<em><b>Blue Pen</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DB_TYPE__BLUE_PEN = eINSTANCE.getDbType_BluePen();
+
+    /**
+     * The meta object literal for the '<em><b>Red Pencil</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DB_TYPE__RED_PENCIL = eINSTANCE.getDbType_RedPencil();
+
+    /**
+     * The meta object literal for the '<em><b>Blue Pencil</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DB_TYPE__BLUE_PENCIL = eINSTANCE.getDbType_BluePencil();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.dbitem.impl.DocumentRootImpl <em>Document Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.dbitem.impl.DocumentRootImpl
+     * @see org.eclipse.emf.test.models.dbitem.impl.DbitemPackageImpl#getDocumentRoot()
+     * @generated
+     */
+    EClass DOCUMENT_ROOT = eINSTANCE.getDocumentRoot();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__MIXED = eINSTANCE.getDocumentRoot_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>XMLNS Prefix Map</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XMLNS_PREFIX_MAP = eINSTANCE.getDocumentRoot_XMLNSPrefixMap();
+
+    /**
+     * The meta object literal for the '<em><b>XSI Schema Location</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getDocumentRoot_XSISchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>Dbitem</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__DBITEM = eINSTANCE.getDocumentRoot_Dbitem();
+
+  }
 
 } //DbitemPackage

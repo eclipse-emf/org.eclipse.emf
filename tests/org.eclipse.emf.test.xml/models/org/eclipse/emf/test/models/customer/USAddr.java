@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -21,7 +31,7 @@ package org.eclipse.emf.test.models.customer;
  * </p>
  *
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getUSAddr()
- * @model 
+ * @model extendedMetaData="name='USAddr' kind='elementOnly'"
  * @generated
  */
 public interface USAddr extends AddressType
@@ -38,6 +48,7 @@ public interface USAddr extends AddressType
    * @see #setZip(Object)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getUSAddr_Zip()
    * @model unique="false" dataType="org.eclipse.emf.test.models.customer.ZipUnion" required="true"
+   *        extendedMetaData="kind='element' name='zip'"
    * @generated
    */
   Object getZip();
@@ -64,6 +75,7 @@ public interface USAddr extends AddressType
    * @see #setState(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getUSAddr_State()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='state'"
    * @generated
    */
   String getState();

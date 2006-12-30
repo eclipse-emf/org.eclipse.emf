@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -24,6 +34,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.models.qname.QnameFactory
+ * @model kind="package"
  * @generated
  */
 public interface QnamePackage extends EPackage
@@ -152,7 +163,7 @@ public interface QnamePackage extends EPackage
   int DOCUMENT_ROOT__AUNION = 8;
 
   /**
-   * The number of structural features of the the '<em>Document Root</em>' class.
+   * The number of structural features of the '<em>Document Root</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -225,7 +236,7 @@ public interface QnamePackage extends EPackage
   int RESOURCE_TYPE__ANY_ATTRIBUTE = 5;
 
   /**
-   * The number of structural features of the the '<em>Resource Type</em>' class.
+   * The number of structural features of the '<em>Resource Type</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -466,6 +477,7 @@ public interface QnamePackage extends EPackage
    * @return the meta object for data type '<em>Int QName Union</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='intQNameUnion' memberTypes='http://www.eclipse.org/emf/2003/XMLType#int http://www.eclipse.org/emf/2003/XMLType#QName'" 
    * @generated
    */
   EDataType getIntQNameUnion();
@@ -477,6 +489,7 @@ public interface QnamePackage extends EPackage
    * @return the meta object for data type '<em>List Union</em>'.
    * @see java.util.List
    * @model instanceClass="java.util.List"
+   *        extendedMetaData="name='listUnion' itemType='Union'" 
    * @generated
    */
   EDataType getListUnion();
@@ -488,6 +501,7 @@ public interface QnamePackage extends EPackage
    * @return the meta object for data type '<em>List</em>'.
    * @see java.util.List
    * @model instanceClass="java.util.List"
+   *        extendedMetaData="name='qnameList' itemType='http://www.eclipse.org/emf/2003/XMLType#QName'" 
    * @generated
    */
   EDataType getQnameList();
@@ -499,6 +513,7 @@ public interface QnamePackage extends EPackage
    * @return the meta object for data type '<em>Union</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
+   *        extendedMetaData="name='Union' memberTypes='http://www.eclipse.org/emf/2003/XMLType#boolean intQNameUnion'" 
    * @generated
    */
   EDataType getUnion();
@@ -511,5 +526,201 @@ public interface QnamePackage extends EPackage
    * @generated
    */
   QnameFactory getQnameFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.qname.impl.DocumentRootImpl <em>Document Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.qname.impl.DocumentRootImpl
+     * @see org.eclipse.emf.test.models.qname.impl.QnamePackageImpl#getDocumentRoot()
+     * @generated
+     */
+    EClass DOCUMENT_ROOT = eINSTANCE.getDocumentRoot();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__MIXED = eINSTANCE.getDocumentRoot_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>XMLNS Prefix Map</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XMLNS_PREFIX_MAP = eINSTANCE.getDocumentRoot_XMLNSPrefixMap();
+
+    /**
+     * The meta object literal for the '<em><b>XSI Schema Location</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getDocumentRoot_XSISchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>Any E</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__ANY_E = eINSTANCE.getDocumentRoot_AnyE();
+
+    /**
+     * The meta object literal for the '<em><b>Any EU</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__ANY_EU = eINSTANCE.getDocumentRoot_AnyEU();
+
+    /**
+     * The meta object literal for the '<em><b>Resource</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DOCUMENT_ROOT__RESOURCE = eINSTANCE.getDocumentRoot_Resource();
+
+    /**
+     * The meta object literal for the '<em><b>AInt</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__AINT = eINSTANCE.getDocumentRoot_AInt();
+
+    /**
+     * The meta object literal for the '<em><b>AQname</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__AQNAME = eINSTANCE.getDocumentRoot_AQname();
+
+    /**
+     * The meta object literal for the '<em><b>AUnion</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DOCUMENT_ROOT__AUNION = eINSTANCE.getDocumentRoot_AUnion();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.test.models.qname.impl.ResourceTypeImpl <em>Resource Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.test.models.qname.impl.ResourceTypeImpl
+     * @see org.eclipse.emf.test.models.qname.impl.QnamePackageImpl#getResourceType()
+     * @generated
+     */
+    EClass RESOURCE_TYPE = eINSTANCE.getResourceType();
+
+    /**
+     * The meta object literal for the '<em><b>Unionvalue</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RESOURCE_TYPE__UNIONVALUE = eINSTANCE.getResourceType_Unionvalue();
+
+    /**
+     * The meta object literal for the '<em><b>Qnamelist</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RESOURCE_TYPE__QNAMELIST = eINSTANCE.getResourceType_Qnamelist();
+
+    /**
+     * The meta object literal for the '<em><b>Intvalue</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RESOURCE_TYPE__INTVALUE = eINSTANCE.getResourceType_Intvalue();
+
+    /**
+     * The meta object literal for the '<em><b>Any</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RESOURCE_TYPE__ANY = eINSTANCE.getResourceType_Any();
+
+    /**
+     * The meta object literal for the '<em><b>My Qname</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RESOURCE_TYPE__MY_QNAME = eINSTANCE.getResourceType_MyQname();
+
+    /**
+     * The meta object literal for the '<em><b>Any Attribute</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RESOURCE_TYPE__ANY_ATTRIBUTE = eINSTANCE.getResourceType_AnyAttribute();
+
+    /**
+     * The meta object literal for the '<em>Int QName Union</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.test.models.qname.impl.QnamePackageImpl#getIntQNameUnion()
+     * @generated
+     */
+    EDataType INT_QNAME_UNION = eINSTANCE.getIntQNameUnion();
+
+    /**
+     * The meta object literal for the '<em>List Union</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.List
+     * @see org.eclipse.emf.test.models.qname.impl.QnamePackageImpl#getListUnion()
+     * @generated
+     */
+    EDataType LIST_UNION = eINSTANCE.getListUnion();
+
+    /**
+     * The meta object literal for the '<em>List</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.List
+     * @see org.eclipse.emf.test.models.qname.impl.QnamePackageImpl#getQnameList()
+     * @generated
+     */
+    EDataType QNAME_LIST = eINSTANCE.getQnameList();
+
+    /**
+     * The meta object literal for the '<em>Union</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.test.models.qname.impl.QnamePackageImpl#getUnion()
+     * @generated
+     */
+    EDataType UNION = eINSTANCE.getUnion();
+
+  }
 
 } //QnamePackage

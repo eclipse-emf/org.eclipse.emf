@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -9,8 +19,6 @@ package org.eclipse.emf.test.models.customer.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.test.models.customer.CanadaAddr;
@@ -87,9 +95,10 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return CustomerPackage.eINSTANCE.getCanadaAddr();
+    return CustomerPackage.Literals.CANADA_ADDR;
   }
 
   /**
@@ -143,20 +152,17 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case CustomerPackage.CANADA_ADDR__STREET:
-        return getStreet();
-      case CustomerPackage.CANADA_ADDR__TOWN:
-        return getTown();
       case CustomerPackage.CANADA_ADDR__ZIP:
         return getZip();
       case CustomerPackage.CANADA_ADDR__PROVINCE:
         return getProvince();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -164,16 +170,11 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case CustomerPackage.CANADA_ADDR__STREET:
-        setStreet((String)newValue);
-        return;
-      case CustomerPackage.CANADA_ADDR__TOWN:
-        setTown((String)newValue);
-        return;
       case CustomerPackage.CANADA_ADDR__ZIP:
         setZip((String)newValue);
         return;
@@ -181,7 +182,7 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
         setProvince((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -189,16 +190,11 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case CustomerPackage.CANADA_ADDR__STREET:
-        setStreet(STREET_EDEFAULT);
-        return;
-      case CustomerPackage.CANADA_ADDR__TOWN:
-        setTown(TOWN_EDEFAULT);
-        return;
       case CustomerPackage.CANADA_ADDR__ZIP:
         setZip(ZIP_EDEFAULT);
         return;
@@ -206,7 +202,7 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
         setProvince(PROVINCE_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -214,20 +210,17 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case CustomerPackage.CANADA_ADDR__STREET:
-        return STREET_EDEFAULT == null ? street != null : !STREET_EDEFAULT.equals(street);
-      case CustomerPackage.CANADA_ADDR__TOWN:
-        return TOWN_EDEFAULT == null ? town != null : !TOWN_EDEFAULT.equals(town);
       case CustomerPackage.CANADA_ADDR__ZIP:
         return ZIP_EDEFAULT == null ? zip != null : !ZIP_EDEFAULT.equals(zip);
       case CustomerPackage.CANADA_ADDR__PROVINCE:
         return PROVINCE_EDEFAULT == null ? province != null : !PROVINCE_EDEFAULT.equals(province);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -235,6 +228,7 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

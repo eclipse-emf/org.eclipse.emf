@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -25,7 +35,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.example.library.LibraryPackage#getLibrary()
- * @model 
+ * @model
  * @generated
  */
 public interface Library extends EObject
@@ -41,7 +51,7 @@ public interface Library extends EObject
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
    * @see org.eclipse.example.library.LibraryPackage#getLibrary_Name()
-   * @model 
+   * @model
    * @generated
    */
   String getName();
@@ -70,7 +80,7 @@ public interface Library extends EObject
    * @model type="org.eclipse.example.library.Writer" containment="true"
    * @generated
    */
-  EList getWriters();
+  EList<Writer> getWriters();
 
   /**
    * Returns the value of the '<em><b>Books</b></em>' containment reference list.
@@ -86,6 +96,6 @@ public interface Library extends EObject
    * @model type="org.eclipse.example.library.Book" containment="true"
    * @generated
    */
-  EList getBooks();
+  EList<Book> getBooks();
 
 } // Library

@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -55,6 +65,7 @@ public class CustomerAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,38 +85,46 @@ public class CustomerAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected CustomerSwitch modelSwitch =
-    new CustomerSwitch()
+  protected CustomerSwitch<Adapter> modelSwitch =
+    new CustomerSwitch<Adapter>()
     {
-      public Object caseAddressType(AddressType object)
+      @Override
+      public Adapter caseAddressType(AddressType object)
       {
         return createAddressTypeAdapter();
       }
-      public Object caseCanadaAddr(CanadaAddr object)
+      @Override
+      public Adapter caseCanadaAddr(CanadaAddr object)
       {
         return createCanadaAddrAdapter();
       }
-      public Object caseCreditInfo(CreditInfo object)
+      @Override
+      public Adapter caseCreditInfo(CreditInfo object)
       {
         return createCreditInfoAdapter();
       }
-      public Object caseCustomersType(CustomersType object)
+      @Override
+      public Adapter caseCustomersType(CustomersType object)
       {
         return createCustomersTypeAdapter();
       }
-      public Object caseCustomerType(CustomerType object)
+      @Override
+      public Adapter caseCustomerType(CustomerType object)
       {
         return createCustomerTypeAdapter();
       }
-      public Object caseDocumentRoot(DocumentRoot object)
+      @Override
+      public Adapter caseDocumentRoot(DocumentRoot object)
       {
         return createDocumentRootAdapter();
       }
-      public Object caseUSAddr(USAddr object)
+      @Override
+      public Adapter caseUSAddr(USAddr object)
       {
         return createUSAddrAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -119,9 +138,10 @@ public class CustomerAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 
@@ -171,7 +191,7 @@ public class CustomerAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.models.customer.CustomersType <em>sType</em>}'.
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.models.customer.CustomersType <em>Customers Type</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.

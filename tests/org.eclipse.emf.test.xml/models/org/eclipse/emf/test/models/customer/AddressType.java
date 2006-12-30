@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -23,6 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getAddressType()
  * @model abstract="true"
+ *        extendedMetaData="name='addressType' kind='elementOnly'"
  * @generated
  */
 public interface AddressType extends EObject
@@ -39,6 +50,7 @@ public interface AddressType extends EObject
    * @see #setStreet(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getAddressType_Street()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='street'"
    * @generated
    */
   String getStreet();
@@ -65,6 +77,7 @@ public interface AddressType extends EObject
    * @see #setTown(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getAddressType_Town()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   *        extendedMetaData="kind='element' name='town'"
    * @generated
    */
   String getTown();

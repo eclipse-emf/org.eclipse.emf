@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -26,7 +36,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * </p>
  *
  * @see org.eclipse.emf.test.models.order.OrderPackage#getCustomerOrder()
- * @model 
+ * @model extendedMetaData="name='customerOrder' kind='elementOnly'"
  * @generated
  */
 public interface CustomerOrder extends EObject
@@ -42,7 +52,8 @@ public interface CustomerOrder extends EObject
    * @return the value of the '<em>Movies To See</em>' containment reference.
    * @see #setMoviesToSee(Order)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getCustomerOrder_MoviesToSee()
-   * @model containment="true" resolveProxies="false" required="true"
+   * @model containment="true" required="true"
+   *        extendedMetaData="kind='element' name='moviesToSee'"
    * @generated
    */
   Order getMoviesToSee();
@@ -68,7 +79,8 @@ public interface CustomerOrder extends EObject
    * @return the value of the '<em>Movies Seen</em>' containment reference.
    * @see #setMoviesSeen(Order)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getCustomerOrder_MoviesSeen()
-   * @model containment="true" resolveProxies="false"
+   * @model containment="true"
+   *        extendedMetaData="kind='element' name='moviesSeen'"
    * @generated
    */
   Order getMoviesSeen();
@@ -95,6 +107,7 @@ public interface CustomerOrder extends EObject
    * @return the value of the '<em>Any</em>' attribute list.
    * @see org.eclipse.emf.test.models.order.OrderPackage#getCustomerOrder_Any()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" required="true" many="true"
+   *        extendedMetaData="kind='elementWildcard' wildcards='http://org/eclipse/emf/test/models/Customer http://org/eclipse/emf/test/models/MovieDB' name=':2' processing='strict'"
    * @generated
    */
   FeatureMap getAny();
@@ -111,6 +124,7 @@ public interface CustomerOrder extends EObject
    * @see #setCustomerID(String)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getCustomerOrder_CustomerID()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.IDREF"
+   *        extendedMetaData="kind='attribute' name='customerID'"
    * @generated
    */
   String getCustomerID();

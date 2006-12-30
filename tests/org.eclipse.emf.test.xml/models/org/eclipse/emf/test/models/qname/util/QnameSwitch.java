@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -26,7 +36,7 @@ import org.eclipse.emf.test.models.qname.*;
  * @see org.eclipse.emf.test.models.qname.QnamePackage
  * @generated
  */
-public class QnameSwitch
+public class QnameSwitch<T>
 {
   /**
    * The cached model package
@@ -57,7 +67,7 @@ public class QnameSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -69,7 +79,7 @@ public class QnameSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -77,11 +87,11 @@ public class QnameSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -92,21 +102,21 @@ public class QnameSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case QnamePackage.DOCUMENT_ROOT:
       {
         DocumentRoot documentRoot = (DocumentRoot)theEObject;
-        Object result = caseDocumentRoot(documentRoot);
+        T result = caseDocumentRoot(documentRoot);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case QnamePackage.RESOURCE_TYPE:
       {
         ResourceType resourceType = (ResourceType)theEObject;
-        Object result = caseResourceType(resourceType);
+        T result = caseResourceType(resourceType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -125,7 +135,7 @@ public class QnameSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseDocumentRoot(DocumentRoot object)
+  public T caseDocumentRoot(DocumentRoot object)
   {
     return null;
   }
@@ -141,7 +151,7 @@ public class QnameSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseResourceType(ResourceType object)
+  public T caseResourceType(ResourceType object)
   {
     return null;
   }
@@ -157,7 +167,7 @@ public class QnameSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

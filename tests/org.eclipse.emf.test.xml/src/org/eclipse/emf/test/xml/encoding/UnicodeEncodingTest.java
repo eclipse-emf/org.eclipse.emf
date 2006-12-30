@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: UnicodeEncodingTest.java,v 1.4 2006/04/24 21:31:47 nickb Exp $
+ * $Id: UnicodeEncodingTest.java,v 1.5 2006/12/30 03:43:44 marcelop Exp $
  */
 
 package org.eclipse.emf.test.xml.encoding;
@@ -54,6 +54,7 @@ public class UnicodeEncodingTest extends TestCase
     this(name, encoding, "1.0");
   }
 
+  @Override
   public String getName()
   {
     return super.getName() + "(" + encodingName + ")";
@@ -74,11 +75,13 @@ public class UnicodeEncodingTest extends TestCase
 
   File tempFile;
 
+  @Override
   protected void setUp() throws Exception
   {
     tempFile = File.createTempFile("EMF-encoding-test-" + encodingName, ".tmp.xml");
   }
 
+  @Override
   protected void tearDown() throws Exception
   {
       tempFile.delete();
@@ -97,11 +100,11 @@ public class UnicodeEncodingTest extends TestCase
     resource.setEncoding(encodingName);
     resource.setXMLVersion(xmlVersion);
     resource.setURI(fileURI);
-    resource.save(new HashMap());
+    resource.save(new HashMap<String, Object>());
 
     XMIResource loadedResource = new XMIResourceImpl();
     loadedResource.setURI(fileURI);
-    loadedResource.load(new HashMap());
+    loadedResource.load(new HashMap<String, Object>());
     assertTrue("No errors should occur while loading", loadedResource.getErrors().isEmpty());
 
     EAnnotation loadedAnnotation = (EAnnotation)loadedResource.getContents().get(0);

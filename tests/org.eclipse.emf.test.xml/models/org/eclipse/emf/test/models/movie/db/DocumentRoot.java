@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -11,6 +21,7 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.test.models.customer.CustomerType;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,7 +44,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * </p>
  *
  * @see org.eclipse.emf.test.models.movie.db.DbPackage#getDocumentRoot()
- * @model 
+ * @model extendedMetaData="name='' kind='mixed'"
  * @generated
  */
 public interface DocumentRoot extends EObject
@@ -50,6 +61,7 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Mixed</em>' attribute list.
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getDocumentRoot_Mixed()
    * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
+   *        extendedMetaData="kind='elementWildcard' name=':mixed'"
    * @generated
    */
   FeatureMap getMixed();
@@ -67,9 +79,10 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getDocumentRoot_XMLNSPrefixMap()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
-  EMap getXMLNSPrefixMap();
+  EMap<String, String> getXMLNSPrefixMap();
 
   /**
    * Returns the value of the '<em><b>XSI Schema Location</b></em>' map.
@@ -84,35 +97,37 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getDocumentRoot_XSISchemaLocation()
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */
-  EMap getXSISchemaLocation();
+  EMap<String, String> getXSISchemaLocation();
 
   /**
-   * Returns the value of the '<em><b>Checked Out By</b></em>' attribute.
+   * Returns the value of the '<em><b>Checked Out By</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Checked Out By</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Checked Out By</em>' attribute.
-   * @see #setCheckedOutBy(String)
+   * @return the value of the '<em>Checked Out By</em>' reference.
+   * @see #setCheckedOutBy(CustomerType)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getDocumentRoot_CheckedOutBy()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnyURI" transient="true" volatile="true" derived="true"
+   * @model upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='checkedOutBy' namespace='##targetNamespace'"
    * @generated
    */
-  String getCheckedOutBy();
+  CustomerType getCheckedOutBy();
 
   /**
-   * Sets the value of the '{@link org.eclipse.emf.test.models.movie.db.DocumentRoot#getCheckedOutBy <em>Checked Out By</em>}' attribute.
+   * Sets the value of the '{@link org.eclipse.emf.test.models.movie.db.DocumentRoot#getCheckedOutBy <em>Checked Out By</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Checked Out By</em>' attribute.
+   * @param value the new value of the '<em>Checked Out By</em>' reference.
    * @see #getCheckedOutBy()
    * @generated
    */
-  void setCheckedOutBy(String value);
+  void setCheckedOutBy(CustomerType value);
 
   /**
    * Returns the value of the '<em><b>Critics Review</b></em>' containment reference.
@@ -125,7 +140,8 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Critics Review</em>' containment reference.
    * @see #setCriticsReview(CriticsReviewType)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getDocumentRoot_CriticsReview()
-   * @model containment="true" resolveProxies="false" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='criticsReview' namespace='##targetNamespace'"
    * @generated
    */
   CriticsReviewType getCriticsReview();
@@ -151,7 +167,8 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Customer Review</em>' containment reference.
    * @see #setCustomerReview(CustomerReviewType)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getDocumentRoot_CustomerReview()
-   * @model containment="true" resolveProxies="false" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='customerReview' namespace='##targetNamespace' affiliation='criticsReview'"
    * @generated
    */
   CustomerReviewType getCustomerReview();
@@ -177,7 +194,8 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Language</em>' attribute.
    * @see #setLanguage(String)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getDocumentRoot_Language()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='language' namespace='##targetNamespace'"
    * @generated
    */
   String getLanguage();
@@ -203,7 +221,8 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Movie DB</em>' containment reference.
    * @see #setMovieDB(MovieDBType)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getDocumentRoot_MovieDB()
-   * @model containment="true" resolveProxies="false" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='movieDB' namespace='##targetNamespace'"
    * @generated
    */
   MovieDBType getMovieDB();
@@ -229,7 +248,8 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Special Features</em>' attribute.
    * @see #setSpecialFeatures(String)
    * @see org.eclipse.emf.test.models.movie.db.DbPackage#getDocumentRoot_SpecialFeatures()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" upper="-2" transient="true" volatile="true" derived="true"
+   *        extendedMetaData="kind='element' name='specialFeatures' namespace='##targetNamespace'"
    * @generated
    */
   String getSpecialFeatures();

@@ -1,5 +1,15 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
  * $Id$
@@ -21,7 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.test.models.dbprice.DbpricePackage#getPencilType()
- * @model 
+ * @model extendedMetaData="name='pencilType' kind='elementOnly'"
  * @generated
  */
 public interface PencilType extends EObject
@@ -40,6 +50,7 @@ public interface PencilType extends EObject
    * @see #setPrice(int)
    * @see org.eclipse.emf.test.models.dbprice.DbpricePackage#getPencilType_Price()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+   *        extendedMetaData="kind='element' name='price'"
    * @generated
    */
   int getPrice();
