@@ -22,7 +22,8 @@
 <!-- ============================================================================= -->
    <extension point="org.eclipse.pde.core.javadoc">
        <javadoc path="doc.zip!/references/javadoc" archive="true">
-           <!-- @pluginIDs@ -->
+          <plugin id="org.eclipse.xsd"/>
+          <!-- @pluginIDs@ -->
        </javadoc>
    </extension>
 
