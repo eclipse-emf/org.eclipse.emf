@@ -1,8 +1,6 @@
 /**
  * <copyright>
  * </copyright>
- *
- * $Id: MergerExpected.java,v 1.1 2006/12/30 04:49:16 marcelop Exp $
  */
 package org.eclipse.example.schoollibrary.presentation;
 
