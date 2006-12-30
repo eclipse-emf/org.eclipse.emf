@@ -5,8 +5,8 @@
     editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.test.performance"
     runtimeJar="true" modelName="Ipo" editPluginClass="com.example.ipo.provider.IpoEditPlugin"
     editorPluginClass="com.example.ipo.presentation.IpoEditorPlugin" testsDirectory=""
-    complianceLevel="5.0">
-  <foreignModel>../../../org.eclipse.emf.test.performance/data/ipo.xsd</foreignModel>
+    importerID="org.eclipse.xsd.ecore.importer" complianceLevel="5.0">
+  <foreignModel>../../data/ipo.xsd</foreignModel>
   <genPackages prefix="Ipo" basePackage="com.example" resource="XML" disposableProviderFactory="true"
       ecorePackage="com.example.ipo.ecore#/">
     <genEnums ecoreEnum="com.example.ipo.ecore#//USState">
