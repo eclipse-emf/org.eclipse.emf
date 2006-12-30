@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: LibraryPackage.java,v 1.1 2005/03/11 22:29:57 bportier Exp $
+ * $Id: LibraryPackage.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.sdo.library;
 
@@ -24,6 +34,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see com.example.sdo.library.LibraryFactory
+ * @model kind="package"
  * @generated
  */
 public interface LibraryPackage extends EPackage
@@ -61,7 +72,7 @@ public interface LibraryPackage extends EPackage
   LibraryPackage eINSTANCE = com.example.sdo.library.impl.LibraryPackageImpl.init();
 
   /**
-   * The meta object id for the '{@link org.eclipse.example.library.impl.BookImpl <em>Book</em>}' class.
+   * The meta object id for the '{@link com.example.sdo.library.impl.BookImpl <em>Book</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see com.example.sdo.library.impl.BookImpl
@@ -107,7 +118,7 @@ public interface LibraryPackage extends EPackage
   int BOOK__AUTHOR = 3;
 
   /**
-   * The number of structural features of the the '<em>Book</em>' class.
+   * The number of structural features of the '<em>Book</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -116,7 +127,7 @@ public interface LibraryPackage extends EPackage
   int BOOK_FEATURE_COUNT = 4;
 
   /**
-   * The meta object id for the '{@link org.eclipse.example.library.impl.LibraryImpl <em>Library</em>}' class.
+   * The meta object id for the '{@link com.example.sdo.library.impl.LibraryImpl <em>Library</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see com.example.sdo.library.impl.LibraryImpl
@@ -153,7 +164,7 @@ public interface LibraryPackage extends EPackage
   int LIBRARY__BOOKS = 2;
 
   /**
-   * The number of structural features of the the '<em>Library</em>' class.
+   * The number of structural features of the '<em>Library</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -162,7 +173,7 @@ public interface LibraryPackage extends EPackage
   int LIBRARY_FEATURE_COUNT = 3;
 
   /**
-   * The meta object id for the '{@link org.eclipse.example.library.impl.WriterImpl <em>Writer</em>}' class.
+   * The meta object id for the '{@link com.example.sdo.library.impl.WriterImpl <em>Writer</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see com.example.sdo.library.impl.WriterImpl
@@ -190,7 +201,7 @@ public interface LibraryPackage extends EPackage
   int WRITER__BOOKS = 1;
 
   /**
-   * The number of structural features of the the '<em>Writer</em>' class.
+   * The number of structural features of the '<em>Writer</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -199,7 +210,7 @@ public interface LibraryPackage extends EPackage
   int WRITER_FEATURE_COUNT = 2;
 
   /**
-   * The meta object id for the '{@link org.eclipse.example.library.BookCategory <em>Book Category</em>}' enum.
+   * The meta object id for the '{@link com.example.sdo.library.BookCategory <em>Book Category</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see com.example.sdo.library.BookCategory
@@ -210,7 +221,7 @@ public interface LibraryPackage extends EPackage
 
 
   /**
-   * Returns the meta object for class '{@link org.eclipse.example.library.Book <em>Book</em>}'.
+   * Returns the meta object for class '{@link com.example.sdo.library.Book <em>Book</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for class '<em>Book</em>'.
@@ -264,7 +275,7 @@ public interface LibraryPackage extends EPackage
   EReference getBook_Author();
 
   /**
-   * Returns the meta object for class '{@link org.eclipse.example.library.Library <em>Library</em>}'.
+   * Returns the meta object for class '{@link com.example.sdo.library.Library <em>Library</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for class '<em>Library</em>'.
@@ -307,7 +318,7 @@ public interface LibraryPackage extends EPackage
   EReference getLibrary_Books();
 
   /**
-   * Returns the meta object for class '{@link org.eclipse.example.library.Writer <em>Writer</em>}'.
+   * Returns the meta object for class '{@link com.example.sdo.library.Writer <em>Writer</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for class '<em>Writer</em>'.
@@ -339,7 +350,7 @@ public interface LibraryPackage extends EPackage
   EReference getWriter_Books();
 
   /**
-   * Returns the meta object for enum '{@link org.eclipse.example.library.BookCategory <em>Book Category</em>}'.
+   * Returns the meta object for enum '{@link com.example.sdo.library.BookCategory <em>Book Category</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for enum '<em>Book Category</em>'.
@@ -356,5 +367,133 @@ public interface LibraryPackage extends EPackage
    * @generated
    */
   LibraryFactory getLibraryFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link com.example.sdo.library.impl.BookImpl <em>Book</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.example.sdo.library.impl.BookImpl
+     * @see com.example.sdo.library.impl.LibraryPackageImpl#getBook()
+     * @generated
+     */
+    EClass BOOK = eINSTANCE.getBook();
+
+    /**
+     * The meta object literal for the '<em><b>Title</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__TITLE = eINSTANCE.getBook_Title();
+
+    /**
+     * The meta object literal for the '<em><b>Pages</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__PAGES = eINSTANCE.getBook_Pages();
+
+    /**
+     * The meta object literal for the '<em><b>Category</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__CATEGORY = eINSTANCE.getBook_Category();
+
+    /**
+     * The meta object literal for the '<em><b>Author</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BOOK__AUTHOR = eINSTANCE.getBook_Author();
+
+    /**
+     * The meta object literal for the '{@link com.example.sdo.library.impl.LibraryImpl <em>Library</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.example.sdo.library.impl.LibraryImpl
+     * @see com.example.sdo.library.impl.LibraryPackageImpl#getLibrary()
+     * @generated
+     */
+    EClass LIBRARY = eINSTANCE.getLibrary();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LIBRARY__NAME = eINSTANCE.getLibrary_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Writers</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__WRITERS = eINSTANCE.getLibrary_Writers();
+
+    /**
+     * The meta object literal for the '<em><b>Books</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__BOOKS = eINSTANCE.getLibrary_Books();
+
+    /**
+     * The meta object literal for the '{@link com.example.sdo.library.impl.WriterImpl <em>Writer</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.example.sdo.library.impl.WriterImpl
+     * @see com.example.sdo.library.impl.LibraryPackageImpl#getWriter()
+     * @generated
+     */
+    EClass WRITER = eINSTANCE.getWriter();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute WRITER__NAME = eINSTANCE.getWriter_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Books</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference WRITER__BOOKS = eINSTANCE.getWriter_Books();
+
+    /**
+     * The meta object literal for the '{@link com.example.sdo.library.BookCategory <em>Book Category</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.example.sdo.library.BookCategory
+     * @see com.example.sdo.library.impl.LibraryPackageImpl#getBookCategory()
+     * @generated
+     */
+    EEnum BOOK_CATEGORY = eINSTANCE.getBookCategory();
+
+  }
 
 } //LibraryPackage

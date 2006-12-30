@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: DocumentRoot.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: DocumentRoot.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo;
 
@@ -67,7 +77,7 @@ public interface DocumentRoot extends EObject
    *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
-  EMap getXMLNSPrefixMap();
+  EMap<String, String> getXMLNSPrefixMap();
 
   /**
    * Returns the value of the '<em><b>XSI Schema Location</b></em>' map.
@@ -85,7 +95,7 @@ public interface DocumentRoot extends EObject
    *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */
-  EMap getXSISchemaLocation();
+  EMap<String, String> getXSISchemaLocation();
 
   /**
    * Returns the value of the '<em><b>Comment</b></em>' attribute.
@@ -125,7 +135,7 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>Purchase Order</em>' containment reference.
    * @see #setPurchaseOrder(PurchaseOrderType)
    * @see com.example.ipo.IpoPackage#getDocumentRoot_PurchaseOrder()
-   * @model containment="true" resolveProxies="false" upper="-2" transient="true" volatile="true" derived="true"
+   * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='purchaseOrder' namespace='##targetNamespace'"
    * @generated
    */

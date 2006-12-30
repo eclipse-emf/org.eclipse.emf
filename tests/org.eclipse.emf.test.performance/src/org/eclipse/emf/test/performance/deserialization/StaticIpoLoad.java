@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIpoLoad.java,v 1.7 2005/06/22 19:59:55 bportier Exp $
+ * $Id: StaticIpoLoad.java,v 1.8 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
@@ -48,6 +48,7 @@ public class StaticIpoLoad extends DynamicIpoLoad
     return ts;
   }
 
+  @Override
   protected ExtendedMetaData registerModel(ResourceSet rs)
   {
     rs.getPackageRegistry().put(IpoPackage.eNS_URI, IpoPackage.eINSTANCE);

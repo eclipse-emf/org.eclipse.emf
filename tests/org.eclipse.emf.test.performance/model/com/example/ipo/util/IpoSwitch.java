@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: IpoSwitch.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: IpoSwitch.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo.util;
 
@@ -26,7 +36,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see com.example.ipo.IpoPackage
  * @generated
  */
-public class IpoSwitch
+public class IpoSwitch<T>
 {
   /**
    * The cached model package
@@ -57,7 +67,7 @@ public class IpoSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -69,7 +79,7 @@ public class IpoSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -77,11 +87,11 @@ public class IpoSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -92,49 +102,49 @@ public class IpoSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case IpoPackage.ADDRESS:
       {
         Address address = (Address)theEObject;
-        Object result = caseAddress(address);
+        T result = caseAddress(address);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case IpoPackage.DOCUMENT_ROOT:
       {
         DocumentRoot documentRoot = (DocumentRoot)theEObject;
-        Object result = caseDocumentRoot(documentRoot);
+        T result = caseDocumentRoot(documentRoot);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case IpoPackage.ITEMS:
       {
         Items items = (Items)theEObject;
-        Object result = caseItems(items);
+        T result = caseItems(items);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case IpoPackage.ITEM_TYPE:
       {
         ItemType itemType = (ItemType)theEObject;
-        Object result = caseItemType(itemType);
+        T result = caseItemType(itemType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case IpoPackage.PURCHASE_ORDER_TYPE:
       {
         PurchaseOrderType purchaseOrderType = (PurchaseOrderType)theEObject;
-        Object result = casePurchaseOrderType(purchaseOrderType);
+        T result = casePurchaseOrderType(purchaseOrderType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case IpoPackage.UK_ADDRESS:
       {
         UKAddress ukAddress = (UKAddress)theEObject;
-        Object result = caseUKAddress(ukAddress);
+        T result = caseUKAddress(ukAddress);
         if (result == null) result = caseAddress(ukAddress);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -142,7 +152,7 @@ public class IpoSwitch
       case IpoPackage.US_ADDRESS:
       {
         USAddress usAddress = (USAddress)theEObject;
-        Object result = caseUSAddress(usAddress);
+        T result = caseUSAddress(usAddress);
         if (result == null) result = caseAddress(usAddress);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -162,7 +172,7 @@ public class IpoSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseAddress(Address object)
+  public T caseAddress(Address object)
   {
     return null;
   }
@@ -178,7 +188,7 @@ public class IpoSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseDocumentRoot(DocumentRoot object)
+  public T caseDocumentRoot(DocumentRoot object)
   {
     return null;
   }
@@ -194,7 +204,7 @@ public class IpoSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseItems(Items object)
+  public T caseItems(Items object)
   {
     return null;
   }
@@ -210,7 +220,7 @@ public class IpoSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseItemType(ItemType object)
+  public T caseItemType(ItemType object)
   {
     return null;
   }
@@ -226,7 +236,7 @@ public class IpoSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object casePurchaseOrderType(PurchaseOrderType object)
+  public T casePurchaseOrderType(PurchaseOrderType object)
   {
     return null;
   }
@@ -242,7 +252,7 @@ public class IpoSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseUKAddress(UKAddress object)
+  public T caseUKAddress(UKAddress object)
   {
     return null;
   }
@@ -258,7 +268,7 @@ public class IpoSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseUSAddress(USAddress object)
+  public T caseUSAddress(USAddress object)
   {
     return null;
   }
@@ -274,7 +284,7 @@ public class IpoSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

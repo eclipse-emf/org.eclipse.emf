@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,12 +18,13 @@ package org.eclipse.emf.test.performance.sdo;
 
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
-import com.example.sdo.ipo.IpoPackage;
-import com.example.sdo.ipo.util.IpoResourceFactoryImpl;
+import org.eclipse.emf.ecore.sdo.util.SDOUtil;
+
+import com.example.ipo.IpoPackage;
+import com.example.ipo.util.IpoResourceFactoryImpl;
 
 
 public class StaticIPOModel extends IPOModel

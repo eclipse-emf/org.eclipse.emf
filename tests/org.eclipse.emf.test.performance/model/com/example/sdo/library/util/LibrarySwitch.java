@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: LibrarySwitch.java,v 1.1 2005/03/11 22:29:57 bportier Exp $
+ * $Id: LibrarySwitch.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.sdo.library.util;
 
@@ -26,7 +36,7 @@ import com.example.sdo.library.*;
  * @see com.example.sdo.library.LibraryPackage
  * @generated
  */
-public class LibrarySwitch
+public class LibrarySwitch<T>
 {
   /**
    * The cached model package
@@ -57,7 +67,7 @@ public class LibrarySwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -69,7 +79,7 @@ public class LibrarySwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -77,11 +87,11 @@ public class LibrarySwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -92,28 +102,28 @@ public class LibrarySwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case LibraryPackage.BOOK:
       {
         Book book = (Book)theEObject;
-        Object result = caseBook(book);
+        T result = caseBook(book);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case LibraryPackage.LIBRARY:
       {
         Library library = (Library)theEObject;
-        Object result = caseLibrary(library);
+        T result = caseLibrary(library);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case LibraryPackage.WRITER:
       {
         Writer writer = (Writer)theEObject;
-        Object result = caseWriter(writer);
+        T result = caseWriter(writer);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -132,7 +142,7 @@ public class LibrarySwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseBook(Book object)
+  public T caseBook(Book object)
   {
     return null;
   }
@@ -148,7 +158,7 @@ public class LibrarySwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseLibrary(Library object)
+  public T caseLibrary(Library object)
   {
     return null;
   }
@@ -164,7 +174,7 @@ public class LibrarySwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseWriter(Writer object)
+  public T caseWriter(Writer object)
   {
     return null;
   }
@@ -180,7 +190,7 @@ public class LibrarySwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

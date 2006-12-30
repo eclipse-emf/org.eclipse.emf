@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: PurchaseOrderTypeImpl.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: PurchaseOrderTypeImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -15,7 +25,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -125,9 +134,10 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return IpoPackage.eINSTANCE.getPurchaseOrderType();
+    return IpoPackage.Literals.PURCHASE_ORDER_TYPE;
   }
 
   /**
@@ -325,23 +335,19 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case IpoPackage.PURCHASE_ORDER_TYPE__SHIP_TO:
-          return basicSetShipTo(null, msgs);
-        case IpoPackage.PURCHASE_ORDER_TYPE__BILL_TO:
-          return basicSetBillTo(null, msgs);
-        case IpoPackage.PURCHASE_ORDER_TYPE__ITEMS:
-          return basicSetItems(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case IpoPackage.PURCHASE_ORDER_TYPE__SHIP_TO:
+        return basicSetShipTo(null, msgs);
+      case IpoPackage.PURCHASE_ORDER_TYPE__BILL_TO:
+        return basicSetBillTo(null, msgs);
+      case IpoPackage.PURCHASE_ORDER_TYPE__ITEMS:
+        return basicSetItems(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -349,9 +355,10 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.PURCHASE_ORDER_TYPE__SHIP_TO:
         return getShipTo();
@@ -364,7 +371,7 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
       case IpoPackage.PURCHASE_ORDER_TYPE__ORDER_DATE:
         return getOrderDate();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -372,9 +379,10 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.PURCHASE_ORDER_TYPE__SHIP_TO:
         setShipTo((Address)newValue);
@@ -389,10 +397,10 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
         setItems((Items)newValue);
         return;
       case IpoPackage.PURCHASE_ORDER_TYPE__ORDER_DATE:
-        setOrderDate((Object)newValue);
+        setOrderDate(newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -400,9 +408,10 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.PURCHASE_ORDER_TYPE__SHIP_TO:
         setShipTo((Address)null);
@@ -420,7 +429,7 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
         setOrderDate(ORDER_DATE_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -428,9 +437,10 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.PURCHASE_ORDER_TYPE__SHIP_TO:
         return shipTo != null;
@@ -443,7 +453,7 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
       case IpoPackage.PURCHASE_ORDER_TYPE__ORDER_DATE:
         return ORDER_DATE_EDEFAULT == null ? orderDate != null : !ORDER_DATE_EDEFAULT.equals(orderDate);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -451,6 +461,7 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

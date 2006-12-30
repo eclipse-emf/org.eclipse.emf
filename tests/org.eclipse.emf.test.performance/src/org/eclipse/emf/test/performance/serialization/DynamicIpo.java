@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpo.java,v 1.12 2005/06/22 19:59:55 bportier Exp $
+ * $Id: DynamicIpo.java,v 1.13 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.serialization;
 
@@ -21,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -39,6 +38,7 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.test.performance.EMFPerformanceTestCase;
 import org.eclipse.emf.test.performance.TestUtil;
+
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
@@ -60,9 +60,9 @@ public class DynamicIpo extends EMFPerformanceTestCase
 
   Resource resource;
 
-  HashMap options = new HashMap();
+  HashMap<Object, Object> options = new HashMap<Object, Object>();
 
-  ArrayList cache = new ArrayList();
+  ArrayList<Object> cache = new ArrayList<Object>();
 
   ByteArrayOutputStream outputstream = new ByteArrayOutputStream(2064);
 
@@ -82,6 +82,7 @@ public class DynamicIpo extends EMFPerformanceTestCase
   /**
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     super.setUp();
@@ -106,11 +107,10 @@ public class DynamicIpo extends EMFPerformanceTestCase
     rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
     rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMLResourceFactoryImpl());
 
-    Collection packageList = xsdEcoreBuilder.generate(getXSDURI());
-
-    for (Iterator packageIterator = packageList.iterator(); packageIterator.hasNext();)
+    @SuppressWarnings("unchecked")
+    Collection<EPackage> packageList = (Collection)xsdEcoreBuilder.generate(getXSDURI());
+    for (EPackage epackage : packageList)
     {
-      EPackage epackage = (EPackage)packageIterator.next();
       String nsURI = epackage.getNsURI();
       packageRegistry.put(nsURI, epackage);
     }
@@ -160,7 +160,7 @@ public class DynamicIpo extends EMFPerformanceTestCase
     stopMeasuring();
   }
 
-  protected final void serialize(int iter, HashMap saveOptions) throws Exception
+  protected final void serialize(int iter, HashMap<Object, Object> saveOptions) throws Exception
   {
     for (int i = 0; i < iter; i++)
     {

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,14 @@
  *
  * </copyright>
  *
- * $Id: DynamicIpoLoad.java,v 1.13 2006/05/07 12:10:42 emerks Exp $
+ * $Id: DynamicIpoLoad.java,v 1.14 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.deserialization;
 
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.test.performance.EMFPerformanceTestCase;
 import org.eclipse.emf.test.performance.TestUtil;
+
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
@@ -62,7 +63,7 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
 
   Resource resource;
 
-  HashMap options = new HashMap();
+  Map<String, Object> options = new HashMap<String, Object>();
 
   ResourceSet rs;
 
@@ -85,11 +86,12 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
   /**
    * @see junit.framework.TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     super.setUp();
 
-    HashMap warmupOptions = new HashMap();
+    Map<String, Object> warmupOptions = new HashMap<String, Object>();
     XML_INSTANCE_URI = URI.createURI(BASE_XSD_URI + "ipo.xml");
 
     rs = new ResourceSetImpl();
@@ -99,7 +101,7 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
 
     warmupOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, metaData);
     warmupOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl(true));
-    warmupOptions.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap());
+    warmupOptions.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
     // WARMUP
     load(WARMUP, warmupOptions);
   }
@@ -112,11 +114,10 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
     rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
     rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMLResourceFactoryImpl());
 
-    Collection packageList = xsdEcoreBuilder.generate(getXSDURI());
-
-    for (Iterator packageIterator = packageList.iterator(); packageIterator.hasNext();)
+    @SuppressWarnings("unchecked")
+    Collection<EPackage> packageList = (Collection)xsdEcoreBuilder.generate(getXSDURI());
+    for (EPackage epackage : packageList)
     {
-      EPackage epackage = (EPackage)packageIterator.next();
       String nsURI = epackage.getNsURI();
       packageRegistry.put(nsURI, epackage);
     }
@@ -175,13 +176,13 @@ public class DynamicIpoLoad extends EMFPerformanceTestCase
   public void testLoadParserAndFeatureMapCache() throws Exception
   {
     options.put(XMLResource.OPTION_USE_PARSER_POOL, parserPool);
-    options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap());
+    options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
     startMeasuring();
     load(ITERATIONS, options);
     stopMeasuring();
   }
 
-  protected final void load(int iter, HashMap loadOptions) throws Exception
+  protected final void load(int iter, Map<?, ?> loadOptions) throws Exception
   {
     for (int i = 0; i < iter; i++)
     {

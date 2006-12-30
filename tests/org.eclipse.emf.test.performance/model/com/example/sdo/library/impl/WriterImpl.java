@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: WriterImpl.java,v 1.1 2005/03/11 22:29:57 bportier Exp $
+ * $Id: WriterImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.sdo.library.impl;
 
@@ -15,7 +25,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -46,6 +55,13 @@ import com.example.sdo.library.Writer;
 public class WriterImpl extends EDataObjectImpl implements Writer
 {
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private static final long serialVersionUID = 1L;
+
+  /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -73,7 +89,7 @@ public class WriterImpl extends EDataObjectImpl implements Writer
    * @generated
    * @ordered
    */
-  protected EList books = null;
+  protected EList<Book> books = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -90,9 +106,10 @@ public class WriterImpl extends EDataObjectImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return LibraryPackage.eINSTANCE.getWriter();
+    return LibraryPackage.Literals.WRITER;
   }
 
   /**
@@ -123,11 +140,11 @@ public class WriterImpl extends EDataObjectImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getBooks()
+  public List<Book> getBooks()
   {
     if (books == null)
     {
-      books = new EObjectWithInverseResolvingEList(Book.class, this, LibraryPackage.WRITER__BOOKS, LibraryPackage.BOOK__AUTHOR);
+      books = new EObjectWithInverseResolvingEList<Book>(Book.class, this, LibraryPackage.WRITER__BOOKS, LibraryPackage.BOOK__AUTHOR);
     }
     return books;
   }
@@ -137,21 +154,16 @@ public class WriterImpl extends EDataObjectImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @SuppressWarnings("unchecked")
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case LibraryPackage.WRITER__BOOKS:
-          return ((InternalEList)getBooks()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case LibraryPackage.WRITER__BOOKS:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getBooks()).basicAdd(otherEnd, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -159,19 +171,15 @@ public class WriterImpl extends EDataObjectImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case LibraryPackage.WRITER__BOOKS:
-          return ((InternalEList)getBooks()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case LibraryPackage.WRITER__BOOKS:
+        return ((InternalEList<?>)getBooks()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -179,16 +187,17 @@ public class WriterImpl extends EDataObjectImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.WRITER__NAME:
         return getName();
       case LibraryPackage.WRITER__BOOKS:
         return getBooks();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -196,19 +205,21 @@ public class WriterImpl extends EDataObjectImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.WRITER__NAME:
         setName((String)newValue);
         return;
       case LibraryPackage.WRITER__BOOKS:
         getBooks().clear();
-        getBooks().addAll((Collection)newValue);
+        getBooks().addAll((Collection<? extends Book>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -216,9 +227,10 @@ public class WriterImpl extends EDataObjectImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.WRITER__NAME:
         setName(NAME_EDEFAULT);
@@ -227,7 +239,7 @@ public class WriterImpl extends EDataObjectImpl implements Writer
         getBooks().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -235,16 +247,17 @@ public class WriterImpl extends EDataObjectImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.WRITER__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case LibraryPackage.WRITER__BOOKS:
         return books != null && !books.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -252,6 +265,7 @@ public class WriterImpl extends EDataObjectImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

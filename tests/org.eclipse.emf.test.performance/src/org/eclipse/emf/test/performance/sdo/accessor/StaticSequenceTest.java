@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSequenceTest.java,v 1.20 2005/07/06 15:44:55 bportier Exp $
+ * $Id: StaticSequenceTest.java,v 1.21 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -60,11 +60,13 @@ public class StaticSequenceTest extends DynamicSequenceTest
     return testSuite;
   }
 
+  @Override
   protected void setUp() throws Exception
   {
     super.setUp();
   }
 
+  @Override
   protected void supplierSetup()
   {
     initSupplier();
@@ -95,7 +97,7 @@ public class StaticSequenceTest extends DynamicSequenceTest
 
   private void initModel()
   {
-    List properties = supplier.getType().getProperties();
+    List<?> properties = supplier.getType().getProperties();
     ordersProp = (Property)properties.get(1);
     ordersFeat = ((EProperty)ordersProp).getEStructuralFeature();
     priorityOrdersProp = (Property)properties.get(2);
@@ -147,7 +149,7 @@ public class StaticSequenceTest extends DynamicSequenceTest
   public void getDerivedByGenerated()
   {
     Supplier supplier = (Supplier)this.supplier;
-    List derivedValue = this.derivedValue;
+    List<?> derivedValue = this.derivedValue;
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_100K; i++)

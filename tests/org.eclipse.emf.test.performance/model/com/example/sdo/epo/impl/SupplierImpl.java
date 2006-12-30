@@ -1,35 +1,42 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: SupplierImpl.java,v 1.1 2005/03/04 21:51:04 bportier Exp $
+ * $Id: SupplierImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.sdo.epo.impl;
-
-import com.example.sdo.epo.EPOPackage;
-import com.example.sdo.epo.Supplier;
-
-import commonj.sdo.Sequence;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.BasicFeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
-
 import org.eclipse.emf.ecore.sdo.util.BasicESequence;
 import org.eclipse.emf.ecore.sdo.util.ESequence;
 
-import org.eclipse.emf.ecore.util.BasicFeatureMap;
-import org.eclipse.emf.ecore.util.InternalEList;
+import com.example.sdo.epo.EPOPackage;
+import com.example.sdo.epo.PurchaseOrder;
+import com.example.sdo.epo.Supplier;
+
+import commonj.sdo.Sequence;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,227 +56,249 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class SupplierImpl extends EDataObjectImpl implements Supplier {
 	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
 	protected static final String NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getOrders() <em>Orders</em>}' attribute list.
-	 * <!-- begin-user-doc -->
+   * The cached value of the '{@link #getOrders() <em>Orders</em>}' attribute list.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getOrders()
-	 * @generated
-	 * @ordered
-	 */
+   * @see #getOrders()
+   * @generated
+   * @ordered
+   */
 	protected ESequence orders = null;
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected SupplierImpl() {
-		super();
-	}
+    super();
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected EClass eStaticClass() {
-		return EPOPackage.eINSTANCE.getSupplier();
-	}
+   * @generated
+   */
+	@Override
+  protected EClass eStaticClass() {
+    return EPOPackage.Literals.SUPPLIER;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public String getName() {
-		return name;
-	}
+    return name;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EPOPackage.SUPPLIER__NAME, oldName, name));
-	}
+    String oldName = name;
+    name = newName;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, EPOPackage.SUPPLIER__NAME, oldName, name));
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public Sequence getOrders() {
-		if (orders == null) {
-			orders = new BasicESequence(new BasicFeatureMap(this, EPOPackage.SUPPLIER__ORDERS));
-		}
-		return orders;
-	}
+    if (orders == null)
+    {
+      orders = new BasicESequence(new BasicFeatureMap(this, EPOPackage.SUPPLIER__ORDERS));
+    }
+    return orders;
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public List getPriorityOrders() {
-		return ((ESequence)getOrders()).featureMap().list(EPOPackage.eINSTANCE.getSupplier_PriorityOrders());
-	}
+   * @generated
+   */
+	public List<PurchaseOrder> getPriorityOrders() {
+    return ((FeatureMap.Internal.Wrapper)getOrders()).featureMap().list(EPOPackage.Literals.SUPPLIER__PRIORITY_ORDERS);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public List getStandardOrders() {
-		return ((ESequence)getOrders()).featureMap().list(EPOPackage.eINSTANCE.getSupplier_StandardOrders());
-	}
+   * @generated
+   */
+	public List<PurchaseOrder> getStandardOrders() {
+    return ((FeatureMap.Internal.Wrapper)getOrders()).featureMap().list(EPOPackage.Literals.SUPPLIER__STANDARD_ORDERS);
+  }
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case EPOPackage.SUPPLIER__ORDERS:
-				return ((InternalEList)((ESequence)getOrders()).featureMap()).basicRemove(otherEnd, msgs);
-				case EPOPackage.SUPPLIER__PRIORITY_ORDERS:
-					return ((InternalEList)getPriorityOrders()).basicRemove(otherEnd, msgs);
-				case EPOPackage.SUPPLIER__STANDARD_ORDERS:
-					return ((InternalEList)getStandardOrders()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EPOPackage.SUPPLIER__ORDERS:
+        return ((InternalEList<?>)((FeatureMap.Internal.Wrapper)getOrders()).featureMap()).basicRemove(otherEnd, msgs);
+      case EPOPackage.SUPPLIER__PRIORITY_ORDERS:
+        return ((InternalEList<?>)getPriorityOrders()).basicRemove(otherEnd, msgs);
+      case EPOPackage.SUPPLIER__STANDARD_ORDERS:
+        return ((InternalEList<?>)getStandardOrders()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case EPOPackage.SUPPLIER__NAME:
-				return getName();
-			case EPOPackage.SUPPLIER__ORDERS:
-				return ((ESequence)getOrders()).featureMap();
-			case EPOPackage.SUPPLIER__PRIORITY_ORDERS:
-				return getPriorityOrders();
-			case EPOPackage.SUPPLIER__STANDARD_ORDERS:
-				return getStandardOrders();
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case EPOPackage.SUPPLIER__NAME:
+        return getName();
+      case EPOPackage.SUPPLIER__ORDERS:
+        if (coreType) return ((FeatureMap.Internal.Wrapper)getOrders()).featureMap();
+        return getOrders();
+      case EPOPackage.SUPPLIER__PRIORITY_ORDERS:
+        return getPriorityOrders();
+      case EPOPackage.SUPPLIER__STANDARD_ORDERS:
+        return getStandardOrders();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case EPOPackage.SUPPLIER__NAME:
-				setName((String)newValue);
-				return;
-			case EPOPackage.SUPPLIER__ORDERS:
-				((ESequence)getOrders()).featureMap().clear();
-				((ESequence)getOrders()).featureMap().addAll((Collection)newValue);
-				return;
-			case EPOPackage.SUPPLIER__PRIORITY_ORDERS:
-				getPriorityOrders().clear();
-				getPriorityOrders().addAll((Collection)newValue);
-				return;
-			case EPOPackage.SUPPLIER__STANDARD_ORDERS:
-				getStandardOrders().clear();
-				getStandardOrders().addAll((Collection)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case EPOPackage.SUPPLIER__NAME:
+        setName((String)newValue);
+        return;
+      case EPOPackage.SUPPLIER__ORDERS:
+        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getOrders()).featureMap()).set(newValue);
+        return;
+      case EPOPackage.SUPPLIER__PRIORITY_ORDERS:
+        getPriorityOrders().clear();
+        getPriorityOrders().addAll((Collection<? extends PurchaseOrder>)newValue);
+        return;
+      case EPOPackage.SUPPLIER__STANDARD_ORDERS:
+        getStandardOrders().clear();
+        getStandardOrders().addAll((Collection<? extends PurchaseOrder>)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case EPOPackage.SUPPLIER__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case EPOPackage.SUPPLIER__ORDERS:
-				((ESequence)getOrders()).featureMap().clear();
-				return;
-			case EPOPackage.SUPPLIER__PRIORITY_ORDERS:
-				getPriorityOrders().clear();
-				return;
-			case EPOPackage.SUPPLIER__STANDARD_ORDERS:
-				getStandardOrders().clear();
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case EPOPackage.SUPPLIER__NAME:
+        setName(NAME_EDEFAULT);
+        return;
+      case EPOPackage.SUPPLIER__ORDERS:
+        ((FeatureMap.Internal.Wrapper)getOrders()).featureMap().clear();
+        return;
+      case EPOPackage.SUPPLIER__PRIORITY_ORDERS:
+        getPriorityOrders().clear();
+        return;
+      case EPOPackage.SUPPLIER__STANDARD_ORDERS:
+        getStandardOrders().clear();
+        return;
+    }
+    super.eUnset(featureID);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case EPOPackage.SUPPLIER__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case EPOPackage.SUPPLIER__ORDERS:
-				return orders != null && !orders.featureMap().isEmpty();
-			case EPOPackage.SUPPLIER__PRIORITY_ORDERS:
-				return !getPriorityOrders().isEmpty();
-			case EPOPackage.SUPPLIER__STANDARD_ORDERS:
-				return !getStandardOrders().isEmpty();
-		}
-		return eDynamicIsSet(eFeature);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case EPOPackage.SUPPLIER__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case EPOPackage.SUPPLIER__ORDERS:
+        return orders != null && !orders.featureMap().isEmpty();
+      case EPOPackage.SUPPLIER__PRIORITY_ORDERS:
+        return !getPriorityOrders().isEmpty();
+      case EPOPackage.SUPPLIER__STANDARD_ORDERS:
+        return !getStandardOrders().isEmpty();
+    }
+    return super.eIsSet(featureID);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
+  /**
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String toString() {
-		if (eIsProxy()) return super.toString();
+   * @generated
+   */
+	@Override
+  public String toString() {
+    if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", orders: ");
-		result.append(orders);
-		result.append(')');
-		return result.toString();
-	}
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (name: ");
+    result.append(name);
+    result.append(", orders: ");
+    result.append(orders);
+    result.append(')');
+    return result.toString();
+  }
 
 } //SupplierImpl

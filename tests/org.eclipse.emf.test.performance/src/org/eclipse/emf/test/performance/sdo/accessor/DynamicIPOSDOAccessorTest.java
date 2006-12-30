@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.63 2005/06/22 19:59:55 bportier Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.64 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -29,17 +29,20 @@ import junit.framework.TestSuite;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.sdo.EDataGraph;
-import org.eclipse.emf.ecore.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.test.performance.EMFPerformanceTestCase;
 import org.eclipse.emf.test.performance.TestUtil;
 import org.eclipse.emf.test.performance.sdo.DynamicIPOModel;
 import org.eclipse.emf.test.performance.sdo.IPOModel;
+
+import org.eclipse.emf.ecore.sdo.EDataGraph;
+import org.eclipse.emf.ecore.sdo.util.SDOUtil;
+
 import org.eclipse.xsd.impl.type.XSDDateType;
 
-import com.example.sdo.ipo.IpoFactory;
-import com.example.sdo.ipo.USAddress;
+import com.example.ipo.IpoFactory;
+import com.example.ipo.USAddress;
+
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 
@@ -123,7 +126,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected Object orderDateValue;
 
-  protected List itemsValue;
+  protected List<?> itemsValue;
 
   protected DataObject itemsValue1;
 
@@ -234,6 +237,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     return testSuite;
   }
 
+  @Override
   protected void setUp() throws Exception
   {
     super.setUp();
@@ -264,7 +268,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected void initPO()
   {
-    HashMap loadOptions = new HashMap();
+    HashMap<String, Object> loadOptions = new HashMap<String, Object>();
     loadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, model.getMetaData());
 
     try
@@ -279,6 +283,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     }
     catch (IOException e)
     {
+      // Ignore
     }
   }
 
@@ -879,7 +884,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     String itemCommentValue = this.itemCommentValue;
     String partNumValue = this.partNumValue;
     Object orderDateValue = this.orderDateValue;
-    List itemsValue = this.itemsValue;
+    List<?> itemsValue = this.itemsValue;
     Object shipDateValue = this.shipDateValue;
     DataObject itemElementValue = this.itemElementValue;
     BigInteger quantityValue = this.quantityValue;
@@ -952,7 +957,7 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
     String orderComment1 = this.orderComment1;
     Object orderDate0 = this.orderDate0;
     Object orderDate1 = this.orderDate1;
-    List itemsValue = this.itemsValue;
+    List<?> itemsValue = this.itemsValue;
     DataObject itemElementValue = this.itemElementValue;
     String productName0 = this.productName0;
     String productName1 = this.productName1;

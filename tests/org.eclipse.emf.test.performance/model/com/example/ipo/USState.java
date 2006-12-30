@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: USState.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: USState.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo;
 
@@ -10,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,8 +31,41 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class USState extends AbstractEnumerator
+public enum USState implements Enumerator
 {
+  /**
+   * The '<em><b>AK</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #AK_VALUE
+   * @generated
+   * @ordered
+   */
+  AK(0, "AK", "AK"), /**
+   * The '<em><b>AL</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #AL_VALUE
+   * @generated
+   * @ordered
+   */
+  AL(1, "AL", "AL"), /**
+   * The '<em><b>AR</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #AR_VALUE
+   * @generated
+   * @ordered
+   */
+  AR(2, "AR", "AR"), /**
+   * The '<em><b>PA</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #PA_VALUE
+   * @generated
+   * @ordered
+   */
+  PA(3, "PA", "PA");
   /**
    * The '<em><b>AK</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -31,12 +74,12 @@ public final class USState extends AbstractEnumerator
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #AK_LITERAL
+   * @see #AK
    * @model
    * @generated
    * @ordered
    */
-  public static final int AK = 0;
+  public static final int AK_VALUE = 0;
 
   /**
    * The '<em><b>AL</b></em>' literal value.
@@ -46,12 +89,12 @@ public final class USState extends AbstractEnumerator
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #AL_LITERAL
+   * @see #AL
    * @model
    * @generated
    * @ordered
    */
-  public static final int AL = 1;
+  public static final int AL_VALUE = 1;
 
   /**
    * The '<em><b>AR</b></em>' literal value.
@@ -61,12 +104,12 @@ public final class USState extends AbstractEnumerator
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #AR_LITERAL
+   * @see #AR
    * @model
    * @generated
    * @ordered
    */
-  public static final int AR = 2;
+  public static final int AR_VALUE = 2;
 
   /**
    * The '<em><b>PA</b></em>' literal value.
@@ -76,52 +119,12 @@ public final class USState extends AbstractEnumerator
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @see #PA_LITERAL
+   * @see #PA
    * @model
    * @generated
    * @ordered
    */
-  public static final int PA = 3;
-
-  /**
-   * The '<em><b>AK</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #AK
-   * @generated
-   * @ordered
-   */
-  public static final USState AK_LITERAL = new USState(AK, "AK");
-
-  /**
-   * The '<em><b>AL</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #AL
-   * @generated
-   * @ordered
-   */
-  public static final USState AL_LITERAL = new USState(AL, "AL");
-
-  /**
-   * The '<em><b>AR</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #AR
-   * @generated
-   * @ordered
-   */
-  public static final USState AR_LITERAL = new USState(AR, "AR");
-
-  /**
-   * The '<em><b>PA</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #PA
-   * @generated
-   * @ordered
-   */
-  public static final USState PA_LITERAL = new USState(PA, "PA");
+  public static final int PA_VALUE = 3;
 
   /**
    * An array of all the '<em><b>US State</b></em>' enumerators.
@@ -132,10 +135,10 @@ public final class USState extends AbstractEnumerator
   private static final USState[] VALUES_ARRAY =
     new USState[]
     {
-      AK_LITERAL,
-      AL_LITERAL,
-      AR_LITERAL,
-      PA_LITERAL,
+      AK,
+      AL,
+      AR,
+      PA,
     };
 
   /**
@@ -144,20 +147,20 @@ public final class USState extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<USState> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>US State</b></em>' literal with the specified name.
+   * Returns the '<em><b>US State</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static USState get(String name)
+  public static USState get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
       USState result = VALUES_ARRAY[i];
-      if (result.toString().equals(name))
+      if (result.toString().equals(literal))
       {
         return result;
       }
@@ -166,7 +169,26 @@ public final class USState extends AbstractEnumerator
   }
 
   /**
-   * Returns the '<em><b>US State</b></em>' literal with the specified value.
+   * Returns the '<em><b>US State</b></em>' literal with the specified name.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static USState getByName(String name)
+  {
+    for (int i = 0; i < VALUES_ARRAY.length; ++i)
+    {
+      USState result = VALUES_ARRAY[i];
+      if (result.getName().equals(name))
+      {
+        return result;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns the '<em><b>US State</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -175,13 +197,34 @@ public final class USState extends AbstractEnumerator
   {
     switch (value)
     {
-      case AK: return AK_LITERAL;
-      case AL: return AL_LITERAL;
-      case AR: return AR_LITERAL;
-      case PA: return PA_LITERAL;
+      case AK_VALUE: return AK;
+      case AL_VALUE: return AL;
+      case AR_VALUE: return AR;
+      case PA_VALUE: return PA;
     }
-    return null;	
+    return null;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
 
   /**
    * Only this class can construct instances.
@@ -189,9 +232,52 @@ public final class USState extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private USState(int value, String name)
+  private USState(int value, String name, String literal)
   {
-    super(value, name);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
-} //USState
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+}

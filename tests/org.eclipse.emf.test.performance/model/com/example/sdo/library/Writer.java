@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: Writer.java,v 1.1 2005/03/11 22:29:57 bportier Exp $
+ * $Id: Writer.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.sdo.library;
 
@@ -66,9 +76,9 @@ public interface Writer
    * @return the value of the '<em>Books</em>' reference list.
    * @see com.example.sdo.library.LibraryPackage#getWriter_Books()
    * @see com.example.sdo.library.Book#getAuthor
-   * @model type="org.eclipse.example.library.Book" opposite="author"
+   * @model type="com.example.sdo.library.Book" opposite="author"
    * @generated
    */
-  List getBooks();
+  List<Book> getBooks();
 
 } // Writer

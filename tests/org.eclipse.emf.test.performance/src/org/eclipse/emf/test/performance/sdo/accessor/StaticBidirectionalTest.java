@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticBidirectionalTest.java,v 1.21 2005/07/06 15:44:55 bportier Exp $
+ * $Id: StaticBidirectionalTest.java,v 1.22 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -87,6 +87,7 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
     return testSuite;
   }
 
+  @Override
   protected void setUp() throws Exception
   {
     super.setUp();
@@ -117,7 +118,7 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
       }
     }
 
-    List libWriters = lib.getWriters();
+    List<Writer> libWriters = lib.getWriters();
     libWriters.add(0, writers[0]);
     libWriters.add(1, writers[1]);
 
@@ -130,11 +131,11 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
         book = libFactoryInstance.createBook();
         books[i] = book;
         book.setTitle("The Title " + i);
-        book.setAuthor((Writer)writers[i]);
+        book.setAuthor(writers[i]);
       }
     }
 
-    List libBooks = lib.getBooks();
+    List<Book> libBooks = lib.getBooks();
     libBooks.add(0, books[0]);
     libBooks.add(1, books[1]);
   }
@@ -165,10 +166,10 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
   public void setByGenerated()
   {
     Library lib = (Library)this.lib;
-    Book book0 = (Book)lib.getBooks().get(0);
-    List writers = lib.getWriters();
-    Writer writer0 = (Writer)writers.get(0);
-    Writer writer1 = (Writer)writers.get(1);
+    Book book0 = lib.getBooks().get(0);
+    List<Writer> writers = lib.getWriters();
+    Writer writer0 = writers.get(0);
+    Writer writer1 = writers.get(1);
 
     startMeasuring();
     for (int i = 0; i < ITERATIONS_25K; i++)
@@ -194,10 +195,10 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
   public void setAdaptedByGenerated()
   {
     Library lib = (Library)this.lib;
-    Book book0 = (Book)lib.getBooks().get(0);
-    List writers = lib.getWriters();
-    Writer writer0 = (Writer)writers.get(0);
-    Writer writer1 = (Writer)writers.get(1);
+    Book book0 = lib.getBooks().get(0);
+    List<Writer> writers = lib.getWriters();
+    Writer writer0 = writers.get(0);
+    Writer writer1 = writers.get(1);
 
     ((Notifier)book0).eAdapters().add(adapter);
     ((Notifier)book0).eAdapters().add(adapter);
@@ -228,7 +229,7 @@ public class StaticBidirectionalTest extends EMFPerformanceTestCase
   public void setWithESet()
   {
     Library lib = (Library)this.lib;
-    List writers = lib.getWriters();
+    List<Writer> writers = lib.getWriters();
     EObject book0 = (EObject)lib.getBooks().get(0);
     Object writer0 = writers.get(0);
     Object writer1 = writers.get(1);

@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: USAddressImpl.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: USAddressImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -15,8 +25,6 @@ import java.math.BigInteger;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -43,7 +51,7 @@ public class USAddressImpl extends AddressImpl implements USAddress
    * @generated
    * @ordered
    */
-  protected static final USState STATE_EDEFAULT = USState.AK_LITERAL;
+  protected static final USState STATE_EDEFAULT = USState.AK;
 
   /**
    * The cached value of the '{@link #getState() <em>State</em>}' attribute.
@@ -99,9 +107,10 @@ public class USAddressImpl extends AddressImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return IpoPackage.eINSTANCE.getUSAddress();
+    return IpoPackage.Literals.US_ADDRESS;
   }
 
   /**
@@ -182,22 +191,17 @@ public class USAddressImpl extends AddressImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case IpoPackage.US_ADDRESS__NAME:
-        return getName();
-      case IpoPackage.US_ADDRESS__STREET:
-        return getStreet();
-      case IpoPackage.US_ADDRESS__CITY:
-        return getCity();
       case IpoPackage.US_ADDRESS__STATE:
         return getState();
       case IpoPackage.US_ADDRESS__ZIP:
         return getZip();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -205,19 +209,11 @@ public class USAddressImpl extends AddressImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case IpoPackage.US_ADDRESS__NAME:
-        setName((String)newValue);
-        return;
-      case IpoPackage.US_ADDRESS__STREET:
-        setStreet((String)newValue);
-        return;
-      case IpoPackage.US_ADDRESS__CITY:
-        setCity((String)newValue);
-        return;
       case IpoPackage.US_ADDRESS__STATE:
         setState((USState)newValue);
         return;
@@ -225,7 +221,7 @@ public class USAddressImpl extends AddressImpl implements USAddress
         setZip((BigInteger)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -233,19 +229,11 @@ public class USAddressImpl extends AddressImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case IpoPackage.US_ADDRESS__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case IpoPackage.US_ADDRESS__STREET:
-        setStreet(STREET_EDEFAULT);
-        return;
-      case IpoPackage.US_ADDRESS__CITY:
-        setCity(CITY_EDEFAULT);
-        return;
       case IpoPackage.US_ADDRESS__STATE:
         unsetState();
         return;
@@ -253,7 +241,7 @@ public class USAddressImpl extends AddressImpl implements USAddress
         setZip(ZIP_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -261,22 +249,17 @@ public class USAddressImpl extends AddressImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case IpoPackage.US_ADDRESS__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case IpoPackage.US_ADDRESS__STREET:
-        return STREET_EDEFAULT == null ? street != null : !STREET_EDEFAULT.equals(street);
-      case IpoPackage.US_ADDRESS__CITY:
-        return CITY_EDEFAULT == null ? city != null : !CITY_EDEFAULT.equals(city);
       case IpoPackage.US_ADDRESS__STATE:
         return isSetState();
       case IpoPackage.US_ADDRESS__ZIP:
         return ZIP_EDEFAULT == null ? zip != null : !ZIP_EDEFAULT.equals(zip);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -284,6 +267,7 @@ public class USAddressImpl extends AddressImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

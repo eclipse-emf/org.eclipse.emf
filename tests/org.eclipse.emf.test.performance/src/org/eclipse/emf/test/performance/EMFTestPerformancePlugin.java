@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.33 2005/11/21 23:08:16 nickb Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.34 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -189,6 +189,7 @@ public class EMFTestPerformancePlugin extends Plugin
     return instance;
   }
 
+  @Override
   public void start(BundleContext context) throws Exception
   {
     super.start(context);

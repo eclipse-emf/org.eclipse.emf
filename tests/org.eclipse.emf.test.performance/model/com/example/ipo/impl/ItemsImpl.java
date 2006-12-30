@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ItemsImpl.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: ItemsImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -17,7 +27,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -48,7 +57,7 @@ public class ItemsImpl extends EObjectImpl implements Items
    * @generated
    * @ordered
    */
-  protected EList item = null;
+  protected EList<ItemType> item = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -65,9 +74,10 @@ public class ItemsImpl extends EObjectImpl implements Items
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return IpoPackage.eINSTANCE.getItems();
+    return IpoPackage.Literals.ITEMS;
   }
 
   /**
@@ -75,11 +85,11 @@ public class ItemsImpl extends EObjectImpl implements Items
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getItem()
+  public EList<ItemType> getItem()
   {
     if (item == null)
     {
-      item = new EObjectContainmentEList(ItemType.class, this, IpoPackage.ITEMS__ITEM);
+      item = new EObjectContainmentEList<ItemType>(ItemType.class, this, IpoPackage.ITEMS__ITEM);
     }
     return item;
   }
@@ -89,19 +99,15 @@ public class ItemsImpl extends EObjectImpl implements Items
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case IpoPackage.ITEMS__ITEM:
-          return ((InternalEList)getItem()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case IpoPackage.ITEMS__ITEM:
+        return ((InternalEList<?>)getItem()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -109,14 +115,15 @@ public class ItemsImpl extends EObjectImpl implements Items
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ITEMS__ITEM:
         return getItem();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -124,16 +131,18 @@ public class ItemsImpl extends EObjectImpl implements Items
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ITEMS__ITEM:
         getItem().clear();
-        getItem().addAll((Collection)newValue);
+        getItem().addAll((Collection<? extends ItemType>)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -141,15 +150,16 @@ public class ItemsImpl extends EObjectImpl implements Items
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ITEMS__ITEM:
         getItem().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -157,14 +167,15 @@ public class ItemsImpl extends EObjectImpl implements Items
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ITEMS__ITEM:
         return item != null && !item.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
 } //ItemsImpl

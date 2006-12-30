@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: IpoFactoryImpl.java,v 1.2 2005/06/12 14:01:27 emerks Exp $
+ * $Id: IpoFactoryImpl.java,v 1.3 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -10,14 +20,14 @@ import com.example.ipo.*;
 
 import java.math.BigInteger;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -29,6 +39,29 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  */
 public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static IpoFactory init()
+  {
+    try
+    {
+      IpoFactory theIpoFactory = (IpoFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.com/IPO"); 
+      if (theIpoFactory != null)
+      {
+        return theIpoFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new IpoFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -45,6 +78,7 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -66,16 +100,13 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
     {
       case IpoPackage.US_STATE:
-      {
-        USState result = USState.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-        return result;
-      }
+        return createUSStateFromString(eDataType, initialValue);
       case IpoPackage.POSTCODE:
         return createPostcodeFromString(eDataType, initialValue);
       case IpoPackage.QUANTITY_TYPE:
@@ -96,12 +127,13 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
     {
       case IpoPackage.US_STATE:
-        return instanceValue == null ? null : instanceValue.toString();
+        return convertUSStateToString(eDataType, instanceValue);
       case IpoPackage.POSTCODE:
         return convertPostcodeToString(eDataType, instanceValue);
       case IpoPackage.QUANTITY_TYPE:
@@ -199,9 +231,31 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public USState createUSStateFromString(EDataType eDataType, String initialValue)
+  {
+    USState result = USState.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertUSStateToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public String createPostcodeFromString(EDataType eDataType, String initialValue)
   {
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getString(), initialValue);
+    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.STRING, initialValue);
   }
 
   /**
@@ -211,7 +265,7 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    */
   public String convertPostcodeToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getString(), instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.STRING, instanceValue);
   }
 
   /**
@@ -221,7 +275,7 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    */
   public BigInteger createQuantityTypeFromString(EDataType eDataType, String initialValue)
   {
-    return (BigInteger)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getPositiveInteger(), initialValue);
+    return (BigInteger)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.POSITIVE_INTEGER, initialValue);
   }
 
   /**
@@ -231,7 +285,7 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    */
   public String convertQuantityTypeToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getPositiveInteger(), instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.POSITIVE_INTEGER, instanceValue);
   }
 
   /**
@@ -241,7 +295,7 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    */
   public String createSKUFromString(EDataType eDataType, String initialValue)
   {
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getString(), initialValue);
+    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.STRING, initialValue);
   }
 
   /**
@@ -251,7 +305,7 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    */
   public String convertSKUToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getString(), instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.STRING, instanceValue);
   }
 
   /**
@@ -261,7 +315,7 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    */
   public String createUKPostcodeFromString(EDataType eDataType, String initialValue)
   {
-    return (String)IpoFactory.eINSTANCE.createFromString(IpoPackage.eINSTANCE.getPostcode(), initialValue);
+    return createPostcodeFromString(IpoPackage.Literals.POSTCODE, initialValue);
   }
 
   /**
@@ -271,7 +325,7 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    */
   public String convertUKPostcodeToString(EDataType eDataType, Object instanceValue)
   {
-    return IpoFactory.eINSTANCE.convertToString(IpoPackage.eINSTANCE.getPostcode(), instanceValue);
+    return convertPostcodeToString(IpoPackage.Literals.POSTCODE, instanceValue);
   }
 
   /**
@@ -279,9 +333,9 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public AbstractEnumerator createUSStateObjectFromString(EDataType eDataType, String initialValue)
+  public USState createUSStateObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (AbstractEnumerator)IpoFactory.eINSTANCE.createFromString(IpoPackage.eINSTANCE.getUSState(), initialValue);
+    return createUSStateFromString(IpoPackage.Literals.US_STATE, initialValue);
   }
 
   /**
@@ -291,7 +345,7 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    */
   public String convertUSStateObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return IpoFactory.eINSTANCE.convertToString(IpoPackage.eINSTANCE.getUSState(), instanceValue);
+    return convertUSStateToString(IpoPackage.Literals.US_STATE, instanceValue);
   }
 
   /**
@@ -310,6 +364,7 @@ public class IpoFactoryImpl extends EFactoryImpl implements IpoFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static IpoPackage getPackage()
   {
     return IpoPackage.eINSTANCE;

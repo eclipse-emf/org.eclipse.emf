@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: Library.java,v 1.1 2005/03/11 22:29:57 bportier Exp $
+ * $Id: Library.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.sdo.library;
 
@@ -65,10 +75,10 @@ public interface Library
    * <!-- end-user-doc -->
    * @return the value of the '<em>Writers</em>' containment reference list.
    * @see com.example.sdo.library.LibraryPackage#getLibrary_Writers()
-   * @model type="org.eclipse.example.library.Writer" containment="true"
+   * @model type="com.example.sdo.library.Writer" containment="true"
    * @generated
    */
-  List getWriters();
+  List<Writer> getWriters();
 
   /**
    * Returns the value of the '<em><b>Books</b></em>' containment reference list.
@@ -81,9 +91,9 @@ public interface Library
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' containment reference list.
    * @see com.example.sdo.library.LibraryPackage#getLibrary_Books()
-   * @model type="org.eclipse.example.library.Book" containment="true"
+   * @model type="com.example.sdo.library.Book" containment="true"
    * @generated
    */
-  List getBooks();
+  List<Book> getBooks();
 
 } // Library

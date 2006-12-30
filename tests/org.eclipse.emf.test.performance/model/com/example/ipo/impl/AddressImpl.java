@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: AddressImpl.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: AddressImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -12,8 +22,6 @@ import com.example.ipo.IpoPackage;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -109,9 +117,10 @@ public class AddressImpl extends EObjectImpl implements Address
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return IpoPackage.eINSTANCE.getAddress();
+    return IpoPackage.Literals.ADDRESS;
   }
 
   /**
@@ -188,9 +197,10 @@ public class AddressImpl extends EObjectImpl implements Address
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ADDRESS__NAME:
         return getName();
@@ -199,7 +209,7 @@ public class AddressImpl extends EObjectImpl implements Address
       case IpoPackage.ADDRESS__CITY:
         return getCity();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -207,9 +217,10 @@ public class AddressImpl extends EObjectImpl implements Address
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ADDRESS__NAME:
         setName((String)newValue);
@@ -221,7 +232,7 @@ public class AddressImpl extends EObjectImpl implements Address
         setCity((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -229,9 +240,10 @@ public class AddressImpl extends EObjectImpl implements Address
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ADDRESS__NAME:
         setName(NAME_EDEFAULT);
@@ -243,7 +255,7 @@ public class AddressImpl extends EObjectImpl implements Address
         setCity(CITY_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -251,9 +263,10 @@ public class AddressImpl extends EObjectImpl implements Address
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ADDRESS__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -262,7 +275,7 @@ public class AddressImpl extends EObjectImpl implements Address
       case IpoPackage.ADDRESS__CITY:
         return CITY_EDEFAULT == null ? city != null : !CITY_EDEFAULT.equals(city);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -270,6 +283,7 @@ public class AddressImpl extends EObjectImpl implements Address
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

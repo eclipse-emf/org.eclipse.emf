@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOLoadTest.java,v 1.12 2006/05/07 12:10:42 emerks Exp $
+ * $Id: DynamicIPOSDOLoadTest.java,v 1.13 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.sdo.deserialization;
 
@@ -54,7 +54,7 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 
   final static int WARMUP = 3000;
 
-  private HashMap options;
+  private HashMap<Object, Object> options;
 
   protected ResourceSet resourceSet;
 
@@ -82,13 +82,14 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
     return ts;
   }
 
+  @Override
   protected void setUp() throws Exception
   {
     super.setUp();
     tagAsSummary("Performance Results for " + getClass().getName(), TIME_DIMENSIONS);
 
-    HashMap warmupOptions = new HashMap();
-    options = new HashMap();
+    HashMap<Object, Object> warmupOptions = new HashMap<Object, Object>();
+    options = new HashMap<Object, Object>();
     parserPool = new XMLParserPoolImpl(true);
 
     resourceSet = SDOUtil.createResourceSet();
@@ -102,7 +103,7 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 
     warmupOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, metaData);
     warmupOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl(true));
-    warmupOptions.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap());
+    warmupOptions.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
 
     load(warmupOptions, WARMUP);
   }
@@ -158,13 +159,13 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
   public void loadWithParserAndFeatureMapCache() throws Exception
   {
     options.put(XMLResource.OPTION_USE_PARSER_POOL, parserPool);
-    options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap());
+    options.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<Object, Object>());
     startMeasuring();
     load(options, ITERATIONS);
     stopMeasuring();
   }
 
-  protected final void load(HashMap loadOptions, int iterations) throws Exception
+  protected final void load(HashMap<Object, Object> loadOptions, int iterations) throws Exception
   {
     for (int i = 0; i < iterations; i++)
     {

@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: IpoAdapterFactory.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: IpoAdapterFactory.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo.util;
 
@@ -55,6 +65,7 @@ public class IpoAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,38 +85,46 @@ public class IpoAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected IpoSwitch modelSwitch =
-    new IpoSwitch()
+  protected IpoSwitch<Adapter> modelSwitch =
+    new IpoSwitch<Adapter>()
     {
-      public Object caseAddress(Address object)
+      @Override
+      public Adapter caseAddress(Address object)
       {
         return createAddressAdapter();
       }
-      public Object caseDocumentRoot(DocumentRoot object)
+      @Override
+      public Adapter caseDocumentRoot(DocumentRoot object)
       {
         return createDocumentRootAdapter();
       }
-      public Object caseItems(Items object)
+      @Override
+      public Adapter caseItems(Items object)
       {
         return createItemsAdapter();
       }
-      public Object caseItemType(ItemType object)
+      @Override
+      public Adapter caseItemType(ItemType object)
       {
         return createItemTypeAdapter();
       }
-      public Object casePurchaseOrderType(PurchaseOrderType object)
+      @Override
+      public Adapter casePurchaseOrderType(PurchaseOrderType object)
       {
         return createPurchaseOrderTypeAdapter();
       }
-      public Object caseUKAddress(UKAddress object)
+      @Override
+      public Adapter caseUKAddress(UKAddress object)
       {
         return createUKAddressAdapter();
       }
-      public Object caseUSAddress(USAddress object)
+      @Override
+      public Adapter caseUSAddress(USAddress object)
       {
         return createUSAddressAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -119,9 +138,10 @@ public class IpoAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

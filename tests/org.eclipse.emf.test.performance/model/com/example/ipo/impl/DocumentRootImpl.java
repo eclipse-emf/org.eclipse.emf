@@ -1,16 +1,24 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: DocumentRootImpl.java,v 1.2 2005/06/12 14:01:27 emerks Exp $
+ * $Id: DocumentRootImpl.java,v 1.3 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo.impl;
 
 import com.example.ipo.DocumentRoot;
 import com.example.ipo.IpoPackage;
 import com.example.ipo.PurchaseOrderType;
-
-import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -66,7 +74,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected EMap xMLNSPrefixMap = null;
+  protected EMap<String, String> xMLNSPrefixMap = null;
 
   /**
    * The cached value of the '{@link #getXSISchemaLocation() <em>XSI Schema Location</em>}' map.
@@ -76,7 +84,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected EMap xSISchemaLocation = null;
+  protected EMap<String, String> xSISchemaLocation = null;
 
   /**
    * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
@@ -103,9 +111,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return IpoPackage.eINSTANCE.getDocumentRoot();
+    return IpoPackage.Literals.DOCUMENT_ROOT;
   }
 
   /**
@@ -127,11 +136,11 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getXMLNSPrefixMap()
+  public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
     {
-      xMLNSPrefixMap = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, IpoPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
+      xMLNSPrefixMap = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, IpoPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
     }
     return xMLNSPrefixMap;
   }
@@ -141,11 +150,11 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getXSISchemaLocation()
+  public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)
     {
-      xSISchemaLocation = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, IpoPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
+      xSISchemaLocation = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, IpoPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
     }
     return xSISchemaLocation;
   }
@@ -157,7 +166,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public String getComment()
   {
-    return (String)getMixed().get(IpoPackage.eINSTANCE.getDocumentRoot_Comment(), true);
+    return (String)getMixed().get(IpoPackage.Literals.DOCUMENT_ROOT__COMMENT, true);
   }
 
   /**
@@ -167,7 +176,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public void setComment(String newComment)
   {
-    ((FeatureMap.Internal)getMixed()).set(IpoPackage.eINSTANCE.getDocumentRoot_Comment(), newComment);
+    ((FeatureMap.Internal)getMixed()).set(IpoPackage.Literals.DOCUMENT_ROOT__COMMENT, newComment);
   }
 
   /**
@@ -177,7 +186,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public PurchaseOrderType getPurchaseOrder()
   {
-    return (PurchaseOrderType)getMixed().get(IpoPackage.eINSTANCE.getDocumentRoot_PurchaseOrder(), true);
+    return (PurchaseOrderType)getMixed().get(IpoPackage.Literals.DOCUMENT_ROOT__PURCHASE_ORDER, true);
   }
 
   /**
@@ -187,7 +196,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public NotificationChain basicSetPurchaseOrder(PurchaseOrderType newPurchaseOrder, NotificationChain msgs)
   {
-    return ((FeatureMap.Internal)getMixed()).basicAdd(IpoPackage.eINSTANCE.getDocumentRoot_PurchaseOrder(), newPurchaseOrder, msgs);
+    return ((FeatureMap.Internal)getMixed()).basicAdd(IpoPackage.Literals.DOCUMENT_ROOT__PURCHASE_ORDER, newPurchaseOrder, msgs);
   }
 
   /**
@@ -197,7 +206,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public void setPurchaseOrder(PurchaseOrderType newPurchaseOrder)
   {
-    ((FeatureMap.Internal)getMixed()).set(IpoPackage.eINSTANCE.getDocumentRoot_PurchaseOrder(), newPurchaseOrder);
+    ((FeatureMap.Internal)getMixed()).set(IpoPackage.Literals.DOCUMENT_ROOT__PURCHASE_ORDER, newPurchaseOrder);
   }
 
   /**
@@ -205,48 +214,48 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case IpoPackage.DOCUMENT_ROOT__MIXED:
-          return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
-        case IpoPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-          return ((InternalEList)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
-        case IpoPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-          return ((InternalEList)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
-        case IpoPackage.DOCUMENT_ROOT__PURCHASE_ORDER:
-          return basicSetPurchaseOrder(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.DOCUMENT_ROOT__MIXED:
-        return getMixed();
+        return ((InternalEList<?>)getMixed()).basicRemove(otherEnd, msgs);
       case IpoPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        return getXMLNSPrefixMap();
+        return ((InternalEList<?>)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
       case IpoPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        return getXSISchemaLocation();
+        return ((InternalEList<?>)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
+      case IpoPackage.DOCUMENT_ROOT__PURCHASE_ORDER:
+        return basicSetPurchaseOrder(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case IpoPackage.DOCUMENT_ROOT__MIXED:
+        if (coreType) return getMixed();
+        return ((FeatureMap.Internal)getMixed()).getWrapper();
+      case IpoPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        if (coreType) return getXMLNSPrefixMap();
+        else return getXMLNSPrefixMap().map();
+      case IpoPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        if (coreType) return getXSISchemaLocation();
+        else return getXSISchemaLocation().map();
       case IpoPackage.DOCUMENT_ROOT__COMMENT:
         return getComment();
       case IpoPackage.DOCUMENT_ROOT__PURCHASE_ORDER:
         return getPurchaseOrder();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -254,21 +263,19 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.DOCUMENT_ROOT__MIXED:
-        getMixed().clear();
-        getMixed().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getMixed()).set(newValue);
         return;
       case IpoPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        getXMLNSPrefixMap().clear();
-        getXMLNSPrefixMap().addAll((Collection)newValue);
+        ((EStructuralFeature.Setting)getXMLNSPrefixMap()).set(newValue);
         return;
       case IpoPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        getXSISchemaLocation().clear();
-        getXSISchemaLocation().addAll((Collection)newValue);
+        ((EStructuralFeature.Setting)getXSISchemaLocation()).set(newValue);
         return;
       case IpoPackage.DOCUMENT_ROOT__COMMENT:
         setComment((String)newValue);
@@ -277,7 +284,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         setPurchaseOrder((PurchaseOrderType)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -285,9 +292,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.DOCUMENT_ROOT__MIXED:
         getMixed().clear();
@@ -305,7 +313,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         setPurchaseOrder((PurchaseOrderType)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -313,9 +321,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.DOCUMENT_ROOT__MIXED:
         return mixed != null && !mixed.isEmpty();
@@ -328,7 +337,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
       case IpoPackage.DOCUMENT_ROOT__PURCHASE_ORDER:
         return getPurchaseOrder() != null;
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -336,6 +345,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

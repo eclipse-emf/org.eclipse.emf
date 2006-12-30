@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.62 2005/06/22 19:59:55 bportier Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.63 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -28,20 +28,22 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.test.performance.sdo.StaticIPOModel;
+
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
-import org.eclipse.emf.test.performance.sdo.StaticIPOModel;
+
 import org.eclipse.xsd.impl.type.XSDDateType;
 
-import com.example.sdo.ipo.Address;
-import com.example.sdo.ipo.DocumentRoot;
-import com.example.sdo.ipo.ItemType;
-import com.example.sdo.ipo.Items;
-import com.example.sdo.ipo.PurchaseOrderType;
-import com.example.sdo.ipo.USAddress;
-import com.example.sdo.ipo.USState;
+import com.example.ipo.Address;
+import com.example.ipo.DocumentRoot;
+import com.example.ipo.ItemType;
+import com.example.ipo.Items;
+import com.example.ipo.PurchaseOrderType;
+import com.example.ipo.USAddress;
+import com.example.ipo.USState;
+
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -69,7 +71,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
 
   protected ItemType itemTypeElementValue;
 
-  protected HashMap hashMap = new HashMap();
+  protected HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
 
   public StaticIPOSDOAccessorTest(String name)
   {
@@ -123,23 +125,27 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     return testSuite;
   }
 
+  @Override
   protected void setUp() throws Exception
   {
     super.setUp();
   }
 
+  @Override
   protected void serialize()
   {
     // serialize DG so that it can be deserialized by DynamicAccessorTest
     //serializeDataGraph();
   }
 
+  @Override
   protected void setModel()
   {
     // static model
     model = StaticIPOModel.INSTANCE;
   }
 
+  @Override
   protected void initPO()
   {
     SDOFactory sdoFactoryInstance = SDOFactory.eINSTANCE;
@@ -152,7 +158,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     USAddress shipToAddress = ipoFactoryInstance.createUSAddress();
     shipToAddress.setCity("Austin");
     shipToAddress.setName("The Address");
-    shipToAddress.setState(USState.AR_LITERAL);
+    shipToAddress.setState(USState.AR);
     shipToAddress.setStreet("24 Lakeshore Dr.");
     shipToAddress.setZip(new BigInteger("78741"));
     po.setShipTo(shipToAddress);
@@ -165,7 +171,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     USAddress billToAddress = ipoFactoryInstance.createUSAddress();
     billToAddress.setCity("Paris");
     billToAddress.setName("One of many");
-    billToAddress.setState(USState.AK_LITERAL);
+    billToAddress.setState(USState.AK);
     billToAddress.setStreet("411 Duplex Av.");
     billToAddress.setZip(new BigInteger("14665"));
     po.setBillTo(billToAddress);
@@ -187,7 +193,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     itemElement = (DataObject)po.getItems().getItem().get(0);
 
     root.setPurchaseOrder(po);
-    dataGraph.setERootObject((EObject)root);
+    dataGraph.setERootObject(root);
     dataGraph.setEChangeSummary(sdoFactoryInstance.createEChangeSummary());
   }
 
@@ -202,6 +208,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     }
     catch (IOException e)
     {
+      // Ignore
     }
   }
 
@@ -210,14 +217,14 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     USAddress shipToAddress = ipoFactoryInstance.createUSAddress();
     shipToAddress.setCity("Austin");
     shipToAddress.setName("The Address");
-    shipToAddress.setState(USState.AR_LITERAL);
+    shipToAddress.setState(USState.AR);
     shipToAddress.setStreet("24 Lakeshore Dr.");
     shipToAddress.setZip(new BigInteger("78741"));
 
     USAddress billToAddress = ipoFactoryInstance.createUSAddress();
     billToAddress.setCity("Paris");
     billToAddress.setName("One of many");
-    billToAddress.setState(USState.AK_LITERAL);
+    billToAddress.setState(USState.AK);
     billToAddress.setStreet("411 Duplex Av.");
     billToAddress.setZip(new BigInteger("14665"));
 
@@ -252,7 +259,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
    */
   public void getFromMap()
   {
-    HashMap hashMap = this.hashMap;
+    HashMap<Object, Object> hashMap = this.hashMap;
     Object objectValue = this.objectValue;
     Property quantityProp = model.getQuantityProp();
     Property usPriceProp = model.getUsPriceProp();
@@ -277,7 +284,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
    */
   public void setInMap()
   {
-    HashMap hashMap = this.hashMap;
+    HashMap<Object, Object> hashMap = this.hashMap;
     Property itemCommentProp = model.getItemCommentProp();
     Property partNumProp = model.getPartNumProp();
 
@@ -371,7 +378,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     Address addressValue = this.addressBillToValue;
     String stringValue = this.orderCommentValue;
     Object objectValue = this.orderDateValue;
-    List itemsValue = this.itemsValue;
+    List<?> itemsValue = this.itemsValue;
     ItemType itemTypeElementValue = this.itemTypeElementValue;
     BigInteger bigIntegerValue = this.quantityValue;
     BigDecimal bigDecimalValue = this.usPriceValue;
@@ -441,7 +448,7 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     String partNum0 = this.partNum0;
     String partNum1 = this.partNum1;
     int NUM_ITEMS = DynamicIPOSDOAccessorTest.NUM_ITEMS;
-    List itemsValue = this.itemsValue;
+    List<?> itemsValue = this.itemsValue;
     ItemType itemTypeElementValue = this.itemTypeElementValue;
     startMeasuring();
 

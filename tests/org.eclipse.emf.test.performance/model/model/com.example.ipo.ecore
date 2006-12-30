@@ -4,10 +4,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ipo"
     nsURI="http://www.example.com/IPO" nsPrefix="ipo">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-    <details key="documentation" value="
-      International Purchase order schema for Example.com
-      Copyright 2000 Example.com. All rights reserved.
-    "/>
+    <details key="documentation" value="       International Purchase order schema for Example.com       Copyright 2000 Example.com. All rights reserved.     "/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Address">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -265,7 +262,7 @@
     <eLiterals name="AR" value="2"/>
     <eLiterals name="PA" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="USStateObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="USStateObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="USState:Object"/>
       <details key="baseType" value="USState"/>

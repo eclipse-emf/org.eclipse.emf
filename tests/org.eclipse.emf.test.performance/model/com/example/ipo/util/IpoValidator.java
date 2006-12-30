@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: IpoValidator.java,v 1.2 2005/06/12 14:01:27 emerks Exp $
+ * $Id: IpoValidator.java,v 1.3 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo.util;
 
@@ -12,7 +22,6 @@ import java.math.BigInteger;
 
 import java.util.Map;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.ecore.EPackage;
@@ -91,6 +100,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EPackage getEPackage()
   {
     return IpoPackage.eINSTANCE;
@@ -102,7 +112,8 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map context)
+  @Override
+  protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     switch (classifierID)
     {
@@ -121,7 +132,7 @@ public class IpoValidator extends EObjectValidator
       case IpoPackage.US_ADDRESS:
         return validateUSAddress((USAddress)value, diagnostics, context);
       case IpoPackage.US_STATE:
-        return validateUSState((Object)value, diagnostics, context);
+        return validateUSState((USState)value, diagnostics, context);
       case IpoPackage.POSTCODE:
         return validatePostcode((String)value, diagnostics, context);
       case IpoPackage.QUANTITY_TYPE:
@@ -131,7 +142,7 @@ public class IpoValidator extends EObjectValidator
       case IpoPackage.UK_POSTCODE:
         return validateUKPostcode((String)value, diagnostics, context);
       case IpoPackage.US_STATE_OBJECT:
-        return validateUSStateObject((AbstractEnumerator)value, diagnostics, context);
+        return validateUSStateObject((USState)value, diagnostics, context);
       default: 
         return true;
     }
@@ -142,7 +153,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateAddress(Address address, DiagnosticChain diagnostics, Map context)
+  public boolean validateAddress(Address address, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(address, diagnostics, context);
   }
@@ -152,7 +163,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateDocumentRoot(DocumentRoot documentRoot, DiagnosticChain diagnostics, Map context)
+  public boolean validateDocumentRoot(DocumentRoot documentRoot, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(documentRoot, diagnostics, context);
   }
@@ -162,7 +173,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateItems(Items items, DiagnosticChain diagnostics, Map context)
+  public boolean validateItems(Items items, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(items, diagnostics, context);
   }
@@ -172,7 +183,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateItemType(ItemType itemType, DiagnosticChain diagnostics, Map context)
+  public boolean validateItemType(ItemType itemType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(itemType, diagnostics, context);
   }
@@ -182,7 +193,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validatePurchaseOrderType(PurchaseOrderType purchaseOrderType, DiagnosticChain diagnostics, Map context)
+  public boolean validatePurchaseOrderType(PurchaseOrderType purchaseOrderType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(purchaseOrderType, diagnostics, context);
   }
@@ -192,7 +203,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUKAddress(UKAddress ukAddress, DiagnosticChain diagnostics, Map context)
+  public boolean validateUKAddress(UKAddress ukAddress, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(ukAddress, diagnostics, context);
   }
@@ -202,7 +213,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUSAddress(USAddress usAddress, DiagnosticChain diagnostics, Map context)
+  public boolean validateUSAddress(USAddress usAddress, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(usAddress, diagnostics, context);
   }
@@ -212,7 +223,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUSState(Object usState, DiagnosticChain diagnostics, Map context)
+  public boolean validateUSState(USState usState, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -222,7 +233,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validatePostcode(String postcode, DiagnosticChain diagnostics, Map context)
+  public boolean validatePostcode(String postcode, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validatePostcode_MinLength(postcode, diagnostics, context);
     if (result || diagnostics != null) result &= validatePostcode_MaxLength(postcode, diagnostics, context);
@@ -235,12 +246,12 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validatePostcode_MinLength(String postcode, DiagnosticChain diagnostics, Map context)
+  public boolean validatePostcode_MinLength(String postcode, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     int length = postcode.length();  
     boolean result = length >= 7;
     if (!result && diagnostics != null) 
-      reportMinLengthViolation(IpoPackage.eINSTANCE.getPostcode(), postcode, length, 7, diagnostics, context);
+      reportMinLengthViolation(IpoPackage.Literals.POSTCODE, postcode, length, 7, diagnostics, context);
     return result;
   }
 
@@ -250,12 +261,12 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validatePostcode_MaxLength(String postcode, DiagnosticChain diagnostics, Map context)
+  public boolean validatePostcode_MaxLength(String postcode, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     int length = postcode.length();  
     boolean result = length <= 7;
     if (!result && diagnostics != null) 
-      reportMaxLengthViolation(IpoPackage.eINSTANCE.getPostcode(), postcode, length, 7, diagnostics, context);
+      reportMaxLengthViolation(IpoPackage.Literals.POSTCODE, postcode, length, 7, diagnostics, context);
     return result;
   }
 
@@ -264,7 +275,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateQuantityType(BigInteger quantityType, DiagnosticChain diagnostics, Map context)
+  public boolean validateQuantityType(BigInteger quantityType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = xmlTypeValidator.validatePositiveInteger_Min(quantityType, diagnostics, context);
     if (result || diagnostics != null) result &= validateQuantityType_Max(quantityType, diagnostics, context);
@@ -285,11 +296,11 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateQuantityType_Max(BigInteger quantityType, DiagnosticChain diagnostics, Map context)
+  public boolean validateQuantityType_Max(BigInteger quantityType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = quantityType.compareTo(QUANTITY_TYPE__MAX__VALUE) < 0;
     if (!result && diagnostics != null) 
-      reportMaxViolation(IpoPackage.eINSTANCE.getQuantityType(), quantityType, QUANTITY_TYPE__MAX__VALUE, false, diagnostics, context);
+      reportMaxViolation(IpoPackage.Literals.QUANTITY_TYPE, quantityType, QUANTITY_TYPE__MAX__VALUE, false, diagnostics, context);
     return result; 
   }
 
@@ -298,7 +309,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateSKU(String sku, DiagnosticChain diagnostics, Map context)
+  public boolean validateSKU(String sku, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateSKU_Pattern(sku, diagnostics, context);
     return result;
@@ -325,9 +336,9 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateSKU_Pattern(String sku, DiagnosticChain diagnostics, Map context)
+  public boolean validateSKU_Pattern(String sku, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    return validatePattern(IpoPackage.eINSTANCE.getSKU(), sku, SKU__PATTERN__VALUES, diagnostics, context);
+    return validatePattern(IpoPackage.Literals.SKU, sku, SKU__PATTERN__VALUES, diagnostics, context);
   }
 
   /**
@@ -335,7 +346,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUKPostcode(String ukPostcode, DiagnosticChain diagnostics, Map context)
+  public boolean validateUKPostcode(String ukPostcode, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validatePostcode_MinLength(ukPostcode, diagnostics, context);
     if (result || diagnostics != null) result &= validatePostcode_MaxLength(ukPostcode, diagnostics, context);
@@ -364,9 +375,9 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUKPostcode_Pattern(String ukPostcode, DiagnosticChain diagnostics, Map context)
+  public boolean validateUKPostcode_Pattern(String ukPostcode, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    return validatePattern(IpoPackage.eINSTANCE.getUKPostcode(), ukPostcode, UK_POSTCODE__PATTERN__VALUES, diagnostics, context);
+    return validatePattern(IpoPackage.Literals.UK_POSTCODE, ukPostcode, UK_POSTCODE__PATTERN__VALUES, diagnostics, context);
   }
 
   /**
@@ -374,7 +385,7 @@ public class IpoValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUSStateObject(AbstractEnumerator usStateObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateUSStateObject(USState usStateObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }

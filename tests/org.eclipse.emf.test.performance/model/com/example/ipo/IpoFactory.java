@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: IpoFactory.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: IpoFactory.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo;
 
@@ -24,7 +34,7 @@ public interface IpoFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  IpoFactory eINSTANCE = new com.example.ipo.impl.IpoFactoryImpl();
+  IpoFactory eINSTANCE = com.example.ipo.impl.IpoFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Address</em>'.

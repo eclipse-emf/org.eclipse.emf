@@ -12,21 +12,22 @@
  *
  * </copyright>
  *
- * $Id: SDOPerfUtil.java,v 1.2 2005/06/08 06:16:22 nickb Exp $
+ * $Id: SDOPerfUtil.java,v 1.3 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.sdo;
 
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+
+import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
+
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
@@ -39,11 +40,10 @@ public class SDOPerfUtil
 
     Registry packageRegistry = resourceSet.getPackageRegistry();
     XSDEcoreBuilder xsdEcoreBuilder = new XSDEcoreBuilder();
-    Collection packageList = xsdEcoreBuilder.generate(URI.createURI(xmlSchemaURI));
-
-    for (Iterator i = packageList.iterator(); i.hasNext();)
+    @SuppressWarnings("unchecked")
+    Collection<EPackage> packageList = (Collection)xsdEcoreBuilder.generate(URI.createURI(xmlSchemaURI));
+    for (EPackage epackage : packageList)
     {
-      EPackage epackage = (EPackage)i.next();
       epackage.setEFactoryInstance(new DynamicEDataObjectImpl.FactoryImpl());
       String nsURI = epackage.getNsURI();
       packageRegistry.put(nsURI, epackage);

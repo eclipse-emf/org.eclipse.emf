@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: EPOSwitch.java,v 1.1 2005/03/04 21:51:04 bportier Exp $
+ * $Id: EPOSwitch.java,v 1.2 2006/12/30 03:43:51 marcelop Exp $
  */
 package com.example.sdo.epo.util;
 
@@ -26,168 +36,176 @@ import org.eclipse.emf.ecore.EObject;
  * @see com.example.sdo.epo.EPOPackage
  * @generated
  */
-public class EPOSwitch {
+public class EPOSwitch<T> {
 	/**
-	 * The cached model package
-	 * <!-- begin-user-doc -->
+   * The cached model package
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	protected static EPOPackage modelPackage;
 
 	/**
-	 * Creates an instance of the switch.
-	 * <!-- begin-user-doc -->
+   * Creates an instance of the switch.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+   * @generated
+   */
 	public EPOSwitch() {
-		if (modelPackage == null) {
-			modelPackage = EPOPackage.eINSTANCE;
-		}
-	}
+    if (modelPackage == null)
+    {
+      modelPackage = EPOPackage.eINSTANCE;
+    }
+  }
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
-	public Object doSwitch(EObject theEObject) {
-		return doSwitch(theEObject.eClass(), theEObject);
-	}
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+	public T doSwitch(EObject theEObject) {
+    return doSwitch(theEObject.eClass(), theEObject);
+  }
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
-	protected Object doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage) {
-			return doSwitch(theEClass.getClassifierID(), theEObject);
-		}
-		else {
-			List eSuperTypes = theEClass.getESuperTypes();
-			return
-				eSuperTypes.isEmpty() ?
-					defaultCase(theEObject) :
-					doSwitch((EClass)eSuperTypes.get(0), theEObject);
-		}
-	}
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+	protected T doSwitch(EClass theEClass, EObject theEObject) {
+    if (theEClass.eContainer() == modelPackage)
+    {
+      return doSwitch(theEClass.getClassifierID(), theEObject);
+    }
+    else
+    {
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch(eSuperTypes.get(0), theEObject);
+    }
+  }
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
+   * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
-	protected Object doSwitch(int classifierID, EObject theEObject) {
-		switch (classifierID) {
-			case EPOPackage.ITEM: {
-				Item item = (Item)theEObject;
-				Object result = caseItem(item);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case EPOPackage.US_ADDRESS: {
-				USAddress usAddress = (USAddress)theEObject;
-				Object result = caseUSAddress(usAddress);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case EPOPackage.PURCHASE_ORDER: {
-				PurchaseOrder purchaseOrder = (PurchaseOrder)theEObject;
-				Object result = casePurchaseOrder(purchaseOrder);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case EPOPackage.SUPPLIER: {
-				Supplier supplier = (Supplier)theEObject;
-				Object result = caseSupplier(supplier);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			default: return defaultCase(theEObject);
-		}
-	}
+   * @return the first non-null result returned by a <code>caseXXX</code> call.
+   * @generated
+   */
+	protected T doSwitch(int classifierID, EObject theEObject) {
+    switch (classifierID)
+    {
+      case EPOPackage.ITEM:
+      {
+        Item item = (Item)theEObject;
+        T result = caseItem(item);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EPOPackage.US_ADDRESS:
+      {
+        USAddress usAddress = (USAddress)theEObject;
+        T result = caseUSAddress(usAddress);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EPOPackage.PURCHASE_ORDER:
+      {
+        PurchaseOrder purchaseOrder = (PurchaseOrder)theEObject;
+        T result = casePurchaseOrder(purchaseOrder);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EPOPackage.SUPPLIER:
+      {
+        Supplier supplier = (Supplier)theEObject;
+        T result = caseSupplier(supplier);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      default: return defaultCase(theEObject);
+    }
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Item</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>Item</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Item</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseItem(Item object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Item</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+	public T caseItem(Item object) {
+    return null;
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>US Address</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>US Address</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>US Address</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseUSAddress(USAddress object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>US Address</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+	public T caseUSAddress(USAddress object) {
+    return null;
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Purchase Order</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>Purchase Order</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Purchase Order</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object casePurchaseOrder(PurchaseOrder object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Purchase Order</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+	public T casePurchaseOrder(PurchaseOrder object) {
+    return null;
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Supplier</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>Supplier</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Supplier</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public Object caseSupplier(Supplier object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Supplier</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+	public T caseSupplier(Supplier object) {
+    return null;
+  }
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
-	 * <!-- begin-user-doc -->
+   * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+   * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
-	 * @generated
-	 */
-	public Object defaultCase(EObject object) {
-		return null;
-	}
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject)
+   * @generated
+   */
+	public T defaultCase(EObject object) {
+    return null;
+  }
 
 } //EPOSwitch

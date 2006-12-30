@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPerformanceTestCase.java,v 1.22 2005/07/18 00:03:33 nickb Exp $
+ * $Id: EMFPerformanceTestCase.java,v 1.23 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -104,6 +104,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     return warmingUp;
   }
 
+  @Override
   protected void startMeasuring()
   {
     if (TestUtil.isRunningUnderEclipse() && !isWarmingUp())
@@ -112,6 +113,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     }
   }
 
+  @Override
   protected void stopMeasuring()
   {
     if (TestUtil.isRunningUnderEclipse() && !isWarmingUp())
@@ -120,6 +122,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     }
   }
 
+  @Override
   protected void setUp() throws Exception
   {
     if (TestUtil.isRunningUnderEclipse())
@@ -128,6 +131,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     }
   }
 
+  @Override
   protected void runTest() throws Throwable
   {
     assertTrue("Iterations must be greater than 0", getRepetitions() > 0);
@@ -174,6 +178,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     }
   }
 
+  @Override
   protected void tearDown() throws Exception
   {
     if (TestUtil.isRunningUnderEclipse())
@@ -184,6 +189,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     }
   }
 
+  @Override
   public void tagAsGlobalSummary(String shortName, Dimension dimension)
   {
     if (TestUtil.isRunningUnderEclipse())
@@ -192,6 +198,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     }
   }
 
+  @Override
   public void tagAsGlobalSummary(String shortName, Dimension[] dimensions)
   {
     if (TestUtil.isRunningUnderEclipse())
@@ -200,6 +207,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     }
   }
 
+  @Override
   public void tagAsSummary(String shortName, Dimension dimension)
   {
     if (TestUtil.isRunningUnderEclipse())
@@ -208,6 +216,7 @@ public class EMFPerformanceTestCase extends PerformanceTestCase
     }
   }
 
+  @Override
   public void tagAsSummary(String shortName, Dimension[] dimensions)
   {
     if (TestUtil.isRunningUnderEclipse())

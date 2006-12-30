@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: LibraryAdapterFactory.java,v 1.1 2005/03/11 22:29:57 bportier Exp $
+ * $Id: LibraryAdapterFactory.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.sdo.library.util;
 
@@ -55,6 +65,7 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -74,22 +85,26 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected LibrarySwitch modelSwitch =
-    new LibrarySwitch()
+  protected LibrarySwitch<Adapter> modelSwitch =
+    new LibrarySwitch<Adapter>()
     {
-      public Object caseBook(Book object)
+      @Override
+      public Adapter caseBook(Book object)
       {
         return createBookAdapter();
       }
-      public Object caseLibrary(Library object)
+      @Override
+      public Adapter caseLibrary(Library object)
       {
         return createLibraryAdapter();
       }
-      public Object caseWriter(Writer object)
+      @Override
+      public Adapter caseWriter(Writer object)
       {
         return createWriterAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -103,14 +118,15 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 
   /**
-   * Creates a new adapter for an object of class '{@link org.eclipse.example.library.Book <em>Book</em>}'.
+   * Creates a new adapter for an object of class '{@link com.example.sdo.library.Book <em>Book</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
@@ -125,7 +141,7 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.eclipse.example.library.Library <em>Library</em>}'.
+   * Creates a new adapter for an object of class '{@link com.example.sdo.library.Library <em>Library</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
@@ -140,7 +156,7 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.eclipse.example.library.Writer <em>Writer</em>}'.
+   * Creates a new adapter for an object of class '{@link com.example.sdo.library.Writer <em>Writer</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.

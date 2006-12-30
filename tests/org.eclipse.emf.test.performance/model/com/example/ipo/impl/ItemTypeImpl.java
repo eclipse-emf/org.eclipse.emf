@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: ItemTypeImpl.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: ItemTypeImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -15,8 +25,6 @@ import java.math.BigInteger;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -88,7 +96,7 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * @generated
    * @ordered
    */
-  protected static final BigDecimal USPRICE_EDEFAULT = null;
+  protected static final BigDecimal US_PRICE_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getUSPrice() <em>US Price</em>}' attribute.
@@ -98,7 +106,7 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * @generated
    * @ordered
    */
-  protected BigDecimal uSPrice = USPRICE_EDEFAULT;
+  protected BigDecimal uSPrice = US_PRICE_EDEFAULT;
 
   /**
    * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
@@ -175,9 +183,10 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
-    return IpoPackage.eINSTANCE.getItemType();
+    return IpoPackage.Literals.ITEM_TYPE;
   }
 
   /**
@@ -246,7 +255,7 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
     BigDecimal oldUSPrice = uSPrice;
     uSPrice = newUSPrice;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, IpoPackage.ITEM_TYPE__USPRICE, oldUSPrice, uSPrice));
+      eNotify(new ENotificationImpl(this, Notification.SET, IpoPackage.ITEM_TYPE__US_PRICE, oldUSPrice, uSPrice));
   }
 
   /**
@@ -323,15 +332,16 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ITEM_TYPE__PRODUCT_NAME:
         return getProductName();
       case IpoPackage.ITEM_TYPE__QUANTITY:
         return getQuantity();
-      case IpoPackage.ITEM_TYPE__USPRICE:
+      case IpoPackage.ITEM_TYPE__US_PRICE:
         return getUSPrice();
       case IpoPackage.ITEM_TYPE__COMMENT:
         return getComment();
@@ -340,7 +350,7 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
       case IpoPackage.ITEM_TYPE__PART_NUM:
         return getPartNum();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -348,9 +358,10 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  @Override
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ITEM_TYPE__PRODUCT_NAME:
         setProductName((String)newValue);
@@ -358,20 +369,20 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
       case IpoPackage.ITEM_TYPE__QUANTITY:
         setQuantity((BigInteger)newValue);
         return;
-      case IpoPackage.ITEM_TYPE__USPRICE:
+      case IpoPackage.ITEM_TYPE__US_PRICE:
         setUSPrice((BigDecimal)newValue);
         return;
       case IpoPackage.ITEM_TYPE__COMMENT:
         setComment((String)newValue);
         return;
       case IpoPackage.ITEM_TYPE__SHIP_DATE:
-        setShipDate((Object)newValue);
+        setShipDate(newValue);
         return;
       case IpoPackage.ITEM_TYPE__PART_NUM:
         setPartNum((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -379,9 +390,10 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  @Override
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ITEM_TYPE__PRODUCT_NAME:
         setProductName(PRODUCT_NAME_EDEFAULT);
@@ -389,8 +401,8 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
       case IpoPackage.ITEM_TYPE__QUANTITY:
         setQuantity(QUANTITY_EDEFAULT);
         return;
-      case IpoPackage.ITEM_TYPE__USPRICE:
-        setUSPrice(USPRICE_EDEFAULT);
+      case IpoPackage.ITEM_TYPE__US_PRICE:
+        setUSPrice(US_PRICE_EDEFAULT);
         return;
       case IpoPackage.ITEM_TYPE__COMMENT:
         setComment(COMMENT_EDEFAULT);
@@ -402,7 +414,7 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
         setPartNum(PART_NUM_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -410,16 +422,17 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  @Override
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case IpoPackage.ITEM_TYPE__PRODUCT_NAME:
         return PRODUCT_NAME_EDEFAULT == null ? productName != null : !PRODUCT_NAME_EDEFAULT.equals(productName);
       case IpoPackage.ITEM_TYPE__QUANTITY:
         return QUANTITY_EDEFAULT == null ? quantity != null : !QUANTITY_EDEFAULT.equals(quantity);
-      case IpoPackage.ITEM_TYPE__USPRICE:
-        return USPRICE_EDEFAULT == null ? uSPrice != null : !USPRICE_EDEFAULT.equals(uSPrice);
+      case IpoPackage.ITEM_TYPE__US_PRICE:
+        return US_PRICE_EDEFAULT == null ? uSPrice != null : !US_PRICE_EDEFAULT.equals(uSPrice);
       case IpoPackage.ITEM_TYPE__COMMENT:
         return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
       case IpoPackage.ITEM_TYPE__SHIP_DATE:
@@ -427,7 +440,7 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
       case IpoPackage.ITEM_TYPE__PART_NUM:
         return PART_NUM_EDEFAULT == null ? partNum != null : !PART_NUM_EDEFAULT.equals(partNum);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -435,6 +448,7 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

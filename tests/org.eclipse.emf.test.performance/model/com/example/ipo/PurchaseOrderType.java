@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: PurchaseOrderType.java,v 1.1 2005/02/04 21:16:37 elena Exp $
+ * $Id: PurchaseOrderType.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
  */
 package com.example.ipo;
 
@@ -41,7 +51,7 @@ public interface PurchaseOrderType extends EObject
    * @return the value of the '<em>Ship To</em>' containment reference.
    * @see #setShipTo(Address)
    * @see com.example.ipo.IpoPackage#getPurchaseOrderType_ShipTo()
-   * @model containment="true" resolveProxies="false" required="true"
+   * @model containment="true" required="true"
    *        extendedMetaData="kind='element' name='shipTo'"
    * @generated
    */
@@ -68,7 +78,7 @@ public interface PurchaseOrderType extends EObject
    * @return the value of the '<em>Bill To</em>' containment reference.
    * @see #setBillTo(Address)
    * @see com.example.ipo.IpoPackage#getPurchaseOrderType_BillTo()
-   * @model containment="true" resolveProxies="false" required="true"
+   * @model containment="true" required="true"
    *        extendedMetaData="kind='element' name='billTo'"
    * @generated
    */
@@ -122,7 +132,7 @@ public interface PurchaseOrderType extends EObject
    * @return the value of the '<em>Items</em>' containment reference.
    * @see #setItems(Items)
    * @see com.example.ipo.IpoPackage#getPurchaseOrderType_Items()
-   * @model containment="true" resolveProxies="false" required="true"
+   * @model containment="true" required="true"
    *        extendedMetaData="kind='element' name='items'"
    * @generated
    */

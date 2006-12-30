@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOSaveTest.java,v 1.11 2005/06/22 19:59:55 bportier Exp $
+ * $Id: DynamicIPOSDOSaveTest.java,v 1.12 2006/12/30 03:43:52 marcelop Exp $
  */
 package org.eclipse.emf.test.performance.sdo.serialization;
 
@@ -57,13 +57,13 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
 
   final static int WARMUP = 3000;
 
-  private HashMap options;
+  private HashMap<Object, Object> options;
 
   protected ResourceSet resourceSet;
 
   private Resource resource;
 
-  private ArrayList cache;
+  private ArrayList<Object> cache;
 
   private ByteArrayOutputStream outputstream = new ByteArrayOutputStream(2064);
 
@@ -82,14 +82,15 @@ public class DynamicIPOSDOSaveTest extends EMFPerformanceTestCase
     return ts;
   }
 
+  @Override
   protected void setUp() throws Exception
   {
     super.setUp();
     tagAsSummary("Performance Results for " + getClass().getName(), TIME_DIMENSIONS);
 
     resourceSet = SDOUtil.createResourceSet();
-    options = new HashMap();
-    cache = new ArrayList();
+    options = new HashMap<Object, Object>();
+    cache = new ArrayList<Object>();
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, registerModel());
 
     FileInputStream inputStream = new FileInputStream(XML_INSTANCE);
