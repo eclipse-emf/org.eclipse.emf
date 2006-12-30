@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.42 2006/12/28 06:47:17 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.43 2006/12/30 04:44:04 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -865,11 +865,21 @@ public class EcoreEditor
    */
   public class ReverseAdapterFactoryContentProvider extends AdapterFactoryContentProvider
   {
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public ReverseAdapterFactoryContentProvider(AdapterFactory adapterFactory)
     {
       super(adapterFactory);
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object [] getElements(Object object)
     {
@@ -877,6 +887,11 @@ public class EcoreEditor
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object [] getChildren(Object object)
     {
@@ -884,6 +899,11 @@ public class EcoreEditor
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public boolean hasChildren(Object object)
     {
@@ -891,6 +911,11 @@ public class EcoreEditor
       return parent != null;
     }
 
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object getParent(Object object)
     {
