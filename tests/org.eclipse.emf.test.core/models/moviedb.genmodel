@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.core/models"
     editDirectory="/org.eclipse.emf.test.core.edit/src" editorDirectory="/org.eclipse.emf.test.core.editor/src"
     modelPluginID="org.eclipse.emf.test.core" runtimeJar="true" modelName="MovieDB"
-    editPluginClass="" editorPluginClass="" importerID="org.eclipse.xsd.ecore.importer"
+    editPluginClass="" editorPluginClass="" testsDirectory="" importerID="org.eclipse.xsd.ecore.importer"
     complianceLevel="5.0">
   <foreignModel>order.xsd</foreignModel>
   <foreignModel>moviedb.xsd</foreignModel>
