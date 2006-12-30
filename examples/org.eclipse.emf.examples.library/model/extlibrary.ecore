@@ -61,7 +61,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Item" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="publicationDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Lendable" interface="true">
+  <eClassifiers xsi:type="ecore:EClass" name="Lendable" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="copies" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="borrowers" ordered="false"
@@ -99,7 +99,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Employee" eSuperTypes="#//Person">
     <eStructuralFeatures xsi:type="ecore:EReference" name="manager" eType="#//Employee"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Addressable" interface="true">
+  <eClassifiers xsi:type="ecore:EClass" name="Addressable" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>
