@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FieldsTest.java,v 1.2 2006/12/15 20:39:12 marcelop Exp $
+ * $Id: FieldsTest.java,v 1.3 2006/12/31 02:33:30 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
@@ -54,7 +54,7 @@ public class FieldsTest extends BaseFacadeTest
    */  
   public void testMoveClasses() 
   {
-    testMoveAndModify2();
+    moveAndModifyField2();
     
     JType type = (JType)compilationUnit.getChildren().get(0);
     
@@ -66,6 +66,8 @@ public class FieldsTest extends BaseFacadeTest
     assertTrue(facadeHelper.addChild(compilationUnit, type));
     assertFalse(facadeHelper.addChild(compilationUnit, type));
     updateNoChildren(compilationUnit, type, ADD, 1);
+    
+    rewriteAndCompare();
   }
   
   /**
@@ -160,7 +162,7 @@ public class FieldsTest extends BaseFacadeTest
     testNoChildren(field2, 2);
     assertEquals("/** Javadoc " + modificationId + " **/", field2.getComment());
     assertEquals(PUBLIC | STATIC | TRANSIENT | VOLATILE, field2.getFlags());
-    assertEquals("new Object() {\n      // line comment\n      // line comment\n    }", field2.getInitializer());
+    assertEquals("new Object() {\n      // line comment " + modificationId + "\n      // line comment\n    }", field2.getInitializer());
     assertEquals("Type_" + modificationId, field2.getType());
     assertEquals("field_modified_" + modificationId, field2.getName());
   }
@@ -170,7 +172,7 @@ public class FieldsTest extends BaseFacadeTest
     testNoChildren(field2, 2);
     assertEquals("/** Javadoc " + modificationId + " **/", field2.getComment());
     assertEquals(PROTECTED | FINAL, field2.getFlags());
-    assertEquals(null, field2.getInitializer());
+    assertEquals("new Object() {\n      // line comment " + modificationId + "\n      // line comment\n    }", field2.getInitializer());
     assertEquals("Type_" + modificationId, field2.getType());
     assertEquals("field_modified_" + modificationId, field2.getName());
   }

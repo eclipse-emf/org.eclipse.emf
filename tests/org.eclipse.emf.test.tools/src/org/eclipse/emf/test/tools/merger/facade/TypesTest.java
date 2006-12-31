@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TypesTest.java,v 1.2 2006/12/15 20:39:12 marcelop Exp $
+ * $Id: TypesTest.java,v 1.3 2006/12/31 02:33:30 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
@@ -177,9 +177,13 @@ public class TypesTest extends BaseFacadeTest
     JType type = (JType)abstractType;
     assertEquals("/** Javadoc " + modificationId + "_1\n// linecomment\n */", type.getComment());
     assertEquals(FacadeFlags.DEFAULT, type.getFlags());
-    assertEquals(null, type.getSuperclass());
-    assertTrue(Arrays.equals(new String [0], type.getSuperInterfaces()));
-    assertTrue(Arrays.equals(new String [0], type.getTypeParameters()));
+    assertEquals("Superclass" + modificationId + "_1", type.getSuperclass());
+    assertTrue(Arrays.equals(new String []{
+      "Interface" + modificationId,
+      "Interface" + modificationId + "_1",
+      "Interface" + modificationId + "_2",
+      "Interface" + modificationId + "_3" }, type.getSuperInterfaces()));
+    assertTrue(Arrays.equals(new String []{ "Type" + modificationId, "Type" + modificationId + "_1" }, type.getTypeParameters()));
     assertEquals("TypeName" + modificationId, type.getName());
   }   
   

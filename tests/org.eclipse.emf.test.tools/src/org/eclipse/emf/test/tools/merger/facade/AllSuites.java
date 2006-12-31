@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.1 2006/12/06 03:54:34 marcelop Exp $
+ * $Id: AllSuites.java,v 1.2 2006/12/31 02:33:30 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
@@ -45,6 +45,8 @@ public class AllSuites extends TestSuite
     addTest(new TestSuite(EnumsTest.class, "Enums Test"));
     addTest(new TestSuite(FieldsTest.class, "Fields Test"));
     addTest(new TestSuite(SplitFieldsTest.class, "Split Fields Test"));
+    addTest(new TestSuite(MethodsTest.class, "Methods Test"));
+    addTest(new TestSuite(CommentOutTest.class, "Comment Out Feature Test"));    
     addTest(FacadeAPITest.suite());
     addTest(FacadeTest_Example1.suite());
   }

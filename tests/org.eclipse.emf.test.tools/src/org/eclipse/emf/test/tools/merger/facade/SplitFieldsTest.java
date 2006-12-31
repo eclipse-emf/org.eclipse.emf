@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SplitFieldsTest.java,v 1.2 2006/12/15 20:39:12 marcelop Exp $
+ * $Id: SplitFieldsTest.java,v 1.3 2006/12/31 02:33:30 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
@@ -42,12 +42,12 @@ public class SplitFieldsTest extends BaseFacadeTest
     
     // change annotation of the second field
     ((JAnnotation)getSplitField2().getChildren().get(1)).setContents("@DeprecatedForSplit2");
-    
-    annotationsTest.testVersionAndDeprecated(getSplitField1());
-    annotationsTest.testVersionAndDeprecated(getSplitField2());
-    
+
     // note that the order has changed - the field with changed annotation
-    // is inserted before the original field
+    // is inserted before the original field    
+    annotationsTest.testVersionAndDeprecated(getSplitField2());
+    assertEquals("@DeprecatedForSplit2", ((JAnnotation)getSplitField1().getChildren().get(1)).getContents());
+
     readOriginalField1(getSplitField2());
     readOriginalField2(getSplitField1());    
     
@@ -113,7 +113,8 @@ public class SplitFieldsTest extends BaseFacadeTest
     field1.setInitializer("\"\" +\n// new initializer for split1\n  \"\"");
     field2.setInitializer(null);    
     
-    readSplitFields();
+    assertEquals("\"\" +\n// new initializer for split1\n  \"\"", getSplitField1().getInitializer());
+    assertEquals(null, getSplitField2().getInitializer());
     
     rewriteAndCompare();     
   }
@@ -266,7 +267,7 @@ public class SplitFieldsTest extends BaseFacadeTest
   {
     assertEquals("/** Javadoc for " + modificationId + " **/", field1.getComment());
     assertEquals(PROTECTED | FINAL, field1.getFlags());
-    assertEquals(null, field1.getInitializer());
+    assertEquals("\"\" +\n// new initializer for split1\n  \"\"", field1.getInitializer());
     assertEquals("T_" + modificationId, field1.getType());
     assertEquals("renamed_" + modificationId, field1.getName());
   }
@@ -275,7 +276,7 @@ public class SplitFieldsTest extends BaseFacadeTest
   {
     assertEquals("/** Javadoc for " + modificationId + " **/", field2.getComment());
     assertEquals(PROTECTED | FINAL, field2.getFlags());
-    assertEquals("\"\" +\n    // line comment in initializer\n    \"\"", field2.getInitializer());
+    assertEquals(null, field2.getInitializer());
     assertEquals("T_" + modificationId, field2.getType());
   }
 }
