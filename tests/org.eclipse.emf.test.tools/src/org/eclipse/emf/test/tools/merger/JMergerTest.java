@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.18 2006/11/21 19:35:50 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.19 2006/12/31 02:20:26 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -170,7 +170,14 @@ public abstract class JMergerTest extends TestCase
   protected String computeJavaVersion()
   {
     File parentDirectory = dataDirectory.getParentFile();
-    return DIRECTORY_NAMES_TO_JAVA_VERSIONS.get(parentDirectory.getName());
+    String javaVersion = null;
+    do
+    {
+      javaVersion = DIRECTORY_NAMES_TO_JAVA_VERSIONS.get(parentDirectory.getName());
+      parentDirectory = parentDirectory.getParentFile();
+    }
+    while (javaVersion == null && parentDirectory != null);
+    return javaVersion;
   }
 
   /**

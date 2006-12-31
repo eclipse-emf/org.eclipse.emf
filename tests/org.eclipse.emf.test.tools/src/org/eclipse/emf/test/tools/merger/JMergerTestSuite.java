@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTestSuite.java,v 1.2 2006/12/06 03:53:53 marcelop Exp $
+ * $Id: JMergerTestSuite.java,v 1.3 2006/12/31 02:20:26 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -45,20 +45,16 @@ public class JMergerTestSuite extends TestSuite
    */
   protected static class JMergerDataDirectoryFilter implements FilenameFilter
   {
-    protected static final Pattern DATA_DIRECTORY_NAME_PATTERN = Pattern.compile("^merge.*$");
+    protected static final Pattern EXCLUDE_DATA_DIRECTORY_NAME_PATTERN = Pattern.compile("^(?:CVS)|(?:\\..*)$");
+    protected static final Pattern INCLUDE_DATA_DIRECTORY_NAME_PATTERN = Pattern.compile(".*");
 
     public boolean accept(File dir, String name)
     {
       // must be a directory and must match the pattern
       File dataDirectoryCandidate = new File(dir, name);
-      if (dataDirectoryCandidate.isDirectory() && DATA_DIRECTORY_NAME_PATTERN.matcher(name).matches())
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return dataDirectoryCandidate.isDirectory() &&
+        !EXCLUDE_DATA_DIRECTORY_NAME_PATTERN.matcher(name).matches() &&
+        INCLUDE_DATA_DIRECTORY_NAME_PATTERN.matcher(name).matches();
     }
   }
 
@@ -113,23 +109,44 @@ public class JMergerTestSuite extends TestSuite
 
       if (dataDirsDirectory.isDirectory())
       {
-        TestSuite javaVersionTestSuite = new TestSuite(javaVersionDirectoryName);
-        // add tests for subdirectories matching the filter      
-        String[] dataDirectoriesNames = dataDirsDirectory.list(new JMergerDataDirectoryFilter());
-  
-        Arrays.sort(dataDirectoriesNames);
-  
-        for (String dataDirectoryName : dataDirectoriesNames)
-        {
-          File dataDirectory = new File(dataDirsDirectory, dataDirectoryName);
-          javaVersionTestSuite.addTest(createSingleInputTestSuite(dataDirectory));
-        }
-        addTest(javaVersionTestSuite);
+        addTest(createTestSuiteRecursively(dataDirsDirectory));
       }
     }
 
     assertFalse("Subdirectories " + JMergerTest.DIRECTORY_NAMES_TO_JAVA_VERSIONS.keySet().toString() + " under "
-      + rootDataDirsDirectory.getAbsolutePath() + " must contain merge* subdirectories.", countTestCases() == 0);
+      + rootDataDirsDirectory.getAbsolutePath() + " must contain subdirectories with source, target and output files.", countTestCases() == 0);
+  }
+  
+  /**
+   * Creates a test suite recursively for all directories in the directory tree.
+   * Directories used as input must be accepted by {@link JMergerDataDirectoryFilter}.
+   * @param directory root directory to create test suite for
+   * @return resulting test suite
+   */
+  protected TestSuite createTestSuiteRecursively(File directory)
+  {
+    TestSuite thisDirectoryTest = createSingleInputTestSuite(directory);
+    
+    // if there are no test cases for this directory, try to create test suites from subdirectories
+    if (thisDirectoryTest.countTestCases() == 0)
+    {
+      String[] dataDirectoriesNames = directory.list(new JMergerDataDirectoryFilter());
+      
+      if (dataDirectoriesNames.length > 0)
+      {
+        TestSuite testSuite = new TestSuite(directory.getName());
+        
+        Arrays.sort(dataDirectoriesNames);
+  
+        for (String dataDirectoryName : dataDirectoriesNames)
+        {
+          File dataDirectory = new File(directory, dataDirectoryName);
+          testSuite.addTest(createTestSuiteRecursively(dataDirectory));
+        }
+        return testSuite;
+      }
+    }
+    return thisDirectoryTest;
   }
 
   /**
