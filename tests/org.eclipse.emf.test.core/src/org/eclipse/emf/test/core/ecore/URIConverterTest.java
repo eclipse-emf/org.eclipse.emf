@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterTest.java,v 1.3 2006/12/31 19:58:36 marcelop Exp $
+ * $Id: URIConverterTest.java,v 1.4 2006/12/31 20:03:01 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -44,7 +44,7 @@ public class URIConverterTest extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("URIConverterTest");
-    ts.addTest(new URIConverterTest("testCompressedURI"));
+    ts.addTest(new URIConverterTest("testReadArchiveURI"));
     return ts;
   }
   
@@ -57,7 +57,7 @@ public class URIConverterTest extends TestCase
     uriConverter = new URIConverterImpl();
   }
   
-  public void testCompressedURI() throws Exception
+  public void testReadArchiveURI() throws Exception
   {
     String pluginDirectory = TestUtil.getPluginDirectory();
 
