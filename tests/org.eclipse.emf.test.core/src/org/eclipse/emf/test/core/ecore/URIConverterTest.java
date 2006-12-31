@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterTest.java,v 1.2 2006/12/31 19:45:31 marcelop Exp $
+ * $Id: URIConverterTest.java,v 1.3 2006/12/31 19:58:36 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -31,6 +31,8 @@ import org.eclipse.emf.test.core.TestUtil;
 
 public class URIConverterTest extends TestCase
 {
+  protected URIConverter uriConverter;
+  
   /**
    * @param name
    */
@@ -46,10 +48,18 @@ public class URIConverterTest extends TestCase
     return ts;
   }
   
+  @Override
+  protected void setUp() throws Exception
+  {
+    // On real applications the URIConverter is usually obtained from 
+    // a ResourceSet
+    //
+    uriConverter = new URIConverterImpl();
+  }
+  
   public void testCompressedURI() throws Exception
   {
     String pluginDirectory = TestUtil.getPluginDirectory();
-    URIConverter uriConverter = new URIConverterImpl();
 
     URI uri = URI.createFileURI(pluginDirectory + "/data/file.txt");
     String contentsFromUncompressedFile = readFile(uriConverter.createInputStream(uri));
@@ -75,18 +85,25 @@ public class URIConverterTest extends TestCase
   
   protected String readFile(InputStream inputStream) throws IOException
   {
-    if (!(inputStream instanceof BufferedInputStream))
+    try
     {
-      inputStream = new BufferedInputStream(inputStream);
+      if (!(inputStream instanceof BufferedInputStream))
+      {
+        inputStream = new BufferedInputStream(inputStream);
+      }
+      
+      StringBuilder sb = new StringBuilder();
+      byte[] buffer = new byte[1024];
+      int size = 0;
+      while ((size = inputStream.read(buffer)) > -1)
+      {
+        sb.append(new String(buffer, 0, size));
+      }
+      return sb.toString();
     }
-    
-    StringBuilder sb = new StringBuilder();
-    byte[] buffer = new byte[1024];
-    int size = 0;
-    while ((size = inputStream.read(buffer)) > -1)
+    finally
     {
-      sb.append(new String(buffer, 0, size));
+      inputStream.close();
     }
-    return sb.toString();
   }
 }
