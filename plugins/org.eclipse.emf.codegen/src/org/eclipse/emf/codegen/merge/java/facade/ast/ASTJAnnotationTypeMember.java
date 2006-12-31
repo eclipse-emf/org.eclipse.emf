@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJAnnotationTypeMember.java,v 1.2 2006/12/15 20:26:12 marcelop Exp $
+ * $Id: ASTJAnnotationTypeMember.java,v 1.3 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -24,53 +24,76 @@ import org.eclipse.emf.codegen.merge.java.facade.JAnnotationTypeMember;
 public class ASTJAnnotationTypeMember extends ASTJMember<AnnotationTypeMemberDeclaration> implements JAnnotationTypeMember
 {
   /**
+   * Cached default value
+   * @see #getDefaultValue()
+   * @see #setDefaultValue(String)
+   */
+  protected String defaultValue = UNITIALIZED_STRING;
+  
+  /**
+   * Cached type
+   * @see #getType()
+   * @see #setType(String)
+   */
+  protected String type = UNITIALIZED_STRING;
+  
+  /**
    * @param annotationTypeMemberDeclaration
    */
   public ASTJAnnotationTypeMember(AnnotationTypeMemberDeclaration annotationTypeMemberDeclaration)
   {
     super(annotationTypeMemberDeclaration);
   }
+  
+  @Override
+  public void dispose()
+  {
+    defaultValue = null;
+    type = null;
+    super.dispose();
+  }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JAnnotationTypeMember#getDefaultValue()
-   */
   public String getDefaultValue()
   {
-    String defaultValue = getFacadeHelper().toString(getASTNode().getDefault());
-    if (defaultValue == null)
+    if (defaultValue == UNITIALIZED_STRING)
     {
-      return "";
+      defaultValue = getFacadeHelper().toString(getASTNode().getDefault());
+      if (defaultValue == null)
+      {
+        defaultValue = "";
+      }
     }
     return defaultValue;
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JAnnotationTypeMember#getType()
-   */
-  public String getType()
-  {
-    return getFacadeHelper().toString(getASTNode().getType());
-  }
-
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JAnnotationTypeMember#setDefaultValue(java.lang.String)
-   */
   public void setDefaultValue(String defaultValue)
   {
+    this.defaultValue = defaultValue;
     setTrackedNodeProperty(getASTNode(), defaultValue, AnnotationTypeMemberDeclaration.DEFAULT_PROPERTY, ASTNode.SIMPLE_NAME);
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JAnnotationTypeMember#setType(java.lang.String)
-   */
+  public String getType()
+  {
+    if (type == UNITIALIZED_STRING)
+    {
+      type = getFacadeHelper().toString(getASTNode().getType());
+    }
+    return type;
+  }
+
   public void setType(String type)
   {
+    this.type = type;
     setTrackedNodeProperty(getASTNode(), type, AnnotationTypeMemberDeclaration.TYPE_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
   public String getName()
   {
-    return name == UNITIALIZED_STRING ? name = ASTFacadeHelper.toString(getASTNode().getName()) : name;
+    if (name == UNITIALIZED_STRING)
+    {
+      name = ASTFacadeHelper.toString(getASTNode().getName());
+    }
+    return name;
   }
   
   public void setName(String name)

@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ASTJMethod.java,v 1.4 2006/12/15 20:26:12 marcelop Exp $
+ * $Id: ASTJMethod.java,v 1.5 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -33,6 +34,25 @@ import org.eclipse.emf.codegen.merge.java.facade.JMethod;
  */
 public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
 {
+  protected String returnType = UNITIALIZED_STRING;
+  protected String[] typeParameters = EMPTY_STRING_ARRAY;
+  protected String[] parameterNames = EMPTY_STRING_ARRAY;
+  protected String[] parameters = EMPTY_STRING_ARRAY;
+  
+  /**
+   * Array of cached exceptions. Current exceptions is a combination of
+   * this array and {@link #addedExceptions}.
+   */
+  protected String[] exceptions = EMPTY_STRING_ARRAY;
+  
+  /**
+   * List of added exceptions by calling {@link #addException(String)}.
+   * This list does not include existing exceptions, nor exceptions set by {@link #setExceptions(String[])}
+   */
+  protected List<String> addedExceptions = null;  
+  
+  protected String body = UNITIALIZED_STRING;
+  
   /**
    * @param methodDeclaration
    */
@@ -40,18 +60,38 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
   {
     super(methodDeclaration);
   }
+  
+  @Override
+  public void dispose()
+  {
+    returnType = null;
+    typeParameters = null;
+    parameterNames = null;
+    parameters = null;
+    exceptions = null;
+    body = null;
+    if (addedExceptions != null)
+    {
+      addedExceptions.clear();
+      addedExceptions = null;
+    }
+    
+    super.dispose();
+  }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#isConstructor()
-   */
   public boolean isConstructor()
   {
+    // always returns original value
     return getASTNode().isConstructor();
   }
 
   public String getName()
   {
-    return name == UNITIALIZED_STRING ? name = (isConstructor() ? null : ASTFacadeHelper.toString(getASTNode().getName())) : name;
+    if (name == UNITIALIZED_STRING)
+    {
+      name = (isConstructor() ? null : ASTFacadeHelper.toString(getASTNode().getName()));
+    }
+    return name;
   }
 
   public void setName(String name)
@@ -60,76 +100,75 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
     setNodeProperty(getASTNode(), name, MethodDeclaration.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
   }    
   
-  /**
-   * Returns original return type of the method.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#getReturnType()
-   */
   public String getReturnType()
   {
-    String type = getFacadeHelper().toString(getASTNode().getReturnType2());
-    if (type != null)
+    if (returnType == UNITIALIZED_STRING)
     {
-      // append extra dimensions since they are not stored in Type object
-      for (int i = 0; i < getASTNode().getExtraDimensions(); i++)
+      returnType = getFacadeHelper().toString(getASTNode().getReturnType2());
+      if (returnType != null)
       {
-        type += "[]";
+        // append extra dimensions since they are not stored in Type object
+        for (int i = 0; i < getASTNode().getExtraDimensions(); i++)
+        {
+          returnType += "[]";
+        }
       }
     }
-    return type;
+    return returnType;
   }
 
-  /**
-   * Sets the return type.
-   * <p>
-   * Note that <code>getReturnType()</code> will not return the new value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#setReturnType(java.lang.Object)
-   */
   public void setReturnType(String type)
   {
+    this.returnType = type;
     setNodeProperty(getASTNode(), 0, MethodDeclaration.EXTRA_DIMENSIONS_PROPERTY);
     setTrackedNodeProperty(getASTNode(), type, MethodDeclaration.RETURN_TYPE2_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#getTypeParameters()
-   */
   @SuppressWarnings("unchecked")
   public String[] getTypeParameters()
   {
-    return convertASTNodeListToStringArray(getASTNode().typeParameters());
+    if (typeParameters == EMPTY_STRING_ARRAY)
+    {
+      typeParameters = convertASTNodeListToStringArray(getASTNode().typeParameters());
+    }
+    return typeParameters;
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#setTypeParameters(java.lang.String[])
-   */
   public void setTypeParameters(String[] typeParameters)
   {
+    this.typeParameters = typeParameters;
     setListNodeProperty(getASTNode(), typeParameters, MethodDeclaration.TYPE_PARAMETERS_PROPERTY, ASTNode.TYPE_PARAMETER);
   }
 
   /**
-   * Returns the array representation of an original list of parameter names.
+   * Returns parameter names.
+   * <p>
+   * Note that if parameters have been changed by {@link #setParameters(String[])} method,
+   * this method will <b>not</b> parse parameters, and will <b>not</b> return the new parameter names.
+   * This method will return either parameter names set by {@link #setParameterNames(String[])} method
+   * or original parameter names.
    * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#getParameterNames()
    */
   public String[] getParameterNames()
   {
-    @SuppressWarnings("unchecked")
-    List<SingleVariableDeclaration> parameters = getASTNode().parameters();
-    
-    String[] ret = new String[parameters.size()];
-    int j = 0;
-    for (SingleVariableDeclaration parameter : parameters)
+    if (parameterNames == EMPTY_STRING_ARRAY)
     {
-      ret[j++] = ASTFacadeHelper.toString(parameter.getName());
+      @SuppressWarnings("unchecked")
+      List<SingleVariableDeclaration> parameters = getASTNode().parameters();
+      
+      parameterNames = new String[parameters.size()];
+      int j = 0;
+      for (SingleVariableDeclaration parameter : parameters)
+      {
+        parameterNames[j++] = ASTFacadeHelper.toString(parameter.getName());
+      }
     }
-    return ret;
+    return parameterNames;
   }
 
   /**
-   * Returns type erasure of all the types of formal parameters.
+   * Returns type erasure of all the types of formal parameters of the original method declaration.
    * <p>
    * This method is used to create a method signature, and match methods by signature.
    * <p>
@@ -166,11 +205,12 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
   }
 
   /**
-   * Sets the names of parameters.
-   * <p>
-   * Note that <code>getParameterNames()</code> will not return the new value.
-   *  
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#setParameterNames(java.lang.Object[])
+   * Sets parameter names. New parameter names will not be returned by {@link #getParameters()},
+   * but will be returned by {@link #getParameterNames()}.
+   * 
+   * @see #getParameterNames()
+   * @see #getParameters()
+   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#setParameterNames(java.lang.String[])
    */
   public void setParameterNames(String[] names)
   {
@@ -182,6 +222,7 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
       throw new IllegalArgumentException("Length of names must match number of existing parameters.");
     }
 
+    this.parameterNames = names;
     int i = 0;
     for (SingleVariableDeclaration parameter : parameters)
     {
@@ -189,94 +230,80 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
     }
   }
 
-  /**
-   * Returns the array of original exceptions in the <code>throws</code> clause.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#getExceptions()
-   */
   public String[] getExceptions()
   {
-    @SuppressWarnings("unchecked")
-    List<Name> exceptions = getASTNode().thrownExceptions();
-    
-    String[] ret = new String [exceptions.size()];
-    int j = 0;
-    for (Name exception : exceptions)
+    if (exceptions == EMPTY_STRING_ARRAY)
     {
-      ret[j++] = ASTFacadeHelper.toString(exception);
+      @SuppressWarnings("unchecked")
+      List<Name> exceptionsList = getASTNode().thrownExceptions();
+      
+      exceptions = new String [exceptionsList.size()];
+      int j = 0;
+      for (Name exception : exceptionsList)
+      {
+        exceptions[j++] = ASTFacadeHelper.toString(exception);
+      }
     }
-    return ret;
+    exceptions = combineArrayAndList(exceptions, addedExceptions);
+    return exceptions;
   }
 
-  /**
-   * Sets exceptions in the <code>throws</code> clause.
-   * <p>
-   * Note that <code>getExceptions()</code> will not return the new value. 
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#setExceptions(java.lang.String[])
-   */
   public void setExceptions(String[] exceptionTypes)
   {
+    this.exceptions = exceptionTypes;
+    this.addedExceptions = null;
     setListNodeProperty(getASTNode(), exceptionTypes, MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY, ASTNode.SIMPLE_NAME);
   }
 
-  /**
-   * Adds exception to the <code>throws</code> clause.
-   * <p>
-   * Note that <code>getExceptions()</code> will not include the new value. 
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#addException(java.lang.String)
-   */
   public void addException(String exceptionType)
   {
+    if (addedExceptions == null)
+    {
+      addedExceptions = new ArrayList<String>();
+    }
+    addedExceptions.add(exceptionType);
     addValueToListProperty(getASTNode(), exceptionType, MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY, ASTNode.SIMPLE_NAME);
   }
 
-  /**
-   * Returns the original body of the method.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#getBody()
-   */
   public String getBody()
   {
-    return getFacadeHelper().toString(getASTNode().getBody());
+    if (body == UNITIALIZED_STRING)
+    {
+      body = getFacadeHelper().toString(getASTNode().getBody());
+    }
+    return body;
   }
 
-  /**
-   * Sets the body of the method.
-   * <p>
-   * Note that <code>getBody()</code> will not return the new value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#setBody(java.lang.String)
-   */
   public void setBody(String body)
   {
+    this.body = body;
     setTrackedNodeProperty(getASTNode(), body, MethodDeclaration.BODY_PROPERTY, ASTNode.BLOCK);
   }
   
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.AbstractJNode#computeQualifiedName()
-   */
   @Override
   protected String computeQualifiedName()
   {
     return computeQualifiedName(this);
   }
   
-  /* (non-Javadoc)
+  /**
+   * Returned parameters will not include new names set by {@link #setParameterNames(String[])}.
+   * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#getParameters()
    */
   @SuppressWarnings("unchecked")
   public String[] getParameters()
   {
-    return convertASTNodeListToStringArray(getASTNode().parameters());
+    if (parameters == EMPTY_STRING_ARRAY)
+    {
+      parameters = convertASTNodeListToStringArray(getASTNode().parameters());
+    }
+    return parameters;
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#setParameters(java.lang.String[])
-   */
   public void setParameters(String[] parameters)
   {
+    this.parameters = parameters;
     setListNodeProperty(getASTNode(), parameters, MethodDeclaration.PARAMETERS_PROPERTY, ASTNode.SINGLE_VARIABLE_DECLARATION);
   }  
 }

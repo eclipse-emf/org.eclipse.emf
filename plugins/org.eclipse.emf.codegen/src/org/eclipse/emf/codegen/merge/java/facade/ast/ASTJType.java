@@ -12,9 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ASTJType.java,v 1.4 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: ASTJType.java,v 1.5 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
@@ -30,78 +33,114 @@ import org.eclipse.emf.codegen.merge.java.facade.JType;
 public class ASTJType extends ASTJAbstractType<TypeDeclaration> implements JType
 {
   /**
+   * Cached super class name.
+   * @see #getSuperclass()
+   * @see #setSuperclass(String)
+   */
+  protected String superclassName = UNITIALIZED_STRING;
+ 
+  /**
+   * Array of cached super interfaces. All currently set super interfaces is a combination of
+   * this array and {@link #addedSuperInterfaces}.
+   */
+  protected String[] superInterfaces = EMPTY_STRING_ARRAY;
+  
+  /**
+   * List of added interfaces by calling {@link #addSuperInterface(String)}.
+   * This list does not include existing interfaces, nor interfaces set by {@link #setSuperInterfaces(String[])}
+   */
+  protected List<String> addedSuperInterfaces = null;  
+  
+  /**
+   * Cached type parameters
+   * @see #getTypeParameters()
+   * @see #setTypeParameters(String[])
+   */
+  protected String[] typeParameters = EMPTY_STRING_ARRAY;
+  
+  /**
    * @param abstractTypeDeclaration
    */
   protected ASTJType(TypeDeclaration abstractTypeDeclaration)
   {
     super(abstractTypeDeclaration);
   }
-
-  /**
-   * Returns the original superclass.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JType#getSuperclass()
-   */
-  public String getSuperclass()
+  
+  @Override
+  public void dispose()
   {
-    return getFacadeHelper().toString(getASTNode().getSuperclassType());
+    superclassName = null;
+    superInterfaces = null;
+    typeParameters = null;
+    if (addedSuperInterfaces != null)
+    {
+      addedSuperInterfaces.clear();
+      addedSuperInterfaces = null;
+    }
+    
+    super.dispose();
   }
 
-  /**
-   * Sets the superclass.
-   * <p>
-   * Note that <code>getSuperclass()</code> will not return the new value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JType#setSuperclass(java.lang.String)
-   */
+  public String getSuperclass()
+  {
+    if (superclassName == UNITIALIZED_STRING)
+    {
+      superclassName = getFacadeHelper().toString(getASTNode().getSuperclassType());
+    }
+    return superclassName;
+  }
+
   public void setSuperclass(String superclassName)
   {
+    this.superclassName = superclassName;
     setNodeProperty(getASTNode(), superclassName, TypeDeclaration.SUPERCLASS_TYPE_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
-  /**
-   * Returns the array of interfaces in <code>implements</code> clause.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JType#getSuperInterfaces()
-   */
   @SuppressWarnings("unchecked")
   public String[] getSuperInterfaces()
   {
-    return convertASTNodeListToStringArray(getASTNode().superInterfaceTypes());
+    if (superInterfaces == EMPTY_STRING_ARRAY)
+    {
+      superInterfaces = convertASTNodeListToStringArray(getASTNode().superInterfaceTypes());
+    }
+    
+    // add added super interfaces to the array
+    superInterfaces = combineArrayAndList(superInterfaces, addedSuperInterfaces);    
+    return superInterfaces;
   }
 
-  /**
-   * Sets the list of interfaces in the <code>implements</code> list to the given array.
-   * <p>
-   * Note that <code>getSuperInterfaces()</code> will not return the new value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JType#setSuperInterfaces(java.lang.String[])
-   */
   public void setSuperInterfaces(String[] interfaceNames)
   {
+    this.superInterfaces = interfaceNames;
+    this.addedSuperInterfaces = null;    
     setListNodeProperty(getASTNode(), interfaceNames, TypeDeclaration.SUPER_INTERFACE_TYPES_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
-  /**
-   * Adds the interface to the <code>implements</code> list.
-   * <p>
-   * Note that <code>getSuperInterfaces()</code> will not return the new value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JType#addSuperInterface(java.lang.String)
-   */
   public void addSuperInterface(String superInterface)
   {
+    if (addedSuperInterfaces == null)
+    {
+      addedSuperInterfaces = new ArrayList<String>();
+    }
+    addedSuperInterfaces.add(superInterface);    
     addValueToListProperty(getASTNode(), superInterface, TypeDeclaration.SUPER_INTERFACE_TYPES_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JType#getTypeParameters()
-   */
   @SuppressWarnings("unchecked")
   public String[] getTypeParameters()
   {
-    return convertASTNodeListToStringArray(getASTNode().typeParameters());
+    if (typeParameters == EMPTY_STRING_ARRAY)
+    {
+      typeParameters = convertASTNodeListToStringArray(getASTNode().typeParameters());
+    }
+    return typeParameters;
   }
+  
+  public void setTypeParameters(String[] typeParameters)
+  {
+    this.typeParameters = typeParameters;
+    setListNodeProperty(getASTNode(), typeParameters, TypeDeclaration.TYPE_PARAMETERS_PROPERTY, ASTNode.SIMPLE_TYPE);
+  }  
   
   /**
    * Returns the original flags of the type, including the {@link FacadeFlags#INTERFACE} flag.
@@ -116,13 +155,5 @@ public class ASTJType extends ASTJAbstractType<TypeDeclaration> implements JType
     return getASTNode().isInterface() ? 
       super.getFlags() | FacadeFlags.INTERFACE :
       super.getFlags();
-  }
-
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JType#setTypeParameters(java.lang.String[])
-   */
-  public void setTypeParameters(String[] typeParameters)
-  {
-    setListNodeProperty(getASTNode(), typeParameters, TypeDeclaration.TYPE_PARAMETERS_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 }

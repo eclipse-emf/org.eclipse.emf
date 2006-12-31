@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJNode.java,v 1.7 2006/12/29 20:54:50 marcelop Exp $
+ * $Id: ASTJNode.java,v 1.8 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -157,6 +157,7 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
     removedASTNode = null;
     astNode = null;
     facadeHelper = null;
+    name = null;
   }
   
   @Override
@@ -467,7 +468,6 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
     }
 
     newNode.setParent(this);
-
     newNode.ancestorInserted();
   }
   
@@ -788,6 +788,40 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
     rewriter.set(node, property, value, null);
   }
 
+  /**
+   * Adds strings from strings list to existing array of strings, returns resulting
+   * string array, and clears the list of strings.
+   * 
+   * @param strings can <b>not</b> be <code>null</code>
+   * @param stringsList can be <code>null</code>
+   * @return
+   */
+  protected String[] combineArrayAndList(String[] strings, List<String> stringsList)
+  {
+    if (stringsList != null && stringsList.size() > 0)
+    {
+      if (strings.length > 0)
+      {
+        String[] newStringArray = new String[strings.length + stringsList.size()];
+        for (int i = 0; i < strings.length; i++)
+        {
+          newStringArray[i] = strings[i];
+        }
+        for (int i = 0; i < stringsList.size(); i++)
+        {
+          newStringArray[strings.length + i] = stringsList.get(i);
+        }
+        strings = newStringArray;
+      }
+      else
+      {
+        strings = stringsList.toArray(EMPTY_STRING_ARRAY);
+      }
+      stringsList.clear();
+    }
+    return strings;
+  }
+  
   /**
    * @param removedASTNode the removedASTNode to set
    */

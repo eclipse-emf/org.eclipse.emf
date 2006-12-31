@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJPackage.java,v 1.7 2006/12/15 20:26:12 marcelop Exp $
+ * $Id: ASTJPackage.java,v 1.8 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -20,7 +20,6 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 
 import org.eclipse.emf.codegen.merge.java.facade.JPackage;
-import org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMJPackage;
 
 /**
  * Wraps {@link PackageDeclaration} object.
@@ -39,7 +38,11 @@ public class ASTJPackage extends ASTJNode<PackageDeclaration> implements JPackag
   
   public String getName()
   {
-    return name == UNITIALIZED_STRING ? name = ASTFacadeHelper.toString(getASTNode().getName()) : name;
+    if (name == UNITIALIZED_STRING)
+    {
+      name = ASTFacadeHelper.toString(getASTNode().getName());
+    }
+    return name;
   }
   
   public void setName(String name)
@@ -49,8 +52,7 @@ public class ASTJPackage extends ASTJNode<PackageDeclaration> implements JPackag
   }  
   
   /**
-   * Returns the contents of the package declaration without the javadoc of the package.
-   * 
+   * Returns original contents of the package declaration without the javadoc of the package.
    * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#getContents()
    */
   @Override
@@ -62,13 +64,9 @@ public class ASTJPackage extends ASTJNode<PackageDeclaration> implements JPackag
   
   /**
    * Fixes package contents to not include the header or the javadoc.
-   * <p>
-   * Required to have the same behaviour as {@link JDOMJPackage#getContents()}.
-   * 
-   * @see PackageDeclaration
-   * 
    * @param content
-   * @return
+   * @return String
+   * @see PackageDeclaration
    */
   protected String fixPackageContent(String content)
   {

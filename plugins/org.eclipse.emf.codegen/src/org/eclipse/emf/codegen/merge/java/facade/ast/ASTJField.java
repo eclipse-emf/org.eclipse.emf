@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJField.java,v 1.7 2006/12/29 20:55:47 marcelop Exp $
+ * $Id: ASTJField.java,v 1.8 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -51,20 +51,25 @@ import org.eclipse.emf.codegen.merge.java.facade.JField;
 public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
 {
   /**
-   * Indicates if initializer of the field has been changed (i.e. by calling <code>setInitializer()</code>).
+   * Cached value of initializer of this field.
    * <p>
    * Note that change in initializer should not result in splitting variables in the field declaration.
    * <p>
    * If <code>setInitializer()</code> has been called, and <code>performSplit()</code> is
    * called after, then <code>performSplit()</code> should not overwrite the initializer.
-   */
-  protected boolean isInitializerSet = false;
+   */  
+  protected String initializer = UNITIALIZED_STRING;
 
   /**
-   * New value for the type of the field.
+   * Cached type of the field
+   * @see #getType()
+   * @see #setType(String)
    */
   protected String type = UNITIALIZED_STRING;
   
+  /**
+   * Original field declaration before the split.
+   */
   private FieldDeclaration originalFieldDeclaration = null;  
   
   /**
@@ -126,6 +131,8 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
     originalFieldDeclaration = null;
     variableDeclarationFragment = null;
     wrappedVariableDeclarationFragment = null;
+    initializer = null;
+    type = null;    
     
     super.dispose();
   }
@@ -153,15 +160,29 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
   }
 
   @Override
-  protected void childToBeChanged(ASTJNode<?> child)
-  {
-    performSplit();
-  }
-  
-  @Override
   public String getComment()
   {
-    return comment == UNITIALIZED_STRING ? comment = getFacadeHelper().toString(originalFieldDeclaration.getJavadoc()) : comment;
+    if (comment == UNITIALIZED_STRING)
+    {
+      comment = getFacadeHelper().toString(originalFieldDeclaration.getJavadoc());
+    }
+    return comment;
+  }
+
+  /**
+   * May split the declaration same way as {@link ASTJField#setType(Object)}.
+   * <p>
+   * If the declaration has been split, <code>getComment()</code> might not return the correct value.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJMember#setComment(java.lang.String)
+   */
+  @Override
+  public void setComment(String comment)
+  {
+    // if there are multiple variables in declaration, 
+    // separate this variable fragment into a separate declaration    
+    performSplit();
+    super.setComment(comment);
   }
 
   /**
@@ -179,6 +200,10 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
     return getFacadeHelper().toString(originalFieldDeclaration);
   }
   
+  /**
+   * Return original flags of the field declaration.
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJMember#getFlags()
+   */
   @Override
   public int getFlags()
   {
@@ -186,14 +211,51 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
   }  
   
   /**
+   * May split the declaration same way as {@link ASTJField#setType(Object)}
+   * If the declaration has been split, <code>getFlags()</code> might not return 
+   * the correct value.
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJMember#setFlags(int)
+   */
+  @Override
+  public void setFlags(int flags)
+  {
+    // if there are multiple variables in declaration, 
+    // separate this variable fragment into a separate declaration
+    performSplit();
+    super.setFlags(flags);
+  }
+
+  /**
    * Returns original initializer of variable declaration fragment.
    * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JField#getInitializer()
    */
   public String getInitializer()
   {
-    return getFacadeHelper().toString(variableDeclarationFragment.getInitializer());
+    if (initializer == UNITIALIZED_STRING)
+    {
+      initializer = getFacadeHelper().toString(variableDeclarationFragment.getInitializer());
+    }
+    return initializer;
   }  
+
+  /**
+   * Sets initializer of variable declaration fragment.  This operation does 
+   * not result in splitting fields.
+   * @see org.eclipse.emf.codegen.merge.java.facade.JField#setInitializer(java.lang.String)
+   */
+  public void setInitializer(String initializer)
+  {
+    // indicate that initializer has been changed
+    // (required to not overwrite initializer if variables are split later)
+    this.initializer = initializer;
+    
+    setTrackedNodeProperty(
+      variableDeclarationFragment,
+      initializer,
+      variableDeclarationFragment.getInitializerProperty(),
+      ASTNode.INITIALIZER);
+  }
 
   /**
    * Returns name of variable declaration fragment.
@@ -202,14 +264,26 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
    */
   public String getName()
   {
-    return name == UNITIALIZED_STRING ? name = ASTFacadeHelper.toString(variableDeclarationFragment.getName()) : name;
+    if (name == UNITIALIZED_STRING)
+    {
+      name = ASTFacadeHelper.toString(variableDeclarationFragment.getName());
+    }
+    return name;
   }
 
   /**
-   * Returns original type of {@link FieldDeclaration}.
-   * <p>
-   * Note that dimensions declared after variable name are appended to the type.
-   * 
+   * Sets name of variable declaration fragment.
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
+   */
+  public void setName(String name)
+  {
+    this.name = name;
+    setNodeProperty(variableDeclarationFragment, name, VariableDeclarationFragment.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
+  }
+
+  /**
+   * Returns original type of {@link FieldDeclaration}.  Thet dimensions 
+   * declared after variable name are appended to the type.
    * @see org.eclipse.emf.codegen.merge.java.facade.JField#getType()
    */
   public String getType()
@@ -227,6 +301,34 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
     return type;
   }
   
+  /**
+   * Sets the type of {@link FieldDeclaration}.
+   * <p>
+   * If there is only one {@link VariableDeclarationFragment} in this declaration, 
+   * only the type of the FieldDeclaration is changed.
+   * <p>
+   * If there are multiple {@link VariableDeclarationFragment}s in this declaration,
+   * variable declaration fragment of this ASTJField is moved to a new
+   * {@link FieldDeclaration}, and the type of new declaration is set. 
+   * <p>
+   * Note that if field declaration has been split, 
+   * <code>getType()</code>, <code>getContents()</code>, <code>getComment()</code>,
+   * <code>getInitializer()</code> will not return
+   * the original content. 
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.JField#setType(java.lang.Object)
+   */
+  public void setType(String type)
+  {
+    // if there are multiple variables in declaration, 
+    // separate this variable fragment into a separate declaration
+    performSplit();
+    
+    this.type = type;
+    setNodeProperty(variableDeclarationFragment, new Integer(0), VariableDeclarationFragment.EXTRA_DIMENSIONS_PROPERTY);
+    setTrackedNodeProperty(getASTNode(), type, FieldDeclaration.TYPE_PROPERTY, ASTNode.SIMPLE_TYPE);
+  }
+
   @Override
   public boolean insertSibling(ASTJNode<?> node, ASTJNode<?> newSibling, boolean before)
   {
@@ -234,6 +336,12 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
     return super.insertSibling(node, newSibling, before);
   }
   
+  @Override
+  protected void childToBeChanged(ASTJNode<?> child)
+  {
+    performSplit();
+  }
+
   /**
    * Ensures that the field wrapped by this ASTJField have only 1 variable in the declaration.
    * <p>
@@ -358,13 +466,16 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
           setTrackedNodeProperty(newDeclaration, javadocString, newDeclaration.getJavadocProperty(), ASTNode.JAVADOC);
         }
   
-        // set initializer only if it was not set already
-        if (variableDeclarationFragment.getInitializer() != null && !isInitializerSet)
+        // set initializer
+        if (variableDeclarationFragment.getInitializer() != null)
         {
-          String initializerString = getFacadeHelper().applyFormatRules(getFacadeHelper().toString(variableDeclarationFragment.getInitializer()));
+          if (initializer == UNITIALIZED_STRING)
+          {
+            initializer = getFacadeHelper().applyFormatRules(getFacadeHelper().toString(variableDeclarationFragment.getInitializer()));
+          }
           setTrackedNodeProperty(
             variableDeclarationFragment,
-            initializerString,
+            initializer,
             VariableDeclarationFragment.INITIALIZER_PROPERTY,
             ASTNode.JAVADOC);
         }
@@ -420,97 +531,6 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
   }
 
   /**
-   * May split the declaration same way as {@link ASTJField#setType(Object)}.
-   * <p>
-   * If the declaration has been split, <code>getComment()</code> might not return the correct value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJMember#setComment(java.lang.String)
-   */
-  @Override
-  public void setComment(String comment)
-  {
-    // if there are multiple variables in declaration, 
-    // separate this variable fragment into a separate declaration    
-    performSplit();
-    super.setComment(comment);
-  }
-
-  /**
-   * May split the declaration same way as {@link ASTJField#setType(Object)}
-   * <p>
-   * If the declaration has been split, <code>getFlags()</code> might not return the correct value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJMember#setFlags(int)
-   */
-  @Override
-  public void setFlags(int flags)
-  {
-    // if there are multiple variables in declaration, 
-    // separate this variable fragment into a separate declaration
-    performSplit();
-    super.setFlags(flags);
-  }
-
-  /**
-   * Sets initializer of variable declaration fragment.
-   * <p>
-   * Note that <code>getInitializer()</code> will not return the new value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JField#setInitializer(java.lang.String)
-   */
-  public void setInitializer(String initializer)
-  {
-    // indicate that initializer has been changed
-    // (required to not overwrite initializer if variables are split later)
-    isInitializerSet = true;
-    
-    setTrackedNodeProperty(
-      variableDeclarationFragment,
-      initializer,
-      variableDeclarationFragment.getInitializerProperty(),
-      ASTNode.INITIALIZER);
-  }
-
-  /**
-   * Sets name of variable declaration fragment.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
-   */
-  public void setName(String name)
-  {
-    this.name = name;
-    setNodeProperty(variableDeclarationFragment, name, VariableDeclarationFragment.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
-  }
-
-  /**
-   * Sets the type of {@link FieldDeclaration}.
-   * <p>
-   * If there is only one {@link VariableDeclarationFragment} in this declaration, 
-   * only the type of the FieldDeclaration is changed.
-   * <p>
-   * If there are multiple {@link VariableDeclarationFragment}s in this declaration,
-   * variable declaration fragment of this ASTJField is moved to a new
-   * {@link FieldDeclaration}, and the type of new declaration is set. 
-   * <p>
-   * Note that if field declaration has been split, 
-   * <code>getType()</code>, <code>getContents()</code>, <code>getComment()</code>,
-   * <code>getInitializer()</code> will not return
-   * the original content. 
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JField#setType(java.lang.Object)
-   */
-  public void setType(String type)
-  {
-    // if there are multiple variables in declaration, 
-    // separate this variable fragment into a separate declaration
-    performSplit();
-    
-    this.type = type;
-    setNodeProperty(variableDeclarationFragment, new Integer(0), VariableDeclarationFragment.EXTRA_DIMENSIONS_PROPERTY);
-    setTrackedNodeProperty(getASTNode(), type, FieldDeclaration.TYPE_PROPERTY, ASTNode.SIMPLE_TYPE);
-  }
-
-  /**
    * Sets wrapped object to be the given FieldDeclaration, 
    * and sets wrappedVariableDeclarationFragment attribute
    * to be the first variable declaration fragment in the given FieldDeclaration.
@@ -536,6 +556,12 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
     }
   }
 
+  /**
+   * Commenting out a field results in splitting of the fields, and then commenting out
+   * only the field that is commented out.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#commentOut()
+   */
   @Override
   public void commentOut()
   {

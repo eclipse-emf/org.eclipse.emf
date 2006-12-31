@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJMember.java,v 1.6 2006/12/29 20:55:32 marcelop Exp $
+ * $Id: ASTJMember.java,v 1.7 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -39,7 +39,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JNode;
 public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> implements JMember
 {
   /**
-   * New value of member comment.
+   * Cached value of member comment.
    * @see #getComment()
    * @see #setComment(String)
    */
@@ -112,7 +112,11 @@ public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> 
   
   public String getComment()
   {
-    return comment == UNITIALIZED_STRING ? (comment = getFacadeHelper().toString(getASTNode().getJavadoc())) : comment;
+    if (comment == UNITIALIZED_STRING)
+    {
+      comment = getFacadeHelper().toString(getASTNode().getJavadoc());
+    }
+    return comment;
   }
 
   public void setComment(String comment)

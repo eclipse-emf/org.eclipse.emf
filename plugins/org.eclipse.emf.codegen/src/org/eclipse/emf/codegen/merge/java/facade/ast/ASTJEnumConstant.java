@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJEnumConstant.java,v 1.2 2006/12/15 20:26:12 marcelop Exp $
+ * $Id: ASTJEnumConstant.java,v 1.3 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -25,43 +25,63 @@ import org.eclipse.emf.codegen.merge.java.facade.JEnumConstant;
 public class ASTJEnumConstant extends ASTJMember<EnumConstantDeclaration> implements JEnumConstant
 {
   /**
+   * Cached array of arguments
+   * @see #getArguments()
+   * @see #setArguments(String[])
+   */
+  protected String[] arguments = EMPTY_STRING_ARRAY;
+  
+  /**
+   * Cached body of the enum constant.
+   * @see #getBody()
+   * @see #setBody(String)
+   */
+  protected String body = UNITIALIZED_STRING;
+  
+  /**
    * @param enumConstantDeclaration
    */
   public ASTJEnumConstant(EnumConstantDeclaration enumConstantDeclaration)
   {
     super(enumConstantDeclaration);
   }
+  
+  @Override
+  public void dispose()
+  {
+    arguments = null;
+    body = null;
+    super.dispose();
+  }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JEnumConstant#getArguments()
-   */
   @SuppressWarnings("unchecked")
   public String[] getArguments()
   {
-    return convertASTNodeListToStringArray(getASTNode().arguments());
+    if (arguments == EMPTY_STRING_ARRAY)
+    {
+      arguments = convertASTNodeListToStringArray(getASTNode().arguments());
+    }
+    return arguments;
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JEnumConstant#setArguments(java.lang.String[])
-   */
   public void setArguments(String[] arguments)
   {
+    this.arguments = arguments;
     setListNodeProperty(getASTNode(), arguments, EnumConstantDeclaration.ARGUMENTS_PROPERTY, ASTNode.SIMPLE_NAME);
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JEnumConstant#getBody()
-   */
   public String getBody()
   {
-    return getFacadeHelper().toString(getASTNode().getAnonymousClassDeclaration());
+    if (body == UNITIALIZED_STRING)
+    {
+      body = getFacadeHelper().toString(getASTNode().getAnonymousClassDeclaration());
+    }
+    return body;
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JEnumConstant#setBody(java.lang.String)
-   */
   public void setBody(String body)
   {
+    this.body = body;
     setTrackedNodeProperty(
       getASTNode(),
       body,
@@ -71,7 +91,11 @@ public class ASTJEnumConstant extends ASTJMember<EnumConstantDeclaration> implem
 
   public String getName()
   {
-    return name == UNITIALIZED_STRING ? name = ASTFacadeHelper.toString(getASTNode().getName()) : name;
+    if (name == UNITIALIZED_STRING)
+    {
+      name = ASTFacadeHelper.toString(getASTNode().getName());
+    }
+    return name;
   }
   
   public void setName(String name)

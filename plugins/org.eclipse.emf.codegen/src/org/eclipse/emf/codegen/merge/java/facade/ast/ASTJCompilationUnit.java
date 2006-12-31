@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJCompilationUnit.java,v 1.8 2006/12/29 20:56:40 marcelop Exp $
+ * $Id: ASTJCompilationUnit.java,v 1.9 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -230,27 +230,26 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
     return Collections.emptyList();
   }
 
-  /**
-   * @return the original header
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit#getHeader()
-   */
   public String getHeader()
   {
-    Matcher matcher = HEADER_PATTERN.matcher(new String(originalContents));
-    if (matcher.find())
+    if (headerString == null)
     {
-      String headerString = matcher.group();
-      if (ASTFacadeHelper.DEBUG)
+      Matcher matcher = HEADER_PATTERN.matcher(new String(originalContents));
+      if (matcher.find())
       {
-        getFacadeHelper().logInfo("Got header <" + headerString + ">");
+        String headerString = matcher.group();
+        if (ASTFacadeHelper.DEBUG)
+        {
+          getFacadeHelper().logInfo("Got header <" + headerString + ">");
+        }
+        return headerString;
       }
-      return headerString;
+      else
+      {
+        return "";
+      }
     }
-    else
-    {
-      return "";
-    }
+    return headerString;
   }
   
   /**
@@ -259,19 +258,15 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
    * <p>
    * For the files with no package declaration, 
    * the new header might be inserted at the beginning of the file instead of being replaced.
-   * <p>
-   * Note that <code>getHeader()</code> will not return the new header.  
    * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit#setHeader(java.lang.String)
    */
   public void setHeader(String header)
   {
-    if (header == null)
+    if (header != null)
     {
-      return;
-    }
-    
-    this.headerString = header;
+      this.headerString = header;
+    }    
   }
   
   /**
@@ -716,8 +711,16 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
           int firstLine = addLineBreakBeforeNode(existingEdits, nodePosition, node);
 
           // comment out all lines of the node itself, from firstLine to last line
-          commentOutLines(existingEdits, firstLine, doc.getLineOfOffset(nodePosition.getStartPosition() + nodePosition.getLength()));
+          int lastLine = doc.getLineOfOffset(nodePosition.getStartPosition() + nodePosition.getLength());
+          commentOutLines(existingEdits, firstLine, lastLine);
 
+          // if the node is less than 1 line long, but its contents is replaced by multiple lines,
+          // comment out each line in it
+          if (firstLine == lastLine && getAllTrackedContentsMap().containsKey(node))
+          {
+            findAndCommentOutReplaceEdit(existingEdits, nodePosition);
+          }
+          
           // if there is anything after the node on the same line, insert line break
           addLineBreakAfterNode(existingEdits, nodePosition, node);
           
@@ -798,8 +801,14 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
     }
     
     /**
-     * Create and add <code>InsertEdit</code>s that comment out all lines between <code>firstLine</code> and
+     * Creates and adds <code>InsertEdit</code>s that comment out all lines between <code>firstLine</code> and
      * <code>lastLine</code> inclusively.
+     * <p>
+     * If there is a ReplaceEdit that covers positions where <code>InsertEdit</code>s are inserted,
+     * then ReplaceEdit is replaced by another ReplaceEdit with modified text with all lines commented out.
+     * <p>
+     * If there is any other problem adding new <code>InsertEdit</code>s to existing edits, original exception
+     * is re-thrown. 
      * 
      * @param existingEdits
      * @param firstLine
@@ -811,12 +820,148 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
       for (int i = firstLine; i <= lastLine; i++)
       {
         InsertEdit edit = new InsertEdit(doc.getLineOffset(i), LINE_COMMENT_STRING);
-        existingEdits.addChild(edit);
-        textEditsToRevert.add(edit);
-        addedInsertEdits.put(edit.getOffset(), edit);
+        try 
+        {
+          existingEdits.addChild(edit);
+          textEditsToRevert.add(edit);
+          addedInsertEdits.put(edit.getOffset(), edit);          
+        }
+        catch (MalformedTreeException e)
+        {
+          // handle the case when there is a replace edit that covers these lines
+          TextEdit causeEdit = e.getChild();
+          if (causeEdit instanceof ReplaceEdit)
+          {
+            ReplaceEdit newReplaceEdit = commentOutReplaceEdit((ReplaceEdit)causeEdit);
+            // skip all lines that replace edit covers
+            i = doc.getLineOfOffset(newReplaceEdit.getOffset() + newReplaceEdit.getLength());
+          }
+          else
+          {
+            // should not happen, re-throw exception
+            throw e;
+          }
+        }
       }
     }
 
+    /**
+     * Replaces given {@link ReplaceEdit} by new ReplaceEdit with each line commented out.
+     * <p>
+     * New ReplaceEdit has the same offset and length as the given ReplaceEdit. Text of new ReplaceEdit
+     * has each line but the first one commented out. Given ReplaceEdit is removed from its parent,
+     * and new ReplaceEdit is inserted in its place.
+     * @param replaceEdit
+     * @return new ReplaceEdit
+     */
+    protected ReplaceEdit commentOutReplaceEdit(ReplaceEdit replaceEdit)
+    {
+      TextEdit parent = replaceEdit.getParent();
+      String newText = commentOutEachLine(replaceEdit.getText());
+      ReplaceEdit newEdit = new ReplaceEdit(replaceEdit.getOffset(), replaceEdit.getLength(), newText);
+      parent.removeChild(replaceEdit);
+      parent.addChild(newEdit);
+      return newEdit;
+    }
+
+    /**
+     * Finds first ReplaceEdit in existing edits that covers node position range, and comments out
+     * each line in it.
+     * <p> 
+     * This method is used in the case when existing replace edit covers only a part of one line,
+     * but the contents that it replaces is longer than 1 line. In this case, such replace edit
+     * will be found and its contents changed by this method.
+     * 
+     * @param existingEdits
+     * @param nodePosition range of existing node that has a corresponding ReplaceEdit for node's range
+     * @see #commentOutReplaceEdit(ReplaceEdit)
+     */
+    protected void findAndCommentOutReplaceEdit(TextEdit existingEdits, ITrackedNodePosition nodePosition)
+    {
+      // create and try to add dummy edit to find the ReplaceEdit
+      // this should be faster than lookup since underneath of addChild() binary search is used
+      ReplaceEdit dummyEdit = new ReplaceEdit(nodePosition.getStartPosition() + 1, 0, "");
+      try
+      {
+        existingEdits.addChild(dummyEdit);
+      }
+      catch (MalformedTreeException e)
+      {
+        TextEdit causeEdit = e.getChild();
+        if (causeEdit instanceof ReplaceEdit)
+        {
+          commentOutReplaceEdit((ReplaceEdit)causeEdit);
+        }
+        else if (ASTFacadeHelper.DEBUG)
+        {
+          // this should never happen
+          getFacadeHelper().logError("Unable to find ReplaceEdit for node in " + getName() + " : " + e.toString());
+        }
+      }
+      finally
+      {
+        // make sure that dummy edit is not in the tree
+        try
+        {
+          existingEdits.removeChild(dummyEdit);
+        }
+        catch (Exception e)
+        {
+          // Ignore
+        }
+      }
+    }
+
+    /**
+     * Comments out each line but the first one in the given text, and returns resulting new text.
+     * @param text
+     * @return new text with each line but the first one commented out
+     */
+    protected String commentOutEachLine(String text)
+    {
+      // assume length will grow by 10% (average line length is 20 characters)
+      StringBuilder sb = new StringBuilder(text.length() + text.length() / 10);
+      char[] textContent = text.toCharArray();
+      int lastPos = 0, currentPos = 0;
+      
+      for (int i = 0; i < textContent.length; i++)
+      {
+        if (textContent[i] == '\n')
+        {
+          currentPos = i;
+        }
+        else if (textContent[i] == '\r')
+        {
+          if (i + 1 < textContent.length && textContent[i + 1] == '\n')
+          {
+            // next position is checked as well
+            currentPos = ++i;
+          }
+          else
+          {
+            currentPos = i;
+          }
+        }
+        
+        if (lastPos != currentPos)
+        {
+          // char at currentPos is copied as well
+          sb.append(textContent, lastPos, currentPos - lastPos + 1);
+          sb.append(LINE_COMMENT_STRING);
+          // lastPos, currentPos points at the next chars that will be copied later
+          lastPos = ++currentPos;
+        }
+      }
+      
+      // copy last piece if any
+      if (currentPos < textContent.length)
+      {
+        sb.append(textContent, currentPos, textContent.length - currentPos);
+      }      
+      
+      return sb.toString();
+    }    
+    
     /**
      * If there is anything after the node, inserts the line break to prevent commenting
      * out extra content.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJAbstractType.java,v 1.3 2006/12/29 20:57:14 marcelop Exp $
+ * $Id: ASTJAbstractType.java,v 1.4 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -44,7 +44,11 @@ public abstract class ASTJAbstractType<T extends AbstractTypeDeclaration> extend
 
   public String getName()
   {
-    return name == UNITIALIZED_STRING ? name = ASTFacadeHelper.toString(getASTNode().getName()) : name;
+    if (name == UNITIALIZED_STRING)
+    {
+      name = ASTFacadeHelper.toString(getASTNode().getName());
+    }
+    return name;
   }
   
   public void setName(String name)

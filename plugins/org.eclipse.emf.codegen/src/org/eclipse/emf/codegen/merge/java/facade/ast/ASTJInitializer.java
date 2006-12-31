@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJInitializer.java,v 1.4 2006/12/15 20:26:12 marcelop Exp $
+ * $Id: ASTJInitializer.java,v 1.5 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -29,11 +29,25 @@ import org.eclipse.emf.codegen.merge.java.facade.JInitializer;
 public class ASTJInitializer extends ASTJMember<Initializer> implements JInitializer
 {
   /**
+   * Cached body of initializer
+   * @see #getBody()
+   * @see #setBody(String)
+   */
+  protected String body = UNITIALIZED_STRING;
+  
+  /**
    * @param initializer
    */
   public ASTJInitializer(Initializer initializer)
   {
     super(initializer);
+  }
+  
+  @Override
+  public void dispose()
+  {
+    body = null;
+    super.dispose();
   }
   
   /**
@@ -65,25 +79,18 @@ public class ASTJInitializer extends ASTJMember<Initializer> implements JInitial
     return computeQualifiedName(this);
   }
   
-  /**
-   * Returns the original body of the initializer.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JInitializer#getBody()
-   */
   public String getBody()
   {
-    return getFacadeHelper().toString(getASTNode().getBody());
+    if (body == UNITIALIZED_STRING)
+    {
+      body = getFacadeHelper().toString(getASTNode().getBody());
+    }
+    return body;
   }
 
-  /**
-   * Sets the body of the initializer.
-   * <p>
-   * Note that <code>getBody()</code> will not return the new value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JInitializer#setBody(java.lang.String)
-   */
   public void setBody(String body)
   {
+    this.body = body;
     setTrackedNodeProperty(getASTNode(), body, Initializer.BODY_PROPERTY, ASTNode.BLOCK);
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJEnum.java,v 1.2 2006/12/29 20:56:07 marcelop Exp $
+ * $Id: ASTJEnum.java,v 1.3 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -31,35 +31,65 @@ import org.eclipse.emf.codegen.merge.java.facade.JNode;
 public class ASTJEnum extends ASTJAbstractType<EnumDeclaration> implements JEnum
 {
   /**
+   * List of added interfaces by calling {@link #addSuperInterface(String)}.
+   * This list does not include existing interfaces, nor interfaces set by {@link #setSuperInterfaces(String[])}
+   */
+  protected List<String> addedSuperInterfaces = null;
+  
+  /**
+   * Array of cached super interfaces. All currently set super interfaces is a combination of
+   * this array and {@link #addedSuperInterfaces}.
+   */
+  protected String[] superInterfaces = EMPTY_STRING_ARRAY;
+  
+  /**
    * @param enumDeclaration
    */
   public ASTJEnum(EnumDeclaration enumDeclaration)
   {
     super(enumDeclaration);
   }
+  
+  @Override
+  public void dispose()
+  {
+    if (addedSuperInterfaces != null)
+    {
+      addedSuperInterfaces.clear();
+      addedSuperInterfaces = null;
+    }
+    superInterfaces = null;
+    
+    super.dispose();
+  }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JEnum#addSuperInterface(java.lang.String)
-   */
   public void addSuperInterface(String superInterface)
   {
+    if (addedSuperInterfaces == null)
+    {
+      addedSuperInterfaces = new ArrayList<String>();
+    }
+    addedSuperInterfaces.add(superInterface);
     addValueToListProperty(getASTNode(), superInterface, EnumDeclaration.SUPER_INTERFACE_TYPES_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JEnum#getSuperInterfaces()
-   */
   @SuppressWarnings("unchecked")
   public String[] getSuperInterfaces()
   {
-    return convertASTNodeListToStringArray(getASTNode().superInterfaceTypes());
+    if (superInterfaces == EMPTY_STRING_ARRAY)
+    {
+      superInterfaces = convertASTNodeListToStringArray(getASTNode().superInterfaceTypes());
+    }
+    
+    // add added super interfaces to the array
+    superInterfaces = combineArrayAndList(superInterfaces, addedSuperInterfaces);
+    return superInterfaces; 
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JEnum#setSuperInterfaces(java.lang.String[])
-   */
   public void setSuperInterfaces(String[] superInterfaces)
   {
+    this.superInterfaces = superInterfaces;
+    this.addedSuperInterfaces = null;
     setListNodeProperty(getASTNode(), superInterfaces, EnumDeclaration.SUPER_INTERFACE_TYPES_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 

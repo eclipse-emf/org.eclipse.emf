@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJImport.java,v 1.4 2006/12/15 20:26:12 marcelop Exp $
+ * $Id: ASTJImport.java,v 1.5 2006/12/31 02:32:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -37,11 +37,14 @@ public class ASTJImport extends ASTJNode<ImportDeclaration> implements JImport
     super(importDeclaration);
   }
   
-  /* (non-Javadoc)
+  /**
+   * Return <code>true</code> if original import was an "on demand" import.
+   * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JImport#isOnDemand()
    */
   public boolean isOnDemand()
   {
+    // always returns original value
     return getASTNode().isOnDemand();
   }
 
@@ -99,12 +102,9 @@ public class ASTJImport extends ASTJNode<ImportDeclaration> implements JImport
   @Override
   public void setFlags(int flags)
   {
-    // if not changed, return
-    if (flags == getFlags())
+    if (flags != getFlags())
     {
-      return;
-    }
-    
-    setNodeProperty(getASTNode(), (flags & FacadeFlags.STATIC) == 0 ? Boolean.FALSE : Boolean.TRUE, ImportDeclaration.STATIC_PROPERTY);
+      setNodeProperty(getASTNode(), (flags & FacadeFlags.STATIC) == 0 ? Boolean.FALSE : Boolean.TRUE, ImportDeclaration.STATIC_PROPERTY);
+    }    
   }
 }
