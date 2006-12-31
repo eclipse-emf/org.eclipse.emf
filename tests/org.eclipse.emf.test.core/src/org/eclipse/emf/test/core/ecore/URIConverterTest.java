@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterTest.java,v 1.4 2006/12/31 20:03:01 marcelop Exp $
+ * $Id: URIConverterTest.java,v 1.5 2006/12/31 21:33:21 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -60,19 +60,23 @@ public class URIConverterTest extends TestCase
   public void testReadArchiveURI() throws Exception
   {
     String pluginDirectory = TestUtil.getPluginDirectory();
+    if (pluginDirectory.charAt(0) != '/')
+    {
+      pluginDirectory = "/" + pluginDirectory;
+    }
 
     URI uri = URI.createFileURI(pluginDirectory + "/data/file.txt");
     String contentsFromUncompressedFile = readFile(uriConverter.createInputStream(uri));
     
-    uri = URI.createURI("jar:file:/" + pluginDirectory + "/data/data.jar!/file.txt");    
+    uri = URI.createURI("jar:file:" + pluginDirectory + "/data/data.jar!/file.txt");    
     String contents = readFile(uriConverter.createInputStream(uri));    
     assertEquals(contentsFromUncompressedFile, contents);
 
-    uri = URI.createURI("archive:file:/" + pluginDirectory + "/data/data.jar!/file.txt");    
+    uri = URI.createURI("archive:file:" + pluginDirectory + "/data/data.jar!/file.txt");    
     contents = readFile(uriConverter.createInputStream(uri)); 
     assertEquals(contentsFromUncompressedFile, contents);    
     
-    uri = URI.createURI("archive:file:/" + pluginDirectory + "/data/data.zip!/file.txt");    
+    uri = URI.createURI("archive:file:" + pluginDirectory + "/data/data.zip!/file.txt");    
     contents = readFile(uriConverter.createInputStream(uri)); 
     assertEquals(contentsFromUncompressedFile, contents);
     
