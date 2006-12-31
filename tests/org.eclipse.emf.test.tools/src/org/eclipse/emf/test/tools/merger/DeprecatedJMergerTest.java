@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.13 2006/12/12 17:20:13 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.14 2006/12/31 02:21:29 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -57,7 +57,7 @@ public class DeprecatedJMergerTest extends TestCase
   
   protected String getDataDirectory()
   {
-    return TestUtil.getPluginDirectory() + "/data/merge.input/java1.4/" + getName() + ".deprecated";
+    return TestUtil.getPluginDirectory() + "/data/merge.input/java1.4/deprecated/" + getName();
   }
   
   @Override
