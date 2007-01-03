@@ -17,8 +17,8 @@ package <%=type.getPackageName()%>;
 <% } %>
  */
 public final class <%=type.getClassName()%> {
-<% for (Iterator i = type.instances(); i.hasNext(); ) { %>
-<% 	Instance instance = (Instance) i.next(); %>
+<% for (Iterator<Instance> i = type.instances(); i.hasNext(); ) { %>
+<% 	Instance instance = i.next(); %>
 
 	/** 
 	 * <%=type.getClassName()%> with <%=instance.keyDescription()%>
@@ -27,14 +27,14 @@ public final class <%=type.getClassName()%> {
 <% } %>
 
 	private static final <%=type.getClassName()%>[] ALL = new <%=type.getClassName()%>[] {
-<% for (Iterator i = type.instances(); i.hasNext(); ) { %>
-<% 	Instance instance = (Instance) i.next(); %>
+<% for (Iterator<Instance> i = type.instances(); i.hasNext(); ) { %>
+<% 	Instance instance = i.next(); %>
 		<%=instance.getName()%>,
 <% } %>
 	};
 	
-<% for (Iterator i = type.attributes(); i.hasNext(); ) { %>
-<% 	Attribute attribute = (Attribute) i.next(); %>
+<% for (Iterator<Attribute> i = type.attributes(); i.hasNext(); ) { %>
+<% 	Attribute attribute = i.next(); %>
 	private final <%=attribute.getType()%> m<%=attribute.getCappedName()%>;
 <% } %>
 
@@ -42,8 +42,8 @@ public final class <%=type.getClassName()%> {
 	 * Private constructor.
 	 */
 	private <%=type.getClassName()%>(<%=type.constructorParameterDescription()%>) {
-<% for (Iterator i = type.attributes(); i.hasNext(); ) { %>
-<% 	Attribute attribute = (Attribute) i.next(); %>
+<% for (Iterator<Attribute> i = type.attributes(); i.hasNext(); ) { %>
+<% 	Attribute attribute = i.next(); %>
 		m<%=attribute.getCappedName()%> = <%=attribute.getUncappedName()%>;
 <% } %>
 	}
@@ -79,8 +79,8 @@ public final class <%=type.getClassName()%> {
 	 */
 	public static <%=type.getClassName()%> lookup(<%=type.keyParameterDescription()%>) {
 		for (int i = 0; i < ALL.length; i++) {
-<% for (Iterator i = type.keyAttributes(); i.hasNext(); ) { %>
-<% 	Attribute attribute = (Attribute) i.next(); %>
+<% for (Iterator<Attribute> i = type.keyAttributes(); i.hasNext(); ) { %>
+<% 	Attribute attribute = i.next(); %>
 <%	if (attribute.isBoolean() || attribute.isByte() || attribute.isChar() || attribute.isShort() || attribute.isInt() || attribute.isLong()) { %>
 			if (ALL[i].<%=attribute.toGetMethod()%>() != <%=attribute.getUncappedName()%>) {
 <% 	} else if (attribute.isDouble()) { %>
@@ -99,8 +99,8 @@ public final class <%=type.getClassName()%> {
 		return <%=type.getDefaultInstance().getName()%>;
 <% } else { %>
 		StringBuffer msg = new StringBuffer();
-<% 	for (Iterator i = type.keyAttributes(); i.hasNext(); ) { %>
-<% 	  Attribute attribute = (Attribute) i.next(); %>
+<% 	for (Iterator<Attribute> i = type.keyAttributes(); i.hasNext(); ) { %>
+<% 	  Attribute attribute = i.next(); %>
 		msg.append("<%=attribute.getUncappedName()%>=").append(<%=attribute.getUncappedName()%>);
 <% 	  if (i.hasNext()) { %>
 		msg.append(", ");
@@ -110,8 +110,8 @@ public final class <%=type.getClassName()%> {
 <% } %>
 	}
 	
-<% for (Iterator i = type.instances(); i.hasNext(); ) { %>
-<% 	Instance instance = (Instance) i.next(); %>
+<% for (Iterator<Instance> i = type.instances(); i.hasNext(); ) { %>
+<% 	Instance instance = i.next(); %>
 	/**
 	 * Returns whether this instance is the {@link <%=type.getClassName()%>#<%=instance.getName()%>} instance.
 	 * 
@@ -122,8 +122,8 @@ public final class <%=type.getClassName()%> {
 	}
 <% } %>
 	
-<% for (Iterator i = type.attributes(); i.hasNext(); ) { %>
-<% 	Attribute attribute = (Attribute) i.next(); %>
+<% for (Iterator<Attribute> i = type.attributes(); i.hasNext(); ) { %>
+<% 	Attribute attribute = i.next(); %>
 	/**
 	 * Returns the <%=attribute.getName()%>.
 	 *
@@ -143,8 +143,8 @@ public final class <%=type.getClassName()%> {
 
 		StringBuffer result = new StringBuffer();
 		result.append("<%=type.getClassName()%>[");
-<% for (Iterator i = type.attributes(); i.hasNext(); ) { %>
-<% 	Attribute attribute = (Attribute) i.next(); %>
+<% for (Iterator<Attribute> i = type.attributes(); i.hasNext(); ) { %>
+<% 	Attribute attribute = i.next(); %>
 		result.append("<%=attribute.getName()%>=").append(<%=attribute.toGetMethod()%>());
 <% 	if (i.hasNext()) { %>
 		result.append(", ");
@@ -168,8 +168,8 @@ public final class <%=type.getClassName()%> {
 		}
 		<%=type.getClassName()%> other = (<%=type.getClassName()%>) o;
 		return true
-<% for (Iterator keys = type.keyAttributes(); keys.hasNext(); ) { %>
-<% 	Attribute attribute = (Attribute) keys.next(); %>
+<% for (Iterator<Attribute> keys = type.keyAttributes(); keys.hasNext(); ) { %>
+<% 	Attribute attribute = keys.next(); %>
 <%	if (attribute.isBoolean() || attribute.isByte() || attribute.isChar() || attribute.isShort() || attribute.isInt() || attribute.isLong()) { %>
 			&& <%=attribute.toGetMethod()%>() == other.<%=attribute.toGetMethod()%>()
 <% 	} else if (attribute.isDouble()) { %>
@@ -190,8 +190,8 @@ public final class <%=type.getClassName()%> {
 	// Algorithm from "Effective Java" by Joshua Bloch.
 	public int hashCode() {
 		int result = 17 * getClass().getName().hashCode();
-<% for (Iterator keys = type.keyAttributes(); keys.hasNext(); ) { %>
-<% 	Attribute attribute = (Attribute) keys.next(); %>
+<% for (Iterator<Attribute> keys = type.keyAttributes(); keys.hasNext(); ) { %>
+<% 	Attribute attribute = keys.next(); %>
 <%	if (attribute.isBoolean()) { %>
 		result = 37 * result + (<%=attribute.toGetMethod()%>() ? 1 : 0);
 <% 	} else if (attribute.isInt()) { %>
@@ -228,8 +228,8 @@ public final class <%=type.getClassName()%> {
 		// with one of the static objects
 		return lookup(<%
 
-for (Iterator keys = type.keyAttributes(); keys.hasNext(); ) {
-	Attribute attribute = (Attribute) keys.next();
+for (Iterator<Attribute> keys = type.keyAttributes(); keys.hasNext(); ) {
+	Attribute attribute = keys.next();
 		%>m<%=attribute.getCappedName()%><%
 		
 	if (keys.hasNext()) { %>, <% }
