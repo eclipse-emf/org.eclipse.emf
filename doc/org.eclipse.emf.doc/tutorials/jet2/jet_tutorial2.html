@@ -39,7 +39,7 @@
     on a JET template that can be distributed with the plug-in, allowing users 
     of the plug-in to customize the generated code by editing the template.</p>
 <p>This article also provides a short reference to the JET API.</p>
-  <p>Contributed by Remko Popma, Azzurri Ltd., remko.popma at azzurri dot jp, August 26, 2003. Used with permission. Last update: May 31, 2004.</p>
+  <p>Contributed by Remko Popma, Azzurri Ltd., remko.popma at azzurri dot jp, August 26, 2003. Used with permission. Last update: January 3rd, 2007.</p>
 
 </blockquote>
 
@@ -47,10 +47,10 @@
 
 <h2>Source Code </h2>
 <p>To run the example or view the source for code for this article you can unzip 
-  <a href="images/../org.eclipse.emf.examples.jet.article2_2.0.0.zip">org.eclipse.emf.examples.jet.article2_2.0.0.zip</a> 
+  <a href="images/../org.eclipse.emf.examples.jet.article2_2.3.0.zip">org.eclipse.emf.examples.jet.article2_2.3.0.zip</a> 
   into your <i>plugins/</i> subdirectory. To use the example plug-in, you must 
   have the <a href="http://www.eclipse.org/emf/" target="_blank">EMF</a> plug-in installed. 
-  I am using version 2.0.0 Integration Build I200405200923.</p>
+  I am using version 2.3.0 M4.</p>
 
 <h2>Introduction </h2>
 <center>
@@ -246,17 +246,17 @@ public class EmitAction implements IActionDelegate {
     }
  
     public void run(IAction action) {
-        List files = (selection instanceof IStructuredSelection)
+        List&lt;?&gt; files = (selection instanceof IStructuredSelection)
                 ? ((IStructuredSelection) selection).toList()
                 : Collections.EMPTY_LIST;
                 
-        for (Iterator i = files.iterator(); i.hasNext();) {
+        for (Iterator&lt;?&gt; i = files.iterator(); i.hasNext();) {
             IFile file = (IFile) i.next();
             IPath fullPath = file.getFullPath();
  
             String templateURI = "platform:/resource" + fullPath;
-            <b>Class</b><b>Loader class loader = getClass().getClassLoader();</b>
-<img src="images/tag_1.gif" width="24" height="13"/>         <tt class="code">JETEmitter</tt> emitter = new JETEmitter(templateURI, <b>class loader</b>);
+            <b>Class</b><b>Loader classloader = getClass().getClassLoader();</b>
+<img src="images/tag_1.gif" width="24" height="13"/>         <tt class="code">JETEmitter</tt> emitter = new JETEmitter(templateURI, <b>classloader</b>);
  
             // <b>or: use an anonymous subclass</b>
 
@@ -295,7 +295,8 @@ Classpath Variables menua action.. Your program will need to add a class path va
   
 <h2><a name="example_plugin"></a>A Plug-in that Generates Source Code </h2>
 <p>In this part of the JET Tutorial, we will write an Eclipse plug-in that uses 
-  a JET template to generate Java source code for typesafe enumerations.</p>
+  a JET template to generate Java source code for typesafe enumerations, which were quite popular 
+  before Java 5.0, when enums were introduced to the language.</p>
 <p>Our plug-in has to perform the following tasks:</p>
 <ol>
   <li>Collect user input values for the variables in our template: the class name, 
@@ -453,29 +454,29 @@ Classpath Variables menua action.. Your program will need to add a class path va
   code with JET scriptlets and expressions that call our model classes. The resulting 
   template could look something like this:</p>
 
-<pre> <span class="highlight"><span class="highlight">&lt;%@ jet package="translated" imports="java.util.* article2.model.*" class="TypeSafeEnumeration" %&gt;</span></span>
- <span class="highlight"><span class="highlight">&lt;% TypesafeEnum enum = (TypesafeEnum) argument; %&gt;</span></span>
- package <span class="highlight">&lt;%=enum.getPackageName()%&gt;</span>;
+<pre> <span class="highlight"><span class="highlight">&lt;%@ jet package="translated" imports="java.util.* org.eclipse.emf.examples.jet.article2.model.*" class="TypeSafeEnumeration" %&gt;</span></span>
+ <span class="highlight"><span class="highlight">&lt;% TypesafeEnum typesafeEnum = (TypesafeEnum) argument; %&gt;</span></span>
+ package <span class="highlight">&lt;%=typesafeEnum.getPackageName()%&gt;</span>;
  
  /**
   * This final class implements a type-safe enumeration
-  * over the valid instances of a <span class="highlight">&lt;%=enum.getClassName()%&gt;</span>.
+  * over the valid instances of a <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span>.
   * Instances of this class are immutable.
   */
- public final class <span class="highlight">&lt;%=enum.getClassName()%&gt;</span> {
+ public final class <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span> {
  
- <span class="highlight">&lt;% for (Iterator i = enum.instances(); i.hasNext(); ) { %&gt;</span>
+ <span class="highlight">&lt;% for (Iterator&lt;Instance&gt; i = typesafeEnum.instances(); i.hasNext(); ) { %&gt;</span>
 
- <span class="highlight">&lt;%     Instance instance = (Instance) i.next(); %&gt;</span>
+ <span class="highlight">&lt;%     Instance instance = i.next(); %&gt;</span>
  
      // <b>instance definition</b>
-     public static final <span class="highlight">&lt;%=enum.getClassName()%&gt;</span> <span class="highlight">&lt;%=instance.getName()%&gt;</span> = 
-<img src="images/tag_1.gif" width="24" height="13"/>      new <span class="highlight">&lt;%=enum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=instance.constructorValues()%&gt;</span>);
+     public static final <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span> <span class="highlight">&lt;%=instance.getName()%&gt;</span> = 
+<img src="images/tag_1.gif" width="24" height="13"/>      new <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=instance.constructorValues()%&gt;</span>);
  <span class="highlight">&lt;% } %&gt;</span>
 
  
- <span class="highlight">&lt;% for (Iterator i = enum.attributes(); i.hasNext(); ) { %&gt;</span>
- <span class="highlight">&lt;%     Attribute attribute = (Attribute) i.next(); %&gt;</span>
+ <span class="highlight">&lt;% for (Iterator&lt;Attribute&gt; i = typesafeEnum.attributes(); i.hasNext(); ) { %&gt;</span>
+ <span class="highlight">&lt;%     Attribute attribute = i.next(); %&gt;</span>
  
      // <b>attribute declaration</b>
 <img src="images/tag_2.gif" width="24" height="13"/>  private final <span class="highlight">&lt;%=attribute.getType()%&gt;</span> m<span class="highlight">&lt;%=attribute.getCappedName()%&gt;</span>;
@@ -485,17 +486,17 @@ Classpath Variables menua action.. Your program will need to add a class path va
      /**
       * Private <b>constructor</b>.
       */
-<img src="images/tag_3.gif" width="24" height="13"/>  private <span class="highlight">&lt;%=enum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=enum.constructorParameterDescription()%&gt;</span>) {
- <span class="highlight">&lt;% for (Iterator i = enum.attributes(); i.hasNext(); ) { %&gt;</span>
- <span class="highlight">&lt;%     Attribute attribute = (Attribute) i.next(); %&gt;</span>
+<img src="images/tag_3.gif" width="24" height="13"/>  private <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=typesafeEnum.constructorParameterDescription()%&gt;</span>) {
+ <span class="highlight">&lt;% for (Iterator&lt;Attribute&gt; i = typesafeEnum.attributes(); i.hasNext(); ) { %&gt;</span>
+ <span class="highlight">&lt;%     Attribute attribute = i.next(); %&gt;</span>
 <img src="images/tag_4.gif" width="24" height="13"/>      m<span class="highlight">&lt;%=attribute.getCappedName()%&gt;</span> = <span class="highlight">&lt;%=attribute.getUncappedName()%&gt;</span>;
  <span class="highlight">&lt;% } %&gt;</span>
 
      }
                
  // <b>getter accessor methods</b>
- <span class="highlight">&lt;% for (Iterator i = enum.attributes(); i.hasNext(); ) { %&gt;</span>
- <span class="highlight">&lt;%     Attribute attribute = (Attribute) i.next(); %&gt;</span>
+ <span class="highlight">&lt;% for (Iterator&lt;Attribute&gt; i = typesafeEnum.attributes(); i.hasNext(); ) { %&gt;</span>
+ <span class="highlight">&lt;%     Attribute attribute = i.next(); %&gt;</span>
      /**
       * Returns the <span class="highlight">&lt;%=attribute.getName()%&gt;</span>.
       *
@@ -530,8 +531,8 @@ Classpath Variables menua action.. Your program will need to add a class path va
  */
 public String constructorValues() {
     StringBuffer result = new StringBuffer();
-    for (Iterator i = getType().attributes(); i.hasNext(); ) {
-        Attribute attribute = (Attribute) i.next();
+    for (Iterator&lt;Attribute&gt; i = getType().attributes(); i.hasNext(); ) {
+        Attribute attribute = i.next();
         result.append(getAttributeValue(attribute));
         if (i.hasNext()) {
             result.append(", ");
@@ -877,7 +878,7 @@ servlets.
   </tbody>
 </table>
 <p></p>
-<b>Package org.eclipse.emf.codegen.jmerge</b> 
+<b>Package org.eclipse.emf.codegen.merge.java</b> 
 <p></p>
 <table border="1" cellspacing="0">
   <tbody> 
@@ -894,19 +895,31 @@ servlets.
   <tr> 
     <td valign="top"><tt class="code">JMerger</tt></td>
 
-    <td>A class for merging Java source files. Uses classes in the <tt class="code">org.eclipse.jdt.core.jdom</tt> 
+    <td>A class for merging Java source files. Uses implementation of the interfaces in the <tt class="code">org.eclipse.emf.codegen.merge.java.facade</tt> 
       package to parse the source code. This class can be used by application 
-      code, but can also be run as an Eclipse headless application.</td>
+      code.</td>
   </tr>
   <tr> 
     <td valign="top"><tt class="code">JPatternDictionary</tt></td>
-    <td>A dictionary of signatures and JDOM nodes.</td>
+    <td>A dictionary of signatures and java nodes.</td>
   </tr>
+  </tbody>
+</table>
 
+<p></p>
+<b>Package org.eclipse.emf.codegen.merge.properties</b> 
+<p></p>
+<table border="1" cellspacing="0">
+  <tbody> 
+  <tr> 
+    <td><b>Class</b></td>
+
+    <td><b>Description</b></td>
+  </tr>
   <tr> 
     <td valign="top"><tt class="code">PropertyMerger</tt></td>
     <td>A class for merging property files. This class can be used by application 
-      code, but can also be run as an Eclipse headless application.</td>
+      code.</td>
   </tr>
   </tbody>
 </table>
@@ -972,52 +985,48 @@ servlets.
   </ul>
 </ul>
 <p>Here's a simple Ant buildfile (the taskdef class path assumes you have Eclipse 
-  2.1 and EMF 1.1.0): </p>
-<pre> &lt;project default="jetc_multiple_templates"&gt;
-  
-  &lt;property name="eclipse.plugins.dir" location="C:/eclipse-2.1/eclipse/plugins"/&gt;
-  
-  &lt;taskdef name="jetc" classname="ch.paranor.epla.structure.JETCTask"&gt;
-
+  3.3 and EMF 2.3.0): </p>
+<pre>&lt;project default=&quot;jetc_multiple_templates&quot;&gt;
+  &lt;property name=&quot;eclipse.plugins.dir&quot; location=&quot;C:\eclipse-SDK-3.3M4-win32\eclipse\plugins&quot; /&gt;
+    
+  &lt;taskdef name=&quot;jetc&quot; classname=&quot;ch.paranor.epla.structure.JETCTask&quot;&gt;
     &lt;classpath&gt;
-      &lt;pathelement location="jetc-task.jar"/&gt;
-      &lt;fileset dir="${eclipse.plugins.dir}"&gt;
-        &lt;include name="org.eclipse.core.boot_2.1.0/boot.jar"/&gt;
-        &lt;include name="org.eclipse.core.resources_2.1.0/resources.jar"/&gt;
-        &lt;include name="org.eclipse.core.runtime_2.1.0/runtime.jar"/&gt;
+      &lt;pathelement location=&quot;jetc-task.jar&quot; /&gt;
+      &lt;fileset dir=&quot;${eclipse.plugins.dir}&quot;&gt;
+        &lt;include name=&quot;org.eclipse.core.boot_*.jar&quot; /&gt;
+        &lt;include name=&quot;org.eclipse.core.resources_*.jar&quot; /&gt;
+        &lt;include name=&quot;org.eclipse.core.runtime_*.jar&quot; /&gt;
+        &lt;include name=&quot;org.eclipse.jdt.core_*.jar&quot; /&gt;
 
-        &lt;include name="org.eclipse.emf.codegen_1.1.0/runtime/codegen.jar"/&gt;
-        &lt;include name="org.eclipse.jdt.core_2.1.0/jdtcore.jar"/&gt;
+        &lt;include name=&quot;org.eclipse.emf.codegen_*.jar&quot; /&gt;
       &lt;/fileset&gt;
     &lt;/classpath&gt;
   &lt;/taskdef&gt;
-  
+
   &lt;!-- Usage example 1: --&gt;
-
-  &lt;!-- Specify the template file in the "template" attribute. --&gt;
-  &lt;!-- You can use the "class" and "package" attributes to override the --&gt;
-  &lt;!-- "class" and "package" attributes in the template file. --&gt;
-  &lt;target name="jetc_single_template"&gt;
-    &lt;mkdir dir="jet-output"/&gt;
-    &lt;jetc template="test.xmljet" package="com.foo" class="Test" destdir="jet-output"/&gt;
-
-    &lt;javac srcdir="jet-output" destdir="classes"/&gt;
+  &lt;!-- Specify the template file in the &quot;template&quot; attribute. --&gt;
+  &lt;!-- You can use the &quot;class&quot; and &quot;package&quot; attributes to override the --&gt;
+  &lt;!-- &quot;class&quot; and &quot;package&quot; attributes in the template file. --&gt;
+  &lt;target name=&quot;jetc_single_template&quot;&gt;
+    &lt;mkdir dir=&quot;jet-output&quot; /&gt;
+    &lt;jetc template=&quot;test.xmljet&quot;
+          package=&quot;com.foo&quot;
+          class=&quot;Test&quot;
+          destdir=&quot;jet-output&quot; /&gt;
+    &lt;javac srcdir=&quot;jet-output&quot; destdir=&quot;classes&quot; /&gt;
   &lt;/target&gt;
- 
+
   &lt;!-- Usage example 2: --&gt;
   &lt;!-- Translate a bunch of template files at once. --&gt;
-  &lt;!-- You cannot use the "class" and "package" attributes when using a fileset. --&gt;
-  &lt;target name="jetc_multiple_templates"&gt;
-
-    &lt;mkdir dir="jet-output"/&gt;
-    &lt;jetc destdir="jet-output"&gt;
-      &lt;fileset dir="jet-templates" includes="*.*jet"/&gt;
+  &lt;!-- You cannot use the &quot;class&quot; and &quot;package&quot; attributes when using a fileset. --&gt;
+  &lt;target name=&quot;jetc_multiple_templates&quot;&gt;
+    &lt;mkdir dir=&quot;jet-output&quot; /&gt;
+    &lt;jetc destdir=&quot;jet-output&quot;&gt;
+      &lt;fileset dir=&quot;jet-templates&quot; includes=&quot;*.*jet&quot; /&gt;
     &lt;/jetc&gt;
-    &lt;javac srcdir="jet-output" destdir="classes"/&gt;
+    &lt;javac srcdir=&quot;jet-output&quot; destdir=&quot;classes&quot; /&gt;
   &lt;/target&gt;
-
-  
- &lt;/project&gt;</pre>
+&lt;/project&gt;</pre>
 <h2>Resources </h2>
 <p><a href="http://developer.java.sun.com/developer/Books/shiftintojava/page1.html#replaceenums" target="_blank">Substitutes 
   for Missing C Constructs</a> (By Joshua Bloch)</p>

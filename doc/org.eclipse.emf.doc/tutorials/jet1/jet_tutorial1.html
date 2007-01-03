@@ -52,7 +52,7 @@
   and how to use these classes to generate source code. This article also provides 
   a short reference to the JET syntax. 
   </p>
-  <p>Contributed by Remko Popma, Azzurri Ltd., remko.popma at azzurri dot jp, July 30, 2003. Used with permission. Last update: June 17, 2005.</p>
+  <p>Contributed by Remko Popma, Azzurri Ltd., remko.popma at azzurri dot jp, July 30, 2003. Used with permission. Last update: January 3rd, 2007.</p>
 </blockquote>
 
 <hr width="100%" />
@@ -62,7 +62,8 @@
   installed it yet, install it now before continuing with this tutorial. </p>
 
   <p>The screenshots are based on version 3.1.0 RC2 of the Eclipse SDK and version 2.1.0 I200506160200
-of EMF.</p>
+of EMF.  The minimum requirement to use Java 5.0 constructs, such as Generics, is Eclipse 3.3M4 
+and EMF 2.3.0M4, though.</p>
 
 <p>A JET template is a text file with a file name that ends with &quot;jet&quot;. 
   I will follow the EMF convention of appending &quot;jet&quot; to whatever the 
@@ -245,10 +246,10 @@ console.
 <pre>
    <span class="highlight">&lt;%@ jet package=&quot;hello&quot; <img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/><b>imports=&quot;java.util.*&quot;</b> class=&quot;XMLDemoTemplate&quot; %&gt;</span>
 
-<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/><b class="highlight">&lt;% List elementList = (List) argument; %&gt;</b>
+<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/><b class="highlight">&lt;% List&lt;?&gt; elementList = (List&lt;?&gt;) argument; %&gt;</b>
  <b>  </b>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
  <b>  </b>&lt;demo&gt;
-   <span class="highlight">&lt;% for (Iterator i = elementList.iterator(); i.hasNext(); ) { %&gt;</span>
+   <span class="highlight">&lt;% for (Iterator&lt;?&gt; i = elementList.iterator(); i.hasNext(); ) { %&gt;</span>
      &lt;element&gt;<span class="highlight">&lt;%=i.next().toString()%&gt;</span>&lt;/element&gt;
    <span class="highlight">&lt;% } %&gt;</span>
  <b>  </b>&lt;/demo&gt;
@@ -263,7 +264,7 @@ import java.util.ArrayList;
 
 public class XMLDemoImpl {
   public static void main(String[] args) {
-    <img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>ArrayList data = new ArrayList();
+    <img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>List&lt;String&gt; data = new ArrayList&lt;String&gt;();
     data.add(&quot;first&quot;);
     data.add(&quot;second&quot;);
     data.add(&quot;third&quot;);
@@ -360,7 +361,16 @@ and how to use these Java implementation classes to generate code.
  
  public class TranslationDemoTemplate
  {
-   protected final String NL = System.getProperties().getProperty(&quot;line.separator&quot;);
+   protected static String nl;
+<img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/> public static synchronized TranslationDemoTemplate create(String lineSeparator)
+   {
+     nl = lineSeparator;
+     TranslationDemoTemplate result = new TranslationDemoTemplate();
+     nl = null;
+     return result;
+   }
+
+   protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
    protected final String TEXT_1 = &quot;Hello, &quot;;
    protected final String TEXT_2 = &quot;!&quot;;
  
@@ -383,6 +393,9 @@ and how to use these Java implementation classes to generate code.
   class uses a <tt class="code">StringBuffer</tt> object to collect the resulting generated 
   code. This object can be <img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>referenced 
   directly in the template by its name <tt class="code">stringBuffer</tt>. </p>
+<p> The static method <tt class="code"><img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/>create</tt> 
+  allows an application to instantiate a <tt class="code">TranslationDemoTemplate</tt> that uses a specific string as 
+  line separator.</p>
 
 <h3> Changing the Skeleton of the Translated Implementation Class </h3>
 <p>The <tt class="code">generate</tt> method of the <tt class="code">TranslationDemoTemplate</tt> class 
