@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.32 2006/12/28 06:53:13 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.33 2007/01/04 05:37:47 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -657,19 +658,47 @@ public abstract class ModelImporter extends ModelConverter
     }
 
     List<GenPackage> referencedGenPackages = computeValidReferencedGenPackages(); 
-      
-    // Create resources for all the referenced EPackages
-    // The referencedEPackage is a "local" instance of the realEPackage.  We 
-    // will add the former o a resource that has the same URI of the later.
+
+    Map<GenPackage, EPackage> genPackageToReferredEPackage = new LinkedHashMap<GenPackage, EPackage>();
+    Map<String, GenPackage> referredEPackageNSURIToGenPackage = new HashMap<String, GenPackage>();
     for (GenPackage genPackage : referencedGenPackages)
     {
-      EPackage realEPackage = genPackage.getEcorePackage();
       EPackage referredEPackage = getReferredEPackage(genPackage);
-      if (referredEPackage != null && referredEPackage != realEPackage)
+      if (referredEPackage != null)
       {
-        URI ecoreURI = realEPackage.eResource().getURI();
-        Resource resource = resourceSet.createResource(ecoreURI);
-        resource.getContents().add(referredEPackage);
+        genPackageToReferredEPackage.put(genPackage, referredEPackage);
+        referredEPackageNSURIToGenPackage.put(referredEPackage.getNsURI(), genPackage);
+      }
+    }
+    
+    // Create resources for all the referenced EPackages
+    // The referencedEPackage is a "local" instance of the realEPackage.  We 
+    // will add the former to a resource that has the same URI of the later.
+    for (Map.Entry<GenPackage, EPackage> entry : genPackageToReferredEPackage.entrySet())
+    {
+      GenPackage genPackage = entry.getKey();
+      EPackage referredEPackage = entry.getValue();
+      EPackage realEPackage = genPackage.getEcorePackage();
+
+      if (referredEPackage != realEPackage)
+      {
+        EPackage eSuperPackage = realEPackage.getESuperPackage();
+        if (eSuperPackage == null)
+        {
+          URI ecoreURI = realEPackage.eResource().getURI();
+          Resource resource = resourceSet.createResource(ecoreURI);
+          resource.getContents().add(referredEPackage);
+        }
+        else
+        {
+          GenPackage genSuperPackage = referredEPackageNSURIToGenPackage.get(eSuperPackage.getNsURI());
+          if (genSuperPackage != null)
+          {
+            EPackage referredESuperPackage = getReferredEPackage(genSuperPackage);
+            referredESuperPackage.getESubpackages().add(referredEPackage);
+            referencedGenPackages.remove(genPackage);
+          }
+        }
       }
     }
 
