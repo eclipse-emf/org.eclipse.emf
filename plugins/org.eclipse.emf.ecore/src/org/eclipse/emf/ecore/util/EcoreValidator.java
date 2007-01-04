@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.1 2006/12/26 19:03:54 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.2 2007/01/04 19:43:13 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -492,7 +492,7 @@ public class EcoreValidator extends EObjectValidator
    * Validates the ConsistentTransient constraint of '<em>EAttribute</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public boolean validateEAttribute_ConsistentTransient(EAttribute eAttribute, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
@@ -1979,7 +1979,7 @@ public class EcoreValidator extends EObjectValidator
    * Validates the UniqueNsURIs constraint of '<em>EPackage</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public boolean validateEPackage_UniqueNsURIs(EPackage ePackage, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
