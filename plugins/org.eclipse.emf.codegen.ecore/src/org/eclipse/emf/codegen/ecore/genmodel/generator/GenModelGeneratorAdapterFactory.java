@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapterFactory.java,v 1.6 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenModelGeneratorAdapterFactory.java,v 1.7 2007/01/05 23:04:37 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -183,7 +183,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
    * other than the default, and, if so, behave as before.
    */
   @SuppressWarnings("deprecation")
-  protected void initializeMergeRulesURI(Generator.Options options, GenModel genModel)
+  private void initializeMergeRulesURI(Generator.Options options, GenModel genModel)
   {
     String[] defaultTemplatePath = getDefaultTemplatePath(genModel);
     String[] templatePath = getTemplatePath(genModel);
