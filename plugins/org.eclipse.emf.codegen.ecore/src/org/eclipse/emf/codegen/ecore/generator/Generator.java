@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.9 2006/12/29 18:07:43 marcelop Exp $
+ * $Id: Generator.java,v 1.10 2007/01/05 23:03:09 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -262,7 +262,7 @@ public class Generator
     return options;
   }
 
-  protected Set<String> badFacadeHelpClasses = new HashSet<String>();
+  protected Set<String> badFacadeHelperClasses = new HashSet<String>();
 
   /**
    * Returns a {@link org.eclipse.emf.codegen.merge.java.JControlModel JControlModel} that the generator's adapters can
@@ -281,13 +281,13 @@ public class Generator
     }
 
     String facadeHelperClass = options.mergerFacadeHelperClass;
-    if (!badFacadeHelpClasses.contains(facadeHelperClass) &&
+    if (!badFacadeHelperClasses.contains(facadeHelperClass) &&
            (jControlModel.getFacadeHelper() == null || !jControlModel.getFacadeHelper().getClass().getName().equals(facadeHelperClass)))
     {
       FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(facadeHelperClass); 
       if (facadeHelper == null)
       {
-        badFacadeHelpClasses.add(facadeHelperClass);
+        badFacadeHelperClasses.add(facadeHelperClass);
       }
       jControlModel.initialize(facadeHelper, options.mergeRulesURI);
     }
