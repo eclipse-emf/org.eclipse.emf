@@ -1285,7 +1285,7 @@
 		(object Attribute
 		    tool       	"Ecore"
 		    name       	"constraints"
-		    value      	"ConsistentType ConsistentBounds ConsistentArguments"))
+		    value      	"ConsistentType ConsistentBounds ConsistentArguments ValidRawType"))
 	    quid       	"455E23440399"
 	    superclasses 	(list inheritance_relationship_list
 		(object Inheritance_Relationship

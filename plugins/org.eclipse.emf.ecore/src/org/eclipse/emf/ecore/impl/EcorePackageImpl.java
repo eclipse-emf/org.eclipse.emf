@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.19 2006/12/26 19:09:50 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.20 2007/01/05 00:56:43 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2476,7 +2476,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        source, 
        new String[] 
        {
-       "constraints", "ConsistentType ConsistentBounds ConsistentArguments"
+       "constraints", "ConsistentType ConsistentBounds ConsistentArguments ValidRawType"
        });
   }
 
