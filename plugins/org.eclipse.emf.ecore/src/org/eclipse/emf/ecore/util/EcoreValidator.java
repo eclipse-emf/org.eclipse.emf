@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.2 2007/01/04 19:43:13 marcelop Exp $
+ * $Id: EcoreValidator.java,v 1.3 2007/01/05 00:58:37 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -306,12 +306,17 @@ public class EcoreValidator extends EObjectValidator
   public static final int WELL_FORMED_SOURCE_URI = 45;
 
   /**
+   * @see #validateEGenericType_ValidRawType(EGenericType, DiagnosticChain, Map)
+   */
+  public static final int VALID_RAW_TYPE = 46;
+  
+  /**
    * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected static final int DIAGNOSTIC_CODE_COUNT = WELL_FORMED_SOURCE_URI;
+  protected static final int DIAGNOSTIC_CODE_COUNT = VALID_RAW_TYPE;
 
   /**
    * The cached base package validator.
@@ -504,12 +509,17 @@ public class EcoreValidator extends EObjectValidator
         FeatureMapUtil.isFeatureMapEntry(eAttributeType);
     if (!result && diagnostics != null)
     {
+      String attributeName = eAttribute.getName();
+      if (eAttribute.getEContainingClass() != null)
+      {
+        attributeName = eAttribute.getEContainingClass().getName() + "." + attributeName;
+      }
       diagnostics.add
         (new BasicDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            CONSISTENT_TRANSIENT,
-           EcorePlugin.INSTANCE.getString("_UI_EAttributeConsistentTransient_diagnostic"),
+           EcorePlugin.INSTANCE.getString("_UI_EAttributeConsistentTransient_diagnostic", new String[] {attributeName}),
            new Object[] { eAttribute }));
     }
     return result;
@@ -2423,6 +2433,7 @@ public class EcoreValidator extends EObjectValidator
     if (result || diagnostics != null) result &= validateEGenericType_ConsistentType(eGenericType, diagnostics, context);
     if (result || diagnostics != null) result &= validateEGenericType_ConsistentBounds(eGenericType, diagnostics, context);
     if (result || diagnostics != null) result &= validateEGenericType_ConsistentArguments(eGenericType, diagnostics, context);
+    if (result || diagnostics != null) result &= validateEGenericType_ValidRawType(eGenericType, diagnostics, context);
     return result;
   }
 
@@ -2864,6 +2875,54 @@ public class EcoreValidator extends EObjectValidator
     return result;
   }
   
+  /**
+   * Validates the ValidRawType constraint of '<em>EGeneric Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean validateEGenericType_ValidRawType(EGenericType eGenericType, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = true;
+    String message = null;
+
+    // First check whether the eGenericType is being used to actually store
+    // an information that cannot be described with the "raw" references
+    //
+    EObject container = eGenericType.eContainer();
+    if (container == null || container.eIsSet(eGenericType.eContainingFeature()))
+    {
+      EClassifier rawType = eGenericType.getERawType();
+      if (rawType == null)
+      {
+        message = EcorePlugin.INSTANCE.getString("_UI_EGenericTypeNullRawType_diagnostic"); 
+      }
+      else
+      {
+        Class<?> instanceClass = rawType.getInstanceClass();
+        if (instanceClass != null && instanceClass.isPrimitive())
+        {
+          message = EcorePlugin.INSTANCE.getString("_UI_EGenericTypeInvalidRawType_diagnostic", new Object[] {instanceClass.getName()});
+        }
+      }
+    }
+    if (message != null)
+    {
+      result = false;
+      if (diagnostics != null)
+      {
+        diagnostics.add
+          (new BasicDiagnostic
+            (Diagnostic.ERROR,
+             DIAGNOSTIC_SOURCE,
+             VALID_RAW_TYPE,
+             message,
+             new Object[] { eGenericType }));
+      }
+    }
+    return result;
+  }
+
   /**
    * Returns whether the generic type argument is a valid subsitution for the type parameter.
    * A generic type is a valid subsitution 
