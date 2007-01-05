@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.30 2006/12/28 06:55:06 marcelop Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.31 2007/01/05 00:11:08 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1309,7 +1309,7 @@ public class JavaEcoreBuilder
 
         // Set the EReference attributes.
         //
-        eReference.setContainment("true".equals(containment) || mapType != null && !returnType.endsWith("Entry") || keyType != null
+        eReference.setContainment("true".equals(containment) || mapType != null && !separateTypeArgument(returnType)[0].endsWith("Entry") || keyType != null
           && valueType != null);
         eReference.setResolveProxies(eReference.isContainment() ? "true".equals(resolveProxies) : !"false".equals(resolveProxies));
         eReference.setUnsettable("true".equals(getModelAnnotationAttribute(modelAnnotation, "unsettable")));
@@ -1392,6 +1392,9 @@ public class JavaEcoreBuilder
     String valueType = getModelAnnotationAttribute(modelAnnotation, "valueType");
     String many = getModelAnnotationAttribute(modelAnnotation, "many");
 
+    String[] ret = separateTypeArgument(type);
+    type = ret[0];
+    
     // For lists, maps, and feature maps, the default is many-valued, which can be overriden by an upper-bound declaration.
     //
     if (isListType(type) && (dataType == null || (modelType != null && !isListType(modelType))))
@@ -1484,6 +1487,29 @@ public class JavaEcoreBuilder
 
     eTypedElement.setUnique(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "unique")));
     eTypedElement.setOrdered(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "ordered")));
+  }
+  
+  /**
+   * Separates the type argument from the type.  The first position of the
+   * returned array is always the raw type and the second is either the type argument
+   * without the outmost '&lt;' and '&gt;' or <code>null</null>.
+   * @param type
+   * @return a String array with length == 2
+   */
+  protected String[] separateTypeArgument(String type)
+  {
+    String typeArgument = null;
+    int ltIndex = type.indexOf('<');
+    if (ltIndex > 0)
+    {
+      int gtIndex = type.lastIndexOf('>');
+      if (gtIndex > ltIndex+1)
+      {
+        typeArgument = type.substring(ltIndex+1, gtIndex).trim();
+        type = type.substring(0, ltIndex).trim();
+      }
+    }
+    return new String[]{type, typeArgument};
   }
 
   protected EStructuralFeature createFeature(EClass eClass, String name, EClassifier eType)
