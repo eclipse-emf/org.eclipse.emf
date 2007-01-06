@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.3 2007/01/05 00:58:37 marcelop Exp $
+ * $Id: EcoreValidator.java,v 1.4 2007/01/06 22:17:38 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2494,6 +2494,8 @@ public class EcoreValidator extends EObjectValidator
       if (inScope)
       {
         // And even if it is contained, it must not be a forward reference.
+        // eTypeParameterIndex == index is allowed when the type parameter is 
+        // the type argument of the bound, though
         //
         List<?> typeParameters = (List<?>)scope.eGet(eTypeParameter.eContainmentFeature());
         EObject usage = eGenericType; 
@@ -2502,7 +2504,10 @@ public class EcoreValidator extends EObjectValidator
           usage = container;
         }
         int index = typeParameters.indexOf(usage);
-        inScope = index == -1 || index > typeParameters.indexOf(eTypeParameter);
+        int eTypeParameterIndex = typeParameters.indexOf(eTypeParameter);
+        inScope = index == -1 || 
+          index > eTypeParameterIndex ||
+          (index == eTypeParameterIndex && eGenericType.eContainingFeature() == EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS);
       }
 
       if (!inScope)
@@ -2805,7 +2810,7 @@ public class EcoreValidator extends EObjectValidator
                 (Diagnostic.WARNING,
                  DIAGNOSTIC_SOURCE,
                  CONSISTENT_ARGUMENTS_NONE,
-                 EcorePlugin.INSTANCE.getString("_UI_EGenericTypeArgumentsNeeded_diagnostic", new Object [] { eTypeParameterSize }),
+                 EcorePlugin.INSTANCE.getString("_UI_EGenericTypeArgumentsNeeded_diagnostic", new Object [] { eClassifier.getName(), eTypeParameterSize }),
                  new Object[] { eGenericType }));
 
           }
@@ -2828,7 +2833,7 @@ public class EcoreValidator extends EObjectValidator
                DIAGNOSTIC_SOURCE,
                CONSISTENT_ARGUMENTS_INCORRECT_NUMBER,
                EcorePlugin.INSTANCE.getString
-                 ("_UI_EGenericTypeIncorrectArguments_diagnostic", new Object [] { eTypeArgumentSize, eTypeParameterSize }),
+                 ("_UI_EGenericTypeIncorrectArguments_diagnostic", new Object [] { eClassifier.getName(), eTypeArgumentSize, eTypeParameterSize }),
                new Object[] { eGenericType }));
 
         }
