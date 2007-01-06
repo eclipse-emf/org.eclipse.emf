@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006`-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProblemEditorPart.java,v 1.4 2006/12/28 06:42:02 marcelop Exp $
+ * $Id: ProblemEditorPart.java,v 1.5 2007/01/06 22:06:38 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.editor;
 
@@ -46,6 +46,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -61,6 +62,44 @@ import org.eclipse.emf.common.util.Diagnostic;
  */
 public class ProblemEditorPart extends EditorPart
 {
+  /**
+   * Since 2.3.0
+   */
+  public static class TextProvider
+  {
+    /**
+     * Returns the message to be displayed next to the icon, at the top 
+     * of the editor.
+     * @return a not null String
+     */    
+    public String getMessageText(Diagnostic rootDiagnostic)
+    {
+      return rootDiagnostic.getSeverity() == Diagnostic.OK
+      ? CommonUIPlugin.getPlugin().getString("_UI_NoProblems_message") : 
+        rootDiagnostic.getMessage() != null
+        ? rootDiagnostic.getMessage() : CommonUIPlugin.getPlugin().getString("_UI_DefaultProblem_message");      
+    }
+    
+    /**
+     * Returns the text associated to be displayed in the details text
+     * when a a dignostic is selected in the tree.
+     * @param diagnostic
+     * @return a not null String
+     */
+    public String getDetailsText(Diagnostic diagnostic)
+    {
+      Throwable throwable = diagnostic.getException();
+      if (throwable != null)
+      {
+        StringWriter in = new StringWriter();
+        PrintWriter ps = new PrintWriter(in);
+        throwable.printStackTrace(ps);
+        return in.getBuffer().toString();
+      }
+      return "";      
+    }
+  }
+  
   protected Diagnostic diagnostic;
 
   protected String editorToOpen;
@@ -71,9 +110,17 @@ public class ProblemEditorPart extends EditorPart
   protected Composite detailsComposite;
   protected Control detailsControl;
   protected TreeViewer detailsTreeViewer;
+  protected Text detailsText;
+  
+  protected TextProvider textProvider = new TextProvider();
+  protected MarkerHelper markerUtil;  
+  
+  /**
+   * Deprecated in 2.3.0.  Use detailsText instead.  This field will be
+   * removed in futture versions
+   */
+  @Deprecated
   protected Text exceptionText;
-
-  protected MarkerHelper markerUtil;
 
   @Override
   public void dispose()
@@ -85,8 +132,10 @@ public class ProblemEditorPart extends EditorPart
     detailsComposite = null;
     detailsControl = null;
     detailsTreeViewer = null;
-    exceptionText = null;
+    detailsText = null;
+    textProvider = null;
     markerUtil = null;
+    exceptionText = null;
 
     super.dispose();
   }
@@ -99,6 +148,16 @@ public class ProblemEditorPart extends EditorPart
   public MarkerHelper getMarkerHelper()
   {
     return markerUtil;
+  }
+  
+  public void setTextProvider(TextProvider textProvider)
+  {
+    this.textProvider = textProvider;
+  }
+  
+  public TextProvider getTextProvider()
+  {
+    return textProvider;
   }
 
   @Override
@@ -239,7 +298,7 @@ public class ProblemEditorPart extends EditorPart
       if (detailsTreeViewer != null && detailsTreeViewer.getInput() != diagnostic)
       {
         detailsTreeViewer.setInput(diagnostic);
-        exceptionText.setText("");
+        detailsText.setText("");
       }
     }
   }
@@ -260,9 +319,12 @@ public class ProblemEditorPart extends EditorPart
 
   protected String getMessage()
   {
-    return diagnostic.getSeverity() == Diagnostic.OK
-      ? CommonUIPlugin.getPlugin().getString("_UI_NoProblems_message") : diagnostic.getMessage() != null
-        ? diagnostic.getMessage() : CommonUIPlugin.getPlugin().getString("_UI_DefaultProblem_message");
+    return getTextProvider().getMessageText(getDiagnostic());
+  }
+  
+  protected String getDetailsText(Diagnostic diagnostic)
+  {
+    return getTextProvider().getDetailsText(diagnostic);
   }
 
   protected void updateDetails()
@@ -298,12 +360,13 @@ public class ProblemEditorPart extends EditorPart
     detailsTreeViewer = new TreeViewer(detailsComposite, SWT.BORDER);
     detailsTreeViewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL | GridData.VERTICAL_ALIGN_BEGINNING));
 
-    exceptionText = new Text(detailsComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI | SWT.READ_ONLY);
+    detailsText = new Text(detailsComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI | SWT.READ_ONLY);
+    exceptionText = detailsText;
     GridData gridData = new GridData(GridData.FILL_BOTH);
     gridData.heightHint = 20;
     gridData.grabExcessVerticalSpace = true;
-    exceptionText.setLayoutData(gridData);
-    exceptionText.setBackground(exceptionText.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+    detailsText.setLayoutData(gridData);
+    detailsText.setBackground(detailsText.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 
     detailsComposite.setWeights(new int []{ 70, 30 });
 
@@ -375,6 +438,21 @@ public class ProblemEditorPart extends EditorPart
           }
           return message;
         }
+        
+        @Override
+        public Image getImage(Object element)
+        {
+          Diagnostic diagnostic = (Diagnostic)element;
+          ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+          switch (diagnostic.getSeverity())
+          {
+            case Diagnostic.ERROR:
+              return sharedImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
+            case Diagnostic.WARNING:
+              return sharedImages.getImage(ISharedImages.IMG_OBJS_WARN_TSK);
+          }
+          return null;
+        }        
       });
 
     detailsTreeViewer.addSelectionChangedListener(new ISelectionChangedListener()
@@ -384,22 +462,17 @@ public class ProblemEditorPart extends EditorPart
           if (!event.getSelection().isEmpty())
           {
             Diagnostic diagnostic = (Diagnostic)((IStructuredSelection)event.getSelection()).getFirstElement();
-            Throwable throwable = diagnostic.getException();
-            if (throwable != null)
-            {
-              StringWriter in = new StringWriter();
-              PrintWriter ps = new PrintWriter(in);
-              throwable.printStackTrace(ps);
-              String text = in.getBuffer().toString();
-              exceptionText.setText(text);
-              return;
-            }
+            detailsText.setText(getDetailsText(diagnostic));
           }
-          exceptionText.setText("");
+          else
+          {
+            detailsText.setText("");
+          }
         }
       });
 
     detailsTreeViewer.setInput(diagnostic);
+    detailsTreeViewer.expandToLevel(2);
     return detailsComposite;
   }
 
