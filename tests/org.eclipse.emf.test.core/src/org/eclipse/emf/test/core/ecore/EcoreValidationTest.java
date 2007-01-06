@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidationTest.java,v 1.1 2006/12/26 18:54:49 emerks Exp $
+ * $Id: EcoreValidationTest.java,v 1.2 2007/01/06 22:21:35 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -1447,6 +1447,49 @@ public class EcoreValidationTest extends TestCase
          diagnostic.getChildren().get(0));
     }
 
+    // Generic type without a cointainer cannot have a primitive type as raw type
+    {
+      EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+      eGenericType.setEClassifier(EcorePackage.Literals.EINT);
+
+      Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eGenericType);
+      assertEquals(1, diagnostic.getChildren().size());
+      assertDiagnostic
+        (Diagnostic.ERROR,
+         EcoreValidator.VALID_RAW_TYPE,
+         EcoreValidator.DIAGNOSTIC_SOURCE,
+         new Object [] { eGenericType },
+         diagnostic.getChildren().get(0));
+    }
+
+    // Generic type cannot have a primitive type as raw type if it is describing a
+    // non-raw usage.
+    {
+      EClass aClass = EcoreFactory.eINSTANCE.createEClass();
+      aClass.setName("AClass"); 
+      ETypeParameter e = EcoreFactory.eINSTANCE.createETypeParameter();
+      e.setName("E");
+      aClass.getETypeParameters().add(e);
+      
+      EClass bClass = EcoreFactory.eINSTANCE.createEClass();
+      bClass.setName("BClass");
+      EGenericType superType = EcoreFactory.eINSTANCE.createEGenericType();
+      superType.setEClassifier(aClass);      
+      EGenericType typeArgument = EcoreFactory.eINSTANCE.createEGenericType();
+      typeArgument.setEClassifier(EcorePackage.Literals.EINT);
+      superType.getETypeArguments().add(typeArgument);
+      bClass.getEGenericSuperTypes().add(superType);
+
+      Diagnostic diagnostic = Diagnostician.INSTANCE.validate(bClass);
+      assertEquals(1, diagnostic.getChildren().size());
+      assertDiagnostic
+        (Diagnostic.ERROR,
+         EcoreValidator.VALID_RAW_TYPE,
+         EcoreValidator.DIAGNOSTIC_SOURCE,
+         new Object [] { typeArgument },
+         diagnostic.getChildren().get(0));
+    }
+    
     // A generic type with classifier that specifies type parameters and that has arguments must have a matching number of them.
     {
       EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
@@ -1534,6 +1577,30 @@ public class EcoreValidationTest extends TestCase
          diagnostic.getChildren().get(0));
     }
 
+    // Type parameter can be used as the type argument of the
+    // bound
+    {
+      EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+      eClass.setName("_");
+      {
+        ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
+        eTypeParameter.setName("T");
+        eClass.getETypeParameters().add(eTypeParameter);
+        {
+          EGenericType eBound = EcoreFactory.eINSTANCE.createEGenericType();
+          eBound.setEClassifier(eClass);
+          eTypeParameter.getEBounds().add(eBound);
+          
+          EGenericType typeArgument = EcoreFactory.eINSTANCE.createEGenericType();
+          typeArgument.setETypeParameter(eTypeParameter);
+          eBound.getETypeArguments().add(typeArgument);
+        }
+      }
+
+      Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eClass);
+      assertEquals(Diagnostic.OK, diagnostic.getSeverity());
+    }
+    
     // A generic super type can validly use type arguments.
     {
       EClass A;
