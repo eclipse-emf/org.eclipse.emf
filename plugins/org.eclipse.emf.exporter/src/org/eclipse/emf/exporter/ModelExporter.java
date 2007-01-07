@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.12 2007/01/06 22:24:46 marcelop Exp $
+ * $Id: ModelExporter.java,v 1.13 2007/01/07 23:56:17 marcelop Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -161,8 +161,6 @@ public abstract class ModelExporter extends ModelConverter
       ePackageToGenPackageMap = null;
     }
     
-    directoryURI = null;
-      
     super.dispose();
   }
   
@@ -298,8 +296,11 @@ public abstract class ModelExporter extends ModelConverter
         throw new DiagnosticException(diagnostic);
       }
       
-      String location = getExporterGenAnnotationDetails(genModel).get(GENANNOTATION_KEY_DIRECTORY_URI);
-      setDirectoryURI(location);
+      if (getDirectoryURI() == null)
+      {
+        String location = getExporterGenAnnotationDetails(genModel).get(GENANNOTATION_KEY_DIRECTORY_URI);
+        setDirectoryURI(location);
+      }
       if (genModel.eResource() != null && getDirectoryURI() != null)
       {
         setDirectoryURI(getDirectoryURI().resolve(genModel.eResource().getURI()));
