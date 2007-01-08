@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitImpl.java,v 1.9 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JCompilationUnitImpl.java,v 1.10 2007/01/08 00:04:32 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -530,14 +530,10 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
   @Override
   public void resolveIdentifiers()
   {
-    List<JClass> theTypes = getTypes();
-    if (!theTypes.isEmpty())
-    {
-      getPackage().getTypes().add(theTypes.get(0));
-    }
-
     for (JClass jClass : getTypes())
     {
+      getPackage().getTypes().add(jClass);
+      
       JModelElementImpl jModelElement = (JModelElementImpl)jClass;
       jModelElement.resolveIdentifiers();
     }
