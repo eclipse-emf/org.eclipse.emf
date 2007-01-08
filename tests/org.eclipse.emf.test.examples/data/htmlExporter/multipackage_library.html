@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>library</title>
+		
+		<style>
+			body {font-family: arial, helvetica, geneva; font-size: 10pt; clip:   rect(   ); margin-top: 5mm; margin-left: 3mm}
+			h1 {font-family: arial, helvetica, geneva; font-size: 22px; font-weight: bold; color:white; background-color:#595791}
+			h2 {font-family: arial, helvetica, geneva; font-size: 16pt; font-weight: bold ; line-height: 20px; background-color:#FFFFCF}
+			h3 {font-family: arial; font-size: 12pt}
+			p, table, td, th {font-family: arial, helvetica, geneva; font-size: 10pt}
+			code {font-family: "Courier New", Courier, mono; font-size: 10pt}
+			li {font-family: arial, helvetica, geneva; font-size: 10pt; line-height: 20px}
+		</style>		
+	</head>
+
+	<body lang="EN-US">
+		<h1>Package: <i>library</i></h1>
+			<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
+			
+				<tr>
+					<td>Ecore URI</td>
+					<td>@ecoreuri@</td>
+				</tr>
+				<tr>
+					<td>GenModel URI</td>
+					<td>@genmodeluri@</td>
+				</tr>
+				<tr>
+					<td>Namespace URI</td>
+					<td>http:///org/eclipse/example/multipackage_library.ecore</td>
+				</tr>
+				<tr>
+					<td>Namespace Prefix</td>
+					<td>org.eclipse.example.library</td>
+				</tr>
+			</table>
+
+		<h1>Classes</h1>
+			<h2><a name="Book">Book</a></h2>
+				<h3>Details</h3>
+					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
+						<tr>
+							<td>Is Abstract</td>
+							<td><tt>false</tt></td>
+						</tr>
+						<tr>
+							<td>Is Interface</td>
+							<td><tt>false</tt></td>
+						</tr>
+					</table>
+		
+		
+				<h3>Attributes</h3>
+					<ul>
+						<li><i><b>EString</b></i> <a name="Book@title">title</a></li>
+						<li><i><b>EInt</b></i> <a name="Book@pages">pages</a></li>
+						<li><a href="#BookCategory" title="Enumeration:BookCategory">BookCategory</a> <a name="Book@category">category</a></li>
+					</ul>
+		
+		
+				<h3>References</h3>
+					<ul>
+						<li><a href="library.people.html#Writer" title="Class:Writer">Writer</a> <a name="Book@author">author</a></li>
+					</ul>
+		
+		
+	
+			<h2><a name="Library">Library</a></h2>
+				<h3>Details</h3>
+					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
+						<tr>
+							<td>Is Abstract</td>
+							<td><tt>false</tt></td>
+						</tr>
+						<tr>
+							<td>Is Interface</td>
+							<td><tt>false</tt></td>
+						</tr>
+					</table>
+		
+		
+				<h3>Attributes</h3>
+					<ul>
+						<li><i><b>EString</b></i> <a name="Library@name">name</a></li>
+					</ul>
+		
+		
+				<h3>References</h3>
+					<ul>
+						<li><a href="library.people.html#Writer" title="Class:Writer">Writer</a>* <a name="Library@writers">writers</a><ul><li>key(s): <a href="library.people.html#Writer@name" title="Attribute:name">name</a></li></ul></li>
+						<li><a href="#Book" title="Class:Book">Book</a>* <a name="Library@books">books</a><ul><li>key(s): <a href="#Book@title" title="Attribute:title">title</a>, <a href="#Book@category" title="Attribute:category">category</a></li></ul></li>
+						<li><a href="GenericsGoCrazy.html#MySubClass" title="Class:MySubClass">MySubClass</a>&lt;?&gt; <a name="Library@aref">aref</a></li>
+					</ul>
+		
+		
+	
+		
+		<h1>Enumerations</h1>
+			<h2><a name="BookCategory">BookCategory</a></h2>
+				<h3>Literals</h3>
+					<ul>
+						<li>Mystery</li>
+						<li>ScienceFiction</li>
+						<li>Biography</li>
+					</ul>
+
+	</body>
+</html>

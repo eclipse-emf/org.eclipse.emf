@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="genericsGoCrazy"
+    nsURI="ggcNU" nsPrefix="ggcPrefix">
+  <eClassifiers xsi:type="ecore:EClass" name="MyClass">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eBounds eClassifier="#//Car"/>
+    </eTypeParameters>
+    <eOperations name="bar">
+      <eTypeParameters name="F"/>
+      <eParameters name="aF">
+        <eGenericType eTypeParameter="#//MyClass/bar/F"/>
+      </eParameters>
+      <eParameters name="aT">
+        <eGenericType eTypeParameter="#//MyClass/T"/>
+      </eParameters>
+      <eParameters name="ts">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+          <eTypeArguments eTypeParameter="#//MyClass/T"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="a1" transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ECharacterObject"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="a2" lowerBound="1" transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="a3" transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments eClassifier="#//Car"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="theEObject">
+      <eGenericType eTypeParameter="#//MyClass/T"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="aMap">
+      <eGenericType eClassifier="#//MyMap">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        <eTypeArguments eTypeParameter="#//MyClass/T"/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Car">
+    <eOperations name="foo">
+      <eParameters name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="enhancedFoo">
+      <eTypeParameters name="T">
+        <eBounds eClassifier="#//MyClass">
+          <eTypeArguments/>
+        </eBounds>
+      </eTypeParameters>
+      <eParameters name="aT">
+        <eGenericType eTypeParameter="#//Car/enhancedFoo/T"/>
+      </eParameters>
+      <eParameters name="aInt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="superFoo" upperBound="-1">
+      <eGenericType eTypeParameter="#//Car/superFoo/V"/>
+      <eTypeParameters name="K"/>
+      <eTypeParameters name="V">
+        <eBounds eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+          <eTypeArguments>
+            <eUpperBound eTypeParameter="#//Car/superFoo/K"/>
+          </eTypeArguments>
+        </eBounds>
+        <eBounds eClassifier="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </eTypeParameters>
+      <eParameters name="key">
+        <eGenericType eTypeParameter="#//Car/superFoo/K"/>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fullName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="doors" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aMC">
+      <eGenericType eClassifier="#//MyClass">
+        <eTypeArguments eClassifier="#//Car"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="previousCar" eType="#//Car"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="anotherMyClass">
+      <eGenericType eClassifier="#//MyClass">
+        <eTypeArguments>
+          <eLowerBound eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="yetAnotherMyClass">
+      <eGenericType eClassifier="#//MyClass">
+        <eTypeArguments>
+          <eUpperBound eClassifier="#//SubCar"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="MyMap" instanceTypeName="org.example.MyMap&lt;K,V>">
+    <eTypeParameters name="K"/>
+    <eTypeParameters name="V">
+      <eBounds eTypeParameter="#//MyMap/K"/>
+    </eTypeParameters>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MySubClass">
+    <eTypeParameters name="N">
+      <eBounds eClassifier="#//Car"/>
+    </eTypeParameters>
+    <eGenericSuperTypes eClassifier="#//MyClass">
+      <eTypeArguments eTypeParameter="#//MySubClass/N"/>
+    </eGenericSuperTypes>
+    <eGenericSuperTypes eClassifier="#//Car"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Comp">
+    <eTypeParameters name="E1">
+      <eBounds eClassifier="#//Car"/>
+      <eBounds eClassifier="#//MyClass">
+        <eTypeArguments eTypeParameter="#//Comp/E1"/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="E2">
+      <eBounds eClassifier="#//Comp">
+        <eTypeArguments eTypeParameter="#//Comp/E1"/>
+        <eTypeArguments eTypeParameter="#//Comp/E2"/>
+      </eBounds>
+    </eTypeParameters>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Color">
+    <eLiterals name="RED" value="1" literal="red"/>
+    <eLiterals name="BLUE" value="1" literal="blue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SubCar" eSuperTypes="#//Car"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OtherClass">
+    <eTypeParameters name="K">
+      <eBounds eClassifier="#//Car"/>
+      <eBounds eClassifier="#//MyClass">
+        <eTypeArguments eTypeParameter="#//OtherClass/K"/>
+      </eBounds>
+    </eTypeParameters>
+    <eTypeParameters name="T">
+      <eBounds eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments eTypeParameter="#//OtherClass/K"/>
+      </eBounds>
+    </eTypeParameters>
+    <eGenericSuperTypes eClassifier="#//MyClass">
+      <eTypeArguments eTypeParameter="#//OtherClass/K"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+</ecore:EPackage>
