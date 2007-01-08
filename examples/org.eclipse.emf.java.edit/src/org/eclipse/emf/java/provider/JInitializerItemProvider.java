@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializerItemProvider.java,v 1.8 2006/12/29 18:27:30 marcelop Exp $
+ * $Id: JInitializerItemProvider.java,v 1.9 2007/01/08 00:03:44 marcelop Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -91,7 +91,7 @@ public class JInitializerItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JInitializer_body_feature", "_UI_JInitializer_type"),
          JavaPackage.Literals.JINITIALIZER__BODY,
          true,
-         false,
+         true,
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
