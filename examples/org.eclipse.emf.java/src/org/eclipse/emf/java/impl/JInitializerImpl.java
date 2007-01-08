@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,16 +12,19 @@
  *
  * </copyright>
  *
- * $Id: JInitializerImpl.java,v 1.8 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JInitializerImpl.java,v 1.9 2007/01/08 00:05:27 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
+
+import org.eclipse.jdt.core.Flags;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.java.JInitializer;
 import org.eclipse.emf.java.JavaPackage;
+import org.eclipse.emf.java.util.JavaUtil;
 
 
 /**
@@ -196,6 +199,11 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
       {
         org.eclipse.jdt.core.jdom.IDOMInitializer iDOMInitializer = (org.eclipse.jdt.core.jdom.IDOMInitializer)getJNode();
         setBody(iDOMInitializer.getBody());
+        setComment(iDOMInitializer.getComment());
+        
+        int flags = iDOMInitializer.getFlags();
+        setStatic((flags & Flags.AccStatic) != 0);
+        setVisibility(JavaUtil.getFlagVisibility(flags));
       }
     }
   }
