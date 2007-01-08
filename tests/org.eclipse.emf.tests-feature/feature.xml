@@ -30,6 +30,7 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <requires>
       <import feature="org.eclipse.emf" version="2.3.0"/>
+      <import feature="org.eclipse.emf.examples" version="2.3.0"/>
    </requires>
 
    <plugin
@@ -106,4 +107,9 @@ http://www.eclipse.org/legal/epl-v10.html
          install-size="0"
          version="0.0.0"/>
 
+   <plugin
+         id="org.eclipse.emf.test.examples"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 </feature>
