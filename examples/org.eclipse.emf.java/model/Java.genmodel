@@ -63,12 +63,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EReference Java.ecore#//JField/type"/>
     </genClasses>
     <genClasses ecoreClass="Java.ecore#//JInitializer">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Java.ecore#//JInitializer/body"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute Java.ecore#//JInitializer/body"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Java.ecore#//JMember">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Java.ecore#//JMember/static"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Java.ecore#//JMember/visibility"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Java.ecore#//JMember/comment"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute Java.ecore#//JMember/comment"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Java.ecore#//JMember/containingType"/>
     </genClasses>
     <genClasses ecoreClass="Java.ecore#//JMethod">
@@ -79,7 +79,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Java.ecore#//JMethod/javaMethod"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Java.ecore#//JMethod/constructor"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Java.ecore#//JMethod/javaConstructor"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Java.ecore#//JMethod/body"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute Java.ecore#//JMethod/body"/>
       <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference Java.ecore#//JMethod/parameters"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Java.ecore#//JMethod/exceptions"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference Java.ecore#//JMethod/returnType"/>
