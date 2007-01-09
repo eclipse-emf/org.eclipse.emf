@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.13 2006/12/26 19:06:11 emerks Exp $
+ * $Id: EcorePackage.java,v 1.14 2007/01/09 05:16:42 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -5096,6 +5096,8 @@ public interface EcorePackage extends EPackage
 
   }
 
-  boolean _INTERNAL_BOOTSTRAP = org.eclipse.emf.ecore.impl.EcorePackageImpl.internalBootstrap();
+  // Internal bootstrap uses Literals constants, so we must force initialization this inner interface first.
+  //
+  boolean _INTERNAL_BOOTSTRAP = Literals.EATTRIBUTE != null && org.eclipse.emf.ecore.impl.EcorePackageImpl.internalBootstrap();
 
 } //EcorePackage
