@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.34 2006/12/31 19:59:06 marcelop Exp $
+ * $Id: AllSuites.java,v 1.35 2007/01/09 06:07:47 davidms Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -24,8 +24,9 @@ import junit.framework.TestSuite;
 public class AllSuites extends TestSuite
 {
   private static Test[] suites = new Test []{ 
-    org.eclipse.emf.test.core.common.NotificationTest.suite()
-    , org.eclipse.emf.test.core.common.util.URITest.suite() 
+    org.eclipse.emf.test.core.common.util.URITest.suite() 
+    ,org.eclipse.emf.test.core.ecore.EcoreTest.suite()
+    ,org.eclipse.emf.test.core.common.NotificationTest.suite()
     ,org.eclipse.emf.test.core.common.util.EqualityTest.suite()
     ,org.eclipse.emf.test.core.common.util.ECollectionsTest.suite()
     ,org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite()
