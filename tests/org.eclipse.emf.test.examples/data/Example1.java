@@ -31,7 +31,7 @@ import org.eclipse.emf.common.notify.Notification;
 // This is importing the EObjectImpl
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-class AnotherClass
+class AnotherClass<T>
 {
   
 }
@@ -47,7 +47,8 @@ class AnotherClass
 public class Example1 extends EObjectImpl
 {
 	// A public inner class.  It is indented with TABs
-	public abstract class InnerClass implements Notification, org.eclipse.emf.common.notify.Notifier 
+	public abstract class InnerClass<K extends Number> 
+    implements Notification, org.eclipse.emf.common.notify.Notifier
 	{
 	
 	}
@@ -65,7 +66,7 @@ public class Example1 extends EObjectImpl
   /*
    * A private static inner interface
    */
-  private static interface InnerInterface extends Notification
+  private static interface InnerInterface<N> extends Notification,  List<List<Number>>
   {
     
   }
@@ -81,7 +82,7 @@ public class Example1 extends EObjectImpl
    */
   Boolean booleanInstance;
   
-  private Map.Entry myEntry;
+  private Map.Entry<String, Object> myEntry;
       
   /**
    * An static initializer
@@ -110,7 +111,7 @@ public class Example1 extends EObjectImpl
    * @param b
    * @generated
    */
-  public void setBooleanInstance(Boolean b)
+  public <X extends Exception> void setBooleanInstance(Boolean b) throws X
   {
     if (b != null)
     {
@@ -122,6 +123,7 @@ public class Example1 extends EObjectImpl
     }
   }
 
+  @Deprecated
   void setBooleanInstance(int a)
   {
     setBooleanInstance(a > 0 ? Boolean.TRUE : Boolean.FALSE);
@@ -135,7 +137,7 @@ public class Example1 extends EObjectImpl
    * @param b
    * @generated NOT
    */
-  public Boolean getBooleanInstance() throws Exception
+  public <K> Boolean getBooleanInstance(Class<K> aClass) throws Exception
   {
     return booleanInstance == null ? Boolean.FALSE : booleanInstance;
   }
@@ -143,7 +145,7 @@ public class Example1 extends EObjectImpl
   /*
    * This method returns an empty list.
    */
-  protected List aMethodWithComments() throws RuntimeException, IllegalAccessError, java.lang.NullPointerException
+  protected List<?> aMethodWithComments() throws RuntimeException, IllegalAccessError, java.lang.NullPointerException
   {
     return Collections.EMPTY_LIST;
   }

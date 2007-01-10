@@ -12,17 +12,21 @@
  *
  * </copyright>
  *
- * $Id: JavaTest.java,v 1.1 2007/01/08 00:22:46 marcelop Exp $
+ * $Id: JavaTest.java,v 1.2 2007/01/10 02:42:17 marcelop Exp $
  */
 package org.eclipse.emf.test.examples;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Assert;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.eclipse.jdt.core.JavaCore;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -56,7 +60,7 @@ public class JavaTest extends TestCase
   private boolean testBody = true;
   private boolean testContentWithComments = false;
   
-  private boolean trimContents = false;
+  private boolean trimContents = true;
   
   /**
    * @param name
@@ -71,6 +75,15 @@ public class JavaTest extends TestCase
     TestSuite ts = new TestSuite("JavaTest");
     ts.addTest(new JavaTest("testRead"));
     return ts;
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Override
+  protected void setUp() throws Exception
+  {
+    Map<Object, Object> options = new HashMap<Object, Object>();
+    JavaCore.setCompilanceOptions("1.5", options);
+    JavaCore.getOptions().putAll(options);
   }
   
   public void testRead() throws Exception
@@ -292,8 +305,9 @@ public class JavaTest extends TestCase
       assertTrue(type.isInterface());
       assertEquals(JVisibility.PRIVATE_LITERAL, type.getVisibility());
 
-      assertEquals(1, type.getSuperTypes().size());
+      assertEquals(2, type.getSuperTypes().size());
       assertContentEquals("Notification", type.getSuperTypes().get(0).getName());
+      assertContentEquals("List", type.getSuperTypes().get(1).getName());
 
       assertNull(type.getComment());
     }
@@ -547,7 +561,9 @@ public class JavaTest extends TestCase
       assertEquals(JVisibility.PUBLIC_LITERAL, method.getVisibility());
 
       assertContentEquals("Boolean", method.getReturnType().getName());
-      assertEquals(0, method.getParameters().size());
+      assertEquals(1, method.getParameters().size());
+      assertEquals("Class", method.getParameters().get(0).getType().getName());
+      assertEquals("aClass", method.getParameters().get(0).getName());
       assertEquals(1, method.getExceptions().size());
       assertEquals("Exception", method.getExceptions().get(0).getName());
 
@@ -614,10 +630,6 @@ public class JavaTest extends TestCase
       expectedBody.append("\n").append("     return null;");
       expectedBody.append("\n").append("  }");
       expectedBody.append("\n").append("  \n");
-      expectedBody.append("  /**");
-      expectedBody.append("\n").append("   * Another initializer with 2 lines");
-      expectedBody.append("\n").append("   * of javadoc.");
-      expectedBody.append("\n").append("   */\n");
       if (testBody) assertContentEquals(expectedBody.toString(), method.getBody());
     }    
   }
@@ -629,7 +641,8 @@ public class JavaTest extends TestCase
     {
       JInitializer initializer = (JInitializer)initializers.get(0);
       assertEquals(mainType, initializer.eContainer());
-      assertNull(initializer.getName());
+      assertContentEquals(mainType.getName() + ".0", initializer.getName());
+      assertContentEquals("org.eclipse.emf.test.examples.Example1.0", initializer.getQualifiedName());
       assertEquals(JVisibility.PACKAGE_LITERAL, initializer.getVisibility());
       
       assertNull(initializer.getComment());
@@ -648,7 +661,8 @@ public class JavaTest extends TestCase
     {
       JInitializer initializer = (JInitializer)initializers.get(1);
       assertEquals(mainType, initializer.eContainer());
-      assertNull(initializer.getName());
+      assertContentEquals(mainType.getName() + ".1", initializer.getName());
+      assertContentEquals("org.eclipse.emf.test.examples.Example1.1", initializer.getQualifiedName());
       assertTrue(initializer.isStatic());
       
       StringBuffer expectedComment = new StringBuffer();
@@ -667,9 +681,17 @@ public class JavaTest extends TestCase
     {
       JInitializer initializer = (JInitializer)initializers.get(2);
       assertEquals(mainType, initializer.eContainer());
-      assertNull(initializer.getName());
+      assertContentEquals(mainType.getName() + ".2", initializer.getName());
+      assertContentEquals("org.eclipse.emf.test.examples.Example1.2", initializer.getQualifiedName());
       assertEquals(JVisibility.PACKAGE_LITERAL, initializer.getVisibility());
 
+      StringBuffer expectedComment = new StringBuffer();
+      expectedComment.append("  /**");
+      expectedComment.append("\n").append("   * Another initializer with 2 lines");
+      expectedComment.append("\n").append("   * of javadoc.");
+      expectedComment.append("\n").append("   */\n");
+      if (testComment) assertContentEquals(expectedComment.toString(), initializer.getComment());
+      
       StringBuffer expectedBody = new StringBuffer();
       expectedBody.append("{");
       expectedBody.append("\n").append("    System.out.println(\"Another initializer with JavaDoc\");");
@@ -698,6 +720,7 @@ public class JavaTest extends TestCase
       if (trimContents)
       {
         Assert.assertEquals(string1.trim(), string2.trim());
+        return;
       }
     }
     Assert.assertEquals(string1, string2);
