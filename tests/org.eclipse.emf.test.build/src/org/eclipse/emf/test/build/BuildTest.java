@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.12 2007/01/10 01:49:46 marcelop Exp $
+ * $Id: BuildTest.java,v 1.13 2007/01/10 02:44:25 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -74,22 +74,21 @@ public class BuildTest extends TestCase
   @Override
   protected void setUp() throws Exception
   {
-//    String directory = TestUtil.getPluginDirectory();
-//    if (directory.indexOf(".metadata") < 0)
-//    {
-//      File dir = new File(directory).getAbsoluteFile().getParentFile();
-//      if ("plugins".equals(dir.getName()))
-//      {
-//        pluginsDir = dir;
-//      }
-//      
-//      dir = new File(dir.getParentFile(), "features");
-//      if (dir.isDirectory())
-//      {
-//        featuresDir = dir;
-//      }
-//    }
-    pluginsDir = new File("D:/tmp/build/plugins");
+    String directory = TestUtil.getPluginDirectory();
+    if (directory.indexOf(".metadata") < 0)
+    {
+      File dir = new File(directory).getAbsoluteFile().getParentFile();
+      if ("plugins".equals(dir.getName()))
+      {
+        pluginsDir = dir;
+      }
+      
+      dir = new File(dir.getParentFile(), "features");
+      if (dir.isDirectory())
+      {
+        featuresDir = dir;
+      }
+    }
   }
   
   protected boolean isFeatureToTest(File feature)
