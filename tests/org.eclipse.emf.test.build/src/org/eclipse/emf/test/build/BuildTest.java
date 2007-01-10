@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.13 2007/01/10 02:44:25 marcelop Exp $
+ * $Id: BuildTest.java,v 1.14 2007/01/10 04:12:27 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -51,7 +51,7 @@ public class BuildTest extends TestCase
    {"about.html", REGEX_SYMBOL + "^.*src.zip$"};
   
   protected static int expectedNumberOfDocPlugins = 3;
-  protected static int expectedNumberOfSourcePlugins = 3;
+  protected static int expectedNumberOfSourcePlugins = 4;
   
   protected File featuresDir;
   protected File pluginsDir;
