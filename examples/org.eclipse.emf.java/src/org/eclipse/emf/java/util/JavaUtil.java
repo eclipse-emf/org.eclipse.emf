@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaUtil.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JavaUtil.java,v 1.5 2007/01/10 02:39:45 marcelop Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -205,6 +205,29 @@ public class JavaUtil
       return false;
     }
   }
+  
+  /**
+   * Separates the type argument from the type.  The first position of the
+   * returned array is always the raw type and the second is either the type argument
+   * without the outmost '&lt;' and '&gt;' or <code>null</null>.
+   * @param typeName
+   * @return a String array with length == 2
+   */
+  public static String[] separateTypeArgument(String typeName)
+  {
+    String typeArgument = null;
+    int ltIndex = typeName.indexOf('<');
+    if (ltIndex > 0)
+    {
+      int gtIndex = typeName.lastIndexOf('>');
+      if (gtIndex > ltIndex+1)
+      {
+        typeArgument = typeName.substring(ltIndex+1, gtIndex).trim();
+        typeName = typeName.substring(0, ltIndex).trim();
+      }
+    }
+    return new String[]{typeName, typeArgument};
+  }   
 
   public static class StandAloneTest
   {
