@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitImpl.java,v 1.10 2007/01/08 00:04:32 marcelop Exp $
+ * $Id: JCompilationUnitImpl.java,v 1.11 2007/01/10 02:40:12 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -22,6 +22,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.codegen.merge.java.facade.FacadeVisitor;
+import org.eclipse.emf.codegen.merge.java.facade.JAbstractType;
+import org.eclipse.emf.codegen.merge.java.facade.JImport;
+import org.eclipse.emf.codegen.merge.java.facade.JType;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.ECollections;
@@ -457,7 +461,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
     {
       case JavaPackage.JCOMPILATION_UNIT__JNODE:
       {
-        JDOMHelper.handleJNode(this);
+        JHelper.handleJNode(this);
         resolveIdentifiers();
         break;
       }
@@ -485,44 +489,55 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
     }
   }
 
-  protected static class JDOMHelper
+  protected static class JHelper
   {
-    @SuppressWarnings("deprecation")
-    protected static void handleJNode(JCompilationUnit jCompilationUnit)
+    protected static void handleJNode(final JCompilationUnit compilationUnit)
     {
-      org.eclipse.jdt.core.jdom.IDOMCompilationUnit iDOMCompilationUnit = (org.eclipse.jdt.core.jdom.IDOMCompilationUnit)jCompilationUnit.getJNode();
-      if (iDOMCompilationUnit != null)
+      org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit jCompilationUnit = (org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit)compilationUnit.getJNode();
+      if (jCompilationUnit != null)
       {
-        jCompilationUnit.setName(iDOMCompilationUnit.getName());
-        jCompilationUnit.setComment(iDOMCompilationUnit.getHeader());
-        Collection<String> theImports = new ArrayList<String>();
-        Collection<JClass> theTypes = new ArrayList<JClass>();
-        for (org.eclipse.jdt.core.jdom.IDOMNode child = iDOMCompilationUnit.getFirstChild(); child != null; child = child.getNextNode())
+        compilationUnit.setName(jCompilationUnit.getName());
+        compilationUnit.setComment(jCompilationUnit.getHeader());
+        final Collection<String> theImports = new ArrayList<String>();
+        final Collection<JClass> theTypes = new ArrayList<JClass>();
+        
+        FacadeVisitor facadeVisitor = new FacadeVisitor()
         {
-          if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.PACKAGE)
+          @Override
+          protected boolean visit(org.eclipse.emf.codegen.merge.java.facade.JPackage jPackage)
           {
-            org.eclipse.jdt.core.jdom.IDOMPackage iDOMPackage = (org.eclipse.jdt.core.jdom.IDOMPackage)child;
-            jCompilationUnit.setPackage(JavaUtil.createJPackageProxy(iDOMPackage.getName()));
+            compilationUnit.setPackage(JavaUtil.createJPackageProxy(jPackage.getName()));
+            return false;
           }
-          else if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.IMPORT)
+          
+          @Override
+          protected boolean visit(JImport jImport)
           {
-            theImports.add(((org.eclipse.jdt.core.jdom.IDOMImport)child).getName());
+            theImports.add(jImport.getName());
+            return false;
           }
-          else if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.TYPE)
+          
+          @Override
+          protected boolean visit(JAbstractType abstractType)
           {
-            JClass jClass = JavaFactory.eINSTANCE.createJClass();
-            jClass.setJNode(child);
-            theTypes.add(jClass);
+            if (abstractType instanceof JType)
+            {
+              JClass cls = JavaFactory.eINSTANCE.createJClass();
+              cls.setJNode(abstractType);
+              theTypes.add(cls);              
+            }
+            return false;
           }
+        };
+        facadeVisitor.start(jCompilationUnit);
+
+        if (compilationUnit.getPackage() == null)
+        {
+          compilationUnit.setPackage(JavaUtil.createJPackageProxy(""));
         }
 
-        if (jCompilationUnit.getPackage() == null)
-        {
-          jCompilationUnit.setPackage(JavaUtil.createJPackageProxy(""));
-        }
-
-        jCompilationUnit.getImports().addAll(theImports);
-        jCompilationUnit.getTypes().addAll(theTypes);
+        compilationUnit.getImports().addAll(theImports);
+        compilationUnit.getTypes().addAll(theTypes);
       }
     }
   }

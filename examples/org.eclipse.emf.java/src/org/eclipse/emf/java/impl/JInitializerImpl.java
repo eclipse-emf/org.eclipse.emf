@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializerImpl.java,v 1.9 2007/01/08 00:05:27 marcelop Exp $
+ * $Id: JInitializerImpl.java,v 1.10 2007/01/10 02:40:12 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -22,7 +22,9 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.java.JClass;
 import org.eclipse.emf.java.JInitializer;
+import org.eclipse.emf.java.JPackage;
 import org.eclipse.emf.java.JavaPackage;
 import org.eclipse.emf.java.util.JavaUtil;
 
@@ -189,7 +191,6 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
     return result.toString();
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   protected void changeAttribute(Notification notification)
   {
@@ -197,15 +198,30 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
     {
       if (getJNode() != null)
       {
-        org.eclipse.jdt.core.jdom.IDOMInitializer iDOMInitializer = (org.eclipse.jdt.core.jdom.IDOMInitializer)getJNode();
-        setBody(iDOMInitializer.getBody());
-        setComment(iDOMInitializer.getComment());
+        org.eclipse.emf.codegen.merge.java.facade.JInitializer initializer = (org.eclipse.emf.codegen.merge.java.facade.JInitializer)getJNode();
+        setName(initializer.getName());
+        setBody(initializer.getBody());
+        setComment(initializer.getComment());
         
-        int flags = iDOMInitializer.getFlags();
+        int flags = initializer.getFlags();
         setStatic((flags & Flags.AccStatic) != 0);
         setVisibility(JavaUtil.getFlagVisibility(flags));
       }
     }
+  }
+  
+  @Override
+  public String getQualifiedName()
+  {
+    if (eContainer() instanceof JClass)
+    {
+      JPackage jPackage = ((JClass)eContainer()).getPackage();
+      if (jPackage != null)
+      {
+        return jPackage.getQualifiedName() + "." + getName();
+      }
+    }
+    return getName();
   }
 
 } //JInitializerImpl

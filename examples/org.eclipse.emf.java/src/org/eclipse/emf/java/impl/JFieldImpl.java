@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JFieldImpl.java,v 1.8 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JFieldImpl.java,v 1.9 2007/01/10 02:40:12 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -490,7 +490,7 @@ public class JFieldImpl extends JMemberImpl implements JField
     {
       case JavaPackage.JFIELD__JNODE:
       {
-        JDOMHelper.handleJNode(this);
+        JHelper.handleJNode(this);
 
         break;
       }
@@ -514,36 +514,34 @@ public class JFieldImpl extends JMemberImpl implements JField
     }
   }
 
-  protected static class JDOMHelper
+  protected static class JHelper
   {
-    @SuppressWarnings("deprecation")
-    protected static void handleJNode(JField jField)
+    protected static void handleJNode(JField field)
     {
-      org.eclipse.jdt.core.jdom.IDOMField iDOMField = (org.eclipse.jdt.core.jdom.IDOMField)jField.getJNode();
-      if (iDOMField != null)
+      org.eclipse.emf.codegen.merge.java.facade.JField jField = (org.eclipse.emf.codegen.merge.java.facade.JField)field.getJNode();
+      if (jField != null)
       {
-        jField.setName(iDOMField.getName());
-        jField.setComment(iDOMField.getComment());
-        jField.setInitializer(iDOMField.getInitializer());
+        field.setName(jField.getName());
+        field.setComment(jField.getComment());
+        field.setInitializer(jField.getInitializer());
 
-        int flags = iDOMField.getFlags();
-        jField.setFinal((flags & Flags.AccFinal) != 0);
-        jField.setStatic((flags & Flags.AccStatic) != 0);
-        jField.setVisibility(JavaUtil.getFlagVisibility(flags));
-        jField.setTransient((flags & Flags.AccTransient) != 0);
-        jField.setVolatile((flags & Flags.AccVolatile) != 0);
+        int flags = jField.getFlags();
+        field.setFinal((flags & Flags.AccFinal) != 0);
+        field.setStatic((flags & Flags.AccStatic) != 0);
+        field.setVisibility(JavaUtil.getFlagVisibility(flags));
+        field.setTransient((flags & Flags.AccTransient) != 0);
+        field.setVolatile((flags & Flags.AccVolatile) != 0);
       }
     }
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   protected void resolveIdentifiers()
   {
     if (getJNode() != null)
     {
-      org.eclipse.jdt.core.jdom.IDOMField iDOMField = (org.eclipse.jdt.core.jdom.IDOMField)getJNode();
-      setType(getContainingType().resolveJClass(iDOMField.getType()));
+      org.eclipse.emf.codegen.merge.java.facade.JField jField  = (org.eclipse.emf.codegen.merge.java.facade.JField)getJNode();
+      setType(getContainingType().resolveJClass(JavaUtil.separateTypeArgument(jField.getType())[0]));
     }
   }
 

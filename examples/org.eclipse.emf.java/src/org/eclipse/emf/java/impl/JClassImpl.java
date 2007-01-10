@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.11 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JClassImpl.java,v 1.12 2007/01/10 02:40:12 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -27,6 +27,8 @@ import java.util.List;
 
 import org.eclipse.jdt.core.Flags;
 
+import org.eclipse.emf.codegen.merge.java.facade.FacadeVisitor;
+import org.eclipse.emf.codegen.merge.java.facade.JAbstractType;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.ECollections;
@@ -1080,7 +1082,7 @@ public class JClassImpl extends JMemberImpl implements JClass
     {
       case JavaPackage.JCLASS__JNODE:
       {
-        JDOMHelper.handleJNode(this);
+        JHelper.handleJNode(this);
 
         break;
       }
@@ -1165,51 +1167,72 @@ public class JClassImpl extends JMemberImpl implements JClass
   }
 
 
-  protected static class JDOMHelper
+  protected static class JHelper
   {
-    @SuppressWarnings("deprecation")
-    protected static void handleJNode(JClass jClass)
+    protected static void handleJNode(JClass cls)
     { 
-      org.eclipse.jdt.core.jdom.IDOMType iDOMType = (org.eclipse.jdt.core.jdom.IDOMType)jClass.getJNode();
-      if (iDOMType != null)
+      org.eclipse.emf.codegen.merge.java.facade.JType jType = (org.eclipse.emf.codegen.merge.java.facade.JType)cls.getJNode();
+      if (jType != null)
       {
-        jClass.setName(iDOMType.getName());
-        jClass.setComment(iDOMType.getComment());
-        int flags = iDOMType.getFlags();
-        jClass.setInterface((flags & Flags.AccInterface) != 0);
-        jClass.setFinal((flags & Flags.AccFinal) != 0);
-        jClass.setAbstract((flags & Flags.AccAbstract) != 0);
-        jClass.setStatic((flags & Flags.AccStatic) != 0);
-        jClass.setVisibility(JavaUtil.getFlagVisibility(flags));
+        cls.setName(JavaUtil.separateTypeArgument(jType.getName())[0]);
+        cls.setComment(jType.getComment());
+        int flags = jType.getFlags();
+        cls.setInterface((flags & Flags.AccInterface) != 0);
+        cls.setFinal((flags & Flags.AccFinal) != 0);
+        cls.setAbstract((flags & Flags.AccAbstract) != 0);
+        cls.setStatic((flags & Flags.AccStatic) != 0);
+        cls.setVisibility(JavaUtil.getFlagVisibility(flags));
 
-        Collection<JMember> theMembers = jClass.getMembers();
-        for (org.eclipse.jdt.core.jdom.IDOMNode child = iDOMType.getFirstChild(); child != null; child = child.getNextNode())
+        final Collection<JMember> theMembers = cls.getMembers();
+        FacadeVisitor facadeVisitor = new FacadeVisitor()
         {
-          if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.FIELD)
+          @Override
+          protected boolean visit(org.eclipse.emf.codegen.merge.java.facade.JField jField)
           {
-            JField jField = JavaFactory.eINSTANCE.createJField();
-            jField.setJNode(child);
-            theMembers.add(jField);
+            JField field = JavaFactory.eINSTANCE.createJField();
+            field.setJNode(jField);
+            theMembers.add(field);
+            return false;
           }
-          else if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.METHOD)
+          
+          @Override
+          protected boolean visit(org.eclipse.emf.codegen.merge.java.facade.JMethod jMethod)
           {
-            JMethod jMethod = JavaFactory.eINSTANCE.createJMethod();
-            jMethod.setJNode(child);
-            theMembers.add(jMethod);
+            JMethod method = JavaFactory.eINSTANCE.createJMethod();
+            method.setJNode(jMethod);
+            theMembers.add(method);
+            return false;
           }
-          else if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.INITIALIZER)
+          
+          @Override
+          protected boolean visit(org.eclipse.emf.codegen.merge.java.facade.JInitializer jInitializer)
           {
-            JInitializer jInitializer = JavaFactory.eINSTANCE.createJInitializer();
-            jInitializer.setJNode(child);
-            theMembers.add(jInitializer);
+            JInitializer initializer = JavaFactory.eINSTANCE.createJInitializer();
+            initializer.setJNode(jInitializer);
+            theMembers.add(initializer);
+            return false;
           }
-          else if (child.getNodeType() == org.eclipse.jdt.core.jdom.IDOMNode.TYPE)
+          
+          @Override
+          protected boolean visit(JAbstractType jAbstractType)
           {
-            JClass nestedJClass = JavaFactory.eINSTANCE.createJClass();
-            nestedJClass.setJNode(child);
-            theMembers.add(nestedJClass);
+            if (jAbstractType == getRootNode())
+            {
+              return true;
+            }
+            else
+            {
+              if (jAbstractType instanceof org.eclipse.emf.codegen.merge.java.facade.JType)
+              {
+                JClass nestedClass = JavaFactory.eINSTANCE.createJClass();
+                nestedClass.setJNode(jAbstractType);
+                theMembers.add(nestedClass);
+              }
+              return false;
+            }
           }
-        }
+        };
+        facadeVisitor.start(jType);
       }
     } 
   }
@@ -1220,12 +1243,11 @@ public class JClassImpl extends JMemberImpl implements JClass
     if (jNode != null)
     {
       List<JClass> theSuperTypes = new ArrayList<JClass>();
-      @SuppressWarnings("deprecation")
-      org.eclipse.jdt.core.jdom.IDOMType iDOMType = (org.eclipse.jdt.core.jdom.IDOMType)jNode;
-      @SuppressWarnings("deprecation")
-      String superClass = iDOMType.getSuperclass();
+      org.eclipse.emf.codegen.merge.java.facade.JType jType = (org.eclipse.emf.codegen.merge.java.facade.JType)jNode;
+      String superClass = jType.getSuperclass();
       if (superClass != null)
       {
+        superClass = JavaUtil.separateTypeArgument(jType.getSuperclass())[0];
         JClass jClass = 
           getUnit() != null ? 
             getUnit().resolveJClass(superClass.trim()) : 
@@ -1236,16 +1258,16 @@ public class JClassImpl extends JMemberImpl implements JClass
         }
       }
 
-      @SuppressWarnings("deprecation")
-      String superInterfaces[] = iDOMType.getSuperInterfaces();
+      String superInterfaces[] = jType.getSuperInterfaces();
       if (superInterfaces != null)
       {
         for (int i = 0; i < superInterfaces.length; ++i)
         {
+          String superInterface = JavaUtil.separateTypeArgument(superInterfaces[i])[0];
           JClass jClass = 
             getUnit() != null ? 
-              getUnit().resolveJClass(superInterfaces[i].trim()) :
-              getContainingType().resolveJClass(superInterfaces[i].trim());
+              getUnit().resolveJClass(superInterface) :
+              getContainingType().resolveJClass(superInterface);
           if (jClass != null)
           {
             theSuperTypes.add(jClass);

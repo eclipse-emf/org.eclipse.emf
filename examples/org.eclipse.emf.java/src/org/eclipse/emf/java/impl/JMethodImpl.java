@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodImpl.java,v 1.10 2007/01/08 00:05:55 marcelop Exp $
+ * $Id: JMethodImpl.java,v 1.11 2007/01/10 02:40:12 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -764,7 +764,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
     {
       case JavaPackage.JMETHOD__JNODE:
       {
-          JDOMHelper.handleJNode(this);
+          JHelper.handleJNode(this);
 
         break;
       }
@@ -853,38 +853,37 @@ public class JMethodImpl extends JMemberImpl implements JMethod
     }
   }
 
-  protected static class JDOMHelper
+  protected static class JHelper
   {
-    @SuppressWarnings("deprecation")
-    protected static void handleJNode(JMethod jMethod)
+    protected static void handleJNode(JMethod method)
     {
-      org.eclipse.jdt.core.jdom.IDOMMethod iDOMMethod = (org.eclipse.jdt.core.jdom.IDOMMethod)jMethod.getJNode();
-      if (iDOMMethod != null)
+      org.eclipse.emf.codegen.merge.java.facade.JMethod jMethod = (org.eclipse.emf.codegen.merge.java.facade.JMethod)method.getJNode();
+      if (jMethod != null)
       {
-        if (iDOMMethod.getName() == null && iDOMMethod.getParent() instanceof org.eclipse.jdt.core.jdom.IDOMType)
+        if (jMethod.getName() == null && jMethod.getParent() instanceof org.eclipse.emf.codegen.merge.java.facade.JType)
         {
-          jMethod.setName(((org.eclipse.jdt.core.jdom.IDOMType)iDOMMethod.getParent()).getName());
-          jMethod.setConstructor(true);
+          method.setName(((org.eclipse.emf.codegen.merge.java.facade.JType)jMethod.getParent()).getName());
+          method.setConstructor(true);
         }
         else
         {
-          jMethod.setName(iDOMMethod.getName());
-          jMethod.setConstructor(false);
+          method.setName(jMethod.getName());
+          method.setConstructor(false);
         }
 
-        jMethod.setComment(iDOMMethod.getComment());
-        jMethod.setBody(iDOMMethod.getBody());
+        method.setComment(jMethod.getComment());
+        method.setBody(jMethod.getBody());
 
-        int flags = iDOMMethod.getFlags();
-        jMethod.setFinal((flags & Flags.AccFinal) != 0);
-        jMethod.setAbstract((flags & Flags.AccAbstract) != 0);
-        jMethod.setStatic((flags & Flags.AccStatic) != 0);
-        jMethod.setVisibility(JavaUtil.getFlagVisibility(flags));
-        jMethod.setNative((flags & Flags.AccNative) != 0);
-        jMethod.setSynchronized((flags & Flags.AccSynchronized) != 0);
+        int flags = jMethod.getFlags();
+        method.setFinal((flags & Flags.AccFinal) != 0);
+        method.setAbstract((flags & Flags.AccAbstract) != 0);
+        method.setStatic((flags & Flags.AccStatic) != 0);
+        method.setVisibility(JavaUtil.getFlagVisibility(flags));
+        method.setNative((flags & Flags.AccNative) != 0);
+        method.setSynchronized((flags & Flags.AccSynchronized) != 0);
 
-        Collection<JParameter> theParameters = jMethod.getParameters();
-        String [] parameterNames = iDOMMethod.getParameterNames();
+        Collection<JParameter> theParameters = method.getParameters();
+        String [] parameterNames = jMethod.getParameterNames();
         if (parameterNames != null)
         {
           for (int i = 0; i < parameterNames.length; ++i)
@@ -898,36 +897,35 @@ public class JMethodImpl extends JMemberImpl implements JMethod
     }
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   protected void resolveIdentifiers()
   {
     if (getJNode() != null)
     {
-      org.eclipse.jdt.core.jdom.IDOMMethod iDOMMethod = (org.eclipse.jdt.core.jdom.IDOMMethod)getJNode();
-      String returnType = iDOMMethod.getReturnType();
+      org.eclipse.emf.codegen.merge.java.facade.JMethod jMethod = (org.eclipse.emf.codegen.merge.java.facade.JMethod)getJNode();
+      String returnType = jMethod.getReturnType();
       if (returnType != null)
       {
-        setReturnType(getContainingType().resolveJClass(iDOMMethod.getReturnType()));
+        setReturnType(getContainingType().resolveJClass(JavaUtil.separateTypeArgument(jMethod.getReturnType())[0]));
       }
 
       EList<JParameter> theParameters = getParameters();
-      String [] parameterTypes = iDOMMethod.getParameterTypes();
+      String [] parameterTypes = jMethod.getParameterTypes();
       if (parameterTypes != null)
       {
         for (int i = 0; i < parameterTypes.length; ++i)
         {
           JParameter jParameter = theParameters.get(i);
-          jParameter.setType(getContainingType().resolveJClass(parameterTypes[i]));
+          jParameter.setType(getContainingType().resolveJClass(JavaUtil.separateTypeArgument(parameterTypes[i])[0]));
         }
       }
       
-      String [] exceptionTypes = iDOMMethod.getExceptions();
+      String [] exceptionTypes = jMethod.getExceptions();
       if (exceptionTypes != null)
       {
         for (String exceptionType : exceptionTypes)
         {
-          JClass exception = getContainingType().resolveJClass(exceptionType);
+          JClass exception = getContainingType().resolveJClass(JavaUtil.separateTypeArgument(exceptionType)[0]);
           if (exception != null)
           {
             getExceptions().add(exception);

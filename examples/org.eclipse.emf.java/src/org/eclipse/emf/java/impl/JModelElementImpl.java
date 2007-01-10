@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JModelElementImpl.java,v 1.7 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JModelElementImpl.java,v 1.8 2007/01/10 02:40:12 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -30,7 +30,7 @@ import org.eclipse.emf.java.JavaPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>JModel IDOMNode</b></em>'.
+ * An implementation of the model object '<em><b>JModel JNode</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
