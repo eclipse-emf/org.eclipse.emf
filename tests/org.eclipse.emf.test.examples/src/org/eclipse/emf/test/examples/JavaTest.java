@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: JavaTest.java,v 1.2 2007/01/10 02:42:17 marcelop Exp $
+ * $Id: JavaTest.java,v 1.3 2007/01/10 03:17:35 marcelop Exp $
  */
 package org.eclipse.emf.test.examples;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.jdt.core.JavaCore;
 
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -81,9 +83,19 @@ public class JavaTest extends TestCase
   @Override
   protected void setUp() throws Exception
   {
-    Map<Object, Object> options = new HashMap<Object, Object>();
-    JavaCore.setCompilanceOptions("1.5", options);
-    JavaCore.getOptions().putAll(options);
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      @SuppressWarnings("unchecked")
+      Hashtable<Object, Object> map = JavaCore.getOptions();
+      map.put(JavaCore.COMPILER_SOURCE, "1.5");
+      JavaCore.setOptions(map);
+    }
+    else
+    {
+      Map<Object, Object> options = new HashMap<Object, Object>();
+      JavaCore.setCompilanceOptions("1.5", options);
+      JavaCore.getOptions().putAll(options);
+    }
   }
   
   public void testRead() throws Exception
