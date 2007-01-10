@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.11 2006/12/28 06:58:13 marcelop Exp $
+ * $Id: BuildTest.java,v 1.12 2007/01/10 01:49:46 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -35,6 +35,8 @@ import junit.framework.TestSuite;
 
 public class BuildTest extends TestCase
 {
+  protected final static String REGEX_SYMBOL = ",/,";
+  
   protected final static String[] REQUIRED_FEATURE_FILES = 
    {"eclipse_update_120.jpg", "epl-v10.html", "feature.properties", "feature.xml", "license.html"};
   protected final static String[] REQUIRED_REGULAR_PLUGIN_FILES = 
@@ -46,7 +48,7 @@ public class BuildTest extends TestCase
   protected final static String[] REQUIRED_SOURCE_PLUGIN_FILES = 
    {"src/"};
   protected final static String[] REQUIRED_SRC_SUBDIR_FILES = 
-   {"about.html", "src.zip"};
+   {"about.html", REGEX_SYMBOL + "^.*src.zip$"};
   
   protected static int expectedNumberOfDocPlugins = 3;
   protected static int expectedNumberOfSourcePlugins = 3;
@@ -72,21 +74,22 @@ public class BuildTest extends TestCase
   @Override
   protected void setUp() throws Exception
   {
-    String directory = TestUtil.getPluginDirectory();
-    if (directory.indexOf(".metadata") < 0)
-    {
-      File dir = new File(directory).getAbsoluteFile().getParentFile();
-      if ("plugins".equals(dir.getName()))
-      {
-        pluginsDir = dir;
-      }
-      
-      dir = new File(dir.getParentFile(), "features");
-      if (dir.isDirectory())
-      {
-        featuresDir = dir;
-      }
-    }
+//    String directory = TestUtil.getPluginDirectory();
+//    if (directory.indexOf(".metadata") < 0)
+//    {
+//      File dir = new File(directory).getAbsoluteFile().getParentFile();
+//      if ("plugins".equals(dir.getName()))
+//      {
+//        pluginsDir = dir;
+//      }
+//      
+//      dir = new File(dir.getParentFile(), "features");
+//      if (dir.isDirectory())
+//      {
+//        featuresDir = dir;
+//      }
+//    }
+    pluginsDir = new File("D:/tmp/build/plugins");
   }
   
   protected boolean isFeatureToTest(File feature)
@@ -242,11 +245,39 @@ public class BuildTest extends TestCase
     StringBuffer result = new StringBuffer();
     for (int i = 0; i < requiredFiles.length; i++)
     {
-      boolean isDirectory = requiredFiles[i].endsWith("/");
-      File file = new File(dir, requiredFiles[i]);
-      if ((isDirectory && !file.isDirectory()) || (!isDirectory && !file.isFile()))
+      String requiredFile = requiredFiles[i];
+      boolean isDirectory = requiredFile.endsWith("/");
+      
+      if (requiredFile.startsWith(REGEX_SYMBOL))
       {
-        result.append(",").append(file.getAbsoluteFile());
+        boolean found = false;
+        String regex = requiredFile.substring(REGEX_SYMBOL.length());
+        requiredFile = "[" + regex + "]";
+        File[] files = dir.listFiles();
+        for (File file : files)
+        {
+          if (file.getName().matches(regex))
+          {
+            found =  isDirectory ? file.isDirectory() : file.isFile();
+            if (found)
+            {
+              break;
+            }
+          }
+        }
+        
+        if (!found)
+        {
+          result.append(",").append(dir.getAbsolutePath()+File.separator+requiredFile);
+        }
+      }
+      else
+      {
+        File file = new File(dir, requiredFiles[i]);
+        if (isDirectory ? file.isFile() : file.isDirectory())
+        {
+          result.append(",").append(file.getAbsoluteFile());
+        }
       }
     }
     return result.length() > 0 ? result.deleteCharAt(0).toString() : "";
