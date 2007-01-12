@@ -8,7 +8,7 @@
         <emf.JETEmitter templateFile="simple.javajet" newFile="Simple.java"/>
 
         <emf.JETEmitter templateFile="medium.javajet" newFile="Medium.java"
-            argumentClass="org.eclipse.emf.codegen.jmerge.JMerger"/>
+            argumentClass="org.eclipse.emf.codegen.merge.java.JMerger"/>
     </target>
 
     <target name="genComplexClass">
