@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompilerTask.java,v 1.1 2007/01/12 20:53:25 marcelop Exp $
+ * $Id: JETCompilerTask.java,v 1.2 2007/01/12 20:58:38 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen;
 
@@ -59,10 +59,10 @@ import org.eclipse.emf.codegen.jet.JETSkeleton;
  * &lt;emf.JETCompiler templateURI=&quot;http://www.example.com/jetTemplate.javajet&quot;/&gt;
  * </pre>
  * <pre>
- * &lt;emf.JETCompilerTask templateFile=&quot;jetTemplate.javajet&quot;/&gt;
+ * &lt;emf.JETCompiler templateFile=&quot;jetTemplate.javajet&quot;/&gt;
  * </pre>
  * <pre>
- * &lt;emf.JETCompilerTask templateURI=&quot;d:\templates\jetTemplate.txtjet&quot;
+ * &lt;emf.JETCompiler templateURI=&quot;d:\templates\jetTemplate.txtjet&quot;
  *                 newFile=&quot;c:\output.txt&quot/&gt;
  * </pre>
  * 
