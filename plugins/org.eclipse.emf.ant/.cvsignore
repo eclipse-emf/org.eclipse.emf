@@ -5,3 +5,4 @@ ant_tasks
 build.xml
 dev.properties
 *.jar
+*.args
