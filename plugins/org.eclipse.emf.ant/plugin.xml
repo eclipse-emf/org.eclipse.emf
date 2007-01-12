@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
+  <!-- Replace 'ant_tasks/emf.ant.tasks.jar' by 'ant_tasks/emf.ant.tasks.jar' to be able to debug without regenerating jars -->
   <extension point="org.eclipse.ant.core.extraClasspathEntries">
     <extraClasspathEntry library="ant_tasks/emf.ant.tasks.jar" />
   </extension>
 
   <extension point="org.eclipse.ant.core.antTasks">
     <antTask library="ant_tasks/emf.ant.tasks.jar" name="emf.JETEmitter" headless="true" class="org.eclipse.emf.ant.taskdefs.codegen.JETEmitterTask" />
+    <antTask library="ant_tasks/emf.ant.tasks.jar" name="emf.JETCompiler" headless="true" class="org.eclipse.emf.ant.taskdefs.codegen.JETCompilerTask" />
     <antTask library="ant_tasks/emf.ant.tasks.jar" name="emf.JMerger" headless="true" class="org.eclipse.emf.ant.taskdefs.codegen.JMergerTask" />
     <antTask library="ant_tasks/emf.ant.tasks.jar" name="emf.util.RemoveVersion" headless="true" class="org.eclipse.emf.ant.taskdefs.RemoveVersionTask" />
   </extension>
