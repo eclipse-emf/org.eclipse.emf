@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,22 +12,19 @@
  *
  * </copyright>
  *
- * $Id: JETEmitterTask.java,v 1.5 2006/12/19 01:45:07 marcelop Exp $
+ * $Id: JETEmitterTask.java,v 1.6 2007/01/12 20:53:07 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 
-import org.eclipse.emf.ant.taskdefs.EMFTask;
 import org.eclipse.emf.ant.util.Util;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
-import org.eclipse.emf.common.util.URI;
 
 
 /**
@@ -71,7 +68,7 @@ import org.eclipse.emf.common.util.URI;
  * 
  * @since 2.1.0
  */
-public class JETEmitterTask extends EMFTask
+public class JETEmitterTask extends JETTask
 {
   public static class Variable
   {
@@ -99,28 +96,10 @@ public class JETEmitterTask extends EMFTask
     }
   }
 
-  private String templateURI;
-  private File templateFile;
-  private File newFile;
   private String project;
   private List<Variable> variables;
   private Object argument;
   private Class<?> argumentClass;
-
-  public void setTemplateFile(File templateFile)
-  {
-    this.templateFile = templateFile;
-  }
-
-  public void setTemplateURI(String templateURI)
-  {
-    this.templateURI = templateURI;
-  }
-
-  public void setNewFile(File newFile)
-  {
-    this.newFile = newFile;
-  }
 
   public void setProject(String project)
   {
@@ -148,37 +127,11 @@ public class JETEmitterTask extends EMFTask
     this.argumentClass = argumentClass;
   }
   
-  protected String getTemplateURIAsString()
-  {
-    if (templateURI != null)
-    {
-      return templateURI.toString();
-    }
-    else if (templateFile != null)
-    {
-      try
-      {
-        templateFile = templateFile.getCanonicalFile();
-      }
-      catch (IOException e)
-      {
-        // Ignore
-      }
-      URI uri = templateFile.isFile() ? URI.createFileURI(templateFile.toString()) : URI.createURI(templateFile.toString());
-      return uri.toString();
-    }
-    else
-    {
-      return null;
-    }
-  }
-
   @Override
   protected void checkAttributes() throws BuildException
   {
-    assertTrue("Either 'templateURI' or 'templateFile' must be specified.", templateURI != null || templateFile != null);
     assertTrue("The 'newFile' attribute must be specified.", newFile != null);
-  }
+  }  
 
   @Override
   protected void doExecute() throws Exception
