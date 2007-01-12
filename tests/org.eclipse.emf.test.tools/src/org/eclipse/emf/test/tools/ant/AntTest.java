@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.25 2006/12/28 07:00:46 marcelop Exp $
+ * $Id: AntTest.java,v 1.26 2007/01/12 20:59:35 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -60,7 +60,8 @@ public class AntTest extends TestCase
     // Don't comment out this test
     ts.addTest(new AntTest("suiteSetUp"));
     
-    ts.addTest(new AntTest("testJET"));
+    ts.addTest(new AntTest("testJETCompiler"));
+    ts.addTest(new AntTest("testJETEmitter"));
     ts.addTest(new AntTest("testJMerger"));
     
     ts.addTest(new AntTest("testRose14"));
@@ -227,14 +228,22 @@ public class AntTest extends TestCase
     TestUtil.delete(EXAMPLES_COPY_DIR);
   }
   
-  public void testJET() throws Exception
+  public void testJETEmitter() throws Exception
   {
-    File rootDir = new File(EXAMPLES_COPY_DIR, "jet");
-    File rootExpectedDir = new File(EXPECTED_DIR, "jet");
+    File rootDir = new File(EXAMPLES_COPY_DIR, "jetemitter");
+    File rootExpectedDir = new File(EXPECTED_DIR, "jetemitter");
     File antScript = new File(rootDir, "build.xml");
     runAntAndTest(rootDir, rootExpectedDir, antScript, "genClasses", null);
   }
   
+  public void testJETCompiler() throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "jetcompiler");
+    File rootExpectedDir = new File(EXPECTED_DIR, "jetcompiler");
+    File antScript = new File(rootDir, "build.xml");
+    runAntAndTest(rootDir, rootExpectedDir, antScript, null, null);
+  }
+
   public void testJMerger() throws Exception
   {
     File rootDir = new File(EXAMPLES_COPY_DIR, "jmerger");
