@@ -6,8 +6,8 @@
 <stringAttribute key="bootstrap" value=""/>
 <booleanAttribute key="useProduct" value="false"/>
 <booleanAttribute key="tracing" value="false"/>
+<stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-buildfile ${resource_loc} -consoleLog"/>
-<stringAttribute key="pde.version" value="3.2a"/>
 <stringAttribute key="templateConfig" value="${target_home}\configuration\config.ini"/>
 <booleanAttribute key="default" value="true"/>
 <booleanAttribute key="clearConfig" value="true"/>
