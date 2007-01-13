@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryPackage.java,v 1.1 2007/01/13 17:45:29 marcelop Exp $
+ * $Id: LibraryPackage.java,v 1.2 2007/01/13 18:23:45 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo.library;
 
@@ -55,7 +55,7 @@ public interface LibraryPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNS_URI = "http:///org/eclipse/example/library.ecore";
+  String eNS_URI = "http://org.eclipse.emf.test.sdo/library.ecore";
 
   /**
    * The package namespace name.
@@ -63,7 +63,7 @@ public interface LibraryPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNS_PREFIX = "org.eclipse.example.library";
+  String eNS_PREFIX = "org.eclipse.emf.test.xml.library";
 
   /**
    * The singleton instance of the package.

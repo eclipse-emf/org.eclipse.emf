@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryFactoryImpl.java,v 1.1 2007/01/13 17:45:29 marcelop Exp $
+ * $Id: LibraryFactoryImpl.java,v 1.2 2007/01/13 18:23:45 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo.library.impl;
 
@@ -46,7 +46,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
   {
     try
     {
-      LibraryFactory theLibraryFactory = (LibraryFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org/eclipse/example/library.ecore"); 
+      LibraryFactory theLibraryFactory = (LibraryFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.eclipse.emf.test.sdo/library.ecore"); 
       if (theLibraryFactory != null)
       {
         return theLibraryFactory;
