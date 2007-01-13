@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: KeyTest.java,v 1.2 2006/12/19 18:45:20 marcelop Exp $
+ * $Id: KeyTest.java,v 1.3 2007/01/13 19:08:16 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -53,7 +53,7 @@ import org.eclipse.emf.test.models.key.Root;
 public class KeyTest  extends TestCase
 {
   private static final String TEMP_FILE_DIR = "/home/tmp/";
-  private static final boolean SYSOUT = true;
+  private static final boolean SYSOUT = false;
   
   public KeyTest(String name)
   {

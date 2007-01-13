@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidationTest.java,v 1.2 2007/01/06 22:21:35 marcelop Exp $
+ * $Id: EcoreValidationTest.java,v 1.3 2007/01/13 19:08:16 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -47,6 +47,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 public class EcoreValidationTest extends TestCase
 {
+  protected static final boolean SYSOUT = false;
+  
   public EcoreValidationTest(String name)
   {
     super(name);
@@ -2710,7 +2712,7 @@ public class EcoreValidationTest extends TestCase
 
   public void assertDiagnostic(int severity, int code, String source, Object [] data, Diagnostic diagnostic)
   {
-    System.out.println(diagnostic.getMessage());
+    if (SYSOUT) System.out.println(diagnostic.getMessage());
     assertEquals(severity, diagnostic.getSeverity());
     assertEquals(code, diagnostic.getCode());
     assertEquals(source, diagnostic.getSource());
