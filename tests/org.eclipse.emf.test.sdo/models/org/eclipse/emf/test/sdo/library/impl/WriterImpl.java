@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.3 2006/12/30 03:44:07 marcelop Exp $
+ * $Id: WriterImpl.java,v 1.1 2007/01/13 17:45:29 marcelop Exp $
  */
-package org.eclipse.example.library.impl;
+package org.eclipse.emf.test.sdo.library.impl;
 
 
 import java.util.Collection;
@@ -32,31 +32,29 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.test.sdo.library.Book;
+import org.eclipse.emf.test.sdo.library.LibraryPackage;
+import org.eclipse.emf.test.sdo.library.Writer;
 
-import org.eclipse.example.library.Book;
-import org.eclipse.example.library.Library;
-import org.eclipse.example.library.LibraryPackage;
-import org.eclipse.example.library.Writer;
 
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Library</b></em>'.
+ * An implementation of the model object '<em><b>Writer</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.example.library.impl.LibraryImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.example.library.impl.LibraryImpl#getWriters <em>Writers</em>}</li>
- *   <li>{@link org.eclipse.example.library.impl.LibraryImpl#getBooks <em>Books</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.library.impl.WriterImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.library.impl.WriterImpl#getBooks <em>Books</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class LibraryImpl extends EDataObjectImpl implements Library
+public class WriterImpl extends EDataObjectImpl implements Writer
 {
   /**
    * <!-- begin-user-doc -->
@@ -86,17 +84,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
   protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getWriters() <em>Writers</em>}' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getWriters()
-   * @generated
-   * @ordered
-   */
-  protected EList<Writer> writers = null;
-
-  /**
-   * The cached value of the '{@link #getBooks() <em>Books</em>}' containment reference list.
+   * The cached value of the '{@link #getBooks() <em>Books</em>}' reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getBooks()
@@ -110,7 +98,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  protected LibraryImpl()
+  protected WriterImpl()
   {
     super();
   }
@@ -123,7 +111,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
   @Override
   protected EClass eStaticClass()
   {
-    return LibraryPackage.Literals.LIBRARY;
+    return LibraryPackage.Literals.WRITER;
   }
 
   /**
@@ -146,21 +134,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
     String oldName = name;
     name = newName;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.LIBRARY__NAME, oldName, name));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List<Writer> getWriters()
-  {
-    if (writers == null)
-    {
-      writers = new EObjectContainmentEList<Writer>(Writer.class, this, LibraryPackage.LIBRARY__WRITERS);
-    }
-    return writers;
+      eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.WRITER__NAME, oldName, name));
   }
 
   /**
@@ -172,9 +146,26 @@ public class LibraryImpl extends EDataObjectImpl implements Library
   {
     if (books == null)
     {
-      books = new EObjectContainmentEList<Book>(Book.class, this, LibraryPackage.LIBRARY__BOOKS);
+      books = new EObjectWithInverseResolvingEList<Book>(Book.class, this, LibraryPackage.WRITER__BOOKS, LibraryPackage.BOOK__AUTHOR);
     }
     return books;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case LibraryPackage.WRITER__BOOKS:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getBooks()).basicAdd(otherEnd, msgs);
+    }
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -187,9 +178,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
   {
     switch (featureID)
     {
-      case LibraryPackage.LIBRARY__WRITERS:
-        return ((InternalEList<?>)getWriters()).basicRemove(otherEnd, msgs);
-      case LibraryPackage.LIBRARY__BOOKS:
+      case LibraryPackage.WRITER__BOOKS:
         return ((InternalEList<?>)getBooks()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -205,11 +194,9 @@ public class LibraryImpl extends EDataObjectImpl implements Library
   {
     switch (featureID)
     {
-      case LibraryPackage.LIBRARY__NAME:
+      case LibraryPackage.WRITER__NAME:
         return getName();
-      case LibraryPackage.LIBRARY__WRITERS:
-        return getWriters();
-      case LibraryPackage.LIBRARY__BOOKS:
+      case LibraryPackage.WRITER__BOOKS:
         return getBooks();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -226,14 +213,10 @@ public class LibraryImpl extends EDataObjectImpl implements Library
   {
     switch (featureID)
     {
-      case LibraryPackage.LIBRARY__NAME:
+      case LibraryPackage.WRITER__NAME:
         setName((String)newValue);
         return;
-      case LibraryPackage.LIBRARY__WRITERS:
-        getWriters().clear();
-        getWriters().addAll((Collection<? extends Writer>)newValue);
-        return;
-      case LibraryPackage.LIBRARY__BOOKS:
+      case LibraryPackage.WRITER__BOOKS:
         getBooks().clear();
         getBooks().addAll((Collection<? extends Book>)newValue);
         return;
@@ -251,13 +234,10 @@ public class LibraryImpl extends EDataObjectImpl implements Library
   {
     switch (featureID)
     {
-      case LibraryPackage.LIBRARY__NAME:
+      case LibraryPackage.WRITER__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case LibraryPackage.LIBRARY__WRITERS:
-        getWriters().clear();
-        return;
-      case LibraryPackage.LIBRARY__BOOKS:
+      case LibraryPackage.WRITER__BOOKS:
         getBooks().clear();
         return;
     }
@@ -274,11 +254,9 @@ public class LibraryImpl extends EDataObjectImpl implements Library
   {
     switch (featureID)
     {
-      case LibraryPackage.LIBRARY__NAME:
+      case LibraryPackage.WRITER__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case LibraryPackage.LIBRARY__WRITERS:
-        return writers != null && !writers.isEmpty();
-      case LibraryPackage.LIBRARY__BOOKS:
+      case LibraryPackage.WRITER__BOOKS:
         return books != null && !books.isEmpty();
     }
     return super.eIsSet(featureID);
@@ -301,4 +279,4 @@ public class LibraryImpl extends EDataObjectImpl implements Library
     return result.toString();
   }
 
-} //LibraryImpl
+} //WriterImpl

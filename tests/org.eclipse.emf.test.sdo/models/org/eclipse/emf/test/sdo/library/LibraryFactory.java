@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: LibraryFactory.java,v 1.3 2006/12/30 03:44:08 marcelop Exp $
+ * $Id: LibraryFactory.java,v 1.1 2007/01/13 17:45:29 marcelop Exp $
  */
-package org.eclipse.example.library;
+package org.eclipse.emf.test.sdo.library;
 
 
 import org.eclipse.emf.ecore.EFactory;
@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.eclipse.example.library.LibraryPackage
+ * @see org.eclipse.emf.test.sdo.library.LibraryPackage
  * @generated
  */
 public interface LibraryFactory extends EFactory
@@ -36,7 +36,7 @@ public interface LibraryFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  LibraryFactory eINSTANCE = org.eclipse.example.library.impl.LibraryFactoryImpl.init();
+  LibraryFactory eINSTANCE = org.eclipse.emf.test.sdo.library.impl.LibraryFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Book</em>'.

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: Book.java,v 1.3 2006/12/30 03:44:08 marcelop Exp $
+ * $Id: Book.java,v 1.1 2007/01/13 17:45:29 marcelop Exp $
  */
-package org.eclipse.example.library;
+package org.eclipse.emf.test.sdo.library;
 
 
 /**
@@ -25,14 +25,14 @@ package org.eclipse.example.library;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.example.library.Book#getTitle <em>Title</em>}</li>
- *   <li>{@link org.eclipse.example.library.Book#getPages <em>Pages</em>}</li>
- *   <li>{@link org.eclipse.example.library.Book#getCategory <em>Category</em>}</li>
- *   <li>{@link org.eclipse.example.library.Book#getAuthor <em>Author</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.library.Book#getTitle <em>Title</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.library.Book#getPages <em>Pages</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.library.Book#getCategory <em>Category</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.library.Book#getAuthor <em>Author</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.eclipse.example.library.LibraryPackage#getBook()
+ * @see org.eclipse.emf.test.sdo.library.LibraryPackage#getBook()
  * @model
  * @generated
  */
@@ -48,14 +48,14 @@ public interface Book
    * <!-- end-user-doc -->
    * @return the value of the '<em>Title</em>' attribute.
    * @see #setTitle(String)
-   * @see org.eclipse.example.library.LibraryPackage#getBook_Title()
+   * @see org.eclipse.emf.test.sdo.library.LibraryPackage#getBook_Title()
    * @model
    * @generated
    */
   String getTitle();
 
   /**
-   * Sets the value of the '{@link org.eclipse.example.library.Book#getTitle <em>Title</em>}' attribute.
+   * Sets the value of the '{@link org.eclipse.emf.test.sdo.library.Book#getTitle <em>Title</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Title</em>' attribute.
@@ -75,14 +75,14 @@ public interface Book
    * <!-- end-user-doc -->
    * @return the value of the '<em>Pages</em>' attribute.
    * @see #setPages(int)
-   * @see org.eclipse.example.library.LibraryPackage#getBook_Pages()
+   * @see org.eclipse.emf.test.sdo.library.LibraryPackage#getBook_Pages()
    * @model default="100"
    * @generated
    */
   int getPages();
 
   /**
-   * Sets the value of the '{@link org.eclipse.example.library.Book#getPages <em>Pages</em>}' attribute.
+   * Sets the value of the '{@link org.eclipse.emf.test.sdo.library.Book#getPages <em>Pages</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Pages</em>' attribute.
@@ -93,7 +93,7 @@ public interface Book
 
   /**
    * Returns the value of the '<em><b>Category</b></em>' attribute.
-   * The literals are from the enumeration {@link org.eclipse.example.library.BookCategory}.
+   * The literals are from the enumeration {@link org.eclipse.emf.test.sdo.library.BookCategory}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Category</em>' attribute isn't clear,
@@ -101,20 +101,20 @@ public interface Book
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Category</em>' attribute.
-   * @see org.eclipse.example.library.BookCategory
+   * @see org.eclipse.emf.test.sdo.library.BookCategory
    * @see #setCategory(BookCategory)
-   * @see org.eclipse.example.library.LibraryPackage#getBook_Category()
+   * @see org.eclipse.emf.test.sdo.library.LibraryPackage#getBook_Category()
    * @model
    * @generated
    */
   BookCategory getCategory();
 
   /**
-   * Sets the value of the '{@link org.eclipse.example.library.Book#getCategory <em>Category</em>}' attribute.
+   * Sets the value of the '{@link org.eclipse.emf.test.sdo.library.Book#getCategory <em>Category</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Category</em>' attribute.
-   * @see org.eclipse.example.library.BookCategory
+   * @see org.eclipse.emf.test.sdo.library.BookCategory
    * @see #getCategory()
    * @generated
    */
@@ -122,7 +122,7 @@ public interface Book
 
   /**
    * Returns the value of the '<em><b>Author</b></em>' reference.
-   * It is bidirectional and its opposite is '{@link org.eclipse.example.library.Writer#getBooks <em>Books</em>}'.
+   * It is bidirectional and its opposite is '{@link org.eclipse.emf.test.sdo.library.Writer#getBooks <em>Books</em>}'.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Author</em>' reference isn't clear,
@@ -131,15 +131,15 @@ public interface Book
    * <!-- end-user-doc -->
    * @return the value of the '<em>Author</em>' reference.
    * @see #setAuthor(Writer)
-   * @see org.eclipse.example.library.LibraryPackage#getBook_Author()
-   * @see org.eclipse.example.library.Writer#getBooks
+   * @see org.eclipse.emf.test.sdo.library.LibraryPackage#getBook_Author()
+   * @see org.eclipse.emf.test.sdo.library.Writer#getBooks
    * @model opposite="books" required="true"
    * @generated
    */
   Writer getAuthor();
 
   /**
-   * Sets the value of the '{@link org.eclipse.example.library.Book#getAuthor <em>Author</em>}' reference.
+   * Sets the value of the '{@link org.eclipse.emf.test.sdo.library.Book#getAuthor <em>Author</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Author</em>' reference.

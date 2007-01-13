@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.4 2005/06/08 06:17:25 nickb Exp $
+ * $Id: SpecialCasesTest.java,v 1.5 2007/01/13 17:45:29 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -24,13 +24,14 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.eclipse.example.library.Book;
-import org.eclipse.example.library.Library;
-import org.eclipse.example.library.LibraryFactory;
-import org.eclipse.example.library.Writer;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.test.sdo.library.Book;
+import org.eclipse.emf.test.sdo.library.Library;
+import org.eclipse.emf.test.sdo.library.LibraryFactory;
+import org.eclipse.emf.test.sdo.library.Writer;
+
 import org.eclipse.emf.ecore.sdo.EChangeSummary;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.SDOFactory;

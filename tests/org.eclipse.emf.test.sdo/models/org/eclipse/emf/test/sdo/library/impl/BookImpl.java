@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.3 2006/12/30 03:44:07 marcelop Exp $
+ * $Id: BookImpl.java,v 1.1 2007/01/13 17:45:29 marcelop Exp $
  */
-package org.eclipse.example.library.impl;
+package org.eclipse.emf.test.sdo.library.impl;
 
 
 import org.eclipse.emf.common.notify.Notification;
@@ -25,13 +25,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.test.sdo.library.Book;
+import org.eclipse.emf.test.sdo.library.BookCategory;
+import org.eclipse.emf.test.sdo.library.LibraryPackage;
+import org.eclipse.emf.test.sdo.library.Writer;
 
 import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
 
-import org.eclipse.example.library.Book;
-import org.eclipse.example.library.BookCategory;
-import org.eclipse.example.library.LibraryPackage;
-import org.eclipse.example.library.Writer;
 
 
 /**
@@ -41,10 +41,10 @@ import org.eclipse.example.library.Writer;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.example.library.impl.BookImpl#getTitle <em>Title</em>}</li>
- *   <li>{@link org.eclipse.example.library.impl.BookImpl#getPages <em>Pages</em>}</li>
- *   <li>{@link org.eclipse.example.library.impl.BookImpl#getCategory <em>Category</em>}</li>
- *   <li>{@link org.eclipse.example.library.impl.BookImpl#getAuthor <em>Author</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.library.impl.BookImpl#getTitle <em>Title</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.library.impl.BookImpl#getPages <em>Pages</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.library.impl.BookImpl#getCategory <em>Category</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.sdo.library.impl.BookImpl#getAuthor <em>Author</em>}</li>
  * </ul>
  * </p>
  *

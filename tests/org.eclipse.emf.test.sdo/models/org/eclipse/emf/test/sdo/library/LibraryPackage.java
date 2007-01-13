@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: LibraryPackage.java,v 1.3 2006/12/30 03:44:08 marcelop Exp $
+ * $Id: LibraryPackage.java,v 1.1 2007/01/13 17:45:29 marcelop Exp $
  */
-package org.eclipse.example.library;
+package org.eclipse.emf.test.sdo.library;
 
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.eclipse.example.library.LibraryFactory
+ * @see org.eclipse.emf.test.sdo.library.LibraryFactory
  * @model kind="package"
  * @generated
  */
@@ -71,14 +71,14 @@ public interface LibraryPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  LibraryPackage eINSTANCE = org.eclipse.example.library.impl.LibraryPackageImpl.init();
+  LibraryPackage eINSTANCE = org.eclipse.emf.test.sdo.library.impl.LibraryPackageImpl.init();
 
   /**
-   * The meta object id for the '{@link org.eclipse.example.library.impl.BookImpl <em>Book</em>}' class.
+   * The meta object id for the '{@link org.eclipse.emf.test.sdo.library.impl.BookImpl <em>Book</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.example.library.impl.BookImpl
-   * @see org.eclipse.example.library.impl.LibraryPackageImpl#getBook()
+   * @see org.eclipse.emf.test.sdo.library.impl.BookImpl
+   * @see org.eclipse.emf.test.sdo.library.impl.LibraryPackageImpl#getBook()
    * @generated
    */
   int BOOK = 0;
@@ -129,11 +129,11 @@ public interface LibraryPackage extends EPackage
   int BOOK_FEATURE_COUNT = 4;
 
   /**
-   * The meta object id for the '{@link org.eclipse.example.library.impl.LibraryImpl <em>Library</em>}' class.
+   * The meta object id for the '{@link org.eclipse.emf.test.sdo.library.impl.LibraryImpl <em>Library</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.example.library.impl.LibraryImpl
-   * @see org.eclipse.example.library.impl.LibraryPackageImpl#getLibrary()
+   * @see org.eclipse.emf.test.sdo.library.impl.LibraryImpl
+   * @see org.eclipse.emf.test.sdo.library.impl.LibraryPackageImpl#getLibrary()
    * @generated
    */
   int LIBRARY = 1;
@@ -175,11 +175,11 @@ public interface LibraryPackage extends EPackage
   int LIBRARY_FEATURE_COUNT = 3;
 
   /**
-   * The meta object id for the '{@link org.eclipse.example.library.impl.WriterImpl <em>Writer</em>}' class.
+   * The meta object id for the '{@link org.eclipse.emf.test.sdo.library.impl.WriterImpl <em>Writer</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.example.library.impl.WriterImpl
-   * @see org.eclipse.example.library.impl.LibraryPackageImpl#getWriter()
+   * @see org.eclipse.emf.test.sdo.library.impl.WriterImpl
+   * @see org.eclipse.emf.test.sdo.library.impl.LibraryPackageImpl#getWriter()
    * @generated
    */
   int WRITER = 2;
@@ -212,150 +212,150 @@ public interface LibraryPackage extends EPackage
   int WRITER_FEATURE_COUNT = 2;
 
   /**
-   * The meta object id for the '{@link org.eclipse.example.library.BookCategory <em>Book Category</em>}' enum.
+   * The meta object id for the '{@link org.eclipse.emf.test.sdo.library.BookCategory <em>Book Category</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.example.library.BookCategory
-   * @see org.eclipse.example.library.impl.LibraryPackageImpl#getBookCategory()
+   * @see org.eclipse.emf.test.sdo.library.BookCategory
+   * @see org.eclipse.emf.test.sdo.library.impl.LibraryPackageImpl#getBookCategory()
    * @generated
    */
   int BOOK_CATEGORY = 3;
 
   /**
-   * Returns the meta object for class '{@link org.eclipse.example.library.Book <em>Book</em>}'.
+   * Returns the meta object for class '{@link org.eclipse.emf.test.sdo.library.Book <em>Book</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for class '<em>Book</em>'.
-   * @see org.eclipse.example.library.Book
+   * @see org.eclipse.emf.test.sdo.library.Book
    * @generated
    */
   EClass getBook();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.example.library.Book#getTitle <em>Title</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.library.Book#getTitle <em>Title</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Title</em>'.
-   * @see org.eclipse.example.library.Book#getTitle()
+   * @see org.eclipse.emf.test.sdo.library.Book#getTitle()
    * @see #getBook()
    * @generated
    */
   EAttribute getBook_Title();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.example.library.Book#getPages <em>Pages</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.library.Book#getPages <em>Pages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Pages</em>'.
-   * @see org.eclipse.example.library.Book#getPages()
+   * @see org.eclipse.emf.test.sdo.library.Book#getPages()
    * @see #getBook()
    * @generated
    */
   EAttribute getBook_Pages();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.example.library.Book#getCategory <em>Category</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.library.Book#getCategory <em>Category</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Category</em>'.
-   * @see org.eclipse.example.library.Book#getCategory()
+   * @see org.eclipse.emf.test.sdo.library.Book#getCategory()
    * @see #getBook()
    * @generated
    */
   EAttribute getBook_Category();
 
   /**
-   * Returns the meta object for the reference '{@link org.eclipse.example.library.Book#getAuthor <em>Author</em>}'.
+   * Returns the meta object for the reference '{@link org.eclipse.emf.test.sdo.library.Book#getAuthor <em>Author</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the reference '<em>Author</em>'.
-   * @see org.eclipse.example.library.Book#getAuthor()
+   * @see org.eclipse.emf.test.sdo.library.Book#getAuthor()
    * @see #getBook()
    * @generated
    */
   EReference getBook_Author();
 
   /**
-   * Returns the meta object for class '{@link org.eclipse.example.library.Library <em>Library</em>}'.
+   * Returns the meta object for class '{@link org.eclipse.emf.test.sdo.library.Library <em>Library</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for class '<em>Library</em>'.
-   * @see org.eclipse.example.library.Library
+   * @see org.eclipse.emf.test.sdo.library.Library
    * @generated
    */
   EClass getLibrary();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.example.library.Library#getName <em>Name</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.library.Library#getName <em>Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Name</em>'.
-   * @see org.eclipse.example.library.Library#getName()
+   * @see org.eclipse.emf.test.sdo.library.Library#getName()
    * @see #getLibrary()
    * @generated
    */
   EAttribute getLibrary_Name();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.eclipse.example.library.Library#getWriters <em>Writers</em>}'.
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.test.sdo.library.Library#getWriters <em>Writers</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference list '<em>Writers</em>'.
-   * @see org.eclipse.example.library.Library#getWriters()
+   * @see org.eclipse.emf.test.sdo.library.Library#getWriters()
    * @see #getLibrary()
    * @generated
    */
   EReference getLibrary_Writers();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.eclipse.example.library.Library#getBooks <em>Books</em>}'.
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.test.sdo.library.Library#getBooks <em>Books</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference list '<em>Books</em>'.
-   * @see org.eclipse.example.library.Library#getBooks()
+   * @see org.eclipse.emf.test.sdo.library.Library#getBooks()
    * @see #getLibrary()
    * @generated
    */
   EReference getLibrary_Books();
 
   /**
-   * Returns the meta object for class '{@link org.eclipse.example.library.Writer <em>Writer</em>}'.
+   * Returns the meta object for class '{@link org.eclipse.emf.test.sdo.library.Writer <em>Writer</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for class '<em>Writer</em>'.
-   * @see org.eclipse.example.library.Writer
+   * @see org.eclipse.emf.test.sdo.library.Writer
    * @generated
    */
   EClass getWriter();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.example.library.Writer#getName <em>Name</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.test.sdo.library.Writer#getName <em>Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Name</em>'.
-   * @see org.eclipse.example.library.Writer#getName()
+   * @see org.eclipse.emf.test.sdo.library.Writer#getName()
    * @see #getWriter()
    * @generated
    */
   EAttribute getWriter_Name();
 
   /**
-   * Returns the meta object for the reference list '{@link org.eclipse.example.library.Writer#getBooks <em>Books</em>}'.
+   * Returns the meta object for the reference list '{@link org.eclipse.emf.test.sdo.library.Writer#getBooks <em>Books</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the reference list '<em>Books</em>'.
-   * @see org.eclipse.example.library.Writer#getBooks()
+   * @see org.eclipse.emf.test.sdo.library.Writer#getBooks()
    * @see #getWriter()
    * @generated
    */
   EReference getWriter_Books();
 
   /**
-   * Returns the meta object for enum '{@link org.eclipse.example.library.BookCategory <em>Book Category</em>}'.
+   * Returns the meta object for enum '{@link org.eclipse.emf.test.sdo.library.BookCategory <em>Book Category</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for enum '<em>Book Category</em>'.
-   * @see org.eclipse.example.library.BookCategory
+   * @see org.eclipse.emf.test.sdo.library.BookCategory
    * @generated
    */
   EEnum getBookCategory();
@@ -384,11 +384,11 @@ public interface LibraryPackage extends EPackage
   interface Literals
   {
     /**
-     * The meta object literal for the '{@link org.eclipse.example.library.impl.BookImpl <em>Book</em>}' class.
+     * The meta object literal for the '{@link org.eclipse.emf.test.sdo.library.impl.BookImpl <em>Book</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.eclipse.example.library.impl.BookImpl
-     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getBook()
+     * @see org.eclipse.emf.test.sdo.library.impl.BookImpl
+     * @see org.eclipse.emf.test.sdo.library.impl.LibraryPackageImpl#getBook()
      * @generated
      */
     EClass BOOK = eINSTANCE.getBook();
@@ -426,11 +426,11 @@ public interface LibraryPackage extends EPackage
     EReference BOOK__AUTHOR = eINSTANCE.getBook_Author();
 
     /**
-     * The meta object literal for the '{@link org.eclipse.example.library.impl.LibraryImpl <em>Library</em>}' class.
+     * The meta object literal for the '{@link org.eclipse.emf.test.sdo.library.impl.LibraryImpl <em>Library</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.eclipse.example.library.impl.LibraryImpl
-     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getLibrary()
+     * @see org.eclipse.emf.test.sdo.library.impl.LibraryImpl
+     * @see org.eclipse.emf.test.sdo.library.impl.LibraryPackageImpl#getLibrary()
      * @generated
      */
     EClass LIBRARY = eINSTANCE.getLibrary();
@@ -460,11 +460,11 @@ public interface LibraryPackage extends EPackage
     EReference LIBRARY__BOOKS = eINSTANCE.getLibrary_Books();
 
     /**
-     * The meta object literal for the '{@link org.eclipse.example.library.impl.WriterImpl <em>Writer</em>}' class.
+     * The meta object literal for the '{@link org.eclipse.emf.test.sdo.library.impl.WriterImpl <em>Writer</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.eclipse.example.library.impl.WriterImpl
-     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getWriter()
+     * @see org.eclipse.emf.test.sdo.library.impl.WriterImpl
+     * @see org.eclipse.emf.test.sdo.library.impl.LibraryPackageImpl#getWriter()
      * @generated
      */
     EClass WRITER = eINSTANCE.getWriter();
@@ -486,11 +486,11 @@ public interface LibraryPackage extends EPackage
     EReference WRITER__BOOKS = eINSTANCE.getWriter_Books();
 
     /**
-     * The meta object literal for the '{@link org.eclipse.example.library.BookCategory <em>Book Category</em>}' enum.
+     * The meta object literal for the '{@link org.eclipse.emf.test.sdo.library.BookCategory <em>Book Category</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.eclipse.example.library.BookCategory
-     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getBookCategory()
+     * @see org.eclipse.emf.test.sdo.library.BookCategory
+     * @see org.eclipse.emf.test.sdo.library.impl.LibraryPackageImpl#getBookCategory()
      * @generated
      */
     EEnum BOOK_CATEGORY = eINSTANCE.getBookCategory();

@@ -12,7 +12,7 @@
   <staticPackages>http://www.eclipse.org/emf/2003/SDO</staticPackages>
   <modelPluginVariables>EMF_COMMONJ_SDO=org.eclipse.emf.commonj.sdo</modelPluginVariables>
   <modelPluginVariables>EMF_ECORE_SDO=org.eclipse.emf.ecore.sdo</modelPluginVariables>
-  <genPackages prefix="Library" basePackage="org.eclipse.example" ecorePackage="library.ecore#/">
+  <genPackages prefix="Library" basePackage="org.eclipse.emf.test.sdo" ecorePackage="library.ecore#/">
     <genEnums ecoreEnum="library.ecore#//BookCategory">
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//BookCategory/Mystery"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//BookCategory/ScienceFiction"/>

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: LibraryPackageImpl.java,v 1.3 2006/12/30 03:44:07 marcelop Exp $
+ * $Id: LibraryPackageImpl.java,v 1.1 2007/01/13 17:45:29 marcelop Exp $
  */
-package org.eclipse.example.library.impl;
+package org.eclipse.emf.test.sdo.library.impl;
 
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -24,13 +24,13 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.test.sdo.library.Book;
+import org.eclipse.emf.test.sdo.library.BookCategory;
+import org.eclipse.emf.test.sdo.library.Library;
+import org.eclipse.emf.test.sdo.library.LibraryFactory;
+import org.eclipse.emf.test.sdo.library.LibraryPackage;
+import org.eclipse.emf.test.sdo.library.Writer;
 
-import org.eclipse.example.library.Book;
-import org.eclipse.example.library.BookCategory;
-import org.eclipse.example.library.Library;
-import org.eclipse.example.library.LibraryFactory;
-import org.eclipse.example.library.LibraryPackage;
-import org.eclipse.example.library.Writer;
 
 
 /**
@@ -80,7 +80,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see org.eclipse.emf.ecore.EPackage.Registry
-   * @see org.eclipse.example.library.LibraryPackage#eNS_URI
+   * @see org.eclipse.emf.test.sdo.library.LibraryPackage#eNS_URI
    * @see #init()
    * @generated
    */

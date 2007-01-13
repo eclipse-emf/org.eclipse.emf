@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: LibraryFactoryImpl.java,v 1.3 2006/12/30 03:44:07 marcelop Exp $
+ * $Id: LibraryFactoryImpl.java,v 1.1 2007/01/13 17:45:29 marcelop Exp $
  */
-package org.eclipse.example.library.impl;
+package org.eclipse.emf.test.sdo.library.impl;
 
 
 import org.eclipse.emf.ecore.EClass;
@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.example.library.*;
+import org.eclipse.emf.test.sdo.library.*;
 
 
 /**
