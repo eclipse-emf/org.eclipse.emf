@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CrossResourceReferencesTest.java,v 1.4 2006/12/30 03:43:43 marcelop Exp $
+ * $Id: CrossResourceReferencesTest.java,v 1.5 2007/01/13 17:45:58 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -29,10 +29,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
-import org.eclipse.example.library.Book;
-import org.eclipse.example.library.LibraryFactory;
-import org.eclipse.example.library.LibraryPackage;
-import org.eclipse.example.library.Writer;
+import org.eclipse.emf.test.xml.library.Book;
+import org.eclipse.emf.test.xml.library.LibraryFactory;
+import org.eclipse.emf.test.xml.library.LibraryPackage;
+import org.eclipse.emf.test.xml.library.Writer;
 
 
 /**

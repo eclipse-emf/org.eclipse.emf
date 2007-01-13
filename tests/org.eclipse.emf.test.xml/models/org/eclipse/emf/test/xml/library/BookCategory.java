@@ -1,20 +1,20 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
+ * 
+ * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id$
+ * $Id: BookCategory.java,v 1.1 2007/01/13 17:45:58 marcelop Exp $
  */
-package org.eclipse.example.library;
+ package org.eclipse.emf.test.xml.library;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,7 +27,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Book Category</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see org.eclipse.example.library.LibraryPackage#getBookCategory()
+ * @see org.eclipse.emf.test.xml.library.LibraryPackage#getBookCategory()
  * @model
  * @generated
  */
@@ -42,6 +42,7 @@ public enum BookCategory implements Enumerator
    * @ordered
    */
   MYSTERY(0, "Mystery", "Mystery"),
+
   /**
    * The '<em><b>Science Fiction</b></em>' literal object.
    * <!-- begin-user-doc -->
@@ -51,6 +52,7 @@ public enum BookCategory implements Enumerator
    * @ordered
    */
   SCIENCE_FICTION(1, "ScienceFiction", "ScienceFiction"),
+
   /**
    * The '<em><b>Biography</b></em>' literal object.
    * <!-- begin-user-doc -->
@@ -60,6 +62,7 @@ public enum BookCategory implements Enumerator
    * @ordered
    */
   BIOGRAPHY(2, "Biography", "Biography");
+
   /**
    * The '<em><b>Mystery</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -257,4 +260,5 @@ public enum BookCategory implements Enumerator
   {
     return literal;
   }
-}
+  
+} //BookCategory

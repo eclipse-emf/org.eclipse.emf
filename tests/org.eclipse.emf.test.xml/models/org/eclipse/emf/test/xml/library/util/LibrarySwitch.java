@@ -1,27 +1,27 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
+ * 
+ * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id$
+ * $Id: LibrarySwitch.java,v 1.1 2007/01/13 17:45:58 marcelop Exp $
  */
-package org.eclipse.example.library.util;
+package org.eclipse.emf.test.xml.library.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import org.eclipse.example.library.*;
+import org.eclipse.emf.test.xml.library.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,7 +33,7 @@ import org.eclipse.example.library.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.eclipse.example.library.LibraryPackage
+ * @see org.eclipse.emf.test.xml.library.LibraryPackage
  * @generated
  */
 public class LibrarySwitch<T>

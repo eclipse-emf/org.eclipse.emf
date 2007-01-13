@@ -5,7 +5,7 @@
     editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.test.xml" modelName="Library"
     testsDirectory="" importerID="org.eclipse.emf.importer.rose" complianceLevel="5.0">
   <foreignModel>..\data\library.mdl</foreignModel>
-  <genPackages prefix="Library" basePackage="org.eclipse.example" disposableProviderFactory="true"
+  <genPackages prefix="Library" basePackage="org.eclipse.emf.test.xml" disposableProviderFactory="true"
       ecorePackage="library.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//BookCategory">
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//BookCategory/Mystery"/>

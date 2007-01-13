@@ -1,20 +1,20 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
+ * 
+ * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id$
+ * $Id: LibraryAdapterFactory.java,v 1.1 2007/01/13 17:45:58 marcelop Exp $
  */
-package org.eclipse.example.library.util;
+package org.eclipse.emf.test.xml.library.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -23,14 +23,14 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import org.eclipse.example.library.*;
+import org.eclipse.emf.test.xml.library.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.eclipse.example.library.LibraryPackage
+ * @see org.eclipse.emf.test.xml.library.LibraryPackage
  * @generated
  */
 public class LibraryAdapterFactory extends AdapterFactoryImpl
@@ -126,13 +126,13 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
 
 
   /**
-   * Creates a new adapter for an object of class '{@link org.eclipse.example.library.Book <em>Book</em>}'.
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.xml.library.Book <em>Book</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.eclipse.example.library.Book
+   * @see org.eclipse.emf.test.xml.library.Book
    * @generated
    */
   public Adapter createBookAdapter()
@@ -141,13 +141,13 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.eclipse.example.library.Library <em>Library</em>}'.
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.xml.library.Library <em>Library</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.eclipse.example.library.Library
+   * @see org.eclipse.emf.test.xml.library.Library
    * @generated
    */
   public Adapter createLibraryAdapter()
@@ -156,13 +156,13 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.eclipse.example.library.Writer <em>Writer</em>}'.
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.test.xml.library.Writer <em>Writer</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.eclipse.example.library.Writer
+   * @see org.eclipse.emf.test.xml.library.Writer
    * @generated
    */
   public Adapter createWriterAdapter()
