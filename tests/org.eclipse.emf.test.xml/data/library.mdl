@@ -57,7 +57,11 @@
 		    (object Attribute
 			tool       	"Ecore"
 			name       	"basePackage"
-			value      	"org.eclipse.example"))
+			value      	"org.eclipse.emf.test.xml")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"nsURI"
+			value      	"http://org.eclipse.emf.test.xml/library.ecore"))
 		quid       	"40C81E120060"
 		exportControl 	"Public"
 		logical_models 	(list unit_reference_list
@@ -186,14 +190,6 @@
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"40C81E9800FF"
-				compartment 	(object Compartment
-				    Parent_View 	@1
-				    location   	(909, 200)
-				    icon_style 	"Icon"
-				    fill_color 	13434879
-				    anchor     	2
-				    nlines     	3
-				    max_width  	278)
 				width      	344
 				height     	292
 				autoResize 	TRUE)
@@ -214,14 +210,6 @@
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"40C81E6102FA"
-				compartment 	(object Compartment
-				    Parent_View 	@2
-				    location   	(100, 651)
-				    icon_style 	"Icon"
-				    fill_color 	13434879
-				    anchor     	2
-				    nlines     	2
-				    max_width  	253)
 				width      	266
 				height     	186
 				autoResize 	TRUE)
@@ -242,14 +230,6 @@
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"40C81E4B028D"
-				compartment 	(object Compartment
-				    Parent_View 	@3
-				    location   	(436, 155)
-				    icon_style 	"Icon"
-				    fill_color 	13434879
-				    anchor     	2
-				    nlines     	2
-				    max_width  	253)
 				width      	266
 				height     	186
 				autoResize 	TRUE)
@@ -273,7 +253,7 @@
 					location   	(88, -345)
 					label      	(object SegLabel @7
 					    Parent_View 	@6
-					    location   	(236, 505)
+					    location   	(234, 506)
 					    anchor     	1
 					    anchor_loc 	1
 					    nlines     	1
@@ -291,7 +271,7 @@
 					line_style 	0
 					label      	(object SegLabel @8
 					    Parent_View 	@6
-					    location   	(403, 521)
+					    location   	(402, 522)
 					    anchor     	2
 					    anchor_loc 	1
 					    nlines     	1
@@ -318,14 +298,6 @@
 				line_color 	3342489
 				fill_color 	13434879
 				quidu      	"40C81E700047"
-				compartment 	(object Compartment
-				    Parent_View 	@9
-				    location   	(782, 601)
-				    icon_style 	"Icon"
-				    fill_color 	13434879
-				    anchor     	2
-				    nlines     	4
-				    max_width  	450)
 				width      	470
 				height     	286
 				autoResize 	TRUE)

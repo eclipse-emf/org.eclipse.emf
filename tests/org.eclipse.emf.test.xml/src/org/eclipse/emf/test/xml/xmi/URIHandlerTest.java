@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIHandlerTest.java,v 1.3 2007/01/13 17:45:58 marcelop Exp $
+ * $Id: URIHandlerTest.java,v 1.4 2007/01/13 18:23:44 marcelop Exp $
  */
 
 package org.eclipse.emf.test.xml.xmi;
@@ -150,14 +150,14 @@ public class URIHandlerTest extends TestCase
     mainLibraryResource.save(new URIConverter.WriteableOutputStream(mainWriter, "UTF-8"), null);
     assertEquals
       ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + LF +
-         "<!DOCTYPE org.eclipse.example.library:Library [" + LF +
+         "<!DOCTYPE org.eclipse.emf.test.xml.library:Library [" + LF +
          "<!ENTITY first \"../first.library\">" + LF +
          "<!ENTITY second \"../second.library\">" + LF +
          "]>" + LF +
-         "<org.eclipse.example.library:Library xmlns:org.eclipse.example.library=\"http:///org/eclipse/example/library.ecore\" name=\"main\">" + LF +
+         "<org.eclipse.emf.test.xml.library:Library xmlns:org.eclipse.emf.test.xml.library=\"http://org.eclipse.emf.test.xml/library.ecore\" name=\"main\">" + LF +
          "  <writers name=\"First Author\" books=\"&first;#//@books.0\"/>" + LF +
          "  <writers name=\"Second Author\" books=\"&second;#//@books.0\"/>" + LF +
-         "</org.eclipse.example.library:Library>" + LF,
+         "</org.eclipse.emf.test.xml.library:Library>" + LF,
         mainWriter.toString());
     
     Document document = mainLibraryResource.save(null, null, null);
@@ -167,10 +167,10 @@ public class URIHandlerTest extends TestCase
     transformer.transform(new DOMSource(document), new StreamResult(mainWriter));
     assertEquals
       ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-         "<org.eclipse.example.library:Library xmlns:org.eclipse.example.library=\"http:///org/eclipse/example/library.ecore\" name=\"main\">" +
+         "<org.eclipse.emf.test.xml.library:Library xmlns:org.eclipse.emf.test.xml.library=\"http://org.eclipse.emf.test.xml/library.ecore\" name=\"main\">" +
          "<writers books=\"../first.library#//@books.0\" name=\"First Author\"/>" +
          "<writers books=\"../second.library#//@books.0\" name=\"Second Author\"/>" +
-         "</org.eclipse.example.library:Library>",
+         "</org.eclipse.emf.test.xml.library:Library>",
         mainWriter.toString());
     
     Resource reloadedMainLibraryResource = resourceSet.createResource(URI.createFileURI(BASE_XML_URI + "/vault/main2.library"));
