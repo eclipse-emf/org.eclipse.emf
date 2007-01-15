@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.10 2006/12/28 16:51:02 marcelop Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.11 2007/01/15 00:04:31 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -548,10 +548,10 @@ public class ModelConverterPackagePage extends ModelConverterPage
     referencedGenModelsLabel.setText(getReferencedGenModelsLabel());
     referencedGenModelsLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-    Button referencedGenModelsBrowseButton = new Button(composite, SWT.PUSH);
-    referencedGenModelsBrowseButton.setText(getBrowseButtonLabel());
-    referencedGenModelsBrowseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-    referencedGenModelsBrowseButton.addSelectionListener(new SelectionAdapter()
+    Button referencedGenModelsAddButton = new Button(composite, SWT.PUSH);
+    referencedGenModelsAddButton.setText(getBrowseButtonLabel());
+    referencedGenModelsAddButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+    referencedGenModelsAddButton.addSelectionListener(new SelectionAdapter()
       {
         @Override
         public void widgetSelected(SelectionEvent event)
@@ -662,6 +662,12 @@ public class ModelConverterPackagePage extends ModelConverterPage
     return new AdapterFactoryLabelProvider(adapterFactory)
     {
       @Override
+      public String getColumnText(Object object, int columnIndex)
+      {
+        return getLabel(object, super.getColumnText(object, 0));
+      }
+      
+      @Override
       public String getText(Object element)
       {
         return getLabel(element, super.getText(element));
@@ -682,12 +688,11 @@ public class ModelConverterPackagePage extends ModelConverterPage
       if (uri != null)
       {
         String location = uri.toString();
-  
-        if (uri.isPlatform())
+        boolean plugin = uri.isPlatformPlugin();
+        if (plugin || uri.isPlatformResource())
         {
-          boolean plugin = "plugin".equals(uri.segment(0));
-          String type = ConverterPlugin.INSTANCE.getString(plugin ? "_UI_PlatformPlugin_label" : "_UI_PlatformResource_label");
-          location = ConverterPlugin.INSTANCE.getString("_UI_PlatformLocation_label", new Object [] { type, uri.segment(1) });
+          String segment = uri.segment(1);
+          location = ConverterPlugin.INSTANCE.getString(plugin ? "_UI_PlatformPlugin_label" : "_UI_PlatformResource_label", new String[]{segment});
         }
         return ConverterPlugin.INSTANCE.getString("_UI_ReferencedGenModel_label", new Object [] { defaultText, location });
       }
@@ -704,7 +709,17 @@ public class ModelConverterPackagePage extends ModelConverterPage
     return genPackage.getInterfacePackageName();
   }
   
+  /**
+   * @deprecated in 2.3.0.  Use {@link #referencedGenModelsAddSelected(CheckboxTreeViewer)} 
+   * instead.  This method will be remove in future versions of the code.
+   */
+  @Deprecated
   protected void referencedGenModelsBrowseSelected(CheckboxTreeViewer treeViewer)
+  {
+    referencedGenModelsAddSelected(treeViewer);
+  }
+  
+  protected void referencedGenModelsAddSelected(CheckboxTreeViewer treeViewer)
   {
     IPath path = null;
     Resource resource = getModelConverter().getGenModel().eResource();
@@ -716,7 +731,30 @@ public class ModelConverterPackagePage extends ModelConverterPage
       }
     }
     final IPath genModelPath = path;
-    
+
+    ResourceSet resourceSet = null;
+    List<GenModel> genModels = new UniqueEList.FastCompare<GenModel>();
+    final Set<URI> genModelURIs = new HashSet<URI>();
+    Object input = treeViewer.getInput();
+    if (input instanceof ItemProvider)
+    {
+      Collection<?> elements = ((ItemProvider)input).getChildren();
+      for (Object element : elements)
+      {
+        if (element instanceof GenModel)
+        {
+          GenModel genModel = (GenModel)element;
+          URI genModelURI = genModel.eResource().getURI();
+          genModels.add(genModel);
+          genModelURIs.add(genModelURI);
+          if (resourceSet == null && genModelURI.isPlatformResource())
+          {
+            resourceSet = genModel.eResource().getResourceSet();
+          }
+        }
+      }
+    }
+        
     ViewerFilter genModelFilter = new ViewerFilter()
     {
       @Override
@@ -725,8 +763,10 @@ public class ModelConverterPackagePage extends ModelConverterPage
         if (element instanceof IFile)
         {
           IFile file = (IFile)element;
+          URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
           return "genmodel".equals(file.getFileExtension())
-            && !file.getFullPath().equals(genModelPath);
+            && !file.getFullPath().equals(genModelPath)
+            && !genModelURIs.contains(uri);
         }
         return true;
       }
@@ -738,8 +778,10 @@ public class ModelConverterPackagePage extends ModelConverterPage
          
     if (files.length > 0)
     {
-      ResourceSet referencedGenModels = getModelConverter().createResourceSet();
-      List<GenModel> genModels = new UniqueEList.FastCompare<GenModel>();
+      ResourceSet referencedGenModels = resourceSet != null ?
+        resourceSet :
+        getModelConverter().createResourceSet();
+      
       for (int i = 0; i < files.length; ++i)
       {
         URI genModelURI = URI.createPlatformResourceURI(files[i].getFullPath().toString(), true);
@@ -774,6 +816,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
         }
       }
       treeViewer.getTree().deselectAll();
+      treeViewer.cancelEditing();
       treeViewer.setInput(new ItemProvider(genModels));
       for (Iterator<?> i = genModels.iterator(); i.hasNext();)
       {
@@ -798,9 +841,19 @@ public class ModelConverterPackagePage extends ModelConverterPage
     }
   }
 
+  protected String getAddButtonLabel()
+  {
+    return ConverterPlugin.INSTANCE.getString("_UI_Add_label");
+  }
+
+  /**
+   * @deprecated in 2.3.0.  Use {@link #getAddButtonLabel()} instead.  This
+   * method will be remove in future versions of the code.
+   */
+  @Deprecated
   protected String getBrowseButtonLabel()
   {
-    return ConverterPlugin.INSTANCE.getString("_UI_Browse_label");
+    return getAddButtonLabel();
   }
 
   protected String getReferencedGenModelsLabel()
