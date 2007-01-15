@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.31 2007/01/15 21:34:30 marcelop Exp $
+ * $Id: EClassImpl.java,v 1.32 2007/01/15 21:35:00 marcelop Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
