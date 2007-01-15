@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreTest.java,v 1.1 2007/01/09 06:06:54 davidms Exp $
+ * $Id: EcoreTest.java,v 1.2 2007/01/15 21:37:27 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 public class EcoreTest extends TestCase
@@ -56,7 +57,8 @@ public class EcoreTest extends TestCase
   {
     TestSuite ts = new TestSuite("EcoreTest");
     ts.addTest(new EcoreTest("testCreateAnnotationOnInitialization"));
-    //ts.addTest(new EcoreTest("testESuperTypeNotificationCount"));
+    ts.addTest(new EcoreTest("testESuperTypeNotificationCount"));
+    ts.addTest(new EcoreTest("testEExceptionNotificationCount"));
     return ts;
   }
 
@@ -72,6 +74,9 @@ public class EcoreTest extends TestCase
     assertEquals("true", annotation.getDetails().get("Test"));
   }
 
+  /*
+   * Bugzilla 170549
+   */
   public void testESuperTypeNotificationCount() throws Exception
   {
     EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
@@ -84,6 +89,25 @@ public class EcoreTest extends TestCase
     eClass2.eAdapters().add(notificationCollector);
     
     eClass2.getESuperTypes().add(eClass1);
+    
+    assertEquals(2, notificationCollector.getNotifications().size());
+  }
+  
+  /*
+   * Bugzilla 170549
+   */
+  public void testEExceptionNotificationCount() throws Exception
+  {
+    EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
+    eOperation.setName("operation");
+    EClass aException = EcoreFactory.eINSTANCE.createEClass();
+    aException.setName("AException");
+    
+    NotificationCollector notificationCollector = new NotificationCollector();    
+    eOperation.eAdapters().add(notificationCollector);
+    aException.eAdapters().add(notificationCollector);
+    
+    eOperation.getEExceptions().add(aException);
     
     assertEquals(2, notificationCollector.getNotifications().size());
   }
