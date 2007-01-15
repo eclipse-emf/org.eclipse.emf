@@ -15,7 +15,7 @@
    </license>
 
    <url>
-      <update label="%EMFUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
+      <update label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/updates/"/>
       <discovery label="%EMFTUpdateSiteName" url="http://download.eclipse.org/technology/emft/updates/"/>
    </url>
 
