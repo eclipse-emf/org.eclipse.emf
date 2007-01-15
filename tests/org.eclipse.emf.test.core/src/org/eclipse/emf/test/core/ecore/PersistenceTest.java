@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.9 2006/12/29 21:49:52 marcelop Exp $
+ * $Id: PersistenceTest.java,v 1.10 2007/01/15 22:23:56 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -42,6 +42,9 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.change.ChangePackage;
+import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -49,6 +52,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
@@ -84,6 +88,8 @@ public class PersistenceTest extends TestCase
     ts.addTest(new PersistenceTest("testCrossResourceContainment_Dynamic_ResourceSet"));
     ts.addTest(new PersistenceTest("testCrossResourceContainment_Static_ResourceSet"));
     ts.addTest(new PersistenceTest("testCrossResourceContainment_RemoveChild"));
+    ts.addTest(new PersistenceTest("testPluginURINotRelative"));
+    ts.addTest(new PersistenceTest("testReferenceEcoreUsingNSURI"));
     return ts;
   }
   
@@ -769,5 +775,100 @@ public class PersistenceTest extends TestCase
     assertEquals(library, book.eContainer());
     assertEquals(libResource, library.eResource());
     assertEquals(bookResource, book.eResource());
+  }
+  
+  /*
+   * Bugzilla 169308
+   */
+  public void testPluginURINotRelative() throws Exception
+  {
+    Resource.Factory ecoreResourceFactory = new EcoreResourceFactoryImpl();
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", ecoreResourceFactory);
+    
+    URI localPluginURI = URI.createFileURI(new File(TestUtil.getPluginDirectory()).getAbsoluteFile().getParent() + "/");
+    URI pluginURI = URI.createURI("platform:/plugin/", false);    
+    resourceSet.getURIConverter().getURIMap().put(pluginURI, localPluginURI);
+    
+    URI changeURI = URI.createPlatformPluginURI("/org.eclipse.emf.ecore.change/model/Change.ecore", false);
+    Resource changeResource = resourceSet.getResource(changeURI, true);
+    EPackage changePackage = (EPackage)changeResource.getContents().get(0); 
+    
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("example");
+    pack.setNsPrefix("example");
+    pack.setNsURI("http://org.eclipse.emf.example");
+    
+    EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(eClass);
+    eClass.setName("Monitor");
+    
+    EReference eReference = EcoreFactory.eINSTANCE.createEReference();
+    eClass.getEStructuralFeatures().add(eReference);
+    eReference.setName("change");
+    eReference.setEType(changePackage.getEClassifier("ChangeDescription"));
+    
+    URI modelURI = URI.createPlatformResourceURI("/myProject/model/model.ecore", false);
+    Resource modelResource = resourceSet.createResource(modelURI);
+    modelResource.getContents().add(pack);
+    
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    modelResource.save(baos, null);
+    String contents = new String(baos.toByteArray());
+    assertFalse(contents, contents.contains("../plugin"));
+    //System.out.println(contents);
+    
+    modelResource = ecoreResourceFactory.createResource(URI.createPlatformResourceURI("/myNewProject/model.ecore", false));
+    modelResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
+    EPackage loadedEPackage = (EPackage)modelResource.getContents().get(0);
+    EClass loadedEClass = (EClass)loadedEPackage.eContents().get(0);
+    EReference loadedEReference = (EReference)loadedEClass.eContents().get(0);
+    EObject loadedEReferenceType = ((EReferenceImpl)loadedEReference).basicGetEType();
+    
+    assertTrue(loadedEReferenceType.eIsProxy());
+    URI proxyURI = ((InternalEObject)loadedEReferenceType).eProxyURI();
+    assertTrue(proxyURI.toString(), proxyURI.isPlatformPlugin());
+  }
+
+  public void testReferenceEcoreUsingNSURI() throws Exception
+  {
+    Resource.Factory ecoreResourceFactory = new EcoreResourceFactoryImpl();
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", ecoreResourceFactory);
+    
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("example");
+    pack.setNsPrefix("example");
+    pack.setNsURI("http://org.eclipse.emf.example");
+    
+    EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(eClass);
+    eClass.setName("Monitor");
+    
+    EReference eReference = EcoreFactory.eINSTANCE.createEReference();
+    eClass.getEStructuralFeatures().add(eReference);
+    eReference.setName("change");
+    eReference.setEType(ChangePackage.Literals.CHANGE_DESCRIPTION);
+    
+    URI modelURI = URI.createPlatformResourceURI("/myProject/model/model.ecore", false);
+    Resource modelResource = resourceSet.createResource(modelURI);
+    modelResource.getContents().add(pack);
+    
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    modelResource.save(baos, null);
+    String contents = new String(baos.toByteArray());
+    assertFalse(contents, contents.contains("../plugin"));
+    
+    modelResource = ecoreResourceFactory.createResource(URI.createPlatformResourceURI("/myNewProject/model.ecore", false));
+    modelResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
+    EPackage loadedEPackage = (EPackage)modelResource.getContents().get(0);
+    EClass loadedEClass = (EClass)loadedEPackage.eContents().get(0);
+    EReference loadedEReference = (EReference)loadedEClass.eContents().get(0);
+    EObject loadedEReferenceType = ((EReferenceImpl)loadedEReference).basicGetEType();
+    
+    assertTrue(loadedEReferenceType.eIsProxy());
+    URI proxyURI = ((InternalEObject)loadedEReferenceType).eProxyURI();
+    assertFalse(proxyURI.toString(), proxyURI.isPlatformPlugin());
+    assertFalse(proxyURI.toString(), proxyURI.isRelative());
   }
 }
