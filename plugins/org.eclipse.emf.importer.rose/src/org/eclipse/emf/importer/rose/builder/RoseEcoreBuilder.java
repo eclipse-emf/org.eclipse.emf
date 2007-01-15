@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.16 2006/12/28 06:56:06 marcelop Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.17 2007/01/15 21:10:46 davidms Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -90,6 +90,11 @@ public class RoseEcoreBuilder implements RoseVisitor
   protected EGenericType eGenericType2;
   
   protected Set<EAttribute> attributesToConvert = new HashSet<EAttribute>();
+
+  // This could potentially map every created model element to its corresponding Rose node.
+  // However, for now we're only using it as needed.
+  //
+  protected Map<EModelElement, RoseNode> eModelElementToRoseNodeMap = new HashMap<EModelElement, RoseNode>();
 
   public RoseEcoreBuilder(RoseUtil roseUtil)
   {
@@ -516,6 +521,13 @@ public class RoseEcoreBuilder implements RoseVisitor
         if (eAttribute.getUpperBound() == 0)
         {
           eAttribute.setUpperBound(1);
+        }
+
+        // We will need to check the containment if we have to convert the EAttribute to an EReference later. 
+        //
+        if (roseNode.getContainment() != null)
+        {
+          eModelElementToRoseNodeMap.put(eAttribute, roseNode);
         }
 
         // Convert to an EReference.
@@ -2183,6 +2195,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       {
         EAttribute eAttribute = (EAttribute)element;
         EReference eReference = EcoreFactory.eINSTANCE.createEReference();
+        RoseNode roseNode = eModelElementToRoseNodeMap.remove(eAttribute);
 
         eReference.setName(eAttribute.getName());
         eReference.setTransient(eAttribute.isTransient());
@@ -2191,7 +2204,7 @@ public class RoseEcoreBuilder implements RoseVisitor
         eReference.setChangeable(eAttribute.isChangeable());
         eReference.setLowerBound(eAttribute.getLowerBound());
         eReference.setUpperBound(eAttribute.getUpperBound());
-        eReference.setContainment(true);
+        eReference.setContainment(roseNode == null || !"by reference".equalsIgnoreCase(roseNode.getContainment()));
         eReference.setResolveProxies(false);
         eReference.getEAnnotations().addAll(eAttribute.getEAnnotations());
         eReference.setUnsettable(eAttribute.isUnsettable());
