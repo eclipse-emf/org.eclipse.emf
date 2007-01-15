@@ -55,4 +55,8 @@
          id="org.eclipse.emf.ecore.sdo.doc"
          version="0.0.0"/>
 
+   <requires>
+      <import feature="org.eclipse.platform" version="3.3.0.v20061208-Fj22sCYGm0XDWm3" match="compatible"/>
+   </requires>
+
 </feature>
