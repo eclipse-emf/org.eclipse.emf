@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.11 2007/01/15 00:04:31 marcelop Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.12 2007/01/15 00:11:14 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -691,7 +691,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
         boolean plugin = uri.isPlatformPlugin();
         if (plugin || uri.isPlatformResource())
         {
-          String segment = uri.segment(1);
+          String segment = URI.decode(uri.segment(1));
           location = ConverterPlugin.INSTANCE.getString(plugin ? "_UI_PlatformPlugin_label" : "_UI_PlatformResource_label", new String[]{segment});
         }
         return ConverterPlugin.INSTANCE.getString("_UI_ReferencedGenModel_label", new Object [] { defaultText, location });
