@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.15 2006/12/29 21:49:52 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.16 2007/01/15 21:50:19 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -36,9 +36,12 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -88,7 +91,13 @@ extends TestCase
   
   public static Test suite(boolean callSummarize)
   {
-    TestSuite ts = new TestSuite("ChangeReportTest - callSummarize:" + callSummarize);
+    String name = "ChangeReportTest";
+    if (callSummarize)
+    {
+      name = name + " - callSummarize:" + callSummarize;
+    }
+    
+    TestSuite ts = new TestSuite(name);
     ts.addTest(new ChangeRecordTest("testResource", callSummarize));
     ts.addTest(new ChangeRecordTest("testAttribute", callSummarize));
     ts.addTest(new ChangeRecordTest("testReuse", callSummarize));
@@ -100,11 +109,18 @@ extends TestCase
     ts.addTest(new ChangeRecordTest("testApplyAndReverse", callSummarize));
     ts.addTest(new ChangeRecordTest("testResumeRecording", callSummarize));
     ts.addTest(new ChangeRecordTest("testResumeSerializedRecording", callSummarize));
-    ts.addTest(new ChangeRecordTest("testResourceSetChanges1"));
-    ts.addTest(new ChangeRecordTest("testResourceSetChanges2"));
-    ts.addTest(new ChangeRecordTest("testResourceSetChanges3"));
-    ts.addTest(new ChangeRecordTest("testUnsettableList"));
-    ts.addTest(new ChangeRecordTest("testMultipleLoads"));
+    if (!callSummarize)
+    {
+      ts.addTest(new ChangeRecordTest("testResourceSetChanges1"));
+      ts.addTest(new ChangeRecordTest("testResourceSetChanges2"));
+      ts.addTest(new ChangeRecordTest("testResourceSetChanges3"));
+      ts.addTest(new ChangeRecordTest("testUnsettableList"));
+      ts.addTest(new ChangeRecordTest("testMultipleLoads"));
+      ts.addTest(new ChangeRecordTest("testESuperTypes"));
+      ts.addTest(new ChangeRecordTest("testEGenericSuperTypes1"));
+      ts.addTest(new ChangeRecordTest("testEType"));
+      ts.addTest(new ChangeRecordTest("testEException"));
+    }
     return ts;
   }
   
@@ -1178,4 +1194,206 @@ extends TestCase
     assertTrue(changeRecorder.getOriginalTargetObjects().contains(resource3));
     assertTrue(changeRecorder.getOriginalTargetObjects().contains(cClass));
   }
+  
+  /*
+   * Bugzilla 168891
+   */
+  public void testESuperTypes() throws Exception
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    Resource res1 = resourceSet.createResource(URI.createURI("null://res1.ecore")); //$NON-NLS-1$
+    Resource res2 = resourceSet.createResource(URI.createURI("null://res2.ecore")); //$NON-NLS-1$
+    
+    EPackage pkg1 = EcoreFactory.eINSTANCE.createEPackage();
+    pkg1.setName("package1"); //$NON-NLS-1$
+    EClass class1 = EcoreFactory.eINSTANCE.createEClass();
+    class1.setName("Class1"); //$NON-NLS-1$
+    EClass class2 = EcoreFactory.eINSTANCE.createEClass();
+    class2.setName("Class2"); //$NON-NLS-1$
+    
+    res1.getContents().add(pkg1);
+    pkg1.getEClassifiers().add(class1);
+    pkg1.getEClassifiers().add(class2);
+    res2.getContents().add(class2);
+    
+    // State 0
+    assertTrue(class2.getESuperTypes().isEmpty());
+    assertTrue(class2.getEGenericSuperTypes().isEmpty());
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    class2.getESuperTypes().add(class1);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    // State 1
+    assertEquals(1, class2.getESuperTypes().size());
+    assertEquals(class1, class2.getESuperTypes().get(0));
+    assertEquals(1, class2.getEGenericSuperTypes().size());
+    assertEquals(class1, class2.getEGenericSuperTypes().get(0).getEClassifier());
+    
+    changeDescription.applyAndReverse();
+    
+    // State 0
+    assertTrue(class2.getESuperTypes().isEmpty());
+    assertTrue(class2.getEGenericSuperTypes().isEmpty());
+    
+    changeDescription.applyAndReverse();
+    
+    // State 1
+    assertEquals(1, class2.getESuperTypes().size());
+    assertEquals(class1, class2.getESuperTypes().get(0));
+    assertEquals(1, class2.getEGenericSuperTypes().size());
+    assertEquals(class1, class2.getEGenericSuperTypes().get(0).getEClassifier());
+    
+    changeDescription.apply();
+
+    // State 0
+    assertTrue(class2.getESuperTypes().isEmpty());
+    assertTrue(class2.getEGenericSuperTypes().isEmpty());
+  }
+  
+  public void testEGenericSuperTypes1() throws Exception
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    Resource res1 = resourceSet.createResource(URI.createURI("null://res1.ecore")); //$NON-NLS-1$
+    Resource res2 = resourceSet.createResource(URI.createURI("null://res2.ecore")); //$NON-NLS-1$
+    
+    EPackage pkg1 = EcoreFactory.eINSTANCE.createEPackage();
+    pkg1.setName("package1"); //$NON-NLS-1$
+    EClass class1 = EcoreFactory.eINSTANCE.createEClass();
+    class1.setName("Class1"); //$NON-NLS-1$
+    ETypeParameter typeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
+    typeParameter.setName("E");
+    class1.getETypeParameters().add(typeParameter);
+    //
+    EClass class2 = EcoreFactory.eINSTANCE.createEClass();
+    class2.setName("Class2"); //$NON-NLS-1$
+    
+    res1.getContents().add(pkg1);
+    pkg1.getEClassifiers().add(class1);
+    pkg1.getEClassifiers().add(class2);
+    res2.getContents().add(class2);
+    
+    EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+    eGenericType.setEClassifier(class1);
+    EGenericType typeArgument = EcoreFactory.eINSTANCE.createEGenericType();
+    typeArgument.setEClassifier(EcorePackage.Literals.EBOOLEAN);
+    eGenericType.getETypeArguments().add(typeArgument);
+    
+    // State 0
+    assertTrue(class2.getESuperTypes().isEmpty());
+    assertTrue(class2.getEGenericSuperTypes().isEmpty());
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    class2.getEGenericSuperTypes().add(eGenericType);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    // State 1
+    assertEquals(1, class2.getESuperTypes().size());
+    assertEquals(class1, class2.getESuperTypes().get(0));
+    assertEquals(1, class2.getEGenericSuperTypes().size());
+    assertEquals(class1, class2.getEGenericSuperTypes().get(0).getEClassifier());
+    
+    changeDescription.applyAndReverse();
+    
+    // State 0
+    assertTrue(class2.getESuperTypes().isEmpty());
+    assertTrue(class2.getEGenericSuperTypes().isEmpty());
+    
+    changeDescription.applyAndReverse();
+    
+    // State 1
+    assertEquals(1, class2.getESuperTypes().size());
+    assertEquals(class1, class2.getESuperTypes().get(0));
+    assertEquals(1, class2.getEGenericSuperTypes().size());
+    assertEquals(class1, class2.getEGenericSuperTypes().get(0).getEClassifier());
+    
+    changeDescription.apply();
+
+    // State 0
+    assertTrue(class2.getESuperTypes().isEmpty());
+    assertTrue(class2.getEGenericSuperTypes().isEmpty());
+  }
+  
+  public void testEType() throws Exception
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    Resource res1 = resourceSet.createResource(URI.createURI("null://res1.ecore")); //$NON-NLS-1$
+    
+    EPackage pkg1 = EcoreFactory.eINSTANCE.createEPackage();
+    pkg1.setName("package1"); //$NON-NLS-1$
+    EClass class1 = EcoreFactory.eINSTANCE.createEClass();
+    class1.setName("Class1"); //$NON-NLS-1$
+    EAttribute att1 = EcoreFactory.eINSTANCE.createEAttribute();
+    att1.setName("att1");    
+    
+    res1.getContents().add(pkg1);
+    pkg1.getEClassifiers().add(class1);
+    class1.getEStructuralFeatures().add(att1);
+    
+    // State 0
+    assertNull(att1.getEType());
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    att1.setEType(EcorePackage.Literals.ESTRING);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    // State 1
+    assertEquals(EcorePackage.Literals.ESTRING, att1.getEType());
+    
+    changeDescription.applyAndReverse();
+    
+    // State 0
+    assertNull(att1.getEType());
+    
+    changeDescription.applyAndReverse();
+    
+    // State 1
+    assertEquals(EcorePackage.Literals.ESTRING, att1.getEType());
+    
+    changeDescription.apply();
+
+    // State 0
+    assertNull(att1.getEType());
+  }  
+
+  public void testEException() throws Exception
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    Resource res1 = resourceSet.createResource(URI.createURI("null://res1.ecore")); //$NON-NLS-1$
+    
+    EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
+    eOperation.setName("operation");
+    EClass aException = EcoreFactory.eINSTANCE.createEClass();
+    aException.setName("AException");
+    
+    res1.getContents().add(eOperation);
+    res1.getContents().add(aException);
+    
+    // State 0
+    assertTrue(eOperation.getEExceptions().isEmpty());
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    eOperation.getEExceptions().add(aException);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    // State 1
+    assertEquals(1, eOperation.getEExceptions().size());
+    assertEquals(aException, eOperation.getEExceptions().get(0));
+    
+    changeDescription.applyAndReverse();
+    
+    // State 0
+    assertTrue(eOperation.getEExceptions().isEmpty());
+    
+    changeDescription.applyAndReverse();
+    
+    // State 1
+    assertEquals(1, eOperation.getEExceptions().size());
+    assertEquals(aException, eOperation.getEExceptions().get(0));
+    
+    changeDescription.apply();
+
+    // State 0
+    assertTrue(eOperation.getEExceptions().isEmpty());
+  }  
 }
