@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.26 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.27 2007/01/15 21:49:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -29,8 +29,11 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.change.ChangeFactory;
 import org.eclipse.emf.ecore.change.ChangeKind;
@@ -602,7 +605,22 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     if (reverse)
     {
       EStructuralFeature feature = getFeature();
-      if (feature != null)
+      if (feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES)
+      {
+        newIsSet = !((EClass)originalObject).getEGenericSuperTypes().isEmpty();
+        newValue = null;
+      }
+      else if (feature == EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE)
+      {
+        newValue = ((ETypedElement)originalObject).getEGenericType();                     
+        newIsSet = newValue != null;
+      }
+      else if (feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS)
+      {
+        newIsSet = !((EOperation)originalObject).getEGenericExceptions().isEmpty();
+        newValue = null;                
+      }
+      else if (feature != null)
       {
         newIsSet = originalObject.eIsSet(feature);
         newValue = feature.isMany() ? null : originalObject.eGet(feature);
