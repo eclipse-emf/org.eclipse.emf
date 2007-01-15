@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.30 2006/12/26 19:08:45 emerks Exp $
+ * $Id: EClassImpl.java,v 1.31 2007/01/15 21:34:30 marcelop Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -31,14 +31,15 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
@@ -50,7 +51,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.DelegatingEcoreEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-// import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -1801,6 +1801,21 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           public boolean isSet()
           {
             return isSetESuperTypes();
+          }
+          
+          @Override
+          protected NotificationImpl createNotification(int eventType, Object oldObject, Object newObject, int index, boolean wasSet)
+          {
+            // The notification for this list is being thrown by the
+            // delegating list
+            //
+            return null;
+          }
+          
+          @Override
+          protected void dispatchNotification(Notification notification)
+          {
+            // Do nothing
           }
         };
     }
