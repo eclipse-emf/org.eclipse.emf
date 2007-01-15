@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.14 2006/12/11 16:00:29 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.15 2007/01/15 21:36:06 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -26,6 +26,7 @@ import java.util.ListIterator;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
@@ -504,6 +505,21 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
           {
             return isSetEExceptions();
           }
+          
+          @Override
+          protected NotificationImpl createNotification(int eventType, Object oldObject, Object newObject, int index, boolean wasSet)
+          {
+            // The notification for this list is being thrown by the
+            // delegating list
+            //
+            return null;
+          }
+          
+          @Override
+          protected void dispatchNotification(Notification notification)
+          {
+            // Do nothing
+          }          
         };
     }
     return eExceptions;
