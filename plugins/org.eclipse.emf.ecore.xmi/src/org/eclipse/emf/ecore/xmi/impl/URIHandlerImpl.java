@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIHandlerImpl.java,v 1.1 2006/12/10 14:03:24 emerks Exp $
+ * $Id: URIHandlerImpl.java,v 1.2 2007/01/15 22:20:00 marcelop Exp $
  */
 
 package org.eclipse.emf.ecore.xmi.impl;
@@ -28,6 +28,16 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  */
 public class URIHandlerImpl implements XMLResource.URIHandler
 {
+  public static class PlatformSchemeAware extends URIHandlerImpl
+  {
+    @Override
+    public URI deresolve(URI uri)
+    {
+      return !uri.isPlatform() || (uri.segmentCount() > 0 && baseURI.segmentCount() > 0 && uri.segment(0).equals(baseURI.segment(0))) ?
+        super.deresolve(uri) : uri;
+    }
+  }
+  
   protected URI baseURI;
   protected boolean resolve;
 
