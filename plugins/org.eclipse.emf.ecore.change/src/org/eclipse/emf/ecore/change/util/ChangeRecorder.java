@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.40 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.41 2007/01/15 21:47:05 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.ChangeFactory;
 import org.eclipse.emf.ecore.change.ChangeKind;
@@ -146,7 +147,7 @@ public class ChangeRecorder implements Adapter.Internal
    * adding the changes to and existing {@link ChangeDescription}. 
    * This allows clients to resume a previous recording.
    * <p>
-   * Unpredictable (and probably bad) results may happen if the change descrition is
+   * Unpredictable (and probably bad) results may happen if the change description is
    * inconsistent with the current state of the application.
    * </p>
    * @param changeDescription A change description with changes made during a previous
@@ -363,13 +364,21 @@ public class ChangeRecorder implements Adapter.Internal
       }
     }
   }
+  
+  protected boolean shouldRecord(EStructuralFeature feature, EReference containment, Notification notification, EObject eObject)
+  {
+    return isRecording() &&
+      notification.getEventType() != Notification.RESOLVE && 
+      !feature.isDerived() &&
+      feature != EcorePackage.Literals.ECLASS__ESUPER_TYPES &&
+      feature != EcorePackage.Literals.ETYPED_ELEMENT__ETYPE &&
+      feature != EcorePackage.Literals.EOPERATION__EEXCEPTIONS
+      ;
+  }
 
   protected void handleFeature(EStructuralFeature feature, EReference containment, Notification notification, EObject eObject)
-  {
-    int event = notification.getEventType();
-    boolean shouldRecord = isRecording() 
-      && event != Notification.RESOLVE 
-      && !feature.isDerived();
+  {    
+    boolean shouldRecord = shouldRecord(feature, containment, notification, eObject);
     
     List<FeatureChange> changes = null;
     FeatureChange change = null;
@@ -379,7 +388,7 @@ public class ChangeRecorder implements Adapter.Internal
       change = getFeatureChange(changes, feature);      
     }
     
-    switch (event)
+    switch (notification.getEventType())
     {
       case Notification.RESOLVE:
       case Notification.SET:
