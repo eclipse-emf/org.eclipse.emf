@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericType.java,v 1.3 2007/01/05 00:56:43 marcelop Exp $
+ * $Id: EGenericType.java,v 1.4 2007/01/16 20:00:38 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -41,7 +41,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEGenericType()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ConsistentType ConsistentBounds ConsistentArguments ValidRawType'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ConsistentType ConsistentBounds ConsistentArguments'"
  * @generated
  */
 public interface EGenericType extends EObject
