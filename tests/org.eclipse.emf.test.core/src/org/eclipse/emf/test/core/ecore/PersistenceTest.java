@@ -12,15 +12,20 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.10 2007/01/15 22:23:56 marcelop Exp $
+ * $Id: PersistenceTest.java,v 1.11 2007/01/16 22:06:29 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -47,6 +52,9 @@ import org.eclipse.emf.ecore.change.ChangePackage;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.AESCipherImpl;
+import org.eclipse.emf.ecore.resource.impl.DESCipherImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -57,6 +65,10 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.test.core.TestUtil;
+import org.eclipse.emf.test.models.key.Item;
+import org.eclipse.emf.test.models.key.KeyFactory;
+import org.eclipse.emf.test.models.key.KeyPackage;
+import org.eclipse.emf.test.models.key.Root;
 
 public class PersistenceTest extends TestCase
 {  
@@ -90,6 +102,8 @@ public class PersistenceTest extends TestCase
     ts.addTest(new PersistenceTest("testCrossResourceContainment_RemoveChild"));
     ts.addTest(new PersistenceTest("testPluginURINotRelative"));
     ts.addTest(new PersistenceTest("testReferenceEcoreUsingNSURI"));
+    ts.addTest(new PersistenceTest("testCipher0"));
+    ts.addTest(new PersistenceTest("testCipher1"));
     return ts;
   }
   
@@ -870,5 +884,130 @@ public class PersistenceTest extends TestCase
     URI proxyURI = ((InternalEObject)loadedEReferenceType).eProxyURI();
     assertFalse(proxyURI.toString(), proxyURI.isPlatformPlugin());
     assertFalse(proxyURI.toString(), proxyURI.isRelative());
+  }
+  
+  public void testCipher0() throws Exception
+  {
+    cipherTest(new DESCipherImpl("a very long key indeed"));
+    cipherTest(new AESCipherImpl("a very long passowrd indeed"));
+  }
+  
+  protected void cipherTest(URIConverter.Cipher cipher) throws Exception
+  {
+    StringBuilder originalMessage = new StringBuilder("<>\n");
+    for (int i=0; i<100; i++)
+    {
+      originalMessage
+      .append(i)
+      .append(" - ")
+      .append("the quick brown fox jumped over the sleeping lazy dog")
+      .append('\n');
+    }
+    originalMessage.append("</>");
+    
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    OutputStream os = cipher.encrypt(baos);
+    os.write(originalMessage.toString().getBytes());
+    cipher.finish(os);
+    os.close();
+    
+    assertEquals(originalMessage.toString(), readEncriptedBytes(cipher, baos.toByteArray()));
+  }
+  
+  protected String readEncriptedBytes(URIConverter.Cipher cipher, byte[] bytes) throws Exception
+  {
+    ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+    InputStream is = cipher.decrypt(bais);
+    StringBuilder message = new StringBuilder();
+    byte[] buffer = new byte[7];
+    int i = buffer.length;
+    while ((i = is.read(buffer)) >= 0)
+    {
+      message.append(new String(buffer, 0, i));
+    }  
+    return message.toString().trim();
+  }
+
+  public void testCipher1() throws Exception
+  {    
+    class Tester
+    {
+      public byte[] test(Map<String, Object> options) throws Exception
+      {
+        URI uri = URI.createFileURI("/home/foo/f1.xmi");
+        byte[] bytes = testSave(uri, options);
+        
+        if (false) System.out.println(getContents(options, bytes));
+        
+        testLoad(uri, options, bytes);
+        return bytes;
+      }
+      
+      protected String getContents(Map<String, Object> options, byte[] bytes) throws Exception
+      {
+        URIConverter.Cipher cipher = options == null ? 
+          null : (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER);
+        return cipher != null ?
+          readEncriptedBytes(cipher, bytes) : new String(bytes);
+      }
+      
+      protected EObject instantiateModel()
+      {
+        Root root = KeyFactory.eINSTANCE.createRoot();
+        Item item = KeyFactory.eINSTANCE.createItem();
+        item.setName("Name-Item1");
+        root.getItems().add(item);
+        return root;
+      }
+      
+      public byte[] testSave(URI uri, Map<String, Object> options) throws Exception
+      {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Resource resource = new XMIResourceImpl(uri); 
+        resource.getContents().add(instantiateModel());
+        resource.save(baos, options);
+        
+        byte[] bytes = baos.toByteArray();
+        
+        String contents = new String(bytes);
+        boolean notEncripted = options == null || !options.containsKey(Resource.OPTION_CIPHER);
+        assertEquals(contents, notEncripted, contents.contains("Root"));
+        assertEquals(contents, notEncripted, contents.contains("items"));
+        assertEquals(contents, notEncripted, contents.contains("Name-Item1"));
+        
+        return bytes;
+      }
+      
+      public void testLoad(URI uri, Map<String, Object> options, byte[] contents) throws Exception
+      {
+        ResourceSet resourceSet = new ResourceSetImpl();
+        resourceSet.getPackageRegistry().put(KeyPackage.eNS_URI, KeyPackage.eINSTANCE);
+        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+        Resource loadedResource = resourceSet.createResource(uri);
+        ByteArrayInputStream bais = new ByteArrayInputStream(contents);
+        loadedResource.load(bais, options);
+        
+        assertEquals(1, loadedResource.getContents().size());
+        Root root = (Root)loadedResource.getContents().get(0);
+        assertEquals(1, root.getItems().size());
+        assertEquals("Name-Item1", root.getItems().get(0).getName());
+      }      
+    }    
+    
+    Tester tester = new Tester();
+        
+    byte[] noCypherBytes = tester.test(null);
+
+    Map<String, Object> desCyperOptions = new HashMap<String, Object>(1);
+    desCyperOptions.put(Resource.OPTION_CIPHER, new DESCipherImpl("a very long key indeed"));
+    byte[] desCypherBytes = tester.test(desCyperOptions);
+
+    Map<String, Object> aesCyperOptions = new HashMap<String, Object>(1);
+    aesCyperOptions.put(Resource.OPTION_CIPHER, new AESCipherImpl("a very long password indeed"));
+    byte[] aesCypherBytes = tester.test(aesCyperOptions);
+    
+    assertFalse(Arrays.equals(noCypherBytes, desCypherBytes));
+    assertFalse(Arrays.equals(noCypherBytes, aesCypherBytes));
+    assertFalse(Arrays.equals(aesCypherBytes, desCypherBytes));
   }
 }
