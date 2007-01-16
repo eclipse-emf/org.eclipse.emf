@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.4 2007/01/06 22:17:38 marcelop Exp $
+ * $Id: EcoreValidator.java,v 1.5 2007/01/16 20:02:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -187,136 +187,136 @@ public class EcoreValidator extends EObjectValidator
   /**
    * @see #validateEGenericType_ConsistentType(EGenericType, DiagnosticChain, Map)
    */
-  public static final int CONSISTENT_TYPE_TYPE_PARAMETER_NOT_IN_SCOPE = 22;
+  public static final int CONSISTENT_TYPE_PRIMITIVE_TYPE_NOT_PERMITTED = 22;
 
   /**
    * @see #validateEGenericType_ConsistentType(EGenericType, DiagnosticChain, Map)
    */
-  public static final int CONSISTENT_TYPE_WILDCARD_NOT_PERMITTED = 23;
+  public static final int CONSISTENT_TYPE_TYPE_PARAMETER_NOT_IN_SCOPE = 23;
+
+  /**
+   * @see #validateEGenericType_ConsistentType(EGenericType, DiagnosticChain, Map)
+   */
+  public static final int CONSISTENT_TYPE_WILDCARD_NOT_PERMITTED = 24;
 
   /**
    * @see #validateEClass_InterfaceIsAbstract(EClass, DiagnosticChain, Map)
    */
-  public static final int INTERFACE_IS_ABSTRACT = 24;
+  public static final int INTERFACE_IS_ABSTRACT = 25;
 
   /**
    * @see #validateEClass_NoCircularSuperTypes(EClass, DiagnosticChain, Map)
    */
-  public static final int NO_CIRCULAR_SUPER_TYPES = 25;
+  public static final int NO_CIRCULAR_SUPER_TYPES = 26;
 
   /**
    * @see #validateEOperation_NoRepeatingVoid(EOperation, DiagnosticChain, Map)
    */
-  public static final int NO_REPEATING_VOID = 26;
+  public static final int NO_REPEATING_VOID = 27;
 
   /**
    * @see #validateEReference_SingleContainer(EReference, DiagnosticChain, Map)
    */
-  public static final int SINGLE_CONTAINER = 27;
+  public static final int SINGLE_CONTAINER = 28;
 
   /**
    * @see #validateEPackage_UniqueClassifierNames(EPackage, DiagnosticChain, Map)
    */
-  public static final int UNIQUE_CLASSIFIER_NAMES = 28;
+  public static final int UNIQUE_CLASSIFIER_NAMES = 29;
 
   /**
    * @see #validateEEnum_UniqueEnumeratorNames(EEnum, DiagnosticChain, Map)
    */
-  public static final int UNIQUE_ENUMERATOR_LITERALS = 29;
+  public static final int UNIQUE_ENUMERATOR_LITERALS = 30;
 
   /**
    * @see #validateEEnum_UniqueEnumeratorNames(EEnum, DiagnosticChain, Map)
    */
-  public static final int UNIQUE_ENUMERATOR_NAMES = 30;
+  public static final int UNIQUE_ENUMERATOR_NAMES = 31;
 
   /**
    * @see #validateEClass_UniqueFeatureNames(EClass, DiagnosticChain, Map)
    */
-  public static final int UNIQUE_FEATURE_NAMES = 31;
+  public static final int UNIQUE_FEATURE_NAMES = 32;
 
   /**
    * @see #validateEPackage_UniqueNsURIs(EPackage, DiagnosticChain, Map)
    */
-  public static final int UNIQUE_NS_URIS = 32;
+  public static final int UNIQUE_NS_URIS = 33;
 
   /**
    * @see #validateEClass_UniqueOperationSignatures(EClass, DiagnosticChain, Map)
    */
-  public static final int UNIQUE_OPERATION_SIGNATURES = 33;
+  public static final int UNIQUE_OPERATION_SIGNATURES = 34;
 
   /**
    *@see #validateEOperation_UniqueParameterNames(EOperation, DiagnosticChain, Map)
    */
-  public static final int UNIQUE_PARAMETER_NAMES = 34;
+  public static final int UNIQUE_PARAMETER_NAMES = 35;
 
   /**
    * @see #validateEPackage_UniqueSubpackageNames(EPackage, DiagnosticChain, Map)
    */
-  public static final int UNIQUE_SUBPACKAGE_NAMES = 35;
+  public static final int UNIQUE_SUBPACKAGE_NAMES = 36;
 
   /**
    *@see #validateEOperation_UniqueParameterNames(EOperation, DiagnosticChain, Map)
    *@see #validateEClassifier_UniqueTypeParameterNames(EClassifier, DiagnosticChain, Map)
    */
-  public static final int UNIQUE_TYPE_PARAMETER_NAMES = 36;
+  public static final int UNIQUE_TYPE_PARAMETER_NAMES = 37;
 
   /**
    * @see #validateETypedElement_ValidLowerBound(ETypedElement, DiagnosticChain, Map)
    */
-  public static final int VALID_LOWER_BOUND = 37;
+  public static final int VALID_LOWER_BOUND = 38;
 
   /**
    * @see #validateETypedElement_ValidType(ETypedElement, DiagnosticChain, Map)
    */
-  public static final int VALID_TYPE = 38;
+  public static final int VALID_TYPE = 39;
 
   /**
    * @see #validateETypedElement_ValidUpperBound(ETypedElement, DiagnosticChain, Map)
    */
-  public static final int VALID_UPPER_BOUND = 39;
+  public static final int VALID_UPPER_BOUND = 40;
 
   /**
    * @see #validateEClassifier_WellFormedInstanceTypeName(EClassifier, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_INSTANCE_TYPE_NAME = 40;
+  public static final int WELL_FORMED_INSTANCE_TYPE_NAME = 41;
 
   /**
    * @see #validateEClass_WellFormedMapEntryClass(EClass, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_MAP_ENTRY_CLASS = 41;
+  public static final int WELL_FORMED_MAP_ENTRY_CLASS = 42;
 
   /**
    * @see #validateEClass_WellFormedMapEntryClass(EClass, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_NAME = 42;
+  public static final int WELL_FORMED_NAME = 43;
 
   /**
    * @see #validateEPackage_WellFormedNsPrefix(EPackage, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_NS_PREFIX = 43;
+  public static final int WELL_FORMED_NS_PREFIX = 44;
 
   /**
    * @see #validateEPackage_WellFormedNsURI(EPackage, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_NS_URI = 44;
+  public static final int WELL_FORMED_NS_URI = 45;
 
   /**
    * @see #validateEAnnotation_WellFormedSourceURI(EAnnotation, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_SOURCE_URI = 45;
+  public static final int WELL_FORMED_SOURCE_URI = 46;
 
-  /**
-   * @see #validateEGenericType_ValidRawType(EGenericType, DiagnosticChain, Map)
-   */
-  public static final int VALID_RAW_TYPE = 46;
-  
   /**
    * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected static final int DIAGNOSTIC_CODE_COUNT = VALID_RAW_TYPE;
+  protected static final int DIAGNOSTIC_CODE_COUNT = WELL_FORMED_SOURCE_URI;
 
   /**
    * The cached base package validator.
@@ -2433,7 +2433,6 @@ public class EcoreValidator extends EObjectValidator
     if (result || diagnostics != null) result &= validateEGenericType_ConsistentType(eGenericType, diagnostics, context);
     if (result || diagnostics != null) result &= validateEGenericType_ConsistentBounds(eGenericType, diagnostics, context);
     if (result || diagnostics != null) result &= validateEGenericType_ConsistentArguments(eGenericType, diagnostics, context);
-    if (result || diagnostics != null) result &= validateEGenericType_ValidRawType(eGenericType, diagnostics, context);
     return result;
   }
 
@@ -2658,6 +2657,38 @@ public class EcoreValidator extends EObjectValidator
         }
       }
     }
+    
+    if (eClassifier != null && eContainmentFeature != null && eContainmentFeature != EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE)
+    {
+      // A primitive type can only be used as the generic type of a typed element.
+      //
+      String instanceClassName = eClassifier.getInstanceClassName();
+      if (instanceClassName == "boolean" ||
+            instanceClassName == "byte" ||
+            instanceClassName == "char" ||
+            instanceClassName == "double" ||
+            instanceClassName == "float" ||
+            instanceClassName == "int" ||
+            instanceClassName == "long" ||
+            instanceClassName == "short")
+      {
+        if (diagnostics == null)
+        {
+          return false;
+        }
+        else
+        {
+          result = false;
+          diagnostics.add
+            (new BasicDiagnostic
+              (Diagnostic.ERROR,
+               DIAGNOSTIC_SOURCE,
+               CONSISTENT_TYPE_PRIMITIVE_TYPE_NOT_PERMITTED,
+               EcorePlugin.INSTANCE.getString("_UI_EGenericTypeInvalidPrimitiveType_diagnostic", new Object[] { instanceClassName }),
+               new Object[] { eGenericType }));
+        }
+      }
+    }
     return result;
   }
 
@@ -2875,54 +2906,6 @@ public class EcoreValidator extends EObjectValidator
             }
           }
         }
-      }
-    }
-    return result;
-  }
-  
-  /**
-   * Validates the ValidRawType constraint of '<em>EGeneric Type</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public boolean validateEGenericType_ValidRawType(EGenericType eGenericType, DiagnosticChain diagnostics, Map<Object, Object> context)
-  {
-    boolean result = true;
-    String message = null;
-
-    // First check whether the eGenericType is being used to actually store
-    // an information that cannot be described with the "raw" references
-    //
-    EObject container = eGenericType.eContainer();
-    if (container == null || container.eIsSet(eGenericType.eContainingFeature()))
-    {
-      EClassifier rawType = eGenericType.getERawType();
-      if (rawType == null)
-      {
-        message = EcorePlugin.INSTANCE.getString("_UI_EGenericTypeNullRawType_diagnostic"); 
-      }
-      else
-      {
-        Class<?> instanceClass = rawType.getInstanceClass();
-        if (instanceClass != null && instanceClass.isPrimitive())
-        {
-          message = EcorePlugin.INSTANCE.getString("_UI_EGenericTypeInvalidRawType_diagnostic", new Object[] {instanceClass.getName()});
-        }
-      }
-    }
-    if (message != null)
-    {
-      result = false;
-      if (diagnostics != null)
-      {
-        diagnostics.add
-          (new BasicDiagnostic
-            (Diagnostic.ERROR,
-             DIAGNOSTIC_SOURCE,
-             VALID_RAW_TYPE,
-             message,
-             new Object[] { eGenericType }));
       }
     }
     return result;
