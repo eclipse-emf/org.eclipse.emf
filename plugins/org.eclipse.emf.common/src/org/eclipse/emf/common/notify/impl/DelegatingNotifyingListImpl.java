@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.13 2006/12/05 20:19:58 emerks Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.14 2007/01/16 18:45:57 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -693,8 +693,8 @@ public abstract class DelegatingNotifyingListImpl<E> extends DelegatingEList<E> 
       {
         notifications = shadowRemove(basicGet(index), null);
       }
-      NotificationImpl notification = createNotification(Notification.REMOVE, doRemove(index), null, index, oldIsSet);
-      @SuppressWarnings("unchecked") E oldObject = (E)notification.getOldValue();
+      E oldObject;
+      NotificationImpl notification = createNotification(Notification.REMOVE, oldObject = doRemove(index), null, index, oldIsSet);
       if (hasInverse() && oldObject != null)
       {
         notifications = inverseRemove(oldObject, notifications);
