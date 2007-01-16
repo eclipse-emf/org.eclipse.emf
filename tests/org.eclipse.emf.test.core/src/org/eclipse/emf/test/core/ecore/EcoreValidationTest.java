@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidationTest.java,v 1.3 2007/01/13 19:08:16 marcelop Exp $
+ * $Id: EcoreValidationTest.java,v 1.4 2007/01/16 20:03:20 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -1449,23 +1449,7 @@ public class EcoreValidationTest extends TestCase
          diagnostic.getChildren().get(0));
     }
 
-    // Generic type without a cointainer cannot have a primitive type as raw type
-    {
-      EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
-      eGenericType.setEClassifier(EcorePackage.Literals.EINT);
-
-      Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eGenericType);
-      assertEquals(1, diagnostic.getChildren().size());
-      assertDiagnostic
-        (Diagnostic.ERROR,
-         EcoreValidator.VALID_RAW_TYPE,
-         EcoreValidator.DIAGNOSTIC_SOURCE,
-         new Object [] { eGenericType },
-         diagnostic.getChildren().get(0));
-    }
-
-    // Generic type cannot have a primitive type as raw type if it is describing a
-    // non-raw usage.
+    // Generic type's classifier cannot specify a primitive type except as the generic type of a typed element.
     {
       EClass aClass = EcoreFactory.eINSTANCE.createEClass();
       aClass.setName("AClass"); 
@@ -1486,7 +1470,7 @@ public class EcoreValidationTest extends TestCase
       assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
         (Diagnostic.ERROR,
-         EcoreValidator.VALID_RAW_TYPE,
+         EcoreValidator.CONSISTENT_TYPE_PRIMITIVE_TYPE_NOT_PERMITTED,
          EcoreValidator.DIAGNOSTIC_SOURCE,
          new Object [] { typeArgument },
          diagnostic.getChildren().get(0));
