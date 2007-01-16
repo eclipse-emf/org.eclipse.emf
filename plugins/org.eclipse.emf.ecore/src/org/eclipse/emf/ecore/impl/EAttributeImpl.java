@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeImpl.java,v 1.13 2006/12/26 19:07:06 emerks Exp $
+ * $Id: EAttributeImpl.java,v 1.14 2007/01/16 21:55:18 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -185,7 +185,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
       EClassifier eType = getEType();
       if (eType instanceof EDataType)
       {
-        eAttributeType =(EDataType)eType;
+        eAttributeType = (EDataType)eType;
       }
     }
     return eAttributeType;
@@ -203,10 +203,17 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
       EClassifier eType = basicGetEType();
       if (eType instanceof EDataType)
       {
-        eAttributeType =(EDataType)eType;
+        eAttributeType = (EDataType)eType;
       }
     }
     return eAttributeType;
+  }
+
+  @Override
+  protected void freeze()
+  {
+    getEAttributeType();
+    super.freeze();
   }
 
   /**
