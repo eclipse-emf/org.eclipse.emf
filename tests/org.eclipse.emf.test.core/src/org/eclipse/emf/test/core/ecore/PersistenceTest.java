@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.12 2007/01/16 22:10:04 marcelop Exp $
+ * $Id: PersistenceTest.java,v 1.13 2007/01/16 22:56:05 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -800,8 +800,8 @@ public class PersistenceTest extends TestCase
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", ecoreResourceFactory);
     
-    URI localPluginURI = URI.createFileURI(new File(TestUtil.getPluginDirectory()).getAbsoluteFile().getParent() + "/");
-    URI pluginURI = URI.createURI("platform:/plugin/", false);    
+    URI localPluginURI = URI.createFileURI(new File(TestUtil.getPluginDirectory()).getAbsolutePath() + "/");
+    URI pluginURI = URI.createURI("platform:/plugin/org.eclipse.emf.test.core/", false);    
     resourceSet.getURIConverter().getURIMap().put(pluginURI, localPluginURI);
     
     URI changeURI = URI.createPlatformPluginURI("/org.eclipse.emf.test.core/data/Change.ecore", false);
