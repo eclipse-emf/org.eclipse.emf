@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.23 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.24 2007/01/16 21:48:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -3187,5 +3187,15 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   public void setExtendedMetaData(BasicExtendedMetaData.EStructuralFeatureExtendedMetaData eStructuralFeatureExtendedMetaData)
   {
     this.eStructuralFeatureExtendedMetaData = eStructuralFeatureExtendedMetaData;
+  }
+
+  @Override
+  public void setName(String newName)
+  {
+    if (eContainer instanceof EClassImpl)
+    {
+      ((EClassImpl)eContainer).getESuperAdapter().setFlags(ESuperAdapter.STRUCTURAL_FEATURES);
+    }
+    super.setName(newName);
   }
 }
