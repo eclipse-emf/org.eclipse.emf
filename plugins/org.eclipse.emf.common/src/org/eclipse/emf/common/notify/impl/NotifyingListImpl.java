@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.14 2006/12/05 20:19:57 emerks Exp $
+ * $Id: NotifyingListImpl.java,v 1.15 2007/01/16 18:49:18 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -1175,8 +1175,8 @@ public class NotifyingListImpl<E> extends BasicEList<E> implements NotifyingList
     {
       NotificationChain notifications = null;
       boolean oldIsSet = isSet();
-      Notification notification = createNotification(Notification.SET, doSetUnique(index, object), object, index, oldIsSet);
-      @SuppressWarnings("unchecked") E oldObject = (E)notification.getOldValue();
+      E oldObject;
+      Notification notification = createNotification(Notification.SET, oldObject = doSetUnique(index, object), object, index, oldIsSet);
       if (hasInverse() && !equalObjects(oldObject, object))
       {
         if (oldObject != null)
