@@ -1285,7 +1285,7 @@
 		(object Attribute
 		    tool       	"Ecore"
 		    name       	"constraints"
-		    value      	"ConsistentType ConsistentBounds ConsistentArguments ValidRawType"))
+		    value      	"ConsistentType ConsistentBounds ConsistentArguments"))
 	    quid       	"455E23440399"
 	    superclasses 	(list inheritance_relationship_list
 		(object Inheritance_Relationship
@@ -6681,7 +6681,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	2
-			max_width  	0
+			max_width  	550
 			compartmentItems 	(list Compartment
 			    "+ instanceTypeName : String"))
 		    width      	612
