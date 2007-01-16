@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.14 2006/12/29 21:49:53 marcelop Exp $
+ * $Id: SimpleModelTest.java,v 1.15 2007/01/16 21:47:55 emerks Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -86,6 +86,8 @@ public class SimpleModelTest extends TestCase
     ts.addTest(new SimpleModelTest("testProxy"));
     ts.addTest(new SimpleModelTest("testTrackingModificaiton"));
     ts.addTest(new SimpleModelTest("testAddingDuplicates"));
+    ts.addTest(new SimpleModelTest("testRenamingStructuralFeature"));
+    ts.addTest(new SimpleModelTest("testRenamingClassifier"));
     return ts;
   }
 
@@ -596,5 +598,30 @@ public class SimpleModelTest extends TestCase
     Object[] data = ((BasicEList<?>)department1Employees).data();
     assertEquals(employee1, data[0]);
     assertNull(data[1]);
+  }
+  
+  public void testRenamingStructuralFeature() 
+  {
+    String COST_CENTER_NAME = "costCenter";
+    String CHANGED_COST_CENTER_NAME = "changedCostCenter";
+     
+    EAttribute costCenterAttribute = EcoreFactory.eINSTANCE.createEAttribute();
+    costCenterAttribute.setName( COST_CENTER_NAME );
+     
+    departmentClass.getEStructuralFeatures().add( costCenterAttribute );
+     
+    assertNotNull( departmentClass.getEStructuralFeature( COST_CENTER_NAME ) );
+     
+    costCenterAttribute.setName( CHANGED_COST_CENTER_NAME );
+   
+    assertEquals( CHANGED_COST_CENTER_NAME, costCenterAttribute.getName() );
+    assertNotNull( departmentClass.getEStructuralFeature( CHANGED_COST_CENTER_NAME ) );
+  }
+
+  public void testRenamingClassifier() 
+  {
+    assertNotNull(companyPackage.getEClassifier("Employee"));
+    employeeClass.setName("Employee1");
+    assertNotNull(companyPackage.getEClassifier("Employee1"));
   }
 }
