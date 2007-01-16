@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.20 2007/01/05 00:56:43 marcelop Exp $
+ * $Id: EcorePackageImpl.java,v 1.21 2007/01/16 20:00:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2476,7 +2476,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        source, 
        new String[] 
        {
-       "constraints", "ConsistentType ConsistentBounds ConsistentArguments ValidRawType"
+       "constraints", "ConsistentType ConsistentBounds ConsistentArguments"
        });
   }
 
