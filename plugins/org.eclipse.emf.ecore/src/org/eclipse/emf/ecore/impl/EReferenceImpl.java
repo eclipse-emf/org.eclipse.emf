@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.11 2006/12/26 19:07:23 emerks Exp $
+ * $Id: EReferenceImpl.java,v 1.12 2007/01/16 21:55:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -268,7 +268,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       EClassifier eType = getEType();
       if (eType instanceof EClass)
       {
-        eReferenceType =(EClass)getEType();
+        eReferenceType =(EClass)eType;
       }
     }
     return eReferenceType;
@@ -286,10 +286,17 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       EClassifier eType = basicGetEType();
       if (eType instanceof EClass)
       {
-        eReferenceType =(EClass)getEType();
+        eReferenceType = (EClass)eType;
       }
     }
     return eReferenceType;
+  }
+
+  @Override
+  protected void freeze()
+  {
+    getEReferenceType();
+    super.freeze();
   }
 
   /**
