@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.22 2006/12/26 19:07:58 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.23 2007/01/16 21:49:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -834,5 +834,15 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   public void setExtendedMetaData(BasicExtendedMetaData.EClassifierExtendedMetaData eClassifierExtendedMetaData)
   {
     this.eClassifierExtendedMetaData = eClassifierExtendedMetaData;
+  }
+
+  @Override
+  public void setName(String newName)
+  {
+    if (eContainer instanceof EPackageImpl)
+    {
+      ((EPackageImpl)eContainer).eNameToEClassifierMap = null;
+    }
+    super.setName(newName);
   }
 }
