@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidationTest.java,v 1.4 2007/01/16 20:03:20 emerks Exp $
+ * $Id: EcoreValidationTest.java,v 1.5 2007/01/17 15:28:52 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -2385,6 +2385,7 @@ public class EcoreValidationTest extends TestCase
             eParameter.setEGenericType(eGenericType);
           }
 
+          @SuppressWarnings("unused")
           class HolderCase3<E, F extends E, H extends Container<E>>
           {
             <E1, F1 extends E1, G1 extends Container<E1>> void foo(/* --> HolderCase3<?, ? extends E1, ?> x <-- */)
@@ -2434,6 +2435,7 @@ public class EcoreValidationTest extends TestCase
             eParameter.setEGenericType(eGenericType);
           }
 
+          @SuppressWarnings("unused")
           class HolderCase4<E, F extends E, H extends Container<E>>
           {
             <E1, F1 extends E1, G1 extends Container<E1>> void foo(/* --> HolderCase4<E1, F1, Container> x <-- */)
@@ -2497,6 +2499,7 @@ public class EcoreValidationTest extends TestCase
             eParameter.setEGenericType(eGenericType);
           }
 
+          @SuppressWarnings("unused")
           class HolderCase5<E, F extends E, H extends Container<E>>
           {
             <E1, F1 extends E1, G1 extends Container<E1>> void foo(/* --> HolderCase5<E1, F1, Container<F1>> x <-- */)
@@ -2615,6 +2618,7 @@ public class EcoreValidationTest extends TestCase
             eParameter.setEGenericType(eGenericType);
           }
 
+          @SuppressWarnings("unused")
           class HolderCase8<E, F extends E, H extends Container<? super E>>
           {
             <E1, F1 extends E1, G1 extends Container<E1>> void foo(/* --> HolderCase8<E1, F1, Container<F1>> x <--*/)
