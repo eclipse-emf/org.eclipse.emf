@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.19 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.20 2007/01/17 19:42:45 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1393,6 +1393,49 @@ public class XSDElementDeclarationImpl
   }
 
   @Override
+  protected void eBasicSetContainer(InternalEObject newContainer, int newContainerFeatureID)
+  {
+    if (substitutionGroupAffiliation != null)
+    {
+      EList<XSDElementDeclaration> substitutionGroup = getSubstitutionGroup();
+      Collection<XSDElementDeclaration> visited = new HashSet<XSDElementDeclaration>();
+      if (newContainer == null)
+      {
+        for (XSDElementDeclaration oldSubstitutionGroupAffiliation = substitutionGroupAffiliation;
+             oldSubstitutionGroupAffiliation != null;
+             oldSubstitutionGroupAffiliation = oldSubstitutionGroupAffiliation.getSubstitutionGroupAffiliation())
+        {
+          if (visited.add(oldSubstitutionGroupAffiliation))
+          {
+            oldSubstitutionGroupAffiliation.getSubstitutionGroup().removeAll(substitutionGroup);
+          }
+          else
+          {
+            break;
+          }
+        }
+      }
+      else
+      {
+        for (XSDElementDeclaration oldSubstitutionGroupAffiliation = substitutionGroupAffiliation;
+             oldSubstitutionGroupAffiliation != null;
+             oldSubstitutionGroupAffiliation = oldSubstitutionGroupAffiliation.getSubstitutionGroupAffiliation())
+        {
+          if (visited.add(oldSubstitutionGroupAffiliation))
+          {
+            oldSubstitutionGroupAffiliation.getSubstitutionGroup().removeAll(substitutionGroup);
+          }
+          else
+          {
+            break;
+          }
+        }
+      }
+    }
+    super.eBasicSetContainer(newContainer, newContainerFeatureID);
+  }
+
+  @Override
   protected void changeReference(EReference eReference)
   {
     super.changeReference(eReference);
@@ -1908,7 +1951,7 @@ public class XSDElementDeclarationImpl
   {
     if (substitutionGroup == null)
     {
-      substitutionGroup = new EObjectEList<XSDElementDeclaration>(XSDElementDeclaration.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP);
+      substitutionGroup =  new EObjectEList<XSDElementDeclaration>(XSDElementDeclaration.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP);
     }
     return substitutionGroup;
   }
