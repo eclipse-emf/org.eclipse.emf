@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.16 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDParticleImpl.java,v 1.17 2007/01/17 19:43:13 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1557,7 +1557,7 @@ public class XSDParticleImpl
       {
         for (int i = 0, length = xsdElementDeclarations.length; i < length; ++i)
         {
-          result += xsdElementDeclarations[i].getSubstitutionGroup().size();
+          result += xsdElementDeclarations[i].getSubstitutionGroup().hashCode();
         }
       }
       else
@@ -1576,7 +1576,7 @@ public class XSDParticleImpl
               XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)xsdTerm;
               if (elements.add(xsdElementDeclaration))
               {
-                result += xsdElementDeclaration.getSubstitutionGroup().size();
+                result += xsdElementDeclaration.getSubstitutionGroup().hashCode();
               }
             }
           }
