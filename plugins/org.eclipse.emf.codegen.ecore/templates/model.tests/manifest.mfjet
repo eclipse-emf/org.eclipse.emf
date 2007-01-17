@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model.tests" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ManifestMF" version="$Id: manifest.mfjet,v 1.4 2006/12/28 06:40:37 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model.tests" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ManifestMF" version="$Id: manifest.mfjet,v 1.5 2007/01/17 15:24:52 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -24,6 +24,11 @@ Bundle-Version: 1.0.0
 Bundle-ClassPath: <%if (genModel.isRuntimeJar()) {%><%=genModel.getTestsPluginID()%>.jar<%}else{%>.<%}%>
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+<%if (genModel.getComplianceLevel() == GenJDKLevel.JDK50_LITERAL) {%>
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+<%} else if (genModel.getComplianceLevel() == GenJDKLevel.JDK60_LITERAL) {%>
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+<%}%>
 <%Iterator<String> packagesIterator = genModel.getTestsQualifiedPackageNames().iterator(); if (packagesIterator.hasNext()) { String pack = packagesIterator.next();%>
 Export-Package: <%=pack%><%while(packagesIterator.hasNext()) { pack = packagesIterator.next();%>,
  <%=pack%><%}%>
