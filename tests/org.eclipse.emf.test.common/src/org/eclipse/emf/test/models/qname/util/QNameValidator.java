@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameValidator.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: QNameValidator.java,v 1.3 2007/01/18 22:14:55 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname.util;
 
@@ -231,7 +231,7 @@ public class QNameValidator extends EObjectValidator
       Object item = i.next();
       if (QNamePackage.Literals.UNION.isInstance(item))
       {
-        result &= validateUnion((Object)item, diagnostics, context);
+        result &= validateUnion(item, diagnostics, context);
       }
       else
       {
@@ -267,7 +267,7 @@ public class QNameValidator extends EObjectValidator
       Object item = i.next();
       if (XMLTypePackage.Literals.QNAME.isInstance(item))
       {
-        result &= xmlTypeValidator.validateQName((Object)item, diagnostics, context);
+        result &= xmlTypeValidator.validateQName(item, diagnostics, context);
       }
       else
       {

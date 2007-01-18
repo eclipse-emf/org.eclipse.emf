@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TypesFactoryImpl.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: TypesFactoryImpl.java,v 1.3 2007/01/18 22:14:56 emerks Exp $
  */
 package org.eclipse.emf.test.models.types.impl;
 
@@ -271,7 +271,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Object createMyObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Object)super.createFromString(initialValue);
+    return super.createFromString(initialValue);
   }
 
   /**

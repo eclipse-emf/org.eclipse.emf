@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DocumentRootImpl.java,v 1.2 2007/01/18 22:06:40 marcelop Exp $
+ * $Id: DocumentRootImpl.java,v 1.3 2007/01/18 22:14:55 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname.impl;
 
@@ -253,7 +253,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    */
   public Object getAnyE()
   {
-    return (Object)getMixed().get(QNamePackage.Literals.DOCUMENT_ROOT__ANY_E, true);
+    return getMixed().get(QNamePackage.Literals.DOCUMENT_ROOT__ANY_E, true);
   }
 
   /**
@@ -271,6 +271,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
   public List<Object> getAnyEU()
   {
     return (List<Object>)getMixed().get(QNamePackage.Literals.DOCUMENT_ROOT__ANY_EU, true);
