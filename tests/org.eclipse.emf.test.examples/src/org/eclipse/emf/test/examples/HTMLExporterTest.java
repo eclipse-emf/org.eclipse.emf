@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporterTest.java,v 1.1 2007/01/08 00:22:46 marcelop Exp $
+ * $Id: HTMLExporterTest.java,v 1.2 2007/01/18 15:52:58 marcelop Exp $
  */
 package org.eclipse.emf.test.examples;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.exporter.ModelExporter;
 import org.eclipse.emf.exporter.html.HTMLExporter;
+import org.eclipse.emf.test.common.TestUtil;
 
 /**
  * @since 2.3.0
@@ -58,14 +59,14 @@ public class HTMLExporterTest extends TestCase
   
   public void testExport() throws Exception
   {
-    File workingDir = new File(TestUtil.getPluginDirectory() + "/temp.folder/htmlExporter").getAbsoluteFile();
+    File workingDir = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/temp.folder/htmlExporter").getAbsoluteFile();
     if (workingDir.isDirectory())
     {
       TestUtil.delete(workingDir);
     }
     assertFalse(workingDir.isDirectory());
 
-    File genModelFile = new File(TestUtil.getPluginDirectory() + "/data/htmlExporter/HTMLExportTest.genmodel").getAbsoluteFile();
+    File genModelFile = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/htmlExporter/HTMLExportTest.genmodel").getAbsoluteFile();
     assertTrue(genModelFile.getAbsolutePath(), genModelFile.isFile());
 
 

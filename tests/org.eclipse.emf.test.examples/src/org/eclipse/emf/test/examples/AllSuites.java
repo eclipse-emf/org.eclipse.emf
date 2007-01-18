@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.1 2007/01/08 00:22:46 marcelop Exp $
+ * $Id: AllSuites.java,v 1.2 2007/01/18 15:52:58 marcelop Exp $
  */
 package org.eclipse.emf.test.examples;
 
@@ -24,6 +24,8 @@ import junit.framework.TestSuite;
 
 public class AllSuites extends TestSuite
 {
+  public static final String PLUGIN_ID = "org.eclipse.emf.test.examples";
+  
   private static Test[] suites = new Test []{ 
     HTMLExporterTest.suite()
     ,JavaTest.suite()

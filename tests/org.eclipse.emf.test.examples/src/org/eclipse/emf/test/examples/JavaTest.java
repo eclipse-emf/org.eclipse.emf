@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaTest.java,v 1.3 2007/01/10 03:17:35 marcelop Exp $
+ * $Id: JavaTest.java,v 1.4 2007/01/18 15:52:58 marcelop Exp $
  */
 package org.eclipse.emf.test.examples;
 
@@ -48,6 +48,7 @@ import org.eclipse.emf.java.util.JavaPackageResourceFactoryImpl;
 import org.eclipse.emf.java.util.JavaPackageResourceImpl;
 import org.eclipse.emf.java.util.JavaResourceFactoryImpl;
 import org.eclipse.emf.java.util.JavaUtil;
+import org.eclipse.emf.test.common.TestUtil;
 
 /**
  * @author marcelop
@@ -128,7 +129,7 @@ public class JavaTest extends TestCase
     javaPackageResource.setClassLoader(getClass().getClassLoader());    
     assertFalse(javaPackageResource.getContents().isEmpty());
 
-    File javaFile = new File(TestUtil.getPluginDirectory() + "/data/Example1.java");
+    File javaFile = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1.java");
     assertTrue(javaFile.isFile());
 
     Resource javaResource = resourceSet.getResource(URI.createFileURI(javaFile.getAbsolutePath()), true);

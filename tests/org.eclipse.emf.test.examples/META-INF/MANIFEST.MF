@@ -4,7 +4,6 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.examples
 Bundle-Version: 2.3.0.qualifier
 Bundle-ClassPath: test.examples.jar
-Bundle-Activator: org.eclipse.emf.test.examples.EMFTestExamplesPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
@@ -15,5 +14,6 @@ Require-Bundle: org.eclipse.jdt.core,
  org.eclipse.emf.exporter,
  org.eclipse.emf.exporter.html,
  org.eclipse.emf.ecore.xmi,
- org.eclipse.emf.java
+ org.eclipse.emf.java,
+ org.eclipse.emf.test.common
 Eclipse-LazyStart: true
