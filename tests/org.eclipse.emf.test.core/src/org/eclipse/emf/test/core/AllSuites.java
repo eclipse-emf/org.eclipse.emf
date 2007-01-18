@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.36 2007/01/10 00:00:19 marcelop Exp $
+ * $Id: AllSuites.java,v 1.37 2007/01/18 15:53:11 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -23,6 +23,8 @@ import junit.framework.TestSuite;
 
 public class AllSuites extends TestSuite
 {
+  public static final String PLUGIN_ID = "org.eclipse.emf.test.core";
+  
   private static Test[] suites = new Test []{ 
     org.eclipse.emf.test.core.common.util.URITest.suite() 
     ,org.eclipse.emf.test.core.ecore.EcoreValidationTest.suite()

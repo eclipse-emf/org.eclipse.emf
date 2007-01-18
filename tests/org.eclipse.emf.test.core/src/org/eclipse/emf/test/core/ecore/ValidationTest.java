@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidationTest.java,v 1.5 2006/12/29 21:49:53 marcelop Exp $
+ * $Id: ValidationTest.java,v 1.6 2007/01/18 15:53:11 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -34,12 +34,11 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
-import com.example.ppo.Item;
-import com.example.ppo.PPOFactory;
-import com.example.ppo.PPOPackage;
-import com.example.ppo.PurchaseOrder;
-import com.example.ppo.util.PPOValidator;
+import org.eclipse.emf.test.models.ppo.Item;
+import org.eclipse.emf.test.models.ppo.PPOFactory;
+import org.eclipse.emf.test.models.ppo.PPOPackage;
+import org.eclipse.emf.test.models.ppo.PurchaseOrder;
+import org.eclipse.emf.test.models.ppo.util.PPOValidator;
 
 
 public class ValidationTest extends TestCase

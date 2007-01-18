@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.13 2007/01/16 22:56:05 marcelop Exp $
+ * $Id: PersistenceTest.java,v 1.14 2007/01/18 15:53:11 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -30,12 +30,6 @@ import java.util.Map;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import lib.Address;
-import lib.Book;
-import lib.Cafeteria;
-import lib.LibFactory;
-import lib.Library;
-import lib.Person;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -64,11 +58,18 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.eclipse.emf.test.core.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.core.AllSuites;
 import org.eclipse.emf.test.models.key.Item;
 import org.eclipse.emf.test.models.key.KeyFactory;
 import org.eclipse.emf.test.models.key.KeyPackage;
 import org.eclipse.emf.test.models.key.Root;
+import org.eclipse.emf.test.models.lib.Address;
+import org.eclipse.emf.test.models.lib.Book;
+import org.eclipse.emf.test.models.lib.Cafeteria;
+import org.eclipse.emf.test.models.lib.LibFactory;
+import org.eclipse.emf.test.models.lib.Library;
+import org.eclipse.emf.test.models.lib.Person;
 
 public class PersistenceTest extends TestCase
 {  
@@ -231,7 +232,7 @@ public class PersistenceTest extends TestCase
   
   public void oneFileTest(Resource.Factory resourceFactory) throws Exception
   {
-    URI uri = URI.createFileURI(TestUtil.getPluginDirectory() + "/people.pep");
+    URI uri = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/people.pep");
     new File(uri.toFileString()).delete();
 
     Resource resource = resourceFactory.createResource(uri);
@@ -260,9 +261,9 @@ public class PersistenceTest extends TestCase
 
   public void twoFileTest(Resource.Factory johnResourceFactory, Resource.Factory maryResourceFactory) throws Exception
   {
-    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/f1/people.john");
+    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/f1/people.john");
     new File(johnURI.toFileString()).delete();
-    URI maryURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/f1/f2/people.mary");
+    URI maryURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/f1/f2/people.mary");
     new File(maryURI.toFileString()).delete();
 
     Resource johnResource = johnResourceFactory.createResource(johnURI);
@@ -800,7 +801,7 @@ public class PersistenceTest extends TestCase
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", ecoreResourceFactory);
     
-    URI localPluginURI = URI.createFileURI(new File(TestUtil.getPluginDirectory()).getAbsolutePath() + "/");
+    URI localPluginURI = URI.createFileURI(new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID)).getAbsolutePath() + "/");
     URI pluginURI = URI.createURI("platform:/plugin/org.eclipse.emf.test.core/", false);    
     resourceSet.getURIConverter().getURIMap().put(pluginURI, localPluginURI);
     

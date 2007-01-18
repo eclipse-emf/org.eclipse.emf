@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterTest.java,v 1.5 2006/12/31 21:33:21 marcelop Exp $
+ * $Id: URIConverterTest.java,v 1.6 2007/01/18 15:53:11 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -27,7 +27,8 @@ import junit.framework.TestSuite;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
-import org.eclipse.emf.test.core.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.core.AllSuites;
 
 public class URIConverterTest extends TestCase
 {
@@ -59,7 +60,7 @@ public class URIConverterTest extends TestCase
   
   public void testReadArchiveURI() throws Exception
   {
-    String pluginDirectory = TestUtil.getPluginDirectory();
+    String pluginDirectory = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID);
     if (pluginDirectory.charAt(0) != '/')
     {
       pluginDirectory = "/" + pluginDirectory;

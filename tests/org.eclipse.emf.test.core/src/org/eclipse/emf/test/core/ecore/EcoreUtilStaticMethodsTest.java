@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.12 2006/12/29 21:49:52 marcelop Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.13 2007/01/18 15:53:11 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.test.core.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
 
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDFactory;

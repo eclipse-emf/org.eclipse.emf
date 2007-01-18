@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.15 2007/01/16 21:47:55 emerks Exp $
+ * $Id: SimpleModelTest.java,v 1.16 2007/01/18 15:53:13 marcelop Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -29,6 +29,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -48,7 +49,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.test.core.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.core.AllSuites;
 
 
 public class SimpleModelTest extends TestCase
@@ -293,7 +295,7 @@ public class SimpleModelTest extends TestCase
     employeesList.add(employee1);
     employeesList.add(employee2);
 
-    URI departmentsURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/departments.dept");
+    URI departmentsURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/departments.dept");
     XMLResource departmentsResource = (XMLResource)new XMIResourceFactoryImpl().createResource(departmentsURI);
     departmentsResource.setUseZip(true);
     departmentsResource.getContents().add(department);
@@ -359,7 +361,7 @@ public class SimpleModelTest extends TestCase
     employeesList.add(employee1);
     employeesList.add(employee2);
 
-    URI departmentsURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/departments.xmi");
+    URI departmentsURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/departments.xmi");
     Resource departmentsResource = new XMIResourceFactoryImpl().createResource(departmentsURI);
     departmentsResource.getContents().add(department);
 
@@ -369,7 +371,7 @@ public class SimpleModelTest extends TestCase
 
     //Loading department in ResourceSet
     ResourceSet resourceSet = new ResourceSetImpl();
-    if (!TestUtil.isPlatformRunning())
+    if (!EMFPlugin.IS_ECLIPSE_RUNNING)
     {
       resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
     }
@@ -415,21 +417,21 @@ public class SimpleModelTest extends TestCase
     department.eSet(departmentName, "ACME1");
     @SuppressWarnings("unchecked")
     List<EObject> associateDepartmentsList = (List<EObject>)department.eGet(associateDepartments);
-    URI departmentURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/department.xmi");
+    URI departmentURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/department.xmi");
     Resource departmentResource = new XMIResourceFactoryImpl().createResource(departmentURI);
     departmentResource.getContents().add(department);
     
     EObject department1 = companyFactory.create(departmentClass);
     department1.eSet(departmentName, "ACME1");
     associateDepartmentsList.add(department1);
-    URI department1URI = URI.createFileURI(TestUtil.getPluginDirectory() + "/department1.xmi");
+    URI department1URI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/department1.xmi");
     Resource department1Resource = new XMIResourceFactoryImpl().createResource(department1URI);
     department1Resource.getContents().add(department1);
     
     EObject department2 = companyFactory.create(departmentClass);
     department2.eSet(departmentName, "ACME2");
     associateDepartmentsList.add(department2);
-    URI department2URI = URI.createFileURI(TestUtil.getPluginDirectory() + "/department2.xmi");
+    URI department2URI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/department2.xmi");
     Resource department2Resource = new XMIResourceFactoryImpl().createResource(department2URI);
     department2Resource.getContents().add(department2);
     
@@ -443,7 +445,7 @@ public class SimpleModelTest extends TestCase
     
     //Loading department into a resource set
     ResourceSet resourceSet = new ResourceSetImpl();
-    if (!TestUtil.isPlatformRunning())
+    if (!EMFPlugin.IS_ECLIPSE_RUNNING)
     {
       resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
     }

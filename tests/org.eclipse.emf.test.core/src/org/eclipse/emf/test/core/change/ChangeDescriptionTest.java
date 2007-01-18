@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.12 2006/12/29 21:49:52 marcelop Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.13 2007/01/18 15:53:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -49,7 +49,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.eclipse.emf.test.core.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
 
 
 public class ChangeDescriptionTest extends TestCase

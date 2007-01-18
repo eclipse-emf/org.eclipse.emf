@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.16 2007/01/15 21:50:19 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.17 2007/01/18 15:53:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -61,7 +61,8 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.eclipse.emf.test.core.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.core.AllSuites;
 
 
 public class ChangeRecordTest
@@ -833,8 +834,8 @@ extends TestCase
     EObject mary = pack.getEFactoryInstance().create(person);
     mary.eSet(name, "Mary");
 
-    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/johnTRSR.xmi");
-    URI changeDescriptionURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/changeDescriptionTRSR.xmi");    
+    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/johnTRSR.xmi");
+    URI changeDescriptionURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/changeDescriptionTRSR.xmi");    
     
     XMLResource johnResource = new XMLResourceImpl(johnURI);
     johnResource.getContents().add(john);

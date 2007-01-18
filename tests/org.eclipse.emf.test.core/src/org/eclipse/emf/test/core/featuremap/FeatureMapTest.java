@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapTest.java,v 1.5 2006/12/29 21:49:53 marcelop Exp $
+ * $Id: FeatureMapTest.java,v 1.6 2007/01/18 15:53:13 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap;
 
@@ -28,7 +28,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.test.core.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.core.AllSuites;
 import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
 import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
 import org.eclipse.emf.test.core.featuremap.supplier.SupplierFactory;
@@ -128,7 +129,7 @@ public class FeatureMapTest extends TestCase
     po2.setId("po2");
     supplier.getStandardOrders().add(po2);
 
-    URI supplierURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/supplier.xmi");
+    URI supplierURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/supplier.xmi");
     Resource resource = new XMIResourceFactoryImpl().createResource(supplierURI);
     resource.getContents().add(supplier);
     resource.save(Collections.EMPTY_MAP);

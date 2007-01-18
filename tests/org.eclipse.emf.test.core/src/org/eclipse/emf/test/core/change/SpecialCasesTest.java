@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.22 2006/12/29 21:49:52 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.23 2007/01/18 15:53:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -55,7 +55,8 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-import org.eclipse.emf.test.core.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.core.AllSuites;
 import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
 import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
 import org.eclipse.emf.test.core.featuremap.supplier.SupplierFactory;
@@ -396,11 +397,11 @@ public class SpecialCasesTest  extends TestCase
     
     // save
     
-    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/john.xmi");
+    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/john.xmi");
     Resource johnResource = new XMIResourceImpl(johnURI);
     johnResource.getContents().add(john);
     
-    URI changeDescriptionURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/cd.xmi");
+    URI changeDescriptionURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/cd.xmi");
     Resource changeDescriptionResource = new XMIResourceImpl(changeDescriptionURI);
     changeDescriptionResource.getContents().add(changeDescription);
     
@@ -798,12 +799,12 @@ public class SpecialCasesTest  extends TestCase
   {
     URI[] changeDescriptionURIs = new URI[]
     {
-       URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithObjectsToDetach.xmi")
-      ,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/objectsAndChangeDescriptionWithoutObjectsToDetach.xmi")
-      ,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/changeDescriptionWithObjectsToDetach.xmi")
-      ,URI.createFileURI(TestUtil.getPluginDirectory() + "/data/changeDescriptionWithoutObjectsToDetach.xmi")
+       URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/objectsAndChangeDescriptionWithObjectsToDetach.xmi")
+      ,URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/objectsAndChangeDescriptionWithoutObjectsToDetach.xmi")
+      ,URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/changeDescriptionWithObjectsToDetach.xmi")
+      ,URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/changeDescriptionWithoutObjectsToDetach.xmi")
     };
-    URI familyURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/data/family.xmi");
+    URI familyURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/family.xmi");
     
     EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
     pack.setName("pack");
@@ -1097,8 +1098,8 @@ public class SpecialCasesTest  extends TestCase
     father.setEType(person);
     person.getEStructuralFeatures().add(father);
     
-    URI maryURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/data/mary.xmi");
-    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/data/john.xmi");
+    URI maryURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/mary.xmi");
+    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/john.xmi");
 
     if (false) //save
     {
