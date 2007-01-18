@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDItemProviderAdapter.java,v 1.7 2006/12/29 18:32:33 marcelop Exp $
+ * $Id: XSDItemProviderAdapter.java,v 1.8 2007/01/18 14:44:37 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -185,7 +185,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
     @Override
     public Collection<?> getChoiceOfValues(Object o)
     {
-      Collection<Object> result = new ArrayList<Object>(super.getChoiceOfValues(o));
+      Collection<?> result = super.getChoiceOfValues(o);
       if (result != null && feature instanceof EAttribute)
       {
         EAttribute attribute = (EAttribute)feature;
