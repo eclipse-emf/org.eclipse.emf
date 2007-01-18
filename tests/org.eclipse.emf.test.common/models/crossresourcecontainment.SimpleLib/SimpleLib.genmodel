@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.common/src"
+    editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.test.models"
+    modelName="SimpleLib" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
+    containmentProxies="true" complianceLevel="5.0">
+  <foreignModel>SimpleLib.mdl</foreignModel>
+  <genPackages prefix="Lib" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
+      ecorePackage="SimpleLib.ecore#/">
+    <genClasses ecoreClass="SimpleLib.ecore#//Library">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleLib.ecore#//Library/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleLib.ecore#//Library/books"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleLib.ecore#//Library/address"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleLib.ecore#//Library/writers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleLib.ecore#//Library/cafeteria"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleLib.ecore#//Book">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleLib.ecore#//Book/title"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleLib.ecore#//Address">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleLib.ecore#//Address/postalCode"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleLib.ecore#//Person">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleLib.ecore#//Person/name"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference SimpleLib.ecore#//Person/library"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleLib.ecore#//Cafeteria">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleLib.ecore#//Cafeteria/name"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference SimpleLib.ecore#//Cafeteria/library"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

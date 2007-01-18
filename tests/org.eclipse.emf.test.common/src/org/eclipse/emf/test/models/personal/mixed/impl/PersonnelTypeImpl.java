@@ -1,0 +1,178 @@
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id: PersonnelTypeImpl.java,v 1.1 2007/01/18 15:50:16 marcelop Exp $
+ */
+package org.eclipse.emf.test.models.personal.mixed.impl;
+
+import java.util.Collection;
+import java.util.List;
+
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.sdo.impl.EDataObjectImpl;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import org.eclipse.emf.test.models.personal.mixed.PersonType;
+import org.eclipse.emf.test.models.personal.mixed.PersonnelType;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Personnel Type</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.eclipse.emf.test.models.personal.mixed.impl.PersonnelTypeImpl#getPerson <em>Person</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
+public class PersonnelTypeImpl extends EDataObjectImpl implements PersonnelType
+{
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * The cached value of the '{@link #getPerson() <em>Person</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getPerson()
+   * @generated
+   * @ordered
+   */
+  protected EList<PersonType> person = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected PersonnelTypeImpl()
+  {
+    super();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EClass eStaticClass()
+  {
+    return MixedPackageImpl.Literals.PERSONNEL_TYPE;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List<PersonType> getPerson()
+  {
+    if (person == null)
+    {
+      person = new EObjectContainmentEList<PersonType>(PersonType.class, this, MixedPackageImpl.PERSONNEL_TYPE__PERSON);
+    }
+    return person;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case MixedPackageImpl.PERSONNEL_TYPE__PERSON:
+        return ((InternalEList<?>)getPerson()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case MixedPackageImpl.PERSONNEL_TYPE__PERSON:
+        return getPerson();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case MixedPackageImpl.PERSONNEL_TYPE__PERSON:
+        getPerson().clear();
+        getPerson().addAll((Collection<? extends PersonType>)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case MixedPackageImpl.PERSONNEL_TYPE__PERSON:
+        getPerson().clear();
+        return;
+    }
+    super.eUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case MixedPackageImpl.PERSONNEL_TYPE__PERSON:
+        return person != null && !person.isEmpty();
+    }
+    return super.eIsSet(featureID);
+  }
+
+} //PersonnelTypeImpl

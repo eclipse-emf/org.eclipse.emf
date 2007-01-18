@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.common/src"
+    editDirectory="/org.eclipse.emf.test.common/src" editorDirectory="" modelPluginID="org.eclipse.emf.test.common"
+    modelName="Tree" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
+    complianceLevel="5.0">
+  <foreignModel>Tree.mdl</foreignModel>
+  <genPackages prefix="Tree" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
+      ecorePackage="Tree.ecore#/">
+    <genClasses ecoreClass="Tree.ecore#//Node">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Tree.ecore#//Node/name"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Tree.ecore#//Node/parent"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Tree.ecore#//Node/children"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Tree.ecore#//Node/data"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Tree.ecore#//Node/relatedNodes"/>
+    </genClasses>
+    <genClasses ecoreClass="Tree.ecore#//Data">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Tree.ecore#//Data/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Tree.ecore#//Data/node"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

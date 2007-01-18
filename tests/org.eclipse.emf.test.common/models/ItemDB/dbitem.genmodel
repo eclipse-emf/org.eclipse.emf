@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.common/src"
+    editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.test.models"
+    modelName="DBitem" testsDirectory="" importerID="org.eclipse.xsd.ecore.importer"
+    complianceLevel="5.0">
+  <foreignModel>dbitem.xsd</foreignModel>
+  <genPackages prefix="DBItem" basePackage="org.eclipse.emf.test.models" resource="XML"
+      disposableProviderFactory="true" ecorePackage="dbitem.ecore#/">
+    <genClasses ecoreClass="dbitem.ecore#//DbType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dbitem.ecore#//DbType/redPen"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dbitem.ecore#//DbType/bluePen"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dbitem.ecore#//DbType/redPencil"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dbitem.ecore#//DbType/bluePencil"/>
+    </genClasses>
+    <genClasses ecoreClass="dbitem.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute dbitem.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference dbitem.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference dbitem.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference dbitem.ecore#//DocumentRoot/dbitem"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="DBPrice" basePackage="org.eclipse.emf.test.models" resource="XML"
+      disposableProviderFactory="true" ecorePackage="dbprice.ecore#/">
+    <genClasses ecoreClass="dbprice.ecore#//PencilType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dbprice.ecore#//PencilType/price"/>
+    </genClasses>
+    <genClasses ecoreClass="dbprice.ecore#//PenType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute dbprice.ecore#//PenType/price"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

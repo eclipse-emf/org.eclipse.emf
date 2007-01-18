@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  targetNamespace="http:///org.eclipse.emf.test.models/dbprice">
+  
+   <xs:complexType name="penType">
+      <xs:sequence>
+         <xs:element name="price" type="xs:int" form="qualified" />
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="pencilType">
+      <xs:sequence>
+         <xs:element name="price" type="xs:int" form="unqualified"/>
+      </xs:sequence>
+   </xs:complexType>
+   
+</xs:schema>
+

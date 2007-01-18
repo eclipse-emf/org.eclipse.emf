@@ -1,0 +1,1273 @@
+
+(object Petal
+    version    	42
+    _written   	"Rose 4.5.8163.3"
+    charSet    	0)
+
+(object Design "Logical View"
+    is_unit    	TRUE
+    is_loaded  	TRUE
+    defaults   	(object defaults
+	rightMargin 	0.250000
+	leftMargin 	0.250000
+	topMargin  	0.250000
+	bottomMargin 	0.500000
+	pageOverlap 	0.250000
+	clipIconLabels 	TRUE
+	autoResize 	TRUE
+	snapToGrid 	TRUE
+	gridX      	16
+	gridY      	16
+	defaultFont 	(object Font
+	    size       	10
+	    face       	"Arial"
+	    bold       	FALSE
+	    italics    	FALSE
+	    underline  	FALSE
+	    strike     	FALSE
+	    color      	0
+	    default_color 	TRUE)
+	showMessageNum 	1
+	showClassOfObject 	TRUE
+	notation   	"Unified")
+    root_usecase_package 	(object Class_Category "Use Case View"
+	quid       	"43E8CA1B01EA"
+	exportControl 	"Public"
+	global     	TRUE
+	logical_models 	(list unit_reference_list)
+	logical_presentations 	(list unit_reference_list
+	    (object UseCaseDiagram "Main"
+		quid       	"43E8CA1C0032"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    root_category 	(object Class_Category "Logical View"
+	quid       	"43E8CA1B01E9"
+	exportControl 	"Public"
+	global     	TRUE
+	subsystem  	"Component View"
+	quidu      	"43E8CA1B01EB"
+	logical_models 	(list unit_reference_list
+	    (object Class_Category "lib"
+		attributes 	(list Attribute_Set
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"nsURI"
+			value      	"http:///org.eclipse.emf.test.models/SimpleLib")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"basePackage"
+			value      	"org.eclipse.emf.test.models"))
+		quid       	"43E8CA230185"
+		exportControl 	"Public"
+		logical_models 	(list unit_reference_list
+		    (object Class "Library"
+			quid       	"43E8CA85030D"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "name"
+				quid       	"43E8CAE800DE"
+				type       	"String"
+				exportControl 	"Public")))
+		    (object Class "Book"
+			quid       	"43E8CA900182"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "title"
+				quid       	"43E8CAFB033F"
+				type       	"String"
+				exportControl 	"Public")))
+		    (object Class "Address"
+			quid       	"43E8D2F8015E"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "postalCode"
+				quid       	"43E8D2FF02B3"
+				type       	"String"
+				exportControl 	"Public")))
+		    (object Class "Person"
+			quid       	"43E923470143"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "name"
+				quid       	"43E9238202D8"
+				type       	"String"
+				exportControl 	"Public")))
+		    (object Class "Cafeteria"
+			quid       	"43E925C8004A"
+			class_attributes 	(list class_attribute_list
+			    (object ClassAttribute "name"
+				quid       	"43E926B100E5"
+				type       	"String"
+				exportControl 	"Public")))
+		    (object Association "$UNNAMED$0"
+			quid       	"43E8CAA0018F"
+			roles      	(list role_list
+			    (object Role "$UNNAMED$1"
+				quid       	"43E8CAA100A0"
+				supplier   	"Logical View::lib::Library"
+				quidu      	"43E8CA85030D"
+				is_aggregate 	TRUE)
+			    (object Role "books"
+				quid       	"43E8CAA100A1"
+				label      	"books"
+				supplier   	"Logical View::lib::Book"
+				quidu      	"43E8CA900182"
+				client_cardinality 	(value cardinality "0..n")
+				Containment 	"By Value"
+				is_navigable 	TRUE)))
+		    (object Association "$UNNAMED$2"
+			quid       	"43E8D31702F4"
+			roles      	(list role_list
+			    (object Role "$UNNAMED$3"
+				quid       	"43E8D3180150"
+				supplier   	"Logical View::lib::Library"
+				quidu      	"43E8CA85030D"
+				is_aggregate 	TRUE)
+			    (object Role "address"
+				quid       	"43E8D3180151"
+				label      	"address"
+				supplier   	"Logical View::lib::Address"
+				quidu      	"43E8D2F8015E"
+				client_cardinality 	(value cardinality "1")
+				Containment 	"By Value"
+				is_navigable 	TRUE)))
+		    (object Association "$UNNAMED$4"
+			quid       	"43E923AB036D"
+			roles      	(list role_list
+			    (object Role "library"
+				quid       	"43E923AC0170"
+				label      	"library"
+				supplier   	"Logical View::lib::Library"
+				quidu      	"43E8CA85030D"
+				client_cardinality 	(value cardinality "0..1")
+				is_navigable 	TRUE
+				is_aggregate 	TRUE)
+			    (object Role "writers"
+				quid       	"43E923AC0171"
+				label      	"writers"
+				supplier   	"Logical View::lib::Person"
+				quidu      	"43E923470143"
+				client_cardinality 	(value cardinality "0..n")
+				Containment 	"By Value"
+				is_navigable 	TRUE)))
+		    (object Association "$UNNAMED$5"
+			quid       	"43E925DB02D2"
+			roles      	(list role_list
+			    (object Role "library"
+				quid       	"43E925DC0356"
+				label      	"library"
+				supplier   	"Logical View::lib::Library"
+				quidu      	"43E8CA85030D"
+				client_cardinality 	(value cardinality "1")
+				is_navigable 	TRUE
+				is_aggregate 	TRUE)
+			    (object Role "cafeteria"
+				quid       	"43E925DC0357"
+				label      	"cafeteria"
+				supplier   	"Logical View::lib::Cafeteria"
+				quidu      	"43E925C8004A"
+				client_cardinality 	(value cardinality "0..1")
+				Containment 	"By Value"
+				is_navigable 	TRUE))))
+		logical_presentations 	(list unit_reference_list
+		    (object ClassDiagram "Main"
+			quid       	"43E8CA8103CF"
+			title      	"Main"
+			zoom       	100
+			max_height 	28350
+			max_width  	21600
+			origin_x   	0
+			origin_y   	0
+			items      	(list diagram_item_list
+			    (object ClassView "Class" "Logical View::lib::Book" @1
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(2400, 944)
+				label      	(object ItemLabel
+				    Parent_View 	@1
+				    location   	(2269, 863)
+				    fill_color 	13434879
+				    nlines     	1
+				    max_width  	262
+				    justify    	0
+				    label      	"Book")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"43E8CA900182"
+				width      	280
+				height     	186
+				annotation 	8
+				autoResize 	TRUE)
+			    (object ClassView "Class" "Logical View::lib::Person" @2
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(1552, 1568)
+				label      	(object ItemLabel
+				    Parent_View 	@2
+				    location   	(1404, 1487)
+				    fill_color 	13434879
+				    nlines     	1
+				    max_width  	296
+				    justify    	0
+				    label      	"Person")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"43E923470143"
+				width      	314
+				height     	186
+				annotation 	8
+				autoResize 	TRUE)
+			    (object ClassView "Class" "Logical View::lib::Address" @3
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(736, 944)
+				label      	(object ItemLabel
+				    Parent_View 	@3
+				    location   	(536, 863)
+				    fill_color 	13434879
+				    nlines     	1
+				    max_width  	400
+				    justify    	0
+				    label      	"Address")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"43E8D2F8015E"
+				width      	418
+				height     	186
+				annotation 	8
+				autoResize 	TRUE)
+			    (object ClassView "Class" "Logical View::lib::Library" @4
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(1552, 944)
+				label      	(object ItemLabel
+				    Parent_View 	@4
+				    location   	(1404, 863)
+				    fill_color 	13434879
+				    nlines     	1
+				    max_width  	296
+				    justify    	0
+				    label      	"Library")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"43E8CA85030D"
+				width      	314
+				height     	186
+				annotation 	8
+				autoResize 	TRUE)
+			    (object AssociationViewNew "$UNNAMED$0" @5
+				location   	(1984, 944)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"43E8CAA0018F"
+				roleview_list 	(list RoleViews
+				    (object RoleView "$UNNAMED$1" @6
+					Parent_View 	@5
+					location   	(1072, 496)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"43E8CAA100A0"
+					client     	@5
+					supplier   	@4
+					line_style 	0)
+				    (object RoleView "books" @7
+					Parent_View 	@5
+					location   	(1072, 496)
+					label      	(object SegLabel @8
+					    Parent_View 	@7
+					    location   	(2174, 903)
+					    anchor     	1
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	132
+					    justify    	0
+					    label      	"+books"
+					    pctDist    	0.694969
+					    height     	42
+					    orientation 	0)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"43E8CAA100A1"
+					client     	@5
+					supplier   	@1
+					line_style 	0
+					label      	(object SegLabel @9
+					    Parent_View 	@7
+					    location   	(2204, 999)
+					    anchor     	2
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	15
+					    justify    	0
+					    label      	"0..*"
+					    pctDist    	0.798742
+					    height     	55
+					    orientation 	1))))
+			    (object AssociationViewNew "$UNNAMED$4" @10
+				location   	(1552, 1255)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"43E923AB036D"
+				roleview_list 	(list RoleViews
+				    (object RoleView "library" @11
+					Parent_View 	@10
+					location   	(64, 327)
+					label      	(object SegLabel @12
+					    Parent_View 	@11
+					    location   	(1654, 1159)
+					    anchor     	1
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	132
+					    justify    	0
+					    label      	"+library"
+					    pctDist    	0.440367
+					    height     	102
+					    orientation 	1)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"43E923AC0170"
+					client     	@10
+					supplier   	@4
+					line_style 	0
+					label      	(object SegLabel @13
+					    Parent_View 	@11
+					    location   	(1623, 1110)
+					    anchor     	2
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	15
+					    justify    	0
+					    label      	"0..1"
+					    pctDist    	0.669725
+					    height     	71
+					    orientation 	1))
+				    (object RoleView "writers" @14
+					Parent_View 	@10
+					location   	(64, 327)
+					label      	(object SegLabel @15
+					    Parent_View 	@14
+					    location   	(1655, 1382)
+					    anchor     	1
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	144
+					    justify    	0
+					    label      	"+writers"
+					    pctDist    	0.584475
+					    height     	103
+					    orientation 	0)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"43E923AC0171"
+					client     	@10
+					supplier   	@2
+					line_style 	0
+					label      	(object SegLabel @16
+					    Parent_View 	@14
+					    location   	(1606, 1433)
+					    anchor     	2
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	15
+					    justify    	0
+					    label      	"0..*"
+					    pctDist    	0.817352
+					    height     	54
+					    orientation 	0))))
+			    (object AssociationViewNew "$UNNAMED$2" @17
+				location   	(1169, 944)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"43E8D31702F4"
+				roleview_list 	(list RoleViews
+				    (object RoleView "$UNNAMED$3" @18
+					Parent_View 	@17
+					location   	(785, 32)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"43E8D3180150"
+					client     	@17
+					supplier   	@4
+					line_style 	0)
+				    (object RoleView "address" @19
+					Parent_View 	@17
+					location   	(785, 32)
+					label      	(object SegLabel @20
+					    Parent_View 	@19
+					    location   	(1043, 884)
+					    anchor     	1
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	168
+					    justify    	0
+					    label      	"+address"
+					    pctDist    	0.562500
+					    height     	61
+					    orientation 	1)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"43E8D3180151"
+					client     	@17
+					supplier   	@3
+					line_style 	0
+					label      	(object SegLabel @21
+					    Parent_View 	@19
+					    location   	(998, 983)
+					    anchor     	2
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	15
+					    justify    	0
+					    label      	"1"
+					    pctDist    	0.763393
+					    height     	39
+					    orientation 	0))))
+			    (object ClassView "Class" "Logical View::lib::Cafeteria" @22
+				ShowCompartmentStereotypes 	TRUE
+				IncludeAttribute 	TRUE
+				IncludeOperation 	TRUE
+				location   	(1552, 352)
+				label      	(object ItemLabel
+				    Parent_View 	@22
+				    location   	(1383, 280)
+				    fill_color 	13434879
+				    nlines     	1
+				    max_width  	338
+				    justify    	0
+				    label      	"Cafeteria")
+				icon_style 	"Icon"
+				line_color 	3342489
+				fill_color 	13434879
+				quidu      	"43E925C8004A"
+				width      	356
+				height     	169
+				annotation 	8
+				autoResize 	TRUE)
+			    (object AssociationViewNew "$UNNAMED$5" @23
+				location   	(1552, 643)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"43E925DB02D2"
+				roleview_list 	(list RoleViews
+				    (object RoleView "library" @24
+					Parent_View 	@23
+					location   	(16, 259)
+					label      	(object SegLabel @25
+					    Parent_View 	@24
+					    location   	(1638, 790)
+					    anchor     	1
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	132
+					    justify    	0
+					    label      	"+library"
+					    pctDist    	0.714286
+					    height     	86
+					    orientation 	0)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"43E925DC0356"
+					client     	@23
+					supplier   	@4
+					line_style 	0
+					label      	(object SegLabel @26
+					    Parent_View 	@24
+					    location   	(1587, 732)
+					    anchor     	2
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	15
+					    justify    	0
+					    label      	"1"
+					    pctDist    	0.433333
+					    height     	35
+					    orientation 	0))
+				    (object RoleView "cafeteria" @27
+					Parent_View 	@23
+					location   	(16, 259)
+					label      	(object SegLabel @28
+					    Parent_View 	@27
+					    location   	(1671, 541)
+					    anchor     	1
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	180
+					    justify    	0
+					    label      	"+cafeteria"
+					    pctDist    	0.492823
+					    height     	119
+					    orientation 	1)
+					stereotype 	TRUE
+					line_color 	3342489
+					quidu      	"43E925DC0357"
+					client     	@23
+					supplier   	@22
+					line_style 	0
+					label      	(object SegLabel @29
+					    Parent_View 	@27
+					    location   	(1607, 474)
+					    anchor     	2
+					    anchor_loc 	1
+					    nlines     	1
+					    max_width  	15
+					    justify    	0
+					    label      	"0..1"
+					    pctDist    	0.818182
+					    height     	55
+					    orientation 	1)))))))))
+	logical_presentations 	(list unit_reference_list
+	    (object ClassDiagram "Main"
+		quid       	"43E8CA1C0045"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list
+		    (object CategoryView "Logical View::lib" @30
+			location   	(464, 352)
+			label      	(object ItemLabel
+			    Parent_View 	@30
+			    location   	(320, 268)
+			    fill_color 	13434879
+			    nlines     	2
+			    max_width  	288
+			    justify    	0
+			    label      	"lib")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"43E8CA230185"
+			width      	300
+			height     	180)))))
+    root_subsystem 	(object SubSystem "Component View"
+	quid       	"43E8CA1B01EB"
+	physical_models 	(list unit_reference_list)
+	physical_presentations 	(list unit_reference_list
+	    (object Module_Diagram "Main"
+		quid       	"43E8CA1C0031"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    process_structure 	(object Processes
+	quid       	"43E8CA1B01EC"
+	ProcsNDevs 	(list
+	    (object Process_Diagram "Deployment View"
+		quid       	"43E8CA1B01EE"
+		title      	"Deployment View"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    properties 	(object Properties
+	attributes 	(list Attribute_Set
+	    (object Attribute
+		tool       	"DDL"
+		name       	"propertyId"
+		value      	"809135966")
+	    (object Attribute
+		tool       	"DDL"
+		name       	"default__Project"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"DDL"
+			name       	"Directory"
+			value      	"AUTO GENERATE")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DataBase"
+			value      	("DataBaseSet" 800))
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DataBaseSet"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"DDL"
+				name       	"ANSI"
+				value      	800)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"Oracle"
+				value      	801)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"SQLServer"
+				value      	802)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"Sybase"
+				value      	803)
+			    (object Attribute
+				tool       	"DDL"
+				name       	"Watcom"
+				value      	804)))
+		    (object Attribute
+			tool       	"DDL"
+			name       	"PrimaryKeyColumnName"
+			value      	"Id")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"PrimaryKeyColumnType"
+			value      	"NUMBER(5)")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"ViewName"
+			value      	"V_")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"TableName"
+			value      	"T_")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"InheritSuffix"
+			value      	"_V")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DropClause"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"BaseViews"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"DDLScriptFilename"
+			value      	"DDL1.SQL")))
+	    (object Attribute
+		tool       	"DDL"
+		name       	"default__Attribute"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"DDL"
+			name       	"ColumnType"
+			value      	"VARCHAR")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"Length"
+			value      	"")
+		    (object Attribute
+			tool       	"DDL"
+			name       	"NullsOK"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"PrimaryKey"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"Unique"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"CompositeUnique"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"DDL"
+			name       	"CheckConstraint"
+			value      	"")))
+	    (object Attribute
+		tool       	"DDL"
+		name       	"HiddenTool"
+		value      	FALSE)
+	    (object Attribute
+		tool       	"IDL"
+		name       	"propertyId"
+		value      	"809135966")
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Project"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CreateMissingDirectories"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"StopOnError"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"Directory"
+			value      	"AUTO GENERATE")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GeneratePreserveRegions"
+			value      	TRUE)))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Class"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"ImplementationType"
+			value      	"")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"ConstValue"
+			value      	"")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateDefaultSpecifier"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"DefaultSpecifier"
+			value      	"")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IDLElement"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IDLSpecificationType"
+			value      	("IDLSpecSet" 22))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IDLSpecSet"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Interface"
+				value      	22)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Typedef"
+				value      	54)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Enumeration"
+				value      	8)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Const"
+				value      	71)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Exception"
+				value      	61)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Struct"
+				value      	51)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Union"
+				value      	81)))))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Module-Spec"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"Generate"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CmIdentification"
+			value      	(value Text "  %X% %Q% %Z% %W%"))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CopyrightNotice"
+			value      	(value Text ""))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"FileName"
+			value      	"AUTO GENERATE")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateIDLModule"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"InclusionProtectionSymbol"
+			value      	"AUTO GENERATE")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"AdditionalIncludes"
+			value      	(value Text ""))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IncludeBySimpleName"
+			value      	FALSE)))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Module-Body"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CmIdentification"
+			value      	(value Text "  %X% %Q% %Z% %W%"))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CopyrightNotice"
+			value      	(value Text ""))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"FileName"
+			value      	"AUTO GENERATE")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"AdditionalIncludes"
+			value      	(value Text ""))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IncludeBySimpleName"
+			value      	FALSE)))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Operation"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"OperationIsOneWay"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"Context"
+			value      	"")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"Raises"
+			value      	"")))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Attribute"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"CaseSpecifier"
+			value      	"")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateDataMember"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"DataMemberName"
+			value      	"$relationship")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IsReadOnly"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IsConst"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"ConstValue"
+			value      	"")))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Has"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"NameIfUnlabeled"
+			value      	"the_$supplier")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateDataMember"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"DataMemberName"
+			value      	"$relationship")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateForwardReference"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IsReadOnly"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"BoundedHasRelType"
+			value      	("HasRelTypeSet" 47))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"HasRelTypeSet"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Array"
+				value      	24)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Sequence"
+				value      	47)))))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Role"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"NameIfUnlabeled"
+			value      	"the_$supplier")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateDataMember"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"DataMemberName"
+			value      	"$relationship")
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateForwardReference"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"IsReadOnly"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"IDL"
+			name       	"BoundedRoleType"
+			value      	("AssocTypeSet" 47))
+		    (object Attribute
+			tool       	"IDL"
+			name       	"AssocTypeSet"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Array"
+				value      	24)
+			    (object Attribute
+				tool       	"IDL"
+				name       	"Sequence"
+				value      	47)))))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Uses"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"GenerateForwardReference"
+			value      	FALSE)))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"default__Subsystem"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"IDL"
+			name       	"Directory"
+			value      	"AUTO GENERATE")))
+	    (object Attribute
+		tool       	"IDL"
+		name       	"HiddenTool"
+		value      	FALSE)
+	    (object Attribute
+		tool       	"SCC"
+		name       	"HiddenTool"
+		value      	FALSE)
+	    (object Attribute
+		tool       	"Ecore"
+		name       	"propertyId"
+		value      	"809135969")
+	    (object Attribute
+		tool       	"Ecore"
+		name       	"default__Category"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"packageName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"nsPrefix"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"nsURI"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"basePackage"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"prefix"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"annotation"
+			value      	"")))
+	    (object Attribute
+		tool       	"Ecore"
+		name       	"default__Class"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"classifierName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"constraints"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlContentKind"
+			value      	("ContentKind" 0))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"ContentKind"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Unspecified"
+				value      	0)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Empty"
+				value      	1)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Simple"
+				value      	2)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Mixed"
+				value      	3)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"ElementOnly"
+				value      	4)))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"annotation"
+			value      	"")))
+	    (object Attribute
+		tool       	"Ecore"
+		name       	"default__Operation"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"operationName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isUnique"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"annotation"
+			value      	"")))
+	    (object Attribute
+		tool       	"Ecore"
+		name       	"default__Attribute"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"attributeName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isTransient"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isVolatile"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isChangeable"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isUnsettable"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isUnique"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isID"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"visibility"
+			value      	("VisibilityKind" 0))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"VisibilityKind"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Unspecified"
+				value      	0)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"None"
+				value      	1)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-only"
+				value      	2)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-write"
+				value      	3)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-only unsettable"
+				value      	4)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-write unsettable"
+				value      	5)))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlNamespace"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlFeatureKind"
+			value      	("FeatureKind" 0))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"FeatureKind"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Unspecified"
+				value      	0)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Simple"
+				value      	1)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Attribute"
+				value      	2)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Element"
+				value      	4)))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"annotation"
+			value      	"")))
+	    (object Attribute
+		tool       	"Ecore"
+		name       	"default__Role"
+		value      	(list Attribute_Set
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"referenceName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isTransient"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isVolatile"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isChangeable"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isUnsettable"
+			value      	FALSE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"isResolveProxies"
+			value      	TRUE)
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"visibility"
+			value      	("VisibilityKind" 0))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"VisibilityKind"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Unspecified"
+				value      	0)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"None"
+				value      	1)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-only"
+				value      	2)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-write"
+				value      	3)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-only unsettable"
+				value      	4)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Read-write unsettable"
+				value      	5)))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlName"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlNamespace"
+			value      	"")
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"xmlFeatureKind"
+			value      	("FeatureKind" 0))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"FeatureKind"
+			value      	(list Attribute_Set
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Unspecified"
+				value      	0)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Simple"
+				value      	1)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Attribute"
+				value      	2)
+			    (object Attribute
+				tool       	"Ecore"
+				name       	"Element"
+				value      	4)))
+		    (object Attribute
+			tool       	"Ecore"
+			name       	"annotation"
+			value      	""))))
+	quid       	"43E8CA1B01ED"))

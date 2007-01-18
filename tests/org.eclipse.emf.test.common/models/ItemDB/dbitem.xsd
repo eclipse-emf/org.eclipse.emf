@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  targetNamespace="http:///org.eclipse.emf.test.models/dbitem" 
+  xmlns:p="http:///org.eclipse.emf.test.models/dbprice"
+  xmlns="http:///org.eclipse.emf.test.models/dbitem">
+  
+   <xs:import namespace="http:///org.eclipse.emf.test.models/dbprice" 
+     schemaLocation="dbprice.xsd" />
+
+   <xs:element name="dbitem" type="dbType" />
+
+   <xs:complexType name="dbType">
+      <xs:sequence>
+         <xs:element name="red_pen" type="p:penType" form="qualified" />
+
+         <xs:element name="blue_pen" type="p:penType" form="unqualified" />
+
+         <xs:element name="red_pencil" type="p:pencilType" form="qualified" />
+
+         <xs:element name="blue_pencil" type="p:pencilType" form="unqualified" />
+      </xs:sequence>
+   </xs:complexType>
+   
+</xs:schema>
+

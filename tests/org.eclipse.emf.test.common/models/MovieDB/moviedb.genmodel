@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.common/src"
+    editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.test.models"
+    modelName="MovieDB" testsDirectory="" importerID="org.eclipse.xsd.ecore.importer"
+    complianceLevel="5.0">
+  <foreignModel>customer.xsd</foreignModel>
+  <foreignModel>moviedb.xsd</foreignModel>
+  <foreignModel>order.xsd</foreignModel>
+  <genPackages prefix="Customer" basePackage="org.eclipse.emf.test.models" resource="XML"
+      disposableProviderFactory="true" ecorePackage="customer.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="customer.ecore#//USState">
+      <genEnumLiterals ecoreEnumLiteral="customer.ecore#//USState/AK"/>
+      <genEnumLiterals ecoreEnumLiteral="customer.ecore#//USState/AL"/>
+      <genEnumLiterals ecoreEnumLiteral="customer.ecore#//USState/AR"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="customer.ecore#//USStateObject"/>
+    <genDataTypes ecoreDataType="customer.ecore#//ZipCodes"/>
+    <genDataTypes ecoreDataType="customer.ecore#//ZipUnion"/>
+    <genClasses image="false" ecoreClass="customer.ecore#//AddressType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//AddressType/street"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//AddressType/town"/>
+    </genClasses>
+    <genClasses ecoreClass="customer.ecore#//CanadaAddr">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//CanadaAddr/zip"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//CanadaAddr/province"/>
+    </genClasses>
+    <genClasses ecoreClass="customer.ecore#//CreditInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//CreditInfo/holder"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//CreditInfo/ccNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//CreditInfo/expireDate"/>
+    </genClasses>
+    <genClasses ecoreClass="customer.ecore#//CustomersType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute customer.ecore#//CustomersType/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference customer.ecore#//CustomersType/customer"/>
+    </genClasses>
+    <genClasses ecoreClass="customer.ecore#//CustomerType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//CustomerType/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference customer.ecore#//CustomerType/address"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference customer.ecore#//CustomerType/creditCard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//CustomerType/paymentDay"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//CustomerType/iD"/>
+    </genClasses>
+    <genClasses ecoreClass="customer.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference customer.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference customer.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference customer.ecore#//DocumentRoot/customers"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//DocumentRoot/iD"/>
+    </genClasses>
+    <genClasses ecoreClass="customer.ecore#//USAddr">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//USAddr/zip"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute customer.ecore#//USAddr/state"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="DB" basePackage="org.eclipse.emf.test.models.movie" resource="XML"
+      disposableProviderFactory="true" ecorePackage="db.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="db.ecore#//GenreTypes">
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/NewRelease"/>
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/Action"/>
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/Animation"/>
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/Family"/>
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/Classics"/>
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/Comedy"/>
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/Documentary"/>
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/Drama"/>
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/Horror"/>
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/Romance"/>
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/SciFi"/>
+      <genEnumLiterals ecoreEnumLiteral="db.ecore#//GenreTypes/Thriller"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="db.ecore#//ActorsList"/>
+    <genDataTypes ecoreDataType="db.ecore#//GenreTypesObject"/>
+    <genDataTypes ecoreDataType="db.ecore#//RatingType"/>
+    <genDataTypes ecoreDataType="db.ecore#//RatingTypeObject"/>
+    <genDataTypes ecoreDataType="db.ecore#//RatingValues"/>
+    <genDataTypes ecoreDataType="db.ecore#//RatingValuesObject"/>
+    <genClasses ecoreClass="db.ecore#//CriticsReviewType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//CriticsReviewType/rating"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//CriticsReviewType/reviewedBy"/>
+    </genClasses>
+    <genClasses ecoreClass="db.ecore#//CustomerReviewType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//CustomerReviewType/comment"/>
+    </genClasses>
+    <genClasses ecoreClass="db.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference db.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference db.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference db.ecore#//DocumentRoot/checkedOutBy"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference db.ecore#//DocumentRoot/criticsReview"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference db.ecore#//DocumentRoot/customerReview"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//DocumentRoot/language"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference db.ecore#//DocumentRoot/movieDB"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//DocumentRoot/specialFeatures"/>
+    </genClasses>
+    <genClasses ecoreClass="db.ecore#//MovieDBType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute db.ecore#//MovieDBType/movieDBFeatureMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference db.ecore#//MovieDBType/movie"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//MovieDBType/comment"/>
+    </genClasses>
+    <genClasses ecoreClass="db.ecore#//MovieType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//MovieType/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//MovieType/actors"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//MovieType/director"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//MovieType/genre"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//MovieType/summary"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute db.ecore#//MovieType/criticsReviewGroup"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference db.ecore#//MovieType/criticsReview"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference db.ecore#//MovieType/checkedOutBy"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute db.ecore#//MovieType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute db.ecore#//MovieType/iD"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Order" basePackage="org.eclipse.emf.test.models" resource="XML"
+      disposableProviderFactory="true" ecorePackage="order.ecore#/">
+    <genClasses ecoreClass="order.ecore#//CustomerOrder">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference order.ecore#//CustomerOrder/moviesToSee"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference order.ecore#//CustomerOrder/moviesSeen"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute order.ecore#//CustomerOrder/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute order.ecore#//CustomerOrder/customerID"/>
+    </genClasses>
+    <genClasses ecoreClass="order.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute order.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference order.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference order.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference order.ecore#//DocumentRoot/order"/>
+    </genClasses>
+    <genClasses ecoreClass="order.ecore#//Order">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute order.ecore#//Order/dateRequested"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute order.ecore#//Order/lastUpdated"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute order.ecore#//Order/movies"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

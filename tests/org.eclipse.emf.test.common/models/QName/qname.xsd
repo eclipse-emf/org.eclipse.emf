@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" 
+    targetNamespace="http:///org.eclipse.emf.test.models/qname" 
+    xmlns="http:///org.eclipse.emf.test.models/qname" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <xs:element name="resource" type="resourceType" />
+
+   <xs:complexType name="resourceType" mixed="false">
+      <xs:sequence>
+         <xs:element name="unionvalue" type="intQNameUnion" />
+         <xs:element name="qnamelist" type="qnameList" />
+         <xs:element name="intvalue" type="xs:int" />
+         <xs:any minOccurs="0" namespace="##any" />
+      </xs:sequence>
+      <xs:attribute name="myQname" type="qnameList" />
+      <xs:anyAttribute namespace="##any" />
+   </xs:complexType>
+
+   <xs:attribute name="aInt" type="xs:int" />
+
+   <xs:attribute name="aQname" type="xs:QName" />
+
+   <xs:attribute name="aUnion" type="listUnion" />
+
+   <xs:element name="anyE" type="xs:QName" />
+
+   <xs:element name="anyEU" type="listUnion" />
+
+   <xs:simpleType name="qnameList">
+      <xs:list itemType="xs:QName" />
+   </xs:simpleType>
+
+   <xs:simpleType name="listUnion">
+      <xs:list itemType="Union" />
+   </xs:simpleType>
+
+   <xs:simpleType name="Union">
+      <xs:union memberTypes="xs:boolean intQNameUnion" />
+   </xs:simpleType>
+
+   <xs:simpleType name="intQNameUnion">
+      <xs:union memberTypes="xs:int xs:QName" />
+   </xs:simpleType>
+</xs:schema>
+

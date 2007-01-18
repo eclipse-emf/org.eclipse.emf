@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http:///org.eclipse.emf.test.models/MovieDB"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:db="http:///org.eclipse.emf.test.models/MovieDB" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:c="http:///org.eclipse.emf.test.models/Customer">
+    
+    <xsd:import namespace="http:///org.eclipse.emf.test.models/Customer" schemaLocation="customer.xsd"/>
+
+    <xsd:element name="movieDB" type="db:movieDBType"/>
+    <xsd:complexType name="movieDBType" ecore:featureMap="MovieDBFeatureMap">
+        <xsd:sequence>
+            <xsd:element form="qualified" name="movie" type="db:movie" maxOccurs="unbounded"/>
+            <xsd:element name="comment" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="movie" ecore:name="MovieType">
+        <xsd:sequence>
+            <xsd:element name="title" type="xsd:string"/>
+            <xsd:element name="actors" type="db:actorsList"/>
+            <xsd:element name="director" type="xsd:string"/>
+            <xsd:element name="genre" type="db:genreTypes"/>
+            <xsd:element name="summary" type="xsd:string"/>	                   
+            <xsd:element ref="db:criticsReview" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="db:checkedOutBy"/>
+            <xsd:any minOccurs="0"/>            
+        </xsd:sequence>
+        <xsd:attribute ref="c:ID" use="required"/>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="genreTypes">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="NewRelease"/>
+            <xsd:enumeration value="Action"/>
+            <xsd:enumeration value="Animation"/>
+            <xsd:enumeration value="Family"/>
+            <xsd:enumeration value="Classics"/>
+            <xsd:enumeration value="Comedy"/>
+            <xsd:enumeration value="Documentary"/>
+            <xsd:enumeration value="Drama"/>
+            <xsd:enumeration value="Horror"/>
+            <xsd:enumeration value="Romance"/>
+            <xsd:enumeration value="SciFi"/>
+            <xsd:enumeration value="Thriller"/>           
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="checkedOutBy" type="xsd:anyURI" ecore:reference="c:dbcustomer"/>
+    
+    <!-- valid any type elements -->
+    <xsd:element name="language" type="xsd:string"/>
+    <xsd:element name="specialFeatures" type="xsd:string"/>
+
+      
+    <!-- substitution groups -->
+    <xsd:element name="criticsReview" type="db:criticsReviewType"/>
+    <xsd:element name="customerReview" substitutionGroup="db:criticsReview" type="db:customerReviewType"/>
+    
+    <xsd:complexType name="criticsReviewType">
+        <xsd:sequence>
+            <xsd:element name="rating">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:int">
+                  <xsd:minInclusive value="0"/>
+                  <xsd:maxInclusive value="10"/>
+                </xsd:restriction>
+              </xsd:simpleType> 
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="ReviewedBy" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="customerReviewType">
+        <xsd:complexContent ecore:mixed="true">
+         <xsd:extension base="db:criticsReviewType">
+         <xsd:sequence >
+             <xsd:element name="comment" type="xsd:string"/>
+        </xsd:sequence>
+        </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+        
+    <xsd:simpleType name="ratingValues">
+        <xsd:restriction base="xsd:int">
+            <xsd:minInclusive value="0"/>
+            <xsd:maxInclusive value="10"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="actorsList">
+        <xsd:list itemType="xsd:NCName"/>
+    </xsd:simpleType>
+
+
+</xsd:schema>
+

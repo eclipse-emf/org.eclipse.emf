@@ -1,0 +1,309 @@
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id: DocumentRootImpl.java,v 1.1 2007/01/18 15:50:15 marcelop Exp $
+ */
+package org.eclipse.emf.test.models.dbitem.impl;
+
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EMap;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
+
+import org.eclipse.emf.ecore.util.BasicFeatureMap;
+import org.eclipse.emf.ecore.util.EcoreEMap;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import org.eclipse.emf.test.models.dbitem.DBItemPackage;
+import org.eclipse.emf.test.models.dbitem.DbType;
+import org.eclipse.emf.test.models.dbitem.DocumentRoot;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Document Root</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DocumentRootImpl#getMixed <em>Mixed</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DocumentRootImpl#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
+ *   <li>{@link org.eclipse.emf.test.models.dbitem.impl.DocumentRootImpl#getDbitem <em>Dbitem</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
+public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
+{
+  /**
+   * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getMixed()
+   * @generated
+   * @ordered
+   */
+  protected FeatureMap mixed = null;
+
+  /**
+   * The cached value of the '{@link #getXMLNSPrefixMap() <em>XMLNS Prefix Map</em>}' map.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getXMLNSPrefixMap()
+   * @generated
+   * @ordered
+   */
+  protected EMap<String, String> xMLNSPrefixMap = null;
+
+  /**
+   * The cached value of the '{@link #getXSISchemaLocation() <em>XSI Schema Location</em>}' map.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getXSISchemaLocation()
+   * @generated
+   * @ordered
+   */
+  protected EMap<String, String> xSISchemaLocation = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected DocumentRootImpl()
+  {
+    super();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EClass eStaticClass()
+  {
+    return DBItemPackage.Literals.DOCUMENT_ROOT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public FeatureMap getMixed()
+  {
+    if (mixed == null)
+    {
+      mixed = new BasicFeatureMap(this, DBItemPackage.DOCUMENT_ROOT__MIXED);
+    }
+    return mixed;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EMap<String, String> getXMLNSPrefixMap()
+  {
+    if (xMLNSPrefixMap == null)
+    {
+      xMLNSPrefixMap = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, DBItemPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
+    }
+    return xMLNSPrefixMap;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EMap<String, String> getXSISchemaLocation()
+  {
+    if (xSISchemaLocation == null)
+    {
+      xSISchemaLocation = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, DBItemPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
+    }
+    return xSISchemaLocation;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public DbType getDbitem()
+  {
+    return (DbType)getMixed().get(DBItemPackage.Literals.DOCUMENT_ROOT__DBITEM, true);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetDbitem(DbType newDbitem, NotificationChain msgs)
+  {
+    return ((FeatureMap.Internal)getMixed()).basicAdd(DBItemPackage.Literals.DOCUMENT_ROOT__DBITEM, newDbitem, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setDbitem(DbType newDbitem)
+  {
+    ((FeatureMap.Internal)getMixed()).set(DBItemPackage.Literals.DOCUMENT_ROOT__DBITEM, newDbitem);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case DBItemPackage.DOCUMENT_ROOT__MIXED:
+        return ((InternalEList<?>)getMixed()).basicRemove(otherEnd, msgs);
+      case DBItemPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        return ((InternalEList<?>)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
+      case DBItemPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        return ((InternalEList<?>)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
+      case DBItemPackage.DOCUMENT_ROOT__DBITEM:
+        return basicSetDbitem(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case DBItemPackage.DOCUMENT_ROOT__MIXED:
+        if (coreType) return getMixed();
+        return ((FeatureMap.Internal)getMixed()).getWrapper();
+      case DBItemPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        if (coreType) return getXMLNSPrefixMap();
+        else return getXMLNSPrefixMap().map();
+      case DBItemPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        if (coreType) return getXSISchemaLocation();
+        else return getXSISchemaLocation().map();
+      case DBItemPackage.DOCUMENT_ROOT__DBITEM:
+        return getDbitem();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case DBItemPackage.DOCUMENT_ROOT__MIXED:
+        ((FeatureMap.Internal)getMixed()).set(newValue);
+        return;
+      case DBItemPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        ((EStructuralFeature.Setting)getXMLNSPrefixMap()).set(newValue);
+        return;
+      case DBItemPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        ((EStructuralFeature.Setting)getXSISchemaLocation()).set(newValue);
+        return;
+      case DBItemPackage.DOCUMENT_ROOT__DBITEM:
+        setDbitem((DbType)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case DBItemPackage.DOCUMENT_ROOT__MIXED:
+        getMixed().clear();
+        return;
+      case DBItemPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        getXMLNSPrefixMap().clear();
+        return;
+      case DBItemPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        getXSISchemaLocation().clear();
+        return;
+      case DBItemPackage.DOCUMENT_ROOT__DBITEM:
+        setDbitem((DbType)null);
+        return;
+    }
+    super.eUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case DBItemPackage.DOCUMENT_ROOT__MIXED:
+        return mixed != null && !mixed.isEmpty();
+      case DBItemPackage.DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        return xMLNSPrefixMap != null && !xMLNSPrefixMap.isEmpty();
+      case DBItemPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        return xSISchemaLocation != null && !xSISchemaLocation.isEmpty();
+      case DBItemPackage.DOCUMENT_ROOT__DBITEM:
+        return getDbitem() != null;
+    }
+    return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (mixed: ");
+    result.append(mixed);
+    result.append(')');
+    return result.toString();
+  }
+
+} //DocumentRootImpl

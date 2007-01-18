@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.common/src"
+    editDirectory="/org.eclipse.emf.test.common/src" editorDirectory="" modelPluginID="org.eclipse.emf.test.common"
+    modelName="RefTest" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
+    complianceLevel="5.0">
+  <foreignModel>RefTest.mdl</foreignModel>
+  <genPackages prefix="Ref" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
+      ecorePackage="ref.ecore#/">
+    <genClasses ecoreClass="ref.ecore#//A">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ref.ecore#//A/b"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ref.ecore#//A/c2"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ref.ecore#//A/c"/>
+    </genClasses>
+    <genClasses ecoreClass="ref.ecore#//B">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ref.ecore#//B/a"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ref.ecore#//B/c2"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ref.ecore#//B/d"/>
+    </genClasses>
+    <genClasses ecoreClass="ref.ecore#//C1">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//C1/a"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//C1/b"/>
+    </genClasses>
+    <genClasses ecoreClass="ref.ecore#//C2">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//C2/b"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//C2/a"/>
+    </genClasses>
+    <genClasses ecoreClass="ref.ecore#//C">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ref.ecore#//C/d"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ref.ecore#//C/c4"/>
+    </genClasses>
+    <genClasses ecoreClass="ref.ecore#//D">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ref.ecore#//D/c"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ref.ecore#//D/e"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ref.ecore#//D/c4"/>
+    </genClasses>
+    <genClasses ecoreClass="ref.ecore#//E">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ref.ecore#//E/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ref.ecore#//E/ids"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ref.ecore#//E/labels"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ref.ecore#//E/d"/>
+    </genClasses>
+    <genClasses ecoreClass="ref.ecore#//C4">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//C4/c"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//C4/d"/>
+    </genClasses>
+    <genClasses ecoreClass="ref.ecore#//C3">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//C3/d"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//C3/c"/>
+    </genClasses>
+    <nestedGenPackages prefix="URef" disposableProviderFactory="true" ecorePackage="ref.ecore#//unsettable">
+      <genClasses ecoreClass="ref.ecore#//unsettable/C1U">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//unsettable/C1U/au"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//unsettable/C1U/bu"/>
+      </genClasses>
+      <genClasses ecoreClass="ref.ecore#//unsettable/C2U">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//unsettable/C2U/au"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//unsettable/C2U/bu"/>
+      </genClasses>
+      <genClasses ecoreClass="ref.ecore#//unsettable/AU">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ref.ecore#//unsettable/AU/bu"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ref.ecore#//unsettable/AU/c2u"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ref.ecore#//unsettable/AU/cu"/>
+      </genClasses>
+      <genClasses ecoreClass="ref.ecore#//unsettable/BU">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ref.ecore#//unsettable/BU/au"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ref.ecore#//unsettable/BU/c2u"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ref.ecore#//unsettable/BU/du"/>
+      </genClasses>
+      <genClasses ecoreClass="ref.ecore#//unsettable/CU">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ref.ecore#//unsettable/CU/du"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ref.ecore#//unsettable/CU/c4u"/>
+      </genClasses>
+      <genClasses ecoreClass="ref.ecore#//unsettable/DU">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ref.ecore#//unsettable/DU/cu"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ref.ecore#//unsettable/DU/c4u"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ref.ecore#//unsettable/DU/eu"/>
+      </genClasses>
+      <genClasses ecoreClass="ref.ecore#//unsettable/C4U">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//unsettable/C4U/cu"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//unsettable/C4U/du"/>
+      </genClasses>
+      <genClasses ecoreClass="ref.ecore#//unsettable/C3U">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//unsettable/C3U/cu"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ref.ecore#//unsettable/C3U/du"/>
+      </genClasses>
+      <genClasses ecoreClass="ref.ecore#//unsettable/EU">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ref.ecore#//unsettable/EU/name"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ref.ecore#//unsettable/EU/ids"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ref.ecore#//unsettable/EU/labels"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ref.ecore#//unsettable/EU/du"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+  <genPackages prefix="Ext" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
+      ecorePackage="ext.ecore#/">
+    <genClasses ecoreClass="ext.ecore#//ExtE">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ext.ecore#//ExtE/value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ext.ecore#//ExtE/f"/>
+    </genClasses>
+    <genClasses ecoreClass="ext.ecore#//F">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ext.ecore#//F/id"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ext.ecore#//F/e"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

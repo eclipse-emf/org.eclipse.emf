@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http:///org.eclipse.emf.test.models/Order"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:db="http:///org.eclipse.emf.test.models/Order"
+    xmlns:mv="http:///org.eclipse.emf.test.models/MovieDB">
+    
+    <xsd:import namespace="http:///org.eclipse.emf.test.models/MovieDB" schemaLocation="moviedb.xsd"/>
+    
+    <xsd:element name="order" type="db:customerOrder"/>
+    <xsd:complexType name="customerOrder">
+        <xsd:sequence>
+            <xsd:element name="moviesToSee" type="db:order"/>
+            <xsd:element name="moviesSeen" type="db:order" minOccurs="0"/>
+            <xsd:any namespace="http:///org.eclipse.emf.test.models/Customer  http:///org.eclipse.emf.test.models/MovieDB" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="customerID" type="xsd:IDREF"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="order">
+      <xsd:annotation>
+        <xsd:appinfo>Information:<hasElement>date</hasElement>.</xsd:appinfo>
+        <xsd:documentation>Describes a movie order which includes date and the list of movies</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:choice>
+             <xsd:element name="dateRequested" type="xsd:date"/>
+             <xsd:element name="lastUpdated" type="xsd:date"/>
+         </xsd:choice>
+        <xsd:element name="movies" type="xsd:IDREFS"/>
+      </xsd:sequence>       
+    </xsd:complexType>
+    
+
+</xsd:schema>
