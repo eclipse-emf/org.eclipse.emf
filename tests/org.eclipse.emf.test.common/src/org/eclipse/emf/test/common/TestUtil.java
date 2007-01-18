@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.1 2007/01/18 15:50:26 marcelop Exp $
+ * $Id: TestUtil.java,v 1.2 2007/01/18 19:42:16 marcelop Exp $
  */
 package org.eclipse.emf.test.common;
 
@@ -56,17 +56,15 @@ public class TestUtil
       URI uri = URI.createURI(url.toString());
       if (uri.isFile())
       {
-        File parentDir = new File(uri.toFileString());
-        if (parentDir.isDirectory())
+        File parentDir = new File(uri.toFileString()).getParentFile();
+        while (parentDir != null && parentDir.isDirectory())
         {
-          File[] files = parentDir.listFiles();
-          for (int i = 0, maxi = files.length; i < maxi; i++)
+          String name = parentDir.getName();
+          if (name.equals(PLUGIN_ID) || name.startsWith(PLUGIN_ID + "_"))
           {
-            if (files[i].isDirectory() && files[i].getName().startsWith(PLUGIN_ID))
-            {
-              return files[i].getAbsolutePath();
-            }
+            return parentDir.getAbsolutePath(); 
           }
+          parentDir = parentDir.getParentFile();
         }
       }
     }
