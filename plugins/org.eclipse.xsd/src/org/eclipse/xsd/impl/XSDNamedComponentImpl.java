@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponentImpl.java,v 1.14 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDNamedComponentImpl.java,v 1.15 2007/01/18 15:41:29 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectEList;
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDConcreteComponent;
@@ -824,7 +825,7 @@ public abstract class XSDNamedComponentImpl
     Element theElement = getElement();
     if (theElement.hasAttributeNS(null, XSDConstants.NAME_ATTRIBUTE))
     {
-      String newName = theElement.getAttributeNS(null, XSDConstants.NAME_ATTRIBUTE);
+      String newName = XMLTypeUtil.normalize(theElement.getAttributeNS(null, XSDConstants.NAME_ATTRIBUTE), true);
       if (!newName.equals(getName()))
       {
         setName(newName);
