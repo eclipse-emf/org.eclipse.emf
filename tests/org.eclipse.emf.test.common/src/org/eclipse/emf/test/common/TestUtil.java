@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.2 2007/01/18 19:42:16 marcelop Exp $
+ * $Id: TestUtil.java,v 1.3 2007/01/18 20:38:12 marcelop Exp $
  */
 package org.eclipse.emf.test.common;
 
@@ -68,7 +68,7 @@ public class TestUtil
         }
       }
     }
-    return null;
+    throw new RuntimeException("Unable to compute the " + PLUGIN_ID + " directory");
   }
   
   public static String getPluginDirectory(String pluginID)
@@ -93,8 +93,8 @@ public class TestUtil
       // Ignore
     }
     
-    File parentDirectory = new File(getTestCommonDirectory());
-    File[] plugins = parentDirectory.listFiles();
+    File pluginsDirectory = new File(getTestCommonDirectory()).getParentFile();
+    File[] plugins = pluginsDirectory.listFiles();
     for (int i = 0, maxi = plugins.length; i < maxi; i++)
     {
       if (plugins[i].isDirectory())
