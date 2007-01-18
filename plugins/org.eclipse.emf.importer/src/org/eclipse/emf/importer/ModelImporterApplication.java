@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.26 2006/12/28 12:43:31 emerks Exp $
+ * $Id: ModelImporterApplication.java,v 1.27 2007/01/18 15:35:16 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -372,23 +372,26 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
 
   protected void adjustAttributes(Monitor monitor)
   {
-    try
+    if (!reload)
     {
-      monitor.beginTask("", 1);
-
-      if (modelProjectLocationPath == null)
+      try
       {
-        modelProjectLocationPath = new Path(new File(".").getAbsolutePath());
-      }
+        monitor.beginTask("", 1);
   
-      if (modelFragmentPath == null)
-      {
-        modelFragmentPath = new Path(".");
+        if (modelProjectLocationPath == null)
+        {
+          modelProjectLocationPath = new Path(new File(".").getAbsolutePath());
+        }
+    
+        if (modelFragmentPath == null)
+        {
+          modelFragmentPath = new Path(".");
+        }
       }
-    }
-    finally
-    {
-      monitor.done();
+      finally
+      {
+        monitor.done();
+      }
     }
   }
 
