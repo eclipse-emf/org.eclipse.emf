@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameTest.java,v 1.5 2006/12/30 03:43:43 marcelop Exp $
+ * $Id: QNameTest.java,v 1.6 2007/01/18 15:53:17 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -35,17 +35,18 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
-import org.eclipse.emf.test.models.qname.QnamePackage;
-import org.eclipse.emf.test.xml.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.models.qname.QNamePackage;
+import org.eclipse.emf.test.xml.AllSuites;
 
 /**
  * XMI tests: loading qname.xml 
  */
 public class QNameTest extends TestCase
 {
-  final static String BASE_XML_URI = TestUtil.getPluginDirectory() + "/data/xml/";
+  final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xml/";
 
-  final static String BASE_XMI_URI = TestUtil.getPluginDirectory() + "/data/xmi/";
+  final static String BASE_XMI_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xmi/";
 
   DocumentBuilder builder;
 
@@ -73,7 +74,7 @@ public class QNameTest extends TestCase
   @Override
   protected void setUp() throws Exception
   {
-    QnamePackage.eINSTANCE.getName();
+    QNamePackage.eINSTANCE.getName();
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
     inputXML = BASE_XML_URI + "qname.xml";
     expectedXML = BASE_XMI_URI + "qnameOutput.xml";

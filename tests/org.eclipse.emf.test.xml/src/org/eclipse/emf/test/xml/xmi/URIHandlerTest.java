@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIHandlerTest.java,v 1.4 2007/01/13 18:23:44 marcelop Exp $
+ * $Id: URIHandlerTest.java,v 1.5 2007/01/18 15:53:17 marcelop Exp $
  */
 
 package org.eclipse.emf.test.xml.xmi;
@@ -21,6 +21,7 @@ package org.eclipse.emf.test.xml.xmi;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
+
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -31,6 +32,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.w3c.dom.Document;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -40,19 +43,18 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLResource.ResourceEntityHandler;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.ResourceEntityHandlerImpl;
-import org.eclipse.emf.test.xml.TestUtil;
-import org.eclipse.emf.test.xml.library.Book;
-import org.eclipse.emf.test.xml.library.Library;
-import org.eclipse.emf.test.xml.library.LibraryFactory;
-import org.eclipse.emf.test.xml.library.LibraryPackage;
-import org.eclipse.emf.test.xml.library.Writer;
-
-import org.w3c.dom.Document;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.models.library.Book;
+import org.eclipse.emf.test.models.library.Library;
+import org.eclipse.emf.test.models.library.LibraryFactory;
+import org.eclipse.emf.test.models.library.LibraryPackage;
+import org.eclipse.emf.test.models.library.Writer;
+import org.eclipse.emf.test.xml.AllSuites;
 
 
 public class URIHandlerTest extends TestCase
 {
-  final static String BASE_XML_URI = TestUtil.getPluginDirectory() + "/data/xml/";
+  final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xml/";
   final static String LF = System.getProperty("line.separator");
 
   ResourceSet resourceSet; 
@@ -150,14 +152,14 @@ public class URIHandlerTest extends TestCase
     mainLibraryResource.save(new URIConverter.WriteableOutputStream(mainWriter, "UTF-8"), null);
     assertEquals
       ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + LF +
-         "<!DOCTYPE org.eclipse.emf.test.xml.library:Library [" + LF +
+         "<!DOCTYPE org.eclipse.emf.test.models.library:Library [" + LF +
          "<!ENTITY first \"../first.library\">" + LF +
          "<!ENTITY second \"../second.library\">" + LF +
          "]>" + LF +
-         "<org.eclipse.emf.test.xml.library:Library xmlns:org.eclipse.emf.test.xml.library=\"http://org.eclipse.emf.test.xml/library.ecore\" name=\"main\">" + LF +
+         "<org.eclipse.emf.test.models.library:Library xmlns:org.eclipse.emf.test.models.library=\"http:///org.eclipse.emf.test.models/Library\" name=\"main\">" + LF +
          "  <writers name=\"First Author\" books=\"&first;#//@books.0\"/>" + LF +
          "  <writers name=\"Second Author\" books=\"&second;#//@books.0\"/>" + LF +
-         "</org.eclipse.emf.test.xml.library:Library>" + LF,
+         "</org.eclipse.emf.test.models.library:Library>" + LF,
         mainWriter.toString());
     
     Document document = mainLibraryResource.save(null, null, null);
@@ -167,10 +169,10 @@ public class URIHandlerTest extends TestCase
     transformer.transform(new DOMSource(document), new StreamResult(mainWriter));
     assertEquals
       ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-         "<org.eclipse.emf.test.xml.library:Library xmlns:org.eclipse.emf.test.xml.library=\"http://org.eclipse.emf.test.xml/library.ecore\" name=\"main\">" +
+         "<org.eclipse.emf.test.models.library:Library xmlns:org.eclipse.emf.test.models.library=\"http:///org.eclipse.emf.test.models/Library\" name=\"main\">" +
          "<writers books=\"../first.library#//@books.0\" name=\"First Author\"/>" +
          "<writers books=\"../second.library#//@books.0\" name=\"Second Author\"/>" +
-         "</org.eclipse.emf.test.xml.library:Library>",
+         "</org.eclipse.emf.test.models.library:Library>",
         mainWriter.toString());
     
     Resource reloadedMainLibraryResource = resourceSet.createResource(URI.createFileURI(BASE_XML_URI + "/vault/main2.library"));

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CrossResourceReferencesTest.java,v 1.5 2007/01/13 17:45:58 marcelop Exp $
+ * $Id: CrossResourceReferencesTest.java,v 1.6 2007/01/18 15:53:17 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -29,10 +29,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
-import org.eclipse.emf.test.xml.library.Book;
-import org.eclipse.emf.test.xml.library.LibraryFactory;
-import org.eclipse.emf.test.xml.library.LibraryPackage;
-import org.eclipse.emf.test.xml.library.Writer;
+import org.eclipse.emf.test.models.library.Book;
+import org.eclipse.emf.test.models.library.LibraryFactory;
+import org.eclipse.emf.test.models.library.LibraryPackage;
+import org.eclipse.emf.test.models.library.Writer;
 
 
 /**

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RSSTests.java,v 1.3 2006/12/30 03:43:44 marcelop Exp $
+ * $Id: RSSTests.java,v 1.4 2007/01/18 15:53:19 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.rss;
 
@@ -42,7 +42,8 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
-import org.eclipse.emf.test.xml.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.xml.AllSuites;
 import org.eclipse.emf.test.xml.xmi.CompareXML;
 
 import org.eclipse.xsd.XSDDiagnostic;
@@ -62,7 +63,7 @@ public class RSSTests extends TestCase
   URI schemaURI;
   DocumentBuilder builder;
 
-  final static String BASE_RSS_URI = "file:///" + TestUtil.getPluginDirectory() + "/data/rss/";
+  final static String BASE_RSS_URI = "file:///" + TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/rss/";
 
   public RSSTests(String name)
   {

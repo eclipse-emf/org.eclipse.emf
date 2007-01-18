@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NamespaceTest.java,v 1.5 2006/12/30 03:43:43 marcelop Exp $
+ * $Id: NamespaceTest.java,v 1.6 2007/01/18 15:53:17 marcelop Exp $
  */
 
 package org.eclipse.emf.test.xml.xmi;
@@ -32,16 +32,17 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.test.models.dbitem.DbitemPackage;
-import org.eclipse.emf.test.models.dbitem.util.DbitemResourceFactoryImpl;
-import org.eclipse.emf.test.models.dbprice.DbpricePackage;
-import org.eclipse.emf.test.xml.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.models.dbitem.DBItemPackage;
+import org.eclipse.emf.test.models.dbitem.util.DBItemResourceFactoryImpl;
+import org.eclipse.emf.test.models.dbprice.DBPricePackage;
+import org.eclipse.emf.test.xml.AllSuites;
 
 
 public class NamespaceTest extends TestCase
 {
   
-  final static String BASE_XML_URI = TestUtil.getPluginDirectory() + "/data/xml/";
+  final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xml/";
   String file = null;
   ResourceSet rs; 
 
@@ -65,9 +66,9 @@ public class NamespaceTest extends TestCase
   protected void setUp() throws Exception
   {
     rs = new ResourceSetImpl();
-    DbpricePackage.eINSTANCE.getName();
-    DbitemPackage.eINSTANCE.getName();
-    rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new DbitemResourceFactoryImpl());
+    DBPricePackage.eINSTANCE.getName();
+    DBItemPackage.eINSTANCE.getName();
+    rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new DBItemResourceFactoryImpl());
     file = BASE_XML_URI + "dbitemtest.xml";
   }
 

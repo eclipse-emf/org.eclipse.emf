@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreTest.java,v 1.5 2006/12/30 03:43:44 marcelop Exp $
+ * $Id: XSD2EcoreTest.java,v 1.6 2007/01/18 15:53:18 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -40,7 +40,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
-import org.eclipse.emf.test.xml.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.xml.AllSuites;
 import org.eclipse.emf.test.xml.xmi.CompareXML;
 
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
@@ -63,8 +64,8 @@ public class XSD2EcoreTest extends TestCase
   Vector<String> ecorefiles;
 
   // base uri of the xsd and ecore files
-  final static String BASE_XSD_URI = TestUtil.getPluginDirectory() + "/data/xsd/";
-  final static String BASE_ECORE_URI = TestUtil.getPluginDirectory() + "/data/ecore/";
+  final static String BASE_XSD_URI = TestUtil.getTestCommonDirectory() + "/models/MovieDB/";
+  final static String BASE_ECORE_URI = TestUtil.getTestCommonDirectory() + "/models/MovieDB/";
 
   // to serialize .ecore files turn this on
   final static boolean SERIALISE_ECORE = false;
@@ -101,9 +102,9 @@ public class XSD2EcoreTest extends TestCase
 
     // Add in the right order the files to compare with the output
     
-    ecorefiles.add(BASE_ECORE_URI + "org.eclipse.emf.test.models.movie.db.ecore");
-    ecorefiles.add(BASE_ECORE_URI + "org.eclipse.emf.test.models.customer.ecore");
-    ecorefiles.add(BASE_ECORE_URI + "org.eclipse.emf.test.models.order.ecore");
+    ecorefiles.add(BASE_ECORE_URI + "db.ecore");
+    ecorefiles.add(BASE_ECORE_URI + "customer.ecore");
+    ecorefiles.add(BASE_ECORE_URI + "order.ecore");
   }
 
   /**
@@ -165,17 +166,23 @@ public class XSD2EcoreTest extends TestCase
       {
         // fix resource URI
         EPackage ePackage = (EPackage)resource.getContents().get(0);
-        String ecoreFileName = ePackage.getName() + ".ecore";
-        URI ecoreURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/data/xsd_ecore/" + ecoreFileName);
+        String ecoreFileName = ePackage.getName();
+        int index = ecoreFileName.lastIndexOf('.');
+        if (index >= 0)
+        {
+          ecoreFileName = ecoreFileName.substring(index+1);
+        }
+        ecoreFileName = ecoreFileName + ".ecore";
+        URI ecoreURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xsd_ecore/" + ecoreFileName);
         Resource newResource = resourceSet.createResource(URI.createURI("*.ecore"));
         newResource.setURI(ecoreURI);
 
         // fix Name of resource       
         String name = ePackage.getName();
-        int index = name.lastIndexOf(".");
-        if (index != -1)
+        int dot = name.lastIndexOf(".");
+        if (dot != -1)
         {
-          name = name.substring(index + 1);
+          name = name.substring(dot + 1);
           ePackage.setName(name);
         }
         newResource.getContents().add(ePackage);

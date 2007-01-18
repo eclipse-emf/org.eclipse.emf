@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,7 +36,8 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.test.xml.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.xml.AllSuites;
 
 
 /**
@@ -46,9 +47,9 @@ import org.eclipse.emf.test.xml.TestUtil;
  */
 public class XMIExtendedMetadataTest extends TestCase
 {
-  final static String BASE_XML_URI = TestUtil.getPluginDirectory() + "/data/xmi/";
+  final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xmi/";
 
-  final static String BASE_ECORE_URI = TestUtil.getPluginDirectory() + "/data/ecore/";
+  final static String BASE_ECORE_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/ecore/";
 
   ResourceSet resourceSet;
 

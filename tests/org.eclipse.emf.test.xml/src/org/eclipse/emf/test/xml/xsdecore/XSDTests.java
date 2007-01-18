@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTests.java,v 1.7 2006/12/30 03:43:44 marcelop Exp $
+ * $Id: XSDTests.java,v 1.8 2007/01/18 15:53:18 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -37,7 +37,8 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
-import org.eclipse.emf.test.xml.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.xml.AllSuites;
 
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
@@ -51,7 +52,7 @@ public class XSDTests extends TestCase
 
   XSDEcoreBuilder xsdEcoreBuilder;
 
-  final static String BASE_XSD_URI = "file:///" + TestUtil.getPluginDirectory() + "/data/xsd/";
+  final static String BASE_XSD_URI = "file:///" + TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xsd/";
 
   public XSDTests(String name)
   {

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: OrderTest.java,v 1.5 2006/12/30 03:43:43 marcelop Exp $
+ * $Id: OrderTest.java,v 1.6 2007/01/18 15:53:17 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -30,17 +30,18 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
+import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.models.customer.CustomerPackage;
-import org.eclipse.emf.test.models.movie.db.DbPackage;
+import org.eclipse.emf.test.models.movie.db.DBPackage;
 import org.eclipse.emf.test.models.order.OrderPackage;
-import org.eclipse.emf.test.xml.TestUtil;
+import org.eclipse.emf.test.xml.AllSuites;
 
 /**
  * Test for XMI package: loading data/order.xml 
  */
 public class OrderTest extends TestCase
 {
-  final static String BASE_XML_URI = TestUtil.getPluginDirectory() + "/data/xml/";
+  final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xml/";
 
   String inputXML;
 
@@ -66,7 +67,7 @@ public class OrderTest extends TestCase
   {
     OrderPackage.eINSTANCE.getName();
     CustomerPackage.eINSTANCE.getName();
-    DbPackage.eINSTANCE.getName();
+    DBPackage.eINSTANCE.getName();
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
     inputXML = BASE_XML_URI + "order.xml";
     options = new HashMap<String, Object>();

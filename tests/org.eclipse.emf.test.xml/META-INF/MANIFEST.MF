@@ -2,34 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.xml
-Bundle-Version: 2.2.0.qualifier
+Bundle-Version: 2.3.0.qualifier
 Bundle-ClassPath: test.xml.jar
-Bundle-Activator: org.eclipse.emf.test.xml.EMFTestXMLPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.test.models.customer,
- org.eclipse.emf.test.models.customer.impl,
- org.eclipse.emf.test.models.customer.util,
- org.eclipse.emf.test.models.dbitem,
- org.eclipse.emf.test.models.dbitem.impl,
- org.eclipse.emf.test.models.dbitem.util,
- org.eclipse.emf.test.models.dbprice,
- org.eclipse.emf.test.models.dbprice.impl,
- org.eclipse.emf.test.models.dbprice.util,
- org.eclipse.emf.test.models.movie.db,
- org.eclipse.emf.test.models.movie.db.impl,
- org.eclipse.emf.test.models.movie.db.util,
- org.eclipse.emf.test.models.order,
- org.eclipse.emf.test.models.order.impl,
- org.eclipse.emf.test.models.order.util,
- org.eclipse.emf.test.models.qname,
- org.eclipse.emf.test.models.qname.impl,
- org.eclipse.emf.test.models.qname.util,
- org.eclipse.emf.test.xml,
- org.eclipse.emf.test.xml.library,
- org.eclipse.emf.test.xml.library.impl,
- org.eclipse.emf.test.xml.library.util,
+Export-Package: org.eclipse.emf.test.xml,
+ org.eclipse.emf.test.xml.encoding,
+ org.eclipse.emf.test.xml.rss,
  org.eclipse.emf.test.xml.xmi,
  org.eclipse.emf.test.xml.xsdecore
 Require-Bundle: org.eclipse.core.runtime,
@@ -37,5 +17,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.xsd,
- org.junit
+ org.junit,
+ org.eclipse.emf.test.common
 Eclipse-LazyStart: true

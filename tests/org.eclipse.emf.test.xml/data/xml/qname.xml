@@ -2,10 +2,10 @@
 <resource z:aQname="p:a" 
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-   xsi:schemaLocation="http://org/eclipse/emf/test/models/qname ../xsd/qname.xsd" 
-   xmlns="http://org/eclipse/emf/test/models/qname" 
+   xsi:schemaLocation="http:///org.eclipse.emf.test.models/qname qname.xsd" 
+   xmlns="http:///org.eclipse.emf.test.models/qname" 
    xmlns:p="urn:p" 
-   xmlns:z="http://org/eclipse/emf/test/models/qname"
+   xmlns:z="http:///org.eclipse.emf.test.models/qname"
    myQname="z:id1 p:id2">
 
    <unionvalue>10</unionvalue>

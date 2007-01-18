@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:order xmlns:p="http://org/eclipse/emf/test/models/Order"
-       xmlns:m="http://org/eclipse/emf/test/models/MovieDB"
-       xmlns:c="http://org/eclipse/emf/test/models/Customer"
+<p:order xmlns:p="http:///org.eclipse.emf.test.models/Order"
+       xmlns:m="http:///org.eclipse.emf.test.models/MovieDB"
+       xmlns:c="http:///org.eclipse.emf.test.models/Customer"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-       xsi:schemaLocation="http://org/eclipse/emf/test/models/Order ../xsd/order.xsd"
+       xsi:schemaLocation="http:///org.eclipse.emf.test.models/Order order.xsd"
        customerID="c12345">
    
    <moviesToSee>

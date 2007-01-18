@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2XSDTest.java,v 1.4 2006/12/30 03:43:44 marcelop Exp $
+ * $Id: Ecore2XSDTest.java,v 1.5 2007/01/18 15:53:18 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -30,6 +30,12 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -37,14 +43,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
-import org.eclipse.emf.test.xml.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.xml.AllSuites;
+
 import org.eclipse.xsd.ecore.EcoreXMLSchemaBuilder;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 
 /**
@@ -74,7 +77,7 @@ public class Ecore2XSDTest extends TestCase
   MyHandler handler = new MyHandler();
 
   // base uri of the xsd and ecore files
-  final static String BASE_ECORE_URI = "file:///" + TestUtil.getPluginDirectory() + "/data/ecore/";
+  final static String BASE_ECORE_URI = "file:///" + TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/ecore/";
 
   public Ecore2XSDTest(String name)
   {

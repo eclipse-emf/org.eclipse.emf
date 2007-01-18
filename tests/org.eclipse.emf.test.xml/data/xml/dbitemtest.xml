@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <db:dbitem 
- xmlns:dbp="http://org/eclipse/emf/test/models/dbprice" 
- xmlns:db="http://org/eclipse/emf/test/models/dbitem">
+ xmlns:dbp="http:///org.eclipse.emf.test.models/dbprice" 
+ xmlns:db="http:///org.eclipse.emf.test.models/dbitem">
   <db:red_pen>
     <dbp:price>23</dbp:price>
   </db:red_pen>

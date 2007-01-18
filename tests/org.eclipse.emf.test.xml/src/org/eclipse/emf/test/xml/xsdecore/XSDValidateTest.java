@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.9 2006/12/30 03:43:44 marcelop Exp $
+ * $Id: XSDValidateTest.java,v 1.10 2007/01/18 15:53:18 marcelop Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -30,7 +30,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
-import org.eclipse.emf.test.xml.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.xml.AllSuites;
 
 import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDSchema;
@@ -44,7 +45,7 @@ import org.eclipse.xsd.util.XSDResourceImpl;
 public class XSDValidateTest extends TestCase
 {
 
-  final static String BASE_URI = TestUtil.getPluginDirectory() + "/data/xsd/invalid/";
+  final static String BASE_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xsd/invalid/";
   
   // prints to standard out detailed messages for failed test cases
   //
