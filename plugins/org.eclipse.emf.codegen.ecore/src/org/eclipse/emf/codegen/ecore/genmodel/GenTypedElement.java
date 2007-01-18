@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElement.java,v 1.6 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenTypedElement.java,v 1.7 2007/01/18 22:07:16 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -79,6 +79,12 @@ public interface GenTypedElement extends GenBase
   String getImportedEffectiveFeatureMapWrapperClass();
 
   boolean isListType();
+
+  /**
+   * @since 2.3
+   */
+  boolean isListDataType();
+
   /**
    * @since 2.3
    */
