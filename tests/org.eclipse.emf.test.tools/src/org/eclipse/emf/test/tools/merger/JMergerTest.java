@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.19 2006/12/31 02:20:26 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.20 2007/01/18 15:53:01 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -26,6 +26,9 @@ import java.util.Map;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
+
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -35,9 +38,8 @@ import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.common.EMFPlugin;
-import org.eclipse.emf.test.tools.TestUtil;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.tools.AllSuites;
 
 
 /**
@@ -246,7 +248,7 @@ public abstract class JMergerTest extends TestCase
    */
   protected File getDefaultDataDirectory()
   {
-    StringBuilder sb = new StringBuilder(TestUtil.getPluginDirectory());
+    StringBuilder sb = new StringBuilder(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID));
     sb.append(File.separator).append("data");
     sb.append(File.separator).append("merge.input");
     sb.append(File.separator).append("special.").append(getName());

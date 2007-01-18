@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.4 2006/12/06 03:53:11 marcelop Exp $
+ * $Id: MergerAllSuites.java,v 1.1 2007/01/18 15:53:01 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -22,7 +22,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 
-public class AllSuites extends TestSuite
+public class MergerAllSuites extends TestSuite
 {
   private static Test[] suites = new Test []{ 
     org.eclipse.emf.test.tools.merger.ASTTest.suite()
@@ -34,22 +34,22 @@ public class AllSuites extends TestSuite
 
   public static Test suite()
   {
-    return new AllSuites("EMF Merge Tests");
+    return new MergerAllSuites("EMF Merge Tests");
   }
 
-  public AllSuites()
+  public MergerAllSuites()
   {
     super();
     populateSuite();
   }
 
-  public AllSuites(Class<?> theClass)
+  public MergerAllSuites(Class<?> theClass)
   {
     super(theClass);
     populateSuite();
   }
 
-  public AllSuites(String name)
+  public MergerAllSuites(String name)
   {
     super(name);
     populateSuite();

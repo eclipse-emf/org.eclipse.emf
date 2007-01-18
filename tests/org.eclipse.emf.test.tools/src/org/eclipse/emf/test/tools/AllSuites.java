@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.16 2007/01/11 16:03:41 marcelop Exp $
+ * $Id: AllSuites.java,v 1.17 2007/01/18 15:53:00 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -24,6 +24,8 @@ import junit.framework.TestSuite;
 
 public class AllSuites extends TestSuite
 {
+  public static final String PLUGIN_ID = "org.eclipse.emf.test.tools";
+  
   private static Test[] suites = new Test []{ 
     org.eclipse.emf.test.tools.JETTest.suite()
     ,org.eclipse.emf.test.tools.ant.AntTest.suite()
@@ -31,8 +33,8 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.tools.importer.ImporterUtilTest.suite()
     ,org.eclipse.emf.test.tools.importer.ModelImporterTest.suite()
     ,org.eclipse.emf.test.tools.codegen.GenModelTest.suite()
-    ,org.eclipse.emf.test.tools.merger.AllSuites.suite()
-    ,org.eclipse.emf.test.tools.merger.facade.AllSuites.suite()
+    ,org.eclipse.emf.test.tools.merger.MergerAllSuites.suite()
+    ,org.eclipse.emf.test.tools.merger.facade.FacadeAllSuites.suite()
     ,ToolsTest.suite()
   };
 

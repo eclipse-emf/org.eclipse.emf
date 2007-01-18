@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETTest.java,v 1.5 2005/11/18 12:10:11 emerks Exp $
+ * $Id: JETTest.java,v 1.6 2007/01/18 15:53:00 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -39,10 +39,11 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.test.common.TestUtil;
 
 public class JETTest extends TestCase
 {
-  protected static final File TEMPLATE_FILE = new File(TestUtil.getPluginDirectory(), "aTemplate.javajet");
+  protected static final File TEMPLATE_FILE = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID), "aTemplate.javajet");
   
   /**
    * @param name
@@ -138,7 +139,7 @@ public class JETTest extends TestCase
   protected StringBuffer templateHeader(String lineSeparator)
   {
     StringBuffer text = new StringBuffer();
-    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.5 2005/11/18 12:10:11 emerks Exp $\"%>").append(lineSeparator);
+    text.append("<%@ jet package=\"jetTest\" imports=\"\" class=\"ATemplateGen\" version=\"$Id: JETTest.java,v 1.6 2007/01/18 15:53:00 marcelop Exp $\"%>").append(lineSeparator);
     
     text.append("<%").append(lineSeparator);
     text.append("/**").append(lineSeparator);

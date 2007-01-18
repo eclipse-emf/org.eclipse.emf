@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: JMergerTestSuite.java,v 1.3 2006/12/31 02:20:26 marcelop Exp $
+ * $Id: JMergerTestSuite.java,v 1.4 2007/01/18 15:53:01 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -25,7 +26,8 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestSuite;
 
-import org.eclipse.emf.test.tools.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.tools.AllSuites;
 
 
 /**
@@ -64,7 +66,7 @@ public class JMergerTestSuite extends TestSuite
    * Default is /data/merge.input
    * @see JMergerTest#DIRECTORY_NAMES_TO_JAVA_VERSIONS
    */
-  protected static final File DEFAULT_ROOT_DIRECTORY = new File(TestUtil.getPluginDirectory() + File.separator + "data" + File.separator
+  protected static final File DEFAULT_ROOT_DIRECTORY = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + File.separator + "data" + File.separator
     + "merge.input");
 
   /**

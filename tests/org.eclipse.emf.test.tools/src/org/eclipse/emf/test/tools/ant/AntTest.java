@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.26 2007/01/12 20:59:35 marcelop Exp $
+ * $Id: AntTest.java,v 1.27 2007/01/18 15:53:00 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -33,7 +33,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.test.tools.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.tools.AllSuites;
+import org.eclipse.emf.test.tools.AntUtil;
 
 public class AntTest extends TestCase
 {
@@ -41,8 +43,8 @@ public class AntTest extends TestCase
 
   public static final String TEST_TOKEN = "@TEST_TOKEN@";
     
-  private static final File EXAMPLES_COPY_DIR = new File(TestUtil.getPluginDirectory() + "/ant.example.tmp");
-  private static final File EXPECTED_DIR = new File(TestUtil.getPluginDirectory() + "/data/ant.expected/");
+  private static final File EXAMPLES_COPY_DIR = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/ant.example.tmp");
+  private static final File EXPECTED_DIR = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/ant.expected/");
   
   
   /**
@@ -132,7 +134,7 @@ public class AntTest extends TestCase
     }
     assertNotNull(examplesDir);
     assertTrue(examplesDir.getAbsolutePath() + " doesn't exist", examplesDir.isDirectory());
-    TestUtil.copyFiles(examplesDir, EXAMPLES_COPY_DIR, true);
+    AntUtil.copyFiles(examplesDir, EXAMPLES_COPY_DIR, true);
 
     // Rose
     File libraryDir = null;
@@ -151,9 +153,9 @@ public class AntTest extends TestCase
     }
     assertNotNull(libraryDir);
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.1.4"), true);
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.5.0"), true);
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.1.4_5.0"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.1.4"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.5.0"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.1.4_5.0"), true);
     
     // XSD and XSDs
     libraryDir = null;
@@ -172,12 +174,12 @@ public class AntTest extends TestCase
     }
     assertNotNull(libraryDir);
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.1.4"), true);
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.5.0"), true);
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.1.4_5.0"), true);
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsds.1.4"), true);
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsds.5.0"), true);
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsds.1.4_5.0"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.1.4"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.5.0"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.1.4_5.0"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsds.1.4"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsds.5.0"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsds.1.4_5.0"), true);
     
     // Ecore
     libraryDir = null;
@@ -196,9 +198,9 @@ public class AntTest extends TestCase
     }
     assertNotNull(libraryDir);
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.1.4"), true);
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.5.0"), true);
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.1.4_5.0"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.1.4"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.5.0"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.1.4_5.0"), true);
   }
   
   protected File getPluginSourceSubDirectory(String sourcePluginDir, String pluginID)
@@ -250,9 +252,9 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "jmerger");
     File antScript = new File(rootDir, "build.xml");
     
-    TestUtil.runAnt(antScript, "createNewFile");
+    AntUtil.runAnt(antScript, "createNewFile");
     assertGeneratedFile(rootDir, rootExpectedDir, "NewFile.java", null);
-    TestUtil.runAnt(antScript, "overwriteTarget");
+    AntUtil.runAnt(antScript, "overwriteTarget");
     assertGeneratedFile(rootDir, rootExpectedDir, "Target.java", null);
   }
   
@@ -290,8 +292,8 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/reload/library.rose");
     File antScript = new File(rootDir, "build/reload.xml");
     
-    TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
-    TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
     String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
@@ -350,8 +352,8 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/reload/library.xsd");
     File antScript = new File(rootDir, "build/reload.xml");
     
-    TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
-    TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
     String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
@@ -412,8 +414,8 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/reload/library.xsds");
     File antScript = new File(rootDir, "build/reload.xml");
     
-    TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
-    TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
     String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
@@ -475,8 +477,8 @@ public class AntTest extends TestCase
     File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/reload/library.ecore");
     File antScript = new File(rootDir, "build/reload.xml");
     
-    TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
-    TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
     String[] testTokenReplacements = new String[2];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
@@ -508,7 +510,7 @@ public class AntTest extends TestCase
     assertTrue(rootExpectedDir.getAbsolutePath() + " doesn't exist", rootExpectedDir.isDirectory());
     assertTrue(antScript.getAbsolutePath() + " doesn't exist", antScript.isFile());
     
-    TestUtil.runAnt(antScript, antScriptArguments);   
+    AntUtil.runAnt(antScript, antScriptArguments);   
     assertGeneratedFiles(rootDir, rootExpectedDir, null, testTokenReplacements);    
   }
    
@@ -571,7 +573,7 @@ public class AntTest extends TestCase
       }
       catch (Throwable exception)
       {
-        TestUtil.copyFile(generatedFile, expectedFile, true);
+        AntUtil.copyFile(generatedFile, expectedFile, true);
       }
     }
     else

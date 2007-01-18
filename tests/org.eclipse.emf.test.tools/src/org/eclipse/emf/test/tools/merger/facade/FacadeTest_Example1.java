@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeTest_Example1.java,v 1.1 2006/12/06 03:54:34 marcelop Exp $
+ * $Id: FacadeTest_Example1.java,v 1.2 2007/01/18 15:53:00 marcelop Exp $
  */
 
 package org.eclipse.emf.test.tools.merger.facade;
@@ -37,7 +37,8 @@ import org.eclipse.emf.codegen.merge.java.facade.JPackage;
 import org.eclipse.emf.codegen.merge.java.facade.JType;
 import org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper;
-import org.eclipse.emf.test.tools.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.tools.AllSuites;
 
 /**
  * @since 2.2.0
@@ -87,7 +88,7 @@ public class FacadeTest_Example1 extends TestCase
   
   protected File getJavaFile()
   {
-    return new File(TestUtil.getPluginDirectory() + "/data/Example1.java").getAbsoluteFile();
+    return new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1.java").getAbsoluteFile();
   }
   
   @Override

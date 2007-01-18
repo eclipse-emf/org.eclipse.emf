@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.2 2006/12/31 02:33:30 marcelop Exp $
+ * $Id: FacadeAllSuites.java,v 1.1 2007/01/18 15:53:00 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
@@ -20,20 +20,20 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 
-public class AllSuites extends TestSuite
+public class FacadeAllSuites extends TestSuite
 {
   public static Test suite()
   {
-    return new AllSuites("AST Facade Test Suite");
+    return new FacadeAllSuites("AST Facade Test Suite");
   }
 
-  public AllSuites()
+  public FacadeAllSuites()
   {
     super();
     populateSuite();
   }
 
-  public AllSuites(String name)
+  public FacadeAllSuites(String name)
   {
     super(name);
     populateSuite();

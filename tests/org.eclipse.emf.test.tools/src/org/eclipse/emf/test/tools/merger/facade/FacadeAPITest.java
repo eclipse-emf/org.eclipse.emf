@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeAPITest.java,v 1.2 2006/12/29 20:58:02 marcelop Exp $
+ * $Id: FacadeAPITest.java,v 1.3 2007/01/18 15:53:00 marcelop Exp $
  */
 
 package org.eclipse.emf.test.tools.merger.facade;
@@ -39,7 +39,8 @@ import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper;
-import org.eclipse.emf.test.tools.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.tools.AllSuites;
 
 /**
  * @since 2.2.0
@@ -119,7 +120,7 @@ public class FacadeAPITest extends TestCase
    */
   public void testFacadeHelperReset()
   {
-    File javaFile = new File(TestUtil.getPluginDirectory() + "/data/Example1.java").getAbsoluteFile();
+    File javaFile = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1.java").getAbsoluteFile();
     assertTrue(javaFile.isFile());
     String contents = TestUtil.readFile(javaFile, true);
     

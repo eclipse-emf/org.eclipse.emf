@@ -4,7 +4,6 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.tools
 Bundle-Version: 2.3.0.qualifier
 Bundle-ClassPath: test.tools.jar
-Bundle-Activator: org.eclipse.emf.test.tools.EMFTestToolsPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
@@ -20,5 +19,6 @@ Require-Bundle: org.apache.ant,
  org.eclipse.emf.importer,
  org.eclipse.jdt.core,
  org.junit,
- org.eclipse.text
+ org.eclipse.text,
+ org.eclipse.emf.test.common
 Eclipse-LazyStart: true

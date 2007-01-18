@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.16 2006/12/06 03:51:05 marcelop Exp $
+ * $Id: ASTTest.java,v 1.17 2007/01/18 15:53:00 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -57,7 +57,8 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.TextEdit;
 
-import org.eclipse.emf.test.tools.TestUtil;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.tools.AllSuites;
 
 /*
  * MP:
@@ -67,7 +68,7 @@ import org.eclipse.emf.test.tools.TestUtil;
 public class ASTTest extends TestCase
 {
   private static final File CLASS_FILE = 
-    new File(TestUtil.getPluginDirectory() + "/data/Example1.java").getAbsoluteFile();
+    new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1.java").getAbsoluteFile();
  
  /**
   * @param name
@@ -479,7 +480,7 @@ protected void setUp() throws Exception
 	   editsInWriter.apply(targetDoc);
 	   String result = targetDoc.get();		 
 
-     File expectedOutputFile = new File(TestUtil.getPluginDirectory() + "/data/Example1Changed.java").getAbsoluteFile();
+     File expectedOutputFile = new File(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/Example1Changed.java").getAbsoluteFile();
      
      String expectedResult = TestUtil.readFile(expectedOutputFile, false);
      
