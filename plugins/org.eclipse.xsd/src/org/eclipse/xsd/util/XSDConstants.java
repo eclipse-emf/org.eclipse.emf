@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConstants.java,v 1.6 2005/11/11 22:48:47 emerks Exp $
+ * $Id: XSDConstants.java,v 1.7 2007/01/18 15:41:48 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -23,6 +23,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
@@ -1360,7 +1361,7 @@ public class XSDConstants
     {
       // Some DOM implementations return a null here.
       //
-      String qName = element.getAttribute(localNameOfAttribute);
+      String qName = XMLTypeUtil.normalize(element.getAttribute(localNameOfAttribute), true);
       return lookupQName(element, qName);
     }
     else
