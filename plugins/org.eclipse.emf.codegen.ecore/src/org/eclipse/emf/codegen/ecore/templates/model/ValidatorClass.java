@@ -857,9 +857,11 @@ public class ValidatorClass
     if (itemType.isPrimitiveType()) {
     stringBuffer.append(TEXT_152);
     }
+    if (!itemType.isObjectType()) {
     stringBuffer.append(TEXT_153);
     stringBuffer.append(itemType.getObjectInstanceClassName());
     stringBuffer.append(TEXT_154);
+    }
     stringBuffer.append(item);
     if (itemType.isPrimitiveType()) {
     stringBuffer.append(TEXT_155);
