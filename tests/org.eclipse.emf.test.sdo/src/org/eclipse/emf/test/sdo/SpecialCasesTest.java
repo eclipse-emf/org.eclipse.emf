@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.5 2007/01/13 17:45:29 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.6 2007/01/18 15:53:25 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -24,13 +24,12 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.test.sdo.library.Book;
-import org.eclipse.emf.test.sdo.library.Library;
-import org.eclipse.emf.test.sdo.library.LibraryFactory;
-import org.eclipse.emf.test.sdo.library.Writer;
+import org.eclipse.emf.test.models.sdo.library.Book;
+import org.eclipse.emf.test.models.sdo.library.Library;
+import org.eclipse.emf.test.models.sdo.library.SDOLibraryFactory;
+import org.eclipse.emf.test.models.sdo.library.Writer;
 
 import org.eclipse.emf.ecore.sdo.EChangeSummary;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
@@ -60,10 +59,10 @@ public class SpecialCasesTest extends TestCase
   public void testClassCastExceptionProblem() throws Exception
   {
     // 1. set up a library with one writer
-    Library library = LibraryFactory.eINSTANCE.createLibrary();
+    Library library = SDOLibraryFactory.INSTANCE.createLibrary();
     library.setName("Test Library");
 
-    Writer writer = LibraryFactory.eINSTANCE.createWriter();
+    Writer writer = SDOLibraryFactory.INSTANCE.createWriter();
     writer.setName("Test Writer");
     library.getWriters().add(writer);
 
@@ -73,7 +72,7 @@ public class SpecialCasesTest extends TestCase
     // 2. add new book with reference to the writer,
     // which you set before or after adding the book to the library
     dataGraph.getChangeSummary().beginLogging();
-    Book book = LibraryFactory.eINSTANCE.createBook();
+    Book book = SDOLibraryFactory.INSTANCE.createBook();
 
     library.getBooks().add(book);
     book.setAuthor(writer);

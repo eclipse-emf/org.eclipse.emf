@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.9 2006/12/30 03:44:08 marcelop Exp $
+ * $Id: AllSuites.java,v 1.10 2007/01/18 15:53:25 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -23,6 +23,8 @@ import junit.framework.TestSuite;
 
 public class AllSuites extends TestSuite
 {
+  public static final String PLUGIN_ID = "org.eclipse.emf.test.sdo";
+  
   private static Test[] suites = new Test []{ 
     org.eclipse.emf.test.sdo.SpecialCasesTest.suite() //must be the first to be invoked
     ,org.eclipse.emf.test.sdo.DataGraphTest.suite()

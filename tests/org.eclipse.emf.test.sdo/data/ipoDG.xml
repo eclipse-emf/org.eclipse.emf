@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <sdo:datagraph
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:ipo="http://www.example.com/IPO"
+  xmlns:ipo="http:///org.eclipse.emf.test.models/IPO"
   xmlns:sdo="commonj.sdo">
 
   <changeSummary/>

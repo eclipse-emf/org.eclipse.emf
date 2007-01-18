@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOUtilSetTest.java,v 1.4 2006/12/30 03:44:08 marcelop Exp $
+ * $Id: SDOUtilSetTest.java,v 1.5 2007/01/18 15:53:25 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo.types;
 
@@ -27,11 +27,12 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.test.models.types.AThing;
+import org.eclipse.emf.test.models.types.TypesFactory;
+import org.eclipse.emf.test.models.types.impl.TypesPackageImpl;
+
 import org.eclipse.emf.ecore.sdo.EDataObject;
 import org.eclipse.emf.ecore.sdo.util.SDOUtil;
-import org.eclipse.emf.test.sdo.types.model.types.AThing;
-import org.eclipse.emf.test.sdo.types.model.types.TypesFactory;
-import org.eclipse.emf.test.sdo.types.model.types.TypesPackage;
 
 /**
  * @author marcelop
@@ -52,7 +53,7 @@ public class SDOUtilSetTest extends TestCase
   @Override
   protected void setUp() throws Exception
   {
-    thing = TypesFactory.eINSTANCE.createAThing();
+    thing = TypesFactory.INSTANCE.createAThing();
   }
   
   /*
@@ -248,20 +249,20 @@ public class SDOUtilSetTest extends TestCase
     bigDecimalTest(new BigDecimal(0));
     bigDecimalTest(new BigDecimal(Math.random()));
     
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ADECIMAL, null);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__ADECIMAL, null);
     assertNull(thing.getADecimal());
     thing.setADecimal(new BigDecimal(0));
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDecimal"), null);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDecimal"), null);
     assertNull(thing.getADecimal());
     thing.setADecimal(new BigDecimal(0));
     SDOUtil.setBigDecimal((EObject)thing, "aDecimal", null);
     assertNull(thing.getADecimal());
     thing.setADecimal(new BigDecimal(0));
     //
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ALONG, null);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__ALONG, null);
     assertEquals(0, thing.getALong());
     thing.setALong(1);
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aLong"), null);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aLong"), null);
     assertEquals(0, thing.getALong());
     thing.setALong(1);
     SDOUtil.setBigDecimal((EObject)thing, "aLong", null);
@@ -272,110 +273,110 @@ public class SDOUtilSetTest extends TestCase
   protected void bigDecimalTest(BigDecimal value)
   {
     //BigDecimal
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ADECIMAL, value);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__ADECIMAL, value);
     assertEquals(value, thing.getADecimal());
     thing.setADecimal(null);
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
     assertEquals(value, thing.getADecimal());
     thing.setADecimal(null);
     SDOUtil.setBigDecimal((EObject)thing, "aDecimal", value);
     assertEquals(value, thing.getADecimal());
     thing.setADecimal(null);
     //BigInteger
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__AINTEGER, value);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__AINTEGER, value);
     assertEquals(value.toBigInteger(), thing.getAInteger());
     thing.setAInteger(null);
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInteger"), value);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInteger"), value);
     assertEquals(value.toBigInteger(), thing.getAInteger());
     thing.setAInteger(null);
     SDOUtil.setBigDecimal((EObject)thing, "aInteger", value);
     assertEquals(value.toBigInteger(), thing.getAInteger());
     thing.setAInteger(null);
     //byte
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ABYTE, value);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__ABYTE, value);
     assertEquals(value.byteValue(), thing.getAByte());
     thing.setAByte((byte)(value.byteValue()+1));
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aByte"), value);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aByte"), value);
     assertEquals(value.byteValue(), thing.getAByte());
     thing.setAByte((byte)(value.byteValue()+1));
     SDOUtil.setBigDecimal((EObject)thing, "aByte", value);
     assertEquals(value.byteValue(), thing.getAByte());
     thing.setAByte((byte)(value.byteValue()+1));
     //double
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ADOUBLE, value);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__ADOUBLE, value);
     assertEquals(value.doubleValue(), thing.getADouble(), 0);
     thing.setADouble(value.doubleValue()+1);
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDouble"), value);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDouble"), value);
     assertEquals(value.doubleValue(), thing.getADouble(), 0);
     thing.setADouble(value.doubleValue()+1);
     SDOUtil.setBigDecimal((EObject)thing, "aDouble", value);
     assertEquals(value.doubleValue(), thing.getADouble(), 0);
     thing.setADouble(value.doubleValue()+1);
     //float
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__AFLOAT, value);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__AFLOAT, value);
     assertEquals(value.floatValue(), thing.getAFloat(), 0);
     thing.setAFloat(value.floatValue()+1);
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aFloat"), value);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aFloat"), value);
     assertEquals(value.floatValue(), thing.getAFloat(), 0);
     thing.setAFloat(value.floatValue()+1);
     SDOUtil.setBigDecimal((EObject)thing, "aFloat", value);
     assertEquals(value.floatValue(), thing.getAFloat(), 0);
     thing.setAFloat(value.floatValue()+1);
     //int
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__AINT, value);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__AINT, value);
     assertEquals(value.intValue(), thing.getAInt());
     thing.setAInt(value.intValue()+1);
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInt"), value);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInt"), value);
     assertEquals(value.intValue(), thing.getAInt());
     thing.setAInt(value.intValue()+1);
     SDOUtil.setBigDecimal((EObject)thing, "aInt", value);
     assertEquals(value.intValue(), thing.getAInt());
     thing.setAInt(value.intValue()+1);
     //long
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ALONG, value);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__ALONG, value);
     assertEquals(value.longValue(), thing.getALong());
     thing.setALong(value.longValue()+1);
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aLong"), value);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aLong"), value);
     assertEquals(value.longValue(), thing.getALong());
     thing.setALong(value.longValue()+1);
     SDOUtil.setBigDecimal((EObject)thing, "aLong", value);
     assertEquals(value.longValue(), thing.getALong());
     thing.setALong(value.longValue()+1);
     //short
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ASHORT, value);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__ASHORT, value);
     assertEquals(value.shortValue(), thing.getAShort());
     thing.setAShort((short)(value.shortValue()+1));
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aShort"), value);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aShort"), value);
     assertEquals(value.shortValue(), thing.getAShort());
     thing.setAShort((short)(value.shortValue()+1));
     SDOUtil.setBigDecimal((EObject)thing, "aShort", value);
     assertEquals(value.shortValue(), thing.getAShort());
     thing.setAShort((short)(value.shortValue()+1));
     //String
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ASTRING, value);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__ASTRING, value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), value);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     SDOUtil.setBigDecimal((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     //Object
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__AOBJECT, value);
     assertEquals(value, thing.getAObject());
     thing.setAObject("");
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aObject"), value);
     assertEquals(value, thing.getAObject());
     thing.setAObject("");
     SDOUtil.setBigDecimal((EObject)thing, "aObject", value);
     assertEquals(value, thing.getAObject());
     thing.setAObject("");
     //Number
-    SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__ANUMBER, value);
     assertEquals(value, thing.getANumber());
     thing.setANumber(null);
-    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aNumber"), value);
     assertEquals(value, thing.getANumber());
     thing.setANumber(null);
     SDOUtil.setBigDecimal((EObject)thing, "aNumber", value);
@@ -387,7 +388,7 @@ public class SDOUtilSetTest extends TestCase
     thing.setAThread(thread);
     try
     {
-      SDOUtil.setBigDecimal((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      SDOUtil.setBigDecimal((EObject)thing, TypesPackageImpl.ATHING__ATHREAD, value);
       classCastExceptionHappened = false;
     }
     catch(ClassCastException e)
@@ -398,7 +399,7 @@ public class SDOUtilSetTest extends TestCase
     assertEquals(thread, thing.getAThread());
     try
     {
-		  SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  SDOUtil.setBigDecimal((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aThread"), value);
 		  classCastExceptionHappened = false;
 		}
 		catch(ClassCastException e)
@@ -427,20 +428,20 @@ public class SDOUtilSetTest extends TestCase
     bigIntegerTest(new BigInteger("0"));
     bigIntegerTest(BigInteger.valueOf((long)Math.random()));
     
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__AINTEGER, null);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__AINTEGER, null);
     assertNull(thing.getADecimal());
     thing.setAInteger(new BigInteger("0"));
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInteger"), null);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInteger"), null);
     assertNull(thing.getADecimal());
     thing.setAInteger(new BigInteger("0"));
     SDOUtil.setBigInteger((EObject)thing, "aInteger", null);
     assertNull(thing.getADecimal());
     thing.setAInteger(new BigInteger("0"));
     //
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__ASHORT, null);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__ASHORT, null);
     assertEquals((short)0, thing.getAShort());
     thing.setAShort((short)1);
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aShort"), null);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aShort"), null);
     assertEquals((short)0, thing.getAShort());
     thing.setAShort((short)1);
     SDOUtil.setBigInteger((EObject)thing, "aShort", null);
@@ -451,110 +452,110 @@ public class SDOUtilSetTest extends TestCase
   protected void bigIntegerTest(BigInteger value)
   {
     //BigDecimal
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__ADECIMAL, value);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__ADECIMAL, value);
     assertEquals(value, thing.getADecimal().toBigInteger());
     thing.setADecimal(null);
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
     assertEquals(value, thing.getADecimal().toBigInteger());
     thing.setADecimal(null);
     SDOUtil.setBigInteger((EObject)thing, "aDecimal", value);
     assertEquals(value, thing.getADecimal().toBigInteger());
     thing.setADecimal(null);
     //BigInteger
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__AINTEGER, value);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__AINTEGER, value);
     assertEquals(value, thing.getAInteger());
     thing.setAInteger(null);
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInteger"), value);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInteger"), value);
     assertEquals(value, thing.getAInteger());
     thing.setAInteger(null);
     SDOUtil.setBigInteger((EObject)thing, "aInteger", value);
     assertEquals(value, thing.getAInteger());
     thing.setAInteger(null);
     //byte
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__ABYTE, value);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__ABYTE, value);
     assertEquals(value.byteValue(), thing.getAByte());
     thing.setAByte((byte)(value.byteValue()+1));
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aByte"), value);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aByte"), value);
     assertEquals(value.byteValue(), thing.getAByte());
     thing.setAByte((byte)(value.byteValue()+1));
     SDOUtil.setBigInteger((EObject)thing, "aByte", value);
     assertEquals(value.byteValue(), thing.getAByte());
     thing.setAByte((byte)(value.byteValue()+1));
     //double
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__ADOUBLE, value);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__ADOUBLE, value);
     assertEquals(value.doubleValue(), thing.getADouble(), 0);
     thing.setADouble(value.doubleValue()+1);
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDouble"), value);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDouble"), value);
     assertEquals(value.doubleValue(), thing.getADouble(), 0);
     thing.setADouble(value.doubleValue()+1);
     SDOUtil.setBigInteger((EObject)thing, "aDouble", value);
     assertEquals(value.doubleValue(), thing.getADouble(), 0);
     thing.setADouble(value.doubleValue()+1);
     //float
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__AFLOAT, value);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__AFLOAT, value);
     assertEquals(value.floatValue(), thing.getAFloat(), 0);
     thing.setAFloat(value.floatValue()+1);
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aFloat"), value);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aFloat"), value);
     assertEquals(value.floatValue(), thing.getAFloat(), 0);
     thing.setAFloat(value.floatValue()+1);
     SDOUtil.setBigInteger((EObject)thing, "aFloat", value);
     assertEquals(value.floatValue(), thing.getAFloat(), 0);
     thing.setAFloat(value.floatValue()+1);
     //int
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__AINT, value);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__AINT, value);
     assertEquals(value.intValue(), thing.getAInt());
     thing.setAInt(value.intValue()+1);
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInt"), value);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInt"), value);
     assertEquals(value.intValue(), thing.getAInt());
     thing.setAInt(value.intValue()+1);
     SDOUtil.setBigInteger((EObject)thing, "aInt", value);
     assertEquals(value.intValue(), thing.getAInt());
     thing.setAInt(value.intValue()+1);
     //long
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__ALONG, value);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__ALONG, value);
     assertEquals(value.longValue(), thing.getALong());
     thing.setALong(value.longValue()+1);
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aLong"), value);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aLong"), value);
     assertEquals(value.longValue(), thing.getALong());
     thing.setALong(value.longValue()+1);
     SDOUtil.setBigInteger((EObject)thing, "aLong", value);
     assertEquals(value.longValue(), thing.getALong());
     thing.setALong(value.longValue()+1);
     //short
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__ASHORT, value);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__ASHORT, value);
     assertEquals(value.shortValue(), thing.getAShort());
     thing.setAShort((short)(value.shortValue()+1));
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aShort"), value);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aShort"), value);
     assertEquals(value.shortValue(), thing.getAShort());
     thing.setAShort((short)(value.shortValue()+1));
     SDOUtil.setBigInteger((EObject)thing, "aShort", value);
     assertEquals(value.shortValue(), thing.getAShort());
     thing.setAShort((short)(value.shortValue()+1));
     //String
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__ASTRING, value);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__ASTRING, value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), value);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     SDOUtil.setBigInteger((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     //Object
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__AOBJECT, value);
     assertEquals(value, thing.getAObject());
     thing.setAObject("");
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aObject"), value);
     assertEquals(value, thing.getAObject());
     thing.setAObject("");
     SDOUtil.setBigInteger((EObject)thing, "aObject", value);
     assertEquals(value, thing.getAObject());
     thing.setAObject("");
     //Number
-    SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__ANUMBER, value);
     assertEquals(value, thing.getANumber());
     thing.setANumber(null);
-    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aNumber"), value);
     assertEquals(value, thing.getANumber());
     thing.setANumber(null);
     SDOUtil.setBigInteger((EObject)thing, "aNumber", value);
@@ -566,7 +567,7 @@ public class SDOUtilSetTest extends TestCase
     thing.setAThread(thread);
     try
     {
-      SDOUtil.setBigInteger((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      SDOUtil.setBigInteger((EObject)thing, TypesPackageImpl.ATHING__ATHREAD, value);
       classCastExceptionHappened = false;
     }
     catch(ClassCastException e)
@@ -577,7 +578,7 @@ public class SDOUtilSetTest extends TestCase
     assertEquals(thread, thing.getAThread());
     try
     {
-		  SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  SDOUtil.setBigInteger((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aThread"), value);
 		  classCastExceptionHappened = false;
 		}
 		catch(ClassCastException e)
@@ -610,90 +611,90 @@ public class SDOUtilSetTest extends TestCase
   protected void byteTest(byte value)
   {
     //byte
-    SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__ABYTE, value);
+    SDOUtil.setByte((EObject)thing, TypesPackageImpl.ATHING__ABYTE, value);
     assertEquals(value, thing.getAByte());
     thing.setAByte((byte)(value+1));
-    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aByte"), value);
+    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aByte"), value);
     assertEquals(value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     SDOUtil.setByte((EObject)thing, "aByte", value);
     assertEquals(value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     //double
-    SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__ADOUBLE, value);
+    SDOUtil.setByte((EObject)thing, TypesPackageImpl.ATHING__ADOUBLE, value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
-    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDouble"), value);
+    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDouble"), value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     SDOUtil.setByte((EObject)thing, "aDouble", value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     //float
-    SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__AFLOAT, value);
+    SDOUtil.setByte((EObject)thing, TypesPackageImpl.ATHING__AFLOAT, value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
-    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aFloat"), value);
+    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aFloat"), value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
     SDOUtil.setByte((EObject)thing, "aFloat", value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
     //int
-    SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__AINT, value);
+    SDOUtil.setByte((EObject)thing, TypesPackageImpl.ATHING__AINT, value);
     assertEquals(value, thing.getAInt());
     thing.setAInt(value+1);
-    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInt"), value);
+    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInt"), value);
     assertEquals(value, thing.getAInt());
     thing.setAInt(value+1);
     SDOUtil.setByte((EObject)thing, "aInt", value);
     assertEquals(value, thing.getAInt());
     thing.setAInt(value+1);
     //long
-    SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__ALONG, value);
+    SDOUtil.setByte((EObject)thing, TypesPackageImpl.ATHING__ALONG, value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
-    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aLong"), value);
+    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aLong"), value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
     SDOUtil.setByte((EObject)thing, "aLong", value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
     //short
-    SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__ASHORT, value);
+    SDOUtil.setByte((EObject)thing, TypesPackageImpl.ATHING__ASHORT, value);
     assertEquals(value, thing.getAShort());
     thing.setAShort((short)(value+1));
-    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aShort"), value);
+    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aShort"), value);
     assertEquals(value, thing.getAShort());
     thing.setAShort((short)(value+1));
     SDOUtil.setByte((EObject)thing, "aShort", value);
     assertEquals(value, thing.getAShort());
     thing.setAShort((short)(value+1));
     //String
-    SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__ASTRING, value);
+    SDOUtil.setByte((EObject)thing, TypesPackageImpl.ATHING__ASTRING, value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
-    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), value);
+    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     SDOUtil.setByte((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     //Object
-    SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    SDOUtil.setByte((EObject)thing, TypesPackageImpl.ATHING__AOBJECT, value);
     assertEquals(new Byte(value), thing.getAObject());
     thing.setAObject("");
-    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aObject"), value);
     assertEquals(new Byte(value), thing.getAObject());
     thing.setAObject("");
     SDOUtil.setByte((EObject)thing, "aObject", value);
     assertEquals(new Byte(value), thing.getAObject());
     thing.setAObject("");
     //Number
-    SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    SDOUtil.setByte((EObject)thing, TypesPackageImpl.ATHING__ANUMBER, value);
     assertEquals(new Byte(value), thing.getANumber());
     thing.setANumber(null);
-    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aNumber"), value);
     assertEquals(new Byte(value), thing.getANumber());
     thing.setANumber(null);
     SDOUtil.setByte((EObject)thing, "aNumber", value);
@@ -705,7 +706,7 @@ public class SDOUtilSetTest extends TestCase
     thing.setAThread(thread);
     try
     {
-      SDOUtil.setByte((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      SDOUtil.setByte((EObject)thing, TypesPackageImpl.ATHING__ATHREAD, value);
       classCastExceptionHappened = false;
     }
     catch(ClassCastException e)
@@ -716,7 +717,7 @@ public class SDOUtilSetTest extends TestCase
     assertEquals(thread, thing.getAThread());
     try
     {
-		  SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  SDOUtil.setByte((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aThread"), value);
 		  classCastExceptionHappened = false;
 		}
 		catch(ClassCastException e)
@@ -747,20 +748,20 @@ public class SDOUtilSetTest extends TestCase
   protected void booleanTest(boolean value) throws Exception
   {
     //boolean
-    SDOUtil.setBoolean((EObject)thing, TypesPackage.ATHING__ABOOLEAN, value);
+    SDOUtil.setBoolean((EObject)thing, TypesPackageImpl.ATHING__ABOOLEAN, value);
     assertEquals(value, thing.isABoolean());
     thing.setABoolean(!value);
-    SDOUtil.setBoolean((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aBoolean"), value);
+    SDOUtil.setBoolean((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aBoolean"), value);
     assertEquals(value, thing.isABoolean());
     thing.setABoolean(!value);
     SDOUtil.setBoolean((EObject)thing, "aBoolean", value);
     assertEquals(value, thing.isABoolean());
     thing.setABoolean(!value);
     //String
-    SDOUtil.setBoolean((EObject)thing, TypesPackage.ATHING__ASTRING, value);
+    SDOUtil.setBoolean((EObject)thing, TypesPackageImpl.ATHING__ASTRING, value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
-    SDOUtil.setBoolean((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), value);
+    SDOUtil.setBoolean((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     SDOUtil.setBoolean((EObject)thing, "aString", value);
@@ -777,10 +778,10 @@ public class SDOUtilSetTest extends TestCase
   protected void bytesTest(byte[] value) throws Exception
   {
     //bytes
-    SDOUtil.setBytes((EObject)thing, TypesPackage.ATHING__ABYTES, value);
+    SDOUtil.setBytes((EObject)thing, TypesPackageImpl.ATHING__ABYTES, value);
     assertTrue(Arrays.equals(value, thing.getABytes()));
     thing.setABytes(new byte[0]);
-    SDOUtil.setBytes((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aBytes"), value);
+    SDOUtil.setBytes((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aBytes"), value);
     assertTrue(Arrays.equals(value, thing.getABytes()));
     thing.setABytes(new byte[0]);
     SDOUtil.setBytes((EObject)thing, "aBytes", value);
@@ -788,10 +789,10 @@ public class SDOUtilSetTest extends TestCase
     thing.setABytes(new byte[0]);
     //BigInteger
     BigInteger expected = value == null ? null : new BigInteger(value);
-    SDOUtil.setBytes((EObject)thing, TypesPackage.ATHING__AINTEGER, value);
+    SDOUtil.setBytes((EObject)thing, TypesPackageImpl.ATHING__AINTEGER, value);
     assertEquals(expected, thing.getAInteger());
     thing.setAInteger(BigInteger.valueOf(1));
-    SDOUtil.setBytes((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInteger"), value);
+    SDOUtil.setBytes((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInteger"), value);
     assertEquals(expected, thing.getAInteger());
     thing.setAInteger(BigInteger.valueOf(1));
     SDOUtil.setBytes((EObject)thing, "aInteger", value);
@@ -810,30 +811,30 @@ public class SDOUtilSetTest extends TestCase
   protected void charTest(char value) throws Exception
   {
     //char
-    SDOUtil.setChar((EObject)thing, TypesPackage.ATHING__ACHAR, value);
+    SDOUtil.setChar((EObject)thing, TypesPackageImpl.ATHING__ACHAR, value);
     assertEquals(value, thing.getAChar());
     thing.setAChar((char)(value+1));
-    SDOUtil.setChar((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aChar"), value);
+    SDOUtil.setChar((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aChar"), value);
     assertEquals(value, thing.getAChar());
     thing.setAChar((char)(value+1));
     SDOUtil.setChar((EObject)thing, "aChar", value);
     assertEquals(value, thing.getAChar());
     thing.setAChar((char)(value+1));
     //String
-    SDOUtil.setChar((EObject)thing, TypesPackage.ATHING__ASTRING, value);
+    SDOUtil.setChar((EObject)thing, TypesPackageImpl.ATHING__ASTRING, value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString(null);
-    SDOUtil.setChar((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), value);
+    SDOUtil.setChar((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString(null);
     SDOUtil.setChar((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString(null);
     //Object
-    SDOUtil.setChar((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    SDOUtil.setChar((EObject)thing, TypesPackageImpl.ATHING__AOBJECT, value);
     assertEquals(new Character(value), thing.getAObject());
     thing.setAObject("");
-    SDOUtil.setChar((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    SDOUtil.setChar((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aObject"), value);
     assertEquals(new Character(value), thing.getAObject());
     thing.setAObject("");
     SDOUtil.setChar((EObject)thing, "aObject", value);
@@ -845,7 +846,7 @@ public class SDOUtilSetTest extends TestCase
     thing.setAThread(thread);
     try
     {
-      SDOUtil.setChar((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      SDOUtil.setChar((EObject)thing, TypesPackageImpl.ATHING__ATHREAD, value);
       classCastExceptionHappened = false;
     }
     catch(ClassCastException e)
@@ -856,7 +857,7 @@ public class SDOUtilSetTest extends TestCase
     assertEquals(thread, thing.getAThread());
     try
     {
-		  SDOUtil.setChar((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  SDOUtil.setChar((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aThread"), value);
 		  classCastExceptionHappened = false;
 		}
 		catch(ClassCastException e)
@@ -887,10 +888,10 @@ public class SDOUtilSetTest extends TestCase
   protected void dateTest(Date value)
   {
     //Date
-    SDOUtil.setDate((EObject)thing, TypesPackage.ATHING__ADATE, value);
+    SDOUtil.setDate((EObject)thing, TypesPackageImpl.ATHING__ADATE, value);
     assertEquals(value, thing.getADate());
     thing.setADate(null);
-    SDOUtil.setDate((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDate"), value);
+    SDOUtil.setDate((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDate"), value);
     assertEquals(value, thing.getADate());
     thing.setADate(null);
     SDOUtil.setDate((EObject)thing, "aDate", value);
@@ -898,10 +899,10 @@ public class SDOUtilSetTest extends TestCase
     thing.setADate(null);
     //long
     long expected = value == null ? 0 : value.getTime();
-    SDOUtil.setDate((EObject)thing, TypesPackage.ATHING__ALONG, value);
+    SDOUtil.setDate((EObject)thing, TypesPackageImpl.ATHING__ALONG, value);
     assertEquals(expected, thing.getALong());
     thing.setALong(10);
-    SDOUtil.setDate((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aLong"), value);
+    SDOUtil.setDate((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aLong"), value);
     assertEquals(expected, thing.getALong());
     thing.setALong(10);
     SDOUtil.setDate((EObject)thing, "aLong", value);
@@ -920,110 +921,110 @@ public class SDOUtilSetTest extends TestCase
   protected void doubleTest(double value)
   {
     //BigDecimal
-    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__ADECIMAL, value);
+    SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__ADECIMAL, value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
-    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
     SDOUtil.setDouble((EObject)thing, "aDecimal", value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
     //BigInteger
-    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__AINTEGER, value);
+    SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__AINTEGER, value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
-    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInteger"), value);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInteger"), value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     SDOUtil.setDouble((EObject)thing, "aInteger", value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     //byte
-    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__ABYTE, value);
+    SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__ABYTE, value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
-    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aByte"), value);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aByte"), value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     SDOUtil.setDouble((EObject)thing, "aByte", value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     //double
-    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__ADOUBLE, value);
+    SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__ADOUBLE, value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
-    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDouble"), value);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDouble"), value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     SDOUtil.setDouble((EObject)thing, "aDouble", value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     //float
-    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__AFLOAT, value);
+    SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__AFLOAT, value);
     assertEquals((float)value, thing.getAFloat(), 0);
     thing.setAFloat((float)(value+1));
-    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aFloat"), value);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aFloat"), value);
     assertEquals((float)value, thing.getAFloat(), 0);
     thing.setAFloat((float)(value+1));
     SDOUtil.setDouble((EObject)thing, "aFloat", value);
     assertEquals((float)value, thing.getAFloat(), 0);
     thing.setAFloat((float)(value+1));
     //int
-    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__AINT, value);
+    SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__AINT, value);
     assertEquals((int)value, thing.getAInt());
     thing.setAInt((int)(value+1));
-    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInt"), value);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInt"), value);
     assertEquals((int)value, thing.getAInt());
     thing.setAInt((int)(value+1));
     SDOUtil.setDouble((EObject)thing, "aInt", value);
     assertEquals((int)value, thing.getAInt());
     thing.setAInt((int)(value+1));
     //long
-    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__ALONG, value);
+    SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__ALONG, value);
     assertEquals((long)value, thing.getALong());
     thing.setALong((long)(value+1));
-    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aLong"), value);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aLong"), value);
     assertEquals((long)value, thing.getALong());
     thing.setALong((long)(value+1));
     SDOUtil.setDouble((EObject)thing, "aLong", value);
     assertEquals((long)value, thing.getALong());
     thing.setALong((long)(value+1));
     //short
-    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__ASHORT, value);
+    SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__ASHORT, value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
-    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aShort"), value);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aShort"), value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
     SDOUtil.setDouble((EObject)thing, "aShort", value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
     //String
-    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__ASTRING, value);
+    SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__ASTRING, value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
-    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), value);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     SDOUtil.setDouble((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     //Object
-    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__AOBJECT, value);
     assertEquals(new Double(value), thing.getAObject());
     thing.setAObject("");
-    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aObject"), value);
     assertEquals(new Double(value), thing.getAObject());
     thing.setAObject("");
     SDOUtil.setDouble((EObject)thing, "aObject", value);
     assertEquals(new Double(value), thing.getAObject());
     thing.setAObject("");
     //Number
-    SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__ANUMBER, value);
     assertEquals(new Double(value), thing.getANumber());
     thing.setANumber(null);
-    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aNumber"), value);
     assertEquals(new Double(value), thing.getANumber());
     thing.setANumber(null);
     SDOUtil.setDouble((EObject)thing, "aNumber", value);
@@ -1035,7 +1036,7 @@ public class SDOUtilSetTest extends TestCase
     thing.setAThread(thread);
     try
     {
-      SDOUtil.setDouble((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      SDOUtil.setDouble((EObject)thing, TypesPackageImpl.ATHING__ATHREAD, value);
       classCastExceptionHappened = false;
     }
     catch(ClassCastException e)
@@ -1046,7 +1047,7 @@ public class SDOUtilSetTest extends TestCase
     assertEquals(thread, thing.getAThread());
     try
     {
-		  SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  SDOUtil.setDouble((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aThread"), value);
 		  classCastExceptionHappened = false;
 		}
 		catch(ClassCastException e)
@@ -1079,110 +1080,110 @@ public class SDOUtilSetTest extends TestCase
   protected void floatTest(float value)
   {
     //BigDecimal
-    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__ADECIMAL, value);
+    SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__ADECIMAL, value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
-    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
     SDOUtil.setFloat((EObject)thing, "aDecimal", value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
     //BigInteger
-    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__AINTEGER, value);
+    SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__AINTEGER, value);
     assertEquals(BigInteger.valueOf(new Float(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
-    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInteger"), value);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInteger"), value);
     assertEquals(BigInteger.valueOf(new Float(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     SDOUtil.setFloat((EObject)thing, "aInteger", value);
     assertEquals(BigInteger.valueOf(new Float(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     //byte
-    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__ABYTE, value);
+    SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__ABYTE, value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
-    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aByte"), value);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aByte"), value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     SDOUtil.setFloat((EObject)thing, "aByte", value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     //double
-    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__ADOUBLE, value);
+    SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__ADOUBLE, value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
-    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDouble"), value);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDouble"), value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     SDOUtil.setFloat((EObject)thing, "aDouble", value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     //float
-    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__AFLOAT, value);
+    SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__AFLOAT, value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
-    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aFloat"), value);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aFloat"), value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
     SDOUtil.setFloat((EObject)thing, "aFloat", value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
     //int
-    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__AINT, value);
+    SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__AINT, value);
     assertEquals((int)value, thing.getAInt());
     thing.setAInt((int)(value+1));
-    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInt"), value);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInt"), value);
     assertEquals((int)value, thing.getAInt());
     thing.setAInt((int)(value+1));
     SDOUtil.setFloat((EObject)thing, "aInt", value);
     assertEquals((int)value, thing.getAInt());
     thing.setAInt((int)(value+1));
     //long
-    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__ALONG, value);
+    SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__ALONG, value);
     assertEquals((long)value, thing.getALong());
     thing.setALong((long)(value+1));
-    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aLong"), value);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aLong"), value);
     assertEquals((long)value, thing.getALong());
     thing.setALong((long)(value+1));
     SDOUtil.setFloat((EObject)thing, "aLong", value);
     assertEquals((long)value, thing.getALong());
     thing.setALong((long)(value+1));
     //short
-    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__ASHORT, value);
+    SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__ASHORT, value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
-    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aShort"), value);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aShort"), value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
     SDOUtil.setFloat((EObject)thing, "aShort", value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
     //String
-    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__ASTRING, value);
+    SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__ASTRING, value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
-    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), value);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     SDOUtil.setFloat((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     //Object
-    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__AOBJECT, value);
     assertEquals(new Float(value), thing.getAObject());
     thing.setAObject("");
-    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aObject"), value);
     assertEquals(new Float(value), thing.getAObject());
     thing.setAObject("");
     SDOUtil.setFloat((EObject)thing, "aObject", value);
     assertEquals(new Float(value), thing.getAObject());
     thing.setAObject("");
     //Number
-    SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__ANUMBER, value);
     assertEquals(new Float(value), thing.getANumber());
     thing.setANumber(null);
-    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aNumber"), value);
     assertEquals(new Float(value), thing.getANumber());
     thing.setANumber(null);
     SDOUtil.setFloat((EObject)thing, "aNumber", value);
@@ -1194,7 +1195,7 @@ public class SDOUtilSetTest extends TestCase
     thing.setAThread(thread);
     try
     {
-      SDOUtil.setFloat((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      SDOUtil.setFloat((EObject)thing, TypesPackageImpl.ATHING__ATHREAD, value);
       classCastExceptionHappened = false;
     }
     catch(ClassCastException e)
@@ -1205,7 +1206,7 @@ public class SDOUtilSetTest extends TestCase
     assertEquals(thread, thing.getAThread());
     try
     {
-		  SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  SDOUtil.setFloat((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aThread"), value);
 		  classCastExceptionHappened = false;
 		}
 		catch(ClassCastException e)
@@ -1238,110 +1239,110 @@ public class SDOUtilSetTest extends TestCase
   protected void intTest(int value)
   {
     //BigDecimal
-    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__ADECIMAL, value);
+    SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__ADECIMAL, value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
-    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
     SDOUtil.setInt((EObject)thing, "aDecimal", value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
     //BigInteger
-    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__AINTEGER, value);
+    SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__AINTEGER, value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
-    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInteger"), value);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInteger"), value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     SDOUtil.setInt((EObject)thing, "aInteger", value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     //byte
-    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__ABYTE, value);
+    SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__ABYTE, value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
-    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aByte"), value);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aByte"), value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     SDOUtil.setInt((EObject)thing, "aByte", value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     //double
-    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__ADOUBLE, value);
+    SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__ADOUBLE, value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
-    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDouble"), value);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDouble"), value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     SDOUtil.setInt((EObject)thing, "aDouble", value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     //float
-    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__AFLOAT, value);
+    SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__AFLOAT, value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
-    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aFloat"), value);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aFloat"), value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
     SDOUtil.setInt((EObject)thing, "aFloat", value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
     //int
-    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__AINT, value);
+    SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__AINT, value);
     assertEquals(value, thing.getAInt());
     thing.setAInt(value+1);
-    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInt"), value);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInt"), value);
     assertEquals(value, thing.getAInt());
     thing.setAInt(value+1);
     SDOUtil.setInt((EObject)thing, "aInt", value);
     assertEquals(value, thing.getAInt());
     thing.setAInt(value+1);
     //long
-    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__ALONG, value);
+    SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__ALONG, value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
-    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aLong"), value);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aLong"), value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
     SDOUtil.setInt((EObject)thing, "aLong", value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
     //short
-    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__ASHORT, value);
+    SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__ASHORT, value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
-    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aShort"), value);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aShort"), value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
     SDOUtil.setInt((EObject)thing, "aShort", value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
     //String
-    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__ASTRING, value);
+    SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__ASTRING, value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
-    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), value);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     SDOUtil.setInt((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     //Object
-    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__AOBJECT, value);
     assertEquals(new Integer(value), thing.getAObject());
     thing.setAObject("");
-    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aObject"), value);
     assertEquals(new Integer(value), thing.getAObject());
     thing.setAObject("");
     SDOUtil.setInt((EObject)thing, "aObject", value);
     assertEquals(new Integer(value), thing.getAObject());
     thing.setAObject("");
     //Number
-    SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__ANUMBER, value);
     assertEquals(new Integer(value), thing.getANumber());
     thing.setANumber(null);
-    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aNumber"), value);
     assertEquals(new Integer(value), thing.getANumber());
     thing.setANumber(null);
     SDOUtil.setInt((EObject)thing, "aNumber", value);
@@ -1353,7 +1354,7 @@ public class SDOUtilSetTest extends TestCase
     thing.setAThread(thread);
     try
     {
-      SDOUtil.setInt((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      SDOUtil.setInt((EObject)thing, TypesPackageImpl.ATHING__ATHREAD, value);
       classCastExceptionHappened = false;
     }
     catch(ClassCastException e)
@@ -1364,7 +1365,7 @@ public class SDOUtilSetTest extends TestCase
     assertEquals(thread, thing.getAThread());
     try
     {
-		  SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  SDOUtil.setInt((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aThread"), value);
 		  classCastExceptionHappened = false;
 		}
 		catch(ClassCastException e)
@@ -1395,10 +1396,10 @@ public class SDOUtilSetTest extends TestCase
 
     //String
     Date date = new Date();
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__ADATE, date.getTime());
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__ADATE, date.getTime());
     assertEquals(date, thing.getADate());
     thing.setADate(null);
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDate"), date.getTime());
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDate"), date.getTime());
     assertEquals(date, thing.getADate());
     thing.setADate(null);
     SDOUtil.setLong((EObject)thing, "aDate", date.getTime());
@@ -1409,110 +1410,110 @@ public class SDOUtilSetTest extends TestCase
   protected void longTest(long value)
   {
     //BigDecimal
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__ADECIMAL, value);
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__ADECIMAL, value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
     SDOUtil.setLong((EObject)thing, "aDecimal", value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
     //BigInteger
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__AINTEGER, value);
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__AINTEGER, value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInteger"), value);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInteger"), value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     SDOUtil.setLong((EObject)thing, "aInteger", value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     //byte
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__ABYTE, value);
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__ABYTE, value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aByte"), value);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aByte"), value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     SDOUtil.setLong((EObject)thing, "aByte", value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     //double
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__ADOUBLE, value);
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__ADOUBLE, value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDouble"), value);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDouble"), value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     SDOUtil.setLong((EObject)thing, "aDouble", value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     //float
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__AFLOAT, value);
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__AFLOAT, value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aFloat"), value);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aFloat"), value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
     SDOUtil.setLong((EObject)thing, "aFloat", value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
     //int
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__AINT, value);
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__AINT, value);
     assertEquals((int)value, thing.getAInt());
     thing.setAInt(((int)value+1));
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInt"), value);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInt"), value);
     assertEquals((int)value, thing.getAInt());
     thing.setAInt(((int)value+1));
     SDOUtil.setLong((EObject)thing, "aInt", value);
     assertEquals((int)value, thing.getAInt());
     thing.setAInt(((int)value+1));
     //long
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__ALONG, value);
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__ALONG, value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aLong"), value);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aLong"), value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
     SDOUtil.setLong((EObject)thing, "aLong", value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
     //short
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__ASHORT, value);
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__ASHORT, value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aShort"), value);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aShort"), value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
     SDOUtil.setLong((EObject)thing, "aShort", value);
     assertEquals((short)value, thing.getAShort());
     thing.setAShort((short)(value+1));
     //String
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__ASTRING, value);
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__ASTRING, value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), value);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     SDOUtil.setLong((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     //Object
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__AOBJECT, value);
     assertEquals(new Long(value), thing.getAObject());
     thing.setAObject("");
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aObject"), value);
     assertEquals(new Long(value), thing.getAObject());
     thing.setAObject("");
     SDOUtil.setLong((EObject)thing, "aObject", value);
     assertEquals(new Long(value), thing.getAObject());
     thing.setAObject("");
     //Number
-    SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__ANUMBER, value);
     assertEquals(new Long(value), thing.getANumber());
     thing.setANumber(null);
-    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aNumber"), value);
     assertEquals(new Long(value), thing.getANumber());
     thing.setANumber(null);
     SDOUtil.setLong((EObject)thing, "aNumber", value);
@@ -1524,7 +1525,7 @@ public class SDOUtilSetTest extends TestCase
     thing.setAThread(thread);
     try
     {
-      SDOUtil.setLong((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      SDOUtil.setLong((EObject)thing, TypesPackageImpl.ATHING__ATHREAD, value);
       classCastExceptionHappened = false;
     }
     catch(ClassCastException e)
@@ -1535,7 +1536,7 @@ public class SDOUtilSetTest extends TestCase
     assertEquals(thread, thing.getAThread());
     try
     {
-		  SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  SDOUtil.setLong((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aThread"), value);
 		  classCastExceptionHappened = false;
 		}
 		catch(ClassCastException e)
@@ -1568,90 +1569,90 @@ public class SDOUtilSetTest extends TestCase
   protected void shortTest(short value)
   {
     //byte
-    SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__ABYTE, value);
+    SDOUtil.setShort((EObject)thing, TypesPackageImpl.ATHING__ABYTE, value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
-    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aByte"), value);
+    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aByte"), value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     SDOUtil.setShort((EObject)thing, "aByte", value);
     assertEquals((byte)value, thing.getAByte());
     thing.setAByte((byte)(value+1));
     //double
-    SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__ADOUBLE, value);
+    SDOUtil.setShort((EObject)thing, TypesPackageImpl.ATHING__ADOUBLE, value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
-    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDouble"), value);
+    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDouble"), value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     SDOUtil.setShort((EObject)thing, "aDouble", value);
     assertEquals(value, thing.getADouble(), 0);
     thing.setADouble(value+1);
     //float
-    SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__AFLOAT, value);
+    SDOUtil.setShort((EObject)thing, TypesPackageImpl.ATHING__AFLOAT, value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
-    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aFloat"), value);
+    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aFloat"), value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
     SDOUtil.setShort((EObject)thing, "aFloat", value);
     assertEquals(value, thing.getAFloat(), 0);
     thing.setAFloat(value+1);
     //int
-    SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__AINT, value);
+    SDOUtil.setShort((EObject)thing, TypesPackageImpl.ATHING__AINT, value);
     assertEquals(value, thing.getAInt());
     thing.setAInt(value+1);
-    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInt"), value);
+    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInt"), value);
     assertEquals(value, thing.getAInt());
     thing.setAInt(value+1);
     SDOUtil.setShort((EObject)thing, "aInt", value);
     assertEquals(value, thing.getAInt());
     thing.setAInt(value+1);
     //long
-    SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__ALONG, value);
+    SDOUtil.setShort((EObject)thing, TypesPackageImpl.ATHING__ALONG, value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
-    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aLong"), value);
+    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aLong"), value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
     SDOUtil.setShort((EObject)thing, "aLong", value);
     assertEquals(value, thing.getALong());
     thing.setALong(value+1);
     //short
-    SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__ASHORT, value);
+    SDOUtil.setShort((EObject)thing, TypesPackageImpl.ATHING__ASHORT, value);
     assertEquals(value, thing.getAShort());
     thing.setAShort((short)(value+1));
-    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aShort"), value);
+    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aShort"), value);
     assertEquals(value, thing.getAShort());
     thing.setAShort((short)(value+1));
     SDOUtil.setShort((EObject)thing, "aShort", value);
     assertEquals(value, thing.getAShort());
     thing.setAShort((short)(value+1));
     //String
-    SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__ASTRING, value);
+    SDOUtil.setShort((EObject)thing, TypesPackageImpl.ATHING__ASTRING, value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
-    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), value);
+    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     SDOUtil.setShort((EObject)thing, "aString", value);
     assertEquals(String.valueOf(value), thing.getAString());
     thing.setAString("");
     //Object
-    SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    SDOUtil.setShort((EObject)thing, TypesPackageImpl.ATHING__AOBJECT, value);
     assertEquals(new Short(value), thing.getAObject());
     thing.setAObject("");
-    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aObject"), value);
     assertEquals(new Short(value), thing.getAObject());
     thing.setAObject("");
     SDOUtil.setShort((EObject)thing, "aObject", value);
     assertEquals(new Short(value), thing.getAObject());
     thing.setAObject("");
     //Number
-    SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    SDOUtil.setShort((EObject)thing, TypesPackageImpl.ATHING__ANUMBER, value);
     assertEquals(new Short(value), thing.getANumber());
     thing.setANumber(null);
-    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aNumber"), value);
     assertEquals(new Short(value), thing.getANumber());
     thing.setANumber(null);
     SDOUtil.setShort((EObject)thing, "aNumber", value);
@@ -1663,7 +1664,7 @@ public class SDOUtilSetTest extends TestCase
     thing.setAThread(thread);
     try
     {
-      SDOUtil.setShort((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      SDOUtil.setShort((EObject)thing, TypesPackageImpl.ATHING__ATHREAD, value);
       classCastExceptionHappened = false;
     }
     catch(ClassCastException e)
@@ -1674,7 +1675,7 @@ public class SDOUtilSetTest extends TestCase
     assertEquals(thread, thing.getAThread());
     try
     {
-		  SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  SDOUtil.setShort((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aThread"), value);
 		  classCastExceptionHappened = false;
 		}
 		catch(ClassCastException e)
@@ -1703,30 +1704,30 @@ public class SDOUtilSetTest extends TestCase
     stringNumberTest(String.valueOf(0));
     stringNumberTest(String.valueOf((byte)Math.random()));
         
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ASTRING, null);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ASTRING, null);
     assertNull(thing.getAString());
     thing.setAString("");
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), null);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), null);
     assertNull(thing.getAString());
     thing.setAString("");
     SDOUtil.setString((EObject)thing, "aString", null);
     assertNull(thing.getAString());
     thing.setAString("");
     //
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__AINT, null);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__AINT, null);
     assertEquals(0, thing.getAInt());
     thing.setAInt(1);
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInt"), null);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInt"), null);
     assertEquals(0, thing.getAInt());
     thing.setAInt(1);
     SDOUtil.setString((EObject)thing, "aInt", null);
     assertEquals(0, thing.getAInt());
     thing.setAInt(1);
     
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ASTRING, "");
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ASTRING, "");
     assertEquals("", thing.getAString());
     thing.setAString(null);
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), "");
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), "");
     assertEquals("", thing.getAString());
     thing.setAString(null);
     SDOUtil.setString((EObject)thing, "aString", "");
@@ -1735,20 +1736,20 @@ public class SDOUtilSetTest extends TestCase
     
     //boolean
 
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ABOOLEAN, Boolean.FALSE.toString());
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ABOOLEAN, Boolean.FALSE.toString());
     assertEquals(false, thing.isABoolean());
     thing.setABoolean(!thing.isABoolean());
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aBoolean"), Boolean.FALSE.toString());
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aBoolean"), Boolean.FALSE.toString());
     assertEquals(false, thing.isABoolean());
     thing.setABoolean(!thing.isABoolean());
     SDOUtil.setString((EObject)thing, "aBoolean", Boolean.FALSE.toString());
     assertEquals(false, thing.isABoolean());
     thing.setABoolean(!thing.isABoolean());
     //
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ABOOLEAN, Boolean.TRUE.toString());
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ABOOLEAN, Boolean.TRUE.toString());
     assertEquals(true, thing.isABoolean());
     thing.setABoolean(!thing.isABoolean());
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aBoolean"), Boolean.TRUE.toString());
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aBoolean"), Boolean.TRUE.toString());
     assertEquals(true, thing.isABoolean());
     thing.setABoolean(!thing.isABoolean());
     SDOUtil.setString((EObject)thing, "aBoolean", Boolean.TRUE.toString());
@@ -1759,110 +1760,110 @@ public class SDOUtilSetTest extends TestCase
   protected void stringNumberTest(String value)
   {
     //BigDecimal
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ADECIMAL, value);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ADECIMAL, value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDecimal"), value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
     SDOUtil.setString((EObject)thing, "aDecimal", value);
     assertEquals(new BigDecimal(value), thing.getADecimal());
     thing.setADecimal(null);
     //BigInteger
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__AINTEGER, value);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__AINTEGER, value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInteger"), value);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInteger"), value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     SDOUtil.setString((EObject)thing, "aInteger", value);
     assertEquals(BigInteger.valueOf(new Double(value).longValue()), thing.getAInteger());
     thing.setAInteger(null);
     //byte
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ABYTE, value);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ABYTE, value);
     assertEquals(Byte.parseByte(value), thing.getAByte());
     thing.setAByte((byte)(Byte.parseByte(value)+1));
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aByte"), value);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aByte"), value);
     assertEquals(Byte.parseByte(value), thing.getAByte());
     thing.setAByte((byte)(Byte.parseByte(value)+1));
     SDOUtil.setString((EObject)thing, "aByte", value);
     assertEquals(Byte.parseByte(value), thing.getAByte());
     thing.setAByte((byte)(Byte.parseByte(value)+1));
     //double
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ADOUBLE, value);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ADOUBLE, value);
     assertEquals(Double.parseDouble(value), thing.getADouble(), 0);
     thing.setADouble(Double.parseDouble(value)+1);
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aDouble"), value);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aDouble"), value);
     assertEquals(Double.parseDouble(value), thing.getADouble(), 0);
     thing.setADouble(Double.parseDouble(value)+1);
     SDOUtil.setString((EObject)thing, "aDouble", value);
     assertEquals(Double.parseDouble(value), thing.getADouble(), 0);
     thing.setADouble(Double.parseDouble(value)+1);
     //float
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__AFLOAT, value);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__AFLOAT, value);
     assertEquals(Float.parseFloat(value), thing.getAFloat(), 0);
     thing.setAFloat(Float.parseFloat(value)+1);
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aFloat"), value);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aFloat"), value);
     assertEquals(Float.parseFloat(value), thing.getAFloat(), 0);
     thing.setAFloat(Float.parseFloat(value)+1);
     SDOUtil.setString((EObject)thing, "aFloat", value);
     assertEquals(Float.parseFloat(value), thing.getAFloat(), 0);
     thing.setAFloat(Float.parseFloat(value)+1);
     //int
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__AINT, value);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__AINT, value);
     assertEquals(Integer.parseInt(value), thing.getAInt());
     thing.setAInt(Integer.parseInt(value)+1);
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aInt"), value);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aInt"), value);
     assertEquals(Integer.parseInt(value), thing.getAInt());
     thing.setAInt(Integer.parseInt(value)+1);
     SDOUtil.setString((EObject)thing, "aInt", value);
     assertEquals(Integer.parseInt(value), thing.getAInt());
     thing.setAInt(Integer.parseInt(value)+1);
     //long
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ALONG, value);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ALONG, value);
     assertEquals(Long.parseLong(value), thing.getALong());
     thing.setALong(Long.parseLong(value)+1);
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aLong"), value);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aLong"), value);
     assertEquals(Long.parseLong(value), thing.getALong());
     thing.setALong(Long.parseLong(value)+1);
     SDOUtil.setString((EObject)thing, "aLong", value);
     assertEquals(Long.parseLong(value), thing.getALong());
     thing.setALong(Long.parseLong(value)+1);
     //short
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ASHORT, value);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ASHORT, value);
     assertEquals(Short.parseShort(value), thing.getAShort());
     thing.setAShort((short)(Short.parseShort(value)+1));
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aShort"), value);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aShort"), value);
     assertEquals(Short.parseShort(value), thing.getAShort());
     thing.setAShort((short)(Short.parseShort(value)+1));
     SDOUtil.setString((EObject)thing, "aShort", value);
     assertEquals(Short.parseShort(value), thing.getAShort());
     thing.setAShort((short)(Short.parseShort(value)+1));
     //String
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ASTRING, value);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ASTRING, value);
     assertEquals(value, thing.getAString());
     thing.setAString("");
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aString"), value);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aString"), value);
     assertEquals(value, thing.getAString());
     thing.setAString("");
     SDOUtil.setString((EObject)thing, "aString", value);
     assertEquals(value, thing.getAString());
     thing.setAString("");
     //Object
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__AOBJECT, value);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__AOBJECT, value);
     assertEquals(value, thing.getAObject());
     thing.setAObject("");
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aObject"), value);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aObject"), value);
     assertEquals(value, thing.getAObject());
     thing.setAObject("");
     SDOUtil.setString((EObject)thing, "aObject", value);
     assertEquals(value, thing.getAObject());
     thing.setAObject("");
     //Number
-    SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ANUMBER, value);
+    SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ANUMBER, value);
     assertEquals(new Double(value), thing.getANumber());
     thing.setANumber(null);
-    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aNumber"), value);
+    SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aNumber"), value);
     assertEquals(new Double(value), thing.getANumber());
     thing.setANumber(null);
     SDOUtil.setString((EObject)thing, "aNumber", value);
@@ -1874,7 +1875,7 @@ public class SDOUtilSetTest extends TestCase
     thing.setAThread(thread);
     try
     {
-      SDOUtil.setString((EObject)thing, TypesPackage.ATHING__ATHREAD, value);
+      SDOUtil.setString((EObject)thing, TypesPackageImpl.ATHING__ATHREAD, value);
       classCastExceptionHappened = false;
     }
     catch(ClassCastException e)
@@ -1885,7 +1886,7 @@ public class SDOUtilSetTest extends TestCase
     assertEquals(thread, thing.getAThread());
     try
     {
-		  SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.eINSTANCE.createAThing()).getType().getProperty("aThread"), value);
+		  SDOUtil.setString((EObject)thing, ((EDataObject)TypesFactory.INSTANCE.createAThing()).getType().getProperty("aThread"), value);
 		  classCastExceptionHappened = false;
 		}
 		catch(ClassCastException e)

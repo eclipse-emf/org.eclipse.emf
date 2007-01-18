@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DateTest.java,v 1.5 2006/12/30 03:44:08 marcelop Exp $
+ * $Id: DateTest.java,v 1.6 2007/01/18 15:53:25 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -33,16 +33,18 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.sdo.EDataGraph;
-import org.eclipse.emf.ecore.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.models.ipo.DocumentRoot;
+import org.eclipse.emf.test.models.ipo.PurchaseOrderType;
+import org.eclipse.emf.test.models.ipo.impl.IPOPackageImpl;
+import org.eclipse.emf.test.models.ipo.util.IPOResourceFactoryImpl;
 
-import com.example.ipo.DocumentRoot;
-import com.example.ipo.IpoPackage;
-import com.example.ipo.PurchaseOrderType;
-import com.example.ipo.util.IpoResourceFactoryImpl;
+import org.eclipse.emf.ecore.sdo.EDataGraph;
+import org.eclipse.emf.ecore.sdo.util.SDOUtil;
+
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 
@@ -86,7 +88,7 @@ public class DateTest extends TestCase
     options = new HashMap<String, Object>();
     options.put(XMLResource.OPTION_EXTENDED_META_DATA, registerModel());
 
-    String DATA = TestUtil.getPluginDirectory() + "/data/";
+    String DATA = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/";
     // String XML_SCHEMA_URI = "file:///" + DATA + "ipo.xsd";
     String XML_INSTANCE = DATA + "ipoDG.xml";
 
@@ -101,9 +103,9 @@ public class DateTest extends TestCase
 
   protected ExtendedMetaData registerModel()
   {
-    IpoPackage.eINSTANCE.getName();
+    IPOPackageImpl.eINSTANCE.getName();
     ResourceSet resourceSet = SDOUtil.createResourceSet();
-    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new IpoResourceFactoryImpl());
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new IPOResourceFactoryImpl());
     return new BasicExtendedMetaData(resourceSet.getPackageRegistry());
   }
 

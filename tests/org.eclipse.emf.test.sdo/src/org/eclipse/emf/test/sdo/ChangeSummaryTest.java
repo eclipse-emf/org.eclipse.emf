@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeSummaryTest.java,v 1.9 2006/12/30 03:44:08 marcelop Exp $
+ * $Id: ChangeSummaryTest.java,v 1.10 2007/01/18 15:53:25 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -53,8 +53,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.test.models.personal.PersonalPackage;
-import org.eclipse.emf.test.models.personal.mixed.MixedPackage;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.models.ipo.IPOFactory;
+import org.eclipse.emf.test.models.ipo.PurchaseOrderType;
+import org.eclipse.emf.test.models.ipo.USAddress;
+import org.eclipse.emf.test.models.personal.impl.PersonalPackageImpl;
+import org.eclipse.emf.test.models.personal.mixed.impl.MixedPackageImpl;
 import org.eclipse.emf.test.models.personal.mixed.util.MixedResourceFactoryImpl;
 import org.eclipse.emf.test.models.personal.util.PersonalResourceFactoryImpl;
 
@@ -68,10 +72,6 @@ import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
 import org.eclipse.emf.ecore.sdo.impl.EDataGraphImpl;
 import org.eclipse.emf.ecore.sdo.util.SDOUtil;
 
-import com.example.ipo.IpoFactory;
-import com.example.ipo.PurchaseOrderType;
-import com.example.ipo.USAddress;
-
 import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
@@ -82,7 +82,7 @@ import commonj.sdo.Sequence;
 public class ChangeSummaryTest extends TestCase
 {
 
-  private static final String DATA = TestUtil.getPluginDirectory() + "/data/";
+  private static final String DATA = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/";
 
   // private static final String DATA_URI = "file:///" + DATA;
 
@@ -112,7 +112,7 @@ public class ChangeSummaryTest extends TestCase
 
   protected ExtendedMetaData registerPersonal()
   {
-    PersonalPackage.eINSTANCE.getName();
+    PersonalPackageImpl.eINSTANCE.getName();
     resourceSet = SDOUtil.createResourceSet();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new PersonalResourceFactoryImpl());
     return new BasicExtendedMetaData(resourceSet.getPackageRegistry());
@@ -120,7 +120,7 @@ public class ChangeSummaryTest extends TestCase
 
   protected ExtendedMetaData registerPersonalMixed()
   {
-    MixedPackage.eINSTANCE.getName();
+    MixedPackageImpl.eINSTANCE.getName();
     resourceSet = SDOUtil.createResourceSet();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new MixedResourceFactoryImpl());
     return new BasicExtendedMetaData(resourceSet.getPackageRegistry());
@@ -553,9 +553,9 @@ public class ChangeSummaryTest extends TestCase
     EDataGraph dataGraph = new MyDataGraphImpl();
     
     //Instantiating an object
-    PurchaseOrderType purchaseOrder = IpoFactory.eINSTANCE.createPurchaseOrderType();
-    USAddress shipToAddress = IpoFactory.eINSTANCE.createUSAddress();
-    USAddress billToAddress = IpoFactory.eINSTANCE.createUSAddress();
+    PurchaseOrderType purchaseOrder = IPOFactory.INSTANCE.createPurchaseOrderType();
+    USAddress shipToAddress = IPOFactory.INSTANCE.createUSAddress();
+    USAddress billToAddress = IPOFactory.INSTANCE.createUSAddress();
     
     dataGraph.setERootObject((EObject)purchaseOrder);
     purchaseOrder.setShipTo(shipToAddress);

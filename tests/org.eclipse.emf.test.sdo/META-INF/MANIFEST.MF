@@ -2,37 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.sdo
-Bundle-Version: 2.2.0.qualifier
+Bundle-Version: 2.3.0.qualifier
 Bundle-ClassPath: test.sdo.jar
-Bundle-Activator: org.eclipse.emf.test.sdo.EMFTestSDOPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: com.example.ipo,
- com.example.ipo.impl,
- com.example.ipo.util,
- com.example.simple,
- com.example.simple.impl,
- com.example.simple.util,
- model,
- org.eclipse.emf.test.models.personal,
- org.eclipse.emf.test.models.personal.impl,
- org.eclipse.emf.test.models.personal.mixed,
- org.eclipse.emf.test.models.personal.mixed.impl,
- org.eclipse.emf.test.models.personal.mixed.util,
- org.eclipse.emf.test.models.personal.util,
- org.eclipse.emf.test.sdo,
- org.eclipse.emf.test.sdo.library,
- org.eclipse.emf.test.sdo.library.impl,
- org.eclipse.emf.test.sdo.library.util,
- org.eclipse.emf.test.sdo.types,
- org.eclipse.emf.test.sdo.types.model.types,
- org.eclipse.emf.test.sdo.types.model.types.impl,
- org.eclipse.emf.test.sdo.types.model.types.util
+Export-Package: org.eclipse.emf.test.sdo,
+ org.eclipse.emf.test.sdo.types
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.ecore.sdo,
- org.junit
+ org.junit,
+ org.eclipse.emf.test.common
 Eclipse-LazyStart: true

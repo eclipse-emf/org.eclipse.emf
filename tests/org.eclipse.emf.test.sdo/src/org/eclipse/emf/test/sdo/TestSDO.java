@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestSDO.java,v 1.7 2006/12/30 03:44:08 marcelop Exp $
+ * $Id: TestSDO.java,v 1.8 2007/01/18 15:53:25 marcelop Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -39,13 +39,14 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.models.sdo.simple.SimpleFactory;
+
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.EDataObject;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
 import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-
-import com.example.simple.SimpleFactory;
 
 import commonj.sdo.DataObject;
 
@@ -78,7 +79,7 @@ public class TestSDO extends TestCase
 
     eDataGraph = SDOFactory.eINSTANCE.createEDataGraph();
     resourceSet = eDataGraph.getResourceSet();
-    Resource model = resourceSet.getResource(URI.createFileURI(TestUtil.getPluginDirectory() + "/models/model/com.example.simple.ecore"), true);
+    Resource model = resourceSet.getResource(URI.createFileURI(TestUtil.getTestCommonDirectory() + "/models/sdo.Simple/simple.ecore"), true);
     if (SYSOUT) model.save(System.out, null);
 
     ePackage = (EPackage)model.getContents().get(0);
@@ -96,7 +97,7 @@ public class TestSDO extends TestCase
   
   public void testStaticModel() throws Exception
   {
-    modelTest(resourceSet, (DataObject)SimpleFactory.eINSTANCE.createQuote());
+    modelTest(resourceSet, (DataObject)SimpleFactory.INSTANCE.createQuote());
   }
 
   public void testDynamicModel() throws Exception

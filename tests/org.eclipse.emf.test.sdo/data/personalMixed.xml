@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sdo:datagraph xmlns:sdo="commonj.sdo">
 <personnel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://org/eclipse/emf/test/models/personalMixed personalMixed.xsd"
- xmlns="http://org/eclipse/emf/test/models/personalMixed">
+	   xsi:schemaLocation="http:///org.eclipse.emf.test.models/personalMixed personalMixed.xsd"
+ xmlns="http:///org.eclipse.emf.test.models/personalMixed">
 
   <person id="Big.Boss" >
     <name><family>Big</family>
