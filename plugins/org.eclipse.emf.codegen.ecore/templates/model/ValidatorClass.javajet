@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.23 2006/12/28 06:40:38 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.24 2007/01/18 22:08:08 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -288,7 +288,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
   <%if (itemType.getGenPackage().hasConstraints()) {%>
 			if (<%=itemType.getQualifiedClassifierAccessor()%>.isInstance(item))
 			{
-				result &= <%=itemDelegate%>validate<%=itemType.getName()%>(<%if (itemType.isPrimitiveType()) {%>(<%}%>(<%=itemType.getObjectInstanceClassName()%>)<%=item%><%if (itemType.isPrimitiveType()) {%>).<%=itemType.getPrimitiveValueFunction()%>()<%}%>, <%=diagnostics%>, <%=context%>);
+				result &= <%=itemDelegate%>validate<%=itemType.getName()%>(<%if (itemType.isPrimitiveType()) {%>(<%}%><%if (!itemType.isObjectType()) {%>(<%=itemType.getObjectInstanceClassName()%>)<%}%><%=item%><%if (itemType.isPrimitiveType()) {%>).<%=itemType.getPrimitiveValueFunction()%>()<%}%>, <%=diagnostics%>, <%=context%>);
 			}
 			else
   <%} else {%>
