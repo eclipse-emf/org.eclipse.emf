@@ -2,21 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.edit
-Bundle-Version: 2.2.0.qualifier
+Bundle-Version: 2.3.0.qualifier
 Bundle-ClassPath: test.edit.jar
-Bundle-Activator: org.eclipse.emf.test.edit.EMFTestEditPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.test.edit,
  org.eclipse.emf.test.edit.command,
- org.eclipse.emf.test.models.ref,
- org.eclipse.emf.test.models.ref.impl,
- org.eclipse.emf.test.models.ref.provider,
- org.eclipse.emf.test.models.ref.util
+ org.eclipse.emf.test.edit.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.emf.ecore,
  org.eclipse.emf.edit,
- org.junit
+ org.junit,
+ org.eclipse.emf.test.common
 Eclipse-LazyStart: true
