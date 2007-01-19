@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.20 2006/12/28 06:50:04 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.21 2007/01/19 14:09:04 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -25,7 +25,6 @@ import java.util.Map;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -44,6 +43,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -146,8 +146,9 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   protected List<Object> selectedObjects;
   protected EditingDomain domain;
   protected EclipseResourcesUtil eclipseResourcesUtil = 
-    Platform.getBundle("org.eclipse.core.resources") != null ? 
-      new EclipseResourcesUtil() : null;
+    CommonPlugin.IS_RESOURCES_BUNDLE_AVAILABLE ?
+      new EclipseResourcesUtil() :
+      null;
 
   /**
    * This contructs an instance.
