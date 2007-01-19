@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceDialog.java,v 1.3 2007/01/19 14:09:03 emerks Exp $
+ * $Id: ResourceDialog.java,v 1.4 2007/01/19 15:46:56 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.dialogs;
 
@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.ui.CommonUIPlugin;
 import org.eclipse.emf.common.util.URI;
 
@@ -150,7 +150,7 @@ public class ResourceDialog extends Dialog
         data.grabExcessVerticalSpace = true;
         data.horizontalAlignment = GridData.FILL;
         data.grabExcessHorizontalSpace = true;
-        if (!CommonPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+        if (!EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
         {
           data.widthHint = 330;
         }                  
@@ -190,7 +190,7 @@ public class ResourceDialog extends Dialog
     browseFileSystemButton.setText(CommonUIPlugin.INSTANCE.getString("_UI_BrowseFileSystem_label"));
     prepareBrowseFileSystemButton(browseFileSystemButton);
     
-    if (CommonPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+    if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
     {
       Button browseWorkspaceButton = new Button(buttonComposite, SWT.PUSH);
       {
