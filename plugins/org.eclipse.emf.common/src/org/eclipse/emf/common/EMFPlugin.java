@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.16 2006/12/05 20:19:58 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.17 2007/01/19 14:07:16 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -74,6 +74,25 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
       // Assume that we aren't running.
     }
     IS_ECLIPSE_RUNNING = result;
+  }
+
+  public static final boolean IS_RESOURCES_BUNDLE_AVAILABLE;
+  static
+  {
+    boolean result = false;
+    if (IS_ECLIPSE_RUNNING)
+    {
+      try
+      {
+        Bundle resourcesBundle = Platform.getBundle("org.eclipse.core.resources");
+        result = resourcesBundle != null && (resourcesBundle.getState() & (Bundle.ACTIVE | Bundle.STARTING | Bundle.RESOLVED)) != 0;
+      }
+      catch (Throwable exception)
+      {
+        // Assume that it's not available.
+      }
+    }
+    IS_RESOURCES_BUNDLE_AVAILABLE = result;
   }
 
   protected ResourceLocator [] delegateResourceLocators;
