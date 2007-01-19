@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.16 2006/12/05 20:22:27 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.17 2007/01/19 13:17:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -510,7 +510,7 @@ public class EcorePlugin  extends EMFPlugin
       new RegistryReader
         (Platform.getExtensionRegistry(),
          EcorePlugin.getPlugin().getBundle().getSymbolicName(), 
-         PACKAGE_REGISTRY_IMPLEMENTATION)
+         PACKAGE_REGISTRY_IMPLEMENTATION_PPID)
       {
         IConfigurationElement previous;
 
@@ -605,11 +605,11 @@ public class EcorePlugin  extends EMFPlugin
     return workspaceRoot;
   }
 
-  static final String GENERATED_PACKAGE_PPID = "generated_package";
-  static final String FACTORY_OVERRIDE_PPID = "factory_override";
-  static final String EXTENSION_PARSER_PPID = "extension_parser";
-  static final String PROTOCOL_PARSER_PPID = "protocol_parser";
-  static final String SCHEME_PARSER_PPID = "scheme_parser";
-  static final String URI_MAPPING_PPID = "uri_mapping";
-  static final String PACKAGE_REGISTRY_IMPLEMENTATION = "package_registry_implementation";
+  public static final String GENERATED_PACKAGE_PPID = "generated_package";
+  public static final String FACTORY_OVERRIDE_PPID = "factory_override";
+  public static final String EXTENSION_PARSER_PPID = "extension_parser";
+  public static final String PROTOCOL_PARSER_PPID = "protocol_parser";
+  public static final String SCHEME_PARSER_PPID = "scheme_parser";
+  public static final String URI_MAPPING_PPID = "uri_mapping";
+  public static final String PACKAGE_REGISTRY_IMPLEMENTATION_PPID = "package_registry_implementation";
 }
