@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceDialog.java,v 1.2 2006/12/28 06:42:02 marcelop Exp $
+ * $Id: ResourceDialog.java,v 1.3 2007/01/19 14:09:03 emerks Exp $
  */
 package org.eclipse.emf.common.ui.dialogs;
 
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -39,6 +38,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.ui.CommonUIPlugin;
 import org.eclipse.emf.common.util.URI;
 
@@ -140,8 +140,6 @@ public class ResourceDialog extends Dialog
   @Override
   protected Control createDialogArea(Composite parent) 
   {
-    boolean resourcesBundleIsAvailable = (Platform.getBundle("org.eclipse.core.resources") != null);
-    
     Composite composite = (Composite)super.createDialogArea(parent);
     {
         FormLayout layout = new FormLayout();
@@ -152,7 +150,7 @@ public class ResourceDialog extends Dialog
         data.grabExcessVerticalSpace = true;
         data.horizontalAlignment = GridData.FILL;
         data.grabExcessHorizontalSpace = true;
-        if(!resourcesBundleIsAvailable)
+        if (!CommonPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
         {
           data.widthHint = 330;
         }                  
@@ -192,7 +190,7 @@ public class ResourceDialog extends Dialog
     browseFileSystemButton.setText(CommonUIPlugin.INSTANCE.getString("_UI_BrowseFileSystem_label"));
     prepareBrowseFileSystemButton(browseFileSystemButton);
     
-    if (resourcesBundleIsAvailable)
+    if (CommonPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
     {
       Button browseWorkspaceButton = new Button(buttonComposite, SWT.PUSH);
       {
