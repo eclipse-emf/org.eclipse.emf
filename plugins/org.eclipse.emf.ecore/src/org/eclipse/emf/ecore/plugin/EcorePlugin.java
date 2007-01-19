@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.17 2007/01/19 13:17:26 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.18 2007/01/19 14:09:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -501,8 +501,7 @@ public class EcorePlugin  extends EMFPlugin
     {
       super.start(context);
 
-      if (System.getProperty("org.eclipse.emf.ecore.plugin.EcorePlugin.doNotLoadResourcesPlugin") == null &&
-            Platform.getBundle("org.eclipse.core.resources") != null)
+      if (IS_RESOURCES_BUNDLE_AVAILABLE && System.getProperty("org.eclipse.emf.ecore.plugin.EcorePlugin.doNotLoadResourcesPlugin") == null)
       {
         workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
       }
