@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.28 2006/12/09 18:42:54 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.29 2007/01/22 13:21:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -685,18 +685,42 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     return true;
   }
 
+  protected boolean isFeatureNamespaceMatchingLax()
+  {
+    return false;
+  }
+
   public EStructuralFeature getLocalAttribute(EClass eClass, String namespace, String name)
   {
+    EStructuralFeature result = null;
     if (isFeatureKindSpecific())
     {
       List<EStructuralFeature> allAttributes = getAllAttributes(eClass);
       for (int i = 0, size = allAttributes.size(); i < size; ++i)
       {
         EStructuralFeature eStructuralFeature = allAttributes.get(i);
-        if (name.equals(getName(eStructuralFeature)) &&
-              (namespace == null ? getNamespace(eStructuralFeature) == null : namespace.equals(getNamespace(eStructuralFeature))))
+        if (name.equals(getName(eStructuralFeature)))
         {
-          return eStructuralFeature;
+          String featureNamespace = getNamespace(eStructuralFeature);
+          if (namespace == null) 
+          {
+            if (featureNamespace == null)
+            {
+              return eStructuralFeature;
+            }
+            else if (result == null)
+            {
+              result = eStructuralFeature;
+            }
+          }
+          else if (namespace.equals(featureNamespace))
+          {
+            return eStructuralFeature;
+          }
+          else if (featureNamespace == null && result == null)
+          {
+            result = eStructuralFeature;
+          }
         }
       }
     }
@@ -710,10 +734,28 @@ public class BasicExtendedMetaData implements ExtendedMetaData
           case UNSPECIFIED_FEATURE:
           case ATTRIBUTE_FEATURE:
           {
-            if (name.equals(getName(eStructuralFeature)) &&
-                  (namespace == null ? getNamespace(eStructuralFeature) == null : namespace.equals(getNamespace(eStructuralFeature))))
+            if (name.equals(getName(eStructuralFeature)))
             {
-              return eStructuralFeature;
+              String featureNamespace = getNamespace(eStructuralFeature);
+              if (namespace == null) 
+              {
+                if (featureNamespace == null)
+                {
+                  return eStructuralFeature;
+                }
+                else if (result == null)
+                {
+                  result = eStructuralFeature;
+                }
+              }
+              else if (namespace.equals(featureNamespace))
+              {
+                return eStructuralFeature;
+              }
+              else if (featureNamespace == null && result == null)
+              {
+                result = eStructuralFeature;
+              }
             }
             break;
           }
@@ -721,7 +763,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       }
     }
 
-    return null;
+    return isFeatureNamespaceMatchingLax() ? result : null;
   }
 
   public EStructuralFeature getAttribute(EClass eClass, String namespace, String name)
@@ -740,16 +782,35 @@ public class BasicExtendedMetaData implements ExtendedMetaData
 
   protected EStructuralFeature getLocalElement(EClass eClass, String namespace, String name)
   {
+    EStructuralFeature result = null;
     if (isFeatureKindSpecific())
     {
       List<EStructuralFeature> allElements = getAllElements(eClass);
       for (int i = 0, size = allElements.size(); i < size; ++i)
       {
         EStructuralFeature eStructuralFeature = allElements.get(i);
-        if (name.equals(getName(eStructuralFeature)) &&
-              (namespace == null ? getNamespace(eStructuralFeature) == null : namespace.equals(getNamespace(eStructuralFeature))))
+        if (name.equals(getName(eStructuralFeature)))
         {
-          return eStructuralFeature;
+          String featureNamespace = getNamespace(eStructuralFeature);
+          if (namespace == null) 
+          {
+            if (featureNamespace == null)
+            {
+              return eStructuralFeature;
+            }
+            else if (result == null)
+            {
+              result = eStructuralFeature;
+            }
+          }
+          else if (namespace.equals(featureNamespace))
+          {
+            return eStructuralFeature;
+          }
+          else if (featureNamespace == null && result == null)
+          {
+            result = eStructuralFeature;
+          }
         }
       }
     }
@@ -763,10 +824,28 @@ public class BasicExtendedMetaData implements ExtendedMetaData
           case UNSPECIFIED_FEATURE:
           case ELEMENT_FEATURE:
           {
-            if (name.equals(getName(eStructuralFeature)) &&
-                  (namespace == null ? getNamespace(eStructuralFeature) == null : namespace.equals(getNamespace(eStructuralFeature))))
+            if (name.equals(getName(eStructuralFeature)))
             {
-              return eStructuralFeature;
+              String featureNamespace = getNamespace(eStructuralFeature);
+              if (namespace == null) 
+              {
+                if (featureNamespace == null)
+                {
+                  return eStructuralFeature;
+                }
+                else if (result == null)
+                {
+                  result = eStructuralFeature;
+                }
+              }
+              else if (namespace.equals(featureNamespace))
+              {
+                return eStructuralFeature;
+              }
+              else if (featureNamespace == null && result == null)
+              {
+                result = eStructuralFeature;
+              }
             }
             break;
           }
@@ -774,7 +853,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       }
     }
 
-    return null;
+    return isFeatureNamespaceMatchingLax() ? result : null;
   }
 
   public EStructuralFeature getElement(EClass eClass, String namespace, String name)
