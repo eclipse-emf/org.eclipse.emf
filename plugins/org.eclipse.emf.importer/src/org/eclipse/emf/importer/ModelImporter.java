@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.33 2007/01/04 05:37:47 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.34 2007/01/22 16:45:45 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -36,6 +36,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import org.eclipse.emf.codegen.ecore.Generator;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -847,6 +848,29 @@ public abstract class ModelImporter extends ModelConverter
     genModel.setModelPluginID(getModelPluginID());
     genModel.setModelDirectory(getModelPluginDirectory());
     genModel.getUsedGenPackages().addAll(genModel.computeMissingUsedGenPackages());
+    
+    if (getOriginalGenModel() == null)
+    {
+      URI genModelURI = genModel.eResource().getURI();
+      if (genModelURI.isPlatformResource())
+      {
+        IFile genModelFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(genModelURI.toPlatformString(true)));
+        IProject project = genModelFile.getProject();
+        String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
+        if ("1.5".equals(complianceLevel))
+        {
+          genModel.setComplianceLevel(GenJDKLevel.JDK50_LITERAL);
+        }
+        else if ("1.6".equals(complianceLevel))
+        {
+          genModel.setComplianceLevel(GenJDKLevel.JDK60_LITERAL);
+        }
+        else if ("1.4".equals(complianceLevel))
+        {
+          genModel.setComplianceLevel(GenJDKLevel.JDK14_LITERAL);
+        }
+      }
+    }
   }
   
   protected void adjustUsedGenPackages()
