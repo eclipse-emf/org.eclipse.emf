@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options 
+  indent="  "  
+  braceStyle="matching"  
+  xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+
+  <!-- 
+  This test shows some advanced rules for annotations.  It is important to highlight
+  that these rules may not be suitable for real applications, though.  The problem here 
+  is that the DictionaryPattern identifies annotations by their name, without further 
+  analysis of the package in which the corresponding AnnotationType is defined.
+  
+  In other words, a complete solution would need to distinguish the annotations
+  com.example.annotations.Foo and org.example.annotations.Foo.  At this moment
+  JMerger cannot make such a distinction.
+  -->
+
+
+  <merge:dictionaryPattern
+    name="Update" 
+    select="Annotation/getName" 
+    match="@.*Annotation(Update)"/>
+
+  <merge:pull 
+    sourceGet="Annotation/getContents"
+    targetMarkup="^Update$"
+    targetPut="Annotation/setContents"/>
+
+  <merge:sweep select="Annotation" action="comment"/>
+</merge:options>
