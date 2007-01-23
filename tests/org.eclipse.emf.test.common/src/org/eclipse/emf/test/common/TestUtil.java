@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.3 2007/01/18 20:38:12 marcelop Exp $
+ * $Id: TestUtil.java,v 1.4 2007/01/23 21:45:17 marcelop Exp $
  */
 package org.eclipse.emf.test.common;
 
@@ -54,6 +54,17 @@ public class TestUtil
     if (url != null)
     {
       URI uri = URI.createURI(url.toString());
+      if (uri.isArchive())
+      {
+        // Returns the inner URI
+        String authority = uri.authority();
+        
+        // Removing the !
+        authority = authority.substring(0, authority.length()-1);
+        
+        uri = URI.createURI(authority);
+      }
+      
       if (uri.isFile())
       {
         File parentDir = new File(uri.toFileString()).getParentFile();
