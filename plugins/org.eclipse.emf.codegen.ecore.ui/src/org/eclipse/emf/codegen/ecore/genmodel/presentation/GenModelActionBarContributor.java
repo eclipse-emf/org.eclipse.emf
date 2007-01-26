@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.21 2006/12/28 16:49:46 marcelop Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.22 2007/01/26 06:02:10 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -21,7 +21,6 @@ import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -30,7 +29,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -54,6 +52,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.ui.action.ViewerFilterAction;
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicMonitor;
@@ -385,18 +384,17 @@ public class GenModelActionBarContributor
 
             if (diagnostic.getSeverity() != Diagnostic.OK)
             {
-              final IStatus status = BasicDiagnostic.toIStatus(diagnostic);
-
+              final Diagnostic finalDiagnostic = diagnostic;
               activeEditorPart.getSite().getShell().getDisplay().asyncExec
                 (new Runnable()
                  {
                    public void run()
                    {
-                     ErrorDialog.openError
+                     DiagnosticDialog.openProblem
                        (activeEditorPart.getSite().getShell(), 
                         GenModelEditPlugin.INSTANCE.getString("_UI_GenerationProblems_title"),
                         GenModelEditPlugin.INSTANCE.getString("_UI_GenerationProblems_message"),
-                        status);              
+                        finalDiagnostic);              
                    }
                  });
               
