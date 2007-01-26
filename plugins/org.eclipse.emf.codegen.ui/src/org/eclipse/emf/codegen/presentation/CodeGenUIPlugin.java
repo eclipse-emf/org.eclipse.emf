@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGenUIPlugin.java,v 1.3 2005/06/08 06:23:43 nickb Exp $
+ * $Id: CodeGenUIPlugin.java,v 1.4 2007/01/26 06:03:06 marcelop Exp $
  */
 package org.eclipse.emf.codegen.presentation;
 
@@ -21,15 +21,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import org.eclipse.emf.codegen.jet.JETException;
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
+import org.eclipse.emf.common.util.BasicDiagnostic;
 
 
 /**
@@ -93,35 +91,12 @@ public class CodeGenUIPlugin extends AbstractUIPlugin
 
   public static void write(Exception exception)
   {
-    IStatus status;
-    String message;
-    if (exception instanceof JETException)
-    {
-      status = ((JETException)exception).getStatus();
-      message = getPlugin().getString("_UI_JETCompileProblem_message");
-    }
-    else if (exception instanceof CoreException)
-    {
-      status = ((CoreException)exception).getStatus();
-      message = exception.getLocalizedMessage();
-    }
-    else
-    {
-      status = 
-        new Status
-          (IStatus.ERROR, 
-           getPlugin().getBundle().getSymbolicName(),
-           0,
-           exception.getLocalizedMessage(),
-           exception);
-
-      message = exception.getLocalizedMessage();
-    }
-
-    ErrorDialog.openError
+    DiagnosticDialog.open
       (getPlugin().getWorkbench().getActiveWorkbenchWindow().getShell(),
        getPlugin().getString("_UI_JETProblem_title"),
-       message,
-       status);
+       exception instanceof JETException ? 
+         getPlugin().getString("_UI_JETCompileProblem_message") : 
+         null,
+       BasicDiagnostic.toDiagnostic(exception));
   }
 }
