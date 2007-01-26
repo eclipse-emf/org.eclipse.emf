@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,19 +20,18 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PartInitException;
 
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
-import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.Monitor;
+import org.eclipse.emf.converter.ui.contribution.base.ModelConverterWizard;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.ui.contribution.IModelImporterWizard;
-import org.eclipse.emf.converter.ui.contribution.base.ModelConverterWizard;
 
 
 /**
@@ -74,11 +73,11 @@ public abstract class ModelImporterWizard extends ModelConverterWizard implement
           ImporterPlugin.INSTANCE.getString("_UI_InvalidModel_message");
           
         Diagnostic diagnostic = exception.getDiagnostic();
-        ErrorDialog.openError
+        DiagnosticDialog.open
           (getShell(),
            GenModelEditPlugin.INSTANCE.getString("_UI_ModelProblems_title"),
            message,
-           BasicDiagnostic.toIStatus(diagnostic));
+           diagnostic);
       }
     }
   }
