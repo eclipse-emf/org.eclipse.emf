@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterWizard.java,v 1.4 2006/12/28 06:43:30 marcelop Exp $
+ * $Id: ModelConverterWizard.java,v 1.5 2007/01/26 06:09:17 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -21,7 +21,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IPageChangeProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
@@ -40,7 +39,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
-import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
@@ -248,7 +247,7 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
       catch (Exception exception)
       {
         ConverterPlugin.INSTANCE.log(exception);
-        ErrorDialog.openError(getShell(), ConverterPlugin.INSTANCE.getString("_UI_DialogError_title"), null, BasicDiagnostic.toIStatus(ConverterUtil.createErrorDiagnostic(exception, true)));
+        DiagnosticDialog.open(getShell(), ConverterPlugin.INSTANCE.getString("_UI_DialogError_title"), null, ConverterUtil.createErrorDiagnostic(exception, true));
         return false;
       }
       
