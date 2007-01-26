@@ -20,5 +20,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.ui,
  org.eclipse.jdt.core,
  org.eclipse.jdt.launching,
- org.eclipse.emf.codegen;visibility:=reexport
+ org.eclipse.emf.codegen;visibility:=reexport,
+ org.eclipse.emf.common.ui
 Eclipse-LazyStart: true
