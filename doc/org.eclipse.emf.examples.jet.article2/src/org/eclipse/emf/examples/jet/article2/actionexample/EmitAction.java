@@ -5,37 +5,32 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.codegen.jet.JETEmitter;
-import org.eclipse.emf.codegen.jet.JETException;
-import org.eclipse.emf.common.util.DiagnosticException;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.examples.jet.article2.TypesafeEnumPlugin;
-
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+
+import org.eclipse.emf.codegen.jet.JETEmitter;
+import org.eclipse.emf.codegen.jet.JETException;
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.examples.jet.article2.TypesafeEnumPlugin;
 
 
 
@@ -44,7 +39,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
  * templates.
  * 
  * @author Remko Popma
- * @version $Revision: 1.4 $ ($Date: 2006/12/29 18:36:19 $)
+ * @version $Revision: 1.5 $ ($Date: 2007/01/26 06:12:57 $)
  */
 public class EmitAction implements IActionDelegate
 {
@@ -184,41 +179,9 @@ public class EmitAction implements IActionDelegate
       t = ((InvocationTargetException)t).getTargetException();
     }
     TypesafeEnumPlugin.log(t);
-    MultiStatus status = createStatus(t);
 
     Shell shell = TypesafeEnumPlugin.getActiveWorkbenchShell();
     String title = "Error while emitting template";
-    ErrorDialog.openError(shell, title, null, status);
-  }
-
-  /**
-   * Create a <code>MultiStatus</code> with a <code>Status</code> entry for
-   * every line of the stacktrace of the specified exception, so the the
-   * stacktrace can be shown in the Details of an <code>ErrorDialog</code>.
-   * 
-   * @param t
-   *          the exception
-   * @return a <code>MultiStatus</code> with a <code>Status</code> entry for
-   *         every line of the stacktrace of the specified exception
-   */
-  private MultiStatus createStatus(Throwable t)
-  {
-    String id = TypesafeEnumPlugin.getPluginId();
-    MultiStatus result = new MultiStatus(id, IStatus.ERROR, "Unexpected Error", t);
-
-    StringWriter trace = new StringWriter();
-    t.printStackTrace(new PrintWriter(trace));
-    StringTokenizer tok = new StringTokenizer(trace.toString(), "\r\n");
-
-    while (tok.hasMoreTokens())
-    {
-      String line = tok.nextToken();
-      if (line.charAt(0) == '\t')
-      {
-        line = "    " + line.trim();
-      }
-      result.add(new Status(IStatus.ERROR, id, IStatus.ERROR, line, null));
-    }
-    return result;
+    DiagnosticDialog.open(shell, title, null, BasicDiagnostic.toDiagnostic(t));
   }
 }
