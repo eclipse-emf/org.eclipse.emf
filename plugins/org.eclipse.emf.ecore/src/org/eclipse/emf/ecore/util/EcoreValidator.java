@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.5 2007/01/16 20:02:09 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.6 2007/01/26 22:13:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -503,7 +503,7 @@ public class EcoreValidator extends EObjectValidator
   {
     EDataType eAttributeType = eAttribute.getEAttributeType();
     boolean result = 
-      eAttribute.isTransient() || 
+      isEffectivelyTransient(eAttribute) ||
         eAttributeType == null || 
         eAttributeType.isSerializable() ||
         FeatureMapUtil.isFeatureMapEntry(eAttributeType);
@@ -523,6 +523,19 @@ public class EcoreValidator extends EObjectValidator
            new Object[] { eAttribute }));
     }
     return result;
+  }
+  
+  private static boolean isEffectivelyTransient(EStructuralFeature eStructuralFeature)
+  {
+    if (eStructuralFeature.isTransient())
+    {
+      EStructuralFeature group = ExtendedMetaData.INSTANCE.getGroup(eStructuralFeature);
+      return group == null || isEffectivelyTransient(group);
+    }
+    else
+    {
+      return false;
+    }
   }
 
   /**
@@ -2150,8 +2163,8 @@ public class EcoreValidator extends EObjectValidator
       if (result)
       {
         result =
-          !eReference.isTransient() ||
-            eOpposite.isTransient() ||
+          !isEffectivelyTransient(eReference) ||
+            isEffectivelyTransient(eOpposite) ||
             !eOpposite.isResolveProxies() ||
             eOpposite.isContainment();
         if (diagnostics != null && !result)
