@@ -5,7 +5,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
@@ -13,12 +12,15 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+
 
 /**
  * The plug-in runtime class for the TypesafeEnum plug-in.
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:48 $)
+ * @version $Revision: 1.2 $ ($Date: 2007/01/26 06:12:03 $)
  */
 public class TypesafeEnumPlugin extends AbstractUIPlugin
 {
@@ -102,7 +104,12 @@ public class TypesafeEnumPlugin extends AbstractUIPlugin
 
   public static void log(Throwable e)
   {
-    log(new Status(IStatus.ERROR, getPluginId(), IStatus.ERROR, "Error", e)); //$NON-NLS-1$
+    log(BasicDiagnostic.toDiagnostic(e));
+  }
+
+  public static void log(Diagnostic diagnostic)
+  {
+    log(BasicDiagnostic.toIStatus(diagnostic));
   }
 
   public static void log(IStatus status)
