@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ConverterUIUtil.java,v 1.3 2006/12/28 06:43:30 marcelop Exp $
+ * $Id: ConverterUIUtil.java,v 1.4 2007/01/26 06:09:35 marcelop Exp $
  */
 
 package org.eclipse.emf.converter.util;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -28,7 +26,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.ui.DiagnosticComposite;
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.converter.ConverterPlugin;
 import org.eclipse.emf.converter.util.ConverterUtil.ShellFinder;
@@ -299,21 +298,22 @@ public class ConverterUIUtil
           {
             if (!diagnostic.getChildren().isEmpty())
             {
-              ErrorDialog.openError(getShell(), dialogTitle, dialogMessage, BasicDiagnostic.toIStatus(diagnostic));
+              DiagnosticDialog.openProblem(getShell(), dialogTitle, dialogMessage, diagnostic);
             }
             break;
           }
           case ConverterUtil.ACTION_DIALOG_SHOW:
           {
-            ErrorDialog.openError(getShell(), dialogTitle, dialogMessage, BasicDiagnostic.toIStatus(diagnostic));
+            DiagnosticDialog.openProblem(getShell(), dialogTitle, dialogMessage, diagnostic);
             break;
           }
           case ConverterUtil.ACTION_DIALOG_SHOW_ERROR:
           {
-            new ErrorDialog(getShell(),
+            new DiagnosticDialog(getShell(),
               dialogTitle,
               dialogMessage,
-              BasicDiagnostic.toIStatus(diagnostic), IStatus.INFO | IStatus.WARNING | IStatus.ERROR)
+              diagnostic,
+              DiagnosticComposite.ERROR_WARNING_MASK)
               {
                 @Override
                 protected Image getImage()
