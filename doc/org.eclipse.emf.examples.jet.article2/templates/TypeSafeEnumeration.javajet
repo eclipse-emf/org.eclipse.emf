@@ -98,7 +98,7 @@ public final class <%=type.getClassName()%> {
 <% if (type.hasDefaultInstance()) { %>
 		return <%=type.getDefaultInstance().getName()%>;
 <% } else { %>
-		StringBuffer msg = new StringBuffer();
+		StringBuilder msg = new StringBuilder();
 <% 	for (Iterator<Attribute> i = type.keyAttributes(); i.hasNext(); ) { %>
 <% 	  Attribute attribute = i.next(); %>
 		msg.append("<%=attribute.getUncappedName()%>=").append(<%=attribute.getUncappedName()%>);
@@ -139,9 +139,10 @@ public final class <%=type.getClassName()%> {
 	 *
 	 * @return a String description of this object.
 	 */
+	@Override
 	public String toString() {
 
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		result.append("<%=type.getClassName()%>[");
 <% for (Iterator<Attribute> i = type.attributes(); i.hasNext(); ) { %>
 <% 	Attribute attribute = i.next(); %>
@@ -159,6 +160,7 @@ public final class <%=type.getClassName()%> {
 	 * @see java.lang.Object#equals(Object)
 	 */
 	// Algorithm from "Effective Java" by Joshua Bloch.
+	@Override
 	public boolean equals(Object o) {
 		if (o == this) {
 			return true;
@@ -188,6 +190,7 @@ public final class <%=type.getClassName()%> {
 	 * @see java.lang.Object#hashCode()
 	 */
 	// Algorithm from "Effective Java" by Joshua Bloch.
+	@Override
 	public int hashCode() {
 		int result = 17 * getClass().getName().hashCode();
 <% for (Iterator<Attribute> keys = type.keyAttributes(); keys.hasNext(); ) { %>
