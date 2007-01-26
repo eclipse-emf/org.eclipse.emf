@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObject.java,v 1.9 2006/12/05 20:22:25 emerks Exp $
+ * $Id: EObject.java,v 1.10 2007/01/26 18:23:19 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -61,6 +61,12 @@ import org.eclipse.emf.ecore.resource.Resource;
  * Any <code>EObject</code> is assumed to also implement {@link InternalEObject}, 
  * which provides lower-level access that is not necessarily suitable for general consumption
  * but is required for maintaining the EMF support mechanisms.
+ * Implementations of EObject should extend {@link org.eclipse.emf.ecore.impl.BasicEObjectImpl BasicEObjectImpl} 
+ * or one of its derived classes
+ * because methods can and will be added to this API.
+ * The framework also assumes that implementations will not specialize {@link #equals(Object)} (nor {@link #hashCode()})
+ * so that "<code>==</code>" can be always used for equality testing;
+ * {@link org.eclipse.emf.ecore.util.EcoreUtil#equals(EObject, EObject) EcoreUtil.equals} should be used for doing structural equality testing.
  * </p>
  * 
  * @extends Notifier
