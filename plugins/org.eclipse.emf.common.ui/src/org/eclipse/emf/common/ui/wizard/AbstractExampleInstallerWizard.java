@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractExampleInstallerWizard.java,v 1.4 2006/12/28 06:42:02 marcelop Exp $
+ * $Id: AbstractExampleInstallerWizard.java,v 1.5 2007/01/26 06:08:59 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 
@@ -34,7 +34,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -68,8 +67,8 @@ import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
 
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.ui.CommonUIPlugin;
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.URI;
 
 
@@ -588,10 +587,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
 
   protected void openErrorDialog(String message, Throwable throwable)
   {
-    CoreException coreException = throwable instanceof CoreException
-      ? (CoreException)throwable : DiagnosticException.toCoreException(new DiagnosticException(BasicDiagnostic.toDiagnostic(throwable)));
-
-    ErrorDialog.openError(getShell(), CommonUIPlugin.INSTANCE.getString("_UI_Error_label"), message, coreException.getStatus());
+    DiagnosticDialog.open(getShell(), CommonUIPlugin.INSTANCE.getString("_UI_Error_label"), message, BasicDiagnostic.toDiagnostic(throwable));
   }
 
   protected void createProject(ProjectDescriptor projectDescriptor, IProgressMonitor monitor) throws CoreException
