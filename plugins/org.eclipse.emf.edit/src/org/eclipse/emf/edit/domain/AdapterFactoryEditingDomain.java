@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.17 2006/07/31 17:01:56 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.17.2.1 2007/01/26 18:55:51 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -702,7 +702,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
         {
           result = Boolean.FALSE;
           URI localURI = CommonPlugin.asLocalURI(uri);
-          if (uri.isFile() && !uri.isRelative())
+          if (localURI.isFile() && !localURI.isRelative())
           {
             File file = new File(localURI.toFileString());
             if (file.exists() && !file.canWrite())
