@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,17 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.11 2006/12/05 20:19:56 emerks Exp $
+ * $Id: BasicDiagnostic.java,v 1.12 2007/01/26 06:04:42 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
+
+import org.eclipse.emf.common.EMFPlugin;
 
 
 /**
@@ -235,8 +238,70 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     }
     return null;
   }
+  
+  @Override
+  public String toString()
+  {
+    StringBuilder result = new StringBuilder();
+    result.append("Diagnostic ");
+    switch (severity)
+    {
+      case OK: 
+      {
+        result.append("OK"); 
+        break;
+      }
+      case INFO: 
+      {
+        result.append("INFO"); 
+        break;
+      }
+      case WARNING: 
+      {
+        result.append("WARNING"); 
+        break;
+      }
+      case ERROR: 
+      {
+        result.append("ERROR"); 
+        break;
+      }
+      case CANCEL: 
+      {
+        result.append("CANCEL"); 
+        break;
+      }
+      default:
+      {
+        result.append(Integer.toHexString(severity));
+        break;
+      }
+    }
 
-  private static class Wrapper implements IStatus
+    result.append(" source="); 
+    result.append(source);
+
+    result.append(" code="); 
+    result.append(code);
+
+    result.append(' ');
+    result.append(message);
+
+    if (data != null)
+    {
+      result.append(" data=");
+      result.append(data);
+    }
+    if (children != null)
+    {
+      result.append(' ');
+      result.append(children);
+    }
+
+    return result.toString();
+  }  
+
+  private static class StatusWrapper implements IStatus
   {
     protected static final IStatus [] EMPTY_CHILDREN = new IStatus [0];
 
@@ -244,12 +309,12 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     protected Diagnostic diagnostic;
     protected IStatus [] wrappedChildren;
 
-    public Wrapper(Diagnostic diagnostic)
+    public StatusWrapper(Diagnostic diagnostic)
     {
       this.diagnostic = diagnostic;
     }
     
-    public Wrapper(DiagnosticException diagnosticException)
+    public StatusWrapper(DiagnosticException diagnosticException)
     {
       throwable = diagnosticException;
       diagnostic = diagnosticException.getDiagnostic();
@@ -321,16 +386,6 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     {
       return diagnostic.toString();
     }
-
-    public static IStatus create(Diagnostic diagnostic)
-    {
-      return new Wrapper(diagnostic);
-    }
-    
-    public static IStatus create(DiagnosticException diagnosticException)
-    {
-      return new Wrapper(diagnosticException);
-    }
   }
 
   /**
@@ -338,7 +393,9 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
    */
   public static IStatus toIStatus(Diagnostic diagnostic)
   {
-    return Wrapper.create(diagnostic);
+    return diagnostic instanceof DiagnosticWrapper ?
+      ((DiagnosticWrapper)diagnostic).status :
+      new StatusWrapper(diagnostic);
   }
   
   /**
@@ -346,9 +403,101 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
    */
   public static IStatus toIStatus(DiagnosticException diagnosticException)
   {
-    return Wrapper.create(diagnosticException);
+    return new StatusWrapper(diagnosticException);
   }
   
+  private static class DiagnosticWrapper implements Diagnostic
+  {
+    protected Throwable throwable;
+    protected IStatus status;
+    protected List<Diagnostic> wrappedChildren;
+    protected List<Diagnostic> unmodifiableWrappedChildren;
+    protected List<Object> data;
+
+    public DiagnosticWrapper(IStatus status)
+    {
+      this.status = status;
+    }
+    
+    public int getCode()
+    {
+      return status.getCode();
+    }
+
+    public String getMessage()
+    {
+      return status.getMessage();
+    }
+
+    public int getSeverity()
+    {
+      return status.getSeverity();
+    }
+
+    public String getSource()
+    {
+      return status.getPlugin();
+    }
+    
+    public Throwable getException()
+    {
+      return status.getException();
+    }
+
+    public List<Diagnostic> basicGetChildren()
+    {
+      if (wrappedChildren == null)
+      {
+        IStatus[] children = status.getChildren();
+        if (children.length == 0)
+        {
+          wrappedChildren = new ArrayList<Diagnostic>();
+        }
+        else
+        {
+          wrappedChildren = new ArrayList<Diagnostic>(children.length);
+          for (IStatus child : children)
+          {
+            wrappedChildren.add(toDiagnostic(child));
+          }
+        }
+      }
+      return wrappedChildren;      
+    }
+
+    public List<Diagnostic> getChildren()
+    {
+      if (unmodifiableWrappedChildren == null)
+      {
+        unmodifiableWrappedChildren = Collections.unmodifiableList(basicGetChildren());
+      }
+      return unmodifiableWrappedChildren;
+    }
+
+    public List<?> getData()
+    {
+      if (data == null)
+      {
+        List<Object> list = new ArrayList<Object>(2);
+        Throwable exception = getException();
+        if (exception != null)
+        {
+          list.add(exception);
+        }
+        list.add(status);
+        data = Collections.unmodifiableList(list);
+      }
+      return data;
+    }
+  }
+  
+  public static Diagnostic toDiagnostic(IStatus status)
+  {
+    return status instanceof StatusWrapper ?
+      ((StatusWrapper)status).diagnostic :
+      new DiagnosticWrapper(status);
+  }
+
   /**
    * Returns the throwable viewed as a {@link Diagnostic}.
    * 
@@ -364,6 +513,15 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     else if (throwable instanceof WrappedException)
     {
       return toDiagnostic(throwable.getCause());
+    }
+    
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      Diagnostic diagnostic = EclipseHelper.toDiagnostic(throwable);
+      if (diagnostic != null)
+      {
+        return diagnostic;
+      }
     }
     
     String message = throwable.getClass().getName();
@@ -385,74 +543,31 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
          message,
          new Object[] { throwable });
     
-    while (throwable.getCause() != null && throwable.getCause() != throwable)
+    if (throwable.getCause() != null && throwable.getCause() != throwable)
     {
       throwable = throwable.getCause();
       basicDiagnostic.add(toDiagnostic(throwable));
     }
     
     return basicDiagnostic;
-  }  
+  }
   
-  @Override
-  public String toString()
+  private static class EclipseHelper
   {
-    StringBuffer result = new StringBuffer();
-    result.append("Diagnostic ");
-    switch (severity)
+    public static Diagnostic toDiagnostic(Throwable throwable)
     {
-      case OK: 
+      if (throwable instanceof org.eclipse.core.runtime.CoreException)
       {
-        result.append("OK"); 
-        break;
+        IStatus status = ((org.eclipse.core.runtime.CoreException)throwable).getStatus();
+        DiagnosticWrapper wrapperDiagnostic = new DiagnosticWrapper(status);
+        Throwable cause = throwable.getCause();
+        if (cause != null && cause != throwable)
+        {
+          wrapperDiagnostic.basicGetChildren().add(BasicDiagnostic.toDiagnostic(cause));
+        }
+        return wrapperDiagnostic;
       }
-      case INFO: 
-      {
-        result.append("INFO"); 
-        break;
-      }
-      case WARNING: 
-      {
-        result.append("WARNING"); 
-        break;
-      }
-      case ERROR: 
-      {
-        result.append("ERROR"); 
-        break;
-      }
-      case CANCEL: 
-      {
-        result.append("CANCEL"); 
-        break;
-      }
-      default:
-      {
-        result.append(Integer.toHexString(severity));
-        break;
-      }
+      return null;
     }
-
-    result.append(" source="); 
-    result.append(source);
-
-    result.append(" code="); 
-    result.append(code);
-
-    result.append(' ');
-    result.append(message);
-
-    if (data != null)
-    {
-      result.append(" data=");
-      result.append(data);
-    }
-    if (children != null)
-    {
-      result.append(' ');
-      result.append(children);
-    }
-
-    return result.toString();
   }
 }
