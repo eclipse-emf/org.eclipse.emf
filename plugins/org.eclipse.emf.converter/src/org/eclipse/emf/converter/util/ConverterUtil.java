@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ConverterUtil.java,v 1.6 2006/12/28 06:43:30 marcelop Exp $
+ * $Id: ConverterUtil.java,v 1.7 2007/01/26 06:10:59 marcelop Exp $
  */
 package org.eclipse.emf.converter.util;
 
@@ -27,10 +27,8 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.converter.ConverterPlugin;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -316,52 +314,33 @@ public class ConverterUtil
     
   public static Diagnostic createErrorDiagnostic(Throwable throwable, boolean showErrorDialog)
   {
-    while (true)
+    Diagnostic diagnostic = BasicDiagnostic.toDiagnostic(throwable);
+    if (showErrorDialog)
     {
-      Throwable cause = 
-        throwable instanceof WrappedException ? ((WrappedException)throwable).exception() :
-        throwable.getCause() != null ? throwable.getCause() :
-        null;
-        
-      if (cause != null && cause != throwable)
-      {
-        throwable = cause;
-      }
-      else
-      {
-        break;
-      }
+      BasicDiagnostic basicDiagnostic = 
+        new BasicDiagnostic(
+          Diagnostic.ERROR, 
+          ConverterPlugin.ID, 
+          ACTION_DIALOG_SHOW_ERROR, 
+          ConverterPlugin.INSTANCE.getString("_UI_GenericExceptionDialog_message"), 
+          new Object[]{throwable});
+      
+      basicDiagnostic.add(diagnostic);
+      diagnostic = basicDiagnostic;
     }
-    
-    Diagnostic diagnostic = null;
-    if (throwable instanceof DiagnosticException)
+    else
     {
-      diagnostic = ((DiagnosticException)throwable).getDiagnostic();
+      BasicDiagnostic basicDiagnostic = 
+        new BasicDiagnostic(
+          Diagnostic.ERROR, 
+          ConverterPlugin.ID, 
+          ACTION_DEFAULT, 
+          ConverterPlugin.INSTANCE.getString("_UI_GenericException_message", new Object[]{diagnostic.getMessage()}), 
+          new Object[]{throwable});
+      
+      basicDiagnostic.addAll(diagnostic);
+      diagnostic = basicDiagnostic;
     }
-
-    if (diagnostic == null)
-    {
-      String message = throwable.getLocalizedMessage();
-      if (message == null)
-      {
-        message = throwable.getMessage();
-      }
-      if (message == null)
-      {
-        String exceptionName = throwable.getClass().getName();
-        int index = exceptionName.lastIndexOf('.');
-        if (index >= 0)
-        {
-          exceptionName = exceptionName.substring(index+1);
-        }
-        message = ConverterPlugin.INSTANCE.getString("_UI_GenericException_message", new Object[]{exceptionName});
-      }
-  
-      diagnostic = new BasicDiagnostic(Diagnostic.ERROR,
-        ConverterPlugin.ID, showErrorDialog ? ACTION_DIALOG_SHOW_ERROR : ACTION_DEFAULT,
-        message, new Object[]{throwable});
-    }
-    
     return diagnostic;
   }
   
