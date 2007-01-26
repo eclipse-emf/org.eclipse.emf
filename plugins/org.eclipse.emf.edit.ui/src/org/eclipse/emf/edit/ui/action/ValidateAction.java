@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.21 2007/01/19 14:09:04 emerks Exp $
+ * $Id: ValidateAction.java,v 1.22 2007/01/26 06:11:29 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -26,7 +26,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -43,10 +42,10 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
-import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.URI;
@@ -146,7 +145,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   protected List<Object> selectedObjects;
   protected EditingDomain domain;
   protected EclipseResourcesUtil eclipseResourcesUtil = 
-    CommonPlugin.IS_RESOURCES_BUNDLE_AVAILABLE ?
+    EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE ?
       new EclipseResourcesUtil() :
       null;
 
@@ -276,15 +275,17 @@ public class ValidateAction extends Action implements ISelectionChangedListener
       title = EMFEditUIPlugin.INSTANCE.getString("_UI_ValidationResults_title");
       message = EMFEditUIPlugin.INSTANCE.getString(severity == Diagnostic.OK ? "_UI_ValidationOK_message" : "_UI_ValidationResults_message");
     }
-    int result = ErrorDialog.openError
-        (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, message, BasicDiagnostic.toIStatus(diagnostic));
 
-    // No error dialog is displayed if the status severity is OK; pop up a dialog so the user knows something happened.
-    //
+    int result = 0;
     if (diagnostic.getSeverity() == Diagnostic.OK)
     {
       MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, message);
       result = Window.CANCEL;
+    }
+    else
+    {
+      result = DiagnosticDialog.openProblem
+        (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, message, diagnostic);
     }
 
     if (eclipseResourcesUtil != null)
