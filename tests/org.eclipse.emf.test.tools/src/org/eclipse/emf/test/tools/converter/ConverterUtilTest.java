@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -159,33 +159,75 @@ public class ConverterUtilTest extends TestCase
     assertEquals(throwable, diagnostic.getException());
     String message = ImporterPlugin.INSTANCE.getString("_UI_GenericException_message", new Object[]{"NullPointerException"}); 
     assertEquals(message, diagnostic.getMessage());
+    assertEquals(0, diagnostic.getChildren().size());
 
     Exception rootException = new Exception("root");
     diagnostic = ConverterUtil.createErrorDiagnostic(rootException, true);
     assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
     assertEquals(ConverterUtil.ACTION_DIALOG_SHOW_ERROR, diagnostic.getCode());
     assertEquals(rootException, diagnostic.getException());
-    assertEquals("root", diagnostic.getMessage());
+    assertEquals("An error occurred while performing this operation.", diagnostic.getMessage());
+    assertEquals(1, diagnostic.getChildren().size());
+    assertEquals("Exception: root", diagnostic.getChildren().get(0).getMessage());
+    assertEquals(rootException, diagnostic.getChildren().get(0).getException());
+    assertEquals(0, diagnostic.getChildren().get(0).getChildren().size());
 
     throwable = new Exception(new Exception(new Exception(rootException)));
     diagnostic = ConverterUtil.createErrorDiagnostic(throwable, true);
     assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
     assertEquals(ConverterUtil.ACTION_DIALOG_SHOW_ERROR, diagnostic.getCode());
-    assertEquals(rootException, diagnostic.getException());
-    assertEquals("root", diagnostic.getMessage());
+    assertEquals(throwable, diagnostic.getException());
+    assertEquals("An error occurred while performing this operation.", diagnostic.getMessage());
+    assertEquals(1, diagnostic.getChildren().size());
+    //
+    Diagnostic childDiagnostic = diagnostic.getChildren().get(0);
+    assertEquals("Exception: java.lang.Exception: java.lang.Exception: java.lang.Exception: root", childDiagnostic.getMessage());
+    assertEquals(throwable, childDiagnostic.getException());
+    assertEquals(1, childDiagnostic.getChildren().size());
+    //
+    childDiagnostic = childDiagnostic.getChildren().get(0);
+    assertEquals("Exception: java.lang.Exception: java.lang.Exception: root", childDiagnostic.getMessage());
+    assertEquals(throwable.getCause(), childDiagnostic.getException());
+    assertEquals(1, childDiagnostic.getChildren().size());
+    //
+    childDiagnostic = childDiagnostic.getChildren().get(0);
+    assertEquals("Exception: java.lang.Exception: root", childDiagnostic.getMessage());
+    assertEquals(throwable.getCause().getCause(), childDiagnostic.getException());
+    assertEquals(1, childDiagnostic.getChildren().size());
+    //
+    childDiagnostic = childDiagnostic.getChildren().get(0);
+    assertEquals("Exception: root", childDiagnostic.getMessage());
+    assertEquals(rootException, childDiagnostic.getException());
+    assertEquals(0, childDiagnostic.getChildren().size());
 
     throwable = new WrappedException(new WrappedException(rootException));
     diagnostic = ConverterUtil.createErrorDiagnostic(throwable, true);
     assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
     assertEquals(ConverterUtil.ACTION_DIALOG_SHOW_ERROR, diagnostic.getCode());
-    assertEquals(rootException, diagnostic.getException());
-    assertEquals("root", diagnostic.getMessage());
+    assertEquals(throwable, diagnostic.getException());
+    assertEquals("An error occurred while performing this operation.", diagnostic.getMessage());
+    assertEquals(1, diagnostic.getChildren().size());
+    //
+    childDiagnostic = diagnostic.getChildren().get(0);
+    assertEquals("Exception: root", childDiagnostic.getMessage());
+    assertEquals(rootException, childDiagnostic.getException());
+    assertEquals(0, childDiagnostic.getChildren().size());    
 
     throwable = new WrappedException(new Exception(new WrappedException(new Exception(rootException))));
     diagnostic = ConverterUtil.createErrorDiagnostic(throwable, false);
     assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
     assertEquals(ConverterUtil.ACTION_DEFAULT, diagnostic.getCode());
-    assertEquals(rootException, diagnostic.getException());
-    assertEquals("root", diagnostic.getMessage());
+    assertEquals(throwable, diagnostic.getException());
+    assertEquals("The operation was interrupted due to an exception ('Exception: org.eclipse.emf.common.util.WrappedException: java.lang.Exception: java.lang.Exception: root').\nCheck the log for further details.", diagnostic.getMessage());
+    assertEquals(1, diagnostic.getChildren().size());
+    //
+    childDiagnostic = diagnostic.getChildren().get(0);
+    assertEquals("Exception: java.lang.Exception: root", childDiagnostic.getMessage());
+    assertEquals(1, childDiagnostic.getChildren().size());    
+    //
+    childDiagnostic = childDiagnostic.getChildren().get(0);
+    assertEquals("Exception: root", childDiagnostic.getMessage());
+    assertEquals(rootException, childDiagnostic.getException());
+    assertEquals(0, childDiagnostic.getChildren().size());
   }
 }
