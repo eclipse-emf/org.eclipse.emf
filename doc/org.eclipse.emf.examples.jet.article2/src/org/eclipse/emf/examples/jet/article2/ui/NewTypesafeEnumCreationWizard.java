@@ -3,18 +3,14 @@ package org.eclipse.emf.examples.jet.article2.ui;
 
 import java.lang.reflect.InvocationTargetException;
 
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.DialogSettings;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -28,6 +24,9 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.examples.jet.article2.TypesafeEnumPlugin;
 import org.eclipse.emf.examples.jet.article2.codegen.Config;
 import org.eclipse.emf.examples.jet.article2.codegen.JETGateway;
@@ -38,7 +37,7 @@ import org.eclipse.emf.examples.jet.article2.codegen.JETGateway;
  * enumeration
  * 
  * @author Remko Popma
- * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
+ * @version $Revision: 1.3 $ ($Date: 2007/01/26 06:13:24 $)
  */
 public class NewTypesafeEnumCreationWizard extends Wizard implements INewWizard
 {
@@ -201,22 +200,12 @@ public class NewTypesafeEnumCreationWizard extends Wizard implements INewWizard
 
   protected void handleFinishException(Shell shell, InvocationTargetException e)
   {
-    String exceptionMessage = "Error when generating the Typesafe Enumeration Class.";
-    if(e.getCause() != null && e.getCause().getMessage() != null)
-    {
-      exceptionMessage = e.getCause().getMessage();
-    }
-    else if(e.getMessage() != null)
-    {
-    	exceptionMessage = e.getMessage();
-    }
-    
-    IStatus status = new Status(IStatus.ERROR, TypesafeEnumPlugin.getPluginId(), IStatus.ERROR, exceptionMessage, e);
-    TypesafeEnumPlugin.log(status);
+    Diagnostic diagnostic = BasicDiagnostic.toDiagnostic(e);
+    TypesafeEnumPlugin.log(diagnostic);
 
     String title = WizardMessages.getString("Wizard.op_error.title"); //$NON-NLS-1$
     String message = WizardMessages.getString("Wizard.op_error.message"); //$NON-NLS-1$
-    ErrorDialog.openError(shell, title, message, status);
+    DiagnosticDialog.open(shell, title, message, diagnostic);
   }
 
   protected void openResource(final IResource resource)
