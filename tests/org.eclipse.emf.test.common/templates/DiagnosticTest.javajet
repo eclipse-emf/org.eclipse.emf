@@ -1,0 +1,163 @@
+<%@ jet package="org.eclipse.emf.test.common.templates" imports="java.util.* org.eclipse.emf.common.util.*" class="DiagnosticTestGen" version="$Id: DiagnosticTest.javajet,v 1.1 2007/01/26 13:57:55 marcelop Exp $" %>
+<%
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2006-2007 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ */
+%>
+<%
+  Diagnostic rootDiagnostic = (Diagnostic)argument;
+  TreeIterator<Diagnostic> diagnosticIterator = new AbstractTreeIterator<Diagnostic>(rootDiagnostic)
+  {
+    private static final long serialVersionUID = 1L;
+    @Override
+    protected Iterator<? extends Diagnostic> getChildren(Object object)
+    {
+      return ((Diagnostic)object).getChildren().iterator();
+    }
+  };
+    
+  class Helper
+  {
+    public String toString(Throwable throwable)
+    {
+      StringBuilder sb = new StringBuilder();
+      sb.append(throwable.getClass().getName());
+      sb.append("#").append(throwable.getMessage());
+
+      Throwable cause = throwable.getCause();
+      if (cause != null && cause != throwable)
+      {
+          sb.append("--").append(toString(cause));
+      }
+      return sb.toString();
+    }
+    
+    protected String removeObjectHash(String string)
+    {
+      return string.replaceAll("@\\w+", "");
+    }
+    
+    
+    public String toCodeString(String string)
+    {
+      return "\"" + string.replaceAll("\\\\", "\\\\\\\\").replaceAll("\\\"", "\\\\\"") + "\"";
+    }
+    
+    public String getDiagnosticSeverity(int value)
+    {
+      switch(value)
+      {
+        case Diagnostic.CANCEL:
+          return "Diagnostic.CANCEL";
+        case Diagnostic.OK:
+          return "Diagnostic.OK";
+        case Diagnostic.INFO:
+          return "Diagnostic.INFO";
+        case Diagnostic.ERROR:
+          return "Diagnostic.ERROR";
+        case Diagnostic.WARNING:
+          return "Diagnostic.WARNING";
+        default:
+          return Integer.toString(value);
+      }
+    }
+  }
+  Helper helper = new Helper();
+%>
+
+import java.util.Iterator;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.eclipse.emf.common.util.AbstractTreeIterator;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
+import org.eclipse.emf.test.common.TestUtil;
+
+public class DiagnosticTest extends TestCase
+{
+	protected Diagnostic diagnostic;
+	
+	public DiagnosticTest(String name)
+	{
+		super(name);
+	}
+	
+	public static Test suite()
+	{
+		TestSuite ts = new TestSuite("DianosticTest");
+		ts.addTest(new DiagnosticTest("testDiagnostic"));
+		return ts;
+	}
+	
+	@Override
+	protected void setUp() throws Exception
+	{
+		//TODO:Instantiates the diagnostic here
+		
+		assertNotNull(diagnostic);
+	}
+	
+	public void testDiagnostic() throws Exception
+	{
+		TreeIterator<Diagnostic> diagnosticIterator = new AbstractTreeIterator<Diagnostic>(diagnostic)
+		{
+			private static final long serialVersionUID = 1L;
+			@Override
+			protected Iterator<? extends Diagnostic> getChildren(Object object)
+			{
+				return ((Diagnostic)object).getChildren().iterator();
+			}
+		};
+
+	<%int count=0; while(diagnosticIterator.hasNext()){Diagnostic diagnostic = diagnosticIterator.next(); count++;%>
+		Diagnostic diagnostic<%=count%> = diagnosticIterator.next();
+		assertEquals(<%=helper.getDiagnosticSeverity(diagnostic.getSeverity())%>, diagnostic<%=count%>.getSeverity());
+		assertEquals(<%=helper.toCodeString(diagnostic.getSource())%>, diagnostic<%=count%>.getSource());
+		assertEquals(<%=helper.removeObjectHash(helper.toCodeString(diagnostic.getMessage()))%>, removeObjectHash(diagnostic<%=count%>.getMessage()));
+		assertEquals(<%=diagnostic.getCode()%>, diagnostic<%=count%>.getCode());
+		assertEquals(<%=diagnostic.getChildren().size()%>, diagnostic<%=count%>.getChildren().size());
+		assertEquals(<%=diagnostic.getData().size()%>, diagnostic<%=count%>.getData().size());
+		<%Throwable throwable = diagnostic.getException(); if (throwable != null) {%>assertEquals(<%=helper.toCodeString(helper.toString(diagnostic.getException()))%>, toString(diagnostic<%=count%>.getException()));
+		<%} else {%>assertNull(diagnostic<%=count%>.getException());<%} if (diagnosticIterator.hasNext()) {stringBuffer.append(NL);}}%>
+		
+		assertFalse(diagnosticIterator.hasNext());
+	}
+	
+	protected String toString(Throwable throwable)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(throwable.getClass().getName());
+		sb.append("#").append(throwable.getMessage());
+
+		Throwable cause = throwable.getCause();
+		if (cause != null && cause != throwable)
+		{
+			sb.append("--").append(toString(cause));
+		}
+		return sb.toString();
+	}
+	
+	protected String removeObjectHash(String string)
+	{
+		return string.replaceAll("@\\w+", "");
+	}
+}
