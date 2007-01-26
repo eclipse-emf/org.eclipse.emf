@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006`-2007 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,26 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ProblemEditorPart.java,v 1.5 2007/01/06 22:06:38 marcelop Exp $
+ * $Id: ProblemEditorPart.java,v 1.6 2007/01/26 06:08:16 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.editor;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -39,21 +27,21 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 
 import org.eclipse.emf.common.ui.CommonUIPlugin;
+import org.eclipse.emf.common.ui.DiagnosticComposite;
 import org.eclipse.emf.common.ui.MarkerHelper;
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 
@@ -65,38 +53,19 @@ public class ProblemEditorPart extends EditorPart
   /**
    * Since 2.3.0
    */
-  public static class TextProvider
+  public static class TextProvider extends DiagnosticComposite.TextProvider
   {
     /**
      * Returns the message to be displayed next to the icon, at the top 
      * of the editor.
      * @return a not null String
      */    
-    public String getMessageText(Diagnostic rootDiagnostic)
+    public String getMessage(Diagnostic rootDiagnostic)
     {
       return rootDiagnostic.getSeverity() == Diagnostic.OK
       ? CommonUIPlugin.getPlugin().getString("_UI_NoProblems_message") : 
         rootDiagnostic.getMessage() != null
         ? rootDiagnostic.getMessage() : CommonUIPlugin.getPlugin().getString("_UI_DefaultProblem_message");      
-    }
-    
-    /**
-     * Returns the text associated to be displayed in the details text
-     * when a a dignostic is selected in the tree.
-     * @param diagnostic
-     * @return a not null String
-     */
-    public String getDetailsText(Diagnostic diagnostic)
-    {
-      Throwable throwable = diagnostic.getException();
-      if (throwable != null)
-      {
-        StringWriter in = new StringWriter();
-        PrintWriter ps = new PrintWriter(in);
-        throwable.printStackTrace(ps);
-        return in.getBuffer().toString();
-      }
-      return "";      
     }
   }
   
@@ -108,20 +77,11 @@ public class ProblemEditorPart extends EditorPart
   protected Text messageText;
   protected Button detailsButton;
   protected Composite detailsComposite;
-  protected Control detailsControl;
-  protected TreeViewer detailsTreeViewer;
-  protected Text detailsText;
+  protected DiagnosticComposite diagnosticComposite;
   
   protected TextProvider textProvider = new TextProvider();
   protected MarkerHelper markerUtil;  
   
-  /**
-   * Deprecated in 2.3.0.  Use detailsText instead.  This field will be
-   * removed in futture versions
-   */
-  @Deprecated
-  protected Text exceptionText;
-
   @Override
   public void dispose()
   {
@@ -130,12 +90,9 @@ public class ProblemEditorPart extends EditorPart
     messageText = null;
     detailsButton = null;
     detailsComposite = null;
-    detailsControl = null;
-    detailsTreeViewer = null;
-    detailsText = null;
+    diagnosticComposite = null;
     textProvider = null;
     markerUtil = null;
-    exceptionText = null;
 
     super.dispose();
   }
@@ -153,6 +110,10 @@ public class ProblemEditorPart extends EditorPart
   public void setTextProvider(TextProvider textProvider)
   {
     this.textProvider = textProvider;
+    if (diagnosticComposite != null)
+    {
+      diagnosticComposite.setTextProvider(textProvider);
+    }
   }
   
   public TextProvider getTextProvider()
@@ -295,10 +256,9 @@ public class ProblemEditorPart extends EditorPart
 
       messageText.setText(getMessage());
 
-      if (detailsTreeViewer != null && detailsTreeViewer.getInput() != diagnostic)
+      if (diagnosticComposite != null && diagnosticComposite.getDiagnostic() != diagnostic)
       {
-        detailsTreeViewer.setInput(diagnostic);
-        detailsText.setText("");
+        diagnosticComposite.setDiagnostic(diagnostic);
       }
     }
   }
@@ -319,161 +279,39 @@ public class ProblemEditorPart extends EditorPart
 
   protected String getMessage()
   {
-    return getTextProvider().getMessageText(getDiagnostic());
+    return getTextProvider().getMessage(getDiagnostic());
   }
   
-  protected String getDetailsText(Diagnostic diagnostic)
-  {
-    return getTextProvider().getDetailsText(diagnostic);
-  }
-
   protected void updateDetails()
   {
     if (detailsButton.getData() == Boolean.TRUE)
     {
-      if (detailsControl == null)
+      if (diagnosticComposite == null)
       {
-        detailsControl = createDetailsControl(detailsComposite);
+        diagnosticComposite = new DiagnosticComposite(detailsComposite, SWT.NONE);
+        diagnosticComposite.setSeverityMask(DiagnosticComposite.ERROR_WARNING_MASK);
+        diagnosticComposite.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL));
+        if (getTextProvider() != null)
+        {
+          diagnosticComposite.setTextProvider(getTextProvider());
+        }
+        diagnosticComposite.initialize(getDiagnostic());
         detailsComposite.layout(true);
       }
       else
       {
-        detailsControl.setVisible(true);
+        diagnosticComposite.setVisible(true);
       }
       detailsButton.setText(IDialogConstants.HIDE_DETAILS_LABEL);
     }
     else
     {
-      if (detailsControl != null)
+      if (diagnosticComposite != null)
       {
-        detailsControl.setVisible(false);
+        diagnosticComposite.setVisible(false);
       }
       detailsButton.setText(IDialogConstants.SHOW_DETAILS_LABEL);
     }
-  }
-
-  protected Control createDetailsControl(Composite parent)
-  {
-    SashForm detailsComposite = new SashForm(parent, SWT.VERTICAL);
-    detailsComposite.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL));
-
-    detailsTreeViewer = new TreeViewer(detailsComposite, SWT.BORDER);
-    detailsTreeViewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL | GridData.VERTICAL_ALIGN_BEGINNING));
-
-    detailsText = new Text(detailsComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI | SWT.READ_ONLY);
-    exceptionText = detailsText;
-    GridData gridData = new GridData(GridData.FILL_BOTH);
-    gridData.heightHint = 20;
-    gridData.grabExcessVerticalSpace = true;
-    detailsText.setLayoutData(gridData);
-    detailsText.setBackground(detailsText.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-
-    detailsComposite.setWeights(new int []{ 70, 30 });
-
-    detailsTreeViewer.setContentProvider(new ITreeContentProvider()
-      {
-        private boolean isRootElement = true;
-
-        public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-        {
-          // Empty block
-        }
-
-        public void dispose()
-        {
-          // Empty block
-        }
-
-        public Object getParent(Object element)
-        {
-          return null;
-        }
-
-        public Object[] getElements(Object inputElement)
-        {
-          if (isRootElement)
-          {
-            isRootElement = false;
-            Diagnostic diagnostic = (Diagnostic)inputElement;
-            if (diagnostic.getMessage() != null || diagnostic.getException() != null)
-            {
-              return new Object []{ diagnostic };
-            }
-          }
-          return getChildren(inputElement);
-        }
-
-        public boolean hasChildren(Object element)
-        {
-          return !((Diagnostic)element).getChildren().isEmpty();
-        }
-
-        public Object[] getChildren(Object parentElement)
-        {
-          return ((Diagnostic)parentElement).getChildren().toArray();
-        }
-      });
-
-    detailsTreeViewer.setLabelProvider(new LabelProvider()
-      {
-        @Override
-        public String getText(Object element)
-        {
-          Diagnostic diagnostic = (Diagnostic)element;
-          String message = diagnostic.getMessage();
-          if (message == null)
-          {
-            switch (diagnostic.getSeverity())
-            {
-              case Diagnostic.ERROR:
-                message = CommonUIPlugin.getPlugin().getString("_UI_DiagnosticError_label");
-                break;
-              case Diagnostic.WARNING:
-                message = CommonUIPlugin.getPlugin().getString("_UI_DiagnosticWarning_label");
-                break;
-              default:
-                message = CommonUIPlugin.getPlugin().getString("_UI_Diagnostic_label");
-                break;
-            }
-          }
-          return message;
-        }
-        
-        @Override
-        public Image getImage(Object element)
-        {
-          Diagnostic diagnostic = (Diagnostic)element;
-          ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-          switch (diagnostic.getSeverity())
-          {
-            case Diagnostic.ERROR:
-              return sharedImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
-            case Diagnostic.WARNING:
-              return sharedImages.getImage(ISharedImages.IMG_OBJS_WARN_TSK);
-          }
-          return null;
-        }        
-      });
-
-    detailsTreeViewer.addSelectionChangedListener(new ISelectionChangedListener()
-      {
-        public void selectionChanged(SelectionChangedEvent event)
-        {
-          if (!event.getSelection().isEmpty())
-          {
-            Diagnostic diagnostic = (Diagnostic)((IStructuredSelection)event.getSelection()).getFirstElement();
-            detailsText.setText(getDetailsText(diagnostic));
-          }
-          else
-          {
-            detailsText.setText("");
-          }
-        }
-      });
-
-    detailsTreeViewer.setInput(diagnostic);
-    detailsTreeViewer.expandToLevel(2);
-    return detailsComposite;
   }
 
   protected void toggleDetails()
@@ -496,9 +334,9 @@ public class ProblemEditorPart extends EditorPart
       {
         IWorkbenchPage workbenchPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         IEditorInput editorInput = getEditorInput();
-        if (markerUtil != null && detailsTreeViewer != null && detailsControl.isVisible())
+        if (markerUtil != null && diagnosticComposite != null && diagnosticComposite.isVisible())
         {
-          Diagnostic diagnostic = (Diagnostic)((IStructuredSelection)detailsTreeViewer.getSelection()).getFirstElement();
+          Diagnostic diagnostic = diagnosticComposite.getSelection();
           IEditorInput diagnosticEditorInput = markerUtil.getEditorInput(diagnostic);
           if (diagnosticEditorInput != null)
           {
@@ -535,12 +373,11 @@ public class ProblemEditorPart extends EditorPart
 
   protected void openErrorDialog(String message, Exception exception)
   {
-    ErrorDialog.openError(
+    DiagnosticDialog.open(
       Display.getCurrent().getActiveShell(),
       CommonUIPlugin.getPlugin().getString("_UI_Error_label"),
       message,
-      exception instanceof CoreException
-        ? ((CoreException)exception).getStatus() : BasicDiagnostic.toIStatus(BasicDiagnostic.toDiagnostic(exception)));
+      BasicDiagnostic.toDiagnostic(exception));
   }
 
   @Override
