@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,19 +12,18 @@
  *
  * </copyright>
  *
- * $Id: ModelExporterWizard.java,v 1.4 2006/12/28 06:50:54 marcelop Exp $
+ * $Id: ModelExporterWizard.java,v 1.5 2007/01/26 06:14:09 marcelop Exp $
  */
 package org.eclipse.emf.exporter.ui.contribution.base;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Preferences;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
-import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.Monitor;
@@ -81,11 +80,11 @@ public abstract class ModelExporterWizard extends ModelConverterWizard
     catch (DiagnosticException exception)
     {
       Diagnostic diagnostic = exception.getDiagnostic();
-      ErrorDialog.openError
+      DiagnosticDialog.openProblem
         (getShell(),
          GenModelEditPlugin.INSTANCE.getString("_UI_ModelProblems_title"),
          ExporterPlugin.INSTANCE.getString("_UI_InvalidModel_message"),
-         BasicDiagnostic.toIStatus(diagnostic));
+         diagnostic);
     }    
   }
   
