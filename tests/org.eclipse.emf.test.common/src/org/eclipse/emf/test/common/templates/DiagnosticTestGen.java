@@ -22,8 +22,8 @@ public class DiagnosticTestGen
   protected final String TEXT_5 = ".getSeverity());" + NL + "\t\tassertEquals(";
   protected final String TEXT_6 = ", diagnostic";
   protected final String TEXT_7 = ".getSource());" + NL + "\t\tassertEquals(";
-  protected final String TEXT_8 = ", removeObjectHash(diagnostic";
-  protected final String TEXT_9 = ".getMessage()));" + NL + "\t\tassertEquals(";
+  protected final String TEXT_8 = ", trimSpecificPath(removeObjectHashCode(diagnostic";
+  protected final String TEXT_9 = ".getMessage())));" + NL + "\t\tassertEquals(";
   protected final String TEXT_10 = ", diagnostic";
   protected final String TEXT_11 = ".getCode());" + NL + "\t\tassertEquals(";
   protected final String TEXT_12 = ", diagnostic";
@@ -35,7 +35,7 @@ public class DiagnosticTestGen
   protected final String TEXT_18 = ".getException()));" + NL + "\t\t";
   protected final String TEXT_19 = "assertNull(diagnostic";
   protected final String TEXT_20 = ".getException());";
-  protected final String TEXT_21 = NL + "\t\t" + NL + "\t\tassertFalse(diagnosticIterator.hasNext());" + NL + "\t}" + NL + "\t" + NL + "\tprotected String toString(Throwable throwable)" + NL + "\t{" + NL + "\t\tStringBuilder sb = new StringBuilder();" + NL + "\t\tsb.append(throwable.getClass().getName());" + NL + "\t\tsb.append(\"#\").append(throwable.getMessage());" + NL + "" + NL + "\t\tThrowable cause = throwable.getCause();" + NL + "\t\tif (cause != null && cause != throwable)" + NL + "\t\t{" + NL + "\t\t\tsb.append(\"--\").append(toString(cause));" + NL + "\t\t}" + NL + "\t\treturn sb.toString();" + NL + "\t}" + NL + "\t" + NL + "\tprotected String removeObjectHash(String string)" + NL + "\t{" + NL + "\t\treturn string.replaceAll(\"@\\\\w+\", \"\");" + NL + "\t}" + NL + "}";
+  protected final String TEXT_21 = NL + "\t\t" + NL + "\t\tassertFalse(diagnosticIterator.hasNext());" + NL + "\t}" + NL + "\t" + NL + "\tprotected String toString(Throwable throwable)" + NL + "\t{" + NL + "\t\tStringBuilder sb = new StringBuilder();" + NL + "\t\tsb.append(throwable.getClass().getName());" + NL + "\t\tsb.append(\"#\").append(throwable.getMessage());" + NL + "" + NL + "\t\tThrowable cause = throwable.getCause();" + NL + "\t\tif (cause != null && cause != throwable)" + NL + "\t\t{" + NL + "\t\t\tsb.append(\"--\").append(toString(cause));" + NL + "\t\t}" + NL + "\t\treturn sb.toString();" + NL + "\t}" + NL + "\t" + NL + "\tprotected String removeObjectHashCode(String string)" + NL + "\t{" + NL + "\t\treturn string.replaceAll(\"@\\\\w+\", \"\");" + NL + "\t}" + NL + "\t" + NL + "\tprotected String trimSpecificPath(String path)" + NL + "\t{" + NL + "\t\t//TODO: replace the strings by the appropriate values for the test." + NL + "\t\t//" + NL + "\t\tint index1 = path.indexOf(\"file:/\");" + NL + "\t\tif (index1 >= 0)" + NL + "\t\t{" + NL + "\t\t\tint index2 = path.indexOf(\"/org.eclipse.emf.test.core\", index1);" + NL + "\t\t\tif (index2 > 0)" + NL + "\t\t\t{" + NL + "\t\t\t\tpath = path.substring(0, index1) + path.substring(index2);" + NL + "\t\t\t\tpath = trimSpecificPath(path);" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn path;" + NL + "\t}\t" + NL + "}";
 
   public String generate(Object argument)
   {
@@ -84,7 +84,7 @@ public class DiagnosticTestGen
       return sb.toString();
     }
     
-    protected String removeObjectHash(String string)
+    protected String removeObjectHashCode(String string)
     {
       return string.replaceAll("@\\w+", "");
     }
@@ -129,7 +129,7 @@ public class DiagnosticTestGen
     stringBuffer.append(TEXT_6);
     stringBuffer.append(count);
     stringBuffer.append(TEXT_7);
-    stringBuffer.append(helper.removeObjectHash(helper.toCodeString(diagnostic.getMessage())));
+    stringBuffer.append(helper.removeObjectHashCode(helper.toCodeString(diagnostic.getMessage())));
     stringBuffer.append(TEXT_8);
     stringBuffer.append(count);
     stringBuffer.append(TEXT_9);

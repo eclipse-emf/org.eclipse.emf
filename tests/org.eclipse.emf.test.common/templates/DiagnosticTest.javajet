@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.test.common.templates" imports="java.util.* org.eclipse.emf.common.util.*" class="DiagnosticTestGen" version="$Id: DiagnosticTest.javajet,v 1.1 2007/01/26 13:57:55 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.test.common.templates" imports="java.util.* org.eclipse.emf.common.util.*" class="DiagnosticTestGen" version="$Id: DiagnosticTest.javajet,v 1.2 2007/01/28 16:35:28 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -43,7 +43,7 @@
       return sb.toString();
     }
     
-    protected String removeObjectHash(String string)
+    protected String removeObjectHashCode(String string)
     {
       return string.replaceAll("@\\w+", "");
     }
@@ -132,7 +132,7 @@ public class DiagnosticTest extends TestCase
 		Diagnostic diagnostic<%=count%> = diagnosticIterator.next();
 		assertEquals(<%=helper.getDiagnosticSeverity(diagnostic.getSeverity())%>, diagnostic<%=count%>.getSeverity());
 		assertEquals(<%=helper.toCodeString(diagnostic.getSource())%>, diagnostic<%=count%>.getSource());
-		assertEquals(<%=helper.removeObjectHash(helper.toCodeString(diagnostic.getMessage()))%>, removeObjectHash(diagnostic<%=count%>.getMessage()));
+		assertEquals(<%=helper.removeObjectHashCode(helper.toCodeString(diagnostic.getMessage()))%>, trimSpecificPath(removeObjectHashCode(diagnostic<%=count%>.getMessage())));
 		assertEquals(<%=diagnostic.getCode()%>, diagnostic<%=count%>.getCode());
 		assertEquals(<%=diagnostic.getChildren().size()%>, diagnostic<%=count%>.getChildren().size());
 		assertEquals(<%=diagnostic.getData().size()%>, diagnostic<%=count%>.getData().size());
@@ -156,8 +156,25 @@ public class DiagnosticTest extends TestCase
 		return sb.toString();
 	}
 	
-	protected String removeObjectHash(String string)
+	protected String removeObjectHashCode(String string)
 	{
 		return string.replaceAll("@\\w+", "");
 	}
+	
+	protected String trimSpecificPath(String path)
+	{
+		//TODO: replace the strings by the appropriate values for the test.
+		//
+		int index1 = path.indexOf("file:/");
+		if (index1 >= 0)
+		{
+			int index2 = path.indexOf("/org.eclipse.emf.test.core", index1);
+			if (index2 > 0)
+			{
+				path = path.substring(0, index1) + path.substring(index2);
+				path = trimSpecificPath(path);
+			}
+		}
+		return path;
+	}	
 }
