@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="xsddefaults"
+    nsURI="http:///org.eclipse.emf.test.models/XSDDefaults.ecore" nsPrefix="xsddefaults">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="prefix" value="XSDDefaults"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="BigElementType">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="BigElement_._type"/>
+      <details key="kind" value="empty"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="anySimpleType1" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnySimpleType">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="anySimpleType1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="anySimpleType2" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnySimpleType"
+        defaultValueLiteral="nothing" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="&quot;nothing&quot;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="anySimpleType2"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="boolean1" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="false"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="boolean1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="boolean2" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        defaultValueLiteral="1" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="true"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="boolean2"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date1" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Date">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="date1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date2" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Date"
+        defaultValueLiteral="2007-01-26" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getDate(), &quot;2007-01-26&quot;)"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="date2"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myBoolean1" unique="false"
+        eType="#//MyBoolean" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="false"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="myBoolean1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myBoolean2" unique="false"
+        eType="#//MyBoolean" defaultValueLiteral="1" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="true"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="myBoolean2"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myDate1" unique="false"
+        eType="#//MyDate">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="myDate1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myDate2" unique="false"
+        eType="#//MyDate" defaultValueLiteral="2000-01-01" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="XSDDefaultsFactory.eINSTANCE.createFromString(XSDDefaultsPackage.eINSTANCE.getMyDate(), &quot;2000-01-01&quot;)"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="myDate2"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myString1" unique="false"
+        eType="#//MyString">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="myString1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myString2" unique="false"
+        eType="#//MyString" defaultValueLiteral="my value" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="&quot;my value&quot;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="myString2"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nmToken1" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//NMTOKEN">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="nmToken1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nmToken2" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//NMTOKEN"
+        defaultValueLiteral="foo" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="&quot;foo&quot;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="nmToken2"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nmTokens1" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//NMTOKENS">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="nmTokens1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nmTokens2" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//NMTOKENS"
+        defaultValueLiteral="foo bar baz" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="(List)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNMTOKENS(), &quot;foo bar baz&quot;)"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="nmTokens2"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="string1" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="string1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="string2" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String" defaultValueLiteral="nothing"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="&quot;nothing&quot;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="string2"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentRoot">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value=""/>
+      <details key="kind" value="mixed"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mixed" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="elementWildcard"/>
+        <details key="name" value=":mixed"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xMLNSPrefixMap" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
+        transient="true" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xmlns:prefix"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xSISchemaLocation" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
+        transient="true" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xsi:schemaLocation"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bigElement" upperBound="-2"
+        eType="#//BigElementType" volatile="true" transient="true" derived="true"
+        containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="BigElement"/>
+        <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="MyBoolean" instanceClassName="boolean">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="MyBoolean"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#boolean"/>
+      <details key="pattern" value="[01]"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="MyBooleanObject" instanceClassName="java.lang.Boolean">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="MyBoolean:Object"/>
+      <details key="baseType" value="MyBoolean"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="MyDate" instanceClassName="java.lang.Object">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="MyDate"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#date"/>
+      <details key="pattern" value="2[0-9]{3}-[0-9]{2}-[0-9]{2}"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="MyString" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="MyString"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
+      <details key="pattern" value="[Mm][Yy].*"/>
+    </eAnnotations>
+  </eClassifiers>
+</ecore:EPackage>

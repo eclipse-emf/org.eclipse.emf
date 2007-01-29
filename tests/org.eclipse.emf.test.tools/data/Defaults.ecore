@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="defaults"
+    nsURI="http:///org.eclipse.emf.test.models/Defaults.ecore" nsPrefix="def">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="prefix" value="Defaults"/>
+    <details key="basePackage" value="org.eclipse.emf.test.tools.genmodel"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="BigClass">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="boolean1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="boolean2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="booleanObject1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="booleanObject2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="Boolean.FALSE"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="byte1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByte">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="0x00"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="byte2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByte"
+        defaultValueLiteral="123">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="0x7b"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="byteObject1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteObject">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="byteObject2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteObject"
+        defaultValueLiteral="-1">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="new Byte((byte)0xff)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="short1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShort">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="0"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="short2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShort"
+        defaultValueLiteral="1000">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="1000"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="shortObject1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShortObject">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="shortObject2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShortObject"
+        defaultValueLiteral="123">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="new Short((short)123)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="int1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="0"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="int2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-200">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="-200"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="integerObject1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="integerObject2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
+        defaultValueLiteral="123456">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="new Integer(123456)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="long1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="0L"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="long2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        defaultValueLiteral="-200">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="-200L"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="longObject1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELongObject">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="longObject2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELongObject"
+        defaultValueLiteral="10000000000">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="new Long(10000000000L)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="float1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="0.0F"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="float2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="3.14159">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="3.14159F"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="floatObject1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloatObject">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="floatObject2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloatObject"
+        defaultValueLiteral="-1.0">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="new Float(-1.0F)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="double1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="0.0"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="double2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="3.14159265">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="3.14159265"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="doubleObject1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="doubleObject2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"
+        defaultValueLiteral="-1.0">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="new Double(-1.0)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="char1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="'\u0000'"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="char2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EChar"
+        defaultValueLiteral="66">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="'B'"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="characterObject1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ECharacterObject">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="characterObject2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ECharacterObject"
+        defaultValueLiteral="98">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="new Character('b')"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="string1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="string2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="Foo&#x9;Bar! ΑΩ">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="&quot;Foo\tBar! \u0391\u03a9&quot;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bigDecimal1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bigDecimal2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"
+        defaultValueLiteral="3.1">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="new BigDecimal(&quot;3.1&quot;)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bigInteger1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bigInteger2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="10">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="new BigInteger(&quot;10&quot;)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"
+        defaultValueLiteral="2006-01-19">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="(Date)EcoreFactory.eINSTANCE.createFromString(EcorePackage.eINSTANCE.getEDate(), &quot;2006-01-19&quot;)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="class1">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="class2" defaultValueLiteral="java.util.List">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="List.class"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="byteArray1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="byteArray2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EByteArray"
+        defaultValueLiteral="0001108F90BCFF">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="{ 0x00, 0x01, 0x10, (byte)0x8f, (byte)0x90, (byte)0xbc, (byte)0xff }"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myInt1" eType="#//MyInt">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="0"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myInt2" eType="#//MyInt"
+        defaultValueLiteral="-200">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="-200"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myIntegerObject1" eType="#//MyIntegerObject">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myIntegerObject2" eType="#//MyIntegerObject"
+        defaultValueLiteral="123456">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="new Integer(123456)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myDate1" eType="#//MyDate">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myDate2" eType="#//MyDate"
+        defaultValueLiteral="2006-01-19">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="(Date)DefaultsFactory.eINSTANCE.createFromString(DefaultsPackage.eINSTANCE.getMyDate(), &quot;2006-01-19&quot;)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uuid1" eType="#//UUID">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uuid2" eType="#//UUID"
+        defaultValueLiteral="ae53be75-ccff-44be-8f25-c27cfb224658">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="(UUID)DefaultsFactory.eINSTANCE.createFromString(DefaultsPackage.eINSTANCE.getUUID(), &quot;ae53be75-ccff-44be-8f25-c27cfb224658&quot;)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="myClass" eType="#//MyClass">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xsdString1" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xsdString1"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="null"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xsdString2" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String" defaultValueLiteral="nothing"
+        unsettable="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xsdString2"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="&quot;nothing&quot;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xsdBoolean1" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="false"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xsdString1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="xsdBoolean2" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        defaultValueLiteral="1" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="true"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xsdString2"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myXSDBoolean1" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xsdString1"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="false"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="myXSDBoolean2" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        defaultValueLiteral="1" unsettable="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xsdString2"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MyClass"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="MyInt" instanceClassName="int"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="MyIntegerObject" instanceClassName="java.lang.Integer"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="MyDate" instanceClassName="java.util.Date"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="UUID" instanceClassName="java.util.UUID"/>
+</ecore:EPackage>
