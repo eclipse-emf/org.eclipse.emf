@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Literals.java,v 1.6 2006/12/29 18:06:38 marcelop Exp $
+ * $Id: Literals.java,v 1.7 2007/01/29 19:10:47 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -37,14 +37,14 @@ public class Literals
   }
 
   /**
-   * Convenience dispatch method.  If the argument is an instance of
-   * <code>Boolean</code>, <code>Byte</code>, <code>Short</code>,
+   * Convenience dispatch method.  If the <code>object</code> is an instance
+   * of <code>Boolean</code>, <code>Byte</code>, <code>Short</code>,
    * <code>Integer</code>, <code>Long</code>, <code>Float</code>,
    * <code>Double</code>, <code>Character</code>, <code>String</code>, 
    * <code>BigDecimal</code>, <code>BigInteger</code>, <code>Date</code>,
-   * or <code>Class</code>, the appropriate conversion method is called,
-   * with the unwrapped primitive, or the typed object as an argument.
-   * Class names are never imported; the qualified name is used.
+   * <code>Class</code>, or <code>byte[]</code>, the appropriate conversion
+   * method is called, with the unboxed primitive, or the typed object as an
+   * argument. Class names are never imported; the qualified name is used.
    */
   public static String toLiteral(Object o)
   {
@@ -52,49 +52,76 @@ public class Literals
   }
 
   /**
-   * Convenience dispatch method.  If the argument is an instance of
-   * <code>Boolean</code>, <code>Byte</code>, <code>Short</code>,
+   * Convenience dispatch method.  If the <code>object</code> is an instance
+   * of <code>Boolean</code>, <code>Byte</code>, <code>Short</code>,
    * <code>Integer</code>, <code>Long</code>, <code>Float</code>,
    * <code>Double</code>, <code>Character</code>, <code>String</code>, 
    * <code>BigDecimal</code>, <code>BigInteger</code>, <code>Date</code>,
-   * or <code>Class</code>, the appropriate conversion method is called,
-   * with the unwrapped primitive, or the typed object as an argument.
-   * The specified {@link org.eclipse.emf.codegen.ecore.genmodel.GenModel},
-   * if non-null, is used when necessary to import class names. 
+   * <code>Class</code>, or <code>byte[]</code>, the appropriate conversion
+   * method is called, with the unboxed primitive, or the typed object as an
+   * argument.
+   * <p>The specified {@link org.eclipse.emf.codegen.ecore.genmodel.GenModel},
+   * if non-null, is used when necessary to import class names.
    */
   public static String toLiteral(Object o, GenModel genModel)
   {
+    return toLiteral(o, false, genModel);
+  }
+
+  /**
+   * Convenience dispatch method.  If the <code>object</code> is an instance
+   * of <code>Boolean</code>, <code>Byte</code>, <code>Short</code>,
+   * <code>Integer</code>, <code>Long</code>, <code>Float</code>,
+   * <code>Double</code>, <code>Character</code>, <code>String</code>, 
+   * <code>BigDecimal</code>, <code>BigInteger</code>, <code>Date</code>,
+   * <code>Class</code>, or <code>byte[]</code>, the appropriate conversion
+   * method is called, with the unwrapped primitive, or the typed object as an
+   * argument.
+   * <p>The specified {@link org.eclipse.emf.codegen.ecore.genmodel.GenModel},
+   * if non-null, is used when necessary to import class names.
+   * <p>If the object is a primitive type, <boolean>boxPrimitive</boolean>
+   * indicates whether to include boxing code in the literal expression.
+   * Otherwise, this argument is ignored. 
+   */
+  public static String toLiteral(Object o, boolean boxPrimitive, GenModel genModel)
+  {
     if (o instanceof Boolean)
     {
-      return toBooleanLiteral(((Boolean)o).booleanValue(), genModel);
+      return toBooleanLiteral(((Boolean)o).booleanValue(), boxPrimitive, genModel);
     }
     if (o instanceof Byte)
     {
-      return toByteLiteral(((Byte)o).byteValue(), genModel);
+      return toByteLiteral(((Byte)o).byteValue(), boxPrimitive, genModel);
     }
     if (o instanceof Short)
     {
-      return toShortLiteral(((Short)o).shortValue(), genModel);
+      String result = toShortLiteral(((Short)o).shortValue(), genModel);
+      return boxPrimitive ? box(result, "Short", "short", genModel) : result;
     }
     if (o instanceof Integer)
     {
-      return toIntLiteral(((Integer)o).intValue(), genModel);
+      String result =  toIntLiteral(((Integer)o).intValue(), genModel);
+      return boxPrimitive ? box(result, "Integer", null, genModel) : result;
     }
     if (o instanceof Long)
     {
-      return toLongLiteral(((Long)o).longValue(), genModel);
+      String result = toLongLiteral(((Long)o).longValue(), genModel);
+      return boxPrimitive ? box(result, "Long", null, genModel) : result;
     }
     if (o instanceof Float)
     {
-      return toFloatLiteral(((Float)o).floatValue(), genModel);
+      String result = toFloatLiteral(((Float)o).floatValue(), genModel);
+      return boxPrimitive ? box(result, "Float", null, genModel) : result;
     }
     if (o instanceof Double)
     {
-      return toDoubleLiteral(((Double)o).doubleValue(), genModel);
+      String result = toDoubleLiteral(((Double)o).doubleValue(), genModel);
+      return boxPrimitive ? box(result, "Double", null, genModel) : result;
     }
     if (o instanceof Character)
     {
-      return toCharLiteral(((Character)o).charValue(), genModel);
+      String result = toCharLiteral(((Character)o).charValue(), genModel);
+      return boxPrimitive ? box(result, "Character", null, genModel) : result;
     }
     if (o instanceof String)
     {
@@ -116,7 +143,24 @@ public class Literals
     {
       return toClassLiteral((Class<?>)o, genModel);
     }
+    if (o instanceof byte[])
+    {
+      return toByteArrayLiteral((byte[])o, genModel);
+    }
     return null;
+  }
+
+  /**
+   * Returns the literal expression for the given <code>boolean</code> value,
+   * with optional boxing.
+   */
+  private static String toBooleanLiteral(boolean b, boolean box, GenModel genModel)
+  {
+    if (box)
+    {
+      return importName("java.lang.Boolean", genModel) + (b ? ".TRUE" : ".FALSE");
+    }
+    return b ? "true" : "false";
   }
 
   /**
@@ -124,16 +168,71 @@ public class Literals
    */
   public static String toBooleanLiteral(boolean b, GenModel genModel)
   {
-    return b ? "true" : "false";
+    return toBooleanLiteral(b, false, genModel);
   }
 
   /**
-   * Returns the decimal literal expression for the given <code>byte</code>
+   * Returns the hexidecimal literal expression for the given <code>byte</code>
+   * value, with optional boxing.
+   */
+  private static String toByteLiteral(byte b, boolean box, GenModel genModel)
+  {
+    String result = toByteLiteral(b, genModel);
+    if (box)
+    {
+      String wrapperClass = importName("java.lang.Byte", genModel);
+      StringBuilder boxed = new StringBuilder(16 + wrapperClass.length());
+      boxed.append("new ");
+      boxed.append(wrapperClass);
+      boxed.append('(');
+      if (b >= 0)
+      {
+        boxed.append("(byte)");
+      }
+      boxed.append(result);
+      boxed.append(')');
+      result = boxed.toString();
+    }
+    return result;
+  }
+
+  /**
+   * Returns the hexidecimal literal expression for the given <code>byte</code>
    * value.
    */
   public static String toByteLiteral(byte b, GenModel genModel)
   {
-    return Byte.toString(b);
+    String hex = Integer.toHexString(b);
+    switch (hex.length())
+    {
+      case 1: return "0x0" + hex;
+      case 2: return "0x" + hex;
+      case 8: return "(byte)0x" + hex.substring(hex.length() - 2);
+    }
+    throw new IllegalArgumentException("A byte cannot convert to a " + hex.length() +  " digit hex string (Java platform error in Integer.toHexString())");
+  }
+
+  /**
+   * Returns the boxed form of the literal: new wrapperClass((castType)literal)
+   * The wrapperClass is imported, and, if the castType is null, no cast is
+   * included.
+   */
+  private static String box(String literal, String wrapperClass, String castType, GenModel genModel)
+  {
+    wrapperClass = importName(wrapperClass, genModel);
+    StringBuilder boxed = new StringBuilder(6 + literal.length() + wrapperClass.length() + (castType != null ? castType.length() + 2 : 0));
+    boxed.append("new ");
+    boxed.append(wrapperClass);
+    boxed.append('(');
+    if (castType != null)
+    {
+      boxed.append('(');
+      boxed.append(castType);
+      boxed.append(')');
+    }
+    boxed.append(literal);
+    boxed.append(')');
+    return boxed.toString();
   }
 
   /**
@@ -211,7 +310,7 @@ public class Literals
    */
   public static String toCharLiteral(char c, GenModel genModel)
   {
-    StringBuffer result = new StringBuffer(8);
+    StringBuilder result = new StringBuilder(8);
     result.append('\'');
     result.append(escapeChar(c));
     result.append('\'');
@@ -227,7 +326,7 @@ public class Literals
   {
     if (s == null) return "null";
     int len = s.length();
-    StringBuffer result = new StringBuffer(len + 16);
+    StringBuilder result = new StringBuilder(len + 16);
     result.append('\"');
     for (int i = 0; i < len; i++)
     {
@@ -319,7 +418,7 @@ public class Literals
       name = importName(name, genModel);
     }
     
-    StringBuffer result = new StringBuffer(name.length() + 2 * arrayDepth + 8);
+    StringBuilder result = new StringBuilder(name.length() + 2 * arrayDepth + 8);
     result.append(name);
     for (int i = 0; i < arrayDepth; i++)
     {
@@ -327,6 +426,28 @@ public class Literals
       result.append(']');
     }
     result.append(".class");
+    return result.toString();
+  }
+
+  /**
+   * Returns a literal expression for the given <code>byte[]</code> value.
+   */
+  public static String toByteArrayLiteral(byte[] bytes, GenModel genModel)
+  {
+    if (bytes == null) return "null";
+    if (bytes.length == 0) return "{}";
+
+    StringBuilder result = new StringBuilder(2 + bytes.length * 7);
+    result.append("{ ");
+    for (int i = 0, last = bytes.length - 1; i <= last; i++)
+    {
+      result.append(toByteLiteral(bytes[i], genModel));
+      if (i < last)
+      {
+        result.append(", ");
+      }
+    }
+    result.append(" }");
     return result.toString();
   }
 }
