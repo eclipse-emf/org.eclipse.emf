@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.56 2007/01/18 22:09:40 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.57 2007/01/29 19:11:43 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -196,6 +196,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
+        <%if (genModel.useGenerics() && genFeature.isListDataType() && genFeature.isSetDefaultValue()) {%>
+	@SuppressWarnings("unchecked")
+        <%}%>
 	protected static final <%=genFeature.getImportedType()%> <%=genFeature.getEDefault()%><%if ("".equals(staticDefaultValue)) {%>; // TODO The default value literal "<%=genFeature.getEcoreFeature().getDefaultValueLiteral()%>" is not valid.<%} else {%> = <%=staticDefaultValue%>;<%=genModel.getNonNLS(staticDefaultValue)%><%}%>
 
       <%}%>
