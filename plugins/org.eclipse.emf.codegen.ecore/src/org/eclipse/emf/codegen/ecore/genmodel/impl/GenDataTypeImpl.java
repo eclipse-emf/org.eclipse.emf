@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.22 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenDataTypeImpl.java,v 1.23 2007/01/29 19:08:24 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -36,12 +36,11 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.ETypeParameter;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
@@ -985,99 +984,148 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return null;
   }
 
+  /**
+   * First follows base types in extended metadata, returning the first data type from Ecore or XMLTypes encountered.
+   * In none, looks for a serializable Ecore data type that represents the Java type.
+   * This Ecore type matching is unfortunately hacky, but required for backwards compatibility.
+   */
+  EDataType getBasicType()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      String namespace = extendedMetaData.getNamespace(eDataType);
+      if (EcorePackage.eNS_URI.equals(namespace) || XMLTypePackage.eNS_URI.equals(namespace))
+      {
+        return eDataType;
+      }
+    }
+
+    String instanceClassName = getEcoreDataType().getInstanceClassName();
+    for (EClassifier eClassifier : EcorePackage.eINSTANCE.getEClassifiers())
+    {
+      if (eClassifier instanceof EDataType && eClassifier.getInstanceClassName().equals(instanceClassName))
+      {
+        EDataType eDataType = (EDataType)eClassifier;
+        if (eDataType.isSerializable())
+        {
+          return eDataType;
+        }
+      }
+    }
+    return null;
+  }
+
+  boolean useFactoryFor(EDataType eDataType)
+  {
+    String nsURI = eDataType.getEPackage().getNsURI();
+    if (XMLTypePackage.eNS_URI.equals(nsURI))
+    {
+      // Some XML types declare nebulous Object mappings.
+      // They actually map to internal types that shouldn't be generated into code.
+      //
+      String name = eDataType.getName();
+      return
+        "Date".equals(name) ||
+        "DateTime".equals(name) ||
+        "Duration".equals(name) ||
+        "GDay".equals(name) ||
+        "GMonth".equals(name) ||
+        "GMonthDay".equals(name) ||
+        "GYear".equals(name) ||
+        "GYearMonth".equals(name) ||
+        "NOTATION".equals(name) ||
+        "QName".equals(name) ||
+        "Time".equals(name) ||
+        "ENTITIES".equals(name) ||
+        "ENTITIESBASE".equals(name) ||
+        "IDREFS".equals(name) ||
+        "IDREFSBase".equals(name) ||
+        "NMTOKENS".equals(name) ||
+        "NMTOKENSBase".equals(name);
+    }
+    else if (EcorePackage.eNS_URI.equals(nsURI))
+    {
+      // EDate is far too often overridden to provide a different mapping, and the for the default is somewhat obscure.
+      // So, it's best to delegate to the factory.
+      //
+      return "EDate".equals(eDataType.getName());
+    }
+    return true;
+  }
+
   public String getStaticValue(String literal)
   {
-    EClassifier eDataType = getEcoreDataType();
+    EDataType eDataType = getEcoreDataType();
     if (eDataType instanceof EEnum)
     {
       GenEnum genEnum = findGenEnum((EEnum)eDataType);
       return genEnum.getStaticValue(literal);
     }
 
-    if (eDataType.getEPackage() != EcorePackage.eINSTANCE && literal != null)
-    {
-      boolean replaced = false;
-      for (EClassifier eClassifier : EcorePackage.eINSTANCE.getEClassifiers())
-      {
-        if (eClassifier instanceof EDataType && 
-            eClassifier.getInstanceClassName().equals(eDataType.getInstanceClassName()) &&
-            ((EDataType)eClassifier).isSerializable() &&
-            eClassifier != EcorePackage.eINSTANCE.getEDate())
-        {
-          replaced = true;
-          eDataType = eClassifier;
-          break;
-        }
-      }
-      if (!replaced)
-      {
-        String result = 
-          getGenPackage().getQualifiedEFactoryInstanceAccessor() + 
-            ".createFromString(" + 
-            getGenPackage().getImportedPackageInterfaceName() + 
-            ".eINSTANCE.get" + 
-            getName() + 
-            "(), " + 
-            Literals.toLiteral(literal) +
-            ")";
-        if (isPrimitiveType())
-        {
-          result = "((" + getObjectInstanceClassName() + ")" + result + ")." + getPrimitiveValueFunction() + "()";
-        }
-        else if (!isObjectType())
-        {
-          result = "(" + getImportedInstanceClassName() + ")" + result;
-        }
-        return result;
-      }
-    }
-
-    Object defaultObject = eDataType.getDefaultValue();
-    if (literal != null)
-    {
-      try
-      {
-        defaultObject = 
-          isXMLBoolean() ?
-            XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getBoolean(), literal) :
-            EcoreFactory.eINSTANCE.createFromString((EDataType)eDataType, literal);
-      }
-      catch (Exception e)
-      {
-        return "";  // cause a syntax error
-      }
-    }
-    if (defaultObject == null) return "null";
-    String result = Literals.toLiteral(defaultObject, getGenModel());
-
-    // Include static field or constructor for wrapped primitive types.
+    // If there is a base XML or Ecore type, use one of the two corresponding built-in factories to create a value from the literal string.
     //
-    Class<?> typeClass = getInstanceClass(eDataType);
-    if (typeClass == Boolean.class)
+    EDataType base = getBasicType();
+    if (base != null && !useFactoryFor(base))
     {
-      StringBuffer wrapped = new StringBuffer(getGenModel().getImportedName("java.lang.Boolean"));
-      wrapped.append('.');
-      wrapped.append(result.toUpperCase());
-      result = wrapped.toString();
+      Object value = base.getDefaultValue();
+
+      if (literal != null)
+      {
+        try
+        {
+          value = EcoreUtil.createFromString(base, literal);
+        }
+        catch (Exception e)
+        {
+          return "";  // cause a syntax error
+        }
+      }
+
+      // Get the Java literal expression for the value.
+      //
+      if (value == null) return "null";
+      Class<?> typeClass = getInstanceClass(base);
+      return Literals.toLiteral(value, typeClass != null && !typeClass.isPrimitive(), getGenModel());
     }
-    else if (typeClass == Character.class || typeClass == Byte.class || typeClass == Short.class || typeClass == Integer.class ||
-             typeClass == Long.class || typeClass == Float.class || typeClass == Double.class)
+
+    // Otherwise, produce an expression that uses the appropriate factory to create a value from the literal.
+    //
+    if (literal == null) return "null";
+
+    StringBuilder result = new StringBuilder(getGenPackage().getQualifiedEFactoryInstanceAccessor());
+    result.append(".createFromString(");
+    result.append(getGenPackage().getImportedPackageInterfaceName()); 
+    result.append(".eINSTANCE.get"); 
+    result.append(getName()); 
+    result.append("(), "); 
+    result.append(Literals.toStringLiteral(literal, getGenModel()));
+    result.append(')');
+
+    // If the type isn't Object, we need to cast. If it's a primitive, we need to unbox.
+    //
+    if (!isObjectType())
     {
-      StringBuffer wrapped = new StringBuffer("new ");
-      wrapped.append(getGenModel().getImportedName(eDataType.getInstanceClassName()));
-      wrapped.append('(');
-      if (typeClass == Byte.class)
+      StringBuilder cast = new StringBuilder();
+      if (isPrimitiveType())
       {
-        wrapped.append("(byte)");
+        cast.append("((");
+        cast.append(getObjectInstanceClassName());
+        cast.append(')');
+        cast.append(result);
+        cast.append(").");
+        cast.append(getPrimitiveValueFunction());
+        cast.append("()");
       }
-      else if (typeClass == Short.class)
+      else
       {
-        wrapped.append("(short)");
+        cast.append('(');
+        cast.append(getImportedInstanceClassName());
+        cast.append(')');
+        cast.append(result);
       }
-      wrapped.append(result);
-      wrapped.append(')');
-      result = wrapped.toString();
+      result = cast;
     }
-    return result;
+    return result.toString();
   }
 }
