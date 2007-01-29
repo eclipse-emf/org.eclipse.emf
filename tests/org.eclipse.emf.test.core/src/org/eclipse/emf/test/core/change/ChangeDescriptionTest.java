@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.13 2007/01/18 15:53:10 marcelop Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.14 2007/01/29 19:02:29 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -50,6 +50,12 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.models.library.Book;
+import org.eclipse.emf.test.models.library.Library;
+import org.eclipse.emf.test.models.library.LibraryFactory;
+import org.eclipse.emf.test.models.library.Writer;
+import org.eclipse.emf.test.models.tree.Node;
+import org.eclipse.emf.test.models.tree.TreeFactory;
 
 
 public class ChangeDescriptionTest extends TestCase
@@ -70,6 +76,9 @@ public class ChangeDescriptionTest extends TestCase
     ts.addTest(new ChangeDescriptionTest("testObjectsToDetach1"));
     ts.addTest(new ChangeDescriptionTest("testObjectsToDetach2"));
     ts.addTest(new ChangeDescriptionTest("testAddRemoveObject"));
+    ts.addTest(new ChangeDescriptionTest("testSwitchResources"));
+    ts.addTest(new ChangeDescriptionTest("testSwitchResources2"));
+    ts.addTest(new ChangeDescriptionTest("testSwitchContainers"));
     return ts;
   }
   
@@ -658,5 +667,236 @@ public class ChangeDescriptionTest extends TestCase
     //
     assertNull(xmlResource.getID(eObject));
     assertNull(xmlResource.getEObject("CLASS:cls"));
+  }
+  
+  /*
+   * Bugzilla 172036
+   */  
+  public void testSwitchResources() throws Exception
+  {
+    final Resource resource1 = new ResourceImpl(URI.createFileURI("/home/res1"));
+    final Resource resource2 = new ResourceImpl(URI.createFileURI("/home/res2"));    
+    final Library library = LibraryFactory.eINSTANCE.createLibrary();
+    final Writer writer = LibraryFactory.eINSTANCE.createWriter();
+    
+    resource1.getContents().add(library);
+    resource2.getContents().add(writer);
+    
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResources().add(resource1);
+    resourceSet.getResources().add(resource2);
+    
+    class Helper
+    {
+      public void assertState0()
+      {
+        assertEquals(1, resource1.getContents().size());
+        assertEquals(1, resource2.getContents().size());
+        assertEquals(resource1, library.eResource());
+        assertEquals(resource2, writer.eResource());
+      }
+
+      public void assertState1()
+      {
+        assertEquals(1, resource1.getContents().size());
+        assertEquals(1, resource2.getContents().size());
+        assertEquals(resource1, writer.eResource());
+        assertEquals(resource2, library.eResource());
+      }
+    }
+
+    Helper helper = new Helper();
+    helper.assertState0();
+
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    resource1.getContents().add(writer);
+    resource2.getContents().add(library);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+ 
+    helper.assertState1();
+    changeDescription.applyAndReverse();
+    helper.assertState0();
+    changeDescription.applyAndReverse();
+    helper.assertState1();
+    changeDescription.apply();
+    helper.assertState0();
+  }  
+
+  /*
+   * Bugzilla 172036
+   */  
+  public void testSwitchResources2() throws Exception
+  {
+    final Resource resource1 = new ResourceImpl(URI.createFileURI("/home/res1"));
+    final Resource resource2 = new ResourceImpl(URI.createFileURI("/home/res2"));    
+    final Resource resource3 = new ResourceImpl(URI.createFileURI("/home/res2"));
+    final Resource resource4 = new ResourceImpl(URI.createFileURI("/home/res2"));
+    
+    final Library library = LibraryFactory.eINSTANCE.createLibrary();
+    final Writer writer = LibraryFactory.eINSTANCE.createWriter();
+    final Book book1 = LibraryFactory.eINSTANCE.createBook();
+    final Book book2 = LibraryFactory.eINSTANCE.createBook();
+    final Book book3 = LibraryFactory.eINSTANCE.createBook();
+    
+    resource1.getContents().add(library);
+    resource2.getContents().add(writer);
+    resource2.getContents().add(book2);
+    resource4.getContents().add(book3);
+    
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResources().add(resource1);
+    resourceSet.getResources().add(resource2);
+    resourceSet.getResources().add(resource3);
+    resourceSet.getResources().add(resource4);
+    
+    class Helper
+    {
+      public void assertState0()
+      {
+        assertEquals(1, resource1.getContents().size());
+        assertEquals(2, resource2.getContents().size());
+        assertEquals(0, resource3.getContents().size());
+        assertEquals(1, resource4.getContents().size());
+        
+        assertEquals(resource1, library.eResource());
+        assertEquals(resource2, writer.eResource());
+        assertEquals(resource2, book2.eResource());
+        assertEquals(resource4, book3.eResource());
+        assertNull(book1.eResource());
+        
+        assertEquals(0, library.getBooks().size());
+      }
+
+      public void assertState1()
+      {
+        assertEquals(1, resource1.getContents().size());
+        assertEquals(1, resource2.getContents().size());
+        assertEquals(1, resource3.getContents().size());
+        assertEquals(0, resource4.getContents().size());
+        
+        assertEquals(resource1, writer.eResource());
+        assertEquals(resource2, library.eResource());
+        assertEquals(resource2, book1.eResource());
+        assertEquals(resource3, book2.eResource());
+        
+        assertEquals(2, library.getBooks().size());
+        assertEquals(book3, library.getBooks().get(0));
+        assertEquals(book1, library.getBooks().get(1));
+      }
+    }
+
+    Helper helper = new Helper();
+    helper.assertState0();
+
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    resource3.getContents().add(book1);
+    resource3.getContents().add(book2);
+    library.getBooks().add(book3);
+    resource2.getContents().add(library);
+    resource1.getContents().add(writer);
+    library.getBooks().add(book1);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+ 
+    helper.assertState1();
+    changeDescription.applyAndReverse();
+    helper.assertState0();
+    changeDescription.applyAndReverse();
+    helper.assertState1();
+    changeDescription.applyAndReverse();
+    helper.assertState0();
+    changeDescription.apply();
+    helper.assertState1();
+  }  
+
+  /*
+   * Bugzilla 172037
+   */
+  public void testSwitchContainers() throws Exception
+  {
+    final Node node1 = TreeFactory.eINSTANCE.createNode(); node1.setName("node1");
+    final Node node2 = TreeFactory.eINSTANCE.createNode(); node2.setName("node2");
+    final Node node3 = TreeFactory.eINSTANCE.createNode(); node3.setName("node3");
+    final Node node4 = TreeFactory.eINSTANCE.createNode(); node4.setName("node4");
+    
+    final Node child1 = TreeFactory.eINSTANCE.createNode(); child1.setName("child1");
+    final Node child2 = TreeFactory.eINSTANCE.createNode(); child2.setName("child2");
+    final Node child3 = TreeFactory.eINSTANCE.createNode(); child3.setName("child3");
+    final Node child4 = TreeFactory.eINSTANCE.createNode(); child4.setName("child4");
+    final Node child5 = TreeFactory.eINSTANCE.createNode(); child5.setName("child5");
+    
+    node1.getChildren().add(child1);
+    node2.getChildren().add(child2);
+    node2.getChildren().add(child4);
+    node4.getChildren().add(child5);
+    
+    Resource resource1 = new ResourceImpl(URI.createFileURI("/home/res1"));
+    resource1.getContents().add(node1);
+    resource1.getContents().add(node2);
+    resource1.getContents().add(node3);
+    resource1.getContents().add(node4);
+    Resource resource2 = new ResourceImpl(URI.createFileURI("/home/res2"));
+    resource2.getContents().add(child3);
+    
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResources().add(resource1);
+    resourceSet.getResources().add(resource2);
+    
+    class Helper
+    {
+      public void assertState0()
+      {
+        assertEquals(1, node1.getChildren().size());
+        assertEquals(2, node2.getChildren().size());
+        assertEquals(0, node3.getChildren().size());
+        assertEquals(1, node4.getChildren().size());
+        
+        assertEquals(node1, child1.eContainer());
+        assertEquals(node2, child2.eContainer());
+        assertEquals(node2, child4.eContainer());
+        assertEquals(node4, child5.eContainer());
+        assertNull(child3.eContainer());
+        
+        assertEquals(0, child1.getChildren().size());
+      }
+
+      public void assertState1()
+      {
+        assertEquals(1, node1.getChildren().size());
+        assertEquals(1, node2.getChildren().size());
+        assertEquals(1, node3.getChildren().size());
+        assertEquals(0, node4.getChildren().size());
+        
+        assertEquals(node1, child2.eContainer());
+        assertEquals(node2, child1.eContainer());
+        assertEquals(node2, child3.eContainer().eContainer());
+        assertEquals(node3, child4.eContainer());
+        
+        assertEquals(2, child1.getChildren().size());
+        assertEquals(child5, child1.getChildren().get(0));
+        assertEquals(child3, child1.getChildren().get(1));
+      }
+    }
+
+    Helper helper = new Helper();
+    helper.assertState0();
+
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    node3.getChildren().add(child3);
+    node3.getChildren().add(child4);
+    child1.getChildren().add(child5);
+    node2.getChildren().add(child1);
+    node1.getChildren().add(child2);
+    child1.getChildren().add(child3);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+ 
+    helper.assertState1();
+    changeDescription.applyAndReverse();
+    helper.assertState0();
+    changeDescription.applyAndReverse();
+    helper.assertState1();
+    changeDescription.applyAndReverse();
+    helper.assertState0();
+    changeDescription.apply();
+    helper.assertState1();
   }  
 }
