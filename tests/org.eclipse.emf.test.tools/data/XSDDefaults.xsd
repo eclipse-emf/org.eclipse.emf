@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http:///org.eclipse.emf.test.models/XSDDefaults.ecore"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+  xmlns:defaults="http:///org.eclipse.emf.test.models/XSDDefaults.ecore"
+  ecore:package="org.eclipse.emf.test.tools.genmodel.xsddefaults" ecore:nsPrefix="xsddefaults">
+  <xsd:annotation>
+    <xsd:appinfo source="http://www.eclipse.org/emf/2002/GenModel" ecore:key="prefix">XSDDefaults</xsd:appinfo>
+  </xsd:annotation>
+
+  <xsd:element name="BigElement">
+    <xsd:complexType>
+      <xsd:attribute name="boolean1" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">false</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="boolean2" type="xsd:boolean" default="1">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">true</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="string1" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">null</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="string2" type="xsd:string" default="nothing">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">&quot;nothing&quot;</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="date1" type="xsd:date">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">null</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="date2" type="xsd:date" default="2007-01-26">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getDate(), &quot;2007-01-26&quot;)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="nmToken1" type="xsd:NMTOKEN">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">null</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="nmToken2" type="xsd:NMTOKEN" default="foo">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">&quot;foo&quot;</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="nmTokens1" type="xsd:NMTOKENS">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">null</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="nmTokens2" type="xsd:NMTOKENS" default="foo bar baz">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">(List)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNMTOKENS(), &quot;foo bar baz&quot;)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="anySimpleType1" type="xsd:anySimpleType">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">null</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="anySimpleType2" type="xsd:anySimpleType" default="nothing">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">&quot;nothing&quot;</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="myBoolean1" type="defaults:MyBoolean">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">false</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="myBoolean2" type="defaults:MyBoolean" default="1">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">true</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="myString1" type="defaults:MyString">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">null</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="myString2" type="defaults:MyString" default="my value">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">&quot;my value&quot;</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="myDate1" type="defaults:MyDate">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">null</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="myDate2" type="defaults:MyDate" default="2000-01-01">
+        <xsd:annotation>
+          <xsd:appinfo source="http://www.eclipse.org/emf/GenModelTest" ecore:key="staticDefaultValue">XSDDefaultsFactory.eINSTANCE.createFromString(XSDDefaultsPackage.eINSTANCE.getMyDate(), &quot;2000-01-01&quot;)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:simpleType name="MyBoolean">
+    <xsd:restriction base="xsd:boolean">
+      <xsd:pattern value="[01]"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="MyString">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[Mm][Yy].*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="MyDate">
+    <xsd:restriction base="xsd:date">
+      <xsd:pattern value="2[0-9]{3}-[0-9]{2}-[0-9]{2}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>
