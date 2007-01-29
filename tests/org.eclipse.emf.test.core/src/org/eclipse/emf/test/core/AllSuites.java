@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.38 2007/01/26 14:25:37 marcelop Exp $
+ * $Id: AllSuites.java,v 1.39 2007/01/29 19:00:41 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -33,11 +33,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.core.common.util.EqualityTest.suite()
     ,org.eclipse.emf.test.core.common.util.ECollectionsTest.suite()
     ,org.eclipse.emf.test.core.dynamic.SimpleModelTest.suite()
-    ,org.eclipse.emf.test.core.change.ChangeRecordTest.suite(false)
-    ,org.eclipse.emf.test.core.change.ChangeRecordTest.suite(true)
-    ,org.eclipse.emf.test.core.change.ChangeDescriptionTest.suite()
-    ,org.eclipse.emf.test.core.change.MultivalueAttributeTest.suite()
-    ,org.eclipse.emf.test.core.change.SpecialCasesTest.suite()
+    ,org.eclipse.emf.test.core.change.ChangeAllSuites.suite()
     ,org.eclipse.emf.test.core.ecore.EcoreUtilStaticMethodsTest.suite()
     ,org.eclipse.emf.test.core.ecore.ListTest.suite()
     ,org.eclipse.emf.test.core.ecore.ResourceCacheMechanismTest.suite()
