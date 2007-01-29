@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceChangeImpl.java,v 1.7 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: ResourceChangeImpl.java,v 1.8 2007/01/29 18:55:12 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -105,6 +105,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
   protected EList<ListChange> listChanges = null;
 
   protected EList<Object> valueField = null;
+  protected EList<Object> newValue = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -242,19 +243,26 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
     return listChanges;
   }
 
+  @SuppressWarnings("unchecked")
+  public void preApply(boolean reverse)
+  {
+    if (resource != null)
+    {
+      if (reverse)
+      {
+        newValue = new BasicEList<Object>(resource.getContents());
+      }
+    }
+  }
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
   public void apply()
-  {
-    Resource resource = getResource();
-    if (resource != null && listChanges != null)
-    {
-      @SuppressWarnings("unchecked") EList<Object> list = (EList<Object>)(EList<?>)resource.getContents();
-      apply(list);
-    }
+  {    
+    apply(false);
   }
 
   /**
@@ -264,16 +272,24 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    */
   public void applyAndReverse()
   {
+    apply(true);
+  }
+
+  protected void apply(boolean reverse)
+  {
     Resource resource = getResource();
     if (resource != null && listChanges != null)
     {
-      @SuppressWarnings("unchecked") EList<Object> applyToList = (EList<Object>)(EList<?>)resource.getContents();
-      for (ListChange listChange : getListChanges())
+      EList<Object> value = getValue();
+      
+      @SuppressWarnings("unchecked") EList<Object> result = (EList)resource.getContents();
+      ECollections.setEList(result, value);
+      
+      if (reverse)
       {
-        listChange.applyAndReverse(applyToList);
+        ECollections.reverse(getListChanges());
+        setValue(newValue);
       }
-      ECollections.reverse(getListChanges());
-      setValue(null);
     }
   }
 
