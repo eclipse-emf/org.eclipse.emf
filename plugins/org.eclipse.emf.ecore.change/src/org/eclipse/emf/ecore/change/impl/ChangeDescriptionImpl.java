@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.17 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.18 2007/01/29 18:56:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -459,28 +459,52 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         featureChange.preApply(objectToChange, reverse);
         if (reverse || featureChange.isSet())
         {
-          EStructuralFeature feature = featureChange.getFeature();
-          if (feature != null &&
-                (FeatureMapUtil.isFeatureMap(feature) ||
-                  (feature.isMany() &&
-                   feature instanceof EReference &&
-                   (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))))
+          EStructuralFeature.Internal internalFeature = (EStructuralFeature.Internal)featureChange.getFeature();
+          if (internalFeature != null &&
+                (internalFeature.isFeatureMap() ||
+                  (internalFeature.isMany() && (internalFeature.getEOpposite() != null || internalFeature.isContainment()))))
           {
             if (reverse)
             {
               // This case will be handled special during apply
               //
-              EList<Object> applyToList = new BasicEList<Object>((EList<?>)objectToChange.eGet(feature));
+              EList<Object> applyToList = new BasicEList<Object>((EList<?>)objectToChange.eGet(internalFeature));
               for (ListChange listChange : featureChange.getListChanges())
               {
                 listChange.applyAndReverse(applyToList);
               }
-              featureChange.setValue(applyToList); // cache the list value.
+              featureChange.setValue(applyToList); // caches the list value.
             }
             else
             {
-              featureChange.getValue(); // cache the list value.
+              featureChange.getValue(); // caches the list value.
             }
+          }
+        }
+      }
+    }
+    
+    if (resourceChanges != null)
+    {
+      @SuppressWarnings("unchecked") EList<ResourceChangeImpl> resourceChanges = (EList)getResourceChanges();
+      for (ResourceChangeImpl resourceChange : resourceChanges)
+      {
+        Resource resource = resourceChange.getResource();
+        if (resource != null)
+        {
+          resourceChange.preApply(reverse);
+          if (reverse)
+          {
+            EList<Object> applyToList = new BasicEList<Object>(resourceChange.getResource().getContents());
+            for (ListChange listChange : resourceChange.getListChanges())
+            {
+              listChange.applyAndReverse(applyToList);
+            }
+            resourceChange.setValue(applyToList); // caches the list value.
+          }
+          else
+          {
+            resourceChange.getValue(); // caches the list value.
           }
         }
       }
