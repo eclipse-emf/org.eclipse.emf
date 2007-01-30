@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.57 2007/01/29 19:11:43 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.58 2007/01/30 14:54:39 khussey Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1336,7 +1336,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	}
 
 <%}%>
-<%if (isImplementation && !genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEGetGenFeatures())) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1349,7 +1349,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	{
 		switch (featureID)
 		{
-<%for (GenFeature genFeature : genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenFeatures() : genClass.getAllGenFeatures()) {%>
+<%for (GenFeature genFeature : genClass.getEGetGenFeatures()) {%>
 			case <%=genClass.getQualifiedFeatureID(genFeature)%>:
   <%if (genFeature.isPrimitiveType()) {%>
     <%if (genFeature.isBooleanType()) {%>
@@ -1407,38 +1407,40 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	{
 		switch (featureID)
 		{
-<%for (GenFeature genFeature : genClass.getESetGenFeatures()) {%>
+  <%for (GenFeature genFeature : genClass.getESetGenFeatures()) {%>
 			case <%=genClass.getQualifiedFeatureID(genFeature)%>:
-  <%if (genFeature.isListType()) {%>
-    <%if (genFeature.isWrappedFeatureMapType()) {%>
+    <%if (genFeature.isListType()) {%>
+      <%if (genFeature.isWrappedFeatureMapType()) {%>
 				((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal.Wrapper)<%=genFeature.getGetAccessor()%>()).featureMap()).set(newValue);
-    <%} else if (genFeature.isFeatureMapType()) {%>
+      <%} else if (genFeature.isFeatureMapType()) {%>
 				((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)<%=genFeature.getGetAccessor()%>()).set(newValue);
-    <%} else if (genFeature.isMapType()) {%>
-      <%if (genFeature.isEffectiveSuppressEMFTypes()) {%>
+      <%} else if (genFeature.isMapType()) {%>
+        <%if (genFeature.isEffectiveSuppressEMFTypes()) {%>
 				((<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>.Setting)((<%=genModel.getImportedName("org.eclipse.emf.common.util.EMap")%>.InternalMapView<%=genFeature.getImportedMapTemplateArguments()%>)<%=genFeature.getGetAccessor()%>()).eMap()).set(newValue);
-      <%} else {%>
+        <%} else {%>
 				((<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>.Setting)<%=genFeature.getGetAccessor()%>()).set(newValue);
-      <%}%>
-    <%} else {%>
+        <%}%>
+      <%} else {%>
 				<%=genFeature.getGetAccessor()%>().clear();
 				<%=genFeature.getGetAccessor()%>().addAll((<%=genModel.getImportedName("java.util.Collection")%><%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%><? extends <%=genFeature.getListItemType()%>><%}%>)newValue);
-    <%}%>
-  <%} else if (genFeature.isPrimitiveType()) {%>
+      <%}%>
+    <%} else if (genFeature.isPrimitiveType()) {%>
 				set<%=genFeature.getAccessorName()%>(((<%=genFeature.getObjectType()%>)newValue).<%=genFeature.getPrimitiveValueFunction()%>());
-  <%} else {%>
+    <%} else {%>
 				set<%=genFeature.getAccessorName()%>(<%if (genFeature.getTypeGenDataType() == null || !genFeature.getTypeGenDataType().isObjectType() || !genFeature.getRawType().equals(genFeature.getType())) {%>(<%=genFeature.getImportedType()%>)<%}%>newValue);
-  <%}%>
+    <%}%>
 				return;
-<%}%>
+  <%}%>
 		}
-<%if (genModel.isMinimalReflectiveMethods()) {%>
+  <%if (genModel.isMinimalReflectiveMethods()) {%>
 		super.eSet(featureID, newValue);
-<%} else {%>
+  <%} else {%>
 		eDynamicSet(featureID, newValue);
-<%}%>
+  <%}%>
 	}
 
+<%}%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEUnsetGenFeatures())) {%>
 <%@ include file="Class/eUnset.override.javajetinc" fail="alternative" %>
 <%@ start %>
 	/**
@@ -1453,34 +1455,34 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	{
 		switch (featureID)
 		{
-<%for (GenFeature genFeature : genClass.getESetGenFeatures()) {%>
+  <%for (GenFeature genFeature : genClass.getEUnsetGenFeatures()) {%>
 			case <%=genClass.getQualifiedFeatureID(genFeature)%>:
-  <%if (genFeature.isListType() && !genFeature.isUnsettable()) {%>
-    <%if (genFeature.isWrappedFeatureMapType()) {%>
+    <%if (genFeature.isListType() && !genFeature.isUnsettable()) {%>
+      <%if (genFeature.isWrappedFeatureMapType()) {%>
 				((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal.Wrapper)<%=genFeature.getGetAccessor()%>()).featureMap().clear();
-    <%} else {%>
+      <%} else {%>
 				<%=genFeature.getGetAccessor()%>().clear();
-    <%}%>
-  <%} else if (genFeature.isUnsettable()) {%>
+      <%}%>
+    <%} else if (genFeature.isUnsettable()) {%>
 				unset<%=genFeature.getAccessorName()%>();
-  <%} else if (!genFeature.hasEDefault()) {%>
+    <%} else if (!genFeature.hasEDefault()) {%>
 				set<%=genFeature.getAccessorName()%>((<%=genFeature.getImportedType()%>)null);
-  <%} else {%>
+    <%} else {%>
 				set<%=genFeature.getAccessorName()%>(<%=genFeature.getEDefault()%>);
-  <%}%>
+    <%}%>
 				return;
-<%}%>
+  <%}%>
 		}
-<%if (genModel.isMinimalReflectiveMethods()) {%>
+  <%if (genModel.isMinimalReflectiveMethods()) {%>
 		super.eUnset(featureID);
-<%} else {%>
+  <%} else {%>
 		eDynamicUnset(featureID);
-<%}%>
+  <%}%>
 	}
 
 <%@ end %><%//Class/eUnset.override.javajetinc%>
 <%}%>
-<%if (isImplementation && !genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEIsSetGenFeatures())) {%>
 <%@ include file="Class/eIsSet.override.javajetinc" fail="alternative" %>
 <%@ start %>
 	/**
@@ -1495,7 +1497,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	{
 		switch (featureID)
 		{
-<%for (GenFeature genFeature : genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenFeatures() : genClass.getAllGenFeatures()) {%>
+<%for (GenFeature genFeature : genClass.getEIsSetGenFeatures()) {%>
 			case <%=genClass.getQualifiedFeatureID(genFeature)%>:
   <%if (genFeature.isListType() && !genFeature.isUnsettable()) {%>
     <%if (genFeature.isWrappedFeatureMapType()) {%>

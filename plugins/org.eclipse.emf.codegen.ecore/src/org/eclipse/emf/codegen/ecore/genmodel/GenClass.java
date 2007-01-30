@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.24 2006/12/28 06:40:37 marcelop Exp $
+ * $Id: GenClass.java,v 1.25 2007/01/30 14:54:39 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -356,7 +356,10 @@ public interface GenClass extends GenClassifier
   List<GenFeature> getFlagGenFeatures();
   List<GenFeature> getFlagGenFeatures(String staticDefaultValue);
 
+  List<GenFeature> getEGetGenFeatures();
+  List<GenFeature> getEIsSetGenFeatures();
   List<GenFeature> getESetGenFeatures();
+  List<GenFeature> getEUnsetGenFeatures();
   List<GenFeature> getEInverseAddGenFeatures();
   List<GenFeature> getEInverseRemoveGenFeatures();
   List<GenFeature> getEBasicRemoveFromContainerGenFeatures();

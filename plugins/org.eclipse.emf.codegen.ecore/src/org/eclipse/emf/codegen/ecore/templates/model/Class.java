@@ -1389,7 +1389,7 @@ public class Class
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -3829,13 +3829,13 @@ public class Class
     }
     stringBuffer.append(TEXT_1072);
     }
-    if (isImplementation && !genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {
+    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEGetGenFeatures())) {
     stringBuffer.append(TEXT_1073);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1074);
     }
     stringBuffer.append(TEXT_1075);
-    for (GenFeature genFeature : genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenFeatures() : genClass.getAllGenFeatures()) {
+    for (GenFeature genFeature : genClass.getEGetGenFeatures()) {
     stringBuffer.append(TEXT_1076);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1077);
@@ -3997,12 +3997,14 @@ public class Class
     stringBuffer.append(TEXT_1147);
     }
     stringBuffer.append(TEXT_1148);
+    }
+    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEUnsetGenFeatures())) {
     stringBuffer.append(TEXT_1149);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1150);
     }
     stringBuffer.append(TEXT_1151);
-    for (GenFeature genFeature : genClass.getESetGenFeatures()) {
+    for (GenFeature genFeature : genClass.getEUnsetGenFeatures()) {
     stringBuffer.append(TEXT_1152);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1153);
@@ -4046,13 +4048,13 @@ public class Class
     stringBuffer.append(TEXT_1171);
     //Class/eUnset.override.javajetinc
     }
-    if (isImplementation && !genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {
+    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEIsSetGenFeatures())) {
     stringBuffer.append(TEXT_1172);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1173);
     }
     stringBuffer.append(TEXT_1174);
-    for (GenFeature genFeature : genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenFeatures() : genClass.getAllGenFeatures()) {
+    for (GenFeature genFeature : genClass.getEIsSetGenFeatures()) {
     stringBuffer.append(TEXT_1175);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1176);

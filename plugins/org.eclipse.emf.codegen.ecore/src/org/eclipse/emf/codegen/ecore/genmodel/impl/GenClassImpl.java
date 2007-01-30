@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.69 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenClassImpl.java,v 1.70 2007/01/30 14:54:39 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1211,6 +1211,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       });
   }
 
+  public List<GenFeature> getEGetGenFeatures()
+  {
+    return getGenModel().isMinimalReflectiveMethods() ? getImplementedGenFeatures() : getAllGenFeatures();
+  }
+
+  public List<GenFeature> getEIsSetGenFeatures()
+  {
+    return getEGetGenFeatures();
+  }
+
   public List<GenFeature> getESetGenFeatures()
   {
     return 
@@ -1224,6 +1234,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
              return genFeature.isChangeable();
            }
          });
+  }
+
+  public List<GenFeature> getEUnsetGenFeatures()
+  {
+    return getESetGenFeatures();
   }
 
   public List<GenFeature> getEInverseAddGenFeatures()
