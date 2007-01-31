@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.26 2006/12/28 06:48:53 marcelop Exp $
+ * $Id: ItemProviderAdapter.java,v 1.27 2007/01/31 17:36:49 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -33,6 +33,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.command.UnexecutableCommand;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -1649,7 +1650,9 @@ public class ItemProviderAdapter
   {
     if (object instanceof EObject)
     {
-      String typeKey = ((EObject)object).eClass().getName();
+      EObject eObject = ((EObject)object);
+      String typeKey = eObject.eClass().getName();
+      List<Adapter> originalAdapters = new ArrayList<Adapter>(eObject.eAdapters());
       try
       {
         return getResourceLocator(object).getString("_UI_" + typeKey + "_type");
@@ -1657,6 +1660,10 @@ public class ItemProviderAdapter
       catch (MissingResourceException e)
       {
         return typeKey;
+      }
+      finally
+      {
+        eObject.eAdapters().retainAll(originalAdapters);
       }
     }
     return getString("_UI_Unknown_type");
