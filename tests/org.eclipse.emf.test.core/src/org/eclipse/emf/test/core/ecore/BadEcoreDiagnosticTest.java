@@ -1,6 +1,7 @@
 package org.eclipse.emf.test.core.ecore;
 
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -1279,18 +1280,9 @@ public class BadEcoreDiagnosticTest extends TestCase
     return string.replaceAll("@\\w+", "");
   }
 
+  private static Pattern TRIM_PATH_PATTERN = Pattern.compile("file:/.*?(/org\\.eclipse\\.emf\\.test\\.core)[^/]*"); 
   protected String trimSpecificPath(String path)
   {
-    int index1 = path.indexOf("file:/");
-    if (index1 >= 0)
-    {
-      int index2 = path.indexOf("/org.eclipse.emf.test.core", index1);
-      if (index2 > 0)
-      {
-        path = path.substring(0, index1) + path.substring(index2);
-        path = trimSpecificPath(path);
-      }
-    }
-    return path;
+    return TRIM_PATH_PATTERN.matcher(path).replaceAll("$1"); 
   }
 }
