@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.25 2006/06/02 22:01:02 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.25.2.1 2007/01/31 17:38:00 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1641,7 +1641,9 @@ public class ItemProviderAdapter
   {
     if (object instanceof EObject)
     {
-      String typeKey = ((EObject)object).eClass().getName();
+      EObject eObject = (EObject)object;
+      String typeKey = eObject.eClass().getName();
+      List originalAdapters = new ArrayList(eObject.eAdapters());
       try
       {
         return getResourceLocator(object).getString("_UI_" + typeKey + "_type");
@@ -1650,6 +1652,10 @@ public class ItemProviderAdapter
       {
         return typeKey;
       }
+      finally
+      {
+        eObject.eAdapters().retainAll(originalAdapters);
+      }      
     }
     return getString("_UI_Unknown_type");
   }
