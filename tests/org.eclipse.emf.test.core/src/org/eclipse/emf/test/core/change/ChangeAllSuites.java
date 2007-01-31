@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeAllSuites.java,v 1.1 2007/01/18 15:53:10 marcelop Exp $
+ * $Id: ChangeAllSuites.java,v 1.2 2007/01/31 16:33:29 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -23,12 +23,14 @@ import junit.framework.TestSuite;
 
 public class ChangeAllSuites extends TestSuite
 {
-  private static Test[] suites = new Test []{ 
-    org.eclipse.emf.test.core.change.ChangeRecordTest.suite(false)
-    ,org.eclipse.emf.test.core.change.ChangeRecordTest.suite(true)
-    ,org.eclipse.emf.test.core.change.ChangeDescriptionTest.suite()
-    ,org.eclipse.emf.test.core.change.MultivalueAttributeTest.suite()
-    ,org.eclipse.emf.test.core.change.SpecialCasesTest.suite()
+  private static Test[] suites = new Test []
+  { 
+    ChangeRecordTest.suite(false)
+    ,ChangeRecordTest.suite(true)
+    ,ChangeDescriptionTest.suite()
+    ,MultivalueAttributeTest.suite()
+    ,SpecialCasesTest.suite()
+    ,ChangeDescriptionBuilderTest.suite()
   };
 
   public static Test suite()
