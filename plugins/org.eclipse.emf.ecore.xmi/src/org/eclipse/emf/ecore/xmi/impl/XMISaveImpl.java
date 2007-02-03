@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMISaveImpl.java,v 1.14 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMISaveImpl.java,v 1.15 2007/02/03 18:26:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -82,10 +82,20 @@ public class XMISaveImpl extends XMLSaveImpl
       {
         EObject top = contents.get(i);
         EClass eClass = top.eClass();
-        String name = helper.getQName(eClass);
-        doc.startElement(name);
-        root = top;
-        saveElementID(top);
+        if (extendedMetaData == null || featureTable.getDocumentRoot(eClass.getEPackage()) != eClass)
+        {
+          String name = helper.getQName(eClass);
+          doc.startElement(name);
+          root = top;
+          saveElementID(top);
+        }
+        else
+        {
+          doc.startElement(null);
+          root = top;
+          saveFeatures(top);
+          doc.addLine();
+        }
       }
 
       doc.endElement();
@@ -101,10 +111,21 @@ public class XMISaveImpl extends XMLSaveImpl
         EObject top = contents.get(i);
         EClass eClass = top.eClass();
         helper.populateNameInfo(nameInfo, eClass);
-        currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
-        handler.recordValues(currentNode, null, null, top);
-        root = top;
-        saveElementID(top);
+        if (extendedMetaData == null || extendedMetaData.getDocumentRoot(eClass.getEPackage()) != eClass)
+        {
+          currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
+          handler.recordValues(currentNode, null, null, top);
+          root = top;
+          saveElementID(top);
+          return null;
+        }
+        else
+        {
+          root = top;
+          currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
+          saveFeatures(top);
+          return null;
+        }
       }
       return null;
     }
