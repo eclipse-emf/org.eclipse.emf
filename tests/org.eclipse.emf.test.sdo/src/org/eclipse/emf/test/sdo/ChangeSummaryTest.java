@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeSummaryTest.java,v 1.8 2005/08/04 14:34:31 marcelop Exp $
+ * $Id: ChangeSummaryTest.java,v 1.8.2.1 2007/02/03 13:23:25 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -61,6 +61,7 @@ import org.eclipse.emf.ecore.sdo.EChangeSummary;
 import org.eclipse.emf.ecore.sdo.EChangeSummarySetting;
 import org.eclipse.emf.ecore.sdo.EDataGraph;
 import org.eclipse.emf.ecore.sdo.EDataObject;
+import org.eclipse.emf.ecore.sdo.EDataObjectAnyType;
 import org.eclipse.emf.ecore.sdo.EProperty;
 import org.eclipse.emf.ecore.sdo.SDOFactory;
 import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
@@ -105,6 +106,7 @@ public class ChangeSummaryTest extends TestCase
     testSuite.addTest(new ChangeSummaryTest("testPersonalMixed"));
     testSuite.addTest(new ChangeSummaryTest("testPersonal"));
     testSuite.addTest(new ChangeSummaryTest("testOldContainer"));
+    testSuite.addTest(new ChangeSummaryTest("testOpenContentOldContainer"));
     testSuite.addTest(new ChangeSummaryTest("testGetOldValues"));
     return testSuite;
   }
@@ -569,6 +571,36 @@ public class ChangeSummaryTest extends TestCase
     
     DataObject oldContainerShipToContainer = log.getOldContainer((DataObject)shipToAddress);
     assertEquals(oldContainerShipToContainer, purchaseOrder);
+  }
+  
+  public void testOpenContentOldContainer()
+  {
+    EDataGraph dataGraph = new MyDataGraphImpl();
+    ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(dataGraph.getResourceSet().getPackageRegistry());
+    
+    EDataObjectAnyType parent = SDOFactory.eINSTANCE.createEDataObjectAnyType();
+    EDataObjectAnyType child1 = SDOFactory.eINSTANCE.createEDataObjectAnyType();
+    EDataObjectAnyType child2 = SDOFactory.eINSTANCE.createEDataObjectAnyType();
+    
+    EStructuralFeature childFeature1 = extendedMetaData.demandFeature("namespace", "child1", true);
+    EStructuralFeature childFeature2 = extendedMetaData.demandFeature("namespace", "child2", true);
+    
+
+    dataGraph.setERootObject(parent);
+    parent.getAny().add(childFeature1, child1);
+    
+    //Removing the object from the resource
+    EChangeSummary log = (EChangeSummary)dataGraph.getChangeSummary();
+    log.beginLogging();
+    parent.getAny().add(childFeature2, child2);
+    parent.getAny().remove(0);
+    log.endLogging();
+    
+    DataObject oldContainerBillToContainer = log.getOldContainer(child2);
+    assertNull(oldContainerBillToContainer);
+    
+    DataObject oldContainerShipToContainer = log.getOldContainer(child1);
+    assertEquals(oldContainerShipToContainer, parent);
   }
 
   /**
