@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.65 2006/12/18 22:04:23 marcelop Exp $
+ * $Id: XMLHandler.java,v 1.66 2007/02/03 18:27:18 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -323,6 +323,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected boolean needsPushContext;
   protected XMLResource.ResourceEntityHandler resourceEntityHandler;
   protected XMLResource.URIHandler uriHandler;
+  protected EObject documentRoot;
 
   /**
    */
@@ -618,6 +619,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     urisToLocations = null;
     resourceEntityHandler = null;
     uriHandler = null;
+    documentRoot = null;
   }
 
   //
@@ -1224,7 +1226,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       }
     }
     
-    EObject documentRoot= createDocumentRoot(prefix, uri, name, eFactory, top);
+    documentRoot= createDocumentRoot(prefix, uri, name, eFactory, top);
     
     if (documentRoot != null) return documentRoot;
     
@@ -1351,7 +1353,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    */
   @Override
   public void endElement(String uri, String localName, String name)
-  {   
+  {
     elements.pop();
     Object type = types.pop();
     if (type == OBJECT_TYPE)
