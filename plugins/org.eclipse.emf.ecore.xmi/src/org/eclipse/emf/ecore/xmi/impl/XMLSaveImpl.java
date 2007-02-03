@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.67 2006/12/10 14:06:37 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.68 2007/02/03 13:32:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -252,7 +252,7 @@ public class XMLSaveImpl implements XMLSave
     this.xmlResource = null;
   }
 
-  private void endSave(List<EObject> contents) throws IOException
+  protected void endSave(List<EObject> contents) throws IOException
   {
     if (extendedMetaData != null && contents.size() >= 1)
     {
@@ -2881,7 +2881,7 @@ public class XMLSaveImpl implements XMLSave
     return svalue;
   }
   
-  private void saveElement(EObject o, Object value, EStructuralFeature f)
+  protected void saveElement(EObject o, Object value, EStructuralFeature f)
   {
     if (value == null)
     {
