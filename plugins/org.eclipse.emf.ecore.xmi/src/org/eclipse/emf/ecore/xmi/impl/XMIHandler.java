@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIHandler.java,v 1.11 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMIHandler.java,v 1.12 2007/02/03 18:26:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -28,6 +28,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -146,5 +148,18 @@ public abstract class XMIHandler extends XMLHandler
     {
       super.handleUnknownFeature(prefix, name, isElement, peekObject, value);
     }
+  }
+
+  @Override
+  public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException
+  {
+    if (documentRoot != null && objects.peekEObject() == documentRoot)
+    {
+      types.pop();
+      objects.pop();
+      mixedTargets.pop();
+      documentRoot= null;
+    }
+    super.startElement(uri, localName, name, attributes);
   }
 } // XMIHandler
