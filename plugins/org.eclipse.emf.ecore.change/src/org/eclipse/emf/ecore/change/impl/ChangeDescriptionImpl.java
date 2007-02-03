@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.18 2007/01/29 18:56:46 marcelop Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.19 2007/02/03 13:28:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -536,7 +536,24 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         for (FeatureChange featureChange : featureChanges)
         {
           EStructuralFeature feature = featureChange.getFeature();
-          if (feature instanceof EReference && ((EReference)feature).isContainment())
+          if (FeatureMapUtil.isFeatureMap(feature))
+          {
+            EObject container = entry.getKey();
+            @SuppressWarnings("unchecked") List<FeatureMap.Entry> featureMap = (List<FeatureMap.Entry>)featureChange.getValue();
+            for (FeatureMap.Entry featureMapEntry : featureMap)
+            {
+              EStructuralFeature featureMapEntryFeature = featureMapEntry.getEStructuralFeature();
+              if (featureMapEntryFeature instanceof EReference && ((EReference)featureMapEntryFeature).isContainment())
+              {
+                EObject eObject = (EObject)featureMapEntry.getValue();
+                if (eObject != null && (eObject.eContainer() != container || eObject.eContainmentFeature() != featureMapEntryFeature))
+                {
+                  containmentInformation.put(eObject, new OldContainmentInformation(container, (EReference)featureMapEntryFeature));
+                }
+              }
+            }
+          }
+          else if (feature instanceof EReference && ((EReference)feature).isContainment())
           {
             EObject container = entry.getKey();
             if (feature.isMany())
