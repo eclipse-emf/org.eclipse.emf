@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterWizard.java,v 1.3 2006/04/10 19:34:05 marcelop Exp $
+ * $Id: ModelConverterWizard.java,v 1.3.2.1 2007/02/05 21:46:52 emerks Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -31,6 +31,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -309,6 +310,9 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
   protected void openEditor(IFile file) throws PartInitException
   {
     IWorkbenchPage page = getWorkbench().getActiveWorkbenchWindow().getActivePage();
-    page.openEditor(new FileEditorInput(file), getWorkbench().getEditorRegistry().getDefaultEditor(file.getFullPath().toString()).getId());
+    IEditorDescriptor defaultEditor = getWorkbench().getEditorRegistry().getDefaultEditor(file.getFullPath().toString());
+    page.openEditor
+      (new FileEditorInput(file), 
+       defaultEditor == null ? "org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditorID" : defaultEditor.getId());
   }
 }
