@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.14 2006/12/28 06:47:17 marcelop Exp $
+ * $Id: EcoreModelWizard.java,v 1.15 2007/02/05 21:49:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -49,6 +49,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -282,10 +283,12 @@ public class EcoreModelWizard extends Wizard implements INewWizard
       //
       try
       {
+        IEditorDescriptor defaultEditor = 
+          workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString());
         page.openEditor
           (new FileEditorInput(modelFile),
-           workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
-      }
+           defaultEditor == null ? "org.eclipse.emf.ecore.presentation.EcoreEditorID" : defaultEditor.getId());
+       }
       catch (PartInitException exception)
       {
         MessageDialog.openError(workbenchWindow.getShell(), EcoreEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
