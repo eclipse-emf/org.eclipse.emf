@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporter.java,v 1.10 2006/12/28 06:53:55 marcelop Exp $
+ * $Id: EcoreImporter.java,v 1.11 2007/02/05 21:58:12 emerks Exp $
  */
 package org.eclipse.emf.importer.ecore;
 
@@ -25,10 +25,13 @@ import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.converter.ConverterPlugin;
+import org.eclipse.emf.converter.util.ConverterUtil;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.importer.ModelImporter;
 
@@ -71,6 +74,21 @@ public class EcoreImporter extends ModelImporter
       for (Resource resource : ecoreResourceSet.getResources())
       {
         getEPackages().addAll(EcoreUtil.<EPackage>getObjectsByType(resource.getContents(), EcorePackage.Literals.EPACKAGE));
+      }
+
+      BasicDiagnostic diagnosticChain = 
+        new BasicDiagnostic
+          (ConverterPlugin.ID,
+           ConverterUtil.ACTION_MESSAGE_NONE,
+           EcoreImporterPlugin.INSTANCE.getString("_UI_ErrorsWereDetectedEcore_message"),
+           null);
+      for (EPackage ePackage : getEPackages())
+      {
+        Diagnostician.INSTANCE.validate(ePackage, diagnosticChain);
+      }
+      if (diagnosticChain.getSeverity() != Diagnostic.OK)
+      {
+        diagnostic = diagnosticChain;
       }
     }
     return diagnostic;
