@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.21 2006/07/18 05:38:37 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.21.2.1 2007/02/07 16:45:14 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -59,6 +59,7 @@ import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
 import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
 import org.eclipse.emf.test.core.featuremap.supplier.SupplierFactory;
 import org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage;
+import org.eclipse.emf.test.models.customer.CustomerPackage;
 
 public class SpecialCasesTest  extends TestCase
 {
@@ -85,6 +86,7 @@ public class SpecialCasesTest  extends TestCase
     ts.addTest(new SpecialCasesTest("testLoadChangeDescritpions"));
     ts.addTest(new SpecialCasesTest("testEnumeration"));
     ts.addTest(new SpecialCasesTest("testNoChange"));
+    ts.addTest(new SpecialCasesTest("testFeatureMapWithSingleValuedFeature"));
     return ts;
   }
 
@@ -1246,4 +1248,44 @@ public class SpecialCasesTest  extends TestCase
     assertEquals(beth, johnFriends.get(4));
     assertTrue(johnEnemies.isEmpty());
   }  
+
+  public void testFeatureMapWithSingleValuedFeature()
+  {
+    EPackage ePackage = (EPackage)EcoreUtil.copy(CustomerPackage.eINSTANCE);
+    EClass customersType = (EClass)ePackage.getEClassifier("CustomersType");
+    EReference customerFeature = (EReference)customersType.getEStructuralFeature("customer");
+    customerFeature.setUpperBound(1);
+    
+    EObject eObject = EcoreUtil.create(customersType);
+    EObject child1 = EcoreUtil.create(customerFeature.getEReferenceType());
+    eObject.eSet(customerFeature, child1);
+    ChangeRecorder changeRecorder = new ChangeRecorder(eObject);
+    EObject child2 = EcoreUtil.create(customerFeature.getEReferenceType());
+    eObject.eSet(customerFeature, child2);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    changeDescription.applyAndReverse();
+    assertEquals(child1, eObject.eGet(customerFeature));
+    changeDescription.apply();
+    assertEquals(child2, eObject.eGet(customerFeature));
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
