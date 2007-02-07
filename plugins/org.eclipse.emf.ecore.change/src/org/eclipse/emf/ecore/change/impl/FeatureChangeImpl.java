@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.28 2007/01/29 18:59:45 marcelop Exp $
+ * $Id: FeatureChangeImpl.java,v 1.29 2007/02/07 16:49:39 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -44,6 +44,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -515,7 +517,33 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       {
         if (listChanges != null)
         {
-          if (internalFeature.isFeatureMap() || internalFeature.getEOpposite() != null || internalFeature.isContainment())
+          if (internalFeature.isFeatureMap())
+          {
+            @SuppressWarnings("unchecked") FeatureMap.Internal result = (FeatureMap.Internal)originalObject.eGet(internalFeature);
+            @SuppressWarnings("unchecked") EList<FeatureMap.Entry.Internal> prototype = (EList<FeatureMap.Entry.Internal>)getValue();
+            EList<FeatureMap.Entry> featureMapEntryList = new BasicEList<FeatureMap.Entry>(prototype.size());
+            for (FeatureMap.Entry.Internal entry : prototype)
+            {
+              Object entryValue = entry.getValue();
+              // Create a proper feature map entry.
+              //
+              entry = entry.createEntry(entryValue);
+              featureMapEntryList.add(entry);
+              EStructuralFeature entryFeature = entry.getEStructuralFeature();
+              if (!FeatureMapUtil.isMany(originalObject, entry.getEStructuralFeature()))
+              {
+                for (int i = 0, size = result.size(); i < size; ++i)
+                {
+                  if (result.getEStructuralFeature(i) == entryFeature && !(entryValue == null ? result.getValue(i) == null : entryValue.equals(result.getValue(i))))
+                  {
+                    result.set(i, entry);
+                  }
+                }
+              }
+            }
+            ECollections.setEList(result, featureMapEntryList);
+          }
+          else if (internalFeature.isFeatureMap() || internalFeature.getEOpposite() != null || internalFeature.isContainment())
           {
             // Bi-directional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
