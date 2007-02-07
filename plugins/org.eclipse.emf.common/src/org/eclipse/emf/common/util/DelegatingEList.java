@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEList.java,v 1.7 2006/12/05 20:19:56 emerks Exp $
+ * $Id: DelegatingEList.java,v 1.8 2007/02/07 18:04:40 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -1687,10 +1687,10 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
     }
     else
     {
-      Collection<E> filteredResult = new BasicEList<E>(collection.size());
+      Collection<E> filteredResult = useEquals() ? new BasicEList<E>(collection.size()) : new BasicEList.FastCompare<E>(collection.size());
       for (E object : this)
       {
-        if (!collection.contains(object))
+        if (collection.contains(object))
         {
           filteredResult.add(object);
         }
@@ -1706,7 +1706,7 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
    */
   protected Collection<E> getNonDuplicates(Collection<? extends E> collection)
   {
-    Collection<E> result = new UniqueEList<E>(collection.size());
+    Collection<E> result = useEquals() ?  new UniqueEList<E>(collection.size()) : new UniqueEList.FastCompare<E>(collection.size());
     for (E object : collection)
     {
       if (!contains(object))
