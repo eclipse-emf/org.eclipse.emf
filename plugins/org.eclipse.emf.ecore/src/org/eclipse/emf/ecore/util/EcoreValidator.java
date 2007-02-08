@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.6 2007/01/26 22:13:24 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.7 2007/02/08 21:18:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1292,7 +1292,7 @@ public class EcoreValidator extends EObjectValidator
   {
     boolean startedIdentifier = false;
     boolean startedBrackets = false;
-    for (int i = 0, length = instanceTypeName.length(); i < length; i = instanceTypeName.offsetByCodePoints(i, 1))
+    for (int i = 0, length = instanceTypeName.length(); i < length; i = Character.offsetByCodePoints(instanceTypeName, i, 1))
     {
       int codePoint = instanceTypeName.codePointAt(i);
       if (codePoint == '[')
@@ -1345,7 +1345,7 @@ public class EcoreValidator extends EObjectValidator
   {
     int start = 0;
     int depth = 0;
-    for (int i = 0, length = typeArguments.length(); i < length; i = typeArguments.offsetByCodePoints(i, 1))
+    for (int i = 0, length = typeArguments.length(); i < length; i = Character.offsetByCodePoints(typeArguments, i, 1))
     {
       int character = typeArguments.codePointAt(i);
       switch (character)
@@ -1652,7 +1652,7 @@ public class EcoreValidator extends EObjectValidator
       if (length > 0 && Character.isJavaIdentifierStart(name.codePointAt(0)))
       {
         result = true;
-        for (int i = name.offsetByCodePoints(0, 1); i < length; i = name.offsetByCodePoints(i, 1))
+        for (int i = Character.offsetByCodePoints(name, 0, 1); i < length; i = Character.offsetByCodePoints(name, i, 1))
         {
           if (!Character.isJavaIdentifierPart(name.codePointAt(i)))
           {
