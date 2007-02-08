@@ -15,27 +15,30 @@ public class DiagnosticTestGen
   }
 
   protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
-  protected final String TEXT_1 = NL + "import java.util.Iterator;" + NL + "" + NL + "import junit.framework.Test;" + NL + "import junit.framework.TestCase;" + NL + "import junit.framework.TestSuite;" + NL + "" + NL + "import org.eclipse.emf.common.util.AbstractTreeIterator;" + NL + "import org.eclipse.emf.common.util.Diagnostic;" + NL + "import org.eclipse.emf.common.util.TreeIterator;" + NL + "import org.eclipse.emf.common.util.URI;" + NL + "import org.eclipse.emf.ecore.EPackage;" + NL + "import org.eclipse.emf.ecore.resource.Resource;" + NL + "import org.eclipse.emf.ecore.util.Diagnostician;" + NL + "import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;" + NL + "import org.eclipse.emf.test.common.TestUtil;" + NL + "" + NL + "public class DiagnosticTest extends TestCase" + NL + "{" + NL + "\tprotected Diagnostic diagnostic;" + NL + "\t" + NL + "\tpublic DiagnosticTest(String name)" + NL + "\t{" + NL + "\t\tsuper(name);" + NL + "\t}" + NL + "\t" + NL + "\tpublic static Test suite()" + NL + "\t{" + NL + "\t\tTestSuite ts = new TestSuite(\"DianosticTest\");" + NL + "\t\tts.addTest(new DiagnosticTest(\"testDiagnostic\"));" + NL + "\t\treturn ts;" + NL + "\t}" + NL + "\t" + NL + "\t@Override" + NL + "\tprotected void setUp() throws Exception" + NL + "\t{" + NL + "\t\t//TODO:Instantiates the diagnostic here" + NL + "\t\t" + NL + "\t\tassertNotNull(diagnostic);" + NL + "\t}" + NL + "\t" + NL + "\tpublic void testDiagnostic() throws Exception" + NL + "\t{" + NL + "\t\tTreeIterator<Diagnostic> diagnosticIterator = new AbstractTreeIterator<Diagnostic>(diagnostic)" + NL + "\t\t{" + NL + "\t\t\tprivate static final long serialVersionUID = 1L;" + NL + "\t\t\t@Override" + NL + "\t\t\tprotected Iterator<? extends Diagnostic> getChildren(Object object)" + NL + "\t\t\t{" + NL + "\t\t\t\treturn ((Diagnostic)object).getChildren().iterator();" + NL + "\t\t\t}" + NL + "\t\t};" + NL + "" + NL + "\t";
-  protected final String TEXT_2 = NL + "\t\tDiagnostic diagnostic";
-  protected final String TEXT_3 = " = diagnosticIterator.next();" + NL + "\t\tassertEquals(";
-  protected final String TEXT_4 = ", diagnostic";
-  protected final String TEXT_5 = ".getSeverity());" + NL + "\t\tassertEquals(";
-  protected final String TEXT_6 = ", diagnostic";
-  protected final String TEXT_7 = ".getSource());" + NL + "\t\tassertEquals(";
-  protected final String TEXT_8 = ", trimSpecificPath(removeObjectHashCode(diagnostic";
-  protected final String TEXT_9 = ".getMessage())));" + NL + "\t\tassertEquals(";
-  protected final String TEXT_10 = ", diagnostic";
-  protected final String TEXT_11 = ".getCode());" + NL + "\t\tassertEquals(";
-  protected final String TEXT_12 = ", diagnostic";
-  protected final String TEXT_13 = ".getChildren().size());" + NL + "\t\tassertEquals(";
-  protected final String TEXT_14 = ", diagnostic";
-  protected final String TEXT_15 = ".getData().size());" + NL + "\t\t";
-  protected final String TEXT_16 = "assertEquals(";
-  protected final String TEXT_17 = ", toString(diagnostic";
-  protected final String TEXT_18 = ".getException()));" + NL + "\t\t";
-  protected final String TEXT_19 = "assertNull(diagnostic";
-  protected final String TEXT_20 = ".getException());";
-  protected final String TEXT_21 = NL + "\t\t" + NL + "\t\tassertFalse(diagnosticIterator.hasNext());" + NL + "\t}" + NL + "\t" + NL + "\tprotected String toString(Throwable throwable)" + NL + "\t{" + NL + "\t\tStringBuilder sb = new StringBuilder();" + NL + "\t\tsb.append(throwable.getClass().getName());" + NL + "\t\tsb.append(\"#\").append(throwable.getMessage());" + NL + "" + NL + "\t\tThrowable cause = throwable.getCause();" + NL + "\t\tif (cause != null && cause != throwable)" + NL + "\t\t{" + NL + "\t\t\tsb.append(\"--\").append(toString(cause));" + NL + "\t\t}" + NL + "\t\treturn sb.toString();" + NL + "\t}" + NL + "\t" + NL + "\tprotected String removeObjectHashCode(String string)" + NL + "\t{" + NL + "\t\treturn string.replaceAll(\"@\\\\w+\", \"\");" + NL + "\t}" + NL + "\t" + NL + "\tprotected String trimSpecificPath(String path)" + NL + "\t{" + NL + "\t\t//TODO: replace the strings by the appropriate values for the test." + NL + "\t\t//" + NL + "\t\tint index1 = path.indexOf(\"file:/\");" + NL + "\t\tif (index1 >= 0)" + NL + "\t\t{" + NL + "\t\t\tint index2 = path.indexOf(\"/org.eclipse.emf.test.core\", index1);" + NL + "\t\t\tif (index2 > 0)" + NL + "\t\t\t{" + NL + "\t\t\t\tpath = path.substring(0, index1) + path.substring(index2);" + NL + "\t\t\t\tpath = trimSpecificPath(path);" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t\treturn path;" + NL + "\t}\t" + NL + "}";
+  protected final String TEXT_1 = NL + "import java.util.Iterator;" + NL + "" + NL + "import junit.framework.Test;" + NL + "import junit.framework.TestCase;" + NL + "import junit.framework.TestSuite;" + NL + "" + NL + "import org.eclipse.emf.common.util.AbstractTreeIterator;" + NL + "import org.eclipse.emf.common.util.Diagnostic;" + NL + "import org.eclipse.emf.common.util.TreeIterator;" + NL + "import org.eclipse.emf.common.util.URI;" + NL + "import org.eclipse.emf.ecore.EPackage;" + NL + "import org.eclipse.emf.ecore.resource.Resource;" + NL + "import org.eclipse.emf.ecore.util.Diagnostician;" + NL + "import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;" + NL + "import org.eclipse.emf.test.common.TestUtil;" + NL + "" + NL + "public class ";
+  protected final String TEXT_2 = "DiagnosticTest extends TestCase" + NL + "{" + NL + "\tprotected Diagnostic diagnostic;" + NL + "\t" + NL + "\tpublic ";
+  protected final String TEXT_3 = "DiagnosticTest(String name)" + NL + "\t{" + NL + "\t\tsuper(name);" + NL + "\t}" + NL + "\t" + NL + "\tpublic static Test suite()" + NL + "\t{" + NL + "\t\tTestSuite ts = new TestSuite(\"DianosticTest\");" + NL + "\t\tts.addTest(new ";
+  protected final String TEXT_4 = "DiagnosticTest(\"testDiagnostic\"));" + NL + "\t\treturn ts;" + NL + "\t}" + NL + "\t" + NL + "\t@Override" + NL + "\tprotected void setUp() throws Exception" + NL + "\t{" + NL + "\t\t//TODO:Instantiates the diagnostic here" + NL + "\t\t" + NL + "\t\tassertNotNull(diagnostic);" + NL + "\t}" + NL + "\t" + NL + "\tpublic void testDiagnostic() throws Exception" + NL + "\t{" + NL + "\t\tTreeIterator<Diagnostic> diagnosticIterator = new AbstractTreeIterator<Diagnostic>(diagnostic)" + NL + "\t\t{" + NL + "\t\t\tprivate static final long serialVersionUID = 1L;" + NL + "\t\t\t@Override" + NL + "\t\t\tprotected Iterator<? extends Diagnostic> getChildren(Object object)" + NL + "\t\t\t{" + NL + "\t\t\t\treturn ((Diagnostic)object).getChildren().iterator();" + NL + "\t\t\t}" + NL + "\t\t};" + NL + "" + NL + "\t";
+  protected final String TEXT_5 = NL + "\t\tDiagnostic diagnostic";
+  protected final String TEXT_6 = " = diagnosticIterator.next();" + NL + "\t\tassertEquals(";
+  protected final String TEXT_7 = ", diagnostic";
+  protected final String TEXT_8 = ".getSeverity());" + NL + "\t\tassertEquals(";
+  protected final String TEXT_9 = ", diagnostic";
+  protected final String TEXT_10 = ".getSource());" + NL + "\t\tassertEquals(";
+  protected final String TEXT_11 = ", removeObjectHashCode(diagnostic";
+  protected final String TEXT_12 = ".getMessage()));" + NL + "\t\tassertEquals(";
+  protected final String TEXT_13 = ", diagnostic";
+  protected final String TEXT_14 = ".getCode());" + NL + "\t\tassertEquals(";
+  protected final String TEXT_15 = ", diagnostic";
+  protected final String TEXT_16 = ".getChildren().size());" + NL + "\t\tassertEquals(";
+  protected final String TEXT_17 = ", diagnostic";
+  protected final String TEXT_18 = ".getData().size());" + NL + "\t\t";
+  protected final String TEXT_19 = "assertEquals(";
+  protected final String TEXT_20 = ", toString(diagnostic";
+  protected final String TEXT_21 = ".getException()));" + NL + "\t\t";
+  protected final String TEXT_22 = "assertNull(diagnostic";
+  protected final String TEXT_23 = ".getException());";
+  protected final String TEXT_24 = NL + "\t\t" + NL + "\t\tassertFalse(diagnosticIterator.hasNext());" + NL + "\t}" + NL + "\t" + NL + "\tprotected String toString(Throwable throwable)" + NL + "\t{" + NL + "\t\tStringBuilder sb = new StringBuilder();" + NL + "\t\tsb.append(throwable.getClass().getName());" + NL + "\t\tsb.append(\"#\").append(throwable.getMessage());" + NL + "" + NL + "\t\tThrowable cause = throwable.getCause();" + NL + "\t\tif (cause != null && cause != throwable)" + NL + "\t\t{" + NL + "\t\t\tsb.append(\"--\").append(toString(cause));" + NL + "\t\t}" + NL + "\t\treturn sb.toString();" + NL + "\t}" + NL + "\t" + NL + "\tprotected String removeObjectHashCode(String string)" + NL + "\t{" + NL + "\t\treturn string.replaceAll(\"@\\\\w+\", \"\");" + NL + "\t}" + NL + "}";
 
   public String generate(Object argument)
   {
@@ -57,7 +60,8 @@ public class DiagnosticTestGen
  */
 
     
-  Diagnostic rootDiagnostic = (Diagnostic)argument;
+  String name = (String)((Object[])argument)[0];
+  Diagnostic rootDiagnostic = (Diagnostic)((Object[])argument)[1];
   TreeIterator<Diagnostic> diagnosticIterator = new AbstractTreeIterator<Diagnostic>(rootDiagnostic)
   {
     private static final long serialVersionUID = 1L;
@@ -117,46 +121,52 @@ public class DiagnosticTestGen
   Helper helper = new Helper();
 
     stringBuffer.append(TEXT_1);
-    int count=0; while(diagnosticIterator.hasNext()){Diagnostic diagnostic = diagnosticIterator.next(); count++;
+    stringBuffer.append(name);
     stringBuffer.append(TEXT_2);
-    stringBuffer.append(count);
+    stringBuffer.append(name);
     stringBuffer.append(TEXT_3);
-    stringBuffer.append(helper.getDiagnosticSeverity(diagnostic.getSeverity()));
+    stringBuffer.append(name);
     stringBuffer.append(TEXT_4);
-    stringBuffer.append(count);
+    int count=0; while(diagnosticIterator.hasNext()){Diagnostic diagnostic = diagnosticIterator.next(); count++;
     stringBuffer.append(TEXT_5);
-    stringBuffer.append(helper.toCodeString(diagnostic.getSource()));
+    stringBuffer.append(count);
     stringBuffer.append(TEXT_6);
-    stringBuffer.append(count);
+    stringBuffer.append(helper.getDiagnosticSeverity(diagnostic.getSeverity()));
     stringBuffer.append(TEXT_7);
-    stringBuffer.append(helper.removeObjectHashCode(helper.toCodeString(diagnostic.getMessage())));
+    stringBuffer.append(count);
     stringBuffer.append(TEXT_8);
-    stringBuffer.append(count);
+    stringBuffer.append(helper.toCodeString(diagnostic.getSource()));
     stringBuffer.append(TEXT_9);
-    stringBuffer.append(diagnostic.getCode());
+    stringBuffer.append(count);
     stringBuffer.append(TEXT_10);
-    stringBuffer.append(count);
+    stringBuffer.append(helper.removeObjectHashCode(helper.toCodeString(diagnostic.getMessage())));
     stringBuffer.append(TEXT_11);
-    stringBuffer.append(diagnostic.getChildren().size());
+    stringBuffer.append(count);
     stringBuffer.append(TEXT_12);
-    stringBuffer.append(count);
+    stringBuffer.append(diagnostic.getCode());
     stringBuffer.append(TEXT_13);
-    stringBuffer.append(diagnostic.getData().size());
-    stringBuffer.append(TEXT_14);
     stringBuffer.append(count);
+    stringBuffer.append(TEXT_14);
+    stringBuffer.append(diagnostic.getChildren().size());
     stringBuffer.append(TEXT_15);
-    Throwable throwable = diagnostic.getException(); if (throwable != null) {
+    stringBuffer.append(count);
     stringBuffer.append(TEXT_16);
-    stringBuffer.append(helper.toCodeString(helper.toString(diagnostic.getException())));
+    stringBuffer.append(diagnostic.getData().size());
     stringBuffer.append(TEXT_17);
     stringBuffer.append(count);
     stringBuffer.append(TEXT_18);
-    } else {
+    Throwable throwable = diagnostic.getException(); if (throwable != null) {
     stringBuffer.append(TEXT_19);
-    stringBuffer.append(count);
+    stringBuffer.append(helper.toCodeString(helper.toString(diagnostic.getException())));
     stringBuffer.append(TEXT_20);
-    } if (diagnosticIterator.hasNext()) {stringBuffer.append(NL);}}
+    stringBuffer.append(count);
     stringBuffer.append(TEXT_21);
+    } else {
+    stringBuffer.append(TEXT_22);
+    stringBuffer.append(count);
+    stringBuffer.append(TEXT_23);
+    } if (diagnosticIterator.hasNext()) {stringBuffer.append(NL);}}
+    stringBuffer.append(TEXT_24);
     return stringBuffer.toString();
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TemplateGenerator.java,v 1.1 2007/01/26 13:59:40 marcelop Exp $
+ * $Id: TemplateGenerator.java,v 1.2 2007/02/08 21:18:49 emerks Exp $
  */
 package org.eclipse.emf.test.common.templates;
 
@@ -22,6 +22,8 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
@@ -33,14 +35,17 @@ public class TemplateGenerator
 {
   public static String diagnosticTemplate(Diagnostic diagnostic)
   {
-    return new DiagnosticTestGen().generate(diagnostic);
+    return new DiagnosticTestGen().generate(new Object [] { "BadEcore", diagnostic });
   }
   
   public static Diagnostic diagnoseBadEcore() throws IOException
   {
-    URI uri = URI.createFileURI(TestUtil.getPluginDirectory("org.eclipse.emf.test.core") + "/data/Bad.ecore");
-    Resource ecoreResource = new EcoreResourceFactoryImpl().createResource(uri);
-    ecoreResource.load(null);
+    ResourceSet resourceSet = new ResourceSetImpl();
+    URI logicalURI = URI.createPlatformPluginURI("platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore", false);
+    URI physicalURI = URI.createFileURI(TestUtil.getPluginDirectory("org.eclipse.emf.test.core") + "/data/Bad.ecore");
+    resourceSet.getURIConverter().getURIMap().put(logicalURI, physicalURI);
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
+    Resource ecoreResource = resourceSet.getResource(logicalURI, true);
     EPackage badPackage = (EPackage)ecoreResource.getContents().get(0);
     
     return Diagnostician.INSTANCE.validate(badPackage);
@@ -52,7 +57,7 @@ public class TemplateGenerator
     try
     {
       diagnostic = diagnoseBadEcore();
-      System.out.println(diagnosticTemplate(diagnostic));
+      System.out.println(diagnosticTemplate(diagnostic).replaceAll("\t", "  "));
     }
     catch (IOException e)
     {

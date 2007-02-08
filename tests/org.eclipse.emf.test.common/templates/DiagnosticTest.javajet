@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.test.common.templates" imports="java.util.* org.eclipse.emf.common.util.*" class="DiagnosticTestGen" version="$Id: DiagnosticTest.javajet,v 1.2 2007/01/28 16:35:28 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.test.common.templates" imports="java.util.* org.eclipse.emf.common.util.*" class="DiagnosticTestGen" version="$Id: DiagnosticTest.javajet,v 1.3 2007/02/08 21:18:49 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -16,7 +16,8 @@
  */
 %>
 <%
-  Diagnostic rootDiagnostic = (Diagnostic)argument;
+  String name = (String)((Object[])argument)[0];
+  Diagnostic rootDiagnostic = (Diagnostic)((Object[])argument)[1];
   TreeIterator<Diagnostic> diagnosticIterator = new AbstractTreeIterator<Diagnostic>(rootDiagnostic)
   {
     private static final long serialVersionUID = 1L;
@@ -92,11 +93,11 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.test.common.TestUtil;
 
-public class DiagnosticTest extends TestCase
+public class <%=name%>DiagnosticTest extends TestCase
 {
 	protected Diagnostic diagnostic;
 	
-	public DiagnosticTest(String name)
+	public <%=name%>DiagnosticTest(String name)
 	{
 		super(name);
 	}
@@ -104,7 +105,7 @@ public class DiagnosticTest extends TestCase
 	public static Test suite()
 	{
 		TestSuite ts = new TestSuite("DianosticTest");
-		ts.addTest(new DiagnosticTest("testDiagnostic"));
+		ts.addTest(new <%=name%>DiagnosticTest("testDiagnostic"));
 		return ts;
 	}
 	
@@ -132,7 +133,7 @@ public class DiagnosticTest extends TestCase
 		Diagnostic diagnostic<%=count%> = diagnosticIterator.next();
 		assertEquals(<%=helper.getDiagnosticSeverity(diagnostic.getSeverity())%>, diagnostic<%=count%>.getSeverity());
 		assertEquals(<%=helper.toCodeString(diagnostic.getSource())%>, diagnostic<%=count%>.getSource());
-		assertEquals(<%=helper.removeObjectHashCode(helper.toCodeString(diagnostic.getMessage()))%>, trimSpecificPath(removeObjectHashCode(diagnostic<%=count%>.getMessage())));
+		assertEquals(<%=helper.removeObjectHashCode(helper.toCodeString(diagnostic.getMessage()))%>, removeObjectHashCode(diagnostic<%=count%>.getMessage()));
 		assertEquals(<%=diagnostic.getCode()%>, diagnostic<%=count%>.getCode());
 		assertEquals(<%=diagnostic.getChildren().size()%>, diagnostic<%=count%>.getChildren().size());
 		assertEquals(<%=diagnostic.getData().size()%>, diagnostic<%=count%>.getData().size());
@@ -160,21 +161,4 @@ public class DiagnosticTest extends TestCase
 	{
 		return string.replaceAll("@\\w+", "");
 	}
-	
-	protected String trimSpecificPath(String path)
-	{
-		//TODO: replace the strings by the appropriate values for the test.
-		//
-		int index1 = path.indexOf("file:/");
-		if (index1 >= 0)
-		{
-			int index2 = path.indexOf("/org.eclipse.emf.test.core", index1);
-			if (index2 > 0)
-			{
-				path = path.substring(0, index1) + path.substring(index2);
-				path = trimSpecificPath(path);
-			}
-		}
-		return path;
-	}	
 }
