@@ -64,20 +64,20 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="TwoOperationsWithMatchingSignatures">
       <eOperations name="f">
-        <eParameters name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//HexBinary"/>
+        <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//HexBinary"/>
       </eOperations>
       <eOperations name="f">
-        <eParameters name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//Base64Binary"/>
+        <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Base64Binary"/>
       </eOperations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="C">
       <eOperations name="f">
-        <eParameters name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//HexBinary"/>
+        <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//HexBinary"/>
       </eOperations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="D">
       <eOperations name="f">
-        <eParameters name="x" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//Base64Binary"/>
+        <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Base64Binary"/>
       </eOperations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="TwoInheritedOperationsWithMatchingSignatures"
@@ -384,7 +384,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="ReferenceWithKeyNotFromReferenceType">
       <eStructuralFeatures xsi:type="ecore:EReference" name="r" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
           eKeys="#//key/ReferenceWithKeyNotFromReferenceType/a"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="substitution" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//substitution"
