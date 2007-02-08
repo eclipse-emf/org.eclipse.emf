@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.20 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.21 2007/02/08 16:58:03 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2216,7 +2216,7 @@ public abstract class XSDConcreteComponentImpl
         {
           // Ignore.
         }
-        List<XSDDiagnostic> theDiagnostics = ((XSDConcreteComponent)result).getDiagnostics();
+        List<XSDDiagnostic> theDiagnostics = getDiagnostics();
         if (theDiagnostics.size() > diagnosticIndex)
         {
           result = theDiagnostics.get(diagnosticIndex);
@@ -2231,7 +2231,7 @@ public abstract class XSDConcreteComponentImpl
         if (prefix.equals(","))
         {
           String relationName = sort;
-          eReference = (EReference)result.eClass().getEStructuralFeature(relationName);
+          eReference = (EReference)eClass().getEStructuralFeature(relationName);
           sort = stringTokenizer.nextToken();
           prefix = stringTokenizer.nextToken();
         }
