@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.21 2006/12/09 18:18:36 emerks Exp $
+ * $Id: XMLLoadImpl.java,v 1.22 2007/02/10 13:21:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -119,9 +119,10 @@ public class XMLLoadImpl implements XMLLoad
     parserProperties = (parserProperties == null) ? Collections.<String, Object>emptyMap() : parserProperties;
 
     // HACK: reading encoding
+    String encoding = null;
     if (!Boolean.FALSE.equals(options.get(XMLResource.OPTION_USE_DEPRECATED_METHODS)))
     {
-      String encoding = getEncoding();
+      encoding = getEncoding();
       resource.setEncoding(encoding);
     }
     try
@@ -162,7 +163,7 @@ public class XMLLoadImpl implements XMLLoad
         String resourceURI = resource.getURI().toString();
         inputSource.setPublicId(resourceURI);
         inputSource.setSystemId(resourceURI);
-        inputSource.setEncoding(resource.getEncoding());
+        inputSource.setEncoding(encoding);
       }
     
       // set lexical handler
