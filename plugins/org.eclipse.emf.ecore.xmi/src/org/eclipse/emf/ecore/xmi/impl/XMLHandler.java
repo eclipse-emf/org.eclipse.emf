@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.60.2.1 2006/10/25 13:43:33 emerks Exp $
+ * $Id: XMLHandler.java,v 1.60.2.2 2007/02/10 13:15:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -775,6 +775,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected void setLocator(Object locator)
   {
     this.locator = (Locator)locator;
+  }
+
+  private void recordHeaderInformation()
+  {
     Class locatorClass = locator.getClass();
     try
     {
@@ -801,7 +805,6 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     catch (InvocationTargetException e)
     {
     }
-  
   }
 
   public void startDocument()
@@ -1056,7 +1059,9 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    * set them.
    */
   public void endDocument()
-  {    
+  {
+    recordHeaderInformation();
+
     if (deferredExtent != null)
     {
       extent.addAll(deferredExtent);
