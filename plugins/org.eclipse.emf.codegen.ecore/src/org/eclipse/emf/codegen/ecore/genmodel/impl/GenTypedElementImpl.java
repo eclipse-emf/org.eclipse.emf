@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.14 2006/12/29 21:56:24 marcelop Exp $
+ * $Id: GenTypedElementImpl.java,v 1.15 2007/02/12 13:51:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -638,7 +638,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     else if (upperBound == 1)
     {
       String typeName = getType(eTypedElement.getEType(), false);
-      if ("org.eclipse.emf.common.util.EList".equals(typeName) || "java.util.List".equals(typeName)) 
+      if ("org.eclipse.emf.common.util.EList".equals(typeName) || "java.util.List".equals(typeName) || "org.eclipse.emf.ecore.util.FeatureMap$Entry".equals(typeName)) 
       {
         appendModelSetting(result, qualified, "many", "false");
       }
