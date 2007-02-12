@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.23 2007/01/16 21:49:19 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.24 2007/02/12 18:46:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -560,14 +560,71 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       {
         // The instance class name is the erasure.
         //
-        basicSetInstanceClassName(newInstanceTypeName.substring(0, index));
+        String newInstanceClassName = newInstanceTypeName.substring(0, index);
+        
+        // If the name isn't a qualified name and isn't a primitive type, it's assumed to denote some arbitrary type parameter.
+        //
+        if (newInstanceTypeName.indexOf('.') == -1 &&
+              !newInstanceClassName.equals("boolean") &&
+              !newInstanceClassName.equals("byte") &&
+              !newInstanceClassName.equals("char") &&
+              !newInstanceClassName.equals("double") &&
+              !newInstanceClassName.equals("float") &&
+              !newInstanceClassName.equals("int") &&
+              !newInstanceClassName.equals("long") &&
+              !newInstanceClassName.equals("short"))
+        {
+          newInstanceClassName = "java.lang.Object";
+        }
+          
+        int end = newInstanceTypeName.lastIndexOf('>');
+        if (end != -1)
+        {
+          // Be sure to pick up any trailing [] brackets.
+          //
+          newInstanceClassName += newInstanceTypeName.substring(end + 1);
+        }
+        basicSetInstanceClassName(newInstanceClassName);
       }
       else
       {
+        String newInstanceClassName = newInstanceTypeName;
+        if (newInstanceTypeName.indexOf('.') == -1)
+        {
+          index = newInstanceTypeName.indexOf('[');
+          if (index != -1)
+          {
+            newInstanceClassName = newInstanceTypeName.substring(0, index);
+          }
+          if (!newInstanceClassName.equals("boolean") &&
+                !newInstanceClassName.equals("byte") &&
+                !newInstanceClassName.equals("char") &&
+                !newInstanceClassName.equals("double") &&
+                !newInstanceClassName.equals("float") &&
+                !newInstanceClassName.equals("int") &&
+                !newInstanceClassName.equals("long") &&
+                !newInstanceClassName.equals("short"))
+          {
+            newInstanceClassName = "java.lang.Object";
+            if (index != -1)
+            {
+              newInstanceClassName += newInstanceTypeName.substring(index);
+            }
+          }
+          else
+          {
+            newInstanceClassName = newInstanceTypeName;
+          }
+        }
+
         // We set it and get back the interned string.
         // This way, when instanceClassName == instanceTypeName we know we should serialize only the class name.
-        basicSetInstanceClassName(newInstanceTypeName);
-        instanceTypeName = instanceClassName;
+        //
+        basicSetInstanceClassName(newInstanceClassName);
+        if (newInstanceClassName == newInstanceTypeName)
+        {
+          instanceTypeName = instanceClassName;
+        }
       }
     }
     
