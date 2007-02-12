@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.55 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.56 2007/02/12 18:49:50 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1120,6 +1120,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    */
   protected String getType(EClassifier eType, boolean primitiveAsObject)
   {
+    return getType(eType, primitiveAsObject, false);
+    
+  }
+
+  protected String getType(EClassifier eType, boolean primitiveAsObject, boolean erased)
+  {
     if (eType instanceof EClass)
     {
       return findGenClass((EClass)eType).getQualifiedInterfaceName();
@@ -1149,7 +1155,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
 
-    return getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 ? eType.getInstanceClassName() : eType.getInstanceTypeName();
+    return 
+      getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50  || erased && !eType.getInstanceTypeName().contains(".") ? 
+        eType.getInstanceClassName() : 
+        eType.getInstanceTypeName();
   }
 
   /**
@@ -1195,7 +1204,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    */
   protected String getImportedType(EClassifier eType, boolean primitiveAsObject)
   {
-    String t = getType(eType, primitiveAsObject);
+    return getImportedType(eType, primitiveAsObject, false);
+  }
+
+  protected String getImportedType(EClassifier eType, boolean primitiveAsObject, boolean erased)
+  {
+    String t = getType(eType, primitiveAsObject, erased);
     return !primitiveAsObject && isPrimitiveType(eType) ? t : getGenModel().getImportedName(t);
   }
 

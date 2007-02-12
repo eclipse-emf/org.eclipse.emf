@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.23 2007/01/29 19:08:24 davidms Exp $
+ * $Id: GenDataTypeImpl.java,v 1.24 2007/02/12 18:49:50 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -220,7 +220,16 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   protected String getInternalQualifiedInstanceClassName(boolean includeTemplateArguments)
   {
     String name = includeTemplateArguments ? getEcoreDataType().getInstanceTypeName() : getEcoreDataType().getInstanceClassName();
-    if (name == null) name = "java.lang.Object";
+    if (name == null)
+    {
+      name = "java.lang.Object";
+    }
+    else if (!name.contains("."))
+    {
+      // Pick up the erased type because an unqualified type must be a type parameter or a primitive type.
+      //
+      name = getEcoreDataType().getInstanceClassName(); 
+    }
 
     if (name.equals("org.eclipse.emf.common.util.Enumerator"))
     {
@@ -388,7 +397,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public String getObjectInstanceClassName()
   {
-    return getImportedType(getEcoreDataType(), true);
+    return getImportedType(getEcoreDataType(), true, true);
   }
 
   public boolean isSerializable()
