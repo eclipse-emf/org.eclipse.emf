@@ -491,10 +491,12 @@ public class ItemProvider
     if (labelFeature.isPrimitiveType() && !labelFeature.getGenClass().isDynamic()) {
     stringBuffer.append(TEXT_95);
     stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getInterfaceWildTypeArguments());
     stringBuffer.append(TEXT_96);
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_97);
     stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getInterfaceWildTypeArguments());
     stringBuffer.append(TEXT_98);
     stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_99);
@@ -509,12 +511,14 @@ public class ItemProvider
     if (labelFeature.isPropertyMultiLine()) {
     stringBuffer.append(TEXT_102);
     stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getInterfaceWildTypeArguments());
     stringBuffer.append(TEXT_103);
     stringBuffer.append(labelFeature.getGetAccessor());
     stringBuffer.append(TEXT_104);
     } else {
     stringBuffer.append(TEXT_105);
     stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getInterfaceWildTypeArguments());
     stringBuffer.append(TEXT_106);
     stringBuffer.append(labelFeature.getGetAccessor());
     stringBuffer.append(TEXT_107);
@@ -533,6 +537,7 @@ public class ItemProvider
     stringBuffer.append(labelFeature.getRawImportedType());
     stringBuffer.append(TEXT_113);
     stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getInterfaceWildTypeArguments());
     stringBuffer.append(TEXT_114);
     stringBuffer.append(labelFeature.getGetAccessor());
     stringBuffer.append(TEXT_115);

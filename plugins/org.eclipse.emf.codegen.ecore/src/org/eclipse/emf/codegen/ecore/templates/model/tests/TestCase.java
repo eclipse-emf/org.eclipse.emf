@@ -230,6 +230,7 @@ public class TestCase
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_33);
     stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getInterfaceWildTypeArguments());
     stringBuffer.append(TEXT_34);
     }
     if (!genClass.isAbstract()) {
@@ -249,6 +250,7 @@ public class TestCase
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_42);
     stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getInterfaceWildTypeArguments());
     stringBuffer.append(TEXT_43);
     }
     stringBuffer.append(TEXT_44);
@@ -265,12 +267,14 @@ public class TestCase
     }
     stringBuffer.append(TEXT_50);
     stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getInterfaceWildTypeArguments());
     stringBuffer.append(TEXT_51);
     if (genClass.isModelRoot()) {
     stringBuffer.append(TEXT_52);
     } else {
     stringBuffer.append(TEXT_53);
     stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getInterfaceWildTypeArguments());
     stringBuffer.append(TEXT_54);
     }
     stringBuffer.append(TEXT_55);

@@ -85,7 +85,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genClass.getImportedInterfaceName()%> fixture = null;
+	protected <%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%> fixture = null;
 <%}%>
 <%if (!genClass.isAbstract()) {%>
 
@@ -118,7 +118,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void setFixture(<%=genClass.getImportedInterfaceName()%> fixture)
+	protected void setFixture(<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%> fixture)
 	{
 		this.fixture = fixture;
 	}
@@ -133,12 +133,12 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 <%if (!genClass.isModelRoot() && genModel.useClassOverrideAnnotation()) {%>
 	@Override
 <%}%>
-	<%if (genModel.useGenerics()) {%>protected<%} else {%>private<%}%> <%=genClass.getImportedInterfaceName()%> getFixture()
+	<%if (genModel.useGenerics()) {%>protected<%} else {%>private<%}%> <%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%> getFixture()
 	{
 <%if (genClass.isModelRoot()) {%>
 		return fixture;
 <%} else {%>
-		return (<%=genClass.getImportedInterfaceName()%>)fixture;
+		return (<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)fixture;
 <%}%>
 	}
 <%if (!genClass.isAbstract()) {%>

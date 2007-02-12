@@ -197,6 +197,7 @@ String _ResourceSetImpl = genModel.getImportedName("org.eclipse.emf.ecore.resour
     } else {
     stringBuffer.append(TEXT_38);
     stringBuffer.append(rootClass.getImportedInterfaceName());
+    stringBuffer.append(rootClass.getInterfaceWildTypeArguments());
     stringBuffer.append(TEXT_39);
     stringBuffer.append(rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_40);

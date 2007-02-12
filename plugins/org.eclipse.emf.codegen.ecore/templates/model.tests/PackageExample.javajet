@@ -99,7 +99,7 @@ public class <%=genPackage.getExampleClassName()%>
     <%}%>
 				resource.getContents().add(<%if (!documentRoot.isEObjectExtension()){%>(<%=_EObject%>)<%}%>documentRoot);
   <%} else {%>
-				<%=rootClass.getImportedInterfaceName()%> root = <%=rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=rootClass.getName()%>();
+				<%=rootClass.getImportedInterfaceName()%><%=rootClass.getInterfaceWildTypeArguments()%> root = <%=rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=rootClass.getName()%>();
 				resource.getContents().add(<%if (!rootClass.isEObjectExtension()){%>(<%=_EObject%>)<%}%>root);
   <%}%>
 				resource.save(<%=_System%>.out, null);
