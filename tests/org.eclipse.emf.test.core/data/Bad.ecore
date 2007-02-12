@@ -32,7 +32,6 @@
     <eClassifiers xsi:type="ecore:EClass" name="NonSeparatingDot" instanceClassName="name..name"/>
     <eClassifiers xsi:type="ecore:EClass" name="EndsWithDot" instanceClassName="name."/>
     <eClassifiers xsi:type="ecore:EClass" name="ArrayAndTypeArguments" instanceTypeName="T[]&lt;X>"/>
-    <eClassifiers xsi:type="ecore:EClass" name="TypeArgumentsAndArray" instanceTypeName="T&lt;X>[]"/>
     <eClassifiers xsi:type="ecore:EClass" name="TypeArgumentsWithoutComma" instanceTypeName="T&lt;X Y>"/>
   </eSubpackages>
   <eSubpackages name="class" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//class"
