@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.42 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenFeatureImpl.java,v 1.43 2007/02/12 18:48:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1818,7 +1818,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       getEcoreFeature() instanceof EAttribute && 
         (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 ||
            (getEcoreFeature().getEType().getETypeParameters().isEmpty() && 
-               getEcoreFeature().getEGenericType().getETypeParameter() == null));
+               getEcoreFeature().getEGenericType().getETypeParameter() == null &&
+               getEcoreFeature().getEType().getInstanceTypeName() == getEcoreFeature().getEType().getInstanceClassName()));
   }
 
   public String getEDefault()
