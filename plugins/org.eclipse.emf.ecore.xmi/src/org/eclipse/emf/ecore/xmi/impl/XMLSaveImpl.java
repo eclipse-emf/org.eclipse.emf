@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.68 2007/02/03 13:32:15 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.69 2007/02/12 18:51:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1049,7 +1049,13 @@ public class XMLSaveImpl implements XMLSave
       }
     }
     
-    if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, eType, f) : eClass != eType && eClass != anyType)
+    if (saveTypeInfo ? 
+          xmlTypeInfo.shouldSaveType(eClass, eType, f) : 
+          eClass != eType && 
+           (eClass != anyType || 
+              extendedMetaData == null || 
+              eType != EcorePackage.Literals.EOBJECT || 
+              extendedMetaData.getFeatureKind(f) == ExtendedMetaData.UNSPECIFIED_FEATURE))
     {
       if (eClass == anySimpleType)
       {
