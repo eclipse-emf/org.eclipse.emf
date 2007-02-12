@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryImpl.java,v 1.9 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: FeatureMapEntryImpl.java,v 1.10 2007/02/12 18:51:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
-
-import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -171,7 +169,21 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
    */
   public boolean isSetFeatureName()
   {
-    return (feature != null || featureName != null) && getGreatGrandParent() instanceof EObjectToChangesMapEntryImpl;
+    if (featureName != null)
+    {
+      return true;
+    }
+    else if (feature == null)
+    {
+      return false;
+    }
+    else
+    {
+      EObject greatGrandParent = getGreatGrandParent();
+      return
+        greatGrandParent instanceof EObjectToChangesMapEntryImpl &&
+          ((EObjectToChangesMapEntryImpl)greatGrandParent).getTypedKey().eClass().getEAllStructuralFeatures().contains(feature);
+    }
   }
   
   protected EObject getGreatGrandParent()
@@ -238,7 +250,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
       EObject greatGrandParent = getGreatGrandParent();
       if (greatGrandParent instanceof EObjectToChangesMapEntryImpl)
       {
-        feature = ((EObject)((Map.Entry<?, ?>)greatGrandParent).getKey()).eClass().getEStructuralFeature(featureName);
+        feature = ((EObjectToChangesMapEntryImpl)greatGrandParent).getKey().eClass().getEStructuralFeature(featureName);
       }
     }
     else if ((eFlags & EPROXY_FEATURECHANGE) !=0)
@@ -300,7 +312,17 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
    */
   public boolean isSetFeature()
   {
-    return feature != null && !(getGreatGrandParent() instanceof EObjectToChangesMapEntryImpl);
+    if (feature == null)
+    {
+      return false;
+    }
+    else
+    {
+      EObject greatGrandParent = getGreatGrandParent();
+      return 
+        !(greatGrandParent instanceof EObjectToChangesMapEntryImpl) ||
+          !((EObjectToChangesMapEntryImpl)greatGrandParent).getTypedKey().eClass().getEAllStructuralFeatures().contains(feature);
+    }
   }
 
   /**

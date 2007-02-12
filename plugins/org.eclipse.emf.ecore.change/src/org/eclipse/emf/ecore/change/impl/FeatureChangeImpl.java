@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.29 2007/02/07 16:49:39 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.30 2007/02/12 18:51:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
 
 import java.util.Collection;
-import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -211,7 +210,10 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   public boolean isSetFeatureName()
   {
-    return (feature != null || featureName != null) && eContainer() instanceof EObjectToChangesMapEntryImpl;
+    return 
+      featureName != null ||
+        feature != null &&
+         eContainer() instanceof EObjectToChangesMapEntryImpl;
   }
 
   /**
@@ -279,9 +281,9 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   {
     if (feature == null)
     {
-      if (eContainer() instanceof EObjectToChangesMapEntryImpl)
+      if (featureName != null && eContainer() instanceof EObjectToChangesMapEntryImpl)
       {
-        feature = ((EObject)((Map.Entry<?, ?>)eContainer()).getKey()).eClass().getEStructuralFeature(featureName);
+        feature = ((EObjectToChangesMapEntryImpl)eContainer()).getTypedKey().eClass().getEStructuralFeature(featureName);
       }
     }
     else if ((eFlags & EPROXY_FEATURECHANGE) !=0)
@@ -417,7 +419,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     {
       if (value == null && eContainer() instanceof EObjectToChangesMapEntryImpl)
       {
-        value = getListValue((EList<?>)((EObject)((Map.Entry<?, ?>)eContainer()).getKey()).eGet(feature));
+        value = getListValue((EList<?>)((EObjectToChangesMapEntryImpl)eContainer()).getTypedKey().eGet(feature));
       }
     }
     else if (feature instanceof EReference)
