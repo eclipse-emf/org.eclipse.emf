@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierItemProvider.java,v 1.15 2006/12/28 06:46:20 marcelop Exp $
+ * $Id: EClassifierItemProvider.java,v 1.16 2007/02/12 18:46:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -114,10 +114,13 @@ public class EClassifierItemProvider
            value = stripToNull((String)value);
            if (editingDomain == null)
            {
-             eObject.eSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME, value);
+             eObject.eSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME, value);
            }
            else
            {
+             // Set the instance type name instead, since that will also set the instance class name 
+             // but this way will make undo restore the current instance type name correctly
+             //
              editingDomain.getCommandStack().execute
                (SetCommand.create(editingDomain, getCommandOwner(eObject), EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME, value));
            }
@@ -157,7 +160,7 @@ public class EClassifierItemProvider
   protected void addInstanceTypeNamePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (createItemPropertyDescriptor
+      (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClassifier_instanceTypeName_feature"),
@@ -168,7 +171,25 @@ public class EClassifierItemProvider
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
-         null));
+         null)
+       {
+         @Override
+         public void setPropertyValue(Object object, Object value)
+         {
+           EObject eObject = (EObject)object;
+           EditingDomain editingDomain = getEditingDomain(object);
+           value = stripToNull((String)value);
+           if (editingDomain == null)
+           {
+             eObject.eSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME, value);
+           }
+           else
+           {
+             editingDomain.getCommandStack().execute
+               (SetCommand.create(editingDomain, getCommandOwner(eObject), EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME, value));
+           }
+         }
+       });
   }
 
   /**
