@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.31 2007/01/05 00:11:08 marcelop Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.32 2007/02/12 13:43:25 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -998,19 +998,19 @@ public class JavaEcoreBuilder
             {
               isEPackage = true;
               name = field.getInitializer();
-              name = name.substring(2, name.length() - 1);
+              name = name.substring(1, name.length() - 1);
             }
             else if ("eNS_URI".equals(fieldName))
             {
               isEPackage = true;
               nsURI = field.getInitializer();
-              nsURI = nsURI.substring(2, nsURI.length() - 1);
+              nsURI = nsURI.substring(1, nsURI.length() - 1);
             }
             else if ("eNS_PREFIX".equals(fieldName))
             {
               isEPackage = true;
               nsPrefix = field.getInitializer();
-              nsPrefix = nsPrefix.substring(2, nsPrefix.length() - 1);
+              nsPrefix = nsPrefix.substring(1, nsPrefix.length() - 1);
             }
             else if ("int".equals(fieldType) && !fieldName.endsWith("FEATURE_COUNT"))
             {
