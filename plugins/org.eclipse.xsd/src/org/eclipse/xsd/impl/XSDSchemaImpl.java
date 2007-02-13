@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.35 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDSchemaImpl.java,v 1.36 2007/02/13 18:53:13 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1990,7 +1990,7 @@ public class XSDSchemaImpl
           {
             String value = attr.getNodeValue();
             int index = name.indexOf(":");
-            String key  = index == -1 ? null : name.substring(index + 1);
+            String key = index == -1 || index == name.length() - 1? null : name.substring(index + 1);
             if (!theQNamePrefixToNamespaceMap.containsKey(key)) 
             {
               theQNamePrefixToNamespaceMap.put(key, value);
