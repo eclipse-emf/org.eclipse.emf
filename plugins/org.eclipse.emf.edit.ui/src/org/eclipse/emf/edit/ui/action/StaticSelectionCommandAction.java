@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSelectionCommandAction.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: StaticSelectionCommandAction.java,v 1.5 2007/02/15 12:43:42 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -128,12 +128,15 @@ public abstract class StaticSelectionCommandAction extends Action
       
       // if the editing domain wasn't given by the workbench part, try to get
       // it from the selection
-      for (Object o : collection)
+      if (editingDomain == null)
       {
-        editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(o);
-        if (editingDomain != null)
+        for (Object o : collection)
         {
-          break;
+          editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(o);
+          if (editingDomain != null)
+          {
+            break;
+          }
         }
       }
 
