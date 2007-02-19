@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!ELEMENT Book (Title | Author | Publisher | Date_Published)>
+<!ATTLIST Book ISBN CDATA #IMPLIED>
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Author (#PCDATA)>
+<!ELEMENT Publisher (#PCDATA)>
+<!ELEMENT Date_Published (#PCDATA)>

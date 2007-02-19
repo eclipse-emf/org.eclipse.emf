@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Library SYSTEM "library.dtd">
+<Library>
+  <Book ISBN="8763-343-2343">
+    <Title>Professional JINI</Title>
+    <Author>Sing Li</Author>
+    <Publisher>Wrox Publications</Publisher>
+    <Date_Published>22/10/1999</Date_Published>
+  </Book>
+</Library>
