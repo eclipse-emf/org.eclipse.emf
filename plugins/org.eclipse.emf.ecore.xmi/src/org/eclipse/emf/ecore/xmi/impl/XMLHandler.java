@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.67 2007/02/10 13:22:23 emerks Exp $
+ * $Id: XMLHandler.java,v 1.68 2007/02/19 14:53:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -765,9 +765,20 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   @Override
   public InputSource resolveEntity(String publicId, String systemId) throws SAXException
   {
-    return null;
+    try
+    {
+      InputStream inputStream = getURIConverter().createInputStream(URI.createURI(systemId));
+      InputSource result = new InputSource(inputStream);
+      result.setPublicId(publicId);
+      result.setSystemId(systemId);
+      return result;
+    }
+    catch (IOException exception)
+    {
+      throw new SAXException(exception);
+    }
   }
-
+  
   /**
    * Returns the xsi type attribute's value.
    */
