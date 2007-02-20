@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.60.2.2 2007/02/10 13:15:19 emerks Exp $
+ * $Id: XMLHandler.java,v 1.60.2.3 2007/02/20 12:05:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -779,31 +779,34 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   private void recordHeaderInformation()
   {
-    Class locatorClass = locator.getClass();
-    try
+    if (locator != null)
     {
-      Method encodingMethod = locatorClass.getMethod("getEncoding", null);
-      String encoding = (String)encodingMethod.invoke(locator, null);
-      if (encoding != null)
+      Class locatorClass = locator.getClass();
+      try
       {
-        this.xmlResource.setEncoding(encoding);
+        Method encodingMethod = locatorClass.getMethod("getEncoding", null);
+        String encoding = (String)encodingMethod.invoke(locator, null);
+        if (encoding != null)
+        {
+          this.xmlResource.setEncoding(encoding);
+        }
+  
+        Method versionMethod = locatorClass.getMethod("getXMLVersion", null);
+        String version = (String)versionMethod.invoke(locator, null);
+        if (version != null)
+        {
+          this.xmlResource.setXMLVersion(version);
+        }
       }
-
-      Method versionMethod = locatorClass.getMethod("getXMLVersion", null);
-      String version = (String)versionMethod.invoke(locator, null);
-      if (version != null)
+      catch (NoSuchMethodException e)
       {
-        this.xmlResource.setXMLVersion(version);
       }
-    }
-    catch (NoSuchMethodException e)
-    {
-    }
-    catch (IllegalAccessException e)
-    {
-    }
-    catch (InvocationTargetException e)
-    {
+      catch (IllegalAccessException e)
+      {
+      }
+      catch (InvocationTargetException e)
+      {
+      }
     }
   }
 
