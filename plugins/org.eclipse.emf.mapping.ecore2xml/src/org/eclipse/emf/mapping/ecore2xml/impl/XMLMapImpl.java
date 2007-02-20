@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapImpl.java,v 1.7 2006/12/29 18:29:11 marcelop Exp $
+ * $Id: XMLMapImpl.java,v 1.8 2007/02/20 17:41:53 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -76,7 +76,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * @generated
    * @ordered
    */
-  protected EMap<ENamedElement, XMLInfo> ecoreToXMLInfo = null;
+  protected EMap<ENamedElement, XMLInfo> ecoreToXMLInfo;
   
   /**
    * <!-- begin-user-doc -->

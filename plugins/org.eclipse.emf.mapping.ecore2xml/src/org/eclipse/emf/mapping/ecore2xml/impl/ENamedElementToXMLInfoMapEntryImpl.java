@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.6 2006/12/29 18:29:11 marcelop Exp $
+ * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.7 2007/02/20 17:41:53 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -57,7 +57,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * @generated
    * @ordered
    */
-  protected ENamedElement key = null;
+  protected ENamedElement key;
   
   /**
    * The cached value of the '{@link #getTypedValue() <em>Value</em>}' containment reference.
@@ -67,7 +67,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * @generated
    * @ordered
    */
-  protected XMLInfo value = null;
+  protected XMLInfo value;
   
   /**
    * <!-- begin-user-doc -->
