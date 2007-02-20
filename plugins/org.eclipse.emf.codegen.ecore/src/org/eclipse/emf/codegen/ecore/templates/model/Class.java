@@ -69,9 +69,9 @@ public class Class
   protected final String TEXT_52 = NL;
   protected final String TEXT_53 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate static final long serialVersionUID = 1L;" + NL;
   protected final String TEXT_54 = NL + "\t/**" + NL + "\t * An array of objects representing the values of non-primitive features." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected Object[] ";
-  protected final String TEXT_55 = " = null;" + NL;
+  protected final String TEXT_55 = ";" + NL;
   protected final String TEXT_56 = NL + "\t/**" + NL + "\t * A bit field representing the indices of non-primitive feature values." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected int ";
-  protected final String TEXT_57 = " = 0;" + NL;
+  protected final String TEXT_57 = ";" + NL;
   protected final String TEXT_58 = NL + "\t/**" + NL + "\t * A set of bit flags representing the values of boolean attributes and whether unsettable features have been set." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */" + NL + "\tprotected int ";
   protected final String TEXT_59 = " = 0;" + NL;
   protected final String TEXT_60 = NL + "\t/**" + NL + "\t * The cached value of the '{@link #";
@@ -80,7 +80,7 @@ public class Class
   protected final String TEXT_63 = "." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see #";
   protected final String TEXT_64 = "()" + NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */" + NL + "\tprotected ";
   protected final String TEXT_65 = " ";
-  protected final String TEXT_66 = " = null;" + NL;
+  protected final String TEXT_66 = ";" + NL;
   protected final String TEXT_67 = NL + "\t/**" + NL + "\t * The empty value for the '{@link #";
   protected final String TEXT_68 = "() <em>";
   protected final String TEXT_69 = "</em>}' array accessor." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see #";
@@ -128,7 +128,7 @@ public class Class
   protected final String TEXT_111 = NL + "\t/**" + NL + "\t * This is true if the ";
   protected final String TEXT_112 = " ";
   protected final String TEXT_113 = " has been set." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */" + NL + "\tprotected boolean ";
-  protected final String TEXT_114 = "ESet = false;" + NL;
+  protected final String TEXT_114 = "ESet;" + NL;
   protected final String TEXT_115 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected ";
   protected final String TEXT_116 = "()" + NL + "\t{" + NL + "\t\tsuper();";
   protected final String TEXT_117 = NL + "\t\t";
