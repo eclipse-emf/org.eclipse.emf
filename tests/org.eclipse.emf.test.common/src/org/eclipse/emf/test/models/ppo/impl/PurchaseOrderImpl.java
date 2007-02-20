@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PurchaseOrderImpl.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: PurchaseOrderImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ppo.impl;
 
@@ -65,7 +65,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * @generated
    * @ordered
    */
-  protected EList<Item> items = null;
+  protected EList<Item> items;
 
   /**
    * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
@@ -115,7 +115,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * @generated
    * @ordered
    */
-  protected USAddress billTo = null;
+  protected USAddress billTo;
 
   /**
    * The cached value of the '{@link #getShipTo() <em>Ship To</em>}' containment reference.
@@ -125,7 +125,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * @generated
    * @ordered
    */
-  protected USAddress shipTo = null;
+  protected USAddress shipTo;
 
   /**
    * <!-- begin-user-doc -->

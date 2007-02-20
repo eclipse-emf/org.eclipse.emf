@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceTypeImpl.java,v 1.2 2007/01/18 22:06:40 marcelop Exp $
+ * $Id: ResourceTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname.impl;
 
@@ -121,7 +121,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * @generated
    * @ordered
    */
-  protected boolean intvalueESet = false;
+  protected boolean intvalueESet;
 
   /**
    * The cached value of the '{@link #getAny() <em>Any</em>}' attribute list.
@@ -131,7 +131,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * @generated
    * @ordered
    */
-  protected FeatureMap any = null;
+  protected FeatureMap any;
 
   /**
    * The default value of the '{@link #getMyQname() <em>My Qname</em>}' attribute.
@@ -161,7 +161,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * @generated
    * @ordered
    */
-  protected FeatureMap anyAttribute = null;
+  protected FeatureMap anyAttribute;
 
   /**
    * <!-- begin-user-doc -->

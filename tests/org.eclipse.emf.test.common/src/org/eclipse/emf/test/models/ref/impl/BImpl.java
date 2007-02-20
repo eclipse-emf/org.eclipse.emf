@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BImpl.java,v 1.2 2007/01/18 22:06:45 marcelop Exp $
+ * $Id: BImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -63,7 +63,7 @@ public class BImpl extends EObjectImpl implements B
    * @generated
    * @ordered
    */
-  protected A a = null;
+  protected A a;
 
   /**
    * The cached value of the '{@link #getD() <em>D</em>}' reference list.
@@ -73,7 +73,7 @@ public class BImpl extends EObjectImpl implements B
    * @generated
    * @ordered
    */
-  protected EList<D> d = null;
+  protected EList<D> d;
 
   /**
    * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LinkTypeImpl.java,v 1.2 2007/01/18 22:06:41 marcelop Exp $
+ * $Id: LinkTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed.impl;
 
@@ -71,7 +71,7 @@ public class LinkTypeImpl extends EDataObjectImpl implements LinkType
    * @generated
    * @ordered
    */
-  protected ESequence mixed = null;
+  protected ESequence mixed;
 
   /**
    * The default value of the '{@link #getManager() <em>Manager</em>}' attribute.

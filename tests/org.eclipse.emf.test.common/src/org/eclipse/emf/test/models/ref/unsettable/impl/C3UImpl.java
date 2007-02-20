@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C3UImpl.java,v 1.2 2007/01/18 22:06:44 marcelop Exp $
+ * $Id: C3UImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -61,7 +61,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    * @generated
    * @ordered
    */
-  protected CU cu = null;
+  protected CU cu;
 
   /**
    * This is true if the Cu containment reference has been set.
@@ -70,7 +70,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    * @generated
    * @ordered
    */
-  protected boolean cuESet = false;
+  protected boolean cuESet;
 
   /**
    * The cached value of the '{@link #getDu() <em>Du</em>}' containment reference list.
@@ -80,7 +80,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    * @generated
    * @ordered
    */
-  protected EList<DU> du = null;
+  protected EList<DU> du;
 
   /**
    * <!-- begin-user-doc -->

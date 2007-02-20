@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataImpl.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: DataImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.tree.impl;
 
@@ -73,7 +73,7 @@ public class DataImpl extends EObjectImpl implements Data
    * @generated
    * @ordered
    */
-  protected Node node = null;
+  protected Node node;
 
   /**
    * <!-- begin-user-doc -->

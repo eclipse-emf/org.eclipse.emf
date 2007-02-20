@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MovieTypeImpl.java,v 1.2 2007/01/18 22:06:45 marcelop Exp $
+ * $Id: MovieTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -152,7 +152,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * @generated
    * @ordered
    */
-  protected boolean genreESet = false;
+  protected boolean genreESet;
 
   /**
    * The default value of the '{@link #getSummary() <em>Summary</em>}' attribute.
@@ -182,7 +182,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * @generated
    * @ordered
    */
-  protected FeatureMap criticsReviewGroup = null;
+  protected FeatureMap criticsReviewGroup;
 
   /**
    * The cached value of the '{@link #getCheckedOutBy() <em>Checked Out By</em>}' reference.
@@ -192,7 +192,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * @generated
    * @ordered
    */
-  protected CustomerType checkedOutBy = null;
+  protected CustomerType checkedOutBy;
 
   /**
    * The cached value of the '{@link #getAny() <em>Any</em>}' attribute list.
@@ -202,7 +202,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * @generated
    * @ordered
    */
-  protected FeatureMap any = null;
+  protected FeatureMap any;
 
   /**
    * The default value of the '{@link #getID() <em>ID</em>}' attribute.

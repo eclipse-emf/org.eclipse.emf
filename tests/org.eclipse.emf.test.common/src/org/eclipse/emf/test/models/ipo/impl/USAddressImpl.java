@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: USAddressImpl.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: USAddressImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo.impl;
 
@@ -77,7 +77,7 @@ public class USAddressImpl extends AddressImpl implements USAddress
    * @generated
    * @ordered
    */
-  protected boolean stateESet = false;
+  protected boolean stateESet;
 
   /**
    * The default value of the '{@link #getZip() <em>Zip</em>}' attribute.

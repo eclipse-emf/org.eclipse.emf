@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtEImpl.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: ExtEImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ext.impl;
 
@@ -81,7 +81,7 @@ public class ExtEImpl extends EImpl implements ExtE
    * @generated
    * @ordered
    */
-  protected EList<F> f = null;
+  protected EList<F> f;
 
   /**
    * <!-- begin-user-doc -->

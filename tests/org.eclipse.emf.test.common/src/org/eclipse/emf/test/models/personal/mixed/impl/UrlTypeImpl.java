@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: UrlTypeImpl.java,v 1.2 2007/01/18 22:06:41 marcelop Exp $
+ * $Id: UrlTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed.impl;
 
@@ -75,7 +75,7 @@ public class UrlTypeImpl extends EDataObjectImpl implements UrlType
    * @generated
    * @ordered
    */
-  protected boolean hrefESet = false;
+  protected boolean hrefESet;
 
   /**
    * <!-- begin-user-doc -->

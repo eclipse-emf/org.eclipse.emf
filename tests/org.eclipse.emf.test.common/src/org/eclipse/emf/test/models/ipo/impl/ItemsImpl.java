@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemsImpl.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: ItemsImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo.impl;
 
@@ -64,7 +64,7 @@ public class ItemsImpl extends EDataObjectImpl implements Items
    * @generated
    * @ordered
    */
-  protected EList<ItemType> item = null;
+  protected EList<ItemType> item;
 
   /**
    * <!-- begin-user-doc -->

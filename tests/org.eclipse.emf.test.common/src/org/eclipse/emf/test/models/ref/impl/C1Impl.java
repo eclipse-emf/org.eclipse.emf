@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C1Impl.java,v 1.2 2007/01/18 22:06:45 marcelop Exp $
+ * $Id: C1Impl.java,v 1.3 2007/02/20 17:42:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -61,7 +61,7 @@ public class C1Impl extends EObjectImpl implements C1
    * @generated
    * @ordered
    */
-  protected A a = null;
+  protected A a;
 
   /**
    * The cached value of the '{@link #getB() <em>B</em>}' containment reference list.
@@ -71,7 +71,7 @@ public class C1Impl extends EObjectImpl implements C1
    * @generated
    * @ordered
    */
-  protected EList<B> b = null;
+  protected EList<B> b;
 
   /**
    * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemImpl.java,v 1.2 2007/01/18 22:06:46 marcelop Exp $
+ * $Id: ItemImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.key.impl;
 
@@ -78,7 +78,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * @generated
    * @ordered
    */
-  protected EList<String> signature = null;
+  protected EList<String> signature;
 
   /**
    * The cached value of the '{@link #getRelatedItems() <em>Related Items</em>}' reference list.
@@ -88,7 +88,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * @generated
    * @ordered
    */
-  protected EList<Item> relatedItems = null;
+  protected EList<Item> relatedItems;
 
   /**
    * <!-- begin-user-doc -->

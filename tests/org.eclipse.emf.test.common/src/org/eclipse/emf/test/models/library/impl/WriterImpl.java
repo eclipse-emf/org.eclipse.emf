@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WriterImpl.java,v 1.2 2007/01/18 22:06:46 marcelop Exp $
+ * $Id: WriterImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.library.impl;
 
@@ -80,7 +80,7 @@ public class WriterImpl extends EObjectImpl implements Writer
    * @generated
    * @ordered
    */
-  protected EList<Book> books = null;
+  protected EList<Book> books;
 
   /**
    * <!-- begin-user-doc -->

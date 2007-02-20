@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: LibraryImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.lib.impl;
 
@@ -87,7 +87,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList<Book> books = null;
+  protected EList<Book> books;
 
   /**
    * The cached value of the '{@link #getAddress() <em>Address</em>}' containment reference.
@@ -97,7 +97,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected Address address = null;
+  protected Address address;
 
   /**
    * The cached value of the '{@link #getWriters() <em>Writers</em>}' containment reference list.
@@ -107,7 +107,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList<Person> writers = null;
+  protected EList<Person> writers;
 
   /**
    * The cached value of the '{@link #getCafeteria() <em>Cafeteria</em>}' containment reference.
@@ -117,7 +117,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected Cafeteria cafeteria = null;
+  protected Cafeteria cafeteria;
 
   /**
    * <!-- begin-user-doc -->

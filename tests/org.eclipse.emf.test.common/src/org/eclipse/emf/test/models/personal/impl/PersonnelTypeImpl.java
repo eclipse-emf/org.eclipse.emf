@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonnelTypeImpl.java,v 1.2 2007/01/18 22:06:41 marcelop Exp $
+ * $Id: PersonnelTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.impl;
 
@@ -64,7 +64,7 @@ public class PersonnelTypeImpl extends EDataObjectImpl implements PersonnelType
    * @generated
    * @ordered
    */
-  protected EList<PersonType> person = null;
+  protected EList<PersonType> person;
 
   /**
    * <!-- begin-user-doc -->

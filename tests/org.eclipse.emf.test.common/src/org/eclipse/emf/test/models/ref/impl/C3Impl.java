@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C3Impl.java,v 1.2 2007/01/18 22:06:45 marcelop Exp $
+ * $Id: C3Impl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -61,7 +61,7 @@ public class C3Impl extends EObjectImpl implements C3
    * @generated
    * @ordered
    */
-  protected EList<D> d = null;
+  protected EList<D> d;
 
   /**
    * The cached value of the '{@link #getC() <em>C</em>}' containment reference.
@@ -71,7 +71,7 @@ public class C3Impl extends EObjectImpl implements C3
    * @generated
    * @ordered
    */
-  protected C c = null;
+  protected C c;
 
   /**
    * <!-- begin-user-doc -->

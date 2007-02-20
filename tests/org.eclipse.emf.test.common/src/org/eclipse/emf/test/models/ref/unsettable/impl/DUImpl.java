@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DUImpl.java,v 1.2 2007/01/18 22:06:44 marcelop Exp $
+ * $Id: DUImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -64,7 +64,7 @@ public class DUImpl extends EObjectImpl implements DU
    * @generated
    * @ordered
    */
-  protected CU cu = null;
+  protected CU cu;
 
   /**
    * This is true if the Cu reference has been set.
@@ -73,7 +73,7 @@ public class DUImpl extends EObjectImpl implements DU
    * @generated
    * @ordered
    */
-  protected boolean cuESet = false;
+  protected boolean cuESet;
 
   /**
    * The cached value of the '{@link #getEu() <em>Eu</em>}' reference list.
@@ -83,7 +83,7 @@ public class DUImpl extends EObjectImpl implements DU
    * @generated
    * @ordered
    */
-  protected EList<EU> eu = null;
+  protected EList<EU> eu;
 
   /**
    * <!-- begin-user-doc -->

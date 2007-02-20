@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EUImpl.java,v 1.2 2007/01/18 22:06:44 marcelop Exp $
+ * $Id: EUImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -82,7 +82,7 @@ public class EUImpl extends EObjectImpl implements EU
    * @generated
    * @ordered
    */
-  protected boolean nameESet = false;
+  protected boolean nameESet;
 
   /**
    * The cached value of the '{@link #getIds() <em>Ids</em>}' attribute list.
@@ -92,7 +92,7 @@ public class EUImpl extends EObjectImpl implements EU
    * @generated
    * @ordered
    */
-  protected EList<String> ids = null;
+  protected EList<String> ids;
 
   /**
    * The cached value of the '{@link #getLabels() <em>Labels</em>}' attribute list.
@@ -102,7 +102,7 @@ public class EUImpl extends EObjectImpl implements EU
    * @generated
    * @ordered
    */
-  protected EList<String> labels = null;
+  protected EList<String> labels;
 
   /**
    * The cached value of the '{@link #getDu() <em>Du</em>}' reference list.
@@ -112,7 +112,7 @@ public class EUImpl extends EObjectImpl implements EU
    * @generated
    * @ordered
    */
-  protected EList<DU> du = null;
+  protected EList<DU> du;
 
   /**
    * <!-- begin-user-doc -->

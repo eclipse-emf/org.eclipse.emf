@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomersTypeImpl.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: CustomersTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
@@ -59,7 +59,7 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
    * @generated
    * @ordered
    */
-  protected FeatureMap mixed = null;
+  protected FeatureMap mixed;
 
   /**
    * <!-- begin-user-doc -->

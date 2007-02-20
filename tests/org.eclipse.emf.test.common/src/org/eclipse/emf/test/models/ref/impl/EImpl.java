@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EImpl.java,v 1.2 2007/01/18 22:06:46 marcelop Exp $
+ * $Id: EImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -84,7 +84,7 @@ public class EImpl extends EObjectImpl implements E
    * @generated
    * @ordered
    */
-  protected EList<String> ids = null;
+  protected EList<String> ids;
 
   /**
    * The cached value of the '{@link #getLabels() <em>Labels</em>}' attribute list.
@@ -94,7 +94,7 @@ public class EImpl extends EObjectImpl implements E
    * @generated
    * @ordered
    */
-  protected EList<String> labels = null;
+  protected EList<String> labels;
 
   /**
    * The cached value of the '{@link #getD() <em>D</em>}' reference list.
@@ -104,7 +104,7 @@ public class EImpl extends EObjectImpl implements E
    * @generated
    * @ordered
    */
-  protected EList<D> d = null;
+  protected EList<D> d;
 
   /**
    * <!-- begin-user-doc -->

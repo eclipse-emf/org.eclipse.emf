@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DImpl.java,v 1.2 2007/01/18 22:06:46 marcelop Exp $
+ * $Id: DImpl.java,v 1.3 2007/02/20 17:42:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -64,7 +64,7 @@ public class DImpl extends EObjectImpl implements D
    * @generated
    * @ordered
    */
-  protected C c = null;
+  protected C c;
 
   /**
    * The cached value of the '{@link #getE() <em>E</em>}' reference list.
@@ -74,7 +74,7 @@ public class DImpl extends EObjectImpl implements D
    * @generated
    * @ordered
    */
-  protected EList<E> e = null;
+  protected EList<E> e;
 
   /**
    * <!-- begin-user-doc -->

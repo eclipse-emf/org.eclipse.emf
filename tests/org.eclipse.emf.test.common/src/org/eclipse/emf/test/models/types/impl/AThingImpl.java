@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AThingImpl.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: AThingImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.types.impl;
 
@@ -117,7 +117,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected boolean aBooleanESet = false;
+  protected boolean aBooleanESet;
 
   /**
    * The default value of the '{@link #getAByte() <em>AByte</em>}' attribute.
@@ -127,7 +127,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected static final byte ABYTE_EDEFAULT = 0;
+  protected static final byte ABYTE_EDEFAULT = 0x00;
 
   /**
    * The cached value of the '{@link #getAByte() <em>AByte</em>}' attribute.
@@ -146,7 +146,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected boolean aByteESet = false;
+  protected boolean aByteESet;
 
   /**
    * The default value of the '{@link #getADecimal() <em>ADecimal</em>}' attribute.
@@ -195,7 +195,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected boolean aFloatESet = false;
+  protected boolean aFloatESet;
 
   /**
    * The default value of the '{@link #getADouble() <em>ADouble</em>}' attribute.
@@ -224,7 +224,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected boolean aDoubleESet = false;
+  protected boolean aDoubleESet;
 
   /**
    * The default value of the '{@link #getAInt() <em>AInt</em>}' attribute.
@@ -253,7 +253,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected boolean aIntESet = false;
+  protected boolean aIntESet;
 
   /**
    * The default value of the '{@link #getAInteger() <em>AInteger</em>}' attribute.
@@ -302,7 +302,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected boolean aLongESet = false;
+  protected boolean aLongESet;
 
   /**
    * The default value of the '{@link #getAShort() <em>AShort</em>}' attribute.
@@ -331,7 +331,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected boolean aShortESet = false;
+  protected boolean aShortESet;
 
   /**
    * The default value of the '{@link #getAString() <em>AString</em>}' attribute.
@@ -380,7 +380,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected boolean aCharESet = false;
+  protected boolean aCharESet;
 
   /**
    * The default value of the '{@link #getADate() <em>ADate</em>}' attribute.
@@ -490,7 +490,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Boolean> manyBoolean = null;
+  protected EList<Boolean> manyBoolean;
 
   /**
    * The cached value of the '{@link #getManyByte() <em>Many Byte</em>}' attribute list.
@@ -500,7 +500,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Byte> manyByte = null;
+  protected EList<Byte> manyByte;
 
   /**
    * The cached value of the '{@link #getManyDecimal() <em>Many Decimal</em>}' attribute list.
@@ -510,7 +510,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<BigDecimal> manyDecimal = null;
+  protected EList<BigDecimal> manyDecimal;
 
   /**
    * The cached value of the '{@link #getManyFloat() <em>Many Float</em>}' attribute list.
@@ -520,7 +520,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Float> manyFloat = null;
+  protected EList<Float> manyFloat;
 
   /**
    * The cached value of the '{@link #getManyDouble() <em>Many Double</em>}' attribute list.
@@ -530,7 +530,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Double> manyDouble = null;
+  protected EList<Double> manyDouble;
 
   /**
    * The cached value of the '{@link #getManyInt() <em>Many Int</em>}' attribute list.
@@ -540,7 +540,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Integer> manyInt = null;
+  protected EList<Integer> manyInt;
 
   /**
    * The cached value of the '{@link #getManyInteger() <em>Many Integer</em>}' attribute list.
@@ -550,7 +550,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<BigInteger> manyInteger = null;
+  protected EList<BigInteger> manyInteger;
 
   /**
    * The cached value of the '{@link #getManyLong() <em>Many Long</em>}' attribute list.
@@ -560,7 +560,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Long> manyLong = null;
+  protected EList<Long> manyLong;
 
   /**
    * The cached value of the '{@link #getManyShort() <em>Many Short</em>}' attribute list.
@@ -570,7 +570,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Short> manyShort = null;
+  protected EList<Short> manyShort;
 
   /**
    * The cached value of the '{@link #getManyString() <em>Many String</em>}' attribute list.
@@ -580,7 +580,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<String> manyString = null;
+  protected EList<String> manyString;
 
   /**
    * The cached value of the '{@link #getManyChar() <em>Many Char</em>}' attribute list.
@@ -590,7 +590,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Character> manyChar = null;
+  protected EList<Character> manyChar;
 
   /**
    * The cached value of the '{@link #getManyDate() <em>Many Date</em>}' attribute list.
@@ -600,7 +600,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Date> manyDate = null;
+  protected EList<Date> manyDate;
 
   /**
    * The cached value of the '{@link #getManyBytes() <em>Many Bytes</em>}' attribute list.
@@ -610,7 +610,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<byte[]> manyBytes = null;
+  protected EList<byte[]> manyBytes;
 
   /**
    * The cached value of the '{@link #getManyNumber() <em>Many Number</em>}' attribute list.
@@ -620,7 +620,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Number> manyNumber = null;
+  protected EList<Number> manyNumber;
 
   /**
    * The cached value of the '{@link #getManyObject() <em>Many Object</em>}' attribute list.
@@ -630,7 +630,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Object> manyObject = null;
+  protected EList<Object> manyObject;
 
   /**
    * The cached value of the '{@link #getManyThread() <em>Many Thread</em>}' attribute list.
@@ -640,7 +640,7 @@ public class AThingImpl extends EDataObjectImpl implements AThing
    * @generated
    * @ordered
    */
-  protected EList<Thread> manyThread = null;
+  protected EList<Thread> manyThread;
 
   /**
    * <!-- begin-user-doc -->

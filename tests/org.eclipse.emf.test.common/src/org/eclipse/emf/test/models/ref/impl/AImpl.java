@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AImpl.java,v 1.2 2007/01/18 22:06:45 marcelop Exp $
+ * $Id: AImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -58,7 +58,7 @@ public class AImpl extends EObjectImpl implements A
    * @generated
    * @ordered
    */
-  protected B b = null;
+  protected B b;
 
   /**
    * The cached value of the '{@link #getC() <em>C</em>}' reference.
@@ -68,7 +68,7 @@ public class AImpl extends EObjectImpl implements A
    * @generated
    * @ordered
    */
-  protected C c = null;
+  protected C c;
 
   /**
    * <!-- begin-user-doc -->

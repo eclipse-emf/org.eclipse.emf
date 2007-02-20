@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DocumentRootImpl.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: DocumentRootImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo.impl;
 
@@ -78,7 +78,7 @@ public class DocumentRootImpl extends EDataObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected ESequence mixed = null;
+  protected ESequence mixed;
 
   /**
    * The cached value of the '{@link #getXMLNSPrefixMap() <em>XMLNS Prefix Map</em>}' map.
@@ -88,7 +88,7 @@ public class DocumentRootImpl extends EDataObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected EMap<String, String> xMLNSPrefixMap = null;
+  protected EMap<String, String> xMLNSPrefixMap;
 
   /**
    * The cached value of the '{@link #getXSISchemaLocation() <em>XSI Schema Location</em>}' map.
@@ -98,7 +98,7 @@ public class DocumentRootImpl extends EDataObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected EMap<String, String> xSISchemaLocation = null;
+  protected EMap<String, String> xSISchemaLocation;
 
   /**
    * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomerOrderImpl.java,v 1.2 2007/01/18 22:06:47 marcelop Exp $
+ * $Id: CustomerOrderImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.order.impl;
 
@@ -59,7 +59,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * @generated
    * @ordered
    */
-  protected Order moviesToSee = null;
+  protected Order moviesToSee;
 
   /**
    * The cached value of the '{@link #getMoviesSeen() <em>Movies Seen</em>}' containment reference.
@@ -69,7 +69,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * @generated
    * @ordered
    */
-  protected Order moviesSeen = null;
+  protected Order moviesSeen;
 
   /**
    * The cached value of the '{@link #getAny() <em>Any</em>}' attribute list.
@@ -79,7 +79,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * @generated
    * @ordered
    */
-  protected FeatureMap any = null;
+  protected FeatureMap any;
 
   /**
    * The default value of the '{@link #getCustomerID() <em>Customer ID</em>}' attribute.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.2 2007/01/18 22:06:47 marcelop Exp $
+ * $Id: LibraryImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.sdo.library.impl;
 
@@ -90,7 +90,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList<Writer> writers = null;
+  protected EList<Writer> writers;
 
   /**
    * The cached value of the '{@link #getBooks() <em>Books</em>}' containment reference list.
@@ -100,7 +100,7 @@ public class LibraryImpl extends EDataObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList<Book> books = null;
+  protected EList<Book> books;
 
   /**
    * <!-- begin-user-doc -->

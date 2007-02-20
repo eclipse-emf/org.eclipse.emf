@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NodeImpl.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: NodeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.tree.impl;
 
@@ -85,7 +85,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * @generated
    * @ordered
    */
-  protected EList<Node> children = null;
+  protected EList<Node> children;
 
   /**
    * The cached value of the '{@link #getData() <em>Data</em>}' reference.
@@ -95,7 +95,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * @generated
    * @ordered
    */
-  protected Data data = null;
+  protected Data data;
 
   /**
    * The cached value of the '{@link #getRelatedNodes() <em>Related Nodes</em>}' reference list.
@@ -105,7 +105,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * @generated
    * @ordered
    */
-  protected EList<Node> relatedNodes = null;
+  protected EList<Node> relatedNodes;
 
   /**
    * <!-- begin-user-doc -->

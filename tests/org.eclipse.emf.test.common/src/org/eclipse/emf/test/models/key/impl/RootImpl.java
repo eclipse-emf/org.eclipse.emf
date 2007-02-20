@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RootImpl.java,v 1.2 2007/01/18 22:06:46 marcelop Exp $
+ * $Id: RootImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.key.impl;
 
@@ -57,7 +57,7 @@ public class RootImpl extends EObjectImpl implements Root
    * @generated
    * @ordered
    */
-  protected EList<Item> items = null;
+  protected EList<Item> items;
 
   /**
    * <!-- begin-user-doc -->

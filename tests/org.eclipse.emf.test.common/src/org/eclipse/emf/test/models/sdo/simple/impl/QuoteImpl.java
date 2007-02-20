@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QuoteImpl.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: QuoteImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.sdo.simple.impl;
 
@@ -215,7 +215,7 @@ public class QuoteImpl extends EDataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected boolean volumeESet = false;
+  protected boolean volumeESet;
 
   /**
    * The default value of the '{@link #getChange1() <em>Change1</em>}' attribute.
@@ -244,7 +244,7 @@ public class QuoteImpl extends EDataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected boolean change1ESet = false;
+  protected boolean change1ESet;
 
   /**
    * The cached value of the '{@link #getQuotes() <em>Quotes</em>}' containment reference list.
@@ -254,7 +254,7 @@ public class QuoteImpl extends EDataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected EList<Quote> quotes = null;
+  protected EList<Quote> quotes;
 
   /**
    * <!-- begin-user-doc -->

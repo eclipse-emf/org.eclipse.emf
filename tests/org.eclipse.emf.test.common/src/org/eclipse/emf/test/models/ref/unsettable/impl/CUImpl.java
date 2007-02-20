@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CUImpl.java,v 1.2 2007/01/18 22:06:44 marcelop Exp $
+ * $Id: CUImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -62,7 +62,7 @@ public class CUImpl extends EObjectImpl implements CU
    * @generated
    * @ordered
    */
-  protected EList<DU> du = null;
+  protected EList<DU> du;
 
   /**
    * <!-- begin-user-doc -->

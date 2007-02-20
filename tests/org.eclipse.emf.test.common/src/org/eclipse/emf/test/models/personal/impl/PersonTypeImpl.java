@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonTypeImpl.java,v 1.2 2007/01/18 22:06:41 marcelop Exp $
+ * $Id: PersonTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.impl;
 
@@ -79,7 +79,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * @generated
    * @ordered
    */
-  protected NameType name = null;
+  protected NameType name;
 
   /**
    * The cached value of the '{@link #getEmail() <em>Email</em>}' attribute list.
@@ -89,7 +89,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * @generated
    * @ordered
    */
-  protected EList<String> email = null;
+  protected EList<String> email;
 
   /**
    * The cached value of the '{@link #getUrl() <em>Url</em>}' containment reference list.
@@ -99,7 +99,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * @generated
    * @ordered
    */
-  protected EList<UrlType> url = null;
+  protected EList<UrlType> url;
 
   /**
    * The cached value of the '{@link #getLink() <em>Link</em>}' containment reference.
@@ -109,7 +109,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * @generated
    * @ordered
    */
-  protected LinkType link = null;
+  protected LinkType link;
 
   /**
    * The default value of the '{@link #getContr() <em>Contr</em>}' attribute.
@@ -138,7 +138,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * @generated
    * @ordered
    */
-  protected boolean contrESet = false;
+  protected boolean contrESet;
 
   /**
    * The default value of the '{@link #getId() <em>Id</em>}' attribute.

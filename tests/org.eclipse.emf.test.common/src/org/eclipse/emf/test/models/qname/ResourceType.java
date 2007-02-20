@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceType.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: ResourceType.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname;
 
@@ -164,7 +164,7 @@ public interface ResourceType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Any</em>' attribute list.
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getResourceType_Any()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="false"
    *        extendedMetaData="kind='elementWildcard' wildcards='##any' name=':3' processing='strict'"
    * @generated
    */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CImpl.java,v 1.2 2007/01/18 22:06:46 marcelop Exp $
+ * $Id: CImpl.java,v 1.3 2007/02/20 17:42:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -62,7 +62,7 @@ public class CImpl extends EObjectImpl implements C
    * @generated
    * @ordered
    */
-  protected EList<D> d = null;
+  protected EList<D> d;
 
   /**
    * <!-- begin-user-doc -->

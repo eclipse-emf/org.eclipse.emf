@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C1UImpl.java,v 1.2 2007/01/18 22:06:44 marcelop Exp $
+ * $Id: C1UImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -61,7 +61,7 @@ public class C1UImpl extends EObjectImpl implements C1U
    * @generated
    * @ordered
    */
-  protected AU au = null;
+  protected AU au;
 
   /**
    * This is true if the Au containment reference has been set.
@@ -70,7 +70,7 @@ public class C1UImpl extends EObjectImpl implements C1U
    * @generated
    * @ordered
    */
-  protected boolean auESet = false;
+  protected boolean auESet;
 
   /**
    * The cached value of the '{@link #getBu() <em>Bu</em>}' containment reference list.
@@ -80,7 +80,7 @@ public class C1UImpl extends EObjectImpl implements C1U
    * @generated
    * @ordered
    */
-  protected EList<BU> bu = null;
+  protected EList<BU> bu;
 
   /**
    * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonType.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: PersonType.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed;
 
@@ -155,7 +155,7 @@ public interface PersonType
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Any</em>' attribute list.
-   * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" transient="true" volatile="true" derived="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="false" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='elementWildcard' wildcards='##any' name=':5' processing='lax'"
    * @generated
    */

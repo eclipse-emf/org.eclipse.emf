@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.2 2007/01/18 22:06:46 marcelop Exp $
+ * $Id: BookImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.library.impl;
 
@@ -116,7 +116,7 @@ public class BookImpl extends EObjectImpl implements Book
    * @generated
    * @ordered
    */
-  protected Writer author = null;
+  protected Writer author;
 
   /**
    * <!-- begin-user-doc -->

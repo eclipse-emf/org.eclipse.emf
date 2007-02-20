@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MovieDBTypeImpl.java,v 1.2 2007/01/18 22:06:45 marcelop Exp $
+ * $Id: MovieDBTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -60,7 +60,7 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * @generated
    * @ordered
    */
-  protected FeatureMap movieDBFeatureMap = null;
+  protected FeatureMap movieDBFeatureMap;
 
   /**
    * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.

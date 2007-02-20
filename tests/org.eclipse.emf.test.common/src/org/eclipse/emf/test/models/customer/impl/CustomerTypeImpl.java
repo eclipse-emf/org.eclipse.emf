@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomerTypeImpl.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: CustomerTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
@@ -77,7 +77,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * @generated
    * @ordered
    */
-  protected AddressType address = null;
+  protected AddressType address;
 
   /**
    * The cached value of the '{@link #getCreditCard() <em>Credit Card</em>}' containment reference.
@@ -87,7 +87,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * @generated
    * @ordered
    */
-  protected CreditInfo creditCard = null;
+  protected CreditInfo creditCard;
 
   /**
    * The default value of the '{@link #getPaymentDay() <em>Payment Day</em>}' attribute.
@@ -116,7 +116,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * @generated
    * @ordered
    */
-  protected boolean paymentDayESet = false;
+  protected boolean paymentDayESet;
 
   /**
    * The default value of the '{@link #getID() <em>ID</em>}' attribute.

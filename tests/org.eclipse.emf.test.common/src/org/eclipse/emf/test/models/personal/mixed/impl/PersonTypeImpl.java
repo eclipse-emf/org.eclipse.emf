@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonTypeImpl.java,v 1.2 2007/01/18 22:06:41 marcelop Exp $
+ * $Id: PersonTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed.impl;
 
@@ -84,7 +84,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * @generated
    * @ordered
    */
-  protected ESequence mixed = null;
+  protected ESequence mixed;
 
   /**
    * The default value of the '{@link #getContr() <em>Contr</em>}' attribute.
@@ -113,7 +113,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    * @generated
    * @ordered
    */
-  protected boolean contrESet = false;
+  protected boolean contrESet;
 
   /**
    * The default value of the '{@link #getId() <em>Id</em>}' attribute.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CriticsReviewTypeImpl.java,v 1.2 2007/01/18 22:06:45 marcelop Exp $
+ * $Id: CriticsReviewTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -69,7 +69,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * @generated
    * @ordered
    */
-  protected boolean ratingESet = false;
+  protected boolean ratingESet;
 
   /**
    * The default value of the '{@link #getReviewedBy() <em>Reviewed By</em>}' attribute.

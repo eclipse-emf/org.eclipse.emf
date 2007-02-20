@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PenTypeImpl.java,v 1.2 2007/01/18 22:06:47 marcelop Exp $
+ * $Id: PenTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.dbprice.impl;
 
@@ -68,7 +68,7 @@ public class PenTypeImpl extends EObjectImpl implements PenType
    * @generated
    * @ordered
    */
-  protected boolean priceESet = false;
+  protected boolean priceESet;
 
   /**
    * <!-- begin-user-doc -->

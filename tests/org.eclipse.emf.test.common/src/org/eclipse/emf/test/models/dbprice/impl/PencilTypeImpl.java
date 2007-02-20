@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PencilTypeImpl.java,v 1.2 2007/01/18 22:06:47 marcelop Exp $
+ * $Id: PencilTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.dbprice.impl;
 
@@ -68,7 +68,7 @@ public class PencilTypeImpl extends EObjectImpl implements PencilType
    * @generated
    * @ordered
    */
-  protected boolean priceESet = false;
+  protected boolean priceESet;
 
   /**
    * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DbTypeImpl.java,v 1.2 2007/01/18 22:06:40 marcelop Exp $
+ * $Id: DbTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.dbitem.impl;
 
@@ -57,7 +57,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * @generated
    * @ordered
    */
-  protected PenType redPen = null;
+  protected PenType redPen;
 
   /**
    * The cached value of the '{@link #getBluePen() <em>Blue Pen</em>}' containment reference.
@@ -67,7 +67,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * @generated
    * @ordered
    */
-  protected PenType bluePen = null;
+  protected PenType bluePen;
 
   /**
    * The cached value of the '{@link #getRedPencil() <em>Red Pencil</em>}' containment reference.
@@ -77,7 +77,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * @generated
    * @ordered
    */
-  protected PencilType redPencil = null;
+  protected PencilType redPencil;
 
   /**
    * The cached value of the '{@link #getBluePencil() <em>Blue Pencil</em>}' containment reference.
@@ -87,7 +87,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * @generated
    * @ordered
    */
-  protected PencilType bluePencil = null;
+  protected PencilType bluePencil;
 
   /**
    * <!-- begin-user-doc -->

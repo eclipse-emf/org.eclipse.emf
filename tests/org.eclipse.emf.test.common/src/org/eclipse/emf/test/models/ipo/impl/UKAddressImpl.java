@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: UKAddressImpl.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: UKAddressImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo.impl;
 
@@ -96,7 +96,7 @@ public class UKAddressImpl extends AddressImpl implements UKAddress
    * @generated
    * @ordered
    */
-  protected boolean exportCodeESet = false;
+  protected boolean exportCodeESet;
 
   /**
    * <!-- begin-user-doc -->

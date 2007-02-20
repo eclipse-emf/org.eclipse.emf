@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AUImpl.java,v 1.2 2007/01/18 22:06:44 marcelop Exp $
+ * $Id: AUImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -58,7 +58,7 @@ public class AUImpl extends EObjectImpl implements AU
    * @generated
    * @ordered
    */
-  protected BU bu = null;
+  protected BU bu;
 
   /**
    * This is true if the Bu reference has been set.
@@ -67,7 +67,7 @@ public class AUImpl extends EObjectImpl implements AU
    * @generated
    * @ordered
    */
-  protected boolean buESet = false;
+  protected boolean buESet;
 
   /**
    * The cached value of the '{@link #getCu() <em>Cu</em>}' reference.
@@ -77,7 +77,7 @@ public class AUImpl extends EObjectImpl implements AU
    * @generated
    * @ordered
    */
-  protected CU cu = null;
+  protected CU cu;
 
   /**
    * This is true if the Cu reference has been set.
@@ -86,7 +86,7 @@ public class AUImpl extends EObjectImpl implements AU
    * @generated
    * @ordered
    */
-  protected boolean cuESet = false;
+  protected boolean cuESet;
 
   /**
    * <!-- begin-user-doc -->
