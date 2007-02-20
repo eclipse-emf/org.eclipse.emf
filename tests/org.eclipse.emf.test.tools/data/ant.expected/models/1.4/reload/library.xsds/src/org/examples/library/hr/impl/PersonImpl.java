@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PersonImpl.java,v 1.1 2006/12/07 03:55:43 marcelop Exp $
+ * $Id: PersonImpl.java,v 1.2 2007/02/20 17:42:59 emerks Exp $
  */
 package org.examples.library.hr.impl;
 
@@ -72,7 +72,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * @generated
    * @ordered
    */
-  protected Library library = null;
+  protected Library library;
 
   /**
    * <!-- begin-user-doc -->

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.1 2006/12/07 03:55:34 marcelop Exp $
+ * $Id: BookImpl.java,v 1.2 2007/02/20 17:42:59 emerks Exp $
  */
 package org.examples.library.impl;
 
@@ -92,7 +92,7 @@ public class BookImpl extends EObjectImpl implements Book
    * @generated
    * @ordered
    */
-  protected boolean pagesESet = false;
+  protected boolean pagesESet;
 
   /**
    * The default value of the '{@link #getCategory() <em>Category</em>}' attribute.
@@ -121,7 +121,7 @@ public class BookImpl extends EObjectImpl implements Book
    * @generated
    * @ordered
    */
-  protected boolean categoryESet = false;
+  protected boolean categoryESet;
 
   /**
    * The cached value of the '{@link #getAuthor() <em>Author</em>}' reference.
@@ -131,7 +131,7 @@ public class BookImpl extends EObjectImpl implements Book
    * @generated
    * @ordered
    */
-  protected Writer author = null;
+  protected Writer author;
 
   /**
    * <!-- begin-user-doc -->

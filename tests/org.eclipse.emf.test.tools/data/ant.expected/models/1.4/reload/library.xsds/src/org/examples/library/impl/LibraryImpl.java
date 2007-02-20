@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.1 2006/12/07 03:55:36 marcelop Exp $
+ * $Id: LibraryImpl.java,v 1.2 2007/02/20 17:42:57 emerks Exp $
  */
 package org.examples.library.impl;
 
@@ -84,7 +84,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList writers = null;
+  protected EList writers;
 
   /**
    * The cached value of the '{@link #getBooks() <em>Books</em>}' containment reference list.
@@ -94,7 +94,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList books = null;
+  protected EList books;
 
   /**
    * The cached value of the '{@link #getEmployees() <em>Employees</em>}' reference list.
@@ -104,7 +104,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList employees = null;
+  protected EList employees;
 
   /**
    * <!-- begin-user-doc -->

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: WriterImpl.java,v 1.1 2006/12/07 03:55:36 marcelop Exp $
+ * $Id: WriterImpl.java,v 1.2 2007/02/20 17:42:59 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -53,7 +53,7 @@ public class WriterImpl extends PersonImpl implements Writer
    * @generated
    * @ordered
    */
-  protected EList books = null;
+  protected EList books;
 
   /**
    * <!-- begin-user-doc -->

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.1 2006/12/07 03:55:40 marcelop Exp $
+ * $Id: BookImpl.java,v 1.2 2007/02/20 17:42:59 emerks Exp $
  */
 package org.examples.library.impl;
 
@@ -113,7 +113,7 @@ public class BookImpl extends EObjectImpl implements Book
    * @generated
    * @ordered
    */
-  protected Writer author = null;
+  protected Writer author;
 
   /**
    * <!-- begin-user-doc -->
