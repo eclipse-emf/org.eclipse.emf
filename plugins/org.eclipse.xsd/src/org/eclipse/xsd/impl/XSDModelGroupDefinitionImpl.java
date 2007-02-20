@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.14 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.15 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -80,7 +80,7 @@ public class XSDModelGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation annotation = null;
+  protected XSDAnnotation annotation;
 
   /**
    * The cached value of the '{@link #getModelGroup() <em>Model Group</em>}' containment reference.
@@ -90,7 +90,7 @@ public class XSDModelGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDModelGroup modelGroup = null;
+  protected XSDModelGroup modelGroup;
 
   /**
    * The cached value of the '{@link #getResolvedModelGroupDefinition() <em>Resolved Model Group Definition</em>}' reference.
@@ -100,7 +100,7 @@ public class XSDModelGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDModelGroupDefinition resolvedModelGroupDefinition = null;
+  protected XSDModelGroupDefinition resolvedModelGroupDefinition;
 
   public static XSDModelGroupDefinition createModelGroupDefinition(Node node)
   {

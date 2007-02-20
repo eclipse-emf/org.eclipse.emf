@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseCategory.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDAttributeUseCategory.java,v 1.6 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -189,7 +189,7 @@ public enum XSDAttributeUseCategory implements Enumerator
       case PROHIBITED: return PROHIBITED_LITERAL;
       case REQUIRED: return REQUIRED_LITERAL;
     }
-    return null;	
+    return null;
   }
 
   /**

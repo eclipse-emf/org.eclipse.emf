@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.12 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.13 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -97,7 +97,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation annotation = null;
+  protected XSDAnnotation annotation;
 
   /**
    * The cached value of the '{@link #getReferencedKey() <em>Referenced Key</em>}' reference.
@@ -107,7 +107,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDIdentityConstraintDefinition referencedKey = null;
+  protected XSDIdentityConstraintDefinition referencedKey;
 
   /**
    * The cached value of the '{@link #getSelector() <em>Selector</em>}' containment reference.
@@ -117,7 +117,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDXPathDefinition selector = null;
+  protected XSDXPathDefinition selector;
 
   /**
    * The cached value of the '{@link #getFields() <em>Fields</em>}' containment reference list.
@@ -127,7 +127,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDXPathDefinition> fields = null;
+  protected EList<XSDXPathDefinition> fields;
 
   public static XSDIdentityConstraintDefinition createIdentityConstraintDefinition(Node node)
   {

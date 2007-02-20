@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTypeDefinitionImpl.java,v 1.11 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDTypeDefinitionImpl.java,v 1.12 2007/02/20 17:42:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -70,7 +70,7 @@ public abstract class XSDTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation annotation = null;
+  protected XSDAnnotation annotation;
 
   /**
    * The cached value of the '{@link #getDerivationAnnotation() <em>Derivation Annotation</em>}' containment reference.
@@ -80,7 +80,7 @@ public abstract class XSDTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation derivationAnnotation = null;
+  protected XSDAnnotation derivationAnnotation;
 
   /**
    * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' reference list.
@@ -90,7 +90,7 @@ public abstract class XSDTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDAnnotation> annotations = null;
+  protected EList<XSDAnnotation> annotations;
 
   public static XSDTypeDefinition createTypeDefinition(Node node)
   {

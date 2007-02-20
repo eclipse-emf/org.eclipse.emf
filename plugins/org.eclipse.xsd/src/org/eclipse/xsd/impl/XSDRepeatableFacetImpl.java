@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRepeatableFacetImpl.java,v 1.11 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDRepeatableFacetImpl.java,v 1.12 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -57,7 +57,7 @@ public abstract class XSDRepeatableFacetImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDAnnotation> annotations = null;
+  protected EList<XSDAnnotation> annotations;
 
   public static XSDRepeatableFacet createRepeatableFacet(Node node)
   {

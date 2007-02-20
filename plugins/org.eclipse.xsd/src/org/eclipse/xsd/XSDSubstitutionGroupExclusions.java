@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSubstitutionGroupExclusions.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDSubstitutionGroupExclusions.java,v 1.6 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -161,7 +161,7 @@ public enum XSDSubstitutionGroupExclusions implements Enumerator
       case EXTENSION: return EXTENSION_LITERAL;
       case RESTRICTION: return RESTRICTION_LITERAL;
     }
-    return null;	
+    return null;
   }
 
   /**

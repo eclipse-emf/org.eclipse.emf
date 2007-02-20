@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDisallowedSubstitutions.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDDisallowedSubstitutions.java,v 1.6 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -219,7 +219,7 @@ public enum XSDDisallowedSubstitutions implements Enumerator
       case RESTRICTION: return RESTRICTION_LITERAL;
       case ALL: return ALL_LITERAL;
     }
-    return null;	
+    return null;
   }
 
   /**

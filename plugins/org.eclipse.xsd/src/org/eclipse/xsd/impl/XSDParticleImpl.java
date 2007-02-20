@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.17 2007/01/17 19:43:13 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.18 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -149,7 +149,7 @@ public class XSDParticleImpl
    * @generated
    * @ordered
    */
-  protected XSDParticleContent content = null;
+  protected XSDParticleContent content;
 
   /**
    * The cached value of the '{@link #getTerm() <em>Term</em>}' reference.
@@ -159,7 +159,7 @@ public class XSDParticleImpl
    * @generated
    * @ordered
    */
-  protected XSDTerm term = null;
+  protected XSDTerm term;
 
   public static XSDParticle createParticle(Node node)
   {

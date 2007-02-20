@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupImpl.java,v 1.10 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDModelGroupImpl.java,v 1.11 2007/02/20 17:42:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -98,7 +98,7 @@ public class XSDModelGroupImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation annotation = null;
+  protected XSDAnnotation annotation;
 
   /**
    * The cached value of the '{@link #getContents() <em>Contents</em>}' containment reference list.
@@ -108,7 +108,7 @@ public class XSDModelGroupImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDParticle> contents = null;
+  protected EList<XSDParticle> contents;
 
   /**
    * The cached value of the '{@link #getParticles() <em>Particles</em>}' reference list.
@@ -118,7 +118,7 @@ public class XSDModelGroupImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDParticle> particles = null;
+  protected EList<XSDParticle> particles;
 
   public static XSDModelGroup createModelGroup(Node node)
   {

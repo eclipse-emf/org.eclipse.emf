@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPatternFacetImpl.java,v 1.14 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDPatternFacetImpl.java,v 1.15 2007/02/20 17:42:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -67,7 +67,7 @@ public class XSDPatternFacetImpl
    * @generated
    * @ordered
    */
-  protected EList<String> value = null;
+  protected EList<String> value;
 
   public static XSDPatternFacet createPatternFacet(Node node)
   {

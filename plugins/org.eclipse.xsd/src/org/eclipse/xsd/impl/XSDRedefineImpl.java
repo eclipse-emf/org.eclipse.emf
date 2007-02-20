@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineImpl.java,v 1.15 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDRedefineImpl.java,v 1.16 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -75,7 +75,7 @@ public class XSDRedefineImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDAnnotation> annotations = null;
+  protected EList<XSDAnnotation> annotations;
 
   /**
    * The cached value of the '{@link #getContents() <em>Contents</em>}' containment reference list.
@@ -85,7 +85,7 @@ public class XSDRedefineImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDRedefineContent> contents = null;
+  protected EList<XSDRedefineContent> contents;
 
   public static XSDRedefine createRedefine(Node node)
   {

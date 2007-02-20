@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDXPathDefinitionImpl.java,v 1.9 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDXPathDefinitionImpl.java,v 1.10 2007/02/20 17:42:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -103,7 +103,7 @@ public class XSDXPathDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation annotation = null;
+  protected XSDAnnotation annotation;
 
   public static XSDXPathDefinition createXPathDefinition(Node node)
   {

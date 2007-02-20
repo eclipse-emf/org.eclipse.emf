@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.36 2007/02/13 18:53:13 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.37 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -257,7 +257,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDProhibitedSubstitutions> finalDefault = null;
+  protected EList<XSDProhibitedSubstitutions> finalDefault;
 
   /**
    * The cached value of the '{@link #getBlockDefault() <em>Block Default</em>}' attribute list.
@@ -267,7 +267,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDDisallowedSubstitutions> blockDefault = null;
+  protected EList<XSDDisallowedSubstitutions> blockDefault;
 
   /**
    * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
@@ -297,7 +297,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDSchemaContent> contents = null;
+  protected EList<XSDSchemaContent> contents;
 
   /**
    * The cached value of the '{@link #getElementDeclarations() <em>Element Declarations</em>}' reference list.
@@ -307,7 +307,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDElementDeclaration> elementDeclarations = null;
+  protected EList<XSDElementDeclaration> elementDeclarations;
 
   /**
    * The cached value of the '{@link #getAttributeDeclarations() <em>Attribute Declarations</em>}' reference list.
@@ -317,7 +317,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDAttributeDeclaration> attributeDeclarations = null;
+  protected EList<XSDAttributeDeclaration> attributeDeclarations;
 
   /**
    * The cached value of the '{@link #getAttributeGroupDefinitions() <em>Attribute Group Definitions</em>}' reference list.
@@ -327,7 +327,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDAttributeGroupDefinition> attributeGroupDefinitions = null;
+  protected EList<XSDAttributeGroupDefinition> attributeGroupDefinitions;
 
   /**
    * The cached value of the '{@link #getTypeDefinitions() <em>Type Definitions</em>}' reference list.
@@ -337,7 +337,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDTypeDefinition> typeDefinitions = null;
+  protected EList<XSDTypeDefinition> typeDefinitions;
 
   /**
    * The cached value of the '{@link #getModelGroupDefinitions() <em>Model Group Definitions</em>}' reference list.
@@ -347,7 +347,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDModelGroupDefinition> modelGroupDefinitions = null;
+  protected EList<XSDModelGroupDefinition> modelGroupDefinitions;
 
   /**
    * The cached value of the '{@link #getIdentityConstraintDefinitions() <em>Identity Constraint Definitions</em>}' reference list.
@@ -357,7 +357,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDIdentityConstraintDefinition> identityConstraintDefinitions = null;
+  protected EList<XSDIdentityConstraintDefinition> identityConstraintDefinitions;
 
   /**
    * The cached value of the '{@link #getNotationDeclarations() <em>Notation Declarations</em>}' reference list.
@@ -367,7 +367,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDNotationDeclaration> notationDeclarations = null;
+  protected EList<XSDNotationDeclaration> notationDeclarations;
 
   /**
    * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' reference list.
@@ -377,7 +377,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDAnnotation> annotations = null;
+  protected EList<XSDAnnotation> annotations;
 
   /**
    * The cached value of the '{@link #getAllDiagnostics() <em>All Diagnostics</em>}' reference list.
@@ -387,7 +387,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDDiagnostic> allDiagnostics = null;
+  protected EList<XSDDiagnostic> allDiagnostics;
 
   /**
    * The cached value of the '{@link #getReferencingDirectives() <em>Referencing Directives</em>}' reference list.
@@ -397,7 +397,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDSchemaDirective> referencingDirectives = null;
+  protected EList<XSDSchemaDirective> referencingDirectives;
 
   /**
    * The cached value of the '{@link #getIncorporatedVersions() <em>Incorporated Versions</em>}' containment reference list.
@@ -407,7 +407,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDSchema> incorporatedVersions = null;
+  protected EList<XSDSchema> incorporatedVersions;
 
   public static XSDSchema createSchema(Node node)
   {

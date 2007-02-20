@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEnumerationFacetImpl.java,v 1.13 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDEnumerationFacetImpl.java,v 1.14 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -61,7 +61,7 @@ public class XSDEnumerationFacetImpl
    * @generated
    * @ordered
    */
-  protected EList<Object> value = null;
+  protected EList<Object> value;
 
   public static XSDEnumerationFacet createEnumerationFacet(Node node)
   {

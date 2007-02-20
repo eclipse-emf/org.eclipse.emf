@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.15 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.16 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -99,7 +99,7 @@ public class XSDAttributeGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation annotation = null;
+  protected XSDAnnotation annotation;
 
   /**
    * The cached value of the '{@link #getContents() <em>Contents</em>}' containment reference list.
@@ -109,7 +109,7 @@ public class XSDAttributeGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDAttributeGroupContent> contents = null;
+  protected EList<XSDAttributeGroupContent> contents;
 
   /**
    * The cached value of the '{@link #getAttributeUses() <em>Attribute Uses</em>}' reference list.
@@ -119,7 +119,7 @@ public class XSDAttributeGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDAttributeUse> attributeUses = null;
+  protected EList<XSDAttributeUse> attributeUses;
 
   /**
    * The cached value of the '{@link #getAttributeWildcardContent() <em>Attribute Wildcard Content</em>}' containment reference.
@@ -129,7 +129,7 @@ public class XSDAttributeGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDWildcard attributeWildcardContent = null;
+  protected XSDWildcard attributeWildcardContent;
 
   /**
    * The cached value of the '{@link #getAttributeWildcard() <em>Attribute Wildcard</em>}' reference.
@@ -139,7 +139,7 @@ public class XSDAttributeGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDWildcard attributeWildcard = null;
+  protected XSDWildcard attributeWildcard;
 
   /**
    * The cached value of the '{@link #getResolvedAttributeGroupDefinition() <em>Resolved Attribute Group Definition</em>}' reference.
@@ -149,7 +149,7 @@ public class XSDAttributeGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDAttributeGroupDefinition resolvedAttributeGroupDefinition = null;
+  protected XSDAttributeGroupDefinition resolvedAttributeGroupDefinition;
 
   /**
    * The cached value of the '{@link #getSyntheticWildcard() <em>Synthetic Wildcard</em>}' containment reference.
@@ -159,7 +159,7 @@ public class XSDAttributeGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDWildcard syntheticWildcard = null;
+  protected XSDWildcard syntheticWildcard;
 
   public static XSDAttributeGroupDefinition createAttributeGroupDefinition(Node node)
   {

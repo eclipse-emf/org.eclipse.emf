@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.14 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDWildcardImpl.java,v 1.15 2007/02/20 17:42:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -99,7 +99,7 @@ public class XSDWildcardImpl
    * @generated
    * @ordered
    */
-  protected EList<String> namespaceConstraint = null;
+  protected EList<String> namespaceConstraint;
 
   /**
    * The default value of the '{@link #getProcessContents() <em>Process Contents</em>}' attribute.
@@ -138,7 +138,7 @@ public class XSDWildcardImpl
    * @generated
    * @ordered
    */
-  protected EList<String> lexicalNamespaceConstraint = null;
+  protected EList<String> lexicalNamespaceConstraint;
 
   /**
    * The cached value of the '{@link #getAnnotation() <em>Annotation</em>}' containment reference.
@@ -148,7 +148,7 @@ public class XSDWildcardImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation annotation = null;
+  protected XSDAnnotation annotation;
 
   /**
    * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' reference list.
@@ -158,7 +158,7 @@ public class XSDWildcardImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDAnnotation> annotations = null;
+  protected EList<XSDAnnotation> annotations;
 
   public static XSDWildcard createWildcard(Node node)
   {

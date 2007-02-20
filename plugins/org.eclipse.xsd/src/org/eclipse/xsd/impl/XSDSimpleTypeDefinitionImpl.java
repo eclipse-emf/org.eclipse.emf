@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.25 2007/01/17 15:24:26 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.26 2007/02/20 17:42:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -187,7 +187,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDSimpleFinal> final_ = null;
+  protected EList<XSDSimpleFinal> final_;
 
   /**
    * The cached value of the '{@link #getLexicalFinal() <em>Lexical Final</em>}' attribute list.
@@ -197,7 +197,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDSimpleFinal> lexicalFinal = null;
+  protected EList<XSDSimpleFinal> lexicalFinal;
 
   /**
    * The cached value of the '{@link #getValidFacets() <em>Valid Facets</em>}' attribute list.
@@ -207,7 +207,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<String> validFacets = null;
+  protected EList<String> validFacets;
 
   /**
    * The cached value of the '{@link #getContents() <em>Contents</em>}' containment reference list.
@@ -217,7 +217,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDSimpleTypeDefinition> contents = null;
+  protected EList<XSDSimpleTypeDefinition> contents;
 
   /**
    * The cached value of the '{@link #getFacetContents() <em>Facet Contents</em>}' containment reference list.
@@ -247,7 +247,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDSimpleTypeDefinition> memberTypeDefinitions = null;
+  protected EList<XSDSimpleTypeDefinition> memberTypeDefinitions;
 
   /**
    * The cached value of the '{@link #getFundamentalFacets() <em>Fundamental Facets</em>}' containment reference list.
@@ -257,7 +257,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDFundamentalFacet> fundamentalFacets = null;
+  protected EList<XSDFundamentalFacet> fundamentalFacets;
 
   /**
    * The cached value of the '{@link #getBaseTypeDefinition() <em>Base Type Definition</em>}' reference.
@@ -267,7 +267,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDSimpleTypeDefinition baseTypeDefinition = null;
+  protected XSDSimpleTypeDefinition baseTypeDefinition;
 
   /**
    * The cached value of the '{@link #getPrimitiveTypeDefinition() <em>Primitive Type Definition</em>}' reference.
@@ -277,7 +277,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDSimpleTypeDefinition primitiveTypeDefinition = null;
+  protected XSDSimpleTypeDefinition primitiveTypeDefinition;
 
   /**
    * The cached value of the '{@link #getItemTypeDefinition() <em>Item Type Definition</em>}' reference.
@@ -287,7 +287,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDSimpleTypeDefinition itemTypeDefinition = null;
+  protected XSDSimpleTypeDefinition itemTypeDefinition;
 
   /**
    * The cached value of the '{@link #getSyntheticFacets() <em>Synthetic Facets</em>}' containment reference list.
@@ -297,7 +297,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDFacet> syntheticFacets = null;
+  protected EList<XSDFacet> syntheticFacets;
 
   public static XSDSimpleTypeDefinition createSimpleTypeDefinition(Node node)
   {

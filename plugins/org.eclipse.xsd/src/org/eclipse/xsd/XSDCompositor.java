@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDCompositor.java,v 1.5 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDCompositor.java,v 1.6 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -187,7 +187,7 @@ public enum XSDCompositor implements Enumerator
       case CHOICE: return CHOICE_LITERAL;
       case SEQUENCE: return SEQUENCE_LITERAL;
     }
-    return null;	
+    return null;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseImpl.java,v 1.10 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDAttributeUseImpl.java,v 1.11 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -195,7 +195,7 @@ public class XSDAttributeUseImpl
    * @generated
    * @ordered
    */
-  protected XSDAttributeDeclaration attributeDeclaration = null;
+  protected XSDAttributeDeclaration attributeDeclaration;
 
   /**
    * The cached value of the '{@link #getContent() <em>Content</em>}' containment reference.
@@ -205,7 +205,7 @@ public class XSDAttributeUseImpl
    * @generated
    * @ordered
    */
-  protected XSDAttributeDeclaration content = null;
+  protected XSDAttributeDeclaration content;
 
   public static XSDAttributeUse createAttributeUse(Node node)
   {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticImpl.java,v 1.12 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDDiagnosticImpl.java,v 1.13 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -233,7 +233,7 @@ public class XSDDiagnosticImpl
    * @generated
    * @ordered
    */
-  protected EList<String> substitutions = null;
+  protected EList<String> substitutions;
 
   /**
    * The cached value of the '{@link #getComponents() <em>Components</em>}' reference list.
@@ -243,7 +243,7 @@ public class XSDDiagnosticImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDConcreteComponent> components = null;
+  protected EList<XSDConcreteComponent> components;
 
   /**
    * <!-- begin-user-doc -->

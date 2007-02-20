@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWhiteSpace.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDWhiteSpace.java,v 1.6 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -187,7 +187,7 @@ public enum XSDWhiteSpace implements Enumerator
       case REPLACE: return REPLACE_LITERAL;
       case COLLAPSE: return COLLAPSE_LITERAL;
     }
-    return null;	
+    return null;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.21 2007/02/02 14:05:13 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.22 2007/02/20 17:42:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -132,7 +132,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDDisallowedSubstitutions> disallowedSubstitutions = null;
+  protected EList<XSDDisallowedSubstitutions> disallowedSubstitutions;
 
   /**
    * The cached value of the '{@link #getSubstitutionGroupExclusions() <em>Substitution Group Exclusions</em>}' attribute list.
@@ -142,7 +142,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDSubstitutionGroupExclusions> substitutionGroupExclusions = null;
+  protected EList<XSDSubstitutionGroupExclusions> substitutionGroupExclusions;
 
   /**
    * The default value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
@@ -181,7 +181,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDProhibitedSubstitutions> lexicalFinal = null;
+  protected EList<XSDProhibitedSubstitutions> lexicalFinal;
 
   /**
    * The cached value of the '{@link #getBlock() <em>Block</em>}' attribute list.
@@ -191,7 +191,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDDisallowedSubstitutions> block = null;
+  protected EList<XSDDisallowedSubstitutions> block;
 
   /**
    * The default value of the '{@link #isElementDeclarationReference() <em>Element Declaration Reference</em>}' attribute.
@@ -221,7 +221,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation annotation = null;
+  protected XSDAnnotation annotation;
 
   /**
    * The cached value of the '{@link #getAnonymousTypeDefinition() <em>Anonymous Type Definition</em>}' containment reference.
@@ -231,7 +231,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected XSDTypeDefinition anonymousTypeDefinition = null;
+  protected XSDTypeDefinition anonymousTypeDefinition;
 
   /**
    * The cached value of the '{@link #getTypeDefinition() <em>Type Definition</em>}' reference.
@@ -241,7 +241,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected XSDTypeDefinition typeDefinition = null;
+  protected XSDTypeDefinition typeDefinition;
 
   /**
    * The cached value of the '{@link #getIdentityConstraintDefinitions() <em>Identity Constraint Definitions</em>}' containment reference list.
@@ -251,7 +251,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDIdentityConstraintDefinition> identityConstraintDefinitions = null;
+  protected EList<XSDIdentityConstraintDefinition> identityConstraintDefinitions;
 
   /**
    * The cached value of the '{@link #getResolvedElementDeclaration() <em>Resolved Element Declaration</em>}' reference.
@@ -261,7 +261,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected XSDElementDeclaration resolvedElementDeclaration = null;
+  protected XSDElementDeclaration resolvedElementDeclaration;
 
   /**
    * The cached value of the '{@link #getSubstitutionGroupAffiliation() <em>Substitution Group Affiliation</em>}' reference.
@@ -271,7 +271,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected XSDElementDeclaration substitutionGroupAffiliation = null;
+  protected XSDElementDeclaration substitutionGroupAffiliation;
 
   /**
    * The cached value of the '{@link #getSubstitutionGroup() <em>Substitution Group</em>}' reference list.
@@ -281,7 +281,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDElementDeclaration> substitutionGroup = null;
+  protected EList<XSDElementDeclaration> substitutionGroup;
 
   public static XSDElementDeclaration createElementDeclaration(Node node)
   {
@@ -1951,7 +1951,7 @@ public class XSDElementDeclarationImpl
   {
     if (substitutionGroup == null)
     {
-      substitutionGroup =  new EObjectEList<XSDElementDeclaration>(XSDElementDeclaration.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP);
+      substitutionGroup = new EObjectEList<XSDElementDeclaration>(XSDElementDeclaration.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP);
     }
     return substitutionGroup;
   }

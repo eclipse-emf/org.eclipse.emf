@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnnotationImpl.java,v 1.11 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDAnnotationImpl.java,v 1.12 2007/02/20 17:42:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -67,7 +67,7 @@ public class XSDAnnotationImpl
    * @generated
    * @ordered
    */
-  protected EList<Element> applicationInformation = null;
+  protected EList<Element> applicationInformation;
 
   /**
    * The cached value of the '{@link #getUserInformation() <em>User Information</em>}' attribute list.
@@ -77,7 +77,7 @@ public class XSDAnnotationImpl
    * @generated
    * @ordered
    */
-  protected EList<Element> userInformation = null;
+  protected EList<Element> userInformation;
 
   /**
    * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' attribute list.
@@ -87,7 +87,7 @@ public class XSDAnnotationImpl
    * @generated
    * @ordered
    */
-  protected EList<Attr> attributes = null;
+  protected EList<Attr> attributes;
 
   public static XSDAnnotation createAnnotation(Node node)
   {

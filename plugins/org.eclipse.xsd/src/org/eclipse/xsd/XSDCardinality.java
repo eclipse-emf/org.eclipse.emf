@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDCardinality.java,v 1.5 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDCardinality.java,v 1.6 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -159,7 +159,7 @@ public enum XSDCardinality implements Enumerator
       case FINITE: return FINITE_LITERAL;
       case COUNTABLY_INFINITE: return COUNTABLY_INFINITE_LITERAL;
     }
-    return null;	
+    return null;
   }
 
   /**

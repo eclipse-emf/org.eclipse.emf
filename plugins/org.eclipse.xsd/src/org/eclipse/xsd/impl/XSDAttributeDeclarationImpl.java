@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.16 2007/02/02 14:05:13 emerks Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.17 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -85,7 +85,7 @@ public class XSDAttributeDeclarationImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation annotation = null;
+  protected XSDAnnotation annotation;
 
   /**
    * The cached value of the '{@link #getAnonymousTypeDefinition() <em>Anonymous Type Definition</em>}' containment reference.
@@ -95,7 +95,7 @@ public class XSDAttributeDeclarationImpl
    * @generated
    * @ordered
    */
-  protected XSDSimpleTypeDefinition anonymousTypeDefinition = null;
+  protected XSDSimpleTypeDefinition anonymousTypeDefinition;
 
   /**
    * The cached value of the '{@link #getTypeDefinition() <em>Type Definition</em>}' reference.
@@ -105,7 +105,7 @@ public class XSDAttributeDeclarationImpl
    * @generated
    * @ordered
    */
-  protected XSDSimpleTypeDefinition typeDefinition = null;
+  protected XSDSimpleTypeDefinition typeDefinition;
 
   /**
    * The cached value of the '{@link #getResolvedAttributeDeclaration() <em>Resolved Attribute Declaration</em>}' reference.
@@ -115,7 +115,7 @@ public class XSDAttributeDeclarationImpl
    * @generated
    * @ordered
    */
-  protected XSDAttributeDeclaration resolvedAttributeDeclaration = null;
+  protected XSDAttributeDeclaration resolvedAttributeDeclaration;
 
   public static XSDAttributeDeclaration createAttributeDeclaration(Node node)
   {

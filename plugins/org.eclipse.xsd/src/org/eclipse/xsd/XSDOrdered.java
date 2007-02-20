@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDOrdered.java,v 1.5 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDOrdered.java,v 1.6 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -184,7 +184,7 @@ public enum XSDOrdered implements Enumerator
       case PARTIAL: return PARTIAL_LITERAL;
       case TOTAL: return TOTAL_LITERAL;
     }
-    return null;	
+    return null;
   }
 
   /**

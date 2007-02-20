@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.21 2007/02/08 16:58:03 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.22 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -127,7 +127,7 @@ public abstract class XSDConcreteComponentImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDDiagnostic> diagnostics = null;
+  protected EList<XSDDiagnostic> diagnostics;
 
   protected static final int FATAL=0;
   protected static final int ERROR=1;

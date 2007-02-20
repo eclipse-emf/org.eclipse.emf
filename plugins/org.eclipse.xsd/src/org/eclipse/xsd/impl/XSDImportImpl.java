@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImportImpl.java,v 1.10 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDImportImpl.java,v 1.11 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -83,7 +83,7 @@ public class XSDImportImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation annotation = null;
+  protected XSDAnnotation annotation;
 
   public static XSDImport createImport(Node node)
   {

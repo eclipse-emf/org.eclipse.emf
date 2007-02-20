@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.21 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.22 2007/02/20 17:42:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -147,7 +147,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDComplexFinal> final_ = null;
+  protected EList<XSDComplexFinal> final_;
 
   /**
    * The default value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
@@ -206,7 +206,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDProhibitedSubstitutions> prohibitedSubstitutions = null;
+  protected EList<XSDProhibitedSubstitutions> prohibitedSubstitutions;
 
   /**
    * The cached value of the '{@link #getLexicalFinal() <em>Lexical Final</em>}' attribute list.
@@ -216,7 +216,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDComplexFinal> lexicalFinal = null;
+  protected EList<XSDComplexFinal> lexicalFinal;
 
   /**
    * The cached value of the '{@link #getBlock() <em>Block</em>}' attribute list.
@@ -226,7 +226,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDProhibitedSubstitutions> block = null;
+  protected EList<XSDProhibitedSubstitutions> block;
 
   /**
    * The default value of the '{@link #isMixed() <em>Mixed</em>}' attribute.
@@ -265,7 +265,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation contentAnnotation = null;
+  protected XSDAnnotation contentAnnotation;
 
   /**
    * The cached value of the '{@link #getBaseTypeDefinition() <em>Base Type Definition</em>}' reference.
@@ -275,7 +275,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDTypeDefinition baseTypeDefinition = null;
+  protected XSDTypeDefinition baseTypeDefinition;
 
   /**
    * The cached value of the '{@link #getContent() <em>Content</em>}' containment reference.
@@ -285,7 +285,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDComplexTypeContent content = null;
+  protected XSDComplexTypeContent content;
 
   /**
    * The cached value of the '{@link #getContentType() <em>Content Type</em>}' reference.
@@ -295,7 +295,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDComplexTypeContent contentType = null;
+  protected XSDComplexTypeContent contentType;
 
   /**
    * The cached value of the '{@link #getAttributeUses() <em>Attribute Uses</em>}' reference list.
@@ -305,7 +305,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDAttributeUse> attributeUses = null;
+  protected EList<XSDAttributeUse> attributeUses;
 
   /**
    * The cached value of the '{@link #getAttributeContents() <em>Attribute Contents</em>}' containment reference list.
@@ -315,7 +315,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList<XSDAttributeGroupContent> attributeContents = null;
+  protected EList<XSDAttributeGroupContent> attributeContents;
 
   /**
    * The cached value of the '{@link #getAttributeWildcard() <em>Attribute Wildcard</em>}' reference.
@@ -325,7 +325,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDWildcard attributeWildcard = null;
+  protected XSDWildcard attributeWildcard;
 
   /**
    * The cached value of the '{@link #getAttributeWildcardContent() <em>Attribute Wildcard Content</em>}' containment reference.
@@ -335,7 +335,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDWildcard attributeWildcardContent = null;
+  protected XSDWildcard attributeWildcardContent;
 
   /**
    * The cached value of the '{@link #getSyntheticParticle() <em>Synthetic Particle</em>}' containment reference.
@@ -345,7 +345,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDParticle syntheticParticle = null;
+  protected XSDParticle syntheticParticle;
 
   /**
    * The cached value of the '{@link #getSyntheticWildcard() <em>Synthetic Wildcard</em>}' containment reference.
@@ -355,7 +355,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected XSDWildcard syntheticWildcard = null;
+  protected XSDWildcard syntheticWildcard;
 
   public static XSDComplexTypeDefinition createComplexTypeDefinition(Node node)
   {

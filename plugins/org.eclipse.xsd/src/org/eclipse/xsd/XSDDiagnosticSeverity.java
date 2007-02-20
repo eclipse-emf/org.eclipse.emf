@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticSeverity.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDDiagnosticSeverity.java,v 1.6 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -215,7 +215,7 @@ public enum XSDDiagnosticSeverity implements Enumerator
       case WARNING: return WARNING_LITERAL;
       case INFORMATION: return INFORMATION_LITERAL;
     }
-    return null;	
+    return null;
   }
 
   /**

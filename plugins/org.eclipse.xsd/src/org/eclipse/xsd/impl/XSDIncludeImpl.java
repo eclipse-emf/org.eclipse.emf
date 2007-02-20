@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIncludeImpl.java,v 1.10 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDIncludeImpl.java,v 1.11 2007/02/20 17:42:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -60,7 +60,7 @@ public class XSDIncludeImpl
    * @generated
    * @ordered
    */
-  protected XSDAnnotation annotation = null;
+  protected XSDAnnotation annotation;
 
   public static XSDInclude createInclude(Node node)
   {

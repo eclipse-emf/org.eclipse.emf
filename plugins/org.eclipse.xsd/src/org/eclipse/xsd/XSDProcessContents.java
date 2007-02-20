@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDProcessContents.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDProcessContents.java,v 1.6 2007/02/20 17:42:21 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -187,7 +187,7 @@ public enum XSDProcessContents implements Enumerator
       case LAX: return LAX_LITERAL;
       case SKIP: return SKIP_LITERAL;
     }
-    return null;	
+    return null;
   }
 
   /**
