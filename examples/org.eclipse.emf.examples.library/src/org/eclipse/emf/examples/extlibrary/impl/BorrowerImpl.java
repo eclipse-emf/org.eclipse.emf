@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BorrowerImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: BorrowerImpl.java,v 1.4 2007/02/20 17:41:55 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -57,7 +57,7 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * @generated
    * @ordered
    */
-  protected EList<Lendable> borrowed = null;
+  protected EList<Lendable> borrowed;
 
   /**
    * <!-- begin-user-doc -->

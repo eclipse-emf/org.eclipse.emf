@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CirculatingItemImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: CirculatingItemImpl.java,v 1.4 2007/02/20 17:41:55 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -81,7 +81,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * @generated
    * @ordered
    */
-  protected EList<Borrower> borrowers = null;
+  protected EList<Borrower> borrowers;
 
   /**
    * <!-- begin-user-doc -->

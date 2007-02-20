@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BookOnTapeImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: BookOnTapeImpl.java,v 1.4 2007/02/20 17:41:55 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -54,7 +54,7 @@ public class BookOnTapeImpl extends AudioVisualItemImpl implements BookOnTape
    * @generated
    * @ordered
    */
-  protected Person reader = null;
+  protected Person reader;
 
   /**
    * The cached value of the '{@link #getAuthor() <em>Author</em>}' reference.
@@ -64,7 +64,7 @@ public class BookOnTapeImpl extends AudioVisualItemImpl implements BookOnTape
    * @generated
    * @ordered
    */
-  protected Writer author = null;
+  protected Writer author;
 
   /**
    * <!-- begin-user-doc -->

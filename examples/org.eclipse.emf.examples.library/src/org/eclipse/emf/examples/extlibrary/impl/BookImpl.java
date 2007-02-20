@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: BookImpl.java,v 1.4 2007/02/20 17:41:55 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -126,7 +126,7 @@ public class BookImpl extends CirculatingItemImpl implements Book
    * @generated
    * @ordered
    */
-  protected Writer author = null;
+  protected Writer author;
 
   /**
    * <!-- begin-user-doc -->

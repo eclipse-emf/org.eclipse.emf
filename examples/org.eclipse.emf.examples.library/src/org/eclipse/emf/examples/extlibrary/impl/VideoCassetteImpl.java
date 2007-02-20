@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: VideoCassetteImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: VideoCassetteImpl.java,v 1.4 2007/02/20 17:41:55 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -51,7 +51,7 @@ public class VideoCassetteImpl extends AudioVisualItemImpl implements VideoCasse
    * @generated
    * @ordered
    */
-  protected EList<Person> cast = null;
+  protected EList<Person> cast;
 
   /**
    * <!-- begin-user-doc -->

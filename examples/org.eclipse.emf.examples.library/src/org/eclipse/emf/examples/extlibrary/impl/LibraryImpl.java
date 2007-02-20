@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.5 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: LibraryImpl.java,v 1.6 2007/02/20 17:41:55 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -116,7 +116,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList<Item> stock = null;
+  protected EList<Item> stock;
 
   /**
    * The cached value of the '{@link #getBooks() <em>Books</em>}' reference list.
@@ -126,7 +126,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList<Book> books = null;
+  protected EList<Book> books;
 
   /**
    * The cached value of the '{@link #getBranches() <em>Branches</em>}' containment reference list.
@@ -136,7 +136,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected EList<Library> branches = null;
+  protected EList<Library> branches;
 
   /**
    * The cached value of the '{@link #getPeople() <em>People</em>}' attribute list.
@@ -146,7 +146,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * @generated
    * @ordered
    */
-  protected FeatureMap people = null;
+  protected FeatureMap people;
 
   /**
    * <!-- begin-user-doc -->

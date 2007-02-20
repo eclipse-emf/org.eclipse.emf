@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EmployeeImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: EmployeeImpl.java,v 1.4 2007/02/20 17:41:55 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -51,7 +51,7 @@ public class EmployeeImpl extends PersonImpl implements Employee
    * @generated
    * @ordered
    */
-  protected Employee manager = null;
+  protected Employee manager;
 
   /**
    * <!-- begin-user-doc -->
