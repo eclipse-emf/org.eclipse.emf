@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AnyTypeImpl.java,v 1.8 2006/12/05 20:22:27 emerks Exp $
+ * $Id: AnyTypeImpl.java,v 1.9 2007/02/20 17:40:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -51,7 +51,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * @generated
    * @ordered
    */
-  protected FeatureMap mixed = null;
+  protected FeatureMap mixed;
 
   /**
    * The cached value of the '{@link #getAnyAttribute() <em>Any Attribute</em>}' attribute list.
@@ -61,7 +61,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * @generated
    * @ordered
    */
-  protected FeatureMap anyAttribute = null;
+  protected FeatureMap anyAttribute;
 
   /**
    * <!-- begin-user-doc -->

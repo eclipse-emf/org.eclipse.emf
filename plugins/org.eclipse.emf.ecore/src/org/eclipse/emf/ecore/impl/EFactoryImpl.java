@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.22 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.23 2007/02/20 17:40:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -75,7 +75,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
    * @generated
    * @ordered
    */
-  protected EPackage ePackage = null;
+  protected EPackage ePackage;
 
   /**
    * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.15 2007/01/15 21:36:06 marcelop Exp $
+ * $Id: EOperationImpl.java,v 1.16 2007/02/20 17:40:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -72,7 +72,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * @generated
    * @ordered
    */
-  protected EList<ETypeParameter> eTypeParameters = null;
+  protected EList<ETypeParameter> eTypeParameters;
 
   /**
    * The cached value of the '{@link #getEParameters() <em>EParameters</em>}' containment reference list.
@@ -82,7 +82,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * @generated
    * @ordered
    */
-  protected EList<EParameter> eParameters = null;
+  protected EList<EParameter> eParameters;
 
   /**
    * The cached value of the '{@link #getEExceptions() <em>EExceptions</em>}' reference list.
@@ -92,7 +92,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * @generated
    * @ordered
    */
-  protected EList<EClassifier> eExceptions = null;
+  protected EList<EClassifier> eExceptions;
 
   /**
    * The cached value of the '{@link #getEGenericExceptions() <em>EGeneric Exceptions</em>}' containment reference list.
@@ -102,7 +102,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * @generated
    * @ordered
    */
-  protected EList<EGenericType> eGenericExceptions = null;
+  protected EList<EGenericType> eGenericExceptions;
 
   /**
    * <!-- begin-user-doc -->

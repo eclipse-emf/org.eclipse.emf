@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypeParameterImpl.java,v 1.2 2006/12/26 19:12:33 emerks Exp $
+ * $Id: ETypeParameterImpl.java,v 1.3 2007/02/20 17:40:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -60,7 +60,7 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
    * @generated
    * @ordered
    */
-  protected EList<EGenericType> eBounds = null;
+  protected EList<EGenericType> eBounds;
 
   /**
    * The cached set of all generic types that reference this type parameter.

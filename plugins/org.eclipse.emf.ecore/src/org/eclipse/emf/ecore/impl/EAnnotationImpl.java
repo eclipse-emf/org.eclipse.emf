@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.13 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EAnnotationImpl.java,v 1.14 2007/02/20 17:40:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -83,7 +83,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * @generated
    * @ordered
    */
-  protected EMap<String, String> details = null;
+  protected EMap<String, String> details;
 
   /**
    * The cached value of the '{@link #getContents() <em>Contents</em>}' containment reference list.
@@ -93,7 +93,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * @generated
    * @ordered
    */
-  protected EList<EObject> contents = null;
+  protected EList<EObject> contents;
 
   /**
    * The cached value of the '{@link #getReferences() <em>References</em>}' reference list.
@@ -103,7 +103,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * @generated
    * @ordered
    */
-  protected EList<EObject> references = null;
+  protected EList<EObject> references;
 
   /**
    * <!-- begin-user-doc -->

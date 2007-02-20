@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.33 2007/01/16 20:04:14 emerks Exp $
+ * $Id: EClassImpl.java,v 1.34 2007/02/20 17:40:49 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -1342,7 +1342,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * @generated
    * @ordered
    */
-  protected EList<EClass> eSuperTypes = null;
+  protected EList<EClass> eSuperTypes;
 
   /**
    * The cached value of the '{@link #getEOperations() <em>EOperations</em>}' containment reference list.
@@ -1352,7 +1352,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * @generated
    * @ordered
    */
-  protected EList<EOperation> eOperations = null;
+  protected EList<EOperation> eOperations;
 
   /**
    * The cached value of the '{@link #getEReferences() <em>EReferences</em>}' containment reference list.
@@ -1382,7 +1382,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * @generated
    * @ordered
    */
-  protected EList<EStructuralFeature> eStructuralFeatures = null;
+  protected EList<EStructuralFeature> eStructuralFeatures;
 
   /**
    * The cached value of the '{@link #getEGenericSuperTypes() <em>EGeneric Super Types</em>}' containment reference list.
@@ -1392,7 +1392,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * @generated
    * @ordered
    */
-  protected EList<EGenericType> eGenericSuperTypes = null;
+  protected EList<EGenericType> eGenericSuperTypes;
 
   /**
    * <!-- begin-user-doc -->

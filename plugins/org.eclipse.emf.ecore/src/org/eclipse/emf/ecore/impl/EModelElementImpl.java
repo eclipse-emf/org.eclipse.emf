@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.16 2006/12/27 17:42:33 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.17 2007/02/20 17:40:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -58,7 +58,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
    * @generated
    * @ordered
    */
-  protected EList<EAnnotation> eAnnotations = null;
+  protected EList<EAnnotation> eAnnotations;
 
   /**
    * <!-- begin-user-doc -->

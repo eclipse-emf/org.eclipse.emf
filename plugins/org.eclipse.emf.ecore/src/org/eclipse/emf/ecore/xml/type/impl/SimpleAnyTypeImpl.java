@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleAnyTypeImpl.java,v 1.8 2006/12/09 18:12:06 emerks Exp $
+ * $Id: SimpleAnyTypeImpl.java,v 1.9 2007/02/20 17:40:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -70,7 +70,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * @generated
    * @ordered
    */
-  protected EDataType instanceType = null;
+  protected EDataType instanceType;
 
   /**
    * <!-- begin-user-doc -->

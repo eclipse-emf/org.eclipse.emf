@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.12 2007/01/16 21:55:56 emerks Exp $
+ * $Id: EReferenceImpl.java,v 1.13 2007/02/20 17:40:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -110,7 +110,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * @generated
    * @ordered
    */
-  protected EReference eOpposite = null;
+  protected EReference eOpposite;
 
   /**
    * The cached value of the '{@link #getEKeys() <em>EKeys</em>}' reference list.
@@ -120,7 +120,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * @generated
    * @ordered
    */
-  protected EList<EAttribute> eKeys = null;
+  protected EList<EAttribute> eKeys;
 
   /**
    * <!-- begin-user-doc -->

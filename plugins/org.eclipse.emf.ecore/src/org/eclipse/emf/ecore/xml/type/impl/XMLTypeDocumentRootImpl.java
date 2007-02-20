@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRootImpl.java,v 1.11 2006/12/09 18:12:45 emerks Exp $
+ * $Id: XMLTypeDocumentRootImpl.java,v 1.12 2007/02/20 17:40:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -65,7 +65,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * @generated
    * @ordered
    */
-  protected FeatureMap mixed = null;
+  protected FeatureMap mixed;
 
   /**
    * The cached value of the '{@link #getXMLNSPrefixMap() <em>XMLNS Prefix Map</em>}' map.
@@ -75,7 +75,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * @generated
    * @ordered
    */
-  protected EMap<String, String> xMLNSPrefixMap = null;
+  protected EMap<String, String> xMLNSPrefixMap;
 
   /**
    * The cached value of the '{@link #getXSISchemaLocation() <em>XSI Schema Location</em>}' map.
@@ -85,7 +85,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * @generated
    * @ordered
    */
-  protected EMap<String, String> xSISchemaLocation = null;
+  protected EMap<String, String> xSISchemaLocation;
 
   /**
    * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeImpl.java,v 1.3 2006/12/26 19:11:00 emerks Exp $
+ * $Id: EGenericTypeImpl.java,v 1.4 2007/02/20 17:40:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -68,7 +68,7 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
    * @generated
    * @ordered
    */
-  protected EGenericType eUpperBound = null;
+  protected EGenericType eUpperBound;
 
   /**
    * The cached value of the '{@link #getETypeArguments() <em>EType Arguments</em>}' containment reference list.
@@ -78,7 +78,7 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
    * @generated
    * @ordered
    */
-  protected EList<EGenericType> eTypeArguments = null;
+  protected EList<EGenericType> eTypeArguments;
 
   /**
    * The cached default value for the {@link #eRawType eRawType} field.
@@ -108,7 +108,7 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
    * @generated
    * @ordered
    */
-  protected EGenericType eLowerBound = null;
+  protected EGenericType eLowerBound;
 
   /**
    * The cached value of the '{@link #getETypeParameter() <em>EType Parameter</em>}' reference.
@@ -118,7 +118,7 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
    * @generated
    * @ordered
    */
-  protected ETypeParameter eTypeParameter = null;
+  protected ETypeParameter eTypeParameter;
 
   /**
    * The cached value of the '{@link #getEClassifier() <em>EClassifier</em>}' reference.
@@ -128,7 +128,7 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
    * @generated
    * @ordered
    */
-  protected EClassifier eClassifier = null;
+  protected EClassifier eClassifier;
 
   /**
    * <!-- begin-user-doc -->

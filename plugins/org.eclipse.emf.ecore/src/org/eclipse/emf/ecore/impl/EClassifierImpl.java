@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.24 2007/02/12 18:46:55 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.25 2007/02/20 17:40:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -374,7 +374,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * @generated
    * @ordered
    */
-  protected EList<ETypeParameter> eTypeParameters = null;
+  protected EList<ETypeParameter> eTypeParameters;
 
   /**
    * The cached value of the '{@link #getInstanceClass() <em>Instance Class</em>}' attribute.
