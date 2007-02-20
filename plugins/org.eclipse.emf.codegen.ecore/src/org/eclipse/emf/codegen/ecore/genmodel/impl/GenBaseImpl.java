@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.56 2007/02/12 18:49:50 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.57 2007/02/20 17:43:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -134,7 +134,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @generated
    * @ordered
    */
-  protected EList<GenAnnotation> genAnnotations = null;
+  protected EList<GenAnnotation> genAnnotations;
 
   /**
    * <!-- begin-user-doc -->

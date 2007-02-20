@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.18 2006/12/29 18:06:38 marcelop Exp $
+ * $Id: GenEnumImpl.java,v 1.19 2007/02/20 17:43:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -90,7 +90,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * @generated
    * @ordered
    */
-  protected EEnum ecoreEnum = null;
+  protected EEnum ecoreEnum;
 
   /**
    * The cached value of the '{@link #getGenEnumLiterals() <em>Gen Enum Literals</em>}' containment reference list.
@@ -100,7 +100,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * @generated
    * @ordered
    */
-  protected EList<GenEnumLiteral> genEnumLiterals = null;
+  protected EList<GenEnumLiteral> genEnumLiterals;
 
   /**
    * <!-- begin-user-doc -->

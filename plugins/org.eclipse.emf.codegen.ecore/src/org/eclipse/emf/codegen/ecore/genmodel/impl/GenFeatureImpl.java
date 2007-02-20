@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.43 2007/02/12 18:48:39 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.44 2007/02/20 17:43:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -164,7 +164,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @generated
    * @ordered
    */
-  protected boolean createChildESet = false;
+  protected boolean createChildESet;
 
   /**
    * The default value of the '{@link #getPropertyCategory() <em>Property Category</em>}' attribute.
@@ -194,7 +194,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @generated
    * @ordered
    */
-  protected EList<String> propertyFilterFlags = null;
+  protected EList<String> propertyFilterFlags;
 
   /**
    * The default value of the '{@link #getPropertyDescription() <em>Property Description</em>}' attribute.
@@ -264,7 +264,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @generated
    * @ordered
    */
-  protected EStructuralFeature ecoreFeature = null;
+  protected EStructuralFeature ecoreFeature;
 
   /**
    * <!-- begin-user-doc -->

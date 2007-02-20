@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.12 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenClassifierImpl.java,v 1.13 2007/02/20 17:43:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -60,7 +60,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * @generated
    * @ordered
    */
-  protected EList<GenTypeParameter> genTypeParameters = null;
+  protected EList<GenTypeParameter> genTypeParameters;
 
   /**
    * <!-- begin-user-doc -->

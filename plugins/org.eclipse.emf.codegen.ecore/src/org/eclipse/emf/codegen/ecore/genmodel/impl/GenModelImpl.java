@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.77 2006/12/28 08:40:32 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.78 2007/02/20 17:43:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -274,7 +274,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected boolean editDirectoryESet = false;
+  protected boolean editDirectoryESet;
 
   /**
    * The default value of the '{@link #getEditorDirectory() <em>Editor Directory</em>}' attribute.
@@ -303,7 +303,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected boolean editorDirectoryESet = false;
+  protected boolean editorDirectoryESet;
 
   /**
    * The default value of the '{@link #getModelPluginID() <em>Model Plugin ID</em>}' attribute.
@@ -373,7 +373,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected EList<String> foreignModel = null;
+  protected EList<String> foreignModel;
 
   /**
    * The default value of the '{@link #isDynamicTemplates() <em>Dynamic Templates</em>}' attribute.
@@ -522,7 +522,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected boolean editPluginClassESet = false;
+  protected boolean editPluginClassESet;
 
   /**
    * The default value of the '{@link #getEditorPluginClass() <em>Editor Plugin Class</em>}' attribute.
@@ -551,7 +551,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected boolean editorPluginClassESet = false;
+  protected boolean editorPluginClassESet;
 
   /**
    * The default value of the '{@link #isUpdateClasspath() <em>Update Classpath</em>}' attribute.
@@ -621,7 +621,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected EList<String> staticPackages = null;
+  protected EList<String> staticPackages;
 
   /**
    * The cached value of the '{@link #getModelPluginVariables() <em>Model Plugin Variables</em>}' attribute list.
@@ -631,7 +631,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected EList<String> modelPluginVariables = null;
+  protected EList<String> modelPluginVariables;
 
   /**
    * The default value of the '{@link #getRootExtendsInterface() <em>Root Extends Interface</em>}' attribute.
@@ -930,7 +930,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected boolean testsDirectoryESet = false;
+  protected boolean testsDirectoryESet;
 
   /**
    * The default value of the '{@link #getTestSuiteClass() <em>Test Suite Class</em>}' attribute.
@@ -959,7 +959,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected boolean testSuiteClassESet = false;
+  protected boolean testSuiteClassESet;
 
   /**
    * The default value of the '{@link #getBooleanFlagsField() <em>Boolean Flags Field</em>}' attribute.
@@ -1230,7 +1230,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected EList<GenPackage> genPackages = null;
+  protected EList<GenPackage> genPackages;
 
   protected EList<GenPackage> staticGenPackages = null;
 
@@ -1242,7 +1242,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected EList<GenPackage> usedGenPackages = null;
+  protected EList<GenPackage> usedGenPackages;
   
   protected boolean validateModel = false;
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.28 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenOperationImpl.java,v 1.29 2007/02/20 17:43:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -77,7 +77,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * @generated
    * @ordered
    */
-  protected EOperation ecoreOperation = null;
+  protected EOperation ecoreOperation;
 
   /**
    * The cached value of the '{@link #getGenParameters() <em>Gen Parameters</em>}' containment reference list.
@@ -87,7 +87,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * @generated
    * @ordered
    */
-  protected EList<GenParameter> genParameters = null;
+  protected EList<GenParameter> genParameters;
 
   /**
    * The cached value of the '{@link #getGenTypeParameters() <em>Gen Type Parameters</em>}' containment reference list.
@@ -97,7 +97,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * @generated
    * @ordered
    */
-  protected EList<GenTypeParameter> genTypeParameters = null;
+  protected EList<GenTypeParameter> genTypeParameters;
 
   /**
    * <!-- begin-user-doc -->

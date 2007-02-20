@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenAnnotationImpl.java,v 1.4 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenAnnotationImpl.java,v 1.5 2007/02/20 17:43:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -75,7 +75,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * @generated
    * @ordered
    */
-  protected EMap<String, String> details = null;
+  protected EMap<String, String> details;
 
   /**
    * The cached value of the '{@link #getReferences() <em>References</em>}' reference list.
@@ -85,7 +85,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * @generated
    * @ordered
    */
-  protected EList<EObject> references = null;
+  protected EList<EObject> references;
 
   /**
    * The cached value of the '{@link #getContents() <em>Contents</em>}' containment reference list.
@@ -95,7 +95,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * @generated
    * @ordered
    */
-  protected EList<EObject> contents = null;
+  protected EList<EObject> contents;
 
   /**
    * <!-- begin-user-doc -->

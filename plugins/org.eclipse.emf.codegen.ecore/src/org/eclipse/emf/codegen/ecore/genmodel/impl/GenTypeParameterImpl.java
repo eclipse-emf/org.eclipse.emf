@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypeParameterImpl.java,v 1.3 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenTypeParameterImpl.java,v 1.4 2007/02/20 17:43:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -51,7 +51,7 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
    * @generated
    * @ordered
    */
-  protected ETypeParameter ecoreTypeParameter = null;
+  protected ETypeParameter ecoreTypeParameter;
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

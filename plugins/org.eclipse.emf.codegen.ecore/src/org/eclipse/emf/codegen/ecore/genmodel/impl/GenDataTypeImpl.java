@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.24 2007/02/12 18:49:50 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.25 2007/02/20 17:43:21 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -67,7 +67,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * @generated
    * @ordered
    */
-  protected EDataType ecoreDataType = null;
+  protected EDataType ecoreDataType;
 
   protected GenDataTypeImpl()
   {

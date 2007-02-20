@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.66 2006/12/29 18:06:38 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.67 2007/02/20 17:43:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -496,7 +496,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @generated
    * @ordered
    */
-  protected EPackage ecorePackage = null;
+  protected EPackage ecorePackage;
 
   /**
    * The cached value of the '{@link #getGenEnums() <em>Gen Enums</em>}' containment reference list.
@@ -506,7 +506,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @generated
    * @ordered
    */
-  protected EList<GenEnum> genEnums = null;
+  protected EList<GenEnum> genEnums;
 
   /**
    * The cached value of the '{@link #getGenDataTypes() <em>Gen Data Types</em>}' containment reference list.
@@ -516,7 +516,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @generated
    * @ordered
    */
-  protected EList<GenDataType> genDataTypes = null;
+  protected EList<GenDataType> genDataTypes;
 
   /**
    * The cached value of the '{@link #getGenClasses() <em>Gen Classes</em>}' containment reference list.
@@ -526,7 +526,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @generated
    * @ordered
    */
-  protected EList<GenClass> genClasses = null;
+  protected EList<GenClass> genClasses;
 
   /**
    * The cached value of the '{@link #getNestedGenPackages() <em>Nested Gen Packages</em>}' containment reference list.
@@ -536,7 +536,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @generated
    * @ordered
    */
-  protected EList<GenPackage> nestedGenPackages = null;
+  protected EList<GenPackage> nestedGenPackages;
 
   /**
    * <!-- begin-user-doc -->

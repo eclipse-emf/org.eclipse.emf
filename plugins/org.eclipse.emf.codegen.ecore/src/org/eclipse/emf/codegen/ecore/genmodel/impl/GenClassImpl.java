@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.70 2007/01/30 14:54:39 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.71 2007/02/20 17:43:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -152,7 +152,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * @generated
    * @ordered
    */
-  protected EClass ecoreClass = null;
+  protected EClass ecoreClass;
 
   /**
    * The cached value of the '{@link #getGenFeatures() <em>Gen Features</em>}' containment reference list.
@@ -162,7 +162,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * @generated
    * @ordered
    */
-  protected EList<GenFeature> genFeatures = null;
+  protected EList<GenFeature> genFeatures;
 
   /**
    * The cached value of the '{@link #getGenOperations() <em>Gen Operations</em>}' containment reference list.
@@ -172,7 +172,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * @generated
    * @ordered
    */
-  protected EList<GenOperation> genOperations = null;
+  protected EList<GenOperation> genOperations;
 
   /**
    * The cached value of the '{@link #getLabelFeature() <em>Label Feature</em>}' reference.
@@ -182,7 +182,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * @generated
    * @ordered
    */
-  protected GenFeature labelFeature = null;
+  protected GenFeature labelFeature;
 
   /**
    * <!-- begin-user-doc -->
