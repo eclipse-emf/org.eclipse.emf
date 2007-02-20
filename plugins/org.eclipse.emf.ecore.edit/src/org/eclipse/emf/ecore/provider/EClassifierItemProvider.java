@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierItemProvider.java,v 1.16 2007/02/12 18:46:20 emerks Exp $
+ * $Id: EClassifierItemProvider.java,v 1.17 2007/02/20 17:43:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -160,7 +160,7 @@ public class EClassifierItemProvider
   protected void addInstanceTypeNamePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClassifier_instanceTypeName_feature"),
@@ -171,25 +171,7 @@ public class EClassifierItemProvider
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
-         null)
-       {
-         @Override
-         public void setPropertyValue(Object object, Object value)
-         {
-           EObject eObject = (EObject)object;
-           EditingDomain editingDomain = getEditingDomain(object);
-           value = stripToNull((String)value);
-           if (editingDomain == null)
-           {
-             eObject.eSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME, value);
-           }
-           else
-           {
-             editingDomain.getCommandStack().execute
-               (SetCommand.create(editingDomain, getCommandOwner(eObject), EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME, value));
-           }
-         }
-       });
+         null));
   }
 
   /**
