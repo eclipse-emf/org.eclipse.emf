@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.11 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: ListChangeImpl.java,v 1.12 2007/02/20 17:43:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -99,7 +99,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * @generated
    * @ordered
    */
-  protected EList<String> dataValues = null;
+  protected EList<String> dataValues;
 
   /**
    * The default value of the '{@link #getIndex() <em>Index</em>}' attribute.
@@ -149,7 +149,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * @generated
    * @ordered
    */
-  protected EList<EObject> referenceValues = null;
+  protected EList<EObject> referenceValues;
 
   /**
    * The cached value of the '{@link #getFeature() <em>Feature</em>}' reference.
@@ -159,7 +159,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * @generated
    * @ordered
    */
-  protected EStructuralFeature feature = null;
+  protected EStructuralFeature feature;
   
   /**
    * The cached value of the '{@link #getFeatureMapEntryValues() <em>Feature Map Entry Values</em>}' containment reference list.
@@ -169,7 +169,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * @generated
    * @ordered
    */
-  protected EList<FeatureMapEntry> featureMapEntryValues = null;
+  protected EList<FeatureMapEntry> featureMapEntryValues;
 
   /**
    * The data value delegating list is used to ensure that the elements

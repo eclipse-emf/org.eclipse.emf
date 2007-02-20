@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceChangeImpl.java,v 1.8 2007/01/29 18:55:12 marcelop Exp $
+ * $Id: ResourceChangeImpl.java,v 1.9 2007/02/20 17:43:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -102,7 +102,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * @generated
    * @ordered
    */
-  protected EList<ListChange> listChanges = null;
+  protected EList<ListChange> listChanges;
 
   protected EList<Object> valueField = null;
   protected EList<Object> newValue = null;

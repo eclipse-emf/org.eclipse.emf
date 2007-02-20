@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.30 2007/02/12 18:51:43 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.31 2007/02/20 17:43:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -132,7 +132,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * @generated
    * @ordered
    */
-  protected EList<ListChange> listChanges = null;
+  protected EList<ListChange> listChanges;
   
   protected EStructuralFeature feature = null;
   

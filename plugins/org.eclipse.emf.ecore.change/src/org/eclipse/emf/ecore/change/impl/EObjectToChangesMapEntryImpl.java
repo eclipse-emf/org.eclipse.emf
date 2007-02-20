@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryImpl.java,v 1.14 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: EObjectToChangesMapEntryImpl.java,v 1.15 2007/02/20 17:43:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -64,7 +64,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * @generated
    * @ordered
    */
-  protected EObject key = null;
+  protected EObject key;
 
   /**
    * The cached value of the '{@link #getTypedValue() <em>Value</em>}' containment reference list.
@@ -74,7 +74,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * @generated
    * @ordered
    */
-  protected EList<FeatureChange> value = null;
+  protected EList<FeatureChange> value;
 
   /**
    * <!-- begin-user-doc -->

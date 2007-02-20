@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.19 2007/02/03 13:28:40 emerks Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.20 2007/02/20 17:43:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -74,7 +74,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * @generated
    * @ordered
    */
-  protected EMap<EObject, EList<FeatureChange>> objectChanges = null;
+  protected EMap<EObject, EList<FeatureChange>> objectChanges;
 
   /**
    * The cached value of the '{@link #getObjectsToDetach() <em>Objects To Detach</em>}' reference list.
@@ -86,7 +86,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * @generated
    * @ordered
    */
-  protected EList<EObject> objectsToDetach = null;
+  protected EList<EObject> objectsToDetach;
   
   /**
    * The cached value of the '{@link #getObjectsToAttach() <em>Objects To Attach</em>}' containment reference list.
@@ -96,7 +96,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * @generated
    * @ordered
    */
-  protected EList<EObject> objectsToAttach = null;
+  protected EList<EObject> objectsToAttach;
 
   /**
    * The cached value of the '{@link #getResourceChanges() <em>Resource Changes</em>}' containment reference list.
@@ -106,7 +106,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * @generated
    * @ordered
    */
-  protected EList<ResourceChange> resourceChanges = null;
+  protected EList<ResourceChange> resourceChanges;
 
   /**
    * <!-- begin-user-doc -->
