@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelperImpl.java,v 1.11 2006/12/29 18:29:09 marcelop Exp $
+ * $Id: MappingHelperImpl.java,v 1.12 2007/02/20 17:43:30 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -61,7 +61,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * @generated
    * @ordered
    */
-  protected EObject helpedObject = null;
+  protected EObject helpedObject;
 
   /**
    * The cached value of the '{@link #getNested() <em>Nested</em>}' containment reference list.
@@ -71,7 +71,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * @generated
    * @ordered
    */
-  protected EList<MappingHelper> nested = null;
+  protected EList<MappingHelper> nested;
 
   /**
    * <!-- begin-user-doc -->

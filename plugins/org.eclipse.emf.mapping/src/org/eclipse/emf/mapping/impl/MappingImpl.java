@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingImpl.java,v 1.8 2006/12/29 18:29:09 marcelop Exp $
+ * $Id: MappingImpl.java,v 1.9 2007/02/20 17:43:30 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -69,7 +69,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * @generated
    * @ordered
    */
-  protected MappingHelper helper = null;
+  protected MappingHelper helper;
 
   /**
    * The cached value of the '{@link #getNested() <em>Nested</em>}' containment reference list.
@@ -79,7 +79,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * @generated
    * @ordered
    */
-  protected EList<Mapping> nested = null;
+  protected EList<Mapping> nested;
 
   /**
    * The cached value of the '{@link #getInputs() <em>Inputs</em>}' reference list.
@@ -89,7 +89,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * @generated
    * @ordered
    */
-  protected EList<EObject> inputs = null;
+  protected EList<EObject> inputs;
 
   /**
    * The cached value of the '{@link #getOutputs() <em>Outputs</em>}' reference list.
@@ -99,7 +99,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * @generated
    * @ordered
    */
-  protected EList<EObject> outputs = null;
+  protected EList<EObject> outputs;
 
   /**
    * The cached value of the '{@link #getTypeMapping() <em>Type Mapping</em>}' reference.
@@ -109,7 +109,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * @generated
    * @ordered
    */
-  protected Mapping typeMapping = null;
+  protected Mapping typeMapping;
 
   /**
    * <!-- begin-user-doc -->

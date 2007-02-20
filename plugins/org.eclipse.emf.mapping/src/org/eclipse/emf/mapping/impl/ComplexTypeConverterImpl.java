@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComplexTypeConverterImpl.java,v 1.8 2006/12/29 18:29:09 marcelop Exp $
+ * $Id: ComplexTypeConverterImpl.java,v 1.9 2007/02/20 17:43:30 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -50,7 +50,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
    * @generated
    * @ordered
    */
-  protected Mapping in2out = null;
+  protected Mapping in2out;
 
   /**
    * The cached value of the '{@link #getOut2in() <em>Out2in</em>}' reference.
@@ -60,7 +60,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
    * @generated
    * @ordered
    */
-  protected Mapping out2in = null;
+  protected Mapping out2in;
 
   /**
    * <!-- begin-user-doc -->

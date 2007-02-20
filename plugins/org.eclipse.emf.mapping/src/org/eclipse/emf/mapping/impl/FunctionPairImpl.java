@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FunctionPairImpl.java,v 1.8 2006/12/29 18:29:09 marcelop Exp $
+ * $Id: FunctionPairImpl.java,v 1.9 2007/02/20 17:43:30 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -50,7 +50,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
    * @generated
    * @ordered
    */
-  protected EOperation in2out = null;
+  protected EOperation in2out;
 
   /**
    * The cached value of the '{@link #getOut2in() <em>Out2in</em>}' reference.
@@ -60,7 +60,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
    * @generated
    * @ordered
    */
-  protected EOperation out2in = null;
+  protected EOperation out2in;
 
   /**
    * <!-- begin-user-doc -->
