@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JFieldImpl.java,v 1.9 2007/01/10 02:40:12 marcelop Exp $
+ * $Id: JFieldImpl.java,v 1.10 2007/02/20 17:43:25 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -160,7 +160,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * @generated
    * @ordered
    */
-  protected JClass type = null;
+  protected JClass type;
 
   /**
    * <!-- begin-user-doc -->

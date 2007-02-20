@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameterImpl.java,v 1.8 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JParameterImpl.java,v 1.9 2007/02/20 17:43:25 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -74,7 +74,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    * @generated
    * @ordered
    */
-  protected JClass type = null;
+  protected JClass type;
 
   /**
    * <!-- begin-user-doc -->

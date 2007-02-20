@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodImpl.java,v 1.11 2007/01/10 02:40:12 marcelop Exp $
+ * $Id: JMethodImpl.java,v 1.12 2007/02/20 17:43:25 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -225,7 +225,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * @generated
    * @ordered
    */
-  protected EList<JParameter> parameters = null;
+  protected EList<JParameter> parameters;
 
   /**
    * The cached value of the '{@link #getExceptions() <em>Exceptions</em>}' reference list.
@@ -235,7 +235,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * @generated
    * @ordered
    */
-  protected EList<JClass> exceptions = null;
+  protected EList<JClass> exceptions;
 
   /**
    * The cached value of the '{@link #getReturnType() <em>Return Type</em>}' reference.
@@ -245,7 +245,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * @generated
    * @ordered
    */
-  protected JClass returnType = null;
+  protected JClass returnType;
 
   /**
    * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackageImpl.java,v 1.7 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JPackageImpl.java,v 1.8 2007/02/20 17:43:25 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -78,7 +78,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * @generated
    * @ordered
    */
-  protected EList<JClass> types = null;
+  protected EList<JClass> types;
 
   /**
    * <!-- begin-user-doc -->

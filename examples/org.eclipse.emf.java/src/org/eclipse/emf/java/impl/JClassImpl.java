@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.12 2007/01/10 02:40:12 marcelop Exp $
+ * $Id: JClassImpl.java,v 1.13 2007/02/20 17:43:25 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -184,7 +184,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * @generated
    * @ordered
    */
-  protected EList<JClass> superTypes = null;
+  protected EList<JClass> superTypes;
 
   /**
    * The cached value of the '{@link #getMembers() <em>Members</em>}' containment reference list.
@@ -194,7 +194,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * @generated
    * @ordered
    */
-  protected EList<JMember> members = null;
+  protected EList<JMember> members;
 
   /**
    * The cached value of the '{@link #getArrayType() <em>Array Type</em>}' containment reference.
@@ -204,7 +204,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * @generated
    * @ordered
    */
-  protected JClass arrayType = null;
+  protected JClass arrayType;
 
   /**
    * The cached value of the '{@link #getPackage() <em>Package</em>}' reference.
@@ -214,7 +214,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * @generated
    * @ordered
    */
-  protected JPackage package_ = null;
+  protected JPackage package_;
 
   /**
    * <!-- begin-user-doc -->

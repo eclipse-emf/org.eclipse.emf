@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitImpl.java,v 1.11 2007/01/10 02:40:12 marcelop Exp $
+ * $Id: JCompilationUnitImpl.java,v 1.12 2007/02/20 17:43:25 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -75,7 +75,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * @generated
    * @ordered
    */
-  protected EList<String> imports = null;
+  protected EList<String> imports;
 
   /**
    * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
@@ -105,7 +105,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * @generated
    * @ordered
    */
-  protected EList<JClass> types = null;
+  protected EList<JClass> types;
 
   /**
    * The cached value of the '{@link #getImportedPackages() <em>Imported Packages</em>}' reference list.
@@ -115,7 +115,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * @generated
    * @ordered
    */
-  protected EList<JPackage> importedPackages = null;
+  protected EList<JPackage> importedPackages;
 
   /**
    * The cached value of the '{@link #getImportedTypes() <em>Imported Types</em>}' reference list.
@@ -125,7 +125,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * @generated
    * @ordered
    */
-  protected EList<JClass> importedTypes = null;
+  protected EList<JClass> importedTypes;
 
   /**
    * The cached value of the '{@link #getPackage() <em>Package</em>}' reference.
@@ -135,7 +135,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * @generated
    * @ordered
    */
-  protected JPackage package_ = null;
+  protected JPackage package_;
 
   /**
    * <!-- begin-user-doc -->
