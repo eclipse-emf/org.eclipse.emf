@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.19.2.1 2007/02/10 13:14:25 emerks Exp $
+ * $Id: XMLLoadImpl.java,v 1.19.2.2 2007/02/20 12:06:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -64,6 +64,9 @@ public class XMLLoadImpl implements XMLLoad
   protected InputStream is;
   protected XMLHelper helper;
   protected Map options;
+
+  // This will be made protected in 2.3.0
+  private boolean namespaceAware;
 
   public XMLLoadImpl(XMLHelper helper)
   {
@@ -366,6 +369,7 @@ public class XMLLoadImpl implements XMLLoad
   {
     this.resource = resource;
     this.options = options;
+    this.namespaceAware = !Boolean.FALSE.equals(XMLResource.OPTION_USE_DEPRECATED_METHODS);
     DefaultHandler handler;
     XMLParserPool pool = (XMLParserPool)options.get(XMLResource.OPTION_USE_PARSER_POOL);
     if (pool != null)
@@ -439,12 +443,20 @@ public class XMLLoadImpl implements XMLLoad
       {
         Node attr = attributes.item(i);
         String namespaceURI = attr.getNamespaceURI();
+        if (namespaceURI == null)
+        {
+          namespaceURI = "";
+        }
         if (ExtendedMetaData.XMLNS_URI.equals(namespaceURI))
         {
           // add non-duplicate namespace declaration
           if (attrs.getIndex(attr.getNodeName()) < 0)
           {
             attrs.addAttribute("", "", attr.getNodeName(), "CDATA", attr.getNodeValue());
+            if (namespaceAware)
+            {
+              handler.startPrefixMapping(attr.getLocalName(), attr.getNodeValue());
+            }
           }
         }
         else
@@ -468,6 +480,10 @@ public class XMLLoadImpl implements XMLLoad
           if (ExtendedMetaData.XMLNS_URI.equals(attr.getNamespaceURI()) && attrs.getIndex(attr.getNodeName()) < 0)
           {          
             attrs.addAttribute("", "", attr.getNodeName(), "CDATA", attr.getNodeValue());
+            if (namespaceAware)
+            {
+              handler.startPrefixMapping(attr.getLocalName(), attr.getNodeValue());
+            }
           }
         }
       }
@@ -476,6 +492,10 @@ public class XMLLoadImpl implements XMLLoad
 
     // traverse element node
     String namespaceURI = element.getNamespaceURI();
+    if (namespaceURI == null)
+    {
+      namespaceURI = "";
+    }
     String localName = element.getLocalName();
     String qname = element.getNodeName();   
     
@@ -522,7 +542,24 @@ public class XMLLoadImpl implements XMLLoad
       case Node.ELEMENT_NODE:
       {
         attributesProxy.setAttributes(node.getAttributes());
+        if (namespaceAware)
+        {
+          NamedNodeMap attributes = node.getAttributes();
+          for (int i = 0; i < attributes.getLength(); i++)
+          {
+            Node attr = attributes.item(i);
+            String namespaceURI = attr.getNamespaceURI();
+            if (ExtendedMetaData.XMLNS_URI.equals(namespaceURI))
+            {
+              handler.startPrefixMapping(attr.getLocalName(), attr.getNodeValue());
+            }
+          }
+        }
         String namespaceURI = node.getNamespaceURI();
+        if (namespaceURI == null)
+        {
+          namespaceURI = "";
+        }
         String localName = node.getLocalName();
         String qname = node.getNodeName();   
         
