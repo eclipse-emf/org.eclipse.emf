@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeImpl.java,v 1.9 2006/12/28 06:48:57 marcelop Exp $
+ * $Id: TreeNodeImpl.java,v 1.10 2007/02/20 17:43:27 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -59,7 +59,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * @generated
    * @ordered
    */
-  protected EList<TreeNode> children = null;
+  protected EList<TreeNode> children;
 
   /**
    * The cached value of the '{@link #getData() <em>Data</em>}' reference.
@@ -69,7 +69,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * @generated
    * @ordered
    */
-  protected EObject data = null;
+  protected EObject data;
 
   /**
    * <!-- begin-user-doc -->
