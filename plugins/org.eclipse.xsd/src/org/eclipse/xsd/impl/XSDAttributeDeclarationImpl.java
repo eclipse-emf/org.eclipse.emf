@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.17 2007/02/20 17:42:21 emerks Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.18 2007/02/23 22:35:53 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -192,7 +192,7 @@ public class XSDAttributeDeclarationImpl
           resolveSimpleTypeDefinition(typeDefinition.getTargetNamespace(), typeDefinition.getName());
         if (forceResolve || newTypeDefinition.getContainer() != null & newTypeDefinition != typeDefinition)
         {
-          setTypeDefinition(newTypeDefinition);
+          setTypeDefinitionGen(newTypeDefinition);
         }
       }
     }
@@ -474,6 +474,7 @@ public class XSDAttributeDeclarationImpl
       {
         if (changedElement.hasAttributeNS(null, XSDConstants.TYPE_ATTRIBUTE))
         {
+          isTypeExplicit = true;
           XSDSimpleTypeDefinition newTypeDefinition =
             resolveSimpleTypeDefinitionURI(XSDConstants.lookupQNameForAttribute(changedElement, XSDConstants.TYPE_ATTRIBUTE));
           if (newTypeDefinition != getTypeDefinition())
@@ -565,6 +566,7 @@ public class XSDAttributeDeclarationImpl
 
       if (theElement.hasAttributeNS(null, XSDConstants.TYPE_ATTRIBUTE))
       {
+        isTypeExplicit = true;
         newTypeDefinition = 
           resolveSimpleTypeDefinitionURI(XSDConstants.lookupQNameForAttribute(theElement, XSDConstants.TYPE_ATTRIBUTE));
       }
@@ -576,7 +578,7 @@ public class XSDAttributeDeclarationImpl
   
       if (newTypeDefinition != getTypeDefinition())
       {
-        setTypeDefinition(newTypeDefinition);
+        setTypeDefinitionGen(newTypeDefinition);
       }
     }
   }
@@ -636,10 +638,9 @@ public class XSDAttributeDeclarationImpl
       {
         XSDSimpleTypeDefinition theTypeDefinition = getTypeDefinition();
         XSDSimpleTypeDefinition theAnonymousTypeDefinition = getAnonymousTypeDefinition();
-        if (theTypeDefinition == null || 
-              theTypeDefinition == theAnonymousTypeDefinition || 
-              XSDConstants.isURType(theTypeDefinition) ||
-              !isTypeExplicit)
+        if (!isTypeExplicit ||
+              theTypeDefinition == null || 
+              theTypeDefinition == theAnonymousTypeDefinition)
         {
           if (theElement != null)
           {
@@ -656,11 +657,6 @@ public class XSDAttributeDeclarationImpl
           {
             setAnonymousTypeDefinition(null);
           }
-        }
-
-        if (eReference != null)
-        {
-          isTypeExplicit = true;
         }
       }
     }
