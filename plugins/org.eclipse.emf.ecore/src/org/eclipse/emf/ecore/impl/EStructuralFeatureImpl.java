@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.25 2007/01/29 20:19:12 davidms Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.26 2007/02/23 22:22:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1583,57 +1583,57 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         case INVERSE_DYNAMIC:
           return new EcoreEList.Dynamic<Object>(dynamicKind, dataClass, owner, feature);
         case CONTAINMENT_UNSETTABLE:
-          return new EObjectContainmentEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID());
+          return new EObjectContainmentEList.Unsettable<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case CONTAINMENT_UNSETTABLE_RESOLVE:
-          return new EObjectContainmentEList.Unsettable.Resolving<Object>(dataClass, owner, feature.getFeatureID());
+          return new EObjectContainmentEList.Unsettable.Resolving<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case CONTAINMENT:
-          return new EObjectContainmentEList<Object>(dataClass, owner, feature.getFeatureID());
+          return new EObjectContainmentEList<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case CONTAINMENT_RESOLVE:
-          return new EObjectContainmentEList.Resolving<Object>(dataClass, owner, feature.getFeatureID());
+          return new EObjectContainmentEList.Resolving<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case EMAP:
-          return new EcoreEMap<Object, Object>((EClass)feature.getEType(), dataClass, owner, feature.getFeatureID());
+          return new EcoreEMap<Object, Object>((EClass)feature.getEType(), dataClass, owner, owner.eClass().getFeatureID(feature));
         case CONTAINMENT_INVERSE_UNSETTABLE:
-          return new EObjectContainmentWithInverseEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectContainmentWithInverseEList.Unsettable<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case CONTAINMENT_INVERSE_UNSETTABLE_RESOLVE:
-          return new EObjectContainmentWithInverseEList.Unsettable.Resolving<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectContainmentWithInverseEList.Unsettable.Resolving<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case CONTAINMENT_INVERSE:
-          return new EObjectContainmentWithInverseEList<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectContainmentWithInverseEList<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case CONTAINMENT_INVERSE_RESOLVE:
-          return new EObjectContainmentWithInverseEList.Resolving<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectContainmentWithInverseEList.Resolving<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case DATA_UNIQUE_UNSETTABLE:
-          return new EDataTypeUniqueEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID());
+          return new EDataTypeUniqueEList.Unsettable<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case DATA_UNIQUE:
-          return new EDataTypeUniqueEList<Object>(dataClass, owner, feature.getFeatureID());
+          return new EDataTypeUniqueEList<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case DATA_UNSETTABLE:
-          return new EDataTypeEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID());
+          return new EDataTypeEList.Unsettable<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case DATA:
-          return new EDataTypeEList<Object>(dataClass, owner, feature.getFeatureID());
+          return new EDataTypeEList<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case EOBJECT_RESOLVE_UNSETTABLE:
-          return new EObjectResolvingEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID());
+          return new EObjectResolvingEList.Unsettable<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case EOBJECT_RESOLVE:
-          return new EObjectResolvingEList<Object>(dataClass, owner, feature.getFeatureID());
+          return new EObjectResolvingEList<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case EOBJECT_UNSETTABLE:
-          return new EObjectEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID());
+          return new EObjectEList.Unsettable<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case EOBJECT:
-          return new EObjectEList<Object>(dataClass, owner, feature.getFeatureID());
+          return new EObjectEList<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case MANY_INVERSE_RESOLVE_UNSETTABLE:
-          return new EObjectWithInverseResolvingEList.Unsettable.ManyInverse<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseResolvingEList.Unsettable.ManyInverse<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case MANY_INVERSE_RESOLVE:
-          return new EObjectWithInverseResolvingEList.ManyInverse<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseResolvingEList.ManyInverse<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case MANY_INVERSE_UNSETTABLE:
-          return new EObjectWithInverseEList.Unsettable.ManyInverse<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseEList.Unsettable.ManyInverse<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case MANY_INVERSE:
-          return new EObjectWithInverseEList.ManyInverse<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseEList.ManyInverse<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case INVERSE_RESOLVE_UNSETTABLE:
-          return new EObjectWithInverseResolvingEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseResolvingEList.Unsettable<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case INVERSE_RESOLVE:
-          return new EObjectWithInverseResolvingEList<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseResolvingEList<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case INVERSE_UNSETTABLE:
-          return new EObjectWithInverseEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseEList.Unsettable<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case INVERSE:
-          return new EObjectWithInverseEList<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseEList<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case FEATURE_MAP:
-          return new BasicFeatureMap(owner, feature.getFeatureID());
+          return new BasicFeatureMap(owner, owner.eClass().getFeatureID(feature));
         default:
           throw new RuntimeException("Unknown feature style: " + style);
       }
