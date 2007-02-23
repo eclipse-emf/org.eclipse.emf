@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.44 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.45 2007/02/23 20:35:15 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1152,7 +1152,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     for (EAttribute eAttribute : ((EReference)getEcoreFeature()).getEKeys())
     {
       GenClass genClass = getTypeGenClass();
-      for (GenFeature genFeature : genClass.getGenFeatures())
+      for (GenFeature genFeature : genClass.getAllGenFeatures())
       {
         if (genFeature.getEcoreFeature() == eAttribute)
         {
