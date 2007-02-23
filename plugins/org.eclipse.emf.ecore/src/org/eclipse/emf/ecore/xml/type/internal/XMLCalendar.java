@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.7 2005/11/02 22:58:33 elena Exp $
+ * $Id: XMLCalendar.java,v 1.7.2.1 2007/02/23 22:26:38 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -120,11 +120,11 @@ public final class XMLCalendar
   //define shared variables for date/time
 
   //define constants
-  protected final static int CY = 0, M = 1, D = 2, h = 3, m = 4, s = 5, ms = 6, utc = 7, hh = 0, mm = 1;
+  protected final static int CY = 0, M = 1, D = 2, h = 3, m = 4, s = 5, ms = 6, msp = 7, utc = 8, hh = 0, mm = 1;
 
   //size for all objects must have the same fields:
   //CCYY, MM, DD, h, m, s, ms + timeZone
-  protected final static int TOTAL_SIZE = 8;
+  protected final static int TOTAL_SIZE = 9;
 
   //size without time zone: ---09
   private final static int DAY_SIZE = 5;
@@ -423,7 +423,7 @@ public final class XMLCalendar
   protected static short compareOrder(int[] date1, int[] date2)
   {
 
-    for (int i = 0; i < TOTAL_SIZE; i++)
+    for (int i = 0; i < ms; i++)
     {
       if (date1[i] < date2[i])
       {
@@ -434,7 +434,18 @@ public final class XMLCalendar
         return 1;
       }
     }
-    return 0;
+
+    double milliSeconds1 = date1[ms];
+    for (int i = 0; i < date1[msp]; ++i)
+    {
+      milliSeconds1 /= 10.0;
+    }
+    double milliSeconds2 = date2[ms];
+    for (int i = 0; i < date2[msp]; ++i)
+    {
+      milliSeconds2 /= 10.0;
+    }
+    return milliSeconds1 < milliSeconds2 ? (short)-1 : milliSeconds1 > milliSeconds2 ? (short)1 : 0;
   }
 
   /**
@@ -484,6 +495,7 @@ public final class XMLCalendar
       // either the end of the UTC sign
       start = sign < 0 ? end : sign;
       data[ms] = parseInt(buffer, milisec + 1, start);
+      data[msp] = start - milisec - 1;
     }
 
     //parse UTC time zone (hh:mm)
@@ -883,6 +895,18 @@ public final class XMLCalendar
       date[M] = modulo(temp, 1, 13);
       date[CY] = date[CY] + fQuotient(temp, 1, 13);
     }
+
+    // Drop trailing zeros.
+    while (date[msp] != 0)
+    {
+      int milliSeconds = date[ms];
+      if (milliSeconds % 10 != 0)
+      {
+        break;
+      }
+      date[ms] = date[ms] / 10;
+      --date[msp];
+    }
     date[utc] = 'Z';
   }
 
@@ -994,8 +1018,13 @@ public final class XMLCalendar
     append(message, dateValue[s], 2);
     if (dateValue[ms] > 0)
     {
-        message.append('.');
-        message.append(dateValue[ms]);
+      message.append('.');
+      String value = Integer.toString(dateValue[ms]);
+      for (int i = value.length(), limit = dateValue[msp]; i < limit; ++i)
+      {
+        message.append('0');
+      }
+      message.append(value);
     }
     append(message, (char)dateValue[utc], 0);
     return message.toString();
@@ -1055,8 +1084,16 @@ public final class XMLCalendar
     append(message, dateValue[m], 2);
     message.append(':');
     append(message, dateValue[s], 2);
-    message.append('.');
-    message.append(dateValue[ms]);
+    if (dateValue[ms] > 0)
+    {
+      message.append('.');
+      String value = Integer.toString(dateValue[ms]);
+      for (int i = value.length(), limit = dateValue[msp]; i < limit; ++i)
+      {
+        message.append('0');
+      }
+      message.append(value);
+    }
     append(message, (char)dateValue[utc], 0);
     return message.toString();
   }
