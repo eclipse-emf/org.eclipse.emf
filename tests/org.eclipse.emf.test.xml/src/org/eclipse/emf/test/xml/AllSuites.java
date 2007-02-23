@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.17 2007/02/19 14:54:24 emerks Exp $
+ * $Id: AllSuites.java,v 1.18 2007/02/23 22:36:15 emerks Exp $
  */
 package org.eclipse.emf.test.xml;
 
@@ -43,6 +43,7 @@ public class AllSuites extends TestSuite
     ,DTDTest.suite()
     ,org.eclipse.emf.test.xml.xmi.URIHandlerTest.suite()
     ,org.eclipse.emf.test.xml.xmi.LaxFeatureNamespaceMatchingTest.suite()
+    ,org.eclipse.emf.test.xml.xsd.XSDFeatureTypeTest.suite()
   };
 
   public static Test suite()

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/TestSchema" xmlns:tns="http://www.example.org/TestSchema" elementFormDefault="qualified">
+	
+	<element name="testElement" />
+	<attribute name="testAttribute" type="anySimpleType" />
+	
+</schema>
