@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.34 2007/02/20 17:40:49 emerks Exp $
+ * $Id: EClassImpl.java,v 1.35 2007/02/23 21:08:37 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -199,6 +199,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    */
   public EList<EGenericType> getEGenericSuperTypes()
   {
+    getESuperAdapter();
     if (eGenericSuperTypes == null)
     {
       eGenericSuperTypes = 
