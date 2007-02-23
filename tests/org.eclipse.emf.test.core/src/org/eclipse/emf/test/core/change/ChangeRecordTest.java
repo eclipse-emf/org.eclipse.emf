@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.17 2007/01/18 15:53:10 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.18 2007/02/23 22:19:23 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -988,8 +988,8 @@ extends TestCase
     assertEquals(0, resource1.eAdapters().indexOf(changeRecorder));
     assertEquals(1, pack.eAdapters().size());
     assertEquals(0, pack.eAdapters().indexOf(changeRecorder));
-    assertEquals(1, person.eAdapters().size());
-    assertEquals(0, person.eAdapters().indexOf(changeRecorder));
+    assertEquals(2, person.eAdapters().size());
+    assertEquals(1, person.eAdapters().indexOf(changeRecorder));
   }
   
   /*
@@ -1022,8 +1022,8 @@ extends TestCase
     assertEquals(0, resource1.eAdapters().indexOf(changeRecorder));
     assertEquals(1, pack.eAdapters().size());
     assertEquals(0, pack.eAdapters().indexOf(changeRecorder));
-    assertEquals(1, person.eAdapters().size());
-    assertEquals(0, person.eAdapters().indexOf(changeRecorder));
+    assertEquals(2, person.eAdapters().size());
+    assertEquals(1, person.eAdapters().indexOf(changeRecorder));
   }
   
   /*
@@ -1065,8 +1065,8 @@ extends TestCase
     assertEquals(0, resource2.eAdapters().indexOf(changeRecorder));
     assertEquals(1, pack.eAdapters().size());
     assertEquals(0, pack.eAdapters().indexOf(changeRecorder));
-    assertEquals(1, person.eAdapters().size());
-    assertEquals(0, person.eAdapters().indexOf(changeRecorder));
+    assertEquals(2, person.eAdapters().size());
+    assertEquals(1, person.eAdapters().indexOf(changeRecorder));
   }
   
   /*
