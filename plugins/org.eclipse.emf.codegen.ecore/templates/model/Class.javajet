@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.60 2007/02/20 17:38:19 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.61 2007/02/26 12:40:21 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -481,7 +481,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	<%=genFeature.getImportedType()%> <%=genFeature.getGetAccessor()%>();
 
 <%} else {%>
-  <%if (genModel.useGenerics() && (genFeature.isResolveProxies() && !genFeature.isListType() && !genFeature.isContainer() && !genModel.isReflectiveDelegation() && genFeature.isUncheckedCast() || genFeature.isListDataType() && genFeature.hasDelegateFeature())) {%>
+  <%if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType() && !genModel.isReflectiveDelegation() && genFeature.isUncheckedCast() || genFeature.isListDataType() && genFeature.hasDelegateFeature())) {%>
 	@SuppressWarnings("unchecked")
   <%}%>
 	public <%=genFeature.getImportedType()%> <%=genFeature.getGetAccessor()%>()

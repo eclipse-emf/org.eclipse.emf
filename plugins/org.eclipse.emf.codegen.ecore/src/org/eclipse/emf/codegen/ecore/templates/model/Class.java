@@ -1969,7 +1969,7 @@ public class Class
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_241);
     } else {
-    if (genModel.useGenerics() && (genFeature.isResolveProxies() && !genFeature.isListType() && !genFeature.isContainer() && !genModel.isReflectiveDelegation() && genFeature.isUncheckedCast() || genFeature.isListDataType() && genFeature.hasDelegateFeature())) {
+    if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType() && !genModel.isReflectiveDelegation() && genFeature.isUncheckedCast() || genFeature.isListDataType() && genFeature.hasDelegateFeature())) {
     stringBuffer.append(TEXT_242);
     }
     stringBuffer.append(TEXT_243);
