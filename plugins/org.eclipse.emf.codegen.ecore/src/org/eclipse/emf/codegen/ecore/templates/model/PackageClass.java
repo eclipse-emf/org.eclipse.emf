@@ -1470,7 +1470,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(genModel.getNonNLS(genFeature.getDefaultValue(), 2));
     }
     }
-    for (GenOperation genOperation : genClass.getGenOperations()) {String prefix = ""; if (!genOperation.isVoid() || !genOperation.getGenParameters().isEmpty() || !genOperation.getGenExceptions().isEmpty() || !genOperation.getGenTypeParameters().isEmpty()) { if (firstOperationAssignment) { firstOperationAssignment = false; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EOperation") + " op = "; } else { prefix = "op = "; }} 
+    for (GenOperation genOperation : genClass.getGenOperations()) {String prefix = ""; if (genOperation.hasGenericType() || !genOperation.getGenParameters().isEmpty() || !genOperation.getGenExceptions().isEmpty() || !genOperation.getGenTypeParameters().isEmpty()) { if (firstOperationAssignment) { firstOperationAssignment = false; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EOperation") + " op = "; } else { prefix = "op = "; }} 
     stringBuffer.append(TEXT_354);
     if (!genOperation.isVoid()) {
     stringBuffer.append(TEXT_355);

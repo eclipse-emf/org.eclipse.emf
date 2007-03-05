@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.35 2006/12/28 06:40:38 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.36 2007/03/05 00:24:18 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -688,7 +688,7 @@ int maxGenericTypeAssignment = 0;
 		initEAttribute(get<%=genFeature.getFeatureAccessorName()%>(), <%if (genFeature.hasGenericType()) {%>g1<%} else {%><%=genPackage.getPackageInstanceVariable(genFeature.getTypeGenPackage())%>.get<%=genFeature.getTypeClassifierAccessorName()%>()<%}%>, "<%=genFeature.getName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getTransientFlag()%>, <%=genFeature.getVolatileFlag()%>, <%=genFeature.getChangeableFlag()%>, <%=genFeature.getUnsettableFlag()%>, <%=genFeature.getIDFlag()%>, <%=genFeature.getUniqueFlag()%>, <%=genFeature.getDerivedFlag()%>, <%=genFeature.getOrderedFlag()%>);<%=genModel.getNonNLS()%><%=genModel.getNonNLS(genFeature.getDefaultValue(), 2)%>
           <%}%>
         <%}%>
-        <%for (GenOperation genOperation : genClass.getGenOperations()) {String prefix = ""; if (!genOperation.isVoid() || !genOperation.getGenParameters().isEmpty() || !genOperation.getGenExceptions().isEmpty() || !genOperation.getGenTypeParameters().isEmpty()) { if (firstOperationAssignment) { firstOperationAssignment = false; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EOperation") + " op = "; } else { prefix = "op = "; }} %>
+        <%for (GenOperation genOperation : genClass.getGenOperations()) {String prefix = ""; if (genOperation.hasGenericType() || !genOperation.getGenParameters().isEmpty() || !genOperation.getGenExceptions().isEmpty() || !genOperation.getGenTypeParameters().isEmpty()) { if (firstOperationAssignment) { firstOperationAssignment = false; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EOperation") + " op = "; } else { prefix = "op = "; }} %>
 
           <%if (!genOperation.isVoid()) {%>
 		<%=prefix%>addEOperation(<%=genClass.getClassifierInstanceName()%>, <%if (genOperation.hasGenericType()) {%>null<%} else {%><%=genPackage.getPackageInstanceVariable(genOperation.getTypeGenPackage())%>.get<%=genOperation.getTypeClassifierAccessorName()%>()<%}%>, "<%=genOperation.getName()%>", <%=genOperation.getLowerBound()%>, <%=genOperation.getUpperBound()%>);<%=genModel.getNonNLS()%>
