@@ -847,7 +847,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_164);
     }
     stringBuffer.append(TEXT_165);
-    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || !genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
+    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
     stringBuffer.append(TEXT_166);
     stringBuffer.append(genDataType.getImportedParameterizedObjectInstanceClassName());
     stringBuffer.append(TEXT_167);
@@ -1017,7 +1017,7 @@ public class FactoryClass
     }
     stringBuffer.append(TEXT_242);
     }
-    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || !genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
+    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
     stringBuffer.append(TEXT_243);
     if (!genDataType.isObjectType()) {
     stringBuffer.append(TEXT_244);
@@ -1219,7 +1219,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_331);
     stringBuffer.append(eDataType);
     stringBuffer.append(TEXT_332);
-    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || !genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
+    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
     stringBuffer.append(TEXT_333);
     } else if (genDataType.isArrayType()) {
     stringBuffer.append(TEXT_334);
@@ -1349,7 +1349,7 @@ public class FactoryClass
     }
     stringBuffer.append(TEXT_392);
     }
-    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || !genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
+    } else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {
     stringBuffer.append(TEXT_393);
     } else if (genDataType.isArrayType()) {
     stringBuffer.append(TEXT_394);

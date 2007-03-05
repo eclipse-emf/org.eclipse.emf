@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.27 2007/01/18 22:08:08 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.28 2007/03/05 00:32:34 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -307,7 +307,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 		if (<%if (!genDataType.isPrimitiveType()) {%>result != null || <%}%>exception == null) return result;
     
 		throw exception;
-    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || !genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
+    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
 		return (<%=genDataType.getImportedParameterizedObjectInstanceClassName()%>)super.createFromString(literal);
     <%} else if (genDataType.isArrayType()) {%>
 		// TODO: implement this method
@@ -395,7 +395,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
     
 		throw exception;
       <%}%>
-    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || !genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
+    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
 		return <%if (!genDataType.isObjectType()) {%>(<%=genDataType.getImportedParameterizedObjectInstanceClassName()%>)<%}%>super.createFromString(initialValue);
     <%} else if (genDataType.isArrayType()) {%>
 		// TODO: implement this method
@@ -515,7 +515,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
         <%}%>
       <%}%>
 		throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+<%=eDataType%>.getName());
-    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || !genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
+    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
 		return super.convertToString(instanceValue);
     <%} else if (genDataType.isArrayType()) {%>
 		// TODO: implement this method
@@ -599,7 +599,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
         <%}%>
 		throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+eDataType.getName());
       <%}%>
-    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || !genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
+    <%} else if (genModel.useGenerics() && (genDataType.isArrayType() || !genDataType.getEcoreDataType().getETypeParameters().isEmpty() || genDataType.getEcoreDataType().getInstanceTypeName().contains("<"))) {%>
 		return super.convertToString(instanceValue);
     <%} else if (genDataType.isArrayType()) {%>
 		// TODO: implement this method
