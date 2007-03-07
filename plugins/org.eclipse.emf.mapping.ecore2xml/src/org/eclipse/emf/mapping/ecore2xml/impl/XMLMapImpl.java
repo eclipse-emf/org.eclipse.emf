@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapImpl.java,v 1.8 2007/02/20 17:41:53 emerks Exp $
+ * $Id: XMLMapImpl.java,v 1.9 2007/03/07 20:59:21 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -276,10 +277,11 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
 
   protected class DelegateXMLMapImpl extends org.eclipse.emf.ecore.xmi.impl.XMLMapImpl
   {
-    protected DelegateXMLMapImpl()
+    @SuppressWarnings("unchecked")
+	protected DelegateXMLMapImpl()
     {
       super();
-      this.ecoreToXMLInfo.putAll(XMLMapImpl.this.getEcoreToXMLInfo().map());
+      this.ecoreToXMLInfo = (Map<ENamedElement,XMLResource.XMLInfo>)((Map<?,?>)XMLMapImpl.this.getEcoreToXMLInfo().map());
     }
   }
   
