@@ -32,58 +32,64 @@ public class PackageExample
   protected final String TEXT_16 = "());" + NL + "" + NL + "\t\t// Register the package to ensure it is available during loading." + NL + "\t\t//" + NL + "\t\tresourceSet.getPackageRegistry().put" + NL + "\t\t\t(";
   protected final String TEXT_17 = ".eNS_URI, " + NL + "\t\t\t ";
   protected final String TEXT_18 = ".eINSTANCE);" + NL + "        " + NL + "\t\t// If there are no arguments, emit an appropriate usage message." + NL + "\t\t//" + NL + "\t\tif (args.length == 0)" + NL + "\t\t{";
-  protected final String TEXT_19 = NL + "\t\t\tSystem.out.println(\"Enter a list of file paths or URIs that have content like this:\");" + NL + "\t\t\ttry" + NL + "\t\t\t{" + NL + "\t\t\t\t";
-  protected final String TEXT_20 = " resource = resourceSet.createResource(";
-  protected final String TEXT_21 = ".createURI(\"http:///My.";
-  protected final String TEXT_22 = "\"));";
-  protected final String TEXT_23 = NL + "\t\t\t\t";
-  protected final String TEXT_24 = " documentRoot = ";
-  protected final String TEXT_25 = ".create";
-  protected final String TEXT_26 = "();" + NL + "\t\t\t\t";
-  protected final String TEXT_27 = " root = ";
-  protected final String TEXT_28 = ".create";
-  protected final String TEXT_29 = "();";
-  protected final String TEXT_30 = NL + "\t\t\t\tdocumentRoot.eSet(";
-  protected final String TEXT_31 = ", root);";
-  protected final String TEXT_32 = NL + "\t\t\t\tdocumentRoot.set";
-  protected final String TEXT_33 = "(root);";
-  protected final String TEXT_34 = NL + "\t\t\t\tresource.getContents().add(";
-  protected final String TEXT_35 = "(";
-  protected final String TEXT_36 = ")";
-  protected final String TEXT_37 = "documentRoot);";
-  protected final String TEXT_38 = NL + "\t\t\t\t";
-  protected final String TEXT_39 = " root = ";
-  protected final String TEXT_40 = ".create";
-  protected final String TEXT_41 = "();" + NL + "\t\t\t\tresource.getContents().add(";
-  protected final String TEXT_42 = "(";
-  protected final String TEXT_43 = ")";
-  protected final String TEXT_44 = "root);";
-  protected final String TEXT_45 = NL + "\t\t\t\tresource.save(";
-  protected final String TEXT_46 = ".out, null);" + NL + "\t\t\t}" + NL + "\t\t\tcatch (";
-  protected final String TEXT_47 = " exception) " + NL + "\t\t\t{" + NL + "\t\t\t\texception.printStackTrace();" + NL + "\t\t\t}";
-  protected final String TEXT_48 = NL + "\t\t\tSystem.out.println(\"Enter a list of file paths or URIs\");";
-  protected final String TEXT_49 = NL + "\t\t}" + NL + "\t\telse" + NL + "\t\t{" + NL + "\t\t\t// Iterate over all the arguments." + NL + "\t\t\t//" + NL + "\t\t\tfor (int i = 0; i < args.length; ++i)" + NL + "\t\t\t{" + NL + "\t\t\t\t// Construct the URI for the instance file." + NL + "\t\t\t\t// The argument is treated as a file path only if it denotes an existing file." + NL + "\t\t\t\t// Otherwise, it's directly treated as a URL." + NL + "\t\t\t\t//" + NL + "\t\t\t\t";
-  protected final String TEXT_50 = " file = new ";
-  protected final String TEXT_51 = "(args[i]);" + NL + "\t\t\t\t";
-  protected final String TEXT_52 = " uri = file.isFile() ? ";
-  protected final String TEXT_53 = ".createFileURI(file.getAbsolutePath()): URI.createURI(args[0]);" + NL + "" + NL + "\t\t\t\ttry" + NL + "\t\t\t\t{" + NL + "\t\t\t\t\t// Demand load resource for this file." + NL + "\t\t\t\t\t//" + NL + "\t\t\t\t\t";
-  protected final String TEXT_54 = " resource = resourceSet.getResource(uri, true);" + NL + "\t\t\t\t\tSystem.out.println(\"Loaded \" + uri);" + NL + "" + NL + "\t\t\t\t\t// Validate the contents of the loaded resource." + NL + "\t\t\t\t\t//";
-  protected final String TEXT_55 = NL + "\t\t\t\t\tfor (";
-  protected final String TEXT_56 = " eObject : resource.getContents())";
+  protected final String TEXT_19 = NL + "\t\t\tSystem.out.println(\"Enter a list of file paths or URIs that have content like this:\");";
+  protected final String TEXT_20 = NL + "\t\t\ttry" + NL + "\t\t\t{" + NL + "\t\t\t\t";
+  protected final String TEXT_21 = " resource = resourceSet.createResource(";
+  protected final String TEXT_22 = ".createURI(\"http:///My.";
+  protected final String TEXT_23 = "\"));";
+  protected final String TEXT_24 = NL + "\t\t\t\t";
+  protected final String TEXT_25 = " documentRoot = ";
+  protected final String TEXT_26 = ".create";
+  protected final String TEXT_27 = "();" + NL + "\t\t\t\t";
+  protected final String TEXT_28 = " root = ";
+  protected final String TEXT_29 = ".create";
+  protected final String TEXT_30 = "();";
+  protected final String TEXT_31 = NL + "\t\t\t\tdocumentRoot.eSet(";
+  protected final String TEXT_32 = ", root);";
+  protected final String TEXT_33 = NL + "\t\t\t\tdocumentRoot.set";
+  protected final String TEXT_34 = "(root);";
+  protected final String TEXT_35 = NL + "\t\t\t\tresource.getContents().add(";
+  protected final String TEXT_36 = "(";
+  protected final String TEXT_37 = ")";
+  protected final String TEXT_38 = "documentRoot);";
+  protected final String TEXT_39 = NL + "\t\t\t\t";
+  protected final String TEXT_40 = " root = ";
+  protected final String TEXT_41 = ".create";
+  protected final String TEXT_42 = "();" + NL + "\t\t\t\tresource.getContents().add(";
+  protected final String TEXT_43 = "(";
+  protected final String TEXT_44 = ")";
+  protected final String TEXT_45 = "root);";
+  protected final String TEXT_46 = NL + "\t\t\t\tresource.save(";
+  protected final String TEXT_47 = ".out, null);" + NL + "\t\t\t}" + NL + "\t\t\tcatch (";
+  protected final String TEXT_48 = " exception) " + NL + "\t\t\t{" + NL + "\t\t\t\texception.printStackTrace();" + NL + "\t\t\t}";
+  protected final String TEXT_49 = NL + "\t\t\tSystem.out.println(\"Enter a list of file paths or URIs\");";
+  protected final String TEXT_50 = NL + "\t\t}" + NL + "\t\telse" + NL + "\t\t{" + NL + "\t\t\t// Iterate over all the arguments." + NL + "\t\t\t//" + NL + "\t\t\tfor (int i = 0; i < args.length; ++i)" + NL + "\t\t\t{" + NL + "\t\t\t\t// Construct the URI for the instance file." + NL + "\t\t\t\t// The argument is treated as a file path only if it denotes an existing file." + NL + "\t\t\t\t// Otherwise, it's directly treated as a URL." + NL + "\t\t\t\t//" + NL + "\t\t\t\t";
+  protected final String TEXT_51 = " file = new ";
+  protected final String TEXT_52 = "(args[i]);" + NL + "\t\t\t\t";
+  protected final String TEXT_53 = " uri = file.isFile() ? ";
+  protected final String TEXT_54 = ".createFileURI(file.getAbsolutePath()): URI.createURI(args[0]);" + NL + "" + NL + "\t\t\t\ttry" + NL + "\t\t\t\t{" + NL + "\t\t\t\t\t// Demand load resource for this file." + NL + "\t\t\t\t\t//" + NL + "\t\t\t\t\t";
+  protected final String TEXT_55 = " resource = resourceSet.getResource(uri, true);" + NL + "\t\t\t\t\tSystem.out.println(\"Loaded \" + uri);";
+  protected final String TEXT_56 = NL + NL + "\t\t\t\t\t// Validate the contents of the loaded resource." + NL + "\t\t\t\t\t//";
   protected final String TEXT_57 = NL + "\t\t\t\t\tfor (";
-  protected final String TEXT_58 = " j = resource.getContents().iterator(); j.hasNext(); )";
-  protected final String TEXT_59 = NL + "\t\t\t\t\t{";
-  protected final String TEXT_60 = NL + "\t\t\t\t\t\t";
-  protected final String TEXT_61 = " eObject = (";
-  protected final String TEXT_62 = ")j.next();";
-  protected final String TEXT_63 = NL + "\t\t\t\t\t\t";
-  protected final String TEXT_64 = " diagnostic = ";
-  protected final String TEXT_65 = ".INSTANCE.validate(eObject);" + NL + "\t\t\t\t\t\tif (diagnostic.getSeverity() != Diagnostic.OK)" + NL + "\t\t\t\t\t\t{" + NL + "\t\t\t\t\t\t\tprintDiagnostic(diagnostic, \"\");" + NL + "\t\t\t\t\t\t}" + NL + "\t\t\t\t\t}" + NL + "\t\t\t\t}" + NL + "\t\t\t\tcatch (";
-  protected final String TEXT_66 = " exception) " + NL + "\t\t\t\t{" + NL + "\t\t\t\t\tSystem.out.println(\"Problem loading \" + uri);" + NL + "\t\t\t\t\texception.printStackTrace();" + NL + "\t\t\t\t}" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t}" + NL + "\t" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * Prints diagnostics with indentation." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @param diagnostic the diagnostic to print." + NL + "\t * @param indent the indentation for printing." + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected static void printDiagnostic(Diagnostic diagnostic, String indent)" + NL + "\t{" + NL + "\t\tSystem.out.print(indent);" + NL + "\t\tSystem.out.println(diagnostic.getMessage());";
-  protected final String TEXT_67 = NL + "\t\tfor (Diagnostic child : diagnostic.getChildren())" + NL + "\t\t{" + NL + "\t\t\tprintDiagnostic(child, indent + \"  \");" + NL + "\t\t}";
-  protected final String TEXT_68 = NL + "\t\tfor (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )" + NL + "\t\t{" + NL + "\t\t\tprintDiagnostic((Diagnostic)i.next(), indent + \"  \");" + NL + "\t\t}";
-  protected final String TEXT_69 = NL + "\t}" + NL + "" + NL + "} //";
-  protected final String TEXT_70 = NL;
+  protected final String TEXT_58 = " eObject : resource.getContents())";
+  protected final String TEXT_59 = NL + "\t\t\t\t\tfor (";
+  protected final String TEXT_60 = " j = resource.getContents().iterator(); j.hasNext(); )";
+  protected final String TEXT_61 = NL + "\t\t\t\t\t{";
+  protected final String TEXT_62 = NL + "\t\t\t\t\t\t";
+  protected final String TEXT_63 = " eObject = (";
+  protected final String TEXT_64 = ")j.next();";
+  protected final String TEXT_65 = NL + "\t\t\t\t\t\t";
+  protected final String TEXT_66 = " diagnostic = ";
+  protected final String TEXT_67 = ".INSTANCE.validate(eObject);" + NL + "\t\t\t\t\t\tif (diagnostic.getSeverity() != Diagnostic.OK)" + NL + "\t\t\t\t\t\t{" + NL + "\t\t\t\t\t\t\tprintDiagnostic(diagnostic, \"\");";
+  protected final String TEXT_68 = NL + "\t\t\t\t\t\t}" + NL + "\t\t\t\t\t}" + NL + "\t\t\t\t}" + NL + "\t\t\t\tcatch (";
+  protected final String TEXT_69 = " exception) " + NL + "\t\t\t\t{" + NL + "\t\t\t\t\tSystem.out.println(\"Problem loading \" + uri);";
+  protected final String TEXT_70 = NL + "\t\t\t\t\texception.printStackTrace();" + NL + "\t\t\t\t}" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "\t}" + NL + "\t" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * Prints diagnostics with indentation." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @param diagnostic the diagnostic to print." + NL + "\t * @param indent the indentation for printing." + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected static void printDiagnostic(Diagnostic diagnostic, String indent)" + NL + "\t{" + NL + "\t\tSystem.out.print(indent);" + NL + "\t\tSystem.out.println(diagnostic.getMessage());";
+  protected final String TEXT_71 = NL + "\t\tfor (Diagnostic child : diagnostic.getChildren())" + NL + "\t\t{" + NL + "\t\t\tprintDiagnostic(child, indent + \"  \");";
+  protected final String TEXT_72 = NL + "\t\t}";
+  protected final String TEXT_73 = NL + "\t\tfor (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )" + NL + "\t\t{" + NL + "\t\t\tprintDiagnostic((Diagnostic)i.next(), indent + \"  \");";
+  protected final String TEXT_74 = NL + "\t\t}";
+  protected final String TEXT_75 = NL + "\t}" + NL + "" + NL + "} //";
+  protected final String TEXT_76 = NL;
 
   public String generate(Object argument)
   {
@@ -92,7 +98,7 @@ public class PackageExample
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -158,110 +164,123 @@ String _ResourceSetImpl = genModel.getImportedName("org.eclipse.emf.ecore.resour
     stringBuffer.append(TEXT_18);
     if (genPackage.getRootClass() != null) { GenClass rootClass = genPackage.getRootClass();
     stringBuffer.append(TEXT_19);
-    stringBuffer.append(_Resource);
+    stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_20);
-    stringBuffer.append(_URI);
+    stringBuffer.append(_Resource);
     stringBuffer.append(TEXT_21);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(_URI);
     stringBuffer.append(TEXT_22);
-    if (genPackage.getRootFeature() != null) { GenFeature rootFeature = genPackage.getRootFeature(); GenClass documentRoot = rootFeature.getGenClass();
+    stringBuffer.append(genPackage.getPrefix().toLowerCase());
     stringBuffer.append(TEXT_23);
-    stringBuffer.append(documentRoot.getImportedInterfaceName());
+    stringBuffer.append(genModel.getNonNLS());
+    if (genPackage.getRootFeature() != null) { GenFeature rootFeature = genPackage.getRootFeature(); GenClass documentRoot = rootFeature.getGenClass();
     stringBuffer.append(TEXT_24);
-    stringBuffer.append(genPackage.getQualifiedEFactoryInternalInstanceAccessor());
+    stringBuffer.append(documentRoot.getImportedInterfaceName());
     stringBuffer.append(TEXT_25);
-    stringBuffer.append(documentRoot.getName());
+    stringBuffer.append(genPackage.getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_26);
-    stringBuffer.append(rootClass.getImportedInterfaceName());
+    stringBuffer.append(documentRoot.getName());
     stringBuffer.append(TEXT_27);
-    stringBuffer.append(rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor());
+    stringBuffer.append(rootClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_28);
-    stringBuffer.append(rootClass.getName());
+    stringBuffer.append(rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_29);
-    if (documentRoot.isDynamic()) {
+    stringBuffer.append(rootClass.getName());
     stringBuffer.append(TEXT_30);
-    stringBuffer.append(rootFeature.getQualifiedFeatureAccessor());
+    if (documentRoot.isDynamic()) {
     stringBuffer.append(TEXT_31);
-    } else {
+    stringBuffer.append(rootFeature.getQualifiedFeatureAccessor());
     stringBuffer.append(TEXT_32);
-    stringBuffer.append(rootFeature.getCapName());
-    stringBuffer.append(TEXT_33);
-    }
-    stringBuffer.append(TEXT_34);
-    if (!documentRoot.isEObjectExtension()){
-    stringBuffer.append(TEXT_35);
-    stringBuffer.append(_EObject);
-    stringBuffer.append(TEXT_36);
-    }
-    stringBuffer.append(TEXT_37);
     } else {
+    stringBuffer.append(TEXT_33);
+    stringBuffer.append(rootFeature.getCapName());
+    stringBuffer.append(TEXT_34);
+    }
+    stringBuffer.append(TEXT_35);
+    if (!documentRoot.isEObjectExtension()){
+    stringBuffer.append(TEXT_36);
+    stringBuffer.append(_EObject);
+    stringBuffer.append(TEXT_37);
+    }
     stringBuffer.append(TEXT_38);
+    } else {
+    stringBuffer.append(TEXT_39);
     stringBuffer.append(rootClass.getImportedInterfaceName());
     stringBuffer.append(rootClass.getInterfaceWildTypeArguments());
-    stringBuffer.append(TEXT_39);
-    stringBuffer.append(rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_40);
-    stringBuffer.append(rootClass.getName());
+    stringBuffer.append(rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_41);
-    if (!rootClass.isEObjectExtension()){
+    stringBuffer.append(rootClass.getName());
     stringBuffer.append(TEXT_42);
-    stringBuffer.append(_EObject);
+    if (!rootClass.isEObjectExtension()){
     stringBuffer.append(TEXT_43);
-    }
+    stringBuffer.append(_EObject);
     stringBuffer.append(TEXT_44);
     }
     stringBuffer.append(TEXT_45);
-    stringBuffer.append(_System);
-    stringBuffer.append(TEXT_46);
-    stringBuffer.append(genModel.getImportedName("java.io.IOException"));
-    stringBuffer.append(TEXT_47);
-    } else {
-    stringBuffer.append(TEXT_48);
     }
+    stringBuffer.append(TEXT_46);
+    stringBuffer.append(_System);
+    stringBuffer.append(TEXT_47);
+    stringBuffer.append(genModel.getImportedName("java.io.IOException"));
+    stringBuffer.append(TEXT_48);
+    } else {
     stringBuffer.append(TEXT_49);
-    stringBuffer.append(_File);
+    }
     stringBuffer.append(TEXT_50);
     stringBuffer.append(_File);
     stringBuffer.append(TEXT_51);
-    stringBuffer.append(_URI);
+    stringBuffer.append(_File);
     stringBuffer.append(TEXT_52);
     stringBuffer.append(_URI);
     stringBuffer.append(TEXT_53);
-    stringBuffer.append(_Resource);
+    stringBuffer.append(_URI);
     stringBuffer.append(TEXT_54);
-    if (genModel.useGenerics()) {
+    stringBuffer.append(_Resource);
     stringBuffer.append(TEXT_55);
-    stringBuffer.append(_EObject);
+    stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_56);
-    } else {
-    stringBuffer.append(TEXT_57);
-    stringBuffer.append(_Iterator);
-    stringBuffer.append(TEXT_58);
-    }
-    stringBuffer.append(TEXT_59);
-    if (!genModel.useGenerics()) {
-    stringBuffer.append(TEXT_60);
-    stringBuffer.append(_EObject);
-    stringBuffer.append(TEXT_61);
-    stringBuffer.append(_EObject);
-    stringBuffer.append(TEXT_62);
-    }
-    stringBuffer.append(TEXT_63);
-    stringBuffer.append(_Diagnostic);
-    stringBuffer.append(TEXT_64);
-    stringBuffer.append(_Diagnostician);
-    stringBuffer.append(TEXT_65);
-    stringBuffer.append(_RuntimeException);
-    stringBuffer.append(TEXT_66);
     if (genModel.useGenerics()) {
-    stringBuffer.append(TEXT_67);
+    stringBuffer.append(TEXT_57);
+    stringBuffer.append(_EObject);
+    stringBuffer.append(TEXT_58);
     } else {
-    stringBuffer.append(TEXT_68);
+    stringBuffer.append(TEXT_59);
+    stringBuffer.append(_Iterator);
+    stringBuffer.append(TEXT_60);
     }
+    stringBuffer.append(TEXT_61);
+    if (!genModel.useGenerics()) {
+    stringBuffer.append(TEXT_62);
+    stringBuffer.append(_EObject);
+    stringBuffer.append(TEXT_63);
+    stringBuffer.append(_EObject);
+    stringBuffer.append(TEXT_64);
+    }
+    stringBuffer.append(TEXT_65);
+    stringBuffer.append(_Diagnostic);
+    stringBuffer.append(TEXT_66);
+    stringBuffer.append(_Diagnostician);
+    stringBuffer.append(TEXT_67);
+    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(TEXT_68);
+    stringBuffer.append(_RuntimeException);
     stringBuffer.append(TEXT_69);
+    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(TEXT_70);
+    if (genModel.useGenerics()) {
+    stringBuffer.append(TEXT_71);
+    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(TEXT_72);
+    } else {
+    stringBuffer.append(TEXT_73);
+    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(TEXT_74);
+    }
+    stringBuffer.append(TEXT_75);
     stringBuffer.append(genPackage.getExampleClassName());
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_70);
+    stringBuffer.append(TEXT_76);
     return stringBuffer.toString();
   }
 }

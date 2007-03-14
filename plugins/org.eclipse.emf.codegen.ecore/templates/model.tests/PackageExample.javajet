@@ -3,7 +3,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -85,10 +85,10 @@ public class <%=genPackage.getExampleClassName()%>
 		if (args.length == 0)
 		{
 <%if (genPackage.getRootClass() != null) { GenClass rootClass = genPackage.getRootClass();%>
-			System.out.println("Enter a list of file paths or URIs that have content like this:");
+			System.out.println("Enter a list of file paths or URIs that have content like this:");<%=genModel.getNonNLS()%>
 			try
 			{
-				<%=_Resource%> resource = resourceSet.createResource(<%=_URI%>.createURI("http:///My.<%=genPackage.getPrefix().toLowerCase()%>"));
+				<%=_Resource%> resource = resourceSet.createResource(<%=_URI%>.createURI("http:///My.<%=genPackage.getPrefix().toLowerCase()%>"));<%=genModel.getNonNLS()%>
   <%if (genPackage.getRootFeature() != null) { GenFeature rootFeature = genPackage.getRootFeature(); GenClass documentRoot = rootFeature.getGenClass();%>
 				<%=documentRoot.getImportedInterfaceName()%> documentRoot = <%=genPackage.getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=documentRoot.getName()%>();
 				<%=rootClass.getImportedInterfaceName()%> root = <%=rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=rootClass.getName()%>();
@@ -130,7 +130,7 @@ public class <%=genPackage.getExampleClassName()%>
 					// Demand load resource for this file.
 					//
 					<%=_Resource%> resource = resourceSet.getResource(uri, true);
-					System.out.println("Loaded " + uri);
+					System.out.println("Loaded " + uri);<%=genModel.getNonNLS()%>
 
 					// Validate the contents of the loaded resource.
 					//
@@ -146,13 +146,13 @@ public class <%=genPackage.getExampleClassName()%>
 						<%=_Diagnostic%> diagnostic = <%=_Diagnostician%>.INSTANCE.validate(eObject);
 						if (diagnostic.getSeverity() != Diagnostic.OK)
 						{
-							printDiagnostic(diagnostic, "");
+							printDiagnostic(diagnostic, "");<%=genModel.getNonNLS()%>
 						}
 					}
 				}
 				catch (<%=_RuntimeException%> exception) 
 				{
-					System.out.println("Problem loading " + uri);
+					System.out.println("Problem loading " + uri);<%=genModel.getNonNLS()%>
 					exception.printStackTrace();
 				}
 			}
@@ -174,12 +174,12 @@ public class <%=genPackage.getExampleClassName()%>
 <%if (genModel.useGenerics()) {%>
 		for (Diagnostic child : diagnostic.getChildren())
 		{
-			printDiagnostic(child, indent + "  ");
+			printDiagnostic(child, indent + "  ");<%=genModel.getNonNLS()%>
 		}
 <%} else {%>
 		for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
 		{
-			printDiagnostic((Diagnostic)i.next(), indent + "  ");
+			printDiagnostic((Diagnostic)i.next(), indent + "  ");<%=genModel.getNonNLS()%>
 		}
 <%}%>
 	}
