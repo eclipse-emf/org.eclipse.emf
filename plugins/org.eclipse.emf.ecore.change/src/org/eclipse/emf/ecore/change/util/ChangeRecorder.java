@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.42 2007/01/31 16:31:47 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.43 2007/03/15 21:00:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -207,7 +207,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       if (target instanceof EObject)
       {
         EObject eObject = (EObject)target;
-        if (eObject.eContainer() == null && eObject.eResource() == null)
+        if (isOrphan(eObject))
         {
           if (originalTargetObjects.contains(eObject))
           {
@@ -222,6 +222,11 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
     }
     
     super.consolidateChanges();
+  }
+
+  protected boolean isOrphan(EObject eObject)
+  {
+    return eObject.eContainer() == null && eObject.eResource() == null;
   }
 
   public void notifyChanged(Notification notification)
