@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.22 2007/02/20 17:42:20 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.23 2007/03/16 18:35:03 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1131,7 +1131,10 @@ public class XSDComplexTypeDefinitionImpl
     XSDWildcard baseWildcard = null;
     if (theBaseTypeDefinition != null && theBaseTypeDefinition.getContainer() != null)
     {
-      ((XSDConcreteComponentImpl)theBaseTypeDefinition).analyze();
+      if (!((XSDConcreteComponentImpl)theBaseTypeDefinition).analyze() && !XSDConstants.isURType(theBaseTypeDefinition) && theBaseTypeDefinition.isCircular())
+      {
+        analysisState = CIRCULAR;
+      }
       if (theBaseTypeDefinition != this)
       {
         List<XSDAttributeUse> baseAttributeUses = Collections.emptyList();
@@ -3343,7 +3346,7 @@ public class XSDComplexTypeDefinitionImpl
   @Override
   public XSDTypeDefinition getBadTypeDerivation(XSDTypeDefinition xsdTypeDefinition, boolean extension, boolean restriction)
   {
-    if (xsdTypeDefinition == this)
+    if (xsdTypeDefinition == this || isCircular())
     {
       return null;
     }
