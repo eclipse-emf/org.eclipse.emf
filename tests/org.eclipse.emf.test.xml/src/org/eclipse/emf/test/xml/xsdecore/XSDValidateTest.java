@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.10 2007/01/18 15:53:18 marcelop Exp $
+ * $Id: XSDValidateTest.java,v 1.11 2007/03/16 20:49:05 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -222,9 +222,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The attribute target namespace of '#B' must be allowed by the base type wildcard",
       "XSD: The attribute wildcard must be a subset of that of the base type",
       "XSD: The restricted content type many not be empty because the base isn't empty or emptiable",
-      "XSD: The 'base' attribute conflicts with the contained base type",
       "XSD: The simple content type 'http://www.example.com/Bad#badSimpleBaseForRestrictionSimpleContent_._base' must derive from 'http://www.w3.org/2001/XMLSchema#int'",
-      "XSD: The 'base' attribute conflicts with the contained base type",
       "XSD: The base content type must be mixed and emptiable to support simple content",
       "XSD: The restricted content type many not be empty because the base isn't empty or emptiable",
       "XSD: A type with complex content may not restrict a base type with simple or empty content",
