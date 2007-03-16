@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.26 2007/02/20 17:42:20 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.27 2007/03/16 19:00:54 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1112,10 +1112,12 @@ public class XSDSimpleTypeDefinitionImpl
 
               checkComplexContent("simpleRestrictionType", XSDConstants.PART2, "element-simpleContent::restriction", childElement);
 
-              if (childElement.hasAttributeNS(null, XSDConstants.BASE_ATTRIBUTE) && !getContents().isEmpty())
-              {
-                createDiagnostic(XSDDiagnosticSeverity.ERROR_LITERAL, "src-restriction-base-or-simpleType");
-              }
+              // This is allowed https://bugs.eclipse.org/bugs/show_bug.cgi?id=177035
+              //
+              // if (childElement.hasAttributeNS(null, XSDConstants.BASE_ATTRIBUTE) && !getContents().isEmpty())
+              // {
+              //   createDiagnostic(XSDDiagnosticSeverity.ERROR_LITERAL, "src-restriction-base-or-simpleType");
+              // }
 
               break;
             }
