@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponentImpl.java,v 1.15 2007/01/18 15:41:29 emerks Exp $
+ * $Id: XSDNamedComponentImpl.java,v 1.16 2007/03/16 13:35:53 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -217,7 +217,7 @@ public abstract class XSDNamedComponentImpl
         XSDNamedComponent xsdNamedComponent = (XSDNamedComponent)oldObject;
         if (isFromThisNamespace(xsdNamedComponent))
         {
-          map.remove(xsdNamedComponent.getName());
+          map.values().remove(xsdNamedComponent);
         }
       }
     }
