@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StringSegment.java,v 1.6 2006/12/05 20:23:28 emerks Exp $
+ * $Id: StringSegment.java,v 1.7 2007/03/20 13:54:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -226,7 +226,11 @@ public class StringSegment extends BasicEList<StringSegment.Element>
       cursor = new Element(segmentCapacity);
       super.add(cursor);
     }
+    return result;
+  }
 
+  public void startFileBuffering()
+  {
     if (temporaryFileName != null && temporaryFile == null)
     {
       try
@@ -238,8 +242,6 @@ public class StringSegment extends BasicEList<StringSegment.Element>
         // If we can't create one, too bad.
       }
     }
-
-    return result;
   }
 
   public void resetToMark(Object mark)
