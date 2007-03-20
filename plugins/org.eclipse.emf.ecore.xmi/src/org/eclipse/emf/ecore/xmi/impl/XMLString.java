@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.11 2006/12/10 14:06:36 emerks Exp $
+ * $Id: XMLString.java,v 1.12 2007/03/20 13:54:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -159,6 +159,7 @@ public class XMLString extends StringSegment
       if (firstElementMark == null)
       {
         firstElementMark = mark();
+        startFileBuffering();
       }
       lastElementIsStart = true;
     }
@@ -189,6 +190,7 @@ public class XMLString extends StringSegment
     if (firstElementMark == null)
     {
       firstElementMark = mark();
+      startFileBuffering();
     }
     if (currentLineWidth > lineWidth)
     {
@@ -228,6 +230,7 @@ public class XMLString extends StringSegment
     if (firstElementMark == null)
     {
       firstElementMark = mark();
+      startFileBuffering();
     }
 
     add(">");
