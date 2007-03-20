@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.16 2007/01/18 15:53:13 marcelop Exp $
+ * $Id: SimpleModelTest.java,v 1.17 2007/03/20 13:54:50 emerks Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -366,7 +367,9 @@ public class SimpleModelTest extends TestCase
     departmentsResource.getContents().add(department);
 
     //Saving
-    departmentsResource.save(Collections.EMPTY_MAP);
+    Map<Object, Object> options = new HashMap<Object, Object>();
+    options.put(XMLResource.OPTION_USE_FILE_BUFFER, Boolean.TRUE);
+    departmentsResource.save(options);
     assertTrue(new File(departmentsURI.toFileString()).exists());
 
     //Loading department in ResourceSet
