@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.21 2007/01/16 20:00:52 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.22 2007/03/21 18:10:16 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2162,7 +2162,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     EOperation op = addEOperation(eClassEClass, ecorePackage.getEBoolean(), "isSuperTypeOf", 0, 1);
     addEParameter(op, this.getEClass(), "someClass", 0, 1);
 
-    op = addEOperation(eClassEClass, ecorePackage.getEInt(), "getFeatureCount", 0, 1);
+    addEOperation(eClassEClass, ecorePackage.getEInt(), "getFeatureCount", 0, 1);
 
     op = addEOperation(eClassEClass, this.getEStructuralFeature(), "getEStructuralFeature", 0, 1);
     addEParameter(op, ecorePackage.getEInt(), "featureID", 0, 1);
@@ -2187,7 +2187,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     op = addEOperation(eClassifierEClass, ecorePackage.getEBoolean(), "isInstance", 0, 1);
     addEParameter(op, this.getEJavaObject(), "object", 0, 1);
 
-    op = addEOperation(eClassifierEClass, ecorePackage.getEInt(), "getClassifierID", 0, 1);
+    addEOperation(eClassifierEClass, ecorePackage.getEInt(), "getClassifierID", 0, 1);
 
     initEClass(eDataTypeEClass, EDataType.class, "EDataType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEDataType_Serializable(), ecorePackage.getEBoolean(), "serializable", "true", 0, 1, EDataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2235,17 +2235,17 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
     initEClass(eObjectEClass, EObject.class, "EObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    op = addEOperation(eObjectEClass, this.getEClass(), "eClass", 0, 1);
+    addEOperation(eObjectEClass, this.getEClass(), "eClass", 0, 1);
 
-    op = addEOperation(eObjectEClass, ecorePackage.getEBoolean(), "eIsProxy", 0, 1);
+    addEOperation(eObjectEClass, ecorePackage.getEBoolean(), "eIsProxy", 0, 1);
 
-    op = addEOperation(eObjectEClass, this.getEResource(), "eResource", 0, 1);
+    addEOperation(eObjectEClass, this.getEResource(), "eResource", 0, 1);
 
-    op = addEOperation(eObjectEClass, this.getEObject(), "eContainer", 0, 1);
+    addEOperation(eObjectEClass, this.getEObject(), "eContainer", 0, 1);
 
-    op = addEOperation(eObjectEClass, this.getEStructuralFeature(), "eContainingFeature", 0, 1);
+    addEOperation(eObjectEClass, this.getEStructuralFeature(), "eContainingFeature", 0, 1);
 
-    op = addEOperation(eObjectEClass, this.getEReference(), "eContainmentFeature", 0, 1);
+    addEOperation(eObjectEClass, this.getEReference(), "eContainmentFeature", 0, 1);
 
     op = addEOperation(eObjectEClass, null, "eContents", 0, 1);
     g1 = createEGenericType(this.getEEList());
@@ -2321,7 +2321,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEAttribute(getEStructuralFeature_Derived(), ecorePackage.getEBoolean(), "derived", null, 0, 1, EStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEStructuralFeature_EContainingClass(), this.getEClass(), this.getEClass_EStructuralFeatures(), "eContainingClass", null, 0, 1, EStructuralFeature.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    op = addEOperation(eStructuralFeatureEClass, ecorePackage.getEInt(), "getFeatureID", 0, 1);
+    addEOperation(eStructuralFeatureEClass, ecorePackage.getEInt(), "getFeatureID", 0, 1);
 
     op = addEOperation(eStructuralFeatureEClass, null, "getContainerClass", 0, 1);
     g1 = createEGenericType(this.getEJavaClass());
