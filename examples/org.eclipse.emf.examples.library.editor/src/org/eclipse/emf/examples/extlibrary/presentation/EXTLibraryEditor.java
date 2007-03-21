@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.8 2006/12/30 04:44:07 marcelop Exp $
+ * $Id: EXTLibraryEditor.java,v 1.9 2007/03/21 18:08:46 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -445,7 +445,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
             case Resource.RESOURCE__WARNINGS:
             {
               Resource resource = (Resource)notification.getNotifier();
-              Diagnostic diagnostic = analyzeResourceProblems((Resource)notification.getNotifier(), null);
+              Diagnostic diagnostic = analyzeResourceProblems(resource, null);
               if (diagnostic.getSeverity() != Diagnostic.OK)
               {
                 resourceToDiagnosticMap.put(resource, diagnostic);
