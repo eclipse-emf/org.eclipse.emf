@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.20 2006/12/30 04:44:06 marcelop Exp $
+ * $Id: JavaEditor.java,v 1.21 2007/03/21 18:08:42 marcelop Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -424,7 +424,7 @@ public class JavaEditor
             case Resource.RESOURCE__WARNINGS:
             {
               Resource resource = (Resource)notification.getNotifier();
-              Diagnostic diagnostic = analyzeResourceProblems((Resource)notification.getNotifier(), null);
+              Diagnostic diagnostic = analyzeResourceProblems(resource, null);
               if (diagnostic.getSeverity() != Diagnostic.OK)
               {
                 resourceToDiagnosticMap.put(resource, diagnostic);
