@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTestSuite.java,v 1.4 2007/01/18 15:53:01 marcelop Exp $
+ * $Id: JMergerTestSuite.java,v 1.5 2007/03/21 14:55:47 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -49,6 +49,8 @@ public class JMergerTestSuite extends TestSuite
   {
     protected static final Pattern EXCLUDE_DATA_DIRECTORY_NAME_PATTERN = Pattern.compile("^(?:CVS)|(?:\\..*)$");
     protected static final Pattern INCLUDE_DATA_DIRECTORY_NAME_PATTERN = Pattern.compile(".*");
+    // use something like this line to restrict the test
+    // protected static final Pattern INCLUDE_DATA_DIRECTORY_NAME_PATTERN = Pattern.compile("(bugzilla|178183)");
 
     public boolean accept(File dir, String name)
     {
