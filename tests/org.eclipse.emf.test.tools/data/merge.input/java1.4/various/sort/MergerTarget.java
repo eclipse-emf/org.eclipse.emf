@@ -26,16 +26,6 @@ package org.eclipse.emf.test.tools.merger;
 public class Example
 {
   /**
-   * Target a3
-   * <!-- begin-user-doc -->
-   * Target doc a3
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  void a3(){}
-  
-  /**
    * Target a8
    * <!-- begin-user-doc -->
    * Target doc a8
@@ -64,16 +54,26 @@ public class Example
    * @ordered
    */
   interface a7{}
-
+  
   /**
-   * Target a5
+   * Target a9
    * <!-- begin-user-doc -->
-   * Target doc a5
+   * Target doc a9
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  void a5(){}
+  void a9(){}
+
+  /**
+   * Target a3
+   * <!-- begin-user-doc -->
+   * Target doc a3
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  void a3(){}
   
   /**
    * Target a6
@@ -94,13 +94,6 @@ public class Example
      * @ordered
      */
     void a61(){}  
-    
-    /**
-     * Target a62 <!-- begin-user-doc --> Target doc a62 <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int a62 = 62;
 
     /**
      * Target a63
@@ -111,17 +104,24 @@ public class Example
      * @ordered
      */
     void a63(){}    
+    
+    /**
+     * Target a62 <!-- begin-user-doc --> Target doc a62 <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int a62 = 62;
   }
-  
+
   /**
-   * Target a9
+   * Target b1
    * <!-- begin-user-doc -->
-   * Target doc a9
+   * Target doc b1
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  void a9(){}
+  int b1 = 1;
 
   /**
    * Target a1

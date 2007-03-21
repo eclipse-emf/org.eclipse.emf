@@ -67,7 +67,7 @@ public class Example
   /**
    * Source a5
    * <!-- begin-user-doc -->
-   * Target doc a5
+   * Source doc a5
    * <!-- end-user-doc -->
    * @generated
    * @ordered
@@ -101,8 +101,7 @@ public class Example
      * @ordered
      */
     int a62 = 62;
-
-    /**
+      /**
      * Source a63
      * <!-- begin-user-doc -->
      * Target doc a63
@@ -112,7 +111,7 @@ public class Example
      */
     void a63(){}    
   }
-  
+
   /**
    * Source a7
    * <!-- begin-user-doc -->
@@ -122,7 +121,7 @@ public class Example
    * @ordered
    */
   interface a7 {}
-
+  
   /**
    * Source a8
    * <!-- begin-user-doc -->
