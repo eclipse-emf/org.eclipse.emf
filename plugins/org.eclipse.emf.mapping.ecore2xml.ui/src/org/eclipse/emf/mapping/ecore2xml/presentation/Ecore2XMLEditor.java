@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.11 2006/12/30 04:44:11 marcelop Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.12 2007/03/21 18:08:45 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -447,7 +447,7 @@ public class Ecore2XMLEditor
             case Resource.RESOURCE__WARNINGS:
             {
               Resource resource = (Resource)notification.getNotifier();
-              Diagnostic diagnostic = analyzeResourceProblems((Resource)notification.getNotifier(), null);
+              Diagnostic diagnostic = analyzeResourceProblems(resource, null);
               if (diagnostic.getSeverity() != Diagnostic.OK)
               {
                 resourceToDiagnosticMap.put(resource, diagnostic);
