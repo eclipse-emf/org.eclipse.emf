@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PPOFactoryImpl.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: PPOFactoryImpl.java,v 1.3 2007/03/21 18:10:15 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ppo.impl;
 
@@ -167,7 +167,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    */
   public String createSKUFromString(EDataType eDataType, String initialValue)
   {
-    return (String)super.createFromString(initialValue);
+    return (String)super.createFromString(eDataType, initialValue);
   }
 
   /**
@@ -177,7 +177,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    */
   public String convertSKUToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(instanceValue);
+    return super.convertToString(eDataType, instanceValue);
   }
 
   /**
@@ -187,7 +187,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    */
   public Date createDateFromString(EDataType eDataType, String initialValue)
   {
-    return (Date)super.createFromString(initialValue);
+    return (Date)super.createFromString(eDataType, initialValue);
   }
 
   /**
@@ -197,7 +197,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    */
   public String convertDateToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(instanceValue);
+    return super.convertToString(eDataType, instanceValue);
   }
 
   /**
