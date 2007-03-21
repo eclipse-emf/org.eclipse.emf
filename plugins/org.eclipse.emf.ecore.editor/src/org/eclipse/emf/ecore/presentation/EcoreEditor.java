@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.43 2006/12/30 04:44:04 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.44 2007/03/21 18:08:44 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -430,7 +430,7 @@ public class EcoreEditor
             case Resource.RESOURCE__WARNINGS:
             {
               Resource resource = (Resource)notification.getNotifier();
-              Diagnostic diagnostic = analyzeResourceProblems((Resource)notification.getNotifier(), null);
+              Diagnostic diagnostic = analyzeResourceProblems(resource, null);
               if (diagnostic.getSeverity() != Diagnostic.OK)
               {
                 resourceToDiagnosticMap.put(resource, diagnostic);
