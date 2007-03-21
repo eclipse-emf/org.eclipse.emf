@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SupplierImpl.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
+ * $Id: SupplierImpl.java,v 1.3 2007/03/21 18:10:15 marcelop Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier.impl;
 
@@ -73,7 +73,7 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * @generated
    * @ordered
    */
-  protected FeatureMap orders = null;
+  protected FeatureMap orders;
 
   /**
    * <!-- begin-user-doc -->
