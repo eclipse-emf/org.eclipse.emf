@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.16 2006/12/29 20:49:09 marcelop Exp $
+ * $Id: JMerger.java,v 1.17 2007/03/21 14:50:41 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -563,26 +563,26 @@ public class JMerger
             targetCompilationChanged = true;
             facadeHelper.remove(nextTargetNode);
 
-            boolean addNewNode = false;            
+            boolean appendNode = false;            
             if (children != null)
             {
               children.remove(nextTargetNode);
-              addNewNode = children.get(children.size()-1) == previousTargetNode; 
-              if (addNewNode)
+              appendNode = children.get(children.size()-1) == previousTargetNode; 
+              if (appendNode)
               {
                 children.add(nextTargetNode);
               }
               else
               {
-                children.add(nextTargetNodeIndex, nextTargetNode);
+                children.add(previousTargetNodeIndex, nextTargetNode);
               }
             }
             else
             {
-              addNewNode = facadeHelper.getNext(previousTargetNode) == null; 
+              appendNode = facadeHelper.getNext(previousTargetNode) == null; 
             }
             
-            if (addNewNode)
+            if (appendNode)
             {
               facadeHelper.addChild(previousTargetNode.getParent(), nextTargetNode);
             }
