@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.41 2006/12/30 04:44:08 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.42 2007/03/21 18:08:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -394,7 +394,7 @@ public class GenModelEditor
             case Resource.RESOURCE__WARNINGS:
             {
               Resource resource = (Resource)notification.getNotifier();
-              Diagnostic diagnostic = analyzeResourceProblems((Resource)notification.getNotifier(), null);
+              Diagnostic diagnostic = analyzeResourceProblems(resource, null);
               if (diagnostic.getSeverity() != Diagnostic.OK)
               {
                 resourceToDiagnosticMap.put(resource, diagnostic);
