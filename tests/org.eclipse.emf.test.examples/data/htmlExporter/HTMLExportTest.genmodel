@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.examples/data/htmlExporter/src"
-    modelPluginID="tmp" modelName="HTMLExportTest" importerID="org.eclipse.emf.importer.ecore">
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory=""
+    editDirectory="" editorDirectory="" modelPluginID="tmp" modelName="HTMLExportTest"
+    testsDirectory="" importerID="org.eclipse.emf.importer.ecore">
   <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.emf.exporter.html">
     <genAnnotations source="selectedPackages">
       <details key="ggcNU" value="GenericsGoCrazy.html"/>
@@ -66,7 +67,8 @@
       <genTypeParameters ecoreTypeParameter="GenericsGoCrazy.ecore#//MySubClass/N"/>
     </genClasses>
     <genClasses ecoreClass="GenericsGoCrazy.ecore#//Comp">
-      <genTypeParameters ecoreTypeParameter="GenericsGoCrazy.ecore#//Comp/E"/>
+      <genTypeParameters ecoreTypeParameter="GenericsGoCrazy.ecore#//Comp/E1"/>
+      <genTypeParameters ecoreTypeParameter="GenericsGoCrazy.ecore#//Comp/E2"/>
     </genClasses>
     <genClasses ecoreClass="GenericsGoCrazy.ecore#//SubCar"/>
     <genClasses ecoreClass="GenericsGoCrazy.ecore#//OtherClass">
@@ -103,6 +105,8 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute multipackage_library.ecore#//people/Writer/name"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference multipackage_library.ecore#//people/Writer/books"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference multipackage_library.ecore#//people/Writer/car"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>
