@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TypesFactoryImpl.java,v 1.3 2007/01/18 22:14:56 emerks Exp $
+ * $Id: TypesFactoryImpl.java,v 1.4 2007/03/21 18:18:53 marcelop Exp $
  */
 package org.eclipse.emf.test.models.types.impl;
 
@@ -191,7 +191,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Character createMyCharFromString(EDataType eDataType, String initialValue)
   {
-    return (Character)super.createFromString(initialValue);
+    return (Character)super.createFromString(eDataType, initialValue);
   }
 
   /**
@@ -201,7 +201,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyCharToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(instanceValue);
+    return super.convertToString(eDataType, instanceValue);
   }
 
   /**
@@ -231,7 +231,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Date createMyDateFromString(EDataType eDataType, String initialValue)
   {
-    return (Date)super.createFromString(initialValue);
+    return (Date)super.createFromString(eDataType, initialValue);
   }
 
   /**
@@ -241,7 +241,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyDateToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(instanceValue);
+    return super.convertToString(eDataType, instanceValue);
   }
 
   /**
@@ -251,7 +251,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Number createMyNumberFromString(EDataType eDataType, String initialValue)
   {
-    return (Number)super.createFromString(initialValue);
+    return (Number)super.createFromString(eDataType, initialValue);
   }
 
   /**
@@ -261,7 +261,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyNumberToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(instanceValue);
+    return super.convertToString(eDataType, instanceValue);
   }
 
   /**
@@ -271,7 +271,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Object createMyObjectFromString(EDataType eDataType, String initialValue)
   {
-    return super.createFromString(initialValue);
+    return super.createFromString(eDataType, initialValue);
   }
 
   /**
@@ -281,7 +281,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(instanceValue);
+    return super.convertToString(eDataType, instanceValue);
   }
 
   /**
@@ -291,7 +291,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public Thread createMyThreadFromString(EDataType eDataType, String initialValue)
   {
-    return (Thread)super.createFromString(initialValue);
+    return (Thread)super.createFromString(eDataType, initialValue);
   }
 
   /**
@@ -301,7 +301,7 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory
    */
   public String convertMyThreadToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(instanceValue);
+    return super.convertToString(eDataType, instanceValue);
   }
 
   /**
