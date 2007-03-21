@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaFactoryImpl.java,v 1.8 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JavaFactoryImpl.java,v 1.9 2007/03/21 18:10:14 marcelop Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -237,7 +237,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    */
   public Package createJavaPackageFromString(EDataType eDataType, String initialValue)
   {
-    return (Package)super.createFromString(initialValue);
+    return (Package)super.createFromString(eDataType, initialValue);
   }
 
   /**
@@ -247,7 +247,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    */
   public String convertJavaPackageToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(instanceValue);
+    return super.convertToString(eDataType, instanceValue);
   }
 
   /**
