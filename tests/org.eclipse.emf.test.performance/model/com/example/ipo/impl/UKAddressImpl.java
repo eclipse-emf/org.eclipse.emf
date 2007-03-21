@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: UKAddressImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: UKAddressImpl.java,v 1.3 2007/03/21 18:10:17 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -89,7 +89,7 @@ public class UKAddressImpl extends AddressImpl implements UKAddress
    * @generated
    * @ordered
    */
-  protected boolean exportCodeESet = false;
+  protected boolean exportCodeESet;
 
   /**
    * <!-- begin-user-doc -->

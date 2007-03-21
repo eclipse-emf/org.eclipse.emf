@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PurchaseOrderImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: PurchaseOrderImpl.java,v 1.3 2007/03/21 18:10:17 marcelop Exp $
  */
 package com.example.sdo.epo.impl;
 
@@ -69,7 +69,7 @@ public class PurchaseOrderImpl extends EDataObjectImpl implements PurchaseOrder 
    * @generated
    * @ordered
    */
-	protected EList<Item> items = null;
+	protected EList<Item> items;
 
 	/**
    * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
@@ -119,7 +119,7 @@ public class PurchaseOrderImpl extends EDataObjectImpl implements PurchaseOrder 
    * @generated
    * @ordered
    */
-	protected USAddress billTo = null;
+	protected USAddress billTo;
 
 	/**
    * The cached value of the '{@link #getShipTo() <em>Ship To</em>}' containment reference.
@@ -129,7 +129,7 @@ public class PurchaseOrderImpl extends EDataObjectImpl implements PurchaseOrder 
    * @generated
    * @ordered
    */
-	protected USAddress shipTo = null;
+	protected USAddress shipTo;
 
 	/**
    * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WriterImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: WriterImpl.java,v 1.3 2007/03/21 18:10:17 marcelop Exp $
  */
 package com.example.sdo.library.impl;
 
@@ -89,7 +89,7 @@ public class WriterImpl extends EDataObjectImpl implements Writer
    * @generated
    * @ordered
    */
-  protected EList<Book> books = null;
+  protected EList<Book> books;
 
   /**
    * <!-- begin-user-doc -->

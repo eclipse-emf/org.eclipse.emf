@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemsImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: ItemsImpl.java,v 1.3 2007/03/21 18:10:17 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -57,7 +57,7 @@ public class ItemsImpl extends EObjectImpl implements Items
    * @generated
    * @ordered
    */
-  protected EList<ItemType> item = null;
+  protected EList<ItemType> item;
 
   /**
    * <!-- begin-user-doc -->

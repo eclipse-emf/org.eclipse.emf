@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: BookImpl.java,v 1.3 2007/03/21 18:10:17 marcelop Exp $
  */
 package com.example.sdo.library.impl;
 
@@ -127,7 +127,7 @@ public class BookImpl extends EDataObjectImpl implements Book
    * @generated
    * @ordered
    */
-  protected Writer author = null;
+  protected Writer author;
 
   /**
    * <!-- begin-user-doc -->

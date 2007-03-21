@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PurchaseOrderTypeImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: PurchaseOrderTypeImpl.java,v 1.3 2007/03/21 18:10:17 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -57,7 +57,7 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * @generated
    * @ordered
    */
-  protected Address shipTo = null;
+  protected Address shipTo;
 
   /**
    * The cached value of the '{@link #getBillTo() <em>Bill To</em>}' containment reference.
@@ -67,7 +67,7 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * @generated
    * @ordered
    */
-  protected Address billTo = null;
+  protected Address billTo;
 
   /**
    * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
@@ -97,7 +97,7 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * @generated
    * @ordered
    */
-  protected Items items = null;
+  protected Items items;
 
   /**
    * The default value of the '{@link #getOrderDate() <em>Order Date</em>}' attribute.

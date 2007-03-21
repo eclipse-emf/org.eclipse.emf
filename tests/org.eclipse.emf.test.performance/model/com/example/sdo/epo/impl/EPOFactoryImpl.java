@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPOFactoryImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: EPOFactoryImpl.java,v 1.3 2007/03/21 18:10:17 marcelop Exp $
  */
 package com.example.sdo.epo.impl;
 
@@ -168,7 +168,7 @@ public class EPOFactoryImpl extends EFactoryImpl implements EPOFactory {
    * @generated
    */
 	public String createSKUFromString(EDataType eDataType, String initialValue) {
-    return (String)super.createFromString(initialValue);
+    return (String)super.createFromString(eDataType, initialValue);
   }
 
 	/**
@@ -177,7 +177,7 @@ public class EPOFactoryImpl extends EFactoryImpl implements EPOFactory {
    * @generated
    */
 	public String convertSKUToString(EDataType eDataType, Object instanceValue) {
-    return super.convertToString(instanceValue);
+    return super.convertToString(eDataType, instanceValue);
   }
 
 	/**
@@ -186,7 +186,7 @@ public class EPOFactoryImpl extends EFactoryImpl implements EPOFactory {
    * @generated
    */
 	public Date createDateFromString(EDataType eDataType, String initialValue) {
-    return (Date)super.createFromString(initialValue);
+    return (Date)super.createFromString(eDataType, initialValue);
   }
 
 	/**
@@ -195,7 +195,7 @@ public class EPOFactoryImpl extends EFactoryImpl implements EPOFactory {
    * @generated
    */
 	public String convertDateToString(EDataType eDataType, Object instanceValue) {
-    return super.convertToString(instanceValue);
+    return super.convertToString(eDataType, instanceValue);
   }
 
 	/**

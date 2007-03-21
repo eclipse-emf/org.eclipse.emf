@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: USAddressImpl.java,v 1.3 2006/12/30 07:12:34 marcelop Exp $
+ * $Id: USAddressImpl.java,v 1.4 2007/03/21 18:10:17 marcelop Exp $
  */
 package com.example.ipo.impl;
 
@@ -70,7 +70,7 @@ public class USAddressImpl extends AddressImpl implements USAddress
    * @generated
    * @ordered
    */
-  protected boolean stateESet = false;
+  protected boolean stateESet;
 
   /**
    * The default value of the '{@link #getZip() <em>Zip</em>}' attribute.
