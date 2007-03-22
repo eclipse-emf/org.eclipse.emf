@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.20 2007/01/26 18:56:11 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.21 2007/03/22 01:44:48 davidms Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -614,7 +614,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
    * This delegates to 
    * {@link org.eclipse.emf.edit.provider.IEditingDomainItemProvider#getNewChildDescriptors IEditingDomainItemProvider.getNewChildDescriptors}.
    */
-  public Collection<CommandParameter> getNewChildDescriptors(Object object, Object sibling)
+  public Collection<?> getNewChildDescriptors(Object object, Object sibling)
   {
     // If no object is specified, but an existing sibling is, the object is
     // its parent.
@@ -633,7 +633,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     return
       editingDomainItemProvider != null ?
         editingDomainItemProvider.getNewChildDescriptors(object, this, sibling) :
-        Collections.<CommandParameter>emptyList();
+        Collections.emptyList();
   }
 
   /**
