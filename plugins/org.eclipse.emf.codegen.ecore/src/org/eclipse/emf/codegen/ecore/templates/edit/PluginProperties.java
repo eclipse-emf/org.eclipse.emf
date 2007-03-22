@@ -20,24 +20,26 @@ public class PluginProperties
   protected final String TEXT_3 = "Id";
   protected final String TEXT_4 = NL + NL + "# ====================================================================" + NL + "# To code developer:" + NL + "#   Do NOT change the properties between this line and the" + NL + "#   \"%%% END OF TRANSLATED PROPERTIES %%%\" line." + NL + "#   Make a new property name, append to the end of the file and change" + NL + "#   the code to use the new property." + NL + "# ====================================================================" + NL + "" + NL + "# ====================================================================" + NL + "# %%% END OF TRANSLATED PROPERTIES %%%" + NL + "# ====================================================================" + NL + "" + NL + "pluginName = ";
   protected final String TEXT_5 = " Edit Support" + NL + "providerName = www.example.org" + NL;
-  protected final String TEXT_6 = NL + "_UI_CreateChild_text = {0}" + NL + "_UI_CreateChild_text2 = {1} {0}" + NL + "_UI_CreateChild_text3 = {1}" + NL + "_UI_CreateChild_tooltip = Create New {0} Under {1} Feature" + NL + "_UI_CreateChild_description = Create a new child of type {0} for the {1} feature of the selected {2}." + NL + "_UI_CreateSibling_description = Create a new sibling of type {0} for the selected {2}, under the {1} feature of their parent." + NL;
-  protected final String TEXT_7 = NL + "_UI_PropertyDescriptor_description = The {0} of the {1}" + NL;
-  protected final String TEXT_8 = NL + "_UI_";
-  protected final String TEXT_9 = "_type = ";
-  protected final String TEXT_10 = NL + "_UI_Unknown_type = Object" + NL + "" + NL + "_UI_Unknown_datatype= Value" + NL;
-  protected final String TEXT_11 = NL + "_UI_";
-  protected final String TEXT_12 = "_";
-  protected final String TEXT_13 = "_feature = ";
-  protected final String TEXT_14 = NL + "_UI_";
-  protected final String TEXT_15 = "_";
-  protected final String TEXT_16 = "_description = ";
-  protected final String TEXT_17 = NL + "_UI_Unknown_feature = Unspecified" + NL;
-  protected final String TEXT_18 = NL + "_UI_";
-  protected final String TEXT_19 = "_";
-  protected final String TEXT_20 = "_literal = ";
-  protected final String TEXT_21 = NL;
-  protected final String TEXT_22 = " = ";
+  protected final String TEXT_6 = NL + "_UI_CreateChild_text = {0}" + NL + "_UI_CreateChild_text2 = {1} ";
+  protected final String TEXT_7 = "| ";
+  protected final String TEXT_8 = "{0}" + NL + "_UI_CreateChild_text3 = {1}" + NL + "_UI_CreateChild_tooltip = Create New {0} Under {1} Feature" + NL + "_UI_CreateChild_description = Create a new child of type {0} for the {1} feature of the selected {2}." + NL + "_UI_CreateSibling_description = Create a new sibling of type {0} for the selected {2}, under the {1} feature of their parent." + NL;
+  protected final String TEXT_9 = NL + "_UI_PropertyDescriptor_description = The {0} of the {1}" + NL;
+  protected final String TEXT_10 = NL + "_UI_";
+  protected final String TEXT_11 = "_type = ";
+  protected final String TEXT_12 = NL + "_UI_Unknown_type = Object" + NL + "" + NL + "_UI_Unknown_datatype= Value" + NL;
+  protected final String TEXT_13 = NL + "_UI_";
+  protected final String TEXT_14 = "_";
+  protected final String TEXT_15 = "_feature = ";
+  protected final String TEXT_16 = NL + "_UI_";
+  protected final String TEXT_17 = "_";
+  protected final String TEXT_18 = "_description = ";
+  protected final String TEXT_19 = NL + "_UI_Unknown_feature = Unspecified" + NL;
+  protected final String TEXT_20 = NL + "_UI_";
+  protected final String TEXT_21 = "_";
+  protected final String TEXT_22 = "_literal = ";
   protected final String TEXT_23 = NL;
+  protected final String TEXT_24 = " = ";
+  protected final String TEXT_25 = NL;
 
   public String generate(Object argument)
   {
@@ -46,7 +48,7 @@ public class PluginProperties
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -69,57 +71,61 @@ public class PluginProperties
     stringBuffer.append(TEXT_5);
     if (genModel.isCreationCommands()) {
     stringBuffer.append(TEXT_6);
-    }
+    if (genModel.isCreationSubmenus()) {
     stringBuffer.append(TEXT_7);
+    }
+    stringBuffer.append(TEXT_8);
+    }
+    stringBuffer.append(TEXT_9);
     for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {
     if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) { 
     for (GenClass genClass : genPackage.getGenClasses()) {
-    stringBuffer.append(TEXT_8);
+    stringBuffer.append(TEXT_10);
     stringBuffer.append(genClass.getName());
-    stringBuffer.append(TEXT_9);
+    stringBuffer.append(TEXT_11);
     stringBuffer.append(genClass.getFormattedName());
     }
     }
     }
-    stringBuffer.append(TEXT_10);
-    for (GenFeature genFeature : genModel.getFilteredAllGenFeatures()) { String description = genFeature.getPropertyDescription();
-    stringBuffer.append(TEXT_11);
-    stringBuffer.append(genFeature.getGenClass().getName());
     stringBuffer.append(TEXT_12);
-    stringBuffer.append(genFeature.getName());
+    for (GenFeature genFeature : genModel.getFilteredAllGenFeatures()) { String description = genFeature.getPropertyDescription();
     stringBuffer.append(TEXT_13);
+    stringBuffer.append(genFeature.getGenClass().getName());
+    stringBuffer.append(TEXT_14);
+    stringBuffer.append(genFeature.getName());
+    stringBuffer.append(TEXT_15);
     stringBuffer.append(genFeature.getFormattedName());
     if (description != null && description.length() > 0) {
-    stringBuffer.append(TEXT_14);
-    stringBuffer.append(genFeature.getGenClass().getName());
-    stringBuffer.append(TEXT_15);
-    stringBuffer.append(genFeature.getName());
     stringBuffer.append(TEXT_16);
+    stringBuffer.append(genFeature.getGenClass().getName());
+    stringBuffer.append(TEXT_17);
+    stringBuffer.append(genFeature.getName());
+    stringBuffer.append(TEXT_18);
     stringBuffer.append(description);
     }
     }
-    stringBuffer.append(TEXT_17);
+    stringBuffer.append(TEXT_19);
     for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {
     if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) {
     for (GenEnum genEnum : genPackage.getGenEnums()) {
     for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {
-    stringBuffer.append(TEXT_18);
-    stringBuffer.append(genEnum.getName());
-    stringBuffer.append(TEXT_19);
-    stringBuffer.append(genEnumLiteral.getName());
     stringBuffer.append(TEXT_20);
+    stringBuffer.append(genEnum.getName());
+    stringBuffer.append(TEXT_21);
+    stringBuffer.append(genEnumLiteral.getName());
+    stringBuffer.append(TEXT_22);
     stringBuffer.append(genEnumLiteral.getLiteral());
     }
     }
     }
     }
     for (String category : genModel.getPropertyCategories()) {
-    stringBuffer.append(TEXT_21);
+    stringBuffer.append(TEXT_23);
     stringBuffer.append(genModel.getPropertyCategoryKey(category));
-    stringBuffer.append(TEXT_22);
+    stringBuffer.append(TEXT_24);
     stringBuffer.append(category);
     }
-    stringBuffer.append(TEXT_23);
+    stringBuffer.append(TEXT_25);
     return stringBuffer.toString();
   }
 }
