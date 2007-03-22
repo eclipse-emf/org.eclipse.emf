@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLActionBarContributor.java,v 1.6 2006/12/29 18:29:14 marcelop Exp $
+ * $Id: Ecore2XMLActionBarContributor.java,v 1.7 2007/03/22 02:05:08 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -21,7 +21,6 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
-import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 
@@ -298,8 +297,8 @@ public class Ecore2XMLActionBarContributor
 
     // Query the new selection for appropriate new child/sibling descriptors
     //
-    Collection<CommandParameter> newChildDescriptors = null;
-    Collection<CommandParameter> newSiblingDescriptors = null;
+    Collection<?> newChildDescriptors = null;
+    Collection<?> newSiblingDescriptors = null;
 
     ISelection selection = event.getSelection();
     if (selection instanceof IStructuredSelection && ((IStructuredSelection)selection).size() == 1)
@@ -336,12 +335,12 @@ public class Ecore2XMLActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection<IAction> generateCreateChildActions(Collection<? extends CommandParameter> descriptors, ISelection selection)
+  protected Collection<IAction> generateCreateChildActions(Collection<?> descriptors, ISelection selection)
   {
     Collection<IAction> actions = new ArrayList<IAction>();
     if (descriptors != null)
     {
-      for (CommandParameter descriptor : descriptors)
+      for (Object descriptor : descriptors)
       {
         actions.add(new CreateChildAction(activeEditorPart, selection, descriptor));
       }
@@ -356,12 +355,12 @@ public class Ecore2XMLActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection<IAction> generateCreateSiblingActions(Collection<? extends CommandParameter> descriptors, ISelection selection)
+  protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection)
   {
     Collection<IAction> actions = new ArrayList<IAction>();
     if (descriptors != null)
     {
-      for (CommandParameter descriptor : descriptors)
+      for (Object descriptor : descriptors)
       {
         actions.add(new CreateSiblingAction(activeEditorPart, selection, descriptor));
       }
