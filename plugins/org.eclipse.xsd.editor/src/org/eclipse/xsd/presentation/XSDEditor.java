@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.22 2006/12/29 18:34:04 marcelop Exp $
+ * $Id: XSDEditor.java,v 1.23 2007/03/22 02:07:12 davidms Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -135,7 +135,6 @@ import org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.EncodingMap;
-import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -795,8 +794,8 @@ public class XSDEditor
       }
 
       // query new selection for appropriate new child/sibling descriptors...
-      Collection<CommandParameter> newChildDescriptors = Collections.emptyList();
-      Collection<CommandParameter> newSiblingDescriptors = Collections.emptyList();
+      Collection<?> newChildDescriptors = Collections.emptyList();
+      Collection<?> newSiblingDescriptors = Collections.emptyList();
       ISelection sel = event.getSelection();
 
       if (sel instanceof IStructuredSelection
@@ -807,8 +806,7 @@ public class XSDEditor
           ((IEditingDomainProvider) activeEditorPart).getEditingDomain();
 
         newChildDescriptors = domain.getNewChildDescriptors(object, null);
-        newSiblingDescriptors = domain.getNewChildDescriptors(
-          domain.getParent(object), object);
+        newSiblingDescriptors = domain.getNewChildDescriptors(domain.getParent(object), object);
       }
 
       // generate actions for selection, populate and redraw menu
@@ -831,10 +829,10 @@ public class XSDEditor
      * This generates a {@link CreateChildAction} for each object in
      * <code>descriptors</code>, and returns the collection of these actions.
      */
-    protected Collection<IAction> generateCreateChildActions(Collection<CommandParameter> descriptors, ISelection selection)
+    protected Collection<IAction> generateCreateChildActions(Collection<?> descriptors, ISelection selection)
     {
       Collection<IAction> actions = new LinkedList<IAction>();
-      for (CommandParameter descriptor : descriptors)
+      for (Object descriptor : descriptors)
       {
         actions.add(new CreateChildAction(activeEditorPart, selection, descriptor));
       }
@@ -845,10 +843,10 @@ public class XSDEditor
      * This generates a {@link CreateSiblingAction} for each object in
      * <code>descriptors</code>, and returns the collection of these actions.
      */
-    protected Collection<IAction> generateCreateSiblingActions(Collection<CommandParameter> descriptors, ISelection selection)
+    protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection)
     {
       Collection<IAction> actions = new LinkedList<IAction>();
-      for (CommandParameter descriptor : descriptors)
+      for (Object descriptor : descriptors)
       {
         actions.add(new CreateSiblingAction(activeEditorPart, selection, descriptor));
       }
