@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DiagnosticDialog.java,v 1.1 2007/01/26 06:07:49 marcelop Exp $
+ * $Id: DiagnosticDialog.java,v 1.2 2007/03/22 15:52:40 davidms Exp $
  */
 package org.eclipse.emf.common.ui.dialogs;
 
@@ -95,7 +95,7 @@ public class DiagnosticDialog extends IconAndMessageDialog
    */
   public static int openProblem(Shell parent, String dialogTitle, String message, Diagnostic diagnostic)
   {
-    return open(parent, dialogTitle, message, diagnostic, DiagnosticComposite.ERROR_WARNING_MASK);
+    return open(parent, dialogTitle, message, diagnostic, Diagnostic.INFO | Diagnostic.WARNING | Diagnostic.ERROR);
   }
   
   /**
