@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingWrapperItemProvider.java,v 1.7 2006/12/28 06:48:53 marcelop Exp $
+ * $Id: DelegatingWrapperItemProvider.java,v 1.8 2007/03/22 01:45:51 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -327,11 +327,11 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
    * Uses the delegate item provider to return the delegate value's new child descriptors.
    */
   @Override
-  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  public Collection<?> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
     return delegateItemProvider instanceof IEditingDomainItemProvider ?
       ((IEditingDomainItemProvider)delegateItemProvider).getNewChildDescriptors(getDelegateValue(), editingDomain, sibling) :
-      Collections.<CommandParameter>emptyList();
+      Collections.emptyList();
   }
 
   /**
