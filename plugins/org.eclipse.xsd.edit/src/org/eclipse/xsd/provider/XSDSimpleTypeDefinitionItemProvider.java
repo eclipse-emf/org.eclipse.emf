@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionItemProvider.java,v 1.6 2006/12/29 18:32:33 marcelop Exp $
+ * $Id: XSDSimpleTypeDefinitionItemProvider.java,v 1.7 2007/03/22 02:06:23 davidms Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
@@ -477,8 +476,8 @@ public class XSDSimpleTypeDefinitionItemProvider
   }
 
   /**
-   * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s 
-   * describing all of the children that can be created under this object.  
+   * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+   * that can be created under this object.
    * The allowable simple type definition and facet children depend upon the 
    * variety and (if atomic) the primitive type of this simple type definition, 
    * as well as upon its existing children.  For an option to be displayed, but
@@ -486,7 +485,7 @@ public class XSDSimpleTypeDefinitionItemProvider
    * is <code>null</code>.
    */
   @Override
-  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
+  protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
     XSDSimpleTypeDefinition std = (XSDSimpleTypeDefinition) object;

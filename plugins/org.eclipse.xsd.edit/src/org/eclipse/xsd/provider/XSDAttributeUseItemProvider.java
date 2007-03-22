@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseItemProvider.java,v 1.5 2006/12/29 18:32:33 marcelop Exp $
+ * $Id: XSDAttributeUseItemProvider.java,v 1.6 2007/03/22 02:06:23 davidms Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -284,7 +284,7 @@ public class XSDAttributeUseItemProvider
    * content, not the attributeUse itself.
    */
   @Override
-  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain domain, Object sibling)
+  public Collection<?> getNewChildDescriptors(Object object, EditingDomain domain, Object sibling)
   {
     Object content = ((XSDAttributeUse) object).getContent();
     return domain.getNewChildDescriptors(content, sibling);

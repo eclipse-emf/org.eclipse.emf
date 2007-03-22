@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDItemProviderAdapter.java,v 1.8 2007/01/18 14:44:37 emerks Exp $
+ * $Id: XSDItemProviderAdapter.java,v 1.9 2007/03/22 02:06:23 davidms Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -261,7 +261,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
    * collection.  If <code>useParticle</code> is <code>true</code>, each
    * model group will be the content of a new particle.
    */
-  protected void addModelGroupChildParameters(Collection<CommandParameter> newChildDescriptors,
+  protected void addModelGroupChildParameters(Collection<Object> newChildDescriptors,
                                               EReference feature,
                                               boolean all,
                                               boolean useParticle)
@@ -292,7 +292,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
    * and <code>union</code>.
    */
   protected void addSimpleTypeDefinitionChildParameters
-    (Collection<CommandParameter> newChildDescriptors, 
+    (Collection<Object> newChildDescriptors, 
      XSDConcreteComponent parent,
      EReference feature, 
      boolean atomic, 
