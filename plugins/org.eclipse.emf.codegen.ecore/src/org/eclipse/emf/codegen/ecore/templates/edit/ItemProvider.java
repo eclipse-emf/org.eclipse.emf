@@ -156,7 +156,7 @@ public class ItemProvider
   protected final String TEXT_139 = "(notification, notification.getNotifier(), true, true));" + NL + "\t\t\t\treturn;";
   protected final String TEXT_140 = NL + "\t\t}";
   protected final String TEXT_141 = NL + "\t\tsuper.notifyChanged(notification);" + NL + "\t}" + NL;
-  protected final String TEXT_142 = NL + "\t/**" + NL + "\t * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s" + NL + "\t * describing all of the children that can be created under this object." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_142 = NL + "\t/**" + NL + "\t * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children" + NL + "\t * that can be created under this object." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
   protected final String TEXT_143 = NL + "\t@Override";
   protected final String TEXT_144 = NL + "\tprotected void collectNewChildDescriptors(";
   protected final String TEXT_145 = " newChildDescriptors, Object object)" + NL + "\t{" + NL + "\t\tsuper.collectNewChildDescriptors(newChildDescriptors, object);";
@@ -608,7 +608,7 @@ public class ItemProvider
     stringBuffer.append(TEXT_143);
     }
     stringBuffer.append(TEXT_144);
-    stringBuffer.append(genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<org.eclipse.emf.edit.command.CommandParameter>" : "java.util.Collection"));
+    stringBuffer.append(genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<java.lang.Object>" : "java.util.Collection"));
     stringBuffer.append(TEXT_145);
     for (GenFeature createFeature : genClass.getCrossPackageCreateChildFeatures()) { 
     for (GenClass createClass : genClass.getCrossPackageChildrenClasses(createFeature)) { 

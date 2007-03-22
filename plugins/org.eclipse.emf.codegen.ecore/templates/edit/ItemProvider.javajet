@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.33 2007/02/12 18:47:55 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.34 2007/03/22 01:53:13 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -293,8 +293,8 @@ public class <%=genClass.getProviderClassName()%>
 
 <%if (genModel.isCreationCommands()) {%>
 	/**
-	 * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing all of the children that can be created under this object.
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -302,7 +302,7 @@ public class <%=genClass.getProviderClassName()%>
 <%if (genModel.useClassOverrideAnnotation()) {%>
 	@Override
 <%}%>
-	protected void collectNewChildDescriptors(<%=genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<org.eclipse.emf.edit.command.CommandParameter>" : "java.util.Collection")%> newChildDescriptors, Object object)
+	protected void collectNewChildDescriptors(<%=genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<java.lang.Object>" : "java.util.Collection")%> newChildDescriptors, Object object)
 	{
 		super.collectNewChildDescriptors(newChildDescriptors, object);
   <%for (GenFeature createFeature : genClass.getCrossPackageCreateChildFeatures()) { %>
