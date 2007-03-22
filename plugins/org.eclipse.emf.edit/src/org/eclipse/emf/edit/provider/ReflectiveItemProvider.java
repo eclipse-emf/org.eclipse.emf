@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.18 2006/12/28 06:48:53 marcelop Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.19 2007/03/22 01:50:47 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -46,7 +46,6 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-import org.eclipse.emf.edit.command.CommandParameter;
 
 
 /**
@@ -547,7 +546,7 @@ public class ReflectiveItemProvider
   /**
    */
   @Override
-  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)    
+  protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)    
   {
     // This ensure that this package itself is traversed even if the reference type is EObject...
     //
