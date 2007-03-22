@@ -218,15 +218,13 @@ public class ActionBarContributor
 
     GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();
     
-String _CollectionOfCommandParameter = null;
-String _CollectionOfExtendsCommandParameter = null;
+String _CollectionOfAnything = null;
 String _CollectionOfIAction = null;
 String _ArrayListOfIAction = null;
 String _CollectionOfExtendsIAction = null;
 if (genModel.isCreationCommands())
 {
-  _CollectionOfCommandParameter = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<org.eclipse.emf.edit.command.CommandParameter>" : "java.util.Collection");
-  _CollectionOfExtendsCommandParameter = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<? extends org.eclipse.emf.edit.command.CommandParameter>" : "java.util.Collection");
+  _CollectionOfAnything = genModel.getImportedName("Collection" + (genModel.useGenerics() ? "<?>" : ""));
   _CollectionOfIAction = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<org.eclipse.jface.action.IAction>" : "java.util.Collection");
   _ArrayListOfIAction = genModel.getImportedName(genModel.useGenerics() ? "java.util.ArrayList<org.eclipse.jface.action.IAction>" : "java.util.ArrayList");
   _CollectionOfExtendsIAction = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<? extends org.eclipse.jface.action.IAction>" : "java.util.Collection");
@@ -436,9 +434,9 @@ if (genModel.isCreationCommands())
     stringBuffer.append(TEXT_101);
     if (genModel.isCreationCommands()) {
     stringBuffer.append(TEXT_102);
-    stringBuffer.append(_CollectionOfCommandParameter);
+    stringBuffer.append(_CollectionOfAnything);
     stringBuffer.append(TEXT_103);
-    stringBuffer.append(_CollectionOfCommandParameter);
+    stringBuffer.append(_CollectionOfAnything);
     stringBuffer.append(TEXT_104);
     stringBuffer.append(genModel.getImportedName("org.eclipse.jface.viewers.ISelection"));
     stringBuffer.append(TEXT_105);
@@ -458,7 +456,7 @@ if (genModel.isCreationCommands())
     stringBuffer.append(TEXT_112);
     stringBuffer.append(_CollectionOfIAction);
     stringBuffer.append(TEXT_113);
-    stringBuffer.append(_CollectionOfExtendsCommandParameter);
+    stringBuffer.append(_CollectionOfAnything);
     stringBuffer.append(TEXT_114);
     stringBuffer.append(genModel.getImportedName("org.eclipse.jface.viewers.ISelection"));
     stringBuffer.append(TEXT_115);
@@ -468,7 +466,7 @@ if (genModel.isCreationCommands())
     stringBuffer.append(TEXT_117);
     if (genModel.useGenerics()) {
     stringBuffer.append(TEXT_118);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.edit.command.CommandParameter"));
+    stringBuffer.append(genModel.getImportedName("java.lang.Object"));
     stringBuffer.append(TEXT_119);
     } else {
     stringBuffer.append(TEXT_120);
@@ -486,7 +484,7 @@ if (genModel.isCreationCommands())
     stringBuffer.append(TEXT_126);
     stringBuffer.append(_CollectionOfIAction);
     stringBuffer.append(TEXT_127);
-    stringBuffer.append(_CollectionOfExtendsCommandParameter);
+    stringBuffer.append(_CollectionOfAnything);
     stringBuffer.append(TEXT_128);
     stringBuffer.append(genModel.getImportedName("org.eclipse.jface.viewers.ISelection"));
     stringBuffer.append(TEXT_129);
@@ -496,7 +494,7 @@ if (genModel.isCreationCommands())
     stringBuffer.append(TEXT_131);
     if (genModel.useGenerics()) {
     stringBuffer.append(TEXT_132);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.edit.command.CommandParameter"));
+    stringBuffer.append(genModel.getImportedName("java.lang.Object"));
     stringBuffer.append(TEXT_133);
     } else {
     stringBuffer.append(TEXT_134);
