@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryItemProvider.java,v 1.11 2006/12/28 06:46:20 marcelop Exp $
+ * $Id: EFactoryItemProvider.java,v 1.12 2007/03/22 01:58:36 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -25,7 +25,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -151,14 +150,14 @@ public class EFactoryItemProvider
   }
 
   /**
-   * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
-   * describing all of the children that can be created under this object.
+   * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+   * that can be created under this object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   @Override
-  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
+  protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
   }

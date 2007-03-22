@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.16 2006/12/28 06:46:20 marcelop Exp $
+ * $Id: EReferenceItemProvider.java,v 1.17 2007/03/22 01:58:36 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -32,7 +32,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.InitializeCopyCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.command.CopyCommand.Helper;
@@ -432,14 +431,14 @@ public class EReferenceItemProvider
   }
 
   /**
-   * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
-   * describing all of the children that can be created under this object.
+   * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+   * that can be created under this object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   @Override
-  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
+  protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
   }
