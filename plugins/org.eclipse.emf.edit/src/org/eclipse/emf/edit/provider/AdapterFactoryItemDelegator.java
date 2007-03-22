@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryItemDelegator.java,v 1.3 2006/12/28 06:48:53 marcelop Exp $
+ * $Id: AdapterFactoryItemDelegator.java,v 1.4 2007/03/22 01:45:32 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -322,7 +322,7 @@ public class AdapterFactoryItemDelegator
    * can be added under the specified object in the editing domain,
    * following the specified sibling as closely as possible (if non-null).
    */
-  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  public Collection<?> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
     // Get the adapter from the factory.
     //
@@ -334,7 +334,7 @@ public class AdapterFactoryItemDelegator
     return
       editingDomainItemProvider != null ?
         editingDomainItemProvider.getNewChildDescriptors(object, editingDomain, sibling) :
-        Collections.<CommandParameter>emptyList();
+        Collections.emptyList();
   }
 
   /**
