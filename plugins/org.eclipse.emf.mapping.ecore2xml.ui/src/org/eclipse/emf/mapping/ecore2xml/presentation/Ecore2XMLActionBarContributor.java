@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLActionBarContributor.java,v 1.7 2007/03/22 02:05:08 davidms Exp $
+ * $Id: Ecore2XMLActionBarContributor.java,v 1.8 2007/03/22 14:53:46 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -372,7 +372,7 @@ public class Ecore2XMLActionBarContributor
    * This populates the specified <code>manager</code> with {@link org.eclipse.jface.action.ActionContributionItem}s
    * based on the {@link org.eclipse.jface.action.IAction}s contained in the <code>actions</code> collection,
    * by inserting them before the specified contribution item <code>contributionID</code>.
-   * If <code>ID</code> is <code>null</code>, they are simply added.
+   * If <code>contributionID</code> is <code>null</code>, they are simply added.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
