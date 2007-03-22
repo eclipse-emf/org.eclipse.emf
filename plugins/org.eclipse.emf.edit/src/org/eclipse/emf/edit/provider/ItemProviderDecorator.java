@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderDecorator.java,v 1.3 2006/12/28 06:48:53 marcelop Exp $
+ * $Id: ItemProviderDecorator.java,v 1.4 2007/03/22 01:46:11 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -255,7 +255,7 @@ public class ItemProviderDecorator
    * IEditingDomainItemProvider.getNewChildDescriptors} by delegating to
    * <code>(IEditingDomainItemProvider)</code>{@link #decoratedItemProvider}.
    */
-  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  public Collection<?> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
     return ((IEditingDomainItemProvider)decoratedItemProvider).getNewChildDescriptors(object, editingDomain, sibling);
   }
