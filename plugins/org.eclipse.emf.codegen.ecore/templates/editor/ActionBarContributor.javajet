@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.20 2007/03/22 01:56:07 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.21 2007/03/22 15:51:23 davidms Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,12 +21,23 @@ String _CollectionOfAnything = null;
 String _CollectionOfIAction = null;
 String _ArrayListOfIAction = null;
 String _CollectionOfExtendsIAction = null;
+String _IteratorOfIAction = null;
+String _MapOfStringToCollectionOfIAction = null;
+String _MapEntryOfStringToCollectionOfIAction = null;
+String _LinkedHashMapOfStringToCollectionOfIAction = null;
 if (genModel.isCreationCommands())
 {
   _CollectionOfAnything = genModel.getImportedName("Collection" + (genModel.useGenerics() ? "<?>" : ""));
   _CollectionOfIAction = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<org.eclipse.jface.action.IAction>" : "java.util.Collection");
   _ArrayListOfIAction = genModel.getImportedName(genModel.useGenerics() ? "java.util.ArrayList<org.eclipse.jface.action.IAction>" : "java.util.ArrayList");
   _CollectionOfExtendsIAction = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<? extends org.eclipse.jface.action.IAction>" : "java.util.Collection");
+  if (genModel.isCreationSubmenus())
+  {
+    _IteratorOfIAction = genModel.getImportedName(genModel.useGenerics() ? "java.util.Iterator<org.eclipse.jface.action.IAction>" : "java.util.Iterator");
+    _MapOfStringToCollectionOfIAction = genModel.getImportedName("java.util.Map") + (genModel.useGenerics() ? ("<String, " + _CollectionOfIAction + ">") : "");
+    _MapEntryOfStringToCollectionOfIAction = genModel.getImportedName("java.util.Map") + ".Entry" + (genModel.useGenerics() ? ("<String, " + _CollectionOfIAction + ">") : "");
+    _LinkedHashMapOfStringToCollectionOfIAction = genModel.getImportedName("java.util.LinkedHashMap") + (genModel.useGenerics() ? ("<String, " + _CollectionOfIAction + ">") : "");
+  }
 }
 %>
 <%@ include file="../Header.javajetinc"%>
@@ -163,6 +174,16 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 */
 	protected <%=_CollectionOfIAction%> createChildActions;
 
+  <%if (genModel.isCreationSubmenus()) {%>
+	/**
+	 * This will contain a map of {@link org.eclipse.emf.edit.ui.action.CreateChildAction}s, keyed by sub-menu text.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected <%=_MapOfStringToCollectionOfIAction%> createChildSubmenuActions;
+
+  <%}%>
 	/**
 	 * This is the menu manager into which menu contribution items should be added for CreateChild actions.
 	 * <!-- begin-user-doc -->
@@ -180,6 +201,16 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 */
 	protected <%=_CollectionOfIAction%> createSiblingActions;
 
+  <%if (genModel.isCreationSubmenus()) {%>
+	/**
+	 * This will contain a map of {@link org.eclipse.emf.edit.ui.action.CreateSiblingAction}s, keyed by submenu text.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected <%=_MapOfStringToCollectionOfIAction%> createSiblingSubmenuActions;
+
+  <%}%>
 	/**
 	 * This is the menu manager into which menu contribution items should be added for CreateSibling actions.
 	 * <!-- begin-user-doc -->
@@ -322,10 +353,16 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		//
 		if (createChildMenuManager != null)
 		{
+  <%if (genModel.isCreationSubmenus()) {%>
+			depopulateManager(createChildMenuManager, createChildSubmenuActions);
+  <%}%>
 			depopulateManager(createChildMenuManager, createChildActions);
 		}
 		if (createSiblingMenuManager != null)
 		{
+  <%if (genModel.isCreationSubmenus()) {%>
+			depopulateManager(createSiblingMenuManager, createSiblingSubmenuActions);
+  <%}%>
 			depopulateManager(createSiblingMenuManager, createSiblingActions);
 		}
 
@@ -348,15 +385,27 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		// Generate actions for selection; populate and redraw the menus.
 		//
 		createChildActions = generateCreateChildActions(newChildDescriptors, selection);
+  <%if (genModel.isCreationSubmenus()) {%>
+		createChildSubmenuActions = extractSubmenuActions(createChildActions);
+  <%}%>
 		createSiblingActions = generateCreateSiblingActions(newSiblingDescriptors, selection);
+  <%if (genModel.isCreationSubmenus()) {%>
+		createSiblingSubmenuActions = extractSubmenuActions(createSiblingActions);
+  <%}%>
 
 		if (createChildMenuManager != null)
 		{
+  <%if (genModel.isCreationSubmenus()) {%>
+			populateManager(createChildMenuManager, createChildSubmenuActions, null);
+  <%}%>
 			populateManager(createChildMenuManager, createChildActions, null);
 			createChildMenuManager.update(true);
 		}
 		if (createSiblingMenuManager != null)
 		{
+  <%if (genModel.isCreationSubmenus()) {%>
+			populateManager(createSiblingMenuManager, createSiblingSubmenuActions, null);
+  <%}%>
 			populateManager(createSiblingMenuManager, createSiblingActions, null);
 			createSiblingMenuManager.update(true);
 		}
@@ -419,7 +468,7 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * This populates the specified <code>manager</code> with {@link org.eclipse.jface.action.ActionContributionItem}s
 	 * based on the {@link org.eclipse.jface.action.IAction}s contained in the <code>actions</code> collection,
 	 * by inserting them before the specified contribution item <code>contributionID</code>.
-	 * If <code>ID</code> is <code>null</code>, they are simply added.
+	 * If <code>contributionID</code> is <code>null</code>, they are simply added.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -485,6 +534,106 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		}
 	}
 
+  <%if (genModel.isCreationSubmenus()) {%>
+	/**
+	 * This extracts those actions in the <code>submenuActions</code> collection whose text is qualified and returns
+	 * a map of these actions, keyed by submenu text.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected <%=_MapOfStringToCollectionOfIAction%> extractSubmenuActions(<%=_CollectionOfIAction%> createActions)
+	{
+		<%=_MapOfStringToCollectionOfIAction%> createSubmenuActions = new <%=_LinkedHashMapOfStringToCollectionOfIAction%>();
+		if (createActions != null)
+		{
+			for (<%=_IteratorOfIAction%> actions = createActions.iterator(); actions.hasNext(); )
+			{
+				<%=genModel.getImportedName("org.eclipse.jface.action.IAction")%> action = <%if (!genModel.useGenerics()) {%>(<%=genModel.getImportedName("org.eclipse.jface.action.IAction")%>)<%}%>actions.next();
+				<%=genModel.getImportedName("java.util.StringTokenizer")%> st = new <%=genModel.getImportedName("java.util.StringTokenizer")%>(action.getText(), "|");<%=genModel.getNonNLS()%>
+				if (st.countTokens() == 2)
+				{
+					String text = st.nextToken().trim();
+					<%=_CollectionOfIAction%> submenuActions = <%if (!genModel.useGenerics()) {%>(<%=_CollectionOfIAction%>)<%}%>createSubmenuActions.get(text);
+					if (submenuActions == null)
+					{
+						createSubmenuActions.put(text, submenuActions = new <%=_ArrayListOfIAction%>());
+					}
+					action.setText(st.nextToken().trim());
+					submenuActions.add(action);
+					actions.remove();
+				}
+			}
+		}
+		return createSubmenuActions;
+	}
+
+	/**
+	 * This populates the specified <code>manager</code> with {@link org.eclipse.jface.action.MenuManager}s containing
+	 * {@link org.eclipse.jface.action.ActionContributionItem}s based on the {@link org.eclipse.jface.action.IAction}s
+	 * contained in the <code>submenuActions</code> collection, by inserting them before the specified contribution
+	 * item <code>contributionID</code>.
+	 * If <code>contributionID</code> is <code>null</code>, they are simply added.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void populateManager(<%=genModel.getImportedName("org.eclipse.jface.action.IContributionManager")%> manager, <%=_MapOfStringToCollectionOfIAction%> submenuActions, String contributionID)
+	{
+		if (submenuActions != null)
+		{
+    <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%>
+			for (<%=_MapEntryOfStringToCollectionOfIAction%> entry : submenuActions.entrySet())
+			{
+    <%} else {%>
+			for (<%=genModel.getImportedName("java.util.Iterator")%> entries = submenuActions.entrySet().iterator(); entries.hasNext();)
+			{
+				<%=_MapEntryOfStringToCollectionOfIAction%> entry = (<%=_MapEntryOfStringToCollectionOfIAction%>)entries.next();
+    <%}%>
+				<%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> submenuManager = new <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>(<%if (!genModel.useGenerics()) {%>(String)<%}%>entry.getKey());
+				if (contributionID != null)
+				{
+					manager.insertBefore(contributionID, submenuManager);
+				}
+				else
+				{
+					manager.add(submenuManager);
+				}
+				populateManager(submenuManager, <%if (!genModel.useGenerics()) {%>(<%=_CollectionOfIAction%>)<%}%>entry.getValue(), null);
+			}
+		}
+	}
+
+	/**
+	 * This removes from the specified <code>manager</code> all {@link org.eclipse.jface.action.MenuManager}s and their
+	 * {@link org.eclipse.jface.action.ActionContributionItem}s based on the {@link org.eclipse.jface.action.IAction}s
+	 * contained in the <code>submenuActions</code> map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void depopulateManager(<%=genModel.getImportedName("org.eclipse.jface.action.IContributionManager")%> manager, <%=_MapOfStringToCollectionOfIAction%> submenuActions)
+	{
+		if (submenuActions != null)
+		{
+			<%=genModel.getImportedName("org.eclipse.jface.action.IContributionItem")%>[] items = manager.getItems();
+			for (int i = 0; i < items.length; i++)
+			{
+				<%=genModel.getImportedName("org.eclipse.jface.action.IContributionItem")%> contributionItem = items[i];
+				if (contributionItem instanceof <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>)
+				{
+					<%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> submenuManager = (<%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>)contributionItem;
+					if (submenuActions.containsKey(submenuManager.getMenuText()))
+					{
+						depopulateManager(submenuManager, <%if (!genModel.useGenerics()) {%>(<%=_CollectionOfIAction%>)<%}%>submenuActions.get(contributionItem));
+						manager.remove(contributionItem);
+					}
+				}
+			}
+		}
+	}
+
+  <%}%>
 <%}%>
 	/**
 	 * This populates the pop-up menu before it appears.
@@ -502,10 +651,16 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		<%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%> submenuManager = null;
 
 		submenuManager = new <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_CreateChild_menu_item"));<%=genModel.getNonNLS()%>
+  <%if (genModel.isCreationSubmenus()) {%>
+		populateManager(submenuManager, createChildSubmenuActions, null);
+  <%}%>
 		populateManager(submenuManager, createChildActions, null);
 		menuManager.insertBefore("edit", submenuManager);<%=genModel.getNonNLS()%>
 
 		submenuManager = new <%=genModel.getImportedName("org.eclipse.jface.action.MenuManager")%>(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_CreateSibling_menu_item"));<%=genModel.getNonNLS()%>
+  <%if (genModel.isCreationSubmenus()) {%>
+		populateManager(submenuManager, createSiblingSubmenuActions, null);
+  <%}%>
 		populateManager(submenuManager, createSiblingActions, null);
 		menuManager.insertBefore("edit", submenuManager);<%=genModel.getNonNLS()%>
 <%}%>
