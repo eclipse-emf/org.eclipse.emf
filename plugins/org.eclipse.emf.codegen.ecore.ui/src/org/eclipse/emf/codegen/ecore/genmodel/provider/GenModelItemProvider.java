@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.29 2006/12/28 16:49:46 marcelop Exp $
+ * $Id: GenModelItemProvider.java,v 1.30 2007/03/22 15:51:41 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -78,6 +78,7 @@ public class GenModelItemProvider
       addModelDirectoryPropertyDescriptor(object);
       addCreationCommandsPropertyDescriptor(object);
       addCreationIconsPropertyDescriptor(object);
+      addCreationSubmenusPropertyDescriptor(object);
       addEditDirectoryPropertyDescriptor(object);
       addEditorDirectoryPropertyDescriptor(object);
       addModelPluginIDPropertyDescriptor(object);
@@ -238,6 +239,29 @@ public class GenModelItemProvider
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Creation Submenus feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addCreationSubmenusPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_creationSubmenus_feature"),
+         getString("_UI_GenModel_creationSubmenus_description"),
+         GenModelPackage.Literals.GEN_MODEL__CREATION_SUBMENUS,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory"),
          null));
   }
 
@@ -1300,6 +1324,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__MODEL_DIRECTORY:
       case GenModelPackage.GEN_MODEL__CREATION_COMMANDS:
       case GenModelPackage.GEN_MODEL__CREATION_ICONS:
+      case GenModelPackage.GEN_MODEL__CREATION_SUBMENUS:
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
       case GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY:
       case GenModelPackage.GEN_MODEL__MODEL_PLUGIN_ID:
