@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.14 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: PropertyDescriptor.java,v 1.15 2007/03/22 15:42:20 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -31,6 +31,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -155,31 +156,23 @@ public class PropertyDescriptor implements IPropertyDescriptor
     public String isValid(Object object)
     {
       Object value;
-      if (eDataType.isInstance(object) && !(eDataType.getInstanceClass() == Object.class && object instanceof String))
+      try
       {
-        value = object;
+        value = eDataType.getEPackage().getEFactoryInstance().createFromString(eDataType, (String)object);
       }
-      else
+      catch (Exception exception)
       {
-        String string = (String)object;
-        try
+        String message = exception.getClass().getName();
+        int index = message.lastIndexOf('.');
+        if (index >= 0)
         {
-          value = eDataType.getEPackage().getEFactoryInstance().createFromString(eDataType, string);
+          message = message.substring(index + 1);
         }
-        catch (Exception exception)
+        if (exception.getLocalizedMessage() != null)
         {
-          String message = exception.getClass().getName();
-          int index = message.lastIndexOf('.');
-          if (index >= 0)
-          {
-            message = message.substring(index + 1);
-          }
-          if (exception.getLocalizedMessage() != null)
-          {
-            message = message + ": " + exception.getLocalizedMessage();
-          }
-          return message;
+          message = message + ": " + exception.getLocalizedMessage();
         }
+        return message;
       }
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eDataType, value);
       if (diagnostic.getSeverity() == Diagnostic.OK)
@@ -234,10 +227,34 @@ public class PropertyDescriptor implements IPropertyDescriptor
     {
       value = valueHandler.toString(value);
       super.doSetValue(value);
-      valueChanged(true, isCorrect(value));
+    }
+
+    // CellEditor.setValue() calls isCorrect() to validate the value that is about to be set. We are doing conversion
+    // between the value and a corresponding string, and we would usually like to validate the string. Because
+    // setValue() is final, we cannot do that conversion there, so we need to record what we're trying to validate and
+    // work around the problem in isCorrect().
+    // 
+    protected boolean validateAsValue = true;
+
+    @Override
+    protected void editOccured(ModifyEvent e)
+    {
+      validateAsValue = false;
+      super.editOccured(e);
+      validateAsValue = true;
+    }
+
+    @Override
+    protected boolean isCorrect(Object value)
+    {
+      if (validateAsValue)
+      {
+        value = valueHandler.toString(value);
+      }
+      return super.isCorrect(value);
     }
   }
-    
+
   private static class MultiLineInputDialog extends InputDialog
   {
     public MultiLineInputDialog(Shell parentShell, String title, String message, String initialValue, IInputValidator validator)
