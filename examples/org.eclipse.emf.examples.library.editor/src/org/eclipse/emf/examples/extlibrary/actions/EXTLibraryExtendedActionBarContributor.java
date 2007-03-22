@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryExtendedActionBarContributor.java,v 1.2 2006/12/29 18:27:34 marcelop Exp $
+ * $Id: EXTLibraryExtendedActionBarContributor.java,v 1.3 2007/03/22 02:04:15 davidms Exp $
  */
 package org.eclipse.emf.examples.extlibrary.actions;
 
@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -56,9 +55,7 @@ public class EXTLibraryExtendedActionBarContributor extends EXTLibraryActionBarC
    *      org.eclipse.jface.viewers.ISelection)
    */
   @Override
-  protected java.util.Collection<IAction> generateCreateChildActions(
-    Collection<? extends CommandParameter> descriptors,
-    ISelection selection)
+  protected java.util.Collection<IAction> generateCreateChildActions(Collection<?> descriptors, ISelection selection)
   {
     Collection<IAction> actions = new ArrayList<IAction>(super.generateCreateChildActions(descriptors, selection));
     if (selection instanceof IStructuredSelection && ((IStructuredSelection)selection).size() == 1)
@@ -78,7 +75,7 @@ public class EXTLibraryExtendedActionBarContributor extends EXTLibraryActionBarC
    *      org.eclipse.jface.viewers.ISelection)
    */
   @Override
-  protected Collection<IAction> generateCreateSiblingActions(Collection<? extends CommandParameter> descriptors, ISelection selection)
+  protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection)
   {
     Collection<IAction> actions = new ArrayList<IAction>(super.generateCreateSiblingActions(descriptors, selection));
     if (selection instanceof IStructuredSelection && ((IStructuredSelection)selection).size() == 1)
