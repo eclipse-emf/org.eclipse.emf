@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.12 2006/12/28 06:47:17 marcelop Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.13 2007/03/22 02:00:48 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -524,8 +524,8 @@ public class EcoreActionBarContributor
 
     // Query the new selection for appropriate new child/sibling descriptors
     //
-    Collection<CommandParameter> newChildDescriptors = null;
-    Collection<CommandParameter> newSiblingDescriptors = null;
+    Collection<?> newChildDescriptors = null;
+    Collection<?> newSiblingDescriptors = null;
 
     ISelection selection = event.getSelection();
     if (selection instanceof IStructuredSelection && ((IStructuredSelection)selection).size() == 1)
@@ -568,16 +568,16 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected Collection<IAction> generateCreateChildActions(Collection<? extends CommandParameter> descriptors, ISelection selection)
+  protected Collection<IAction> generateCreateChildActions(Collection<?> descriptors, ISelection selection)
   {
     Collection<IAction> actions = new ArrayList<IAction>();
     if (descriptors != null)
     {
-      for (CommandParameter descriptor : descriptors)
+      for (Object descriptor : descriptors)
       {
-        if (!showGenericsAction.isChecked())
+        if (!showGenericsAction.isChecked() && descriptor instanceof CommandParameter)
         {
-          Object feature = descriptor.getFeature();
+          Object feature = ((CommandParameter)descriptor).getFeature();
           if (isGenericFeature(feature))
           {
             continue;
@@ -596,16 +596,16 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected Collection<IAction> generateCreateSiblingActions(Collection<? extends CommandParameter> descriptors, ISelection selection)
+  protected Collection<IAction> generateCreateSiblingActions(Collection<?> descriptors, ISelection selection)
   {
     Collection<IAction> actions = new ArrayList<IAction>();
     if (descriptors != null)
     {
-      for (CommandParameter descriptor : descriptors)
+      for (Object descriptor : descriptors)
       {
-        if (!showGenericsAction.isChecked())
+        if (!showGenericsAction.isChecked() && descriptor instanceof CommandParameter)
         {
-          Object feature = descriptor.getFeature();
+          Object feature = ((CommandParameter)descriptor).getFeature();
           if (isGenericFeature(feature))
           {
             continue;
