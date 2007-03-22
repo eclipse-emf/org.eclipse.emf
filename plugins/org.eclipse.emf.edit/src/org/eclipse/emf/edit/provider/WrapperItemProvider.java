@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.10 2006/12/28 06:48:54 marcelop Exp $
+ * $Id: WrapperItemProvider.java,v 1.11 2007/03/22 01:46:31 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -351,7 +351,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
    * {@link IEditingDomainItemProvider#getNewChildDescriptors IEditingDomainItemProvider.getNewChildDescriptors} is
    * implemented to return an empty list. Subclasses may override it to return something else.
    */
-  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  public Collection<?> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
     return Collections.emptyList();
   }
