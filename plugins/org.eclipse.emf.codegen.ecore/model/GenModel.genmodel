@@ -47,6 +47,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/creationCommands"/>
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether to generate child creation icons"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/creationIcons"/>
+      <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Whether to organize qualified child creation actions into sub-menus"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/creationSubmenus"/>
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="The target directory for generated edit code"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editDirectory"/>
       <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="The target directory for generated editor code"

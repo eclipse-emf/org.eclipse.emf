@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.78 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.79 2007/03/22 15:48:26 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -110,6 +110,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getModelDirectory <em>Model Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCreationCommands <em>Creation Commands</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCreationIcons <em>Creation Icons</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCreationSubmenus <em>Creation Submenus</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEditDirectory <em>Edit Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEditorDirectory <em>Editor Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getModelPluginID <em>Model Plugin ID</em>}</li>
@@ -246,6 +247,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean creationIcons = CREATION_ICONS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isCreationSubmenus() <em>Creation Submenus</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCreationSubmenus()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean CREATION_SUBMENUS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isCreationSubmenus() <em>Creation Submenus</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCreationSubmenus()
+   * @generated
+   * @ordered
+   */
+  protected boolean creationSubmenus = CREATION_SUBMENUS_EDEFAULT;
 
   /**
    * The default value of the '{@link #getEditDirectory() <em>Edit Directory</em>}' attribute.
@@ -3898,6 +3919,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editDirectoryESet;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isCreationSubmenus()
+  {
+    return creationSubmenus;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setCreationSubmenus(boolean newCreationSubmenus)
+  {
+    boolean oldCreationSubmenus = creationSubmenus;
+    creationSubmenus = newCreationSubmenus;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__CREATION_SUBMENUS, oldCreationSubmenus, creationSubmenus));
+  }
+
   public String getEditorDirectory()
   {
     return getPluginDirectory(isSetEditorDirectory(), getEditorDirectoryGen(), ".editor/");
@@ -5392,6 +5436,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isCreationCommands() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__CREATION_ICONS:
         return isCreationIcons() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__CREATION_SUBMENUS:
+        return isCreationSubmenus() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
         return getEditDirectory();
       case GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY:
@@ -5518,6 +5564,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__CREATION_ICONS:
         setCreationIcons(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__CREATION_SUBMENUS:
+        setCreationSubmenus(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
         setEditDirectory((String)newValue);
@@ -5700,6 +5749,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CREATION_ICONS:
         setCreationIcons(CREATION_ICONS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__CREATION_SUBMENUS:
+        setCreationSubmenus(CREATION_SUBMENUS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
         unsetEditDirectory();
         return;
@@ -5872,6 +5924,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return creationCommands != CREATION_COMMANDS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__CREATION_ICONS:
         return creationIcons != CREATION_ICONS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__CREATION_SUBMENUS:
+        return creationSubmenus != CREATION_SUBMENUS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
         return isSetEditDirectory();
       case GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY:
@@ -5995,6 +6049,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(creationCommands);
     result.append(", creationIcons: ");
     result.append(creationIcons);
+    result.append(", creationSubmenus: ");
+    result.append(creationSubmenus);
     result.append(", editDirectory: ");
     if (editDirectoryESet) result.append(editDirectory); else result.append("<unset>");
     result.append(", editorDirectory: ");
@@ -6864,6 +6920,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setModelDirectory(oldGenModelVersion.getModelDirectory());
     setCreationCommands(oldGenModelVersion.isCreationCommands());
     setCreationIcons(oldGenModelVersion.isCreationIcons());
+    setCreationSubmenus(oldGenModelVersion.isCreationSubmenus());
     setModelPluginID(oldGenModelVersion.getModelPluginID());
     setTemplateDirectory(oldGenModelVersion.getTemplateDirectory());
     setRuntimeJar(oldGenModelVersion.isRuntimeJar());

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.41 2006/12/28 08:40:32 marcelop Exp $
+ * $Id: GenModel.java,v 1.42 2007/03/22 15:48:26 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -48,6 +48,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelDirectory <em>Model Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCreationCommands <em>Creation Commands</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCreationIcons <em>Creation Icons</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCreationSubmenus <em>Creation Submenus</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditDirectory <em>Edit Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorDirectory <em>Editor Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getModelPluginID <em>Model Plugin ID</em>}</li>
@@ -259,6 +260,32 @@ public interface GenModel extends GenBase
    * @generated
    */
   boolean isSetEditDirectory();
+
+  /**
+   * Returns the value of the '<em><b>Creation Submenus</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Creation Submenus</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Creation Submenus</em>' attribute.
+   * @see #setCreationSubmenus(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_CreationSubmenus()
+   * @model
+   * @generated
+   */
+  boolean isCreationSubmenus();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCreationSubmenus <em>Creation Submenus</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Creation Submenus</em>' attribute.
+   * @see #isCreationSubmenus()
+   * @generated
+   */
+  void setCreationSubmenus(boolean value);
 
   /**
    * Returns the value of the '<em><b>Editor Directory</b></em>' attribute.
