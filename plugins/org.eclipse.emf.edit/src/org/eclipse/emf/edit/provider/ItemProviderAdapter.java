@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.27 2007/01/31 17:36:49 marcelop Exp $
+ * $Id: ItemProviderAdapter.java,v 1.28 2007/03/22 01:50:01 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -627,23 +627,24 @@ public class ItemProviderAdapter
 
   /**
    * This implements {@link IEditingDomainItemProvider#getNewChildDescriptors
-   * IEditingDomainItemProvider.getNewChildDescriptors}, returning {@link
-   * org.eclipse.emf.edit.command.CommandParameter}s to describe all the possible children that can be added to the
-   * specified <code>object</code>.
+   * IEditingDomainItemProvider.getNewChildDescriptors}, returning descriptors for all the possible children that
+   * can be added to the specified <code>object</code>. Usually, these descriptors will be instances of
+   * {@link org.eclipse.emf.edit.command.CommandParameter}s, containing at least the child object and the feature
+   * under which it should be added.
    * 
    * <p>This implementation invokes {@link #collectNewChildDescriptors collectNewChildDescriptors}, which should be
    * overridden by derived classes, to build this collection.
    *
-   * <p>If <code>sibling</code> is non-null, an <code>index</code> is added to each <code>CommandParameter</code> with
-   * a multi-valued <code>feature</code>, to ensure that the new child object gets added in the right position.
+   * <p>If <code>sibling</code> is non-null, an index is added to each <code>CommandParameter</code> with a multi-valued
+   * feature, to ensure that the new child object gets added in the right position.
    */
-  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  public Collection<?> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
     EObject eObject = (EObject)object;
 
     // Build the collection of new child descriptors.
     //
-    Collection<CommandParameter> newChildDescriptors = new ArrayList<CommandParameter>();
+    Collection<Object> newChildDescriptors = new ArrayList<Object>();
     collectNewChildDescriptors(newChildDescriptors, object);
 
     // If a sibling has been specified, add the best index possible to each CommandParameter.
@@ -685,47 +686,51 @@ public class ItemProviderAdapter
       // For each CommandParameter with a non-null, multi-valued structural feature...
       //
       DESCRIPTORS_LOOP:
-      for (CommandParameter parameter : newChildDescriptors)
+      for (Object descriptor : newChildDescriptors)
       {
-        EStructuralFeature childFeature = parameter.getEStructuralFeature();
-        if (childFeature == null || !childFeature.isMany())
+        if (descriptor instanceof CommandParameter)
         {
-          continue DESCRIPTORS_LOOP;
-        }
-
-        // Look for the sibling value or an equivalent in the new child's feature. If it is found, the child should
-        // immediately follow it.
-        //
-        i = 0;
-        for (Object v  : (Collection<?>)eObject.eGet(childFeature))
-        {
-          if (isEquivalentValue(sibling, v))
+          CommandParameter parameter = (CommandParameter)descriptor;
+          EStructuralFeature childFeature = parameter.getEStructuralFeature();
+          if (childFeature == null || !childFeature.isMany())
           {
-            parameter.index = i + 1;
             continue DESCRIPTORS_LOOP;
           }
-          ++i;
-        }
-
-        // Otherwise, if a sibling feature was found, iterate through the children features to find the index of
-        // the child feature... 
-        //
-        if (siblingFeatureIndex != -1)
-        {
+  
+          // Look for the sibling value or an equivalent in the new child's feature. If it is found, the child should
+          // immediately follow it.
+          //
           i = 0;
-          for (EStructuralFeature feature : childrenFeatures)
+          for (Object v  : (Collection<?>)eObject.eGet(childFeature))
           {
-            if (feature == childFeature)
+            if (isEquivalentValue(sibling, v))
             {
-              // If the child feature follows the sibling feature, the child should be first in its feature.
-              //
-              if (i > siblingFeatureIndex)
-              {
-                parameter.index = 0;
-              }
+              parameter.index = i + 1;
               continue DESCRIPTORS_LOOP;
             }
             ++i;
+          }
+  
+          // Otherwise, if a sibling feature was found, iterate through the children features to find the index of
+          // the child feature... 
+          //
+          if (siblingFeatureIndex != -1)
+          {
+            i = 0;
+            for (EStructuralFeature feature : childrenFeatures)
+            {
+              if (feature == childFeature)
+              {
+                // If the child feature follows the sibling feature, the child should be first in its feature.
+                //
+                if (i > siblingFeatureIndex)
+                {
+                  parameter.index = 0;
+                }
+                continue DESCRIPTORS_LOOP;
+              }
+              ++i;
+            }
           }
         }
       }
@@ -757,17 +762,15 @@ public class ItemProviderAdapter
   }
 
   /**
-   * This adds to <code>newChildDescriptors</code>, a collection of {@link
-   * org.eclipse.emf.edit.command.CommandParameter}s, parameters for
-   * possible children of the specified <code>object</code>, when viewed as
-   * an instance of the type for which this is an item provider.  This
-   * implementation adds nothing to the collection, but derived classes
-   * should override this method, invoking the superclass implementation and
-   * then adding to the collection.
+   * This adds to <code>newChildDescriptors</code>, a collection of new child
+   * descriptors. Typically, {@link org.eclipse.emf.edit.command.CommandParameter}s
+   * will be used as descriptors. This implementation adds nothing to the
+   * collection, but derived classes should override this method, invoking the
+   * superclass implementation and then adding to the collection.
    */
-  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)    
+  protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)    
   {
-    return;
+    // Subclasses may override to add descriptors.
   }
 
   /**
