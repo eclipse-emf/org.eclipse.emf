@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomain.java,v 1.5 2006/12/28 06:48:57 marcelop Exp $
+ * $Id: EditingDomain.java,v 1.6 2007/03/22 01:44:14 davidms Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -98,7 +98,7 @@ public interface EditingDomain
    * specified (non-null), the children should be as close to immediately
    * following that sibling as possible.
    */
-  Collection<CommandParameter> getNewChildDescriptors(Object object, Object sibling);
+  Collection<?> getNewChildDescriptors(Object object, Object sibling);
 
   /**
    * This returns a tree iterator that will yield the object, the children of the object, their children, and so on.
