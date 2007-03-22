@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryActionBarContributor.java,v 1.5 2007/03/22 02:03:14 davidms Exp $
+ * $Id: EXTLibraryActionBarContributor.java,v 1.6 2007/03/22 15:52:40 davidms Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -370,7 +370,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    * This populates the specified <code>manager</code> with {@link org.eclipse.jface.action.ActionContributionItem}s
    * based on the {@link org.eclipse.jface.action.IAction}s contained in the <code>actions</code> collection,
    * by inserting them before the specified contribution item <code>contributionID</code>.
-   * If <code>ID</code> is <code>null</code>, they are simply added.
+   * If <code>contributionID</code> is <code>null</code>, they are simply added.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
