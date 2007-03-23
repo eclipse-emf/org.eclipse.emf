@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.43 2007/03/15 21:00:24 emerks Exp $
+ * $Id: ChangeRecorder.java,v 1.44 2007/03/23 17:37:07 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -327,7 +327,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       case Notification.SET:
       case Notification.UNSET:
       {
-        if (change == null && shouldRecord)
+        if (change == null && changes != null)
         {
           if (feature.isMany())
           {
@@ -358,7 +358,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       }
       case Notification.ADD:
       {
-        if (change == null && shouldRecord)
+        if (change == null && changes != null)
         {
           List<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
           oldValue.remove(notification.getPosition());
@@ -374,7 +374,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       }
       case Notification.ADD_MANY:
       {
-        if (change == null && shouldRecord)
+        if (change == null && changes != null)
         {
           List<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
           int position = notification.getPosition();
@@ -397,7 +397,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       }
       case Notification.REMOVE:
       {
-        if (change == null && shouldRecord)
+        if (change == null && changes != null)
         {
           List<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
 
@@ -416,7 +416,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       }
       case Notification.REMOVE_MANY:
       {
-        if (change == null && shouldRecord)
+        if (change == null && changes != null)
         {
           @SuppressWarnings("unchecked") List<Object> removedValues = (List<Object>)notification.getOldValue();
           List<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
@@ -439,7 +439,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       }
       case Notification.MOVE:
       {
-        if (change == null && shouldRecord)
+        if (change == null && changes != null)
         {
           EList<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
           int position = notification.getPosition();
@@ -469,7 +469,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       case Notification.SET:
       case Notification.UNSET:
       {
-        if (change == null && isRecording())
+        if (change == null && resource != null)
         {
           EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
           int index = notification.getPosition();
@@ -490,7 +490,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       }
       case Notification.ADD:
       {
-        if (change == null && isRecording())
+        if (change == null && resource != null)
         {
           EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
           oldValue.remove(notification.getPosition());
@@ -503,7 +503,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       }
       case Notification.ADD_MANY:
       {
-        if (change == null && isRecording())
+        if (change == null && resource != null)
         {
           EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
           int position = notification.getPosition();
@@ -523,7 +523,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       }
       case Notification.REMOVE:
       {
-        if (change == null && isRecording())
+        if (change == null && resource != null)
         {
           EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
 
@@ -542,7 +542,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       }
       case Notification.REMOVE_MANY:
       {
-        if (change == null && isRecording())
+        if (change == null && resource != null)
         {
           @SuppressWarnings("unchecked") List<Object> removedValues = (List<Object>)notification.getOldValue();
           EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
@@ -565,7 +565,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
       }
       case Notification.MOVE:
       {
-        if (change == null && isRecording())
+        if (change == null && resource != null)
         {
           EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
           int position = notification.getPosition();
