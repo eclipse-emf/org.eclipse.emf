@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.69 2007/02/20 12:14:06 emerks Exp $
+ * $Id: XMLHandler.java,v 1.70 2007/03/23 17:36:57 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2640,8 +2640,16 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         if (isFirstID)
         {
           EReference eOpposite = eReference.getEOpposite();
-          mustAdd = eOpposite == null || eOpposite.isTransient() || eReference.isMany();
-          mustAddOrNotOppositeIsMany = mustAdd || !eOpposite.isMany();
+          if (eOpposite == null)
+          {
+            mustAdd = true;
+            mustAddOrNotOppositeIsMany = true;
+          }
+          else
+          {
+            mustAdd = eOpposite.isTransient() || eReference.isMany();
+            mustAddOrNotOppositeIsMany = mustAdd || !eOpposite.isMany();
+          }
           isFirstID = false;
         }
   

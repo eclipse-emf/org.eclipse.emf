@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.23 2007/02/20 12:14:45 emerks Exp $
+ * $Id: XMLLoadImpl.java,v 1.24 2007/03/23 17:36:57 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -168,7 +168,7 @@ public class XMLLoadImpl implements XMLLoad
       }
     
       // set lexical handler
-      if (options != null && Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)))
+      if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)))
       {
         if (parserProperties == null || parserProperties.get(SAX_LEXICAL_PROPERTY) == null) 
         {
@@ -251,7 +251,7 @@ public class XMLLoadImpl implements XMLLoad
       }
   
       // set lexical handler
-      if (options != null && Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)))
+      if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)))
       {
         if (parserProperties == null || parserProperties.get(SAX_LEXICAL_PROPERTY) == null) 
         {
@@ -377,7 +377,7 @@ public class XMLLoadImpl implements XMLLoad
     }
     LexicalHandler lexicalHandler = null;
 
-    if (options != null && Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)))
+    if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)))
     {
       lexicalHandler = (LexicalHandler)handler;
     }
@@ -389,7 +389,7 @@ public class XMLLoadImpl implements XMLLoad
       if (type == Node.ELEMENT_NODE)
       {
         handler.startDocument();
-        if (options != null && Boolean.TRUE.equals(options.get(XMLResource.OPTION_DOM_USE_NAMESPACES_IN_SCOPE)))
+        if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_DOM_USE_NAMESPACES_IN_SCOPE)))
         {
           traverseElement((Element)node, attributesProxy, handler, lexicalHandler);
         }
