@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.32 2007/02/12 13:43:25 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.33 2007/03/23 17:37:20 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -627,10 +627,13 @@ public class JavaEcoreBuilder
         if (entry.getValue() == ePackage)
         {
           String qualifiedPackageName = entry.getKey();
-          int index = qualifiedPackageName == null ? -1 : qualifiedPackageName.lastIndexOf(".");
-          if (index != -1)
+          if (qualifiedPackageName != null)
           {
-            ePackageInfo.setBasePackage(qualifiedPackageName.substring(0, index));
+            int index = qualifiedPackageName.lastIndexOf(".");
+            if (index != -1)
+            {
+              ePackageInfo.setBasePackage(qualifiedPackageName.substring(0, index));
+            }
           }
           break;
         }
@@ -863,6 +866,7 @@ public class JavaEcoreBuilder
         //
         ePackage = EcoreFactory.eINSTANCE.createEPackage();
         int index = qualifiedPackageName == null ? -1 : qualifiedPackageName.lastIndexOf(".");
+        @SuppressWarnings("null")
         String packageName = index == -1 ? qualifiedPackageName : qualifiedPackageName.substring(index + 1);
         ePackage.setName(packageName);
         ePackage.setNsURI("http:///" + (qualifiedPackageName == null ? "null" : qualifiedPackageName.replace('.', '/')) + ".ecore");
@@ -977,6 +981,7 @@ public class JavaEcoreBuilder
         }
 
         int index = qualifiedPackageName == null ? -1 : qualifiedPackageName.lastIndexOf(".");
+        @SuppressWarnings("null")
         String name = index == -1 ? qualifiedPackageName : qualifiedPackageName.substring(index + 1);
         String nsURI = "http:///" + (qualifiedPackageName == null ? "null" : qualifiedPackageName.replace('.', '/')) + ".ecore";
         String nsPrefix = qualifiedPackageName == null ? "null" : qualifiedPackageName;
