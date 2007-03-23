@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.27 2007/01/18 15:53:00 marcelop Exp $
+ * $Id: AntTest.java,v 1.28 2007/03/23 17:36:30 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -124,6 +124,8 @@ public class AntTest extends TestCase
       examplesDir = new File(emfAntPluginDir + "/examples");
     }
     
+    assertNotNull(examplesDir);
+    assert examplesDir != null;
     if (!examplesDir.isDirectory() && emfSourcePlugin != null)
     {
       File emfAntPluginSrcDir = getPluginSourceSubDirectory(emfSourcePlugin, "org.eclipse.emf.ant");
@@ -132,7 +134,6 @@ public class AntTest extends TestCase
         examplesDir = new File(emfAntPluginSrcDir + "/examples");
       }
     }
-    assertNotNull(examplesDir);
     assertTrue(examplesDir.getAbsolutePath() + " doesn't exist", examplesDir.isDirectory());
     AntUtil.copyFiles(examplesDir, EXAMPLES_COPY_DIR, true);
 
@@ -143,6 +144,8 @@ public class AntTest extends TestCase
       libraryDir = new File(roseImporterPluginDir + "/examples/library");
     }
     
+    assertNotNull(libraryDir);
+    assert libraryDir != null;
     if (!libraryDir.isDirectory() && emfSourcePlugin != null)
     {
       File roseImporterPluginSrcDir = getPluginSourceSubDirectory(emfSourcePlugin, "org.eclipse.emf.importer.rose");
@@ -151,7 +154,6 @@ public class AntTest extends TestCase
         libraryDir = new File(roseImporterPluginSrcDir + "/examples/library");
       }
     }
-    assertNotNull(libraryDir);
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
     AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.1.4"), true);
     AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.5.0"), true);
@@ -164,6 +166,8 @@ public class AntTest extends TestCase
       libraryDir = new File(xsdImporterPluginDir + "/examples/library");
     }
     
+    assertNotNull(libraryDir);
+    assert libraryDir != null;
     if (!libraryDir.isDirectory() && emfSourcePlugin != null)
     {
       File xsdImporterPluginSrcDir = getPluginSourceSubDirectory(xsdSourcePlugin, "org.eclipse.xsd.ecore.importer");
@@ -172,7 +176,6 @@ public class AntTest extends TestCase
         libraryDir = new File(xsdImporterPluginSrcDir + "/examples/library");
       }
     }
-    assertNotNull(libraryDir);
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
     AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.1.4"), true);
     AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.5.0"), true);
@@ -188,6 +191,8 @@ public class AntTest extends TestCase
       libraryDir = new File(ecoreImporterPluginDir + "/examples/library");
     }
     
+    assertNotNull(libraryDir);
+    assert libraryDir != null;
     if (!libraryDir.isDirectory() && emfSourcePlugin != null)
     {
       File ecoreImporterPluginSrcDir = getPluginSourceSubDirectory(emfSourcePlugin, "org.eclipse.emf.importer.ecore");
@@ -196,7 +201,6 @@ public class AntTest extends TestCase
         libraryDir = new File(ecoreImporterPluginSrcDir + "/examples/library");
       }
     }
-    assertNotNull(libraryDir);
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
     AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.1.4"), true);
     AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.5.0"), true);
