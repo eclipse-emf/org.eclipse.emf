@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.4 2007/01/23 21:45:17 marcelop Exp $
+ * $Id: TestUtil.java,v 1.5 2007/03/23 17:37:17 marcelop Exp $
  */
 package org.eclipse.emf.test.common;
 
@@ -166,10 +166,7 @@ public class TestUtil
       }
       finally
       {
-        if (in != null)
-        {
-          in.close();
-        }
+        in.close();
       }      
     }
     catch(IOException exception)
