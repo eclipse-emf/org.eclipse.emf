@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedAdapterFactory.java,v 1.6 2006/12/28 06:48:53 marcelop Exp $
+ * $Id: ComposedAdapterFactory.java,v 1.7 2007/03/23 17:37:21 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -199,10 +199,10 @@ public class ComposedAdapterFactory
     {
       if (factory instanceof ComposedAdapterFactory)
       {
-        factory = ((ComposedAdapterFactory)factory).getFactoryForTypes(types);
-        if (factory != null)
+        AdapterFactory result = ((ComposedAdapterFactory)factory).getFactoryForTypes(types);
+        if (result != null)
         {
-          return factory;
+          return result;
         }
       }
       else 
