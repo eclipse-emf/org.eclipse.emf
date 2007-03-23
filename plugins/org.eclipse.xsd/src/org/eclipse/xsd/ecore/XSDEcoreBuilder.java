@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.75 2006/12/15 18:59:56 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.76 2007/03/23 13:23:20 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2379,7 +2379,12 @@ public class XSDEcoreBuilder extends MapBuilder
           Map<String, EEnumLiteral> eLiteralMap = new HashMap<String, EEnumLiteral>();
           for (EEnumLiteral eEnumLiteral : ((EEnum)eClassifier).getELiterals())
           {
+            String literal = eEnumLiteral.getLiteral();
             resolveNameConflict(eLiteralMap, eEnumLiteral, "");
+            if (!literal.equals(eEnumLiteral.getLiteral()))
+            {
+              eEnumLiteral.setLiteral(literal);
+            }
             eLiteralMap.put(eEnumLiteral.getName().toLowerCase(), eEnumLiteral);
           }
         }
