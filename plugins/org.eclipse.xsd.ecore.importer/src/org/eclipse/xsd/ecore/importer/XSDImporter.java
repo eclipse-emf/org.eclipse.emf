@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporter.java,v 1.10 2006/12/28 07:03:54 marcelop Exp $
+ * $Id: XSDImporter.java,v 1.11 2007/03/23 18:59:29 emerks Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -142,7 +142,7 @@ public class XSDImporter extends ModelImporter
           for (List<?> information : diagnostics)
           {
             diagnostic.add(new BasicDiagnostic(
-              "error".equals(information.get(0)) ? Diagnostic.ERROR : "warning".equals(information.get(0)) ? Diagnostic.WARNING : Diagnostic.INFO,
+              "fatal".equals(information.get(0)) || "error".equals(information.get(0)) ? Diagnostic.ERROR : "warning".equals(information.get(0)) ? Diagnostic.WARNING : Diagnostic.INFO,
               XSDImporterPlugin.getPlugin().getBundle().getSymbolicName(),
               0,
               (String)information.get(1),
