@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.26 2007/02/23 22:22:44 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.27 2007/03/23 17:36:42 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1863,11 +1863,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       EObject eContainer = owner.eInternalContainer();
       if (eContainer != null)
       {
-        NotificationChain notifications = null;
-        if (eContainer != null)
-        {
-          notifications = owner.eBasicRemoveFromContainer(notifications);
-        }
+        NotificationChain notifications = owner.eBasicRemoveFromContainer(null);
         int featureID = owner.eClass().getFeatureID(feature);
         notifications = owner.eBasicSetContainer(null, featureID, notifications);
         if (notifications != null) notifications.dispatch();
@@ -2502,22 +2498,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public boolean dynamicIsSet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index)
     {
       Object setting = settings.dynamicGet(index);
-      if (setting == null)
-      {
-        return false;
-      }
-      else if (setting == NIL)
-      {
-        return true;
-      }
-      else if (isUnsettable())
-      {
-        return true;
-      }
-      else
-      {
-        return setting != null;
-      }
+      return setting != null;
     }
 
     @Override

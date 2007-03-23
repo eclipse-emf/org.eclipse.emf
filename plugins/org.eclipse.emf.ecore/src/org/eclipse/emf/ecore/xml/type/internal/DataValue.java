@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataValue.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
+ * $Id: DataValue.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1472,7 +1472,7 @@ public static class EncodingMap {
 * default port for a specific scheme). Rather, it only knows the
 * grammar and basic set of operations that can be applied to a URI.
 *
-* @version  $Id: DataValue.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
+* @version  $Id: DataValue.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
 *
 **********************************************************************/
  public static final class URI implements Serializable {
@@ -1887,6 +1887,7 @@ public static class EncodingMap {
     // Check for scheme, which must be before '/', '?' or '#'. Also handle
     // names with DOS drive letters ('D:'), so 1-character schemes are not
     // allowed.
+    @SuppressWarnings("null")
     int colonIdx = uriSpec.indexOf(':');
     if (colonIdx != -1) {
         final int searchFrom = colonIdx - 1;
@@ -3496,7 +3497,7 @@ public static class EncodingMap {
   * @author Michael Glavassevich, IBM
   * @author Rahul Srivastava, Sun Microsystems Inc.
   *
-  * @version $Id: DataValue.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
+  * @version $Id: DataValue.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
   */
  public static final class XMLChar {
 

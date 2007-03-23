@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.31 2006/12/27 17:43:02 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.32 2007/03/23 17:36:42 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1287,10 +1287,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       {
         msgs = ((InternalEList<?>)oldResource.getContents()).basicRemove(this, msgs);
         eSetDirectResource(null);
-        if (newContainer != null)
-        {
-          newResource = newContainer.eInternalResource();
-        }
+        newResource = newContainer.eInternalResource();
       }
       oldResource = null;
     }

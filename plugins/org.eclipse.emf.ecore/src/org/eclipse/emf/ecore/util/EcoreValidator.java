@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.8 2007/02/12 19:07:50 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.9 2007/03/23 17:36:42 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3228,26 +3228,15 @@ public class EcoreValidator extends EObjectValidator
         //
         if (eClassifier != eBoundEClassifier)
         {
-          // If they both aren't null...
+          // Consider the instance type names they wrap 
+          // to see if they are non-null and equal.
           //
-          if (eClassifier != null && eBoundEClassifier != null)
-          {
-            // Consider the instance type names they wrap 
-            // to see if they are non-null and equal.
-            //
-            String instanceTypeName1 = eClassifier.getInstanceTypeName(); 
-            String instanceTypeName2 = eBoundEClassifier.getInstanceTypeName(); 
+          String instanceTypeName1 = eClassifier.getInstanceTypeName(); 
+          String instanceTypeName2 = eBoundEClassifier.getInstanceTypeName(); 
   
-            // I.e., the classifiers are considered equal if they wrap the same non-null type.
-            //
-            if (instanceTypeName1 == null || !instanceTypeName2.equals(instanceTypeName2))
-            {
-              return false;
-            }
-          }
-          // If one is null (but the other is not) then they don't match.
+          // I.e., the classifiers are considered equal if they wrap the same non-null type.
           //
-          else if (eClassifier != null || eBoundEClassifier != null)
+          if (instanceTypeName1 == null || !instanceTypeName2.equals(instanceTypeName2))
           {
             return false;
           }

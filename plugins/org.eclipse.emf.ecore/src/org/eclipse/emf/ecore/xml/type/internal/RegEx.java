@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
+ * $Id: RegEx.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1265,7 +1265,7 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
+   * @version $Id: RegEx.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       private static final long serialVersionUID = 1L;
@@ -5564,11 +5564,9 @@ public final class RegEx
       protected RangeToken parseCharacterClass(boolean useNrange) throws ParseException {
           this.setContext(S_INBRACKETS);
           this.next();                            // '['
-          boolean nrange = false;
           RangeToken base = null;
           RangeToken tok;
           if (this.read() == T_CHAR && this.chardata == '^') {
-              nrange = true;
               this.next();                        // '^'
               if (useNrange) {
                   tok = Token.createNRange();
@@ -5660,7 +5658,7 @@ public final class RegEx
           }
           if (this.read() == T_EOF)
               throw this.ex("parser.cc.2", this.offset);
-          if (!useNrange && nrange) {
+          if (base != null) {
               base.subtractRanges(tok);
               tok = base;
           }
@@ -7469,7 +7467,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
+   * @version $Id: RegEx.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {
@@ -7706,12 +7704,10 @@ public final class RegEx
     {
       this.setContext(S_INBRACKETS);
       this.next(); // '['
-      boolean nrange = false;
       RangeToken base = null;
       RangeToken tok;
       if (this.read() == T_CHAR && this.chardata == '^')
       {
-        nrange = true;
         this.next(); // '^'
         base = Token.createRange();
         base.addRange(0, Token.UTF16_MAX);
@@ -7728,7 +7724,7 @@ public final class RegEx
         // single-range | from-to-range | subtraction
         if (type == T_CHAR && this.chardata == ']' && !firstloop)
         {
-          if (nrange)
+          if (base != null)
           {
             base.subtractRanges(tok);
             tok = base;
@@ -7777,7 +7773,7 @@ public final class RegEx
         else if (type == T_XMLSCHEMA_CC_SUBTRACTION && !firstloop)
         {
           // Subraction
-          if (nrange)
+          if (base != null)
           {
             base.subtractRanges(tok);
             tok = base;

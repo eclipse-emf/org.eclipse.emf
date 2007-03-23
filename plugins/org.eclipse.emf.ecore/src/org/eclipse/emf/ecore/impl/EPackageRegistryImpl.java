@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.11 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.12 2007/03/23 17:36:42 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -216,11 +216,7 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
     EPackage.Registry result = classLoaderToRegistryMap.get(classLoader);
     if (result == null)
     {
-      if (classLoader == null)
-      {
-        result = null;  
-      }
-      else
+      if (classLoader != null)
       {
         result = new EPackageRegistryImpl(getRegistry(classLoader.getParent()));
         classLoaderToRegistryMap.put(classLoader, result);
