@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.17 2007/01/19 14:07:16 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.18 2007/03/23 17:36:49 marcelop Exp $
  */
 package org.eclipse.emf.common;
 
@@ -422,7 +422,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
                 {
                   // We'll rethrow the original exception, not this one.
                 }
-                if (resourceBundle == null)
+                if (bundle == null)
                 {
                   throw exception; 
                 }
@@ -832,20 +832,17 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
         manifestURL = new URL(uri.toString());
       }
               
-      if (manifestURL != null)
+      Manifest manifest = new Manifest(manifestURL.openStream());
+      String symbolicName =  manifest.getMainAttributes().getValue("Bundle-SymbolicName");
+      if (symbolicName != null)
       {
-        Manifest manifest = new Manifest(manifestURL.openStream());
-        String symbolicName =  manifest.getMainAttributes().getValue("Bundle-SymbolicName");
-        if (symbolicName != null)
+        int end = symbolicName.indexOf(";");
+        if (end != -1)
         {
-          int end = symbolicName.indexOf(";");
-          if (end != -1)
-          {
-            symbolicName = symbolicName.substring(0, end);
-          }
-          System.out.println("Bundle-SymbolicName=" + symbolicName + " Bundle-Version=" + manifest.getMainAttributes().getValue("Bundle-Version"));
-          return;
+          symbolicName = symbolicName.substring(0, end);
         }
+        System.out.println("Bundle-SymbolicName=" + symbolicName + " Bundle-Version=" + manifest.getMainAttributes().getValue("Bundle-Version"));
+        return;
       }
     }
     catch (Exception exception)

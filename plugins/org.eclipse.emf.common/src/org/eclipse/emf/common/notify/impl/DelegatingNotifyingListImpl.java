@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.15 2007/01/16 18:49:18 emerks Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.16 2007/03/23 17:36:49 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -918,7 +918,7 @@ public abstract class DelegatingNotifyingListImpl<E> extends DelegatingEList<E> 
 
     if (result)
     {
-      if (isNotificationRequired())
+      if (positions != null)
       {
         int collectionSize = collection.size();
         NotificationImpl notification =

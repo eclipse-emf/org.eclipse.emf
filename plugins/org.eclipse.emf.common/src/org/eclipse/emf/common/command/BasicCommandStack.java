@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicCommandStack.java,v 1.10 2006/12/05 20:19:54 emerks Exp $
+ * $Id: BasicCommandStack.java,v 1.11 2007/03/23 17:36:49 marcelop Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -75,47 +75,50 @@ public class BasicCommandStack implements CommandStack
   {
     // If the command is executable, record and execute it.
     //
-    if (command != null && command.canExecute())
+    if (command != null)
     {
-      // Clear the list past the top.
-      //
-      for (Iterator<Command> commands = commandList.listIterator(top + 1); commands.hasNext(); commands.remove())
+      if (command.canExecute())
       {
-        Command otherCommand = commands.next();
-        otherCommand.dispose();
+        // Clear the list past the top.
+        //
+        for (Iterator<Command> commands = commandList.listIterator(top + 1); commands.hasNext(); commands.remove())
+        {
+          Command otherCommand = commands.next();
+          otherCommand.dispose();
+        }
+  
+        try
+        {
+          command.execute();
+          mostRecentCommand = command;
+          commandList.add(command);
+          ++top;
+        }
+        catch (RuntimeException exception)
+        {
+          handleError(exception);
+  
+          mostRecentCommand = null;
+          command.dispose();
+        }
+  
+        // This is kind of tricky.
+        // If the saveIndex was in the redo part of the command list which has now been wiped out,
+        // then we can never reach a point where a save is not necessary, not even if we undo all the way back to the beginning.
+        //
+        if (saveIndex >= top)
+        {
+          // This forces isSaveNeded to always be true.
+          //
+          saveIndex = -2;
+        }
+  
+        notifyListeners();
       }
-
-      try
+      else
       {
-        command.execute();
-        mostRecentCommand = command;
-        commandList.add(command);
-        ++top;
-      }
-      catch (RuntimeException exception)
-      {
-        handleError(exception);
-
-        mostRecentCommand = null;
         command.dispose();
       }
-
-      // This is kind of tricky.
-      // If the saveIndex was in the redo part of the command list which has now been wiped out,
-      // then we can never reach a point where a save is not necessary, not even if we undo all the way back to the beginning.
-      //
-      if (saveIndex >= top)
-      {
-        // This forces isSaveNeded to always be true.
-        //
-        saveIndex = -2;
-      }
-
-      notifyListeners();
-    }
-    else
-    {
-      command.dispose();
     }
   }
 
