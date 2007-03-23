@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseParser.java,v 1.4 2006/12/28 06:56:06 marcelop Exp $
+ * $Id: RoseParser.java,v 1.5 2007/03/23 17:37:00 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -239,7 +239,7 @@ public class RoseParser
       RoseNode node = parseExpr(pairKey);
       if (isTreeOnly)
       {
-        if (root != null && node != null)
+        if (node != null)
         {
           root.addNode(node);
         }
@@ -296,7 +296,7 @@ public class RoseParser
     RoseNode node = parseS_prime("");
     if (isTreeOnly)
     {
-      if (root != null && node != null)
+      if (node != null)
       {
         root.addNode(node);
       }
@@ -464,7 +464,6 @@ public class RoseParser
     tok = lexer.peekNext();
     if (tok.getType() == RoseToken.LEFT_PAREN)
     {
-      root = null;
       if (!isTreeOnly || isAllowed)
       {
         root = new RoseNode(key, label, RoseNode.LIST);
@@ -485,7 +484,7 @@ public class RoseParser
             root.addNode(node);
           }
         }
-        else
+        else if (root != null)
         {
           if (node == null)
           {
@@ -508,7 +507,6 @@ public class RoseParser
     }
     else if (tok.getType() == RoseToken.RIGHT_PAREN)
     {
-      root = null;
       if (!isTreeOnly || isAllowed)
       {
         root = new RoseNode(key, label, RoseNode.LIST);
@@ -516,7 +514,6 @@ public class RoseParser
     }
     else if (tok.getType() == RoseToken.STRING || tok.getType() == RoseToken.VERTICAL_BAR)
     {
-      root = null;
       if (!isTreeOnly || isAllowed)
       {
         root = new RoseNode(key, label, RoseNode.LIST);
@@ -546,7 +543,6 @@ public class RoseParser
     {
       lexer.getNext();
       System.out.println("  Parsing error in parseList - expecting left/right parenthesis or string or | " + tok.lineNum);
-      root = null;
     }
 
     isAllowed = wasAllowed;
