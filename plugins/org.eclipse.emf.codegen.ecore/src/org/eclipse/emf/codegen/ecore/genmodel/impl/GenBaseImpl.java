@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.57 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.58 2007/03/23 17:36:59 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -631,7 +631,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     {
       URI outputURI = URI.createPlatformResourceURI(targetDirectory).appendSegments(packageName.split("\\."));
         
-      if (progressMonitor != null) progressMonitor.beginTask("", 4);
+      progressMonitor.beginTask("", 4);
         
       if (findOrCreateContainer(createMonitor(progressMonitor, 1), style, pluginVariables, outputURI, false))
       {
@@ -645,10 +645,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     
         boolean changed = true;
         URI targetFile = outputURI.appendSegment(className + ".java");
-        if (progressMonitor != null)
-        {
-          progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_Generating_message", new Object [] { targetFile }));
-        }
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_Generating_message", new Object [] { targetFile }));
         
         String newContents = emitterResult;
         JControlModel jControlModel = getGenModel().getJControlModel();
@@ -2397,11 +2394,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       IContainer container = null;
       try
       {
-        if (progressMonitor != null)
-        {
-          progressMonitor.beginTask("", outputPath.segmentCount() + 1);
-          progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_OpeningFolder_message", new Object [] { outputPath }));
-        }
+        progressMonitor.beginTask("", outputPath.segmentCount() + 1);
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_OpeningFolder_message", new Object [] { outputPath }));
         if (outputPath.isAbsolute())
         {
           IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -2556,11 +2550,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       IContainer container = null;
       try
       {
-        if (progressMonitor != null)
-        {
-          progressMonitor.beginTask("", outputPath.segmentCount() + 1);
-          progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_OpeningFolder_message", new Object [] { outputPath }));
-        }
+        progressMonitor.beginTask("", outputPath.segmentCount() + 1);
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_OpeningFolder_message", new Object [] { outputPath }));
         if (outputPath.isAbsolute())
         {
           IWorkspace workspace = ResourcesPlugin.getWorkspace();
