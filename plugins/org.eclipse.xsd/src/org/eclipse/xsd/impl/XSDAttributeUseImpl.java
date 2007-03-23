@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseImpl.java,v 1.11 2007/02/20 17:42:21 emerks Exp $
+ * $Id: XSDAttributeUseImpl.java,v 1.12 2007/03/23 17:37:14 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -786,7 +786,7 @@ public class XSDAttributeUseImpl
       if (getAttributeDeclaration().getConstraint() == XSDConstraint.FIXED_LITERAL &&
             getAttributeDeclaration().getLexicalValue() != null &&
             (getConstraint() != XSDConstraint.FIXED_LITERAL || 
-               !theTypeDefinition.equalLiterals(getAttributeDeclaration().getLexicalValue(), getLexicalValue())))
+               theTypeDefinition != null && !theTypeDefinition.equalLiterals(getAttributeDeclaration().getLexicalValue(), getLexicalValue())))
       {
         createDiagnostic
           (XSDDiagnosticSeverity.ERROR_LITERAL, "coss-attruse.2", getLexicalValue(), getAttributeDeclaration().getLexicalValue());

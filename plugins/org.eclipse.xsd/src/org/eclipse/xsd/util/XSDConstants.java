@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConstants.java,v 1.7 2007/01/18 15:41:48 emerks Exp $
+ * $Id: XSDConstants.java,v 1.8 2007/03/23 17:37:14 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -1376,6 +1376,7 @@ public class XSDConstants
    * @param qName the QName to resolve in the context of the given element.
    * @return the URI corresponding to the resolved QName.
    */
+
   public static String lookupQName(Element element, String qName)
   {
     // Some DOM implementations return a null here.
@@ -1384,6 +1385,7 @@ public class XSDConstants
     String namespaceAttribute = "xmlns";
     if (index != -1)
     {
+      @SuppressWarnings("null")
       String prefix = qName.substring(0, index);
       if (prefix.equals("xml"))
       {

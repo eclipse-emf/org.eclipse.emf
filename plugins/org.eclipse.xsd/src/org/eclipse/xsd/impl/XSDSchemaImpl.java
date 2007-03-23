@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.37 2007/02/20 17:42:21 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.38 2007/03/23 17:37:14 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1979,7 +1979,7 @@ public class XSDSchemaImpl
 
       Map<String, String> theQNamePrefixToNamespaceMap = getQNamePrefixToNamespaceMap();
       theQNamePrefixToNamespaceMap.clear();
-      for (Element currentElement = changedElement; currentElement != null; ) 
+      for (Element currentElement = changedElement; ; ) 
       {
         NamedNodeMap attributes = currentElement.getAttributes(); 
         for (int i = 0, size = attributes.getLength(); i < size; ++i)

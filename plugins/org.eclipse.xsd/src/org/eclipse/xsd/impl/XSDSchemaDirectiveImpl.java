@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.17 2007/02/20 17:42:20 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.18 2007/03/23 17:37:14 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDPlugin;
@@ -413,7 +414,7 @@ public abstract class XSDSchemaDirectiveImpl
 
   protected String resolveSchemaLocation(XSDSchema xsdSchema, String namespace, String schemaLocation)
   {
-    do
+    for (;;)
     {
       XSDSchemaLocationResolver xsdSchemaLocationResolver = 
         (XSDSchemaLocationResolver)EcoreUtil.getRegisteredAdapter(xsdSchema, XSDSchemaLocationResolver.class);
@@ -421,16 +422,25 @@ public abstract class XSDSchemaDirectiveImpl
       {
         return xsdSchemaLocationResolver.resolveSchemaLocation(xsdSchema, namespace, schemaLocation);
       }
-      if (xsdSchema.getContainer() == null)
+      
+      XSDConcreteComponent container = xsdSchema.getContainer();
+      if (container == null)
       {
         break;
       }
       else
       {
-        xsdSchema = xsdSchema.getContainer().getSchema();
+        XSDSchema containingXSDSchema = container.getSchema();
+        if (containingXSDSchema == null)
+        {
+          break;
+        }
+        else
+        {
+          xsdSchema = containingXSDSchema;
+        }
       }
     }
-    while (xsdSchema != null);
 
     return XSDConstants.resolveSchemaLocation(xsdSchema.getSchemaLocation(), namespace, schemaLocation);
   }

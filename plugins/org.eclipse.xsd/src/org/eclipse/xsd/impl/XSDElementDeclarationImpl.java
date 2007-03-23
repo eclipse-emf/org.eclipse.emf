@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.23 2007/02/23 22:35:53 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.24 2007/03/23 17:37:14 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1029,7 +1029,7 @@ public class XSDElementDeclarationImpl
           createDiagnostic
             (XSDDiagnosticSeverity.ERROR_LITERAL, "_UI_UnresolvedElementDeclaration_message", substitutionGroupAffiliation.getURI());
         }
-        else
+        else if (theTypeDefinition != null)
         {
           EList<XSDSubstitutionGroupExclusions> substitutionGroupExclusions = substitutionGroupAffiliation.getSubstitutionGroupExclusions();
           XSDTypeDefinition badTypeDefinition = 
@@ -1304,13 +1304,10 @@ public class XSDElementDeclarationImpl
           }
           if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__LEXICAL_FINAL)
           {
-            if (theElement != null)
-            {
-              niceSetAttribute
-                (theElement,
-                 XSDConstants.FINAL_ATTRIBUTE,
-                 getStringLexicalFinal());
-            }
+            niceSetAttribute
+              (theElement,
+               XSDConstants.FINAL_ATTRIBUTE,
+               getStringLexicalFinal());
             if (eAttribute != null)
             {
               traverseToRootForPatching();
@@ -1319,13 +1316,10 @@ public class XSDElementDeclarationImpl
 
           if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__BLOCK)
           {
-            if (theElement != null)
-            {
-              niceSetAttribute
-                (theElement,
-                 XSDConstants.BLOCK_ATTRIBUTE,
-                 getStringBlock());
-            }
+            niceSetAttribute
+              (theElement,
+               XSDConstants.BLOCK_ATTRIBUTE,
+               getStringBlock());
             if (eAttribute != null)
             {
               traverseToRootForPatching();

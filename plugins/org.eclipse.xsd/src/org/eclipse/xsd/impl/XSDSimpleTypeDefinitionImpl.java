@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.27 2007/03/16 19:00:54 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.28 2007/03/23 17:37:14 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -940,7 +940,6 @@ public class XSDSimpleTypeDefinitionImpl
       newFacets = mergeFacets();
     }
 
-    boolean firstHFP = true;
     XSDAnnotation theAnnotation = getAnnotation();
     if (theAnnotation != null)
     {
@@ -954,14 +953,11 @@ public class XSDSimpleTypeDefinitionImpl
             {
               Element childElement = (Element)child;
               String facetName = childElement.getAttributeNS(null, XSDConstants.HFP_NAME_ATTRIBUTE);
-              if (firstHFP )
+              if (newValidFacets == null)
               {
-                firstHFP = false;
                 newValidFacets = new BasicEList<String>();
               }
-
               newValidFacets.add(facetName);
-
               break;
             }
             case XSDConstants.HFP_HASPROPERTY_ELEMENT:

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFeatureImpl.java,v 1.12 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDFeatureImpl.java,v 1.13 2007/03/23 17:37:14 marcelop Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -372,16 +372,13 @@ public abstract class XSDFeatureImpl
         String theLexicalValue = getLexicalValue();
         if (theLexicalValue != null)
         {
-          if (xsdSimpleTypeDefinition != null)
+          try
           {
-            try
-            {
-              newValue = xsdSimpleTypeDefinition.getValue(theLexicalValue);
-            }
-            catch (RuntimeException exception)
-            {
-              // Ignore
-            }
+            newValue = xsdSimpleTypeDefinition.getValue(theLexicalValue);
+          }
+          catch (RuntimeException exception)
+          {
+            // Ignore
           }
         }
       }
