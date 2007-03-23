@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.4 2006/12/19 19:50:52 marcelop Exp $
+ * $Id: PropertyMerger.java,v 1.5 2007/03/23 17:36:53 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.properties;
 
@@ -86,14 +86,11 @@ public class PropertyMerger
       {
         url = new URL("file:" + uri);
       }
-      if (url != null)
-      {
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(url.openStream());
-        byte [] input = new byte [bufferedInputStream.available()];
-        bufferedInputStream.read(input);
-        bufferedInputStream.close();
-        return new String(input, "ISO-8859-1");
-      }
+      BufferedInputStream bufferedInputStream = new BufferedInputStream(url.openStream());
+      byte [] input = new byte [bufferedInputStream.available()];
+      bufferedInputStream.read(input);
+      bufferedInputStream.close();
+      return new String(input, "ISO-8859-1");
     }
     catch (IOException exception)
     {

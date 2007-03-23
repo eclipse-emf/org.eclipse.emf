@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.20 2006/12/29 18:03:52 marcelop Exp $
+ * $Id: JETEmitter.java,v 1.21 2007/03/23 17:36:53 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -527,7 +527,7 @@ public class JETEmitter
         IProgressMonitor subProgressMonitor = new SubProgressMonitor(progressMonitor, 1);
         subProgressMonitor.beginTask("", stringTokenizer.countTokens() + 4);
         subProgressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_CreateTargetFile_message"));
-        IContainer sourceContainer = (IContainer)sourcePackageFragmentRoot.getCorrespondingResource();
+        IContainer sourceContainer = sourcePackageFragmentRoot == null ? project : (IContainer)sourcePackageFragmentRoot.getCorrespondingResource();
         while (stringTokenizer.hasMoreElements())
         {
           String folderName = stringTokenizer.nextToken();

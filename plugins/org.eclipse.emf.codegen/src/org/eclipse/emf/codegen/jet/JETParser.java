@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETParser.java,v 1.8 2006/12/29 18:03:52 marcelop Exp $
+ * $Id: JETParser.java,v 1.9 2007/03/23 17:36:53 marcelop Exp $
  *
  * The Apache Software License, Version 1.1
  *
@@ -283,8 +283,7 @@ public class JETParser
   {
     public boolean accept(JETParseEventListener listener, JETReader reader, JETParser parser) throws JETException
     {
-      String close, open, end_open = null;
-      Map<String, String> attrs = null;
+      String close, open;
 
       if (reader.matches(parser.getOpenScriptlet())) 
       {
@@ -298,26 +297,13 @@ public class JETParser
 
       reader.advance(open.length());
 
-      if (end_open != null) 
-      {
-        attrs = reader.parseTagAttributes();
-
-        reader.skipSpaces();
-        if (!reader.matches(end_open))
-        {
-          throw new JETException(CodeGenPlugin.getPlugin().getString("jet.error.unterminated", new Object [] { open, reader.mark().toString() }));
-        }
-        reader.advance(end_open.length());
-        reader.skipSpaces();
-      }
-
       JETMark start = reader.mark();
       JETMark stop = reader.skipUntil(close);
       if (stop == null)
       {
         throw new JETException(CodeGenPlugin.getPlugin().getString("jet.error.unterminated", new Object[] { open, reader.mark().toString() }));
       }
-      listener.handleScriptlet(start, stop, attrs);
+      listener.handleScriptlet(start, stop, null);
       return true;
     }
   }

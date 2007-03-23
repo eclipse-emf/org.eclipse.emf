@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.25 2006/12/19 01:49:57 marcelop Exp $
+ * $Id: JMerger.java,v 1.26 2007/03/23 17:36:53 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -247,14 +247,12 @@ public class JMerger
       {
         url = new URL("file:" + uri);
       }
-      if (url != null)
-      {
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(url.openStream());
-        byte [] input = new byte [bufferedInputStream.available()];
-        bufferedInputStream.read(input);
-        bufferedInputStream.close();
-        return jdomFactory.createCompilationUnit(new String(input), url.toString());
-      }
+
+      BufferedInputStream bufferedInputStream = new BufferedInputStream(url.openStream());
+      byte [] input = new byte [bufferedInputStream.available()];
+      bufferedInputStream.read(input);
+      bufferedInputStream.close();
+      return jdomFactory.createCompilationUnit(new String(input), url.toString());
     }
     catch (IOException exception)
     {
