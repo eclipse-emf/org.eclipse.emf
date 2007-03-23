@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGenerateHTML.java,v 1.3 2006/12/28 12:43:52 emerks Exp $
+ * $Id: XSDGenerateHTML.java,v 1.4 2007/03/23 17:36:50 marcelop Exp $
  */
 package org.eclipse.xsd.example;
 
@@ -677,7 +677,7 @@ public class XSDGenerateHTML implements IApplication
 
       // Filter out inappropriate arguments added by the PDE.
       //
-      if (arguments != null && arguments.length > 0 && "-pdelaunch".equals(arguments[0]))
+      if (arguments.length > 0 && "-pdelaunch".equals(arguments[0]))
       {
         String [] oldArguments = arguments;
         arguments = new String [arguments.length - 1];
