@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedImageRegistry.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: ExtendedImageRegistry.java,v 1.5 2007/03/23 17:36:45 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -152,7 +152,10 @@ public class ExtendedImageRegistry
               // Ignore
             }
           }
-          result = imageDescriptor.createImage();
+          if (imageDescriptor != null)
+          {
+            result = imageDescriptor.createImage();
+          }
         }
         else if (object instanceof ComposedImage)
         {
