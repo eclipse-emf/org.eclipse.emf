@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseItemProvider.java,v 1.6 2007/03/22 02:06:23 davidms Exp $
+ * $Id: XSDAttributeUseItemProvider.java,v 1.7 2007/03/23 17:36:46 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -322,8 +322,7 @@ public class XSDAttributeUseItemProvider
           public void execute()
           {
             super.execute();
-            affectedObjects = (object == null ) ?
-              Collections.EMPTY_SET : Collections.singleton(object);
+            affectedObjects = Collections.singleton(object);
           }
             
           @Override
@@ -337,8 +336,7 @@ public class XSDAttributeUseItemProvider
           public void redo()
           {
             super.redo();
-            affectedObjects = (object == null ) ?
-              Collections.EMPTY_SET : Collections.singleton(object);
+            affectedObjects = Collections.singleton(object);
           }
 
           @Override

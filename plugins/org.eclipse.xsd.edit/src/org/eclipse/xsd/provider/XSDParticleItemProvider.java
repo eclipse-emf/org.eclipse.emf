@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleItemProvider.java,v 1.7 2007/03/22 02:06:23 davidms Exp $
+ * $Id: XSDParticleItemProvider.java,v 1.8 2007/03/23 17:36:46 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -321,8 +321,7 @@ public class XSDParticleItemProvider
           public void execute()
           {
             super.execute();
-            affectedObjects = (object == null ) ?
-              Collections.EMPTY_SET : Collections.singleton(object);
+            affectedObjects = Collections.singleton(object);
           }
             
           @Override
@@ -336,8 +335,7 @@ public class XSDParticleItemProvider
           public void redo()
           {
             super.redo();
-            affectedObjects = (object == null ) ?
-              Collections.EMPTY_SET : Collections.singleton(object);
+            affectedObjects = Collections.singleton(object);
           }
 
           @Override
