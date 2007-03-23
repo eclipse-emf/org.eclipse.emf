@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.26 2007/03/23 17:36:53 marcelop Exp $
+ * $Id: JMerger.java,v 1.27 2007/03/23 19:31:16 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -615,7 +615,9 @@ public class JMerger
         JControlModel.PullRule pullRule = (JControlModel.PullRule)pullRules.next();
         if (sourcePatternDictionary.isMarkedUp(pullRule.getSourceMarkup(), sourceNode) && 
               targetPatternDictionary.isMarkedUp(pullRule.getTargetMarkup(), targetNode) && 
+              pullRule.getSourceGetFeature().getFeatureClass() != null &&
               pullRule.getSourceGetFeature().getFeatureClass().isInstance(sourceNode) &&
+              pullRule.getTargetPutFeature().getFeatureClass() != null &&
               pullRule.getTargetPutFeature().getFeatureClass().isInstance(targetNode))
         {
           Method sourceGetMethod = pullRule.getSourceGetFeature().getFeatureMethod();

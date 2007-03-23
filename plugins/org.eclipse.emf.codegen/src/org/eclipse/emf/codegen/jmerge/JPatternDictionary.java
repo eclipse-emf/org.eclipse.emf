@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.7 2006/12/11 00:41:36 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.8 2007/03/23 19:31:16 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -295,7 +295,8 @@ public class JPatternDictionary
     for (Iterator dictionaryPatterns = options.getDictionaryPatterns().iterator(); dictionaryPatterns.hasNext(); )
     {
       JControlModel.DictionaryPattern dictionaryPattern = (JControlModel.DictionaryPattern)dictionaryPatterns.next();
-      if (dictionaryPattern.getSelectorFeature().getFeatureClass().isInstance(node))
+      if (dictionaryPattern.getSelectorFeature().getFeatureClass() != null && 
+		  dictionaryPattern.getSelectorFeature().getFeatureClass().isInstance(node))
       {
         try
         {

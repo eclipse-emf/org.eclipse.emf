@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.8 2006/12/29 20:49:33 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.9 2007/03/23 19:31:16 marcelop Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java;
@@ -442,7 +442,7 @@ public class JPatternDictionary extends FacadeVisitor
       JControlModel.Feature feature = dictionaryPattern.getSelectorFeature();
       Method method = feature.getFeatureMethod();
       String selection = null;
-      if (feature.getFeatureClass().isInstance(node))
+      if (feature.getFeatureClass() != null && feature.getFeatureClass().isInstance(node))
       {
         try
         {
