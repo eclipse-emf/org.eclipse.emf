@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeItemProvider.java,v 1.3 2007/03/22 01:59:29 davidms Exp $
+ * $Id: EGenericTypeItemProvider.java,v 1.4 2007/03/25 14:41:39 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -41,7 +41,6 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
-import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
@@ -561,7 +560,7 @@ public class EGenericTypeItemProvider
         for (EObject container = ((EObject)notification.getNotifier()).eContainer(); container != null; container = container.eContainer())
         {
           fireNotifyChanged(new ViewerNotification(notification, container, false, true));
-          if (container instanceof ETypedElement || container instanceof EClass)
+          if (container instanceof EOperation || container instanceof EStructuralFeature || container instanceof EClassifier)
           { 
             break;
           }
@@ -576,7 +575,7 @@ public class EGenericTypeItemProvider
         for (EObject container = ((EObject)notification.getNotifier()).eContainer(); container != null; container = container.eContainer())
         {
           fireNotifyChanged(new ViewerNotification(notification, container, false, true));
-          if (container instanceof ETypedElement || container instanceof EClass)
+          if (container instanceof EOperation || container instanceof EStructuralFeature || container instanceof EClassifier)
           { 
             break;
           }
