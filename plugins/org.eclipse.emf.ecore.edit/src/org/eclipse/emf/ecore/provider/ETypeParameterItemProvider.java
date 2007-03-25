@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypeParameterItemProvider.java,v 1.3 2007/03/22 01:58:36 davidms Exp $
+ * $Id: ETypeParameterItemProvider.java,v 1.4 2007/03/25 14:42:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -190,11 +190,12 @@ public class ETypeParameterItemProvider
     {
       case EcorePackage.ENAMED_ELEMENT__NAME:
       {
-        fireNotifyChanged(new ViewerNotification(notification, ((EObject)notification.getNotifier()).eContainer(), true, true));
+        fireNotifyChanged(new ViewerNotification(notification, ((EObject)notification.getNotifier()).eContainer(), false, true));
         break;
       }
       case EcorePackage.ETYPE_PARAMETER__EBOUNDS:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, true));
+        fireNotifyChanged(new ViewerNotification(notification, ((EObject)notification.getNotifier()).eContainer(), false, true));
         return;
     }
     super.notifyChanged(notification);
