@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaTest.java,v 1.4 2007/01/18 15:52:58 marcelop Exp $
+ * $Id: JavaTest.java,v 1.5 2007/03/26 20:28:29 marcelop Exp $
  */
 package org.eclipse.emf.test.examples;
 
@@ -94,7 +94,7 @@ public class JavaTest extends TestCase
     else
     {
       Map<Object, Object> options = new HashMap<Object, Object>();
-      JavaCore.setCompilanceOptions("1.5", options);
+      JavaCore.setComplianceOptions("1.5", options);
       JavaCore.getOptions().putAll(options);
     }
   }
