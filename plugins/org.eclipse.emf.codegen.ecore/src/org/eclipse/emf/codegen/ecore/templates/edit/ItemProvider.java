@@ -488,7 +488,7 @@ public class ItemProvider
     stringBuffer.append(genModel.getNonNLS());
     }
     } else if (genClass.getLabelFeature() != null) { GenFeature labelFeature = genClass.getLabelFeature();
-    if (labelFeature.isPrimitiveType() && !labelFeature.getGenClass().isDynamic()) {
+    if (labelFeature.isPrimitiveType() && !labelFeature.getGenClass().isDynamic() && !labelFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_95);
     stringBuffer.append(genClass.getImportedInterfaceName());
     stringBuffer.append(genClass.getInterfaceWildTypeArguments());
@@ -507,7 +507,7 @@ public class ItemProvider
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(genModel.getNonNLS(2));
     } else {
-    if (labelFeature.isStringType() && !genClass.isExternalInterface() && !labelFeature.getGenClass().isDynamic()) {
+    if (labelFeature.isStringType() && !labelFeature.getGenClass().isDynamic() && !labelFeature.isSuppressedGetVisibility()) {
     if (labelFeature.isPropertyMultiLine()) {
     stringBuffer.append(TEXT_102);
     stringBuffer.append(genClass.getImportedInterfaceName());
@@ -524,7 +524,7 @@ public class ItemProvider
     stringBuffer.append(TEXT_107);
     }
     } else {
-    if (genClass.isExternalInterface() || labelFeature.getGenClass().isDynamic()) {
+    if (labelFeature.isSuppressedGetVisibility() || labelFeature.getGenClass().isDynamic()) {
     stringBuffer.append(TEXT_108);
     stringBuffer.append(genModel.getImportedName("java.lang.Object"));
     stringBuffer.append(TEXT_109);
