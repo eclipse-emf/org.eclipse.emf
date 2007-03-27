@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.71 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.72 2007/03/27 16:19:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1651,7 +1651,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          {
            public boolean accept(GenFeature genFeature) 
            {
-             return !genFeature.isReferenceType() && !genFeature.isListType() && !genFeature.isMapType() && !genFeature.isSuppressedGetVisibility();
+             return !genFeature.isReferenceType() && !genFeature.isListType() && !genFeature.isMapType();
            }
          });
   }
