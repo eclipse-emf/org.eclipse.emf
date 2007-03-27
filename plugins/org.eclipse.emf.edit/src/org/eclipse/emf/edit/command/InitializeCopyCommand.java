@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InitializeCopyCommand.java,v 1.5 2006/12/28 06:48:54 marcelop Exp $
+ * $Id: InitializeCopyCommand.java,v 1.6 2007/03/27 16:21:51 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -204,7 +204,7 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
   {
     for (EReference reference : getReferencesToCopy())
     {
-      if (!reference.isChangeable() || reference.isDerived())
+      if (!reference.isChangeable() || reference.isDerived() || !owner.eIsSet(reference))
       {
         continue;
       }
@@ -214,7 +214,9 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
       Object value = owner.eGet(reference);
       if (value == null)
       {
-//      copy.eSet(reference, null); // is it possible to not be null already?
+        // It must be an unsettable feature to be null and considered set.
+        //
+        copy.eSet(reference, null); 
         continue;
       }
 
@@ -223,7 +225,13 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
       {
         @SuppressWarnings("unchecked")
         List<EObject> valueList = (List<EObject>)value;
-        if (!valueList.isEmpty())
+        if (valueList.isEmpty())
+        {
+          // It must be an unsettable feature to be empty and considered set.
+          //
+          valueList.clear();
+        }
+        else
         {
           @SuppressWarnings("unchecked")
           EList<EObject> copyList = (EList<EObject>)copy.eGet(reference);
