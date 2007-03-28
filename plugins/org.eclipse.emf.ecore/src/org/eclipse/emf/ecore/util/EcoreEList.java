@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.10 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EcoreEList.java,v 1.11 2007/03/28 18:09:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -183,7 +183,7 @@ public class EcoreEList<E> extends NotifyingListImpl<E> implements InternalEList
       
       if (isNotificationRequired())
       {
-        owner.eNotify(createNotification(Notification.RESOLVE, eObject, resolved, index, false));
+        dispatchNotification(createNotification(Notification.RESOLVE, eObject, resolved, index, false));
       }
 
       return resolved;
@@ -785,7 +785,7 @@ public class EcoreEList<E> extends NotifyingListImpl<E> implements InternalEList
         {
           boolean oldIsSet = (kind & IS_SET) != 0;
           kind &= ~IS_SET;
-          owner.eNotify(createNotification(Notification.UNSET, oldIsSet, false));
+          dispatchNotification(createNotification(Notification.UNSET, oldIsSet, false));
         }
         else
         {

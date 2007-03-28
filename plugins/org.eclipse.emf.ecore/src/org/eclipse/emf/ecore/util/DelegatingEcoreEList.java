@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.11 2006/12/05 20:22:26 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.12 2007/03/28 18:09:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -70,7 +70,7 @@ public abstract class DelegatingEcoreEList<E>
       {
         boolean oldIsSet = isSet;
         isSet = false;
-        owner.eNotify(createNotification(Notification.UNSET, oldIsSet, false));
+        dispatchNotification(createNotification(Notification.UNSET, oldIsSet, false));
       }
       else
       {
@@ -282,7 +282,7 @@ public abstract class DelegatingEcoreEList<E>
         }
         if (isNotificationRequired())
         {
-          owner.eNotify(createNotification(Notification.RESOLVE, object, resolved, index, false));
+          dispatchNotification(createNotification(Notification.RESOLVE, object, resolved, index, false));
         }
 
         return resolved;
@@ -792,7 +792,7 @@ public abstract class DelegatingEcoreEList<E>
         {
           boolean oldIsSet = (kind & IS_SET) != 0;
           kind &= ~IS_SET;
-          owner.eNotify(createNotification(Notification.UNSET, oldIsSet, false));
+          dispatchNotification(createNotification(Notification.UNSET, oldIsSet, false));
         }
         else
         {
