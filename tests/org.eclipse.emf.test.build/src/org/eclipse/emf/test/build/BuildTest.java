@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.14 2007/01/10 04:12:27 marcelop Exp $
+ * $Id: BuildTest.java,v 1.15 2007/03/28 21:49:14 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -44,7 +44,7 @@ public class BuildTest extends TestCase
   protected final static String[] REQUIRED_DOC_PLUGIN_FILES = 
    {"doc.zip", "toc.xml"};  
   protected final static String[] REQUIRED_BRANDING_PLUGIN_FILES = 
-   {"about.ini", "about.mappings", "about.properties", "eclipse32.png"};
+   {"about.ini", "about.mappings", "about.properties", "modeling32.png"};
   protected final static String[] REQUIRED_SOURCE_PLUGIN_FILES = 
    {"src/"};
   protected final static String[] REQUIRED_SRC_SUBDIR_FILES = 
