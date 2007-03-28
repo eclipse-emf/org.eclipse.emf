@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.16 2007/02/20 17:40:49 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.17 2007/03/28 18:07:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -218,7 +218,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
 
           protected EClassifier unwrap(EGenericType eGenericType)
           {
-            EClassifier result = eGenericType.getERawType();
+            EClassifier result = ((EGenericTypeImpl)eGenericType).basicGetERawType();
             if (result  != null)
             {
               return result;
@@ -490,7 +490,6 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
           @Override
           protected boolean hasProxies()
           {
-            // TODO
             return true;
           }
 
