@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.14 2007/01/18 15:53:11 marcelop Exp $
+ * $Id: PersistenceTest.java,v 1.15 2007/03/28 19:50:22 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -940,6 +940,8 @@ public class PersistenceTest extends TestCase
         
         if (false) System.out.println(getContents(options, bytes));
         
+        testSaveOnlyIfChanged(options);
+
         testLoad(uri, options, bytes);
         return bytes;
       }
@@ -977,6 +979,32 @@ public class PersistenceTest extends TestCase
         assertEquals(contents, notEncripted, contents.contains("Name-Item1"));
         
         return bytes;
+      }
+
+      public void testSaveOnlyIfChanged(Map<String, Object> options) throws Exception
+      {
+        File file = File.createTempFile("TestSaveOnlyIfChanged.xml", null);
+        URI uri = URI.createFileURI(file.getPath());
+        Resource resource = new XMIResourceImpl(uri); 
+        resource.getContents().add(instantiateModel());
+        resource.save(options);
+
+        long time = file.lastModified();
+        Map<Object, Object> localOptions = options == null ? new HashMap<Object, Object>() : new HashMap<Object, Object>(options);
+
+        Thread.sleep(1000);
+        localOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+        resource.save(localOptions);
+        assertEquals(time, file.lastModified());
+
+        Thread.sleep(1000);
+        localOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER);
+        resource.save(localOptions);
+        assertEquals(time, file.lastModified());
+
+        Thread.sleep(1000);
+        resource.save(options);
+        assertTrue(time < file.lastModified());
       }
       
       public void testLoad(URI uri, Map<String, Object> options, byte[] contents) throws Exception
