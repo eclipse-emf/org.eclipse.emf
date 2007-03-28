@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementImpl.java,v 1.12 2006/12/07 15:11:32 emerks Exp $
+ * $Id: ETypedElementImpl.java,v 1.13 2007/03/28 18:08:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -429,7 +429,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
     }
     else
     {
-      EClassifier newEType = newEGenericType.getERawType();
+      EClassifier newEType = ((EGenericTypeImpl)newEGenericType).basicGetERawType();
       if (newEType != eType)
       {
         msgs = setEType(newEType, msgs);
