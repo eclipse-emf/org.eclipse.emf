@@ -12,11 +12,13 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.20 2006/12/05 20:22:27 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.21 2007/03/28 19:49:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -939,15 +941,203 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   public void save(Map<?, ?> options) throws IOException
   {
-    URIConverter uriConverter = getURIConverter();
-    OutputStream outputStream = uriConverter.createOutputStream(getURI());
+    Object saveOnlyIfChanged = 
+      options != null && options.containsKey(OPTION_SAVE_ONLY_IF_CHANGED) ? 
+        options.get(OPTION_SAVE_ONLY_IF_CHANGED) :
+        defaultSaveOptions != null ?
+          defaultSaveOptions.get(OPTION_SAVE_ONLY_IF_CHANGED) :
+          null;
+    if (OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER.equals(saveOnlyIfChanged))
+    {
+      saveOnlyIfChangedWithFileBuffer(options);
+    }
+    else if (OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER.equals(saveOnlyIfChanged))
+    {
+      saveOnlyIfChangedWithMemoryBuffer(options);
+    }
+    else
+    {
+      URIConverter uriConverter = getURIConverter();
+      OutputStream outputStream = uriConverter.createOutputStream(getURI());
+      try
+      {
+        save(outputStream, options);
+      }
+      finally
+      {
+        outputStream.close();
+      }
+    }
+  }
+
+  protected void saveOnlyIfChangedWithFileBuffer(Map<?, ?> options) throws IOException
+  {
+    File temporaryFile = File.createTempFile("ResourceSaveHelper", null);
     try
     {
-      save(outputStream, options);
+      URI temporaryFileURI = URI.createFileURI(temporaryFile.getPath());
+      URIConverter uriConverter = getURIConverter();
+      OutputStream temporaryFileOutputStream = uriConverter.createOutputStream(temporaryFileURI);
+      try
+      {
+        save(temporaryFileOutputStream, options);
+      }
+      finally
+      {
+        temporaryFileOutputStream.close();
+      }
+      
+      boolean equal = true;
+      InputStream oldContents = null;
+      try
+      {
+        oldContents = uriConverter.createInputStream(getURI());
+      }
+      catch (IOException exception)
+      {
+        equal = false;
+      }
+      byte [] newContentBuffer = new byte [4000];
+      if (oldContents != null)
+      {
+        try
+        {
+          InputStream newContents = uriConverter.createInputStream(temporaryFileURI);
+          try
+          {
+            byte [] oldContentBuffer = new byte [4000];
+            LOOP:
+            for (int oldLength = oldContents.read(oldContentBuffer), newLength = newContents.read(newContentBuffer); 
+                 (equal = oldLength == newLength) &&  oldLength > 0; 
+                 oldLength = oldContents.read(oldContentBuffer), newLength = newContents.read(newContentBuffer))
+            {
+              for (int i = 0; i < oldLength; ++i)
+              {
+                if (oldContentBuffer[i] != newContentBuffer[i])
+                {
+                  equal = false;
+                  break LOOP;
+                }
+              }
+            }
+          }
+          finally
+          {
+            newContents.close();
+          }
+        }
+        finally
+        {
+          oldContents.close();
+        }
+      }
+      
+      if (!equal)
+      {
+        OutputStream newContents = uriConverter.createOutputStream(getURI());
+        try
+        {
+          InputStream temporaryFileContents = uriConverter.createInputStream(temporaryFileURI);
+          try
+          {
+            for (int length = temporaryFileContents.read(newContentBuffer); length > 0; length = temporaryFileContents.read(newContentBuffer))
+            {
+              newContents.write(newContentBuffer, 0, length);
+            }
+          }
+          finally
+          {
+            temporaryFileContents.close();
+          }
+        }
+        finally
+        {
+          newContents.close();
+        }
+      }
     }
     finally
     {
-      outputStream.close();
+      temporaryFile.delete();
+    }
+  }
+
+  protected void saveOnlyIfChangedWithMemoryBuffer(Map<?, ?> options) throws IOException
+  {
+    URIConverter uriConverter = getURIConverter();
+    class MyByteArrayOutputStream extends ByteArrayOutputStream
+    {
+      public byte[] buffer()
+      {
+        return buf;
+      }
+      
+      public int length()
+      {
+        return count;
+      }
+    }
+    MyByteArrayOutputStream memoryBuffer = new MyByteArrayOutputStream();
+    try
+    {
+      save(memoryBuffer, options);
+    }
+    finally
+    {
+      memoryBuffer.close();
+    }
+
+    byte [] newContentBuffer = memoryBuffer.buffer();
+    int length = memoryBuffer.length();
+      
+    boolean equal = true;
+    InputStream oldContents = null;
+    try
+    {
+      oldContents = uriConverter.createInputStream(getURI());
+    }
+    catch (IOException exception)
+    {
+      equal = false;
+    }
+    if (oldContents != null)
+    {
+      try
+      {
+        byte [] oldContentBuffer = new byte [length];
+        if (oldContents.read(oldContentBuffer) == length && oldContents.read() == -1)
+        {
+          for (int i = 0; i < length; ++i)
+          {
+            if (oldContentBuffer[i] != newContentBuffer[i])
+            {
+              equal = false;
+              break;
+            }
+          }
+        }
+        else
+        {
+          equal = false;
+        }
+      }
+      finally
+      {
+        oldContents.close();
+      }
+    }
+
+    if (!equal)
+    {
+      OutputStream newContents = uriConverter.createOutputStream(getURI());
+      try
+      {
+        newContents.write(newContentBuffer, 0, length);
+      }
+      finally
+      {
+        newContents.close();
+      }
     }
   }
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.8 2006/12/05 20:22:27 emerks Exp $
+ * $Id: Resource.java,v 1.9 2007/03/28 19:49:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -126,6 +126,31 @@ public interface Resource extends Notifier
    * during load.  The default value is <tt>Boolean.FALSE</tt>
    */  
   String OPTION_ZIP = "ZIP"; 
+
+  /**
+   * A save option that can be used only with {@link #save(Map)}
+   * to specify that the resource is to be saved only if the new contents
+   * are different from actual contents; 
+   * this compares the bytes in the backing store against the new bytes that would be saved.
+   * The value on this option can be either <code>null</code>, 
+   * {@link #OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER},
+   * or {@link #OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER}.
+   */  
+  String OPTION_SAVE_ONLY_IF_CHANGED = "SAVE_ONLY_IF_CHANGED";
+
+  /**
+   * A value for {@link #OPTION_SAVE_ONLY_IF_CHANGED} 
+   * to specify that an in-memory buffer should be used to compare the new contents with the actual contents.
+   * This will be faster than {@link #OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER} but will use up more memory.
+   */
+  String OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER = "MEMORY_BUFFER";
+
+  /**
+   * A value for {@link #OPTION_SAVE_ONLY_IF_CHANGED} 
+   * to specify that a file buffer should be used to compare the new contents with the actual contents.
+   * This will be slower than {@link #OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER} but will use up less memory.
+   */
+  String OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER = "FILE_BUFFER";
 
   /**
    * Returns the containing resource set.
