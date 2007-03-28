@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.35 2007/02/23 21:08:37 emerks Exp $
+ * $Id: EClassImpl.java,v 1.36 2007/03/28 18:07:24 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -1517,7 +1517,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
           protected EClass unwrap(EGenericType eGenericType)
           {
-            EClassifier result = eGenericType.getERawType();
+            EClassifier result = ((EGenericTypeImpl)eGenericType).basicGetERawType();
             if (result instanceof EClass)
             {
               return (EClass)result;
@@ -1789,7 +1789,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           @Override
           protected boolean hasProxies()
           {
-            // TODO
             return true;
           }
 
