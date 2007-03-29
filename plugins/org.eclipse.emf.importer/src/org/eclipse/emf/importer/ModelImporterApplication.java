@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.27 2007/01/18 15:35:16 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.28 2007/03/29 18:14:16 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -283,6 +283,13 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
     return index;
   }
   
+  protected int processModelProjectArguments(String[] arguments, int index)
+  {
+    modelProjectLocationPath = new Path(new File(arguments[++index]).getAbsolutePath());
+    modelFragmentPath = new Path(arguments[++index]);
+    return index;
+  }
+  
   protected int processArgument(String[] arguments, int index)
   {
     if (arguments[index].equalsIgnoreCase("-reload"))
@@ -291,8 +298,7 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
     }
     else if (arguments[index].equalsIgnoreCase("-modelProject"))
     {
-      modelProjectLocationPath = new Path(new File(arguments[++index]).getAbsolutePath());
-      modelFragmentPath = new Path(arguments[++index]);
+      index = processModelProjectArguments(arguments, index);
     }
     else if (arguments[index].equalsIgnoreCase("-editProject"))
     {
@@ -394,6 +400,11 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
       }
     }
   }
+  
+  protected boolean usePlatformURI()
+  {
+    return false;
+  }
 
   protected void adjustModelImporter(Monitor monitor)
   {
@@ -402,13 +413,13 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
       monitor.beginTask("", 1);
 
       ModelImporter modelImporter = getModelImporter();
-      modelImporter.setUsePlatformURI(false);
+      modelImporter.setUsePlatformURI(usePlatformURI());
       modelImporter.setGenModelProjectLocation(modelProjectLocationPath);
       if (modelPluginID != null)
       {
         modelImporter.setModelPluginID(modelPluginID);
       }
-      if (modelProjectLocationPath != null)
+      if (modelProjectLocationPath != null && modelFragmentPath != null)
       {
         modelImporter.setModelPluginDirectory(modelProjectLocationPath + "/./" + modelFragmentPath + "/.");
       }
@@ -586,6 +597,7 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
     {
       monitor.beginTask("", 3);
       getModelImporter().prepareGenModelAndEPackages(CodeGenUtil.createMonitor(monitor, 1));
+      adjustModelImporterAfterPrepare();
       handleReferencedEPackages();
       getModelImporter().saveGenModelAndEPackages(CodeGenUtil.createMonitor(monitor, 1));
     }
@@ -593,6 +605,11 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
     {
       monitor.done();
     }
+  }
+  
+  protected void adjustModelImporterAfterPrepare()
+  {
+    // Subclasses may overwrite
   }
   
   /**
