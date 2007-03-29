@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.33 2007/03/16 12:56:53 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.34 2007/03/29 14:35:51 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -881,12 +881,11 @@ public final class FeatureMapUtil
 
     public int getFeatureID()
     {
-      return getEStructuralFeature().getFeatureID();
+      return featureMap.getEObject().eClass().getFeatureID(getEStructuralFeature());
     }
 
     public EStructuralFeature getEStructuralFeature()
     {
-      // return featureMap.getEObject().eClass().getEStructuralFeature(getFeatureID());
       return feature;
     }
 
@@ -1261,7 +1260,7 @@ public final class FeatureMapUtil
 
     public int getFeatureID()
     {
-      return getEStructuralFeature().getFeatureID();
+      return featureMap.getEObject().eClass().getFeatureID(getEStructuralFeature());
     }
 
     public EStructuralFeature getEStructuralFeature()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.12 2007/03/28 18:09:07 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.13 2007/03/29 14:35:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -160,7 +160,7 @@ public abstract class DelegatingEcoreEList<E>
   @Override
   public int getFeatureID()
   {
-    return getEStructuralFeature().getFeatureID();
+    return owner.eClass().getFeatureID(getEStructuralFeature());
   }
 
   public EStructuralFeature getEStructuralFeature()
