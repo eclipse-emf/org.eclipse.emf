@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.15 2007/03/28 19:50:22 emerks Exp $
+ * $Id: PersistenceTest.java,v 1.16 2007/03/29 18:46:10 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -992,19 +992,26 @@ public class PersistenceTest extends TestCase
         long time = file.lastModified();
         Map<Object, Object> localOptions = options == null ? new HashMap<Object, Object>() : new HashMap<Object, Object>(options);
 
-        Thread.sleep(1000);
-        localOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-        resource.save(localOptions);
-        assertEquals(time, file.lastModified());
-
-        Thread.sleep(1000);
-        localOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER);
-        resource.save(localOptions);
-        assertEquals(time, file.lastModified());
-
-        Thread.sleep(1000);
-        resource.save(options);
-        assertTrue(time < file.lastModified());
+        try
+        {
+          Thread.sleep(1000);
+          localOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+          resource.save(localOptions);
+          assertEquals(time, file.lastModified());
+  
+          Thread.sleep(1000);
+          localOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER);
+          resource.save(localOptions);
+          assertEquals(time, file.lastModified());
+  
+          Thread.sleep(1000);
+          resource.save(options);
+          assertTrue(time < file.lastModified());
+        }
+        finally
+        {
+          file.delete();
+        }
       }
       
       public void testLoad(URI uri, Map<String, Object> options, byte[] contents) throws Exception
