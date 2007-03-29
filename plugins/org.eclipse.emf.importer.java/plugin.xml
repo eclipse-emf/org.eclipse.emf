@@ -4,4 +4,18 @@
   <extension point="org.eclipse.emf.importer.modelImporterDescriptors">
     <modelImporterDescriptor id="org.eclipse.emf.importer.java" name="%_UI_JavaImporter_label" icon="icons/full/obj16/JavaModel.gif" description="%_UI_JavaImporter_description" wizard="org.eclipse.emf.importer.java.ui.JavaImporterWizard" types="file" />
   </extension>
+  
+  <extension id="Java2GenModel" point="org.eclipse.core.runtime.applications">
+    <application>
+      <run class="org.eclipse.emf.importer.java.JavaImporterApplication" />
+    </application>
+  </extension>
+  
+  <extension point="org.eclipse.ant.core.extraClasspathEntries">
+    <extraClasspathEntry library="ant_tasks/importer.java.tasks.jar" />
+  </extension>
+
+  <extension point="org.eclipse.ant.core.antTasks">
+    <antTask library="ant_tasks/importer.java.tasks.jar" name="emf.Java2Java" headless="true" class="org.eclipse.emf.importer.java.taskdefs.JavaGeneratorTask" />
+  </extension>  
 </plugin>

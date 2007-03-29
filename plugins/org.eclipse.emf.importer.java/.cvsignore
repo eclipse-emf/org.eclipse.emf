@@ -1,5 +1,6 @@
 bin
 bin.tasks
+ant_tasks
 build.xml
 temp.folder
 *.jar
