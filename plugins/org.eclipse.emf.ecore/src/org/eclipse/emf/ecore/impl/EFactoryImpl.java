@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.23 2007/02/20 17:40:49 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.24 2007/03/29 11:54:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -383,7 +383,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     {
       // Continue to try a different approach.
     }
-    Exception formatException = null;
+    Throwable formatException = null;
     try
     {
       if (ctor != null)
@@ -398,7 +398,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     }
     catch (InvocationTargetException e)
     {
-      formatException = e;
+      formatException = e.getCause();
     }
     catch (IllegalAccessException e)
     {
@@ -429,14 +429,14 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     }
     catch (InvocationTargetException e)
     {
-      formatException = e;
+      formatException = e.getCause();
     }
     catch (IllegalAccessException e)
     {
       formatException = e;
     }
-    String exceptionString = (formatException != null) ? formatException.toString() : "";
-    throw new IllegalArgumentException("The value '" + stringValue + "' is invalid. " + exceptionString);
+    String exceptionString = formatException != null ? formatException.toString() : "";
+    throw new IllegalArgumentException("The value '" + stringValue + "' is invalid. " + exceptionString, formatException);
   }
 
   /**
