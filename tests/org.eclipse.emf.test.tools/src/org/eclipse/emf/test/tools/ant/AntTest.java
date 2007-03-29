@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.28 2007/03/23 17:36:30 marcelop Exp $
+ * $Id: AntTest.java,v 1.29 2007/03/29 18:21:58 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -93,6 +93,13 @@ public class AntTest extends TestCase
     ts.addTest(new AntTest("testEcoreReload50"));
     ts.addTest(new AntTest("testEcore1450"));
     ts.addTest(new AntTest("testEcoreReload1450"));
+   
+    ts.addTest(new AntTest("testJava14"));
+//    ts.addTest(new AntTest("testJavaReload14"));
+    ts.addTest(new AntTest("testJava50"));
+//    ts.addTest(new AntTest("testJavaReload50"));
+//    ts.addTest(new AntTest("testJava1450"));
+//    ts.addTest(new AntTest("testJavaReload1450"));
     
     // Deletes the temp directory created during the tests to store the
     // generated artifacts
@@ -113,6 +120,7 @@ public class AntTest extends TestCase
     String roseImporterPluginDir = TestUtil.getPluginDirectory("org.eclipse.emf.importer.rose");
     String xsdImporterPluginDir = TestUtil.getPluginDirectory("org.eclipse.xsd.ecore.importer");
     String ecoreImporterPluginDir = TestUtil.getPluginDirectory("org.eclipse.emf.importer.ecore");
+    String javaImporterPluginDir = TestUtil.getPluginDirectory("org.eclipse.emf.importer.java");
 
     String emfSourcePlugin = TestUtil.getPluginDirectory("org.eclipse.emf.source");
     String xsdSourcePlugin = TestUtil.getPluginDirectory("org.eclipse.xsd.source");
@@ -205,6 +213,46 @@ public class AntTest extends TestCase
     AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.1.4"), true);
     AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.5.0"), true);
     AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.1.4_5.0"), true);
+
+    // Java
+    libraryDir = null;
+    if (javaImporterPluginDir != null)
+    {
+      libraryDir = new File(javaImporterPluginDir + "/examples/library");
+    }
+    
+    assertNotNull(libraryDir);
+    assert libraryDir != null;
+    if (!libraryDir.isDirectory() && emfSourcePlugin != null)
+    {
+      File javaImporterPluginSrcDir = getPluginSourceSubDirectory(emfSourcePlugin, "org.eclipse.emf.importer.java");
+      if (javaImporterPluginSrcDir != null)
+      {
+        libraryDir = new File(javaImporterPluginSrcDir + "/examples/library");
+      }
+    }
+    assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.java.1.4"), true);
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.java.5.0"), true);
+    File sourceDirectory = new File(EXAMPLES_COPY_DIR, "/library.java.5.0/src/org/eclipse/example/library");
+    moveFile(new File(sourceDirectory, "BookCategory.java5.txt"), new File(sourceDirectory, "BookCategory.java"));
+    moveFile(new File(sourceDirectory, "Library.java5.txt"), new File(sourceDirectory, "Library.java"));
+    moveFile(new File(sourceDirectory, "Writer.java5.txt"), new File(sourceDirectory, "Writer.java"));
+    
+    AntUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.java.1.4_5.0"), true);
+  }
+  
+  protected void moveFile(File source, File target)
+  {
+    if (target.exists())
+    {
+      assertTrue(target.delete());  
+    }
+    assertFalse(target.exists());
+    
+    assertTrue(source.exists());
+    assertTrue(source.renameTo(target));
+    assertTrue(target.exists());   
   }
   
   protected File getPluginSourceSubDirectory(String sourcePluginDir, String pluginID)
@@ -507,6 +555,70 @@ public class AntTest extends TestCase
     genJDKLevel = GenJDKLevel.JDK50_LITERAL;
     ecoreReloadTest("5.0", "1.4_5.0");
   }
+
+  
+  protected void javaTest(String jdkLevel, String directorySegment) throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "/library.java." + directorySegment);
+    File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.java");
+    File antScript = new File(rootDir, "build/build.xml");
+    
+    String[] testTokenReplacements = new String[2];
+    testTokenReplacements[0] = "/library.java." + directorySegment + "/src";
+    testTokenReplacements[1] = File.separator;
+           
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
+  }
+
+  public void testJava14() throws Exception
+  {
+    javaTest("1.4", "1.4");
+  }
+
+  public void testJava50() throws Exception
+  {
+    javaTest("5.0", "5.0");
+  }
+  
+  public void testJava1450() throws Exception
+  {
+    javaTest("1.4", "1.4_5.0");
+  }
+  
+  protected void javaReloadTest(String jdkLevel, String directorySegment) throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "/library.java." + directorySegment);
+    File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/reload/library.java");
+    File antScript = new File(rootDir, "build/reload.xml");
+    
+    AntUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
+    AntUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+   
+    String[] testTokenReplacements = new String[2];
+    testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
+    testTokenReplacements[1] = File.separator;
+           
+    adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" java", testTokenReplacements);
+  }  
+  
+  public void testJavaReload14() throws Exception
+  {
+    javaReloadTest("1.4", "1.4");
+  }
+
+  public void testJavaReload50() throws Exception
+  {
+    javaReloadTest("5.0", "5.0");
+  }
+  
+  public void testJavaReload1450() throws Exception
+  {
+    genJDKLevel = GenJDKLevel.JDK50_LITERAL;
+    javaReloadTest("5.0", "1.4_5.0");
+  }
+  
+  
   
   private void runAntAndTest(File rootDir, File rootExpectedDir, File antScript, String antScriptArguments, String[] testTokenReplacements) throws CoreException
   {
