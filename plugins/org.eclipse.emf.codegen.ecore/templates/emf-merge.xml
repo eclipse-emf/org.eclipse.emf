@@ -92,11 +92,11 @@
 
   <merge:pull 
     sourceGet="EnumConstant/getArguments"
-    targetMarkup="^gen$"
+    targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
     targetPut="EnumConstant/setArguments"/>
   <merge:pull 
     sourceGet="EnumConstant/getBody"
-    targetMarkup="^gen$"
+    targetMarkup="^lastgen$|^gen$|^modifiable$|^model$$"
     targetPut="EnumConstant/setBody"/>
 
   <merge:pull 
