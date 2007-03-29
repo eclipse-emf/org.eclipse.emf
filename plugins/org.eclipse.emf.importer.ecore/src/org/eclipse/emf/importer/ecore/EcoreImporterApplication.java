@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporterApplication.java,v 1.4 2006/12/28 08:41:28 marcelop Exp $
+ * $Id: EcoreImporterApplication.java,v 1.5 2007/03/29 18:14:51 marcelop Exp $
  */
 package org.eclipse.emf.importer.ecore;
 
@@ -87,13 +87,6 @@ public class EcoreImporterApplication extends ModelImporterApplication
     return result;
   }
   
-  @Override
-  protected void processArguments(String[] arguments, int index)
-  {
-    index = processModelAndGenModelLocationArguments(arguments, index);
-    super.processArguments(arguments, index);
-  }
-
   @Override
   protected int processArgument(String[] arguments, int index)
   {
