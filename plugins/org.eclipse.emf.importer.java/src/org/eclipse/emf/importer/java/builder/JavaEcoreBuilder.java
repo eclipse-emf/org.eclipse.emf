@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.33 2007/03/23 17:37:20 marcelop Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.34 2007/03/29 18:25:00 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -58,9 +58,13 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
+import org.eclipse.emf.codegen.merge.java.facade.JAbstractType;
 import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
+import org.eclipse.emf.codegen.merge.java.facade.JEnum;
+import org.eclipse.emf.codegen.merge.java.facade.JEnumConstant;
 import org.eclipse.emf.codegen.merge.java.facade.JField;
 import org.eclipse.emf.codegen.merge.java.facade.JImport;
+import org.eclipse.emf.codegen.merge.java.facade.JMember;
 import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.emf.codegen.merge.java.facade.JPackage;
@@ -471,6 +475,7 @@ public class JavaEcoreBuilder
       }
     }
     
+    facadeHelper.reset();
     return targetFragmentRoot;
   }
 
@@ -825,11 +830,66 @@ public class JavaEcoreBuilder
   protected void analyzeCompilationUnit(JCompilationUnit compilationUnit)
   {
     foundJava = true;
-    for (JType type : facadeHelper.getChildren(compilationUnit, JType.class))
+    for (JAbstractType abstractType : facadeHelper.getChildren(compilationUnit, JAbstractType.class))
     {
-      analyzeType(type);
+      if (abstractType instanceof JEnum)
+      {
+        analyzeEnum((JEnum)abstractType);
+      }
+      else
+      {
+        analyzeType((JType)abstractType);        
+      }
       break;
     }
+  }
+  
+  protected void analyzeEnum(JEnum enumeration)
+  {
+    EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
+    eModelElementToJNodeMap.put(eEnum, enumeration);
+    eEnum.setName(enumeration.getName());
+    getEPackage(enumeration).getEClassifiers().add(eEnum);
+    eEnum.getEAnnotations().addAll(extractEAnnotations(getModelAnnotation(enumeration.getComment())));
+    EcoreUtil.setDocumentation(eEnum, getModelDocumentation(enumeration.getComment()));
+
+    // Walk the fields.
+    //
+    for (JEnumConstant enumConstant : facadeHelper.getChildren(enumeration, JEnumConstant.class))
+    {
+      analyzeEnumLiteral(eEnum, enumConstant);
+    }    
+  }
+  
+  protected EPackage getEPackage(JNode node)
+  {
+    JPackage jPackage = facadeHelper.getPackage(node);  
+    String qualifiedPackageName = jPackage != null ?
+      jPackage.getQualifiedName()
+      : null;
+    
+    EPackage ePackage = packageNameToEPackageMap.get(qualifiedPackageName);
+    if (ePackage == null)
+    {
+      // Create the EPackage on demand.
+      //
+      ePackage = EcoreFactory.eINSTANCE.createEPackage();
+      int index = qualifiedPackageName == null ? -1 : qualifiedPackageName.lastIndexOf(".");
+      @SuppressWarnings("null")
+      String packageName = index == -1 ? qualifiedPackageName : qualifiedPackageName.substring(index + 1);
+      ePackage.setName(packageName);
+      ePackage.setNsURI("http:///" + (qualifiedPackageName == null ? "null" : qualifiedPackageName.replace('.', '/')) + ".ecore");
+      ePackage.setNsPrefix(qualifiedPackageName == null ? "null" : qualifiedPackageName);
+      packageNameToEPackageMap.put(qualifiedPackageName, ePackage);
+
+      if (packageName != null)
+      {
+        String prefix = Character.toUpperCase(packageName.charAt(0)) + packageName.substring(1);
+        ePackageToPrefixMap.put(ePackage, prefix);
+      }
+    }
+      
+    return ePackage;
   }
 
   /**
@@ -837,11 +897,6 @@ public class JavaEcoreBuilder
    */
   protected void analyzeType(JType type)
   {
-    JPackage jPackage = facadeHelper.getPackage(type);  
-    String qualifiedPackageName = jPackage != null ?
-      jPackage.getQualifiedName()
-      : null;
-
     // Check whether this has @model annotation contents.
     // If not, it might be a package interface, for backwards compatibility.
     //
@@ -859,26 +914,7 @@ public class JavaEcoreBuilder
     {
       // Get the package name and see if there's an EPackage for it.
       //
-      EPackage ePackage = packageNameToEPackageMap.get(qualifiedPackageName);
-      if (ePackage == null)
-      {
-        // Create the EPackage on demand.
-        //
-        ePackage = EcoreFactory.eINSTANCE.createEPackage();
-        int index = qualifiedPackageName == null ? -1 : qualifiedPackageName.lastIndexOf(".");
-        @SuppressWarnings("null")
-        String packageName = index == -1 ? qualifiedPackageName : qualifiedPackageName.substring(index + 1);
-        ePackage.setName(packageName);
-        ePackage.setNsURI("http:///" + (qualifiedPackageName == null ? "null" : qualifiedPackageName.replace('.', '/')) + ".ecore");
-        ePackage.setNsPrefix(qualifiedPackageName == null ? "null" : qualifiedPackageName);
-        packageNameToEPackageMap.put(qualifiedPackageName, ePackage);
-
-        if (packageName != null)
-        {
-          String prefix = Character.toUpperCase(packageName.charAt(0)) + packageName.substring(1);
-          ePackageToPrefixMap.put(ePackage, prefix);
-        }
-      }
+      EPackage ePackage = getEPackage(type);
 
       // If it's an interface, then it will be treated as an EClass
       // 
@@ -960,13 +996,18 @@ public class JavaEcoreBuilder
         //
         for (JField field : facadeHelper.getChildren(type, JField.class))
         {
-          analyzeField(eEnum, field);
+          analyzeEnumLiteral(eEnum, field);
         }
       }
     }
     // Find Packages and Factories
     else
     {
+      JPackage jPackage = facadeHelper.getPackage(type);  
+      String qualifiedPackageName = jPackage != null ?
+        jPackage.getQualifiedName()
+        : null;
+
       String typeName = type.getName();
       boolean isEPackage = false;
       if (typeName.endsWith("Package") && typeName.length() > 7)
@@ -1540,18 +1581,56 @@ public class JavaEcoreBuilder
   /**
    * Creates EEnumLiteral as appropriate.
    */
-  protected void analyzeField(EEnum eEnum, JField field)
+  protected void analyzeEnumLiteral(EEnum eEnum, JMember member)
   {
-    String modelAnnotation = getModelAnnotation(field.getComment());
+    String modelAnnotation = getModelAnnotation(member.getComment());
     if (modelAnnotation != null)
     {
+      String fieldName = member.getName();
+
+      EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
+      eModelElementToJNodeMap.put(eEnumLiteral, member);
+      eEnumLiteral.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
+      EcoreUtil.setDocumentation(eEnumLiteral, getModelDocumentation(member.getComment()));
+      
+      // Allow the value to be defined by an annotation or by the field's initializer
+      //      
+      String value = getModelAnnotationAttribute(modelAnnotation, "value");
+      if (value == null)
+      {
+        if (member instanceof JField)
+        {
+          value = ((JField)member).getInitializer().trim();
+        }
+      }
+      
+      if (value != null)
+      {
+        try
+        {
+          int intValue = Integer.parseInt(value);
+          eEnumLiteral.setValue(intValue);
+        }
+        catch (NumberFormatException exception)
+        {
+          warning
+            (JavaImporterPlugin.INSTANCE.getString
+                ("_UI_InvalidLiteralValueForField", 
+                 new Object [] { value, eEnum.getName() + "." + fieldName }));
+          eEnumLiteral.setValue(eEnum.getELiterals().size());
+        }        
+      }
+      else
+      {
+        eEnumLiteral.setValue(eEnum.getELiterals().size());
+      }
+      
       // Allow a mixed case version of the name to be provided.
       //
       String name = getModelAnnotationAttribute(modelAnnotation, "name");
 
       // But, if name doesn't expand into field name, ignore it.
       //
-      String fieldName = field.getName();
       if (name == null || !CodeGenUtil.format(name, '_', null, false, true).toUpperCase().equals(fieldName))
       {
           if (name != null)
@@ -1562,42 +1641,16 @@ public class JavaEcoreBuilder
           }
           name = fieldName;
       }
+      eEnumLiteral.setName(name);
 
       // Allow a distinct literal value to be provided, too.
       //
       String literal = getModelAnnotationAttribute(modelAnnotation, "literal");
-
-      // Create one and set the name and value.
-      //
-      EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
-      eModelElementToJNodeMap.put(eEnumLiteral, field);
-      eEnumLiteral.setName(name);
       if (literal != null)
       {
         eEnumLiteral.setLiteral(literal);
       }
-      eEnumLiteral.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
-      EcoreUtil.setDocumentation(eEnumLiteral, getModelDocumentation(field.getComment()));
-      if (field.getInitializer() != null)
-      {
-        try
-        {
-          int value = Integer.parseInt(field.getInitializer().trim());
-          eEnumLiteral.setValue(value);
-        }
-        catch (NumberFormatException exception)
-        {
-          warning
-            (JavaImporterPlugin.INSTANCE.getString
-                ("_UI_InvalidLiteralValueForField", 
-                 new Object [] { field.getInitializer().trim(), eEnum.getName() + "." + fieldName }));
-          eEnumLiteral.setValue(eEnum.getELiterals().size());
-        }
-      }
-      else
-      {
-        eEnumLiteral.setValue(eEnum.getELiterals().size());
-      }
+
       eEnum.getELiterals().add(eEnumLiteral);
     }
   }
