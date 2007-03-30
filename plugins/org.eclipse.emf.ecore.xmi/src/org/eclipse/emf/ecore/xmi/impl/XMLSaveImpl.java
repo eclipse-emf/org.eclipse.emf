@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.70 2007/03/23 17:36:57 marcelop Exp $
+ * $Id: XMLSaveImpl.java,v 1.71 2007/03/30 12:25:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1762,7 +1762,7 @@ public class XMLSaveImpl implements XMLSave
         {
           EClass eClass = value.eClass();
           EClass expectedType = (EClass)f.getEType();
-          if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && expectedType.isAbstract())
+          if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && (expectedType.isAbstract() || f.getEGenericType().getETypeParameter() != null))
           {
             buffer.append(helper.getQName(eClass));
             buffer.append(' ');
@@ -1815,7 +1815,7 @@ public class XMLSaveImpl implements XMLSave
           {
             EClass eClass = value.eClass();
             EClass expectedType = (EClass)f.getEType();
-            if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && expectedType.isAbstract())
+            if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && (expectedType.isAbstract() || f.getEGenericType().getETypeParameter() != null))
             {
               buffer.append(helper.getQName(eClass));
               buffer.append(' ');
@@ -1955,7 +1955,7 @@ public class XMLSaveImpl implements XMLSave
       }
       EClass eClass = remote.eClass();
       EClass expectedType = (EClass)f.getEType();
-      if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && expectedType.isAbstract())
+      if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && (expectedType.isAbstract() || f.getEGenericType().getETypeParameter() != null))
       {
         saveTypeAttribute(eClass);
       }
@@ -2201,7 +2201,7 @@ public class XMLSaveImpl implements XMLSave
       }
       EClass eClass = remote.eClass();
       EClass expectedType = (EClass) f.getEType();
-      if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && expectedType.isAbstract())
+      if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && (expectedType.isAbstract() || f.getEGenericType().getETypeParameter() != null))
       {
         saveTypeAttribute(eClass);
       }
@@ -3429,7 +3429,7 @@ public class XMLSaveImpl implements XMLSave
 
     public boolean shouldSaveType(EClass objectType, EClass featureType, EStructuralFeature feature)
     {
-      return objectType != featureType && featureType.isAbstract();
+      return objectType != featureType && (featureType.isAbstract() || feature.getEGenericType().getETypeParameter() != null);
     }
   }
 }
