@@ -108,8 +108,16 @@ String templateParameterName = null;
 if (genModel.useGenerics())
 {
   Set<String> usedNames = new HashSet<String>();
+  for (GenEnum genEnum : genPackage.getGenEnums())
+  {
+    usedNames.add(genEnum.getName());
+  }
   for (GenClass genClass : genPackage.getGenClasses())
   {
+    if (!genClass.isDynamic() && !genClass.isExternalInterface())
+    {
+      usedNames.add(genClass.getName());
+    }
     for (GenTypeParameter genTypeParameter : genClass.getGenTypeParameters())
     {
       usedNames.add(genTypeParameter.getName());
