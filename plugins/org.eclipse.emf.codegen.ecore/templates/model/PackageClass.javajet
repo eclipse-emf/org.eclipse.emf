@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.36 2007/03/05 00:24:18 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.37 2007/04/01 12:46:35 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -532,13 +532,13 @@ class InformationIterator
   InformationIterator(EGenericType eGenericType)
   {
     iterator = EcoreUtil.getAllContents(Collections.singleton(eGenericType));
-  } 
-  
+  }
+
   boolean hasNext()
   {
     return iterator.hasNext();
   }
-  
+
   Information next()
   {
     Information information = new Information();
@@ -552,7 +552,7 @@ class InformationIterator
       GenClassifier genClassifier = genModel.findGenClassifier(eGenericType.getEClassifier());
       information.type = genPackage.getPackageInstanceVariable(genClassifier.getGenPackage()) + ".get" + genClassifier.getClassifierAccessorName() + "()";
     }
-    else if (eGenericType.getETypeParameter() != null) 
+    else if (eGenericType.getETypeParameter() != null)
     {
       ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
       if (eTypeParameter.eContainer() instanceof EClass)
@@ -909,8 +909,29 @@ int maxGenericTypeAssignment = 0;
 	{
 		if (eClassifier.getInstanceClassName() == null)
 		{
+    <%ArrayList<GenClass> dynamicGenClasses = new ArrayList<GenClass>(); for (GenClass genClass : genPackage.getGenClasses()) { if (genClass.isDynamic()) { dynamicGenClasses.add(genClass); } }%>
+    <%if (dynamicGenClasses.isEmpty()) {%>
 			eClassifier.setInstanceClassName("<%=genPackage.getInterfacePackageName()%>." + eClassifier.getName());<%=genModel.getNonNLS()%>
 			setGeneratedClassName(eClassifier);
+    <%} else {%>
+			switch (eClassifier.getClassifierID())
+			{
+      <%for (GenClass genClass : dynamicGenClasses) {%>
+        <%if (genClass.isDynamic()) {%>
+				case <%=genPackage.getClassifierID(genClass)%>:
+        <%}%>
+      <%}%>
+				{
+					break;
+				}
+				default:
+				{
+					eClassifier.setInstanceClassName("<%=genPackage.getInterfacePackageName()%>." + eClassifier.getName());<%=genModel.getNonNLS()%>
+					setGeneratedClassName(eClassifier);
+					break;
+				}
+			}
+    <%}%>
 		}
 	}
 
