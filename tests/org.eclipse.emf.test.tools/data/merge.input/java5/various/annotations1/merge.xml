@@ -13,18 +13,41 @@
   In other words, a complete solution would need to distinguish the annotations
   com.example.annotations.Foo and org.example.annotations.Foo.  At this moment
   JMerger cannot make such a distinction.
+  
+  This example implements the following strategy (keep in mind that 'source' corresponds
+  to the new version while 'target' is the existing file, probably modified
+  by the developer):
+  
+  - Annotations of the form @AnnotationUpdate in the target are updated with the 
+  contents from the @AnnotationUpdate annotations in the source
+  
+  - Any annotation from the source that is not available in the target is simply 
+  added to the target
+  
+  - Any annotation that only exists in the target is commented out
   -->
 
-
+  <!--
+  This dictionary pattern is used to identify all annotations of the form
+  @AnnotationUpdate
+  --> 
   <merge:dictionaryPattern
     name="Update" 
     select="Annotation/getName" 
     match="@.*Annotation(Update)"/>
 
+  <!--
+  With this pull rule, the contents of @AnnotationUpdate in the target is 
+  replaced by the contents of the @AnnotationUpdate in the source.
+  -->
   <merge:pull 
     sourceGet="Annotation/getContents"
     targetMarkup="^Update$"
     targetPut="Annotation/setContents"/>
 
+  <!--
+  With this sweep rule, any annotation in the target that is not available in the 
+  source is commented out. 
+  -->
   <merge:sweep select="Annotation" action="comment"/>
 </merge:options>
