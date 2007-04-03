@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.18 2006/12/29 18:16:23 marcelop Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.19 2007/04/03 15:20:19 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -821,13 +821,30 @@ public class EcoreSchemaBuilder extends MapBuilder
   protected XSDSimpleTypeDefinition buildSimpleContent(XSDComplexTypeDefinition xsdComplexTypeDefinition, EStructuralFeature eStructuralFeature)
   {
     XSDSimpleTypeDefinition xsdSimpleTypeDefinition = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
-    XSDSimpleTypeDefinition baseType =  xsdComplexTypeDefinition.resolveSimpleTypeDefinitionURI(getURI(eStructuralFeature.getEType()));
-    handleImport(xsdComplexTypeDefinition.getSchema(), baseType);
-    xsdComplexTypeDefinition.setBaseTypeDefinition(baseType);
-    xsdComplexTypeDefinition.setDerivationMethod(XSDDerivationMethod.EXTENSION_LITERAL);
+    EClassifier eType = eStructuralFeature.getEType();
+    EClassifier referenceType = null;
+    XSDSimpleTypeDefinition baseType;
+    if (eStructuralFeature instanceof EReference)
+    {
+      referenceType = eType;
+      baseType =  
+        xsdComplexTypeDefinition.getSchema().getSchemaForSchema().resolveSimpleTypeDefinition
+          (((EReference)eStructuralFeature).isResolveProxies() ?  "anyURI" : "IDREF");
+      handleMultiplicity(xsdComplexTypeDefinition.getSchema(), eStructuralFeature, xsdSimpleTypeDefinition, baseType);
+    }
+    else
+    {
+      baseType = xsdComplexTypeDefinition.resolveSimpleTypeDefinitionURI(getURI(eType));
+      handleImport(xsdComplexTypeDefinition.getSchema(), baseType);
+      handleMultiplicity(xsdComplexTypeDefinition.getSchema(), eStructuralFeature, xsdSimpleTypeDefinition, baseType);
+    }
+    xsdComplexTypeDefinition.setBaseTypeDefinition(xsdSimpleTypeDefinition.getBaseType());
+    xsdComplexTypeDefinition.setDerivationMethod(xsdSimpleTypeDefinition.getContents().isEmpty() ? XSDDerivationMethod.EXTENSION_LITERAL : XSDDerivationMethod.RESTRICTION_LITERAL);
     xsdComplexTypeDefinition.setContent(xsdSimpleTypeDefinition);
         
-    buildAnnotations(xsdSimpleTypeDefinition, eStructuralFeature);
+    map(xsdSimpleTypeDefinition, eStructuralFeature);
+
+    buildAttributeInformation(xsdComplexTypeDefinition, "value", false, referenceType, xsdSimpleTypeDefinition, eStructuralFeature);
 
     return xsdSimpleTypeDefinition;
   }
@@ -885,14 +902,27 @@ public class EcoreSchemaBuilder extends MapBuilder
         handleMultiplicity(xsdComplexTypeDefinition.getSchema(), eStructuralFeature, xsdAttributeDeclaration, xsdSimpleTypeDefinition);
       }
     }
-    
+
     xsdAttributeUse.setContent(xsdAttributeDeclaration); 
     xsdComplexTypeDefinition.getAttributeContents().add(xsdAttributeUse);
     map(xsdAttributeUse, eStructuralFeature);
     
+    buildAttributeInformation(xsdComplexTypeDefinition, name, isRef, referenceType, xsdAttributeUse, eStructuralFeature);
+
+    return xsdAttributeUse;
+  }
+
+  protected void buildAttributeInformation
+    (XSDComplexTypeDefinition xsdComplexTypeDefinition, 
+     String name,
+     boolean isRef,
+     EClassifier referenceType, 
+     XSDComponent xsdComponent, 
+     EStructuralFeature eStructuralFeature)
+  {
     if (referenceType == null && eStructuralFeature.isMany())
     {
-      createEcoreAnnotation(xsdAttributeUse, "many", "true");
+      createEcoreAnnotation(xsdComponent, "many", "true");
     }
 
     if (eStructuralFeature instanceof EReference)
@@ -901,20 +931,22 @@ public class EcoreSchemaBuilder extends MapBuilder
       EReference eOpposite = eReference.getEOpposite();
       if (eOpposite != null)
       {
-        createEcoreAnnotation(xsdAttributeUse, "opposite", eOpposite.getName());
+        createEcoreAnnotation(xsdComponent, "opposite", eOpposite.getName());
       }
     }
 
-    boolean canHaveDefault = true;
+    XSDAttributeUse xsdAttriuteUse = xsdComponent instanceof XSDAttributeUse ? (XSDAttributeUse)xsdComponent : null;
+
+    boolean canHaveDefault = xsdAttriuteUse != null;
     if (eStructuralFeature.isRequired())
     {
-      if (eStructuralFeature.isTransient())
+      if (eStructuralFeature.isTransient() || xsdAttriuteUse == null)
       {
-        createEcoreAnnotation(xsdAttributeUse, "lowerBound", Integer.toString(eStructuralFeature.getLowerBound()));
+        createEcoreAnnotation(xsdComponent, "lowerBound", Integer.toString(eStructuralFeature.getLowerBound()));
       }
       else
       {
-        xsdAttributeUse.setUse(XSDAttributeUseCategory.REQUIRED_LITERAL);
+        xsdAttriuteUse.setUse(XSDAttributeUseCategory.REQUIRED_LITERAL);
         canHaveDefault = false;
       }
     }
@@ -926,19 +958,19 @@ public class EcoreSchemaBuilder extends MapBuilder
       {
         if (isRef)
         {
-          xsdAttributeUse.setConstraint(XSDConstraint.DEFAULT_LITERAL);
-          xsdAttributeUse.setLexicalValue(defaultValue);
+          xsdAttriuteUse.setConstraint(XSDConstraint.DEFAULT_LITERAL);
+          xsdAttriuteUse.setLexicalValue(defaultValue);
         }
         else
         {
+          XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttriuteUse.getAttributeDeclaration();
           xsdAttributeDeclaration.setConstraint(XSDConstraint.DEFAULT_LITERAL);
           xsdAttributeDeclaration.setLexicalValue(defaultValue);
-          
         }
       }
       else
       {
-        createEcoreAnnotation(xsdAttributeUse, "default", defaultValue);
+        createEcoreAnnotation(xsdComponent, "default", defaultValue);
       }
     }
 
@@ -946,51 +978,51 @@ public class EcoreSchemaBuilder extends MapBuilder
     {
       if (eStructuralFeature.isUnsettable())
       {
-        createEcoreAnnotation(xsdAttributeUse, "unsettable", "true");
+        createEcoreAnnotation(xsdComponent, "unsettable", "true");
       }
     }
     else if ((eStructuralFeature.getEType().getDefaultValue() != null || eStructuralFeature.getDefaultValueLiteral() != null) !=
                 eStructuralFeature.isUnsettable())
     {
-      createEcoreAnnotation(xsdAttributeUse, "unsettable", Boolean.toString(eStructuralFeature.isUnsettable()));
+      createEcoreAnnotation(xsdComponent, "unsettable", Boolean.toString(eStructuralFeature.isUnsettable()));
     }
 
     String ecoreName = eStructuralFeature.getName();
     if (!name.equals(ecoreName) || Character.isUpperCase(ecoreName.charAt(0)) || ecoreName.indexOf('_') != -1)
     {
-      createEcoreAnnotation(xsdAttributeUse, "name", ecoreName);
+      createEcoreAnnotation(xsdComponent, "name", ecoreName);
     }
     
     if (eStructuralFeature.isMany() && !eStructuralFeature.isOrdered())
     {
-      createEcoreAnnotation(xsdAttributeUse, "ordered", "false");
+      createEcoreAnnotation(xsdComponent, "ordered", "false");
     }
     
     if (eStructuralFeature.isMany() && eStructuralFeature.isUnique() && eStructuralFeature instanceof EAttribute)
     {
-      createEcoreAnnotation(xsdAttributeUse, "unique", "true");
+      createEcoreAnnotation(xsdComponent, "unique", "true");
     }
     
     if (!eStructuralFeature.isChangeable())
     {
-      createEcoreAnnotation(xsdAttributeUse, "changeable", "false");
+      createEcoreAnnotation(xsdComponent, "changeable", "false");
     }
     
     if (extendedMetaData.getGroup(eStructuralFeature) == null)
     {
       if (eStructuralFeature.isDerived())
       {
-        createEcoreAnnotation(xsdAttributeUse, "derived", "true");
+        createEcoreAnnotation(xsdComponent, "derived", "true");
       }
       
       if (eStructuralFeature.isTransient())
       {
-        createEcoreAnnotation(xsdAttributeUse, "transient", "true");
+        createEcoreAnnotation(xsdComponent, "transient", "true");
       }
       
       if (eStructuralFeature.isVolatile())
       {
-        createEcoreAnnotation(xsdAttributeUse, "volatile", "true");
+        createEcoreAnnotation(xsdComponent, "volatile", "true");
       }
     }
     
@@ -1003,35 +1035,42 @@ public class EcoreSchemaBuilder extends MapBuilder
           (xsdComplexTypeDefinition.getSchema().getQNamePrefixToNamespaceMap(), 
             referenceType.getEPackage().getNsPrefix(),
             xsdTypeDefinition.getTargetNamespace());
-      createEcoreAnnotation(xsdAttributeUse, "reference", prefix + ":" + xsdTypeDefinition.getName());
+      createEcoreAnnotation(xsdComponent, "reference", prefix + ":" + xsdTypeDefinition.getName());
     }
     
     if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.GET))
     {
-      createEcoreAnnotation(xsdAttributeUse, "suppressedGetVisibility", "true");
+      createEcoreAnnotation(xsdComponent, "suppressedGetVisibility", "true");
     }
     if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.SET))
     {
-      createEcoreAnnotation(xsdAttributeUse, "suppressedSetVisibility", "true");
+      createEcoreAnnotation(xsdComponent, "suppressedSetVisibility", "true");
     }
     if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET))
     {
-      createEcoreAnnotation(xsdAttributeUse, "suppressedIsSetVisibility", "true");
+      createEcoreAnnotation(xsdComponent, "suppressedIsSetVisibility", "true");
     }
     if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET))
     {
-      createEcoreAnnotation(xsdAttributeUse, "suppressedUnsetVisibility", "true");
+      createEcoreAnnotation(xsdComponent, "suppressedUnsetVisibility", "true");
     }
     
-    buildAnnotations(xsdAttributeUse, eStructuralFeature);
-
-    return xsdAttributeUse;
+    buildAnnotations(xsdComponent, eStructuralFeature);
   }
   
   protected void handleMultiplicity
     (XSDSchema xsdSchema,
      EStructuralFeature eStructuralFeature, 
      XSDAttributeDeclaration xsdAttributeDeclaration, 
+     XSDSimpleTypeDefinition xsdSimpleTypeDefinition)
+  {
+    handleMultiplicity(xsdSchema, eStructuralFeature, (XSDComponent)xsdAttributeDeclaration, xsdSimpleTypeDefinition);
+  }
+
+  protected void handleMultiplicity
+    (XSDSchema xsdSchema,
+     EStructuralFeature eStructuralFeature, 
+     XSDComponent xsdComponent, 
      XSDSimpleTypeDefinition xsdSimpleTypeDefinition)
   {
     if (eStructuralFeature.isMany())
@@ -1078,23 +1117,51 @@ public class EcoreSchemaBuilder extends MapBuilder
             xsdRestrictedTypeDefinition.getFacetContents().add(xsdMaxLengthFacet);
           }
         }
-        xsdAttributeDeclaration.setAnonymousTypeDefinition(xsdRestrictedTypeDefinition);
+        if (xsdComponent instanceof XSDAttributeDeclaration)
+        {
+          ((XSDAttributeDeclaration)xsdComponent).setAnonymousTypeDefinition(xsdRestrictedTypeDefinition);
+        }
+        else
+        {
+          ((XSDSimpleTypeDefinition)xsdComponent).getContents().add(xsdRestrictedTypeDefinition);
+        }
       }
       else
       {
         if (xsdListTypeDefinition.getContainer() == null)
         {
-          xsdAttributeDeclaration.setAnonymousTypeDefinition(xsdListTypeDefinition);
+          if (xsdComponent instanceof XSDAttributeDeclaration)
+          {
+            ((XSDAttributeDeclaration)xsdComponent).setAnonymousTypeDefinition(xsdListTypeDefinition);
+          }
+          else
+          {
+            ((XSDSimpleTypeDefinition)xsdComponent).getContents().add(xsdListTypeDefinition);
+          }
         }
         else
         {
-          xsdAttributeDeclaration.setTypeDefinition(xsdListTypeDefinition);
+          if (xsdComponent instanceof XSDAttributeDeclaration)
+          {
+            ((XSDAttributeDeclaration)xsdComponent).setTypeDefinition(xsdListTypeDefinition);
+          }
+          else
+          {
+            ((XSDSimpleTypeDefinition)xsdComponent).setBaseTypeDefinition(xsdListTypeDefinition);
+          }
         }
       }
     }
     else
     {
-      xsdAttributeDeclaration.setTypeDefinition(xsdSimpleTypeDefinition);
+      if (xsdComponent instanceof XSDAttributeDeclaration)
+      {
+        ((XSDAttributeDeclaration)xsdComponent).setTypeDefinition(xsdSimpleTypeDefinition);
+      }
+      else
+      {
+        ((XSDSimpleTypeDefinition)xsdComponent).setBaseTypeDefinition(xsdSimpleTypeDefinition);
+      }
     }
   }
 
