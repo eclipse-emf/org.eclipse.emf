@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.77 2007/04/03 15:19:57 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.78 2007/04/03 15:54:05 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2473,9 +2473,12 @@ public class XSDEcoreBuilder extends MapBuilder
     for (URI uri : uris)
     {
       Resource resource = resourceSet.getResource(uri, true);
-      if (!resource.getContents().isEmpty() && resource.getContents().get(0) instanceof XSDSchema)
+      for (Object object : resource.getContents())
       {
-        generate((XSDSchema)resource.getContents().get(0));
+        if (object instanceof XSDSchema)
+        {
+          generate((XSDSchema)object);
+        }
       }
     }
 
@@ -2578,9 +2581,12 @@ public class XSDEcoreBuilder extends MapBuilder
   {
     ResourceSet resourceSet = createResourceSet();
     Resource resource = resourceSet.getResource(uri, true);
-    if (!resource.getContents().isEmpty() && resource.getContents().get(0) instanceof XSDSchema)
+    for (Object object : resource.getContents())
     {
-      generate((XSDSchema)resource.getContents().get(0));
+      if (object instanceof XSDSchema)
+      {
+        generate((XSDSchema)object);
+      }
     }
 
     List<EObject> result = new ArrayList<EObject>(targetNamespaceToEPackageMap.values());
