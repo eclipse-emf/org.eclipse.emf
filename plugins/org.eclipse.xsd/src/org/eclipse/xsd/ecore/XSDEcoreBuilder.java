@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.76 2007/03/23 13:23:20 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.77 2007/04/03 15:19:57 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -775,16 +775,25 @@ public class XSDEcoreBuilder extends MapBuilder
       extendedMetaData.setContentKind(eClass, ExtendedMetaData.SIMPLE_CONTENT);
       if (!"SimpleAnyType".equals(eClass.getName()) || !XMLTypePackage.eNS_URI.equals(eClass.getEPackage().getNsURI()))
       {
-        EClassifier eClassifier = getEClassifier(xsdComplexTypeDefinition.getSimpleType());
         if (eClass.getEAllStructuralFeatures().isEmpty())
         {
+          XSDComplexTypeContent xsdComplexTypeContent = xsdComplexTypeDefinition.getContent();
+          String name = getEcoreAttribute(xsdComplexTypeContent, "name");
+          if (name == null)
+          {
+            name = "value";
+          }
           createFeature
-            (eClass,
-             "value",
-             eClassifier,
-             null,
-             0,
-             1);
+            (eClass, 
+             null, 
+             name, 
+             xsdComplexTypeContent, 
+             false);
+        }
+        else
+        {
+          XSDSimpleTypeDefinition xsdSimpleTypeDefinition = xsdComplexTypeDefinition.getSimpleType();
+          getEClassifier(xsdSimpleTypeDefinition);
         }
       }
     }
@@ -1512,10 +1521,11 @@ public class XSDEcoreBuilder extends MapBuilder
       eReference.setUpperBound(maxOccurs);
 
       eClass.getEStructuralFeatures().add(eReference);
-      if (xsdComponent == null)
+      if (xsdComponent == null || xsdComponent instanceof XSDSimpleTypeDefinition)
       {
         extendedMetaData.setName(eReference, ":" + eClass.getEAllStructuralFeatures().indexOf(eReference));
         extendedMetaData.setFeatureKind(eReference, ExtendedMetaData.SIMPLE_FEATURE);
+        eReference.setResolveProxies(!isLocalReferenceType((XSDSimpleTypeDefinition)xsdComponent));
       }
       else 
       {
@@ -1644,7 +1654,7 @@ public class XSDEcoreBuilder extends MapBuilder
       eAttribute.setUpperBound(maxOccurs);
       eClass.getEStructuralFeatures().add(eAttribute);
 
-      if (xsdComponent == null)
+      if (xsdComponent == null || xsdComponent instanceof XSDSimpleTypeDefinition)
       {
         extendedMetaData.setName(eAttribute, ":" + eClass.getEAllStructuralFeatures().indexOf(eAttribute));
         extendedMetaData.setFeatureKind(eAttribute, ExtendedMetaData.SIMPLE_FEATURE);
@@ -1781,7 +1791,7 @@ public class XSDEcoreBuilder extends MapBuilder
 
   protected XSDTypeDefinition getEffectiveTypeDefinition(XSDComponent xsdComponent, XSDFeature xsdFeature) 
   {
-    return xsdFeature.getType();
+    return xsdFeature == null ? ((XSDComplexTypeDefinition)xsdComponent.eContainer()).getSimpleType() : xsdFeature.getType();
   }
 
   protected EStructuralFeature createFeature
@@ -1877,7 +1887,7 @@ public class XSDEcoreBuilder extends MapBuilder
     }
   
     XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdComponent, "reference");
-    if (referenceType == null)
+    if (referenceType == null && xsdAttributeDeclaration != null)
     {
       referenceType = getEcoreTypeQNameAttribute(xsdAttributeDeclaration, "reference");
     }
