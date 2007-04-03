@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.37 2006/12/10 14:05:15 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.38 2007/04/03 12:10:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -896,6 +896,12 @@ public class XMLHelperImpl implements XMLHelper
   {
     if (extendedMetaData != null)
     {
+      // Once we see a lookup of an element in the null namespace, we should behave as if there has been an explicit xmlns=""
+      //
+      if (isElement && namespaceURI == null)
+      {
+        seenEmptyStringMapping = true;
+      }
       EStructuralFeature eStructuralFeature = 
         isElement ? 
           extendedMetaData.getElement(eClass, namespaceURI, name) : 
@@ -1592,12 +1598,32 @@ public class XMLHelperImpl implements XMLHelper
   {
     if (uri != null)
     {
+      int lowerBound = 0;
       int index = 1;
-      while (prefixesToURIs.containsKey(prefix + "_" + index))
+      String newPrefix;
+      while (prefixesToURIs.containsKey(newPrefix = prefix + "_" + index))
       {
-        ++index;
+        lowerBound = index;
+        index <<= 1;
       }
-      prefixesToURIs.put(prefix + "_" + index, uri);
+      if (lowerBound != 0)
+      {
+        int upperBound = index;
+        while (lowerBound + 1 < upperBound)
+        {
+          index = (lowerBound + upperBound) >> 1;
+          if (prefixesToURIs.containsKey(prefix + "_" + index))
+          {
+            lowerBound = index;
+          }
+          else
+          {
+            upperBound = index;
+          }
+        }
+        newPrefix = prefix + "_" + (lowerBound + 1);
+      }
+      prefixesToURIs.put(newPrefix, uri);
     }
   }
 
