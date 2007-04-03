@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.34 2006/05/12 15:50:44 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.34.2.1 2007/04/03 12:14:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1567,12 +1567,32 @@ public class XMLHelperImpl implements XMLHelper
   {
     if (uri != null)
     {
+      int lowerBound = 0;
       int index = 1;
-      while (prefixesToURIs.containsKey(prefix + "_" + index))
+      String newPrefix;
+      while (prefixesToURIs.containsKey(newPrefix = prefix + "_" + index))
       {
-        ++index;
+        lowerBound = index;
+        index <<= 1;
       }
-      prefixesToURIs.put(prefix + "_" + index, uri);
+      if (lowerBound != 0)
+      {
+        int upperBound = index;
+        while (lowerBound + 1 < upperBound)
+        {
+          index = (lowerBound + upperBound) >> 1;
+          if (prefixesToURIs.containsKey(prefix + "_" + index))
+          {
+            lowerBound = index;
+          }
+          else
+          {
+            upperBound = index;
+          }
+        }
+        newPrefix = prefix + "_" + (lowerBound + 1);
+      }
+      prefixesToURIs.put(newPrefix, uri);
     }
   }
 
