@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.70 2007/03/23 17:36:57 marcelop Exp $
+ * $Id: XMLHandler.java,v 1.71 2007/04/03 12:09:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -324,6 +324,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected XMLResource.ResourceEntityHandler resourceEntityHandler;
   protected XMLResource.URIHandler uriHandler;
   protected EObject documentRoot;
+  protected boolean usedNullNamespacePackage;
 
   /**
    */
@@ -620,6 +621,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     resourceEntityHandler = null;
     uriHandler = null;
     documentRoot = null;
+    usedNullNamespacePackage = false;
   }
 
   //
@@ -1152,6 +1154,14 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     if (deferredExtent != null)
     {
       extent.addAll(deferredExtent);
+    }
+
+    // Pretend there is an xmlns="" because we really need to ensure that the null prefix 
+    // isn't used to denote something other than the null namespace.
+    //
+    if (usedNullNamespacePackage)
+    {
+      helper.addPrefix("", "");
     }
     helper.recordPrefixToURIMapping();
     helper.popContext();
@@ -2095,14 +2105,19 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   {
     if (newObject == null && top && (recordUnknownFeature || processAnyXML) && factory != null && extendedMetaData != null)
     {
+      String namespace = extendedMetaData.getNamespace(factory.getEPackage());
+      if (namespace == null)
+      {
+        usedNullNamespacePackage = true;
+      }
       if (useNewMethods)
       {
-        EClassifier type = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName);
+        EClassifier type = extendedMetaData.demandType(namespace, typeName);
         newObject = createObject(type.getEPackage().getEFactoryInstance(), type, false);
       }
       else
       {
-        factory = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
+        factory = extendedMetaData.demandType(namespace, typeName).getEPackage().getEFactoryInstance();
         newObject = createObjectFromFactory(factory, typeName);
       }
     }
@@ -2177,14 +2192,19 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       {
         
         EObject result = null;
+        String namespace = extendedMetaData.getNamespace(factory.getEPackage());
+        if (namespace == null)
+        {
+          usedNullNamespacePackage = true;
+        }
         if (useNewMethods)
         {
-          EClassifier type = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName);
+          EClassifier type = extendedMetaData.demandType(namespace, typeName);
           result = createObject(type.getEPackage().getEFactoryInstance(), type, false);
         }
         else
         {
-          factory = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
+          factory = extendedMetaData.demandType(namespace, typeName).getEPackage().getEFactoryInstance();
           result = createObjectFromFactory(factory, typeName);
         }
         EObject peekObject = objects.peekEObject();
@@ -2212,14 +2232,19 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
             case ExtendedMetaData.SKIP_PROCESSING:
             {
               // EATM Demand create metadata; needs to depend on processing mode...
+              String factoryNamespace = extendedMetaData.getNamespace(factory.getEPackage());
+              if (factoryNamespace == null)
+              {
+                usedNullNamespacePackage = true;
+              }
               if (useNewMethods)
               {
-                EClassifier type = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName);
+                EClassifier type = extendedMetaData.demandType(factoryNamespace, typeName);
                 return createObject(type.getEPackage().getEFactoryInstance(), type, false);
               }
               else
               {
-                factory = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
+                factory = extendedMetaData.demandType(factoryNamespace, typeName).getEPackage().getEFactoryInstance();
                 return createObjectFromFactory(factory, typeName);
               }
             }
@@ -2294,6 +2319,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       {
         factory = ePackage.getEFactoryInstance();
         prefixesToFactories.put(prefix, factory);
+        if (uri == null)
+        {
+          usedNullNamespacePackage = true;
+        }
       }
     }
 
