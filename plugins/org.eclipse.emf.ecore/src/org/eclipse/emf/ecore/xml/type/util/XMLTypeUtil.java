@@ -12,17 +12,20 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.9 2006/12/05 20:22:30 emerks Exp $
+ * $Id: XMLTypeUtil.java,v 1.10 2007/04/04 20:05:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
 
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import javax.xml.namespace.QName;
+
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue;
-import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.ecore.xml.type.internal.RegEx;
-import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
-import org.eclipse.emf.ecore.xml.type.internal.XMLDuration;
 
 
 /**
@@ -37,12 +40,48 @@ public final class XMLTypeUtil
 
   public static int compareCalendar(Object calendar1, Object calendar2)
   {
-    return XMLCalendar.compare((XMLCalendar)calendar1, (XMLCalendar)calendar2);
+    switch (((XMLGregorianCalendar)calendar1).compare((XMLGregorianCalendar)calendar2))
+    {
+      case DatatypeConstants.EQUAL:
+      {
+        return EQUALS;
+      }
+      case DatatypeConstants.LESSER:
+      {
+        return LESS_THAN;
+      }
+      case DatatypeConstants.GREATER:
+      {
+        return GREATER_THAN;
+      }
+      default:
+      {
+        return INDETERMINATE;
+      }
+    }
   }
 
   public static int compareDuration(Object duration1, Object duration2)
   {
-    return XMLDuration.compare((XMLDuration)duration1, (XMLDuration)duration2);
+    switch (((Duration)duration1).compare((Duration)duration2))
+    {
+      case DatatypeConstants.EQUAL:
+      {
+        return EQUALS;
+      }
+      case DatatypeConstants.LESSER:
+      {
+        return LESS_THAN;
+      }
+      case DatatypeConstants.GREATER:
+      {
+        return GREATER_THAN;
+      }
+      default:
+      {
+        return INDETERMINATE;
+      }
+    }
   }
 
   public static boolean isSpace(char value)
@@ -180,7 +219,7 @@ public final class XMLTypeUtil
    */
   public static Object createQName(String namespaceUri, String localPart, String prefix)
   {
-    return new QName(namespaceUri, localPart, prefix);
+    return new org.eclipse.emf.ecore.xml.type.internal.QName(namespaceUri, localPart, prefix);
   }
   
   /**
@@ -189,12 +228,23 @@ public final class XMLTypeUtil
    * @param localPart localPart (not null)
    * @param prefix prefix value or null
    */
+  @Deprecated
   public static void setQNameValues(Object qname, String namespaceUri, String localPart, String prefix)
   {
-      QName qn = (QName)qname;
-      qn.setLocalPart(localPart);
-      qn.setNamespaceURI(namespaceUri);
-      qn.setPrefix(prefix);
+    if (!(qname instanceof org.eclipse.emf.ecore.xml.type.internal.QName))
+    {
+      throw new UnsupportedOperationException("QNames are immutable, so this can't be supported");
+    }
+    if (namespaceUri == null)
+    {
+      namespaceUri = "";
+    }
+    org.eclipse.emf.ecore.xml.type.internal.QName qn = (org.eclipse.emf.ecore.xml.type.internal.QName)qname;
+    if (!qn.getLocalPart().equals(localPart) || qn.getNamespaceURI().equals(namespaceUri))
+    {
+      throw new UnsupportedOperationException("QNames are immutable, so this can't be supported");
+    }
+    qn.setPrefix(prefix);
   }
   
   /**
