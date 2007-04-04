@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeResourceImpl.java,v 1.4 2006/12/09 18:14:40 emerks Exp $
+ * $Id: XMLTypeResourceImpl.java,v 1.5 2007/04/04 20:04:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -21,6 +21,10 @@ import java.math.BigInteger;
 
 
 import java.util.List;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
+
 import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -1155,9 +1159,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object popDate(XMLTypeResourceImpl.DataFrame date)
+    public XMLGregorianCalendar popDate(XMLTypeResourceImpl.DataFrame date)
     {
-      Object resultDateValue = XMLTypeFactory.eINSTANCE.createDate(date.popValue());
+      XMLGregorianCalendar resultDateValue = XMLTypeFactory.eINSTANCE.createDate(date.popValue());
       this.date = date;
       return resultDateValue;
     }
@@ -1181,9 +1185,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object popDateTime(XMLTypeResourceImpl.DataFrame dateTime)
+    public XMLGregorianCalendar popDateTime(XMLTypeResourceImpl.DataFrame dateTime)
     {
-      Object resultDateTimeValue = XMLTypeFactory.eINSTANCE.createDateTime(dateTime.popValue());
+      XMLGregorianCalendar resultDateTimeValue = XMLTypeFactory.eINSTANCE.createDateTime(dateTime.popValue());
       this.dateTime = dateTime;
       return resultDateTimeValue;
     }
@@ -1285,9 +1289,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object popDuration(XMLTypeResourceImpl.DataFrame duration)
+    public Duration popDuration(XMLTypeResourceImpl.DataFrame duration)
     {
-      Object resultDurationValue = XMLTypeFactory.eINSTANCE.createDuration(duration.popValue());
+      Duration resultDurationValue = XMLTypeFactory.eINSTANCE.createDuration(duration.popValue());
       this.duration = duration;
       return resultDurationValue;
     }
@@ -1441,9 +1445,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object popGDay(XMLTypeResourceImpl.DataFrame gDay)
+    public XMLGregorianCalendar popGDay(XMLTypeResourceImpl.DataFrame gDay)
     {
-      Object resultGDayValue = XMLTypeFactory.eINSTANCE.createGDay(gDay.popValue());
+      XMLGregorianCalendar resultGDayValue = XMLTypeFactory.eINSTANCE.createGDay(gDay.popValue());
       this.gDay = gDay;
       return resultGDayValue;
     }
@@ -1467,9 +1471,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object popGMonth(XMLTypeResourceImpl.DataFrame gMonth)
+    public XMLGregorianCalendar popGMonth(XMLTypeResourceImpl.DataFrame gMonth)
     {
-      Object resultGMonthValue = XMLTypeFactory.eINSTANCE.createGMonth(gMonth.popValue());
+      XMLGregorianCalendar resultGMonthValue = XMLTypeFactory.eINSTANCE.createGMonth(gMonth.popValue());
       this.gMonth = gMonth;
       return resultGMonthValue;
     }
@@ -1493,9 +1497,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object popGMonthDay(XMLTypeResourceImpl.DataFrame gMonthDay)
+    public XMLGregorianCalendar popGMonthDay(XMLTypeResourceImpl.DataFrame gMonthDay)
     {
-      Object resultGMonthDayValue = XMLTypeFactory.eINSTANCE.createGMonthDay(gMonthDay.popValue());
+      XMLGregorianCalendar resultGMonthDayValue = XMLTypeFactory.eINSTANCE.createGMonthDay(gMonthDay.popValue());
       this.gMonthDay = gMonthDay;
       return resultGMonthDayValue;
     }
@@ -1519,9 +1523,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object popGYear(XMLTypeResourceImpl.DataFrame gYear)
+    public XMLGregorianCalendar popGYear(XMLTypeResourceImpl.DataFrame gYear)
     {
-      Object resultGYearValue = XMLTypeFactory.eINSTANCE.createGYear(gYear.popValue());
+      XMLGregorianCalendar resultGYearValue = XMLTypeFactory.eINSTANCE.createGYear(gYear.popValue());
       this.gYear = gYear;
       return resultGYearValue;
     }
@@ -1545,9 +1549,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object popGYearMonth(XMLTypeResourceImpl.DataFrame gYearMonth)
+    public XMLGregorianCalendar popGYearMonth(XMLTypeResourceImpl.DataFrame gYearMonth)
     {
-      Object resultGYearMonthValue = XMLTypeFactory.eINSTANCE.createGYearMonth(gYearMonth.popValue());
+      XMLGregorianCalendar resultGYearMonthValue = XMLTypeFactory.eINSTANCE.createGYearMonth(gYearMonth.popValue());
       this.gYearMonth = gYearMonth;
       return resultGYearMonthValue;
     }
@@ -2091,9 +2095,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object popNOTATION(XMLTypeResourceImpl.DataFrame notation)
+    public QName popNOTATION(XMLTypeResourceImpl.DataFrame notation)
     {
-      Object resultNOTATIONValue = XMLTypeFactory.eINSTANCE.createNOTATION(notation.popValue());
+      QName resultNOTATIONValue = XMLTypeFactory.eINSTANCE.createNOTATION(notation.popValue());
       this.notation = notation;
       return resultNOTATIONValue;
     }
@@ -2143,9 +2147,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object popQName(XMLTypeResourceImpl.DataFrame qName)
+    public QName popQName(XMLTypeResourceImpl.DataFrame qName)
     {
-      Object resultQNameValue = XMLTypeFactory.eINSTANCE.createQName(qName.popValue());
+      QName resultQNameValue = XMLTypeFactory.eINSTANCE.createQName(qName.popValue());
       this.qName = qName;
       return resultQNameValue;
     }
@@ -2247,9 +2251,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object popTime(XMLTypeResourceImpl.DataFrame time)
+    public XMLGregorianCalendar popTime(XMLTypeResourceImpl.DataFrame time)
     {
-      Object resultTimeValue = XMLTypeFactory.eINSTANCE.createTime(time.popValue());
+      XMLGregorianCalendar resultTimeValue = XMLTypeFactory.eINSTANCE.createTime(time.popValue());
       this.time = time;
       return resultTimeValue;
     }
