@@ -95,3 +95,4 @@ for packSum in `find $destDir -name "package-summary.html" | sort`; do
 done
 echo '  </topic>' >> $trXML;
 echo '</toc>' >> $trXML;
+	
