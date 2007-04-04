@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.19 2006/12/29 18:09:56 marcelop Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.20 2007/04/04 20:03:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -21,6 +21,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -1512,22 +1515,22 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     initEDataType(booleanObjectEDataType, Boolean.class, "BooleanObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(byteEDataType, byte.class, "Byte", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(byteObjectEDataType, Byte.class, "ByteObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(dateEDataType, Object.class, "Date", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(dateTimeEDataType, Object.class, "DateTime", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(dateEDataType, XMLGregorianCalendar.class, "Date", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(dateTimeEDataType, XMLGregorianCalendar.class, "DateTime", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(decimalEDataType, BigDecimal.class, "Decimal", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(doubleEDataType, double.class, "Double", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(doubleObjectEDataType, Double.class, "DoubleObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(durationEDataType, Object.class, "Duration", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(durationEDataType, Duration.class, "Duration", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(entitiesEDataType, List.class, "ENTITIES", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(entitiesBaseEDataType, List.class, "ENTITIESBase", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(entityEDataType, String.class, "ENTITY", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(floatEDataType, float.class, "Float", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(floatObjectEDataType, Float.class, "FloatObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(gDayEDataType, Object.class, "GDay", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(gMonthEDataType, Object.class, "GMonth", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(gMonthDayEDataType, Object.class, "GMonthDay", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(gYearEDataType, Object.class, "GYear", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(gYearMonthEDataType, Object.class, "GYearMonth", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(gDayEDataType, XMLGregorianCalendar.class, "GDay", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(gMonthEDataType, XMLGregorianCalendar.class, "GMonth", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(gMonthDayEDataType, XMLGregorianCalendar.class, "GMonthDay", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(gYearEDataType, XMLGregorianCalendar.class, "GYear", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(gYearMonthEDataType, XMLGregorianCalendar.class, "GYearMonth", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(hexBinaryEDataType, byte[].class, "HexBinary", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(idEDataType, String.class, "ID", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(idrefEDataType, String.class, "IDREF", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -1548,13 +1551,13 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     initEDataType(nonNegativeIntegerEDataType, BigInteger.class, "NonNegativeInteger", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(nonPositiveIntegerEDataType, BigInteger.class, "NonPositiveInteger", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(normalizedStringEDataType, String.class, "NormalizedString", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(notationEDataType, Object.class, "NOTATION", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(notationEDataType, QName.class, "NOTATION", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(positiveIntegerEDataType, BigInteger.class, "PositiveInteger", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(qNameEDataType, Object.class, "QName", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(qNameEDataType, QName.class, "QName", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(shortEDataType, short.class, "Short", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(shortObjectEDataType, Short.class, "ShortObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(stringEDataType, String.class, "String", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(timeEDataType, Object.class, "Time", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(timeEDataType, XMLGregorianCalendar.class, "Time", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(tokenEDataType, String.class, "Token", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(unsignedByteEDataType, short.class, "UnsignedByte", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(unsignedByteObjectEDataType, Short.class, "UnsignedByteObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -1677,7 +1680,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "date",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation
@@ -1686,7 +1688,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "dateTime",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation
@@ -1719,7 +1720,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "duration",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation
@@ -1769,7 +1769,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "gDay",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation
@@ -1778,7 +1777,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "gMonth",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation
@@ -1787,7 +1785,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "gMonthDay",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation
@@ -1796,7 +1793,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "gYear",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation
@@ -1805,7 +1801,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "gYearMonth",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation
@@ -1981,7 +1976,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "NOTATION",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation
@@ -2023,7 +2017,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "QName",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation
@@ -2087,7 +2080,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        new String[] 
        {
        "name", "time",
-       "baseType", "anySimpleType",
        "whiteSpace", "collapse"
        });		
     addAnnotation

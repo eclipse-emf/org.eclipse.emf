@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.25 2006/12/09 18:13:09 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.26 2007/04/04 20:03:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -28,6 +28,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -37,7 +41,6 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.eclipse.emf.ecore.xml.type.*;
-import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.emf.ecore.xml.type.internal.XMLDuration;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.Base64;
@@ -224,7 +227,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createDate(String literal)
+  public XMLGregorianCalendar createDate(String literal)
   {
     return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.DATE);
   }
@@ -234,6 +237,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public String convertDate(XMLGregorianCalendar instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  @Deprecated
   public String convertDate(Object instanceValue)
   {
     if (instanceValue == null)
@@ -244,7 +253,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     {
       // Bug 124306: we should rely on XMLCalendar to normalize Dave value, to ensure that all Date value
       // fields are taken into account.
-      return new XMLCalendar((Date)instanceValue, XMLCalendar.DATE).toString();
+      XMLGregorianCalendar value = new XMLCalendar((Date)instanceValue, XMLCalendar.DATE).normalize();
+      value.setHour(DatatypeConstants.FIELD_UNDEFINED);
+      value.setMinute(DatatypeConstants.FIELD_UNDEFINED);
+      value.setSecond(DatatypeConstants.FIELD_UNDEFINED);
+      value.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);
+      return value.toString();
     }
     return instanceValue.toString();
   }
@@ -254,7 +268,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createDateTime(String literal)
+  public XMLGregorianCalendar createDateTime(String literal)
   {
     return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.DATETIME);
   }
@@ -264,6 +278,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public String convertDateTime(XMLGregorianCalendar instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  @Deprecated
   public String convertDateTime(Object instanceValue)
   {
     if (instanceValue == null)
@@ -342,7 +362,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createDuration(String literal)
+  public Duration createDuration(String literal)
   {
     return literal == null ? null : new XMLDuration(collapseWhiteSpace(literal));
   }
@@ -352,6 +372,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public String convertDuration(Duration instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  @Deprecated
   public String convertDuration(Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
@@ -526,7 +552,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createGDay(String literal)
+  public XMLGregorianCalendar createGDay(String literal)
   {
     return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.GDAY);
   }
@@ -536,6 +562,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public String convertGDay(XMLGregorianCalendar instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
   public String convertGDay(Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
@@ -546,7 +577,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createGMonth(String literal)
+  public XMLGregorianCalendar createGMonth(String literal)
   {
     return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.GMONTH);
   }
@@ -556,6 +587,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public String convertGMonth(XMLGregorianCalendar instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  @Deprecated
   public String convertGMonth(Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
@@ -566,7 +603,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createGMonthDay(String literal)
+  public XMLGregorianCalendar createGMonthDay(String literal)
   {
     return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.GMONTHDAY);
   }
@@ -576,6 +613,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public String convertGMonthDay(XMLGregorianCalendar instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  @Deprecated
   public String convertGMonthDay(Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
@@ -586,7 +629,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createGYear(String literal)
+  public XMLGregorianCalendar createGYear(String literal)
   {
     return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.GYEAR);
   }
@@ -596,6 +639,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public String convertGYear(XMLGregorianCalendar instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  @Deprecated
   public String convertGYear(Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
@@ -606,7 +655,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createGYearMonth(String literal)
+  public XMLGregorianCalendar createGYearMonth(String literal)
   {
     return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.GYEARMONTH);
   }
@@ -616,6 +665,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public String convertGYearMonth(XMLGregorianCalendar instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  @Deprecated
   public String convertGYearMonth(Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
@@ -1188,9 +1243,9 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createNOTATION(String literal)
+  public QName createNOTATION(String literal)
   {
-    return literal == null ? null : new QName(collapseWhiteSpace(literal)); 
+    return createQName(literal);
   }
 
   /**
@@ -1198,9 +1253,15 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public String convertNOTATION(QName instanceValue)
+  {
+    return convertQName(instanceValue);
+  }
+
+  @Deprecated
   public String convertNOTATION(Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return convertNOTATION((QName)instanceValue);
   }
 
   /**
@@ -1248,9 +1309,9 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createQName(String literal)
+  public QName createQName(String literal)
   {
-    return literal == null ? null : new QName(collapseWhiteSpace(literal));    
+    return literal == null ? null : new org.eclipse.emf.ecore.xml.type.internal.QName(collapseWhiteSpace(literal));    
   }
 
   /**
@@ -1258,9 +1319,23 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public String convertQName(QName instanceValue)
+  {
+    if (instanceValue == null)
+    {
+      return null;
+    }
+    else
+    {
+      String prefix = instanceValue.getPrefix();
+      return prefix.length() == 0 ? instanceValue.getLocalPart() : prefix + ':' + instanceValue.getLocalPart();
+    }
+  }
+
+  @Deprecated
   public String convertQName(Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return convertQName((QName)instanceValue);
   }
 
   /**
@@ -1328,7 +1403,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createTime(String literal)
+  public XMLGregorianCalendar createTime(String literal)
   {
     return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.TIME);
   }
@@ -1338,6 +1413,12 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public String convertTime(XMLGregorianCalendar instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  @Deprecated
   public String convertTime(Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
@@ -2538,7 +2619,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   public Object createGYearMonthFromString(EDataType eDataType, String initialValue)
   {
     return createGYearMonth(initialValue);
-}
+  }
 
   /**
    * <!-- begin-user-doc -->
@@ -2687,7 +2768,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertNOTATIONToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return convertNOTATION((QName)instanceValue);
   }
 
   /**
@@ -2707,7 +2788,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertQNameToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return convertQName((QName)instanceValue);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactory.java,v 1.6 2006/12/09 18:09:56 emerks Exp $
+ * $Id: XMLTypeFactory.java,v 1.7 2007/04/04 20:03:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -20,6 +20,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import java.util.List;
+
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -225,7 +229,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  Object createDate(String literal);
+  XMLGregorianCalendar createDate(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>Date</em>'.
@@ -235,6 +239,9 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
+  String convertDate(XMLGregorianCalendar instanceValue);
+
+  @Deprecated
   String convertDate(Object instanceValue);
 
   /**
@@ -245,7 +252,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  Object createDateTime(String literal);
+  XMLGregorianCalendar createDateTime(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>Date Time</em>'.
@@ -255,6 +262,9 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
+  String convertDateTime(XMLGregorianCalendar instanceValue);
+  
+  @Deprecated
   String convertDateTime(Object instanceValue);
 
   /**
@@ -325,7 +335,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  Object createDuration(String literal);
+  Duration createDuration(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>Duration</em>'.
@@ -335,6 +345,9 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
+  String convertDuration(Duration instanceValue);
+  
+  @Deprecated
   String convertDuration(Object instanceValue);
 
   /**
@@ -445,7 +458,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  Object createGDay(String literal);
+  XMLGregorianCalendar createGDay(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>GDay</em>'.
@@ -455,6 +468,8 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
+  String convertGDay(XMLGregorianCalendar instanceValue);
+  @Deprecated
   String convertGDay(Object instanceValue);
 
   /**
@@ -465,7 +480,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  Object createGMonth(String literal);
+  XMLGregorianCalendar createGMonth(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>GMonth</em>'.
@@ -475,6 +490,9 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
+  String convertGMonth(XMLGregorianCalendar instanceValue);
+
+  @Deprecated
   String convertGMonth(Object instanceValue);
 
   /**
@@ -485,7 +503,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  Object createGMonthDay(String literal);
+  XMLGregorianCalendar createGMonthDay(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>GMonth Day</em>'.
@@ -495,6 +513,9 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
+  String convertGMonthDay(XMLGregorianCalendar instanceValue);
+
+  @Deprecated
   String convertGMonthDay(Object instanceValue);
 
   /**
@@ -505,7 +526,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  Object createGYear(String literal);
+  XMLGregorianCalendar createGYear(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>GYear</em>'.
@@ -515,6 +536,9 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
+  String convertGYear(XMLGregorianCalendar instanceValue);
+
+  @Deprecated
   String convertGYear(Object instanceValue);
 
   /**
@@ -525,7 +549,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  Object createGYearMonth(String literal);
+  XMLGregorianCalendar createGYearMonth(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>GYear Month</em>'.
@@ -535,6 +559,9 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
+  String convertGYearMonth(XMLGregorianCalendar instanceValue);
+
+  @Deprecated
   String convertGYearMonth(Object instanceValue);
 
   /**
@@ -945,7 +972,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  Object createNOTATION(String literal);
+  QName createNOTATION(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>NOTATION</em>'.
@@ -955,6 +982,9 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
+  String convertNOTATION(QName instanceValue);
+
+  @Deprecated
   String convertNOTATION(Object instanceValue);
 
   /**
@@ -985,7 +1015,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  Object createQName(String literal);
+  QName createQName(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>QName</em>'.
@@ -995,6 +1025,9 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
+  String convertQName(QName instanceValue);
+  
+  @Deprecated
   String convertQName(Object instanceValue);
 
   /**
@@ -1065,7 +1098,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  Object createTime(String literal);
+  XMLGregorianCalendar createTime(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>Time</em>'.
@@ -1075,6 +1108,9 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
+  String convertTime(XMLGregorianCalendar instanceValue);
+
+  @Deprecated
   String convertTime(Object instanceValue);
 
   /**
