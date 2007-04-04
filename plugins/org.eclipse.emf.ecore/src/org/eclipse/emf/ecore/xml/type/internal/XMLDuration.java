@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLDuration.java,v 1.5 2006/12/05 20:22:26 emerks Exp $
+ * $Id: XMLDuration.java,v 1.6 2007/04/04 20:04:15 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -73,326 +73,124 @@
  */
 package org.eclipse.emf.ecore.xml.type.internal;
 
-import org.eclipse.emf.ecore.xml.type.InvalidDatatypeValueException;
-import org.eclipse.emf.ecore.xml.type.internal.DataValue.TypeValidator;
+import java.math.BigDecimal;
+import java.util.Calendar;
+
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.DatatypeConstants.Field;
+
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 
 /**
- * Representation for the <a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/">W3C XML Schema 1.0</a>
+ * An internal extension of Java's Duration to represent
+ * the <a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/">W3C XML Schema 1.0</a>
  * duration datatype.
- * 
+ * <p> 
  * NOTE: this class is for internal use only. 
- * Later this class will be replaced by JAXP 1.3 javax.xml.datatype.Duration class.
- * This class is based on Apache Xerces2 2.6.2 parser implementation of date/time validation.
  */
-public final class XMLDuration {
+public final class XMLDuration extends Duration
+{
+  final Duration duration;
 
-   private final String ERROR_MESSAGE="The 'duration' value is invalid: ";
-    // order-relation on duration is a partial order. The dates below are used to
-    // for comparison of 2 durations, based on the fact that
-    // duration x and y is x<=y iff s+x<=s+y
-    // see 3.2.6 duration W3C schema datatype specs
-    //
-    // the dates are in format: {CCYY,MM,DD, H, S, M, MS, timezone}
-    private final static int[][] DATETIMES= {
-        {1696, 9, 1, 0, 0, 0, 0, 'Z'},
-        {1697, 2, 1, 0, 0, 0, 0, 'Z'},
-        {1903, 3, 1, 0, 0, 0, 0, 'Z'},
-        {1903, 7, 1, 0, 0, 0, 0, 'Z'}};
-    
-    private int hashCode = 0;
-    
-    final int[] dateValue;
-    
-    final String valueString;
+  public XMLDuration(String value)
+  {
+    duration = XMLCalendar.datatypeFactory.newDuration(XMLTypeUtil.normalize(value, true));
+  }
 
-    public XMLDuration(String value)
+  public static int compare(XMLDuration value1, XMLDuration value2)
+  {
+    switch (value1.duration.compare(value2.duration))
     {
-      this.dateValue = parse(value);
-      valueString = value;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-      if (!(obj instanceof XMLDuration))
-        return false;
-      int[] odata = ((XMLDuration)obj).dateValue;
-      return compareDates(dateValue, odata, true) == 0;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-      if (hashCode == 0)
+      case DatatypeConstants.EQUAL:
       {
-        int[] temp = addDuration(dateValue, DATETIMES[0], new int[XMLCalendar.TOTAL_SIZE]);
-        for (int i=0;i<XMLCalendar.TOTAL_SIZE;i++)
-        {
-          hashCode^=temp[i];
-        }
+        return XMLCalendar.EQUALS;
       }
-      return hashCode;
+      case DatatypeConstants.LESSER:
+      {
+        return XMLCalendar.LESS_THAN;
+      }
+      case DatatypeConstants.GREATER:
+      {
+        return XMLCalendar.GREATER_THAN;
+      }
+      default:
+      {
+        return XMLCalendar.INDETERMINATE;
+      }
     }
+  }
+
+  @Override
+  public boolean equals(Object object)
+  {
+    return object != null && duration.equals(object);
+  }
     
-    // the parameters are in compiled form (from getActualValue)
-    public static int compare(XMLDuration value1, XMLDuration value2)
-    {
-      return compareDates(value1.dateValue, value2.dateValue, true);
-    }//compare()
+  @Override
+  public int hashCode()
+  {
+    return duration.hashCode();
+  }
+    
+  @Override
+  public String toString() 
+  {
+    return duration.toString();
+  }
 
+  @Override
+  public Duration add(Duration rhs)
+  {
+    return duration.add(rhs);
+  }
 
-    /**
-     * Parses, validates and computes normalized version of duration object
-     *
-     * @param str    The lexical representation of duration object PnYn MnDTnH nMnS
-     * @return normalized date representation
-     * @exception InvalidDatatypeValueException Invalid lexical representation
-     */
-    private int[] parse(String str) throws InvalidDatatypeValueException{
-        int len = str.length();
-        int[] date=new int[XMLCalendar.TOTAL_SIZE];
+  @Override
+  public void addTo(Calendar calendar)
+  {
+    duration.addTo(calendar);
+  }
 
-        int start = 0;
-        char c=str.charAt(start++);
-        if ( c!='P' && c!='-' ) {
-            throw new InvalidDatatypeValueException(ERROR_MESSAGE+str);
-        }
-        else {
-            date[XMLCalendar.utc]=(c=='-')?'-':0;
-            if ( c=='-' && str.charAt(start++)!='P' ) {
-                throw new InvalidDatatypeValueException(ERROR_MESSAGE+str);
-            }
-        }
+  @Override
+  public int compare(Duration duration)
+  {
+    return this.duration.compare(duration);
+  }
 
-        int negate = 1;
-        //negative duration
-        if ( date[XMLCalendar.utc]=='-' ) {
-            negate = -1;
+  @Override
+  public Number getField(Field field)
+  {
+    return duration.getField(field);
+  }
 
-        }
-        //at least one number and designator must be seen after P
-        boolean designator = false;
+  @Override
+  public int getSign()
+  {
+    return duration.getSign();
+  }
 
-        int endDate = XMLCalendar.indexOf (str, start, len, 'T');
-        if ( endDate == -1 ) {
-            endDate = len;
-        }
-        //find 'Y'
-        int end = XMLCalendar.indexOf (str, start, endDate, 'Y');
-        if ( end!=-1 ) {
-            //scan year
-            date[XMLCalendar.CY]=negate * XMLCalendar.parseInt(str,start,end);
-            start = end+1;
-            designator = true;
-        }
+  @Override
+  public boolean isSet(Field field)
+  {
+    return duration.isSet(field);
+  }
 
-        end = XMLCalendar.indexOf (str, start, endDate, 'M');
-        if ( end!=-1 ) {
-            //scan month
-            date[XMLCalendar.M]=negate * XMLCalendar.parseInt(str,start,end);
-            start = end+1;
-            designator = true;
-        }
+  @Override
+  public Duration multiply(BigDecimal factor)
+  {
+    return duration.multiply(factor);
+  }
 
-        end = XMLCalendar.indexOf (str, start, endDate, 'D');
-        if ( end!=-1 ) {
-            //scan day
-            date[XMLCalendar.D]=negate * XMLCalendar.parseInt(str,start,end);
-            start = end+1;
-            designator = true;
-        }
+  @Override
+  public Duration negate()
+  {
+    return duration.negate();
+  }
 
-        if ( len == endDate && start!=len ) {
-            throw new InvalidDatatypeValueException(ERROR_MESSAGE+str);
-        }
-        if ( len !=endDate ) {
-
-            end = XMLCalendar.indexOf (str, ++start, len, 'H');
-            if ( end!=-1 ) {
-                //scan hours
-                date[XMLCalendar.h]=negate * XMLCalendar.parseInt(str,start,end);
-                start=end+1;
-                designator = true;
-            }
-
-            end = XMLCalendar.indexOf (str, start, len, 'M');
-            if ( end!=-1 ) {
-                //scan min
-                date[XMLCalendar.m]=negate * XMLCalendar.parseInt(str,start,end);
-                start=end+1;
-                designator = true;
-            }
-
-            end = XMLCalendar.indexOf (str, start, len, 'S');
-            if ( end!=-1 ) {
-                //scan seconds
-                int mlsec = XMLCalendar.indexOf (str, start, end, '.');
-                if ( mlsec >0 ) {
-                    date[XMLCalendar.s]  = negate * XMLCalendar.parseInt (str, start, mlsec);
-                    date[XMLCalendar.ms] = negate * XMLCalendar.parseInt (str, mlsec+1, end);
-                }
-                else {
-                    date[XMLCalendar.s]=negate * XMLCalendar.parseInt(str, start,end);
-                }
-                start=end+1;
-                designator = true;
-            }
-            // no additional data shouls appear after last item
-            // P1Y1M1DT is illigal value as well
-            if ( start != len || str.charAt(--start)=='T' ) {
-                throw new InvalidDatatypeValueException(ERROR_MESSAGE+str);
-            }
-        }
-
-        if ( !designator ) {
-            throw new InvalidDatatypeValueException(ERROR_MESSAGE+str);
-        }
-
-        return date;
-    }
-
-    /**
-     * Compares 2 given durations. (refer to W3C Schema Datatypes "3.2.6 duration")
-     *
-     * @param date1  Unnormalized duration
-     * @param date2  Unnormalized duration
-     * @param strict (min/max)Exclusive strict == true ( LESS_THAN ) or ( GREATER_THAN )
-     *               (min/max)Inclusive strict == false (LESS_EQUAL) or (GREATER_EQUAL)
-     * @return INDETERMINATE if the order relationship between date1 and date2 is indeterminate. 
-     * EQUAL if the order relation between date1 and date2 is EQUAL.  
-     * If the strict parameter is true, return LESS_THAN if date1 is less than date2 and
-     * return GREATER_THAN if date1 is greater than date2. 
-     * If the strict parameter is false, return LESS_THAN if date1 is less than OR equal to date2 and
-     * return GREATER_THAN if date1 is greater than OR equal to date2 
-     */
-    protected  static short compareDates(int[] date1, int[] date2, boolean strict) {
-
-        //REVISIT: this is unoptimazed vs of comparing 2 durations
-        //         Algorithm is described in 3.2.6.2 W3C Schema Datatype specs
-        //
-
-        //add constA to both durations
-        short resultA, resultB= TypeValidator.INDETERMINATE;
-
-        //try and see if the objects are equal
-        resultA = XMLCalendar.compareOrder (date1, date2);
-        if ( resultA == 0 ) {
-            return 0;
-        }
-
-        int[][] result = new int[2][XMLCalendar.TOTAL_SIZE];
-
-        //long comparison algorithm is required
-        int[] tempA = addDuration (date1, DATETIMES[0], result[0]);
-        int[] tempB = addDuration (date2, DATETIMES[0], result[1]);
-        resultA =  XMLCalendar.compareOrder(tempA, tempB);
-        if ( resultA == TypeValidator.INDETERMINATE ) {
-            return TypeValidator.INDETERMINATE;
-        }
-
-        tempA = addDuration(date1, DATETIMES[1], result[0]);
-        tempB = addDuration(date2, DATETIMES[1], result[1]);
-        resultB = XMLCalendar.compareOrder(tempA, tempB);
-        resultA = compareResults(resultA, resultB, strict);
-        if (resultA == TypeValidator.INDETERMINATE) {
-            return TypeValidator.INDETERMINATE;
-        }
-
-        tempA = addDuration(date1, DATETIMES[2], result[0]);
-        tempB = addDuration(date2, DATETIMES[2], result[1]);
-        resultB = XMLCalendar.compareOrder(tempA, tempB);
-        resultA = compareResults(resultA, resultB, strict);
-        if (resultA == TypeValidator.INDETERMINATE) {
-            return TypeValidator.INDETERMINATE;
-        }
-
-        tempA = addDuration(date1, DATETIMES[3], result[0]);
-        tempB = addDuration(date2, DATETIMES[3], result[1]);
-        resultB = XMLCalendar.compareOrder(tempA, tempB);
-        resultA = compareResults(resultA, resultB, strict);
-
-        return resultA;
-    }
-
-    private static short compareResults(short resultA, short resultB, boolean strict){
-
-      if ( resultB == TypeValidator.INDETERMINATE ) {
-            return TypeValidator.INDETERMINATE;
-        }
-        else if ( resultA!=resultB && strict ) {
-            return TypeValidator.INDETERMINATE;
-        }
-        else if ( resultA!=resultB && !strict ) {
-            if ( resultA!=0 && resultB!=0 ) {
-                return TypeValidator.INDETERMINATE;
-            }
-            else {
-                return (resultA!=0)?resultA:resultB;
-            }
-        }
-        return resultA;
-    }
-
-    private static int[] addDuration(int[] date, int[] addto, int[] duration) {
-
-        //REVISIT: some code could be shared between normalize() and this method,
-        //         however is it worth moving it? The structures are different...
-        //
-
-        XMLCalendar.resetDateObj(duration);
-        //add months (may be modified additionaly below)
-        int temp = addto[XMLCalendar.M] + date[XMLCalendar.M];
-        duration[XMLCalendar.M] = XMLCalendar.modulo (temp, 1, 13);
-        int carry = XMLCalendar.fQuotient (temp, 1, 13);
-
-        //add years (may be modified additionaly below)
-        duration[XMLCalendar.CY]=addto[XMLCalendar.CY] + date[XMLCalendar.CY] + carry;
-        
-        //add seconds
-        temp = addto[XMLCalendar.s] + date[XMLCalendar.s];
-        carry = XMLCalendar.fQuotient (temp, 60);
-        duration[XMLCalendar.s] =  XMLCalendar.mod(temp, 60, carry);
-
-        //add minutes
-        temp = addto[XMLCalendar.m] +date[XMLCalendar.m] + carry;
-        carry = XMLCalendar.fQuotient (temp, 60);
-        duration[XMLCalendar.m]= XMLCalendar.mod(temp, 60, carry);
-
-        //add hours
-        temp = addto[XMLCalendar.h] + date[XMLCalendar.h] + carry;
-        carry = XMLCalendar.fQuotient(temp, 24);
-        duration[XMLCalendar.h] = XMLCalendar.mod(temp, 24, carry);
-
-
-        duration[XMLCalendar.D]=addto[XMLCalendar.D] + date[XMLCalendar.D] + carry;
-
-        while ( true ) {
-
-            temp=XMLCalendar.maxDayInMonthFor(duration[XMLCalendar.CY], duration[XMLCalendar.M]);
-            if ( duration[XMLCalendar.D] < 1 ) { //original duration was negative
-                duration[XMLCalendar.D] = duration[XMLCalendar.D] + XMLCalendar.maxDayInMonthFor(duration[XMLCalendar.CY], duration[XMLCalendar.M]-1);
-                carry=-1;
-            }
-            else if ( duration[XMLCalendar.D] > temp ) {
-                duration[XMLCalendar.D] = duration[XMLCalendar.D] - temp;
-                carry=1;
-            }
-            else {
-                break;
-            }
-            temp = duration[XMLCalendar.M]+carry;
-            duration[XMLCalendar.M] = XMLCalendar.modulo(temp, 1, 13);
-            duration[XMLCalendar.CY] = duration[XMLCalendar.CY]+XMLCalendar.fQuotient(temp, 1, 13);
-        }
-
-        duration[XMLCalendar.utc]='Z';
-        return duration;
-    }
-
-    @Override
-    public String toString() 
-    {
-      return valueString;
-    }
+  @Override
+  public Duration normalizeWith(Calendar startTimeInstant)
+  {
+    return duration.normalizeWith(startTimeInstant);
+  }
 }
