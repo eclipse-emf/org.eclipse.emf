@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.11 2006/12/09 18:15:37 emerks Exp $
+ * $Id: XMLTypeValidator.java,v 1.12 2007/04/04 20:05:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -23,11 +23,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
+
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import org.eclipse.emf.ecore.xml.type.*;
 
@@ -65,14 +73,16 @@ public class XMLTypeValidator extends EObjectValidator
    * @generated
    */
   private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
+  
+  public static final int WELL_FORMED_XML_GREGORIAN_CALENDAR = GENERATED_DIAGNOSTIC_CODE_COUNT;
 
   /**
    * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
-  protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
+  protected static final int DIAGNOSTIC_CODE_COUNT = WELL_FORMED_XML_GREGORIAN_CALENDAR;
 
   /**
    * Creates an instance of the switch.
@@ -131,9 +141,9 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.BYTE_OBJECT:
         return validateByteObject((Byte)value, diagnostics, context);
       case XMLTypePackage.DATE:
-        return validateDate(value, diagnostics, context);
+        return validateDate((XMLGregorianCalendar)value, diagnostics, context);
       case XMLTypePackage.DATE_TIME:
-        return validateDateTime(value, diagnostics, context);
+        return validateDateTime((XMLGregorianCalendar)value, diagnostics, context);
       case XMLTypePackage.DECIMAL:
         return validateDecimal((BigDecimal)value, diagnostics, context);
       case XMLTypePackage.DOUBLE:
@@ -141,7 +151,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.DOUBLE_OBJECT:
         return validateDoubleObject((Double)value, diagnostics, context);
       case XMLTypePackage.DURATION:
-        return validateDuration(value, diagnostics, context);
+        return validateDuration((Duration)value, diagnostics, context);
       case XMLTypePackage.ENTITIES:
         return validateENTITIES((List<?>)value, diagnostics, context);
       case XMLTypePackage.ENTITIES_BASE:
@@ -153,15 +163,15 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.FLOAT_OBJECT:
         return validateFloatObject((Float)value, diagnostics, context);
       case XMLTypePackage.GDAY:
-        return validateGDay(value, diagnostics, context);
+        return validateGDay((XMLGregorianCalendar)value, diagnostics, context);
       case XMLTypePackage.GMONTH:
-        return validateGMonth(value, diagnostics, context);
+        return validateGMonth((XMLGregorianCalendar)value, diagnostics, context);
       case XMLTypePackage.GMONTH_DAY:
-        return validateGMonthDay(value, diagnostics, context);
+        return validateGMonthDay((XMLGregorianCalendar)value, diagnostics, context);
       case XMLTypePackage.GYEAR:
-        return validateGYear(value, diagnostics, context);
+        return validateGYear((XMLGregorianCalendar)value, diagnostics, context);
       case XMLTypePackage.GYEAR_MONTH:
-        return validateGYearMonth(value, diagnostics, context);
+        return validateGYearMonth((XMLGregorianCalendar)value, diagnostics, context);
       case XMLTypePackage.HEX_BINARY:
         return validateHexBinary((byte[])value, diagnostics, context);
       case XMLTypePackage.ID:
@@ -203,11 +213,11 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.NORMALIZED_STRING:
         return validateNormalizedString((String)value, diagnostics, context);
       case XMLTypePackage.NOTATION:
-        return validateNOTATION(value, diagnostics, context);
+        return validateNOTATION((QName)value, diagnostics, context);
       case XMLTypePackage.POSITIVE_INTEGER:
         return validatePositiveInteger((BigInteger)value, diagnostics, context);
       case XMLTypePackage.QNAME:
-        return validateQName(value, diagnostics, context);
+        return validateQName((QName)value, diagnostics, context);
       case XMLTypePackage.SHORT:
         return validateShort(((Short)value).shortValue(), diagnostics, context);
       case XMLTypePackage.SHORT_OBJECT:
@@ -215,7 +225,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.STRING:
         return validateString((String)value, diagnostics, context);
       case XMLTypePackage.TIME:
-        return validateTime(value, diagnostics, context);
+        return validateTime((XMLGregorianCalendar)value, diagnostics, context);
       case XMLTypePackage.TOKEN:
         return validateToken((String)value, diagnostics, context);
       case XMLTypePackage.UNSIGNED_BYTE:
@@ -350,21 +360,43 @@ public class XMLTypeValidator extends EObjectValidator
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  public boolean validateDate(XMLGregorianCalendar date, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = date.isValid() && "date".equals(date.getXMLSchemaType().getLocalPart());
+    if (!result && diagnostics != null)
+    {
+      reportXMLGregorianCalendarViolation(XMLTypePackage.Literals.DATE, date, diagnostics, context);
+    }
+    return result;
+  }
+
+  @Deprecated
   public boolean validateDate(Object date, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    return true;
+    return validateDate((XMLGregorianCalendar)date, diagnostics, context);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  public boolean validateDateTime(XMLGregorianCalendar dateTime, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = dateTime.isValid() && "dateTime".equals(dateTime.getXMLSchemaType().getLocalPart());
+    if (!result && diagnostics != null)
+    {
+      reportXMLGregorianCalendarViolation(XMLTypePackage.Literals.DATE_TIME, dateTime, diagnostics, context);
+    }
+    return result;
+  }
+
+  @Deprecated
   public boolean validateDateTime(Object dateTime, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    return true;
+    return validateDateTime((XMLGregorianCalendar)dateTime, diagnostics, context);
   }
 
   /**
@@ -402,6 +434,12 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean validateDuration(Duration duration, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return true;
+  }
+
+  @Deprecated
   public boolean validateDuration(Object duration, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
@@ -504,51 +542,106 @@ public class XMLTypeValidator extends EObjectValidator
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  public boolean validateGDay(XMLGregorianCalendar gDay, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = gDay.isValid() && "gDay".equals(gDay.getXMLSchemaType().getLocalPart());
+    if (!result && diagnostics != null)
+    {
+      reportXMLGregorianCalendarViolation(XMLTypePackage.Literals.GDAY, gDay, diagnostics, context);
+    }
+    return result;
+  }
+
+  @Deprecated
   public boolean validateGDay(Object gDay, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    return true;
+    return validateGDay((XMLGregorianCalendar)gDay, diagnostics, context);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  public boolean validateGMonth(XMLGregorianCalendar gMonth, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = gMonth.isValid() && "gMonth".equals(gMonth.getXMLSchemaType().getLocalPart());
+    if (!result && diagnostics != null)
+    {
+      reportXMLGregorianCalendarViolation(XMLTypePackage.Literals.GMONTH, gMonth, diagnostics, context);
+    }
+    return result;
+  }
+
+  @Deprecated
   public boolean validateGMonth(Object gMonth, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    return true;
+    return validateGMonth((XMLGregorianCalendar)gMonth, diagnostics, context);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  public boolean validateGMonthDay(XMLGregorianCalendar gMonthDay, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = gMonthDay.isValid() && "gMonthDay".equals(gMonthDay.getXMLSchemaType().getLocalPart());
+    if (!result && diagnostics != null)
+    {
+      reportXMLGregorianCalendarViolation(XMLTypePackage.Literals.GMONTH_DAY, gMonthDay, diagnostics, context);
+    }
+    return result;
+  }
+
+  @Deprecated
   public boolean validateGMonthDay(Object gMonthDay, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    return true;
+    return validateGMonthDay((XMLGregorianCalendar)gMonthDay, diagnostics, context);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  public boolean validateGYear(XMLGregorianCalendar gYear, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = gYear.isValid() && "gYear".equals(gYear.getXMLSchemaType().getLocalPart());
+    if (!result && diagnostics != null)
+    {
+      reportXMLGregorianCalendarViolation(XMLTypePackage.Literals.GYEAR, gYear, diagnostics, context);
+    }
+    return result;
+  }
+
+  @Deprecated
   public boolean validateGYear(Object gYear, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    return true;
+    return validateGYear((XMLGregorianCalendar)gYear, diagnostics, context);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  public boolean validateGYearMonth(XMLGregorianCalendar gYearMonth, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = gYearMonth.isValid() && "gYearMonth".equals(gYearMonth.getXMLSchemaType().getLocalPart());
+    if (!result && diagnostics != null)
+    {
+      reportXMLGregorianCalendarViolation(XMLTypePackage.Literals.GYEAR_MONTH, gYearMonth, diagnostics, context);
+    }
+    return result;
+  }
+
+  @Deprecated
   public boolean validateGYearMonth(Object gYearMonth, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    return true;
+    return validateGYearMonth((XMLGregorianCalendar)gYearMonth, diagnostics, context);
   }
 
   /**
@@ -1025,6 +1118,12 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean validateNOTATION(QName notation, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return true;
+  }
+
+  @Deprecated
   public boolean validateNOTATION(Object notation, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
@@ -1068,6 +1167,12 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean validateQName(QName qName, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return true;
+  }
+
+  @Deprecated
   public boolean validateQName(Object qName, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
@@ -1106,11 +1211,22 @@ public class XMLTypeValidator extends EObjectValidator
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  public boolean validateTime(XMLGregorianCalendar time, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = time.isValid() && "time".equals(time.getXMLSchemaType().getLocalPart());
+    if (!result && diagnostics != null)
+    {
+      reportXMLGregorianCalendarViolation(XMLTypePackage.Literals.TIME, time, diagnostics, context);
+    }
+    return result;
+  }
+
+  @Deprecated
   public boolean validateTime(Object time, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    return true;
+    return validateTime((XMLGregorianCalendar)time, diagnostics, context);
   }
 
   /**
@@ -1381,6 +1497,24 @@ public class XMLTypeValidator extends EObjectValidator
     boolean result = validateUnsignedShort_Min(unsignedShortObject.intValue(), diagnostics, context);
     if (result || diagnostics != null) result &= validateUnsignedShort_Max(unsignedShortObject.intValue(), diagnostics, context);
     return result;
+  }
+  
+  protected void reportXMLGregorianCalendarViolation
+    (EDataType eDataType, XMLGregorianCalendar value, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    diagnostics.add
+      (new BasicDiagnostic
+        (Diagnostic.ERROR,
+         DIAGNOSTIC_SOURCE,
+         WELL_FORMED_XML_GREGORIAN_CALENDAR,
+         getEcoreResourceLocator().getString
+           ("_UI_BadXMLGregorianCalendar_diagnostic",
+            new Object []
+              {
+                getValueLabel(eDataType, value, context),
+                ExtendedMetaData.INSTANCE.getName(eDataType)
+              }),
+         new Object [] { value }));
   }
 
 } //XMLTypeValidator
