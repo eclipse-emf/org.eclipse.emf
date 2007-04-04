@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QName.java,v 1.4 2006/12/05 20:22:26 emerks Exp $
+ * $Id: QName.java,v 1.5 2007/04/04 20:03:27 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.xml.type.internal;
@@ -21,140 +21,55 @@ import org.eclipse.emf.ecore.xml.type.InvalidDatatypeValueException;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.XMLChar;
 
 /**
- * A structure that holds the components of an XML Namespaces qualified
- * name.
- * Two QNames are equal iff they both have same namespaceURI and same localPart.
- * Note: prefix is not used in QName.equals(Object).
+ * An internal extension of Java's QName that allows the prefix to be updated.
  * If not specified, the prefix is set to empty string ("").
  * If not specified, the namespace uri is set to empty string ("");
  * <p>
  * NOTE: this class is for internal use only.
  */
-public final class QName
+public final class QName extends javax.xml.namespace.QName
 {
+  private static final long serialVersionUID = 1L;
 
   private String prefix;
 
-  private String localPart;
-
-  private String namespaceURI;
-  
   /**
    * Constructs a QName.
    * @param qname a <a href="http://www.w3.org/TR/REC-xml-names/#dt-qname">qualified name</a>
    * Throws Exception if value is not legal qualified name 
    */
-  public QName (String qname)
+  public QName(String qname)
   {
-    String rawname = qname;
-    int index = rawname.indexOf(":");
+    super(null, qname.indexOf(':') != -1 ? qname.substring(qname.indexOf(':') + 1) : qname, qname.indexOf(':') != -1 ? qname.substring(0, qname.indexOf(':')) : "");
+    setPrefix(super.getPrefix());
 
-    String prefix = "";
-    String localName = rawname;
-    if (index != -1)
-    {
-      prefix    = rawname.substring(0, index);
-      localName = rawname.substring(index + 1);
-    }
     // both prefix (if any) a localpart must be valid NCName
     if (prefix.length() > 0 && !XMLChar.isValidNCName(prefix))
         throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName: "+qname);
 
-    if(!XMLChar.isValidNCName(localName))
+    if(!XMLChar.isValidNCName(getLocalPart()))
       throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName: "+qname);
-     
-    setPrefix(prefix);
-    setLocalPart(localName);
-    setNamespaceURI(null);
-  }
-
-  /** Constructs a QName with the specified values. */
-  public QName(String namespaceURI, String localPart, String prefix)
-  {
-    setNamespaceURI(namespaceURI);
-    setPrefix(prefix);
-    setLocalPart(localPart);
-    if (this.prefix.length() > 0 && !XMLChar.isValidNCName(this.prefix))
-      throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName: "+prefix);
-
-    if(!XMLChar.isValidNCName(this.localPart))
-       throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName: "+localPart);
-  }
-
-  /** Returns true if the two objects are equal. */
-  @Override
-  public boolean equals(Object object)
-  {
-    if (object instanceof QName)
-    {
-      QName qname = (QName)object;
-      return namespaceURI.equals(qname.getNamespaceURI()) && localPart.equals(qname.getLocalPart());
-    }
-    return false;
-  }
-  
-  @Override
-  public int hashCode() 
-  {
-    return namespaceURI.hashCode() + localPart.hashCode();
   }
 
   /** 
-   * Returns a string representation of this object. 
+   * Constructs a QName with the specified values. 
    */
-  @Override
-  public String toString()
+  public QName(String namespaceURI, String localPart, String prefix)
   {
-    return (prefix.length() >0) ? prefix + ":" + localPart : localPart;
-  }
+    super(namespaceURI, localPart, prefix);
+    setPrefix(prefix);
 
-  /**
-   * @return Returns the localpart.
-   */
-  public String getLocalPart()
-  {
-    return localPart;
-  }
+    if (this.prefix.length() > 0 && !XMLChar.isValidNCName(this.prefix))
+      throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName: "+prefix);
 
-  /**
-   * @param localpart The localpart to set.
-   */
-  public void setLocalPart(String localpart)
-  {   
-    if (localpart == null || localpart.length() == 0)
-    {
-      throw new IllegalArgumentException("QName localPart must have value.");
-    }
-    this.localPart = localpart;
-  }
-
-  /**
-   * @return Returns the namespaceURI.
-   */
-  public String getNamespaceURI()
-  {   
-    return namespaceURI;
-  }
-
-  /**
-   * @param namespaceUri The namespaceURI to set.
-   */
-  public void setNamespaceURI(String namespaceUri)
-  {
-    if (namespaceUri == null)
-    {
-      this.namespaceURI = "";
-    }
-    else 
-    {
-      this.namespaceURI = namespaceUri;
-    }
-    
+    if (!XMLChar.isValidNCName(localPart))
+       throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName: "+localPart);
   }
 
   /**
    * @return Returns the prefix.
    */
+  @Override
   public String getPrefix()
   {
     return prefix;
@@ -174,4 +89,4 @@ public final class QName
       this.prefix = prefix;
     }
   }
-} 
+}
