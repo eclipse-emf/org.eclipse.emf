@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.38 2007/04/03 12:10:33 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.39 2007/04/04 20:06:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1519,41 +1519,53 @@ public class XMLHelperImpl implements XMLHelper
     {          
       if (obj instanceof List)
       {
-         List<?> list = (List<?>)obj;
-         for (int i = 0; i < list.size(); i++)
-         {
-           updateQNameURI(list.get(i));
-         }
+        @SuppressWarnings("unchecked")        
+        List<Object> list = (List<Object>)obj;
+        for (int i = 0; i < list.size(); i++)
+        {
+          Object item = list.get(i);
+          Object replacement = updateQNameURI(item);
+          if (replacement != item)
+          {
+            list.set(i, replacement);
+          }
+        }
       }
       else
       {
-       updateQNameURI(obj);
+        obj = updateQNameURI(obj);
       }
     }
     return obj;
   }
   
-  protected void updateQNameURI(Object value)
+  protected Object updateQNameURI(Object value)
   {
     if (value instanceof QName)
     {
-       QName qname = (QName) value;
-       String namespace = getURI(qname.getPrefix());
-       qname.setNamespaceURI(namespace);      
-       if (qname.getPrefix().length() >0 && qname.getNamespaceURI().length() == 0)
-       {          
-         throw new IllegalArgumentException("The prefix '" + qname.getPrefix() + "' is not declared for the QName '"+qname.toString()+"'");
-       }
-       if (namespace == null)
-       {
-         seenEmptyStringMapping = true;
-         String uri = prefixesToURIs.get("");
-         if (uri != null)
-         {
-           prefixesToURIs.put("", namespace);
-           addNSDeclaration("", uri);          
-         }
-       }
+      QName qName = (QName)value;
+      String prefix = qName.getPrefix();
+      String namespace = getURI(prefix);
+      qName = new QName(namespace, qName.getLocalPart(), prefix);
+      if (qName.getPrefix().length() > 0 && namespace == null)
+      {
+        throw new IllegalArgumentException("The prefix '" + prefix + "' is not declared for the QName '" + qName.toString() + "'");
+      }
+      if (namespace == null)
+      {
+        seenEmptyStringMapping = true;
+        String uri = prefixesToURIs.get("");
+        if (uri != null)
+        {
+          prefixesToURIs.put("", namespace);
+          addNSDeclaration("", uri);          
+        }
+      }
+      return qName;
+    }
+    else
+    {
+      return value;
     }
   }
   
@@ -1569,12 +1581,12 @@ public class XMLHelperImpl implements XMLHelper
   {
     if (value instanceof QName)
     {
-      QName qname = (QName)value;
-      String namespace = qname.getNamespaceURI();
+      QName qName = (QName)value;
+      String namespace = qName.getNamespaceURI();
       if (namespace.length() == 0)
       {       
-        qname.setPrefix("");
-        return qname.getLocalPart();
+        qName.setPrefix("");
+        return qName.getLocalPart();
       }
       EPackage ePackage = extendedMetaData.getPackage(namespace);
       if (ePackage == null)
@@ -1582,16 +1594,16 @@ public class XMLHelperImpl implements XMLHelper
         ePackage = extendedMetaData.demandPackage(namespace);
       }
 
-      String  prefix = getPrefix(ePackage, true);
+      String prefix = getPrefix(ePackage, true);
       if (!packages.containsKey(ePackage))
       {
         packages.put(ePackage, prefix);
       }
-      qname.setPrefix(prefix);
-      return (!list) ? qname.toString() : null;
+      qName.setPrefix(prefix);
+      return list ? null : prefix + ':' + qName.getLocalPart();
     }
 
-    return (!list) ? factory.convertToString(dataType, value) : null;
+    return list ? null: factory.convertToString(dataType, value);
   }
 
   protected void addNSDeclaration(String prefix, String uri)
