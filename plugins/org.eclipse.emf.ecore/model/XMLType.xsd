@@ -158,7 +158,7 @@
     </xs:restriction>
    </xs:simpleType>
 
-   <xs:simpleType name="duration" id="duration">
+   <xs:simpleType ecore:instanceClass="javax.xml.datatype.Duration" name="duration" id="duration">
     <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
@@ -183,7 +183,7 @@
     </xs:restriction>
    </xs:simpleType>
 
- <xs:simpleType name="dateTime" id="dateTime">
+ <xs:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" name="dateTime" id="dateTime">
     <xs:annotation ecore:ignore="true">
     <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
@@ -208,7 +208,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="time" id="time">
+  <xs:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" name="time" id="time">
     <xs:annotation ecore:ignore="true">
     <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
@@ -233,7 +233,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="date" id="date">
+  <xs:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" name="date" id="date">
    <xs:annotation ecore:ignore="true">
     <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
@@ -258,7 +258,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="gYearMonth" id="gYearMonth">
+  <xs:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" name="gYearMonth" id="gYearMonth">
    <xs:annotation ecore:ignore="true">
     <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
@@ -283,7 +283,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="gYear" id="gYear">
+  <xs:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" name="gYear" id="gYear">
     <xs:annotation ecore:ignore="true">
     <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
@@ -308,7 +308,7 @@
     </xs:restriction>
   </xs:simpleType>
 
- <xs:simpleType name="gMonthDay" id="gMonthDay">
+ <xs:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" name="gMonthDay" id="gMonthDay">
     <xs:annotation ecore:ignore="true">
       <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
@@ -333,7 +333,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="gDay" id="gDay">
+  <xs:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" name="gDay" id="gDay">
     <xs:annotation ecore:ignore="true">
   <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
@@ -358,7 +358,7 @@
     </xs:restriction>
   </xs:simpleType>
 
- <xs:simpleType name="gMonth" id="gMonth">
+ <xs:simpleType ecore:instanceClass="javax.xml.datatype.XMLGregorianCalendar" name="gMonth" id="gMonth">
     <xs:annotation ecore:ignore="true">
   <xs:appinfo>
         <hfp:hasFacet name="pattern"/>
@@ -455,7 +455,7 @@
     </xs:restriction>
    </xs:simpleType>
 
-  <xs:simpleType name="QName" id="QName">
+  <xs:simpleType ecore:instanceClass="javax.xml.namespace.QName" name="QName" id="QName">
     <xs:annotation ecore:ignore="true">
         <xs:appinfo>
         <hfp:hasFacet name="length"/>
@@ -479,7 +479,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-   <xs:simpleType name="NOTATION" id="NOTATION">
+   <xs:simpleType ecore:instanceClass="javax.xml.namespace.QName" name="NOTATION" id="NOTATION">
     <xs:annotation ecore:ignore="true">
         <xs:appinfo>
         <hfp:hasFacet name="length"/>

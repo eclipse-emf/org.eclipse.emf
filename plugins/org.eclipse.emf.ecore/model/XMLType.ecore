@@ -75,17 +75,15 @@
       <details key="baseType" value="byte"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="Date" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="Date" instanceClassName="javax.xml.datatype.XMLGregorianCalendar">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="date"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="DateTime" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="DateTime" instanceClassName="javax.xml.datatype.XMLGregorianCalendar">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="dateTime"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
@@ -107,10 +105,9 @@
       <details key="baseType" value="double"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="Duration" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="Duration" instanceClassName="javax.xml.datatype.Duration">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="duration"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
@@ -145,38 +142,33 @@
       <details key="baseType" value="float"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="GDay" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="GDay" instanceClassName="javax.xml.datatype.XMLGregorianCalendar">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gDay"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="GMonth" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="GMonth" instanceClassName="javax.xml.datatype.XMLGregorianCalendar">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gMonth"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="GMonthDay" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="GMonthDay" instanceClassName="javax.xml.datatype.XMLGregorianCalendar">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gMonthDay"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="GYear" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="GYear" instanceClassName="javax.xml.datatype.XMLGregorianCalendar">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gYear"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="GYearMonth" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="GYearMonth" instanceClassName="javax.xml.datatype.XMLGregorianCalendar">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="gYearMonth"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
@@ -307,10 +299,9 @@
       <details key="whiteSpace" value="replace"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="NOTATION" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="NOTATION" instanceClassName="javax.xml.namespace.QName">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="NOTATION"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
@@ -340,10 +331,9 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="QName" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="QName" instanceClassName="javax.xml.namespace.QName">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="QName"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
@@ -392,10 +382,9 @@
       <details key="whiteSpace" value="preserve"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="Time" instanceClassName="java.lang.Object">
+  <eClassifiers xsi:type="ecore:EDataType" name="Time" instanceClassName="javax.xml.datatype.XMLGregorianCalendar">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="time"/>
-      <details key="baseType" value="anySimpleType"/>
       <details key="whiteSpace" value="collapse"/>
     </eAnnotations>
   </eClassifiers>
