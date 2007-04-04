@@ -4,7 +4,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BadMinInclusiveFacet.xsd,v 1.1 2004/11/04 05:52:46 marcelop Exp $
+ * $Id: BadMinInclusiveFacet.xsd,v 1.2 2007/04/04 20:07:28 emerks Exp $
  */
 -->
 <xsd:schema
@@ -190,7 +190,7 @@
                     <xsd:minInclusive value="13:20:00-05:00"/>
                 </xsd:restriction>
             </xsd:simpleType>
-            <xsd:enumeration value="13:20:00-04:99"/>
+            <xsd:enumeration value="13:20:00-04:59"/>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -205,7 +205,7 @@
                     <xsd:minInclusive value="1999-05-31T13:20:00-05:00"/>
                 </xsd:restriction>
             </xsd:simpleType>
-            <xsd:enumeration value="1999-05-31T13:20:00-04:99"/>
+            <xsd:enumeration value="1999-05-31T13:20:00-04:59"/>
         </xsd:restriction>
     </xsd:simpleType>
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.11 2007/03/16 20:49:05 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.12 2007/04/04 20:07:28 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -153,8 +153,8 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '2.9' of attribute 'value' must be greater than or equal to '3.0' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToFloat_._base'",
       "XSD: The value 'P1D' of attribute 'value' must be greater than or equal to 'P2D' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToDuration_._base'",
       "XSD: The value '1999-10-25' of attribute 'value' must be greater than or equal to '1999-10-26' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToDate_._base'",
-      "XSD: The value '13:20:00-04:99' of attribute 'value' must be of type 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToTime_._base'",
-      "XSD: The value '1999-05-31T13:20:00-04:99' of attribute 'value' must be of type 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToDateTime_._base'",
+      "XSD: The value '13:20:00-04:59' of attribute 'value' must be greater than or equal to '13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToTime_._base'",
+      "XSD: The value '1999-05-31T13:20:00-04:59' of attribute 'value' must be greater than or equal to '1999-05-31T13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToDateTime_._base'",
       "XSD: The value '1998' of attribute 'value' must be greater than or equal to '1999' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGYear_._base'",
       "XSD: The value '--11--' of attribute 'value' must be greater than or equal to '--12--' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGMonth_._base'",
       "XSD: The value '1999-11' of attribute 'value' must be greater than or equal to '1999-12' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGYearMonth_._base'",
