@@ -66,7 +66,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="date2" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Date"
         defaultValueLiteral="2007-01-26" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
-        <details key="staticDefaultValue" value="XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getDate(), &quot;2007-01-26&quot;)"/>
+        <details key="staticDefaultValue" value="(XMLGregorianCalendar)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getDate(), &quot;2007-01-26&quot;)"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
