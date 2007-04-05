@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.10 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.11 2007/04/05 01:01:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -937,61 +937,83 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
       boolean changed = true;
       String newContents = emitterResult;
+      boolean targetExists = exists(targetFile);
 
-      JControlModel jControlModel = getGenerator().getJControlModel();
+      JControlModel jControlModel = getGenerator().getJControlModel();      
+      boolean mergeSuccessful = jControlModel.canMerge();
+      
       //DMS This is not right. It replaced "if (EMFPlugin.IS_ECLIPSE_RUNNING)" but can also be false if an invalid facade has been specified.
-      if (jControlModel.canMerge())
+      if (mergeSuccessful)
       {
         JMerger jMerger = new JMerger(jControlModel);
         jMerger.setFixInterfaceBrace(jControlModel.getFacadeHelper().fixInterfaceBrace());
-        jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
-
-        // Create a code formatter for this compilation unit, if needed.
-        //
-        Object codeFormatter = getGenerator().getOptions().codeFormatting ?
-          createCodeFormatter(getGenerator().getOptions().codeFormatterOptions, targetFile) : null;
-
-        if (exists(targetFile))
+        
+        try
         {
-          monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object[] { targetFile }));
-          jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), getEncoding(targetFile)));
-          String oldContents = jMerger.getTargetCompilationUnitContents();
-
-          monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object[] { targetFile }));
-          jMerger.merge();
-
-          newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
-          changed = !oldContents.equals(newContents);
-
-          // If the target is read-only, we can ask the platform to release it, and it may be updated in the process.
-          //
-          if (changed && isReadOnly(targetFile) && validateEdit(targetFile, createMonitor(monitor, 1)))
+          jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
+        }
+        catch(RuntimeException runtimeException)
+        {
+          if (targetExists)
           {
-            jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), getEncoding(targetFile)));
-            jMerger.remerge();
-            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+            throw runtimeException;
+          }
+          else
+          {
+            mergeSuccessful = false;
           }
         }
-        else
-        {
-          changed = true;
-          monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object[] { targetFile }));
-          
-          jMerger.merge();
-          newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
-        }
 
-        if (jControlModel.getFacadeHelper() != null)
+        if (mergeSuccessful)
         {
-          jControlModel.getFacadeHelper().reset();
+          // Create a code formatter for this compilation unit, if needed.
+          //
+          Object codeFormatter = getGenerator().getOptions().codeFormatting ?
+            createCodeFormatter(getGenerator().getOptions().codeFormatterOptions, targetFile) : null;
+  
+          if (targetExists)
+          {
+            monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object[] { targetFile }));
+            jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), getEncoding(targetFile)));
+            String oldContents = jMerger.getTargetCompilationUnitContents();
+  
+            monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object[] { targetFile }));
+            jMerger.merge();
+  
+            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+            changed = !oldContents.equals(newContents);
+  
+            // If the target is read-only, we can ask the platform to release it, and it may be updated in the process.
+            //
+            if (changed && isReadOnly(targetFile) && validateEdit(targetFile, createMonitor(monitor, 1)))
+            {
+              jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), getEncoding(targetFile)));
+              jMerger.remerge();
+              newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+            }
+          }
+          else
+          {
+            changed = true;
+            monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_PreparingNew_message", new Object[] { targetFile }));
+            
+            jMerger.merge();
+            newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+          }
+  
+          if (jControlModel.getFacadeHelper() != null)
+          {
+            jControlModel.getFacadeHelper().reset();
+          }
         }
       }
-      else
+      
+      if (!mergeSuccessful)
       {
         //DMS What if Eclipse is running, but an invalid facade has been specified?  We still should format code, use encoding,...
         newContents = 
           CodeGenUtil.convertFormat(jControlModel.getLeadingTabReplacement(), jControlModel.convertToStandardBraceStyle(), emitterResult);
-        if (exists(targetFile))
+        if (targetExists)
         {
           monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object[] { targetFile }));
           String oldContents = getContents(targetFile, null); 
