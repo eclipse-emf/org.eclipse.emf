@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.9 2007/03/23 19:31:16 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.10 2007/04/05 18:35:08 marcelop Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java;
@@ -66,6 +66,8 @@ public class JPatternDictionary extends FacadeVisitor
   
   protected Map<String, Collection<JNode>> markupMap;
   protected Set<String> noImportSet;
+  
+  protected Map<JNode, String> nodeIdentifierMap;
   
   public JPatternDictionary(JCompilationUnit compilationUnit, JControlModel controlModel)
   {
@@ -137,6 +139,12 @@ public class JPatternDictionary extends FacadeVisitor
     {
       noImportSet.clear();
       noImportSet = null;
+    }
+    
+    if (nodeIdentifierMap != null)
+    {
+      nodeIdentifierMap.clear();
+      nodeIdentifierMap = null;
     }
   }
 
@@ -315,7 +323,7 @@ public class JPatternDictionary extends FacadeVisitor
 
   public boolean isNoImport(JImport jImport)
   {
-    return noImportSet != null && getNoImporterSet().contains(jImport.getQualifiedName());
+    return noImportSet != null && getNoImporterSet().contains(getNodeIdentifier(jImport));
   }
     
   @Override
@@ -379,56 +387,56 @@ public class JPatternDictionary extends FacadeVisitor
   @Override
   protected boolean visit(JAbstractType abstractType)
   {
-    getAbstractTypeMap().put(abstractType.getQualifiedName(), abstractType);
+    getAbstractTypeMap().put(getNodeIdentifier(abstractType), abstractType);
     return super.visit(abstractType);
   }  
   
   @Override
   protected boolean visit(JImport jImport)
   {
-    getImportMap().put(jImport.getQualifiedName(), jImport);
+    getImportMap().put(getNodeIdentifier(jImport), jImport);
     return super.visit(jImport);
   }
 
   @Override
   protected boolean visit(JInitializer initializer)
   {
-    getInitializerMap().put(initializer.getQualifiedName(), initializer);
+    getInitializerMap().put(getNodeIdentifier(initializer), initializer);
     return super.visit(initializer);
   }
   
   @Override
   protected boolean visit(JField field)
   {
-    getFieldMap().put(field.getQualifiedName(), field);
+    getFieldMap().put(getNodeIdentifier(field), field);
     return super.visit(field);
   }
   
   @Override
   protected boolean visit(JMethod method)
   {
-    getMethodMap().put(method.getQualifiedName(), method);
+    getMethodMap().put(getNodeIdentifier(method), method);
     return super.visit(method);
   }
     
   @Override
   protected boolean visit(JAnnotation annotation)
   {
-    getAnnotationMap().put(annotation.getQualifiedName(), annotation);
+    getAnnotationMap().put(getNodeIdentifier(annotation), annotation);
     return super.visit(annotation);
   }
   
   @Override
   protected boolean visit(JAnnotationTypeMember annotationTypeMember)
   {
-    getAnnotationTypeMemberMap().put(annotationTypeMember.getQualifiedName(), annotationTypeMember);
+    getAnnotationTypeMemberMap().put(getNodeIdentifier(annotationTypeMember), annotationTypeMember);
     return super.visit(annotationTypeMember);
   }
   
   @Override
   protected boolean visit(JEnumConstant enumConstant)
   {
-    getEnumConstantMap().put(enumConstant.getQualifiedName(), enumConstant);
+    getEnumConstantMap().put(getNodeIdentifier(enumConstant), enumConstant);
     return super.visit(enumConstant);
   }
   
@@ -677,5 +685,78 @@ public class JPatternDictionary extends FacadeVisitor
     {
       return null;
     }
+  }
+  
+  public String getNodeIdentifier(JNode node)
+  {
+    String identifier = nodeIdentifierMap == null ? null : nodeIdentifierMap.get(node);
+    if (identifier == null)
+    {
+      StringBuilder sb = new StringBuilder();
+      for (JControlModel.MatchRule matchRule : controlModel.getMatchRules())
+      {
+        if (isMarkedUp(matchRule.getMarkup(), node) && 
+            matchRule.getGetFeature().getFeatureClass().isInstance(node))
+        {
+          try
+          {
+            Method getMethod = matchRule.getGetFeature().getFeatureMethod();
+            Object value = getMethod.invoke(node, JMerger.NO_ARGUMENTS);
+            if (value instanceof String)
+            {
+              String stringValue = (String)value;
+              Pattern signature = matchRule.getSignature();
+              if (signature != null)
+              {
+                Matcher matcher = signature.matcher(stringValue);
+                stringValue = matcher.find() && matcher.groupCount() == 1 ?
+                  stringValue = matcher.group(1)
+                  : null;
+              }
+              if (stringValue != null && stringValue.length() > 0)
+              {
+                sb.append(stringValue);
+                if (matchRule.isStopMatching())
+                {
+                  break;
+                }
+              }
+            }
+          }
+          catch (Exception e)
+          {
+            // Ignore
+          }
+        }
+      }
+      
+      identifier = sb.length() > 0 ? sb.toString() : getDefaultNodeIdentifier(node);
+      if (nodeIdentifierMap == null)
+      {
+        nodeIdentifierMap = new HashMap<JNode, String>();
+      }
+      nodeIdentifierMap.put(node, identifier);
+    }
+    return identifier;
+  }
+  
+  protected String getDefaultNodeIdentifier(JNode node)
+  {
+    return node.getQualifiedName();
+  }
+  
+  public JNode getNode(String nodeIdentifier)
+  {
+    if (nodeIdentifier != null && nodeIdentifierMap != null)
+    {
+      for (Map.Entry<JNode, String> entry : nodeIdentifierMap.entrySet())
+      {
+        if (nodeIdentifier.equals(entry.getValue()))
+        {
+          return entry.getKey();
+        }
+      }
+    }
+    return null;
   }  
 }
