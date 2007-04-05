@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options 
+  indent="  "  
+  braceStyle="matching"  
+  redirect="Gen"
+  block="\s*@\s*generated\s*NOT\s*\n"
+  noImport="\s*//\s*import\s+([\w.*]*)\s*;\s*\n"
+  xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+
+  <merge:dictionaryPattern
+    name="modifyComment" 
+    select="Member/getComment" 
+    match="\s*@\s*(comm)ent\s*\n"/>
+
+  <merge:dictionaryPattern
+    name="modifyBody" 
+    select="Member/getComment" 
+    match="\s*@\s*(body)\s*\n"/>
+
+  <merge:dictionaryPattern
+    name="modifyFlags" 
+    select="Member/getComment" 
+    match="\s*@\s*(flag)s\s*\n"/>
+
+  <merge:dictionaryPattern
+    name="modifyName" 
+    select="Member/getComment" 
+    match="\s*@\s*(name)\s*\n"/>
+
+  <merge:dictionaryPattern
+    name="matchByID" 
+    select="Member/getComment" 
+    match="\s*@\s*(byid)\s*\n"/>
+
+  <merge:dictionaryPattern
+    name="matchByID2" 
+    select="Member/getComment" 
+    match="\s*@\s*(byid2)\s*\n"/>
+
+
+
+  <!-- Match members with the same uuid -->
+  <merge:match
+   markup="^byid$"
+   get="Member/getComment"
+   signature="\s*@\s*uuid\s*(\w*)\s*\n"/>
+   
+  <!--  Remove fields from Target that were not matched -->
+  <merge:sweep markup="^byid$" select="Field" action="rename" newName="{0}_DELETED"/>
+  
+
+
+  <!-- Match methods by type return -->
+  <merge:match
+   markup="^byid2$"
+   get="Method/getReturnType"/>  
+
+  
+  
+  <merge:pull 
+    sourceGet="Member/getComment"
+    targetMarkup="^comm$"
+    targetPut="Member/setComment"/>
+
+  <merge:pull 
+    sourceGet="Member/getFlags"
+    targetMarkup="^flag$"
+    targetPut="Member/setFlags"/>
+
+  <merge:pull 
+    sourceGet="Field/getInitializer"
+    targetMarkup="^body$"
+    targetPut="Field/setInitializer"/>
+
+  <merge:pull 
+    sourceGet="Method/getBody"
+    targetMarkup="^body$"
+    targetPut="Method/setBody"/>
+    
+  <merge:pull 
+    sourceGet="Method/getParameterNames"
+    targetMarkup="^byid2$"
+    targetPut="Method/setParameterNames"/>    
+</merge:options>

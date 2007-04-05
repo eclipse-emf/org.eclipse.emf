@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options 
+  indent="  "  
+  braceStyle="matching"  
+  redirect="Gen"
+  block="\s*@\s*generated\s*NOT\s*\n"
+  noImport="\s*//\s*import\s+([\w.*]*)\s*;\s*\n"
+  xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+
+  <merge:dictionaryPattern
+    name="modifyName" 
+    select="Member/getComment" 
+    match="\s*@\s*(name)\s*\n"/>
+
+  <!-- Match members with the same uuid -->
+  <merge:match
+   get="Member/getComment"
+   signature="\s*@\s*uuid\s*(\w*)\s*\n"/>
+   
+  <merge:pull 
+    sourceGet="Member/getName"
+    targetMarkup="^name$"
+    targetPut="Member/setName"/>
+
+</merge:options>

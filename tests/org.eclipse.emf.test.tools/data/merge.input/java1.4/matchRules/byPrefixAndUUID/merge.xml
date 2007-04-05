@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options 
+  indent="  "  
+  braceStyle="matching"  
+  redirect="Gen"
+  block="\s*@\s*generated\s*NOT\s*\n"
+  noImport="\s*//\s*import\s+([\w.*]*)\s*;\s*\n"
+  xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+
+  <merge:dictionaryPattern
+    name="modifyComment" 
+    select="Member/getComment" 
+    match="\s*@\s*(mod)ify\s*\n"/>
+
+
+
+  <!-- Match methods with the same uuid -->
+  <merge:match
+   markup="^mod$"
+   get="Method/getName"
+   signature="\s*((?:pre|post)Validate)?\w*\s*"/>
+  <merge:match
+   markup="^mod$"
+   get="Method/getComment"
+   signature="\s*@\s*uuid\s*(\w*)\s*\n"/>
+
+  
+  
+  <merge:pull 
+    sourceGet="Member/getComment"
+    targetMarkup="^mod$"
+    targetPut="Member/setComment"/>
+
+  <merge:pull 
+    sourceGet="Member/getFlags"
+    targetMarkup="^mod$"
+    targetPut="Member/setFlags"/>
+
+  <merge:pull 
+    sourceGet="Field/getType"
+    targetMarkup="^mod$"
+    targetPut="Field/setType"/>
+
+  <merge:pull 
+    sourceGet="Method/getBody"
+    targetMarkup="^mod$"
+    targetPut="Method/setBody"/>
+    
+  <merge:pull 
+    sourceGet="Method/getParameterNames"
+    targetMarkup="^mod$"
+    targetPut="Method/setParameterNames"/>    
+
+  <merge:pull 
+    sourceGet="Method/getReturnType"
+    targetMarkup="^mod$"
+    targetPut="Method/setReturnType"/>    
+</merge:options>
