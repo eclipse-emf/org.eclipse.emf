@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.14 2007/01/29 19:02:29 marcelop Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.15 2007/04/05 21:10:20 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -68,6 +68,7 @@ public class ChangeDescriptionTest extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("ChangeDescription Test");
+    ts.addTest(new ChangeDescriptionTest("testRemoveSuperType"));
     ts.addTest(new ChangeDescriptionTest("testMultipleApplyAndReverse"));
     ts.addTest(new ChangeDescriptionTest("testUnchangeableFeature"));
     ts.addTest(new ChangeDescriptionTest("testApplyAndReverse2"));
@@ -81,7 +82,50 @@ public class ChangeDescriptionTest extends TestCase
     ts.addTest(new ChangeDescriptionTest("testSwitchContainers"));
     return ts;
   }
-  
+
+  /*
+   * Bugzilla 181288
+   */
+  public void testRemoveSuperType() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    final EClass superEClass = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(superEClass);
+    final EClass subEClass = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(subEClass);
+    subEClass.getESuperTypes().add(superEClass);
+    class Helper
+    {
+      public void state0()
+      {
+        assertEquals(1, subEClass.getESuperTypes().size());
+        assertEquals(superEClass, subEClass.getESuperTypes().get(0));
+        assertEquals(1, subEClass.getEGenericSuperTypes().size());
+        assertEquals(superEClass, subEClass.getEGenericSuperTypes().get(0).getEClassifier());
+        assertTrue(superEClass.isSuperTypeOf(subEClass));
+      }
+
+      public void state1()
+      {
+        assertTrue(subEClass.getESuperTypes().isEmpty());
+        assertTrue(subEClass.getEGenericSuperTypes().isEmpty());
+        assertFalse(superEClass.isSuperTypeOf(subEClass));
+      }
+    }
+    Helper helper = new Helper();
+    helper.state0();
+    ChangeRecorder changeRecorder = new ChangeRecorder(pack);
+    subEClass.getEGenericSuperTypes().clear();
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    helper.state1();
+    changeDescription.applyAndReverse();
+    helper.state0();
+    changeDescription.applyAndReverse();
+    helper.state1();
+    changeDescription.apply();
+    helper.state0();
+  }
+
   /*
    * Bugzilla 120869
    */
@@ -96,13 +140,13 @@ public class ChangeDescriptionTest extends TestCase
       pack.getEClassifiers().add(class1);
       EClass class2 = EcoreFactory.eINSTANCE.createEClass();
       class2.setName("Class2");
-      
+
       ChangeRecorder changeRecorder = new ChangeRecorder(pack);
       pack.getEClassifiers().add(class2);
       class2.setName("Class2-1");
       pack.getEClassifiers().remove(class2);
       ChangeDescription changeDescription = changeRecorder.endRecording();
-      
+
       assertEquals(1, changeDescription.getObjectChanges().size());
       assertTrue(changeDescription.getObjectChanges().containsKey(pack));
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
@@ -118,13 +162,13 @@ public class ChangeDescriptionTest extends TestCase
       pack.getEClassifiers().add(class1);
       EClass class2 = EcoreFactory.eINSTANCE.createEClass();
       class2.setName("Class2");
-  
+
       ChangeRecorder changeRecorder = new ChangeRecorder(pack);
       pack.getEClassifiers().remove(class1);
       class1.setName("Class1-2");
       pack.getEClassifiers().add(class1);
       ChangeDescription changeDescription = changeRecorder.endRecording();
-      
+
       // Test 2
       assertEquals(2, changeDescription.getObjectChanges().size());
       assertTrue(changeDescription.getObjectChanges().containsKey(pack));
@@ -132,7 +176,7 @@ public class ChangeDescriptionTest extends TestCase
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
       assertTrue(changeDescription.getObjectsToDetach().isEmpty());
     }
-    
+
     // remove and add + remove and add
     {
       EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
@@ -142,7 +186,7 @@ public class ChangeDescriptionTest extends TestCase
       pack.getEClassifiers().add(class1);
       EClass class2 = EcoreFactory.eINSTANCE.createEClass();
       class2.setName("Class2");
-  
+
       ChangeRecorder changeRecorder = new ChangeRecorder(pack);
       pack.getEClassifiers().add(class2);
       pack.getEClassifiers().remove(class1);
@@ -151,14 +195,14 @@ public class ChangeDescriptionTest extends TestCase
       class2.setName("Class2-1");
       pack.getEClassifiers().add(class1);
       ChangeDescription changeDescription = changeRecorder.endRecording();
-  
+
       assertEquals(2, changeDescription.getObjectChanges().size());
       assertTrue(changeDescription.getObjectChanges().containsKey(pack));
       assertTrue(changeDescription.getObjectChanges().containsKey(class1));
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
       assertTrue(changeDescription.getObjectsToDetach().isEmpty());
     }
-  
+
     // add pause remove
     {
       EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
@@ -168,7 +212,7 @@ public class ChangeDescriptionTest extends TestCase
       pack.getEClassifiers().add(class1);
       EClass class2 = EcoreFactory.eINSTANCE.createEClass();
       class2.setName("Class2");
-      
+
       ChangeRecorder changeRecorder = new ChangeRecorder(pack);
       pack.getEClassifiers().add(class2);
       ChangeDescription changeDescription = changeRecorder.endRecording();
@@ -177,13 +221,13 @@ public class ChangeDescriptionTest extends TestCase
       class2.setName("Class2-1");
       pack.getEClassifiers().remove(class2);
       changeDescription = changeRecorder.endRecording();
-      
+
       assertEquals(1, changeDescription.getObjectChanges().size());
       assertTrue(changeDescription.getObjectChanges().containsKey(pack));
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
       assertTrue(changeDescription.getObjectsToDetach().isEmpty());
     }
-    
+
     // remove pause add
     {
       EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
@@ -193,7 +237,7 @@ public class ChangeDescriptionTest extends TestCase
       pack.getEClassifiers().add(class1);
       EClass class2 = EcoreFactory.eINSTANCE.createEClass();
       class2.setName("Class2");
-      
+
       ChangeRecorder changeRecorder = new ChangeRecorder(pack);
       pack.getEClassifiers().remove(class1);
       class1.setName("Class1-2");
@@ -202,14 +246,14 @@ public class ChangeDescriptionTest extends TestCase
       changeRecorder.beginRecording(changeDescription, Collections.singleton(pack));
       pack.getEClassifiers().add(class1);
       changeDescription = changeRecorder.endRecording();
-      
+
       assertEquals(2, changeDescription.getObjectChanges().size());
       assertTrue(changeDescription.getObjectChanges().containsKey(pack));
       assertTrue(changeDescription.getObjectChanges().containsKey(class1));
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
       assertTrue(changeDescription.getObjectsToDetach().isEmpty());
     }
-    
+
     // remove pause add + remove pause add
     {
       EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
@@ -219,7 +263,7 @@ public class ChangeDescriptionTest extends TestCase
       pack.getEClassifiers().add(class1);
       EClass class2 = EcoreFactory.eINSTANCE.createEClass();
       class2.setName("Class2");
-  
+
       ChangeRecorder changeRecorder = new ChangeRecorder(pack);
       pack.getEClassifiers().add(class2);
       pack.getEClassifiers().remove(class1);
@@ -231,13 +275,13 @@ public class ChangeDescriptionTest extends TestCase
       class2.setName("Class2-1");
       pack.getEClassifiers().add(class1);
       changeDescription = changeRecorder.endRecording();
-  
+
       assertEquals(2, changeDescription.getObjectChanges().size());
       assertTrue(changeDescription.getObjectChanges().containsKey(pack));
       assertTrue(changeDescription.getObjectChanges().containsKey(class1));
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
       assertTrue(changeDescription.getObjectsToDetach().isEmpty());
-    }    
+    }
   }
 
   /*
@@ -261,30 +305,30 @@ public class ChangeDescriptionTest extends TestCase
     class4.setName("Class4");
     EClass class6 = EcoreFactory.eINSTANCE.createEClass();
     class6.setName("Class6");
-    
+
     ChangeRecorder changeRecorder = new ChangeRecorder(resource);
     pack.getEClassifiers().add(class3);
     pack.getEClassifiers().set(1, class4);
     pack.getEClassifiers().remove(class1);
     pack.getEClassifiers().add(class1);
-    
+
     //Add + change + remove the same object
     pack.getEClassifiers().add(class6);
     class6.setName("TheClass6");
     pack.getEClassifiers().remove(class6);
-    
+
     ChangeDescription changeDescription = changeRecorder.endRecording();
     resource.getContents().add(changeDescription);
-    
+
     assertEquals(2, changeDescription.getObjectsToDetach().size());
     assertTrue(changeDescription.getObjectsToDetach().contains(class3));
     assertTrue(changeDescription.getObjectsToDetach().contains(class4));
     assertEquals(1, changeDescription.getObjectsToAttach().size());
     assertTrue(changeDescription.getObjectsToAttach().contains(class2));
-    
+
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     resource.save(baos, null);
-    
+
     Resource loadedResource = new XMIResourceImpl();
     loadedResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
     assertEquals(2, loadedResource.getContents().size());
@@ -299,15 +343,15 @@ public class ChangeDescriptionTest extends TestCase
     assertEquals(1, loadedChangeDescription.getObjectsToAttach().size());
     assertTrue(loadedChangeDescription.getObjectsToAttach().get(0) instanceof EClass);
     assertEquals(class2.getName(), ((EClass)loadedChangeDescription.getObjectsToAttach().get(0)).getName());
-    
+
     EClass class5 = EcoreFactory.eINSTANCE.createEClass();
     class5.setName("Class5");
-    
+
     changeRecorder = new ChangeRecorder();
     changeRecorder.beginRecording(loadedChangeDescription, Collections.singleton(loadedResource));
     loadedPack.getEClassifiers().set(1, class5);
     changeRecorder.endRecording();
-    
+
     assertEquals(2, loadedChangeDescription.getObjectsToDetach().size());
     assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedPack.getEClassifier(class4.getName())));
     assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedPack.getEClassifier(class5.getName())));
@@ -316,7 +360,7 @@ public class ChangeDescriptionTest extends TestCase
     names.add(((EClass)loadedChangeDescription.getObjectsToAttach().get(0)).getName());
     assertTrue(names.contains(class2.getName()));
   }
-  
+
   /*
    * Bugzilla 83872
    */
@@ -352,7 +396,7 @@ public class ChangeDescriptionTest extends TestCase
     ref4.setEType(anEClass);
     ref4.setContainment(true);
     anEClass.getEStructuralFeatures().add(ref4);
-       
+
     EObject root1 = pack.getEFactoryInstance().create(anEClass);
     root1.eSet(name, "root1");
     EObject obj1 = pack.getEFactoryInstance().create(anEClass);
@@ -365,10 +409,10 @@ public class ChangeDescriptionTest extends TestCase
     obj4.eSet(name, "obj4");
     EObject root2 = pack.getEFactoryInstance().create(anEClass);
     root2.eSet(name, "root2");
-    
+
     root1.eSet(ref1, obj1);
     root1.eSet(ref2, obj2);
-    
+
     // State 0
     assertEquals(obj1, root1.eGet(ref1));
     assertEquals(root1, obj1.eContainer());
@@ -379,7 +423,7 @@ public class ChangeDescriptionTest extends TestCase
     assertNull(obj3.eContainer());
     assertNull(obj4.eContainer());
     assertNull(root2.eResource());
-    
+
     Resource resource = new XMIResourceImpl();
     resource.getContents().add(root1);
     ChangeRecorder changeRecorder = new ChangeRecorder(resource);
@@ -387,12 +431,12 @@ public class ChangeDescriptionTest extends TestCase
     root1.eSet(ref1, obj3); //obj3 replaces obj1 in ref1
     root1.eSet(ref2, obj1); //obj1 replaces obj2 in ref2
     root1.eSet(ref3, obj4); //obj4 is set in ref3
-    
+
     resource.getContents().add(root2); //root2 is added as a root object
-    
+
     ChangeDescription changeDescription = changeRecorder.endRecording();
     resource.getContents().add(changeDescription);
-    
+
     // State 1
     assertEquals(obj3, root1.eGet(ref1));
     assertEquals(root1, obj3.eContainer());
@@ -411,12 +455,12 @@ public class ChangeDescriptionTest extends TestCase
     assertTrue(changeDescription.getObjectsToDetach().contains(root2));
     assertEquals(1, changeDescription.getObjectsToAttach().size());
     assertTrue(changeDescription.getObjectsToAttach().contains(obj2));
-    
+
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     resource.save(baos, null);
-    
+
     Resource loadedResource = new XMIResourceImpl();
-    
+
     loadedResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
     assertEquals(3, loadedResource.getContents().size());
     EObject loadedRoot1 = loadedResource.getContents().get(0);
@@ -425,23 +469,23 @@ public class ChangeDescriptionTest extends TestCase
     assertEquals(root2.eGet(name), loadedRoot2.eGet(name));
     assertTrue(loadedResource.getContents().get(2) instanceof ChangeDescription);
     ChangeDescription loadedChangeDescription = (ChangeDescription)loadedResource.getContents().get(2);
-   
+
     // getObjectsToDetach() & getObjectsToAttach() check
     assertEquals(3, loadedChangeDescription.getObjectsToDetach().size());
     assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedRoot1.eGet(ref1)));
     assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedRoot1.eGet(ref3)));
     assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedRoot2));
     assertEquals(1, loadedChangeDescription.getObjectsToAttach().size());
-    
+
     // State 1
     assertEquals(obj3.eGet(name), ((EObject)loadedRoot1.eGet(ref1)).eGet(name));
     assertEquals(obj1.eGet(name), ((EObject)loadedRoot1.eGet(ref2)).eGet(name));
     assertEquals(obj4.eGet(name), ((EObject)loadedRoot1.eGet(ref3)).eGet(name));
     assertNull(loadedRoot1.eGet(ref4));
     assertEquals(loadedResource, loadedRoot2.eResource());
-    
+
     loadedChangeDescription.applyAndReverse();
-    
+
     // State 0
     assertEquals(obj1.eGet(name), ((EObject)loadedRoot1.eGet(ref1)).eGet(name));
     assertEquals(obj2.eGet(name), ((EObject)loadedRoot1.eGet(ref2)).eGet(name));
@@ -450,7 +494,7 @@ public class ChangeDescriptionTest extends TestCase
     //assertEquals(loadedChangeDescription, loadedRoot2.eContainer());    
 
     loadedChangeDescription.apply();
-    
+
     // State 1
     assertEquals(obj3.eGet(name), ((EObject)loadedRoot1.eGet(ref1)).eGet(name));
     assertEquals(obj1.eGet(name), ((EObject)loadedRoot1.eGet(ref2)).eGet(name));
@@ -458,8 +502,7 @@ public class ChangeDescriptionTest extends TestCase
     assertNull(loadedRoot1.eGet(ref4));
     assertEquals(loadedResource, loadedRoot2.eResource());
   }
-  
-  
+
   /*
    * Bugzilla 76971
    */
@@ -523,25 +566,25 @@ public class ChangeDescriptionTest extends TestCase
     ChangeRecorder changeRecorder = new ChangeRecorder(ePackage);
     ePackage.getEClassifiers().remove(eDataType);
     ChangeDescription changeDescription = changeRecorder.endRecording();
-    
+
     assertTrue(ePackage.getEClassifiers().isEmpty());
-    
+
     //The opposite reference of ePackage.EClassifiers is
     //unchangeable, so it should not be manipulated when reverting the
     //changes
     changeDescription.applyAndReverse();
-    
+
     assertEquals(1, ePackage.getEClassifiers().size());
     assertEquals(eDataType, ePackage.getEClassifiers().get(0));
   }
 
   public void testApplyAndReverse2() throws Exception
-  {    
+  {
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
     EAnnotation ePackageEAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
     ePackageEAnnotation.setSource("ePackageEAnnotation");
     ePackage.getEAnnotations().add(ePackageEAnnotation);
-    
+
     Resource resource = new ResourceImpl();
     resource.getContents().add(ePackage);
     resource.setURI(URI.createURI("foo"));
@@ -563,7 +606,7 @@ public class ChangeDescriptionTest extends TestCase
     changeDescriptionResource.getContents().add(changeDescription);
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     String[] xmi = new String [2];
-    
+
     for (int i = 1; i <= 20; i++)
     {
       baos.reset();
@@ -580,9 +623,9 @@ public class ChangeDescriptionTest extends TestCase
           String newXMI = new String(baos.toByteArray());
           assertEquals("Comparing iteration: " + i, xmi[i % 2], newXMI);
       }
-      
-      assertEquals("i="+i, i % 2 == 0, ePackage.getEAnnotations().contains(ePackageEAnnotation));
-      assertEquals("i="+i, i % 2 == 0, eClass.getEAnnotations().contains(eClassEAnnotation));
+
+      assertEquals("i=" + i, i % 2 == 0, ePackage.getEAnnotations().contains(ePackageEAnnotation));
+      assertEquals("i=" + i, i % 2 == 0, eClass.getEAnnotations().contains(eClassEAnnotation));
 
       changeDescription.applyAndReverse();
     }
@@ -593,34 +636,34 @@ public class ChangeDescriptionTest extends TestCase
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
     EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
     ePackage.getEAnnotations().add(eAnnotation);
-    
+
     EClass eClass = EcoreFactory.eINSTANCE.createEClass();
     ePackage.getEClassifiers().add(eClass);
-    
+
     ChangeRecorder changeRecorder = new ChangeRecorder(ePackage);
     eClass.getEAnnotations().add(eAnnotation);
     ChangeDescription changeDescription = changeRecorder.endRecording();
- 
+
     //State1
     assertTrue(ePackage.getEAnnotations().isEmpty());
     assertEquals(1, eClass.getEAnnotations().size());
     assertEquals(eAnnotation, eClass.getEAnnotations().get(0));
-    
+
     changeDescription.applyAndReverse();
-    
+
     //State2
     assertTrue(eClass.getEAnnotations().isEmpty());
     assertEquals(1, ePackage.getEAnnotations().size());
     assertEquals(eAnnotation, ePackage.getEAnnotations().get(0));
 
     changeDescription.applyAndReverse();
-    
+
     //State1
     assertTrue(ePackage.getEAnnotations().isEmpty());
     assertEquals(1, eClass.getEAnnotations().size());
     assertEquals(eAnnotation, eClass.getEAnnotations().get(0));
   }
-  
+
   public void testXMLResourceID()
   {
     //Instantiating an object
@@ -629,10 +672,10 @@ public class ChangeDescriptionTest extends TestCase
     cls.setName("cls");
     pack.getEClassifiers().add(cls);
     EObject eObject = pack.getEFactoryInstance().create(cls);
-    
+
     //Instantiating a resource
     XMLResource xmlResource = new XMLResourceImpl();
-    
+
     //Adding the object to the resource
     xmlResource.getContents().add(eObject);
     assertEquals(xmlResource, eObject.eResource());
@@ -640,27 +683,27 @@ public class ChangeDescriptionTest extends TestCase
 
     //Setting an external ID
     xmlResource.setID(eObject, "CLASS:cls");
-    
+
     //State1: resource has 1 object and "CLASS:cls" is the object's id
     assertEquals(1, xmlResource.getContents().size());
     assertEquals(eObject, xmlResource.getContents().get(0));
     assertEquals(eObject, xmlResource.getEObject("CLASS:cls"));
     assertEquals("CLASS:cls", xmlResource.getID(eObject));
-    
+
     //Removing the object from the resource
     ChangeRecorder changeRecorder = new ChangeRecorder(xmlResource);
     xmlResource.getContents().remove(eObject);
     ChangeDescription changeDescription = changeRecorder.endRecording();
-    
+
     //State2: resource has no objects and nothing is identified by the ID     
     assertTrue(xmlResource.getContents().isEmpty());
     assertNull(xmlResource.getID(eObject));
     assertNull(xmlResource.getEObject("CLASS:cls"));
     assertTrue(((XMLResourceImpl)xmlResource).getEObjectToIDMap().isEmpty());
     assertTrue(((XMLResourceImpl)xmlResource).getIDToEObjectMap().isEmpty());
-    
+
     changeDescription.applyAndReverse();
-    
+
     //State 3: resouce has 1 object and no ID is set
     assertEquals(1, xmlResource.getContents().size());
     assertEquals(eObject, xmlResource.getContents().get(0));
@@ -668,24 +711,24 @@ public class ChangeDescriptionTest extends TestCase
     assertNull(xmlResource.getID(eObject));
     assertNull(xmlResource.getEObject("CLASS:cls"));
   }
-  
+
   /*
    * Bugzilla 172036
-   */  
+   */
   public void testSwitchResources() throws Exception
   {
     final Resource resource1 = new ResourceImpl(URI.createFileURI("/home/res1"));
-    final Resource resource2 = new ResourceImpl(URI.createFileURI("/home/res2"));    
+    final Resource resource2 = new ResourceImpl(URI.createFileURI("/home/res2"));
     final Library library = LibraryFactory.eINSTANCE.createLibrary();
     final Writer writer = LibraryFactory.eINSTANCE.createWriter();
-    
+
     resource1.getContents().add(library);
     resource2.getContents().add(writer);
-    
+
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResources().add(resource1);
     resourceSet.getResources().add(resource2);
-    
+
     class Helper
     {
       public void assertState0()
@@ -712,7 +755,7 @@ public class ChangeDescriptionTest extends TestCase
     resource1.getContents().add(writer);
     resource2.getContents().add(library);
     ChangeDescription changeDescription = changeRecorder.endRecording();
- 
+
     helper.assertState1();
     changeDescription.applyAndReverse();
     helper.assertState0();
@@ -720,35 +763,35 @@ public class ChangeDescriptionTest extends TestCase
     helper.assertState1();
     changeDescription.apply();
     helper.assertState0();
-  }  
+  }
 
   /*
    * Bugzilla 172036
-   */  
+   */
   public void testSwitchResources2() throws Exception
   {
     final Resource resource1 = new ResourceImpl(URI.createFileURI("/home/res1"));
-    final Resource resource2 = new ResourceImpl(URI.createFileURI("/home/res2"));    
+    final Resource resource2 = new ResourceImpl(URI.createFileURI("/home/res2"));
     final Resource resource3 = new ResourceImpl(URI.createFileURI("/home/res2"));
     final Resource resource4 = new ResourceImpl(URI.createFileURI("/home/res2"));
-    
+
     final Library library = LibraryFactory.eINSTANCE.createLibrary();
     final Writer writer = LibraryFactory.eINSTANCE.createWriter();
     final Book book1 = LibraryFactory.eINSTANCE.createBook();
     final Book book2 = LibraryFactory.eINSTANCE.createBook();
     final Book book3 = LibraryFactory.eINSTANCE.createBook();
-    
+
     resource1.getContents().add(library);
     resource2.getContents().add(writer);
     resource2.getContents().add(book2);
     resource4.getContents().add(book3);
-    
+
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResources().add(resource1);
     resourceSet.getResources().add(resource2);
     resourceSet.getResources().add(resource3);
     resourceSet.getResources().add(resource4);
-    
+
     class Helper
     {
       public void assertState0()
@@ -757,13 +800,13 @@ public class ChangeDescriptionTest extends TestCase
         assertEquals(2, resource2.getContents().size());
         assertEquals(0, resource3.getContents().size());
         assertEquals(1, resource4.getContents().size());
-        
+
         assertEquals(resource1, library.eResource());
         assertEquals(resource2, writer.eResource());
         assertEquals(resource2, book2.eResource());
         assertEquals(resource4, book3.eResource());
         assertNull(book1.eResource());
-        
+
         assertEquals(0, library.getBooks().size());
       }
 
@@ -773,12 +816,12 @@ public class ChangeDescriptionTest extends TestCase
         assertEquals(1, resource2.getContents().size());
         assertEquals(1, resource3.getContents().size());
         assertEquals(0, resource4.getContents().size());
-        
+
         assertEquals(resource1, writer.eResource());
         assertEquals(resource2, library.eResource());
         assertEquals(resource2, book1.eResource());
         assertEquals(resource3, book2.eResource());
-        
+
         assertEquals(2, library.getBooks().size());
         assertEquals(book3, library.getBooks().get(0));
         assertEquals(book1, library.getBooks().get(1));
@@ -796,7 +839,7 @@ public class ChangeDescriptionTest extends TestCase
     resource1.getContents().add(writer);
     library.getBooks().add(book1);
     ChangeDescription changeDescription = changeRecorder.endRecording();
- 
+
     helper.assertState1();
     changeDescription.applyAndReverse();
     helper.assertState0();
@@ -806,7 +849,7 @@ public class ChangeDescriptionTest extends TestCase
     helper.assertState0();
     changeDescription.apply();
     helper.assertState1();
-  }  
+  }
 
   /*
    * Bugzilla 172037
@@ -817,18 +860,18 @@ public class ChangeDescriptionTest extends TestCase
     final Node node2 = TreeFactory.eINSTANCE.createNode(); node2.setName("node2");
     final Node node3 = TreeFactory.eINSTANCE.createNode(); node3.setName("node3");
     final Node node4 = TreeFactory.eINSTANCE.createNode(); node4.setName("node4");
-    
+
     final Node child1 = TreeFactory.eINSTANCE.createNode(); child1.setName("child1");
     final Node child2 = TreeFactory.eINSTANCE.createNode(); child2.setName("child2");
     final Node child3 = TreeFactory.eINSTANCE.createNode(); child3.setName("child3");
     final Node child4 = TreeFactory.eINSTANCE.createNode(); child4.setName("child4");
     final Node child5 = TreeFactory.eINSTANCE.createNode(); child5.setName("child5");
-    
+
     node1.getChildren().add(child1);
     node2.getChildren().add(child2);
     node2.getChildren().add(child4);
     node4.getChildren().add(child5);
-    
+
     Resource resource1 = new ResourceImpl(URI.createFileURI("/home/res1"));
     resource1.getContents().add(node1);
     resource1.getContents().add(node2);
@@ -836,11 +879,11 @@ public class ChangeDescriptionTest extends TestCase
     resource1.getContents().add(node4);
     Resource resource2 = new ResourceImpl(URI.createFileURI("/home/res2"));
     resource2.getContents().add(child3);
-    
+
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getResources().add(resource1);
     resourceSet.getResources().add(resource2);
-    
+
     class Helper
     {
       public void assertState0()
@@ -849,13 +892,13 @@ public class ChangeDescriptionTest extends TestCase
         assertEquals(2, node2.getChildren().size());
         assertEquals(0, node3.getChildren().size());
         assertEquals(1, node4.getChildren().size());
-        
+
         assertEquals(node1, child1.eContainer());
         assertEquals(node2, child2.eContainer());
         assertEquals(node2, child4.eContainer());
         assertEquals(node4, child5.eContainer());
         assertNull(child3.eContainer());
-        
+
         assertEquals(0, child1.getChildren().size());
       }
 
@@ -865,12 +908,12 @@ public class ChangeDescriptionTest extends TestCase
         assertEquals(1, node2.getChildren().size());
         assertEquals(1, node3.getChildren().size());
         assertEquals(0, node4.getChildren().size());
-        
+
         assertEquals(node1, child2.eContainer());
         assertEquals(node2, child1.eContainer());
         assertEquals(node2, child3.eContainer().eContainer());
         assertEquals(node3, child4.eContainer());
-        
+
         assertEquals(2, child1.getChildren().size());
         assertEquals(child5, child1.getChildren().get(0));
         assertEquals(child3, child1.getChildren().get(1));
@@ -888,7 +931,7 @@ public class ChangeDescriptionTest extends TestCase
     node1.getChildren().add(child2);
     child1.getChildren().add(child3);
     ChangeDescription changeDescription = changeRecorder.endRecording();
- 
+
     helper.assertState1();
     changeDescription.applyAndReverse();
     helper.assertState0();
@@ -898,5 +941,5 @@ public class ChangeDescriptionTest extends TestCase
     helper.assertState0();
     changeDescription.apply();
     helper.assertState1();
-  }  
+  }
 }
