@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.44 2007/03/23 17:37:07 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.45 2007/04/05 21:06:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
@@ -337,7 +338,14 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
             {
               oldValue.set(index, notification.getOldValue());
             }
-            change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
+            change =
+              createFeatureChange
+                (eObject,
+                 feature,
+                 oldValue,
+                 notification.wasSet() ||
+                   feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ||
+                   feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS);
           }
           else
           {
@@ -362,7 +370,14 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
         {
           List<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
           oldValue.remove(notification.getPosition());
-          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
+          change =
+            createFeatureChange
+              (eObject,
+               feature,
+               oldValue,
+               notification.wasSet() ||
+                 (feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ||
+                    feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS) && !oldValue.isEmpty());
           ((InternalEList<FeatureChange>)changes).addUnique(change);
         }
         if (containment != null)
@@ -382,7 +397,14 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
           {
             oldValue.remove(position);
           }
-          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
+          change =
+            createFeatureChange
+              (eObject,
+               feature,
+               oldValue,
+               notification.wasSet() ||
+                 (feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ||
+                    feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS) && !oldValue.isEmpty());
           ((InternalEList<FeatureChange>)changes).addUnique(change);
         }
         if (containment != null)
@@ -409,7 +431,14 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
             position = 0;
           }
           oldValue.add(position, notification.getOldValue());
-          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
+          change =
+            createFeatureChange
+              (eObject,
+               feature,
+               oldValue,
+               notification.wasSet() ||
+                 feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ||
+                 feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS);
           ((InternalEList<FeatureChange>)changes).addUnique(change);
         }
         break;
@@ -432,7 +461,14 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
               oldValue.add(positions[i], removedValues.get(i));
             }
           }
-          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
+          change =
+            createFeatureChange
+              (eObject,
+               feature,
+               oldValue,
+               notification.wasSet() ||
+                 feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ||
+                 feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS);
           ((InternalEList<FeatureChange>)changes).addUnique(change);
         }
         break;
@@ -445,7 +481,14 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
           int position = notification.getPosition();
           int oldPosition = ((Integer)notification.getOldValue()).intValue();
           oldValue.move(oldPosition, position);
-          change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
+          change =
+            createFeatureChange
+              (eObject,
+               feature,
+               oldValue,
+               notification.wasSet() ||
+                 feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ||
+                 feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS);
           ((InternalEList<FeatureChange>)changes).addUnique(change);
         }
         break;
