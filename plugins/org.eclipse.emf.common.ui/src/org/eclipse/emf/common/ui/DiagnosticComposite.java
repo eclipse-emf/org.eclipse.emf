@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DiagnosticComposite.java,v 1.1 2007/01/26 06:07:01 marcelop Exp $
+ * $Id: DiagnosticComposite.java,v 1.2 2007/04/05 01:05:30 marcelop Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -66,6 +66,15 @@ public class DiagnosticComposite extends Composite
         throwable.printStackTrace(ps);
         return in.getBuffer().toString();
       }
+      
+      for (Object datum : diagnostic.getData())
+      {
+        if (datum instanceof StringBuilder)
+        {
+          return datum.toString();
+        }
+      }
+      
       return "";      
     }
   }
@@ -155,7 +164,8 @@ public class DiagnosticComposite extends Composite
     this.textProvider = textProvider;
     if (detailText != null)
     {
-      detailText.setText(getTextProvider().getDetail(getSelection()));
+      String detail = getTextProvider().getDetail(getSelection());
+      setDetailText(detail);
     }
   }
   
@@ -234,9 +244,14 @@ public class DiagnosticComposite extends Composite
   
   public void setDetailText(String text)
   {
-    if (detailText != null)
+    if (text == null)
     {
-      detailText.setText(text == null ? "" : text);
+      text = "";
+    }
+    
+    if (detailText != null && !text.equals(detailText.getText()))
+    {
+      detailText.setText(text);
     }
   }
   
@@ -258,7 +273,7 @@ public class DiagnosticComposite extends Composite
     
     SashForm sashForm = (SashForm)detailText.getParent();
     sashForm.setMaximizedControl(detail.length() == 0 ? diagnosticTreeViewer.getTree() : null);
-    detailText.setText(detail);
+    setDetailText(detail);
   }
   
   protected ITreeContentProvider createContentProvider()
