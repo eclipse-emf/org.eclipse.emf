@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.18 2007/03/23 19:31:16 marcelop Exp $
+ * $Id: JMerger.java,v 1.19 2007/04/05 18:35:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -94,7 +94,8 @@ public class JMerger
           comment != null &&
           getControlModel().getBlockPattern().matcher(comment).find();    
         
-        JAbstractType sourceAbstractType = sourcePatternDictionary.getAbstractTypeMap().get(targetAbstractType.getQualifiedName());
+        String nodeIdentifier = targetPatternDictionary.getNodeIdentifier(targetAbstractType);
+        JAbstractType sourceAbstractType = sourcePatternDictionary.getAbstractTypeMap().get(nodeIdentifier);
         
         // convert the target node to a compatible node
         //
@@ -126,7 +127,13 @@ public class JMerger
     @Override
     protected boolean basicVisit(JNode node)
     {
-      JNode sourceNode = sourcePatternDictionary.getNodeMap(node).get(node.getQualifiedName());
+      String nodeIdentifier = targetPatternDictionary.getNodeIdentifier(node);
+      JNode sourceNode = sourcePatternDictionary.getNodeMap(node).get(nodeIdentifier);
+      if (sourceNode == null)
+      {
+        sourceNode = sourcePatternDictionary.getNode(nodeIdentifier);
+      }      
+      
       doPull(sourceNode, node);
       return true;
     }
@@ -140,22 +147,27 @@ public class JMerger
     @Override
     protected boolean visit(JMethod method)
     {
-      String qualifiedTargetMethodName = method.getQualifiedName();
-      JMethod sourceMethod = sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
+      String nodeIdentifier = targetPatternDictionary.getNodeIdentifier(method);
+      JNode sourceNode = sourcePatternDictionary.getMethodMap().get(nodeIdentifier);
 
-      if (sourceMethod == null && 
+      if (sourceNode == null && 
             getControlModel().getRedirect() != null && 
             method.getName() != null &&
             method.getName().endsWith(getControlModel().getRedirect()))
       {
+        String qualifiedTargetMethodName = method.getQualifiedName();
         int index = qualifiedTargetMethodName.indexOf("("); //)
         qualifiedTargetMethodName =
           qualifiedTargetMethodName.substring(0, index - getControlModel().getRedirect().length()) + 
             qualifiedTargetMethodName.substring(index);
-        sourceMethod = sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
+        sourceNode = sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
       }
       
-      doPull(sourceMethod, method);
+      if (sourceNode == null)
+      {
+        sourceNode = sourcePatternDictionary.getNode(nodeIdentifier);
+      }            
+      doPull(sourceNode, method);
       return true;
     }
     
