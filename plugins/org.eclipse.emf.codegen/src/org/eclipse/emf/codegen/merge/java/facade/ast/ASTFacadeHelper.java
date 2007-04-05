@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.11 2006/12/29 20:57:32 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.12 2007/04/05 01:08:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -58,6 +58,10 @@ import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.WrappedException;
 
 
 /**
@@ -261,20 +265,21 @@ public class ASTFacadeHelper extends FacadeHelper
     // parse
     CompilationUnit astCompilationUnit = (CompilationUnit)astParser.createAST(null);
 
-    // display errors if any
-    if (astCompilationUnit.getProblems().length > 0)
-    {
-      // TODO do a better job with reporting errors      
-      String problems = logCompilationErrors(astCompilationUnit.getProblems());
-      
-      // NAME may be passed as name - do not show it
-      if (name != null && !"".equals(name) && !"NAME".equals(name))
+    Diagnostic diagnostic = analyzeCompilationUnit(astCompilationUnit, contents);
+    if (diagnostic != Diagnostic.OK_INSTANCE)
+    { 
+      StringBuilder message = new StringBuilder(diagnostic.getMessage());
+      for (Diagnostic childDiagnostic : diagnostic.getChildren())
       {
-        problems = name + ":" + problems;
+        message.append("\n\t").append(childDiagnostic.getMessage());
       }
+      message.append(contents);
+      CodeGenPlugin.INSTANCE.log(message.toString());
       
-      // stop merging and report problems
-      throw new RuntimeException(problems);
+      if (diagnostic.getSeverity() == Diagnostic.ERROR)
+      {
+        throw new WrappedException(new DiagnosticException(diagnostic));
+      }
     }
 
     // create rewriter to record changes
@@ -300,29 +305,39 @@ public class ASTFacadeHelper extends FacadeHelper
     return new String(((ASTJCompilationUnit)compilationUnit).getOriginalContents());
   }
 
-  /**
-   * Logs all compilation errors
-   * <br>Currently for debugging only.
-   * 
-   * @param problems to display
-   * @throws Exception 
-   */
-  private String logCompilationErrors(IProblem[] problems)
+  private Diagnostic analyzeCompilationUnit(CompilationUnit compilationUnit, String contents)
   {
-    StringBuilder sb = new StringBuilder("Compiler Problems:");
-    for (int i = 0; i < problems.length; i++)
+    if (compilationUnit.getProblems().length == 0)
     {
-      sb.append(System.getProperty("line.separator"));
-      sb.append(problems[i].getOriginatingFileName());
-      sb.append(" Line ").append(problems[i].getSourceLineNumber()).append(": ");
-      sb.append(problems[i]);
+      return Diagnostic.OK_INSTANCE;
     }
-    
-    if (DEBUG)
+    else
     {
-      logError(sb.toString());
-    }    
-    return sb.toString();
+      BasicDiagnostic diagnostic = new BasicDiagnostic(
+        CodeGenPlugin.ID,
+        0,
+        CodeGenPlugin.INSTANCE.getString("_UI_ParsingProblem_message"),
+        contents == null ? null : new Object[] {new StringBuilder(contents)}
+      );
+      
+      for (IProblem problem : compilationUnit.getProblems())
+      {
+        String message = problem.getMessage() != null ?
+          CodeGenPlugin.INSTANCE.getString("_UI_LineNumberAndText_message", new Object[] {problem.getSourceLineNumber(), problem.getMessage()}) :
+          CodeGenPlugin.INSTANCE.getString("_UI_LineNumber_message", new Object[] {problem.getSourceLineNumber()});
+        
+        BasicDiagnostic childDiagnostic = new BasicDiagnostic(
+          problem.isWarning() ? Diagnostic.WARNING : Diagnostic.ERROR,
+          CodeGenPlugin.ID,
+          0,
+          message.toString(),
+          contents == null ? new Object[]{problem} : new Object[]{problem, new StringBuilder(contents)}
+        );
+        diagnostic.add(childDiagnostic);
+      }
+      
+      return diagnostic;
+    }
   }
 
   /**
