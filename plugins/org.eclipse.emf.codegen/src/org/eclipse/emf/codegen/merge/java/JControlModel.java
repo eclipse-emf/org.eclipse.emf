@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.9 2006/12/18 21:16:21 marcelop Exp $
+ * $Id: JControlModel.java,v 1.10 2007/04/05 18:33:32 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -65,6 +65,8 @@ class PrefixHandler
  */
 public class JControlModel extends PrefixHandler
 {  
+  protected final static Class<?>[] NO_PARAMETER_TYPES = new Class<?>[0];
+  
   public static class Feature extends PrefixHandler
   {
     protected Class<?> featureClass;
@@ -113,7 +115,6 @@ public class JControlModel extends PrefixHandler
 
   public static class DictionaryPattern extends PrefixHandler
   {
-    protected static Class<?>[] noParameterTypes = new Class<?>[0];
     protected static Class<?>[] stringParameterType = new Class<?>[] { String.class };
     protected String name;
     protected Feature selectorFeature;
@@ -133,7 +134,7 @@ public class JControlModel extends PrefixHandler
     public void initialize(Element element)
     {
       name = element.getAttribute("name");
-      selectorFeature = createFeature(getClassPrefix(), element.getAttribute("select"), noParameterTypes);
+      selectorFeature = createFeature(getClassPrefix(), element.getAttribute("select"), NO_PARAMETER_TYPES);
       pattern = Pattern.compile(element.getAttribute("match"), Pattern.MULTILINE | Pattern.DOTALL);
     }
     
@@ -665,6 +666,118 @@ public class JControlModel extends PrefixHandler
       result;
   }
   
+  /**
+   * <p>During the merge, the current state of the nodes of a tree is applied to the nodes of 
+   * another tree.  Pairing the nodes of each tree is one of the main activities of the process.</p>
+   * 
+   * <p>A Match Rule allows a developer to replace the default matching algorithm, based on 
+   * qualified names, to better suite the needs of an specific application.  Some examples:</p>    
+   * 
+   * <pre>
+   *   &lt;merge:match markup=&quot;^gen$&quot; get=&quot;Member/getName&quot;/&gt;
+   *   &lt;merge:match get=&quot;Method/getComment&quot; signature=&quot;\s*@\s*uuid\s*(\S*)\s*\n&quot;/&gt;</pre>
+   * 
+   * <p>The first match rule is applicable to any Member marked with the expression defined 
+   * by the &quot;^gen$&quot; Dictionary Pattern.  It defines that these members are matched
+   * by their names.  The second rule is applicable to any method that has 
+   * <code>@uuid xyz</code> on its comment.  In this case, the string <code>xyz</code> 
+   * is be used to match the nodes.</p>
+   */
+  public static class MatchRule extends PrefixHandler
+  {
+    protected String name;    
+    protected Pattern markup;    
+    protected Feature getFeature;
+    protected Pattern signature;
+    protected boolean stopMatching = false;
+    
+    public MatchRule(String classPrefix)
+    {
+      super(classPrefix);
+    }
+
+    public MatchRule(String classPrefix, Element element)
+    {
+      this(classPrefix);
+      initialize(element);
+    }
+
+    public void initialize(Element element)
+    {
+      if (element.hasAttribute("markup"))
+      {
+        markup= Pattern.compile(element.getAttribute("markup"), Pattern.MULTILINE | Pattern.DOTALL);
+      }
+      if (element.hasAttribute("get"))
+      {
+        getFeature = createFeature(getClassPrefix(), element.getAttribute("get"), NO_PARAMETER_TYPES);
+        if (element.hasAttribute("signature"))
+        {
+          signature = Pattern.compile(element.getAttribute("signature"), Pattern.MULTILINE | Pattern.DOTALL);
+        }
+      }
+      if (element.hasAttribute("stopMatching"))
+      {
+        stopMatching = Boolean.parseBoolean(element.getAttribute("stopMatching"));
+      }
+    }
+    
+    protected Feature createFeature(String classPrefix, String path, Class<?>[] parameterTypes)
+    {
+      return new Feature(getClassPrefix(), path, parameterTypes);
+    }    
+
+    public String getName()
+    {
+      return name;
+    }
+
+    public void setName(String name)
+    {
+      this.name = name;
+    }
+
+    public Feature getGetFeature()
+    {
+      return getFeature;
+    }
+
+    public void setGetFeature(Feature getFeature)
+    {
+      this.getFeature = getFeature;
+    }
+
+    public Pattern getMarkup()
+    {
+      return markup;
+    }
+
+    public void setMarkup(Pattern markup)
+    {
+      this.markup = markup;
+    }
+    
+    public Pattern getSignature()
+    {
+      return signature;
+    }
+    
+    public void setSignature(Pattern signature)
+    {
+      this.signature = signature;
+    }
+    
+    public boolean isStopMatching()
+    {
+      return this.stopMatching;
+    }
+    
+    public void setStopMatching(boolean stopMatching)
+    {
+      this.stopMatching = stopMatching;
+    }
+  }  
+  
   protected FacadeHelper facadeHelper;
   
   protected List<DictionaryPattern> dictionaryPatterns;
@@ -672,6 +785,7 @@ public class JControlModel extends PrefixHandler
   protected List<PushRule> pushRules;
   protected List<SweepRule> sweepRules;
   protected List<SortRule> sortRules;
+  protected List<MatchRule> matchRules;
   protected Pattern blockPattern;
   protected Pattern noImportPattern;
   protected String redirect;
@@ -710,6 +824,10 @@ public class JControlModel extends PrefixHandler
       if (sortRules != null)
       {
         sortRules.clear();
+      }
+      if (matchRules != null)
+      {
+        matchRules.clear();
       }
       blockPattern = null;
       noImportPattern = null;
@@ -812,6 +930,15 @@ public class JControlModel extends PrefixHandler
     return sortRules;
   }
   
+  public List<MatchRule> getMatchRules()
+  {
+    if (matchRules == null)
+    {
+      matchRules = new ArrayList<MatchRule>();
+    }
+    return matchRules;
+  }
+
   public boolean canMerge()
   {
     return getFacadeHelper() != null;
@@ -895,6 +1022,10 @@ public class JControlModel extends PrefixHandler
           {
             getSortRules().add(createSortRule(classPrefix, elementChild));
           }
+          else if (elementChild.getLocalName().equals("match"))
+          {
+            getMatchRules().add(createMatchRule(classPrefix, elementChild));
+          }
         }
       }
     }
@@ -923,5 +1054,10 @@ public class JControlModel extends PrefixHandler
   protected SortRule createSortRule(String classPrefix, Element elementChild)
   {
     return new SortRule(classPrefix, elementChild);
+  }  
+
+  protected MatchRule createMatchRule(String classPrefix, Element elementChild)
+  {
+    return new MatchRule(classPrefix, elementChild);
   }  
 }
