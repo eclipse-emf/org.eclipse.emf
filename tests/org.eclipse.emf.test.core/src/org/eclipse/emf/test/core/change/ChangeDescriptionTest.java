@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.15 2007/04/05 21:10:20 emerks Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.16 2007/04/08 16:32:14 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -69,6 +70,7 @@ public class ChangeDescriptionTest extends TestCase
   {
     TestSuite ts = new TestSuite("ChangeDescription Test");
     ts.addTest(new ChangeDescriptionTest("testRemoveSuperType"));
+    ts.addTest(new ChangeDescriptionTest("testRemoveGenericException"));
     ts.addTest(new ChangeDescriptionTest("testMultipleApplyAndReverse"));
     ts.addTest(new ChangeDescriptionTest("testUnchangeableFeature"));
     ts.addTest(new ChangeDescriptionTest("testApplyAndReverse2"));
@@ -114,10 +116,12 @@ public class ChangeDescriptionTest extends TestCase
     }
     Helper helper = new Helper();
     helper.state0();
+    
     ChangeRecorder changeRecorder = new ChangeRecorder(pack);
     subEClass.getEGenericSuperTypes().clear();
     ChangeDescription changeDescription = changeRecorder.endRecording();
     helper.state1();
+    
     changeDescription.applyAndReverse();
     helper.state0();
     changeDescription.applyAndReverse();
@@ -125,6 +129,51 @@ public class ChangeDescriptionTest extends TestCase
     changeDescription.apply();
     helper.state0();
   }
+
+  /*
+   * Bugzilla 181288
+   */
+  public void testRemoveGenericException() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(eClass);
+    final EOperation operation = EcoreFactory.eINSTANCE.createEOperation();
+    eClass.getEOperations().add(operation);
+    final EClass eException = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(eException);
+    operation.getEExceptions().add(eException);
+    class Helper
+    {
+      public void state0()
+      {
+        assertEquals(1, operation.getEExceptions().size());
+        assertEquals(eException, operation.getEExceptions().get(0));
+        assertEquals(1, operation.getEGenericExceptions().size());
+        assertEquals(eException, operation.getEGenericExceptions().get(0).getEClassifier());
+      }
+
+      public void state1()
+      {
+        assertTrue(operation.getEExceptions().isEmpty());
+        assertTrue(operation.getEGenericExceptions().isEmpty());
+      }
+    }
+    Helper helper = new Helper();
+    helper.state0();
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(pack);
+    operation.getEGenericExceptions().clear();
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    helper.state1();
+    
+    changeDescription.applyAndReverse();
+    helper.state0();
+    changeDescription.applyAndReverse();
+    helper.state1();
+    changeDescription.apply();
+    helper.state0();
+  }  
 
   /*
    * Bugzilla 120869
