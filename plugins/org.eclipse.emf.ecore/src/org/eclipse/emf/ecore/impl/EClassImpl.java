@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.36 2007/03/28 18:07:24 emerks Exp $
+ * $Id: EClassImpl.java,v 1.37 2007/04/08 16:37:29 marcelop Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -319,6 +319,26 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           {
             // Don't really unset it.
             clear();
+          }
+
+          @Override
+          protected NotificationImpl createNotification(int eventType, Object oldObject, Object newObject, int index, boolean wasSet)
+          {
+            switch (eventType)
+            {
+              case Notification.ADD:
+              {
+                return super.createNotification(eventType, oldObject, newObject, index, size > 1);
+              }
+              case Notification.ADD_MANY:
+              {
+                return super.createNotification(eventType, oldObject, newObject, index, size - ((List<?>)newObject).size() > 0);
+              }
+              default:
+              {
+                return super.createNotification(eventType, oldObject, newObject, index, true);
+              }
+            }
           }
         };
     }
