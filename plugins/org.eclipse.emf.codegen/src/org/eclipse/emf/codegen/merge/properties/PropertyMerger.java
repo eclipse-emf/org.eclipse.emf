@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.5 2007/03/23 17:36:53 marcelop Exp $
+ * $Id: PropertyMerger.java,v 1.6 2007/04/09 18:04:00 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.properties;
 
@@ -182,20 +182,50 @@ public class PropertyMerger
     int i = 0;
     while (i < properties.length())
     {
-      int eol = properties.indexOf("\n", i);
-      if (eol != -1)
+      int eol;
+      for (int start = i;;)
       {
-        if (eol + 1 < properties.length() && properties.charAt(eol + 1) == '\r')
+        eol = properties.indexOf("\n", start);
+        if (eol != -1)
         {
-          ++eol;
+          if (eol + 1 < properties.length() && properties.charAt(eol + 1) == '\r')
+          {
+            if (eol > start && properties.charAt(eol - 1) == '\\')
+            {
+              start = eol + 2;
+            }
+            else
+            {
+              ++eol;
+              break;
+            }
+          }
+          else if (eol > start && properties.charAt(eol - 1) == '\\' ||
+                     eol - 1 > start && properties.charAt(eol - 1) == '\r' && properties.charAt(eol - 2) == '\\')
+          {
+            start = eol + 1;
+          }
+          else
+          {
+            break;
+          }
         }
-      }
-      else
-      {
-        eol = properties.indexOf("\r", i);
-        if (eol == -1)
+        else
         {
-          eol = properties.length() - 1;
+          eol = properties.indexOf("\r", start);
+          if (eol == -1)
+          {
+            eol = properties.length() - 1;
+            break;
+          }
+          else if (eol > start && properties.charAt(eol - 1) == '\\')
+          {
+            start = eol + 1;
+          }
+          else
+          {
+            break;
+          }
         }
       }
 
