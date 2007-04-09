@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.10 2007/04/05 18:33:32 marcelop Exp $
+ * $Id: JControlModel.java,v 1.11 2007/04/09 19:53:28 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -33,6 +33,7 @@ import org.xml.sax.InputSource;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
+import org.eclipse.emf.codegen.merge.java.facade.NodeConverter;
 import org.eclipse.emf.common.EMFPlugin;
 
 class PrefixHandler
@@ -682,6 +683,12 @@ public class JControlModel extends PrefixHandler
    * by their names.  The second rule is applicable to any method that has 
    * <code>@uuid xyz</code> on its comment.  In this case, the string <code>xyz</code> 
    * is be used to match the nodes.</p>
+   * 
+   * <p>An important remark is that if there is a type conversion during the merge process,
+   * the match rules should <b>not</b> be used to pair different &quot;kinds&quot; of elements
+   * like fields and enumerator constants for example. See 
+   * {@link JMerger#convertTarget(org.eclipse.emf.codegen.merge.java.facade.JAbstractType, Class) Jmerger.convert}
+   * and {@link NodeConverter} for further details on conversions.</p>
    */
   public static class MatchRule extends PrefixHandler
   {
