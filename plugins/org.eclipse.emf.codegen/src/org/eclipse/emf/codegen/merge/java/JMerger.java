@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.19 2007/04/05 18:35:57 marcelop Exp $
+ * $Id: JMerger.java,v 1.20 2007/04/09 19:52:34 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -129,7 +129,7 @@ public class JMerger
     {
       String nodeIdentifier = targetPatternDictionary.getNodeIdentifier(node);
       JNode sourceNode = sourcePatternDictionary.getNodeMap(node).get(nodeIdentifier);
-      if (sourceNode == null)
+      if (noAbstractTypeConversion && sourceNode == null)
       {
         sourceNode = sourcePatternDictionary.getNode(nodeIdentifier);
       }      
@@ -163,7 +163,7 @@ public class JMerger
         sourceNode = sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
       }
       
-      if (sourceNode == null)
+      if (noAbstractTypeConversion && sourceNode == null)
       {
         sourceNode = sourcePatternDictionary.getNode(nodeIdentifier);
       }            
@@ -246,6 +246,8 @@ public class JMerger
   protected boolean isBlocked = false;
   protected boolean targetCompilationUnitExists;
   protected boolean targetCompilationChanged = false;
+  
+  protected boolean noAbstractTypeConversion = true;
   
   /**
    * This creates an empty instances, an when used as a runnable.
@@ -964,7 +966,15 @@ public class JMerger
   protected JNode convertTarget(JAbstractType targetAbstractType, Class<? extends JAbstractType> sourceClass)
   {
     NodeConverter converter = getControlModel().getFacadeHelper().getNodeConverter();
-    return converter != null ? converter.convert(targetAbstractType, sourceClass) : null;
+    if (converter != null)
+    {
+      noAbstractTypeConversion = false;
+      return converter.convert(targetAbstractType, sourceClass);      
+    }
+    else
+    {
+      return null;
+    }
   }
 
   protected JNode insertClone(JNode sourceNode)
