@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierItemProvider.java,v 1.18 2007/03/22 01:59:29 davidms Exp $
+ * $Id: EClassifierItemProvider.java,v 1.19 2007/04/10 15:28:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -106,7 +106,7 @@ public class EClassifierItemProvider
          null)
        {
          @Override
-        public void setPropertyValue(Object object, Object value)
+         public void setPropertyValue(Object object, Object value)
          {
            EObject eObject = (EObject)object;
            EditingDomain editingDomain = getEditingDomain(object);
@@ -154,12 +154,12 @@ public class EClassifierItemProvider
    * This adds a property descriptor for the Instance Type Name feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void addInstanceTypeNamePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (createItemPropertyDescriptor
+      (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClassifier_instanceTypeName_feature"),
@@ -170,7 +170,14 @@ public class EClassifierItemProvider
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
-         null));
+         null)
+       {
+         @Override
+         public void setPropertyValue(Object object, Object value)
+         {
+           super.setPropertyValue(object, stripToNull((String)value));
+         }
+       });
   }
 
   /**
