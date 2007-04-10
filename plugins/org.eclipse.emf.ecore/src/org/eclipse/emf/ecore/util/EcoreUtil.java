@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.53 2006/12/28 12:42:43 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.54 2007/04/10 20:20:36 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -46,11 +46,13 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -3772,6 +3774,68 @@ public class EcoreUtil
   
       return basicDiagnostic;
     }
+  }
+
+  public static String toJavaInstanceTypeName(EGenericType eGenericType)
+  {
+    StringBuilder result = new StringBuilder();
+    EClassifier eClassifier = eGenericType.getEClassifier();
+    if (eClassifier != null)
+    {
+      String instanceTypeName = eClassifier.getInstanceTypeName();
+      EList<EGenericType> eTypeArguments = eGenericType.getETypeArguments();
+      if (eTypeArguments.isEmpty())
+      {
+        result.append(instanceTypeName);
+      }
+      else
+      {
+        int index = instanceTypeName.indexOf('[');
+        result.append(index == -1 ? instanceTypeName : instanceTypeName.substring(0, index));
+        result.append('<');
+        for (int i = 0, size = eTypeArguments.size(); i < size; ++i)
+        {
+          if (i != 0)
+          {
+            result.append(", ");
+          }
+          result.append(toJavaInstanceTypeName(eTypeArguments.get(i)));
+        }
+        result.append('>');
+        if (index != -1)
+        {
+          result.append(instanceTypeName.substring(index));
+        }
+      }
+    }
+    else
+    {
+      ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+      if (eTypeParameter != null)
+      {
+        result.append(eTypeParameter.getName());
+      }
+      else
+      {
+        result.append('?');
+        EGenericType eUpperBound = eGenericType.getEUpperBound();
+        if (eUpperBound != null)
+        {
+          result.append(" extends ");
+          result.append(toJavaInstanceTypeName(eUpperBound));
+        }
+        else
+        {
+          EGenericType eLowerBound = eGenericType.getELowerBound();
+          if (eLowerBound != null)
+          {
+            result.append(" super ");
+            result.append(toJavaInstanceTypeName(eLowerBound));
+          }
+        }
+      }
+    }
+    return result.toString();
   }
 
   /*
