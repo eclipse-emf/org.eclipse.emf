@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.67 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.68 2007/04/10 18:43:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2474,6 +2474,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       setDisposableProviderFactory(true);
     }
 
+    int eClassIndex = 0;
+    int eEnumIndex = 0;
+    int eDataTypeIndex = 0;
     CLASSIFIER_LOOP:
     for (EClassifier eClassifier : ePackage.getEClassifiers())
     {
@@ -2484,14 +2487,32 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           if (eClassifier instanceof EClass)
           {
             ((GenClass)genClassifier).initialize((EClass)eClassifier);
+            int index = getGenClasses().indexOf(genClassifier);
+            if (index != eClassIndex)
+            {
+              getGenClasses().move(eClassIndex, index);
+            }
+            ++eClassIndex;
           }
           else if (eClassifier instanceof EEnum)
           {
             ((GenEnum)genClassifier).initialize((EEnum)eClassifier);
+            int index = getGenEnums().indexOf(genClassifier);
+            if (index != eEnumIndex)
+            {
+              getGenEnums().move(eEnumIndex, index);
+            }
+            ++eEnumIndex;
           }
           else if (eClassifier instanceof EDataType)
           {
             ((GenDataType)genClassifier).initialize((EDataType)eClassifier);
+            int index = getGenDataTypes().indexOf(genClassifier);
+            if (index != eDataTypeIndex)
+            {
+              getGenDataTypes().move(eDataTypeIndex, index);
+            }
+            ++eDataTypeIndex;
           }
 
           continue CLASSIFIER_LOOP;
@@ -2502,7 +2523,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       {
         EClass eClass = (EClass)eClassifier;
         GenClass genClass = getGenModel().createGenClass();
-        getGenClasses().add(genClass);
+        getGenClasses().add(eClassIndex++, genClass);
         genClass.initialize(eClass);
 
       }
@@ -2510,18 +2531,19 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       {
         EEnum eEnum = (EEnum)eClassifier;
         GenEnum genEnum = getGenModel().createGenEnum();
-        getGenEnums().add(genEnum);
+        getGenEnums().add(eEnumIndex++, genEnum);
         genEnum.initialize(eEnum);
       }
       else if (eClassifier instanceof EDataType)
       {
         EDataType eDataType = (EDataType)eClassifier;
         GenDataType genDataType = getGenModel().createGenDataType();
-        getGenDataTypes().add(genDataType);
+        getGenDataTypes().add(eDataTypeIndex++, genDataType);
         genDataType.initialize(eDataType);
       }
     }
 
+    int ePackageIndex = 0;
     PACKAGE_LOOP:
     for (EPackage nestedEPackage : ePackage.getESubpackages())
     {
@@ -2530,12 +2552,18 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         if (nestedGenPackage.getEcorePackage() == nestedEPackage)
         {
           nestedGenPackage.initialize(nestedEPackage);
+          int index = getNestedGenPackages().indexOf(nestedGenPackage);
+          if (index != ePackageIndex)
+          {
+            getNestedGenPackages().move(ePackageIndex, index);
+          }
+          ++ePackageIndex;
           continue PACKAGE_LOOP;
         }
       }
 
       GenPackage genPackage = getGenModel().createGenPackage();
-      getNestedGenPackages().add(genPackage);
+      getNestedGenPackages().add(ePackageIndex++, genPackage);
       genPackage.initialize(nestedEPackage);
     }
 
