@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options 
+  indent="  "  
+  braceStyle="matching"  
+  xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+
+  <!-- 
+  This test shows some advanced rules for annotations.  It is important to highlight
+  that these rules may not be suitable for real applications, though.  The problem here 
+  is that the DictionaryPattern identifies annotations by their name, without further 
+  analysis of the package in which the corresponding AnnotationType is defined.
+  
+  In other words, a complete solution would need to distinguish the annotations
+  com.example.annotations.Foo and org.example.annotations.Foo.  At this moment
+  JMerger cannot make such a distinction.
+  
+  This example implements the following strategy (keep in mind that 'source' corresponds
+  to the new version while 'target' is the existing file, probably modified
+  by the developer):
+  
+  - Annotations of members that have @generated in their Javadoc are always updated with
+  the contents of the source file
+  
+  - Any annotation of an @generated member that only exists in the target is removed
+  
+  - An @generated member that only exists in the target is commented out
+  -->
+
+  <!--
+  This dictionary pattern is used to identify all member marked with an @generated 
+  javadoc annotation
+  --> 
+  <merge:dictionaryPattern
+    name="Update" 
+    select="Member/getComment" 
+    match="@\s*(gen)erated\s*\n"/>
+
+  <!--
+  With this pull rule, the annotations of members marked as @generated are 
+  replaced by the contents of the annotations in the source.
+  -->
+  <merge:pull 
+    sourceGet="Annotation/getContents"
+    targetParentMarkup="^gen$"
+    targetPut="Annotation/setContents"/>
+
+  <!--
+  With this sweep rule, any annotation in the target that is not available in the 
+  source is deleted. 
+  -->
+  <merge:sweep parentMarkup="^gen$" select="Annotation"/>
+
+  <!--
+  With this sweep rule, any member in the target that is not available in the 
+  source is commented out. 
+  -->
+  <merge:sweep markup="^gen$" select="Member" action="comment"/>
+</merge:options>
