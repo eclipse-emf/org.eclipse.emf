@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeImpl.java,v 1.4 2007/02/20 17:40:49 emerks Exp $
+ * $Id: EGenericTypeImpl.java,v 1.5 2007/04/12 12:21:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -740,9 +740,27 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
     if (eClassifier != null)
     {
       String label = eClassifier.getName();
+      String tail = null;
       if (label != null)
       {
         result.append(label);
+      }
+      else
+      {
+        String instanceTypeName = eClassifier.getInstanceTypeName();
+        if (instanceTypeName != null)
+        {
+          int index = instanceTypeName.indexOf('[');
+          if (index != -1)
+          {
+            tail = instanceTypeName.substring(index);
+            result.append(instanceTypeName, 0, index);
+          }
+          else
+          {
+            result.append(instanceTypeName);
+          }
+        }
       }
       
       if (eTypeArguments != null && !eTypeArguments.isEmpty())
@@ -762,6 +780,11 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
           ((EGenericTypeImpl)eTypeArgument).toString(result);
         }
         result.append('>');
+      }
+      
+      if (tail != null)
+      {
+        result.append(tail);
       }
     }
     else if (eTypeParameter != null)
