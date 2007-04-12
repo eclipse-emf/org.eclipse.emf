@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.34 2007/03/29 18:25:00 marcelop Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.35 2007/04/12 16:52:55 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -892,6 +892,8 @@ public class JavaEcoreBuilder
     return ePackage;
   }
 
+  private static final String[] EMPTY_STRING_ARRAY = new String[0];
+
   /**
    * Walks the type either as an EClass or an ENum to analyze either the methods or the fields.
    */
@@ -941,11 +943,11 @@ public class JavaEcoreBuilder
         }
         eClassToSuperTypeNamesMap.put(eClass, superInterfaces);
 
-        String isAbstract = getModelAnnotationAttribute(modelAnnotation, "abstract");
-        eClass.setAbstract("true".equals(isAbstract));
-
         String isInterface = getModelAnnotationAttribute(modelAnnotation, "interface");
         eClass.setInterface("true".equals(isInterface));
+
+        String isAbstract = getModelAnnotationAttribute(modelAnnotation, "abstract");
+        eClass.setAbstract("true".equals(isAbstract) || isAbstract == null && eClass.isInterface());
 
         // Walk the methods.
         //
@@ -970,9 +972,9 @@ public class JavaEcoreBuilder
                  getFilteredModelAnnotations(modelAnnotation, feature), 
                  "get" + Character.toUpperCase(feature.charAt(0)) + feature.substring(1), 
                  "java.lang.Object", 
-                 null, 
-                 null,
-                 null);
+                 EMPTY_STRING_ARRAY, 
+                 EMPTY_STRING_ARRAY,
+                 EMPTY_STRING_ARRAY);
             }
             else
             {
@@ -1130,23 +1132,23 @@ public class JavaEcoreBuilder
                            getFilteredModelAnnotations(methodAnnotation, feature), 
                            "get" + Character.toUpperCase(feature.charAt(0)) + feature.substring(1), 
                            "java.lang.Object", 
-                           null, 
-                           null,
-                           null);
+                           EMPTY_STRING_ARRAY, 
+                           EMPTY_STRING_ARRAY,
+                           EMPTY_STRING_ARRAY);
                       }
                     }
                     else
                     {
-                      analyzeMethod(eClass, getFilteredModelAnnotations(methodAnnotation, "key"), "getKey", "java.lang.Object", null, null, null);
+                      analyzeMethod(eClass, getFilteredModelAnnotations(methodAnnotation, "key"), "getKey", "java.lang.Object", EMPTY_STRING_ARRAY, EMPTY_STRING_ARRAY, EMPTY_STRING_ARRAY);
 
                       analyzeMethod(
                         eClass,
                         getFilteredModelAnnotations(methodAnnotation, "value"),
                         "getValue",
                         "java.lang.Object",
-                        null,
-                        null,
-                        null);
+                        EMPTY_STRING_ARRAY,
+                        EMPTY_STRING_ARRAY,
+                        EMPTY_STRING_ARRAY);
                     }
                   }
                   eClass.getEAnnotations().addAll(extractEAnnotations(methodAnnotation));
