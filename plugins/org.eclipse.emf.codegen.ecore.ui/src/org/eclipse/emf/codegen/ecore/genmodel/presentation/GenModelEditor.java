@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.42 2007/03/21 18:08:57 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.43 2007/04/12 17:49:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -148,6 +148,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 //import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.action.ValidateAction;
 
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
 
@@ -1568,13 +1569,14 @@ public class GenModelEditor
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void gotoMarker(IMarker marker)
   {
     try
     {
-      if (marker.getType().equals(EValidator.MARKER))
+      // TODO Hack that should be removed.
+      if (marker.exists() && marker.getType().equals(EValidator.MARKER))
       {
         String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
         if (uriAttribute != null)
@@ -1838,6 +1840,8 @@ public class GenModelEditor
     Diagnostic diagnostic = genModel.diagnose();
     if (diagnostic.getSeverity() != Diagnostic.OK)
     {
+      // TODO
+      markerHelper = new ValidateAction.EclipseResourcesUtil();
       Diagnostic mapDiagnostic = resourceToDiagnosticMap.get(mainResource);
       if (mapDiagnostic != null)
       {
