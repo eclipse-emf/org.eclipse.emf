@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.71 2007/04/03 12:09:47 emerks Exp $
+ * $Id: XMLHandler.java,v 1.72 2007/04/13 16:43:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -224,7 +224,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     private int lineNumber;
     private int columnNumber;
 
-    ManyReference(EObject object,
+    public ManyReference(EObject object,
                   EStructuralFeature feature,
                   Object[] values,
                   int[] positions,
