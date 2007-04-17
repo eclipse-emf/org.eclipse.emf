@@ -21,7 +21,8 @@
         class="org.eclipse.emf.cheatsheets.actions.CopyFileFromPluginAction"
         param1="EMF Cheatsheet Data"
         param2=""
-        param3="org.eclipse.emf.cheatsheets/archive/rose/library.mdl" />
+        param3="org.eclipse.emf.cheatsheets/archive/rose/library.mdl" 
+        translate="" />
     </subitem>
 
     <subitem
@@ -45,7 +46,8 @@
           pluginId="org.eclipse.emf.cheatsheets"
           class="org.eclipse.emf.cheatsheets.actions.OpenEMFProjectWizardAction"
           param1="library.rose"
-          param2="org.eclipse.emf.importer.rose" />
+          param2="org.eclipse.emf.importer.rose" 
+          translate="" />
     </subitem>
     <subitem label="Enter &quot;library.rose&quot; as the project name, then click &quot;Next&quot;." skip="false" />
     <subitem label="Select &quot;Rose class model&quot;, then click &quot;Next&quot;." skip="false" />

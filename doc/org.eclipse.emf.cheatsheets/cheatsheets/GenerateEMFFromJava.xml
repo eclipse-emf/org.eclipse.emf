@@ -28,7 +28,8 @@
       <action
         pluginId="org.eclipse.emf.cheatsheets"
         class="org.eclipse.emf.cheatsheets.actions.OpenEmptyEMFProjectWizardAction"
-        param1="library.java" />
+        param1="library.java"  
+        translate="" />
     </subitem>
 
     <subitem label="Enter &quot;library.java&quot; as the &quot;Project name&quot;, then click &quot;Finish&quot;." skip="false" />
@@ -51,7 +52,8 @@
         class="org.eclipse.emf.cheatsheets.actions.CopyFileFromPluginAction"
         param1="library.java"
         param2="org.eclipse.example.library"
-        param3="org.eclipse.emf.cheatsheets/archive/java/Library.java" />
+        param3="org.eclipse.emf.cheatsheets/archive/java/Library.java" 
+        translate="" />
     </subitem>
     <subitem label="Create the Writer interface." skip="true">
       <action
@@ -59,7 +61,8 @@
         class="org.eclipse.emf.cheatsheets.actions.CopyFileFromPluginAction"
         param1="library.java"
         param2="org.eclipse.example.library"
-        param3="org.eclipse.emf.cheatsheets/archive/java/Writer.java" />
+        param3="org.eclipse.emf.cheatsheets/archive/java/Writer.java" 
+        translate="" />
     </subitem>
     <subitem label="Create the Book interface." skip="true">
       <action
@@ -67,7 +70,8 @@
         class="org.eclipse.emf.cheatsheets.actions.CopyFileFromPluginAction"
         param1="library.java"
         param2="org.eclipse.example.library"
-        param3="org.eclipse.emf.cheatsheets/archive/java/Book.java" />
+        param3="org.eclipse.emf.cheatsheets/archive/java/Book.java" 
+        translate="" />
     </subitem>
     <subitem label="Create the BookCategory class." skip="true">
       <action
@@ -75,7 +79,8 @@
         class="org.eclipse.emf.cheatsheets.actions.CopyFileFromPluginAction"
         param1="library.java"
         param2="org.eclipse.example.library"
-        param3="org.eclipse.emf.cheatsheets/archive/java/BookCategory.java" />
+        param3="org.eclipse.emf.cheatsheets/archive/java/BookCategory.java" 
+        translate="" />
     </subitem>
   </item>
 
@@ -91,7 +96,8 @@
         pluginId="org.eclipse.emf.cheatsheets"
         class="org.eclipse.emf.cheatsheets.actions.OpenEMFModelWizardAction"
         param1="library.java/model/library.genmodel"
-        param2="org.eclipse.emf.importer.java"/>
+        param2="org.eclipse.emf.importer.java" 
+        translate="" />
     </subitem>
     <subitem label="Enter &quot;library.genmodel&quot; as the file name, then click &quot;Next&quot;." skip="false" />
     <subitem label="Select &quot;Annotated Java&quot;, then click &quot;Next&quot;." skip="false" />
