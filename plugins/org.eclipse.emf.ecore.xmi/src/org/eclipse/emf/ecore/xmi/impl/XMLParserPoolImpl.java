@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLParserPoolImpl.java,v 1.8 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLParserPoolImpl.java,v 1.9 2007/04/17 15:51:06 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.xmi.impl;
@@ -130,7 +130,7 @@ public class XMLParserPoolImpl implements XMLParserPool
     }
   }
 
-  private SAXParser makeParser(Map<String, Boolean> features, Map<String, ?> properties) throws ParserConfigurationException, SAXException
+  protected SAXParser makeParser(Map<String, Boolean> features, Map<String, ?> properties) throws ParserConfigurationException, SAXException
   {
     SAXParserFactory factory = SAXParserFactory.newInstance();
     factory.setValidating(false);
