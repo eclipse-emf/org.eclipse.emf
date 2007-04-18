@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DiagnosticComposite.java,v 1.2 2007/04/05 01:05:30 marcelop Exp $
+ * $Id: DiagnosticComposite.java,v 1.3 2007/04/18 20:54:14 marcelop Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -272,8 +272,19 @@ public class DiagnosticComposite extends Composite
     String detail = getTextProvider().getDetail(selection).trim();
     
     SashForm sashForm = (SashForm)detailText.getParent();
-    sashForm.setMaximizedControl(detail.length() == 0 ? diagnosticTreeViewer.getTree() : null);
     setDetailText(detail);
+    if (detail.length() == 0)
+    {
+      sashForm.setMaximizedControl(diagnosticTreeViewer.getTree());
+    }
+    else
+    {
+      sashForm.setMaximizedControl(null);
+      if (diagnosticTreeViewer != null)
+      {
+        diagnosticTreeViewer.getTree().showSelection();
+      }
+    }
   }
   
   protected ITreeContentProvider createContentProvider()
