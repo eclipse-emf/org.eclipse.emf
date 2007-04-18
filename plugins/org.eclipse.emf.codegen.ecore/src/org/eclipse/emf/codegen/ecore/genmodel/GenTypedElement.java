@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElement.java,v 1.7 2007/01/18 22:07:16 emerks Exp $
+ * $Id: GenTypedElement.java,v 1.8 2007/04/18 20:24:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -50,12 +50,21 @@ public interface GenTypedElement extends GenBase
   /**
    * @since 2.3
    */
-  String getRawType(); // this returns the feature type, either primitive (e.g. "int") or qualified class name (e.g. "java.lang.String", "org.eclipse.emf.common.util.EList", or "org.sample.company.Company")
-  String getType(); // this returns the feature type, either primitive (e.g. "int") or qualified class name (e.g. "java.lang.String", "org.eclipse.emf.common.util.EList", or "org.sample.company.Company")
+  String getRawType();
   /**
    * @since 2.3
    */
-  String getRawImportedType(); // this returns the feature type, either primitive (e.g. "int") or imported class name (e.g. "String", "EList", or "Company")
+  String getRawBoundType(); // this returns the feature type as for getRawType, except for the case that the type is a type parameter, in which case it returns the actual bounding type.
+  String getType(); // this returns the feature type, either primitive (e.g. "int") or qualified class name (e.g. "java.lang.String", "org.eclipse.emf.common.util.EList", or "org.sample.company.Company")
+
+  /**
+   * @since 2.3
+   */
+  String getRawImportedType();
+  /**
+   * @since 2.3
+   */
+  String getRawImportedBoundType(); // this returns the feature type as for getRawImportedType, except for the case that the type is a type parameter, in which case it returns the actual bounding type.
   String getImportedType(); // this returns the feature type, either primitive (e.g. "int") or imported class name (e.g. "String", "EList", or "Company")
   String getObjectType(); // this returns the imported name of the feature type or, if primitive, of the wrapper class (e.g. "Integer")
   String getImportedInternalType(); // this returns the real imported feature type used internally, regardless of the value of GenModel.isSuppressEMFValues()

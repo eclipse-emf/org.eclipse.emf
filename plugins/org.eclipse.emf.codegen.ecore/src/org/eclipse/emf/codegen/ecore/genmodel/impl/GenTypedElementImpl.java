@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.15 2007/02/12 13:51:19 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.16 2007/04/18 20:24:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
@@ -115,6 +116,35 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     return getType(getEcoreTypedElement().getEType(), false);
   }
 
+  public String getRawBoundType()
+  {
+    if (isFeatureMapType()) return getEffectiveFeatureMapWrapperInterface();
+    if (isMapType()) return getEffectiveMapType();
+    if (isListType()) return getEffectiveListType();
+    if (isEObjectType()) return getEffectiveEObjectType();
+    return getType(getBoundType(getEcoreTypedElement().getEGenericType()), false);
+  }
+
+  protected EClassifier getBoundType(EGenericType eGenericType)
+  {
+    ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+    if (eTypeParameter != null)
+    {
+      if (eTypeParameter.getEBounds().isEmpty())
+      {
+        return EcorePackage.Literals.EJAVA_OBJECT;
+      }
+      else
+      {
+        return getBoundType(eTypeParameter.getEBounds().get(0));
+      }
+    }
+    else
+    {
+      return eGenericType.getEClassifier();
+    }
+  }
+
   public String getType()
   {
     if (isFeatureMapType()) return getEffectiveFeatureMapWrapperInterface();
@@ -135,6 +165,15 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     if (isListType()) return getGenModel().getImportedName(getEffectiveListType());
     if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
     return getImportedType(getEcoreTypedElement().getEType(), false);
+  }
+
+  public String getRawImportedBoundType()
+  {
+    if (isFeatureMapType()) return getGenModel().getImportedName(getEffectiveFeatureMapWrapperInterface());
+    if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType());
+    if (isListType()) return getGenModel().getImportedName(getEffectiveListType());
+    if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
+    return getImportedType(getBoundType(getEcoreTypedElement().getEGenericType()), false);
   }
 
   public String getImportedType()
