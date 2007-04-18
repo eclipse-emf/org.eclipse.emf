@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.62 2007/04/18 20:06:16 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.63 2007/04/18 20:24:12 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -466,7 +466,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
       <%}%>
     <%}%>
     <%if (genFeature.isChangeable() && !genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
-	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
+	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getRawImportedBoundType()%>)
     <%}%>
     <%if (!genModel.isSuppressEMFMetaData()) {%>
 	 * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genFeature.getFeatureAccessorName()%>()
@@ -971,7 +971,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
   <%}%>
 	 * @see #<%=genFeature.getGetAccessor()%>()
   <%if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
-	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
+	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getRawImportedBoundType()%>)
   <%}%>
 	 * @generated
 	 */
@@ -1120,7 +1120,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
     <%}%>
 	 * @see #<%=genFeature.getGetAccessor()%>()
     <%if (!genFeature.isListType() && genFeature.isChangeable() && !genFeature.isSuppressedSetVisibility()) {%>
-	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
+	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getRawImportedBoundType()%>)
     <%}%>
 	 * @generated
 	 */

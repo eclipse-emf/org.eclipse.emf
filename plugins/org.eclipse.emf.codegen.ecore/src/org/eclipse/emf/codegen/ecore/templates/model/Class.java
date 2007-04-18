@@ -1943,7 +1943,7 @@ public class Class
     stringBuffer.append(TEXT_230);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_231);
-    stringBuffer.append(genFeature.getImportedType());
+    stringBuffer.append(genFeature.getRawImportedBoundType());
     stringBuffer.append(TEXT_232);
     }
     if (!genModel.isSuppressEMFMetaData()) {
@@ -3146,7 +3146,7 @@ public class Class
     stringBuffer.append(TEXT_765);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_766);
-    stringBuffer.append(genFeature.getImportedType());
+    stringBuffer.append(genFeature.getRawImportedBoundType());
     stringBuffer.append(TEXT_767);
     }
     stringBuffer.append(TEXT_768);
@@ -3490,7 +3490,7 @@ public class Class
     stringBuffer.append(TEXT_917);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_918);
-    stringBuffer.append(genFeature.getImportedType());
+    stringBuffer.append(genFeature.getRawImportedBoundType());
     stringBuffer.append(TEXT_919);
     }
     stringBuffer.append(TEXT_920);
