@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.61 2007/02/26 12:40:21 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.62 2007/04/18 20:06:16 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -305,6 +305,24 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	}
 
 <%}%>
+<%@ include file="Class/reflectiveDelegation.override.javajetinc" fail="alternative" %>
+<%@ start %>
+<%if (isImplementation && genModel.getFeatureDelegation() == GenDelegationKind.REFLECTIVE_LITERAL && (genClass.getClassExtendsGenClass() == null || genClass.getClassExtendsGenClass().getGenModel().getFeatureDelegation() != GenDelegationKind.REFLECTIVE_LITERAL)) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+  <%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+  <%}%>
+	protected int eStaticFeatureCount()
+	{
+		return <%=genClass.getClassExtendsGenClass() == null ? 0 : genClass.getClassExtendsGenClass().getAllGenFeatures().size()%>;
+	}
+
+<%}%>
+<%@ end %><%//Class/reflectiveDelegation.override.javajetinc%>
 <%new Runnable() { public void run() {%>
 <%for (GenFeature genFeature : (isImplementation ? genClass.getImplementedGenFeatures() : genClass.getDeclaredGenFeatures())) {%>
 <%@ include file="Class/genFeature.override.javajetinc" fail="alternative" %>
