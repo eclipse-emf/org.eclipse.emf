@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.10 2007/04/10 15:58:10 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.11 2007/04/18 12:08:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -858,7 +858,7 @@ public class EcoreValidator extends EObjectValidator
                       {
                         String instanceClassName = eType.getInstanceClassName();
                         String otherInstanceClassName = otherEType.getInstanceClassName();
-                        if (instanceClassName != otherInstanceClassName || instanceClassName == null)
+                        if (instanceClassName != otherInstanceClassName || instanceClassName == null || eParameter.isMany() != otherEParameter.isMany())
                         {
                           continue LOOP;
                         }
@@ -867,6 +867,10 @@ public class EcoreValidator extends EObjectValidator
                       {
                         continue LOOP;
                       }
+                    }
+                    else if (eParameter.isMany() != otherEParameter.isMany())
+                    {
+                      continue LOOP;
                     }
                   }
                   if (diagnostics == null)
