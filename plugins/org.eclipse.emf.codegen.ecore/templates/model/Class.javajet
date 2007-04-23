@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.63 2007/04/18 20:24:12 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.64 2007/04/23 15:38:08 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -1187,9 +1187,21 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-  <%if (genOperation.hasDocumentation()) {%>
+  <%if (genOperation.hasDocumentation() || genOperation.hasParameterDocumentation()) {%>
 	 * <!-- begin-model-doc -->
+    <%if (genOperation.hasDocumentation()) {%>
 	 * <%=genOperation.getDocumentation(genModel.getIndentation(stringBuffer))%>
+    <%}%>
+    <%for (GenParameter genParameter : genOperation.getGenParameters()) {%>
+      <%if (genParameter.hasDocumentation()) { String documentation = genParameter.getDocumentation("");%>
+        <%if (documentation.contains("\n") || documentation.contains("\r")) {%>
+	 * @param <%=genParameter.getName()%>
+	 *   <%=genParameter.getDocumentation(genModel.getIndentation(stringBuffer))%>
+        <%} else {%>
+	 * @param <%=genParameter.getName()%> <%=genParameter.getDocumentation(genModel.getIndentation(stringBuffer))%>
+        <%}%>
+      <%}%>
+    <%}%>
 	 * <!-- end-model-doc -->
   <%}%>
   <%if (!genModel.isSuppressEMFModelTags()) { boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genOperation.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
