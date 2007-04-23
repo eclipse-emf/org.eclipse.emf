@@ -119,7 +119,7 @@ public class Editor
   protected final String TEXT_102 = NL + "\t\t}" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Shows a dialog that asks if conflicting changes should be discarded." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected boolean handleDirtyConflict()" + NL + "\t{" + NL + "\t\treturn" + NL + "\t\t\tMessageDialog.openQuestion" + NL + "\t\t\t\t(getSite().getShell()," + NL + "\t\t\t\t getString(\"_UI_FileConflict_label\"),";
   protected final String TEXT_103 = NL + "\t\t\t\t getString(\"_WARN_FileConflict\"));";
   protected final String TEXT_104 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * This creates a model editor." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
-  protected final String TEXT_105 = "()" + NL + "\t{" + NL + "\t\tsuper();" + NL + "" + NL + "\t\t// Create an adapter factory that yields item providers." + NL + "\t\t//" + NL + "\t\t";
+  protected final String TEXT_105 = "()" + NL + "\t{" + NL + "\t\tsuper();" + NL + "\t\tinitializeEditingDomain();" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * This sets up the editing domain for the model editor." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected void initializeEditingDomain()" + NL + "\t{" + NL + "\t\t// Create an adapter factory that yields item providers." + NL + "\t\t//" + NL + "\t\t";
   protected final String TEXT_106 = " factories = new ";
   protected final String TEXT_107 = "();" + NL + "\t\tfactories.add(new ResourceItemProviderAdapterFactory());";
   protected final String TEXT_108 = NL + "\t\tfactories.add(new ";
@@ -564,6 +564,7 @@ String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute"
     stringBuffer.append(TEXT_111);
     }
     }
+    //Editor/addItemproviderFactories.override.javajetinc"
     stringBuffer.append(TEXT_112);
     stringBuffer.append(_HashMapOfResourceToBoolean);
     stringBuffer.append(TEXT_113);

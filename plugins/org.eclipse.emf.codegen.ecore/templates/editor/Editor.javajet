@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.44 2007/04/23 13:45:41 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.45 2007/04/23 14:37:12 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -850,11 +850,23 @@ public class <%=genPackage.getEditorClassName()%>
 	public <%=genPackage.getEditorClassName()%>()
 	{
 		super();
+		initializeEditingDomain();
+	}
 
+	/**
+	 * This sets up the editing domain for the model editor.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void initializeEditingDomain()
+	{
 		// Create an adapter factory that yields item providers.
 		//
 		<%=_ListOfAdapterFactory%> factories = new <%=_ArrayListOfAdapterFactory%>();
 		factories.add(new ResourceItemProviderAdapterFactory());
+<%@ include file="Editor/addItemProviderFactories.override.javajetinc" fail="alternative"%>
+<%@ start%>
 <%for (GenPackage aGenPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
   <%if (!aGenPackage.getGenClasses().isEmpty() && aGenPackage.getGenModel().hasEditSupport()) {%>
 		factories.add(new <%=aGenPackage.getImportedItemProviderAdapterFactoryClassName()%>());
@@ -865,6 +877,8 @@ public class <%=genPackage.getEditorClassName()%>
 		factories.add(new <%=aGenPackage.getImportedItemProviderAdapterFactoryClassName()%>());
   <%}%>
 <%}%>
+<%@ include file="Editor/addItemProviderFactories.insert.javajetinc" fail="silent"%>
+<%@end%><%//Editor/addItemproviderFactories.override.javajetinc"%>
 		factories.add(new ReflectiveItemProviderAdapterFactory());
 
 		adapterFactory = new ComposedAdapterFactory(factories);
