@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.45 2007/04/23 14:37:12 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.46 2007/04/23 14:52:54 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -20,8 +20,6 @@ String importedOperationClassName = genModel.getImportedName(genModel.isRichClie
 String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute"; if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}
 %>
 <%String _ArrayListOfObject = "ArrayList" + (genModel.useGenerics() ? "<Object>" : "");%>
-<%String _ArrayListOfAdapterFactory = "ArrayList" + (genModel.useGenerics() ? "<AdapterFactory>" : "");%>
-<%String _ListOfAdapterFactory = "List" + (genModel.useGenerics() ? "<AdapterFactory>" : "");%>
 <%String _ArrayListOfSelectionChangedListener = "ArrayList" + (genModel.useGenerics() ? "<ISelectionChangedListener>" : "");%>
 <%String _CollectionOfSelectionChangedListener = "Collection" + (genModel.useGenerics() ? "<ISelectionChangedListener>" : "");%>
 <%String _ArrayListOfResource = "ArrayList" + (genModel.useGenerics() ? "<Resource>" : "");%>
@@ -863,25 +861,24 @@ public class <%=genPackage.getEditorClassName()%>
 	{
 		// Create an adapter factory that yields item providers.
 		//
-		<%=_ListOfAdapterFactory%> factories = new <%=_ArrayListOfAdapterFactory%>();
-		factories.add(new ResourceItemProviderAdapterFactory());
+		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+
+		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 <%@ include file="Editor/addItemProviderFactories.override.javajetinc" fail="alternative"%>
 <%@ start%>
 <%for (GenPackage aGenPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
   <%if (!aGenPackage.getGenClasses().isEmpty() && aGenPackage.getGenModel().hasEditSupport()) {%>
-		factories.add(new <%=aGenPackage.getImportedItemProviderAdapterFactoryClassName()%>());
+		adapterFactory.addAdapterFactory(new <%=aGenPackage.getImportedItemProviderAdapterFactoryClassName()%>());
   <%}%>
 <%}%>
 <%for (GenPackage aGenPackage : genModel.getAllUsedGenPackagesWithClassifiers()) {%>
   <%if (!aGenPackage.getGenClasses().isEmpty() && aGenPackage.getGenModel().hasEditSupport()) {%>
-		factories.add(new <%=aGenPackage.getImportedItemProviderAdapterFactoryClassName()%>());
+		adapterFactory.addAdapterFactory(new <%=aGenPackage.getImportedItemProviderAdapterFactoryClassName()%>());
   <%}%>
 <%}%>
 <%@ include file="Editor/addItemProviderFactories.insert.javajetinc" fail="silent"%>
 <%@end%><%//Editor/addItemproviderFactories.override.javajetinc"%>
-		factories.add(new ReflectiveItemProviderAdapterFactory());
-
-		adapterFactory = new ComposedAdapterFactory(factories);
+		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
 		// Create the command stack that will notify this editor as commands are executed.
 		//
