@@ -164,7 +164,7 @@ public class TestCase
     stringBuffer.append(TEXT_7);
     if (!genClass.getImplementedGenFeatures().isEmpty()) { boolean first = true;
     for (GenFeature genFeature : genClass.getImplementedGenFeatures()) {
-    if ((genFeature.isVolatile() || genFeature.isDerived()) && !genFeature.isSuppressedGetVisibility()) {
+    if (genFeature.isTested() && !genFeature.isSuppressedGetVisibility()) {
     if (first) { first = false;
     stringBuffer.append(TEXT_8);
     }
@@ -294,7 +294,7 @@ public class TestCase
     stringBuffer.append(TEXT_62);
     }
     for (GenFeature genFeature : genClass.getImplementedGenFeatures()) {
-    if (genFeature.isVolatile() || genFeature.isDerived()) {
+    if (genFeature.isTested()) {
     if (genFeature.isGet() && !genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_63);
     stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());

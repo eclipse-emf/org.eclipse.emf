@@ -27,7 +27,7 @@ package <%=genPackage.getTestsPackageName()%>;
  * <!-- end-user-doc -->
 <%if (!genClass.getImplementedGenFeatures().isEmpty()) { boolean first = true;%>
   <%for (GenFeature genFeature : genClass.getImplementedGenFeatures()) {%>
-    <%if ((genFeature.isVolatile() || genFeature.isDerived()) && !genFeature.isSuppressedGetVisibility()) {%>
+    <%if (genFeature.isTested() && !genFeature.isSuppressedGetVisibility()) {%>
       <%if (first) { first = false;%>
  * <p>
  * The following features are tested:
@@ -174,7 +174,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 <%for (GenFeature genFeature : genClass.getImplementedGenFeatures()) {%>
 <%@ include file="TestCase/implementedGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
-  <%if (genFeature.isVolatile() || genFeature.isDerived()) {%>
+  <%if (genFeature.isTested()) {%>
     <%if (genFeature.isGet() && !genFeature.isSuppressedGetVisibility()) {%>
 <%@ include file="TestCase/getGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
