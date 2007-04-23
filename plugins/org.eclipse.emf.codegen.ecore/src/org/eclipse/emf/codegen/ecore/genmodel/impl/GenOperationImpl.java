@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.29 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.30 2007/04/23 15:38:51 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1040,6 +1040,18 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         {
           return true;
         }
+      }
+    }
+    return false;
+  }
+
+  public boolean hasParameterDocumentation()
+  {
+    for (GenParameter genParameter : getGenParameters())
+    {
+      if (genParameter.hasDocumentation())
+      {
+        return true;
       }
     }
     return false;

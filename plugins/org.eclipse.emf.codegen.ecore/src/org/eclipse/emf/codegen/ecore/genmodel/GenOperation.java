@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.12 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenOperation.java,v 1.13 2007/04/23 15:38:51 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -204,4 +204,9 @@ public interface GenOperation extends GenTypedElement {
    * @since 2.3
    */
   boolean hasGenericExceptions();
+
+  /**
+   * @since 2.3
+   */
+  boolean hasParameterDocumentation();
 }
