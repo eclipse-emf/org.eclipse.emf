@@ -628,6 +628,7 @@ public class ItemProvider
     stringBuffer.append(createClass.getName());
     stringBuffer.append(TEXT_153);
     }
+    //ItemProvider/newChildDescriptorsCrossPackageFeature.override.javajetinc
     }
     }
     for (GenFeature createFeature : genClass.getCreateChildFeatures()) { 
@@ -656,6 +657,7 @@ public class ItemProvider
     stringBuffer.append(TEXT_163);
     }
     }
+    //ItemProvider/newChildDescriptorsReferenceDelegatedFeature.override.javajetinc
     } else {
     stringBuffer.append(TEXT_164);
     stringBuffer.append(createFeature.getQualifiedFeatureAccessor());
@@ -687,6 +689,7 @@ public class ItemProvider
     stringBuffer.append(TEXT_176);
     }
     }
+    //ItemProvider/newChildDescriptorsAttributeDelegatedFeature.override.javajetinc
     }
     }
     } else if (createFeature.isReferenceType()) {
@@ -708,6 +711,7 @@ public class ItemProvider
     stringBuffer.append(TEXT_184);
     }
     }
+    //ItemProvider/newChildDescriptorsReferenceFeature.override.javajetinc 
     } else {
     stringBuffer.append(TEXT_185);
     stringBuffer.append(createFeature.getQualifiedFeatureAccessor());
@@ -735,6 +739,7 @@ public class ItemProvider
     stringBuffer.append(TEXT_195);
     }
     }
+    //ItemProvider/newChildDescriptorsAttributeFeature.override.javajetinc
     }
     }
     stringBuffer.append(TEXT_196);

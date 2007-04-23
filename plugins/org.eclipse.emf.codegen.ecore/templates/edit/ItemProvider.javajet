@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.35 2007/03/27 16:20:20 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.36 2007/04/23 14:35:41 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -306,6 +306,8 @@ public class <%=genClass.getProviderClassName()%>
 	{
 		super.collectNewChildDescriptors(newChildDescriptors, object);
   <%for (GenFeature createFeature : genClass.getCrossPackageCreateChildFeatures()) { %>
+<%@ include file="ItemProvider/newChildDescriptorsCrossPackageFeature.override.javajetinc" fail="alternative"%>
+<%@ start %>
     <%for (GenClass createClass : genClass.getCrossPackageChildrenClasses(createFeature)) { %>
 
 		newChildDescriptors.add
@@ -316,12 +318,16 @@ public class <%=genClass.getProviderClassName()%>
       <%} else {%>
 				 <%=createClass.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=createClass.getName()%>()));
       <%}%>
+<%@ include file="ItemProvider/newChildDescriptorsCrossPackageFeature.insert.javajetinc" fail="silent"%>
+<%@ end %><%//ItemProvider/newChildDescriptorsCrossPackageFeature.override.javajetinc%>
     <%}%>
   <%}%>
   <%for (GenFeature createFeature : genClass.getCreateChildFeatures()) { %>
     <%if (createFeature.isFeatureMapType()) {%>
       <%for (GenFeature delegatedFeature : createFeature.getDelegatedFeatures()) { %>
         <%if (delegatedFeature.isReferenceType()) {%>
+<%@ include file="ItemProvider/newChildDescriptorsReferenceDelegatedFeature.override.javajetinc" fail="alternative"%>
+<%@ start %>
           <%for (GenClass createClass : genClass.getChildrenClasses(delegatedFeature)) { %>
 
 		newChildDescriptors.add
@@ -335,7 +341,11 @@ public class <%=genClass.getProviderClassName()%>
 					 <%=createClass.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=createClass.getName()%>())));
             <%}%>
           <%}%>
+<%@ include file="ItemProvider/newChildDescriptorsReferenceDelegatedFeature.insert.javajetinc" fail="silent"%>
+<%@ end %><%//ItemProvider/newChildDescriptorsReferenceDelegatedFeature.override.javajetinc%>
         <%} else {%>
+<%@ include file="ItemProvider/newChildDescriptorsAttributeDelegatedFeature.override.javajetinc" fail="alternative"%>
+<%@ start %>
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -349,9 +359,13 @@ public class <%=genClass.getProviderClassName()%>
           <%} else { String literal = delegatedFeature.getCreateChildValueLiteral(); GenDataType createDataType = delegatedFeature.getTypeGenDataType();%>
 					 <%=createDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=createDataType.getQualifiedClassifierAccessor()%>, <%=literal%>))));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
           <%}%>
+<%@ include file="ItemProvider/newChildDescriptorsAttributeDelegatedFeature.insert.javajetinc" fail="silent"%>
+<%@ end %><%//ItemProvider/newChildDescriptorsAttributeDelegatedFeature.override.javajetinc%>
         <%}%>
       <%}%>
     <%} else if (createFeature.isReferenceType()) {%>
+<%@ include file="ItemProvider/newChildDescriptorsReferenceFeature.override.javajetinc" fail="alternative"%>
+<%@ start %>
       <%for (GenClass createClass : genClass.getChildrenClasses(createFeature)) { %>
 
 		newChildDescriptors.add
@@ -363,7 +377,11 @@ public class <%=genClass.getProviderClassName()%>
 				 <%=createClass.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=createClass.getName()%>()));
         <%}%>
       <%}%>
+<%@ include file="ItemProvider/newChildDescriptorsReferenceFeature.insert.javajetinc" fail="silent"%>
+<%@ end %><%//ItemProvider/newChildDescriptorsReferenceFeature.override.javajetinc %>
     <%} else {%>
+<%@ include file="ItemProvider/newChildDescriptorsAttributeFeature.override.javajetinc" fail="alternative"%>
+<%@ start %>
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -375,6 +393,8 @@ public class <%=genClass.getProviderClassName()%>
       <%} else { String literal = createFeature.getCreateChildValueLiteral(); GenDataType createDataType = createFeature.getTypeGenDataType();%>
 				 <%=createDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=createDataType.getQualifiedClassifierAccessor()%>, <%=literal%>)));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
       <%}%>
+<%@ include file="ItemProvider/newChildDescriptorsAttributeFeature.insert.javajetinc" fail="silent"%>
+<%@ end %><%//ItemProvider/newChildDescriptorsAttributeFeature.override.javajetinc%>
     <%}%>
   <%}%>
 	}
