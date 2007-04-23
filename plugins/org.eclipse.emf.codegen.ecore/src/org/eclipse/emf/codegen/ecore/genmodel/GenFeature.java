@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.21 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenFeature.java,v 1.22 2007/04/23 17:21:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -460,4 +460,10 @@ public interface GenFeature extends GenTypedElement
    * @since 2.3
    */
   String getEDefault();
+
+  /**
+   * Returns whether the test case will test this feature.
+   * @since 2.3
+   */
+  boolean isTested();
 }

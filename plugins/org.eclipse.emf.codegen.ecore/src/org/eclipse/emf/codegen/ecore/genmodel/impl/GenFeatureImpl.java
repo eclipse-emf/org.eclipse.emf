@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.45 2007/02/23 20:35:15 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.46 2007/04/23 17:21:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1825,5 +1825,10 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   public String getEDefault()
   {
     return hasEDefault() ? getUpperName() + "_" + "EDEFAULT" :  "null";
+  }
+
+  public boolean isTested()
+  {
+    return isVolatile() || isDerived();
   }
 } //GenFeatureImpl
