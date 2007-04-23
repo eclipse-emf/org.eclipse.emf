@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.21 2007/03/23 17:36:53 marcelop Exp $
+ * $Id: JETEmitter.java,v 1.22 2007/04/23 21:36:46 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -494,7 +494,7 @@ public class JETEmitter
         {
           sourceFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
         }
-        IFolder runtimeFolder = project.getFolder(new Path("runtime"));
+        IFolder runtimeFolder = project.getFolder(new Path("bin"));
         if (!runtimeFolder.exists())
         {
           runtimeFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
@@ -502,7 +502,7 @@ public class JETEmitter
   
         javaProject.setRawClasspath(classpath.toArray(new IClasspathEntry[classpath.size()]), new SubProgressMonitor(progressMonitor, 1));
   
-        javaProject.setOutputLocation(new Path("/" + project.getName() + "/runtime"), new SubProgressMonitor(progressMonitor, 1));
+        javaProject.setOutputLocation(new Path("/" + project.getName() + "/bin"), new SubProgressMonitor(progressMonitor, 1));
   
         javaProject.close();
   
