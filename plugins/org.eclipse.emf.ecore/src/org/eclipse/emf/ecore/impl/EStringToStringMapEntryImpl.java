@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryImpl.java,v 1.7 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EStringToStringMapEntryImpl.java,v 1.8 2007/04/24 21:53:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -199,12 +199,17 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setTypedKey(String newKey)
+  public void setTypedKeyGen(String newKey)
   {
     String oldKey = key;
     key = newKey;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ESTRING_TO_STRING_MAP_ENTRY__KEY, oldKey, key));
+  }
+
+  public void setTypedKey(String newKey)
+  {
+    setTypedKeyGen(newKey == null ? null : newKey.intern());
   }
 
   /**
