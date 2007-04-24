@@ -3,7 +3,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005, 2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -186,6 +186,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%>()
 	 * @generated
 	 */
+      <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/getGenFeature.annotations.insert.javajetinc%>
+<%@ include file="TestCase/getGenFeature.annotations.insert.javajetinc" fail="silent" %>
+      <%}%>
 	public void test<%=genModel.capName(genFeature.getGetAccessor())%>()
 	{
 <%@ include file="TestCase/getGenFeature.TODO.override.javajetinc" fail="alternative" %>
@@ -208,6 +211,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#set<%=genFeature.getAccessorName()%>(<%=genFeature.getType()%>)
 	 * @generated
 	 */
+      <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/setGenFeature.annotations.insert.javajetinc%>
+<%@ include file="TestCase/setGenFeature.annotations.insert.javajetinc" fail="silent" %>
+      <%}%>
 	public void testSet<%=genFeature.getAccessorName()%>()
 	{
 <%@ include file="TestCase/setGenFeature.TODO.override.javajetinc" fail="alternative" %>
@@ -230,6 +236,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#unset<%=genFeature.getAccessorName()%>()
 	 * @generated
 	 */
+      <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/unsetGenFeature.annotations.insert.javajetinc%>
+<%@ include file="TestCase/unsetGenFeature.annotations.insert.javajetinc" fail="silent" %>
+      <%}%>
 	public void testUnset<%=genFeature.getAccessorName()%>()
 	{
 <%@ include file="TestCase/unsetGenFeature.TODO.override.javajetinc" fail="alternative" %>
@@ -252,6 +261,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * @see <%=genFeature.getGenClass().getQualifiedInterfaceName()%>#isSet<%=genFeature.getAccessorName()%>()
 	 * @generated
 	 */
+      <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/isSetGenFeature.annotations.insert.javajetinc%>
+<%@ include file="TestCase/isSetGenFeature.annotations.insert.javajetinc" fail="silent" %>
+      <%}%>
 	public void testIsSet<%=genFeature.getAccessorName()%>()
 	{
 <%@ include file="TestCase/isSetGenFeature.TODO.override.javajetinc" fail="alternative" %>
@@ -278,6 +290,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * @see <%=genOperation.getGenClass().getQualifiedInterfaceName()%>#<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>)
 	 * @generated
 	 */
+  <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/genOperation.annotations.insert.javajetinc%>
+<%@ include file="TestCase/genOperation.annotations.insert.javajetinc" fail="silent" %>
+  <%}%>
 	public void test<%=genModel.capName(genOperation.getName())%><%=genOperation.getGenParameters().size() == 0 ? "" : "__" + genOperation.getParameterTypes("_", false)%>()
 	{
 <%@ include file="TestCase/implementedGenOperation.TODO.override.javajetinc" fail="alternative" %>
