@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.14 2007/02/20 17:40:49 emerks Exp $
+ * $Id: EAnnotationImpl.java,v 1.15 2007/04/24 21:52:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -141,12 +141,17 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setSource(String newSource)
+  public void setSourceGen(String newSource)
   {
     String oldSource = source;
     source = newSource;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EANNOTATION__SOURCE, oldSource, source));
+  }
+  
+  public void setSource(String newSource)
+  {
+    setSourceGen(newSource == null ? null : newSource.intern());
   }
 
   /**
