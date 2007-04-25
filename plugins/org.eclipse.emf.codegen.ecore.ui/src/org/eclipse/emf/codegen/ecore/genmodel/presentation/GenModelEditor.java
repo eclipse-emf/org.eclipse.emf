@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.43 2007/04/12 17:49:02 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.44 2007/04/25 20:30:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -159,6 +159,7 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 
+import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
@@ -759,12 +760,22 @@ public class GenModelEditor
    * This creates a model editor.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   public GenModelEditor()
   {
     super();
+    initializeEditingDomain();
+  }
 
+  /**
+   * This sets up the editing domain for the model editor.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void initializeEditingDomain()
+  {
     adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
     // Create the command stack that will notify this editor as commands are executed.
@@ -1020,7 +1031,7 @@ public class GenModelEditor
     contextMenu.addMenuListener(this);
     Menu menu= contextMenu.createContextMenu(viewer.getControl());
     viewer.getControl().setMenu(menu);
-    getSite().registerContextMenu(contextMenu, viewer);
+    getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
 
     int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
     Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
