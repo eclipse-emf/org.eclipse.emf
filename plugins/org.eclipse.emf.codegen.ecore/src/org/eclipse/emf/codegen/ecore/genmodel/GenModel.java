@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.42 2007/03/22 15:48:26 davidms Exp $
+ * $Id: GenModel.java,v 1.43 2007/04/25 20:23:22 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -97,6 +97,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressUnsettable <em>Suppress Unsettable</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFacadeHelperClass <em>Facade Helper Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getComplianceLevel <em>Compliance Level</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressGenModelAnnotations <em>Suppress Gen Model Annotations</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1627,6 +1628,33 @@ public interface GenModel extends GenBase
   void setComplianceLevel(GenJDKLevel value);
 
   /**
+   * Returns the value of the '<em><b>Suppress Gen Model Annotations</b></em>' attribute.
+   * The default value is <code>"true"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.3
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Suppress Gen Model Annotations</em>' attribute.
+   * @see #setSuppressGenModelAnnotations(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_SuppressGenModelAnnotations()
+   * @model default="true"
+   * @generated
+   */
+  boolean isSuppressGenModelAnnotations();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressGenModelAnnotations <em>Suppress Gen Model Annotations</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppress Gen Model Annotations</em>' attribute.
+   * @see #isSuppressGenModelAnnotations()
+   * @generated
+   */
+  void setSuppressGenModelAnnotations(boolean value);
+
+  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -2179,4 +2207,9 @@ public interface GenModel extends GenBase
    * @since 2.3
    */
   void setValidateModel(boolean validateModel);
+  
+  /**
+   * @since 2.3
+   */
+  boolean isSuppressedAnnotation(String source);
 }

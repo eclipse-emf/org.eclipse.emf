@@ -142,6 +142,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/facadeHelperClass"/>
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The JDK compliance level for the generated Java code"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/complianceLevel"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress generation-related annotations, like those that record documentation and operation bodies, from the package metadata"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/suppressGenModelAnnotations"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>
