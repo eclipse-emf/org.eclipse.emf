@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.11 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.12 2007/04/25 20:25:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,12 +32,17 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
 
 /**
  * A {@link GeneratorAdapter} for instances of {@link GenPackage}. This contributes the package level artifacts to EMF's
@@ -252,25 +258,84 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         ResourceSet set = outputResource.getResourceSet();
         URI targetURI = toPlatformResourceURI(targetFile);
 
-        Map<Resource, URI> oldURIs = new HashMap<Resource, URI>();
+        Map<EModelElement, List<EAnnotation>> oldAnnotations = new HashMap<EModelElement, List<EAnnotation>>();
+        for (Iterator<EObject> i = outputResource.getAllContents(); i.hasNext(); )
+        {
+          EObject eObject = i.next();
+          if (eObject instanceof EModelElement)
+          {
+            EModelElement eModelElement = (EModelElement)eObject;
+            List<EAnnotation> eAnnotations = eModelElement.getEAnnotations();
+            List<EAnnotation> removedAnnotations = new ArrayList<EAnnotation>();
+            for (EAnnotation eAnnotation : eAnnotations)
+            {
+              if (genModel.isSuppressedAnnotation(eAnnotation.getSource()))
+              {
+                removedAnnotations.add(eAnnotation);
+              }
+            }
+            if (!removedAnnotations.isEmpty())
+            {
+              oldAnnotations.put(eModelElement, removedAnnotations);
+            }
+          }
+        }
 
-        // Set URIs of EPackage-containing resources: output resource to desired target URI, and others to package
-        // namespace URIs (so cross-references will be resolved via package registry when deserialized). 
+        for (Map.Entry<EModelElement, List<EAnnotation>> entry : oldAnnotations.entrySet())
+        {
+          List<EAnnotation> eAnnotations = entry.getKey().getEAnnotations();
+          eAnnotations.removeAll(entry.setValue(new ArrayList<EAnnotation>(eAnnotations)));
+        }
+
+        // Compute a map of resource location URIs to logical namespace URIs
+        // so that cross references will be resolved via package registry when deserialized. 
         //
+        final Map<URI, URI> uriMap = new HashMap<URI, URI>();
         for (Resource resource : set.getResources())
         {
           List<EObject> contents = resource.getContents();
           if (!contents.isEmpty() && contents.get(0) instanceof EPackage)
           {
             EPackage ePackage = (EPackage)contents.get(0);
-            oldURIs.put(resource, resource.getURI());
-            resource.setURI(resource == outputResource ? targetURI : URI.createURI(ePackage.getNsURI()));
-          }        
+            uriMap.put(resource.getURI(), resource == outputResource ? targetURI : URI.createURI(ePackage.getNsURI()));
+          }
         }
+
+        // This URI handler redirect the URI based on the mapping.
+        //
+        XMLResource.URIHandler uriHandler = 
+          new URIHandlerImpl.PlatformSchemeAware()
+          {
+            protected URI redirect(URI uri)
+            {
+              URI mappedURI = uriMap.get(uri.trimFragment());
+              return mappedURI == null ? uri : mappedURI.appendFragment(uri.fragment());
+            }
+
+            @Override
+            public URI deresolve(URI uri)
+            {
+              return super.deresolve(redirect(uri));
+            }
+
+            @Override
+            public URI resolve(URI uri)
+            {
+              return super.resolve(redirect(uri));
+            }
+
+            @Override
+            public void setBaseURI(URI uri)
+            {
+              super.setBaseURI(redirect(uri));
+            }
+          };
+        Map<Object, Object> options = new HashMap<Object, Object>();
+        options.put(XMLResource.OPTION_URI_HANDLER, uriHandler);
 
         try
         {
-          outputResource.save(null);
+          outputResource.save(set.getURIConverter().createOutputStream(targetURI), options);
         }
         catch (IOException exception)
         {
@@ -278,15 +343,9 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
           CodeGenEcorePlugin.INSTANCE.log(exception);
         }
 
-        // Restore original resource URI values.
-        //
-        for (Resource resource : set.getResources())
+        for (Map.Entry<EModelElement, List<EAnnotation>> entry : oldAnnotations.entrySet())
         {
-          List<EObject> contents = resource.getContents();  
-          if (!contents.isEmpty() && contents.get(0) instanceof EPackage)
-          {
-            resource.setURI(oldURIs.get(resource));
-          }        
+          ECollections.setEList(entry.getKey().getEAnnotations(), entry.getValue());
         }
       }
       finally
