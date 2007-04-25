@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.64 2007/04/23 15:38:08 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.65 2007/04/25 15:43:23 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -420,6 +420,8 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 <%@ include file="Class/getGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
 <%if (isInterface) {%>
+<%@ include file="Class/getGenFeature.javadoc.override.javajetinc" fail="alternative" %>
+<%@ start %>
 	/**
 	 * Returns the value of the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%>.
     <%if (genFeature.isListType()) {%>
@@ -440,6 +442,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * It is bidirectional and its opposite is '{@link <%=reverseGenFeature.getGenClass().getQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%> <em><%=reverseGenFeature.getFormattedName()%></em>}'.
       <%}%>
     <%}%>
+<%@ include file="Class/getGenFeature.javadoc.insert.javajetinc" fail="silent" %>
 	 * <!-- begin-user-doc -->
     <%if (!genFeature.hasDocumentation()) {%>
 	 * <p>
@@ -485,6 +488,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
     <%}}%>
 	 * @generated
 	 */
+<%@ end %><%//Class/getGenFeature.javadoc.override.javajetinc%>
 <%} else {%>
 	/**
 	 * <!-- begin-user-doc -->
@@ -729,8 +733,11 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 <%@ include file="Class/setGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
 <%if (isInterface) { %>
+<%@ include file="Class/setGenFeature.javadoc.override.javajetinc" fail="alternative" %>
+<%@ start %>
 	/**
 	 * Sets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+<%@ include file="Class/setGenFeature.javadoc.insert.javajetinc" fail="silent" %>
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
@@ -748,6 +755,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @see #<%=genFeature.getGetAccessor()%>()
 	 * @generated
 	 */
+<%@ end %><%//Class/setGenFeature.javadoc.override.javajetinc%>
 <%} else {%>
 	/**
 	 * <!-- begin-user-doc -->
@@ -962,8 +970,11 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 <%@ include file="Class/unsetGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
 <%if (isInterface) {%>
+<%@ include file="Class/unsetGenFeature.javadoc.override.javajetinc" fail="alternative" %>
+<%@ start %>
 	/**
 	 * Unsets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+<%@ include file="Class/unsetGenFeature.javadoc.insert.javajetinc" fail="silent" %>
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
   <%if (!genFeature.isSuppressedIsSetVisibility()) {%>
@@ -975,6 +986,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
   <%}%>
 	 * @generated
 	 */
+<%@ end %><%//Class/unsetGenFeature.javadoc.override.javajetinc%>
 <%} else {%>
 	/**
 	 * <!-- begin-user-doc -->
@@ -1110,8 +1122,11 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 <%@ include file="Class/isSetGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
 <%if (isInterface) {%>
+<%@ include file="Class/isSetGenFeature.javadoc.override.javajetinc" fail="alternative" %>
+<%@ start %>
 	/**
 	 * Returns whether the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%> is set.
+<%@ include file="Class/isSetGenFeature.javadoc.insert.javajetinc" fail="silent" %>
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return whether the value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%> is set.
@@ -1124,6 +1139,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
     <%}%>
 	 * @generated
 	 */
+<%@ end %><%//Class/isSetGenFeature.javadoc.override.javajetinc%>
 <%} else {%>
 	/**
 	 * <!-- begin-user-doc -->
@@ -1184,7 +1200,10 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 <%@ include file="Class/genOperation.override.javajetinc" fail="alternative" %>
 <%@ start %>
 <%if (isInterface) {%>
+<%@ include file="Class/genOperation.javadoc.override.javajetinc" fail="alternative" %>
+<%@ start %>
 	/**
+<%@ include file="Class/genOperation.javadoc.insert.javajetinc" fail="silent" %>
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
   <%if (genOperation.hasDocumentation() || genOperation.hasParameterDocumentation()) {%>
@@ -1213,6 +1232,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
   <%}}%>
 	 * @generated
 	 */
+<%@ end %><%//Class/genOperation.javadoc.override.javajetinc%>
 <%} else {%>
 	/**
 	 * <!-- begin-user-doc -->
