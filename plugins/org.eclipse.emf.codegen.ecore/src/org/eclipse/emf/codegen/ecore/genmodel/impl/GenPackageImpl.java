@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.68 2007/04/10 18:43:56 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.69 2007/04/25 20:24:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3724,6 +3724,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public List<String> getAnnotationSources()
   {
+    GenModel genModel = getGenModel();
     List<String> result = new UniqueEList<String>();
     EPackage ePackage = getEcorePackage();
     for (TreeIterator<?> i = ePackage.eAllContents(); i.hasNext(); )
@@ -3737,10 +3738,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       {
         EAnnotation eAnnotation = (EAnnotation)object;
         String source = eAnnotation.getSource();
-
-        // Ignore GenModel exceptions ones with a body for now.
-        //
-        if (source == null || !source.equals(GenModelPackage.eNS_URI) || eAnnotation.getDetails().containsKey("body"))
+        if (!genModel.isSuppressedAnnotation(source))
         {
           result.add(source);
         }

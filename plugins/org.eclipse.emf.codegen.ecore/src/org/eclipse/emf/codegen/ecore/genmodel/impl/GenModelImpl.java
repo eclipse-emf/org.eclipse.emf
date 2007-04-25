@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.79 2007/03/22 15:48:26 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.80 2007/04/25 20:24:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -159,6 +159,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressUnsettable <em>Suppress Unsettable</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFacadeHelperClass <em>Facade Helper Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getComplianceLevel <em>Compliance Level</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressGenModelAnnotations <em>Suppress Gen Model Annotations</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1242,6 +1243,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected GenJDKLevel complianceLevel = COMPLIANCE_LEVEL_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isSuppressGenModelAnnotations() <em>Suppress Gen Model Annotations</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressGenModelAnnotations()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESS_GEN_MODEL_ANNOTATIONS_EDEFAULT = true;
+
+  /**
+   * The cached value of the '{@link #isSuppressGenModelAnnotations() <em>Suppress Gen Model Annotations</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressGenModelAnnotations()
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressGenModelAnnotations = SUPPRESS_GEN_MODEL_ANNOTATIONS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -5310,6 +5331,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isSuppressGenModelAnnotations()
+  {
+    return suppressGenModelAnnotations;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setSuppressGenModelAnnotations(boolean newSuppressGenModelAnnotations)
+  {
+    boolean oldSuppressGenModelAnnotations = suppressGenModelAnnotations;
+    suppressGenModelAnnotations = newSuppressGenModelAnnotations;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS, oldSuppressGenModelAnnotations, suppressGenModelAnnotations));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList<GenPackage> getGenPackages()
   {
     if (genPackages == null)
@@ -5534,6 +5578,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getFacadeHelperClass();
       case GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL:
         return getComplianceLevel();
+      case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
+        return isSuppressGenModelAnnotations() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -5714,6 +5760,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL:
         setComplianceLevel((GenJDKLevel)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
+        setSuppressGenModelAnnotations(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -5896,6 +5945,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL:
         setComplianceLevel(COMPLIANCE_LEVEL_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
+        setSuppressGenModelAnnotations(SUPPRESS_GEN_MODEL_ANNOTATIONS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6022,6 +6074,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return FACADE_HELPER_CLASS_EDEFAULT == null ? facadeHelperClass != null : !FACADE_HELPER_CLASS_EDEFAULT.equals(facadeHelperClass);
       case GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL:
         return complianceLevel != COMPLIANCE_LEVEL_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
+        return suppressGenModelAnnotations != SUPPRESS_GEN_MODEL_ANNOTATIONS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6145,6 +6199,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(facadeHelperClass);
     result.append(", complianceLevel: ");
     result.append(complianceLevel);
+    result.append(", suppressGenModelAnnotations: ");
+    result.append(suppressGenModelAnnotations);
     result.append(')');
     return result.toString();
   }
@@ -6972,6 +7028,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     reconcileGenAnnotations(oldGenModelVersion);
 
     setComplianceLevel(oldGenModelVersion.getComplianceLevel());
+
+    setSuppressGenModelAnnotations(oldGenModelVersion.isSuppressGenModelAnnotations());
   }
 
   public boolean reconcile()
@@ -7342,6 +7400,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public GenClassifier findGenClassifier(EClassifier classifier)
   {
     return super.findGenClassifier(classifier);
+  }
+  
+  public boolean isSuppressedAnnotation(String source)
+  {
+    return isSuppressGenModelAnnotations() && GenModelPackage.eNS_URI.equals(source);
   }
 
 } //GenModelImpl

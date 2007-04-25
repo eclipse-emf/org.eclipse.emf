@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.37 2007/03/22 15:48:26 davidms Exp $
+ * $Id: GenModelPackage.java,v 1.38 2007/04/25 20:24:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -601,13 +601,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__COMPLIANCE_LEVEL = GEN_BASE_FEATURE_COUNT + 52;
 
   /**
+   * The feature id for the '<em><b>Suppress Gen Model Annotations</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS = GEN_BASE_FEATURE_COUNT + 53;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 53;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 54;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -616,7 +625,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 54;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 55;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -625,7 +634,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 55;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 56;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2242,6 +2251,17 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_ComplianceLevel();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressGenModelAnnotations <em>Suppress Gen Model Annotations</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppress Gen Model Annotations</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressGenModelAnnotations()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_SuppressGenModelAnnotations();
+
+  /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3603,6 +3623,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__COMPLIANCE_LEVEL = eINSTANCE.getGenModel_ComplianceLevel();
+
+    /**
+     * The meta object literal for the '<em><b>Suppress Gen Model Annotations</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS = eINSTANCE.getGenModel_SuppressGenModelAnnotations();
 
     /**
      * The meta object literal for the '<em><b>Gen Packages</b></em>' containment reference list feature.
