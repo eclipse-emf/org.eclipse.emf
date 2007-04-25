@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.30 2007/03/22 15:51:41 davidms Exp $
+ * $Id: GenModelItemProvider.java,v 1.31 2007/04/25 20:30:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -123,6 +123,7 @@ public class GenModelItemProvider
       addSuppressUnsettablePropertyDescriptor(object);
       addFacadeHelperClassPropertyDescriptor(object);
       addComplianceLevelPropertyDescriptor(object);
+      addSuppressGenModelAnnotationsPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1255,6 +1256,29 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Suppress Gen Model Annotations feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addSuppressGenModelAnnotationsPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_suppressGenModelAnnotations_feature"),
+         getString("_UI_GenModel_suppressGenModelAnnotations_description"),
+         GenModelPackage.Literals.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1373,6 +1397,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
       case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
       case GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL:
+      case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
