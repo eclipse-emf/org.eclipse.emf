@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.17 2006/12/19 01:49:57 marcelop Exp $
+ * $Id: JETCompiler.java,v 1.18 2007/04/25 02:17:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -192,11 +192,11 @@ public class JETCompiler implements JETParseEventListener
             skipSections.push(new SkipSection(sectionDepth + 1, !skipping));
           }
 
-          // If a newline from the previous character data remains, add a generator for it.
+          // If a newline from the previous character data remains, leave it around to be procssed as if it appeared in the included file.
           //
           if (fSavedLine != null)
           {
-            addCharDataGenerator(fSavedLine);
+            return; 
           }
         }
         catch (JETException exception)
@@ -401,6 +401,12 @@ public class JETCompiler implements JETParseEventListener
   public void handleCharData(char[] chars) throws JETException
   {
     if (skipping) return;
+
+    if (fSavedLine != null)
+    {
+      addCharDataGenerator(fSavedLine);
+      fSavedLine = null;
+    }
 
     if (fNoNewLineForScriptlets)
     {
