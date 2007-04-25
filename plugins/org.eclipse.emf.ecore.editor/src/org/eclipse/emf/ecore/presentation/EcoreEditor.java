@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.44 2007/03/21 18:08:44 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.45 2007/04/25 20:40:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -126,7 +126,9 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EValidator;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -1098,6 +1100,19 @@ public class EcoreEditor
         resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
       }
       editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);      
+    }
+
+    if (!editingDomain.getResourceSet().getResources().isEmpty())
+    {
+      for (Iterator<EObject> i = editingDomain.getResourceSet().getResources().get(0).getAllContents(); i.hasNext(); )
+      {
+        EObject eObject = i.next();
+        if (eObject instanceof ETypeParameter || eObject instanceof EGenericType && !((EGenericType)eObject).getETypeArguments().isEmpty())
+        {
+          ((EcoreActionBarContributor)getActionBarContributor()).showGenerics(true);
+          break;
+        }
+      }
     }
   }
 

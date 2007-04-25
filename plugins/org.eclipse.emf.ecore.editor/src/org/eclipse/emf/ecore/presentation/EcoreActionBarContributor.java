@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.14 2007/03/22 15:52:39 davidms Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.15 2007/04/25 20:40:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -378,6 +378,14 @@ public class EcoreActionBarContributor
       Boolean.valueOf(EcoreEditorPlugin.getPlugin().getDialogSettings().get("showGenericsAction")).booleanValue());    
   }
   
+  public void showGenerics(boolean isChecked)
+  {
+    if (showGenericsAction != null)
+    {
+      showGenericsAction.setChecked(isChecked);
+    }
+  }
+
   @Override
   public void dispose()
   {
