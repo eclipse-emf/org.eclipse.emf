@@ -8,13 +8,6 @@ import org.eclipse.emf.ecore.EObject;
 public interface Book extends EObject
 {
   /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  String copyright = "This is my code.";
-
-  /**
    * @model
    */
   String getTitle();

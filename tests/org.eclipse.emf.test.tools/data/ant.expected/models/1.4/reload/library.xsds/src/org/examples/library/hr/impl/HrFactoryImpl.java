@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: HrFactoryImpl.java,v 1.1 2006/12/07 03:55:43 marcelop Exp $
+ * $Id: HrFactoryImpl.java,v 1.2 2007/04/26 20:57:17 emerks Exp $
  */
 package org.examples.library.hr.impl;
 
@@ -24,13 +23,6 @@ import org.examples.library.hr.*;
  */
 public class HrFactoryImpl extends EFactoryImpl implements HrFactory
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code."; //$NON-NLS-1$
-
   /**
    * Creates the default factory implementation.
    * <!-- begin-user-doc -->

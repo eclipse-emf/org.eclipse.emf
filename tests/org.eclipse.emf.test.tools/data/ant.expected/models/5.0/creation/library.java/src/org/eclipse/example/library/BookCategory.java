@@ -26,12 +26,6 @@ public enum BookCategory implements Enumerator
   BIOGRAPHY(100, "Biography", "Biography");
 
   /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-  /**
    * The '<em><b>MYSTERY</b></em>' literal value.
    * <!-- begin-user-doc -->
    * <p>

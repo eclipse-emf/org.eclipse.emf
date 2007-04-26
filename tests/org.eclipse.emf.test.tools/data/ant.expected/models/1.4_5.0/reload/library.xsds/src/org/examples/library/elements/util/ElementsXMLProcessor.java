@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: ElementsXMLProcessor.java,v 1.1 2006/12/15 20:41:35 marcelop Exp $
+ * $Id: ElementsXMLProcessor.java,v 1.2 2007/04/26 20:57:13 emerks Exp $
  */
 package org.examples.library.elements.util;
 
@@ -23,13 +22,6 @@ import org.examples.library.elements.ElementsPackage;
  */
 public class ElementsXMLProcessor extends XMLProcessor
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-
 
   /**
    * Public constructor to instantiate the helper.

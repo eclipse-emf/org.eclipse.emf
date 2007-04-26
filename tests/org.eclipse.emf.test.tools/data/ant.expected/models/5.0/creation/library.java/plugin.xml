@@ -2,10 +2,9 @@
 <?eclipse version="3.0"?>
 
 <!--
- <copyright>
- </copyright>
+ This is my code.
 
- $Id: plugin.xml,v 1.1 2007/03/29 18:21:58 marcelop Exp $
+ $Id: plugin.xml,v 1.2 2007/04/26 20:57:11 emerks Exp $
 -->
 
 <plugin>

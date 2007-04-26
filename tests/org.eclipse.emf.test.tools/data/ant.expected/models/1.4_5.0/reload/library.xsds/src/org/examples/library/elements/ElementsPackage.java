@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: ElementsPackage.java,v 1.1 2006/12/15 20:41:36 marcelop Exp $
+ * $Id: ElementsPackage.java,v 1.2 2007/04/26 20:57:16 emerks Exp $
  */
 package org.examples.library.elements;
 
@@ -30,13 +29,6 @@ import org.examples.library.hr.HrPackage;
  */
 public interface ElementsPackage extends EPackage
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  String copyright = "This is my code.";
-
   /**
    * The package name.
    * <!-- begin-user-doc -->

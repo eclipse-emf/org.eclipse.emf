@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: Person.java,v 1.1 2006/12/07 03:55:43 marcelop Exp $
+ * $Id: Person.java,v 1.2 2007/04/26 20:57:15 emerks Exp $
  */
 package org.examples.hr;
 
@@ -29,13 +28,6 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Person extends EObject
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  String copyright = "This is my code."; //$NON-NLS-1$
-
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->

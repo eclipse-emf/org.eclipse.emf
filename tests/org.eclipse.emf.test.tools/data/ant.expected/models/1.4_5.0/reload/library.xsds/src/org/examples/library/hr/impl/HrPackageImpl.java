@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: HrPackageImpl.java,v 1.1 2006/12/15 20:41:38 marcelop Exp $
+ * $Id: HrPackageImpl.java,v 1.2 2007/04/26 20:57:14 emerks Exp $
  */
 package org.examples.library.hr.impl;
 
@@ -35,13 +34,6 @@ import org.examples.library.impl.LibraryPackageImpl;
  */
 public class HrPackageImpl extends EPackageImpl implements HrPackage
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code."; //$NON-NLS-1$
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

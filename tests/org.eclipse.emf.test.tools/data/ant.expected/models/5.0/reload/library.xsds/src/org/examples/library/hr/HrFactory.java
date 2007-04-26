@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: HrFactory.java,v 1.1 2006/12/07 03:55:44 marcelop Exp $
+ * $Id: HrFactory.java,v 1.2 2007/04/26 20:57:11 emerks Exp $
  */
 package org.examples.library.hr;
 
@@ -18,13 +17,6 @@ import org.eclipse.emf.ecore.EFactory;
  */
 public interface HrFactory extends EFactory
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  String copyright = "This is my code."; //$NON-NLS-1$
-
   /**
    * The singleton instance of the factory.
    * <!-- begin-user-doc -->

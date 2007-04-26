@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: LibraryFactory.java,v 1.1 2007/03/29 18:21:58 marcelop Exp $
+ * $Id: LibraryFactory.java,v 1.2 2007/04/26 20:57:12 emerks Exp $
  */
 package org.eclipse.example.library;
 
@@ -18,13 +17,6 @@ import org.eclipse.emf.ecore.EFactory;
  */
 public interface LibraryFactory extends EFactory
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  String copyright = "This is my code.";
-
   /**
    * The singleton instance of the factory.
    * <!-- begin-user-doc -->

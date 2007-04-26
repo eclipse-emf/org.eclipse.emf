@@ -11,13 +11,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
 public class BookCategory extends AbstractEnumerator
 {
   /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-
-  /**
    * @model
    */
   public static final int MYSTERY = 0;

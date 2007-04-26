@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="This is my code."
     modelDirectory="@TEST_TOKEN@0/./src/."
     modelPluginID="library.model" modelName="Library" nonNLSMarkers="true" importerID="org.eclipse.emf.importer.rose"
-    complianceLevel="5.0">
+    complianceLevel="5.0" copyrightFields="false">
   <foreignModel>..@TEST_TOKEN@1model@TEST_TOKEN@1library.mdl</foreignModel>
   <genPackages prefix="Library" basePackage="org.examples" disposableProviderFactory="true"
       ecorePackage="library.ecore#/">

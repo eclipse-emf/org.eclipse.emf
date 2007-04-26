@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: LibraryPackage.java,v 1.1 2007/03/29 18:21:58 marcelop Exp $
+ * $Id: LibraryPackage.java,v 1.2 2007/04/26 20:57:15 emerks Exp $
  */
 package org.eclipse.example.library;
 
@@ -29,13 +28,6 @@ import org.eclipse.emf.ecore.EReference;
  */
 public interface LibraryPackage extends EPackage
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  String copyright = "This is my code.";
-
   /**
    * The package name.
    * <!-- begin-user-doc -->

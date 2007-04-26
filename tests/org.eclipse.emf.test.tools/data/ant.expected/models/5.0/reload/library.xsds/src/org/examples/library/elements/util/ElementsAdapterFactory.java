@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: ElementsAdapterFactory.java,v 1.3 2006/12/13 21:02:32 emerks Exp $
+ * $Id: ElementsAdapterFactory.java,v 1.4 2007/04/26 20:57:11 emerks Exp $
  */
 package org.examples.library.elements.util;
 
@@ -26,13 +25,6 @@ import org.examples.library.hr.Person;
  */
 public class ElementsAdapterFactory extends AdapterFactoryImpl
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-
   /**
    * The cached model package.
    * <!-- begin-user-doc -->

@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: LibraryAdapterFactory.java,v 1.1 2007/03/29 18:21:59 marcelop Exp $
+ * $Id: LibraryAdapterFactory.java,v 1.2 2007/04/26 20:57:11 emerks Exp $
  */
 package org.eclipse.example.library.util;
 
@@ -25,13 +24,6 @@ import org.eclipse.example.library.*;
  */
 public class LibraryAdapterFactory extends AdapterFactoryImpl
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-
   /**
    * The cached model package.
    * <!-- begin-user-doc -->

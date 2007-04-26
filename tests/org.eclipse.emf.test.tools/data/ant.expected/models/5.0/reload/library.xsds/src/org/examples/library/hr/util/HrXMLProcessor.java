@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: HrXMLProcessor.java,v 1.1 2006/12/07 03:55:42 marcelop Exp $
+ * $Id: HrXMLProcessor.java,v 1.2 2007/04/26 20:57:13 emerks Exp $
  */
 package org.examples.library.hr.util;
 
@@ -24,13 +23,6 @@ import org.examples.library.hr.HrPackage;
  */
 public class HrXMLProcessor extends XMLProcessor
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code."; //$NON-NLS-1$
-
 
   /**
    * Public constructor to instantiate the helper.

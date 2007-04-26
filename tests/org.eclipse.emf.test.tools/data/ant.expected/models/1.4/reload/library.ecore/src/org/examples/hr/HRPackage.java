@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: HRPackage.java,v 1.1 2006/12/07 03:55:43 marcelop Exp $
+ * $Id: HRPackage.java,v 1.2 2007/04/26 20:57:15 emerks Exp $
  */
 package org.examples.hr;
 
@@ -28,13 +27,6 @@ import org.eclipse.emf.ecore.EReference;
  */
 public interface HRPackage extends EPackage
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  String copyright = "This is my code."; //$NON-NLS-1$
-
   /**
    * The package name.
    * <!-- begin-user-doc -->

@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="This is my code."
     modelDirectory="@TEST_TOKEN@0/./src/."
     modelPluginID="@TEST_TOKEN@1" modelName="Library" nonNLSMarkers="true" importerID="org.eclipse.xsd.ecore.importer"
-    complianceLevel="5.0">
+    complianceLevel="5.0" copyrightFields="false">
   <foreignModel>../model/library.xsd</foreignModel>
   <genPackages prefix="Library" basePackage="org.examples" resource="XML" disposableProviderFactory="true"
       ecorePackage="library.ecore#/">

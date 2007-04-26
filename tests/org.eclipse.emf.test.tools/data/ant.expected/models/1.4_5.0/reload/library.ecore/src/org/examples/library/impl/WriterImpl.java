@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: WriterImpl.java,v 1.2 2007/02/20 17:42:58 emerks Exp $
+ * $Id: WriterImpl.java,v 1.3 2007/04/26 20:57:13 emerks Exp $
  */
 package org.examples.library.impl;
 
@@ -42,13 +41,6 @@ import org.examples.library.Writer;
  */
 public class WriterImpl extends PersonImpl implements Writer
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-
   /**
    * The cached value of the '{@link #getBooks() <em>Books</em>}' reference list.
    * <!-- begin-user-doc -->

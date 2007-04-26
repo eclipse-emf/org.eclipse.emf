@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: BookImpl.java,v 1.1 2007/03/29 18:21:58 marcelop Exp $
+ * $Id: BookImpl.java,v 1.2 2007/04/26 20:57:15 emerks Exp $
  */
 package org.eclipse.example.library.impl;
 
@@ -38,13 +37,6 @@ import org.eclipse.example.library.Writer;
  */
 public class BookImpl extends EObjectImpl implements Book
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-
   /**
    * The default value of the '{@link #getTitle() <em>Title</em>}' attribute.
    * <!-- begin-user-doc -->

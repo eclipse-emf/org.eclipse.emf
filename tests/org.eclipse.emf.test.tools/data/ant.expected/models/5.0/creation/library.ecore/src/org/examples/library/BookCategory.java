@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: BookCategory.java,v 1.2 2006/12/15 20:15:29 marcelop Exp $
+ * $Id: BookCategory.java,v 1.3 2007/04/26 20:57:11 emerks Exp $
  */
 package org.examples.library;
 
@@ -52,13 +51,6 @@ public enum BookCategory implements Enumerator
    * @ordered
    */
   BIOGRAPHY(2, "Biography", "Biography");
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
 
   /**
    * The '<em><b>Mystery</b></em>' literal value.

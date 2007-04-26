@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: LibraryXMLProcessor.java,v 1.1 2006/12/07 03:55:40 marcelop Exp $
+ * $Id: LibraryXMLProcessor.java,v 1.2 2007/04/26 20:57:15 emerks Exp $
  */
 package org.examples.library.util;
 
@@ -24,13 +23,6 @@ import org.examples.library.LibraryPackage;
  */
 public class LibraryXMLProcessor extends XMLProcessor
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-
 
   /**
    * Public constructor to instantiate the helper.

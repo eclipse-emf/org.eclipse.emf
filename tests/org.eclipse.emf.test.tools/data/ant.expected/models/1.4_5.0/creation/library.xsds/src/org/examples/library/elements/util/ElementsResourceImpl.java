@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: ElementsResourceImpl.java,v 1.1 2006/12/15 20:41:37 marcelop Exp $
+ * $Id: ElementsResourceImpl.java,v 1.2 2007/04/26 20:57:14 emerks Exp $
  */
 package org.examples.library.elements.util;
 
@@ -19,13 +18,6 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  */
 public class ElementsResourceImpl extends XMLResourceImpl
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-
   /**
    * Creates an instance of the resource.
    * <!-- begin-user-doc -->

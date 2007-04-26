@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: Library.java,v 1.1 2006/12/15 20:41:37 marcelop Exp $
+ * $Id: Library.java,v 1.2 2007/04/26 20:57:16 emerks Exp $
  */
 package org.examples.library;
 
@@ -34,13 +33,6 @@ import org.examples.library.hr.Person;
  */
 public interface Library extends EObject
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  String copyright = "This is my code.";
-
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->

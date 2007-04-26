@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: ElementsSwitch.java,v 1.2 2006/12/13 16:01:44 emerks Exp $
+ * $Id: ElementsSwitch.java,v 1.3 2007/04/26 20:57:11 emerks Exp $
  */
 package org.examples.library.elements.util;
 
@@ -28,13 +27,6 @@ import org.examples.library.elements.*;
  */
 public class ElementsSwitch<T>
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-
   /**
    * The cached model package
    * <!-- begin-user-doc -->

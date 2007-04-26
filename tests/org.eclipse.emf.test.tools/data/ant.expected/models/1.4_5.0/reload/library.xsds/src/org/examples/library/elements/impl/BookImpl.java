@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: BookImpl.java,v 1.2 2007/02/20 17:42:59 emerks Exp $
+ * $Id: BookImpl.java,v 1.3 2007/04/26 20:57:11 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -36,13 +35,6 @@ import org.examples.library.elements.ElementsPackage;
  */
 public class BookImpl extends EObjectImpl implements Book
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-
   /**
    * The default value of the '{@link #getTitle() <em>Title</em>}' attribute.
    * <!-- begin-user-doc -->

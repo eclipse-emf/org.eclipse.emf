@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: PersonImpl.java,v 1.2 2007/02/20 17:42:59 emerks Exp $
+ * $Id: PersonImpl.java,v 1.3 2007/04/26 20:57:17 emerks Exp $
  */
 package org.examples.library.hr.impl;
 
@@ -37,13 +36,6 @@ import org.examples.library.hr.Person;
  */
 public class PersonImpl extends EObjectImpl implements Person
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code."; //$NON-NLS-1$
-
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->

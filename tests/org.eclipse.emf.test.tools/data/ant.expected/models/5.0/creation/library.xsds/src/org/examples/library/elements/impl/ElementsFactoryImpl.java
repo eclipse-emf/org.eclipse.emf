@@ -1,8 +1,7 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: ElementsFactoryImpl.java,v 1.1 2006/12/07 03:55:38 marcelop Exp $
+ * $Id: ElementsFactoryImpl.java,v 1.2 2007/04/26 20:57:15 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -25,13 +24,6 @@ import org.examples.library.elements.*;
  */
 public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public static final String copyright = "This is my code.";
-
   /**
    * Creates the default factory implementation.
    * <!-- begin-user-doc -->
