@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBase.java,v 1.13 2006/12/29 18:06:38 marcelop Exp $
+ * $Id: GenBase.java,v 1.14 2007/04/26 20:55:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -207,4 +207,14 @@ public interface GenBase extends EObject {
   String getDocumentation(String indentation);
   
   EModelElement getEcoreModelElement();
+
+  /**
+   * @since 2.3
+   */
+  boolean hasCopyright();
+
+  /**
+   * @since 2.3
+   */
+  String getCopyright(String indentation);
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.43 2007/04/25 20:23:22 emerks Exp $
+ * $Id: GenModel.java,v 1.44 2007/04/26 20:55:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -98,6 +98,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFacadeHelperClass <em>Facade Helper Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getComplianceLevel <em>Compliance Level</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressGenModelAnnotations <em>Suppress Gen Model Annotations</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCopyrightFields <em>Copyright Fields</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1655,6 +1656,31 @@ public interface GenModel extends GenBase
   void setSuppressGenModelAnnotations(boolean value);
 
   /**
+   * Returns the value of the '<em><b>Copyright Fields</b></em>' attribute.
+   * The default value is <code>"true"</code>.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Copyright Fields</em>' attribute.
+   * @see #setCopyrightFields(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_CopyrightFields()
+   * @model default="true"
+   * @generated
+   */
+  boolean isCopyrightFields();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCopyrightFields <em>Copyright Fields</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Copyright Fields</em>' attribute.
+   * @see #isCopyrightFields()
+   * @generated
+   */
+  void setCopyrightFields(boolean value);
+
+  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -2212,4 +2238,14 @@ public interface GenModel extends GenBase
    * @since 2.3
    */
   boolean isSuppressedAnnotation(String source);
+
+  /**
+   * @since 2.3
+   */
+  boolean hasCopyrightField();
+
+  /**
+   * @since 2.3
+   */
+  String getCopyrightFieldLiteral();
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.80 2007/04/25 20:24:26 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.81 2007/04/26 20:55:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -160,6 +160,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFacadeHelperClass <em>Facade Helper Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getComplianceLevel <em>Compliance Level</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressGenModelAnnotations <em>Suppress Gen Model Annotations</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCopyrightFields <em>Copyright Fields</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1265,6 +1266,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected boolean suppressGenModelAnnotations = SUPPRESS_GEN_MODEL_ANNOTATIONS_EDEFAULT;
 
   /**
+   * The default value of the '{@link #isCopyrightFields() <em>Copyright Fields</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCopyrightFields()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean COPYRIGHT_FIELDS_EDEFAULT = true;
+
+  /**
+   * The cached value of the '{@link #isCopyrightFields() <em>Copyright Fields</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isCopyrightFields()
+   * @generated
+   * @ordered
+   */
+  protected boolean copyrightFields = COPYRIGHT_FIELDS_EDEFAULT;
+
+  /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1776,6 +1797,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public void initialize(Collection<? extends EPackage> ePackages)
   {
+    setCopyrightFields(false);
     LOOP:
     for (EPackage ePackage : ePackages)
     {
@@ -5354,6 +5376,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isCopyrightFields()
+  {
+    return copyrightFields;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setCopyrightFields(boolean newCopyrightFields)
+  {
+    boolean oldCopyrightFields = copyrightFields;
+    copyrightFields = newCopyrightFields;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS, oldCopyrightFields, copyrightFields));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList<GenPackage> getGenPackages()
   {
     if (genPackages == null)
@@ -5580,6 +5625,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getComplianceLevel();
       case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
         return isSuppressGenModelAnnotations() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS:
+        return isCopyrightFields() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -5763,6 +5810,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
         setSuppressGenModelAnnotations(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS:
+        setCopyrightFields(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -5948,6 +5998,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
         setSuppressGenModelAnnotations(SUPPRESS_GEN_MODEL_ANNOTATIONS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS:
+        setCopyrightFields(COPYRIGHT_FIELDS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6076,6 +6129,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return complianceLevel != COMPLIANCE_LEVEL_EDEFAULT;
       case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
         return suppressGenModelAnnotations != SUPPRESS_GEN_MODEL_ANNOTATIONS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS:
+        return copyrightFields != COPYRIGHT_FIELDS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6201,6 +6256,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(complianceLevel);
     result.append(", suppressGenModelAnnotations: ");
     result.append(suppressGenModelAnnotations);
+    result.append(", copyrightFields: ");
+    result.append(copyrightFields);
     result.append(')');
     return result.toString();
   }
@@ -6973,6 +7030,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
 
     setCopyrightText(oldGenModelVersion.getCopyrightText());
+    setCopyrightFields(oldGenModelVersion.isCopyrightFields());
     setModelDirectory(oldGenModelVersion.getModelDirectory());
     setCreationCommands(oldGenModelVersion.isCreationCommands());
     setCreationIcons(oldGenModelVersion.isCreationIcons());
@@ -7405,6 +7463,46 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public boolean isSuppressedAnnotation(String source)
   {
     return isSuppressGenModelAnnotations() && GenModelPackage.eNS_URI.equals(source);
+  }
+
+  @Override
+  protected String getCopyright(boolean includeGenModelCopyrightTextAsDefault)
+  {
+    for (GenPackage genPackage : getGenPackages())
+    {
+      String copyright = ((GenBaseImpl)genPackage).getCopyright(false);
+      if (copyright != null)
+      {
+        return copyright;
+      }
+    }
+    if (includeGenModelCopyrightTextAsDefault)
+    {
+      String copyright = getCopyrightText();
+      return isBlank(copyright) ? null : copyright;
+    }
+    else
+    {
+      return null;
+    }
+  }
+  
+  public boolean hasCopyrightField()
+  {
+    return isCopyrightFields() && !isBlank(getCopyrightText());
+  }
+
+  public String getCopyrightFieldLiteral()
+  {
+    if (isCopyrightFields())
+    {
+      String copyright = getCopyrightText();
+      return isBlank(copyright) ? "null" : Literals.toStringLiteral(copyright, this);
+    }
+    else
+    {
+      return "null";
+    }
   }
 
 } //GenModelImpl

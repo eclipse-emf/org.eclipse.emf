@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.58 2007/03/23 17:36:59 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.59 2007/04/26 20:55:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1519,7 +1519,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     
     public boolean accept(EModelElement eModelElement, String source, String key, String value)
     {
-      return !(GenModelPackage.eNS_URI.equals(source) && "documentation".equals(key));
+      return !(GenModelPackage.eNS_URI.equals(source) && ("documentation".equals(key) || "copyright".equals(key)));
     }
   }
   
@@ -2297,6 +2297,39 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   public String getDocumentation(String indentation)
   {
     return indent(getDocumentation(), indentation);
+  }
+
+  protected String getCopyright(boolean includeGenModelCopyrightTextAsDefault)
+  {
+    for (EModelElement modelElement = getEcoreModelElement(); 
+         modelElement != null; 
+         modelElement = modelElement.eContainer() instanceof EModelElement ? (EModelElement)modelElement.eContainer() : null)
+    {
+      String copyright = EcoreUtil.getAnnotation(modelElement, GenModelPackage.eNS_URI, "copyright");
+      if (copyright != null)
+      {
+        return copyright;
+      }
+    }
+    if (includeGenModelCopyrightTextAsDefault)
+    {
+      String copyright = getGenModel().getCopyrightText();
+      return isBlank(copyright) ? null : copyright;
+    }
+    else
+    {
+      return null;
+    }
+  }
+
+  public boolean hasCopyright()
+  {
+    return getCopyright(true) != null;
+  }
+
+  public String getCopyright(String indentation)
+  {
+    return indent(getCopyright(true), indentation);
   }
 
   protected String indent(String text, String indentation)
