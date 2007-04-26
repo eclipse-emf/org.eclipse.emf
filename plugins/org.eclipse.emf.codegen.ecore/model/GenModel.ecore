@@ -88,6 +88,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="complianceLevel" eType="#//GenJDKLevel"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressGenModelAnnotations"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="copyrightFields" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genPackages" upperBound="-1"
         eType="#//GenPackage" containment="true" eOpposite="#//GenPackage/genModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="usedGenPackages" upperBound="-1"
