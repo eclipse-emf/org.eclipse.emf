@@ -29,14 +29,14 @@ package <%=genModel.getTestSuitePackageName()%>;
  */
 public class <%=genModel.getTestSuiteClassName()%> extends <%=genModel.getImportedName("junit.framework.TestSuite")%>
 {
-<%if (genModel.getCopyrightText() != null) {%>
+<%if (genModel.hasCopyrightField()) {%>
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
+	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = <%=genModel.getCopyrightFieldLiteral()%>;<%=genModel.getNonNLS()%>
 <%}%>
 
 	/**

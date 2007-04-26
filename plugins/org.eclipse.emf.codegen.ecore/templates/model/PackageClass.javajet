@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.37 2007/04/01 12:46:35 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.38 2007/04/26 20:54:03 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -77,13 +77,13 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>
 <%}%>
 {
-<%if (genModel.getCopyrightText() != null) {%>
+<%if (genModel.hasCopyrightField()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	<%=publicStaticFinalFlag%><%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
+	<%=publicStaticFinalFlag%><%=genModel.getImportedName("java.lang.String")%> copyright = <%=genModel.getCopyrightFieldLiteral()%>;<%=genModel.getNonNLS()%>
 
 <%}%>
 <%if (isInterface) {%>

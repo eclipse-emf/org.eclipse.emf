@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.29 2007/03/21 18:22:38 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.30 2007/04/26 20:54:03 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -57,13 +57,13 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSuppressEMFMetaData()) {%> extends <%=genModel.getImportedName("org.eclipse.emf.ecore.EFactory")%><%}%>
 <%}%>
 {
-<%if (genModel.getCopyrightText() != null) {%>
+<%if (genModel.hasCopyrightField()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	<%=publicStaticFinalFlag%><%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
+	<%=publicStaticFinalFlag%><%=genModel.getImportedName("java.lang.String")%> copyright = <%=genModel.getCopyrightFieldLiteral()%>;<%=genModel.getNonNLS()%>
 
 <%}%>
 <%if (isImplementation && (genModel.isSuppressEMFMetaData() || genModel.isSuppressInterfaces())) {%>

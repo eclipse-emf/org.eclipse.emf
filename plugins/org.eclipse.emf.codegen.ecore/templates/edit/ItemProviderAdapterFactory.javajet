@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.9 2006/12/28 06:40:38 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.10 2007/04/26 20:54:04 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -47,13 +47,13 @@ package <%=genPackage.getProviderPackageName()%>;
  */
 public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%=genPackage.getImportedAdapterFactoryClassName()%> implements ComposeableAdapterFactory, IChangeNotifier<%if (genPackage.isDisposableProviderFactory()) {%>, <%=genModel.getImportedName("org.eclipse.emf.edit.provider.IDisposable")%><%}%>
 {
-<%if (genModel.getCopyrightText() != null) {%>
+<%if (genModel.hasCopyrightField()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
+	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = <%=genModel.getCopyrightFieldLiteral()%>;<%=genModel.getNonNLS()%>
 
 <%}%>
 	/**

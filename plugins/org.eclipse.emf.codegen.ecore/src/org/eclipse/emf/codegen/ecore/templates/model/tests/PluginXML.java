@@ -17,24 +17,27 @@ public class PluginXML
   protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + NL + "<?eclipse version=\"3.0\"?>" + NL;
   protected final String TEXT_2 = NL;
-  protected final String TEXT_3 = "<!--" + NL + " <copyright>" + NL + " </copyright>" + NL;
+  protected final String TEXT_3 = "<!--";
   protected final String TEXT_4 = NL + " ";
-  protected final String TEXT_5 = "Id";
-  protected final String TEXT_6 = NL + "-->" + NL + "" + NL + "<plugin";
-  protected final String TEXT_7 = ">";
-  protected final String TEXT_8 = NL + "    name = \"%pluginName\"" + NL + "    id = \"";
-  protected final String TEXT_9 = "\"" + NL + "    version = \"1.0.0\"" + NL + "    provider-name = \"%providerName\">" + NL + "" + NL + "  <requires>";
-  protected final String TEXT_10 = NL + "    <import plugin=\"";
-  protected final String TEXT_11 = "\" ";
-  protected final String TEXT_12 = "export=\"true\"";
-  protected final String TEXT_13 = "/>";
-  protected final String TEXT_14 = NL + "  </requires>" + NL + "" + NL + "  <runtime>";
-  protected final String TEXT_15 = NL + "    <library name=\"";
-  protected final String TEXT_16 = ".jar\">";
-  protected final String TEXT_17 = NL + "    <library name=\".\">";
-  protected final String TEXT_18 = NL + "      <export name=\"*\"/>" + NL + "    </library>" + NL + "  </runtime>";
-  protected final String TEXT_19 = NL + "</plugin>";
-  protected final String TEXT_20 = NL;
+  protected final String TEXT_5 = NL + " <copyright>" + NL + " </copyright>";
+  protected final String TEXT_6 = NL;
+  protected final String TEXT_7 = NL + " ";
+  protected final String TEXT_8 = "Id";
+  protected final String TEXT_9 = NL + "-->" + NL + "" + NL + "<plugin";
+  protected final String TEXT_10 = ">";
+  protected final String TEXT_11 = NL + "    name = \"%pluginName\"" + NL + "    id = \"";
+  protected final String TEXT_12 = "\"" + NL + "    version = \"1.0.0\"" + NL + "    provider-name = \"%providerName\">" + NL + "" + NL + "  <requires>";
+  protected final String TEXT_13 = NL + "    <import plugin=\"";
+  protected final String TEXT_14 = "\" ";
+  protected final String TEXT_15 = "export=\"true\"";
+  protected final String TEXT_16 = "/>";
+  protected final String TEXT_17 = NL + "  </requires>" + NL + "" + NL + "  <runtime>";
+  protected final String TEXT_18 = NL + "    <library name=\"";
+  protected final String TEXT_19 = ".jar\">";
+  protected final String TEXT_20 = NL + "    <library name=\".\">";
+  protected final String TEXT_21 = NL + "      <export name=\"*\"/>" + NL + "    </library>" + NL + "  </runtime>";
+  protected final String TEXT_22 = NL + "</plugin>";
+  protected final String TEXT_23 = NL;
 
   public String generate(Object argument)
   {
@@ -59,38 +62,46 @@ public class PluginXML
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     stringBuffer.append(TEXT_3);
+    {GenBase copyrightHolder = argument instanceof GenBase ? (GenBase)argument : argument instanceof Object[] && ((Object[])argument)[0] instanceof GenBase ? (GenBase)((Object[])argument)[0] : null;
+    if (copyrightHolder != null && copyrightHolder.hasCopyright()) {
     stringBuffer.append(TEXT_4);
-    stringBuffer.append("$");
+    stringBuffer.append(copyrightHolder.getCopyright(copyrightHolder.getGenModel().getIndentation(stringBuffer)));
+    } else {
     stringBuffer.append(TEXT_5);
-    stringBuffer.append("$");
+    }}
     stringBuffer.append(TEXT_6);
-    if (genModel.isBundleManifest()) {
     stringBuffer.append(TEXT_7);
-    } else {
+    stringBuffer.append("$");
     stringBuffer.append(TEXT_8);
-    stringBuffer.append(genModel.getTestsPluginID());
+    stringBuffer.append("$");
     stringBuffer.append(TEXT_9);
-    for (String pluginID : genModel.getTestsRequiredPlugins()) {
+    if (genModel.isBundleManifest()) {
     stringBuffer.append(TEXT_10);
-    stringBuffer.append(pluginID);
-    stringBuffer.append(TEXT_11);
-    if (!pluginID.startsWith("org.eclipse.core.runtime")) {
-    stringBuffer.append(TEXT_12);
-    }
-    stringBuffer.append(TEXT_13);
-    }
-    stringBuffer.append(TEXT_14);
-    if (genModel.isRuntimeJar()) {
-    stringBuffer.append(TEXT_15);
-    stringBuffer.append(genModel.getTestsPluginID());
-    stringBuffer.append(TEXT_16);
     } else {
+    stringBuffer.append(TEXT_11);
+    stringBuffer.append(genModel.getTestsPluginID());
+    stringBuffer.append(TEXT_12);
+    for (String pluginID : genModel.getTestsRequiredPlugins()) {
+    stringBuffer.append(TEXT_13);
+    stringBuffer.append(pluginID);
+    stringBuffer.append(TEXT_14);
+    if (!pluginID.startsWith("org.eclipse.core.runtime")) {
+    stringBuffer.append(TEXT_15);
+    }
+    stringBuffer.append(TEXT_16);
+    }
     stringBuffer.append(TEXT_17);
-    }
+    if (genModel.isRuntimeJar()) {
     stringBuffer.append(TEXT_18);
-    }
+    stringBuffer.append(genModel.getTestsPluginID());
     stringBuffer.append(TEXT_19);
+    } else {
     stringBuffer.append(TEXT_20);
+    }
+    stringBuffer.append(TEXT_21);
+    }
+    stringBuffer.append(TEXT_22);
+    stringBuffer.append(TEXT_23);
     return stringBuffer.toString();
   }
 }

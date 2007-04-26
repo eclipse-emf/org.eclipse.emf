@@ -14,17 +14,18 @@ public class BuildProperties
   }
 
   protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
-  protected final String TEXT_1 = "";
-  protected final String TEXT_2 = "# <copyright>" + NL + "# </copyright>" + NL + "#" + NL + "# ";
-  protected final String TEXT_3 = "Id";
-  protected final String TEXT_4 = NL + NL + "bin.includes = ";
-  protected final String TEXT_5 = ",\\" + NL + "               icons/,\\";
-  protected final String TEXT_6 = NL + "               META-INF/,\\";
-  protected final String TEXT_7 = NL + "               plugin.xml,\\" + NL + "               plugin.properties" + NL + "jars.compile.order = ";
-  protected final String TEXT_8 = NL + "source.";
-  protected final String TEXT_9 = " = src/" + NL + "output.";
-  protected final String TEXT_10 = " = bin/";
-  protected final String TEXT_11 = NL;
+  protected final String TEXT_1 = "# ";
+  protected final String TEXT_2 = NL + "# <copyright>" + NL + "# </copyright>";
+  protected final String TEXT_3 = NL + "#" + NL + "# ";
+  protected final String TEXT_4 = "Id";
+  protected final String TEXT_5 = NL + NL + "bin.includes = ";
+  protected final String TEXT_6 = ",\\" + NL + "               icons/,\\";
+  protected final String TEXT_7 = NL + "               META-INF/,\\";
+  protected final String TEXT_8 = NL + "               plugin.xml,\\" + NL + "               plugin.properties" + NL + "jars.compile.order = ";
+  protected final String TEXT_9 = NL + "source.";
+  protected final String TEXT_10 = " = src/" + NL + "output.";
+  protected final String TEXT_11 = " = bin/";
+  protected final String TEXT_12 = NL;
 
   public String generate(Object argument)
   {
@@ -47,25 +48,31 @@ public class BuildProperties
 
     GenModel genModel = (GenModel)argument;
     String pluginClassesLocation = genModel.isRuntimeJar() ? genModel.getEditPluginID()+".jar" : ".";
+    {GenBase copyrightHolder = argument instanceof GenBase ? (GenBase)argument : argument instanceof Object[] && ((Object[])argument)[0] instanceof GenBase ? (GenBase)((Object[])argument)[0] : null;
+    if (copyrightHolder != null && copyrightHolder.hasCopyright()) {
     stringBuffer.append(TEXT_1);
+    stringBuffer.append(copyrightHolder.getCopyright(copyrightHolder.getGenModel().getIndentation(stringBuffer)));
+    } else {
     stringBuffer.append(TEXT_2);
-    stringBuffer.append("$");
+    }}
     stringBuffer.append(TEXT_3);
     stringBuffer.append("$");
     stringBuffer.append(TEXT_4);
-    stringBuffer.append(pluginClassesLocation);
+    stringBuffer.append("$");
     stringBuffer.append(TEXT_5);
-    if (genModel.isBundleManifest()) {
-    stringBuffer.append(TEXT_6);
-    }
-    stringBuffer.append(TEXT_7);
     stringBuffer.append(pluginClassesLocation);
+    stringBuffer.append(TEXT_6);
+    if (genModel.isBundleManifest()) {
+    stringBuffer.append(TEXT_7);
+    }
     stringBuffer.append(TEXT_8);
     stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_9);
     stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_10);
+    stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_11);
+    stringBuffer.append(TEXT_12);
     return stringBuffer.toString();
   }
 }

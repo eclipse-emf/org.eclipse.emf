@@ -14,12 +14,13 @@ public class PluginProperties
   }
 
   protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
-  protected final String TEXT_1 = "";
-  protected final String TEXT_2 = "# <copyright>" + NL + "# </copyright>" + NL + "#" + NL + "# ";
-  protected final String TEXT_3 = "Id";
-  protected final String TEXT_4 = NL + NL + "# ====================================================================" + NL + "# To code developer:" + NL + "#   Do NOT change the properties between this line and the" + NL + "#   \"%%% END OF TRANSLATED PROPERTIES %%%\" line." + NL + "#   Make a new property name, append to the end of the file and change" + NL + "#   the code to use the new property." + NL + "# ====================================================================" + NL + "" + NL + "# ====================================================================" + NL + "# %%% END OF TRANSLATED PROPERTIES %%%" + NL + "# ====================================================================" + NL + "" + NL + "pluginName = ";
-  protected final String TEXT_5 = " Model" + NL + "providerName = www.example.org";
-  protected final String TEXT_6 = NL;
+  protected final String TEXT_1 = "# ";
+  protected final String TEXT_2 = NL + "# <copyright>" + NL + "# </copyright>";
+  protected final String TEXT_3 = NL + "#" + NL + "# ";
+  protected final String TEXT_4 = "Id";
+  protected final String TEXT_5 = NL + NL + "# ====================================================================" + NL + "# To code developer:" + NL + "#   Do NOT change the properties between this line and the" + NL + "#   \"%%% END OF TRANSLATED PROPERTIES %%%\" line." + NL + "#   Make a new property name, append to the end of the file and change" + NL + "#   the code to use the new property." + NL + "# ====================================================================" + NL + "" + NL + "# ====================================================================" + NL + "# %%% END OF TRANSLATED PROPERTIES %%%" + NL + "# ====================================================================" + NL + "" + NL + "pluginName = ";
+  protected final String TEXT_6 = " Model" + NL + "providerName = www.example.org";
+  protected final String TEXT_7 = NL;
 
   public String generate(Object argument)
   {
@@ -41,15 +42,21 @@ public class PluginProperties
  */
 
     GenModel genModel = (GenModel)argument;
+    {GenBase copyrightHolder = argument instanceof GenBase ? (GenBase)argument : argument instanceof Object[] && ((Object[])argument)[0] instanceof GenBase ? (GenBase)((Object[])argument)[0] : null;
+    if (copyrightHolder != null && copyrightHolder.hasCopyright()) {
     stringBuffer.append(TEXT_1);
+    stringBuffer.append(copyrightHolder.getCopyright(copyrightHolder.getGenModel().getIndentation(stringBuffer)));
+    } else {
     stringBuffer.append(TEXT_2);
-    stringBuffer.append("$");
+    }}
     stringBuffer.append(TEXT_3);
     stringBuffer.append("$");
     stringBuffer.append(TEXT_4);
-    stringBuffer.append(genModel.getModelName());
+    stringBuffer.append("$");
     stringBuffer.append(TEXT_5);
+    stringBuffer.append(genModel.getModelName());
     stringBuffer.append(TEXT_6);
+    stringBuffer.append(TEXT_7);
     return stringBuffer.toString();
   }
 }
