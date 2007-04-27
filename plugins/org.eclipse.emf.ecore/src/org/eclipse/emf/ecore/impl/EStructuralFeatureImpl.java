@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.22.2.1 2007/02/23 22:21:25 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.22.2.2 2007/04/27 16:43:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -122,12 +122,12 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       EFactory factory = eType.getEPackage().getEFactoryInstance();
       if (factory != defaultValueFactory)
       {
-        defaultValueFactory = factory;
         EDataType eDataType = (EDataType)eType;
         if (eDataType.isSerializable())
         {
           defaultValue = factory.createFromString((EDataType)eType, literal);
         }
+        defaultValueFactory = factory;
       }
       return defaultValue;
     }
