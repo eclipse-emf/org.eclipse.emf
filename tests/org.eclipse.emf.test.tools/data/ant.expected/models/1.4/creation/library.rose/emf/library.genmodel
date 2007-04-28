@@ -5,7 +5,7 @@
     modelDirectory="@TEST_TOKEN@0/./src/."
     modelPluginID="library.model" modelName="Library" importerID="org.eclipse.emf.importer.rose"
     copyrightFields="false">
-  <foreignModel>..\model\library.mdl</foreignModel>
+  <foreignModel>..@TEST_TOKEN@1model@TEST_TOKEN@1library.mdl</foreignModel>
   <genPackages prefix="Library" basePackage="org.examples" disposableProviderFactory="true"
       ecorePackage="library.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//BookCategory">
