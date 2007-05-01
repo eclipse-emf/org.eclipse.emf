@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.71 2007/03/30 12:25:33 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.72 2007/05/01 13:34:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -290,7 +290,10 @@ public class XMLSaveImpl implements XMLSave
 
     if (useCache)
     {
-      ConfigurationCache.INSTANCE.releasePrinter(doc);
+      if (doc != null)
+      {
+        ConfigurationCache.INSTANCE.releasePrinter(doc);
+      }
       if (escape != null)
       {
         ConfigurationCache.INSTANCE.releaseEscape(escape);

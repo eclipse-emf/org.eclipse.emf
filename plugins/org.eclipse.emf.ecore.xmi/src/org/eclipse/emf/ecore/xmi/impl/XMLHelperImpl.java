@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.39 2007/04/04 20:06:55 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.40 2007/05/01 13:34:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -119,7 +119,10 @@ public class XMLHelperImpl implements XMLHelper
     save.traverse(contents);
     if (save.useCache)
     {
-      ConfigurationCache.INSTANCE.releasePrinter(save.doc);
+      if (save.doc != null)
+      {
+        ConfigurationCache.INSTANCE.releasePrinter(save.doc);
+      }
       if (save.escape != null)
       {
         ConfigurationCache.INSTANCE.releaseEscape(save.escape);
