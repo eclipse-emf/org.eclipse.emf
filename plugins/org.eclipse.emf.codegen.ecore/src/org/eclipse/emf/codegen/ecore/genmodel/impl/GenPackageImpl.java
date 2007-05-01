@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.69 2007/04/25 20:24:26 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.70 2007/05/01 13:36:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3974,20 +3974,32 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   protected static boolean hasExtendedMetaData(EPackage ePackage)
   {
-    for (TreeIterator<?> i = ePackage.eAllContents(); i.hasNext(); )
+    List<EPackage> ePackages = new UniqueEList<EPackage>();
+    ePackages.add(ePackage);
+    for (int i = 0; i < ePackages.size(); ++i)
     {
-      Object object = i.next();
-      if (object instanceof EPackage)
+      for (TreeIterator<EObject> j = ePackages.get(i).eAllContents(); j.hasNext(); )
       {
-        i.prune();
-      }
-      else if (object instanceof EAnnotation)
-      {
-        EAnnotation eAnnotation = (EAnnotation)object;
-        String source = eAnnotation.getSource();
-        if (ExtendedMetaData.ANNOTATION_URI.equals(source))
+        EObject eObject = j.next();
+        if (eObject instanceof EPackage || eObject instanceof EDataType)
         {
-          return true;
+          j.prune();
+        }
+        else if (eObject instanceof EAnnotation)
+        {
+          EAnnotation eAnnotation = (EAnnotation)eObject;
+          String source = eAnnotation.getSource();
+          if (ExtendedMetaData.ANNOTATION_URI.equals(source))
+          {
+            return true;
+          }
+        }
+        for (EObject eCrossReference : eObject.eCrossReferences())
+        {
+          if (eCrossReference instanceof EClass)
+          {
+            ePackages.add(((EClassifier)eCrossReference).getEPackage());
+          }
         }
       }
     }
