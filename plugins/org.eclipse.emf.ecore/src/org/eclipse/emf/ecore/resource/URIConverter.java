@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.6 2006/12/05 20:22:27 emerks Exp $
+ * $Id: URIConverter.java,v 1.7 2007/05/01 14:15:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -44,6 +44,8 @@ import org.eclipse.emf.common.util.URI;
  * a resource is considered a match if {@link Resource#getURI it's URI}, 
  * and the URI being looked up, 
  * {@link #normalize normalize} to {@link URI#equals(Object) equal} URIs.
+ * Clients must extend the default {@link org.eclipse.emf.ecore.resource.impl.URIConverterImpl implementation},
+ * since methods can and will be added to this API.
  * </p>
  */
 public interface URIConverter

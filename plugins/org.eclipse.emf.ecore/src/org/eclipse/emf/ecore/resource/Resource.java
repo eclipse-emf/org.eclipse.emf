@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.9 2007/03/28 19:49:21 emerks Exp $
+ * $Id: Resource.java,v 1.10 2007/05/01 14:15:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -50,8 +50,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceFactoryRegistryImpl;
  * as objects are {@link Resource.Internal#attached attached} and {@link Resource.Internal#detached detached};
  * if needed, it will be able to maintain a map to support {@link #getEObject getEObject}.
  * Structured URI {@link #getURIFragment fragments} are used rather than IDs, since they are a more general alternative.
- * Clients will typically extend the default {@link org.eclipse.emf.ecore.resource.impl.ResourceImpl implementation},
- * or one of it's derived classes.
+ * Clients must extend the default {@link org.eclipse.emf.ecore.resource.impl.ResourceImpl implementation},
+ * or one of its derived classes,
+ * since methods can and will be added to this API.
  * </p>
  * <p>
  * A resource produces notification for changes to the value of each of these features:
@@ -65,8 +66,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceFactoryRegistryImpl;
  *   <li>{@link #getErrors}</li>
  *   <li>{@link #getWarnings}</li>
  * </ul>
- * </p>
- * <p>
  * </p>
  * @see org.eclipse.emf.common.notify
  * @see org.eclipse.emf.ecore.resource.impl.ResourceImpl
@@ -499,6 +498,10 @@ public interface Resource extends Notifier
      * {@link org.eclipse.emf.ecore.plugin.EcorePlugin.Implementation#startup plugin registration}
      * to ensure delayed plugin load.
      * </p>
+     * <p>
+     * Clients must extend the default {@link org.eclipse.emf.ecore.resource.impl.ResourceFactoryRegistryImpl implementation},
+     * since methods can and will be added to this API.
+     * </p>
      * @see ResourceSet#getResourceFactoryRegistry()
      */
     interface Registry
@@ -557,7 +560,6 @@ public interface Resource extends Notifier
        * @see ResourceSet#getResourceFactoryRegistry()
        */
       Registry INSTANCE = new ResourceFactoryRegistryImpl();
-
     }
   }
 
@@ -600,6 +602,8 @@ public interface Resource extends Notifier
    * <p>
    * It is used to maintain the referential integrity of
    * the containment relation between a resource set and a resource.
+   * Clients must extend the default {@link org.eclipse.emf.ecore.resource.impl.ResourceFactoryRegistryImpl implementation},
+   * since methods can and will be added to this API.
    * </p>
    * @see Resource#getResourceSet
    * @see ResourceSet#getResources
