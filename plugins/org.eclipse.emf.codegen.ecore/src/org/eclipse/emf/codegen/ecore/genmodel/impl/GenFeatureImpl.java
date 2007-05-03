@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.46 2007/04/23 17:21:17 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.47 2007/05/03 20:58:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1127,18 +1127,21 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
   public GenFeature getReverse()
   {
-    EReference eReverseFeature = ((EReference)getEcoreFeature()).getEOpposite();
-    if (eReverseFeature != null)
+    if (isBidirectional())
     {
-      EClass eReverseClass = (EClass)eReverseFeature.eContainer();
-      GenClass genClass = findGenClass(eReverseClass);
-      if (genClass != null)
+      EReference eReverseFeature = ((EReference)getEcoreFeature()).getEOpposite();
+      if (eReverseFeature != null)
       {
-        for (GenFeature genFeature : genClass.getGenFeatures())
+        EClass eReverseClass = (EClass)eReverseFeature.eContainer();
+        GenClass genClass = findGenClass(eReverseClass);
+        if (genClass != null)
         {
-          if (genFeature.getEcoreFeature() == eReverseFeature)
+          for (GenFeature genFeature : genClass.getGenFeatures())
           {
-            return genFeature;
+            if (genFeature.getEcoreFeature() == eReverseFeature)
+            {
+              return genFeature;
+            }
           }
         }
       }
