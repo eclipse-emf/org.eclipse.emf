@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.72 2007/03/27 16:19:49 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.73 2007/05/03 20:58:43 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2566,6 +2566,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     StringBuffer sb = new StringBuffer();
 
     String unsettable = genFeature.isUnsettable() ? ".Unsettable" : "";
+    String offsetCorrectionField = hasOffsetCorrection () ? " + " + getOffsetCorrectionField(null) : "";
 
     if (genFeature.isMapType())
     {
@@ -2586,6 +2587,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       sb.append(genFeature.getImportedMapEntryType());
       sb.append(".class, this, ");
       sb.append(getQualifiedFeatureID(genFeature));
+      sb.append(offsetCorrectionField);
       sb.append(")");
     }
     else if (genFeature.isFeatureMapType())
@@ -2598,6 +2600,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.BasicFeatureMap"));
       sb.append("(this, ");
       sb.append(getQualifiedFeatureID(genFeature));
+      sb.append(offsetCorrectionField);
       sb.append(")");
       if (genFeature.isWrappedFeatureMapType())
       {
@@ -2638,8 +2641,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         sb.append(genFeature.getRawListItemType());
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
+        sb.append(offsetCorrectionField);
         sb.append(", ");
         sb.append(reverseFeature.getGenClass().getQualifiedFeatureID(reverseFeature));
+        if (reverseFeature.getGenClass().hasOffsetCorrection())
+        {
+          sb.append(" + ");
+          sb.append(getOffsetCorrectionField(genFeature));
+        }
         sb.append(")");
       }
       else
@@ -2660,6 +2669,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         sb.append(genFeature.getRawListItemType());
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
+        sb.append(offsetCorrectionField);
         sb.append(")");
       }
     }
@@ -2691,8 +2701,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         sb.append(genFeature.getRawListItemType());
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
+        sb.append(offsetCorrectionField);
         sb.append(", ");
         sb.append(reverseFeature.getGenClass().getQualifiedFeatureID(reverseFeature));
+        if (reverseFeature.getGenClass().hasOffsetCorrection())
+        {
+          sb.append(" + ");
+          sb.append(getOffsetCorrectionField(genFeature));
+        }
         sb.append(")");
       }
       else
@@ -2716,6 +2732,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         sb.append(genFeature.getRawListItemType());
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
+        sb.append(offsetCorrectionField);
         sb.append(")");
       }
     }
@@ -2740,6 +2757,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       sb.append(genFeature.getRawListItemType());
       sb.append(".class, this, ");
       sb.append(getQualifiedFeatureID(genFeature));
+      sb.append(offsetCorrectionField);
       sb.append(")");
     }
     return sb.toString();
@@ -2953,5 +2971,29 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public boolean hasFactoryInterfaceCreateMethod()
   {
     return !isAbstract() && !isMapEntry() && !(getGenModel().isSuppressEMFMetaData() && "org.eclipse.emf.ecore.EObject".equals(getQualifiedInterfaceName()));
+  }
+
+  public boolean hasOffsetCorrection()
+  {
+    GenModel genModel = getGenModel();
+    if (genModel.isBinaryCompatibleReflectiveMethods() && genModel.isMinimalReflectiveMethods())
+    {
+      for (GenClass baseGenClass : getAllBaseGenClasses())
+      {
+        if (!baseGenClass.isEObject() && baseGenClass.getGenModel()  != genModel)
+        {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  
+  public String getOffsetCorrectionField(GenFeature genFeature)
+  {
+    return 
+      genFeature == null ?
+        "EOFFSET_CORRECTION" :
+        "EOFFSET_CORRECTION_" + genFeature.getUpperName() + "_OPPOSITE";
   }
 }

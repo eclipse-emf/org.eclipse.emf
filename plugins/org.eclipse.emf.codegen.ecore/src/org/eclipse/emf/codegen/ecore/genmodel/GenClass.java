@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.25 2007/01/30 14:54:39 khussey Exp $
+ * $Id: GenClass.java,v 1.26 2007/05/03 20:58:43 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -440,4 +440,14 @@ public interface GenClass extends GenClassifier
   
   boolean isJavaIOSerializable();
   boolean hasFactoryInterfaceCreateMethod();
+
+  /**
+   * @since 2.3
+   */
+  boolean hasOffsetCorrection();
+  
+  /**
+   * @since 2.3
+   */
+  String getOffsetCorrectionField(GenFeature genFeature);
 }
