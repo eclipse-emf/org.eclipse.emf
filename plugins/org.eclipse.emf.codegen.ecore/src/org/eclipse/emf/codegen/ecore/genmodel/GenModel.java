@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.44 2007/04/26 20:55:19 emerks Exp $
+ * $Id: GenModel.java,v 1.45 2007/05/03 20:57:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -99,6 +99,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getComplianceLevel <em>Compliance Level</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressGenModelAnnotations <em>Suppress Gen Model Annotations</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCopyrightFields <em>Copyright Fields</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isBinaryCompatibleReflectiveMethods <em>Binary Compatible Reflective Methods</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1679,6 +1680,32 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setCopyrightFields(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Binary Compatible Reflective Methods</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.3
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Binary Compatible Reflective Methods</em>' attribute.
+   * @see #setBinaryCompatibleReflectiveMethods(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_BinaryCompatibleReflectiveMethods()
+   * @model
+   * @generated
+   */
+  boolean isBinaryCompatibleReflectiveMethods();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isBinaryCompatibleReflectiveMethods <em>Binary Compatible Reflective Methods</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Binary Compatible Reflective Methods</em>' attribute.
+   * @see #isBinaryCompatibleReflectiveMethods()
+   * @generated
+   */
+  void setBinaryCompatibleReflectiveMethods(boolean value);
 
   /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.

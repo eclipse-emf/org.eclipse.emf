@@ -314,6 +314,10 @@
 		    quid       	"4630B405009C"
 		    type       	"boolean"
 		    initv      	"true"
+		    exportControl 	"Public")
+		(object ClassAttribute "binaryCompatibleReflectiveMethods"
+		    quid       	"4631F5390167"
+		    type       	"boolean"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -3384,10 +3388,10 @@
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
 		    ShowOperationSignature 	TRUE
-		    location   	(912, 1776)
+		    location   	(912, 1808)
 		    label      	(object ItemLabel
 			Parent_View 	@181
-			location   	(28, 345)
+			location   	(28, 352)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	1768
@@ -3399,11 +3403,11 @@
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
 			Parent_View 	@181
-			location   	(28, 405)
+			location   	(28, 412)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	56
+			nlines     	57
 			max_width  	1764
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
@@ -3431,7 +3435,7 @@
 			    "+ featureMapWrapperInternalInterface : String"
 			    "+ featureMapWrapperClass : String"))
 		    width      	1786
-		    height     	2886
+		    height     	2936
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenPackage" @182
@@ -3813,8 +3817,8 @@
 		    client     	@181
 		    supplier   	@170
 		    line_style 	3
-		    origin_attachment 	(369, 333)
-		    terminal_attachment 	(369, 300)
+		    origin_attachment 	(372, 340)
+		    terminal_attachment 	(372, 300)
 		    drawSupplier 	@179)))
 	(object ClassDiagram "GenModel Edit Relations and Attributes"
 	    quid       	"3D2B33D8036E"

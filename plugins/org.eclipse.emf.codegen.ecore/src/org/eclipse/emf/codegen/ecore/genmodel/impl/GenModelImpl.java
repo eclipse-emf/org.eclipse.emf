@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.81 2007/04/26 20:55:19 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.82 2007/05/03 20:57:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -161,6 +161,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getComplianceLevel <em>Compliance Level</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressGenModelAnnotations <em>Suppress Gen Model Annotations</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCopyrightFields <em>Copyright Fields</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isBinaryCompatibleReflectiveMethods <em>Binary Compatible Reflective Methods</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1284,6 +1285,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean copyrightFields = COPYRIGHT_FIELDS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isBinaryCompatibleReflectiveMethods() <em>Binary Compatible Reflective Methods</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isBinaryCompatibleReflectiveMethods()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean BINARY_COMPATIBLE_REFLECTIVE_METHODS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isBinaryCompatibleReflectiveMethods() <em>Binary Compatible Reflective Methods</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isBinaryCompatibleReflectiveMethods()
+   * @generated
+   * @ordered
+   */
+  protected boolean binaryCompatibleReflectiveMethods = BINARY_COMPATIBLE_REFLECTIVE_METHODS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -5399,6 +5420,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isBinaryCompatibleReflectiveMethods()
+  {
+    return binaryCompatibleReflectiveMethods;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setBinaryCompatibleReflectiveMethods(boolean newBinaryCompatibleReflectiveMethods)
+  {
+    boolean oldBinaryCompatibleReflectiveMethods = binaryCompatibleReflectiveMethods;
+    binaryCompatibleReflectiveMethods = newBinaryCompatibleReflectiveMethods;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS, oldBinaryCompatibleReflectiveMethods, binaryCompatibleReflectiveMethods));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList<GenPackage> getGenPackages()
   {
     if (genPackages == null)
@@ -5627,6 +5671,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isSuppressGenModelAnnotations() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS:
         return isCopyrightFields() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS:
+        return isBinaryCompatibleReflectiveMethods() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -5813,6 +5859,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS:
         setCopyrightFields(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS:
+        setBinaryCompatibleReflectiveMethods(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -6001,6 +6050,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS:
         setCopyrightFields(COPYRIGHT_FIELDS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS:
+        setBinaryCompatibleReflectiveMethods(BINARY_COMPATIBLE_REFLECTIVE_METHODS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6131,6 +6183,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return suppressGenModelAnnotations != SUPPRESS_GEN_MODEL_ANNOTATIONS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS:
         return copyrightFields != COPYRIGHT_FIELDS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS:
+        return binaryCompatibleReflectiveMethods != BINARY_COMPATIBLE_REFLECTIVE_METHODS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6258,6 +6312,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(suppressGenModelAnnotations);
     result.append(", copyrightFields: ");
     result.append(copyrightFields);
+    result.append(", binaryCompatibleReflectiveMethods: ");
+    result.append(binaryCompatibleReflectiveMethods);
     result.append(')');
     return result.toString();
   }
@@ -7074,6 +7130,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setFeatureDelegation(oldGenModelVersion.getFeatureDelegation());
     setContainmentProxies(oldGenModelVersion.isContainmentProxies());
     setMinimalReflectiveMethods(oldGenModelVersion.isMinimalReflectiveMethods());
+    setBinaryCompatibleReflectiveMethods(oldGenModelVersion.isBinaryCompatibleReflectiveMethods());
     
     setSuppressEMFMetaData(oldGenModelVersion.isSuppressEMFMetaData());
     setSuppressEMFModelTags(oldGenModelVersion.isSuppressEMFModelTags());
