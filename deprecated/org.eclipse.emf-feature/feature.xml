@@ -27,6 +27,14 @@ http://www.eclipse.org/legal/epl-v10.html
       <discovery label="%EMFTUpdateSiteName" url="http://download.eclipse.org/technology/emft/updates/"/>
    </url>
 
+   <includes
+         id="org.eclipse.emf.common"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.core.resources" version="3.1.0" match="compatible"/>
       <import feature="org.eclipse.platform" version="3.3.0.v20061208-Fj22sCYGm0XDWm3" match="compatible"/>
@@ -75,21 +83,7 @@ http://www.eclipse.org/legal/epl-v10.html
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.emf.common"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.emf.common.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.emf.ecore"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -110,21 +104,7 @@ http://www.eclipse.org/legal/epl-v10.html
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.emf.ecore.change"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.emf.ecore.change.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.emf.ecore.xmi"
          download-size="0"
          install-size="0"
          version="0.0.0"
