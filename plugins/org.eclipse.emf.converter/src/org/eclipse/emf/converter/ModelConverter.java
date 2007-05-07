@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverter.java,v 1.4 2006/12/28 06:43:30 marcelop Exp $
+ * $Id: ModelConverter.java,v 1.5 2007/05/07 14:42:05 emerks Exp $
  */
 package org.eclipse.emf.converter;
 
@@ -431,9 +431,21 @@ public abstract class ModelConverter
     return createResourceSet();
   }  
   
+  /**
+   * This method was misnamed and will be removed in the next release.
+   * @see #getGenModelSaveOptions()
+   */
+  @Deprecated
   protected Map<?, ?> getGenmodelSaveOptions()
   {
-    return Collections.EMPTY_MAP;
+    Map<Object, Object> result = new HashMap<Object, Object>();
+    result.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+    return result;
+  }
+
+  protected Map<?, ?> getGenModelSaveOptions()
+  {
+    return getGenmodelSaveOptions();
   }
   
   /**
