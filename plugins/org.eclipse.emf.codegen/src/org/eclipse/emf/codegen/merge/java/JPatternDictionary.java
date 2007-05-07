@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.10 2007/04/05 18:35:08 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.11 2007/05/07 16:45:57 marcelop Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java;
@@ -267,27 +267,10 @@ public class JPatternDictionary extends FacadeVisitor
    */
   public boolean isMarkedUp(Pattern markupPattern, Pattern parentMarkupPattern, JNode node)
   {
-    if (node.getParent() == null) // if node does not have a parent, check only markupPattern
-    {
-      return isMarkedUp(markupPattern, node);
-    }
-    else if (markupPattern != null && parentMarkupPattern != null) // if both patterns are set, check both
-    {
-      return isMarkedUp(markupPattern, node) && isMarkedUp(parentMarkupPattern, node.getParent());
-    }
-    else if (markupPattern != null) // if only markupPattern is set
-    {
-      return isMarkedUp(markupPattern, node);
-    }     
-    else if (parentMarkupPattern != null) // if only parentMarkupPattern is set
-    {
-      return isMarkedUp(parentMarkupPattern, node.getParent());
-    }
-    else // both patterns are null
-    {
-      return true;
-    }
-  }  
+    return 
+      (markupPattern == null || isMarkedUp(markupPattern, node)) &&
+      (parentMarkupPattern == null || node.getParent() == null || isMarkedUp(parentMarkupPattern, node.getParent()));
+  }
   
   public boolean isMarkedUp(Pattern markupPattern, JNode node)
   {
