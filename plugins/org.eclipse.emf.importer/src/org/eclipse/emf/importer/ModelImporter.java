@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.34 2007/01/22 16:45:45 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.35 2007/05/07 14:42:44 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -760,7 +760,7 @@ public abstract class ModelImporter extends ModelConverter
     
     for (Resource resource : resources)
     {
-      resource.save(getGenmodelSaveOptions());
+      resource.save(getGenModelSaveOptions());
     }
   }
   
