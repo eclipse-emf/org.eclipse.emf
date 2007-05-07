@@ -28,6 +28,28 @@
          version="0.0.0"/>
 
    <includes
+         id="org.eclipse.emf.common.ui.source"
+         version="0.0.0"/>
+   <includes
+         id="org.eclipse.emf.common.source"
+         version="0.0.0"/>
+   <includes
+         id="org.eclipse.emf.ecore.edit.source"
+         version="0.0.0"/>
+   <includes
+         id="org.eclipse.emf.ecore.editor.source"
+         version="0.0.0"/>
+   <includes
+         id="org.eclipse.emf.ecore.source"
+         version="0.0.0"/>
+   <includes
+         id="org.eclipse.emf.edit.ui.source"
+         version="0.0.0"/>
+   <includes
+         id="org.eclipse.emf.edit.source"
+         version="0.0.0"/>
+
+   <includes
          id="org.eclipse.emf.doc"
          version="0.0.0"/>
 
