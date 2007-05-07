@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.37 2006/12/10 14:06:00 emerks Exp $
+ * $Id: XMLResource.java,v 1.38 2007/05/07 22:07:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -41,9 +41,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 /**
- * This interface represents an XML resource. You can use it to load
- * and save XML files. This initial implementation of XML serialization
- * and deserialization is incomplete but will be completed shortly.
+ * This interface represents an XML resource.
+ * You can use it to load and save XML documents.
  */
 public interface XMLResource extends Resource
 {
