@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameFactoryImpl.java,v 1.2 2007/01/18 22:06:40 marcelop Exp $
+ * $Id: QNameFactoryImpl.java,v 1.3 2007/05/07 17:26:29 marcelop Exp $
  */
 package org.eclipse.emf.test.models.qname.impl;
 
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.xml.namespace.QName;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -278,14 +279,14 @@ public class QNameFactoryImpl extends EFactoryImpl implements QNameFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public List<Object> createQnameListFromString(EDataType eDataType, String initialValue)
+  public List<QName> createQnameListFromString(EDataType eDataType, String initialValue)
   {
     if (initialValue == null) return null;
-    List<Object> result = new ArrayList<Object>();
+    List<QName> result = new ArrayList<QName>();
     for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
     {
       String item = stringTokenizer.nextToken();
-      result.add(XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.QNAME, item));
+      result.add((QName)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.QNAME, item));
     }
     return result;
   }

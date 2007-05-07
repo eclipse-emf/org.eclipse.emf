@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: ResourceTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: ResourceTypeImpl.java,v 1.4 2007/05/07 17:26:29 marcelop Exp $
  */
 package org.eclipse.emf.test.models.qname.impl;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -82,7 +83,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * @generated
    * @ordered
    */
-  protected static final List<Object> QNAMELIST_EDEFAULT = null;
+  protected static final List<QName> QNAMELIST_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getQnamelist() <em>Qnamelist</em>}' attribute.
@@ -92,7 +93,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * @generated
    * @ordered
    */
-  protected List<Object> qnamelist = QNAMELIST_EDEFAULT;
+  protected List<QName> qnamelist = QNAMELIST_EDEFAULT;
 
   /**
    * The default value of the '{@link #getIntvalue() <em>Intvalue</em>}' attribute.
@@ -141,7 +142,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * @generated
    * @ordered
    */
-  protected static final List<Object> MY_QNAME_EDEFAULT = null;
+  protected static final List<QName> MY_QNAME_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getMyQname() <em>My Qname</em>}' attribute.
@@ -151,7 +152,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * @generated
    * @ordered
    */
-  protected List<Object> myQname = MY_QNAME_EDEFAULT;
+  protected List<QName> myQname = MY_QNAME_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getAnyAttribute() <em>Any Attribute</em>}' attribute list.
@@ -212,7 +213,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public List<Object> getQnamelist()
+  public List<QName> getQnamelist()
   {
     return qnamelist;
   }
@@ -222,9 +223,9 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setQnamelist(List<Object> newQnamelist)
+  public void setQnamelist(List<QName> newQnamelist)
   {
-    List<Object> oldQnamelist = qnamelist;
+    List<QName> oldQnamelist = qnamelist;
     qnamelist = newQnamelist;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, QNamePackage.RESOURCE_TYPE__QNAMELIST, oldQnamelist, qnamelist));
@@ -299,7 +300,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public List<Object> getMyQname()
+  public List<QName> getMyQname()
   {
     return myQname;
   }
@@ -309,9 +310,9 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setMyQname(List<Object> newMyQname)
+  public void setMyQname(List<QName> newMyQname)
   {
-    List<Object> oldMyQname = myQname;
+    List<QName> oldMyQname = myQname;
     myQname = newMyQname;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, QNamePackage.RESOURCE_TYPE__MY_QNAME, oldMyQname, myQname));
@@ -392,7 +393,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
         setUnionvalue(newValue);
         return;
       case QNamePackage.RESOURCE_TYPE__QNAMELIST:
-        setQnamelist((List<Object>)newValue);
+        setQnamelist((List<QName>)newValue);
         return;
       case QNamePackage.RESOURCE_TYPE__INTVALUE:
         setIntvalue(((Integer)newValue).intValue());
@@ -401,7 +402,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
         ((FeatureMap.Internal)getAny()).set(newValue);
         return;
       case QNamePackage.RESOURCE_TYPE__MY_QNAME:
-        setMyQname((List<Object>)newValue);
+        setMyQname((List<QName>)newValue);
         return;
       case QNamePackage.RESOURCE_TYPE__ANY_ATTRIBUTE:
         ((FeatureMap.Internal)getAnyAttribute()).set(newValue);

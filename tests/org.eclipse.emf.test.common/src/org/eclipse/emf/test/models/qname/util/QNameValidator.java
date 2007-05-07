@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameValidator.java,v 1.3 2007/01/18 22:14:55 emerks Exp $
+ * $Id: QNameValidator.java,v 1.4 2007/05/07 17:26:29 marcelop Exp $
  */
 package org.eclipse.emf.test.models.qname.util;
 
@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -185,7 +186,7 @@ public class QNameValidator extends EObjectValidator
       }
       if (XMLTypePackage.Literals.QNAME.isInstance(intQNameUnion))
       {
-        if (xmlTypeValidator.validateQName(intQNameUnion, tempDiagnostics, context)) return true;
+        if (xmlTypeValidator.validateQName((QName)intQNameUnion, tempDiagnostics, context)) return true;
       }
       for (Diagnostic diagnostic : tempDiagnostics.getChildren())
       {
@@ -200,7 +201,7 @@ public class QNameValidator extends EObjectValidator
       }
       if (XMLTypePackage.Literals.QNAME.isInstance(intQNameUnion))
       {
-        if (xmlTypeValidator.validateQName(intQNameUnion, null, context)) return true;
+        if (xmlTypeValidator.validateQName((QName)intQNameUnion, null, context)) return true;
       }
     }
     return false;
@@ -267,7 +268,7 @@ public class QNameValidator extends EObjectValidator
       Object item = i.next();
       if (XMLTypePackage.Literals.QNAME.isInstance(item))
       {
-        result &= xmlTypeValidator.validateQName(item, diagnostics, context);
+        result &= xmlTypeValidator.validateQName((QName)item, diagnostics, context);
       }
       else
       {

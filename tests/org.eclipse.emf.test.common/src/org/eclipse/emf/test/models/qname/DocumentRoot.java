@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: DocumentRoot.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: DocumentRoot.java,v 1.3 2007/05/07 17:26:29 marcelop Exp $
  */
 package org.eclipse.emf.test.models.qname;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
 import org.eclipse.emf.common.util.EMap;
 
 import org.eclipse.emf.ecore.EObject;
@@ -112,13 +113,13 @@ public interface DocumentRoot extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Any E</em>' attribute.
-   * @see #setAnyE(Object)
+   * @see #setAnyE(QName)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getDocumentRoot_AnyE()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.QName" upper="-2" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='anyE' namespace='##targetNamespace'"
    * @generated
    */
-  Object getAnyE();
+  QName getAnyE();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.qname.DocumentRoot#getAnyE <em>Any E</em>}' attribute.
@@ -128,7 +129,7 @@ public interface DocumentRoot extends EObject
    * @see #getAnyE()
    * @generated
    */
-  void setAnyE(Object value);
+  void setAnyE(QName value);
 
   /**
    * Returns the value of the '<em><b>Any EU</b></em>' attribute.
@@ -139,7 +140,7 @@ public interface DocumentRoot extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Any EU</em>' attribute.
-   * @see #setAnyEU(List<Object>)
+   * @see #setAnyEU(List)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getDocumentRoot_AnyEU()
    * @model unique="false" dataType="org.eclipse.emf.test.models.qname.ListUnion" upper="-2" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='anyEU' namespace='##targetNamespace'"
@@ -247,13 +248,13 @@ public interface DocumentRoot extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>AQname</em>' attribute.
-   * @see #setAQname(Object)
+   * @see #setAQname(QName)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getDocumentRoot_AQname()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.QName"
    *        extendedMetaData="kind='attribute' name='aQname' namespace='##targetNamespace'"
    * @generated
    */
-  Object getAQname();
+  QName getAQname();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.qname.DocumentRoot#getAQname <em>AQname</em>}' attribute.
@@ -263,7 +264,7 @@ public interface DocumentRoot extends EObject
    * @see #getAQname()
    * @generated
    */
-  void setAQname(Object value);
+  void setAQname(QName value);
 
   /**
    * Returns the value of the '<em><b>AUnion</b></em>' attribute.
@@ -274,7 +275,7 @@ public interface DocumentRoot extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>AUnion</em>' attribute.
-   * @see #setAUnion(List<Object>)
+   * @see #setAUnion(List)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getDocumentRoot_AUnion()
    * @model unique="false" dataType="org.eclipse.emf.test.models.qname.ListUnion" many="false"
    *        extendedMetaData="kind='attribute' name='aUnion' namespace='##targetNamespace'"

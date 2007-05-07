@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: DocumentRootImpl.java,v 1.4 2007/02/20 17:42:40 emerks Exp $
+ * $Id: DocumentRootImpl.java,v 1.5 2007/05/07 17:26:29 marcelop Exp $
  */
 package org.eclipse.emf.test.models.qname.impl;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -102,7 +103,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected static final Object ANY_E_EDEFAULT = null;
+  protected static final QName ANY_E_EDEFAULT = null;
 
   /**
    * The default value of the '{@link #getAnyEU() <em>Any EU</em>}' attribute.
@@ -151,7 +152,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected static final Object AQNAME_EDEFAULT = null;
+  protected static final QName AQNAME_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getAQname() <em>AQname</em>}' attribute.
@@ -161,7 +162,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    * @ordered
    */
-  protected Object aQname = AQNAME_EDEFAULT;
+  protected QName aQname = AQNAME_EDEFAULT;
 
   /**
    * The default value of the '{@link #getAUnion() <em>AUnion</em>}' attribute.
@@ -251,9 +252,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getAnyE()
+  public QName getAnyE()
   {
-    return getMixed().get(QNamePackage.Literals.DOCUMENT_ROOT__ANY_E, true);
+    return (QName)getMixed().get(QNamePackage.Literals.DOCUMENT_ROOT__ANY_E, true);
   }
 
   /**
@@ -261,7 +262,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setAnyE(Object newAnyE)
+  public void setAnyE(QName newAnyE)
   {
     ((FeatureMap.Internal)getMixed()).set(QNamePackage.Literals.DOCUMENT_ROOT__ANY_E, newAnyE);
   }
@@ -372,7 +373,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getAQname()
+  public QName getAQname()
   {
     return aQname;
   }
@@ -382,9 +383,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setAQname(Object newAQname)
+  public void setAQname(QName newAQname)
   {
-    Object oldAQname = aQname;
+    QName oldAQname = aQname;
     aQname = newAQname;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, QNamePackage.DOCUMENT_ROOT__AQNAME, oldAQname, aQname));
@@ -491,7 +492,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         ((EStructuralFeature.Setting)getXSISchemaLocation()).set(newValue);
         return;
       case QNamePackage.DOCUMENT_ROOT__ANY_E:
-        setAnyE(newValue);
+        setAnyE((QName)newValue);
         return;
       case QNamePackage.DOCUMENT_ROOT__ANY_EU:
         setAnyEU((List<Object>)newValue);
@@ -503,7 +504,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         setAInt(((Integer)newValue).intValue());
         return;
       case QNamePackage.DOCUMENT_ROOT__AQNAME:
-        setAQname(newValue);
+        setAQname((QName)newValue);
         return;
       case QNamePackage.DOCUMENT_ROOT__AUNION:
         setAUnion((List<Object>)newValue);

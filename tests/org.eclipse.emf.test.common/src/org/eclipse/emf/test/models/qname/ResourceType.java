@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: ResourceType.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: ResourceType.java,v 1.4 2007/05/07 17:26:29 marcelop Exp $
  */
 package org.eclipse.emf.test.models.qname;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -81,13 +82,13 @@ public interface ResourceType extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Qnamelist</em>' attribute.
-   * @see #setQnamelist(List<Object>)
+   * @see #setQnamelist(List)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getResourceType_Qnamelist()
    * @model unique="false" dataType="org.eclipse.emf.test.models.qname.QnameList" required="true" many="false"
    *        extendedMetaData="kind='element' name='qnamelist' namespace='##targetNamespace'"
    * @generated
    */
-  List<Object> getQnamelist();
+  List<QName> getQnamelist();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.qname.ResourceType#getQnamelist <em>Qnamelist</em>}' attribute.
@@ -97,7 +98,7 @@ public interface ResourceType extends EObject
    * @see #getQnamelist()
    * @generated
    */
-  void setQnamelist(List<Object> value);
+  void setQnamelist(List<QName> value);
 
   /**
    * Returns the value of the '<em><b>Intvalue</b></em>' attribute.
@@ -179,13 +180,13 @@ public interface ResourceType extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>My Qname</em>' attribute.
-   * @see #setMyQname(List<Object>)
+   * @see #setMyQname(List)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getResourceType_MyQname()
    * @model unique="false" dataType="org.eclipse.emf.test.models.qname.QnameList" many="false"
    *        extendedMetaData="kind='attribute' name='myQname'"
    * @generated
    */
-  List<Object> getMyQname();
+  List<QName> getMyQname();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.qname.ResourceType#getMyQname <em>My Qname</em>}' attribute.
@@ -195,7 +196,7 @@ public interface ResourceType extends EObject
    * @see #getMyQname()
    * @generated
    */
-  void setMyQname(List<Object> value);
+  void setMyQname(List<QName> value);
 
   /**
    * Returns the value of the '<em><b>Any Attribute</b></em>' attribute list.
