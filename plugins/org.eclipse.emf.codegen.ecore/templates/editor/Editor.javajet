@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.47 2007/04/26 20:54:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.48 2007/05/07 14:40:17 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -26,6 +26,8 @@ String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute"
 <%String _CollectionOfResource = "Collection" + (genModel.useGenerics() ? "<Resource>" : "");%>
 <%String _MapOfResourceToDiagnostic = "Map" + (genModel.useGenerics() ? "<Resource, Diagnostic>" : "");%>
 <%String _HashMapOfResourceToBoolean = "HashMap" + (genModel.useGenerics() ? "<Resource, Boolean>" : "");%>
+<%String _MapOfObjectToObject = "Map" + (genModel.useGenerics() ? "<Object, Object>" : "");%>
+<%String _HashMapOfObjectToObject = "HashMap" + (genModel.useGenerics() ? "<Object, Object>" : "");%>
 <%String _LinkedHashMapOfResourceToDiagnostic = "LinkedHashMap" + (genModel.useGenerics() ? "<Resource, Diagnostic>" : "");%>
 <%String _CollectionOfAnything = "Collection" + (genModel.useGenerics() ? "<?>" : "");%>
 <%String _ListOfAnything = "List" + (genModel.useGenerics() ? "<?>" : "");%>
@@ -1841,6 +1843,11 @@ public class <%=genPackage.getEditorClassName()%>
 <%}%>
 	public void doSave(IProgressMonitor progressMonitor)
 	{
+		// Save only resources that have actually changed.
+		//
+		final <%=_MapOfObjectToObject%> saveOptions = new <%=_HashMapOfObjectToObject%>();
+		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+
 		// Do the work within an operation because this is a long running activity that modifies the workbench.
 		//
 		<%=importedOperationClassName%> operation =
@@ -1870,7 +1877,7 @@ public class <%=genPackage.getEditorClassName()%>
 							try
 							{
 								savedResources.add(resource);
-								resource.save(Collections.EMPTY_MAP);
+								resource.save(saveOptions);
 							}
 							catch (Exception exception)
 							{
