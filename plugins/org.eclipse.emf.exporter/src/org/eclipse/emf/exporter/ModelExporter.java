@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.13 2007/01/07 23:56:17 marcelop Exp $
+ * $Id: ModelExporter.java,v 1.14 2007/05/07 14:42:45 emerks Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -755,8 +755,6 @@ public abstract class ModelExporter extends ModelConverter
   public void save() throws Exception
   {
     Resource genModelResource = getGenModel().eResource();
-    boolean wasTrackingModification = genModelResource.isTrackingModification();
-    genModelResource.setTrackingModification(true);
     
     boolean changed = false;
     if (isSaveExporter())
@@ -780,9 +778,8 @@ public abstract class ModelExporter extends ModelConverter
         }        
       }
       
-      genModelResource.save(getGenmodelSaveOptions());
+      genModelResource.save(getGenModelSaveOptions());
     }
-    genModelResource.setTrackingModification(wasTrackingModification);
   }
 
   /**
