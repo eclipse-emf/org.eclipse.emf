@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.26 2006/12/05 20:19:56 emerks Exp $
+ * $Id: URI.java,v 1.27 2007/05/07 17:09:54 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -95,7 +95,7 @@ import java.util.StringTokenizer;
  * system property. Multiple schemes should be space separated, and the test
  * of whether a URI's scheme matches is always case-insensitive.
  *
- * <p>This implementation does not impose the all of the restrictions on
+ * <p>This implementation does not impose all of the restrictions on
  * character validity that are specified in the RFC.  Static methods whose
  * names begin with "valid" are used to test whether a given string is valid
  * value for the various URI components.  Presently, these tests place no
