@@ -19,50 +19,145 @@
       <discovery label="%EMFTUpdateSiteName" url="http://download.eclipse.org/technology/emft/updates/"/>
    </url>
 
+	
    <includes
          id="org.eclipse.emf"
          version="0.0.0"/>
-
    <includes
          id="org.eclipse.emf.source"
+         version="0.0.0"/>
+
+
+   <includes
+         id="org.eclipse.emf.common"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.common.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.common.ui"
          version="0.0.0"/>
 
    <includes
          id="org.eclipse.emf.common.ui.source"
          version="0.0.0"/>
+
    <includes
-         id="org.eclipse.emf.common.source"
+         id="org.eclipse.emf.ecore"
          version="0.0.0"/>
-   <includes
-         id="org.eclipse.emf.ecore.edit.source"
-         version="0.0.0"/>
-   <includes
-         id="org.eclipse.emf.ecore.editor.source"
-         version="0.0.0"/>
+
    <includes
          id="org.eclipse.emf.ecore.source"
          version="0.0.0"/>
+
    <includes
-         id="org.eclipse.emf.edit.ui.source"
+         id="org.eclipse.emf.edit"
          version="0.0.0"/>
+
    <includes
          id="org.eclipse.emf.edit.source"
          version="0.0.0"/>
 
    <includes
+         id="org.eclipse.emf.edit.ui"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.edit.ui.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.edit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.edit.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.editor"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.editor.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.codegen"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.codegen.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.codegen.ui"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.codegen.ui.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.codegen.ecore"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.codegen.ecore.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.codegen.ecore.ui"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.codegen.ecore.ui.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.converter"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.converter.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.mapping"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.mapping.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.mapping.ecore"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.mapping.ecore.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.mapping.ui"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.mapping.ui.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.mapping.ecore.editor"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.mapping.ecore.editor.source"
+         version="0.0.0"/>
+
+   <includes
          id="org.eclipse.emf.doc"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.xsd"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.xsd.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.xsd.doc"
          version="0.0.0"/>
 
    <includes
@@ -74,10 +169,88 @@
          version="0.0.0"/>
 
    <includes
+         id="org.eclipse.emf.ecore.sdo.edit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.sdo.edit.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.sdo.editor"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.sdo.editor.source"
+         version="0.0.0"/>
+
+   <includes
          id="org.eclipse.emf.ecore.sdo.doc"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.xsd"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.edit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.edit.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.editor"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.editor.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.ecore.converter"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.ecore.converter.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.mapping"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.mapping.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.mapping.editor"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.mapping.editor.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.example"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.example.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.doc"
+         version="0.0.0"/>
+
+
    <requires>
+      <import plugin="org.eclipse.core.resources" version="3.1.0" match="compatible"/>
       <import feature="org.eclipse.platform" version="3.3.0.v20061208-Fj22sCYGm0XDWm3" match="compatible"/>
    </requires>
 
