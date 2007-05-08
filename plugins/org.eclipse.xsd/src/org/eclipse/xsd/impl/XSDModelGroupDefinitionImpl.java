@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.15 2007/02/20 17:42:21 emerks Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.16 2007/05/08 19:15:11 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -333,6 +333,15 @@ public class XSDModelGroupDefinitionImpl
           createDiagnostic(XSDDiagnosticSeverity.ERROR_LITERAL, "cvc-complex-type.3", "name");
         }
       }
+    }
+  }
+
+  @Override
+  protected void patchTargetNamespaceAttribute(XSDSchema xsdSchema)
+  {
+    if (!isModelGroupDefinitionReference())
+    {
+      super.patchTargetNamespaceAttribute(xsdSchema);
     }
   }
 

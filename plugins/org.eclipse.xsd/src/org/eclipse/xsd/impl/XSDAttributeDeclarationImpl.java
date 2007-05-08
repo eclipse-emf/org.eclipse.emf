@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.18 2007/02/23 22:35:53 emerks Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.19 2007/05/08 19:15:11 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -215,28 +215,42 @@ public class XSDAttributeDeclarationImpl
       XSDSchema xsdSchema = getSchema();
       if (xsdSchema != null)
       {
-        if (getScope() instanceof XSDSchema)
-        {
-          if (!isSetForm() || XSDForm.QUALIFIED_LITERAL != getForm())
-          {
-            setForm(XSDForm.QUALIFIED_LITERAL);
-          }
-        }
-        if (isSetForm() ? getForm() == XSDForm.UNQUALIFIED_LITERAL : xsdSchema.getAttributeFormDefault() == XSDForm.UNQUALIFIED_LITERAL)
-        {
-          if (getTargetNamespace() != null)
-          {
-            setTargetNamespace(null);
-          }
-        }
-        else
-        {
-          String newTargetNamespace = xsdSchema.getTargetNamespace();
-          if (newTargetNamespace == null ? getTargetNamespace() != null : !newTargetNamespace.equals(getTargetNamespace()))
-          {
-            setTargetNamespace(newTargetNamespace);
-          }
-        }
+        patchTargetNamespaceAttributeHelper(xsdSchema);
+      }
+    }
+  }
+
+  @Override
+  protected void patchTargetNamespaceAttribute(XSDSchema xsdSchema)
+  {
+    if (!isAttributeDeclarationReference())
+    {
+      patchTargetNamespaceAttributeHelper(xsdSchema);
+    }
+  }
+
+  protected void patchTargetNamespaceAttributeHelper(XSDSchema xsdSchema)
+  {
+    if (getScope() instanceof XSDSchema)
+    {
+      if (!isSetForm() || XSDForm.QUALIFIED_LITERAL != getForm())
+      {
+        setForm(XSDForm.QUALIFIED_LITERAL);
+      }
+    }
+    if (isSetForm() ? getForm() == XSDForm.UNQUALIFIED_LITERAL : xsdSchema.getAttributeFormDefault() == XSDForm.UNQUALIFIED_LITERAL)
+    {
+      if (getTargetNamespace() != null)
+      {
+        setTargetNamespace(null);
+      }
+    }
+    else
+    {
+      String newTargetNamespace = xsdSchema.getTargetNamespace();
+      if (newTargetNamespace == null ? getTargetNamespace() != null : !newTargetNamespace.equals(getTargetNamespace()))
+      {
+        setTargetNamespace(newTargetNamespace);
       }
     }
   }
