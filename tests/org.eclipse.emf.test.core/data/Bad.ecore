@@ -827,4 +827,14 @@
       </eOperations>
     </eClassifiers>
   </eSubpackages>
+  <eSubpackages name="structuralFeatureDefaultValueLiteral" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//structuralFeatureDefaultValueLiteral"
+      nsPrefix="bad.structural.feature.default.value.literal">
+    <eClassifiers xsi:type="ecore:EClass" name="BadDefaultValueLiteral">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="badAttributeDefaultValueLiteral"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//UnsignedByte"
+          defaultValueLiteral="256"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="badReferenceDefaultValueLiteral"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" defaultValueLiteral=""/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>

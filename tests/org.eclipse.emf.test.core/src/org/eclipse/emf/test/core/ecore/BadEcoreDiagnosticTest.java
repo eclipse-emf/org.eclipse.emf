@@ -68,7 +68,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("org.eclipse.emf.ecore", diagnostic1.getSource());
     assertEquals("Diagnosis of org.eclipse.emf.ecore.impl.EPackageImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#/}", removeObjectHashCode(diagnostic1.getMessage()));
     assertEquals(0, diagnostic1.getCode());
-    assertEquals(98, diagnostic1.getChildren().size());
+    assertEquals(100, diagnostic1.getChildren().size());
     assertEquals(1, diagnostic1.getData().size());
     assertNull(diagnostic1.getException());
 
@@ -76,7 +76,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic2.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic2.getSource());
     assertEquals("The source URI '' is not well formed", removeObjectHashCode(diagnostic2.getMessage()));
-    assertEquals(46, diagnostic2.getCode());
+    assertEquals(47, diagnostic2.getCode());
     assertEquals(0, diagnostic2.getChildren().size());
     assertEquals(1, diagnostic2.getData().size());
     assertNull(diagnostic2.getException());
@@ -85,7 +85,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic3.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic3.getSource());
     assertEquals("The source URI 'A source URI with spaces is not well formed' is not well formed", removeObjectHashCode(diagnostic3.getMessage()));
-    assertEquals(46, diagnostic3.getCode());
+    assertEquals(47, diagnostic3.getCode());
     assertEquals(0, diagnostic3.getChildren().size());
     assertEquals(1, diagnostic3.getData().size());
     assertNull(diagnostic3.getException());
@@ -94,7 +94,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic4.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic4.getSource());
     assertEquals("The source URI 'AnUnencoded%IsNotWellFormed' is not well formed", removeObjectHashCode(diagnostic4.getMessage()));
-    assertEquals(46, diagnostic4.getCode());
+    assertEquals(47, diagnostic4.getCode());
     assertEquals(0, diagnostic4.getChildren().size());
     assertEquals(1, diagnostic4.getData().size());
     assertNull(diagnostic4.getException());
@@ -112,7 +112,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic6.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic6.getSource());
     assertEquals("The name 'null' is not well formed", removeObjectHashCode(diagnostic6.getMessage()));
-    assertEquals(43, diagnostic6.getCode());
+    assertEquals(44, diagnostic6.getCode());
     assertEquals(0, diagnostic6.getChildren().size());
     assertEquals(1, diagnostic6.getData().size());
     assertNull(diagnostic6.getException());
@@ -121,7 +121,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic7.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic7.getSource());
     assertEquals("The name 'invalid.dot.qualified.name' is not well formed", removeObjectHashCode(diagnostic7.getMessage()));
-    assertEquals(43, diagnostic7.getCode());
+    assertEquals(44, diagnostic7.getCode());
     assertEquals(0, diagnostic7.getChildren().size());
     assertEquals(1, diagnostic7.getData().size());
     assertNull(diagnostic7.getException());
@@ -130,7 +130,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic8.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic8.getSource());
     assertEquals("The name '1' is not well formed", removeObjectHashCode(diagnostic8.getMessage()));
-    assertEquals(43, diagnostic8.getCode());
+    assertEquals(44, diagnostic8.getCode());
     assertEquals(0, diagnostic8.getChildren().size());
     assertEquals(1, diagnostic8.getData().size());
     assertNull(diagnostic8.getException());
@@ -139,7 +139,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic9.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic9.getSource());
     assertEquals("The name 'name with spaces' is not well formed", removeObjectHashCode(diagnostic9.getMessage()));
-    assertEquals(43, diagnostic9.getCode());
+    assertEquals(44, diagnostic9.getCode());
     assertEquals(0, diagnostic9.getChildren().size());
     assertEquals(1, diagnostic9.getData().size());
     assertNull(diagnostic9.getException());
@@ -148,7 +148,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic10.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic10.getSource());
     assertEquals("The instance type name '' is not well formed", removeObjectHashCode(diagnostic10.getMessage()));
-    assertEquals(41, diagnostic10.getCode());
+    assertEquals(42, diagnostic10.getCode());
     assertEquals(0, diagnostic10.getChildren().size());
     assertEquals(1, diagnostic10.getData().size());
     assertNull(diagnostic10.getException());
@@ -157,7 +157,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic11.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic11.getSource());
     assertEquals("The instance type name 'T[' is not well formed", removeObjectHashCode(diagnostic11.getMessage()));
-    assertEquals(41, diagnostic11.getCode());
+    assertEquals(42, diagnostic11.getCode());
     assertEquals(0, diagnostic11.getChildren().size());
     assertEquals(1, diagnostic11.getData().size());
     assertNull(diagnostic11.getException());
@@ -166,7 +166,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic12.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic12.getSource());
     assertEquals("The instance type name 'T<>' is not well formed", removeObjectHashCode(diagnostic12.getMessage()));
-    assertEquals(41, diagnostic12.getCode());
+    assertEquals(42, diagnostic12.getCode());
     assertEquals(0, diagnostic12.getChildren().size());
     assertEquals(1, diagnostic12.getData().size());
     assertNull(diagnostic12.getException());
@@ -175,7 +175,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic13.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic13.getSource());
     assertEquals("The instance type name 'T<' is not well formed", removeObjectHashCode(diagnostic13.getMessage()));
-    assertEquals(41, diagnostic13.getCode());
+    assertEquals(42, diagnostic13.getCode());
     assertEquals(0, diagnostic13.getChildren().size());
     assertEquals(1, diagnostic13.getData().size());
     assertNull(diagnostic13.getException());
@@ -184,7 +184,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic14.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic14.getSource());
     assertEquals("The instance type name '.name' is not well formed", removeObjectHashCode(diagnostic14.getMessage()));
-    assertEquals(41, diagnostic14.getCode());
+    assertEquals(42, diagnostic14.getCode());
     assertEquals(0, diagnostic14.getChildren().size());
     assertEquals(1, diagnostic14.getData().size());
     assertNull(diagnostic14.getException());
@@ -193,7 +193,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic15.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic15.getSource());
     assertEquals("The instance type name 'name..name' is not well formed", removeObjectHashCode(diagnostic15.getMessage()));
-    assertEquals(41, diagnostic15.getCode());
+    assertEquals(42, diagnostic15.getCode());
     assertEquals(0, diagnostic15.getChildren().size());
     assertEquals(1, diagnostic15.getData().size());
     assertNull(diagnostic15.getException());
@@ -202,7 +202,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic16.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic16.getSource());
     assertEquals("The instance type name 'name.' is not well formed", removeObjectHashCode(diagnostic16.getMessage()));
-    assertEquals(41, diagnostic16.getCode());
+    assertEquals(42, diagnostic16.getCode());
     assertEquals(0, diagnostic16.getChildren().size());
     assertEquals(1, diagnostic16.getData().size());
     assertNull(diagnostic16.getException());
@@ -211,7 +211,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic17.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic17.getSource());
     assertEquals("The instance type name 'T[]<X>' is not well formed", removeObjectHashCode(diagnostic17.getMessage()));
-    assertEquals(41, diagnostic17.getCode());
+    assertEquals(42, diagnostic17.getCode());
     assertEquals(0, diagnostic17.getChildren().size());
     assertEquals(1, diagnostic17.getData().size());
     assertNull(diagnostic17.getException());
@@ -220,7 +220,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic18.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic18.getSource());
     assertEquals("The instance type name 'T<X Y>' is not well formed", removeObjectHashCode(diagnostic18.getMessage()));
-    assertEquals(41, diagnostic18.getCode());
+    assertEquals(42, diagnostic18.getCode());
     assertEquals(0, diagnostic18.getChildren().size());
     assertEquals(1, diagnostic18.getData().size());
     assertNull(diagnostic18.getException());
@@ -310,7 +310,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic28.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic28.getSource());
     assertEquals("A map entry class must have a feature called 'key'", removeObjectHashCode(diagnostic28.getMessage()));
-    assertEquals(42, diagnostic28.getCode());
+    assertEquals(43, diagnostic28.getCode());
     assertEquals(0, diagnostic28.getChildren().size());
     assertEquals(1, diagnostic28.getData().size());
     assertNull(diagnostic28.getException());
@@ -319,7 +319,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic29.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic29.getSource());
     assertEquals("A map entry class must have a feature called 'value'", removeObjectHashCode(diagnostic29.getMessage()));
-    assertEquals(42, diagnostic29.getCode());
+    assertEquals(43, diagnostic29.getCode());
     assertEquals(0, diagnostic29.getChildren().size());
     assertEquals(1, diagnostic29.getData().size());
     assertNull(diagnostic29.getException());
@@ -409,7 +409,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic39.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic39.getSource());
     assertEquals("The namespace URI 'null' is not well formed", removeObjectHashCode(diagnostic39.getMessage()));
-    assertEquals(45, diagnostic39.getCode());
+    assertEquals(46, diagnostic39.getCode());
     assertEquals(0, diagnostic39.getChildren().size());
     assertEquals(1, diagnostic39.getData().size());
     assertNull(diagnostic39.getException());
@@ -418,7 +418,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic40.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic40.getSource());
     assertEquals("The namespace URI '' is not well formed", removeObjectHashCode(diagnostic40.getMessage()));
-    assertEquals(45, diagnostic40.getCode());
+    assertEquals(46, diagnostic40.getCode());
     assertEquals(0, diagnostic40.getChildren().size());
     assertEquals(1, diagnostic40.getData().size());
     assertNull(diagnostic40.getException());
@@ -427,7 +427,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic41.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic41.getSource());
     assertEquals("The namespace URI 'NSUI With Space' is not well formed", removeObjectHashCode(diagnostic41.getMessage()));
-    assertEquals(45, diagnostic41.getCode());
+    assertEquals(46, diagnostic41.getCode());
     assertEquals(0, diagnostic41.getChildren().size());
     assertEquals(1, diagnostic41.getData().size());
     assertNull(diagnostic41.getException());
@@ -436,7 +436,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic42.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic42.getSource());
     assertEquals("The namespace URI 'NsURIWithUnencoded%' is not well formed", removeObjectHashCode(diagnostic42.getMessage()));
-    assertEquals(45, diagnostic42.getCode());
+    assertEquals(46, diagnostic42.getCode());
     assertEquals(0, diagnostic42.getChildren().size());
     assertEquals(1, diagnostic42.getData().size());
     assertNull(diagnostic42.getException());
@@ -445,7 +445,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic43.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic43.getSource());
     assertEquals("The namespace prefix '' is not well formed", removeObjectHashCode(diagnostic43.getMessage()));
-    assertEquals(44, diagnostic43.getCode());
+    assertEquals(45, diagnostic43.getCode());
     assertEquals(0, diagnostic43.getChildren().size());
     assertEquals(1, diagnostic43.getData().size());
     assertNull(diagnostic43.getException());
@@ -454,7 +454,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic44.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic44.getSource());
     assertEquals("The namespace prefix 'xml.prefix' is not well formed", removeObjectHashCode(diagnostic44.getMessage()));
-    assertEquals(44, diagnostic44.getCode());
+    assertEquals(45, diagnostic44.getCode());
     assertEquals(0, diagnostic44.getChildren().size());
     assertEquals(1, diagnostic44.getData().size());
     assertNull(diagnostic44.getException());
@@ -463,7 +463,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic45.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic45.getSource());
     assertEquals("The namespace prefix 'bad.package:nonNSNamePrefix' is not well formed", removeObjectHashCode(diagnostic45.getMessage()));
-    assertEquals(44, diagnostic45.getCode());
+    assertEquals(45, diagnostic45.getCode());
     assertEquals(0, diagnostic45.getChildren().size());
     assertEquals(1, diagnostic45.getData().size());
     assertNull(diagnostic45.getException());
@@ -562,7 +562,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic56.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic56.getSource());
     assertEquals("The lower bound -1 must be greater than or equal to 0", removeObjectHashCode(diagnostic56.getMessage()));
-    assertEquals(38, diagnostic56.getCode());
+    assertEquals(39, diagnostic56.getCode());
     assertEquals(0, diagnostic56.getChildren().size());
     assertEquals(1, diagnostic56.getData().size());
     assertNull(diagnostic56.getException());
@@ -571,7 +571,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic57.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic57.getSource());
     assertEquals("The upper bound 0 must be -2, -1, or greater than 0", removeObjectHashCode(diagnostic57.getMessage()));
-    assertEquals(40, diagnostic57.getCode());
+    assertEquals(41, diagnostic57.getCode());
     assertEquals(0, diagnostic57.getChildren().size());
     assertEquals(1, diagnostic57.getData().size());
     assertNull(diagnostic57.getException());
@@ -580,7 +580,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(Diagnostic.ERROR, diagnostic58.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic58.getSource());
     assertEquals("The upper bound -3 must be -2, -1, or greater than 0", removeObjectHashCode(diagnostic58.getMessage()));
-    assertEquals(40, diagnostic58.getCode());
+    assertEquals(41, diagnostic58.getCode());
     assertEquals(0, diagnostic58.getChildren().size());
     assertEquals(1, diagnostic58.getData().size());
     assertNull(diagnostic58.getException());
@@ -953,6 +953,33 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(0, diagnostic99.getChildren().size());
     assertEquals(1, diagnostic99.getData().size());
     assertNull(diagnostic99.getException());
+
+    Diagnostic diagnostic100 = diagnosticIterator.next();
+    assertEquals(Diagnostic.ERROR, diagnostic100.getSeverity());
+    assertEquals("org.eclipse.emf.ecore.model", diagnostic100.getSource());
+    assertEquals("The default value literal '256' must be a valid literal of the attribute's type", removeObjectHashCode(diagnostic100.getMessage()));
+    assertEquals(39, diagnostic100.getCode());
+    assertEquals(1, diagnostic100.getChildren().size());
+    assertEquals(1, diagnostic100.getData().size());
+    assertNull(diagnostic100.getException());
+
+    Diagnostic diagnostic101 = diagnosticIterator.next();
+    assertEquals(Diagnostic.ERROR, diagnostic101.getSeverity());
+    assertEquals("org.eclipse.emf.ecore", diagnostic101.getSource());
+    assertEquals("The value '256' must be less than or equal to '255' ", removeObjectHashCode(diagnostic101.getMessage()));
+    assertEquals(5, diagnostic101.getCode());
+    assertEquals(0, diagnostic101.getChildren().size());
+    assertEquals(3, diagnostic101.getData().size());
+    assertNull(diagnostic101.getException());
+
+    Diagnostic diagnostic102 = diagnosticIterator.next();
+    assertEquals(Diagnostic.ERROR, diagnostic102.getSeverity());
+    assertEquals("org.eclipse.emf.ecore.model", diagnostic102.getSource());
+    assertEquals("The default value literal '' must be a valid literal of the attribute's type", removeObjectHashCode(diagnostic102.getMessage()));
+    assertEquals(39, diagnostic102.getCode());
+    assertEquals(0, diagnostic102.getChildren().size());
+    assertEquals(1, diagnostic102.getData().size());
+    assertNull(diagnostic102.getException());
     
     assertFalse(diagnosticIterator.hasNext());
   }
