@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.11 2007/04/18 12:08:40 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.12 2007/05/08 15:32:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -266,49 +266,54 @@ public class EcoreValidator extends EObjectValidator
   public static final int UNIQUE_TYPE_PARAMETER_NAMES = 37;
 
   /**
+   * @see #validateEStructuralFeature_ValidDefaultValueLiteral(EStructuralFeature, DiagnosticChain, Map)
+   */
+  public static final int VALID_DEFAULT_VALUE_LITERAL = 38;
+
+  /**
    * @see #validateETypedElement_ValidLowerBound(ETypedElement, DiagnosticChain, Map)
    */
-  public static final int VALID_LOWER_BOUND = 38;
+  public static final int VALID_LOWER_BOUND = 39;
 
   /**
    * @see #validateETypedElement_ValidType(ETypedElement, DiagnosticChain, Map)
    */
-  public static final int VALID_TYPE = 39;
+  public static final int VALID_TYPE = 40;
 
   /**
    * @see #validateETypedElement_ValidUpperBound(ETypedElement, DiagnosticChain, Map)
    */
-  public static final int VALID_UPPER_BOUND = 40;
+  public static final int VALID_UPPER_BOUND = 41;
 
   /**
    * @see #validateEClassifier_WellFormedInstanceTypeName(EClassifier, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_INSTANCE_TYPE_NAME = 41;
+  public static final int WELL_FORMED_INSTANCE_TYPE_NAME = 42;
 
   /**
    * @see #validateEClass_WellFormedMapEntryClass(EClass, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_MAP_ENTRY_CLASS = 42;
+  public static final int WELL_FORMED_MAP_ENTRY_CLASS = 43;
 
   /**
    * @see #validateEClass_WellFormedMapEntryClass(EClass, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_NAME = 43;
+  public static final int WELL_FORMED_NAME = 44;
 
   /**
    * @see #validateEPackage_WellFormedNsPrefix(EPackage, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_NS_PREFIX = 44;
+  public static final int WELL_FORMED_NS_PREFIX = 45;
 
   /**
    * @see #validateEPackage_WellFormedNsURI(EPackage, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_NS_URI = 45;
+  public static final int WELL_FORMED_NS_URI = 46;
 
   /**
    * @see #validateEAnnotation_WellFormedSourceURI(EAnnotation, DiagnosticChain, Map)
    */
-  public static final int WELL_FORMED_SOURCE_URI = 46;
+  public static final int WELL_FORMED_SOURCE_URI = 47;
 
   /**
    * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
@@ -489,6 +494,7 @@ public class EcoreValidator extends EObjectValidator
     if (result || diagnostics != null) result &= validateETypedElement_ValidUpperBound(eAttribute, diagnostics, context);
     if (result || diagnostics != null) result &= validateETypedElement_ConsistentBounds(eAttribute, diagnostics, context);
     if (result || diagnostics != null) result &= validateETypedElement_ValidType(eAttribute, diagnostics, context);
+    if (result || diagnostics != null) result &= validateEStructuralFeature_ValidDefaultValueLiteral(eAttribute, diagnostics, context);
     if (result || diagnostics != null) result &= validateEAttribute_ConsistentTransient(eAttribute, diagnostics, context);
     return result;
   }
@@ -2107,6 +2113,7 @@ public class EcoreValidator extends EObjectValidator
     if (result || diagnostics != null) result &= validateETypedElement_ValidUpperBound(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validateETypedElement_ConsistentBounds(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validateETypedElement_ValidType(eReference, diagnostics, context);
+    if (result || diagnostics != null) result &= validateEStructuralFeature_ValidDefaultValueLiteral(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validateEReference_ConsistentOpposite(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validateEReference_SingleContainer(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validateEReference_ConsistentKeys(eReference, diagnostics, context);
@@ -2302,6 +2309,39 @@ public class EcoreValidator extends EObjectValidator
     if (result || diagnostics != null) result &= validateETypedElement_ValidUpperBound(eStructuralFeature, diagnostics, context);
     if (result || diagnostics != null) result &= validateETypedElement_ConsistentBounds(eStructuralFeature, diagnostics, context);
     if (result || diagnostics != null) result &= validateETypedElement_ValidType(eStructuralFeature, diagnostics, context);
+    if (result || diagnostics != null) result &= validateEStructuralFeature_ValidDefaultValueLiteral(eStructuralFeature, diagnostics, context);
+    return result;
+  }
+
+  /**
+   * Validates the ValidDefaultValueLiteral constraint of '<em>EStructural Feature</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean validateEStructuralFeature_ValidDefaultValueLiteral(EStructuralFeature eStructuralFeature, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    String defaultValueLiteral = eStructuralFeature.getDefaultValueLiteral();
+    boolean result = 
+      defaultValueLiteral == null ||
+        eStructuralFeature.getEType() instanceof EDataType && 
+          eStructuralFeature.getDefaultValue() != null &&
+          getRootEValidator(context).validate((EDataType)eStructuralFeature.getEType(), eStructuralFeature.getDefaultValue(), null, context);
+    if (diagnostics != null && !result)
+    {
+      BasicDiagnostic diagnostic =
+        new BasicDiagnostic
+         (Diagnostic.ERROR,
+          DIAGNOSTIC_SOURCE,
+          VALID_LOWER_BOUND,
+          EcorePlugin.INSTANCE.getString("_UI_EStructuralFeatureValidDefaultValueLiteral_diagnostic", new Object[] { defaultValueLiteral }),
+          new Object[] { eStructuralFeature });
+      if (eStructuralFeature.getEType() instanceof EDataType)
+      {
+        getRootEValidator(context).validate((EDataType)eStructuralFeature.getEType(), eStructuralFeature.getDefaultValue(), diagnostic, context);
+      }
+      diagnostics.add(diagnostic);
+    }
     return result;
   }
 
@@ -3762,4 +3802,403 @@ public class EcoreValidator extends EObjectValidator
   {
     return true;
   }
+
+  /**
+   * @since 2.3
+   */
+  public static class EGenericTypeBuilder
+  {
+    public static final EGenericTypeBuilder INSTANCE = new EGenericTypeBuilder();
+
+    public Diagnostic parseInstanceTypeName(final String instanceTypeName)
+    {
+      return
+        new BasicDiagnostic()
+        {
+          {
+            source = "org.eclipse.emf.ecore.util.EcoreUtil.EGenericTypeBuilder";
+            code = 0;
+            message = "Result";
+            char [] instanceTypeNameCharacterArray = instanceTypeName.toCharArray();
+            EGenericType eGenericType = handleInstanceTypeName(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, this);
+            data = dataAsList(new Object [] { eGenericType, instanceTypeName });
+          }
+        };
+    }
+
+    protected EClassifier resolveEClassifier(String instanceTypeName)
+    {
+      EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
+      eDataType.setInstanceTypeName(instanceTypeName);
+      return eDataType;
+    }
+    
+    protected void addDiagnostic
+      (char [] instanceTypeName, int start, int end, DiagnosticChain diagnostics, String message, EGenericType eGenericType, int index)
+    {
+      if (diagnostics != null)
+      {
+        diagnostics.add
+          (new BasicDiagnostic
+             ("org.eclipse.emf.ecore.util.EcoreUtil.EGenericTypeBuilder",  
+              1,  
+              message, 
+              new Object [] { eGenericType, index }));
+      }
+    }
+    
+    protected void report(DiagnosticChain diagnostics, String message, int index)
+    {
+      if (diagnostics != null)
+      {
+        diagnostics.add
+          (new BasicDiagnostic
+             (Diagnostic.ERROR,
+              "org.eclipse.emf.ecore.util.EcoreUtil.EGenericTypeBuilder",  
+              1,  
+              message, 
+              new Object [] { index }));
+        
+      }
+    }
+
+    /**
+     * A well formed instance type name must syntactically denote a valid Java type name;
+     * names denoting keywords are considered well formed.
+     * It must start with a qualified name consisting of one or more "." separated identifiers,
+     * where each identifier must start with a {@link Character#isJavaIdentifierStart(int) Java identifier start character},
+     * that is followed by zero or more {@link Character#isJavaIdentifierPart(int) Java identifier part characters}.
+     * This qualified name may optionally be followed by zero or more pairs of "[]" characters
+     * or by type arguments consisting of the pair of "<>" characters
+     * with embedded {@link #isWellFormedTypeArguments(String) well formed type arguments}.
+     * @param instanceTypeName the instance type name in question.
+     * @return whether the instance type name is syntactically well formed.
+     */
+    protected EGenericType handleInstanceTypeName(char [] instanceTypeName, int start, int end, DiagnosticChain diagnostics)
+    {
+      String error;
+      EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+      StringBuilder qualifiedName = new StringBuilder();
+      int identifierStart = -1;
+      int identifierLast = -1;
+      int brackets = 0;
+      List<EGenericType> typeArguments = null;
+      LOOP:
+      for (int i = start; i < end; i = Character.offsetByCodePoints(instanceTypeName, 0, instanceTypeName.length, i, 1))
+      {
+        int codePoint = Character.codePointAt(instanceTypeName, i);
+        if (codePoint == '[')
+        {
+          if (identifierStart == -1 && (qualifiedName.length() == 0 || qualifiedName.charAt(qualifiedName.length() - 1) == '.'))
+          {
+            error = "The '[' at index " + i + " must be preceeded by an identifier";
+            report(diagnostics, error, i);
+            return eGenericType;
+          }
+          else 
+          {
+            for (int j = i + 1; j < end; j = Character.offsetByCodePoints(instanceTypeName, 0, instanceTypeName.length, j, 1))
+            {
+              codePoint = Character.codePointAt(instanceTypeName, j);
+              if (codePoint == ']')
+              {
+                i = j;
+                ++brackets;
+                continue LOOP;
+              }
+              else if (!Character.isWhitespace(codePoint))
+              {
+                error = "A ']' is expected at index " + j + " not '" + new String(Character.toChars(codePoint)) + "'";
+                report(diagnostics, error, j);
+                return eGenericType;
+              }
+            }
+            error = "A ']' is expected at index " + end;
+            report(diagnostics, error, end);
+            return eGenericType;
+          }
+        }
+        else if (brackets > 0)
+        {
+          if (!Character.isWhitespace(codePoint))
+          {
+            error = "A '[' is expected at index " + i + " not '" + new String(Character.toChars(codePoint)) + "'";
+            report(diagnostics, error, i);
+            return eGenericType;
+          }
+        }
+        else if (codePoint == '.')
+        {
+          if (identifierStart == -1)
+          {
+            if (qualifiedName.length() == 0 || qualifiedName.charAt(qualifiedName.length() - 1) == '.')
+            {
+              error = "The '.' at index " + i + " must be preceeded by an identifier";
+              report(diagnostics, error, i);
+              return eGenericType;
+            }
+            else
+            {
+              qualifiedName.append('.');
+            }
+          }
+          else
+          {
+            qualifiedName.append(instanceTypeName, identifierStart, identifierLast - identifierStart + 1);
+            qualifiedName.append('.');
+            identifierStart = -1;
+            identifierLast = -1;
+          }
+        }
+        else if (identifierStart != -1 ? Character.isJavaIdentifierPart(codePoint) : Character.isJavaIdentifierStart(codePoint))
+        {
+          if (identifierStart == -1)
+          {
+            if (qualifiedName.length() > 0 && qualifiedName.charAt(qualifiedName.length() - 1) != '.')
+            {
+              error = "A '.' is expected before the start of another identifier at index " + i;
+              report(diagnostics, error, i);
+              return eGenericType;
+            }
+            identifierStart = i;
+          }
+          identifierLast = i;
+        }
+        else if (Character.isWhitespace(codePoint))
+        {
+          if (identifierStart == -1)
+          {
+            // TODO
+          }
+          else if (qualifiedName.length() == 0 || qualifiedName.charAt(qualifiedName.length() - 1) == '.')
+          {
+            qualifiedName.append(instanceTypeName, identifierStart, identifierLast - identifierStart + 1);
+            identifierStart = -1;
+            identifierLast = -1;
+          }
+          else
+          {
+            // TODO
+          }
+        }
+        else if (codePoint == '<')
+        {
+          if (identifierStart == -1 && (qualifiedName.length() == 0 || qualifiedName.charAt(qualifiedName.length() - 1) == '.'))
+          {
+            error = "The '<' at index " + i + " must be preceeded by an identifier";
+            report(diagnostics, error, i);
+            return eGenericType;
+          }
+          for (int j = end - 1; j > i; --j)
+          {
+            if (instanceTypeName[j] == '>')
+            {
+              typeArguments = handleTypeArguments(instanceTypeName, i + 1, j, diagnostics);
+              i = j;
+              continue LOOP;
+            }
+          }
+        }
+      }
+      
+      if (identifierStart == -1 && (qualifiedName.length() == 0 || qualifiedName.charAt(qualifiedName.length() - 1) == '.'))
+      {
+        error = "Expecting an identifier at index " + end;
+        report(diagnostics, error, end);
+      }
+      else
+      {
+        if (identifierStart != -1)
+        {
+          qualifiedName.append(instanceTypeName, identifierStart, identifierLast - identifierStart + 1);
+        }
+        while (brackets-- > 0)
+        {
+          qualifiedName.append("[]");
+        }
+        String qualifiedNameString = qualifiedName.toString();
+        eGenericType.setEClassifier(resolveEClassifier(qualifiedNameString));
+        if (typeArguments != null)
+        {
+          eGenericType.getETypeArguments().addAll(typeArguments);
+        }
+      }
+      return eGenericType;
+    }
+    
+    /**
+     * Well formed type arguments must syntactically denote a comma separated sequence of
+     * {@link #isWellFormedTypeArgument(String)well formed type arguments}.
+     * White space before or after arguments is ignored.
+     * @param typeArguments the type arguments in question.
+     * @return whether the type arguments are well formed.
+     */
+    protected List<EGenericType> handleTypeArguments(char [] instanceTypeName, int start, int end, DiagnosticChain diagnostics)
+    {
+      List<EGenericType> result = new ArrayList<EGenericType>();
+      int depth = 0;
+      int typeArgumentStart = start;
+      for (int i = start; i < end; i = Character.offsetByCodePoints(instanceTypeName, 0, instanceTypeName.length, i, 1))
+      {
+        int codePoint = Character.codePointAt(instanceTypeName, i);
+        switch (codePoint)
+        {
+          case '<':
+          {
+            ++depth;
+            break;
+          }
+          case '>':
+          {
+            --depth;
+            break;
+          }
+          case ',':
+          {
+            if (depth == 0)
+            {
+              result.add(handleTypeArgument(instanceTypeName, typeArgumentStart, i, diagnostics));
+              typeArgumentStart = i + 1;
+            }
+            break;
+          }
+          default:
+          {
+            if (typeArgumentStart == -1)
+            {
+              typeArgumentStart = i;
+            }
+            break;
+          }
+        }
+      }
+      result.add(handleTypeArgument(instanceTypeName, typeArgumentStart, end, diagnostics));
+      return result;
+    }
+
+    /**
+     * A well formed type argument must denote a valid Java type argument.
+     * It may start with a "?"
+     * which may be optionally followed by the keyword "extends" or "super"
+     * which in turn, when present, must be followed by a
+     * {@link #isWellFormedInstanceTypeName(String) well formed type instance name}.
+     * White space before the keyword is optional but at least one space character is expected after the keyword.
+     * Otherwise, the whole string must be a well formed instance type name.
+     * @param typeArgument the type argument in question.
+     * @return whether the type argument is well formed.
+     */
+    protected EGenericType handleTypeArgument(char [] instanceTypeName, int start, int end, DiagnosticChain diagnostics)
+    {
+      String error;
+      EGenericType eGenericType = null;
+      int firstNonWhiteSpaceIndex = start;
+      LOOP:
+      for (int i = start; i < end; i = Character.offsetByCodePoints(instanceTypeName, 0, instanceTypeName.length, i, 1))
+      {
+        int codePoint = Character.codePointAt(instanceTypeName, i);
+        switch (codePoint)
+        {
+          case '?':
+          {
+            if (eGenericType == null)
+            {
+              eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+              break;
+            }
+            else
+            {
+              error = "A second '?' is not permitted at position " + i;
+              report(diagnostics, error, i);
+              break LOOP;
+            }
+          }
+          case 'e':
+          {
+            if (eGenericType != null)
+            {
+              if (i + 7 < end &&
+                    instanceTypeName[i + 1] == 'x' &&
+                    instanceTypeName[i + 2] == 't' &&
+                    instanceTypeName[i + 3] == 'e' &&
+                    instanceTypeName[i + 4] == 'n' &&
+                    instanceTypeName[i + 5] == 'd' &&
+                    instanceTypeName[i + 6] == 's' &&
+                    Character.isWhitespace(Character.codePointAt(instanceTypeName, i + 7)))
+              {
+                EGenericType eUpperBound = 
+                  handleInstanceTypeName
+                    (instanceTypeName, Character.offsetByCodePoints(instanceTypeName, 0, instanceTypeName.length, i + 6, 1), end, diagnostics);
+                eGenericType.setEUpperBound(eUpperBound);
+              }
+              else
+              {
+                error = "Expecting 'extends' at position " + i;
+                report(diagnostics, error, i);
+              }
+            }
+            else
+            {
+              eGenericType = handleInstanceTypeName(instanceTypeName, start, end, diagnostics);
+            }
+            break LOOP;
+          }
+          case 's':
+          {
+            if (eGenericType != null)
+            {
+              if (i + 5 < end &&
+                    instanceTypeName[i + 1] == 'u' &&
+                    instanceTypeName[i + 2] == 'p' &&
+                    instanceTypeName[i + 3] == 'e' &&
+                    instanceTypeName[i + 4] == 'r' &&
+                    Character.isWhitespace(Character.codePointAt(instanceTypeName, i + 5)))
+              {
+                EGenericType eLowerBound = 
+                  handleInstanceTypeName
+                    (instanceTypeName, Character.offsetByCodePoints(instanceTypeName, 0, instanceTypeName.length, i + 4, 1), end, diagnostics);
+                eGenericType.setELowerBound(eLowerBound);
+              }
+              else
+              {
+                error = "Expecting 'super' at position " + i;
+                report(diagnostics, error, i);
+              }
+            }
+            else
+            {
+              eGenericType = handleInstanceTypeName(instanceTypeName, start, end, diagnostics);
+            }
+            break LOOP;
+          }
+          default:
+          {
+            if (Character.isWhitespace(codePoint))
+            {
+              break;
+            }
+            else if (eGenericType != null)
+            {
+              error = "Expecting 'extends' or 'super' at position " + i;
+              report(diagnostics, error, i);
+              break LOOP;
+            }
+            else
+            {
+              firstNonWhiteSpaceIndex = i;
+              eGenericType = handleInstanceTypeName(instanceTypeName, i, end, diagnostics);
+              break LOOP;
+            }
+          } 
+        }
+      }
+      if (eGenericType == null)
+      {
+        eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+        error = "A type argument is expected at position " + firstNonWhiteSpaceIndex;
+        report(diagnostics, error, firstNonWhiteSpaceIndex);
+      }
+      return eGenericType;
+    }
+  }  
+
 } //EcoreValidator
