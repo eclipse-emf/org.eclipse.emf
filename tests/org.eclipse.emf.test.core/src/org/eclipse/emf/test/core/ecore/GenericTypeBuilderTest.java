@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenericTypeBuilderTest.java,v 1.1 2007/04/10 20:17:06 marcelop Exp $
+ * $Id: GenericTypeBuilderTest.java,v 1.2 2007/05/08 15:33:00 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -25,15 +25,15 @@ import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EGenericType;
-import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreValidator;
 
 /**
  * @since 2.3
  */
 public class GenericTypeBuilderTest extends TestCase
 {
-  private EObjectValidator.EGenericTypeBuilder genericTypeBuilder;
+  private EcoreValidator.EGenericTypeBuilder genericTypeBuilder;
   
   public GenericTypeBuilderTest(String name)
   {
@@ -52,7 +52,7 @@ public class GenericTypeBuilderTest extends TestCase
   @Override
   protected void setUp() throws Exception
   {
-    genericTypeBuilder = new EObjectValidator.EGenericTypeBuilder();
+    genericTypeBuilder = new EcoreValidator.EGenericTypeBuilder();
   }
   
   public void knowProblems()
@@ -361,7 +361,7 @@ public class GenericTypeBuilderTest extends TestCase
       };
     for (int i = 0; i < instanceTypeNames.length; ++i)
     {
-      Diagnostic diagnostic = new EObjectValidator.EGenericTypeBuilder().parseInstanceTypeName(instanceTypeNames[i]);
+      Diagnostic diagnostic = new EcoreValidator.EGenericTypeBuilder().parseInstanceTypeName(instanceTypeNames[i]);
       EGenericType eGenericType = (EGenericType)diagnostic.getData().get(0);
       if (diagnostic.getSeverity() > Diagnostic.OK)
       {
