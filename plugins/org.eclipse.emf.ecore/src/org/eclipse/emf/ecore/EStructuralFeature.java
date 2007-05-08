@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.12 2006/12/05 20:22:25 emerks Exp $
+ * $Id: EStructuralFeature.java,v 1.13 2007/05/08 15:30:09 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -42,6 +42,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEStructuralFeature()
  * @model abstract="true"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ValidDefaultValueLiteral'"
  * @generated
  */
 public interface EStructuralFeature extends ETypedElement

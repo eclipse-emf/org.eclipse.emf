@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.22 2007/03/21 18:10:16 marcelop Exp $
+ * $Id: EcorePackageImpl.java,v 1.23 2007/05/08 15:30:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2465,6 +2465,13 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        "constraints", "ConsistentOpposite SingleContainer ConsistentKeys"
        });		
     addAnnotation
+      (eStructuralFeatureEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "ValidDefaultValueLiteral"
+       });		
+    addAnnotation
       (eTypedElementEClass, 
        source, 
        new String[] 
@@ -2488,7 +2495,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";																				
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";																					
     addAnnotation
       (eBigDecimalEDataType, 
        source, 
