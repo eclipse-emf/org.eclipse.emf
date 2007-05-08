@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.7.2.1 2006/12/11 16:14:31 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.7.2.2 2007/05/08 19:11:50 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -176,7 +176,6 @@ public class XSDValidateTest extends TestCase
       "XSD: The attribute name '#a' collides with that of another",
       "XSD: The attribute '#c' may not be an ID because '#b' is the ID",
       "XSD: The attribute group may not have duplicate name and target namespace 'http://www.example.com/Bad#badAnnotation'",
-      "XSD: The attribute group may not have duplicate name and target namespace 'http://www.example.com/Bad#null'",
       "XSD: The minLength facet is not permitted in a type based on 'http://www.w3.org/2001/XMLSchema#decimal'",
       "XSD: The minLength facet cannot be repeated",
       "XSD: The attribute 'bad' is not permitted",
