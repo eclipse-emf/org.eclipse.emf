@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.28 2007/03/22 01:50:01 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.29 2007/05/08 16:12:40 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -43,7 +43,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -473,12 +472,36 @@ public class ItemProviderAdapter
     
     for (EStructuralFeature feature : getAnyChildrenFeatures(object))
     {
-      if (feature.getEType().isInstance(child))
+      if (isValidValue(object, child, feature))
       {
         return feature;
       }
     }
     return null;
+  }
+
+  /**
+   * This returns whether the given value is an appropriate instance for the given feature of the given object.
+   */
+  protected boolean isValidValue(Object object, Object value, EStructuralFeature feature)
+  {
+    if (feature.getEType().isInstance(value))
+    {
+      if (FeatureMapUtil.isFeatureMap(feature))
+      {
+        return 
+          FeatureMapUtil.getValidator
+            (object instanceof EObject ? ((EObject)object).eClass() : feature.getEContainingClass(), feature).isValid(((FeatureMap.Entry)value).getEStructuralFeature());
+      }
+      else
+      {
+        return true;
+      }
+    }
+    else
+    {
+      return false;
+    }
   }
 
   /**
@@ -491,17 +514,13 @@ public class ItemProviderAdapter
   {
     if (child instanceof EObject)
     {
-      EObject eChild = (EObject)child;
-
       // Iterate over all the child references to factor each child to the right reference.
       //
       for (EReference eReference : getChildrenReferences(object))
       {
-        EClassifier eType = eReference.getEType();
-
         // If this object is compatible with this reference...
         //
-        if (eType.isInstance(eChild))
+        if (isValidValue(object, child, eReference))
         {
           return eReference;
         }
@@ -533,8 +552,7 @@ public class ItemProviderAdapter
     //
     for (EStructuralFeature eStructuralFeature : getSetFeatures(object))
     {
-      EClassifier eType = eStructuralFeature.getEType();
-      if (eType.isInstance(value))
+      if (isValidValue(object, value, eStructuralFeature))
       {
         return eStructuralFeature;
       }
