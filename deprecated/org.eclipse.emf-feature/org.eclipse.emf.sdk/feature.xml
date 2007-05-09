@@ -97,6 +97,9 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.mapping.ecore.editor.source"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.emf.doc"
+         version="0.0.0"/>
 
    <includes
          id="org.eclipse.emf.ecore.sdo"
