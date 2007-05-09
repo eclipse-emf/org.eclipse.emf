@@ -30,9 +30,11 @@ http://www.eclipse.org/legal/epl-v10.html
    <includes
          id="org.eclipse.emf"
          version="0.0.0"/>
+
    <includes
          id="org.eclipse.emf.source"
          version="0.0.0"/>
+
    <includes
          id="org.eclipse.emf.common.source"
          version="0.0.0"/>
@@ -188,7 +190,6 @@ http://www.eclipse.org/legal/epl-v10.html
    <includes
          id="org.eclipse.xsd.doc"
          version="0.0.0"/>
-
 
    <requires>
       <import plugin="org.eclipse.core.resources" version="3.1.0" match="compatible"/>
