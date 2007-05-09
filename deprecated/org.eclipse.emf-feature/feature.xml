@@ -28,14 +28,7 @@ http://www.eclipse.org/legal/epl-v10.html
    </url>
 
    <includes
-         id="org.eclipse.emf.source"
-         version="0.0.0"/>
-   <includes
          id="org.eclipse.emf.common"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.emf.common.source"
          version="0.0.0"/>
 
    <includes
@@ -43,15 +36,7 @@ http://www.eclipse.org/legal/epl-v10.html
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.emf.common.ui.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.emf.ecore"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.emf.ecore.source"
          version="0.0.0"/>
 
    <includes
@@ -59,15 +44,7 @@ http://www.eclipse.org/legal/epl-v10.html
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.emf.edit.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.emf.edit.ui"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.emf.edit.ui.source"
          version="0.0.0"/>
 
    <includes
@@ -75,15 +52,7 @@ http://www.eclipse.org/legal/epl-v10.html
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.emf.ecore.edit.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.emf.ecore.editor"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.emf.ecore.editor.source"
          version="0.0.0"/>
 
    <includes
@@ -91,15 +60,7 @@ http://www.eclipse.org/legal/epl-v10.html
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.emf.codegen.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.emf.codegen.ui"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.emf.codegen.ui.source"
          version="0.0.0"/>
 
    <includes
@@ -107,15 +68,7 @@ http://www.eclipse.org/legal/epl-v10.html
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.emf.codegen.ecore.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.emf.codegen.ecore.ui"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.emf.codegen.ecore.ui.source"
          version="0.0.0"/>
 
    <includes
@@ -123,15 +76,7 @@ http://www.eclipse.org/legal/epl-v10.html
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.emf.converter.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.emf.mapping"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.emf.mapping.source"
          version="0.0.0"/>
 
    <includes
@@ -139,23 +84,11 @@ http://www.eclipse.org/legal/epl-v10.html
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.emf.mapping.ecore.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.emf.mapping.ui"
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.emf.mapping.ui.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.emf.mapping.ecore.editor"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.emf.mapping.ecore.editor.source"
          version="0.0.0"/>
 
    <includes
