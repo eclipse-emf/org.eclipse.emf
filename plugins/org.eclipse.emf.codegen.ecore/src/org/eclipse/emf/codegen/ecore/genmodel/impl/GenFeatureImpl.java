@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.47 2007/05/03 20:58:12 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.48 2007/05/10 13:52:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -927,13 +927,14 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     }
 
     GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
+    GenClass context = getContext();
     if (rootImplementsInterface != null && !rootImplementsInterface.isEObject())
     {
       for (GenOperation genOperation : rootImplementsInterface.getAllGenOperations())
       {
         if (genOperation.getName().equals(result) && 
               genOperation.getGenParameters().isEmpty() && 
-              !genOperation.getType().equals(getType()))
+              !genOperation.getType(context).equals(getType(context)))
         {
           result = result + "_";
           break;
@@ -1573,7 +1574,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     {
       if (eStructuralFeature.isMany() && !isFeatureMapType() || qualified)
       {
-        appendModelSetting(result, qualified, "type", getType(eStructuralFeature.getEType(), false));
+        appendModelSetting(result, qualified, "type", getType(getContext(), eStructuralFeature.getEType(), false));
       }
 
       if (eStructuralFeature instanceof EReference)

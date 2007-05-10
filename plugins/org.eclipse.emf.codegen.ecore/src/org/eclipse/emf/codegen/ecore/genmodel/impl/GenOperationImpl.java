@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.30 2007/04/23 15:38:51 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.31 2007/05/10 13:52:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -444,27 +444,27 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   }
 
   @Override
-  public String getType()
+  public String getType(GenClass context)
   {
-    return isVoid() ? "void" : super.getType();
+    return isVoid() ? "void" : super.getType(context);
   }
 
   @Override
-  public String getImportedType()
+  public String getImportedType(GenClass context)
   {
-    return isVoid() ? "void" : super.getImportedType();
+    return isVoid() ? "void" : super.getImportedType(context);
   }
 
   @Override
-  public String getObjectType()
+  public String getObjectType(GenClass context)
   {
-    return isVoid() ? "void" : super.getObjectType();
+    return isVoid() ? "void" : super.getObjectType(context);
   }
 
   @Override
-  public String getImportedInternalType()
+  public String getImportedInternalType(GenClass context)
   {
-    return isVoid() ? "void" : super.getImportedInternalType();
+    return isVoid() ? "void" : super.getImportedInternalType(context);
   }
 
   @Override
@@ -474,15 +474,15 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   }
 
   @Override
-  public String getListItemType()
+  public String getListItemType(GenClass context)
   {
-    return isVoid() ? "void" : super.getListItemType();
+    return isVoid() ? "void" : super.getListItemType(context);
   }
 
   @Override
-  public String getQualifiedListItemType()
+  public String getQualifiedListItemType(GenClass context)
   {
-    return isVoid() ? "void" : super.getQualifiedListItemType();
+    return isVoid() ? "void" : super.getQualifiedListItemType(context);
   }
 
   @Override
@@ -533,7 +533,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   @Deprecated
   public String getReturnType()
   {
-    return getType();
+    return getType(getContext());
   }
 
   /**
@@ -542,7 +542,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   @Deprecated
   public String getImportedReturnType()
   {
-    return getImportedType();
+    return getImportedType(getContext());
   }
 
   /**
@@ -551,7 +551,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   @Deprecated
   public String getObjectReturnType()
   {
-    return getObjectType();
+    return getObjectType(getContext());
   }
 
   /**
@@ -563,12 +563,18 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     return isPrimitiveType();
   }
 
+  @Deprecated
   public String getParameters()
   {
-    return getParameters(true);
+    return getParameters(getContext());
   }
 
-  protected String getParameters(boolean formal)
+  public String getParameters(GenClass context)
+  {
+    return getParameters(context, true);
+  }
+
+  protected String getParameters(GenClass context, boolean formal)
   {
     StringBuffer result = new StringBuffer();
     for (Iterator<GenParameter> iter = getGenParameters().iterator(); iter.hasNext(); )
@@ -576,7 +582,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       GenParameter genParameter = iter.next();
       if (formal)
       {
-        result.append(genParameter.getImportedType());
+        result.append(genParameter.getImportedType(context));
         result.append(' ');
       }
       result.append(genParameter.getName());
@@ -724,7 +730,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       {
         if (eOperation.isMany() && !isFeatureMapType())
         {
-          appendModelSetting(result, "type", getType(eOperation.getEType(), false));
+          appendModelSetting(result, "type", getType(getContext(), eOperation.getEType(), false));
         }
 
         EClassifier type = eOperation.getEType();
@@ -793,7 +799,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       {
         GenParameter genParameter = getGenParameters().get(i);
         GenParameter oldGenParameterVersion = oldGenOperationVersion.getGenParameters().get(i);
-        if (!genParameter.getType().equals(oldGenParameterVersion.getType()))
+        if (!genParameter.getType(null).equals(oldGenParameterVersion.getType(null)))
         {
           return false;
         }
@@ -919,7 +925,13 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     return result;
   }
   
+  @Deprecated
   public String getThrows()
+  {
+    return getThrows(getContext());
+  }
+
+  public String getThrows(GenClass context)
   {
     List<EGenericType> exceptions = getEcoreOperation().getEGenericExceptions();
     if (exceptions.isEmpty())
@@ -932,7 +944,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       for (Iterator<EGenericType> i = exceptions.iterator(); i.hasNext(); )
       {
         EGenericType exception = i.next();
-        result.append(getImportedType(exception, false));
+        result.append(getImportedType(context, exception, false));
         if (i.hasNext())
         {
           result.append(", ");
@@ -971,6 +983,11 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public boolean isOverrideOf(GenOperation genOperation)
   {
+    return isOverrideOf(getGenClass(), genOperation);
+  }
+
+  public boolean isOverrideOf(GenClass context, GenOperation genOperation)
+  {
     if (genOperation.getName().equals(getName()))
     {
       List<GenParameter> parameters = getGenParameters();
@@ -981,7 +998,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         {
           GenParameter genParameter = i.next();
           GenParameter otherGenParameter = j.next();
-          if (!genParameter.getType().equals(otherGenParameter.getType()))
+          if (!genParameter.getType(context).equals(otherGenParameter.getType(context)))
           {
             return false;
           }
@@ -992,7 +1009,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     return false;
   }
   
-  public String getTypeParameters()
+  public String getTypeParameters(GenClass context)
   {
     if (!getGenTypeParameters().isEmpty() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
@@ -1008,7 +1025,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
           for (Iterator<EGenericType> j = genTypeParameter.getEcoreTypeParameter().getEBounds().iterator(); j.hasNext(); )
           {
             EGenericType eBound = j.next();
-            result.append(getTypeArgument(eBound, true));
+            result.append(getTypeArgument(context, eBound, true, false));
             if (j.hasNext())
             {
               result.append(" & ");

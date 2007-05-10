@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.16 2007/04/18 20:24:34 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.17 2007/05/10 13:52:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -32,10 +32,10 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
@@ -97,6 +97,18 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     return getTypeClassifierAccessorName();
   }
 
+  protected GenClass getContext()
+  {
+    for (EObject context = eContainer(); context != null; context = context.eContainer())
+    {
+      if (context instanceof GenClass)
+      {
+        return (GenClass)context;
+      }
+    }
+    return null;
+  }
+
   public boolean hasGenericType()
   {
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
@@ -113,7 +125,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     if (isMapType()) return getEffectiveMapType();
     if (isListType()) return getEffectiveListType();
     if (isEObjectType()) return getEffectiveEObjectType();
-    return getType(getEcoreTypedElement().getEType(), false);
+    return getType(getContext(), getEcoreTypedElement().getEType(), false, true);
   }
 
   public String getRawBoundType()
@@ -122,40 +134,26 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     if (isMapType()) return getEffectiveMapType();
     if (isListType()) return getEffectiveListType();
     if (isEObjectType()) return getEffectiveEObjectType();
-    return getType(getBoundType(getEcoreTypedElement().getEGenericType()), false);
+    return getType(getContext(), getBoundType(getEcoreTypedElement().getEGenericType()), false, true);
   }
 
-  protected EClassifier getBoundType(EGenericType eGenericType)
-  {
-    ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
-    if (eTypeParameter != null)
-    {
-      if (eTypeParameter.getEBounds().isEmpty())
-      {
-        return EcorePackage.Literals.EJAVA_OBJECT;
-      }
-      else
-      {
-        return getBoundType(eTypeParameter.getEBounds().get(0));
-      }
-    }
-    else
-    {
-      return eGenericType.getEClassifier();
-    }
-  }
-
+  @Deprecated
   public String getType()
   {
+    return getType(getContext());
+  }
+
+  public String getType(GenClass context)
+  {
     if (isFeatureMapType()) return getEffectiveFeatureMapWrapperInterface();
-    if (isMapType()) return getEffectiveMapType(getMapEntryTypeGenClass());
-    if (isListType()) return getEffectiveListType(getEcoreTypedElement().getEGenericType());
+    if (isMapType()) return getEffectiveMapType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass());
+    if (isListType()) return getEffectiveListType(context, getEcoreTypedElement().getEGenericType());
     if (isEObjectType()) return getEffectiveEObjectType();
     if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
-      return "java.util.List<" + getType(getListDataType().getEcoreDataType(), true) + ">";
+      return "java.util.List<" + getType(context, getListDataType().getEcoreDataType(), true) + ">";
     }
-    return getType(getEcoreTypedElement().getEGenericType(), false);
+    return getType(context, getEcoreTypedElement().getEGenericType(), false);
   }
 
   public String getRawImportedType()
@@ -164,7 +162,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType());
     if (isListType()) return getGenModel().getImportedName(getEffectiveListType());
     if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
-    return getImportedType(getEcoreTypedElement().getEType(), false);
+    return getImportedType(null, getEcoreTypedElement().getEType(), false);
   }
 
   public String getRawImportedBoundType()
@@ -173,49 +171,67 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType());
     if (isListType()) return getGenModel().getImportedName(getEffectiveListType());
     if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
-    return getImportedType(getBoundType(getEcoreTypedElement().getEGenericType()), false);
+    return getImportedType(null, getBoundType(getEcoreTypedElement().getEGenericType()), false, true);
   }
 
+  @Deprecated
   public String getImportedType()
   {
-    if (isFeatureMapType()) return getGenModel().getImportedName(getEffectiveFeatureMapWrapperInterface());
-    if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType(getMapEntryTypeGenClass()));
-    if (isListType()) return getGenModel().getImportedName(getEffectiveListType(getEcoreTypedElement().getEGenericType()));
-    if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
-    if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
-    {
-      return getGenModel().getImportedName("java.util.List") + "<" + getImportedType(getListDataType().getEcoreDataType(), true) + ">";
-    }
-    return getImportedType(getEcoreTypedElement().getEGenericType(), false);
+    return getImportedType(getContext());
   }
 
-  public String getObjectType()
+  public String getImportedType(GenClass context)
   {
     if (isFeatureMapType()) return getGenModel().getImportedName(getEffectiveFeatureMapWrapperInterface());
-    if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType(getMapEntryTypeGenClass()));
-    if (isListType()) return getGenModel().getImportedName(getEffectiveListType(getEcoreTypedElement().getEGenericType()));
+    if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass()));
+    if (isListType()) return getGenModel().getImportedName(getEffectiveListType(context, getEcoreTypedElement().getEGenericType()));
     if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
     if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
-      return getGenModel().getImportedName("java.util.List") + "<" + getImportedType(getListDataType().getEcoreDataType(), true) + ">";
+      return getGenModel().getImportedName("java.util.List") + "<" + getImportedType(context, getListDataType().getEcoreDataType(), true) + ">";
     }
-    return getImportedType(getEcoreTypedElement().getEGenericType(), true);
+    return getImportedType(context, getEcoreTypedElement().getEGenericType(), false);
   }
 
+  @Deprecated
+  public String getObjectType()
+  {
+    return getObjectType(getContext()); 
+  }
+
+  public String getObjectType(GenClass context)
+  {
+    if (isFeatureMapType()) return getGenModel().getImportedName(getEffectiveFeatureMapWrapperInterface());
+    if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass()));
+    if (isListType()) return getGenModel().getImportedName(getEffectiveListType(context, getEcoreTypedElement().getEGenericType()));
+    if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
+    if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      return getGenModel().getImportedName("java.util.List") + "<" + getImportedType(context, getListDataType().getEcoreDataType(), true) + ">";
+    }
+    return getImportedType(context, getEcoreTypedElement().getEGenericType(), true);
+  }
+
+  @Deprecated
   public String getImportedInternalType()
+  {
+    return getImportedInternalType(getContext());
+  }
+
+  public String getImportedInternalType(GenClass context)
   {
     if (isFeatureMapType())
        return
          isBlank(getGenModel().getFeatureMapWrapperInternalInterface()) ?
              getImportedEffectiveFeatureMapWrapperClass() :
              getImportedEffectiveFeatureMapWrapperInternalInterface();
-    if (isMapType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EMap") + getImportedMapTemplateArguments(); 
-    if (isListType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EList") + getListTemplateArguments();
+    if (isMapType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EMap") + getImportedMapTemplateArguments(context); 
+    if (isListType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EList") + getListTemplateArguments(context);
     if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
-      return getGenModel().getImportedName("java.util.List") + "<" + getImportedType(getListDataType().getEcoreDataType(), true) + ">";
+      return getGenModel().getImportedName("java.util.List") + "<" + getImportedType(context, getListDataType().getEcoreDataType(), true) + ">";
     }
-    return getImportedType(getEcoreTypedElement().getEGenericType(), false);
+    return getImportedType(context, getEcoreTypedElement().getEGenericType(), false);
   }
 
   public boolean isFeatureMapType()
@@ -293,24 +309,36 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     return genDataType == null ? null : ((GenDataTypeImpl)genDataType).getEffectiveItemType();
   }
 
-  public String getListTemplateArguments()
+  public String getListTemplateArguments(GenClass context)
   {
-    return getEffectiveComplianceLevel().getValue() <= GenJDKLevel.JDK14 ? "" : "<" + getListItemType() + ">";
+    return getEffectiveComplianceLevel().getValue() <= GenJDKLevel.JDK14 ? "" : "<" + getListItemType(context) + ">";
   }
 
+  @Deprecated
   public String getListItemType()
   {
-    return getImportedType(getEcoreTypedElement().getEGenericType(), true);
+    return getListItemType(getContext());
+  }
+
+  public String getListItemType(GenClass context)
+  {
+    return getImportedType(context, getEcoreTypedElement().getEGenericType(), true);
   }
 
   public String getRawListItemType()
   {
-    return getImportedType(getEcoreTypedElement().getEType(), true);
+    return getImportedType(getContext(), getEcoreTypedElement().getEType(), true, true);
   }
 
+  @Deprecated
   public String getQualifiedListItemType()
   {
-    return getType(getEcoreTypedElement().getEGenericType(), true).replace('$', '.');
+    return getQualifiedListItemType(getContext());
+  }
+
+  public String getQualifiedListItemType(GenClass context)
+  {
+    return getType(context, getEcoreTypedElement().getEGenericType(), true).replace('$', '.');
   }
 
   public boolean isMapType()
@@ -338,24 +366,40 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     return genClass == null ? null : genClass.getImportedClassName();
   }
   
-  public String getImportedMapKeyType()
+  public String getImportedMapKeyType(GenClass context)
   {
-    GenClass genClass = getMapEntryTypeGenClass();
-    return genClass == null ? null : genClass.getMapEntryKeyFeature().getImportedType();
+    EGenericType eGenericType = getEcoreTypedElement().getEGenericType();
+    if (eGenericType.getETypeArguments().size() == 2)
+    {
+      return getTypeArgument(context,eGenericType.getETypeArguments().get(0), true, false);
+    }
+    else
+    {
+      GenClass genClass = getMapEntryTypeGenClass();
+      return genClass == null ? null : genClass.getMapEntryKeyFeature().getImportedType(context);
+    }
   }
 
-  public String getImportedMapValueType()
+  public String getImportedMapValueType(GenClass context)
   {
-    GenClass genClass = getMapEntryTypeGenClass();
-    return genClass == null ? null : genClass.getMapEntryValueFeature().getImportedType();
+    EGenericType eGenericType = getEcoreTypedElement().getEGenericType();
+    if (eGenericType.getETypeArguments().size() == 2)
+    {
+      return getTypeArgument(context,eGenericType.getETypeArguments().get(0), true, false);
+    }
+    else
+    {
+      GenClass genClass = getMapEntryTypeGenClass();
+      return genClass == null ? null : genClass.getMapEntryValueFeature().getImportedType(context);
+    }
   }
   
-  public String getImportedMapTemplateArguments()
+  public String getImportedMapTemplateArguments(GenClass context)
   {
     return 
       getEffectiveComplianceLevel().getValue() <= GenJDKLevel.JDK14 ? 
         ""  : 
-        "<" + getImportedMapKeyType() + ", " + getImportedMapValueType() + ">";
+        "<" + getImportedMapKeyType(context) + ", " + getImportedMapValueType(context) + ">";
   }
 
   /**
@@ -482,14 +526,20 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
       "(" + getGenModel().getImportedName("org.eclipse.emf.ecore.EObject") + ")" : "";
   }
 
+  @Deprecated
   public String getNonEObjectInternalTypeCast()
   {
-    return isEObjectType() ? "" : "(" + getImportedInternalType() + ")";
+    return getNonEObjectInternalTypeCast(getContext());
+  }
+
+  public String getNonEObjectInternalTypeCast(GenClass context)
+  {
+    return isEObjectType() ? "" : "(" + getImportedInternalType(context) + ")";
   }
   
   public String getRawTypeCast()
   {
-    return getType().equals(getRawType()) ? "" : "(" + getImportedType() + ")";
+    return getType(null).equals(getRawType()) ? "" : "(" + getImportedType(null) + ")";
   }
 
   public boolean isPrimitiveType()
@@ -642,10 +692,10 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
       if (includeFeatures)
       {
         GenFeature keyFeature = mapGenClass.getMapEntryKeyFeature();
-        appendModelSetting(result, qualified, "keyType", getType(keyFeature.getEcoreFeature().getEType(), false));
+        appendModelSetting(result, qualified, "keyType", getType(getContext(), keyFeature.getEcoreFeature().getEType(), false));
   
         GenFeature valueFeature = mapGenClass.getMapEntryValueFeature();
-        appendModelSetting(result, qualified, "valueType", getType(valueFeature.getEcoreFeature().getEType(), false));
+        appendModelSetting(result, qualified, "valueType", getType(getContext(), valueFeature.getEcoreFeature().getEType(), false));
       }
 
       return result.toString();
@@ -676,7 +726,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     }
     else if (upperBound == 1)
     {
-      String typeName = getType(eTypedElement.getEType(), false);
+      String typeName = getType(getContext(), eTypedElement.getEType(), false);
       if ("org.eclipse.emf.common.util.EList".equals(typeName) || "java.util.List".equals(typeName) || "org.eclipse.emf.ecore.util.FeatureMap$Entry".equals(typeName)) 
       {
         appendModelSetting(result, qualified, "many", "false");

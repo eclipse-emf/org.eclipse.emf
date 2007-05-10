@@ -339,7 +339,7 @@ public class TestCase
     stringBuffer.append(TEXT_77);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_78);
-    stringBuffer.append(genFeature.getType());
+    stringBuffer.append(genFeature.getRawBoundType());
     stringBuffer.append(TEXT_79);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_80);
@@ -347,7 +347,7 @@ public class TestCase
     stringBuffer.append(TEXT_81);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_82);
-    stringBuffer.append(genFeature.getType());
+    stringBuffer.append(genFeature.getRawBoundType());
     stringBuffer.append(TEXT_83);
     if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/setGenFeature.annotations.insert.javajetinc
     }

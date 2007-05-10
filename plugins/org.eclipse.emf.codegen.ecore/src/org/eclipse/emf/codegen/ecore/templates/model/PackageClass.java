@@ -717,7 +717,7 @@ public class PackageClass
     stringBuffer.append(TEXT_55);
     if (!genDataType.isPrimitiveType() && !genDataType.isArrayType()) {
     stringBuffer.append(TEXT_56);
-    stringBuffer.append(genDataType.getQualifiedInstanceClassName());
+    stringBuffer.append(genDataType.getRawInstanceClassName());
     }
     }
     stringBuffer.append(TEXT_57);
@@ -956,7 +956,7 @@ public class PackageClass
     stringBuffer.append(TEXT_160);
     } else {
     stringBuffer.append(TEXT_161);
-    stringBuffer.append(genDataType.getQualifiedInstanceClassName());
+    stringBuffer.append(genDataType.getRawInstanceClassName());
     stringBuffer.append(TEXT_162);
     stringBuffer.append(genDataType.getFormattedName());
     stringBuffer.append(TEXT_163);
@@ -966,7 +966,7 @@ public class PackageClass
     stringBuffer.append(TEXT_165);
     if (!genDataType.isPrimitiveType() && !genDataType.isArrayType()) {
     stringBuffer.append(TEXT_166);
-    stringBuffer.append(genDataType.getQualifiedInstanceClassName());
+    stringBuffer.append(genDataType.getRawInstanceClassName());
     }
     if (!genModel.isSuppressEMFModelTags()) {boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genDataType.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;
     stringBuffer.append(TEXT_167);
@@ -1893,7 +1893,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(TEXT_520);
     if (!genDataType.isPrimitiveType() && !genDataType.isArrayType()) {
     stringBuffer.append(TEXT_521);
-    stringBuffer.append(genDataType.getQualifiedInstanceClassName());
+    stringBuffer.append(genDataType.getRawInstanceClassName());
     }
     }
     stringBuffer.append(TEXT_522);

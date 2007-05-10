@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.EStructuralFeature org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.13 2007/04/26 20:54:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.EStructuralFeature org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.14 2007/05/10 13:52:56 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -314,7 +314,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 <%if (genClassifier.getGenPackage().isDataTypeConverters()) {%>
 					the<%=genClass.getInterfaceName()%>.set<%=genFeature.getAccessorName()%>(<%=genClassifier.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=genClassifier.getName()%>(theValue));
 <%} else {%>
-					the<%=genClass.getInterfaceName()%>.set<%=genFeature.getAccessorName()%>((<%=genFeature.getImportedType()%>)<%=genClassifier.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=genClassifier.getQualifiedClassifierAccessor()%>, theValue));
+					the<%=genClass.getInterfaceName()%>.set<%=genFeature.getAccessorName()%>((<%=genFeature.getImportedType(null)%>)<%=genClassifier.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=genClassifier.getQualifiedClassifierAccessor()%>, theValue));
 <%}%>
 				}
 <%}%>

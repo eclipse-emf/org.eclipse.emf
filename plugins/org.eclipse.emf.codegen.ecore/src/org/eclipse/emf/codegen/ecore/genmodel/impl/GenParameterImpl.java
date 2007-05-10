@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.17 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenParameterImpl.java,v 1.18 2007/05/10 13:52:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -343,7 +343,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
     {
       if (eParameter.isMany() && !isFeatureMapType())
       {
-        appendModelSetting(result, qualified, "type", getType(eParameter.getEType(), false));
+        appendModelSetting(result, qualified, "type", getType(null, eParameter.getEType(), false));
       }
 
       EClassifier type = eParameter.getEType();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.25 2007/02/20 17:43:21 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.26 2007/05/10 13:52:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -219,37 +219,17 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   protected String getInternalQualifiedInstanceClassName(boolean includeTemplateArguments)
   {
-    String name = includeTemplateArguments ? getEcoreDataType().getInstanceTypeName() : getEcoreDataType().getInstanceClassName();
-    if (name == null)
-    {
-      name = "java.lang.Object";
-    }
-    else if (!name.contains("."))
-    {
-      // Pick up the erased type because an unqualified type must be a type parameter or a primitive type.
-      //
-      name = getEcoreDataType().getInstanceClassName(); 
-    }
-
-    if (name.equals("org.eclipse.emf.common.util.Enumerator"))
-    {
-      EDataType baseType = getExtendedMetaData().getBaseType(getEcoreDataType());
-      if (baseType instanceof EEnum)
-      {
-        GenEnum genEnum = findGenEnum((EEnum)baseType);
-        if (genEnum != null)
-        {
-          name = genEnum.getQualifiedName();
-        }
-      }
-    }
-
-    return name;
+    return getType(null, getEcoreDataType(), false, !includeTemplateArguments);
   }
 
   public String getRawImportedInstanceClassName()
   {  
    return getGenModel().getImportedName(getInternalQualifiedInstanceClassName(false)); 
+  }
+
+  public String getRawInstanceClassName()
+  {  
+   return getInternalQualifiedInstanceClassName(false); 
   }
 
   public String getImportedInstanceClassName()
@@ -397,7 +377,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public String getObjectInstanceClassName()
   {
-    return getImportedType(getEcoreDataType(), true, true);
+    return getImportedType(null, getEcoreDataType(), true, true);
   }
 
   public boolean isSerializable()

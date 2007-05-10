@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.38 2007/04/26 20:54:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.39 2007/05/10 13:52:56 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -143,7 +143,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
       <%if (!genDataType.isPrimitiveType() && !genDataType.isArrayType()) {%>
-	 * @see <%=genDataType.getQualifiedInstanceClassName()%>
+	 * @see <%=genDataType.getRawInstanceClassName()%>
       <%}%>
     <%}%>
 	 * @see <%=genPackage.getQualifiedPackageClassName()%>#get<%=genClassifier.getClassifierAccessorName()%>()
@@ -359,13 +359,13 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
       <%if (genDataType.isPrimitiveType() || genDataType.isArrayType()) {%>
 	 * Returns the meta object for data type '<em><%=genDataType.getFormattedName()%></em>'.
       <%} else {%>
-	 * Returns the meta object for data type '{@link <%=genDataType.getQualifiedInstanceClassName()%> <em><%=genDataType.getFormattedName()%></em>}'.
+	 * Returns the meta object for data type '{@link <%=genDataType.getRawInstanceClassName()%> <em><%=genDataType.getFormattedName()%></em>}'.
       <%}%>
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em><%=genDataType.getFormattedName()%></em>'.
       <%if (!genDataType.isPrimitiveType() && !genDataType.isArrayType()) {%>
-	 * @see <%=genDataType.getQualifiedInstanceClassName()%>
+	 * @see <%=genDataType.getRawInstanceClassName()%>
       <%}%>
       <%if (!genModel.isSuppressEMFModelTags()) {boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genDataType.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
 	 * @model <%=modelInfo%>
@@ -976,7 +976,7 @@ int maxGenericTypeAssignment = 0;
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
       <%if (!genDataType.isPrimitiveType() && !genDataType.isArrayType()) {%>
-		 * @see <%=genDataType.getQualifiedInstanceClassName()%>
+		 * @see <%=genDataType.getRawInstanceClassName()%>
       <%}%>
     <%}%>
 		 * @see <%=genPackage.getQualifiedPackageClassName()%>#get<%=genClassifier.getClassifierAccessorName()%>()

@@ -477,7 +477,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_99);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_100);
-    stringBuffer.append(genFeature.getImportedType());
+    stringBuffer.append(genFeature.getImportedType(null));
     stringBuffer.append(TEXT_101);
     stringBuffer.append(genClassifier.getGenPackage().getQualifiedEFactoryInstanceAccessor());
     stringBuffer.append(TEXT_102);

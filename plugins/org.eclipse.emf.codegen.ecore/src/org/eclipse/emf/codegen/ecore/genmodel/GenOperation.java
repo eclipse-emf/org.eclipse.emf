@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.13 2007/04/23 15:38:51 emerks Exp $
+ * $Id: GenOperation.java,v 1.14 2007/05/10 13:52:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -172,7 +172,21 @@ public interface GenOperation extends GenTypedElement {
   @Deprecated
   boolean isPrimitiveReturnType();
 
+  /**
+   * @since 2.3
+   */
+  String getParameters(GenClass context);
+
+  /**
+   * Use {@link #getParameters(GenClass)} with either <code>null</code> for erasing type parameter references 
+   * or a {@link GenClass} context representing potential type substitutions for type parameter references.
+   * By default, this will just do <code>getParameters(getGenClass())</code>.
+   * @see #getParameters(GenClass)
+   * @deprecated
+   */
+  @Deprecated
   String getParameters();
+
   String getParameterTypes(String separator);
   String getParameterTypes(String separator, boolean qualified);
   String getParameterNames(String separator);
@@ -189,16 +203,43 @@ public interface GenOperation extends GenTypedElement {
   String getBody(String indentation);
 
   List<GenClassifier> getGenExceptions();
+
+  /**
+   * @since 2.3
+   */
+  String getThrows(GenClass context);
+
+  /**
+   * Use {@link #getThrows(GenClass)} with either <code>null</code> for erasing type parameter references 
+   * or a {@link GenClass} context representing potential type substitutions for type parameter references.
+   * By default, this will just do <code>getThrows(getGenClass())</code>.
+   * @see #getThrows(GenClass)
+   * @deprecated
+   */
+  @Deprecated
   String getThrows();
 
   boolean isInvariant();
 
+  /**
+   * @since 2.3
+   */
+  boolean isOverrideOf(GenClass context, GenOperation genOperation);
+
+  /**
+   * Use {@link #isOverrideOf(GenClass, GenOperation)} with either <code>null</code> for erasing type parameter references 
+   * or a {@link GenClass} context representing potential type substitutions for type parameter references.
+   * By default, this will just do <code>isOverrideOf(getGenClass(), genOperation)</code>.
+   * @see #isOverrideOf(GenClass, GenOperation)
+   * @deprecated
+   */
+  @Deprecated
   boolean isOverrideOf(GenOperation genOperation);
 
   /**
    * @since 2.3
    */
-  String getTypeParameters();
+  String getTypeParameters(GenClass context);
 
   /**
    * @since 2.3

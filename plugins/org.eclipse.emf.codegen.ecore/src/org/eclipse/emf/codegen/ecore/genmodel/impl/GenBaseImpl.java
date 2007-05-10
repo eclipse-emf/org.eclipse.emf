@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.59 2007/04/26 20:55:19 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.60 2007/05/10 13:52:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -81,6 +81,7 @@ import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
@@ -107,6 +108,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -965,13 +967,29 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return getGenModel().isSuppressEMFTypes();
   }
 
-  protected String getEffectiveMapType(GenClass genClass)
+  protected String getEffectiveMapType(GenClass context, EGenericType eGenericType, GenClass genClass)
+  {
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50 && eGenericType.getETypeArguments().size() == 2)
+    {
+      String mapType = getEffectiveMapType();  
+      String keyType = getTypeArgument(context, eGenericType.getETypeArguments().get(0), true, false);
+      String valueType = getTypeArgument(context, eGenericType.getETypeArguments().get(1), true, false);
+      mapType += "<" + keyType + ", " + valueType + ">";
+      return mapType;
+    }
+    else
+    {
+      return getEffectiveMapType(context, genClass);
+    }
+  }
+
+  protected String getEffectiveMapType(GenClass context, GenClass genClass)
   {
     String mapType = getEffectiveMapType();  
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
-      String keyType = genClass.getMapEntryKeyFeature().getType();
-      String valueType = genClass.getMapEntryValueFeature().getType();
+      String keyType = genClass.getMapEntryKeyFeature().getType(context);
+      String valueType = genClass.getMapEntryValueFeature().getType(context);
       mapType += "<" + keyType + ", " + valueType + ">";
     }
     return mapType;
@@ -982,23 +1000,23 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return isEffectiveSuppressEMFTypes() ? "java.util.Map" : "org.eclipse.emf.common.util.EMap";
   }
 
-  protected String getEffectiveListType(EGenericType eGenericType)
+  protected String getEffectiveListType(GenClass context, EGenericType eGenericType)
   {
     String listType = getEffectiveListType();  
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
-      String itemType = getType(eGenericType, true);
+      String itemType = getType(context, eGenericType, true);
       listType += "<" + itemType + ">";
     }
     return listType;
   }
 
-  protected String getEffectiveListType(EClassifier eType)
+  protected String getEffectiveListType(GenClass context, EClassifier eType)
   {
     String listType = getEffectiveListType();  
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
-      String itemType = getType(eType, true);
+      String itemType = getType(context, eType, true);
       listType += "<" + itemType + ">";
     }
     return listType;
@@ -1115,22 +1133,21 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * be returned instead of primitive names (e.g. java.lang.Integer instead
    * of int).
    */
-  protected String getType(EClassifier eType, boolean primitiveAsObject)
+  protected String getType(GenClass context, EClassifier eType, boolean primitiveAsObject)
   {
-    return getType(eType, primitiveAsObject, false);
-    
+    return getType(context, eType, primitiveAsObject, false);
   }
 
-  protected String getType(EClassifier eType, boolean primitiveAsObject, boolean erased)
+  protected String getType(GenClass context, EClassifier eType, boolean primitiveAsObject, boolean erased)
   {
     if (eType instanceof EClass)
     {
-      return findGenClass((EClass)eType).getQualifiedInterfaceName();
+      return (context == null ? this : (GenBaseImpl)context).findGenClass((EClass)eType).getQualifiedInterfaceName();
     }
 
     if (eType instanceof EEnum)
     {
-      return findGenEnum((EEnum)eType).getQualifiedName();
+      return (context == null ? this : (GenBaseImpl)context).findGenEnum((EEnum)eType).getQualifiedName();
     }
 
     //(eType instanceof EDataType)
@@ -1152,10 +1169,16 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
 
-    return 
-      getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50  || erased && !eType.getInstanceTypeName().contains(".") ? 
-        eType.getInstanceClassName() : 
-        eType.getInstanceTypeName();
+    if (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50  || isPrimitiveType(eType) || erased && !eType.getInstanceTypeName().contains("."))
+    {
+      return eType.getInstanceClassName();
+    }
+    else
+    {
+      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(eType.getInstanceTypeName());
+      EGenericType eGenericType = (EGenericType)diagnostic.getData().get(0);
+      return getTypeArgument(context, eGenericType, false, erased);
+    }
   }
 
   /**
@@ -1165,9 +1188,9 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * object names will be returned instead of primitive names (e.g. Integer
    * instead of int).
    */
-  protected String getImportedType(EGenericType eGenericType, boolean primitiveAsObject)
+  protected String getImportedType(GenClass context, EGenericType eGenericType, boolean primitiveAsObject)
   {
-    String t = getType(eGenericType, primitiveAsObject);
+    String t = getType(context, eGenericType, primitiveAsObject);
     return !primitiveAsObject && isPrimitiveType(eGenericType.getERawType()) ? t : getGenModel().getImportedName(t);
   }
 
@@ -1177,18 +1200,18 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * be returned instead of primitive names (e.g. java.lang.Integer instead
    * of int).
    */
-  protected String getType(EGenericType eGenericType, boolean primitiveAsObject)
+  protected String getType(GenClass context, EGenericType eGenericType, boolean primitiveAsObject)
   {
     if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
       return
         primitiveAsObject && isPrimitiveType(eGenericType.getERawType()) ?
           getPrimitiveObjectType(eGenericType.getERawType()) :
-          getTypeArgument(eGenericType, false);
+          getTypeArgument(context, eGenericType, false, false);
     }
     else
     {
-      return getType(eGenericType.getERawType(), primitiveAsObject);
+      return getType(context, eGenericType.getERawType(), primitiveAsObject);
     }
   }
 
@@ -1199,14 +1222,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * object names will be returned instead of primitive names (e.g. Integer
    * instead of int).
    */
-  protected String getImportedType(EClassifier eType, boolean primitiveAsObject)
+  protected String getImportedType(GenClass context, EClassifier eType, boolean primitiveAsObject)
   {
-    return getImportedType(eType, primitiveAsObject, false);
+    return getImportedType(context, eType, primitiveAsObject, false);
   }
 
-  protected String getImportedType(EClassifier eType, boolean primitiveAsObject, boolean erased)
+  protected String getImportedType(GenClass context, EClassifier eType, boolean primitiveAsObject, boolean erased)
   {
-    String t = getType(eType, primitiveAsObject, erased);
+    String t = getType(context, eType, primitiveAsObject, erased);
     return !primitiveAsObject && isPrimitiveType(eType) ? t : getGenModel().getImportedName(t);
   }
 
@@ -1416,7 +1439,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * Return all such GenOperations if filter is null, or those accepted by
    * filter, otherwise.  Either list argument is ignored if it is null.
    */
-  protected List<GenOperation> collectGenOperations(List<GenClass> genClasses, List<GenOperation> genOperations, GenOperationFilter filter)
+  protected List<GenOperation> collectGenOperations(GenClass context, List<GenClass> genClasses, List<GenOperation> genOperations, GenOperationFilter filter)
   {
     List<GenOperation> result = new ArrayList<GenOperation>();
 
@@ -1431,7 +1454,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           {
             for (GenOperation otherGenOperation : result)
             {
-              if (otherGenOperation.isOverrideOf(genOperation))
+              if (otherGenOperation.isOverrideOf(context, genOperation))
               {
                 continue LOOP;
               }
@@ -1451,7 +1474,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         {
           for (GenOperation otherGenOperation : result)
           {
-            if (otherGenOperation.isOverrideOf(genOperation))
+            if (otherGenOperation.isOverrideOf(context, genOperation))
             {
               continue LOOP;
             }
@@ -3034,7 +3057,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
   }
 
-  protected String getTypeArguments(List<EGenericType> typeArguments, boolean isImported)
+  protected String getTypeArguments(GenClass context, List<EGenericType> typeArguments, boolean isImported)
   {
     if (typeArguments.isEmpty())
     {
@@ -3046,7 +3069,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       result.append('<');
       for (Iterator<EGenericType> i = typeArguments.iterator(); i.hasNext(); )
       {
-        result.append(getTypeArgument(i.next(), isImported));
+        result.append(getTypeArgument(context, i.next(), isImported, false));
         if (i.hasNext())
         {
           result.append(", ");
@@ -3057,22 +3080,145 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
   }
 
-  protected String getTypeArgument(EGenericType eGenericType, boolean isImported)
+  protected EClassifier getBoundType(EGenericType eGenericType)
   {
-    StringBuilder result = new StringBuilder();
     ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
     if (eTypeParameter != null)
     {
-      result.append(eTypeParameter.getName());
+      if (eTypeParameter.getEBounds().isEmpty())
+      {
+        return EcorePackage.Literals.EJAVA_OBJECT;
+      }
+      else
+      {
+        return getBoundType(eTypeParameter.getEBounds().get(0));
+      }
     }
     else
     {
+      return eGenericType.getEClassifier();
+    }
+  }
+
+  protected String getTypeArgument(GenClass context, EGenericType eGenericType, boolean isImported, boolean isErased)
+  {
+    ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+    if (eTypeParameter != null)
+    {
+      if (context != null)
+      {
+        for (EGenericType eGenericSuperType : context.getEcoreClass().getEAllGenericSuperTypes())
+        {
+          EList<ETypeParameter> eTypeParameters = eGenericSuperType.getEClassifier().getETypeParameters();
+          int index = eTypeParameters.indexOf(eTypeParameter);
+          if (index != -1 && eGenericSuperType.getETypeArguments().size() > index)
+          {
+            return getTypeArgument(context, eGenericSuperType.getETypeArguments().get(index), isImported, isErased);
+          }
+        }
+        return eTypeParameter.getName();
+      }
+      else
+      {
+        return isImported ? getImportedType(context, getBoundType(eGenericType), false) : getType(context, getBoundType(eGenericType), false);
+      }
+    }
+    else
+    {
+      StringBuilder result = new StringBuilder();
       EClassifier eClassifier = eGenericType.getEClassifier();
       if (eClassifier != null)
       {
-        findGenClassifier(eClassifier);
-        result.append(isImported ? getImportedType(eClassifier, false) : getType(eClassifier, false));
-        result.append(getTypeArguments(eGenericType.getETypeArguments(), isImported));
+        if (eClassifier.getName() == null)
+        {
+          // If it is an unqualified name, we will assume it refers to a type parameter, since we don't support default package.
+          //
+          String instanceTypeName = eClassifier.getInstanceTypeName();
+          if (instanceTypeName.indexOf('.') == -1)
+          {
+            // Strip off the array indices if any.
+            //
+            String arrayIndices = null;
+            int index = instanceTypeName.indexOf('[');
+            if (index != -1)
+            {
+              arrayIndices = instanceTypeName.substring(index);
+              instanceTypeName = instanceTypeName.substring(0, index);
+            }
+            
+            if (CodeGenUtil.isJavaPrimitiveType(instanceTypeName))
+            {
+              result.append(instanceTypeName);
+            }
+            else
+            {
+              // Search the local scope for a resolution of the type parameter name.
+              //
+              LOOP:
+              for (EObject eObject = getEcoreModelElement(); eObject != null; eObject = eObject.eContainer())
+              {
+                EList<ETypeParameter> eTypeParameters = null;
+                if (eObject instanceof EOperation)
+                {
+                  eTypeParameters = ((EOperation)eObject).getETypeParameters();
+                }
+                else if (eObject instanceof EClass)
+                {
+                  eTypeParameters = ((EClass)eObject).getETypeParameters();
+                }
+                // If we've found thing with type parameters, search them for a match.
+                if (eTypeParameters != null)
+                {
+                  for (ETypeParameter localETypeParameter : eTypeParameters)
+                  {
+                    if (instanceTypeName.equals(localETypeParameter.getName()))
+                    {
+                      // If we find a match, make this generic type be for this type parameter,
+                      // and then stop the whole process.
+                      eGenericType.setETypeParameter(localETypeParameter);
+                      break LOOP;
+                    }
+                  }
+                }
+              }
+              
+              // Check if we found a resolution for it.
+              //
+              if (eGenericType.getETypeParameter() == null)
+              {
+                // If not we'll erase it to java.lang.Object.
+                //
+                result.append(isImported ? getGenModel().getImportedName("java.lang.Object") : "java.lang.Object");
+              }
+              else
+              {
+                // Otherwise, recursively call ourselves to substitute it in context if necessary.
+                //
+                result.append(getTypeArgument(context, eGenericType, isImported, isErased));
+              }
+            }
+            // Add back in the array indices if there are any.
+            //
+            if (arrayIndices != null)
+            {
+              result.append(arrayIndices);
+            }
+          }
+          else
+          {
+            // Just import the name or use it directly.
+            //
+            result.append(isImported ? getGenModel().getImportedName(instanceTypeName) : instanceTypeName);
+          }
+        }
+        else
+        {
+          result.append(isImported ? getImportedType(context, eClassifier, false) : getType(context, eClassifier, false));
+        }
+        if (!isErased)
+        {
+          result.append(getTypeArguments(context, eGenericType.getETypeArguments(), isImported));
+        }
       }
       else
       {
@@ -3081,7 +3227,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         if (eUpperBound != null)
         {
           result.append(" extends ");
-          result.append(getTypeArgument(eUpperBound, isImported));
+          result.append(getTypeArgument(context, eUpperBound, isImported, isErased));
         }
         else
         {
@@ -3089,11 +3235,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           if (eLowerBound != null)
           {
             result.append(" super ");
-            result.append(getTypeArgument(eLowerBound, isImported));
+            result.append(getTypeArgument(context, eLowerBound, isImported, isErased));
           }
         }
       }
+      return result.toString();
     }
-    return result.toString();
   }
 }

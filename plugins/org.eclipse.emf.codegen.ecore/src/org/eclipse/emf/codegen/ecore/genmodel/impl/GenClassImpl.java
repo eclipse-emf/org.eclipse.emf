@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.73 2007/05/03 20:58:43 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.74 2007/05/10 13:52:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -398,6 +398,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getRawImportedInterfaceName();
   }
 
+  public String getRawInstanceClassName()
+  {
+    return getInterfaceName();
+  }
+
   public String getImportedInstanceClassName()
   {
     return getImportedInterfaceName();
@@ -505,7 +510,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         {
           if (eGenericType.getEClassifier() == extendsEClass)
           {
-            result.append(getTypeArguments(eGenericType.getETypeArguments(), true));
+            result.append(getTypeArguments(this, eGenericType.getETypeArguments(), true));
             break;
           }
         }
@@ -552,8 +557,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       {
         result.add
           (getGenModel().getImportedName("org.eclipse.emf.common.util.BasicEMap$Entry") + "<" + 
-              getMapEntryKeyFeature().getObjectType()+ ","  +
-              getMapEntryValueFeature().getObjectType() + ">");
+              getMapEntryKeyFeature().getObjectType(this)+ ","  +
+              getMapEntryValueFeature().getObjectType(this) + ">");
       }
       else
       {
@@ -696,7 +701,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       {
         if (includeTypeArguments && !eGenericType.getETypeArguments().isEmpty())
         {
-          result.add(genClass.getImportedInterfaceName() + getTypeArguments(eGenericType.getETypeArguments(), true));
+          result.add(genClass.getImportedInterfaceName() + getTypeArguments(this, eGenericType.getETypeArguments(), true));
         }
         else
         {
@@ -756,7 +761,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           for (Iterator<EGenericType> j = genTypeParameter.getEcoreTypeParameter().getEBounds().iterator(); j.hasNext(); )
           {
             EGenericType eBound = j.next();
-            result.append(getTypeArgument(eBound, true));
+            result.append(getTypeArgument(this, eBound, true, false));
             if (j.hasNext())
             {
               result.append(" & ");
@@ -827,7 +832,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
       else if (isMapEntry() && isInterface)
       {
-        return "<" + getMapEntryKeyFeature().getObjectType() + ", " + getMapEntryValueFeature().getObjectType() + ">";
+        return "<" + getMapEntryKeyFeature().getObjectType(this) + ", " + getMapEntryValueFeature().getObjectType(this) + ">";
       }
     }
     return "";
@@ -845,7 +850,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List<GenOperation> getAllGenOperations()
   {
-    return collectGenOperations(getAllBaseGenClasses(), getGenOperations(), null);
+    return collectGenOperations(this, getAllBaseGenClasses(), getGenOperations(), null);
   }
 
   public String getFeatureID(GenFeature genFeature)
@@ -1152,7 +1157,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
     return
       collectGenOperations
-        (implementedGenClasses,
+        (this,
+         implementedGenClasses,
          null, 
          new CollidingGenOperationFilter());
   }
@@ -1174,7 +1180,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     return
       collectGenOperations
-        (getExtendedGenClasses(),
+        (this,
+         getExtendedGenClasses(),
          null, 
          new CollidingGenOperationFilter());
   }
@@ -1339,7 +1346,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List<GenOperation> getMixinGenOperations()
   {
-    return collectGenOperations(getMixinGenClasses(), null, new CollidingGenOperationFilter());
+    return collectGenOperations(this, getMixinGenClasses(), null, new CollidingGenOperationFilter());
   }
 
   public void initialize(EClass eClass)
@@ -2523,7 +2530,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List<GenOperation> getInvariantOperations()
   {
-    return collectGenOperations(null, getGenOperations(), new GenOperationFilter()
+    return collectGenOperations(this, null, getGenOperations(), new GenOperationFilter()
       {
         public boolean accept(GenOperation genOperation)
         {
@@ -2576,9 +2583,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
       {
         sb.append('<');
-        sb.append(mapGenClass.getMapEntryKeyFeature().getImportedType());
+        sb.append(genFeature.getImportedMapKeyType(this));
         sb.append(',');
-        sb.append(mapGenClass.getMapEntryValueFeature().getImportedType());
+        sb.append(genFeature.getImportedMapValueType(this));
         sb.append('>');
       }
       sb.append("(");
@@ -2613,7 +2620,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
       {
         sb.append('<');
-        sb.append(genFeature.getListItemType());
+        sb.append(genFeature.getListItemType(this));
         sb.append('>');
       }
       sb.append("(");
@@ -2634,7 +2641,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
         {
           sb.append('<');
-          sb.append(genFeature.getListItemType());
+          sb.append(genFeature.getListItemType(this));
           sb.append('>');
         }
         sb.append("(");
@@ -2662,7 +2669,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
         {
           sb.append('<');
-          sb.append(genFeature.getListItemType());
+          sb.append(genFeature.getListItemType(this));
           sb.append('>');
         }
         sb.append("(");
@@ -2694,7 +2701,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
         {
           sb.append('<');
-          sb.append(genFeature.getListItemType());
+          sb.append(genFeature.getListItemType(this));
           sb.append('>');
         }
         sb.append("(");
@@ -2725,7 +2732,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
         {
           sb.append('<');
-          sb.append(genFeature.getListItemType());
+          sb.append(genFeature.getListItemType(this));
           sb.append('>');
         }
         sb.append("(");
@@ -2750,7 +2757,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
       {
         sb.append('<');
-        sb.append(genFeature.getListItemType());
+        sb.append(genFeature.getListItemType(this));
         sb.append('>');
       }
       sb.append("(");
@@ -2844,7 +2851,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         for (GenFeature genFeature : allGenFeatures)
         {
           if (genFeature.isChangeable() && !genFeature.isListType() && genOperation.getName().equals("set" + genFeature.getAccessorName())
-            && genParameter.getType().equals(genFeature.getType()))
+            && genParameter.getType(GenClassImpl.this).equals(genFeature.getType(GenClassImpl.this)))
           {
             return false;
           }
@@ -2866,7 +2873,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       {
         for (GenOperation baseOperation : extendsGenClassOperations)
         {
-          if (baseOperation.isOverrideOf(genOperation))
+          if (baseOperation.isOverrideOf(GenClassImpl.this, genOperation))
           {
             return false;
           }

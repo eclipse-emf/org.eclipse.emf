@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifier.java,v 1.8 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenClassifier.java,v 1.9 2007/05/10 13:52:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -89,6 +89,11 @@ public interface GenClassifier extends GenBase {
    * @since 2.3
    */
   String getRawImportedInstanceClassName();
+
+  /**
+   * @since 2.3
+   */
+  String getRawInstanceClassName();
   
   /**
    * @since 2.3
