@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegistryReader.java,v 1.7 2006/12/05 20:22:27 emerks Exp $
+ * $Id: RegistryReader.java,v 1.8 2007/05/10 19:16:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -22,8 +22,11 @@ import java.lang.reflect.Field;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionDelta;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.IRegistryChangeEvent;
+import org.eclipse.core.runtime.IRegistryChangeListener;
 import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.common.util.WrappedException;
@@ -39,6 +42,7 @@ public abstract class RegistryReader
   protected IExtensionRegistry pluginRegistry;
   String pluginID;
   String extensionPointID;
+  String qualifiedExtensionPointID;
 
   public RegistryReader(IExtensionRegistry pluginRegistry, String pluginID, String extensionPointID)
   {
@@ -46,14 +50,29 @@ public abstract class RegistryReader
     this.pluginRegistry = pluginRegistry;
     this.pluginID = pluginID;
     this.extensionPointID = extensionPointID;
+    qualifiedExtensionPointID = pluginID + "." + extensionPointID;
   }
 
   /**
    * Implement this method to read element attributes. 
    * If this element has subelements, the reader will recursively cycle through them 
    * and will call this method, so don't do it here.
+   * If you want to support removing entries, override {@link #readElement(IConfigurationElement, boolean)} instead.
    */
-  protected abstract boolean readElement(IConfigurationElement element);
+  protected boolean readElement(IConfigurationElement element)
+  {
+    return false;
+  }
+
+  /**
+   * Implement this method to read element attributes for the purpose of adding or removing their registrations. 
+   * If this element has subelements, the reader will recursively cycle through them 
+   * and will call this method, so don't do it here.
+   */
+  protected boolean readElement(IConfigurationElement element, boolean add)
+  {
+    return add && readElement(element);
+  }
 
   /**
    * Reads from the plugin registry and parses it.
@@ -66,20 +85,43 @@ public abstract class RegistryReader
       IConfigurationElement[] elements = point.getConfigurationElements();
       for (int i = 0; i < elements.length; i++)
       {
-        internalReadElement(elements[i]);
+        internalReadElement(elements[i], true);
       }
     }
+
+    pluginRegistry.addRegistryChangeListener
+      (new IRegistryChangeListener()
+       {
+         public void registryChanged(IRegistryChangeEvent event)
+         {
+           IExtensionDelta[] deltas = event.getExtensionDeltas();
+           for (int i = 0; i < deltas.length; ++i) 
+           {
+             IExtensionDelta delta = deltas[i];
+             if (delta.getExtensionPoint().getUniqueIdentifier().equals(qualifiedExtensionPointID))
+             {
+               boolean add = delta.getKind() == IExtensionDelta.ADDED;
+               IExtension extension = delta.getExtension();
+               IConfigurationElement[] configurationElement = extension.getConfigurationElements();
+               for (int j = 0; j < configurationElement.length; ++j) 
+               {
+                 internalReadElement(configurationElement[j], add);
+               }
+             }
+           }
+         }
+       });
   }
 
-  private void internalReadElement(IConfigurationElement element)
+  private void internalReadElement(IConfigurationElement element, boolean add)
   {
-    boolean recognized = this.readElement(element);
+    boolean recognized = readElement(element, add);
     if (recognized)
     {
       IConfigurationElement[] children = element.getChildren();
       for (int i = 0; i < children.length; ++i)
       {
-        internalReadElement(children[i]);
+        internalReadElement(children[i], add);
       }
     }
     else
@@ -224,6 +266,11 @@ public abstract class RegistryReader
       {
         throw new WrappedException(e);
       }
+    }
+
+    public EPackage.Descriptor getOverridenDescriptor()
+    {
+      return overridenDescriptor;
     }
   }
 }

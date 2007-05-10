@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FactoryOverrideRegistryReader.java,v 1.4 2006/12/05 20:22:27 emerks Exp $
+ * $Id: FactoryOverrideRegistryReader.java,v 1.5 2007/05/10 19:16:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -43,7 +43,7 @@ class FactoryOverrideRegistryReader extends RegistryReader
   }
 
   @Override
-  protected boolean readElement(IConfigurationElement element)
+  protected boolean readElement(IConfigurationElement element, boolean add)
   {
     if (element.getName().equals(TAG_FACTORY))
     {
@@ -56,7 +56,7 @@ class FactoryOverrideRegistryReader extends RegistryReader
       {
         logMissingAttribute(element, ATT_CLASS);
       }
-      else
+      else if (add)
       {
         Object ePackageDescriptor = EPackage.Registry.INSTANCE.get(packageURI);
         if (ePackageDescriptor instanceof EPackage.Descriptor)
@@ -68,6 +68,15 @@ class FactoryOverrideRegistryReader extends RegistryReader
             EcorePlugin.INSTANCE.log
               ("Both '" + descriptor.element.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a factory override for '" + packageURI + "'");
           }
+        }
+        return true;
+      }
+      else
+      {
+        Object ePackageDescriptor = EPackage.Registry.INSTANCE.get(packageURI);
+        if (ePackageDescriptor instanceof EFactoryDescriptor)
+        {
+          EPackage.Registry.INSTANCE.put(packageURI, ((EFactoryDescriptor)ePackageDescriptor).getOverridenDescriptor());
         }
         return true;
       }

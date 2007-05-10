@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProtocolParserRegistryReader.java,v 1.6 2006/12/05 20:22:27 emerks Exp $
+ * $Id: ProtocolParserRegistryReader.java,v 1.7 2007/05/10 19:16:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -44,7 +44,7 @@ class ProtocolParserRegistryReader extends RegistryReader
   }
 
   @Override
-  protected boolean readElement(IConfigurationElement element)
+  protected boolean readElement(IConfigurationElement element, boolean add)
   {
     if (element.getName().equals(TAG_PARSER))
     {
@@ -57,7 +57,7 @@ class ProtocolParserRegistryReader extends RegistryReader
       {
         logMissingAttribute(element, ATT_CLASS);
       }
-      else
+      else if (add)
       {
         Object previous = Resource.Factory.Registry.INSTANCE.getProtocolToFactoryMap().put(protocolName, new ResourceFactoryDescriptor(element, ATT_CLASS));
         if (previous instanceof ResourceFactoryDescriptor)
@@ -66,6 +66,11 @@ class ProtocolParserRegistryReader extends RegistryReader
           EcorePlugin.INSTANCE.log
             ("Both '" + descriptor.element.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a protocol parser for '" + protocolName + "'");
         }
+        return true;
+      }
+      else
+      {
+        Resource.Factory.Registry.INSTANCE.getProtocolToFactoryMap().remove(protocolName);
         return true;
       }
     }

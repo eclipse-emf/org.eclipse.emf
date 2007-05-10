@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIMappingRegistryReader.java,v 1.7 2006/12/05 20:22:27 emerks Exp $
+ * $Id: URIMappingRegistryReader.java,v 1.8 2007/05/10 19:16:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -49,7 +49,7 @@ class URIMappingRegistryReader extends RegistryReader
   }
 
   @Override
-  protected boolean readElement(IConfigurationElement element) 
+  protected boolean readElement(IConfigurationElement element, boolean add) 
   {
     if (element.getName().equals(TAG_MAPPING))
     {
@@ -65,7 +65,7 @@ class URIMappingRegistryReader extends RegistryReader
         {
           logMissingAttribute(element, ATT_TARGET);
         }
-        else
+        else if (add)
         {
           URI sourceURI = URI.createURI(sourceURIValue);
           URI targetURI = URI.createURI(targetURIValue);
@@ -83,6 +83,12 @@ class URIMappingRegistryReader extends RegistryReader
             EcorePlugin.INSTANCE.log
               ("Both '" + previous.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a URI mapping for '" + sourceURI + "'");
           }
+          return true;
+        }
+        else
+        {
+          URI sourceURI = URI.createURI(sourceURIValue);
+          URIConverter.URI_MAP.remove(sourceURI);
           return true;
         }
       }

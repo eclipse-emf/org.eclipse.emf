@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratedPackageRegistryReader.java,v 1.9 2006/12/05 20:22:27 emerks Exp $
+ * $Id: GeneratedPackageRegistryReader.java,v 1.10 2007/05/10 19:16:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -54,7 +54,7 @@ class GeneratedPackageRegistryReader extends RegistryReader
   }
 
   @Override
-  protected boolean readElement(IConfigurationElement element)
+  protected boolean readElement(IConfigurationElement element, boolean add)
   {
     if (element.getName().equals(TAG_PACKAGE))
     {
@@ -67,7 +67,7 @@ class GeneratedPackageRegistryReader extends RegistryReader
       {
         logMissingAttribute(element, ATT_CLASS);
       }
-      else
+      else if (add)
       {
         Object previous = EPackage.Registry.INSTANCE.put(packageURI, new EPackageDescriptor(element, ATT_CLASS));
         if (previous instanceof PluginClassDescriptor)
@@ -90,6 +90,11 @@ class GeneratedPackageRegistryReader extends RegistryReader
             ePackageNsURIToGenModelLocationMap.put(packageURI, genModelURI);
           }
         }
+        return true;
+      }
+      else
+      {
+        EPackage.Registry.INSTANCE.remove(packageURI);
         return true;
       }
     }
