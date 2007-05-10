@@ -54,10 +54,12 @@ function groupPackage
 			sed -e "s/\@${plugin}\@/${packages}/g" ${antScript}.template > ${antScript}.template.tmp;
 			#sed -e "s/\@${plugin}\@/${packages}/g" $currentPath/javadoc.xml.template > javadoc.xml.template.tmp; # old way
 			mv ${antScript}.template.tmp ${antScript}.template
-	else 
-		echo "[antJd] ERROR! "$srcDir" does not exist!";
-		exit 1;
+		else 
+			echo "[antJd] ERROR! "$srcDir" does not exist!";
+			exit 1;
 		fi
+	else
+		echo "Error: $antScript.template contains no @plugin@ tokens!"; 
 	fi
 }
 
