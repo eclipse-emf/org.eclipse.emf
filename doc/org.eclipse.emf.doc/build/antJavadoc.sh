@@ -94,7 +94,7 @@ pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | g
 ### so that all classes/packages (and thus @links) can be resolved
 
 # All the jars in the plugins directory
-classpath=`find $eclipseDir/plugins -name "*.jar" | tr '\n' ':'`; echo "Got classpath: "; echo $classpath;
+classpath=`find $eclipseDir/plugins -name "*.jar" | tr '\n' ':'`; echo "Got classpath: "; echo $classpath | perl -pe "s#:#\n\t:#g";
 
 # Calculates the packagesets and the calls to copyDocFiles (used in ${antScript}.template)
 # also calculates pluginIDs used in the PDE Javadoc extension point in the plugin.xml 
@@ -125,18 +125,21 @@ mv plugin2.xml ../plugin.xml
 
 # Replaces the token @packagesets@ in the template by the actual value
 packagesets=`echo $packagesets | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
-sed -e "s/\@packagesets\@/${packagesets}/g" $currentPath/${antScript}.template > ${antScript}.template2
+sed -e "s/\@packagesets\@/${packagesets}/g" ${antScript}.template > ${antScript}.template2
 # Replaces the token @copydocfiles@ in the template by the actual value
 copydocfiles=`echo $copydocfiles | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
-sed -e "s/\@copydocfiles\@/${copydocfiles}/g" $currentPath/${antScript}.template2 > javadoc.xml
+sed -e "s/\@copydocfiles\@/${copydocfiles}/g" ${antScript}.template2 > ${antScript}
 #cp javadoc.xml /tmp/emf-javadoc.xml
 
 # Executes the ant script
-ant	-f javadoc.xml \
+ant	-f ${antScript} \
 	-DdestDir="$destDir" \
 	-Dclasspath="$classpath" \
 	-DeclipseDir="$eclipseDir" \
 	-Doverview="$eclipseDir/plugins/org.eclipse.emf.doc/build/overview.html"
+
+# Clean up templates
+rm -f $antScript $antScript.template*;
 
 # Generate topics_Reference.xml (replacement for doclet). 
 trXML=$currentPath"/../topics_Reference.xml";
