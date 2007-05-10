@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPlugin.java,v 1.6 2006/12/28 06:48:57 marcelop Exp $
+ * $Id: EMFEditPlugin.java,v 1.7 2007/05/10 19:16:06 emerks Exp $
  */
 package org.eclipse.emf.edit;
 
@@ -74,105 +74,120 @@ public final class EMFEditPlugin extends EMFPlugin
   }
   
   /**
+   * The singleton instance of an {@link ComposedAdapterFactory.Descriptor.Registry item provider adapter factory registry}.
+   */
+  private static ComposedAdapterFactory.Descriptor.Registry.Impl composedAdapterFactoryDescriptorRegistry;
+
+  /**
    * Returns a populated instance of an {@link ComposedAdapterFactory.Descriptor.Registry item provider adapter factory registry}.
    * @return a populated instance of an item provider adapter factory registry.
    */
   public static ComposedAdapterFactory.Descriptor.Registry getComposedAdapterFactoryDescriptorRegistry()
   {
-    final ComposedAdapterFactory.Descriptor.Registry.Impl result =  
-      new ComposedAdapterFactory.Descriptor.Registry.Impl(null)
-      {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public ComposedAdapterFactory.Descriptor delegatedGetDescriptor(Collection<?> types)
-        {
-          List<Object> stringTypes = new ArrayList<Object>(types.size());
-          for (Object key : types)
-          {
-            if (key instanceof EPackage)
-            {
-              stringTypes.add(((EPackage)key).getNsURI());
-            }
-            else if (key instanceof Package)
-            {
-              stringTypes.add(((Package)key).getName());
-            }
-            else if (key instanceof Class)
-            {
-              stringTypes.add(((Class<?>)key).getName());
-            }
-            else
-            {
-              return null;
-            }
-          }
-          ComposedAdapterFactory.Descriptor descriptor = (ComposedAdapterFactory.Descriptor)get(stringTypes);
-          if (descriptor != null)
-          {
-            put(types, descriptor);
-            return descriptor;
-          }
-          
-          return super.delegatedGetDescriptor(types);
-        }
-      };
-    if (INSTANCE.getPluginResourceLocator() instanceof EclipsePlugin)
+    if (composedAdapterFactoryDescriptorRegistry == null)
     {
-      RegistryReader registryReader = 
-         new RegistryReader(Platform.getExtensionRegistry(), INSTANCE.getSymbolicName(), "itemProviderAdapterFactories")
-         {
-           @Override
-          protected boolean readElement(IConfigurationElement element)
+      composedAdapterFactoryDescriptorRegistry = 
+        new ComposedAdapterFactory.Descriptor.Registry.Impl(null)
+        {
+          private static final long serialVersionUID = 1L;
+  
+          @Override
+          public ComposedAdapterFactory.Descriptor delegatedGetDescriptor(Collection<?> types)
+          {
+            List<Object> stringTypes = new ArrayList<Object>(types.size());
+            for (Object key : types)
+            {
+              if (key instanceof EPackage)
+              {
+                stringTypes.add(((EPackage)key).getNsURI());
+              }
+              else if (key instanceof Package)
+              {
+                stringTypes.add(((Package)key).getName());
+              }
+              else if (key instanceof Class)
+              {
+                stringTypes.add(((Class<?>)key).getName());
+              }
+              else
+              {
+                return null;
+              }
+            }
+            ComposedAdapterFactory.Descriptor descriptor = (ComposedAdapterFactory.Descriptor)get(stringTypes);
+            if (descriptor != null)
+            {
+              put(types, descriptor);
+              return descriptor;
+            }
+            
+            return super.delegatedGetDescriptor(types);
+          }
+        };
+      if (INSTANCE.getPluginResourceLocator() instanceof EclipsePlugin)
+      {
+        RegistryReader registryReader = 
+           new RegistryReader(Platform.getExtensionRegistry(), INSTANCE.getSymbolicName(), "itemProviderAdapterFactories")
            {
-             if (element.getName().equals("factory"))
+             @Override
+            protected boolean readElement(IConfigurationElement element, boolean add)
              {
-               String packageURI = element.getAttribute("uri");
-               String className = element.getAttribute("class");
-               String supportedTypes = element.getAttribute("supportedTypes");
-               if (packageURI == null)
+               if (element.getName().equals("factory"))
                {
-                 logMissingAttribute(element, "uri");
-               }
-               else if (className == null)
-               {
-                 logMissingAttribute(element, "class");
-               }
-               else if (supportedTypes == null)
-               {
-                 logMissingAttribute(element, "supportedTypes");
-               }
-               
-               class PluginAdapterFactoryDescriptor extends PluginClassDescriptor implements ComposedAdapterFactory.Descriptor
-               {
-                 public PluginAdapterFactoryDescriptor(IConfigurationElement element, String attributeName)
+                 String packageURI = element.getAttribute("uri");
+                 String className = element.getAttribute("class");
+                 String supportedTypes = element.getAttribute("supportedTypes");
+                 if (packageURI == null)
                  {
-                   super(element, attributeName);
+                   logMissingAttribute(element, "uri");
+                 }
+                 else if (className == null)
+                 {
+                   logMissingAttribute(element, "class");
+                 }
+                 else if (supportedTypes == null)
+                 {
+                   logMissingAttribute(element, "supportedTypes");
                  }
                  
-                 public AdapterFactory createAdapterFactory()
+                 class PluginAdapterFactoryDescriptor extends PluginClassDescriptor implements ComposedAdapterFactory.Descriptor
                  {
-                   return (AdapterFactory)createInstance();
+                   public PluginAdapterFactoryDescriptor(IConfigurationElement element, String attributeName)
+                   {
+                     super(element, attributeName);
+                   }
+                   
+                   public AdapterFactory createAdapterFactory()
+                   {
+                     return (AdapterFactory)createInstance();
+                   }
                  }
+                 
+                 for (StringTokenizer stringTokenizer = new StringTokenizer(supportedTypes); stringTokenizer.hasMoreTokens(); )
+                 {
+                   String supportedType = stringTokenizer.nextToken();
+                   List<Object> key = new ArrayList<Object>();
+                   key.add(packageURI);
+                   key.add(supportedType);
+                   if (add)
+                   {
+                     composedAdapterFactoryDescriptorRegistry.put(key, new PluginAdapterFactoryDescriptor(element, "class"));
+                   }
+                   else
+                   {
+                     composedAdapterFactoryDescriptorRegistry.remove(key);
+                   }
+                 }
+                 
+                 return true;
                }
-               
-               for (StringTokenizer stringTokenizer = new StringTokenizer(supportedTypes); stringTokenizer.hasMoreTokens(); )
-               {
-                 String supportedType = stringTokenizer.nextToken();
-                 List<Object> key = new ArrayList<Object>();
-                 key.add(packageURI);
-                 key.add(supportedType);
-                 result.put(key, new PluginAdapterFactoryDescriptor(element, "class"));
-               }
-               
-               return true;
+               return false;
              }
-             return false;
-           }
-         };
-      registryReader.readRegistry();
+           };
+        registryReader.readRegistry();
+      }
     }
-    return result;
+    return composedAdapterFactoryDescriptorRegistry;
   }
   
   /**
