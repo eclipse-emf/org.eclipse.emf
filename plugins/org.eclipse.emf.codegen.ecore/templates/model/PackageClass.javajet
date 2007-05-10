@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.39 2007/05/10 13:52:56 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.40 2007/05/10 17:26:51 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -18,6 +18,8 @@
 <%final GenPackage genPackage = (GenPackage)((Object[])argument)[0]; final GenModel genModel=genPackage.getGenModel();%>
 <%boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);%>
 <%String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
+<%boolean needsAddEOperation = false;%>
+<%boolean needsAddEParameter = false;%>
 <%@ include file="../Header.javajetinc"%>
 <%if (isImplementation && !genModel.isSuppressInterfaces()) {%>
 package <%=genPackage.getClassPackageName()%>;
@@ -690,8 +692,14 @@ int maxGenericTypeAssignment = 0;
         <%}%>
         <%for (GenOperation genOperation : genClass.getGenOperations()) {String prefix = ""; if (genOperation.hasGenericType() || !genOperation.getGenParameters().isEmpty() || !genOperation.getGenExceptions().isEmpty() || !genOperation.getGenTypeParameters().isEmpty()) { if (firstOperationAssignment) { firstOperationAssignment = false; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EOperation") + " op = "; } else { prefix = "op = "; }} %>
 
-          <%if (!genOperation.isVoid()) {%>
-		<%=prefix%>addEOperation(<%=genClass.getClassifierInstanceName()%>, <%if (genOperation.hasGenericType()) {%>null<%} else {%><%=genPackage.getPackageInstanceVariable(genOperation.getTypeGenPackage())%>.get<%=genOperation.getTypeClassifierAccessorName()%>()<%}%>, "<%=genOperation.getName()%>", <%=genOperation.getLowerBound()%>, <%=genOperation.getUpperBound()%>);<%=genModel.getNonNLS()%>
+          <%if (genModel.useGenerics()) {%>
+		<%=prefix%>addEOperation(<%=genClass.getClassifierInstanceName()%>, <%if (genOperation.isVoid() || genOperation.hasGenericType()) {%>null<%} else {%><%=genPackage.getPackageInstanceVariable(genOperation.getTypeGenPackage())%>.get<%=genOperation.getTypeClassifierAccessorName()%>()<%}%>, "<%=genOperation.getName()%>", <%=genOperation.getLowerBound()%>, <%=genOperation.getUpperBound()%>, <%=genOperation.getUniqueFlag()%>, <%=genOperation.getOrderedFlag()%>);<%=genModel.getNonNLS()%>
+          <%} else if (!genOperation.isVoid()) {%>
+            <%if (!genOperation.getEcoreOperation().isOrdered() || !genOperation.getEcoreOperation().isUnique()) { needsAddEOperation = true;%>
+		<%=prefix%>addEOperation(<%=genClass.getClassifierInstanceName()%>, <%=genPackage.getPackageInstanceVariable(genOperation.getTypeGenPackage())%>.get<%=genOperation.getTypeClassifierAccessorName()%>(), "<%=genOperation.getName()%>", <%=genOperation.getLowerBound()%>, <%=genOperation.getUpperBound()%>, <%=genOperation.getUniqueFlag()%>, <%=genOperation.getOrderedFlag()%>);<%=genModel.getNonNLS()%>
+            <%} else {%>
+		<%=prefix%>addEOperation(<%=genClass.getClassifierInstanceName()%>, <%=genPackage.getPackageInstanceVariable(genOperation.getTypeGenPackage())%>.get<%=genOperation.getTypeClassifierAccessorName()%>(), "<%=genOperation.getName()%>", <%=genOperation.getLowerBound()%>, <%=genOperation.getUpperBound()%>);<%=genModel.getNonNLS()%>
+            <%}%>
           <%} else {%>
 		<%=prefix%>addEOperation(<%=genClass.getClassifierInstanceName()%>, null, "<%=genOperation.getName()%>");<%=genModel.getNonNLS()%>
           <%}%>
@@ -718,7 +726,13 @@ int maxGenericTypeAssignment = 0;
                 <%}%>
               <%}%>
             <%}%>
+            <%if (genModel.useGenerics()) {%>
+		addEParameter(op, <%if (genParameter.hasGenericType()){%>g1<%} else {%><%=genPackage.getPackageInstanceVariable(genParameter.getTypeGenPackage())%>.get<%=genParameter.getTypeClassifierAccessorName()%>()<%}%>, "<%=genParameter.getName()%>", <%=genParameter.getLowerBound()%>, <%=genParameter.getUpperBound()%>, <%=genParameter.getUniqueFlag()%>, <%=genParameter.getOrderedFlag()%>);<%=genModel.getNonNLS()%>
+            <%} else if (!genParameter.getEcoreParameter().isOrdered() || !genParameter.getEcoreParameter().isUnique()) { needsAddEParameter = true;%>
+		addEParameter(op, <%if (genParameter.hasGenericType()){%>g1<%} else {%><%=genPackage.getPackageInstanceVariable(genParameter.getTypeGenPackage())%>.get<%=genParameter.getTypeClassifierAccessorName()%>()<%}%>, "<%=genParameter.getName()%>", <%=genParameter.getLowerBound()%>, <%=genParameter.getUpperBound()%>, <%=genParameter.getUniqueFlag()%>, <%=genParameter.getOrderedFlag()%>);<%=genModel.getNonNLS()%>
+            <%} else {%>
 		addEParameter(op, <%if (genParameter.hasGenericType()){%>g1<%} else {%><%=genPackage.getPackageInstanceVariable(genParameter.getTypeGenPackage())%>.get<%=genParameter.getTypeClassifierAccessorName()%>()<%}%>, "<%=genParameter.getName()%>", <%=genParameter.getLowerBound()%>, <%=genParameter.getUpperBound()%>);<%=genModel.getNonNLS()%>
+            <%}%>
           <%}%>
           <%if (genOperation.hasGenericExceptions()) {%>
               <%for (EGenericType genericExceptions : genOperation.getEcoreOperation().getEGenericExceptions()) {%>
@@ -935,6 +949,41 @@ int maxGenericTypeAssignment = 0;
 		}
 	}
 
+  <%}%>
+  <%if (needsAddEOperation) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected <%=genModel.getImportedName("org.eclipse.emf.ecore.EOperation")%> addEOperation(<%=genModel.getImportedName("org.eclipse.emf.ecore.EClass")%> owner, <%=genModel.getImportedName("org.eclipse.emf.ecore.EClassifier")%> type, String name, int lowerBound, int upperBound, boolean isUnique, boolean isOrdered)
+	{
+		<%=genModel.getImportedName("org.eclipse.emf.ecore.EOperation")%> o = addEOperation(owner, type, name, lowerBound, upperBound);
+		o.setUnique(isUnique);
+		o.setOrdered(isOrdered);
+		return o;
+	}
+	
+  <%}%>
+  <%if (needsAddEParameter) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected <%=genModel.getImportedName("org.eclipse.emf.ecore.EParameter")%> addEParameter(<%=genModel.getImportedName("org.eclipse.emf.ecore.EOperation")%> owner, <%=genModel.getImportedName("org.eclipse.emf.ecore.EClassifier")%> type, String name, int lowerBound, int upperBound, boolean isUnique, boolean isOrdered)
+	{
+		<%=genModel.getImportedName("org.eclipse.emf.ecore.EParameter")%> p = ecoreFactory.createEParameter();
+		p.setEType(type);
+		p.setName(name);
+		p.setLowerBound(lowerBound);
+		p.setUpperBound(upperBound);
+		p.setUnique(isUnique);
+		p.setOrdered(isOrdered);
+		owner.getEParameters().add(p);
+		return p;
+	}
+	
   <%}%>
 <%}%>
 <%if (isInterface && genPackage.isLiteralsInterface()) {%>
