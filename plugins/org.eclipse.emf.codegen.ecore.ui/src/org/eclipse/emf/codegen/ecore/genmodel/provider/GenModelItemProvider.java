@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.33 2007/05/03 20:57:25 emerks Exp $
+ * $Id: GenModelItemProvider.java,v 1.34 2007/05/10 19:40:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -126,6 +126,7 @@ public class GenModelItemProvider
       addSuppressGenModelAnnotationsPropertyDescriptor(object);
       addCopyrightFieldsPropertyDescriptor(object);
       addBinaryCompatibleReflectiveMethodsPropertyDescriptor(object);
+      addPublicConstructorsPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1327,6 +1328,29 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Public Constructors feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addPublicConstructorsPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_publicConstructors_feature"),
+         getString("_UI_GenModel_publicConstructors_description"),
+         GenModelPackage.Literals.GEN_MODEL__PUBLIC_CONSTRUCTORS,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelClassPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1448,6 +1472,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
       case GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS:
       case GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS:
+      case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

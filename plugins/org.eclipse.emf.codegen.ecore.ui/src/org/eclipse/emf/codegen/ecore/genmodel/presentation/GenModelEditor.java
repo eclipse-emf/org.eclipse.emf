@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.44 2007/04/25 20:30:25 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.45 2007/05/10 19:40:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
-//import java.util.HashMap;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -1446,6 +1446,11 @@ public class GenModelEditor
   @Override
   public void doSave(IProgressMonitor progressMonitor)
   {
+    // Save only resources that have actually changed.
+    //
+    final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+    saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+
     // Do the work within an operation because this is a long running activity that modifies the workbench.
     //
     WorkspaceModifyOperation operation =
@@ -1466,7 +1471,7 @@ public class GenModelEditor
               try
               {
                 savedResources.add(resource);
-                resource.save(Collections.EMPTY_MAP);
+                resource.save(saveOptions);
               }
               catch (Exception exception)
               {
