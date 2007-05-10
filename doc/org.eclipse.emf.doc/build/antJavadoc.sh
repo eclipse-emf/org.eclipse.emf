@@ -2,13 +2,15 @@
 
 # BEGIN CUSTOMIZATIONS
 
+# The plugin name
+pluginName="org.eclipse.emf";
 
 
 # END CUSTOMIZATIONS
 
 ##########################################################################
 
-debug=1; if [ $debug -gt 0 ]; then echo "[antJd] debug: "$debug; fi
+debug=2; if [ $debug -gt 0 ]; then echo "[antJd] debug: "$debug; fi
 
 if [ "x"$ANT_HOME = "x" ]; then export ANT_HOME=/opt/apache-ant-1.6; fi
 if [ "x"$JAVA_HOME = "x" ]; then export JAVA_HOME=/opt/ibm-java2-1.4; fi
@@ -43,7 +45,7 @@ function groupPackage
 					unzip -q -d $srcDir $f; 
 				done
 			fi
-			if [ $debug -gt 0 ]; then echo "[antJd] *.java in srcDir: "; echo "-----------------"; echo `find $srcDir -type f -name '*.java'`; echo "-----------------"; fi
+			if [ $debug -gt 1 ]; then echo "[antJd] *.java in srcDir: "; echo "-----------------"; find $srcDir -type f -name '*.java'; echo "-----------------"; fi
 			packages=`find $srcDir -type f -name '*.java' -exec grep -e '^package .*;' {} \; | sed -e 's/^package *\(.*\);/\1/' | sed -e 's/[ ]*//g' | dos2unix | sort | uniq | xargs | sed -e 's/ /:/g'`;
 			# packages=`find $srcDir -type f -name '*.java' -exec grep -e '^package .*;' {} \; | sed -e 's/^package *\(.*\);.*/\1/' | sort | uniq | xargs | sed -e 's/ /:/g'` # old way
 			if [ $debug -gt 1 ]; then echo "[antJd] packages1: "$packages; fi
@@ -87,14 +89,17 @@ groupPackage org.eclipse.emf.importer.java
 groupPackage org.eclipse.emf.importer.rose
 groupPackage org.eclipse.emf.ant
 
-# The directory of the emf plugins in the order they were built 
-pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | grep org.eclipse.emf | grep -v resources.jar | grep -v xsd | grep -v test  | grep -v org.eclipse.emf.java | grep -v sdo | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
+# The directory of the plugins in the order they were built
+excludes="resources.jar|xsd|test|org.eclipse.emf.java|sdo";
+includes="${pluginName}";
+pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | egrep "$includes" | egrep -v "$excludes" | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
 
 ### TODO: missing emf/sdo/xsd plugins (?) in $eclipseDir - need to copy them over or reference source (?)
 ### so that all classes/packages (and thus @links) can be resolved
 
 # All the jars in the plugins directory
-classpath=`find $eclipseDir/plugins -name "*.jar" | tr '\n' ':'`; echo "Got classpath: "; echo $classpath | perl -pe "s#:#\n\t:#g";
+classpath=`find $eclipseDir/plugins \( -name "*.jar" -type f \) -o \( -name '@dot' -type d \) | tr '\n' ':'`; 
+if [ $debug -gt 1 ]; then echo "Got classpath: "; echo $classpath | perl -pe "s#:#\n\t:#g"; fi
 
 # Calculates the packagesets and the calls to copyDocFiles (used in ${antScript}.template)
 # also calculates pluginIDs used in the PDE Javadoc extension point in the plugin.xml 
@@ -129,14 +134,14 @@ sed -e "s/\@packagesets\@/${packagesets}/g" ${antScript}.template > ${antScript}
 # Replaces the token @copydocfiles@ in the template by the actual value
 copydocfiles=`echo $copydocfiles | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
 sed -e "s/\@copydocfiles\@/${copydocfiles}/g" ${antScript}.template2 > ${antScript}
-#cp javadoc.xml /tmp/emf-javadoc.xml
+#cp javadoc.xml /tmp/${pluginName}-javadoc.xml
 
 # Executes the ant script
 ant	-f ${antScript} \
 	-DdestDir="$destDir" \
 	-Dclasspath="$classpath" \
 	-DeclipseDir="$eclipseDir" \
-	-Doverview="$eclipseDir/plugins/org.eclipse.emf.doc/build/overview.html"
+	-Doverview="$eclipseDir/plugins/${pluginName}.doc/build/overview.html"
 
 # Clean up templates
 rm -f $antScript $antScript.template*;
