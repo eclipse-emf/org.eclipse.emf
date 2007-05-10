@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.32 2007/02/20 17:40:49 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.33 2007/05/10 17:26:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1454,11 +1454,19 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     return o;
   }
 
-  protected EOperation addEOperation(EClass owner, EClassifier type, String name, int lowerBound, int UpperBound)
+  protected EOperation addEOperation(EClass owner, EClassifier type, String name, int lowerBound, int upperBound)
   {
     EOperation o = addEOperation(owner, type, name);
     o.setLowerBound(lowerBound);
-    o.setUpperBound(UpperBound);
+    o.setUpperBound(upperBound);
+    return o;
+  }
+
+  protected EOperation addEOperation(EClass owner, EClassifier type, String name, int lowerBound, int upperBound, boolean isUnique, boolean isOrdered)
+  {
+    EOperation o = addEOperation(owner, type, name, lowerBound, upperBound);
+    o.setUnique(isUnique);
+    o.setOrdered(isOrdered);
     return o;
   }
 
@@ -1481,21 +1489,44 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     internalAddEParameter(owner, type, name);
   }
 
-  protected void addEParameter(EOperation owner, EClassifier type, String name, int lowerBound, int UpperBound)
+  protected void addEParameter(EOperation owner, EClassifier type, String name, int lowerBound, int upperBound)
   {
     EParameter p = internalAddEParameter(owner, type, name);
     p.setLowerBound(lowerBound);
-    p.setUpperBound(UpperBound);
+    p.setUpperBound(upperBound);
   }
 
-  protected void addEParameter(EOperation owner, EGenericType type, String name, int lowerBound, int UpperBound)
+  protected EParameter addEParameter(EOperation owner, EClassifier type, String name, int lowerBound, int upperBound, boolean isUnique, boolean isOrdered)
+  {
+    EParameter p = internalAddEParameter(owner, type, name);
+    p.setLowerBound(lowerBound);
+    p.setUpperBound(upperBound);
+    p.setUnique(isUnique);
+    p.setOrdered(isOrdered);
+    return p;
+  }
+
+  @Deprecated
+  protected void addEParameter(EOperation owner, EGenericType type, String name, int lowerBound, int upperBound)
   {
     EParameter p = ecoreFactory.createEParameter();
     p.setEGenericType(type);
     p.setName(name);
     owner.getEParameters().add(p);
     p.setLowerBound(lowerBound);
-    p.setUpperBound(UpperBound);
+    p.setUpperBound(upperBound);
+  }
+
+  protected void addEParameter(EOperation owner, EGenericType type, String name, int lowerBound, int upperBound, boolean isUnique, boolean isOrdered)
+  {
+    EParameter p = ecoreFactory.createEParameter();
+    p.setEGenericType(type);
+    p.setName(name);
+    owner.getEParameters().add(p);
+    p.setLowerBound(lowerBound);
+    p.setUpperBound(upperBound);
+    p.setUnique(isUnique);
+    p.setOrdered(isOrdered);
   }
 
   protected void addEException(EOperation owner, EClassifier exception)
