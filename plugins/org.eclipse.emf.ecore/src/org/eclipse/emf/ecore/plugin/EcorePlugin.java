@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.14 2006/05/25 19:17:08 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.14.2.1 2007/05/10 17:29:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -24,8 +24,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -50,6 +48,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
+import org.eclipse.emf.ecore.xml.type.internal.RegEx;
 
 
 /**
@@ -264,7 +263,7 @@ public class EcorePlugin  extends EMFPlugin
     return result;
   }
   
-  private static Pattern bundleSymbolNamePattern;
+  private static RegEx.RegularExpression bundleSymbolNamePattern;
   private static byte [] NO_BYTES = new byte [0];
   
   /**
@@ -317,7 +316,7 @@ public class EcorePlugin  extends EMFPlugin
         
         if (bundleSymbolNamePattern == null)
         {
-          bundleSymbolNamePattern = Pattern.compile("^\\s*Bundle-SymbolicName\\s*:\\s*([^\\s;]*)\\s*(;.*)?$", Pattern.MULTILINE);
+          bundleSymbolNamePattern = new RegEx.RegularExpression("^\\s*Bundle-SymbolicName\\s*:\\s*([^\\s;]*)\\s*(;.*)?$", "m");
         }
         
         byte [] bytes = NO_BYTES;
@@ -341,10 +340,10 @@ public class EcorePlugin  extends EMFPlugin
                 }
                 inputStream.read(bytes);
                 String contents = new String(bytes, "UTF-8");
-                Matcher matcher = bundleSymbolNamePattern.matcher(contents);
-                if (matcher.find())
+                RegEx.Match match = new RegEx.Match();
+                if (bundleSymbolNamePattern.matches(contents, match)) 
                 {
-                  pluginID = matcher.group(1);
+                  pluginID = match.getCapturedText(1);
                 }
               }
               catch (Exception exception)

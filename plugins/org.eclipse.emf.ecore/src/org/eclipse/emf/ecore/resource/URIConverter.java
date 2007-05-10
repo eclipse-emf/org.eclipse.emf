@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.5 2006/03/29 19:01:52 marcelop Exp $
+ * $Id: URIConverter.java,v 1.5.2.1 2007/05/10 17:29:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -28,10 +28,9 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.xml.type.internal.RegEx;
 
 
 /**
@@ -159,14 +158,14 @@ public interface URIConverter
    */
   public class ReadableInputStream extends InputStream implements Readable
   {
-    private static final Pattern XML_HEADER = Pattern.compile("<\\?xml\\s+(?:version\\s*=\\s*\"[^\"]*\"\\s+)encoding\\s*=\\s*\"\\s*([^\\s\"]*)\"\\s*\\?>");
+    private static final RegEx.RegularExpression XML_HEADER = new RegEx.RegularExpression("<\\?xml\\s+(?:version\\s*=\\s*\"[^\"]*\"\\s+)encoding\\s*=\\s*\"\\s*([^\\s\"]*)\"\\s*\\?>");
     
     public static String getEncoding(String xmlString)
     {
-      Matcher matcher = XML_HEADER.matcher(xmlString);
+      RegEx.Match match = new RegEx.Match(); 
       return
-        matcher.lookingAt() ?
-          matcher.group(1) :
+        XML_HEADER.matches(xmlString, match) ?
+          match.getCapturedText(1) :
           null;
     }
     
