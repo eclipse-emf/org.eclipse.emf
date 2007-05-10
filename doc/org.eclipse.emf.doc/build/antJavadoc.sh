@@ -51,7 +51,7 @@ function groupPackage
 			if [ $debug -gt 1 ]; then echo "[antJd] packages1: "$packages; fi
 			packages=`echo $packages | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`; # slash escape
 			if [ $debug -gt 1 ]; then echo "[antJd] packages2: "$packages; fi
-			sed -e "s/\@plugin\@/${packages}/g" ${antScript}.template > ${antScript}.template.tmp;
+			sed -e "s/\@${plugin}\@/${packages}/g" ${antScript}.template > ${antScript}.template.tmp;
 			#sed -e "s/\@${plugin}\@/${packages}/g" $currentPath/javadoc.xml.template > javadoc.xml.template.tmp; # old way
 			mv ${antScript}.template.tmp ${antScript}.template
 	else 
@@ -134,7 +134,7 @@ sed -e "s/\@packagesets\@/${packagesets}/g" ${antScript}.template > ${antScript}
 # Replaces the token @copydocfiles@ in the template by the actual value
 copydocfiles=`echo $copydocfiles | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
 sed -e "s/\@copydocfiles\@/${copydocfiles}/g" ${antScript}.template2 > ${antScript}
-#cp javadoc.xml /tmp/${pluginName}-javadoc.xml
+cp ${antScript} /tmp/${pluginName}-javadoc.xml
 
 # Executes the ant script
 ant	-f ${antScript} \
