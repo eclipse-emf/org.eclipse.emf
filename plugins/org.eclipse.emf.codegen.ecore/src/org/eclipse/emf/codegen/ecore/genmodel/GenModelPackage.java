@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.40 2007/05/03 20:57:39 emerks Exp $
+ * $Id: GenModelPackage.java,v 1.41 2007/05/10 19:40:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -628,13 +628,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS = GEN_BASE_FEATURE_COUNT + 55;
 
   /**
+   * The feature id for the '<em><b>Public Constructors</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__PUBLIC_CONSTRUCTORS = GEN_BASE_FEATURE_COUNT + 56;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 56;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 57;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -643,7 +652,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 57;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 58;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -652,7 +661,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 58;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 59;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2302,6 +2311,17 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_BinaryCompatibleReflectiveMethods();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPublicConstructors <em>Public Constructors</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Public Constructors</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPublicConstructors()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_PublicConstructors();
+
+  /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3687,6 +3707,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS = eINSTANCE.getGenModel_BinaryCompatibleReflectiveMethods();
+
+    /**
+     * The meta object literal for the '<em><b>Public Constructors</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__PUBLIC_CONSTRUCTORS = eINSTANCE.getGenModel_PublicConstructors();
 
     /**
      * The meta object literal for the '<em><b>Gen Packages</b></em>' containment reference list feature.

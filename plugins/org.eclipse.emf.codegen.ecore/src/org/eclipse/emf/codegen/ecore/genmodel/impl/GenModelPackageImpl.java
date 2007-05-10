@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.43 2007/05/03 20:57:39 emerks Exp $
+ * $Id: GenModelPackageImpl.java,v 1.44 2007/05/10 19:40:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -838,9 +838,19 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenModel_PublicConstructors()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(56);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getGenModel_GenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(56);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(57);
   }
 
   /**
@@ -850,7 +860,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    */
   public EReference getGenModel_UsedGenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(57);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(58);
   }
 
   /**
@@ -1760,6 +1770,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS);
     createEAttribute(genModelEClass, GEN_MODEL__COPYRIGHT_FIELDS);
     createEAttribute(genModelEClass, GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS);
+    createEAttribute(genModelEClass, GEN_MODEL__PUBLIC_CONSTRUCTORS);
     createEReference(genModelEClass, GEN_MODEL__GEN_PACKAGES);
     createEReference(genModelEClass, GEN_MODEL__USED_GEN_PACKAGES);
 
@@ -1965,6 +1976,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_SuppressGenModelAnnotations(), ecorePackage.getEBoolean(), "suppressGenModelAnnotations", "true", 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_CopyrightFields(), ecorePackage.getEBoolean(), "copyrightFields", "true", 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_BinaryCompatibleReflectiveMethods(), ecorePackage.getEBoolean(), "binaryCompatibleReflectiveMethods", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_PublicConstructors(), ecorePackage.getEBoolean(), "publicConstructors", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_GenPackages(), this.getGenPackage(), this.getGenPackage_GenModel(), "genPackages", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_UsedGenPackages(), this.getGenPackage(), null, "usedGenPackages", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2020,8 +2032,8 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEClass(genBaseEClass, GenBase.class, "GenBase", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getGenBase_GenAnnotations(), this.getGenAnnotation(), this.getGenAnnotation_GenBase(), "genAnnotations", null, 0, -1, GenBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    EOperation op = addEOperation(genBaseEClass, this.getGenAnnotation(), "getGenAnnotation", 0, 1);
-    addEParameter(op, ecorePackage.getEString(), "source", 0, 1);
+    EOperation op = addEOperation(genBaseEClass, this.getGenAnnotation(), "getGenAnnotation", 0, 1, IS_UNIQUE, IS_ORDERED);
+    addEParameter(op, ecorePackage.getEString(), "source", 0, 1, IS_UNIQUE, IS_ORDERED);
 
     initEClass(genEnumEClass, GenEnum.class, "GenEnum", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGenEnum_TypeSafeEnumCompatible(), ecorePackage.getEBoolean(), "typeSafeEnumCompatible", "true", 0, 1, GenEnum.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

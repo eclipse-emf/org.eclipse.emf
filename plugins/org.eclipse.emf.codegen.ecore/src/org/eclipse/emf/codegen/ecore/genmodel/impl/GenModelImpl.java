@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.82 2007/05/03 20:57:39 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.83 2007/05/10 19:40:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -162,6 +162,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressGenModelAnnotations <em>Suppress Gen Model Annotations</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCopyrightFields <em>Copyright Fields</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isBinaryCompatibleReflectiveMethods <em>Binary Compatible Reflective Methods</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isPublicConstructors <em>Public Constructors</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1305,6 +1306,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean binaryCompatibleReflectiveMethods = BINARY_COMPATIBLE_REFLECTIVE_METHODS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isPublicConstructors() <em>Public Constructors</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isPublicConstructors()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean PUBLIC_CONSTRUCTORS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isPublicConstructors() <em>Public Constructors</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isPublicConstructors()
+   * @generated
+   * @ordered
+   */
+  protected boolean publicConstructors = PUBLIC_CONSTRUCTORS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -5443,6 +5464,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isPublicConstructors()
+  {
+    return publicConstructors;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setPublicConstructors(boolean newPublicConstructors)
+  {
+    boolean oldPublicConstructors = publicConstructors;
+    publicConstructors = newPublicConstructors;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS, oldPublicConstructors, publicConstructors));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList<GenPackage> getGenPackages()
   {
     if (genPackages == null)
@@ -5673,6 +5717,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isCopyrightFields() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS:
         return isBinaryCompatibleReflectiveMethods() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
+        return isPublicConstructors() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -5862,6 +5908,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS:
         setBinaryCompatibleReflectiveMethods(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
+        setPublicConstructors(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -6053,6 +6102,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS:
         setBinaryCompatibleReflectiveMethods(BINARY_COMPATIBLE_REFLECTIVE_METHODS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
+        setPublicConstructors(PUBLIC_CONSTRUCTORS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6185,6 +6237,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return copyrightFields != COPYRIGHT_FIELDS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS:
         return binaryCompatibleReflectiveMethods != BINARY_COMPATIBLE_REFLECTIVE_METHODS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
+        return publicConstructors != PUBLIC_CONSTRUCTORS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6314,6 +6368,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(copyrightFields);
     result.append(", binaryCompatibleReflectiveMethods: ");
     result.append(binaryCompatibleReflectiveMethods);
+    result.append(", publicConstructors: ");
+    result.append(publicConstructors);
     result.append(')');
     return result.toString();
   }
@@ -7145,6 +7201,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setComplianceLevel(oldGenModelVersion.getComplianceLevel());
 
     setSuppressGenModelAnnotations(oldGenModelVersion.isSuppressGenModelAnnotations());
+    setPublicConstructors(oldGenModelVersion.isPublicConstructors());
   }
 
   public boolean reconcile()

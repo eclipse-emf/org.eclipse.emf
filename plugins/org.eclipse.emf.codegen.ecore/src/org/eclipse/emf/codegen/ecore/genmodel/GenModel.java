@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.45 2007/05/03 20:57:39 emerks Exp $
+ * $Id: GenModel.java,v 1.46 2007/05/10 19:40:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -100,6 +100,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressGenModelAnnotations <em>Suppress Gen Model Annotations</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCopyrightFields <em>Copyright Fields</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isBinaryCompatibleReflectiveMethods <em>Binary Compatible Reflective Methods</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPublicConstructors <em>Public Constructors</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1706,6 +1707,30 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setBinaryCompatibleReflectiveMethods(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Public Constructors</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Public Constructors</em>' attribute.
+   * @see #setPublicConstructors(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_PublicConstructors()
+   * @model
+   * @generated
+   */
+  boolean isPublicConstructors();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPublicConstructors <em>Public Constructors</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Public Constructors</em>' attribute.
+   * @see #isPublicConstructors()
+   * @generated
+   */
+  void setPublicConstructors(boolean value);
 
   /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.

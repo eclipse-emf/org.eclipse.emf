@@ -148,6 +148,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/copyrightFields"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to generate slower reflective method implementations that remain binary compatible even when features are added to base classes defined in other models"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/binaryCompatibleReflectiveMethods"/>
+      <genFeatures createChild="false" propertyCategory="ModelClass" propertyDescription="Whether generated model classes should have public, rather than protected, constructors"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/publicConstructors"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>
