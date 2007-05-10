@@ -51,7 +51,7 @@ public class Validator
     stringBuffer.append(TEXT_9);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_10);
-    stringBuffer.append(genFeature.getImportedType());
+    stringBuffer.append(genFeature.getImportedType(null));
     stringBuffer.append(TEXT_11);
     }
     stringBuffer.append(TEXT_12);

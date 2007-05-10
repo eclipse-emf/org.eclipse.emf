@@ -16,7 +16,7 @@ public interface <%=ValidatorGeneratorUtil.getValidatorInterfaceName(genClass)%>
 	boolean validate();
 
   <%for (GenFeature genFeature : genClass.getGenFeatures()) {%>
-	boolean validate<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%> value);
+	boolean validate<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType(null)%> value);
   <%}%>
 }
 <%genModel.emitSortedImports();%>
