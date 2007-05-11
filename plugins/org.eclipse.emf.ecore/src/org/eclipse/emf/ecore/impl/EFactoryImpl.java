@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.24 2007/03/29 11:54:46 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.25 2007/05/11 15:54:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -229,7 +229,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
    */
   public EObject create(EClass eClass) 
   {
-    if (getEPackage() != eClass.getEPackage())
+    if (getEPackage() != eClass.getEPackage() || eClass.isAbstract())
     {
       throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
