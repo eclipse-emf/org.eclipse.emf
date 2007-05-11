@@ -26,7 +26,14 @@ http://www.eclipse.org/legal/epl-v10.html
       <discovery label="%MDTUpdateSiteName" url="http://download.eclipse.org/modeling/mdt/updates/"/>
    </url>
 
-	
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.xsd"/>
+      <import plugin="org.eclipse.emf.importer"/>
+      <import plugin="org.eclipse.emf.exporter"/>
+   </requires>
+
    <plugin
          id="org.eclipse.xsd.ecore.importer"
          download-size="0"
@@ -40,6 +47,5 @@ http://www.eclipse.org/legal/epl-v10.html
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
 
 </feature>
