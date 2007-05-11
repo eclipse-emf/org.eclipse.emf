@@ -1,46 +1,87 @@
-# The current direcotry
-currentPath=$PWD
+#!/bin/sh
 
+# BEGIN CUSTOMIZATIONS
+
+# The plugin name
+pluginName="org.eclipse.xsd";
+
+
+# END CUSTOMIZATIONS
+
+##########################################################################
+
+debug=0; if [ $debug -gt 0 ]; then echo "[antJd] debug: "$debug; fi
+
+if [ "x"$ANT_HOME = "x" ]; then export ANT_HOME=/opt/apache-ant-1.6; fi
+if [ "x"$JAVA_HOME = "x" ]; then export JAVA_HOME=/opt/ibm-java2-1.4; fi
+export PATH=${PATH}:${ANT_HOME}/bin
+
+# current directory - all but the name of this script, no trailing slash
+currentPath=$PWD"/"$0; currentPath=${currentPath%/*}; if [ $debug -gt 0 ]; then echo "[antJd] currentPath: "$currentPath; fi
+
+# path to $buildID/eclipse/plugins, no trailing slash
+pluginPath=${currentPath%/$pluginName*}; if [ $debug -gt 0 ]; then echo "[antJd] pluginName: "$pluginName; echo "[antJd] pluginPath: "$pluginPath; fi
+
+# ant script to create and then execute
+antScript=$currentPath"/javadoc.xml"; if [ $debug -gt 0 ]; then echo "[antJd] antScript: "$antScript; fi
 # The eclipse directory
-eclipseDir=$1
+eclipseDir=`cd $1; echo $PWD`; if [ $debug -gt 0 ]; then echo "[antJd] eclipseDir: "$eclipseDir; fi
 
 # The destination directory
-destDir=$eclipseDir/plugins/org.eclipse.xsd.doc/references/javadoc
-
-# Don't execute if the destination directory has files
-if [ -d "$destDir" ]; then
-	exit
-fi
+destDir=$currentPath/../references/javadoc; mkdir -p $destDir; destDir=`cd $destDir; echo $PWD`; # resolve relative path
+if [ $debug -gt 0 ]; then echo "[antJd] destDir: "$destDir; fi
 
 function groupPackage
 {
 	plugin=$1
-	hasToken=`grep "@$plugin@" $currentPath/javadoc.xml.template`
-	if [ "x$hasToken" != "x"  ]; then
+	hasToken=`grep -c "@plugin@" $antScript".template"`;
+	if [ $hasToken -gt 0  ]; then
 		srcDir=$eclipseDir/plugins/$plugin/src
 		if [ -d "$srcDir" ]; then
-			packages=`find $srcDir -type f -name '*.java' -exec grep -e '^package .*;' {} \; | sed -e 's/^package *\(.*\);.*/\1/' | sort | uniq | xargs | sed -e 's/ /:/g'`
-			packages=`echo $packages | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
-		
-			sed -e "s/\@${plugin}\@/${packages}/g" $currentPath/javadoc.xml.template > javadoc.xml.template.tmp
-	
-			mv javadoc.xml.template.tmp javadoc.xml.template
+			if [ `find $srcDir -name "*.java" | grep -c .` -eq 0 ]; then # must unpack zips first
+				if [ $debug -gt 0 ]; then echo "[antJd] Unpacking *src.zip"; fi
+				for f in `find $srcDir -name "*src.zip"`; do 
+					if [ $debug -gt 1 ]; then echo "[antJd] Unpack $f"; fi
+					unzip -q -d $srcDir $f; 
+				done
+			fi
+			if [ $debug -gt 1 ]; then echo "[antJd] *.java in srcDir: "; echo "-----------------"; find $srcDir -type f -name '*.java'; echo "-----------------"; fi
+			packages=`find $srcDir -type f -name '*.java' -exec grep -e '^package .*;' {} \; | sed -e 's/^package *\(.*\);/\1/' | sed -e 's/[ ]*//g' | dos2unix | sort | uniq | xargs | sed -e 's/ /:/g'`;
+			# packages=`find $srcDir -type f -name '*.java' -exec grep -e '^package .*;' {} \; | sed -e 's/^package *\(.*\);.*/\1/' | sort | uniq | xargs | sed -e 's/ /:/g'` # old way
+			if [ $debug -gt 1 ]; then echo "[antJd] packages1: "$packages; fi
+			packages=`echo $packages | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`; # slash escape
+			if [ $debug -gt 1 ]; then echo "[antJd] packages2: "$packages; fi
+			sed -e "s/\@${plugin}\@/${packages}/g" ${antScript}.template > ${antScript}.template.tmp;
+			#sed -e "s/\@${plugin}\@/${packages}/g" $currentPath/javadoc.xml.template > javadoc.xml.template.tmp; # old way
+			mv ${antScript}.template.tmp ${antScript}.template
+		else 
+			echo "[antJd] ERROR! "$srcDir" does not exist!";
+			exit 1;
 		fi
+	else
+		echo "Error: $antScript.template contains no @plugin@ tokens!"; 
 	fi
 }
+
 groupPackage org.eclipse.xsd
 groupPackage org.eclipse.xsd.edit
 groupPackage org.eclipse.xsd.editor
 groupPackage org.eclipse.emf.mapping.xsd2ecore
 groupPackage org.eclipse.emf.mapping.xsd2ecore.editor
 
-# The directory of the xsd plugins in the order they were built 
-pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | grep -v resources.jar | egrep -e 'org.eclipse.xsd|org.eclipse.emf.mapping.xsd2ecore' | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
+# The directory of the plugins in the order they were built
+excludes="resources.jar";
+includes="org.eclipse.xsd|org.eclipse.emf.mapping.xsd2ecore";
+pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | egrep "$includes" | egrep -v "$excludes" | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
+
+### TODO: missing emf/sdo/xsd plugins (?) in $eclipseDir - need to copy them over or reference source (?)
+### so that all classes/packages (and thus @links) can be resolved
 
 # All the jars in the plugins directory
-classpath=`find $eclipseDir/plugins \( -name "*.jar" -type f \) -o \( -name '@dot' -type d \) | tr '\n' ':'`; echo "Got classpath: "; echo $classpath;
+classpath=`find $eclipseDir/plugins \( -name "*.jar" -type f \) -o \( -name '@dot' -type d \) | tr '\n' ':'`; 
+if [ $debug -gt 1 ]; then echo "Got classpath: "; echo $classpath | perl -pe "s#:#\n\t:#g"; fi
 
-# Calculates the packagesets and the calls to copyDocFiles (used in javadoc.xml.template)
+# Calculates the packagesets and the calls to copyDocFiles (used in ${antScript}.template)
 # also calculates pluginIDs used in the PDE Javadoc extension point in the plugin.xml 
 packagesets=""
 copydocfiles=""
@@ -69,18 +110,21 @@ mv plugin2.xml ../plugin.xml
 
 # Replaces the token @packagesets@ in the template by the actual value
 packagesets=`echo $packagesets | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
-sed -e "s/\@packagesets\@/${packagesets}/g" $currentPath/javadoc.xml.template > javadoc.xml.template2
+sed -e "s/\@packagesets\@/${packagesets}/g" ${antScript}.template > ${antScript}.template2
 # Replaces the token @copydocfiles@ in the template by the actual value
 copydocfiles=`echo $copydocfiles | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
-sed -e "s/\@copydocfiles\@/${copydocfiles}/g" $currentPath/javadoc.xml.template2 > javadoc.xml
-#cp javadoc.xml /tmp/xsd-javadoc.xml
+sed -e "s/\@copydocfiles\@/${copydocfiles}/g" ${antScript}.template2 > ${antScript}
+#cp ${antScript} /tmp/${pluginName}-javadoc.xml
 
 # Executes the ant script
-ant	-f javadoc.xml \
+ant	-f ${antScript} \
 	-DdestDir="$destDir" \
 	-Dclasspath="$classpath" \
 	-DeclipseDir="$eclipseDir" \
-	-Doverview="$eclipseDir/plugins/org.eclipse.xsd.doc/build/overview.html"
+	-Doverview="$eclipseDir/plugins/${pluginName}.doc/build/overview.html"
+
+# Clean up templates
+rm -f $antScript $antScript.template*;
 
 # Generate topics_Reference.xml (replacement for doclet). 
 trXML=$currentPath"/../topics_Reference.xml";
