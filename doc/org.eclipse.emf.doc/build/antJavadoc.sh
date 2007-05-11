@@ -10,7 +10,7 @@ pluginName="org.eclipse.emf";
 
 ##########################################################################
 
-debug=2; if [ $debug -gt 0 ]; then echo "[antJd] debug: "$debug; fi
+debug=0; if [ $debug -gt 0 ]; then echo "[antJd] debug: "$debug; fi
 
 if [ "x"$ANT_HOME = "x" ]; then export ANT_HOME=/opt/apache-ant-1.6; fi
 if [ "x"$JAVA_HOME = "x" ]; then export JAVA_HOME=/opt/ibm-java2-1.4; fi
@@ -136,7 +136,7 @@ sed -e "s/\@packagesets\@/${packagesets}/g" ${antScript}.template > ${antScript}
 # Replaces the token @copydocfiles@ in the template by the actual value
 copydocfiles=`echo $copydocfiles | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
 sed -e "s/\@copydocfiles\@/${copydocfiles}/g" ${antScript}.template2 > ${antScript}
-cp ${antScript} /tmp/${pluginName}-javadoc.xml
+#cp ${antScript} /tmp/${pluginName}-javadoc.xml
 
 # Executes the ant script
 ant	-f ${antScript} \
