@@ -40,6 +40,7 @@ http://www.eclipse.org/legal/epl-v10.html
    <includes id="org.eclipse.xsd.source" version="0.0.0"/>
    <includes id="org.eclipse.xsd.doc" version="0.0.0"/>
 
+<!-- TemplateEntriesBegin -->
    <!-- 
 		NOTE: this file is a template. At build-time, use 
 		org.eclipse.emf.releng*/scripts/genPluginAll.sh 
@@ -48,5 +49,5 @@ http://www.eclipse.org/legal/epl-v10.html
    -->  
 
    <!-- %%INCLUDE%% -->
-
+<!-- TemplateEntriesEnd -->
 </feature>
