@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.46 2007/05/10 19:40:27 emerks Exp $
+ * $Id: GenModel.java,v 1.47 2007/05/11 15:12:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -101,6 +101,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCopyrightFields <em>Copyright Fields</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isBinaryCompatibleReflectiveMethods <em>Binary Compatible Reflective Methods</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPublicConstructors <em>Public Constructors</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTemplatePluginVariables <em>Template Plugin Variables</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1731,6 +1732,19 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setPublicConstructors(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Template Plugin Variables</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Template Plugin Variables</em>' attribute list.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TemplatePluginVariables()
+   * @model type="java.lang.String"
+   * @generated
+   */
+  EList<String> getTemplatePluginVariables();
 
   /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.

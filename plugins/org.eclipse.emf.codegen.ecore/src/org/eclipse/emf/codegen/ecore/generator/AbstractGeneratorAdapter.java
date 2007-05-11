@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.11 2007/04/05 01:01:11 marcelop Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.12 2007/05/11 15:12:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -516,7 +516,21 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   protected void addClasspathEntries(JETEmitter jetEmitter) throws JETException
   {
-    // Subclasses may override
+    if (getGenerator().getOptions().templateClasspath!= null)
+    {
+      for (String additionalClasspathEntry : getGenerator().getOptions().templateClasspath)
+      {
+        int index = additionalClasspathEntry.indexOf('=');
+        if (index == -1)
+        {
+          jetEmitter.addVariable(additionalClasspathEntry, additionalClasspathEntry);
+        }
+        else
+        {
+          jetEmitter.addVariable(additionalClasspathEntry.substring(0, index), additionalClasspathEntry.substring(index + 1));
+        }
+      }
+    }
   }
 
   /**

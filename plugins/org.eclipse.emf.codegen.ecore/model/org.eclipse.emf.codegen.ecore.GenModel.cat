@@ -322,6 +322,11 @@
 		(object ClassAttribute "publicConstructors"
 		    quid       	"46436152039D"
 		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "templatePluginVariables"
+		    quid       	"46437E110199"
+		    stereotype 	"0..*"
+		    type       	"String"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -3152,7 +3157,7 @@
 	    max_height 	28350
 	    max_width  	21600
 	    origin_x   	0
-	    origin_y   	0
+	    origin_y   	670
 	    items      	(list diagram_item_list
 		(object ClassView "Class" "Logical View::genmodel::GenBase" @170
 		    ShowCompartmentStereotypes 	TRUE
@@ -3395,7 +3400,7 @@
 		    location   	(912, 1824)
 		    label      	(object ItemLabel
 			Parent_View 	@181
-			location   	(28, 343)
+			location   	(28, 318)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	1768
@@ -3407,11 +3412,11 @@
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
 			Parent_View 	@181
-			location   	(28, 403)
+			location   	(28, 378)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	58
+			nlines     	59
 			max_width  	1764
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
@@ -3439,7 +3444,7 @@
 			    "+ featureMapWrapperInternalInterface : String"
 			    "+ featureMapWrapperClass : String"))
 		    width      	1786
-		    height     	2986
+		    height     	3036
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenPackage" @182
@@ -3821,7 +3826,7 @@
 		    client     	@181
 		    supplier   	@170
 		    line_style 	3
-		    origin_attachment 	(362, 331)
+		    origin_attachment 	(362, 306)
 		    terminal_attachment 	(362, 300)
 		    drawSupplier 	@179)))
 	(object ClassDiagram "GenModel Edit Relations and Attributes"
@@ -3933,7 +3938,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	9
-			max_width  	696
+			max_width  	706
 			compartmentItems 	(list Compartment
 			    "+ creationCommands : boolean = true"
 			    "+ editDirectory : String"

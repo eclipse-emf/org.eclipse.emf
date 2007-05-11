@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapterFactory.java,v 1.7 2007/01/05 23:04:37 davidms Exp $
+ * $Id: GenModelGeneratorAdapterFactory.java,v 1.8 2007/05/11 15:12:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -176,6 +176,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     options.mergerFacadeHelperClass = genModel.getFacadeHelperClass();
     options.codeFormatting = genModel.isCodeFormatting();
     options.resourceSet = resource != null ? resource.getResourceSet() : null;
+    options.templateClasspath = genModel.getTemplatePluginVariables();
   }
   
   /**

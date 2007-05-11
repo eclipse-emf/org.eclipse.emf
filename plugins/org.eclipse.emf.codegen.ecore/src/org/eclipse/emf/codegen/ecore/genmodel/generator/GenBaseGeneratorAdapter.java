@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.8 2006/12/28 16:47:41 marcelop Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.9 2007/05/11 15:12:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -294,6 +294,8 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
     jetEmitter.addVariable("EMF_CODEGEN_ECORE", "org.eclipse.emf.codegen.ecore");
     jetEmitter.addVariable("EMF_COMMON", "org.eclipse.emf.common");
     jetEmitter.addVariable("EMF_ECORE", "org.eclipse.emf.ecore");
+
+    super.addClasspathEntries(jetEmitter);
   }
 
   /**

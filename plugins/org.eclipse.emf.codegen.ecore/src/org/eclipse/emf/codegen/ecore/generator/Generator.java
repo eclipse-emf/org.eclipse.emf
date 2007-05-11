@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.10 2007/01/05 23:03:09 davidms Exp $
+ * $Id: Generator.java,v 1.11 2007/05/11 15:12:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -137,6 +137,14 @@ public class Generator
      * etc can be obtained.
      */  
     public ResourceSet resourceSet;
+
+    /**
+     * A list of strings of the form [&lt;variable-name>=]&lt;plugin-id>
+     * that will be used by {@link AbstractGeneratorAdapter#addClasspathEntries(org.eclipse.emf.codegen.jet.JETEmitter)}
+     * to add classpath entries to each JETEmitter.
+     * @see AbstractGeneratorAdapter#addClasspathEntries(org.eclipse.emf.codegen.jet.JETEmitter)
+     */
+    public List<String> templateClasspath;
 
     /**
      * Arbitrary data for extensibility.

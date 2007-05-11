@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.83 2007/05/10 19:40:27 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.84 2007/05/11 15:12:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -163,6 +163,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCopyrightFields <em>Copyright Fields</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isBinaryCompatibleReflectiveMethods <em>Binary Compatible Reflective Methods</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isPublicConstructors <em>Public Constructors</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTemplatePluginVariables <em>Template Plugin Variables</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1326,6 +1327,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean publicConstructors = PUBLIC_CONSTRUCTORS_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getTemplatePluginVariables() <em>Template Plugin Variables</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTemplatePluginVariables()
+   * @generated
+   * @ordered
+   */
+  protected EList<String> templatePluginVariables;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -5487,6 +5498,20 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public EList<String> getTemplatePluginVariables()
+  {
+    if (templatePluginVariables == null)
+    {
+      templatePluginVariables = new EDataTypeUniqueEList<String>(String.class, this, GenModelPackage.GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES);
+    }
+    return templatePluginVariables;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList<GenPackage> getGenPackages()
   {
     if (genPackages == null)
@@ -5719,6 +5744,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isBinaryCompatibleReflectiveMethods() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
         return isPublicConstructors() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES:
+        return getTemplatePluginVariables();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -5911,6 +5938,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
         setPublicConstructors(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES:
+        getTemplatePluginVariables().clear();
+        getTemplatePluginVariables().addAll((Collection<? extends String>)newValue);
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -6105,6 +6136,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
         setPublicConstructors(PUBLIC_CONSTRUCTORS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES:
+        getTemplatePluginVariables().clear();
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6239,6 +6273,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return binaryCompatibleReflectiveMethods != BINARY_COMPATIBLE_REFLECTIVE_METHODS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
         return publicConstructors != PUBLIC_CONSTRUCTORS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES:
+        return templatePluginVariables != null && !templatePluginVariables.isEmpty();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6370,6 +6406,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(binaryCompatibleReflectiveMethods);
     result.append(", publicConstructors: ");
     result.append(publicConstructors);
+    result.append(", templatePluginVariables: ");
+    result.append(templatePluginVariables);
     result.append(')');
     return result.toString();
   }
@@ -7202,6 +7240,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     setSuppressGenModelAnnotations(oldGenModelVersion.isSuppressGenModelAnnotations());
     setPublicConstructors(oldGenModelVersion.isPublicConstructors());
+
+    getTemplatePluginVariables().addAll(oldGenModelVersion.getTemplatePluginVariables());
   }
 
   public boolean reconcile()
