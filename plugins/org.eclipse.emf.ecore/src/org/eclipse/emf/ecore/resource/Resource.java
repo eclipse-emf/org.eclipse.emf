@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.10 2007/05/01 14:15:59 emerks Exp $
+ * $Id: Resource.java,v 1.11 2007/05/11 19:56:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -157,7 +157,7 @@ public interface Resource extends Notifier
    * if it appears in the {@link ResourceSet#getResources resources}, i.e., the contents, of that resource set.
    * This reference can only be modified by altering the contents of the resource set directly.
    * </p>
-   * @return the containing resource set.
+   * @return the containing resource set, or <code>null</code> if there isn't one.
    * @see EObject#eContainer
    * @see EObject#eResource
    * @see ResourceSet#getResources
@@ -169,7 +169,7 @@ public interface Resource extends Notifier
    * The URI is normally expected to be {@link URI#isRelative absolute} and {@link URI#isHierarchical hierarchical};
    * document-relative references will not be serialized and will not be {@link URI#resolve resolved},
    * if this is not the case.
-   * @return the URI of this resource.
+   * @return the URI of this resource, or <code>null</code> if there isn't one.
    * @see #setURI(URI)
    * @see URI#isRelative
    * @see URI#isHierarchical
@@ -235,7 +235,7 @@ public interface Resource extends Notifier
    * The fragment encoding will typically be that produced by {@link #getURIFragment getURIFragment}.
    * </p>
    * @param uriFragment the fragment to resolve.
-   * @return the resolved object for the given fragment.
+   * @return the resolved object for the given fragment, or <code>null</code> if it can't be resolved.
    * @see #getURIFragment(EObject)
    * @see ResourceSet#getEObject(URI, boolean)
    * @see org.eclipse.emf.ecore.util.EcoreUtil#resolve(EObject, ResourceSet)
@@ -421,7 +421,7 @@ public interface Resource extends Notifier
     /**
      * Returns the source location of the issue.
      * This will typically be just the  {@link Resource#getURI URI} of the resource containing this diagnostic.
-     * @return the location of the issue.
+     * @return the location of the issue, or <code>null</code> if it's unknown.
      */
     String getLocation();
 
@@ -517,7 +517,7 @@ public interface Resource extends Notifier
        * It may choose to provide additional mechanisms and algorithms to determine a factory appropriate for the given URI.
        * </p>
        * @param uri the URI.
-       * @return the resource factory appropriate for the given URI.
+       * @return the resource factory appropriate for the given URI, or <code>null</code> if there isn't one.
        * @see ResourceSet#createResource(URI)
        */
       Factory getFactory(URI uri);
@@ -653,7 +653,7 @@ public interface Resource extends Notifier
      * <p>
      * If it was previously contained by a resource set, it will have been removed.
      * </p>
-     * @return the notifications produced.
+     * @return the notifications produced, or <code>null</code> if there aren't any.
      */
     NotificationChain basicSetResourceSet(ResourceSet resourceSet, NotificationChain notifications);
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSet.java,v 1.4 2007/05/01 14:15:59 emerks Exp $
+ * $Id: ResourceSet.java,v 1.5 2007/05/11 19:56:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -135,7 +135,7 @@ public interface ResourceSet extends Notifier
    * </p>
    * @param uri the URI to resolve.
    * @param loadOnDemand whether to create and load the resource, if it doesn't already exists.
-   * @return the object resolved by the URI.
+   * @return the object resolved by the URI, or <code>null</code> if there isn't one.
    * @see Resource#getEObject(String)
    * @see #getResource(URI, boolean)
    * @see org.eclipse.emf.ecore.util.EcoreUtil#getURI(EObject)
@@ -173,7 +173,7 @@ public interface ResourceSet extends Notifier
    * </p>
    * @param uri the URI to resolve.
    * @param loadOnDemand whether to create and load the resource, if it doesn't already exists.
-   * @return the resource resolved by the URI.
+   * @return the resource resolved by the URI, or <code>null</code> if there isn't one and it's not being demand loaded.
    * @throws RuntimeException if a resource can't be demand created.
    * @throws org.eclipse.emf.common.util.WrappedException if a problem occurs during demand load.
    */
