@@ -92,7 +92,7 @@ groupPackage org.eclipse.emf.importer.rose
 groupPackage org.eclipse.emf.ant
 
 # The directory of the plugins in the order they were built
-excludes="resources.jar|xsd|test|org.eclipse.emf.java|sdo";
+excludes="resources.jar";
 includes="${pluginName}";
 pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | egrep "$includes" | egrep -v "$excludes" | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
 
