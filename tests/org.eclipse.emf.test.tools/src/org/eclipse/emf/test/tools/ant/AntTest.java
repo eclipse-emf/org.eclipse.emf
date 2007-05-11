@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.29 2007/03/29 18:21:58 marcelop Exp $
+ * $Id: AntTest.java,v 1.30 2007/05/11 10:04:20 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -62,37 +62,37 @@ public class AntTest extends TestCase
     // Don't comment out this test
     ts.addTest(new AntTest("suiteSetUp"));
     
-    ts.addTest(new AntTest("testJETCompiler"));
-    ts.addTest(new AntTest("testJETEmitter"));
-    ts.addTest(new AntTest("testJMerger"));
-    
-    ts.addTest(new AntTest("testRose14"));
-    ts.addTest(new AntTest("testRoseReload14"));
-    ts.addTest(new AntTest("testRose50"));
-    ts.addTest(new AntTest("testRoseReload50"));
-    ts.addTest(new AntTest("testRose1450"));
-    ts.addTest(new AntTest("testRoseReload1450"));
-    
-    ts.addTest(new AntTest("testXSD14"));
-    ts.addTest(new AntTest("testXSDReload14"));
-    ts.addTest(new AntTest("testXSD50"));
-    ts.addTest(new AntTest("testXSDReload50"));
-    ts.addTest(new AntTest("testXSD1450"));
-    ts.addTest(new AntTest("testXSDReload1450"));
-    
-    ts.addTest(new AntTest("testXSDs14"));
-    ts.addTest(new AntTest("testXSDsReload14"));
-    ts.addTest(new AntTest("testXSDs50"));
-    ts.addTest(new AntTest("testXSDsReload50"));
-    ts.addTest(new AntTest("testXSDs1450"));
-    ts.addTest(new AntTest("testXSDsReload1450"));
-    
-    ts.addTest(new AntTest("testEcore14"));
-    ts.addTest(new AntTest("testEcoreReload14"));
-    ts.addTest(new AntTest("testEcore50"));
-    ts.addTest(new AntTest("testEcoreReload50"));
-    ts.addTest(new AntTest("testEcore1450"));
-    ts.addTest(new AntTest("testEcoreReload1450"));
+//    ts.addTest(new AntTest("testJETCompiler"));
+//    ts.addTest(new AntTest("testJETEmitter"));
+//    ts.addTest(new AntTest("testJMerger"));
+//    
+//    ts.addTest(new AntTest("testRose14"));
+//    ts.addTest(new AntTest("testRoseReload14"));
+//    ts.addTest(new AntTest("testRose50"));
+//    ts.addTest(new AntTest("testRoseReload50"));
+//    ts.addTest(new AntTest("testRose1450"));
+//    ts.addTest(new AntTest("testRoseReload1450"));
+//    
+//    ts.addTest(new AntTest("testXSD14"));
+//    ts.addTest(new AntTest("testXSDReload14"));
+//    ts.addTest(new AntTest("testXSD50"));
+//    ts.addTest(new AntTest("testXSDReload50"));
+//    ts.addTest(new AntTest("testXSD1450"));
+//    ts.addTest(new AntTest("testXSDReload1450"));
+//    
+//    ts.addTest(new AntTest("testXSDs14"));
+//    ts.addTest(new AntTest("testXSDsReload14"));
+//    ts.addTest(new AntTest("testXSDs50"));
+//    ts.addTest(new AntTest("testXSDsReload50"));
+//    ts.addTest(new AntTest("testXSDs1450"));
+//    ts.addTest(new AntTest("testXSDsReload1450"));
+//    
+//    ts.addTest(new AntTest("testEcore14"));
+//    ts.addTest(new AntTest("testEcoreReload14"));
+//    ts.addTest(new AntTest("testEcore50"));
+//    ts.addTest(new AntTest("testEcoreReload50"));
+//    ts.addTest(new AntTest("testEcore1450"));
+//    ts.addTest(new AntTest("testEcoreReload1450"));
    
     ts.addTest(new AntTest("testJava14"));
 //    ts.addTest(new AntTest("testJavaReload14"));

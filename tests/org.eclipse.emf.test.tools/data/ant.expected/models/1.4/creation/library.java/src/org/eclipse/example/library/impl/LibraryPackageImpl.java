@@ -1,12 +1,16 @@
 /**
- * This is my code.
+ * <copyright>
+ * </copyright>
  *
- * $Id: LibraryPackageImpl.java,v 1.2 2007/04/26 20:57:17 emerks Exp $
+ * $Id: LibraryPackageImpl.java,v 1.3 2007/05/11 10:04:20 marcelop Exp $
  */
 package org.eclipse.example.library.impl;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -33,6 +37,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public static final String copyright = "This is my code.";
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass bookEClass = null;
 
   /**
@@ -54,7 +65,28 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass eStringToBookMapEntryEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass eStringToWriterMapEntryEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EEnum bookCategoryEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EDataType myMapOfIntegersAndStringsEDataType = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -221,6 +253,56 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getLibrary_SpecialBooks()
+  {
+    return (EReference)libraryEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getLibrary_BookByTitleMap()
+  {
+    return (EReference)libraryEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getLibrary_WriterByNameMap()
+  {
+    return (EReference)libraryEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getLibrary_Options()
+  {
+    return (EAttribute)libraryEClass.getEStructuralFeatures().get(6);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getLibrary_WriterByIDMap()
+  {
+    return (EAttribute)libraryEClass.getEStructuralFeatures().get(7);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getWriter()
   {
     return writerEClass;
@@ -251,9 +333,79 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getEStringToBookMapEntry()
+  {
+    return eStringToBookMapEntryEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getEStringToBookMapEntry_Key()
+  {
+    return (EAttribute)eStringToBookMapEntryEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEStringToBookMapEntry_Value()
+  {
+    return (EReference)eStringToBookMapEntryEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getEStringToWriterMapEntry()
+  {
+    return eStringToWriterMapEntryEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getEStringToWriterMapEntry_Key()
+  {
+    return (EAttribute)eStringToWriterMapEntryEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEStringToWriterMapEntry_Value()
+  {
+    return (EReference)eStringToWriterMapEntryEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EEnum getBookCategory()
   {
     return bookCategoryEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EDataType getMyMapOfIntegersAndStrings()
+  {
+    return myMapOfIntegersAndStringsEDataType;
   }
 
   /**
@@ -296,13 +448,29 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     createEAttribute(libraryEClass, LIBRARY__NAME);
     createEReference(libraryEClass, LIBRARY__WRITERS);
     createEReference(libraryEClass, LIBRARY__BOOKS);
+    createEReference(libraryEClass, LIBRARY__SPECIAL_BOOKS);
+    createEReference(libraryEClass, LIBRARY__BOOK_BY_TITLE_MAP);
+    createEReference(libraryEClass, LIBRARY__WRITER_BY_NAME_MAP);
+    createEAttribute(libraryEClass, LIBRARY__OPTIONS);
+    createEAttribute(libraryEClass, LIBRARY__WRITER_BY_ID_MAP);
 
     writerEClass = createEClass(WRITER);
     createEAttribute(writerEClass, WRITER__NAME);
     createEReference(writerEClass, WRITER__BOOKS);
 
+    eStringToBookMapEntryEClass = createEClass(ESTRING_TO_BOOK_MAP_ENTRY);
+    createEAttribute(eStringToBookMapEntryEClass, ESTRING_TO_BOOK_MAP_ENTRY__KEY);
+    createEReference(eStringToBookMapEntryEClass, ESTRING_TO_BOOK_MAP_ENTRY__VALUE);
+
+    eStringToWriterMapEntryEClass = createEClass(ESTRING_TO_WRITER_MAP_ENTRY);
+    createEAttribute(eStringToWriterMapEntryEClass, ESTRING_TO_WRITER_MAP_ENTRY__KEY);
+    createEReference(eStringToWriterMapEntryEClass, ESTRING_TO_WRITER_MAP_ENTRY__VALUE);
+
     // Create enums
     bookCategoryEEnum = createEEnum(BOOK_CATEGORY);
+
+    // Create data types
+    myMapOfIntegersAndStringsEDataType = createEDataType(MY_MAP_OF_INTEGERS_AND_STRINGS);
   }
 
   /**
@@ -342,16 +510,32 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     initEAttribute(getLibrary_Name(), ecorePackage.getEString(), "name", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getLibrary_Writers(), this.getWriter(), null, "writers", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getLibrary_Books(), this.getBook(), null, "books", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getLibrary_SpecialBooks(), this.getBook(), null, "specialBooks", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getLibrary_BookByTitleMap(), this.getEStringToBookMapEntry(), null, "bookByTitleMap", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getLibrary_WriterByNameMap(), this.getEStringToWriterMapEntry(), null, "writerByNameMap", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getLibrary_Options(), ecorePackage.getEMap(), "options", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getLibrary_WriterByIDMap(), this.getMyMapOfIntegersAndStrings(), "writerByIDMap", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(writerEClass, Writer.class, "Writer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getWriter_Name(), ecorePackage.getEString(), "name", null, 0, 1, Writer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getWriter_Books(), this.getBook(), this.getBook_Author(), "books", null, 0, -1, Writer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(eStringToBookMapEntryEClass, Map.Entry.class, "EStringToBookMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getEStringToBookMapEntry_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEStringToBookMapEntry_Value(), this.getBook(), null, "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(eStringToWriterMapEntryEClass, Map.Entry.class, "EStringToWriterMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getEStringToWriterMapEntry_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEStringToWriterMapEntry_Value(), this.getWriter(), null, "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(bookCategoryEEnum, BookCategory.class, "BookCategory");
     addEEnumLiteral(bookCategoryEEnum, BookCategory.MYSTERY_LITERAL);
     addEEnumLiteral(bookCategoryEEnum, BookCategory.SCIENCE_FICTION_LITERAL);
     addEEnumLiteral(bookCategoryEEnum, BookCategory.BIOGRAPHY_LITERAL);
+
+    // Initialize data types
+    initEDataType(myMapOfIntegersAndStringsEDataType, Map.class, "MyMapOfIntegersAndStrings", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);

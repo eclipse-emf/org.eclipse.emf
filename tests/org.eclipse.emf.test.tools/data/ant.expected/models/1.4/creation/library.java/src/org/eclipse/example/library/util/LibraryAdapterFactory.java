@@ -1,9 +1,12 @@
 /**
- * This is my code.
+ * <copyright>
+ * </copyright>
  *
- * $Id: LibraryAdapterFactory.java,v 1.2 2007/04/26 20:57:11 emerks Exp $
+ * $Id: LibraryAdapterFactory.java,v 1.3 2007/05/11 10:04:20 marcelop Exp $
  */
 package org.eclipse.example.library.util;
+
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -24,6 +27,13 @@ import org.eclipse.example.library.*;
  */
 public class LibraryAdapterFactory extends AdapterFactoryImpl
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String copyright = "This is my code.";
+
   /**
    * The cached model package.
    * <!-- begin-user-doc -->
@@ -88,6 +98,14 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
       {
         return createWriterAdapter();
       }
+      public Object caseEStringToBookMapEntry(Map.Entry object)
+      {
+        return createEStringToBookMapEntryAdapter();
+      }
+      public Object caseEStringToWriterMapEntry(Map.Entry object)
+      {
+        return createEStringToWriterMapEntryAdapter();
+      }
       public Object defaultCase(EObject object)
       {
         return createEObjectAdapter();
@@ -149,6 +167,36 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createWriterAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EString To Book Map Entry</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see java.util.Map.Entry
+   * @generated
+   */
+  public Adapter createEStringToBookMapEntryAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EString To Writer Map Entry</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see java.util.Map.Entry
+   * @generated
+   */
+  public Adapter createEStringToWriterMapEntryAdapter()
   {
     return null;
   }
