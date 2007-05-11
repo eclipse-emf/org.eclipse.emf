@@ -40,6 +40,7 @@ http://www.eclipse.org/legal/epl-v10.html
    <includes id="org.eclipse.xsd.source" version="0.0.0"/>
    <includes id="org.eclipse.xsd.doc" version="0.0.0"/>
 
+<!-- TemplateEntriesBegin -->
    <!-- 
 		NOTE: this file is a template. At build-time, use 
 		org.eclipse.emf.releng*/scripts/genPluginAll.sh 
@@ -59,5 +60,5 @@ http://www.eclipse.org/legal/epl-v10.html
 	<plugin id="org.eclipse.xsd.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.xsd.mapping" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.xsd.mapping.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-
+<!-- TemplateEntriesEnd -->
 </feature>
