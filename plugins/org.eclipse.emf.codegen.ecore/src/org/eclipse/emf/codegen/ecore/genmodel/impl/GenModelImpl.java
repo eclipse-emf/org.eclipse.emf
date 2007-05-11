@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.84 2007/05/11 15:12:39 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.85 2007/05/11 19:43:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -164,6 +164,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isBinaryCompatibleReflectiveMethods <em>Binary Compatible Reflective Methods</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isPublicConstructors <em>Public Constructors</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTemplatePluginVariables <em>Template Plugin Variables</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getProviderRootExtendsClass <em>Provider Root Extends Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1337,6 +1338,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected EList<String> templatePluginVariables;
+
+  /**
+   * The default value of the '{@link #getProviderRootExtendsClass() <em>Provider Root Extends Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getProviderRootExtendsClass()
+   * @generated
+   * @ordered
+   */
+  protected static final String PROVIDER_ROOT_EXTENDS_CLASS_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getProviderRootExtendsClass() <em>Provider Root Extends Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getProviderRootExtendsClass()
+   * @generated
+   * @ordered
+   */
+  protected String providerRootExtendsClass = PROVIDER_ROOT_EXTENDS_CLASS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -5512,6 +5533,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getProviderRootExtendsClass()
+  {
+    return providerRootExtendsClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setProviderRootExtendsClass(String newProviderRootExtendsClass)
+  {
+    String oldProviderRootExtendsClass = providerRootExtendsClass;
+    providerRootExtendsClass = newProviderRootExtendsClass;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS, oldProviderRootExtendsClass, providerRootExtendsClass));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList<GenPackage> getGenPackages()
   {
     if (genPackages == null)
@@ -5746,6 +5790,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isPublicConstructors() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES:
         return getTemplatePluginVariables();
+      case GenModelPackage.GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS:
+        return getProviderRootExtendsClass();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -5943,6 +5989,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         getTemplatePluginVariables().clear();
         getTemplatePluginVariables().addAll((Collection<? extends String>)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS:
+        setProviderRootExtendsClass((String)newValue);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         getGenPackages().addAll((Collection<? extends GenPackage>)newValue);
@@ -6139,6 +6188,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES:
         getTemplatePluginVariables().clear();
         return;
+      case GenModelPackage.GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS:
+        setProviderRootExtendsClass(PROVIDER_ROOT_EXTENDS_CLASS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6275,6 +6327,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return publicConstructors != PUBLIC_CONSTRUCTORS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES:
         return templatePluginVariables != null && !templatePluginVariables.isEmpty();
+      case GenModelPackage.GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS:
+        return PROVIDER_ROOT_EXTENDS_CLASS_EDEFAULT == null ? providerRootExtendsClass != null : !PROVIDER_ROOT_EXTENDS_CLASS_EDEFAULT.equals(providerRootExtendsClass);
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6408,6 +6462,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(publicConstructors);
     result.append(", templatePluginVariables: ");
     result.append(templatePluginVariables);
+    result.append(", providerRootExtendsClass: ");
+    result.append(providerRootExtendsClass);
     result.append(')');
     return result.toString();
   }
@@ -7242,6 +7298,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setPublicConstructors(oldGenModelVersion.isPublicConstructors());
 
     getTemplatePluginVariables().addAll(oldGenModelVersion.getTemplatePluginVariables());
+
+    setProviderRootExtendsClass(oldGenModelVersion.getProviderRootExtendsClass());
   }
 
   public boolean reconcile()

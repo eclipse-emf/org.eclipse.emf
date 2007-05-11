@@ -152,6 +152,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/publicConstructors"/>
       <genFeatures createChild="false" propertyCategory="JET" propertyDescription="Plug-ins to be included in the .JETEmitter project's classpath, optionally specifying classpath variable names (as VARIABLE=plugin.id)"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/templatePluginVariables"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="The base from which implementations of item providers for classes with no supertypes extend"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/providerRootExtendsClass"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>

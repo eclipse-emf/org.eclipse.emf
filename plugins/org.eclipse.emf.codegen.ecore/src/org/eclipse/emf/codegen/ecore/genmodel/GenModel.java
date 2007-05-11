@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.47 2007/05/11 15:12:39 emerks Exp $
+ * $Id: GenModel.java,v 1.48 2007/05/11 19:43:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -102,6 +102,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isBinaryCompatibleReflectiveMethods <em>Binary Compatible Reflective Methods</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPublicConstructors <em>Public Constructors</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTemplatePluginVariables <em>Template Plugin Variables</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getProviderRootExtendsClass <em>Provider Root Extends Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1745,6 +1746,30 @@ public interface GenModel extends GenBase
    * @generated
    */
   EList<String> getTemplatePluginVariables();
+
+  /**
+   * Returns the value of the '<em><b>Provider Root Extends Class</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Provider Root Extends Class</em>' attribute.
+   * @see #setProviderRootExtendsClass(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ProviderRootExtendsClass()
+   * @model
+   * @generated
+   */
+  String getProviderRootExtendsClass();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getProviderRootExtendsClass <em>Provider Root Extends Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Provider Root Extends Class</em>' attribute.
+   * @see #getProviderRootExtendsClass()
+   * @generated
+   */
+  void setProviderRootExtendsClass(String value);
 
   /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.

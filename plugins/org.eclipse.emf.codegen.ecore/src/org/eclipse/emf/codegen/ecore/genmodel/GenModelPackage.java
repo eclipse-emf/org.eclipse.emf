@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.42 2007/05/11 15:12:39 emerks Exp $
+ * $Id: GenModelPackage.java,v 1.43 2007/05/11 19:43:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -646,13 +646,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES = GEN_BASE_FEATURE_COUNT + 57;
 
   /**
+   * The feature id for the '<em><b>Provider Root Extends Class</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS = GEN_BASE_FEATURE_COUNT + 58;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 58;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 59;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -661,7 +670,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 59;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 60;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -670,7 +679,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 60;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 61;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2342,6 +2351,17 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_TemplatePluginVariables();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getProviderRootExtendsClass <em>Provider Root Extends Class</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Provider Root Extends Class</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getProviderRootExtendsClass()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_ProviderRootExtendsClass();
+
+  /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3743,6 +3763,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES = eINSTANCE.getGenModel_TemplatePluginVariables();
+
+    /**
+     * The meta object literal for the '<em><b>Provider Root Extends Class</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS = eINSTANCE.getGenModel_ProviderRootExtendsClass();
 
     /**
      * The meta object literal for the '<em><b>Gen Packages</b></em>' containment reference list feature.

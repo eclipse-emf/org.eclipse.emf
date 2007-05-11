@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.74 2007/05/10 13:52:56 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.75 2007/05/11 19:43:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1630,7 +1630,12 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public String getProviderBaseClassName()
   {
     GenClass baseClass = getProviderExtendsGenClass();
-    return baseClass != null ?  baseClass.getImportedProviderClassName() : null;
+    return 
+      baseClass != null ? 
+        baseClass.getImportedProviderClassName() : 
+          isBlank(getGenModel().getProviderRootExtendsClass()) ?
+            null:
+            getGenModel().getImportedName(getGenModel().getProviderRootExtendsClass());
   }
 
   public List<GenClass> getProviderImplementedGenClasses()

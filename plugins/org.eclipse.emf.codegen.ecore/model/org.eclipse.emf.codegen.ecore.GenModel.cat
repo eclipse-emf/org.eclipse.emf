@@ -327,6 +327,10 @@
 		    quid       	"46437E110199"
 		    stereotype 	"0..*"
 		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "providerRootExtendsClass"
+		    quid       	"4644A7150226"
+		    type       	"String"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -3157,7 +3161,7 @@
 	    max_height 	28350
 	    max_width  	21600
 	    origin_x   	0
-	    origin_y   	670
+	    origin_y   	0
 	    items      	(list diagram_item_list
 		(object ClassView "Class" "Logical View::genmodel::GenBase" @170
 		    ShowCompartmentStereotypes 	TRUE
@@ -3394,16 +3398,15 @@
 			(2318, 495)))
 		(object ClassView "Class" "Logical View::genmodel::GenModel" @181
 		    ShowCompartmentStereotypes 	TRUE
-		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
 		    ShowOperationSignature 	TRUE
-		    location   	(912, 1824)
+		    location   	(912, 1664)
 		    label      	(object ItemLabel
 			Parent_View 	@181
-			location   	(28, 318)
+			location   	(29, 358)
 			fill_color 	13434879
 			nlines     	1
-			max_width  	1768
+			max_width  	1766
 			justify    	0
 			label      	"GenModel")
 		    icon_style 	"Icon"
@@ -3412,11 +3415,11 @@
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
 			Parent_View 	@181
-			location   	(28, 378)
+			location   	(29, 418)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	59
+			nlines     	51
 			max_width  	1764
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
@@ -3442,9 +3445,35 @@
 			    "+ suppressEMFTypes : boolean"
 			    "+ featureMapWrapperInterface : String"
 			    "+ featureMapWrapperInternalInterface : String"
-			    "+ featureMapWrapperClass : String"))
-		    width      	1786
-		    height     	3036
+			    "+ featureMapWrapperClass : String"
+			    "+ suppressEMFMetaData : boolean"
+			    "+ suppressEMFModelTags : boolean"
+			    "+ suppressInterfaces : boolean"
+			    "+ runtimeCompatibility : boolean"
+			    "/+ reflectiveDelegation : boolean"
+			    "+ codeFormatting : boolean"
+			    "+ testsDirectory : String"
+			    "+ testSuiteClass : String"
+			    "+ booleanFlagsField : String"
+			    "+ booleanFlagsReservedBits : int = -1"
+			    "+ importerID : String"
+			    "+ bundleManifest : boolean = true"
+			    "+ featureDelegation : GenDelegationKind"
+			    "+ containmentProxies : boolean"
+			    "+ minimalReflectiveMethods : boolean = true"
+			    "+ suppressContainment : boolean"
+			    "+ suppressNotification : boolean"
+			    "+ arrayAccessors : boolean"
+			    "+ suppressUnsettable : boolean"
+			    "+ facadeHelperClass : String = org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper"
+			    "+ complianceLevel : GenJDKLevel"
+			    "+ suppressGenModelAnnotations : boolean = true"
+			    "+ copyrightFields : boolean = true"
+			    "+ binaryCompatibleReflectiveMethods : boolean"
+			    "+ publicConstructors : boolean"
+			    "<<0..*>> + templatePluginVariables : String"))
+		    width      	1784
+		    height     	2636
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenPackage" @182
@@ -3826,8 +3855,8 @@
 		    client     	@181
 		    supplier   	@170
 		    line_style 	3
-		    origin_attachment 	(362, 306)
-		    terminal_attachment 	(362, 300)
+		    origin_attachment 	(384, 346)
+		    terminal_attachment 	(384, 300)
 		    drawSupplier 	@179)))
 	(object ClassDiagram "GenModel Edit Relations and Attributes"
 	    quid       	"3D2B33D8036E"
@@ -3921,10 +3950,10 @@
 		    location   	(464, 368)
 		    label      	(object ItemLabel
 			Parent_View 	@205
-			location   	(114, 112)
+			location   	(94, 87)
 			fill_color 	13434879
 			nlines     	1
-			max_width  	700
+			max_width  	740
 			justify    	0
 			label      	"GenModel")
 		    icon_style 	"Icon"
@@ -3933,12 +3962,12 @@
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
 			Parent_View 	@205
-			location   	(114, 172)
+			location   	(94, 147)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	9
-			max_width  	706
+			nlines     	10
+			max_width  	737
 			compartmentItems 	(list Compartment
 			    "+ creationCommands : boolean = true"
 			    "+ editDirectory : String"
@@ -3947,9 +3976,10 @@
 			    "+ editorPluginClass : String"
 			    "+ richClientPlatform : boolean"
 			    "+ creationIcons : boolean = true"
-			    "+ creationSubmenus : boolean"))
-		    width      	718
-		    height     	536
+			    "+ creationSubmenus : boolean"
+			    "+ providerRootExtendsClass : String"))
+		    width      	758
+		    height     	586
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenFeature" @206
