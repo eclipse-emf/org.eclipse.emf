@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateDynamicInstanceAction.java,v 1.5 2006/12/28 06:47:17 marcelop Exp $
+ * $Id: CreateDynamicInstanceAction.java,v 1.6 2007/05/11 15:54:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.action;
 
@@ -87,7 +87,7 @@ public class CreateDynamicInstanceAction
       {
         eClass = (EClass)object;
 
-        action.setEnabled(true);
+        action.setEnabled(!eClass.isAbstract());
         return;
       }
     }
