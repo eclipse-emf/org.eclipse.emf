@@ -26,13 +26,16 @@ http://www.eclipse.org/legal/epl-v10.html
       <discovery label="%EMFTUpdateSiteName" url="http://download.eclipse.org/technology/emft/updates/"/>
    </url>
 
-	
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.edit"/>
+   </requires>
+
    <plugin
          id="org.eclipse.emf.mapping"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
 
 </feature>
