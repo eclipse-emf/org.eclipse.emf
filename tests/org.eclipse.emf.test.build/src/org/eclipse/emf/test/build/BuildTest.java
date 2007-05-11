@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.16 2007/05/08 10:14:25 nickb Exp $
+ * $Id: BuildTest.java,v 1.17 2007/05/11 06:20:49 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -51,8 +51,7 @@ public class BuildTest extends TestCase
    {"about.html", REGEX_SYMBOL + "^.*src.zip$"};
   
   protected static int expectedNumberOfDocPlugins = 3;
-  /* 26 features (16 emf + 3 sdo + 7 xsd) + examples + emf branding plugin */
-  protected static int expectedNumberOfSourcePlugins = 28;  
+  protected static int expectedNumberOfSourcePlugins = 4;
   
   protected File featuresDir;
   protected File pluginsDir;
