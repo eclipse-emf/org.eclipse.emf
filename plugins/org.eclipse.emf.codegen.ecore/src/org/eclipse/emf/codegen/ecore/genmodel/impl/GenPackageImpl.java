@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.70 2007/05/01 13:36:17 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.71 2007/05/11 20:21:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -81,6 +81,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreEList;
 import org.eclipse.emf.ecore.util.EcoreSwitch;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -1185,7 +1186,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.addAll(getGenClasses());
     result.addAll(getGenEnums());
     result.addAll(getGenDataTypes());
-    return new BasicEList.UnmodifiableEList<GenClassifier>(result.size(), result.toArray());
+    return
+      new EcoreEList.UnmodifiableEList.FastCompare<GenClassifier>
+        (this, GenModelPackage.Literals.GEN_PACKAGE__GEN_CLASSIFIERS, result.size(), result.toArray());
   }
 
   /**
