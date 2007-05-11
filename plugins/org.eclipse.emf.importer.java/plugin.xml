@@ -13,9 +13,11 @@
   
   <extension point="org.eclipse.ant.core.extraClasspathEntries">
     <extraClasspathEntry library="ant_tasks/importer.java.tasks.jar" />
+    <extraClasspathEntry library="bin.tasks" />
   </extension>
 
   <extension point="org.eclipse.ant.core.antTasks">
     <antTask library="ant_tasks/importer.java.tasks.jar" name="emf.Java2Java" headless="true" class="org.eclipse.emf.importer.java.taskdefs.JavaGeneratorTask" />
+    <antTask library="bin.tasks" name="emf.Java2Java" headless="true" class="org.eclipse.emf.importer.java.taskdefs.JavaGeneratorTask" />
   </extension>  
 </plugin>

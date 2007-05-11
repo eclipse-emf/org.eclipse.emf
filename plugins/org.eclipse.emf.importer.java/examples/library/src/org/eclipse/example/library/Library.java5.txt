@@ -1,5 +1,9 @@
 package org.eclipse.example.library;
+
 import java.util.List;
+import java.util.Map;
+
+import org.eclipse.emf.common.util.URI;
 
 /**
  * @model
@@ -14,10 +18,72 @@ public interface Library
   /**
    * @model type="Writer" containment="true"
    */
-  List<Writer> getWriters();
+  List<Object> getWriters();
 
   /**
-   * @model type="Book" containment="true"
+   * @model containment="true"
    */
   List<Book> getBooks();
+  
+  /**
+   * @model
+   */
+  List<Book> getSpecialBooks();
+
+  /**
+   * @model keyType="String" valueType="Book"
+   */
+  Map<Object, Object> getBookByTitleMap();
+  
+  /**
+   * @model
+   */
+  Map<String, Writer> getWriterByNameMap();
+    
+  /**
+   * @model dataType="MyMapOfIntegersAndStrings"
+   */  
+  Map<Integer, String> getWriterByIDMap();
+  
+  /**
+   * @model kind="attribute"
+   */
+  Map<String, String> getOptions();
+  
+  
+//  /**
+//   * @model kind="attribute"
+//   */
+//  Map<List<org.eclipse.emf.ecore.EObject>, List<URI>> getMap3();
+
+  /**
+   * @model
+   */
+  Map<org.eclipse.emf.ecore.EObject, URI> getMap1();
+  
+  /**
+   * @model kind="attribute"
+   */
+  Map<org.eclipse.emf.ecore.EObject, URI> getMap2();
+  
+  /**
+   * @model
+   */
+  List<URI> getList10();
+  
+  /**
+   * @model kind="attribute"
+   */
+  List<URI> getList20();  
+
+//  /**
+//   * @model kind="attribute"
+//   */
+//  List<Book> getList21();
+
+
+  /**
+   * @model kind="attribute" many="false"
+   */
+  List<URI> getList30();  
 }
