@@ -26,13 +26,20 @@ http://www.eclipse.org/legal/epl-v10.html
       <discovery label="%MDTUpdateSiteName" url="http://download.eclipse.org/modeling/mdt/updates/"/>
    </url>
 
-	
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.emf.mapping"/>
+      <import plugin="org.eclipse.xsd"/>
+      <import plugin="org.eclipse.xsd.edit"/>
+   </requires>
+
    <plugin
          id="org.eclipse.emf.mapping.xsd2ecore"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
 
 </feature>
