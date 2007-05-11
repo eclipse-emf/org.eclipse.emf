@@ -1,14 +1,12 @@
 /**
- * <copyright>
- * </copyright>
+ * This is my code.
  *
- * $Id: LibraryPackage.java,v 1.3 2007/05/11 10:04:20 marcelop Exp $
+ * $Id: LibraryPackage.java,v 1.4 2007/05/11 10:12:37 nickb Exp $
  */
 package org.eclipse.example.library;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -30,13 +28,6 @@ import org.eclipse.emf.ecore.EReference;
  */
 public interface LibraryPackage extends EPackage
 {
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  String copyright = "This is my code.";
-
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -162,49 +153,13 @@ public interface LibraryPackage extends EPackage
   int LIBRARY__BOOKS = 2;
 
   /**
-   * The feature id for the '<em><b>Book By Title Map</b></em>' map.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int LIBRARY__BOOK_BY_TITLE_MAP = 3;
-
-  /**
-   * The feature id for the '<em><b>Writer By Name Map</b></em>' map.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int LIBRARY__WRITER_BY_NAME_MAP = 4;
-
-  /**
-   * The feature id for the '<em><b>Options</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int LIBRARY__OPTIONS = 5;
-
-  /**
-   * The feature id for the '<em><b>Writer By ID Map</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int LIBRARY__WRITER_BY_ID_MAP = 6;
-
-  /**
    * The number of structural features of the '<em>Library</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int LIBRARY_FEATURE_COUNT = 7;
+  int LIBRARY_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.example.library.impl.WriterImpl <em>Writer</em>}' class.
@@ -244,80 +199,6 @@ public interface LibraryPackage extends EPackage
   int WRITER_FEATURE_COUNT = 2;
 
   /**
-   * The meta object id for the '{@link org.eclipse.example.library.impl.EStringToBookMapEntryImpl <em>EString To Book Map Entry</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.example.library.impl.EStringToBookMapEntryImpl
-   * @see org.eclipse.example.library.impl.LibraryPackageImpl#getEStringToBookMapEntry()
-   * @generated
-   */
-  int ESTRING_TO_BOOK_MAP_ENTRY = 3;
-
-  /**
-   * The feature id for the '<em><b>Key</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ESTRING_TO_BOOK_MAP_ENTRY__KEY = 0;
-
-  /**
-   * The feature id for the '<em><b>Value</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ESTRING_TO_BOOK_MAP_ENTRY__VALUE = 1;
-
-  /**
-   * The number of structural features of the '<em>EString To Book Map Entry</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ESTRING_TO_BOOK_MAP_ENTRY_FEATURE_COUNT = 2;
-
-  /**
-   * The meta object id for the '{@link org.eclipse.example.library.impl.EStringToWriterMapEntryImpl <em>EString To Writer Map Entry</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.eclipse.example.library.impl.EStringToWriterMapEntryImpl
-   * @see org.eclipse.example.library.impl.LibraryPackageImpl#getEStringToWriterMapEntry()
-   * @generated
-   */
-  int ESTRING_TO_WRITER_MAP_ENTRY = 4;
-
-  /**
-   * The feature id for the '<em><b>Key</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ESTRING_TO_WRITER_MAP_ENTRY__KEY = 0;
-
-  /**
-   * The feature id for the '<em><b>Value</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ESTRING_TO_WRITER_MAP_ENTRY__VALUE = 1;
-
-  /**
-   * The number of structural features of the '<em>EString To Writer Map Entry</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ESTRING_TO_WRITER_MAP_ENTRY_FEATURE_COUNT = 2;
-
-  /**
    * The meta object id for the '{@link org.eclipse.example.library.BookCategory <em>Book Category</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -325,27 +206,7 @@ public interface LibraryPackage extends EPackage
    * @see org.eclipse.example.library.impl.LibraryPackageImpl#getBookCategory()
    * @generated
    */
-  int BOOK_CATEGORY = 5;
-
-  /**
-   * The meta object id for the '<em>Map</em>' data type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see java.util.Map<String, String>
-   * @see org.eclipse.example.library.impl.LibraryPackageImpl#getMap()
-   * @generated
-   */
-  int MAP = 6;
-
-  /**
-   * The meta object id for the '<em>My Map Of Integers And Strings</em>' data type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see java.util.Map<Integer, String>
-   * @see org.eclipse.example.library.impl.LibraryPackageImpl#getMyMapOfIntegersAndStrings()
-   * @generated
-   */
-  int MY_MAP_OF_INTEGERS_AND_STRINGS = 7;
+  int BOOK_CATEGORY = 3;
 
 
   /**
@@ -446,50 +307,6 @@ public interface LibraryPackage extends EPackage
   EReference getLibrary_Books();
 
   /**
-   * Returns the meta object for the map '{@link org.eclipse.example.library.Library#getBookByTitleMap <em>Book By Title Map</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the map '<em>Book By Title Map</em>'.
-   * @see org.eclipse.example.library.Library#getBookByTitleMap()
-   * @see #getLibrary()
-   * @generated
-   */
-  EReference getLibrary_BookByTitleMap();
-
-  /**
-   * Returns the meta object for the map '{@link org.eclipse.example.library.Library#getWriterByNameMap <em>Writer By Name Map</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the map '<em>Writer By Name Map</em>'.
-   * @see org.eclipse.example.library.Library#getWriterByNameMap()
-   * @see #getLibrary()
-   * @generated
-   */
-  EReference getLibrary_WriterByNameMap();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.example.library.Library#getOptions <em>Options</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Options</em>'.
-   * @see org.eclipse.example.library.Library#getOptions()
-   * @see #getLibrary()
-   * @generated
-   */
-  EAttribute getLibrary_Options();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.eclipse.example.library.Library#getWriterByIDMap <em>Writer By ID Map</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Writer By ID Map</em>'.
-   * @see org.eclipse.example.library.Library#getWriterByIDMap()
-   * @see #getLibrary()
-   * @generated
-   */
-  EAttribute getLibrary_WriterByIDMap();
-
-  /**
    * Returns the meta object for class '{@link org.eclipse.example.library.Writer <em>Writer</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -522,74 +339,6 @@ public interface LibraryPackage extends EPackage
   EReference getWriter_Books();
 
   /**
-   * Returns the meta object for class '{@link java.util.Map.Entry <em>EString To Book Map Entry</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>EString To Book Map Entry</em>'.
-   * @see java.util.Map.Entry
-   * @model keyType="java.lang.String"
-   *        valueType="org.eclipse.example.library.Book"
-   * @generated
-   */
-  EClass getEStringToBookMapEntry();
-
-  /**
-   * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Key</em>'.
-   * @see java.util.Map.Entry
-   * @see #getEStringToBookMapEntry()
-   * @generated
-   */
-  EAttribute getEStringToBookMapEntry_Key();
-
-  /**
-   * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Value</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Value</em>'.
-   * @see java.util.Map.Entry
-   * @see #getEStringToBookMapEntry()
-   * @generated
-   */
-  EReference getEStringToBookMapEntry_Value();
-
-  /**
-   * Returns the meta object for class '{@link java.util.Map.Entry <em>EString To Writer Map Entry</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>EString To Writer Map Entry</em>'.
-   * @see java.util.Map.Entry
-   * @model keyType="java.lang.String"
-   *        valueType="org.eclipse.example.library.Writer"
-   * @generated
-   */
-  EClass getEStringToWriterMapEntry();
-
-  /**
-   * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Key</em>'.
-   * @see java.util.Map.Entry
-   * @see #getEStringToWriterMapEntry()
-   * @generated
-   */
-  EAttribute getEStringToWriterMapEntry_Key();
-
-  /**
-   * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Value</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Value</em>'.
-   * @see java.util.Map.Entry
-   * @see #getEStringToWriterMapEntry()
-   * @generated
-   */
-  EReference getEStringToWriterMapEntry_Value();
-
-  /**
    * Returns the meta object for enum '{@link org.eclipse.example.library.BookCategory <em>Book Category</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -598,28 +347,6 @@ public interface LibraryPackage extends EPackage
    * @generated
    */
   EEnum getBookCategory();
-
-  /**
-   * Returns the meta object for data type '{@link java.util.Map<String, String> <em>Map</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for data type '<em>Map</em>'.
-   * @see java.util.Map<String, String>
-   * @model instanceClass="java.util.Map<String, String>"
-   * @generated
-   */
-  EDataType getMap();
-
-  /**
-   * Returns the meta object for data type '{@link java.util.Map<Integer, String> <em>My Map Of Integers And Strings</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for data type '<em>My Map Of Integers And Strings</em>'.
-   * @see java.util.Map<Integer, String>
-   * @model instanceClass="java.util.Map<Integer, String>"
-   * @generated
-   */
-  EDataType getMyMapOfIntegersAndStrings();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -721,38 +448,6 @@ public interface LibraryPackage extends EPackage
     EReference LIBRARY__BOOKS = eINSTANCE.getLibrary_Books();
 
     /**
-     * The meta object literal for the '<em><b>Book By Title Map</b></em>' map feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference LIBRARY__BOOK_BY_TITLE_MAP = eINSTANCE.getLibrary_BookByTitleMap();
-
-    /**
-     * The meta object literal for the '<em><b>Writer By Name Map</b></em>' map feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference LIBRARY__WRITER_BY_NAME_MAP = eINSTANCE.getLibrary_WriterByNameMap();
-
-    /**
-     * The meta object literal for the '<em><b>Options</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute LIBRARY__OPTIONS = eINSTANCE.getLibrary_Options();
-
-    /**
-     * The meta object literal for the '<em><b>Writer By ID Map</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute LIBRARY__WRITER_BY_ID_MAP = eINSTANCE.getLibrary_WriterByIDMap();
-
-    /**
      * The meta object literal for the '{@link org.eclipse.example.library.impl.WriterImpl <em>Writer</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -779,58 +474,6 @@ public interface LibraryPackage extends EPackage
     EReference WRITER__BOOKS = eINSTANCE.getWriter_Books();
 
     /**
-     * The meta object literal for the '{@link org.eclipse.example.library.impl.EStringToBookMapEntryImpl <em>EString To Book Map Entry</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.eclipse.example.library.impl.EStringToBookMapEntryImpl
-     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getEStringToBookMapEntry()
-     * @generated
-     */
-    EClass ESTRING_TO_BOOK_MAP_ENTRY = eINSTANCE.getEStringToBookMapEntry();
-
-    /**
-     * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute ESTRING_TO_BOOK_MAP_ENTRY__KEY = eINSTANCE.getEStringToBookMapEntry_Key();
-
-    /**
-     * The meta object literal for the '<em><b>Value</b></em>' reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference ESTRING_TO_BOOK_MAP_ENTRY__VALUE = eINSTANCE.getEStringToBookMapEntry_Value();
-
-    /**
-     * The meta object literal for the '{@link org.eclipse.example.library.impl.EStringToWriterMapEntryImpl <em>EString To Writer Map Entry</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.eclipse.example.library.impl.EStringToWriterMapEntryImpl
-     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getEStringToWriterMapEntry()
-     * @generated
-     */
-    EClass ESTRING_TO_WRITER_MAP_ENTRY = eINSTANCE.getEStringToWriterMapEntry();
-
-    /**
-     * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute ESTRING_TO_WRITER_MAP_ENTRY__KEY = eINSTANCE.getEStringToWriterMapEntry_Key();
-
-    /**
-     * The meta object literal for the '<em><b>Value</b></em>' reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference ESTRING_TO_WRITER_MAP_ENTRY__VALUE = eINSTANCE.getEStringToWriterMapEntry_Value();
-
-    /**
      * The meta object literal for the '{@link org.eclipse.example.library.BookCategory <em>Book Category</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -839,26 +482,6 @@ public interface LibraryPackage extends EPackage
      * @generated
      */
     EEnum BOOK_CATEGORY = eINSTANCE.getBookCategory();
-
-    /**
-     * The meta object literal for the '<em>Map</em>' data type.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see java.util.Map<String, String>
-     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getMap()
-     * @generated
-     */
-    EDataType MAP = eINSTANCE.getMap();
-
-    /**
-     * The meta object literal for the '<em>My Map Of Integers And Strings</em>' data type.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see java.util.Map<Integer, String>
-     * @see org.eclipse.example.library.impl.LibraryPackageImpl#getMyMapOfIntegersAndStrings()
-     * @generated
-     */
-    EDataType MY_MAP_OF_INTEGERS_AND_STRINGS = eINSTANCE.getMyMapOfIntegersAndStrings();
 
   }
 

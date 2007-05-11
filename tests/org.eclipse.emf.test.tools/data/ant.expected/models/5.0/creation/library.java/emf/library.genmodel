@@ -12,8 +12,6 @@
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//BookCategory/ScienceFiction"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//BookCategory/Biography"/>
     </genEnums>
-    <genDataTypes ecoreDataType="library.ecore#//Map"/>
-    <genDataTypes ecoreDataType="library.ecore#//MyMapOfIntegersAndStrings"/>
     <genClasses ecoreClass="library.ecore#//Book">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Book/title"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Book/pages"/>
@@ -24,22 +22,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/writers"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/books"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/bookByTitleMap"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/writerByNameMap"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/options"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/writerByIDMap"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Writer">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Writer/name"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Writer/books"/>
-    </genClasses>
-    <genClasses ecoreClass="library.ecore#//EStringToBookMapEntry">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//EStringToBookMapEntry/key"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//EStringToBookMapEntry/value"/>
-    </genClasses>
-    <genClasses ecoreClass="library.ecore#//EStringToWriterMapEntry">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//EStringToWriterMapEntry/key"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//EStringToWriterMapEntry/value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
