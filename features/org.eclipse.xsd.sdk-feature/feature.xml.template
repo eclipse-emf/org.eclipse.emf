@@ -34,9 +34,9 @@ http://www.eclipse.org/legal/epl-v10.html
    <includes id="org.eclipse.xsd" version="0.0.0"/>
    <includes id="org.eclipse.xsd.edit" version="0.0.0"/>
    <includes id="org.eclipse.xsd.editor" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.ecore.converter" version="0.0.0"/>
    <includes id="org.eclipse.xsd.mapping" version="0.0.0"/>
    <includes id="org.eclipse.xsd.mapping.editor" version="0.0.0"/>
+   <includes id="org.eclipse.xsd.ecore.converter" version="0.0.0"/>
    <includes id="org.eclipse.xsd.source" version="0.0.0"/>
    <includes id="org.eclipse.xsd.doc" version="0.0.0"/>
 
