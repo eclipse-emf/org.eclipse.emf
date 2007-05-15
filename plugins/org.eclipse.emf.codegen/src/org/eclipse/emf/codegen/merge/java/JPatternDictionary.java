@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.11 2007/05/07 16:45:57 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.12 2007/05/15 22:32:59 emerks Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java;
@@ -332,10 +332,13 @@ public class JPatternDictionary extends FacadeVisitor
           index = contents.indexOf(';', index);
           if (index >= 0)
           {
-            int aux = contents.indexOf('\n', index);
-            if (aux >= 0)
+            for (int length = contents.length(); index < length; ++index)
             {
-              index = aux;
+              char character = contents.charAt(index);
+              if (character == '\n' || character == '\r')
+              {
+                break;
+              }
             }
             endIndex = index+1;
             break;
