@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.48 2007/05/11 19:43:23 emerks Exp $
+ * $Id: GenModel.java,v 1.49 2007/05/15 22:35:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -1824,6 +1824,15 @@ public interface GenModel extends GenBase
 
   ImportManager getImportManager();
   void setImportManager(ImportManager importManager);
+
+  /**
+   * @since 2.3
+   */
+  String getLineDelimiter();
+  /**
+   * @since 2.3
+   */
+  void setLineDelimiter(String lineDelimiter);
 
   String getImportedName(String qualifiedName);
   void addImport(String qualifiedName);
