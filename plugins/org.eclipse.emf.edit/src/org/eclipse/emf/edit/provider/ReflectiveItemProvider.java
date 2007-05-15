@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.19 2007/03/22 01:50:47 davidms Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.20 2007/05/15 17:11:27 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -102,24 +102,31 @@ public class ReflectiveItemProvider
 
   protected void gatherAllMetaData(EObject eObject)
   {
-    EObject root = EcoreUtil.getRootContainer(eObject);
-    ExtendedMetaData extendedMetaData =
-        root.eResource() == null || root.eResource().getResourceSet() == null ?
-          ExtendedMetaData.INSTANCE :
-          new BasicExtendedMetaData(root.eResource().getResourceSet().getPackageRegistry());
-    EStructuralFeature xmlnsPrefixMapFeature = extendedMetaData.getXMLNSPrefixMapFeature(root.eClass());
-    if (xmlnsPrefixMapFeature != null)
+    EObject container = eObject.eContainer();
+    if (container == null)
     {
-      @SuppressWarnings("unchecked")
-      EMap<String, String> map = ((EMap<String, String>)root.eGet(xmlnsPrefixMapFeature));
-      for (Map.Entry<String, String> entry : map)
+      ExtendedMetaData extendedMetaData =
+          eObject.eResource() == null || eObject.eResource().getResourceSet() == null ?
+            ExtendedMetaData.INSTANCE :
+            new BasicExtendedMetaData(eObject.eResource().getResourceSet().getPackageRegistry());
+      EStructuralFeature xmlnsPrefixMapFeature = extendedMetaData.getXMLNSPrefixMapFeature(eObject.eClass());
+      if (xmlnsPrefixMapFeature != null)
       {
-        EPackage ePackage = extendedMetaData.getPackage(entry.getValue());
-        if (ePackage != null)
+        @SuppressWarnings("unchecked")
+        EMap<String, String> map = ((EMap<String, String>)eObject.eGet(xmlnsPrefixMapFeature));
+        for (Map.Entry<String, String> entry : map)
         {
-          gatherMetaData((EModelElement)EcoreUtil.getRootContainer(ePackage));
+          EPackage ePackage = extendedMetaData.getPackage(entry.getValue());
+          if (ePackage != null)
+          {
+            gatherMetaData((EModelElement)EcoreUtil.getRootContainer(ePackage));
+          }
         }
       }
+    }
+    else
+    {
+      gatherAllMetaData(container);
     }
     
     gatherMetaData(eObject.eClass());
@@ -230,6 +237,20 @@ public class ReflectiveItemProvider
         i.remove();
       }
     }
+  }
+
+  protected List<EClass> getAllChildConcreteSubclasses(EReference eReference)
+  {
+    EClass eClass = eReference.getEReferenceType();
+    List<EClass> result = getAllConcreteSubclasses(eClass);
+    if (eClass == EcorePackage.Literals.EOBJECT && eReference.getEAnnotation(ExtendedMetaData.ANNOTATION_URI) != null)
+    {
+      if (!result.contains(XMLTypePackage.Literals.ANY_TYPE))
+      {
+        result.add(XMLTypePackage.Literals.ANY_TYPE);
+      }
+    }
+    return result;
   }
 
   protected List<EClass> getAllConcreteSubclasses(EClass eClass)
@@ -600,7 +621,7 @@ public class ReflectiveItemProvider
           }
           else if (delegatedFeature instanceof EReference)
           {
-            for (EClass eClass : getAllConcreteSubclasses((EClass)delegatedFeature.getEType()))
+            for (EClass eClass : getAllChildConcreteSubclasses((EReference)delegatedFeature))
             {
               FeatureMap.Entry entry = FeatureMapUtil.createEntry(delegatedFeature, EcoreUtil.create(eClass));
               newChildDescriptors.add(createChildParameter(feature, entry));
@@ -610,10 +631,10 @@ public class ReflectiveItemProvider
       }
       else if (feature instanceof EReference && feature.isChangeable())
       {
-        for (EClass eClass : getAllConcreteSubclasses((EClass)feature.getEType()))
+        for (EClass eClass : getAllChildConcreteSubclasses((EReference)feature))
         {
           newChildDescriptors.add(createChildParameter(feature, EcoreUtil.create(eClass)));
-        }        
+        }
       }
     }
   }
