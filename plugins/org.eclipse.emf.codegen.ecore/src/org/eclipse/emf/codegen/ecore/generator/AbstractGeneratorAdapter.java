@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.12 2007/05/11 15:12:39 emerks Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.13 2007/05/15 22:34:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -20,7 +20,9 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -34,11 +36,15 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.resources.ResourceAttributes;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.ToolFactory;
@@ -146,6 +152,13 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * respond to such changes.
    */
   protected ImportManager importManager;
+
+  /**
+   * The line delimiter currently being used in generating textual results. This should only be set
+   * via {@link #setLineDelimiter(String)} so that subclasses may respond to such changes.
+   * @since 2.3
+   */
+  protected String lineDelimiter;
 
   /** 
    * An appropriate <code>URIConverter</code> for use during code generation. This is usually applicable to the whole
@@ -617,7 +630,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         {
           arguments = new Object[] { generatingObject };
         }
-        String emitterResult = jetEmitter.generate(createMonitor(monitor, 1), arguments);
+        setLineDelimiter(getLineDelimiter(targetFile));
+        String emitterResult = jetEmitter.generate(createMonitor(monitor, 1), arguments, getLineDelimiter());
 
         if (PROPERTIES_ENCODING.equals(encoding))
         {
@@ -681,6 +695,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     }
     finally
     {
+      setLineDelimiter(null);
       monitor.done();
     }
   }
@@ -727,7 +742,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       {
         arguments = new Object[] { generatingObject };
       }
-      String emitterResult = CodeGenUtil.unicodeEscapeEncode(jetEmitter.generate(createMonitor(monitor, 1), arguments));
+      setLineDelimiter(getLineDelimiter(targetFile));
+      String emitterResult = CodeGenUtil.unicodeEscapeEncode(jetEmitter.generate(createMonitor(monitor, 1), arguments, getLineDelimiter()));
       byte[] bytes = emitterResult.toString().getBytes(PROPERTIES_ENCODING);
 
       if (exists(targetFile))
@@ -801,6 +817,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     }
     finally
     {
+      setLineDelimiter(null);
       monitor.done();
     }
   }
@@ -947,7 +964,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         arguments = new Object[] { generatingObject };
       }
       createImportManager(packageName, className);
-      String emitterResult = jetEmitter.generate(createMonitor(monitor, 1), arguments);
+      setLineDelimiter(getLineDelimiter(targetFile));
+      String emitterResult = jetEmitter.generate(createMonitor(monitor, 1), arguments, getLineDelimiter());
 
       boolean changed = true;
       String newContents = emitterResult;
@@ -1091,6 +1109,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     finally
     {
       clearImportManager();
+      setLineDelimiter(null);
       monitor.done();
     }
   }
@@ -1153,6 +1172,25 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   protected ImportManager getImportManager()
   {
     return importManager;
+  }
+
+  /**
+   * Sets the current line delimiter used for generating textual results.
+   * @param lineDelimiter
+   * @since 2.3
+   */
+  protected void setLineDelimiter(String lineDelimiter)
+  {
+    this.lineDelimiter = lineDelimiter;
+  }
+
+  /**
+   * Returns the current line delimiter used for generating textual results.
+   * @since 2.3
+   */
+  protected String getLineDelimiter()
+  {
+    return lineDelimiter;
   }
 
   /**
@@ -1219,6 +1257,83 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       uriConverter = new URIConverterImpl();
     }
     return uriConverter;
+  }
+
+  /**
+   * @since 2.3
+   */
+  public String getLineDelimiter(URI workspacePath)
+  {
+    InputStream inputStream = null;
+    try
+    {
+      inputStream = createInputStream(workspacePath);
+      Reader reader = new InputStreamReader(inputStream);
+      char [] text = new char [4048];
+      char target = 0;
+      for (int count = reader.read(text); count > -1; count = reader.read(text))
+      {
+        for (int i = 0; i < count; ++i)
+        {
+          char character = text[i];
+          if (character == '\n')
+          {
+            if (target == '\n')
+            {
+              return "\n";
+            }
+            else if (target == '\r')
+            {
+              return "\r\n";
+            }
+            else
+            {
+              target = '\n';
+            }
+          }
+          else if (character == '\r')
+          {
+            if (target == '\n')
+            {
+              return "\n\r";
+            }
+            else if (target == '\r')
+            {
+              return "\r";
+            }
+            else
+            {
+              target = '\r';
+            }
+          }
+        }
+      }
+    }
+    catch (Exception exception)
+    {
+      // If we can't determine it by reading the file,
+      // look at the preferences instead.
+    }
+    finally
+    {
+      if (inputStream != null)
+      {
+        try
+        {
+          inputStream.close();
+        }
+        catch (IOException exception)
+        {
+          CodeGenEcorePlugin.INSTANCE.log(exception);
+        }
+      }
+    }
+
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      return EclipseHelper.getLineDelimiter(workspacePath.toString());
+    }
+    return System.getProperty(Platform.PREF_LINE_SEPARATOR);
   }
 
   /**
@@ -1474,6 +1589,19 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         monitor.done();
       }
       return container != null && container.getFullPath().equals(path);
+    }
+
+    /**
+     * @since 2.3
+     */
+    public static String getLineDelimiter(String workspacePath)
+    {
+      return 
+        Platform.getPreferencesService().getString
+          (Platform.PI_RUNTIME, 
+           Platform.PREF_LINE_SEPARATOR, 
+           System.getProperty(Platform.PREF_LINE_SEPARATOR), 
+           new IScopeContext[] { new ProjectScope(ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath)).getProject()), new InstanceScope() });
     }
 
     public static boolean exists(String workspacePath)
