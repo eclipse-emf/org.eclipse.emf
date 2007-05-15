@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.9 2007/05/11 15:12:39 emerks Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.10 2007/05/15 22:35:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -28,9 +28,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
-
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter;
@@ -45,6 +42,8 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 
 /**
  * A base generator adapter implementation for GenModel elements.
@@ -323,7 +322,17 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
     if (generatingObject != null)
     {
       ((GenBase)generatingObject).getGenModel().setImportManager(importManager);
-    }    
+    }
+  }
+
+  @Override
+  protected void setLineDelimiter(String lineDelimiter)
+  {
+    super.setLineDelimiter(lineDelimiter);
+    if (generatingObject != null)
+    {
+      ((GenBase)generatingObject).getGenModel().setLineDelimiter(lineDelimiter);
+    }
   }
 
   /**
