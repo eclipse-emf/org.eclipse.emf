@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * CodeGenUtil.java,v 1.7 2005/10/28 13:34:40 davidms Exp
+ * CodeGenUtil.java,v 1.26 2007/05/15 22:22:22 emerks Exp
  */
 package org.eclipse.emf.codegen.util;
 
@@ -49,6 +49,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaConventions;
@@ -1023,6 +1024,16 @@ public class CodeGenUtil
       return result;
     }
 
+    /**
+     * An {@link IClasspathAttribute#getName() class path attribute name} 
+     * that records the originating plugin ID 
+     * for each classpath entry created by 
+     * {@link #addClasspathEntries(Collection, String)}
+     * and {@link #addClasspathEntries(Collection, String, String)}.
+     * @since 2.3
+     */
+    public static final String PLUGIN_ID_CLASSPATH_ATTRIBUTE_NAME = "plugin_id";
+
     public static void addClasspathEntries(Collection<IClasspathEntry> classpathEntries, String variableName, String pluginID) throws JETException
     {
       for (ListIterator<String> i = getClasspathPaths(pluginID).listIterator(); i.hasNext(); )
@@ -1030,7 +1041,9 @@ public class CodeGenUtil
         IPath path = new Path(i.next());
         if (variableName == null)
         {
-          classpathEntries.add(JavaCore.newLibraryEntry(path, null, null));
+          classpathEntries.add
+            (JavaCore.newLibraryEntry
+              (path, null, null, null, new IClasspathAttribute [] { JavaCore.newClasspathAttribute(PLUGIN_ID_CLASSPATH_ATTRIBUTE_NAME, pluginID) } , true));
         }
         else
         {
@@ -1043,7 +1056,9 @@ public class CodeGenUtil
           {
             throw new JETException(exception);
           } 
-          classpathEntries.add(JavaCore.newVariableEntry(new Path(mangledName), null, null));
+          classpathEntries.add
+            (JavaCore.newVariableEntry
+               (new Path(mangledName), null, null, null, new IClasspathAttribute [] { JavaCore.newClasspathAttribute(PLUGIN_ID_CLASSPATH_ATTRIBUTE_NAME, pluginID) }, true));
         }
       }
     }
