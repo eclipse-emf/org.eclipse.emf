@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.75 2007/05/11 19:43:23 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.76 2007/05/15 15:52:45 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -37,7 +37,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
@@ -61,6 +60,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 /**
@@ -1845,13 +1845,12 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     
     // build mapping from classes to list of features that use them
     Map<GenClass, List<GenFeature>> classToFeatureMap = new LinkedHashMap<GenClass, List<GenFeature>>();
-    List<GenPackage> packages = getGenModel().getAllGenAndUsedGenPackagesWithClassifiers();
     for (GenFeature childGenFeature : childrenFeatures)
     {
       List<GenFeature> childGenFeatureList = childGenFeature.isFeatureMapType() ? childGenFeature.getDelegatedFeatures() : Collections.singletonList(childGenFeature);
       for (GenFeature genFeature : childGenFeatureList)
       {
-        List<GenClass> genClasses = getTypeGenClasses(genFeature.getEcoreFeature().getEType(), null, packages, -1);
+        List<GenClass> genClasses = getChildrenClasses(genFeature);
         for (GenClass genClass : genClasses)
         {
           List<GenFeature> genFeatures = classToFeatureMap.get(genClass);
@@ -1885,7 +1884,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List<GenClass> getChildrenClasses(GenFeature genFeature)
   {
-    return getTypeGenClasses(genFeature.getEcoreFeature().getEType(), getGenPackage(), getGenModel().getAllGenAndUsedGenPackagesWithClassifiers(), -1);
+    EStructuralFeature feature = genFeature.getEcoreFeature();
+    EClassifier eType = feature.getEType();
+    List<GenClass> result = getTypeGenClasses(eType, getGenPackage(), getGenModel().getAllGenAndUsedGenPackagesWithClassifiers(), -1);
+    if (eType == EcorePackage.Literals.EOBJECT && feature.getEAnnotation(ExtendedMetaData.ANNOTATION_URI) != null)
+    {
+      result.add(findGenClass(XMLTypePackage.Literals.ANY_TYPE));
+    }
+    return result;
   }
 
   public List<GenClass> getCrossPackageChildrenClasses(GenFeature genFeature)
