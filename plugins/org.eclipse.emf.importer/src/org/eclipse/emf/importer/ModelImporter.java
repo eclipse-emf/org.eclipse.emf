@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.35 2007/05/07 14:42:44 emerks Exp $
+ * $Id: ModelImporter.java,v 1.36 2007/05/15 11:46:37 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -325,7 +325,7 @@ public abstract class ModelImporter extends ModelConverter
   {
     if (genModel == null)
     {
-      genModel = GenModelFactory.eINSTANCE.createGenModel();
+      genModel = getOriginalGenModel() == null ? GenModelFactory.eINSTANCE.createGenModel() : getOriginalGenModel().createGenModel();
       genModel.setImporterID(getID());
     }
     return genModel;
