@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.11.2.1 2006/11/28 11:47:03 emerks Exp $
+ * $Id: NotifyingListImpl.java,v 1.11.2.2 2007/05/15 20:29:56 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -659,7 +659,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       }
       else
       {
-        notifications.add(createNotification(Notification.ADD, null, object, index, oldIsSet));
+        notifications.add(notification);
       }
     }
     else
