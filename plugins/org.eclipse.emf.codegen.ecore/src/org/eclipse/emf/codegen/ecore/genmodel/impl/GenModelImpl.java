@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.85 2007/05/11 19:43:23 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.86 2007/05/15 22:36:15 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1810,6 +1810,48 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       xmlTypeGenPackage.getGenModel().setImportManager(importManager);
     }
     if (xmlNamespaceGenPackage != null && xmlNamespaceGenPackage.getGenModel().getImportManager() != importManager)
+    {
+      xmlNamespaceGenPackage.getGenModel().setImportManager(importManager);
+    }
+  }
+
+  protected String lineDelimiter;
+
+  public String getLineDelimiter()
+  {
+    return lineDelimiter == null ? System.getProperty("line.separator") : lineDelimiter;
+  }
+
+  public void setLineDelimiter(String lineDelimiter)
+  {
+    this.lineDelimiter = lineDelimiter;
+
+    // We also need to set it on any GenModels holding any used or static packages that may be refered to.
+    //
+    for (GenPackage genPackage : getUsedGenPackages())
+    {
+      genPackage.getGenModel().setLineDelimiter(lineDelimiter);
+    }
+
+    for (GenPackage genPackage : getStaticGenPackages())
+    {
+      genPackage.getGenModel().setLineDelimiter(lineDelimiter);
+    }
+
+    // And we need to set it on any cached GenModels holding the special Ecore and XML packages.
+    //
+    if (ecoreGenPackage != null && 
+          (lineDelimiter == null ? ecoreGenPackage.getGenModel().getLineDelimiter() != null : !lineDelimiter.equals(ecoreGenPackage.getGenModel().getLineDelimiter())))
+    {
+      ecoreGenPackage.getGenModel().setImportManager(importManager);
+    }
+    if (xmlTypeGenPackage != null && 
+          (lineDelimiter == null ? xmlTypeGenPackage.getGenModel().getLineDelimiter() != null : !lineDelimiter.equals(xmlTypeGenPackage.getGenModel().getLineDelimiter())))
+    {
+      xmlTypeGenPackage.getGenModel().setImportManager(importManager);
+    }
+    if (xmlNamespaceGenPackage != null && 
+          (lineDelimiter == null ? xmlNamespaceGenPackage.getGenModel().getLineDelimiter() != null : !lineDelimiter.equals(xmlNamespaceGenPackage.getGenModel().getLineDelimiter())))
     {
       xmlNamespaceGenPackage.getGenModel().setImportManager(importManager);
     }
