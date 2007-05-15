@@ -3,8 +3,8 @@
   indent="  "  
   braceStyle="matching"  
   redirect="Gen"
-  block="\s*@\s*generated\s*NOT\s*\n"
-  noImport="\s*//\s*import\s+([\w.*]*)\s*;\s*\n"
+  block="\s*@\s*generated\s*NOT\s*(?:\n\r?|\r\n?)"
+  noImport="\s*//\s*import\s+([\w.*]*)\s*;\s*(?:\n\r?|\r\n?)"
   xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
 
 <!-- Tabbed Standard
@@ -24,23 +24,23 @@
   <merge:dictionaryPattern
     name="generatedUnmodifiableMembers" 
     select="Member/getComment" 
-    match="@\s*(gen)erated\s*(This field/method[^\n]*)*\n"/>
+    match="@\s*(gen)erated\s*(This field/method[^(?:\n\r?|\r\n?)]*)*(?:\n\r?|\r\n?)"/>
 
   <merge:dictionaryPattern
     name="generatedModifiableMembers" 
     select="Member/getComment" 
-    match="@\s*generated\s*(modifiable)\s*\n"/>
+    match="@\s*generated\s*(modifiable)\s*(?:\n\r?|\r\n?)"/>
 
   <!-- This is like the above, but for backward compatibility -->
   <merge:dictionaryPattern
     name="generatedLastGenMembers" 
     select="Member/getComment" 
-    match="@\s*(lastgen).*\n"/>
+    match="@\s*(lastgen).*(?:\n\r?|\r\n?)"/>
 
   <merge:dictionaryPattern
     name="orderedMembers" 
     select="Member/getComment" 
-    match="@\s*(ordered)\s*\n"/>
+    match="@\s*(ordered)\s*(?:\n\r?|\r\n?)"/>
 
   <!-- Only push Annotations for the Members marked by gen-->
   <merge:push targetParentMarkup="^gen$" select="Annotation"/>
@@ -48,13 +48,13 @@
   <merge:pull 
     sourceMarkup="^modifiable$"
     sourceGet="Member/getComment"
-    sourceTransfer="(\s*&lt;!--\s*begin-user-doc.*?end-user-doc\s*-->\s*)\n"
+    sourceTransfer="(\s*&lt;!--\s*begin-user-doc.*?end-user-doc\s*-->\s*)(?:\n\r?|\r\n?)"
     targetMarkup="^modifiable$"
     targetPut="Member/setComment"/>
   <merge:pull 
     sourceMarkup="^gen$"
     sourceGet="Member/getComment"
-    sourceTransfer="(\s*&lt;!--\s*begin-user-doc.*?end-user-doc\s*-->\s*)\n"
+    sourceTransfer="(\s*&lt;!--\s*begin-user-doc.*?end-user-doc\s*-->\s*)(?:\n\r?|\r\n?)"
     targetMarkup="^gen$"
     targetPut="Member/setComment"/>
   <merge:pull 
@@ -66,7 +66,7 @@
   <merge:pull 
     sourceMarkup="^gen$"
     sourceGet="AbstractType/getComment"
-    sourceTransfer="(\s*&lt;!--\s*begin-user-doc.*?end-user-doc\s*-->\s*)\n"
+    sourceTransfer="(\s*&lt;!--\s*begin-user-doc.*?end-user-doc\s*-->\s*)(?:\n\r?|\r\n?)"
     targetMarkup="^modifiable$"
     targetPut="AbstractType/setComment"/>
 
@@ -80,13 +80,13 @@
     targetPut="Type/setSuperclass"/>
   <merge:pull 
     sourceGet="Type/getSuperInterfaces"
-    sourceTransfer="(\s*@\s*extends|\s*@\s*implements)(.*?)(?:&lt;!--|\n)"
+    sourceTransfer="(\s*@\s*extends|\s*@\s*implements)(.*?)(?:&lt;!--|(?:\n\r?|\r\n?))"
     targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
     targetPut="Type/addSuperInterface"/>
 
   <merge:pull 
     sourceGet="Enum/getSuperInterfaces"
-    sourceTransfer="(\s*@\s*extends|\s*@\s*implements)(.*?)(?:&lt;!--|\n)"
+    sourceTransfer="(\s*@\s*extends|\s*@\s*implements)(.*?)(?:&lt;!--|(?:\n\r?|\r\n?))"
     targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
     targetPut="Enum/addSuperInterface"/>
 
