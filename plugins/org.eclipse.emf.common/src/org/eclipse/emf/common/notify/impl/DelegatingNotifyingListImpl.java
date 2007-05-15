@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.16 2007/03/23 17:36:49 marcelop Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.17 2007/05/15 18:54:39 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -660,7 +660,7 @@ public abstract class DelegatingNotifyingListImpl<E> extends DelegatingEList<E> 
       }
       else
       {
-        notifications.add(createNotification(Notification.ADD, null, object, index, oldIsSet));
+        notifications.add(notification);
       }
     }
     else
