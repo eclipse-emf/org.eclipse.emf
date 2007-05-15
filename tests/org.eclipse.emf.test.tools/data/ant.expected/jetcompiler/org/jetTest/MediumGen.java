@@ -11,7 +11,7 @@ public class MediumGen
     return result;
   }
 
-  protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
+  public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "public class Medium" + NL + "{" + NL + "\tpublic void main(String[] args)" + NL + "\t{" + NL + "\t\tSystem.out.println(\"The class of the argument is '";
   protected final String TEXT_2 = "'.\");" + NL + "\t}" + NL + "}" + NL;
   protected final String TEXT_3 = NL;
