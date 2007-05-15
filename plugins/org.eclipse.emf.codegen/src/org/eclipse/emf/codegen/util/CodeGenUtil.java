@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * CodeGenUtil.java,v 1.26 2007/05/15 22:22:22 emerks Exp
+ * CodeGenUtil.java,v 1.27 2007/05/15 22:33:38 emerks Exp
  */
 package org.eclipse.emf.codegen.util;
 
@@ -686,20 +686,7 @@ public class CodeGenUtil
         monitor;
   }
 
-  protected static final String MATCH_LINE_SEPARATOR;
-  static
-  {
-    StringBuilder result = new StringBuilder();
-    String s = System.getProperty("line.separator");
-    for (int i = 0, len = s.length(); i < len; i++)
-    {
-      char c = s.charAt(i);
-      if (c == '\r') result.append("\\r");
-      else if (c == '\n') result.append("\\n");
-      else throw new RuntimeException("Unexpected line separator character");
-    }
-    MATCH_LINE_SEPARATOR = result.toString();
-  }
+  protected static final String MATCH_LINE_SEPARATOR = "(\n\r?|\r\n?)";
   protected static final Pattern BRACE_LINE_PATTERN = Pattern.compile("(\\s*" + MATCH_LINE_SEPARATOR + "\\s*\\{\\s*)" + MATCH_LINE_SEPARATOR); // }
 
   public static String convertFormat(final String tabReplacement, boolean convertToStandardBraceStyle, String value)
