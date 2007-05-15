@@ -14,7 +14,7 @@ public class DiagnosticTestGen
     return result;
   }
 
-  protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
+  public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = NL + "import java.util.Iterator;" + NL + "" + NL + "import junit.framework.Test;" + NL + "import junit.framework.TestCase;" + NL + "import junit.framework.TestSuite;" + NL + "" + NL + "import org.eclipse.emf.common.util.AbstractTreeIterator;" + NL + "import org.eclipse.emf.common.util.Diagnostic;" + NL + "import org.eclipse.emf.common.util.TreeIterator;" + NL + "import org.eclipse.emf.common.util.URI;" + NL + "import org.eclipse.emf.ecore.EPackage;" + NL + "import org.eclipse.emf.ecore.resource.Resource;" + NL + "import org.eclipse.emf.ecore.util.Diagnostician;" + NL + "import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;" + NL + "import org.eclipse.emf.test.common.TestUtil;" + NL + "" + NL + "public class ";
   protected final String TEXT_2 = "DiagnosticTest extends TestCase" + NL + "{" + NL + "\tprotected Diagnostic diagnostic;" + NL + "\t" + NL + "\tpublic ";
   protected final String TEXT_3 = "DiagnosticTest(String name)" + NL + "\t{" + NL + "\t\tsuper(name);" + NL + "\t}" + NL + "\t" + NL + "\tpublic static Test suite()" + NL + "\t{" + NL + "\t\tTestSuite ts = new TestSuite(\"DianosticTest\");" + NL + "\t\tts.addTest(new ";
