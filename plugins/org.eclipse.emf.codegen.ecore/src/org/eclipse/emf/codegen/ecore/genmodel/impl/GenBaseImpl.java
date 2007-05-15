@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.60 2007/05/10 13:52:56 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.61 2007/05/15 22:35:57 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1688,7 +1688,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         break;
       }
     }
-    result.append(System.getProperty("line.separator"));
+    result.append(getGenModel().getLineDelimiter());
   }
 
   protected void appendModelSetting(StringBuffer result, String qualifier, String name, String value)
@@ -2363,7 +2363,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
     else
     {
-      String separator = System.getProperty("line.separator") + indentation;
+      String separator = getGenModel().getLineDelimiter() + indentation;
       int increment = separator.length() - 1;
       StringBuffer stringBuffer = new StringBuffer(text);
       for (int i = 0; i < stringBuffer.length(); ++i)
