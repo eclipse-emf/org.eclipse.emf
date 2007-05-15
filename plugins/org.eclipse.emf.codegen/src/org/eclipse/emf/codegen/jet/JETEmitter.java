@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.23 2007/05/15 22:22:22 emerks Exp $
+ * $Id: JETEmitter.java,v 1.24 2007/05/15 22:32:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -21,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -188,8 +189,8 @@ public class JETEmitter
   }
 
   /**
-   * Returns the object used as input to the template.
-   * @return the object used as input to the template.
+   * Returns the object used as the target for the template.
+   * @return the object used as target for the template.
    */
   public Object getObject()
   {
@@ -197,8 +198,58 @@ public class JETEmitter
   }
 
   /**
-   * Sets the object used as input to the template.
-   * @param object the object used as input to the template.
+   * Returns the object used as the target for the template;
+   * it ensures that the returned object is using the given lineDelimiter 
+   * and creates a new one if necessary.
+   * @return the object used as target for the template.
+   * @since 2.3
+   */
+  public Object getObject(String lineDelimiter)
+  {
+    if (lineDelimiter != null)
+    {
+      if (object != null)
+      {
+        Class<?> javaClass = object.getClass();
+        try
+        {
+          Field field = javaClass.getField("NL");
+          Object nl = field.get(object);
+          if (lineDelimiter.equals(nl))
+          {
+            return object;
+          }
+          else
+          {
+            object = null;
+          }
+        }
+        catch (Throwable exception)
+        {
+          CodeGenPlugin.INSTANCE.log(exception);
+        }
+      }
+      
+      if (object == null && method != null)
+      {
+        Class<?> javaClass = method.getDeclaringClass();
+        try
+        {
+          Method method = javaClass.getMethod("create", String.class);
+          object = method.invoke(null, lineDelimiter);
+        }
+        catch (Throwable exception)
+        {
+          CodeGenPlugin.INSTANCE.log(exception);
+        }
+      }
+    }
+    return object;
+  }
+
+  /**
+   * Sets the object used as the target of the template.
+   * @param object the object used as target of the template.
    */
   public void setObject(Object object)
   {
@@ -229,11 +280,11 @@ public class JETEmitter
       }
       catch (IllegalAccessException exception)
       {
-        exception.printStackTrace();
+        CodeGenPlugin.INSTANCE.log(exception);
       }
       catch (InstantiationException exception)
       {
-        exception.printStackTrace();
+        CodeGenPlugin.INSTANCE.log(exception);
       }
     }
   }
@@ -381,6 +432,16 @@ public class JETEmitter
    */
   public String generate(Monitor progressMonitor, Object [] arguments) throws JETException
   {
+    return generate(progressMonitor, arguments, null);
+  }
+
+  /**
+   * Invokes the emitter method on the compiled template and returns the result.
+   * @return the template result.
+   * @since 2.3
+   */
+  public String generate(Monitor progressMonitor, Object [] arguments, String lineDelimiter) throws JETException
+  {
     if (method == null)
     {
       initialize(progressMonitor);
@@ -391,7 +452,7 @@ public class JETEmitter
     {
       try
       {
-        result = (String)method.invoke(object, arguments);
+        result = (String)method.invoke(getObject(lineDelimiter), arguments);
       }
       catch (IllegalAccessException exception)
       {
