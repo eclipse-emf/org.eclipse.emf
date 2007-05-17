@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.13 2007/05/15 22:34:20 emerks Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.14 2007/05/17 13:38:21 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -630,7 +630,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         {
           arguments = new Object[] { generatingObject };
         }
-        setLineDelimiter(getLineDelimiter(targetFile));
+        setLineDelimiter(getLineDelimiter(targetFile, encoding));
         String emitterResult = jetEmitter.generate(createMonitor(monitor, 1), arguments, getLineDelimiter());
 
         if (PROPERTIES_ENCODING.equals(encoding))
@@ -742,7 +742,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       {
         arguments = new Object[] { generatingObject };
       }
-      setLineDelimiter(getLineDelimiter(targetFile));
+      setLineDelimiter(getLineDelimiter(targetFile, PROPERTIES_ENCODING));
       String emitterResult = CodeGenUtil.unicodeEscapeEncode(jetEmitter.generate(createMonitor(monitor, 1), arguments, getLineDelimiter()));
       byte[] bytes = emitterResult.toString().getBytes(PROPERTIES_ENCODING);
 
@@ -964,7 +964,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         arguments = new Object[] { generatingObject };
       }
       createImportManager(packageName, className);
-      setLineDelimiter(getLineDelimiter(targetFile));
+      setLineDelimiter(getLineDelimiter(targetFile, getEncoding(targetFile)));
       String emitterResult = jetEmitter.generate(createMonitor(monitor, 1), arguments, getLineDelimiter());
 
       boolean changed = true;
@@ -1262,13 +1262,13 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   /**
    * @since 2.3
    */
-  public String getLineDelimiter(URI workspacePath)
+  public String getLineDelimiter(URI workspacePath, String encoding)
   {
     InputStream inputStream = null;
     try
     {
       inputStream = createInputStream(workspacePath);
-      Reader reader = new InputStreamReader(inputStream);
+      Reader reader = encoding == null ? new InputStreamReader(inputStream) : new InputStreamReader(inputStream, encoding);
       char [] text = new char [4048];
       char target = 0;
       for (int count = reader.read(text); count > -1; count = reader.read(text))
