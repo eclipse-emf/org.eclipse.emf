@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.72 2007/04/13 16:43:20 emerks Exp $
+ * $Id: XMLHandler.java,v 1.73 2007/05/17 00:26:44 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -48,6 +48,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -2461,7 +2462,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
           }
           else
           {
-            resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
+            packageRegistry.put(ePackage.getNsURI(), ePackage);
           }
         }
       }
@@ -2526,7 +2527,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   protected URIConverter getURIConverter()
   {
-    return resourceSet.getURIConverter();
+    return resourceSet == null ? resourceSet.getURIConverter() : new URIConverterImpl();
   }
 
   protected void setFeatureValue(EObject object, EStructuralFeature feature, Object value)
