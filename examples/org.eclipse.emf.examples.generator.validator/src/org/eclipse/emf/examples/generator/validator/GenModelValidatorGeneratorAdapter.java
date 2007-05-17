@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelValidatorGeneratorAdapter.java,v 1.2 2006/12/29 22:37:42 marcelop Exp $
+ * $Id: GenModelValidatorGeneratorAdapter.java,v 1.3 2007/05/17 13:39:03 emerks Exp $
  */
 package org.eclipse.emf.examples.generator.validator;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
+import org.eclipse.emf.common.util.URI;
 
 public class GenModelValidatorGeneratorAdapter extends GenBaseGeneratorAdapter
 {
@@ -68,12 +69,13 @@ public class GenModelValidatorGeneratorAdapter extends GenBaseGeneratorAdapter
     ensureProjectExists
       (genModel.getModelDirectory(), genModel, MODEL_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
 
+    String targetFile = genModel.getModelProjectDirectory() + "/text/description.txt";
     generateText
-      (genModel.getModelProjectDirectory() + "/text/description.txt",
+      (targetFile,
        getJETEmitter(getJETEmitterDescriptors(), MODEL_DESCRIPTION_ID),
        null,
        true,
-       null,
+       getEncoding(URI.createURI(targetFile)),
        createMonitor(monitor, 1));
 
     return Diagnostic.OK_INSTANCE;
