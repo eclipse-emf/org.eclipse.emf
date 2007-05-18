@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.25.2.1 2007/01/31 17:38:00 marcelop Exp $
+ * $Id: ItemProviderAdapter.java,v 1.25.2.2 2007/05/18 18:57:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -849,7 +849,7 @@ public class ItemProviderAdapter
             (domain, 
              commandParameter.getEOwner(), 
              commandParameter.getEStructuralFeature(), 
-             commandParameter.getEValue(), 
+             commandParameter.getValue(), 
              commandParameter.getIndex());
       }
       else
