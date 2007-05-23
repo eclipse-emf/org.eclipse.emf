@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.12 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: ChangePackageImpl.java,v 1.13 2007/05/23 15:06:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -654,9 +654,9 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     initEReference(getChangeDescription_ObjectsToAttach(), theEcorePackage.getEObject(), null, "objectsToAttach", null, 0, -1, ChangeDescription.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getChangeDescription_ResourceChanges(), this.getResourceChange(), null, "resourceChanges", null, 0, -1, ChangeDescription.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    addEOperation(changeDescriptionEClass, null, "apply");
+    addEOperation(changeDescriptionEClass, null, "apply", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-    addEOperation(changeDescriptionEClass, null, "applyAndReverse");
+    addEOperation(changeDescriptionEClass, null, "applyAndReverse", 0, 1, IS_UNIQUE, IS_ORDERED);
 
     initEClass(eObjectToChangesMapEntryEClass, Map.Entry.class, "EObjectToChangesMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
     initEReference(getEObjectToChangesMapEntry_Key(), theEcorePackage.getEObject(), null, "key", null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -671,11 +671,11 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     initEReference(getFeatureChange_ReferenceValue(), theEcorePackage.getEObject(), null, "referenceValue", null, 0, 1, FeatureChange.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getFeatureChange_ListChanges(), this.getListChange(), null, "listChanges", null, 0, -1, FeatureChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    EOperation op = addEOperation(featureChangeEClass, null, "apply");
-    addEParameter(op, theEcorePackage.getEObject(), "originalObject", 0, 1);
+    EOperation op = addEOperation(featureChangeEClass, null, "apply", 0, 1, IS_UNIQUE, IS_ORDERED);
+    addEParameter(op, theEcorePackage.getEObject(), "originalObject", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-    op = addEOperation(featureChangeEClass, null, "applyAndReverse");
-    addEParameter(op, theEcorePackage.getEObject(), "originalObject", 0, 1);
+    op = addEOperation(featureChangeEClass, null, "applyAndReverse", 0, 1, IS_UNIQUE, IS_ORDERED);
+    addEParameter(op, theEcorePackage.getEObject(), "originalObject", 0, 1, IS_UNIQUE, IS_ORDERED);
 
     initEClass(listChangeEClass, ListChange.class, "ListChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getListChange_Kind(), this.getChangeKind(), "kind", null, 0, 1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -687,17 +687,17 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     initEReference(getListChange_Feature(), theEcorePackage.getEStructuralFeature(), null, "feature", null, 0, 1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getListChange_FeatureMapEntryValues(), this.getFeatureMapEntry(), null, "featureMapEntryValues", null, 0, -1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    op = addEOperation(listChangeEClass, null, "apply");
+    op = addEOperation(listChangeEClass, null, "apply", 0, 1, IS_UNIQUE, IS_ORDERED);
     EGenericType g1 = createEGenericType(theEcorePackage.getEEList());
     EGenericType g2 = createEGenericType(theEcorePackage.getEJavaObject());
     g1.getETypeArguments().add(g2);
-    addEParameter(op, g1, "originalList", 0, 1);
+    addEParameter(op, g1, "originalList", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-    op = addEOperation(listChangeEClass, null, "applyAndReverse");
+    op = addEOperation(listChangeEClass, null, "applyAndReverse", 0, 1, IS_UNIQUE, IS_ORDERED);
     g1 = createEGenericType(theEcorePackage.getEEList());
     g2 = createEGenericType(theEcorePackage.getEJavaObject());
     g1.getETypeArguments().add(g2);
-    addEParameter(op, g1, "originalList", 0, 1);
+    addEParameter(op, g1, "originalList", 0, 1, IS_UNIQUE, IS_ORDERED);
 
     initEClass(resourceChangeEClass, ResourceChange.class, "ResourceChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getResourceChange_ResourceURI(), ecorePackage.getEString(), "resourceURI", null, 0, 1, ResourceChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -708,9 +708,9 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     initEAttribute(getResourceChange_Value(), g1, "value", null, 0, 1, ResourceChange.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getResourceChange_ListChanges(), this.getListChange(), null, "listChanges", null, 0, -1, ResourceChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    addEOperation(resourceChangeEClass, null, "apply");
+    addEOperation(resourceChangeEClass, null, "apply", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-    addEOperation(resourceChangeEClass, null, "applyAndReverse");
+    addEOperation(resourceChangeEClass, null, "applyAndReverse", 0, 1, IS_UNIQUE, IS_ORDERED);
 
     initEClass(featureMapEntryEClass, FeatureMapEntry.class, "FeatureMapEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getFeatureMapEntry_FeatureName(), ecorePackage.getEString(), "featureName", null, 0, 1, FeatureMapEntry.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
