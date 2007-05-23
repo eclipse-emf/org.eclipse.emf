@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.73 2007/05/17 00:26:44 marcelop Exp $
+ * $Id: XMLHandler.java,v 1.74 2007/05/23 15:47:59 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2462,7 +2462,9 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
           }
           else
           {
-            packageRegistry.put(ePackage.getNsURI(), ePackage);
+            EPackage.Registry registry = resourceSet != null ?
+              resourceSet.getPackageRegistry() : EPackage.Registry.INSTANCE;
+            registry.put(ePackage.getNsURI(), ePackage);
           }
         }
       }
