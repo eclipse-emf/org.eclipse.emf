@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PPOPackageImpl.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: PPOPackageImpl.java,v 1.3 2007/05/23 15:06:45 marcelop Exp $
  */
 package org.eclipse.emf.test.models.ppo.impl;
 
@@ -486,14 +486,14 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
     initEAttribute(getUSAddress_Zip(), ecorePackage.getEInt(), "zip", null, 0, 1, USAddress.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getUSAddress_Country(), ecorePackage.getEString(), "country", "US", 0, 1, USAddress.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    EOperation op = addEOperation(usAddressEClass, ecorePackage.getEBoolean(), "hasUSState", 0, 1);
-    addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1);
+    EOperation op = addEOperation(usAddressEClass, ecorePackage.getEBoolean(), "hasUSState", 0, 1, IS_UNIQUE, IS_ORDERED);
+    addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
     EGenericType g1 = createEGenericType(ecorePackage.getEMap());
     EGenericType g2 = createEGenericType(ecorePackage.getEJavaObject());
     g1.getETypeArguments().add(g2);
     g2 = createEGenericType(ecorePackage.getEJavaObject());
     g1.getETypeArguments().add(g2);
-    addEParameter(op, g1, "context", 0, 1);
+    addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
 
     initEClass(purchaseOrderEClass, PurchaseOrder.class, "PurchaseOrder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getPurchaseOrder_Items(), this.getItem(), null, "items", null, 2, -1, PurchaseOrder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
