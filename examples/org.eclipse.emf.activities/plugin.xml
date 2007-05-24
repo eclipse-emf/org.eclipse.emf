@@ -84,22 +84,4 @@
     <activityPatternBinding activityId="org.eclipse.XSD" pattern="org\.eclipse\.xsd\.editor/.*" />
     <defaultEnablement id="org.eclipse.XSD" />
   </extension>
-
-  <!-- org.eclipse.emf.examples.library.editor -->
-  <!-- Library example -->
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.examples\.library\.editor/.*" />
-  </extension>
-
-  <!-- org.eclipse.emf.java.editor -->
-  <!-- Java example -->
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.java\.editor/.*" />
-  </extension>
-
-  <!-- org.eclipse.emf.edit.ui -->
-  <!-- Preference page -->
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.edit\.ui/.*" />
-  </extension>
 </plugin>
