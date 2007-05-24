@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.15 2007/04/25 20:40:32 emerks Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.16 2007/05/24 21:21:25 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -139,6 +139,7 @@ public class EcoreActionBarContributor
         {
           FormData data = new FormData();
           Control [] children = buttonComposite.getChildren();
+          data.left = new FormAttachment(0, 0);
           data.right = new FormAttachment(children[0], -CONTROL_OFFSET);
           browseRegisteredPackagesButton.setLayoutData(data);
         }
