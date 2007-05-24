@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenericTypeBuilderTest.java,v 1.2 2007/05/08 15:33:00 emerks Exp $
+ * $Id: GenericTypeBuilderTest.java,v 1.3 2007/05/24 20:14:07 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -45,7 +45,7 @@ public class GenericTypeBuilderTest extends TestCase
     TestSuite testSuite = new TestSuite("GenericTypeBuilderTest");
     testSuite.addTest(new GenericTypeBuilderTest("testErasedTypes"));
     testSuite.addTest(new GenericTypeBuilderTest("testGenericTypes"));
-    //testSuite.addTest(new GenericTypeBuilderTest("knowProblems"));
+    testSuite.addTest(new GenericTypeBuilderTest("knownProblems"));
     return testSuite;
   }
   
@@ -55,7 +55,7 @@ public class GenericTypeBuilderTest extends TestCase
     genericTypeBuilder = new EcoreValidator.EGenericTypeBuilder();
   }
   
-  public void knowProblems()
+  public void knownProblems()
   {
     {
       String instanceTypeName = "A<B";

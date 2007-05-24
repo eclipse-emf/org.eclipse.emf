@@ -33,6 +33,9 @@
     <eClassifiers xsi:type="ecore:EClass" name="EndsWithDot" instanceClassName="name."/>
     <eClassifiers xsi:type="ecore:EClass" name="ArrayAndTypeArguments" instanceTypeName="T[]&lt;X>"/>
     <eClassifiers xsi:type="ecore:EClass" name="TypeArgumentsWithoutComma" instanceTypeName="T&lt;X Y>"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BadSpace" instanceTypeName="T &lt;X>"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NoSpace" instanceTypeName="T&lt;?extends X>"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TrailingSpace" instanceTypeName="T "/>
   </eSubpackages>
   <eSubpackages name="class" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//class"
       nsPrefix="bad.class">
