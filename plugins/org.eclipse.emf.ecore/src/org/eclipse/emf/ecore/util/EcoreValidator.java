@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.12 2007/05/08 15:32:13 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.13 2007/05/24 20:14:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1229,21 +1229,57 @@ public class EcoreValidator extends EObjectValidator
   public boolean validateEClassifier_WellFormedInstanceTypeName(EClassifier eClassifier, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     String instanceTypeName = eClassifier.getInstanceTypeName();
+    Diagnostic typeBuilderDiagnostic = instanceTypeName == null ? null :  EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName);
+    String formattedName = null;
     boolean result =
       instanceTypeName != null ?
-        isWellFormedInstanceTypeName(instanceTypeName) :
+        typeBuilderDiagnostic.getSeverity() == Diagnostic.OK  && 
+          instanceTypeName.equals(formattedName = EcoreUtil.toJavaInstanceTypeName((EGenericType)typeBuilderDiagnostic.getData().get(0))) :
         eClassifier instanceof EClass || eClassifier instanceof EEnum;
     if (!result && diagnostics != null)
     {
-      diagnostics.add
-        (new BasicDiagnostic
+      BasicDiagnostic diagnosic =
+        new BasicDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            WELL_FORMED_INSTANCE_TYPE_NAME,
            EcorePlugin.INSTANCE.getString
              ("_UI_EClassifierInstanceTypeNameNotWellFormed_diagnostic",
               new Object[] { getValueLabel(EcorePackage.Literals.ESTRING, instanceTypeName, context) }),
-           new Object[] { eClassifier }));
+           new Object[] { eClassifier });
+      if (typeBuilderDiagnostic != null)
+      {
+        if (!typeBuilderDiagnostic.getChildren().isEmpty())
+        {
+          diagnosic.addAll(typeBuilderDiagnostic);
+        }
+        else
+        {
+          // The string must contain inappropriate whitespace, so find the index for the first difference.
+          //
+          int i = 0;
+          for (int length = Math.min(instanceTypeName.length(), formattedName.length()); 
+               i < length; 
+               i = Character.offsetByCodePoints(instanceTypeName, i, 1))
+          {
+            if (instanceTypeName.codePointAt(i) != formattedName.codePointAt(i))
+            {
+              break;
+            }
+          }
+          
+          diagnosic.add
+           (new BasicDiagnostic
+             (Diagnostic.ERROR,
+              DIAGNOSTIC_SOURCE,
+              WELL_FORMED_INSTANCE_TYPE_NAME,
+              EcorePlugin.INSTANCE.getString
+                (instanceTypeName.codePointAt(i) == ' ' ? "_UI_EClassifierInstanceTypeNameUnexpectedSpace_diagnostic" : "_UI_EClassifierInstanceTypeNameExpectedSpace_diagnostic",
+                 new Object[] { i }),
+              new Object[] { i }));
+        }
+      }
+      diagnostics.add(diagnosic);
     }
     return result;
   }
@@ -1288,172 +1324,6 @@ public class EcoreValidator extends EObjectValidator
       names.add(name);
     }
     return result;
-  }
-
-  /**
-   * A well formed instance type name must syntactically denote a valid Java type name;
-   * names denoting keywords are considered well formed.
-   * It must start with a qualified name consisting of one or more "." separated identifiers,
-   * where each identifier must start with a {@link Character#isJavaIdentifierStart(int) Java identifier start character},
-   * that is followed by zero or more {@link Character#isJavaIdentifierPart(int) Java identifier part characters}.
-   * This qualified name may optionally be followed by zero or more pairs of "[]" characters
-   * or by type arguments consisting of the pair of "<>" characters
-   * with embedded {@link #isWellFormedTypeArguments(String) well formed type arguments}.
-   * @param instanceTypeName the instance type name in question.
-   * @return whether the instance type name is syntactically well formed.
-   */
-  protected static boolean isWellFormedInstanceTypeName(String instanceTypeName)
-  {
-    boolean startedIdentifier = false;
-    boolean startedBrackets = false;
-    for (int i = 0, length = instanceTypeName.length(); i < length; i = Character.offsetByCodePoints(instanceTypeName, i, 1))
-    {
-      int codePoint = instanceTypeName.codePointAt(i);
-      if (codePoint == '[')
-      {
-        if (!startedIdentifier || ++i >= length || instanceTypeName.charAt(i) != ']')
-        {
-          return false;
-        }
-        startedBrackets = true;
-      }
-      else if (startedBrackets)
-      {
-        return false;
-      }
-      else if (codePoint == '.')
-      {
-        if (!startedIdentifier)
-        {
-          return false;
-        }
-        startedIdentifier = false;
-      }
-      else if (startedIdentifier ? Character.isJavaIdentifierPart(codePoint) : Character.isJavaIdentifierStart(codePoint))
-      {
-        startedIdentifier = true;
-      }
-      else
-      {
-        if (!startedIdentifier || codePoint != '<')
-        {
-          return false;
-        }
-        else
-        {
-          int index = instanceTypeName.lastIndexOf(">");
-          if (index < i || !isWellFormedTypeArguments(instanceTypeName.substring(i + 1, index)))
-          {
-            return false;
-          }
-          else
-          {
-            i = index;
-            startedBrackets = true;
-          }
-        }
-      }
-    }
-    return startedIdentifier;
-  }
-
-  /**
-   * Well formed type arguments must syntactically denote a comma separated sequence of
-   * {@link #isWellFormedTypeArgument(String)well formed type arguments}.
-   * White space before or after arguments is ignored.
-   * @param typeArguments the type arguments in question.
-   * @return whether the type arguments are well formed.
-   */
-  protected static boolean isWellFormedTypeArguments(String typeArguments)
-  {
-    int start = 0;
-    int depth = 0;
-    for (int i = 0, length = typeArguments.length(); i < length; i = Character.offsetByCodePoints(typeArguments, i, 1))
-    {
-      int character = typeArguments.codePointAt(i);
-      switch (character)
-      {
-        case ' ':
-        {
-          if (start == i)
-          {
-            ++start;
-          }
-          break;
-        }
-        case '<':
-        {
-          ++depth;
-          break;
-        }
-        case '>':
-        {
-          --depth;
-          break;
-        }
-        case ',':
-        {
-          if (depth == 0)
-          {
-            if (!isWellFormedTypeArgument(typeArguments.substring(start, i).trim()))
-            {
-              return false;
-            }
-            start = i + 1;
-          }
-          break;
-        }
-      }
-    }
-    return isWellFormedTypeArgument(typeArguments.substring(start).trim());
-  }
-
-  /**
-   * A well formed type argument must denote a valid Java type argument.
-   * It may start with a "?"
-   * which may be optionally followed by the keyword "extends" or "super"
-   * which in turn, when present, must be followed by a
-   * {@link #isWellFormedInstanceTypeName(String) well formed type instance name}.
-   * White space before the keyword is optional but at least one space character is expected after the keyword.
-   * Otherwise, the whole string must be a well formed instance type name.
-   * @param typeArgument the type argument in question.
-   * @return whether the type argument is well formed.
-   */
-  protected static boolean isWellFormedTypeArgument(String typeArgument)
-  {
-    int index = 0;
-    int length = typeArgument.length();
-    if (index < length)
-    {
-      if (typeArgument.charAt(index) == '?')
-      {
-        ++index;
-        while (index < length && Character.isWhitespace(typeArgument.charAt(index)))
-        {
-          ++index;
-        }
-        if (typeArgument.indexOf("extends ") == index)
-        {
-          return isWellFormedInstanceTypeName(typeArgument.substring(index + 8).trim());
-        }
-        else if (typeArgument.indexOf("super ") == index)
-        {
-          return isWellFormedInstanceTypeName(typeArgument.substring(index + 6).trim());
-        }
-        else
-        {
-          return false;
-        }
-      }
-      else
-      {
-        return isWellFormedInstanceTypeName(typeArgument);
-      }
-    }
-    else
-    {
-      return false;
-    }
   }
   
   /**
@@ -3218,10 +3088,8 @@ public class EcoreValidator extends EObjectValidator
           if (eBoundELowerBound != null)
           {
             // If there is an lower bound, the type argument must bound it.
-            // TODO is this right?
             //
             return isBounded(eBoundELowerBound, eGenericType, substitutions);
-            // return isMatching(eGenericType, eBound, substitutions);
           }
           
           // The bound is a wildcard with no constraints.
@@ -3291,7 +3159,6 @@ public class EcoreValidator extends EObjectValidator
         }
           
         // TODO What about the instance type name and the fact that we should be matching its type argument structure?
-        
         // If they match so far, we must assume they are okay and then check all the arguments.
         //
         return equalTypeArguments(eGenericType.getETypeArguments(), eBound.getETypeArguments(), substitutions);
@@ -3351,10 +3218,8 @@ public class EcoreValidator extends EObjectValidator
             if (eBoundELowerBound != null)
             {
               // Reverse the test.
-              // TODO is this right?
               //
               return isMatching(eBoundELowerBound, eGenericType, substitutions);
-              // return equalTypeArguments(eGenericType, eBound, substitutions);
             }
             
             // The bound is a wildcard with no constraints.
@@ -3816,9 +3681,9 @@ public class EcoreValidator extends EObjectValidator
         new BasicDiagnostic()
         {
           {
-            source = "org.eclipse.emf.ecore.util.EcoreUtil.EGenericTypeBuilder";
-            code = 0;
-            message = "Result";
+            source = DIAGNOSTIC_SOURCE;
+            code = WELL_FORMED_INSTANCE_TYPE_NAME;
+            message = EcorePlugin.INSTANCE.getString("_UI_EClassifierInstanceTypeNameAnalysisResult_diagnostic", new Object [] { instanceTypeName });
             char [] instanceTypeNameCharacterArray = instanceTypeName.toCharArray();
             EGenericType eGenericType = handleInstanceTypeName(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, this);
             data = dataAsList(new Object [] { eGenericType, instanceTypeName });
@@ -3833,20 +3698,6 @@ public class EcoreValidator extends EObjectValidator
       return eDataType;
     }
     
-    protected void addDiagnostic
-      (char [] instanceTypeName, int start, int end, DiagnosticChain diagnostics, String message, EGenericType eGenericType, int index)
-    {
-      if (diagnostics != null)
-      {
-        diagnostics.add
-          (new BasicDiagnostic
-             ("org.eclipse.emf.ecore.util.EcoreUtil.EGenericTypeBuilder",  
-              1,  
-              message, 
-              new Object [] { eGenericType, index }));
-      }
-    }
-    
     protected void report(DiagnosticChain diagnostics, String message, int index)
     {
       if (diagnostics != null)
@@ -3854,11 +3705,10 @@ public class EcoreValidator extends EObjectValidator
         diagnostics.add
           (new BasicDiagnostic
              (Diagnostic.ERROR,
-              "org.eclipse.emf.ecore.util.EcoreUtil.EGenericTypeBuilder",  
-              1,  
+              DIAGNOSTIC_SOURCE,
+              WELL_FORMED_INSTANCE_TYPE_NAME,
               message, 
               new Object [] { index }));
-        
       }
     }
 
@@ -3876,7 +3726,6 @@ public class EcoreValidator extends EObjectValidator
      */
     protected EGenericType handleInstanceTypeName(char [] instanceTypeName, int start, int end, DiagnosticChain diagnostics)
     {
-      String error;
       EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
       StringBuilder qualifiedName = new StringBuilder();
       int identifierStart = -1;
@@ -3891,8 +3740,12 @@ public class EcoreValidator extends EObjectValidator
         {
           if (identifierStart == -1 && (qualifiedName.length() == 0 || qualifiedName.charAt(qualifiedName.length() - 1) == '.'))
           {
-            error = "The '[' at index " + i + " must be preceeded by an identifier";
-            report(diagnostics, error, i);
+            report
+              (diagnostics, 
+               EcorePlugin.INSTANCE.getString
+                 ("_UI_EClassifierInstanceTypeNameBracketWithoutPrecedingIdentifier_diagnostic", 
+                  new Object [] { i }), 
+               i);
             return eGenericType;
           }
           else 
@@ -3908,13 +3761,21 @@ public class EcoreValidator extends EObjectValidator
               }
               else if (!Character.isWhitespace(codePoint))
               {
-                error = "A ']' is expected at index " + j + " not '" + new String(Character.toChars(codePoint)) + "'";
-                report(diagnostics, error, j);
+                report
+                  (diagnostics, 
+                   EcorePlugin.INSTANCE.getString
+                     ("_UI_EClassifierInstanceTypeNameNoClosingBracket2_diagnostic", 
+                      new Object [] { j, new String(Character.toChars(codePoint))}), 
+                   j);
                 return eGenericType;
               }
             }
-            error = "A ']' is expected at index " + end;
-            report(diagnostics, error, end);
+            report
+              (diagnostics, 
+               EcorePlugin.INSTANCE.getString
+                 ("_UI_EClassifierInstanceTypeNameNoClosingBracket_diagnostic", 
+                  new Object [] { end }), 
+               end);
             return eGenericType;
           }
         }
@@ -3922,8 +3783,12 @@ public class EcoreValidator extends EObjectValidator
         {
           if (!Character.isWhitespace(codePoint))
           {
-            error = "A '[' is expected at index " + i + " not '" + new String(Character.toChars(codePoint)) + "'";
-            report(diagnostics, error, i);
+            report
+              (diagnostics, 
+               EcorePlugin.INSTANCE.getString
+                 ("_UI_EClassifierInstanceTypeNameBracketExpected_diagnostic", 
+                  new Object [] { i, new String(Character.toChars(codePoint))}), 
+               i);
             return eGenericType;
           }
         }
@@ -3933,8 +3798,12 @@ public class EcoreValidator extends EObjectValidator
           {
             if (qualifiedName.length() == 0 || qualifiedName.charAt(qualifiedName.length() - 1) == '.')
             {
-              error = "The '.' at index " + i + " must be preceeded by an identifier";
-              report(diagnostics, error, i);
+              report
+                (diagnostics, 
+                 EcorePlugin.INSTANCE.getString
+                   ("_UI_EClassifierInstanceTypeNameDotWithoutPrecedingIdentifier_diagnostic", 
+                    new Object [] { i }), 
+                 i);
               return eGenericType;
             }
             else
@@ -3956,8 +3825,12 @@ public class EcoreValidator extends EObjectValidator
           {
             if (qualifiedName.length() > 0 && qualifiedName.charAt(qualifiedName.length() - 1) != '.')
             {
-              error = "A '.' is expected before the start of another identifier at index " + i;
-              report(diagnostics, error, i);
+              report
+                (diagnostics, 
+                 EcorePlugin.INSTANCE.getString
+                   ("_UI_EClassifierInstanceTypeNameDotExpectedBeforeIdentifier_diagnostic", 
+                    new Object [] { i }), 
+                 i);
               return eGenericType;
             }
             identifierStart = i;
@@ -3968,7 +3841,7 @@ public class EcoreValidator extends EObjectValidator
         {
           if (identifierStart == -1)
           {
-            // TODO
+            // Ignore leading whitespace
           }
           else if (qualifiedName.length() == 0 || qualifiedName.charAt(qualifiedName.length() - 1) == '.')
           {
@@ -3978,15 +3851,19 @@ public class EcoreValidator extends EObjectValidator
           }
           else
           {
-            // TODO
+            // Ignore trailing whitespace
           }
         }
         else if (codePoint == '<')
         {
           if (identifierStart == -1 && (qualifiedName.length() == 0 || qualifiedName.charAt(qualifiedName.length() - 1) == '.'))
           {
-            error = "The '<' at index " + i + " must be preceeded by an identifier";
-            report(diagnostics, error, i);
+            report
+              (diagnostics, 
+               EcorePlugin.INSTANCE.getString
+                 ("_UI_EClassifierInstanceTypeNameAngleBracketWithoutPrecedingIdentifier_diagnostic", 
+                  new Object [] { i }), 
+               i);
             return eGenericType;
           }
           for (int j = end - 1; j > i; --j)
@@ -3998,13 +3875,34 @@ public class EcoreValidator extends EObjectValidator
               continue LOOP;
             }
           }
+          report
+            (diagnostics, 
+             EcorePlugin.INSTANCE.getString
+               ("_UI_EClassifierInstanceTypeNameUnterminatedAngleBracket_diagnostic", 
+                new Object [] { i }), 
+             i);
+          return eGenericType;
+        }
+        else
+        {
+          report
+            (diagnostics, 
+             EcorePlugin.INSTANCE.getString
+               ("_UI_EClassifierInstanceTypeNameUnexpectedCharacter_diagnostic", 
+                new Object [] { i, new String(Character.toChars(codePoint)) }), 
+             i);
+          return eGenericType;
         }
       }
       
       if (identifierStart == -1 && (qualifiedName.length() == 0 || qualifiedName.charAt(qualifiedName.length() - 1) == '.'))
       {
-        error = "Expecting an identifier at index " + end;
-        report(diagnostics, error, end);
+        report
+          (diagnostics, 
+           EcorePlugin.INSTANCE.getString
+             ("_UI_EClassifierInstanceTypeNameExpectingIdentifier_diagnostic", 
+              new Object [] { end }), 
+             end);
       }
       else
       {
@@ -4089,7 +3987,6 @@ public class EcoreValidator extends EObjectValidator
      */
     protected EGenericType handleTypeArgument(char [] instanceTypeName, int start, int end, DiagnosticChain diagnostics)
     {
-      String error;
       EGenericType eGenericType = null;
       int firstNonWhiteSpaceIndex = start;
       LOOP:
@@ -4107,8 +4004,12 @@ public class EcoreValidator extends EObjectValidator
             }
             else
             {
-              error = "A second '?' is not permitted at position " + i;
-              report(diagnostics, error, i);
+              report
+                (diagnostics, 
+                 EcorePlugin.INSTANCE.getString
+                   ("_UI_EClassifierInstanceTypeNameTooManyQuestionMarks_diagnostic", 
+                    new Object [] { i }), 
+                   i);
               break LOOP;
             }
           }
@@ -4132,8 +4033,12 @@ public class EcoreValidator extends EObjectValidator
               }
               else
               {
-                error = "Expecting 'extends' at position " + i;
-                report(diagnostics, error, i);
+                report
+                  (diagnostics, 
+                   EcorePlugin.INSTANCE.getString
+                     ("_UI_EClassifierInstanceTypeNameExpectingExtends_diagnostic", 
+                      new Object [] { i }), 
+                     i);
               }
             }
             else
@@ -4160,8 +4065,12 @@ public class EcoreValidator extends EObjectValidator
               }
               else
               {
-                error = "Expecting 'super' at position " + i;
-                report(diagnostics, error, i);
+                report
+                  (diagnostics, 
+                   EcorePlugin.INSTANCE.getString
+                     ("_UI_EClassifierInstanceTypeNameExpectingSuper_diagnostic", 
+                      new Object [] { i }), 
+                     i);
               }
             }
             else
@@ -4178,8 +4087,12 @@ public class EcoreValidator extends EObjectValidator
             }
             else if (eGenericType != null)
             {
-              error = "Expecting 'extends' or 'super' at position " + i;
-              report(diagnostics, error, i);
+              report
+                (diagnostics, 
+                 EcorePlugin.INSTANCE.getString
+                   ("_UI_EClassifierInstanceTypeNameExpectingExtendsOrSuper_diagnostic", 
+                    new Object [] { i }), 
+                   i);
               break LOOP;
             }
             else
@@ -4194,11 +4107,15 @@ public class EcoreValidator extends EObjectValidator
       if (eGenericType == null)
       {
         eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
-        error = "A type argument is expected at position " + firstNonWhiteSpaceIndex;
-        report(diagnostics, error, firstNonWhiteSpaceIndex);
+        report
+          (diagnostics, 
+           EcorePlugin.INSTANCE.getString
+             ("_UI_EClassifierInstanceTypeNameTypeArgumentExpected_diagnostic", 
+              new Object [] { firstNonWhiteSpaceIndex }), 
+             firstNonWhiteSpaceIndex);
       }
       return eGenericType;
     }
-  }  
+  }
 
 } //EcoreValidator
