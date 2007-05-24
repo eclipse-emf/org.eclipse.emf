@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceDialog.java,v 1.4 2007/01/19 15:46:56 marcelop Exp $
+ * $Id: ResourceDialog.java,v 1.5 2007/05/24 21:22:27 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.dialogs;
 
@@ -157,24 +157,26 @@ public class ResourceDialog extends Dialog
         composite.setLayoutData(data);        
     }
 
+    // buttonComposite has to be the first child of composite because subclasses are expecting this.
     Composite buttonComposite = new Composite(composite, SWT.NONE);
-    {        
-      FormData data = new FormData();
-      data.top = new FormAttachment(0, CONTROL_OFFSET);
-      data.left = new FormAttachment(30, 0);
-      data.right = new FormAttachment(100, -CONTROL_OFFSET);
-      buttonComposite.setLayoutData(data);        
-
-      buttonComposite.setLayout(new FormLayout());
-    }
-
+    
     Label resourceURILabel = new Label(composite, SWT.LEFT);
     {
       resourceURILabel.setText(CommonUIPlugin.INSTANCE.getString(isMulti() ? "_UI_ResourceURIs_label" : "_UI_ResourceURI_label"));
       FormData data = new FormData();
-      data.top = new FormAttachment(buttonComposite, CONTROL_OFFSET, SWT.CENTER);
       data.left = new FormAttachment(0, CONTROL_OFFSET);
+      data.top = new FormAttachment(0, CONTROL_OFFSET);
       resourceURILabel.setLayoutData(data);        
+    }
+    
+    {
+      FormData data = new FormData();
+      data.top = new FormAttachment(resourceURILabel, CONTROL_OFFSET, SWT.CENTER);
+      data.left = new FormAttachment(resourceURILabel, CONTROL_OFFSET);
+      data.right = new FormAttachment(100, -CONTROL_OFFSET);
+      buttonComposite.setLayoutData(data);        
+
+      buttonComposite.setLayout(new FormLayout());
     }
 
     uriField = new Text(composite, SWT.BORDER);
