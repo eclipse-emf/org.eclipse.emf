@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.48 2007/05/07 14:40:17 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.49 2007/05/24 14:04:12 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -1517,7 +1517,14 @@ public class <%=genPackage.getEditorClassName()%>
 			setPageText(pageIndex, getString("_UI_SelectionPage_label"));<%=genModel.getNonNLS()%>
 <%}%>
 
-			setActivePage(0);
+			getSite().getShell().getDisplay().asyncExec
+				(new Runnable()
+				 {
+					 public void run()
+					 {
+						 setActivePage(0);
+					 }
+				 });
 		}
 
 		// Ensures that this editor will only display the page's tab
@@ -1541,7 +1548,14 @@ public class <%=genPackage.getEditorClassName()%>
 				}
 			 });
 
-		updateProblemIndication();
+		getSite().getShell().getDisplay().asyncExec
+			(new Runnable()
+			 {
+				 public void run()
+				 {
+					 updateProblemIndication();
+				 }
+			 });
 	}
 
 	/**
