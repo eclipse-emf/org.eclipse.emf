@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.37 2007/05/11 10:12:37 nickb Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.38 2007/05/25 15:22:00 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -846,19 +846,23 @@ public class JavaEcoreBuilder
   
   protected void analyzeEnum(JEnum enumeration)
   {
-    EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
-    eModelElementToJNodeMap.put(eEnum, enumeration);
-    eEnum.setName(enumeration.getName());
-    getEPackage(enumeration).getEClassifiers().add(eEnum);
-    eEnum.getEAnnotations().addAll(extractEAnnotations(getModelAnnotation(enumeration.getComment())));
-    EcoreUtil.setDocumentation(eEnum, getModelDocumentation(enumeration.getComment()));
-
-    // Walk the fields.
-    //
-    for (JEnumConstant enumConstant : facadeHelper.getChildren(enumeration, JEnumConstant.class))
+    String modelAnnotation = getModelAnnotation(enumeration.getComment());
+    if (modelAnnotation != null)
     {
-      analyzeEnumLiteral(eEnum, enumConstant);
-    }    
+      EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
+      eModelElementToJNodeMap.put(eEnum, enumeration);
+      eEnum.setName(enumeration.getName());
+      getEPackage(enumeration).getEClassifiers().add(eEnum);
+      eEnum.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
+      EcoreUtil.setDocumentation(eEnum, getModelDocumentation(enumeration.getComment()));
+
+      // Walk the fields.
+      //
+      for (JEnumConstant enumConstant : facadeHelper.getChildren(enumeration, JEnumConstant.class))
+      {
+        analyzeEnumLiteral(eEnum, enumConstant);
+      }
+    }
   }
   
   protected EPackage getEPackage(JNode node)
