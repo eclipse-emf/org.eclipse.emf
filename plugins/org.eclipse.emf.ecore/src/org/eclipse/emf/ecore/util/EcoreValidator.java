@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.13 2007/05/24 20:14:11 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.14 2007/05/26 11:54:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1253,7 +1253,7 @@ public class EcoreValidator extends EObjectValidator
         {
           diagnosic.addAll(typeBuilderDiagnostic);
         }
-        else
+        else if (instanceTypeName != null && formattedName != null)
         {
           // The string must contain inappropriate whitespace, so find the index for the first difference.
           //
