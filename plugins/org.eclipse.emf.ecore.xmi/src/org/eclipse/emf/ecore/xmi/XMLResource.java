@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.38 2007/05/07 22:07:05 emerks Exp $
+ * $Id: XMLResource.java,v 1.39 2007/05/26 13:45:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -356,6 +356,12 @@ public interface XMLResource extends Resource
    */
   String OPTION_DEFER_IDREF_RESOLUTION = "DEFER_IDREF_RESOLUTION";
   
+  /**
+   * Write only the subtree starting at the specified list of EObjects, 
+   * which must be objects contained by the resource.
+   */
+  String OPTION_ROOT_OBJECTS = "ROOT_OBJECTS";
+
   /**
    * A {@link ResourceHandler} value that can be registered to receive call backs 
    * for loading from an input stream or saving to an output stream.

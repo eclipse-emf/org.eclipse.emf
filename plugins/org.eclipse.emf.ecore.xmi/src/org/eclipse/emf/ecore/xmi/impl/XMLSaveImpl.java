@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.72 2007/05/01 13:34:45 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.73 2007/05/26 13:45:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -116,6 +116,7 @@ public class XMLSaveImpl implements XMLSave
   protected boolean useCache;
   protected EObject root;
   protected XMLResource xmlResource;
+  protected List<? extends EObject> roots;
   
   protected static final int SKIP = 0;
   protected static final int SAME_DOC = 1;
@@ -193,7 +194,12 @@ public class XMLSaveImpl implements XMLSave
     this.xmlResource = resource;
     
     init(resource, options);
-    List<EObject> contents = resource.getContents();
+    @SuppressWarnings("unchecked")
+    List<? extends EObject> contents = roots = (List<? extends EObject>)options.get(XMLResource.OPTION_ROOT_OBJECTS);
+    if (contents == null)
+    {
+      contents = resource.getContents();
+    }
     traverse(contents);
     
     try
@@ -212,7 +218,12 @@ public class XMLSaveImpl implements XMLSave
   {
     this.xmlResource = resource;
     init(resource, options);
-    List<EObject> contents = resource.getContents();
+    @SuppressWarnings("unchecked")
+    List<? extends EObject> contents = roots = (List<? extends EObject>)options.get(XMLResource.OPTION_ROOT_OBJECTS);
+    if (contents == null)
+    {
+      contents = resource.getContents();
+    }
     traverse(contents);
     
     write(writer);
@@ -233,7 +244,12 @@ public class XMLSaveImpl implements XMLSave
     }
     this.xmlResource = resource;
     init(resource, options);
-    List<EObject> contents = resource.getContents();
+    @SuppressWarnings("unchecked")
+    List<? extends EObject> contents = roots = (List<? extends EObject>)options.get(XMLResource.OPTION_ROOT_OBJECTS);
+    if (contents == null)
+    {
+      contents = resource.getContents();
+    }
     traverse(contents);
 
     if ("US-ASCII".equals(encoding) || "ASCII".equals(encoding))
@@ -252,7 +268,7 @@ public class XMLSaveImpl implements XMLSave
     this.xmlResource = null;
   }
 
-  protected void endSave(List<EObject> contents) throws IOException
+  protected void endSave(List<? extends EObject> contents) throws IOException
   {
     if (extendedMetaData != null && contents.size() >= 1)
     {
@@ -627,7 +643,10 @@ public class XMLSaveImpl implements XMLSave
     {
       if (extendedMetaData == null || featureTable.getDocumentRoot(eClass.getEPackage()) != eClass)
       {
-        String name = helper.getQName(eClass);
+        String name = 
+          extendedMetaData != null && roots != null && top.eContainmentFeature() != null ?
+            helper.getQName(top.eContainmentFeature()) :
+            helper.getQName(eClass);
         doc.startElement(name);
         Object mark = doc.mark();
         root = top;
@@ -646,7 +665,14 @@ public class XMLSaveImpl implements XMLSave
     {
       if (extendedMetaData == null || extendedMetaData.getDocumentRoot(eClass.getEPackage()) != eClass)
       {
-        helper.populateNameInfo(nameInfo, eClass);
+        if (extendedMetaData != null && roots != null && top.eContainmentFeature() != null)
+        {
+          helper.populateNameInfo(nameInfo, top.eContainmentFeature());
+        }
+        else
+        {
+          helper.populateNameInfo(nameInfo, eClass);
+        }
         if (document.getLastChild() == null)
         {
           currentNode = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());

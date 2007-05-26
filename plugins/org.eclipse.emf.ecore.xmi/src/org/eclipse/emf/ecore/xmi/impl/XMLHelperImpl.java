@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.40 2007/05/01 13:34:45 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.41 2007/05/26 13:45:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -92,6 +92,8 @@ public class XMLHelperImpl implements XMLHelper
   protected boolean checkForDuplicates;
   protected boolean mustHavePrefix;
   protected XMLResource.URIHandler uriHandler;
+  protected List<? extends EObject> roots;
+  protected String [] fragmentPrefixes;
   
   private EPackage previousPackage;
   private String previousNS;
@@ -199,6 +201,39 @@ public class XMLHelperImpl implements XMLHelper
     if (uriHandler != null)
     {
       uriHandler.setBaseURI(resourceURI);
+    }
+    @SuppressWarnings("unchecked")
+    List<? extends EObject> roots = (List<? extends EObject>)options.get(XMLResource.OPTION_ROOT_OBJECTS);
+    if (roots != null)
+    {
+      this.roots = roots;
+      fragmentPrefixes = new String[roots.size()];
+      int count = 0;
+      for (EObject root : roots)
+      {
+        InternalEObject internalEObject = (InternalEObject)root;
+        List<String> uriFragmentPath = new ArrayList<String>();
+        for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
+        {
+          uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
+          internalEObject = container;
+          Resource resource = container.eDirectResource();
+          if (resource != null)
+          {
+            int index = resource.getContents().indexOf(container);
+            uriFragmentPath.add(index != 0 ? Integer.toString(index) : "");
+            break;
+          }
+        }
+
+        StringBuilder result = new StringBuilder("/");
+        for (int i = uriFragmentPath.size() - 1; i >= 1; --i)
+        {
+          result.append(uriFragmentPath.get(i));
+          result.append('/');
+        }
+        fragmentPrefixes[count++] = result.toString();
+      }
     }
   }
 
@@ -672,24 +707,44 @@ public class XMLHelperImpl implements XMLHelper
 
   protected String getURIFragment(Resource containingResource, EObject object)
   {
-    String result = containingResource.getURIFragment(object);
-    if (result.charAt(0) != '/')
+    if (roots != null && !EcoreUtil.isAncestor(roots, object))
     {
-      String query = getURIFragmentQuery(containingResource, object);
-      if (query != null)
-      {
-        result += "?" + query + "?";
-      }
+      URI uriResult = handleDanglingHREF(object);
+      return uriResult == null || !uriResult.hasFragment() ? null : uriResult.fragment();
     }
-    else if ("/-1".equals(result))
+    else
     {
-      if (object.eResource() != containingResource)
+      String result = containingResource.getURIFragment(object);
+      if (result.charAt(0) != '/')
       {
-        URI uriResult = handleDanglingHREF(object);
-        return uriResult == null || !uriResult.hasFragment() ? null : uriResult.fragment();
+        String query = getURIFragmentQuery(containingResource, object);
+        if (query != null)
+        {
+          result += "?" + query + "?";
+        }
       }
+      else if ("/-1".equals(result))
+      {
+        if (object.eResource() != containingResource)
+        {
+          URI uriResult = handleDanglingHREF(object);
+          return uriResult == null || !uriResult.hasFragment() ? null : uriResult.fragment();
+        }
+      }
+      else if (fragmentPrefixes != null)
+      {
+        for (int i = 0; i < fragmentPrefixes.length; ++i)
+        {
+          String fragmentPrefix = fragmentPrefixes[i];
+          if (result.startsWith(fragmentPrefix))
+          {
+            result = "/" + (i == 0 ? "" : Integer.toString(i)) + result.substring(fragmentPrefix.length() - 1);
+            break;
+          }
+        }
+      }
+      return result;
     }
-    return result;
   }
 
   public String getIDREF(EObject obj)
