@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.16 2007/04/08 16:32:14 marcelop Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.17 2007/05/28 18:50:34 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -191,13 +191,14 @@ public class ChangeDescriptionTest extends TestCase
       class2.setName("Class2");
 
       ChangeRecorder changeRecorder = new ChangeRecorder(pack);
+      pack.setName(pack.getName());
       pack.getEClassifiers().add(class2);
       class2.setName("Class2-1");
       pack.getEClassifiers().remove(class2);
       ChangeDescription changeDescription = changeRecorder.endRecording();
 
-      assertEquals(1, changeDescription.getObjectChanges().size());
-      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertEquals(0, changeDescription.getObjectChanges().size());
+      // assertTrue(changeDescription.getObjectChanges().containsKey(pack));
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
       assertTrue(changeDescription.getObjectsToDetach().isEmpty());
     }
@@ -219,8 +220,8 @@ public class ChangeDescriptionTest extends TestCase
       ChangeDescription changeDescription = changeRecorder.endRecording();
 
       // Test 2
-      assertEquals(2, changeDescription.getObjectChanges().size());
-      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertEquals(1, changeDescription.getObjectChanges().size());
+      // assertTrue(changeDescription.getObjectChanges().containsKey(pack));
       assertTrue(changeDescription.getObjectChanges().containsKey(class1));
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
       assertTrue(changeDescription.getObjectsToDetach().isEmpty());
@@ -245,8 +246,8 @@ public class ChangeDescriptionTest extends TestCase
       pack.getEClassifiers().add(class1);
       ChangeDescription changeDescription = changeRecorder.endRecording();
 
-      assertEquals(2, changeDescription.getObjectChanges().size());
-      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertEquals(1, changeDescription.getObjectChanges().size());
+      // assertTrue(changeDescription.getObjectChanges().containsKey(pack));
       assertTrue(changeDescription.getObjectChanges().containsKey(class1));
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
       assertTrue(changeDescription.getObjectsToDetach().isEmpty());
@@ -271,8 +272,8 @@ public class ChangeDescriptionTest extends TestCase
       pack.getEClassifiers().remove(class2);
       changeDescription = changeRecorder.endRecording();
 
-      assertEquals(1, changeDescription.getObjectChanges().size());
-      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertEquals(0, changeDescription.getObjectChanges().size());
+      // assertTrue(changeDescription.getObjectChanges().containsKey(pack));
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
       assertTrue(changeDescription.getObjectsToDetach().isEmpty());
     }
@@ -296,8 +297,8 @@ public class ChangeDescriptionTest extends TestCase
       pack.getEClassifiers().add(class1);
       changeDescription = changeRecorder.endRecording();
 
-      assertEquals(2, changeDescription.getObjectChanges().size());
-      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertEquals(1, changeDescription.getObjectChanges().size());
+      // assertTrue(changeDescription.getObjectChanges().containsKey(pack));
       assertTrue(changeDescription.getObjectChanges().containsKey(class1));
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
       assertTrue(changeDescription.getObjectsToDetach().isEmpty());
@@ -325,8 +326,8 @@ public class ChangeDescriptionTest extends TestCase
       pack.getEClassifiers().add(class1);
       changeDescription = changeRecorder.endRecording();
 
-      assertEquals(2, changeDescription.getObjectChanges().size());
-      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertEquals(1, changeDescription.getObjectChanges().size());
+      //assertTrue(changeDescription.getObjectChanges().containsKey(pack));
       assertTrue(changeDescription.getObjectChanges().containsKey(class1));
       assertTrue(changeDescription.getObjectsToAttach().isEmpty());
       assertTrue(changeDescription.getObjectsToDetach().isEmpty());
