@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.10 2006/12/05 20:22:27 emerks Exp $
+ * $Id: URIConverterImpl.java,v 1.11 2007/05/28 18:25:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -25,8 +25,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.resources.IContainer;
@@ -37,6 +39,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.archive.ArchiveURLConnection;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -208,6 +211,35 @@ public class URIConverterImpl implements URIConverter
    */
   protected static IWorkspaceRoot workspaceRoot = EcorePlugin.getWorkspaceRoot();
 
+  private static Map<String, Boolean> efsScheme;
+  private static final Method EFS_GET_FILE_SYSTEM_METHOD;
+  private static final Method EFS_GET_STORE_METHOD;
+  private static final Method FILE_STORE_OPEN_INPUT_STREAM_METHOD;
+  private static final Method FILE_STORE_OPEN_OUTPUT_STREAM_METHOD;
+  static
+  {
+    Method efsGetStoreMethod = null;
+    Method efsGetFileSystemMethod = null;
+    Method fileStoreOpenInputStreamMethod = null;
+    Method fileStoreOpenOutputStreamMethod = null;
+    try
+    {
+      Class <?> efsClass  = CommonPlugin.loadClass("org.eclipse.core.filesystem", "org.eclipse.core.filesystem.EFS");
+      efsGetStoreMethod = efsClass.getMethod("getStore", java.net.URI.class);
+      efsGetFileSystemMethod = efsClass.getMethod("getFileSystem", String.class);
+      Class <?> fileStoreClass = efsGetStoreMethod.getReturnType();
+      fileStoreOpenInputStreamMethod = fileStoreClass.getMethod("openInputStream", Integer.TYPE, IProgressMonitor.class);
+      fileStoreOpenOutputStreamMethod = fileStoreClass.getMethod("openOutputStream", Integer.TYPE, IProgressMonitor.class);
+    }
+    catch (Throwable exeption)
+    {
+      // Ignore any exceptions and assume the class isn't available.
+    }
+    EFS_GET_STORE_METHOD = efsGetStoreMethod;
+    EFS_GET_FILE_SYSTEM_METHOD = efsGetFileSystemMethod;
+    FILE_STORE_OPEN_INPUT_STREAM_METHOD = fileStoreOpenInputStreamMethod;
+    FILE_STORE_OPEN_OUTPUT_STREAM_METHOD = fileStoreOpenOutputStreamMethod;
+  }
   // ECLIPSE-DEPEND-END
 
   /**
@@ -248,7 +280,7 @@ public class URIConverterImpl implements URIConverter
   
   /**
    * Returns whether the scheme is one that this implementation should treat as an archive.
-   * This implementation returns <code>true</code> which the schem is <code>"archive"</code>.
+   * This implementation returns <code>true</code> when the scheme is <code>"archive"</code>.
    * @param scheme the scheme to consider.
    * @return whether the scheme is one that this implementation treats as an archive.
    */
@@ -258,26 +290,64 @@ public class URIConverterImpl implements URIConverter
   }
 
   /**
+   * Returns whether the scheme is one that this implementation should treat as a supported Eclipse File System scheme.
+   * This implementation uses Java reflection to check whether there is an Eclipse File System available and if so whether it supports this scheme.
+   * @param scheme the scheme to consider.
+   * @return whether the scheme is one that this implementation treats as an Eclipse File System scheme.
+   */
+  protected boolean isEFSScheme(String scheme)
+  {
+    if (EFS_GET_FILE_SYSTEM_METHOD == null)
+    {
+      return false;
+    }
+    else
+    {
+      Boolean result = efsScheme == null ? null : efsScheme.get(scheme);
+      if (result == null)
+      {
+        try
+        {
+          result = EFS_GET_FILE_SYSTEM_METHOD.invoke(null, scheme) != null;
+        }
+        catch (Throwable exception)
+        {
+          result = Boolean.FALSE;
+        }
+        Map<String, Boolean> map = new HashMap<String, Boolean>();
+        if (efsScheme != null)
+        {
+          map.putAll(efsScheme);
+        }
+        map.put(scheme, result);
+        efsScheme = map;
+      }
+      return result == Boolean.TRUE;
+    }
+  }
+
+  /**
    * Creates an output stream for the URI and returns it.
    * <p>
    * This implementation {@link #normalize normalizes} the URI and uses that as the basis for further processing.
-   * It factors out the URI schemes <code>file</code> and <code>platform</code> (with leading <code>resource</code> segment)
-   * for special processing by 
-   * {@link #createFileOutputStream createFileOutputStream} and
-   * {@link #createPlatformResourceOutputStream createPlatformResourceOutputStream}, respectively.
-   * The file-based URI is {@link URI#toFileString converted} to a file path, e.g.,
+   * A {@link URI#isFile() file-based} URI is {@link URI#toFileString converted} to a file path, e.g.,
    *<pre>
    *  file:///C:/directory/file
    *    ->
    *   C:/directory/file
    *</pre>
-   * and the platform-based URI is converted to a platform path by trimming the leading <code>platform:/resource</code>, e.g.,
+   * and is delegated to {@link #createFileOutputStream createFileOutputStream}.
+   * An {@link #isArchiveScheme(String) archive-based} URI is delegated to  {@link #createArchiveOutputStream createArchiveOutputStream}.
+   * A {@link URI#isPlatformResource() platform-based} URI is {@link URI#toPlatformString(boolean) converted} to a platform path 
+   * by trimming the leading <code>platform:/resource</code>, e.g.,
    *<pre>
    *  platform:/resource/project/directory/file 
    *    ->
    *  /project/directory/file 
    *</pre>
-   * All other cases are handled as standard URLs by {@link #createURLOutputStream createURLOutputStream}.
+   * and is delegated to {@link #createPlatformResourceOutputStream createPlatformResourceOutputStream}.
+   * An {@link #isEFSScheme(String) EFS-based} URI is delgated to {@link #createEFSInputStream(URI) createEFSOutputStream}.
+   * And all other cases are handled as standard URLs by {@link #createURLOutputStream createURLOutputStream}.
    * </p>
    * @return an open output stream.
    * @exception IOException if there is a problem obtaining an open output stream.
@@ -300,6 +370,10 @@ public class URIConverterImpl implements URIConverter
       else if (converted.isPlatformResource())
       {
         return createPlatformResourceOutputStream(converted.toPlatformString(true));
+      }
+      else if (isEFSScheme(scheme))
+      {
+        return createEFSOutputStream(converted);
       }
       else
       {
@@ -374,6 +448,31 @@ public class URIConverterImpl implements URIConverter
   }
 
   /**
+   * Creates an output stream for the URI, assuming it's a URI recognized by the Eclipse File System, and returns it.
+   * @return an open output stream.
+   * @exception IOException if there is a problem obtaining an open output stream.
+   */
+  protected OutputStream createEFSOutputStream(URI uri) throws IOException
+  {
+    if (EFS_GET_STORE_METHOD != null)
+    {
+      try
+      {
+        Object store = EFS_GET_STORE_METHOD.invoke(null, new java.net.URI(uri.toString()));
+        if (store != null)
+        {
+          return (OutputStream)FILE_STORE_OPEN_OUTPUT_STREAM_METHOD.invoke(store, 0, null);
+        }
+      }
+      catch (Exception exception)
+      {
+        throw new Resource.IOWrappedException(exception);
+      }
+    }
+    throw new IOException("EFS unavailable");
+  }
+
+  /**
    * Creates an output stream for the URI, assuming it's a URL, and returns it.
    * @return an open output stream.
    * @exception IOException if there is a problem obtaining an open output stream.
@@ -397,25 +496,26 @@ public class URIConverterImpl implements URIConverter
    * Creates an input stream for the URI and returns it.
    * <p>
    * This implementation {@link #normalize normalizes} the URI and uses that as the basis for further processing.
-   * It factors out the URI schemes <code>file</code> and <code>platform</code> (with leading <code>resource</code> segment)
-   * for special processing by 
-   * {@link #createFileInputStream createFileInputStream} and
-   * {@link #createPlatformResourceInputStream createPlatformResourceInputStream}, respectively.
-   * The file-based URI is {@link URI#toFileString converted} to a file path, e.g.,
+   * A {@link URI#isFile() file-based} URI is {@link URI#toFileString converted} to a file path, e.g.,
    *<pre>
    *  file:///C:/directory/file
    *    ->
    *   C:/directory/file
    *</pre>
-   * and the platform-based URI is converted to a platform path by trimming the leading <code>platform:/resource</code>, e.g.,
+   * and is delegated to {@link #createFileInputStream createFileInputStream}.
+   * An {@link #isArchiveScheme(String) archive-based} URI is delegated to  {@link #createArchiveInputStream createArchiveInputStream}.
+   * A {@link URI#isPlatformResource() platform-based} URI is {@link URI#toPlatformString(boolean) converted} to a platform path 
+   * by trimming the leading <code>platform:/resource</code>, e.g.,
    *<pre>
    *  platform:/resource/project/directory/file 
    *    ->
    *  /project/directory/file 
    *</pre>
-   * All other cases are handled as standard URLs by {@link #createURLInputStream createURLInputStream}.
+   * and is delegated to {@link #createPlatformResourceInputStream createPlatformResourceInputStream}.
+   * An {@link #isEFSScheme(String) EFS-based} URI is delgated to {@link #createEFSInputStream(URI) createEFSInputStream}.
+   * And all other cases are handled as standard URLs by {@link #createURLInputStream createURLInputStream}.
    * </p>
-   * @return an open Input stream.
+   * @return an open input stream.
    * @exception IOException if there is a problem obtaining an open input stream.
    */
   public InputStream createInputStream(URI uri) throws IOException
@@ -437,6 +537,10 @@ public class URIConverterImpl implements URIConverter
       {
         return createPlatformResourceInputStream(converted.toPlatformString(true));
       }      
+      else if (isEFSScheme(scheme))
+      {
+        return createEFSInputStream(converted);
+      }
       else
       {
         return createURLInputStream(converted);
@@ -543,6 +647,31 @@ public class URIConverterImpl implements URIConverter
 
       throw new IOException("The path '" + platformResourcePath + "' is unmapped");
     }
+  }
+
+  /**
+   * Creates an input stream for the URI, assuming it's a URI recognized by the Eclipse File System, and returns it.
+   * @return an open input stream.
+   * @exception IOException if there is a problem obtaining an open input stream.
+   */
+  protected InputStream createEFSInputStream(URI uri) throws IOException
+  {
+    if (EFS_GET_STORE_METHOD != null)
+    {
+      try
+      {
+        Object store = EFS_GET_STORE_METHOD.invoke(null, new java.net.URI(uri.toString()));
+        if (store != null)
+        {
+          return (InputStream)FILE_STORE_OPEN_INPUT_STREAM_METHOD.invoke(store, 0, null);
+        }
+      }
+      catch (Exception exception)
+      {
+        throw new Resource.IOWrappedException(exception);
+      }
+    }
+    throw new IOException("EFS unavailable");
   }
 
   /**
