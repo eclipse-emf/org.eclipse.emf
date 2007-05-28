@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.45 2007/05/10 19:40:31 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.46 2007/05/28 18:24:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -88,7 +88,6 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
@@ -161,6 +160,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
 
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
@@ -1072,10 +1072,7 @@ public class GenModelEditor
    */
   public void createModel()
   {
-    // Assumes that the input is a file object.
-    //
-    IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);
+    URI resourceURI = EditUIUtil.getURI(getEditorInput());
     Exception exception = null;
     Resource resource = null;
     try
@@ -1616,24 +1613,17 @@ public class GenModelEditor
    * This is called during startup.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   @Override
   public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException
   {
     setSite(site);
-    if (editorInput instanceof IFileEditorInput)
-    {
-      setInputWithNotify(editorInput);
-      setPartName(editorInput.getName());
-      site.setSelectionProvider(this);
-      site.getPage().addPartListener(partListener);
-      ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
-    }
-    else
-    {
-      throw new PartInitException("Invalid Input: Must be IFileEditorInput.");
-    }
+    setInputWithNotify(editorInput);
+    setPartName(editorInput.getName());
+    site.setSelectionProvider(this);
+    site.getPage().addPartListener(partListener);
+    ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
   }
 
   /**
