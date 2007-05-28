@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.7 2006/12/30 03:44:08 marcelop Exp $
+ * $Id: DataGraphTest.java,v 1.8 2007/05/28 18:50:33 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -92,7 +92,7 @@ public class DataGraphTest extends TestCase
     modifiedXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\" xmlns:tp=\"testPackage\"><changeSummary xmlns=\"\"><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges></changeSummary><tp:testClass name=\"Root2\"><child name=\"Parent\"><child name=\"Child\"/><reference>//@eRootObject</reference></child></tp:testClass></sdo:datagraph>"
       + System.getProperties().getProperty("line.separator");
 
-    finalXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\" xmlns:tp=\"testPackage\"><changeSummary xmlns=\"\"><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges><objectChanges key=\"#//@eRootObject/@child.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\"><listChanges index=\"0\" referenceValues=\"#//@eChangeSummary/@objectsToAttach.0\"/></value></objectChanges><objectChanges key=\"#//@eChangeSummary/@objectsToAttach.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Child\"/><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\" set=\"false\"/><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"reference\" set=\"false\"/></objectChanges><objectsToAttach xsi:type=\"tp:testClass\"/></changeSummary><tp:testClass name=\"Root2\"><child name=\"Parent\"><reference>//@eRootObject</reference></child></tp:testClass></sdo:datagraph>"
+    finalXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\" xmlns:tp=\"testPackage\"><changeSummary xmlns=\"\"><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges><objectChanges key=\"#//@eRootObject/@child.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\"><listChanges index=\"0\" referenceValues=\"#//@eChangeSummary/@objectsToAttach.0\"/></value></objectChanges><objectChanges key=\"#//@eChangeSummary/@objectsToAttach.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Child\"/>" + "</objectChanges><objectsToAttach xsi:type=\"tp:testClass\"/></changeSummary><tp:testClass name=\"Root2\"><child name=\"Parent\"><reference>//@eRootObject</reference></child></tp:testClass></sdo:datagraph>"
       + System.getProperties().getProperty("line.separator");
 
     // Create a dynamic package
