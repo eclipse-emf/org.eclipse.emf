@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,17 @@
  *
  * </copyright>
  *
- * $Id: XSDModelWizard.java,v 1.6 2006/12/29 18:34:03 marcelop Exp $
+ * $Id: XSDModelWizard.java,v 1.7 2007/05/28 19:13:03 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -39,6 +43,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -64,6 +69,7 @@ import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.util.XSDConstants;
+import org.eclipse.xsd.util.XSDResourceImpl;
 
 
 /**
@@ -121,6 +127,11 @@ public class XSDModelWizard extends Wizard implements INewWizard
    * @generated
    */
   protected IWorkbench workbench;
+
+  /**
+   * 
+   */
+  protected List<String> encodings;
 
   /**
    * This just records the information.
@@ -193,7 +204,9 @@ public class XSDModelWizard extends Wizard implements INewWizard
 
               // Save the contents of the resource to the file system.
               //
-              resource.save(Collections.EMPTY_MAP);
+              Map<Object, Object> options = new HashMap<Object, Object>();
+              options.put(XSDResourceImpl.XSD_ENCODING, initialObjectCreationPage.getEncoding());
+              resource.save(options);
             }
             catch (Exception exception)
             {
@@ -357,6 +370,10 @@ public class XSDModelWizard extends Wizard implements INewWizard
      */
     protected Text schemaNamespaceText;
 
+    /**
+     */
+    protected Combo encodingField;
+
     protected boolean isCustomSchemaNamespace = false; 
 
     /**
@@ -467,6 +484,29 @@ public class XSDModelWizard extends Wizard implements INewWizard
         schemaForSchemaNamespaceText.setText(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
       }
 
+      Label encodingLabel = new Label(composite, SWT.LEFT);
+      {
+        encodingLabel.setText(XSDEditorPlugin.INSTANCE.getString("_UI_XMLEncoding"));
+
+        GridData data = new GridData();
+        data.horizontalAlignment = GridData.FILL;
+        encodingLabel.setLayoutData(data);
+      }
+      encodingField = new Combo(composite, SWT.BORDER);
+      {
+        GridData data = new GridData();
+        data.horizontalAlignment = GridData.FILL;
+        data.grabExcessHorizontalSpace = true;
+        encodingField.setLayoutData(data);
+      }
+
+      for (String encoding : getEncodings())
+      {
+        encodingField.add(encoding);
+      }
+
+      encodingField.select(0);
+
       setControl(composite);
     }
 
@@ -502,6 +542,24 @@ public class XSDModelWizard extends Wizard implements INewWizard
       }
       super.setVisible(visible);
     }
+
+    public String getEncoding()
+    {
+      return encodingField.getText();
+    }
+  }
+
+  protected Collection<String> getEncodings()
+  {
+    if (encodings == null)
+    {
+      encodings = new ArrayList<String>();
+      for (StringTokenizer stringTokenizer = new StringTokenizer(XSDEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); )
+      {
+        encodings.add(stringTokenizer.nextToken());
+      }
+    }
+    return encodings;
   }
 
   /**
