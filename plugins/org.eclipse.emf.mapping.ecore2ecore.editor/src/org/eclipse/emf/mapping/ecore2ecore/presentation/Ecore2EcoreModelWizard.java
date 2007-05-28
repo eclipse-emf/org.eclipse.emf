@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreModelWizard.java,v 1.12 2006/12/29 18:28:58 marcelop Exp $
+ * $Id: Ecore2EcoreModelWizard.java,v 1.13 2007/05/28 19:12:59 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.EClass;
@@ -195,7 +196,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
           }
         }
       }
-      Collections.sort(initialObjectNames, java.text.Collator.getInstance());
+      Collections.sort(initialObjectNames, CommonPlugin.INSTANCE.getComparator());
     }
     return initialObjectNames;
   }
