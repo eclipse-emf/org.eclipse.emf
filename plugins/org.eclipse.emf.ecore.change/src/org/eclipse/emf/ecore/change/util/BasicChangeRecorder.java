@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: BasicChangeRecorder.java,v 1.1 2007/01/31 16:29:49 marcelop Exp $
+ * $Id: BasicChangeRecorder.java,v 1.2 2007/05/28 18:50:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -126,6 +127,49 @@ public class BasicChangeRecorder extends ListDifferenceAnalyzer
     for (ResourceChange resourceChange : changeDescription.getResourceChanges())
     {
       finalizeChange(resourceChange);
+    }    
+
+    eliminateEmptyChanges();
+  }
+
+  /**
+   * Eliminates changes that result in a state that's equal to the current state.
+   */
+  protected void eliminateEmptyChanges()
+  {
+    ChangeDescription changeDescription = getChangeDescription();
+    for (Iterator<Map.Entry<EObject, EList<FeatureChange>>> i = changeDescription.getObjectChanges().iterator(); i.hasNext();)
+    {
+      Map.Entry<EObject, EList<FeatureChange>> entry = i.next();
+      EObject eObject = entry.getKey();
+      EList<FeatureChange> featureChanges = entry.getValue();
+      for (Iterator<FeatureChange> j = featureChanges.iterator(); j.hasNext(); )
+      {
+        FeatureChange featureChange  = j.next();
+        EStructuralFeature feature = featureChange.getFeature();
+        if (featureChange.isSet() == eObject.eIsSet(feature))
+        {
+          Object value = featureChange.getValue();
+          Object eObjectValue = eObject.eGet(feature);
+          if (value == null ? eObject.eGet(feature) == null : value.equals(eObjectValue))
+          {
+            j.remove();
+          }
+        }
+      }
+      if (featureChanges.isEmpty())
+      {
+        i.remove();
+      }
+    }
+
+    for (Iterator<ResourceChange> i = changeDescription.getResourceChanges().iterator(); i.hasNext(); )
+    {
+      ResourceChange resourceChange  = i.next();
+      if (resourceChange.getResource().getContents().equals(resourceChange.getValue()))
+      {
+        i.remove();
+      }
     }    
   }
   
