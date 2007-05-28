@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.46 2007/05/07 14:40:38 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.47 2007/05/28 18:26:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -37,7 +37,6 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
-import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.resources.ResourcesPlugin;
 
 import org.eclipse.core.runtime.CoreException;
@@ -88,7 +87,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 
@@ -131,7 +129,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EValidator;
 
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -164,6 +161,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
@@ -1054,10 +1052,7 @@ public class EcoreEditor
    */
   public void createModelGen()
   {
-    // Assumes that the input is a file object.
-    //
-    IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);
+    URI resourceURI = EditUIUtil.getURI(getEditorInput());
     Exception exception = null;
     Resource resource = null;
     try
@@ -1082,35 +1077,7 @@ public class EcoreEditor
 
   public void createModel()
   {
-    if (getEditorInput() instanceof IFileEditorInput)
-    {
-      editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
-      createModelGen();
-    }
-    else
-    {
-      Exception exception = null;
-      Resource resource = null;
-      IStorageEditorInput storageEditorInput = (IStorageEditorInput)getEditorInput();
-      try
-      {
-        IStorage storage = storageEditorInput.getStorage();
-        resource = editingDomain.createResource("*.ecore");
-        resource.setURI(URI.createURI(storage.getFullPath().toString()));
-        resource.load(storage.getContents(), null);
-      }
-      catch (Exception e)
-      {
-        exception = e;
-      }
-      
-      Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
-      if (diagnostic.getSeverity() != Diagnostic.OK)
-      {
-        resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
-      }
-      editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);      
-    }
+    createModelGen();
 
     if (!editingDomain.getResourceSet().getResources().isEmpty())
     {
