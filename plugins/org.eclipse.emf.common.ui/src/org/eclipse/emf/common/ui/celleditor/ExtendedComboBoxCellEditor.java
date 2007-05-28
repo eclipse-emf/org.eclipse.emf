@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,16 +12,17 @@
  *
  * </copyright>
  *
- * $Id: ExtendedComboBoxCellEditor.java,v 1.5 2006/12/28 06:42:02 marcelop Exp $
+ * $Id: ExtendedComboBoxCellEditor.java,v 1.6 2007/05/28 19:13:01 emerks Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
 
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.SWT;
@@ -42,7 +43,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 {
   private static class StringPositionPair implements Comparable<StringPositionPair>
   {
-    Collator collator = Collator.getInstance();
+    Comparator<String> comparator = CommonPlugin.INSTANCE.getComparator();
 
     public String key;
 
@@ -63,7 +64,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
       else
       {
         StringPositionPair that = object;
-        return collator.compare(key, that.key);
+        return comparator.compare(key, that.key);
       }
     }
   }
