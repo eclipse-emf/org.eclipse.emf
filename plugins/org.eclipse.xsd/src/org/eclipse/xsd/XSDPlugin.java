@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XSDPlugin.java,v 1.6 2006/12/15 18:59:55 emerks Exp $
+ * $Id: XSDPlugin.java,v 1.7 2007/05/28 19:13:02 emerks Exp $
  */
 package org.eclipse.xsd;
 
 
 import java.util.Comparator;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
@@ -60,11 +61,11 @@ public final class XSDPlugin extends EMFPlugin
    */
   public static class StringComparator implements Comparator<String>
   {
-    private static java.text.Collator COLLATOR = java.text.Collator.getInstance();
+    private Comparator<String> comparator = CommonPlugin.INSTANCE.getComparator();
   
     public int compare(String s1, String s2)
     {
-      return COLLATOR.compare(s1, s2);
+      return comparator.compare(s1, s2);
     }
   }
 
