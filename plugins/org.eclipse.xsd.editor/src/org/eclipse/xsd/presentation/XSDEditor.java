@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.23 2007/03/22 02:07:12 davidms Exp $
+ * $Id: XSDEditor.java,v 1.24 2007/05/28 18:28:23 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -155,6 +155,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.edit.ui.provider.PropertyDescriptor;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
 
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeGroupDefinition;
@@ -1024,11 +1025,8 @@ public class XSDEditor
           {
             progressMonitor.beginTask("", 12);
 
-            IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-            IFile file = modelFile.getFile();
-
             editingDomain.getResourceSet().getLoadOptions().put(XSDResourceImpl.XSD_PROGRESS_MONITOR, progressMonitor);
-            createResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true).toString());
+            createResource(EditUIUtil.getURI(getEditorInput()).toString());
             editingDomain.getResourceSet().getLoadOptions().remove(XSDResourceImpl.XSD_PROGRESS_MONITOR);
 
             progressMonitor.worked(1);
@@ -1038,9 +1036,9 @@ public class XSDEditor
               xsdSchema.validate();
             }
 
-            if (determineEncoding() != null)
+            if (determineEncoding() != null && getEditorInput() instanceof IFileEditorInput)
             {
-              file.setCharset(determineEncoding(), new SubProgressMonitor(progressMonitor, 2));
+              ((IFileEditorInput)getEditorInput()).getFile().setCharset(determineEncoding(), new SubProgressMonitor(progressMonitor, 2));
             }
 
             progressMonitor.worked(1);
@@ -1238,8 +1236,7 @@ public class XSDEditor
 
       createModel();
 
-      IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-      int pageIndex = addPage(textEditor, modelFile);
+      int pageIndex = addPage(textEditor, getEditorInput());
 
       handleDiagnostics(null);
 
@@ -1468,77 +1465,80 @@ public class XSDEditor
     else
     {
       XSDConcreteComponent newSelection = null;
-      try
+      if (getEditorInput() instanceof IFileEditorInput)
       {
-        // I assume that the input is a file object.
-        //
-        IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-        IFile file = modelFile.getFile();
-
-        IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ZERO);
-        Collection<IMarker> deletableMarkers = new ArrayList<IMarker>(Arrays.asList(markers));
-
-        if (validateAutomatically)
+        try
         {
-          for (XSDDiagnostic xsdDiagnostic : xsdSchema.getAllDiagnostics())
+          // I assume that the input is a file object.
+          //
+          IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
+          IFile file = modelFile.getFile();
+  
+          IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ZERO);
+          Collection<IMarker> deletableMarkers = new ArrayList<IMarker>(Arrays.asList(markers));
+  
+          if (validateAutomatically)
           {
-            String uriReferencePath = xsdSchema.eResource().getURIFragment(xsdDiagnostic);
-
-            IMarker marker = null;
-            for (int i = 0; i < markers.length; ++i)
+            for (XSDDiagnostic xsdDiagnostic : xsdSchema.getAllDiagnostics())
             {
-              if (markers[i].getAttribute(XSDDiagnostic.URI_FRAGMENT_ATTRIBUTE, "").equals(uriReferencePath))
+              String uriReferencePath = xsdSchema.eResource().getURIFragment(xsdDiagnostic);
+  
+              IMarker marker = null;
+              for (int i = 0; i < markers.length; ++i)
               {
-                marker = markers[i];
-                deletableMarkers.remove(marker);
-                break;
-              }
-            }
-
-            if (marker == null)
-            {
-              marker = file.createMarker(XSDDiagnostic.MARKER);
-              marker.setAttribute(XSDDiagnostic.URI_FRAGMENT_ATTRIBUTE, uriReferencePath);
-            }
-
-            initializeMarkerPosition(marker, xsdDiagnostic);
-
-            marker.setAttribute(IMarker.MESSAGE, xsdDiagnostic.getMessage());
-
-            switch (xsdDiagnostic.getSeverity().getValue())
-            {
-              case XSDDiagnosticSeverity.FATAL:
-              case XSDDiagnosticSeverity.ERROR:
-              {
-                if (newSelection == null)
+                if (markers[i].getAttribute(XSDDiagnostic.URI_FRAGMENT_ATTRIBUTE, "").equals(uriReferencePath))
                 {
-                  newSelection = xsdDiagnostic.getPrimaryComponent();
+                  marker = markers[i];
+                  deletableMarkers.remove(marker);
+                  break;
                 }
-                marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-                break;
               }
-              case XSDDiagnosticSeverity.WARNING:
+  
+              if (marker == null)
               {
-                marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-                break;
+                marker = file.createMarker(XSDDiagnostic.MARKER);
+                marker.setAttribute(XSDDiagnostic.URI_FRAGMENT_ATTRIBUTE, uriReferencePath);
               }
-              case XSDDiagnosticSeverity.INFORMATION:
+  
+              initializeMarkerPosition(marker, xsdDiagnostic);
+  
+              marker.setAttribute(IMarker.MESSAGE, xsdDiagnostic.getMessage());
+  
+              switch (xsdDiagnostic.getSeverity().getValue())
               {
-                marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
-                break;
+                case XSDDiagnosticSeverity.FATAL:
+                case XSDDiagnosticSeverity.ERROR:
+                {
+                  if (newSelection == null)
+                  {
+                    newSelection = xsdDiagnostic.getPrimaryComponent();
+                  }
+                  marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+                  break;
+                }
+                case XSDDiagnosticSeverity.WARNING:
+                {
+                  marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+                  break;
+                }
+                case XSDDiagnosticSeverity.INFORMATION:
+                {
+                  marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+                  break;
+                }
               }
             }
           }
+  
+          for (IMarker marker : deletableMarkers)
+          {
+            marker.delete();
+          }
         }
-
-        for (IMarker marker : deletableMarkers)
+        catch (Exception exception)
         {
-          marker.delete();
+          XSDEditorPlugin.INSTANCE.log(exception);
         }
-      }
-      catch (Exception exception)
-      {
-        XSDEditorPlugin.INSTANCE.log(exception);
       }
 
       // This will refresh the status.
@@ -2138,18 +2138,11 @@ public class XSDEditor
   @Override
   public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException
   {
-    if (editorInput instanceof IFileEditorInput)
-    {
-      setSite(site);
-      setInput(editorInput);
-      setPartName(((IFileEditorInput)editorInput).getFile().getName());
-      site.setSelectionProvider(new MultiPageSelectionProvider(this)); // EATM
-      site.getPage().addPartListener(partListener);
-    }
-    else
-    {
-      throw new PartInitException("Invalid Input: Must be IFileEditorInput.");
-    }
+    setSite(site);
+    setInput(editorInput);
+    setPartName(editorInput.getName());
+    site.setSelectionProvider(new MultiPageSelectionProvider(this));
+    site.getPage().addPartListener(partListener);
   }
 
   @Override
