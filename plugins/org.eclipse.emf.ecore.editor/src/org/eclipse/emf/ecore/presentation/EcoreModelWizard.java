@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.15 2007/02/05 21:49:41 emerks Exp $
+ * $Id: EcoreModelWizard.java,v 1.16 2007/05/28 19:13:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -61,6 +61,7 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -178,7 +179,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
           }
         }
       }
-      Collections.sort(initialObjectNames, java.text.Collator.getInstance());
+      Collections.sort(initialObjectNames, CommonPlugin.INSTANCE.getComparator());
     }
     return initialObjectNames;
   }
