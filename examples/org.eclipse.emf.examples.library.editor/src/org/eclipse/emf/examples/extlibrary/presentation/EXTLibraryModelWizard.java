@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryModelWizard.java,v 1.4 2006/12/29 18:27:34 marcelop Exp $
+ * $Id: EXTLibraryModelWizard.java,v 1.5 2007/05/28 19:13:01 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.EClass;
@@ -196,7 +197,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
           }
         }
       }
-      Collections.sort(initialObjectNames, java.text.Collator.getInstance());
+      Collections.sort(initialObjectNames, CommonPlugin.INSTANCE.getComparator());
     }
     return initialObjectNames;
   }
