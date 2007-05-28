@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,17 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.12 2006/12/05 20:19:58 emerks Exp $
+ * $Id: CommonPlugin.java,v 1.13 2007/05/28 19:13:02 emerks Exp $
  */
 package org.eclipse.emf.common;
 
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
+import java.text.Collator;
+import java.util.Comparator;
+import java.util.Locale;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -33,7 +37,7 @@ import org.eclipse.emf.common.util.URI;
  * within a headless Eclipse workspace,
  * or just stand-alone as part of some other application.
  * To support this, all resource access should be directed to the resource locator,
- * which can redirect the service as appopriate to the runtime.
+ * which can redirect the service as appropriate to the runtime.
  * During stand-alone invocation no plugin initialization takes place.
  * In this case, common.resources.jar must be on the CLASSPATH.
  * @see #INSTANCE
@@ -95,6 +99,54 @@ public final class CommonPlugin extends EMFPlugin
   public static Class<?> loadClass(String pluginID, String className) throws ClassNotFoundException
   {
     return plugin == null ? Class.forName(className) : Implementation.loadClass(pluginID, className);
+  }
+
+  private static final Method COLLATOR_GET_INSTANCE_METHOD;
+  static
+  {
+    Method collatorGetInstanceMethod = null;
+    try
+    {
+      Class<?> collatorClass = loadClass("com.ibm.icu", "com.ibm.icu.text.Collator");
+      collatorGetInstanceMethod = collatorClass.getMethod("getInstance", Locale.class);
+    }
+    catch (Throwable throwable)
+    {
+      // Assume the class is not available.
+    }
+    COLLATOR_GET_INSTANCE_METHOD = collatorGetInstanceMethod;
+  }
+
+  /**
+   * Returns a string comparator appropriate for collating strings for the {@link Locale#getDefault() current locale}.
+   * @return a string comparator appropriate for collating strings for the {@link Locale#getDefault() current locale}.
+   */
+  public Comparator<String> getComparator()
+  {
+    return getComparator(Locale.getDefault());
+  }
+
+  /**
+   * Returns a string comparator appropriate for collating strings for the give locale.
+   * This will use ICU, when available that plugins is available, or {@link Collator} otherwise.
+   * @param locale the locale for which a comparator is needed.
+   * @return a string comparator appropriate for collating strings for the give locale.
+   */
+  @SuppressWarnings("unchecked")
+  public Comparator<String> getComparator(Locale locale)
+  {
+    if (COLLATOR_GET_INSTANCE_METHOD != null)
+    {
+      try
+      {
+        return (Comparator<String>)COLLATOR_GET_INSTANCE_METHOD.invoke(null, locale);
+      }
+      catch (Throwable eception)
+      {
+        // Just return the default.
+      }
+    }
+    return (Comparator<String>)(Comparator<?>)Collator.getInstance(locale);
   }
 
   /**
