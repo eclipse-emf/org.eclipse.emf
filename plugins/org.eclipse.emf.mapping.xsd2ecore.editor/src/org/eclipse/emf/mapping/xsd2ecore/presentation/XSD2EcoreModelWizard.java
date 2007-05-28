@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreModelWizard.java,v 1.6 2006/12/29 18:29:15 marcelop Exp $
+ * $Id: XSD2EcoreModelWizard.java,v 1.7 2007/05/28 19:13:06 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.presentation;
 
@@ -55,6 +55,7 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -422,7 +423,7 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
         }
       }
 
-      Collections.sort(eClasses, java.text.Collator.getInstance());
+      Collections.sort(eClasses, CommonPlugin.INSTANCE.getComparator());
       for (String eClassName : eClasses)
       {
         initialObjectField.add(eClassName);
