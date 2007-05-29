@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ConvertToJETProjectWizard.java,v 1.6 2006/12/29 18:09:23 marcelop Exp $
+ * $Id: ConvertToJETProjectWizard.java,v 1.7 2007/05/29 20:28:43 marcelop Exp $
  */
 package org.eclipse.emf.codegen.presentation;
 
@@ -43,8 +43,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -153,9 +155,11 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
     {
       Composite composite = new Composite(parent, SWT.NONE);
       {
-        GridLayout layout = new GridLayout();
-        layout.numColumns = 2;
-        layout.verticalSpacing = 12;
+        FormLayout layout = new FormLayout();
+        layout.marginTop = 10;
+        layout.marginLeft = 10;
+        layout.marginRight = 10;
+        layout.spacing = 10;
         composite.setLayout(layout);
 
         GridData data = new GridData();
@@ -168,21 +172,35 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
       Label projectsLabel = new Label(composite, SWT.LEFT);
       projectsLabel.setText(CodeGenUIPlugin.getPlugin().getString("_UI_Projects_label"));
       {
-        GridData data = new GridData();
-        data.horizontalAlignment = GridData.FILL;
+        FormData data = new FormData();
+        data.left = new FormAttachment(0);
         projectsLabel.setLayoutData(data);
-      }
+      }    
 
+      Table projectsTable = new Table(composite, SWT.CHECK | SWT.BORDER);
+      {
+        FormData data = new FormData(SWT.DEFAULT, 250);
+        data.top = new FormAttachment(projectsLabel, 5);
+        data.bottom = new FormAttachment(100);
+        data.left = new FormAttachment(0);
+        data.right = new FormAttachment(100);
+        data.height = 90;
+        projectsTable.setLayoutData(data);
+      }
+      
       Composite selectionComposite = new Composite(composite, SWT.NONE);
       {
-        GridData data = new GridData();
-        data.horizontalAlignment = GridData.END;
-        selectionComposite.setLayoutData(data);
+        FormData data = new FormData();
+        data.top = new FormAttachment(projectsLabel, 0, SWT.CENTER);
+        data.right = new FormAttachment(100);
+        selectionComposite.setLayoutData(data);      
 
         RowLayout layout = new RowLayout();
         layout.justify = true;
         layout.pack = true;
         layout.spacing = 15;
+        layout.marginBottom = layout.marginTop = 0;
+        layout.marginLeft = layout.marginRight = 0;
         selectionComposite.setLayout(layout);
       }
 
@@ -192,19 +210,7 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
       Button deselectAllButton = new Button(selectionComposite, SWT.PUSH);
       deselectAllButton.setText(CodeGenUIPlugin.getPlugin().getString("_UI_DeselectAll_label"));
 
-      Table projectsTable = new Table(composite, SWT.CHECK | SWT.BORDER);
       final CheckboxTableViewer projectsCheckboxTableViewer = new CheckboxTableViewer(projectsTable);
-      {
-        GridData data = new GridData();
-        data.verticalAlignment = GridData.FILL;
-        data.grabExcessHorizontalSpace = true;
-        data.grabExcessVerticalSpace = false;
-        data.heightHint = 250;
-        data.horizontalAlignment = GridData.FILL;
-        data.horizontalSpan = 2;
-        projectsTable.setLayoutData(data);
-      }
-
       {
         TableLayout layout = new TableLayout();
         TableColumn projectColumn = new TableColumn(projectsTable, SWT.NONE);
