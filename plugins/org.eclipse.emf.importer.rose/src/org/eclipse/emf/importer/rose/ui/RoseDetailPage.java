@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.14 2006/12/28 06:56:06 marcelop Exp $
+ * $Id: RoseDetailPage.java,v 1.15 2007/05/29 20:28:44 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -25,6 +25,9 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -117,27 +120,35 @@ public class RoseDetailPage extends ModelImporterDetailPage
   {
     Group pathMapGroup = new Group(parent, SWT.SHADOW_ETCHED_IN);
     {
-      GridLayout layout = new GridLayout();
-      layout.numColumns = 2;
-      layout.verticalSpacing = 12;
-      pathMapGroup.setLayout(layout);      
+      FormLayout layout = new FormLayout();
+      layout.marginTop = 10;
+      layout.spacing = 10;
+      pathMapGroup.setLayout(layout);
     }
     pathMapGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
     pathMapGroup.setText(RoseImporterPlugin.INSTANCE.getString("_UI_PathMap_label"));
 
+    pathMapTable = new Table(pathMapGroup, SWT.BORDER);
+    
     Composite buttonComposite = new Composite(pathMapGroup, SWT.NONE);
-     {
-       GridData data = new GridData(GridData.HORIZONTAL_ALIGN_END);
-       data.horizontalSpan = 2;
-       buttonComposite.setLayoutData(data);       
+    {
+      FormData data = new FormData();
+      data.top = new FormAttachment(0, -10);
+      data.right = new FormAttachment(100, -5);
+      buttonComposite.setLayoutData(data);      
        
-       GridLayout layout = new GridLayout(2, true);
-       layout.marginLeft = -5; 
-       layout.marginRight = -5;
-       layout.marginTop = -5;
-       layout.marginBottom = -5;
-       buttonComposite.setLayout(layout);
-    }
+      GridLayout layout = new GridLayout(2, true);
+      buttonComposite.setLayout(layout);
+   }
+     
+    {
+      FormData data = new FormData();
+      data.top = new FormAttachment(buttonComposite, 0, SWT.BOTTOM);
+      data.bottom = new FormAttachment(100, -10);
+      data.left = new FormAttachment(0, 10);
+      data.right = new FormAttachment(100, -10);
+      pathMapTable.setLayoutData(data);
+    }     
     
     loadPathMapSymbolsButton = new Button(buttonComposite, SWT.PUSH);
     loadPathMapSymbolsButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -150,8 +161,6 @@ public class RoseDetailPage extends ModelImporterDetailPage
     browsePathMapLocationButton.setEnabled(false);
     browsePathMapLocationButton.addListener(SWT.Selection, this);
 
-    pathMapTable = new Table(pathMapGroup, SWT.BORDER);
-    pathMapTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
     pathMapTableViewer = new TableViewer(pathMapTable);
 
     pathMapTable.setHeaderVisible(true);
