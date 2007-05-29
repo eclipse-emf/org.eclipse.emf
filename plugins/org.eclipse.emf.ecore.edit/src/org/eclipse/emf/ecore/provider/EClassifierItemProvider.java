@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierItemProvider.java,v 1.19 2007/04/10 15:28:19 emerks Exp $
+ * $Id: EClassifierItemProvider.java,v 1.20 2007/05/29 17:30:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -22,13 +22,17 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
@@ -110,7 +114,7 @@ public class EClassifierItemProvider
          {
            EObject eObject = (EObject)object;
            EditingDomain editingDomain = getEditingDomain(object);
-           value = stripToNull((String)value);
+           value = normalizeInstanceTypeName(stripToNull((String)value));
            if (editingDomain == null)
            {
              eObject.eSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME, value);
@@ -125,6 +129,19 @@ public class EClassifierItemProvider
            }
          }
        });
+  }
+
+  protected String normalizeInstanceTypeName(String value)
+  {
+    if (value != null)
+    {
+      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(value);
+      if (diagnostic.getSeverity() == Diagnostic.OK)
+      {
+        value = EcoreUtil.toJavaInstanceTypeName(((EGenericType)diagnostic.getData().get(0)));
+      }
+    }
+    return value;
   }
 
   /**
@@ -175,7 +192,7 @@ public class EClassifierItemProvider
          @Override
          public void setPropertyValue(Object object, Object value)
          {
-           super.setPropertyValue(object, stripToNull((String)value));
+           super.setPropertyValue(object, normalizeInstanceTypeName(stripToNull((String)value)));
          }
        });
   }
