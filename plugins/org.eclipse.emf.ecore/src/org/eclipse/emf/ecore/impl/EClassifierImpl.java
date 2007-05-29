@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.25 2007/02/20 17:40:49 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.26 2007/05/29 15:16:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -546,13 +546,14 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   public void setInstanceTypeName(String newInstanceTypeName)
   {
     String oldInstanceTypeName = instanceTypeName;
-    instanceTypeName = newInstanceTypeName;
     if (newInstanceTypeName == null)
     {
+      instanceTypeName = null;
       basicSetInstanceClassName(null);
     }
     else
     {
+      instanceTypeName = newInstanceTypeName.intern();
       // If it's a parameterized type...
       //
       int index = newInstanceTypeName.indexOf('<');
