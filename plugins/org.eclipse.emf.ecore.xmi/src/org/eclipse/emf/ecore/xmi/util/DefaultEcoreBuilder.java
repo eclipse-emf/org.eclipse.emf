@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DefaultEcoreBuilder.java,v 1.3 2006/12/05 20:23:28 emerks Exp $
+ * $Id: DefaultEcoreBuilder.java,v 1.4 2007/05/29 11:14:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -28,7 +28,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.EcoreBuilder;
-import org.eclipse.emf.ecore.xmi.XMIPlugin;
 
 
 /**
@@ -56,10 +55,9 @@ public class DefaultEcoreBuilder implements EcoreBuilder
       theXSDEcoreBuilderConstructor = theXSDEcoreBuilderClass.getConstructor(new Class []{ ExtendedMetaData.class });
       theXSDEcoreBuilderGenerateResourcesMethod = theXSDEcoreBuilderClass.getMethod("generateResources", new Class []{ Collection.class });
     }
-    catch (Exception exception)
+    catch (Throwable exception)
     {
-      XMIPlugin.INSTANCE.log(exception);
-      exception.printStackTrace();
+      // Assume the class isn't available.
     }
 
     XSD_ECORE_BUILDER_CLASS = theXSDEcoreBuilderClass;
