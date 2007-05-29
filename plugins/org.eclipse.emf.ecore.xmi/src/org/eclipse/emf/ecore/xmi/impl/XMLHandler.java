@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.75 2007/05/23 18:20:28 marcelop Exp $
+ * $Id: XMLHandler.java,v 1.76 2007/05/29 15:10:59 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2527,7 +2527,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   protected URIConverter getURIConverter()
   {
-    return resourceSet == null ? resourceSet.getURIConverter() : new URIConverterImpl();
+    return resourceSet != null ? resourceSet.getURIConverter() : new URIConverterImpl();
   }
 
   protected void setFeatureValue(EObject object, EStructuralFeature feature, Object value)
