@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.12 2007/04/05 01:08:07 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.13 2007/05/29 20:10:26 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -371,8 +371,16 @@ public class ASTFacadeHelper extends FacadeHelper
   @SuppressWarnings("unchecked")
   private Map getDefaultJavaCoreOptions()
   {
-    Map javaCoreOptions = JavaCore.getOptions();
+    Map javaCoreOptions = JavaCore.getDefaultOptions();
 
+    // Set of options that we want to copy from the current definition        
+    useCurrentOption(javaCoreOptions, "org.eclipse.jdt.core.compiler.compliance");
+    useCurrentOption(javaCoreOptions, "org.eclipse.jdt.core.compiler.source");
+    useCurrentOption(javaCoreOptions, "org.eclipse.jdt.core.compiler.codegen.targetPlatform");
+    useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
+    useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
+    useCurrentOption(javaCoreOptions, DefaultCodeFormatterConstants.FORMATTER_INDENTATION_SIZE);
+    
     if (getControlModel() != null)
     {
       String indent = getControlModel().getLeadingTabReplacement();
@@ -415,8 +423,9 @@ public class ASTFacadeHelper extends FacadeHelper
         + javaCoreOptions.get(DefaultCodeFormatterConstants.FORMATTER_INDENTATION_SIZE));
     }
 
-    // TODO get all java core options from somewhere else - do not hard code our style
-    
+    // Set of options that we want to control
+    javaCoreOptions.put("org.eclipse.jdt.core.incompleteClasspath", "warning");
+    javaCoreOptions.put("org.eclipse.jdt.core.circularClasspath", "warning");
     //
     javaCoreOptions.put(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_ENUM_DECLARATION, DefaultCodeFormatterConstants.NEXT_LINE);
     javaCoreOptions.put(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION, DefaultCodeFormatterConstants.NEXT_LINE);
@@ -428,6 +437,12 @@ public class ASTFacadeHelper extends FacadeHelper
     javaCoreOptions.put(DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_ENUM_CONSTANTS, DefaultCodeFormatterConstants.createAlignmentValue(true, DefaultCodeFormatterConstants.WRAP_ONE_PER_LINE, DefaultCodeFormatterConstants.INDENT_DEFAULT));
     
     return javaCoreOptions;
+  }
+  
+  
+  protected void useCurrentOption(Map<Object, String> options, String option)
+  {
+    options.put(option, JavaCore.getOption(option));
   }
   
   @Override
