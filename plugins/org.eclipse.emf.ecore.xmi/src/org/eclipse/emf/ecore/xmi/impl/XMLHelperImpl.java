@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.41 2007/05/26 13:45:57 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.42 2007/05/29 19:49:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -707,7 +707,7 @@ public class XMLHelperImpl implements XMLHelper
 
   protected String getURIFragment(Resource containingResource, EObject object)
   {
-    if (roots != null && !EcoreUtil.isAncestor(roots, object))
+    if (roots != null && containingResource == resource && !EcoreUtil.isAncestor(roots, object))
     {
       URI uriResult = handleDanglingHREF(object);
       return uriResult == null || !uriResult.hasFragment() ? null : uriResult.fragment();
