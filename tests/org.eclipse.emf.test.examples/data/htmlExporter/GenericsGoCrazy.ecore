@@ -106,7 +106,7 @@
       </eGenericType>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="MyMap" instanceTypeName="org.example.MyMap&lt;K,V>">
+  <eClassifiers xsi:type="ecore:EDataType" name="MyMap" instanceTypeName="org.example.MyMap&lt;K, V>">
     <eTypeParameters name="K"/>
     <eTypeParameters name="V">
       <eBounds eTypeParameter="#//MyMap/K"/>
