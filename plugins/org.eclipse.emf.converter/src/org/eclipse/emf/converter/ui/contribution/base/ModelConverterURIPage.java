@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,15 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterURIPage.java,v 1.2 2006/12/28 06:43:30 marcelop Exp $
+ * $Id: ModelConverterURIPage.java,v 1.3 2007/05/29 20:28:46 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -86,19 +89,42 @@ public class ModelConverterURIPage extends ModelConverterPage
     Composite composite = new Composite(parent, SWT.NONE);
     composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
     {
-      GridLayout layout = new GridLayout(2, false);
-      layout.marginLeft = -5;
-      layout.marginRight = -5;
+      FormLayout layout = new FormLayout();
+      layout.marginTop = 10;
+      layout.spacing = 10;
       composite.setLayout(layout);
     }
     
     Label uriLabel = new Label(composite, SWT.LEFT);
-    uriLabel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+    {
+      FormData data = new FormData();
+      data.left = new FormAttachment(0);
+      uriLabel.setLayoutData(data);      
+    }
     uriLabel.setText(getURITextLabel());
 
-    Composite buttonComposite = new Composite(composite, SWT.NONE);
-    buttonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END));
+    Composite uriComposite = new Composite(composite, SWT.NONE);
     {
+      FormData data = new FormData();
+      data.top = new FormAttachment(uriLabel, 5);
+      data.left = new FormAttachment(0);
+      data.right = new FormAttachment(100);
+      uriComposite.setLayoutData(data);
+
+      GridLayout layout = new GridLayout(2, false);
+      layout.marginTop = -5;
+      layout.marginLeft = -5;
+      layout.marginRight = -5;
+      uriComposite.setLayout(layout);
+    }
+    
+    Composite buttonComposite = new Composite(composite, SWT.NONE);
+    {
+      FormData data = new FormData();
+      data.top = new FormAttachment(uriLabel, 0, SWT.CENTER);
+      data.right = new FormAttachment(100);
+      buttonComposite.setLayoutData(data);      
+      
       RowLayout layout = new RowLayout();
       layout.justify = true;
       layout.pack = true;
@@ -115,18 +141,7 @@ public class ModelConverterURIPage extends ModelConverterPage
     browseWorkspaceButton.setText(getBrowseWorkspaceButtonLabel());
     browseWorkspaceButton.addListener(SWT.Selection, this);
 
-    Composite uriComposite = new Composite(parent, SWT.NONE);
-    uriComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-    {
-      GridLayout layout = new GridLayout(2, false);
-      layout.marginTop = -5;
-      layout.marginLeft = -5;
-      layout.marginRight = -5;
-      uriComposite.setLayout(layout);
-    }
-
     uriText = new Text(uriComposite, SWT.SINGLE | SWT.BORDER);
-    uriText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
     setURIText(getURITextInitialValue());
     if (uriText.getText().length() > 0)
     {
@@ -135,6 +150,15 @@ public class ModelConverterURIPage extends ModelConverterPage
     uriText.addListener(SWT.Modify, this);
     
     addURIControl(uriComposite);
+
+    {
+      GridData gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
+      if (uriComposite.getChildren().length == 1)
+      {
+        gridData.horizontalSpan = 2;
+      }
+      uriText.setLayoutData(gridData);      
+    }
   }
   
   protected String getURITextLabel()

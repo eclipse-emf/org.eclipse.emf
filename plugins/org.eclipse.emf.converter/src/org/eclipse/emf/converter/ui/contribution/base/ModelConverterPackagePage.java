@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.12 2007/01/15 00:11:14 marcelop Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.13 2007/05/29 20:28:45 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -55,6 +55,9 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -206,23 +209,41 @@ public class ModelConverterPackagePage extends ModelConverterPage
   protected void createPackageControl(Composite parent)
   {
     Composite composite = new Composite(parent, SWT.NONE);
-    composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+    composite.setLayoutData(new GridData(GridData.FILL_BOTH));
     {
-      GridLayout layout = new GridLayout(2, false);
-      layout.marginLeft = -5;
-      layout.marginRight = -5;
-      layout.marginTop = -5;
-      layout.marginBottom = -5;
+      FormLayout layout = new FormLayout();
+      layout.marginTop = 10;
+      layout.spacing = 10;
       composite.setLayout(layout);
     }
 
     Label packagesLabel = new Label(composite, SWT.LEFT);
     packagesLabel.setText(getPackagesLabel());
-    packagesLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-    Composite selectionComposite = new Composite(composite, SWT.NONE);
-    selectionComposite.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
     {
+      FormData data = new FormData();
+      data.left = new FormAttachment(0);
+      packagesLabel.setLayoutData(data);
+    }    
+
+    Table packagesTable = new Table(composite, SWT.CHECK | SWT.BORDER | SWT.SINGLE);
+    ePackagesCheckboxTableViewer = new CheckboxTableViewer(packagesTable);
+    {
+      FormData data = new FormData();
+      data.top = new FormAttachment(packagesLabel, 5);
+      data.bottom = new FormAttachment(100);
+      data.left = new FormAttachment(0);
+      data.right = new FormAttachment(100);
+      data.height = 90;
+      packagesTable.setLayoutData(data);
+    }
+    
+    Composite selectionComposite = new Composite(composite, SWT.NONE);
+    {
+      FormData data = new FormData();
+      data.top = new FormAttachment(packagesLabel, 0, SWT.CENTER);
+      data.right = new FormAttachment(100);
+      selectionComposite.setLayoutData(data);      
+
       GridLayout layout = new GridLayout(2, true);
       layout.marginLeft = -5;
       layout.marginRight = -5;
@@ -256,19 +277,6 @@ public class ModelConverterPackagePage extends ModelConverterPage
           ePackageCheckStateChanged();
         }
       });
-
-    Table packagesTable = new Table(parent, SWT.CHECK | SWT.BORDER | SWT.SINGLE);
-    ePackagesCheckboxTableViewer = new CheckboxTableViewer(packagesTable);
-    {
-      GridData data = new GridData();
-      data.verticalAlignment = GridData.FILL;
-      data.grabExcessHorizontalSpace = true;
-      data.grabExcessVerticalSpace = true;
-      data.horizontalAlignment = GridData.FILL;
-      data.horizontalSpan = 2;
-      data.heightHint = 90;
-      packagesTable.setLayoutData(data);
-    }
 
     packagesTable.setLinesVisible(true);
     packagesTable.setLayout(new TableLayout());
@@ -534,23 +542,40 @@ public class ModelConverterPackagePage extends ModelConverterPage
   protected void createReferencedGenModelControl(Composite parent)
   {
     Composite composite = new Composite(parent, SWT.NONE);
-    composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+    composite.setLayoutData(new GridData(GridData.FILL_BOTH));
     {
-      GridLayout layout = new GridLayout(2, false);
-      layout.marginLeft = -5;
-      layout.marginRight = -5;
-      layout.marginTop = -5;
-      layout.marginBottom = -5;
+      FormLayout layout = new FormLayout();
+      layout.marginTop = 10;
+      layout.spacing = 10;
       composite.setLayout(layout);
     }
 
     Label referencedGenModelsLabel = new Label(composite, SWT.LEFT);
     referencedGenModelsLabel.setText(getReferencedGenModelsLabel());
-    referencedGenModelsLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+    {
+      FormData data = new FormData();
+      data.left = new FormAttachment(0);
+      referencedGenModelsLabel.setLayoutData(data);      
+    }    
 
+    Tree referencedGenModelsTree = new Tree(composite, SWT.CHECK | SWT.BORDER | SWT.SINGLE);
+    {
+      FormData data = new FormData();
+      data.top = new FormAttachment(referencedGenModelsLabel, 5);
+      data.bottom = new FormAttachment(100);
+      data.left = new FormAttachment(0);
+      data.right = new FormAttachment(100);
+      referencedGenModelsTree.setLayoutData(data);
+    }
+    
     Button referencedGenModelsAddButton = new Button(composite, SWT.PUSH);
     referencedGenModelsAddButton.setText(getBrowseButtonLabel());
-    referencedGenModelsAddButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+    {
+      FormData data = new FormData();
+      data.top = new FormAttachment(referencedGenModelsLabel, 0, SWT.CENTER);
+      data.right = new FormAttachment(100);
+      referencedGenModelsAddButton.setLayoutData(data);
+    }
     referencedGenModelsAddButton.addSelectionListener(new SelectionAdapter()
       {
         @Override
@@ -560,8 +585,6 @@ public class ModelConverterPackagePage extends ModelConverterPage
         }
       });
 
-    Tree referencedGenModelsTree = new Tree(parent, SWT.CHECK | SWT.BORDER | SWT.SINGLE);
-    referencedGenModelsTree.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL));
     referencedGenModelsTree.setLinesVisible(true);
 
     referencedGenModelsCheckboxTreeViewer = new CheckboxTreeViewer(referencedGenModelsTree);
