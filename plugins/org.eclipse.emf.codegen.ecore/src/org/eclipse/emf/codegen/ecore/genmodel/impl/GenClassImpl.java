@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.76 2007/05/15 15:52:45 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.77 2007/05/30 19:02:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -548,7 +548,18 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return false;
   }
 
-  protected List<String> getClassImplementsList()
+  public List<String> getClassImplementsList()
+  {
+    List<String> result = new UniqueEList<String>();
+    GenModel genModel = getGenModel();
+    for (String classImplements : getQualifiedClassImplementsList())
+    {
+      result.add(genModel.getImportedName(classImplements));
+    }
+    return result;
+  }
+
+  protected List<String> getQualifiedClassImplementsList()
   {
     List<String> result = new UniqueEList<String>();
     if (isMapEntry())
@@ -556,13 +567,13 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
       {
         result.add
-          (getGenModel().getImportedName("org.eclipse.emf.common.util.BasicEMap$Entry") + "<" + 
+          ("org.eclipse.emf.common.util.BasicEMap$Entry" + "<" + 
               getMapEntryKeyFeature().getObjectType(this)+ ","  +
               getMapEntryValueFeature().getObjectType(this) + ">");
       }
       else
       {
-        result.add(getGenModel().getImportedName("org.eclipse.emf.common.util.BasicEMap$Entry"));
+        result.add("org.eclipse.emf.common.util.BasicEMap$Entry");
       }
     }
     else
@@ -571,7 +582,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       {
         if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50 && !getGenTypeParameters().isEmpty())
         {
-          StringBuilder stringBuilder = new StringBuilder(getImportedInterfaceName());
+          StringBuilder stringBuilder = new StringBuilder(getInternalQualifiedInterfaceName());
           stringBuilder.append('<');
           for (Iterator<GenTypeParameter> i = getGenTypeParameters().iterator(); i.hasNext(); )
           {
@@ -587,7 +598,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         }
         else
         {
-          result.add(getImportedInterfaceName());
+          result.add(getInternalQualifiedInterfaceName());
         }
       }
       String rootImplementsInterface = getGenModel().getRootImplementsInterface();
@@ -599,18 +610,18 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         //
         if (extendsClass != null && !rootImplementsInterface.equals(extendsClass.getGenModel().getRootImplementsInterface()))
         {
-          result.add(getGenModel().getImportedName(rootImplementsInterface));
+          result.add(rootImplementsInterface);
         }
       }
     }
 
     if (getGenModel().isSuppressInterfaces())
     {
-      List<String> interfaceExtends = getInterfaceExtendsList();
+      List<String> interfaceExtends = getQualifiedInterfaceExtendsList();
       GenClassImpl classExtendsClass = (GenClassImpl)getClassExtendsGenClass();
       if (classExtendsClass != null)
       {
-        interfaceExtends.removeAll(classExtendsClass.getClassImplementsList());
+        interfaceExtends.removeAll(classExtendsClass.getQualifiedClassImplementsList());
       }
       result.addAll(interfaceExtends);
     }
@@ -662,6 +673,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public List<String> getInterfaceExtendsList()
   {
     List<String> result = new UniqueEList<String>();
+    GenModel genModel = getGenModel();
+    for (String interfaceExtends : getQualifiedInterfaceExtendsList())
+    {
+      result.add(genModel.getImportedName(interfaceExtends));
+    }
+    return result;
+  }
+
+  public List<String> getQualifiedInterfaceExtendsList()
+  {
+    List<String> result = new UniqueEList<String>();
     String rootExtendsInterface = getGenModel().getRootExtendsInterface();
     if (rootExtendsInterface == null)
     {
@@ -671,7 +693,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     {
       if (!getGenPackage().isEcorePackage() && !isBlank(rootExtendsInterface))
       {
-        result.add(getGenModel().getImportedName(rootExtendsInterface));
+        result.add(rootExtendsInterface);
       }
       return result;
     }
@@ -689,23 +711,23 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
     if (needsRootExtendsInterface && !isBlank(rootExtendsInterface))
     {
-      result.add(getGenModel().getImportedName(rootExtendsInterface));
+      result.add(rootExtendsInterface);
     }
 
     boolean includeTypeArguments = getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50;
-    for (int i = 0, size=getBaseGenClasses().size(); i < size; i++)
+    for (int i = 0, size = getBaseGenClasses().size(); i < size; i++)
     {
-      GenClass genClass = getBaseGenClasses().get(i);
+      GenClassImpl genClass = (GenClassImpl)getBaseGenClasses().get(i);
       EGenericType eGenericType = getEcoreClass().getEGenericSuperTypes().get(i);
       if (genClass.isExternalInterface() || genClass.isInterface() || !genClass.getGenModel().isSuppressInterfaces())
       {
         if (includeTypeArguments && !eGenericType.getETypeArguments().isEmpty())
         {
-          result.add(genClass.getImportedInterfaceName() + getTypeArguments(this, eGenericType.getETypeArguments(), true));
+          result.add(genClass.getInternalQualifiedInterfaceName() + getTypeArguments(this, eGenericType.getETypeArguments(), false));
         }
         else
         {
-          result.add(genClass.getImportedInterfaceName());
+          result.add(genClass.getInternalQualifiedInterfaceName());
         }
       }
     } 
