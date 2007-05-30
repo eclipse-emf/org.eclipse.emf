@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainViewerDropAdapter.java,v 1.5 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: EditingDomainViewerDropAdapter.java,v 1.6 2007/05/30 00:43:39 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -415,7 +415,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
    * {@link org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer.ExtendedTableTreeItem}.
    */
   @SuppressWarnings("deprecation")
-  protected static Object extractDropTarget(Widget item)
+  protected Object extractDropTarget(Widget item)
   {
     if (item == null) return null;
     return item.getData(org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer.ITEM_ID) instanceof Item ?
