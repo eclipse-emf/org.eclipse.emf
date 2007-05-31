@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeItemProvider.java,v 1.4 2007/03/25 14:41:39 emerks Exp $
+ * $Id: EGenericTypeItemProvider.java,v 1.5 2007/05/31 13:38:02 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -460,7 +460,10 @@ public class EGenericTypeItemProvider
                 "full/obj16/EGenericException" :
                 eContainmentFeature == EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS ?
                   "full/obj16/EGenericTypeArgument" :
-                  "full/obj16/EGenericType"));
+                  eContainmentFeature == EcorePackage.Literals.EGENERIC_TYPE__ELOWER_BOUND ||
+                  eContainmentFeature == EcorePackage.Literals.EGENERIC_TYPE__EUPPER_BOUND ?
+                    "full/obj16/EGenericWildcard" :
+                    "full/obj16/EGenericType"));
   }
 
   /**
