@@ -156,7 +156,7 @@ public class ChangeSummaryTest extends TestCase
         //
         if (isLogging)
         {
-          eDataGraph.getEChangeSummary().resumeLogging();
+          // eDataGraph.getEChangeSummary().resumeLogging();
         }
       }
     }
