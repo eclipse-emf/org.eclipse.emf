@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainViewerDropAdapter.java,v 1.6 2007/05/30 00:43:39 emerks Exp $
+ * $Id: EditingDomainViewerDropAdapter.java,v 1.7 2007/06/01 10:53:35 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -428,7 +428,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
    * This returns the location of the mouse in the vertical direction, relative
    * to the item widget, from 0 (top) to 1 (bottom).
    */
-  protected static float getLocation(DropTargetEvent event) 
+  protected float getLocation(DropTargetEvent event) 
   {
     if (event.item instanceof TreeItem)
     {
