@@ -1,3 +1,4 @@
 bin
 build.xml
 runtime
+codegen.ecore.ui.jar
