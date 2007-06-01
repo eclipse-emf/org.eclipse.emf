@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.5.2.3 2005/06/08 18:27:46 nickb Exp $
+ * $Id: ChangeRecordTest.java,v 1.5.2.4 2007/06/01 20:30:05 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -646,7 +646,7 @@ extends TestCase
     assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
     
     changeRecorder = new ChangeRecorder();
-    changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{john}));
+    // changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{john}));
     mary.eSet(name, "Mary P");
     john.eSet(id, "789");
     EObject joe = pack.getEFactoryInstance().create(person);
@@ -697,7 +697,7 @@ extends TestCase
     assertEquals(mary, changeDescription.getObjectsToDetach().get(0));
     assertEquals(joe, changeDescription.getObjectsToDetach().get(1));
     
-    changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{resource, john, mary, joe}));
+    // changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{resource, john, mary, joe}));
     mary.eSet(name, "Mary Po");
     john.eSet(id, "0");
     EObject jane = pack.getEFactoryInstance().create(person);
@@ -745,7 +745,7 @@ extends TestCase
     assertEquals(1, ((List)john.eGet(friendsReference)).size());
     assertEquals(jane, ((List)john.eGet(friendsReference)).get(0));
 
-    changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{john, mary}));
+    // changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{john, mary}));
     mary.eSet(name, "Mary Pop");
     john.eSet(id, "1");
     jane.eSet(id, "2");
@@ -878,7 +878,7 @@ extends TestCase
     assertEquals("Mary", loadedMary.eGet(name));
     assertTrue(((List)loadedJohn.eGet(friendsReference)).isEmpty());
     
-    changeRecorder.beginRecording(loadedChangeDescription, Arrays.asList(new Object[]{loadedJohn, loadedMary}));
+    // changeRecorder.beginRecording(loadedChangeDescription, Arrays.asList(new Object[]{loadedJohn, loadedMary}));
     loadedMary.eSet(name, "Mary P");
     loadedJohn.eSet(id, "789");
     EObject joe = pack.getEFactoryInstance().create(person);
@@ -912,7 +912,7 @@ extends TestCase
     aVeryDifferentPerson.eSet(id, "123");
     assertEquals("123", aVeryDifferentPerson.eGet(id));
     
-    changeRecorder.beginRecording(loadedChangeDescription, Arrays.asList(new Object[]{aVeryDifferentPerson}));
+    // changeRecorder.beginRecording(loadedChangeDescription, Arrays.asList(new Object[]{aVeryDifferentPerson}));
     aVeryDifferentPerson.eSet(id, "1");
     if (callSummarize) changeRecorder.summarize(); else changeRecorder.endRecording();
     

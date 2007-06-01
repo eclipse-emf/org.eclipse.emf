@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceCacheMechanismTest.java,v 1.3.2.3 2005/06/08 18:27:46 nickb Exp $
+ * $Id: ResourceCacheMechanismTest.java,v 1.3.2.4 2007/06/01 20:30:05 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -106,7 +106,7 @@ public class ResourceCacheMechanismTest extends TestCase
     
     //Setting the map before adding the objects
     Map map = new HashMap();
-    ((ResourceImpl)resource).setIntrinsicIDToEObjectMap(map);
+    // ((ResourceImpl)resource).setIntrinsicIDToEObjectMap(map);
     
     resource.getContents().add(john);
     resource.getContents().add(mary);
@@ -292,7 +292,7 @@ public class ResourceCacheMechanismTest extends TestCase
     
     //Setting the map before adding the objects
     Map map = new HashMap();
-    ((ResourceImpl)xmlResource).setIntrinsicIDToEObjectMap(map);
+    // ((ResourceImpl)xmlResource).setIntrinsicIDToEObjectMap(map);
         
     xmlResource.getContents().add(john);
     xmlResource.getContents().add(mary);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.1.2.3 2005/06/08 18:27:46 nickb Exp $
+ * $Id: SpecialCasesTest.java,v 1.1.2.4 2007/06/01 20:30:05 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -717,12 +717,12 @@ public class SpecialCasesTest  extends TestCase
     ((List)john.eGet(friendsReference)).add(mary);
     ChangeDescription changeDescription = changeRecorder.endRecording();
     changeRecorder = new ChangeRecorder();
-    changeRecorder.beginRecording(changeDescription, Collections.singleton(john));
+    // changeRecorder.beginRecording(changeDescription, Collections.singleton(john));
     mary.eSet(id, "1");
     mary.eSet(name, "Mary P");
     changeRecorder.endRecording();
     changeRecorder = new ChangeRecorder();
-    changeRecorder.beginRecording(changeDescription, Collections.singleton(john));
+    // changeRecorder.beginRecording(changeDescription, Collections.singleton(john));
     ((List)john.eGet(friendsReference)).remove(mary);
     changeRecorder.endRecording();
     
@@ -740,7 +740,7 @@ public class SpecialCasesTest  extends TestCase
     assertEquals("1", mary.eGet(id));
     
     changeRecorder = new ChangeRecorder();
-    changeRecorder.beginRecording(changeDescription, Collections.singleton(john));
+    // changeRecorder.beginRecording(changeDescription, Collections.singleton(john));
     mary.eSet(id, "2");
     changeRecorder.endRecording();
     
