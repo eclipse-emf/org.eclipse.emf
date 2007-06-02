@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DateTest.java,v 1.6 2007/01/18 15:53:25 marcelop Exp $
+ * $Id: DateTest.java,v 1.7 2007/06/02 19:37:15 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.models.ipo.DocumentRoot;
 import org.eclipse.emf.test.models.ipo.PurchaseOrderType;
@@ -66,6 +67,7 @@ public class DateTest extends TestCase
 
   // the Date value
   protected static Date then = new Date();
+  protected static XMLCalendar thenXML = new XMLCalendar(then, XMLCalendar.DATE);
 
   public DateTest(String name)
   {
@@ -146,7 +148,7 @@ public class DateTest extends TestCase
       case DateTest.generated:
       {
         // using generated code:
-        po.setOrderDate(then);
+        po.setOrderDate(thenXML);
         break;
       }
       case DateTest.eSet:
@@ -155,14 +157,14 @@ public class DateTest extends TestCase
         EObject poEObject = (EObject)this.po;
         EClass poEClass = poEObject.eClass();
         EAttribute orderDateAttr = poEClass.getEAllAttributes().get(1);
-        poEObject.eSet(orderDateAttr, then);
+        poEObject.eSet(orderDateAttr, thenXML);
         break;
       }
       case DateTest.set:
       {
         // using DataObject::set():
         DataObject poDO = (DataObject)this.po;
-        poDO.set("orderDate", then);
+        poDO.set("orderDate", thenXML);
         break;
       }
       case DateTest.setDate:
