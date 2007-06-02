@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.21 2007/03/21 18:08:42 marcelop Exp $
+ * $Id: JavaEditor.java,v 1.22 2007/06/02 19:34:44 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -144,8 +144,10 @@ import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 import org.eclipse.emf.java.JClass;
@@ -738,15 +740,24 @@ public class JavaEditor
   public JavaEditor()
   {
     super();
+    initializeEditingDomain();
+  }
 
+  /**
+   * This sets up the editing domain for the model editor.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void initializeEditingDomain()
+  {
     // Create an adapter factory that yields item providers.
     //
-    List<AdapterFactory> factories = new ArrayList<AdapterFactory>();
-    factories.add(new ResourceItemProviderAdapterFactory());
-    factories.add(new JavaItemProviderAdapterFactory());
-    factories.add(new ReflectiveItemProviderAdapterFactory());
+    adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
-    adapterFactory = new ComposedAdapterFactory(factories);
+    adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+    adapterFactory.addAdapterFactory(new JavaItemProviderAdapterFactory());
+    adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
     // Create the command stack that will notify this editor as commands are executed.
     //
@@ -1008,7 +1019,7 @@ public class JavaEditor
     contextMenu.addMenuListener(this);
     Menu menu= contextMenu.createContextMenu(viewer.getControl());
     viewer.getControl().setMenu(menu);
-    getSite().registerContextMenu(contextMenu, viewer);
+    getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
 
     int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
     Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
@@ -1024,10 +1035,7 @@ public class JavaEditor
    */
   public void createModel()
   {
-    // Assumes that the input is a file object.
-    //
-    IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);
+    URI resourceURI = EditUIUtil.getURI(getEditorInput());
     Exception exception = null;
     Resource resource = null;
     try
@@ -1714,6 +1722,11 @@ public class JavaEditor
   @Override
   public void doSave(IProgressMonitor progressMonitor)
   {
+    // Save only resources that have actually changed.
+    //
+    final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+    saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+
     // Do the work within an operation because this is a long running activity that modifies the workbench.
     //
     WorkspaceModifyOperation operation =
@@ -1734,7 +1747,7 @@ public class JavaEditor
               try
               {
                 savedResources.add(resource);
-                resource.save(Collections.EMPTY_MAP);
+                resource.save(saveOptions);
               }
               catch (Exception exception)
               {
