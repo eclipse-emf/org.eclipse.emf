@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLModelWizard.java,v 1.7 2006/12/29 18:29:14 marcelop Exp $
+ * $Id: Ecore2XMLModelWizard.java,v 1.8 2007/06/02 19:35:05 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
+//import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.EClass;

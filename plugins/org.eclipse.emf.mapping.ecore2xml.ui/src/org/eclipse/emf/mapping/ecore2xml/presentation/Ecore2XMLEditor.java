@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.12 2007/03/21 18:08:45 marcelop Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.13 2007/06/02 19:35:05 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -58,8 +58,10 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 
+import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 import org.eclipse.emf.ecore.EObject;
@@ -148,7 +150,6 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -760,16 +761,25 @@ public class Ecore2XMLEditor
   public Ecore2XMLEditor()
   {
     super();
+    initializeEditingDomain();
+  }
 
+  /**
+   * This sets up the editing domain for the model editor.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void initializeEditingDomain()
+  {
     // Create an adapter factory that yields item providers.
     //
-    List<AdapterFactory> factories = new ArrayList<AdapterFactory>();
-    factories.add(new ResourceItemProviderAdapterFactory());
-    factories.add(new Ecore2XMLItemProviderAdapterFactory());
-    factories.add(new EcoreItemProviderAdapterFactory());
-    factories.add(new ReflectiveItemProviderAdapterFactory());
+    adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
-    adapterFactory = new ComposedAdapterFactory(factories);
+    adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+    adapterFactory.addAdapterFactory(new Ecore2XMLItemProviderAdapterFactory());
+    adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
+    adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
     // Create the command stack that will notify this editor as commands are executed.
     //
@@ -1031,7 +1041,7 @@ public class Ecore2XMLEditor
     contextMenu.addMenuListener(this);
     Menu menu= contextMenu.createContextMenu(viewer.getControl());
     viewer.getControl().setMenu(menu);
-    getSite().registerContextMenu(contextMenu, viewer);
+    getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
 
     int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
     Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
@@ -1047,10 +1057,7 @@ public class Ecore2XMLEditor
    */
   public void createModel()
   {
-    // Assumes that the input is a file object.
-    //
-    IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);
+    URI resourceURI = EditUIUtil.getURI(getEditorInput());
     Exception exception = null;
     Resource resource = null;
     try
@@ -1347,7 +1354,14 @@ public class Ecore2XMLEditor
         setPageText(pageIndex, getString("_UI_TreeWithColumnsPage_label")); //$NON-NLS-1$
       }
 
-      setActivePage(0);
+      getSite().getShell().getDisplay().asyncExec
+        (new Runnable()
+         {
+           public void run()
+           {
+             setActivePage(0);
+           }
+         });
     }
 
     // Ensures that this editor will only display the page's tab
@@ -1369,7 +1383,14 @@ public class Ecore2XMLEditor
         }
        });
 
-    updateProblemIndication();
+    getSite().getShell().getDisplay().asyncExec
+      (new Runnable()
+       {
+         public void run()
+         {
+           updateProblemIndication();
+         }
+       });
   }
 
   /**
@@ -1632,6 +1653,11 @@ public class Ecore2XMLEditor
   @Override
   public void doSave(IProgressMonitor progressMonitor)
   {
+    // Save only resources that have actually changed.
+    //
+    final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+    saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+
     // Do the work within an operation because this is a long running activity that modifies the workbench.
     //
     WorkspaceModifyOperation operation =
@@ -1652,7 +1678,7 @@ public class Ecore2XMLEditor
               try
               {
                 savedResources.add(resource);
-                resource.save(Collections.EMPTY_MAP);
+                resource.save(saveOptions);
               }
               catch (Exception exception)
               {
