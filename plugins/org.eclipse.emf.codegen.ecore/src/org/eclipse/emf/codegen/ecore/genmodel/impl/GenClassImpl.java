@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.77 2007/05/30 19:02:28 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.78 2007/06/02 19:28:22 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -400,7 +400,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getRawInstanceClassName()
   {
-    return getInterfaceName();
+    return getQualifiedInterfaceName();
   }
 
   public String getImportedInstanceClassName()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.26 2007/05/10 13:52:56 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.27 2007/06/02 19:28:22 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -229,7 +229,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public String getRawInstanceClassName()
   {  
-   return getInternalQualifiedInstanceClassName(false); 
+   return getInternalQualifiedInstanceClassName(false).replace('$', '.'); 
   }
 
   public String getImportedInstanceClassName()
