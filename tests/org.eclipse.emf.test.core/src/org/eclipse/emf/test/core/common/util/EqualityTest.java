@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EqualityTest.java,v 1.6 2006/12/29 21:49:52 marcelop Exp $
+ * $Id: EqualityTest.java,v 1.7 2007/06/02 19:36:04 emerks Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder;
 import org.eclipse.emf.test.core.featuremap.supplier.Supplier;
 import org.eclipse.emf.test.core.featuremap.supplier.SupplierFactory;
@@ -277,8 +278,8 @@ public class EqualityTest extends TestCase
     address1.setTown(address2.getTown());
     assertTrue(EcoreUtil.equals(customer1, customer2));
     long now = System.currentTimeMillis();
-    Date date1 = new Date(now);
-    Date date2 = new Date(now + 3600000);
+    XMLCalendar date1 = new XMLCalendar(new Date(now), XMLCalendar.DATETIME);
+    XMLCalendar date2 = new XMLCalendar(new Date(now + 3600000), XMLCalendar.DATETIME);
     credit1.setExpireDate(date1);
     credit2.setExpireDate(date2);
     customer1.setCreditCard(credit1);
