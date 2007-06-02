@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.10 2007/04/04 20:04:02 emerks Exp $
+ * $Id: XMLCalendar.java,v 1.11 2007/06/02 19:33:05 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -186,11 +186,6 @@ public final class XMLCalendar extends XMLGregorianCalendar
     this.date = null;
     this.dataType = datatype;
     this.xmlGregorianCalendar = datatypeFactory.newXMLGregorianCalendar(value);
-    String type = xmlGregorianCalendar.getXMLSchemaType().getLocalPart();
-    if (!XML_SCHEMA_TYPES[datatype].equals(type) || !xmlGregorianCalendar.isValid())
-    {
-      throw new IllegalArgumentException("The value '" + value + "' is not a valid "  + XML_SCHEMA_TYPES[datatype]);
-    }
   }
 
   public XMLCalendar(Date date, short dataType)
