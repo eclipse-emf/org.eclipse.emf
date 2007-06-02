@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClass.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JClass.java,v 1.5 2007/06/02 19:34:28 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -168,7 +168,7 @@ public interface JClass extends JMember
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Java Class</em>' attribute.
-   * @see #setJavaClass(Class<?>)
+   * @see #setJavaClass(Class)
    * @see org.eclipse.emf.java.JavaPackage#getJClass_JavaClass()
    * @model dataType="org.eclipse.emf.java.JavaClass" transient="true"
    * @generated

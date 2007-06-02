@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethod.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JMethod.java,v 1.5 2007/06/02 19:34:28 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -216,7 +216,7 @@ public interface JMethod extends JMember
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Java Constructor</em>' attribute.
-   * @see #setJavaConstructor(Constructor<?>)
+   * @see #setJavaConstructor(Constructor)
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_JavaConstructor()
    * @model dataType="org.eclipse.emf.java.JavaConstructor" transient="true"
    * @generated
