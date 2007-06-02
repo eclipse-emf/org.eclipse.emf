@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOAccessorTest.java,v 1.64 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: DynamicIPOSDOAccessorTest.java,v 1.65 2007/06/02 19:37:04 emerks Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -23,6 +23,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -162,9 +164,9 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected DataObject newShipToAddress1;
 
-  protected Object orderDate0 = new XSDDateType().getValue("2006-02-10");
+  protected XMLGregorianCalendar orderDate0 = (XMLGregorianCalendar)new XSDDateType().getValue("2006-02-10");
 
-  protected Object orderDate1 = new XSDDateType().getValue("2006-02-11");
+  protected XMLGregorianCalendar orderDate1 = (XMLGregorianCalendar)new XSDDateType().getValue("2006-02-11");
 
   protected String orderComment0 = "Another comment0.";
 
@@ -186,9 +188,9 @@ public class DynamicIPOSDOAccessorTest extends EMFPerformanceTestCase
 
   protected String itemComment1 = "A comment1 on the item";
 
-  protected Object shipDate0 = new XSDDateType().getValue("2006-03-10");
+  protected XMLGregorianCalendar shipDate0 = (XMLGregorianCalendar)new XSDDateType().getValue("2006-03-10");
 
-  protected Object shipDate1 = new XSDDateType().getValue("2006-03-11");
+  protected XMLGregorianCalendar shipDate1 = (XMLGregorianCalendar)new XSDDateType().getValue("2006-03-11");
 
   protected String partNum0 = "part1234560";
 

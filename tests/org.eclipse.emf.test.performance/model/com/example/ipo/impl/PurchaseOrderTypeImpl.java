@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PurchaseOrderTypeImpl.java,v 1.3 2007/03/21 18:10:17 marcelop Exp $
+ * $Id: PurchaseOrderTypeImpl.java,v 1.4 2007/06/02 19:37:04 emerks Exp $
  */
 package com.example.ipo.impl;
 
@@ -21,6 +21,7 @@ import com.example.ipo.IpoPackage;
 import com.example.ipo.Items;
 import com.example.ipo.PurchaseOrderType;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -107,7 +108,7 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * @generated
    * @ordered
    */
-  protected static final Object ORDER_DATE_EDEFAULT = null;
+  protected static final XMLGregorianCalendar ORDER_DATE_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getOrderDate() <em>Order Date</em>}' attribute.
@@ -117,7 +118,7 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * @generated
    * @ordered
    */
-  protected Object orderDate = ORDER_DATE_EDEFAULT;
+  protected XMLGregorianCalendar orderDate = ORDER_DATE_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -312,7 +313,7 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getOrderDate()
+  public XMLGregorianCalendar getOrderDate()
   {
     return orderDate;
   }
@@ -322,9 +323,9 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setOrderDate(Object newOrderDate)
+  public void setOrderDate(XMLGregorianCalendar newOrderDate)
   {
-    Object oldOrderDate = orderDate;
+    XMLGregorianCalendar oldOrderDate = orderDate;
     orderDate = newOrderDate;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, IpoPackage.PURCHASE_ORDER_TYPE__ORDER_DATE, oldOrderDate, orderDate));
@@ -397,7 +398,7 @@ public class PurchaseOrderTypeImpl extends EObjectImpl implements PurchaseOrderT
         setItems((Items)newValue);
         return;
       case IpoPackage.PURCHASE_ORDER_TYPE__ORDER_DATE:
-        setOrderDate(newValue);
+        setOrderDate((XMLGregorianCalendar)newValue);
         return;
     }
     super.eSet(featureID, newValue);

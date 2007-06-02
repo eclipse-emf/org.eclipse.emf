@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemTypeImpl.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: ItemTypeImpl.java,v 1.3 2007/06/02 19:37:04 emerks Exp $
  */
 package com.example.ipo.impl;
 
@@ -22,6 +22,7 @@ import com.example.ipo.ItemType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -136,7 +137,7 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * @generated
    * @ordered
    */
-  protected static final Object SHIP_DATE_EDEFAULT = null;
+  protected static final XMLGregorianCalendar SHIP_DATE_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getShipDate() <em>Ship Date</em>}' attribute.
@@ -146,7 +147,7 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * @generated
    * @ordered
    */
-  protected Object shipDate = SHIP_DATE_EDEFAULT;
+  protected XMLGregorianCalendar shipDate = SHIP_DATE_EDEFAULT;
 
   /**
    * The default value of the '{@link #getPartNum() <em>Part Num</em>}' attribute.
@@ -286,7 +287,7 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getShipDate()
+  public XMLGregorianCalendar getShipDate()
   {
     return shipDate;
   }
@@ -296,9 +297,9 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setShipDate(Object newShipDate)
+  public void setShipDate(XMLGregorianCalendar newShipDate)
   {
-    Object oldShipDate = shipDate;
+    XMLGregorianCalendar oldShipDate = shipDate;
     shipDate = newShipDate;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, IpoPackage.ITEM_TYPE__SHIP_DATE, oldShipDate, shipDate));
@@ -376,7 +377,7 @@ public class ItemTypeImpl extends EObjectImpl implements ItemType
         setComment((String)newValue);
         return;
       case IpoPackage.ITEM_TYPE__SHIP_DATE:
-        setShipDate(newValue);
+        setShipDate((XMLGregorianCalendar)newValue);
         return;
       case IpoPackage.ITEM_TYPE__PART_NUM:
         setPartNum((String)newValue);

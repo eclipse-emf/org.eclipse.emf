@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticIPOSDOAccessorTest.java,v 1.64 2006/12/30 07:12:57 marcelop Exp $
+ * $Id: StaticIPOSDOAccessorTest.java,v 1.65 2007/06/02 19:37:04 emerks Exp $
  */
 package org.eclipse.emf.test.performance.sdo.accessor;
 
@@ -24,6 +24,8 @@ import java.math.BigInteger;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -433,8 +435,8 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     USAddress newBillToAddress1 = (USAddress)this.newBillToAddress1;
     String orderComment0 = this.orderComment0;
     String orderComment1 = this.orderComment1;
-    Object orderDate0 = this.orderDate0;
-    Object orderDate1 = this.orderDate1;
+    XMLGregorianCalendar orderDate0 = this.orderDate0;
+    XMLGregorianCalendar orderDate1 = this.orderDate1;
     String productName0 = this.productName0;
     String productName1 = this.productName1;
     BigInteger quantity0 = this.quantity0;
@@ -443,8 +445,8 @@ public class StaticIPOSDOAccessorTest extends DynamicIPOSDOAccessorTest
     BigDecimal usPrice1 = this.usPrice1;
     String itemComment0 = this.itemComment0;
     String itemComment1 = this.itemComment1;
-    Object shipDate0 = this.shipDate0;
-    Object shipDate1 = this.shipDate1;
+    XMLGregorianCalendar shipDate0 = this.shipDate0;
+    XMLGregorianCalendar shipDate1 = this.shipDate1;
     String partNum0 = this.partNum0;
     String partNum1 = this.partNum1;
     int NUM_ITEMS = DynamicIPOSDOAccessorTest.NUM_ITEMS;
