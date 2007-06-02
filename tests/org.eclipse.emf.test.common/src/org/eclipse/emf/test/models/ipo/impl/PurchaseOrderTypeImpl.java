@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: PurchaseOrderTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: PurchaseOrderTypeImpl.java,v 1.4 2007/06/02 19:35:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo.impl;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -114,7 +115,7 @@ public class PurchaseOrderTypeImpl extends EDataObjectImpl implements PurchaseOr
    * @generated
    * @ordered
    */
-  protected static final Object ORDER_DATE_EDEFAULT = null;
+  protected static final XMLGregorianCalendar ORDER_DATE_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getOrderDate() <em>Order Date</em>}' attribute.
@@ -124,7 +125,7 @@ public class PurchaseOrderTypeImpl extends EDataObjectImpl implements PurchaseOr
    * @generated
    * @ordered
    */
-  protected Object orderDate = ORDER_DATE_EDEFAULT;
+  protected XMLGregorianCalendar orderDate = ORDER_DATE_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -319,7 +320,7 @@ public class PurchaseOrderTypeImpl extends EDataObjectImpl implements PurchaseOr
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getOrderDate()
+  public XMLGregorianCalendar getOrderDate()
   {
     return orderDate;
   }
@@ -329,9 +330,9 @@ public class PurchaseOrderTypeImpl extends EDataObjectImpl implements PurchaseOr
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setOrderDate(Object newOrderDate)
+  public void setOrderDate(XMLGregorianCalendar newOrderDate)
   {
-    Object oldOrderDate = orderDate;
+    XMLGregorianCalendar oldOrderDate = orderDate;
     orderDate = newOrderDate;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, IPOPackageImpl.PURCHASE_ORDER_TYPE__ORDER_DATE, oldOrderDate, orderDate));
@@ -404,7 +405,7 @@ public class PurchaseOrderTypeImpl extends EDataObjectImpl implements PurchaseOr
         setItems((Items)newValue);
         return;
       case IPOPackageImpl.PURCHASE_ORDER_TYPE__ORDER_DATE:
-        setOrderDate(newValue);
+        setOrderDate((XMLGregorianCalendar)newValue);
         return;
     }
     super.eSet(featureID, newValue);

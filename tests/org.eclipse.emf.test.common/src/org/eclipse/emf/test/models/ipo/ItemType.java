@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: ItemType.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: ItemType.java,v 1.3 2007/06/02 19:35:31 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * <!-- begin-user-doc -->
@@ -154,12 +155,12 @@ public interface ItemType
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ship Date</em>' attribute.
-   * @see #setShipDate(Object)
+   * @see #setShipDate(XMLGregorianCalendar)
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Date"
    *        extendedMetaData="kind='element' name='shipDate'"
    * @generated
    */
-  Object getShipDate();
+  XMLGregorianCalendar getShipDate();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.ipo.ItemType#getShipDate <em>Ship Date</em>}' attribute.
@@ -169,7 +170,7 @@ public interface ItemType
    * @see #getShipDate()
    * @generated
    */
-  void setShipDate(Object value);
+  void setShipDate(XMLGregorianCalendar value);
 
   /**
    * Returns the value of the '<em><b>Part Num</b></em>' attribute.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MovieType.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: MovieType.java,v 1.4 2007/06/02 19:35:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -89,7 +89,7 @@ public interface MovieType extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Actors</em>' attribute.
-   * @see #setActors(List<String>)
+   * @see #setActors(List)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieType_Actors()
    * @model unique="false" dataType="org.eclipse.emf.test.models.movie.db.ActorsList" required="true" many="false"
    *        extendedMetaData="kind='element' name='actors'"

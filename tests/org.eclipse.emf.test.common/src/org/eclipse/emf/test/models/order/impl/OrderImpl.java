@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: OrderImpl.java,v 1.2 2007/01/18 22:06:47 marcelop Exp $
+ * $Id: OrderImpl.java,v 1.3 2007/06/02 19:35:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.order.impl;
 
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -53,7 +54,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * @generated
    * @ordered
    */
-  protected static final Object DATE_REQUESTED_EDEFAULT = null;
+  protected static final XMLGregorianCalendar DATE_REQUESTED_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getDateRequested() <em>Date Requested</em>}' attribute.
@@ -63,7 +64,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * @generated
    * @ordered
    */
-  protected Object dateRequested = DATE_REQUESTED_EDEFAULT;
+  protected XMLGregorianCalendar dateRequested = DATE_REQUESTED_EDEFAULT;
 
   /**
    * The default value of the '{@link #getLastUpdated() <em>Last Updated</em>}' attribute.
@@ -73,7 +74,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * @generated
    * @ordered
    */
-  protected static final Object LAST_UPDATED_EDEFAULT = null;
+  protected static final XMLGregorianCalendar LAST_UPDATED_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getLastUpdated() <em>Last Updated</em>}' attribute.
@@ -83,7 +84,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * @generated
    * @ordered
    */
-  protected Object lastUpdated = LAST_UPDATED_EDEFAULT;
+  protected XMLGregorianCalendar lastUpdated = LAST_UPDATED_EDEFAULT;
 
   /**
    * The default value of the '{@link #getMovies() <em>Movies</em>}' attribute.
@@ -131,7 +132,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getDateRequested()
+  public XMLGregorianCalendar getDateRequested()
   {
     return dateRequested;
   }
@@ -141,9 +142,9 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setDateRequested(Object newDateRequested)
+  public void setDateRequested(XMLGregorianCalendar newDateRequested)
   {
-    Object oldDateRequested = dateRequested;
+    XMLGregorianCalendar oldDateRequested = dateRequested;
     dateRequested = newDateRequested;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, OrderPackage.ORDER__DATE_REQUESTED, oldDateRequested, dateRequested));
@@ -154,7 +155,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getLastUpdated()
+  public XMLGregorianCalendar getLastUpdated()
   {
     return lastUpdated;
   }
@@ -164,9 +165,9 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setLastUpdated(Object newLastUpdated)
+  public void setLastUpdated(XMLGregorianCalendar newLastUpdated)
   {
-    Object oldLastUpdated = lastUpdated;
+    XMLGregorianCalendar oldLastUpdated = lastUpdated;
     lastUpdated = newLastUpdated;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, OrderPackage.ORDER__LAST_UPDATED, oldLastUpdated, lastUpdated));
@@ -227,10 +228,10 @@ public class OrderImpl extends EObjectImpl implements Order
     switch (featureID)
     {
       case OrderPackage.ORDER__DATE_REQUESTED:
-        setDateRequested(newValue);
+        setDateRequested((XMLGregorianCalendar)newValue);
         return;
       case OrderPackage.ORDER__LAST_UPDATED:
-        setLastUpdated(newValue);
+        setLastUpdated((XMLGregorianCalendar)newValue);
         return;
       case OrderPackage.ORDER__MOVIES:
         setMovies((List<String>)newValue);

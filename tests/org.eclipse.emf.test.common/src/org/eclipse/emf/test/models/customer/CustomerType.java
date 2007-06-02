@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: CustomerType.java,v 1.2 2007/01/18 22:06:43 marcelop Exp $
+ * $Id: CustomerType.java,v 1.3 2007/06/02 19:35:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -132,13 +133,13 @@ public interface CustomerType extends EObject
    * @return the value of the '<em>Payment Day</em>' attribute.
    * @see #isSetPaymentDay()
    * @see #unsetPaymentDay()
-   * @see #setPaymentDay(Object)
+   * @see #setPaymentDay(XMLGregorianCalendar)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType_PaymentDay()
    * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.GDay" required="true"
    *        extendedMetaData="kind='element' name='paymentDay'"
    * @generated
    */
-  Object getPaymentDay();
+  XMLGregorianCalendar getPaymentDay();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.customer.CustomerType#getPaymentDay <em>Payment Day</em>}' attribute.
@@ -150,7 +151,7 @@ public interface CustomerType extends EObject
    * @see #getPaymentDay()
    * @generated
    */
-  void setPaymentDay(Object value);
+  void setPaymentDay(XMLGregorianCalendar value);
 
   /**
    * Unsets the value of the '{@link org.eclipse.emf.test.models.customer.CustomerType#getPaymentDay <em>Payment Day</em>}' attribute.
@@ -158,7 +159,7 @@ public interface CustomerType extends EObject
    * <!-- end-user-doc -->
    * @see #isSetPaymentDay()
    * @see #getPaymentDay()
-   * @see #setPaymentDay(Object)
+   * @see #setPaymentDay(XMLGregorianCalendar)
    * @generated
    */
   void unsetPaymentDay();
@@ -170,7 +171,7 @@ public interface CustomerType extends EObject
    * @return whether the value of the '<em>Payment Day</em>' attribute is set.
    * @see #unsetPaymentDay()
    * @see #getPaymentDay()
-   * @see #setPaymentDay(Object)
+   * @see #setPaymentDay(XMLGregorianCalendar)
    * @generated
    */
   boolean isSetPaymentDay();

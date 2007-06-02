@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: CreditInfoImpl.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: CreditInfoImpl.java,v 1.3 2007/06/02 19:35:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
 import java.math.BigInteger;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -93,7 +94,7 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
    * @generated
    * @ordered
    */
-  protected static final Object EXPIRE_DATE_EDEFAULT = null;
+  protected static final XMLGregorianCalendar EXPIRE_DATE_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getExpireDate() <em>Expire Date</em>}' attribute.
@@ -103,7 +104,7 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
    * @generated
    * @ordered
    */
-  protected Object expireDate = EXPIRE_DATE_EDEFAULT;
+  protected XMLGregorianCalendar expireDate = EXPIRE_DATE_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -177,7 +178,7 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getExpireDate()
+  public XMLGregorianCalendar getExpireDate()
   {
     return expireDate;
   }
@@ -187,9 +188,9 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setExpireDate(Object newExpireDate)
+  public void setExpireDate(XMLGregorianCalendar newExpireDate)
   {
-    Object oldExpireDate = expireDate;
+    XMLGregorianCalendar oldExpireDate = expireDate;
     expireDate = newExpireDate;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, CustomerPackage.CREDIT_INFO__EXPIRE_DATE, oldExpireDate, expireDate));
@@ -232,7 +233,7 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
         setCcNumber((BigInteger)newValue);
         return;
       case CustomerPackage.CREDIT_INFO__EXPIRE_DATE:
-        setExpireDate(newValue);
+        setExpireDate((XMLGregorianCalendar)newValue);
         return;
     }
     super.eSet(featureID, newValue);

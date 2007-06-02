@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: CreditInfo.java,v 1.2 2007/01/18 22:06:43 marcelop Exp $
+ * $Id: CreditInfo.java,v 1.3 2007/06/02 19:35:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
 import java.math.BigInteger;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -103,13 +104,13 @@ public interface CreditInfo extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Expire Date</em>' attribute.
-   * @see #setExpireDate(Object)
+   * @see #setExpireDate(XMLGregorianCalendar)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCreditInfo_ExpireDate()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.GYearMonth" required="true"
    *        extendedMetaData="kind='element' name='expireDate'"
    * @generated
    */
-  Object getExpireDate();
+  XMLGregorianCalendar getExpireDate();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.customer.CreditInfo#getExpireDate <em>Expire Date</em>}' attribute.
@@ -119,6 +120,6 @@ public interface CreditInfo extends EObject
    * @see #getExpireDate()
    * @generated
    */
-  void setExpireDate(Object value);
+  void setExpireDate(XMLGregorianCalendar value);
 
 } // CreditInfo

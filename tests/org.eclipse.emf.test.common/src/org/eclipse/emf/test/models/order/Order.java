@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: Order.java,v 1.2 2007/01/18 22:06:43 marcelop Exp $
+ * $Id: Order.java,v 1.3 2007/06/02 19:35:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.order;
 
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -53,13 +54,13 @@ public interface Order extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Date Requested</em>' attribute.
-   * @see #setDateRequested(Object)
+   * @see #setDateRequested(XMLGregorianCalendar)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder_DateRequested()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Date"
    *        extendedMetaData="kind='element' name='dateRequested'"
    * @generated
    */
-  Object getDateRequested();
+  XMLGregorianCalendar getDateRequested();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.order.Order#getDateRequested <em>Date Requested</em>}' attribute.
@@ -69,7 +70,7 @@ public interface Order extends EObject
    * @see #getDateRequested()
    * @generated
    */
-  void setDateRequested(Object value);
+  void setDateRequested(XMLGregorianCalendar value);
 
   /**
    * Returns the value of the '<em><b>Last Updated</b></em>' attribute.
@@ -80,13 +81,13 @@ public interface Order extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Last Updated</em>' attribute.
-   * @see #setLastUpdated(Object)
+   * @see #setLastUpdated(XMLGregorianCalendar)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder_LastUpdated()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Date"
    *        extendedMetaData="kind='element' name='lastUpdated'"
    * @generated
    */
-  Object getLastUpdated();
+  XMLGregorianCalendar getLastUpdated();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.order.Order#getLastUpdated <em>Last Updated</em>}' attribute.
@@ -96,7 +97,7 @@ public interface Order extends EObject
    * @see #getLastUpdated()
    * @generated
    */
-  void setLastUpdated(Object value);
+  void setLastUpdated(XMLGregorianCalendar value);
 
   /**
    * Returns the value of the '<em><b>Movies</b></em>' attribute.
@@ -107,7 +108,7 @@ public interface Order extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Movies</em>' attribute.
-   * @see #setMovies(List<String>)
+   * @see #setMovies(List)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder_Movies()
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.IDREFS" required="true" many="false"
    *        extendedMetaData="kind='element' name='movies'"

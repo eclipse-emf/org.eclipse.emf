@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LinkType.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: LinkType.java,v 1.3 2007/06/02 19:35:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal;
 
@@ -71,7 +71,7 @@ public interface LinkType
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Subordinates</em>' attribute.
-   * @see #setSubordinates(List<String>)
+   * @see #setSubordinates(List)
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.IDREFS" many="false"
    *        extendedMetaData="kind='attribute' name='subordinates'"
    * @generated

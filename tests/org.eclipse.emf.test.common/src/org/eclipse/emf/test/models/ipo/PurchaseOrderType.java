@@ -12,9 +12,11 @@
  *
  * </copyright>
  *
- * $Id: PurchaseOrderType.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: PurchaseOrderType.java,v 1.3 2007/06/02 19:35:31 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo;
+
+import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -151,12 +153,12 @@ public interface PurchaseOrderType
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Order Date</em>' attribute.
-   * @see #setOrderDate(Object)
+   * @see #setOrderDate(XMLGregorianCalendar)
    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.DateTime"
    *        extendedMetaData="kind='attribute' name='orderDate'"
    * @generated
    */
-  Object getOrderDate();
+  XMLGregorianCalendar getOrderDate();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.test.models.ipo.PurchaseOrderType#getOrderDate <em>Order Date</em>}' attribute.
@@ -166,6 +168,6 @@ public interface PurchaseOrderType
    * @see #getOrderDate()
    * @generated
    */
-  void setOrderDate(Object value);
+  void setOrderDate(XMLGregorianCalendar value);
 
 } // PurchaseOrderType

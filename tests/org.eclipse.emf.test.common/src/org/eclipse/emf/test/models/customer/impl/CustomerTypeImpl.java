@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: CustomerTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: CustomerTypeImpl.java,v 1.4 2007/06/02 19:35:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -97,7 +98,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * @generated
    * @ordered
    */
-  protected static final Object PAYMENT_DAY_EDEFAULT = null;
+  protected static final XMLGregorianCalendar PAYMENT_DAY_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getPaymentDay() <em>Payment Day</em>}' attribute.
@@ -107,7 +108,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * @generated
    * @ordered
    */
-  protected Object paymentDay = PAYMENT_DAY_EDEFAULT;
+  protected XMLGregorianCalendar paymentDay = PAYMENT_DAY_EDEFAULT;
 
   /**
    * This is true if the Payment Day attribute has been set.
@@ -283,7 +284,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getPaymentDay()
+  public XMLGregorianCalendar getPaymentDay()
   {
     return paymentDay;
   }
@@ -293,9 +294,9 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setPaymentDay(Object newPaymentDay)
+  public void setPaymentDay(XMLGregorianCalendar newPaymentDay)
   {
-    Object oldPaymentDay = paymentDay;
+    XMLGregorianCalendar oldPaymentDay = paymentDay;
     paymentDay = newPaymentDay;
     boolean oldPaymentDayESet = paymentDayESet;
     paymentDayESet = true;
@@ -310,7 +311,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    */
   public void unsetPaymentDay()
   {
-    Object oldPaymentDay = paymentDay;
+    XMLGregorianCalendar oldPaymentDay = paymentDay;
     boolean oldPaymentDayESet = paymentDayESet;
     paymentDay = PAYMENT_DAY_EDEFAULT;
     paymentDayESet = false;
@@ -413,7 +414,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
         setCreditCard((CreditInfo)newValue);
         return;
       case CustomerPackage.CUSTOMER_TYPE__PAYMENT_DAY:
-        setPaymentDay(newValue);
+        setPaymentDay((XMLGregorianCalendar)newValue);
         return;
       case CustomerPackage.CUSTOMER_TYPE__ID:
         setID((String)newValue);

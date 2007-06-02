@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AThing.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: AThing.java,v 1.3 2007/06/02 19:35:31 emerks Exp $
  */
 package org.eclipse.emf.test.models.types;
 
@@ -896,7 +896,7 @@ public interface AThing
 
   /**
    * Returns the value of the '<em><b>Many Bytes</b></em>' attribute list.
-   * The list contents are of type {@link byte[]}.
+   * The list contents are of type {@link byte}[].
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Many Bytes</em>' attribute list isn't clear,
