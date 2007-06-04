@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.12 2006/12/05 20:23:28 emerks Exp $
+ * $Id: EMOFHelperImpl.java,v 1.13 2007/06/04 15:23:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -37,6 +39,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EContentsEList;
 import org.eclipse.emf.ecore.util.ECrossReferenceEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
 
@@ -44,6 +47,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
 {
   protected EClass propertyClass = null;
   protected List<EObject> propertyFeatureList = null;
+  protected Set<EObject> objectsWithGenericTypeList = new HashSet<EObject>();
 
   public EMOFHelperImpl(XMLResource resource)
   {
@@ -74,6 +78,34 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     else if (feature == EcorePackage.eINSTANCE.getETypedElement_UpperBound() && "*".equals(value))
     {
       ((ETypedElement)object).setUpperBound(-1);
+    }
+    // Don't set the type if it's already set.
+    //
+    else if (feature == EcorePackage.Literals.ETYPED_ELEMENT__ETYPE)
+    {
+      if (((ETypedElement)object).getEType() == null)
+      {
+        super.setValue(object, feature, value, position);
+      }
+    }
+    else if (feature == EcorePackage.Literals.ECLASS__ESUPER_TYPES || feature == EcorePackage.Literals.EOPERATION__EEXCEPTIONS)
+    {
+      // Ignore it if we've already set generic versions of these
+      //
+      if (!objectsWithGenericTypeList.contains(object))
+      {
+        super.setValue(object, feature, value, position);
+      }
+    }
+    else if (feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES || feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS)
+    {
+      // Ignore whatever was set before.
+      //
+      if (objectsWithGenericTypeList.add(object))
+      {
+        ((InternalEList<?>)object.eGet(feature)).clear();
+      }
+      super.setValue(object, feature, value, position);
     }
     else
     {
@@ -192,10 +224,20 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
             return EcoreUtil.create(eClass);
           }
           @Override
+          @SuppressWarnings("unchecked")
           protected void copyContainment(EReference eReference, EObject eObject, EObject copyEObject)
           {
-            // eAnnotations is the only possible containment reference. We'll move the annotations instead of copy
-            ((EStructuralFeature)copyEObject).getEAnnotations().addAll(((EStructuralFeature)eObject).getEAnnotations());
+            // The eAnnotations and eGenericType are possible containment references. 
+            // We'll move them instead of copying
+            //
+            if (eReference == EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE)
+            {
+              ((ETypedElement)copyEObject).setEGenericType(((ETypedElement)eObject).getEGenericType());
+            }
+            else
+            {
+              ((EStructuralFeature)copyEObject).getEAnnotations().addAll(((EStructuralFeature)eObject).getEAnnotations());
+            }
           }
         };
       copier.copyAll(propertyFeatureList);
