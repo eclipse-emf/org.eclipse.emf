@@ -9,14 +9,14 @@
       <xsd:element name="pages" type="xsd:int"/>
       <xsd:element name="category" type="lib1:BookCategory"/>
       <xsd:element name="author" type="xsd:anyURI"
-          ecore:reference="lib:Writer" ecore:opposite="books"/>
+          ecore:reference="lib1:Writer" ecore:opposite="books"/>
     </xsd:sequence>
   </xsd:complexType>
   <xsd:complexType name="Writer">
     <xsd:sequence>
       <xsd:element name="name" type="xsd:string"/>
       <xsd:element maxOccurs="unbounded" minOccurs="0" name="books"
-          type="xsd:anyURI" ecore:reference="lib:Book" ecore:opposite="author"/>
+          type="xsd:anyURI" ecore:reference="lib1:Book" ecore:opposite="author"/>
     </xsd:sequence>
   </xsd:complexType>
   <xsd:simpleType name="BookCategory">
