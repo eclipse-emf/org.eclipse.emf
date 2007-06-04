@@ -1,23 +1,27 @@
 /**
  * This is my code.
  *
- * $Id: WriterImpl.java,v 1.3 2007/04/26 20:57:15 emerks Exp $
+ * $Id: WriterImpl.java,v 1.4 2007/06/04 18:49:09 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.examples.library.elements.Book;
 import org.examples.library.elements.ElementsPackage;
 import org.examples.library.elements.Writer;
 
@@ -58,14 +62,14 @@ public class WriterImpl extends EObjectImpl implements Writer
   protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getBooks() <em>Books</em>}' attribute list.
+   * The cached value of the '{@link #getBooks() <em>Books</em>}' reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getBooks()
    * @generated
    * @ordered
    */
-  protected EList<String> books;
+  protected EList<Book> books;
 
   /**
    * <!-- begin-user-doc -->
@@ -116,13 +120,46 @@ public class WriterImpl extends EObjectImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<String> getBooks()
+  public EList<Book> getBooks()
   {
     if (books == null)
     {
-      books = new EDataTypeEList<String>(String.class, this, ElementsPackage.WRITER__BOOKS);
+      books = new EObjectWithInverseResolvingEList<Book>(Book.class, this, ElementsPackage.WRITER__BOOKS, ElementsPackage.BOOK__AUTHOR);
     }
     return books;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case ElementsPackage.WRITER__BOOKS:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getBooks()).basicAdd(otherEnd, msgs);
+    }
+    return super.eInverseAdd(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case ElementsPackage.WRITER__BOOKS:
+        return ((InternalEList<?>)getBooks()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -159,7 +196,7 @@ public class WriterImpl extends EObjectImpl implements Writer
         return;
       case ElementsPackage.WRITER__BOOKS:
         getBooks().clear();
-        getBooks().addAll((Collection<? extends String>)newValue);
+        getBooks().addAll((Collection<? extends Book>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -216,8 +253,6 @@ public class WriterImpl extends EObjectImpl implements Writer
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (name: ");
     result.append(name);
-    result.append(", books: ");
-    result.append(books);
     result.append(')');
     return result.toString();
   }

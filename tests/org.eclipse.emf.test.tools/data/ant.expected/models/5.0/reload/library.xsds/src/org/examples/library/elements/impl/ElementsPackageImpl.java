@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: ElementsPackageImpl.java,v 1.2 2007/04/26 20:57:13 emerks Exp $
+ * $Id: ElementsPackageImpl.java,v 1.3 2007/06/04 18:49:08 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -209,9 +210,9 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getBook_Author()
+  public EReference getBook_Author()
   {
-    return (EAttribute)bookEClass.getEStructuralFeatures().get(3);
+    return (EReference)bookEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -239,9 +240,9 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getWriter_Books()
+  public EReference getWriter_Books()
   {
-    return (EAttribute)writerEClass.getEStructuralFeatures().get(0);
+    return (EReference)writerEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -308,11 +309,11 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     createEAttribute(bookEClass, BOOK__TITLE);
     createEAttribute(bookEClass, BOOK__PAGES);
     createEAttribute(bookEClass, BOOK__CATEGORY);
-    createEAttribute(bookEClass, BOOK__AUTHOR);
+    createEReference(bookEClass, BOOK__AUTHOR);
     createEAttribute(bookEClass, BOOK__UUID);
 
     writerEClass = createEClass(WRITER);
-    createEAttribute(writerEClass, WRITER__BOOKS);
+    createEReference(writerEClass, WRITER__BOOKS);
 
     // Create enums
     bookCategoryEEnum = createEEnum(BOOK_CATEGORY);
@@ -362,11 +363,11 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     initEAttribute(getBook_Title(), theXMLTypePackage.getString(), "title", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
     initEAttribute(getBook_Pages(), theXMLTypePackage.getInt(), "pages", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
     initEAttribute(getBook_Category(), this.getBookCategory(), "category", "Mystery", 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
-    initEAttribute(getBook_Author(), theXMLTypePackage.getAnyURI(), "author", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEReference(getBook_Author(), ecorePackage.getEObject(), null, "author", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
     initEAttribute(getBook_Uuid(), this.getUUID(), "uuid", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
     initEClass(writerEClass, Writer.class, "Writer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-    initEAttribute(getWriter_Books(), theXMLTypePackage.getAnyURI(), "books", null, 0, -1, Writer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEReference(getWriter_Books(), ecorePackage.getEObject(), null, "books", null, 0, -1, Writer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
     // Initialize enums and add enum literals
     initEEnum(bookCategoryEEnum, BookCategory.class, "BookCategory"); //$NON-NLS-1$

@@ -19,11 +19,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/title"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/pages"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/category"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Book/author"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference elements.ecore#//Book/author"/>
     </genClasses>
     <genClasses ecoreClass="elements.ecore#//Writer">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Writer/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute elements.ecore#//Writer/books"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference elements.ecore#//Writer/books"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Library" basePackage="org.examples" resource="XML" disposableProviderFactory="true"

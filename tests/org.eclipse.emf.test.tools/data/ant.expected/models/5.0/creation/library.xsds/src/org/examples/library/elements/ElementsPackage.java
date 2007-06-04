@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: ElementsPackage.java,v 1.2 2007/04/26 20:57:11 emerks Exp $
+ * $Id: ElementsPackage.java,v 1.3 2007/06/04 18:49:08 emerks Exp $
  */
 package org.examples.library.elements;
 
@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -98,7 +99,7 @@ public interface ElementsPackage extends EPackage
   int BOOK__CATEGORY = 2;
 
   /**
-   * The feature id for the '<em><b>Author</b></em>' attribute.
+   * The feature id for the '<em><b>Author</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -135,7 +136,7 @@ public interface ElementsPackage extends EPackage
   int WRITER__NAME = 0;
 
   /**
-   * The feature id for the '<em><b>Books</b></em>' attribute list.
+   * The feature id for the '<em><b>Books</b></em>' reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -217,15 +218,15 @@ public interface ElementsPackage extends EPackage
   EAttribute getBook_Category();
 
   /**
-   * Returns the meta object for the attribute '{@link org.examples.library.elements.Book#getAuthor <em>Author</em>}'.
+   * Returns the meta object for the reference '{@link org.examples.library.elements.Book#getAuthor <em>Author</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Author</em>'.
+   * @return the meta object for the reference '<em>Author</em>'.
    * @see org.examples.library.elements.Book#getAuthor()
    * @see #getBook()
    * @generated
    */
-  EAttribute getBook_Author();
+  EReference getBook_Author();
 
   /**
    * Returns the meta object for class '{@link org.examples.library.elements.Writer <em>Writer</em>}'.
@@ -249,15 +250,15 @@ public interface ElementsPackage extends EPackage
   EAttribute getWriter_Name();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.examples.library.elements.Writer#getBooks <em>Books</em>}'.
+   * Returns the meta object for the reference list '{@link org.examples.library.elements.Writer#getBooks <em>Books</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute list '<em>Books</em>'.
+   * @return the meta object for the reference list '<em>Books</em>'.
    * @see org.examples.library.elements.Writer#getBooks()
    * @see #getWriter()
    * @generated
    */
-  EAttribute getWriter_Books();
+  EReference getWriter_Books();
 
   /**
    * Returns the meta object for enum '{@link org.examples.library.elements.BookCategory <em>Book Category</em>}'.
@@ -339,12 +340,12 @@ public interface ElementsPackage extends EPackage
     EAttribute BOOK__CATEGORY = eINSTANCE.getBook_Category();
 
     /**
-     * The meta object literal for the '<em><b>Author</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Author</b></em>' reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute BOOK__AUTHOR = eINSTANCE.getBook_Author();
+    EReference BOOK__AUTHOR = eINSTANCE.getBook_Author();
 
     /**
      * The meta object literal for the '{@link org.examples.library.elements.impl.WriterImpl <em>Writer</em>}' class.
@@ -365,12 +366,12 @@ public interface ElementsPackage extends EPackage
     EAttribute WRITER__NAME = eINSTANCE.getWriter_Name();
 
     /**
-     * The meta object literal for the '<em><b>Books</b></em>' attribute list feature.
+     * The meta object literal for the '<em><b>Books</b></em>' reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute WRITER__BOOKS = eINSTANCE.getWriter_Books();
+    EReference WRITER__BOOKS = eINSTANCE.getWriter_Books();
 
     /**
      * The meta object literal for the '{@link org.examples.library.elements.BookCategory <em>Book Category</em>}' enum.

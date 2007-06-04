@@ -1,23 +1,29 @@
 /**
  * This is my code.
  *
- * $Id: WriterImpl.java,v 1.3 2007/04/26 20:57:11 emerks Exp $
+ * $Id: WriterImpl.java,v 1.4 2007/06/04 18:49:09 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.examples.library.elements.Book;
 import org.examples.library.elements.ElementsPackage;
 import org.examples.library.elements.Writer;
 import org.examples.library.hr.impl.PersonImpl;
@@ -38,14 +44,14 @@ import org.examples.library.hr.impl.PersonImpl;
 public class WriterImpl extends PersonImpl implements Writer
 {
   /**
-   * The cached value of the '{@link #getBooks() <em>Books</em>}' attribute list.
+   * The cached value of the '{@link #getBooks() <em>Books</em>}' reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getBooks()
    * @generated
    * @ordered
    */
-  protected EList<String> books;
+  protected EList<EObject> books;
 
   /**
    * <!-- begin-user-doc -->
@@ -73,11 +79,11 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<String> getBooks()
+  public EList<EObject> getBooks()
   {
     if (books == null)
     {
-      books = new EDataTypeEList<String>(String.class, this, ElementsPackage.WRITER__BOOKS);
+      books = new EObjectResolvingEList<EObject>(EObject.class, this, ElementsPackage.WRITER__BOOKS);
     }
     return books;
   }
@@ -111,7 +117,7 @@ public class WriterImpl extends PersonImpl implements Writer
     {
       case ElementsPackage.WRITER__BOOKS:
         getBooks().clear();
-        getBooks().addAll((Collection<? extends String>)newValue);
+        getBooks().addAll((Collection<? extends EObject>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -148,23 +154,6 @@ public class WriterImpl extends PersonImpl implements Writer
         return books != null && !books.isEmpty();
     }
     return super.eIsSet(featureID);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (books: "); //$NON-NLS-1$
-    result.append(books);
-    result.append(')');
-    return result.toString();
   }
 
 } //WriterImpl

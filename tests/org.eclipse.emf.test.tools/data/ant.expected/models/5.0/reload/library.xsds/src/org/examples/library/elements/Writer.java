@@ -1,14 +1,14 @@
 /**
  * This is my code.
  *
- * $Id: Writer.java,v 1.2 2007/04/26 20:57:11 emerks Exp $
+ * $Id: Writer.java,v 1.3 2007/06/04 18:49:09 emerks Exp $
  */
 package org.examples.library.elements;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.examples.library.hr.Person;
 import org.eclipse.emf.ecore.EObject;
+import org.examples.library.hr.Person;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,20 +29,20 @@ import org.eclipse.emf.ecore.EObject;
 public interface Writer extends Person
 {
   /**
-   * Returns the value of the '<em><b>Books</b></em>' attribute list.
-   * The list contents are of type {@link java.lang.String}.
+   * Returns the value of the '<em><b>Books</b></em>' reference list.
+   * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Books</em>' attribute list isn't clear,
+   * If the meaning of the '<em>Books</em>' reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Books</em>' attribute list.
+   * @return the value of the '<em>Books</em>' reference list.
    * @see org.examples.library.elements.ElementsPackage#getWriter_Books()
-   * @model type="java.lang.String" unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnyURI"
+   * @model type="org.eclipse.emf.ecore.EObject"
    *        extendedMetaData="kind='element' name='books'"
    * @generated
    */
-  EList<String> getBooks();
+  EList<EObject> getBooks();
 
 } // Writer

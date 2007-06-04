@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: Writer.java,v 1.2 2007/04/26 20:57:11 emerks Exp $
+ * $Id: Writer.java,v 1.3 2007/06/04 18:49:08 emerks Exp $
  */
 package org.examples.library.elements;
 
@@ -56,20 +56,22 @@ public interface Writer extends EObject
   void setName(String value);
 
   /**
-   * Returns the value of the '<em><b>Books</b></em>' attribute list.
-   * The list contents are of type {@link java.lang.String}.
+   * Returns the value of the '<em><b>Books</b></em>' reference list.
+   * The list contents are of type {@link org.examples.library.elements.Book}.
+   * It is bidirectional and its opposite is '{@link org.examples.library.elements.Book#getAuthor <em>Author</em>}'.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Books</em>' attribute list isn't clear,
+   * If the meaning of the '<em>Books</em>' reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Books</em>' attribute list.
+   * @return the value of the '<em>Books</em>' reference list.
    * @see org.examples.library.elements.ElementsPackage#getWriter_Books()
-   * @model type="java.lang.String" unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnyURI"
+   * @see org.examples.library.elements.Book#getAuthor
+   * @model type="org.examples.library.elements.Book" opposite="author"
    *        extendedMetaData="kind='element' name='books'"
    * @generated
    */
-  EList<String> getBooks();
+  EList<Book> getBooks();
 
 } // Writer

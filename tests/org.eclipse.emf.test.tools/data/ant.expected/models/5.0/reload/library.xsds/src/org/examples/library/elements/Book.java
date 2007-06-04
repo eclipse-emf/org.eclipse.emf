@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: Book.java,v 1.2 2007/04/26 20:57:11 emerks Exp $
+ * $Id: Book.java,v 1.3 2007/06/04 18:49:09 emerks Exp $
  */
 package org.examples.library.elements;
 
@@ -169,31 +169,31 @@ public interface Book extends EObject
   boolean isSetCategory();
 
   /**
-   * Returns the value of the '<em><b>Author</b></em>' attribute.
+   * Returns the value of the '<em><b>Author</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Author</em>' attribute isn't clear,
+   * If the meaning of the '<em>Author</em>' reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Author</em>' attribute.
-   * @see #setAuthor(String)
+   * @return the value of the '<em>Author</em>' reference.
+   * @see #setAuthor(EObject)
    * @see org.examples.library.elements.ElementsPackage#getBook_Author()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnyURI" required="true"
+   * @model required="true"
    *        extendedMetaData="kind='element' name='author'"
    * @generated
    */
-  String getAuthor();
+  EObject getAuthor();
 
   /**
-   * Sets the value of the '{@link org.examples.library.elements.Book#getAuthor <em>Author</em>}' attribute.
+   * Sets the value of the '{@link org.examples.library.elements.Book#getAuthor <em>Author</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Author</em>' attribute.
+   * @param value the new value of the '<em>Author</em>' reference.
    * @see #getAuthor()
    * @generated
    */
-  void setAuthor(String value);
+  void setAuthor(EObject value);
 
   /**
    * Returns the value of the '<em><b>Uuid</b></em>' attribute.

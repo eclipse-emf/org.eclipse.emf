@@ -1,13 +1,15 @@
 /**
  * This is my code.
  *
- * $Id: BookImpl.java,v 1.3 2007/04/26 20:57:15 emerks Exp $
+ * $Id: BookImpl.java,v 1.4 2007/06/04 18:49:08 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -15,6 +17,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.examples.library.elements.Book;
 import org.examples.library.elements.BookCategory;
 import org.examples.library.elements.ElementsPackage;
+import org.examples.library.elements.Writer;
 
 /**
  * <!-- begin-user-doc -->
@@ -113,24 +116,14 @@ public class BookImpl extends EObjectImpl implements Book
   protected boolean categoryESet;
 
   /**
-   * The default value of the '{@link #getAuthor() <em>Author</em>}' attribute.
+   * The cached value of the '{@link #getAuthor() <em>Author</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getAuthor()
    * @generated
    * @ordered
    */
-  protected static final String AUTHOR_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getAuthor() <em>Author</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getAuthor()
-   * @generated
-   * @ordered
-   */
-  protected String author = AUTHOR_EDEFAULT;
+  protected Writer author;
 
   /**
    * <!-- begin-user-doc -->
@@ -280,7 +273,27 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getAuthor()
+  public Writer getAuthor()
+  {
+    if (author != null && author.eIsProxy())
+    {
+      InternalEObject oldAuthor = (InternalEObject)author;
+      author = (Writer)eResolveProxy(oldAuthor);
+      if (author != oldAuthor)
+      {
+        if (eNotificationRequired())
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, ElementsPackage.BOOK__AUTHOR, oldAuthor, author));
+      }
+    }
+    return author;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Writer basicGetAuthor()
   {
     return author;
   }
@@ -290,12 +303,69 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setAuthor(String newAuthor)
+  public NotificationChain basicSetAuthor(Writer newAuthor, NotificationChain msgs)
   {
-    String oldAuthor = author;
+    Writer oldAuthor = author;
     author = newAuthor;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ElementsPackage.BOOK__AUTHOR, oldAuthor, author));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ElementsPackage.BOOK__AUTHOR, oldAuthor, newAuthor);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setAuthor(Writer newAuthor)
+  {
+    if (newAuthor != author)
+    {
+      NotificationChain msgs = null;
+      if (author != null)
+        msgs = ((InternalEObject)author).eInverseRemove(this, ElementsPackage.WRITER__BOOKS, Writer.class, msgs);
+      if (newAuthor != null)
+        msgs = ((InternalEObject)newAuthor).eInverseAdd(this, ElementsPackage.WRITER__BOOKS, Writer.class, msgs);
+      msgs = basicSetAuthor(newAuthor, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ElementsPackage.BOOK__AUTHOR, newAuthor, newAuthor));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case ElementsPackage.BOOK__AUTHOR:
+        if (author != null)
+          msgs = ((InternalEObject)author).eInverseRemove(this, ElementsPackage.WRITER__BOOKS, Writer.class, msgs);
+        return basicSetAuthor((Writer)otherEnd, msgs);
+    }
+    return super.eInverseAdd(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case ElementsPackage.BOOK__AUTHOR:
+        return basicSetAuthor(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -314,7 +384,8 @@ public class BookImpl extends EObjectImpl implements Book
       case ElementsPackage.BOOK__CATEGORY:
         return getCategory();
       case ElementsPackage.BOOK__AUTHOR:
-        return getAuthor();
+        if (resolve) return getAuthor();
+        return basicGetAuthor();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -338,7 +409,7 @@ public class BookImpl extends EObjectImpl implements Book
         setCategory((BookCategory)newValue);
         return;
       case ElementsPackage.BOOK__AUTHOR:
-        setAuthor((String)newValue);
+        setAuthor((Writer)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -363,7 +434,7 @@ public class BookImpl extends EObjectImpl implements Book
         unsetCategory();
         return;
       case ElementsPackage.BOOK__AUTHOR:
-        setAuthor(AUTHOR_EDEFAULT);
+        setAuthor((Writer)null);
         return;
     }
     super.eUnset(featureID);
@@ -385,7 +456,7 @@ public class BookImpl extends EObjectImpl implements Book
       case ElementsPackage.BOOK__CATEGORY:
         return isSetCategory();
       case ElementsPackage.BOOK__AUTHOR:
-        return AUTHOR_EDEFAULT == null ? author != null : !AUTHOR_EDEFAULT.equals(author);
+        return author != null;
     }
     return super.eIsSet(featureID);
   }
@@ -406,8 +477,6 @@ public class BookImpl extends EObjectImpl implements Book
     if (pagesESet) result.append(pages); else result.append("<unset>");
     result.append(", category: ");
     if (categoryESet) result.append(category); else result.append("<unset>");
-    result.append(", author: ");
-    result.append(author);
     result.append(')');
     return result.toString();
   }

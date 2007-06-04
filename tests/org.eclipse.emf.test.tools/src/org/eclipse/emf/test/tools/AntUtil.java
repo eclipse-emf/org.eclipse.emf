@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntUtil.java,v 1.1 2007/01/18 15:53:00 marcelop Exp $
+ * $Id: AntUtil.java,v 1.2 2007/06/04 18:49:09 emerks Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -35,6 +35,7 @@ public class AntUtil
     antCopyTask.setTofile(toFile);
     FileSet fromDirFS = new FileSet();
     fromDirFS.setFile(fromFile);
+    fromDirFS.setProject(antCopyTask.getProject());
     antCopyTask.addFileset(fromDirFS);
     antCopyTask.setOverwrite(overwrite);
     antCopyTask.execute();    
@@ -47,6 +48,7 @@ public class AntUtil
     antCopyTask.setTodir(toDir);
     FileSet fromDirFS = new FileSet();
     fromDirFS.setDir(fromDir);
+    fromDirFS.setProject(antCopyTask.getProject());
     antCopyTask.addFileset(fromDirFS);
     antCopyTask.setOverwrite(overwrite);
     antCopyTask.execute();    
