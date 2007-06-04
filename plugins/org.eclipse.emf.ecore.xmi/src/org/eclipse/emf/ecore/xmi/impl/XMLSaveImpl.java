@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.73 2007/05/26 13:45:57 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.74 2007/06/04 15:23:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1132,6 +1132,11 @@ public class XMLSaveImpl implements XMLSave
     }
   }
 
+  protected boolean shouldSaveFeature(EObject o, EStructuralFeature f)
+  {
+    return o.eIsSet(f) || keepDefaults && f.getDefaultValueLiteral() != null;
+  }
+
   protected boolean saveFeatures(EObject o)
   {
     EClass eClass = o.eClass();   
@@ -1167,7 +1172,7 @@ public class XMLSaveImpl implements XMLSave
     {
       int kind = featureKinds[i];
       EStructuralFeature f = features[i];
-      if (kind != TRANSIENT && (o.eIsSet(f) || keepDefaults && f.getDefaultValueLiteral() != null))
+      if (kind != TRANSIENT && shouldSaveFeature(o, f))
       {
         switch (kind)
         {
