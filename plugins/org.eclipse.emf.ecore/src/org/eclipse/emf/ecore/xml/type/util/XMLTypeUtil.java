@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.10 2007/04/04 20:05:14 emerks Exp $
+ * $Id: XMLTypeUtil.java,v 1.11 2007/06/04 18:47:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -289,6 +289,38 @@ public final class XMLTypeUtil
     {
       return regularExpression.getPattern();
     }
+  }
+
+  /**
+   * Returns whether the code point is the valid start of an XML Name.
+   */
+  public static boolean isNameStart(int codePoint)
+  {
+    return DataValue.XMLChar.isNameStart(codePoint);
+  }
+
+  /**
+   * Returns whether the code point is a valid part of an XML Name.
+   */
+  public static boolean isNamePart(int codePoint)
+  {
+    return DataValue.XMLChar.isName(codePoint);
+  }
+
+  /**
+   * Returns whether the code point is the valid start of an XML NCName.
+   */
+  public static boolean isNCNameStart(int codePoint)
+  {
+    return DataValue.XMLChar.isNCNameStart(codePoint);
+  }
+
+  /**
+   * Returns whether the code point is a valid part of an XML NCName.
+   */
+  public static boolean isNCNamePart(int codePoint)
+  {
+    return DataValue.XMLChar.isNCName(codePoint);
   }
 
 /*
