@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.29 2007/01/22 13:21:11 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.30 2007/06/04 18:47:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -41,7 +41,7 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-import org.eclipse.emf.ecore.xml.type.internal.DataValue;
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 
 /**
@@ -1948,7 +1948,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     while (--index >= 0)
     {
       char character = namespace.charAt(index);
-      if (DataValue.XMLChar.isNCName(character))
+      if (XMLTypeUtil.isNCNamePart(character))
       {
         prefix.append(character);
         containsLetter = Character.isLetter(character);
@@ -1958,7 +1958,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     while (--index >= 0)
     {
       char character = namespace.charAt(index);
-      if (DataValue.XMLChar.isNCName(character))
+      if (XMLTypeUtil.isNCNamePart(character))
       {
         prefix.append(character);
         if (!containsLetter)
@@ -1977,7 +1977,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     }
     
     int length = prefix.length();
-    if (length == 0 || !DataValue.XMLChar.isNCNameStart(prefix.charAt(length - 1)))
+    if (length == 0 || !XMLTypeUtil.isNCNameStart(prefix.charAt(length - 1)))
     {
       prefix.append('_');
     }
