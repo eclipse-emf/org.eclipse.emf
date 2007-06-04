@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.14 2007/05/26 11:54:19 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.15 2007/06/04 18:47:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3819,7 +3819,7 @@ public class EcoreValidator extends EObjectValidator
             identifierLast = -1;
           }
         }
-        else if (identifierStart != -1 ? Character.isJavaIdentifierPart(codePoint) : Character.isJavaIdentifierStart(codePoint))
+        else if (identifierStart != -1 ? isIdentifierPart(codePoint) : isIdentifierStart(codePoint))
         {
           if (identifierStart == -1)
           {
@@ -3922,6 +3922,16 @@ public class EcoreValidator extends EObjectValidator
         }
       }
       return eGenericType;
+    }
+    
+    protected boolean isIdentifierStart(int codePoint)
+    {
+      return Character.isJavaIdentifierPart(codePoint);
+    }
+
+    protected boolean isIdentifierPart(int codePoint)
+    {
+      return Character.isJavaIdentifierStart(codePoint);
     }
     
     /**
