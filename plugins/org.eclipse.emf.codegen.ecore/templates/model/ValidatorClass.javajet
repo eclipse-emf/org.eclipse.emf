@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.25 2007/04/26 20:54:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.26 2007/06/05 05:06:10 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -133,7 +133,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	}
 
 	/**
-	 * Calls <code>validateXXX</code> for the corresonding classifier of the model.
+	 * Calls <code>validateXXX</code> for the corresponding classifier of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

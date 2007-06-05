@@ -55,7 +55,7 @@ public class ValidatorClass
   protected final String TEXT_37 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Returns the package of this validator switch." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
   protected final String TEXT_38 = NL + "\t@Override";
   protected final String TEXT_39 = NL + "\tprotected EPackage getEPackage()" + NL + "\t{" + NL + "\t  return ";
-  protected final String TEXT_40 = ".eINSTANCE;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Calls <code>validateXXX</code> for the corresonding classifier of the model." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_40 = ".eINSTANCE;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Calls <code>validateXXX</code> for the corresponding classifier of the model." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
   protected final String TEXT_41 = NL + "\t@Override";
   protected final String TEXT_42 = NL + "\tprotected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, ";
   protected final String TEXT_43 = " context)" + NL + "\t{" + NL + "\t\tswitch (classifierID)" + NL + "\t\t{";
