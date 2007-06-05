@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.76 2007/05/29 15:10:59 marcelop Exp $
+ * $Id: XMLHandler.java,v 1.77 2007/06/05 19:02:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2061,36 +2061,9 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     return newObject;
   }
   
-  EObject createObject(EFactory eFactory, EClassifier type, boolean documentRoot)
+  protected EObject createObject(EFactory eFactory, EClassifier type, boolean documentRoot)
   {
     EObject newObject = helper.createObject(eFactory, type);
-    /*if (eFactory != null)
-    {
-      if (extendedMetaData != null)
-      {
-        if (type == null)
-        {
-          return null;
-        }
-        else if (type instanceof EClass)
-        {
-          newObject = eFactory.create((EClass)type);
-        }
-        else
-        {
-          SimpleAnyType result = (SimpleAnyType)EcoreUtil.create(anySimpleType);
-          result.setInstanceType((EDataType)type);
-          newObject = result;
-        }
-      }
-      else
-      {
-        if (type != null)
-        {
-          newObject = eFactory.create((EClass)type);
-        }
-      }
-    }*/
     if (newObject != null && !documentRoot)
     {
       if (disableNotify)
@@ -2823,8 +2796,8 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     }
   }
 
-  Map<EClassFeatureNamePair, EStructuralFeature> eClassFeatureNamePairToEStructuralFeatureMap = null;
-  boolean isOptionUseXMLNameToFeatureSet = false;
+  Map<EClassFeatureNamePair, EStructuralFeature> eClassFeatureNamePairToEStructuralFeatureMap;
+  boolean isOptionUseXMLNameToFeatureSet;
   EClassFeatureNamePair eClassFeatureNamePair = new  EClassFeatureNamePair();
 
   /**
