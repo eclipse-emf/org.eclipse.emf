@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.17.2.2 2006/10/27 09:25:12 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.17.2.3 2007/06/05 10:46:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -699,8 +699,15 @@ public class ECrossReferenceAdapter implements Adapter.Internal
 
     for (Iterator i = resolve() ? target.eContents().iterator() : ((InternalEList)target.eContents()).basicIterator(); i.hasNext(); )
     {
-      Notifier notifier = (Notifier)i.next();
-      removeAdapter(notifier);
+      // Don't remove the adapter if the object is in a different resource 
+      // and that resource (and hence all its contents) are being cross referenced.
+      //
+      InternalEObject internalEObject = (InternalEObject)i.next();
+      Resource eDirectResource = internalEObject.eDirectResource();
+      if (eDirectResource == null || !eDirectResource.eAdapters().contains(this))
+      {
+        removeAdapter(internalEObject);
+      }
     }
   }
 
