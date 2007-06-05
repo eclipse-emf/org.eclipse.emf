@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetItemProvider.java,v 1.6 2007/03/22 01:51:39 davidms Exp $
+ * $Id: ResourceSetItemProvider.java,v 1.7 2007/06/05 18:20:55 emerks Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 
 /**
@@ -143,7 +144,7 @@ public class ResourceSetItemProvider
     {
       case ResourceSet.RESOURCE_SET__RESOURCES:
       {
-        fireNotifyChanged(notification);
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
         return;
       }
     }

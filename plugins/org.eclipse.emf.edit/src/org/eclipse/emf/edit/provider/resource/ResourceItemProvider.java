@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProvider.java,v 1.10 2007/03/22 01:51:39 davidms Exp $
+ * $Id: ResourceItemProvider.java,v 1.11 2007/06/05 18:20:55 emerks Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -174,7 +174,7 @@ public class ResourceItemProvider
       // case Resource.RESOURCE__IS_TRACKING_MODIFICATION:
       // case Resource.RESOURCE__RESOURCE_SET:
       {
-        fireNotifyChanged(notification);
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       }
       // When an object is controlled, the only change will be in the new resource's contents, so it must
@@ -182,7 +182,7 @@ public class ResourceItemProvider
       //
       case Resource.RESOURCE__CONTENTS:
       {
-        fireNotifyChanged(new ViewerNotification(notification));
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
         return;
       }
     }
