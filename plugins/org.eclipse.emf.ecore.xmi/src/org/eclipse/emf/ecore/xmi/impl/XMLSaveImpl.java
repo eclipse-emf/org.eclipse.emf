@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.74 2007/06/04 15:23:29 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.75 2007/06/06 15:28:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -862,7 +862,10 @@ public class XMLSaveImpl implements XMLSave
             {
               if (nsPrefix != null && nsPrefix.length() > 0)
               {
-                doc.addAttributeNS(XMLResource.XML_NS, nsPrefix, nsURI);
+                if (!declareXSI || !"xsi".equals(nsPrefix))
+                {
+                  doc.addAttributeNS(XMLResource.XML_NS, nsPrefix, nsURI);
+                }
               }
               else
               {
@@ -873,7 +876,10 @@ public class XMLSaveImpl implements XMLSave
             {
               if (nsPrefix != null && nsPrefix.length() > 0)
               {
-                ((Element)currentNode).setAttributeNS(ExtendedMetaData.XMLNS_URI, XMLResource.XML_NS +":" + nsPrefix, nsURI);
+                if (!declareXSI || !"xsi".equals(nsPrefix))
+                {
+                  ((Element)currentNode).setAttributeNS(ExtendedMetaData.XMLNS_URI, XMLResource.XML_NS +":" + nsPrefix, nsURI);
+                }
               }
               else
               {
