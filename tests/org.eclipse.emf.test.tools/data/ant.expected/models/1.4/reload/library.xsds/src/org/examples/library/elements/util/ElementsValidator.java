@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: ElementsValidator.java,v 1.2 2007/04/26 20:57:15 emerks Exp $
+ * $Id: ElementsValidator.java,v 1.3 2007/06/06 03:35:14 marcelop Exp $
  */
 package org.examples.library.elements.util;
 
@@ -92,7 +92,7 @@ public class ElementsValidator extends EObjectValidator
   }
 
   /**
-   * Calls <code>validateXXX</code> for the corresonding classifier of the model.
+   * Calls <code>validateXXX</code> for the corresponding classifier of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
