@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.15 2007/06/04 18:47:57 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.16 2007/06/06 12:15:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1222,7 +1222,7 @@ public class EcoreValidator extends EObjectValidator
    * Validates the WellFormedInstanceTypeName constraint of '<em>EClassifier</em>'.
    * <!-- begin-user-doc -->
    * The instance type name may be null only for a class or an enum
-   * and must be {@link #isWellFormedInstanceTypeName(String) well formed} when not null.
+   * and must be {@link EGenericTypeBuilder#parseInstanceTypeName(String) well formed} when not null.
    * <!-- end-user-doc -->
    * @generated NOT
    */
@@ -1767,7 +1767,7 @@ public class EcoreValidator extends EObjectValidator
    * Validates the WellFormedNsPrefix constraint of '<em>EPackage</em>'.
    * <!-- begin-user-doc -->
    * The namespace prefix must be either <code>null</code>
-   * or a {@link XMLTypeValidator#validateNCName(String, DiagnosticChain, Map)valid NCName}
+   * or a {@link XMLTypeValidator#validateNCName(String, DiagnosticChain, Map) valid NCName}
    * that does not start with the any case combination of the three letters
    * <a href="http://www.w3.org/TR/REC-xml-names/#xmlReserved">"xml"</a>.
    * <!-- end-user-doc -->
@@ -2852,14 +2852,14 @@ public class EcoreValidator extends EObjectValidator
   }
 
   /**
-   * Returns whether the generic type argument is a valid subsitution for the type parameter.
-   * A generic type is a valid subsitution 
-   * if it is {@link #isBounded(EGenericType, EGenericType)bounded} by 
+   * Returns whether the generic type argument is a valid substitution for the type parameter.
+   * A generic type is a valid substitution 
+   * if it is {@link #isBounded(EGenericType, EGenericType, Map) bounded} by 
    * every {@link ETypeParameter#getEBounds() bound} of the type parameter.
    * It follows that for a type parameter without bounds, every type argument is a valid substitution.
    * @param eTypeArgument the generic type argument to consider.
    * @param eTypeParameter the type parameter in question.
-   * @return whether the generic type argument is a valid subsitution for the type parameter.
+   * @return whether the generic type argument is a valid substitution for the type parameter.
    */
   protected boolean isValidSubstitution(EGenericType eTypeArgument, ETypeParameter eTypeParameter, Map<ETypeParameter, EGenericType> substitutions)
   {
@@ -2888,7 +2888,7 @@ public class EcoreValidator extends EObjectValidator
    * Returns whether the first generic type is bounded by the second.
    * If they both reference a classifier, 
    * then the classifier of the first must be bounded by the classifier of the second,
-   * and the type arguments must {@link #matchingTypeArguments(EList, EList) match}.
+   * and the type arguments must {@link #matchingTypeArguments(EList, EList, Map) match}.
    * A classifier is bounded by another classifier,
    * if they are the same classifier,
    * if both are classes and the first is a {@link EClass#isSuperTypeOf(EClass)} the second,
@@ -2908,9 +2908,10 @@ public class EcoreValidator extends EObjectValidator
    * If the bound has an upper bound, 
    * the generic type argument must be bound that upper bound.
    * Failing all these cases, the bound is a wildcard with no constraint, and the type argument is bounded.
-   * @param eGenericType
-   * @param eBound
-   * @return
+   * @param eGenericType the generic type in question.
+   * @param eBound the bound it's being assessed against.
+   * @param substitutions the map of substitutions that are in effect.
+   * @return whether the first generic type is bounded by the second.
    */
   public static boolean isBounded(EGenericType eGenericType, EGenericType eBound, Map<? extends ETypeParameter, ? extends EGenericType> substitutions)
   {
@@ -3669,12 +3670,22 @@ public class EcoreValidator extends EObjectValidator
   }
 
   /**
+   * A utility for parsing generic types and generic type parameters.
    * @since 2.3
    */
   public static class EGenericTypeBuilder
   {
+    /**
+     * A singleton instance of the generic type build.
+     */
     public static final EGenericTypeBuilder INSTANCE = new EGenericTypeBuilder();
 
+    /**
+     * Parses an instance type name and returns a diagnostic representing the result of the analysis.
+     * The {@link Diagnostic#getData() data} of the diagnostic will contain as the first object, the resulting {@link EGenericType generic type}.
+     * @param instanceTypeName an instance type name.
+     * @return the diagnostic result of the analysis.
+     */
     public Diagnostic parseInstanceTypeName(final String instanceTypeName)
     {
       return
@@ -3691,6 +3702,33 @@ public class EcoreValidator extends EObjectValidator
         };
     }
 
+    /**
+     * Parses a list of type arguments and returns a diagnostic representing the result of the analysis.
+     * The {@link Diagnostic#getData() data} of the diagnostic will contain as the first object, the resulting list of {@link ETypeParameter type parameters}.
+     * @param typeParameterList a comma separated list of type parameters delimited by '&lt;' and '>'.
+     * @return the diagnostic result of the analysis.
+     */
+    public Diagnostic parseTypeParameterList(final String typeParameterList)
+    {
+      return
+        new BasicDiagnostic()
+        {
+          {
+            source = DIAGNOSTIC_SOURCE;
+            code = WELL_FORMED_INSTANCE_TYPE_NAME;
+            message = EcorePlugin.INSTANCE.getString("_UI_EClassifierInstanceTypeNameAnalysisResult_diagnostic", new Object [] { typeParameterList });
+            char [] instanceTypeNameCharacterArray = typeParameterList.toCharArray();
+            List<ETypeParameter> eTypeParameters = handleTypeParameters(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, this);
+            data = dataAsList(new Object [] { eTypeParameters, typeParameterList });
+          }
+        };
+    }
+
+    /**
+     * Finds or creates an {@link EClassifier classifier} with the given instance type name.
+     * @param instanceTypeName the instance type name for which a classifier is needed.
+     * @return a classifier with the instance type name.
+     */
     protected EClassifier resolveEClassifier(String instanceTypeName)
     {
       EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
@@ -3698,6 +3736,12 @@ public class EcoreValidator extends EObjectValidator
       return eDataType;
     }
     
+    /**
+     * Creates a new diagnostic for a problem at the given index.
+     * @param diagnostics the target for the new diagnostic.
+     * @param message the text describing the problem.
+     * @param index the index at which the problem occurred.
+     */
     protected void report(DiagnosticChain diagnostics, String message, int index)
     {
       if (diagnostics != null)
@@ -3718,11 +3762,15 @@ public class EcoreValidator extends EObjectValidator
      * It must start with a qualified name consisting of one or more "." separated identifiers,
      * where each identifier must start with a {@link Character#isJavaIdentifierStart(int) Java identifier start character},
      * that is followed by zero or more {@link Character#isJavaIdentifierPart(int) Java identifier part characters}.
+     * The methods {@link #isIdentifierStart(int)} and {@link #isIdentifierPart(int)} are used so that this behavior can be specialized.
      * This qualified name may optionally be followed by zero or more pairs of "[]" characters
-     * or by type arguments consisting of the pair of "<>" characters
-     * with embedded {@link #isWellFormedTypeArguments(String) well formed type arguments}.
+     * or by type arguments consisting of the pair of "&lt;>" characters
+     * with embedded {@link #handleTypeArguments(char[], int, int, DiagnosticChain) well formed type arguments}.
      * @param instanceTypeName the instance type name in question.
-     * @return whether the instance type name is syntactically well formed.
+     * @param start the start of the characters under consideration.
+     * @param end the end of the characters under consideration.
+     * @param diagnostics the target in which to accumulate diagnostics.
+     * @return the generic type representing the instance type name.
      */
     protected EGenericType handleInstanceTypeName(char [] instanceTypeName, int start, int end, DiagnosticChain diagnostics)
     {
@@ -3924,22 +3972,35 @@ public class EcoreValidator extends EObjectValidator
       return eGenericType;
     }
     
+    /**
+     * Returns whether this code point is a valid start of an identifier.
+     * @param codePoint the code point in question.
+     * @return whether this code point is a valid start of an identifier.
+     */
     protected boolean isIdentifierStart(int codePoint)
     {
-      return Character.isJavaIdentifierPart(codePoint);
+      return Character.isJavaIdentifierStart(codePoint);
     }
 
+    /**
+     * Returns whether this code point is a valid part of an identifier, i.e., whether it's valid after the first character.
+     * @param codePoint the code point in question.
+     * @return whether this code point is a valid part of an identifier.
+     */
     protected boolean isIdentifierPart(int codePoint)
     {
-      return Character.isJavaIdentifierStart(codePoint);
+      return Character.isJavaIdentifierPart(codePoint);
     }
     
     /**
      * Well formed type arguments must syntactically denote a comma separated sequence of
-     * {@link #isWellFormedTypeArgument(String)well formed type arguments}.
-     * White space before or after arguments is ignored.
-     * @param typeArguments the type arguments in question.
-     * @return whether the type arguments are well formed.
+     * {@link #handleTypeArgument(char[], int, int, DiagnosticChain) well formed type arguments}.
+     * Whitespace before or after arguments is ignored.
+     * @param instanceTypeName the instance type name in question.
+     * @param start the start of the characters under consideration.
+     * @param end the end of the characters under consideration.
+     * @param diagnostics the target in which to accumulate diagnostics.
+     * @return a list of generic type representing the type arguments.
      */
     protected List<EGenericType> handleTypeArguments(char [] instanceTypeName, int start, int end, DiagnosticChain diagnostics)
     {
@@ -3989,11 +4050,14 @@ public class EcoreValidator extends EObjectValidator
      * It may start with a "?"
      * which may be optionally followed by the keyword "extends" or "super"
      * which in turn, when present, must be followed by a
-     * {@link #isWellFormedInstanceTypeName(String) well formed type instance name}.
+     * {@link #handleInstanceTypeName(char[], int, int, DiagnosticChain) well formed type instance name}.
      * White space before the keyword is optional but at least one space character is expected after the keyword.
      * Otherwise, the whole string must be a well formed instance type name.
-     * @param typeArgument the type argument in question.
-     * @return whether the type argument is well formed.
+     * @param instanceTypeName the instance type name in question.
+     * @param start the start of the characters under consideration.
+     * @param end the end of the characters under consideration.
+     * @param diagnostics the target in which to accumulate diagnostics.
+     * @return the generic type representing the type argument.
      */
     protected EGenericType handleTypeArgument(char [] instanceTypeName, int start, int end, DiagnosticChain diagnostics)
     {
@@ -4125,6 +4189,175 @@ public class EcoreValidator extends EObjectValidator
              firstNonWhiteSpaceIndex);
       }
       return eGenericType;
+    }
+
+    /**
+     * Well formed type parameters must syntactically denote a comma separated sequence of
+     * {@link #handleTypeParameter(char[], int, int, DiagnosticChain) well formed type parameters} delimited by "&lt;>".
+     * Whitespace before or after parameters is ignored.
+     * @param typeParameters the type parameters question.
+     * @param start the start of the characters under consideration.
+     * @param end the end of the characters under consideration.
+     * @param diagnostics the target in which to accumulate diagnostics.
+     * @return a list of type parameters.
+     */
+    protected List<ETypeParameter> handleTypeParameters(char [] typeParameters, int start, int end, DiagnosticChain diagnostics)
+    {
+      List<ETypeParameter> result = new ArrayList<ETypeParameter>();
+      int depth = 0;
+      int typeArgumentStart = -1;
+      for (int i = start; i < end; i = Character.offsetByCodePoints(typeParameters, 0, typeParameters.length, i, 1))
+      {
+        int codePoint = Character.codePointAt(typeParameters, i);
+        switch (codePoint)
+        {
+          case '<':
+          {
+            ++depth;
+            break;
+          }
+          case '>':
+          {
+            if (--depth == 0)
+            {
+              result.add(handleTypeParameter(typeParameters, typeArgumentStart, i, diagnostics));
+            }
+            break;
+          }
+          case ',':
+          {
+            if (depth == 1)
+            {
+              result.add(handleTypeParameter(typeParameters, typeArgumentStart, i, diagnostics));
+              typeArgumentStart = i + 1;
+            }
+            break;
+          }
+          default:
+          {
+            if (typeArgumentStart == -1)
+            {
+              typeArgumentStart = i;
+            }
+            break;
+          }
+        }
+      }
+      if (depth != 0)
+      {
+        report
+          (diagnostics, 
+           EcorePlugin.INSTANCE.getString
+             ("_UI_EClassifierInstanceTypeNameUnterminatedAngleBracket_diagnostic", 
+              new Object [] { start }), 
+              start);
+      }
+      return result;
+    }
+
+    /**
+     * A well formed type parameter must denote a valid Java type parameter.
+     * It must start with a well formed java identifier
+     * which may be optionally followed by the keyword "extends"
+     * which in turn, when present, must be followed by 
+     * one or more '&amp;' separated {@link #handleTypeArgument(char[], int, int, DiagnosticChain) well formed type arguments} representing the bounds.
+     * White space before the keyword is optional but at least one space character is expected after the keyword.
+     * @param typeParameters the instance type name in question.
+     * @param start the start of the characters under consideration.
+     * @param end the end of the characters under consideration.
+     * @param diagnostics the target in which to accumulate diagnostics.
+     * @return the type parameter.
+     */
+    protected ETypeParameter handleTypeParameter(char [] typeParameters, int start, int end, DiagnosticChain diagnostics)
+    {
+      ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
+      int identifierStart = -1;
+      int identifierLast = -1;
+      boolean identifierDone = false;
+      LOOP:
+      for (int i = start; i < end; i = Character.offsetByCodePoints(typeParameters, 0, typeParameters.length, i, 1))
+      {
+        int codePoint = Character.codePointAt(typeParameters, i);
+        if (Character.isWhitespace(codePoint))
+        {
+          if (identifierStart != -1)
+          {
+            identifierDone = true;
+          }
+        }
+        else if (identifierDone)
+        {
+          if (codePoint == 'e' && 
+               i + 7 < end &&
+               typeParameters[i + 1] == 'x' &&
+               typeParameters[i + 2] == 't' &&
+               typeParameters[i + 3] == 'e' &&
+               typeParameters[i + 4] == 'n' &&
+               typeParameters[i + 5] == 'd' &&
+               typeParameters[i + 6] == 's' &&
+               Character.isWhitespace(Character.codePointAt(typeParameters, i + 7)))
+          {
+            i += 7;
+            int boundStart = i;
+            while (i < end)
+            {
+              char character = typeParameters[i];
+              if (character == '&')
+              {
+                EGenericType eBound = handleInstanceTypeName(typeParameters, boundStart, i, diagnostics);
+                eTypeParameter.getEBounds().add(eBound);
+                boundStart = i + 1;
+              }
+              ++i;
+            }
+            EGenericType eBound = handleInstanceTypeName(typeParameters, boundStart, i, diagnostics);
+            eTypeParameter.getEBounds().add(eBound);
+          }
+          else
+          {
+            report
+              (diagnostics, 
+               EcorePlugin.INSTANCE.getString
+                 ("_UI_EClassifierInstanceTypeNameExpectingExtends_diagnostic", 
+                  new Object [] { i }), 
+                  i);
+          }
+          break LOOP;
+        }
+        else if (identifierStart != -1 ? isIdentifierPart(codePoint) : isIdentifierStart(codePoint))
+        {
+          if (identifierStart == -1)
+          {
+            identifierStart = i;
+          }
+          identifierLast = i;
+        }
+        else
+        {
+          report
+            (diagnostics, 
+             EcorePlugin.INSTANCE.getString
+               ("_UI_EClassifierInstanceTypeNameUnexpectedCharacter_diagnostic", 
+                new Object [] { i, new String(Character.toChars(codePoint)) }), 
+             i);
+          break LOOP;
+        }
+      }
+      
+      if (identifierLast == -1)
+      {
+        report
+          (diagnostics, 
+           EcorePlugin.INSTANCE.getString
+             ("_UI_EClassifierInstanceTypeNameExpectingIdentifier_diagnostic", 
+              new Object [] { end }), 
+              end);
+      }
+      else
+      {
+        eTypeParameter.setName(new String(typeParameters, identifierStart, identifierLast - identifierStart + 1));
+      }
+      return eTypeParameter;
     }
   }
 
