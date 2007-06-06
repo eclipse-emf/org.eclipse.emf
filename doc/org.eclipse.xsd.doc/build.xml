@@ -58,7 +58,7 @@
 		<mkdir dir="${destination.temp.folder}/org.eclipse.${projectName}.doc_${pluginVersion}.${forceContextQualifier}"/>
 		<copy todir="${destination.temp.folder}/org.eclipse.${projectName}.doc_${pluginVersion}.${forceContextQualifier}" failonerror="true" overwrite="false">
 			<fileset dir="${build.result.folder}" 
-             includes="about.*,modeling*.png,eclipse*.gif,eclipse*.png,eclipse*.jpg,plugin.*,toc*.xml,topics_*.xml,doc.zip,index/**,META-INF/**"/>
+             includes="about.*,modeling*.png,plugin.*,toc*.xml,topics_*.xml,doc.zip,index/**,META-INF/**"/>
 		</copy>
 		<eclipse.versionReplacer path="${destination.temp.folder}/org.eclipse.${projectName}.doc_${pluginVersion}.${forceContextQualifier}" version="${pluginVersion}.${forceContextQualifier}"/>
 	</target>
