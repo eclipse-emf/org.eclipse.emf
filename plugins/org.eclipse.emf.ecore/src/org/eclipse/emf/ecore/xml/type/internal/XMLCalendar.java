@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.11 2007/06/02 19:33:05 emerks Exp $
+ * $Id: XMLCalendar.java,v 1.12 2007/06/06 11:24:23 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -221,7 +221,10 @@ public final class XMLCalendar extends XMLGregorianCalendar
   @Override
   public boolean equals(Object object)
   {
-    return xmlGregorianCalendar.equals(object);
+    return 
+      object instanceof XMLCalendar ? 
+         xmlGregorianCalendar.equals(((XMLCalendar)object).xmlGregorianCalendar) :
+         object instanceof XMLGregorianCalendar && xmlGregorianCalendar.equals(object);
   }
 
   @Override
