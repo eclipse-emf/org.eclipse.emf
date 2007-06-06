@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.42 2007/05/29 19:49:51 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.43 2007/06/06 15:27:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1403,7 +1403,7 @@ public class XMLHelperImpl implements XMLHelper
       else
       {
         ePackage =  extendedMetaData.getPackage(namespace);
-        if (ePackage == null && !XMLResource.XSI_URI.equals(namespace))
+        if (ePackage == null)
         {
           if (XMLResource.XML_SCHEMA_URI.equals(namespace))
           {
