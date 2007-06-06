@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.79 2007/06/04 18:48:13 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.80 2007/06/06 19:15:49 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1865,13 +1865,9 @@ public class XSDEcoreBuilder extends MapBuilder
     {
       referenceType = getGenericType(xsdElementDeclaration, xsdElementDeclaration.getElement(), eClass, getEcoreAttribute(xsdElementDeclaration, "reference"));
     }
-    if (referenceType == null && getEcoreAttribute(xsdComponent, "reference") != null)
+    if (referenceType != null && referenceType.getERawType() != null)
     {
-      System.err.println("###");
-    }
-    if (referenceType != null && referenceType.getEClassifier() != null)
-    {
-      EClassifier referenceClassifier = referenceType.getEClassifier();
+      EClassifier referenceClassifier = referenceType.getERawType();
       boolean needsHolder = false;
       if (elementTypeDefinition instanceof XSDSimpleTypeDefinition)
       {
@@ -1964,11 +1960,7 @@ public class XSDEcoreBuilder extends MapBuilder
     {
       referenceType = getGenericType(xsdAttributeDeclaration, xsdAttributeDeclaration.getElement(), eClass, getEcoreAttribute(xsdAttributeDeclaration, "reference"));
     }
-    if (referenceType == null && getEcoreAttribute(xsdComponent, "reference") != null)
-    {
-      System.err.println("###");
-    }
-    if (referenceType != null && referenceType.getEClassifier() != null)
+    if (referenceType != null && referenceType.getERawType() != null)
     {
       int lowerBound = isRequired ? 1 : 0;
       int upperBound = 1;
@@ -2008,7 +2000,7 @@ public class XSDEcoreBuilder extends MapBuilder
         }
       }
 
-      EClassifier referenceClassifier = referenceType.getEClassifier();
+      EClassifier referenceClassifier = referenceType.getERawType();
       EStructuralFeature result =
         createFeature
           (eClass,
