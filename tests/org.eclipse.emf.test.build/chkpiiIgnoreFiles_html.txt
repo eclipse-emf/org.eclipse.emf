@@ -1,1 +1,2 @@
 references/javadoc/*.html
+CVS/*
