@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.22 2007/01/26 06:11:29 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.23 2007/06/06 14:44:31 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -284,7 +284,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     }
     else
     {
-      result = DiagnosticDialog.openProblem
+      result = DiagnosticDialog.open
         (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, message, diagnostic);
     }
 
