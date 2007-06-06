@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenericTypeBuilderTest.java,v 1.3 2007/05/24 20:14:07 emerks Exp $
+ * $Id: GenericTypeBuilderTest.java,v 1.4 2007/06/06 12:20:25 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.Test;
@@ -25,6 +26,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 
@@ -380,6 +382,63 @@ public class GenericTypeBuilderTest extends TestCase
       else
       {
         System.out.println("'" + instanceTypeNames[i] + "' -> '" + EcoreUtil.toJavaInstanceTypeName(eGenericType) + "'");
+        System.out.flush();
+      }
+    }
+
+    String [] typeParameters = 
+      {
+        "<T, U, V>",
+        "<T, U extends T, V extends U>",
+        "<TT, UU extends TT, VV extends UU>",
+        "<TT, UU extends TT, VV extends UU & TT>",
+        "<TT, UU extends TT, VV extends UU & TT & java.util.List<java.util.List<?>>>",
+        "<TT, UU extends TT, VV extends UU & TT & java.util.List<java.util.Map<?,?>>>",
+      };
+    for (int i = 0; i < typeParameters.length; ++i)
+    {
+      Diagnostic diagnostic = new EcoreValidator.EGenericTypeBuilder().parseTypeParameterList(typeParameters[i]);
+      @SuppressWarnings("unchecked")
+      List<ETypeParameter> eTypeParameters = (List<ETypeParameter>)diagnostic.getData().get(0);
+      StringBuilder result = new StringBuilder();
+      for (Iterator<ETypeParameter> j = eTypeParameters.iterator(); j.hasNext(); )
+      {
+        ETypeParameter eTypeParameter = j.next();
+        result.append(eTypeParameter.getName());
+        if (!eTypeParameter.getEBounds().isEmpty())
+        {
+          result.append(" extends ");
+          for (Iterator<EGenericType> k = eTypeParameter.getEBounds().iterator(); k.hasNext(); )
+          {
+            result.append(EcoreUtil.toJavaInstanceTypeName(k.next()));
+            if (k.hasNext())
+            {
+              result.append(" & ");
+            }
+          }
+        }
+        if (j.hasNext())
+        {
+          result.append(", ");
+        }
+      }
+      if (diagnostic.getSeverity() > Diagnostic.OK)
+      {
+        for (Diagnostic child : diagnostic.getChildren())
+        {
+          System.out.println(child.getMessage());
+          for (int j = -1, count = (Integer)child.getData().get(0); j < count; ++j)
+          {
+            System.out.print(' ');
+          }
+          System.out.println('v');
+          System.out.println("'" + typeParameters[i] + "' -> '" + result + "'");
+        }
+        System.out.flush();
+      }
+      else
+      {
+        System.out.println("'" + typeParameters[i] + "' -> '" + result + "'");
         System.out.flush();
       }
     }
