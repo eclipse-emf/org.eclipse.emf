@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.20 2007/05/28 19:13:00 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.21 2007/06/07 13:28:27 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -246,13 +246,16 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
   <%if (!genModel.useGenerics()) {%>
 				<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%> eStructuralFeature = (<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>)elements.next();
   <%}%>
-				EClassifier eClassifier = eStructuralFeature.getEType();
-				if (eClassifier instanceof EClass)
+				if (eStructuralFeature.isChangeable())
 				{
-					EClass eClass = (EClass)eClassifier;
-					if (!eClass.isAbstract())
+					EClassifier eClassifier = eStructuralFeature.getEType();
+					if (eClassifier instanceof EClass)
 					{
-						initialObjectNames.add(eStructuralFeature.getName());
+						EClass eClass = (EClass)eClassifier;
+						if (!eClass.isAbstract())
+						{
+							initialObjectNames.add(eStructuralFeature.getName());
+						}
 					}
 				}
 			}

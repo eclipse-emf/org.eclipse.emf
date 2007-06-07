@@ -87,7 +87,7 @@ public class ModelWizard
   protected final String TEXT_71 = NL + "\t\t\t\t";
   protected final String TEXT_72 = " eStructuralFeature = (";
   protected final String TEXT_73 = ")elements.next();";
-  protected final String TEXT_74 = NL + "\t\t\t\tEClassifier eClassifier = eStructuralFeature.getEType();" + NL + "\t\t\t\tif (eClassifier instanceof EClass)" + NL + "\t\t\t\t{" + NL + "\t\t\t\t\tEClass eClass = (EClass)eClassifier;" + NL + "\t\t\t\t\tif (!eClass.isAbstract())" + NL + "\t\t\t\t\t{" + NL + "\t\t\t\t\t\tinitialObjectNames.add(eStructuralFeature.getName());" + NL + "\t\t\t\t\t}" + NL + "\t\t\t\t}" + NL + "\t\t\t}";
+  protected final String TEXT_74 = NL + "\t\t\t\tif (eStructuralFeature.isChangeable())" + NL + "\t\t\t\t{" + NL + "\t\t\t\t\tEClassifier eClassifier = eStructuralFeature.getEType();" + NL + "\t\t\t\t\tif (eClassifier instanceof EClass)" + NL + "\t\t\t\t\t{" + NL + "\t\t\t\t\t\tEClass eClass = (EClass)eClassifier;" + NL + "\t\t\t\t\t\tif (!eClass.isAbstract())" + NL + "\t\t\t\t\t\t{" + NL + "\t\t\t\t\t\t\tinitialObjectNames.add(eStructuralFeature.getName());" + NL + "\t\t\t\t\t\t}" + NL + "\t\t\t\t\t}" + NL + "\t\t\t\t}" + NL + "\t\t\t}";
   protected final String TEXT_75 = NL + "\t\t\tCollections.sort(initialObjectNames, ";
   protected final String TEXT_76 = "CommonPlugin.INSTANCE.getComparator()";
   protected final String TEXT_77 = "java.text.Collator.getInstance()";

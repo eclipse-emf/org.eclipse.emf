@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.71 2007/05/11 20:21:58 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.72 2007/06/07 13:28:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -4110,7 +4110,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       for (EStructuralFeature eStructuralFeature : getExtendedMetaData().getAllElements(documentRoot))
       {
-        if (eStructuralFeature instanceof EReference && !((EClass)eStructuralFeature.getEType()).isAbstract())
+        if (eStructuralFeature instanceof EReference && 
+              !((EClass)eStructuralFeature.getEType()).isAbstract() && 
+              eStructuralFeature.isChangeable())
         {
           return findGenFeature(eStructuralFeature);
         }
