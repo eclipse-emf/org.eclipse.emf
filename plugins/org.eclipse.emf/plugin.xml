@@ -16,14 +16,14 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.3.2.4 2005/08/02 22:24:03 nickb Exp $
+ * $Id: plugin.xml,v 1.3.2.5 2007/06/08 14:53:34 nickb Exp $
  */
 -->
 
 <plugin
   name="%pluginName"
   id="org.eclipse.emf"
-  version="2.0.3.1"
+  version="2.0.4"
   provider-name="%providerName">
 
   <requires>

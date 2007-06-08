@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
 /**
  * <copyright>
@@ -15,16 +14,15 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.5.2.8 2005/06/08 18:27:44 nickb Exp $
+ * $Id: feature.xml,v 1.5.2.9 2007/06/08 14:53:34 nickb Exp $
  */
 -->
-
 <feature
       id="org.eclipse.emf.tests"
       label="%featureName"
-      version="2.0.3"
-      image= "eclipse_update_120.jpg"
-      provider-name="%providerName">
+      version="2.0.4"
+      provider-name="%providerName"
+      image="eclipse_update_120.jpg">
 
    <description>
       %description
@@ -44,7 +42,6 @@ http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <url>
-<!--      <update label="%updateSiteName" url="http://update.eclipse.org/updates/3.0"/> -->
       <update label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
       <discovery label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
    </url>
@@ -52,8 +49,6 @@ http://www.eclipse.org/legal/epl-v10.html
    <requires>
       <import feature="org.eclipse.emf" version="2.0.3"/>
    </requires>
-
-   <!-- Required Eclipse plugins -->
 
    <plugin
          id="org.eclipse.test"
@@ -81,61 +76,52 @@ http://www.eclipse.org/legal/epl-v10.html
          version="2.1.0"
          fragment="true"/>
 
-   <!-- End of required Eclipse plugins -->
-
    <plugin
          id="org.eclipse.emf.tests"
          download-size="0"
          install-size="0"
-         version="2.0.3">
-   </plugin>
+         version="2.0.3"/>
 
    <plugin
          id="org.eclipse.emf.test.performance"
          download-size="0"
          install-size="0"
-         version="2.0.3">
-   </plugin>
+         version="2.0.3"/>
 
    <plugin
          id="org.eclipse.emf.test.build"
          download-size="0"
          install-size="0"
-         version="2.0.2">
-   </plugin>
+         version="2.0.2"/>
 
    <plugin
          id="org.eclipse.emf.test.core"
          download-size="0"
          install-size="0"
-         version="2.0.2">
-   </plugin>
+         version="2.0.3"/>
 
    <plugin
          id="org.eclipse.emf.test.edit"
          download-size="0"
          install-size="0"
-         version="2.0.2">
-   </plugin>
+         version="2.0.2"/>
 
    <plugin
          id="org.eclipse.emf.test.sdo"
          download-size="0"
          install-size="0"
-         version="2.0.2">
-   </plugin>
+         version="2.0.3"/>
 
    <plugin
          id="org.eclipse.emf.test.tools"
          download-size="0"
          install-size="0"
-         version="2.0.2">
-   </plugin>
+         version="2.0.2"/>
 
    <plugin
          id="org.eclipse.emf.test.xml"
          download-size="0"
          install-size="0"
-         version="2.0.2">
-   </plugin>
+         version="2.0.3"/>
+
 </feature>
