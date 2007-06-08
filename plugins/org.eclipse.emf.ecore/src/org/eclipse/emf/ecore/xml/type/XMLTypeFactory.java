@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactory.java,v 1.7 2007/04/04 20:03:05 emerks Exp $
+ * $Id: XMLTypeFactory.java,v 1.8 2007/06/08 11:02:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -1010,12 +1010,32 @@ public interface XMLTypeFactory extends EFactory
   /**
    * Returns an instance of data type '<em>QName</em>' corresponding the given literal.
    * <!-- begin-user-doc -->
+   * The literal must be of the form "prefix:localPart" where the "prefix:" is optional.
+   * It's expected that this method will be used only to deserialize literals produced by {@ #convertQName(QName)}
+   * and that subsequent processing to resolve the prefix will create a new QName that specifies the namespace URI, local part, and prefix.
    * <!-- end-user-doc -->
    * @param literal a literal of the data type.
    * @return a new instance value of the data type.
    * @generated
    */
   QName createQName(String literal);
+
+  /**
+   * Returns an instance of data type '<em>QName</em>' corresponding to the given namespace URI and local part.
+   * @param namespaceURI the namespace URI of the QName.
+   * @param localPart the local part of the QName.
+   * @return a new instance value of the data type.
+   */
+  QName createQName(String namespaceURI, String localPart);
+
+  /**
+   * Returns an instance of data type '<em>QName</em>' corresponding to the given namespace URI, local part, and prefix.
+   * @param namespaceURI the namespace URI of the QName.
+   * @param localPart the local part of the QName.
+   * @param prefix the prefix of the QName.
+   * @return a new instance value of the data type.
+   */
+  QName createQName(String namespaceURI, String localPart, String prefix);
 
   /**
    * Returns a literal representation of an instance of data type '<em>QName</em>'.

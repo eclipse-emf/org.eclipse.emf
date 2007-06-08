@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.26 2007/04/04 20:03:05 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.27 2007/06/08 11:02:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -1312,6 +1312,16 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   public QName createQName(String literal)
   {
     return literal == null ? null : new org.eclipse.emf.ecore.xml.type.internal.QName(collapseWhiteSpace(literal));    
+  }
+
+  public QName createQName(String namespaceURI, String localPart)
+  {
+    return new org.eclipse.emf.ecore.xml.type.internal.QName(namespaceURI, localPart, null);
+  }
+
+  public QName createQName(String namespaceURI, String localPart, String prefix)
+  {
+    return new org.eclipse.emf.ecore.xml.type.internal.QName(namespaceURI, localPart, prefix);
   }
 
   /**

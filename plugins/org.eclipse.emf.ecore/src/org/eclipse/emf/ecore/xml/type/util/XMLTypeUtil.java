@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.11 2007/06/04 18:47:00 emerks Exp $
+ * $Id: XMLTypeUtil.java,v 1.12 2007/06/08 11:02:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -223,15 +223,15 @@ public final class XMLTypeUtil
   }
   
   /**
-   * Sets the QName object values to the specified onces
+   * Sets the QName object values to the specified once
    * @param namespaceUri namespace uri value or null
    * @param localPart localPart (not null)
    * @param prefix prefix value or null
    */
   @Deprecated
-  public static void setQNameValues(Object qname, String namespaceUri, String localPart, String prefix)
+  public static void setQNameValues(Object qName, String namespaceUri, String localPart, String prefix)
   {
-    if (!(qname instanceof org.eclipse.emf.ecore.xml.type.internal.QName))
+    if (!(qName instanceof org.eclipse.emf.ecore.xml.type.internal.QName))
     {
       throw new UnsupportedOperationException("QNames are immutable, so this can't be supported");
     }
@@ -239,35 +239,56 @@ public final class XMLTypeUtil
     {
       namespaceUri = "";
     }
-    org.eclipse.emf.ecore.xml.type.internal.QName qn = (org.eclipse.emf.ecore.xml.type.internal.QName)qname;
+    org.eclipse.emf.ecore.xml.type.internal.QName qn = (org.eclipse.emf.ecore.xml.type.internal.QName)qName;
     if (!qn.getLocalPart().equals(localPart) || qn.getNamespaceURI().equals(namespaceUri))
     {
       throw new UnsupportedOperationException("QNames are immutable, so this can't be supported");
     }
     qn.setPrefix(prefix);
   }
-  
+
+  /**
+   * Updates the QName's prefix, if possible, and returns either the updated result, 
+   * or a newly created QName with the new prefix, if the QName could not be directly updated.
+   * @param qName the QName to be updated.
+   * @param prefix the new prefix.
+   * @return a QName with the same namespace URI and local part as the argument, but with the new prefix.
+   */
+  public static QName setPrefix(QName qName, String prefix)
+  {
+    if (qName instanceof org.eclipse.emf.ecore.xml.type.internal.QName)
+    {
+      org.eclipse.emf.ecore.xml.type.internal.QName result = (org.eclipse.emf.ecore.xml.type.internal.QName)qName;
+      result.setPrefix(prefix);
+      return result;
+    }
+    else
+    {
+      return new org.eclipse.emf.ecore.xml.type.internal.QName(qName.getNamespaceURI(), qName.getLocalPart(), prefix);
+    }
+  }
+
   /**
    * Returns the namespaceURI of a QName.
    */
-  public static String getQNameNamespaceURI(Object qname)
+  public static String getQNameNamespaceURI(Object qName)
   {
-    return ((QName)qname).getNamespaceURI();
+    return ((QName)qName).getNamespaceURI();
   }
   /**
    * Returns the localPart of a QName.
    */
-  public static String getQNameLocalPart(Object qname)
+  public static String getQNameLocalPart(Object qName)
   {
-    return ((QName)qname).getLocalPart();
+    return ((QName)qName).getLocalPart();
   }
   
   /**
    * Returns the prefix of a QName.
    */
-  public static String getQNamePrefix(Object qname)
+  public static String getQNamePrefix(Object qName)
   {
-    return ((QName)qname).getPrefix();
+    return ((QName)qName).getPrefix();
   }
 
   private static class PatternMatcherImpl implements EValidator.PatternMatcher
