@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.sdk"
       label="%featureName"
-      version="2.1.2"
+      version="2.1.3"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -41,7 +41,7 @@
 
    <includes
          id="org.eclipse.xsd.source"
-         version="2.1.1"
+         version="2.1.2"
          match="compatible"/>
 
    <includes
