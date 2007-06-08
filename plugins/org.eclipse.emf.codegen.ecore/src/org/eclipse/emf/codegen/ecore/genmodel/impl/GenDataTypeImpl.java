@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.27 2007/06/02 19:28:22 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.28 2007/06/08 14:39:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -439,7 +439,12 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   {
     StringBuffer result = new StringBuffer();
 
-    result.append("instanceClass=\"" + getRawQualifiedInstanceClassName() + "\"");
+    EDataType eDataType = getEcoreDataType();
+    if (eDataType.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME) || 
+          eDataType.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME))
+    {
+      result.append("instanceClass=\"" + getRawQualifiedInstanceClassName() + "\"");
+    }
 
     if (!isSerializable())
     {
