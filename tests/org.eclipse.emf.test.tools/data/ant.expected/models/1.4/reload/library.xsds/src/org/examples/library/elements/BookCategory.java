@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: BookCategory.java,v 1.3 2007/04/26 20:57:14 emerks Exp $
+ * $Id: BookCategory.java,v 1.4 2007/06/08 15:03:12 emerks Exp $
  */
 package org.examples.library.elements;
 
@@ -17,7 +17,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see org.examples.library.elements.ElementsPackage#getBookCategory()
- * @model
+ * @model extendedMetaData="name='BookCategory'" 
  * @generated
  */
 public final class BookCategory extends AbstractEnumerator
