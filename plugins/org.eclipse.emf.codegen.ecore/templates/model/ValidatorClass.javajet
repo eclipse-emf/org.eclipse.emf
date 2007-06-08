@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.26 2007/06/05 05:06:10 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.27 2007/06/08 12:27:11 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -140,6 +140,11 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	 */
   <%if (genModel.useClassOverrideAnnotation()) {%>
 	@Override
+  <%}%>
+  <%for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
+    <%if (genClassifier.isUncheckedCast()) {%>
+	@SuppressWarnings("unchecked")
+    <%break; }%>
   <%}%>
 	protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, <%=_Map%> context)
 	{

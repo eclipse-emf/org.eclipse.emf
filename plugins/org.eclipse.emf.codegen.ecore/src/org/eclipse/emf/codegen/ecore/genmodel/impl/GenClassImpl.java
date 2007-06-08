@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.78 2007/06/02 19:28:22 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.79 2007/06/08 12:27:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -819,10 +819,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public String getImportedWildcardInstanceClassName()
   {
     String result = getImportedInstanceClassName();
-    if (isMapEntry() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
-      result += "<?, ?>";
-      
+      if (isMapEntry())
+      {
+        result += "<?, ?>";
+      }
+      else
+      {
+        result += getTypeArguments(false, true);
+      }
     }
     return result;
   }
@@ -1104,7 +1110,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public boolean isExternalInterface()
   {
-    return getEcoreClass().eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME);
+    EClass eClass = getEcoreClass();
+    return 
+      eClass.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME) || 
+        eClass.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME);
   }
 
   public boolean isMapEntry()
