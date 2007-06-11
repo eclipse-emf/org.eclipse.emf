@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: Writer.java,v 1.3 2007/06/04 18:49:09 emerks Exp $
+ * $Id: Writer.java,v 1.4 2007/06/11 21:12:19 emerks Exp $
  */
 package org.examples.library.elements;
 
@@ -39,8 +39,7 @@ public interface Writer extends Person
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' reference list.
    * @see org.examples.library.elements.ElementsPackage#getWriter_Books()
-   * @model type="org.eclipse.emf.ecore.EObject"
-   *        extendedMetaData="kind='element' name='books'"
+   * @model extendedMetaData="kind='element' name='books'"
    * @generated
    */
   EList<EObject> getBooks();

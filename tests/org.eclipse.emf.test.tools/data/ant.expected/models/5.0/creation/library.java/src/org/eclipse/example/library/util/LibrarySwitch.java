@@ -1,11 +1,12 @@
 /**
  * This is my code.
  *
- * $Id: LibrarySwitch.java,v 1.4 2007/05/11 10:12:37 nickb Exp $
+ * $Id: LibrarySwitch.java,v 1.5 2007/06/11 21:12:18 emerks Exp $
  */
 package org.eclipse.example.library.util;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -116,6 +117,20 @@ public class LibrarySwitch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY:
+      {
+        @SuppressWarnings("unchecked") Map.Entry<String, Book> eStringToBookMapEntry = (Map.Entry<String, Book>)theEObject;
+        T result = caseEStringToBookMapEntry(eStringToBookMapEntry);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY:
+      {
+        @SuppressWarnings("unchecked") Map.Entry<String, Writer> eStringToWriterMapEntry = (Map.Entry<String, Writer>)theEObject;
+        T result = caseEStringToWriterMapEntry(eStringToWriterMapEntry);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       default: return defaultCase(theEObject);
     }
   }
@@ -164,6 +179,38 @@ public class LibrarySwitch<T>
    * @generated
    */
   public T caseWriter(Writer object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpretting the object as an instance of '<em>EString To Book Map Entry</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>EString To Book Map Entry</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseEStringToBookMapEntry(Map.Entry<String, Book> object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpretting the object as an instance of '<em>EString To Writer Map Entry</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>EString To Writer Map Entry</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseEStringToWriterMapEntry(Map.Entry<String, Writer> object)
   {
     return null;
   }

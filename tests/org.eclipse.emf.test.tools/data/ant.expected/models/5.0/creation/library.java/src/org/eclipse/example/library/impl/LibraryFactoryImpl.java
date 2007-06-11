@@ -1,9 +1,11 @@
 /**
  * This is my code.
  *
- * $Id: LibraryFactoryImpl.java,v 1.4 2007/05/11 10:12:37 nickb Exp $
+ * $Id: LibraryFactoryImpl.java,v 1.5 2007/06/11 21:12:19 emerks Exp $
  */
 package org.eclipse.example.library.impl;
+
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -71,6 +73,8 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
       case LibraryPackage.BOOK: return createBook();
       case LibraryPackage.LIBRARY: return createLibrary();
       case LibraryPackage.WRITER: return createWriter();
+      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY: return (EObject)createEStringToBookMapEntry();
+      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY: return (EObject)createEStringToWriterMapEntry();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -88,6 +92,10 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
     {
       case LibraryPackage.BOOK_CATEGORY:
         return createBookCategoryFromString(eDataType, initialValue);
+      case LibraryPackage.MAP:
+        return createMapFromString(eDataType, initialValue);
+      case LibraryPackage.MY_MAP_OF_INTEGERS_AND_STRINGS:
+        return createMyMapOfIntegersAndStringsFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -105,6 +113,10 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
     {
       case LibraryPackage.BOOK_CATEGORY:
         return convertBookCategoryToString(eDataType, instanceValue);
+      case LibraryPackage.MAP:
+        return convertMapToString(eDataType, instanceValue);
+      case LibraryPackage.MY_MAP_OF_INTEGERS_AND_STRINGS:
+        return convertMyMapOfIntegersAndStringsToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -148,6 +160,28 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public Map.Entry<String, Book> createEStringToBookMapEntry()
+  {
+    EStringToBookMapEntryImpl eStringToBookMapEntry = new EStringToBookMapEntryImpl();
+    return eStringToBookMapEntry;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Map.Entry<String, Writer> createEStringToWriterMapEntry()
+  {
+    EStringToWriterMapEntryImpl eStringToWriterMapEntry = new EStringToWriterMapEntryImpl();
+    return eStringToWriterMapEntry;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public BookCategory createBookCategoryFromString(EDataType eDataType, String initialValue)
   {
     BookCategory result = BookCategory.get(initialValue);
@@ -163,6 +197,48 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
   public String convertBookCategoryToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  public Map<String, String> createMapFromString(EDataType eDataType, String initialValue)
+  {
+    return (Map<String, String>)super.createFromString(initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertMapToString(EDataType eDataType, Object instanceValue)
+  {
+    return super.convertToString(instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  public Map<Integer, String> createMyMapOfIntegersAndStringsFromString(EDataType eDataType, String initialValue)
+  {
+    return (Map<Integer, String>)super.createFromString(initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertMyMapOfIntegersAndStringsToString(EDataType eDataType, Object instanceValue)
+  {
+    return super.convertToString(instanceValue);
   }
 
   /**

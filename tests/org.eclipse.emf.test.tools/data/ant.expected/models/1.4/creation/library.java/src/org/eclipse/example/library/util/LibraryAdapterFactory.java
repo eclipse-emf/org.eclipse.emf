@@ -1,9 +1,11 @@
 /**
  * This is my code.
  *
- * $Id: LibraryAdapterFactory.java,v 1.4 2007/05/11 10:12:37 nickb Exp $
+ * $Id: LibraryAdapterFactory.java,v 1.5 2007/06/11 21:12:18 emerks Exp $
  */
 package org.eclipse.example.library.util;
+
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -88,6 +90,14 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
       {
         return createWriterAdapter();
       }
+      public Object caseEStringToBookMapEntry(Map.Entry object)
+      {
+        return createEStringToBookMapEntryAdapter();
+      }
+      public Object caseEStringToWriterMapEntry(Map.Entry object)
+      {
+        return createEStringToWriterMapEntryAdapter();
+      }
       public Object defaultCase(EObject object)
       {
         return createEObjectAdapter();
@@ -149,6 +159,36 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createWriterAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EString To Book Map Entry</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see java.util.Map.Entry
+   * @generated
+   */
+  public Adapter createEStringToBookMapEntryAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EString To Writer Map Entry</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see java.util.Map.Entry
+   * @generated
+   */
+  public Adapter createEStringToWriterMapEntryAdapter()
   {
     return null;
   }

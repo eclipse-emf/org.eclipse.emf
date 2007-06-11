@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: Person.java,v 1.2 2007/04/26 20:57:14 emerks Exp $
+ * $Id: Person.java,v 1.3 2007/06/11 21:12:19 emerks Exp $
  */
 package org.examples.hr;
 
@@ -69,7 +69,7 @@ public interface Person extends EObject
    * @return the value of the '<em>Library</em>' reference list.
    * @see org.examples.hr.HRPackage#getPerson_Library()
    * @see org.examples.library.Library#getEmployees
-   * @model type="org.examples.library.Library" opposite="employees"
+   * @model opposite="employees"
    * @generated
    */
   EList<Library> getLibrary();

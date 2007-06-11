@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: Writer.java,v 1.2 2007/04/26 20:57:14 emerks Exp $
+ * $Id: Writer.java,v 1.3 2007/06/11 21:12:18 emerks Exp $
  */
 package org.examples.library;
 
@@ -68,7 +68,7 @@ public interface Writer extends EObject
    * @return the value of the '<em>Books</em>' reference list.
    * @see org.examples.library.LibraryPackage#getWriter_Books()
    * @see org.examples.library.Book#getAuthor
-   * @model type="org.examples.library.Book" opposite="author"
+   * @model opposite="author"
    *        extendedMetaData="kind='element' name='books'"
    * @generated
    */

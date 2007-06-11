@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: Library.java,v 1.2 2007/04/26 20:57:12 emerks Exp $
+ * $Id: Library.java,v 1.3 2007/06/11 21:12:19 emerks Exp $
  */
 package org.examples.library;
 
@@ -72,7 +72,7 @@ public interface Library extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Writers</em>' containment reference list.
    * @see org.examples.library.LibraryPackage#getLibrary_Writers()
-   * @model type="org.examples.library.elements.Writer" containment="true"
+   * @model containment="true"
    *        extendedMetaData="kind='element' name='writers'"
    * @generated
    */
@@ -89,7 +89,7 @@ public interface Library extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' containment reference list.
    * @see org.examples.library.LibraryPackage#getLibrary_Books()
-   * @model type="org.examples.library.elements.Book" containment="true"
+   * @model containment="true"
    *        extendedMetaData="kind='element' name='books'"
    * @generated
    */
@@ -108,7 +108,7 @@ public interface Library extends EObject
    * @return the value of the '<em>Employees</em>' reference list.
    * @see org.examples.library.LibraryPackage#getLibrary_Employees()
    * @see org.examples.library.hr.Person#getLibrary
-   * @model type="org.examples.library.hr.Person" opposite="library"
+   * @model opposite="library"
    *        extendedMetaData="kind='element' name='employees'"
    * @generated
    */

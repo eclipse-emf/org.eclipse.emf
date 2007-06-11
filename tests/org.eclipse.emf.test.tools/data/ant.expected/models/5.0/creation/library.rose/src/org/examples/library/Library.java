@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: Library.java,v 1.2 2007/04/26 20:57:14 emerks Exp $
+ * $Id: Library.java,v 1.3 2007/06/11 21:12:19 emerks Exp $
  */
 package org.examples.library;
 
@@ -66,7 +66,7 @@ public interface Library extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Writers</em>' containment reference list.
    * @see org.examples.library.LibraryPackage#getLibrary_Writers()
-   * @model type="org.examples.library.Writer" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<Writer> getWriters();
@@ -82,7 +82,7 @@ public interface Library extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' containment reference list.
    * @see org.examples.library.LibraryPackage#getLibrary_Books()
-   * @model type="org.examples.library.Book" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<Book> getBooks();

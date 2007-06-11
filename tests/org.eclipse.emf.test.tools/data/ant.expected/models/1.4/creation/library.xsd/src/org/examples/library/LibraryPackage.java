@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: LibraryPackage.java,v 1.2 2007/04/26 20:57:14 emerks Exp $
+ * $Id: LibraryPackage.java,v 1.3 2007/06/11 21:12:18 emerks Exp $
  */
 package org.examples.library;
 
@@ -366,7 +366,7 @@ public interface LibraryPackage extends EPackage
    * @return the meta object for data type '<em>Book Category Object</em>'.
    * @see org.examples.library.BookCategory
    * @model instanceClass="org.examples.library.BookCategory"
-   *        extendedMetaData="name='BookCategory:Object' baseType='BookCategory'" 
+   *        extendedMetaData="name='BookCategory:Object' baseType='BookCategory'"
    * @generated
    */
   EDataType getBookCategoryObject();

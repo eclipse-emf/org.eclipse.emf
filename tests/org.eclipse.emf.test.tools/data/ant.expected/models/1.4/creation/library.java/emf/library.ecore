@@ -22,10 +22,28 @@
         eType="#//Writer" containment="true" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="books" upperBound="-1"
         eType="#//Book" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specialBooks" upperBound="-1"
+        eType="#//Book"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookByTitleMap" upperBound="-1"
+        eType="#//EStringToBookMapEntry" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="writerByNameMap" upperBound="-1"
+        eType="#//EStringToWriterMapEntry" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="options" eType="#//Map"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="writerByIDMap" eType="#//MyMapOfIntegersAndStrings"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Writer">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="books" upperBound="-1"
         eType="#//Book" eOpposite="#//Book/author"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EStringToBookMapEntry" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Book"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EStringToWriterMapEntry" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Writer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="MyMapOfIntegersAndStrings" instanceClassName="java.util.Map"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map" instanceClassName="java.util.Map"/>
 </ecore:EPackage>

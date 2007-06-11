@@ -12,6 +12,12 @@
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//BookCategory/ScienceFiction"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//BookCategory/Biography"/>
     </genEnums>
+    <genDataTypes ecoreDataType="library.ecore#//MyMapOfIntegersAndStrings"/>
+    <genDataTypes ecoreDataType="library.ecore#//Map">
+      <genTypeParameters ecoreTypeParameter="library.ecore#//Map/T"/>
+      <genTypeParameters ecoreTypeParameter="library.ecore#//Map/T1"/>
+    </genDataTypes>
+    <genDataTypes ecoreDataType="library.ecore#//URI"/>
     <genClasses ecoreClass="library.ecore#//Book">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Book/title"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Book/pages"/>
@@ -22,10 +28,24 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/writers"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/books"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Library/specialBooks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/bookByTitleMap"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/writerByNameMap"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/writerByIDMap"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/options"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/map1"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/map2"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/list10"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/list20"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/list30"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Writer">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Writer/name"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Writer/books"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//EStringToBookMapEntry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//EStringToBookMapEntry/key"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//EStringToBookMapEntry/value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

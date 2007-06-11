@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: ElementsPackage.java,v 1.3 2007/06/04 18:49:08 emerks Exp $
+ * $Id: ElementsPackage.java,v 1.4 2007/06/11 21:12:19 emerks Exp $
  */
 package org.examples.library.elements;
 
@@ -306,7 +306,7 @@ public interface ElementsPackage extends EPackage
    * @return the meta object for data type '<em>Book Category Object</em>'.
    * @see org.examples.library.elements.BookCategory
    * @model instanceClass="org.examples.library.elements.BookCategory"
-   *        extendedMetaData="name='BookCategory:Object' baseType='BookCategory'" 
+   *        extendedMetaData="name='BookCategory:Object' baseType='BookCategory'"
    * @generated
    */
   EDataType getBookCategoryObject();
@@ -317,7 +317,7 @@ public interface ElementsPackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>UUID</em>'.
    * @model instanceClass="byte[]"
-   *        extendedMetaData="name='UUID' baseType='http://www.eclipse.org/emf/2003/XMLType#hexBinary' length='16'" 
+   *        extendedMetaData="name='UUID' baseType='http://www.eclipse.org/emf/2003/XMLType#hexBinary' length='16'"
    * @generated
    */
   EDataType getUUID();
