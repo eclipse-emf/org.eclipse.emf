@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.48 2007/05/10 13:52:56 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.49 2007/06/11 21:09:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -39,7 +39,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -1572,13 +1571,15 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     }
     else
     {
-      if (eStructuralFeature.isMany() && !isFeatureMapType() || qualified)
-      {
-        appendModelSetting(result, qualified, "type", getType(getContext(), eStructuralFeature.getEType(), false));
-      }
-
       if (eStructuralFeature instanceof EReference)
       {
+        if (qualified ||
+              eStructuralFeature.isMany() && getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 || 
+              hasReferenceToClassifierWithInstanceTypeName(eStructuralFeature.getEGenericType()))
+        {
+          appendModelSetting(result, qualified, "type", getEcoreType(eStructuralFeature.getEGenericType()));
+        }
+
         EReference reference = (EReference) eStructuralFeature;
         EReference opposite = reference.getEOpposite();
         if (opposite != null)
@@ -1629,12 +1630,14 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         }
 
         EDataType eDataType = attribute.getEAttributeType();
-        if (!(eDataType instanceof EEnum))
+        if (qualified || 
+              eStructuralFeature.isMany() && getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 || 
+              hasReferenceToClassifierWithInstanceTypeName(eStructuralFeature.getEGenericType()))
         {
           GenPackage genPackage = findGenPackage(eDataType.getEPackage());
-          if (genPackage != null && (isFeatureMapType() || !genPackage.isEcorePackage()))
+          if (genPackage != null && (isFeatureMapType() || !genPackage.isEcorePackage() || qualified))
           {
-            appendModelSetting(result, qualified, "dataType", genPackage.getInterfacePackageName() + '.' + eDataType.getName());
+            appendModelSetting(result, qualified, "dataType", getEcoreType(eStructuralFeature.getEGenericType()));
           }
         }
       }

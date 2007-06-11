@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.28 2007/06/08 14:39:23 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.29 2007/06/11 21:09:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -438,22 +438,45 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   public String getModelInfo()
   {
     StringBuffer result = new StringBuffer();
-
+  
     EDataType eDataType = getEcoreDataType();
     if (eDataType.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME) || 
           eDataType.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME))
     {
-      result.append("instanceClass=\"" + getRawQualifiedInstanceClassName() + "\"");
+      appendModelSetting(result, "instanceClass", getRawQualifiedInstanceClassName());
     }
-
+  
     if (!isSerializable())
     {
-      result.append(" serializable=\"false\"");
+      appendModelSetting(result, "serializeable", "false");
     }
-
+  
+    if (!getGenTypeParameters().isEmpty())
+    {
+      StringBuilder typeParameterNames = new StringBuilder();
+      for (Iterator<GenTypeParameter> i = getGenTypeParameters().iterator(); i.hasNext(); )
+      {
+        typeParameterNames.append(i.next().getName());
+        if (i.hasNext())
+        {
+          typeParameterNames.append(' ');
+        }
+      }
+      appendModelSetting(result, "typeParameters", typeParameterNames.toString());
+      for (GenTypeParameter genTypeParameter : getGenTypeParameters())
+      {
+        String info = genTypeParameter.getQualifiedModelInfo();
+        if (info.length() != 0)
+        {
+          result.append(info);
+          result.append(' ');
+        }
+      }
+    }
+  
     appendAnnotationInfo(result, getEcoreDataType());
-
-    return result.toString();
+  
+    return result.toString().trim();
   }
 
   public GenDataType getBaseType()

@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.18 2007/05/10 13:52:56 emerks Exp $
+ * $Id: GenParameterImpl.java,v 1.19 2007/06/11 21:09:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -25,8 +26,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -341,21 +340,25 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
     }
     else
     {
-      if (eParameter.isMany() && !isFeatureMapType())
-      {
-        appendModelSetting(result, qualified, "type", getType(null, eParameter.getEType(), false));
-      }
-
       EClassifier type = eParameter.getEType();
-      if (type instanceof EDataType && !(type instanceof EEnum))
+      if (type instanceof EClass)
+      {
+        if (eParameter.isMany() && getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 || 
+              hasReferenceToClassifierWithInstanceTypeName(eParameter.getEGenericType()))
+        {
+          appendModelSetting(result, qualified, "type", getEcoreType(eParameter.getEGenericType()));
+        }
+      }
+      else if (eParameter.isMany() && getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 || 
+                 hasReferenceToClassifierWithInstanceTypeName(eParameter.getEGenericType()))
       {
         GenPackage genPackage = findGenPackage(type.getEPackage());
         if (genPackage != null && (isFeatureMapType() || !genPackage.isEcorePackage()))
         {
-          appendModelSetting(result, qualified, "dataType", genPackage.getInterfacePackageName() + '.' + type.getName());
+          appendModelSetting(result, qualified, "dataType", getEcoreType(eParameter.getEGenericType()));
         }
       }
-      
+
       if (!eParameter.isUnique())
       {
         appendModelSetting(result, qualified, "unique", "false");

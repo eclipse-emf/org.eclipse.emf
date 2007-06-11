@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.31 2007/05/10 13:52:56 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.32 2007/06/11 21:09:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -36,8 +36,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
@@ -728,21 +726,25 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       }
       else
       {
-        if (eOperation.isMany() && !isFeatureMapType())
-        {
-          appendModelSetting(result, "type", getType(getContext(), eOperation.getEType(), false));
-        }
-
         EClassifier type = eOperation.getEType();
-        if (type instanceof EDataType && !(type instanceof EEnum))
+        if (type instanceof EClass)
+        {
+          if (eOperation.isMany() && getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 || 
+                hasReferenceToClassifierWithInstanceTypeName(eOperation.getEGenericType()))
+          {
+            appendModelSetting(result, false, "type", getEcoreType(eOperation.getEGenericType()));
+          }
+        }
+        else if (eOperation.isMany() && getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 || 
+                   hasReferenceToClassifierWithInstanceTypeName(eOperation.getEGenericType()))
         {
           GenPackage genPackage = findGenPackage(type.getEPackage());
           if (genPackage != null && (isFeatureMapType() || !genPackage.isEcorePackage()))
           {
-            appendModelSetting(result, "dataType", genPackage.getInterfacePackageName() + '.' + type.getName());
+            appendModelSetting(result, false, "dataType", getEcoreType(eOperation.getEGenericType()));
           }
         }
-        
+
         if (!eOperation.isUnique())
         {
           appendModelSetting(result, "unique", "false");
@@ -782,6 +784,16 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       if (parameterResult.length() > 0)
       {
         result.append(parameterResult);
+        result.append(' ');
+      }
+    }
+
+    for (GenTypeParameter genTypeParameter : getGenTypeParameters())
+    {
+      String info = genTypeParameter.getQualifiedModelInfo();
+      if (info.length() != 0)
+      {
+        result.append(info);
         result.append(' ');
       }
     }

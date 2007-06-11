@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.17 2007/05/10 13:52:56 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.18 2007/06/11 21:09:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -686,15 +686,23 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     {
       StringBuffer result = new StringBuffer();
 
-      appendModelSetting(result, qualified, "mapType",
-        mapGenClass.getGenPackage().getInterfacePackageName() + '.' + mapGenClass.getEcoreClass().getName());
-
-      if (includeFeatures)
+      GenFeature keyFeature = mapGenClass.getMapEntryKeyFeature();
+      GenFeature valueFeature = mapGenClass.getMapEntryValueFeature();
+      String mapType = mapGenClass.getGenPackage().getInterfacePackageName() + '.' + mapGenClass.getEcoreClass().getName();
+      boolean useGenerics = getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50;
+      if (useGenerics)
       {
-        GenFeature keyFeature = mapGenClass.getMapEntryKeyFeature();
+        mapType += 
+           '<' + 
+             getEcoreType(keyFeature.getEcoreFeature().getEGenericType()) + ", " + 
+             getEcoreType(valueFeature.getEcoreFeature().getEGenericType()) + '>';
+      }
+      appendModelSetting(result, qualified, "mapType", mapType);
+
+      if (includeFeatures && !useGenerics)
+      {
         appendModelSetting(result, qualified, "keyType", getType(getContext(), keyFeature.getEcoreFeature().getEType(), false));
   
-        GenFeature valueFeature = mapGenClass.getMapEntryValueFeature();
         appendModelSetting(result, qualified, "valueType", getType(getContext(), valueFeature.getEcoreFeature().getEType(), false));
       }
 

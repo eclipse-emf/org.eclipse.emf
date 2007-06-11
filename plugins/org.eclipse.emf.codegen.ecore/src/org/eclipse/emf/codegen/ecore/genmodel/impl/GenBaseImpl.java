@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.61 2007/05/15 22:35:57 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.62 2007/06/11 21:09:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1125,6 +1125,117 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         return "0.0F";
     }
     return null;
+  }
+
+  protected boolean hasReferenceToClassifierWithInstanceTypeName(List<? extends EGenericType> eGenericTypes)
+  {
+    for (EGenericType eGenericType : eGenericTypes)
+    {
+      if (hasReferenceToClassifierWithInstanceTypeName(eGenericType))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  protected boolean hasReferenceToClassifierWithInstanceTypeName(EGenericType eGenericType)
+  {
+    EClassifier eClassifier = eGenericType.getEClassifier();
+    if (eClassifier != null)
+    {
+      return 
+        eClassifier.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME) ||
+          eClassifier.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME) ||
+          hasReferenceToClassifierWithInstanceTypeName(eGenericType.getETypeArguments());
+    }
+    else
+    {
+      ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+      if (eTypeParameter != null)
+      {
+        return false;
+      }
+      else
+      {
+        EGenericType eUpperBound = eGenericType.getEUpperBound();
+        if (eUpperBound != null)
+        {
+          return hasReferenceToClassifierWithInstanceTypeName(eUpperBound);
+        }
+        else
+        {
+          EGenericType eLowerBound = eGenericType.getELowerBound();
+          if (eLowerBound != null)
+          {
+            return hasReferenceToClassifierWithInstanceTypeName(eLowerBound);
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  protected String getEcoreType(EGenericType eGenericType)
+  {
+    StringBuilder result = new StringBuilder();
+    boolean useGenerics = getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50;
+    EClassifier eClassifier = useGenerics ? eGenericType.getEClassifier() : eGenericType.getERawType();
+    if (eClassifier != null)
+    {
+      GenClassifier genClassifier = findGenClassifier(eClassifier);
+      if (genClassifier != null)
+      {
+        result.append(genClassifier.getGenPackage().getInterfacePackageName());
+        result.append('.');
+        result.append(genClassifier.getName());
+      }
+      if (useGenerics)
+      {
+        EList<EGenericType> eTypeArguments = eGenericType.getETypeArguments();
+        if (!eTypeArguments.isEmpty())
+        {
+          result.append('<');
+          for (int i = 0, size = eTypeArguments.size(); i < size; ++i)
+          {
+            if (i != 0)
+            {
+              result.append(", ");
+            }
+            result.append(getEcoreType(eTypeArguments.get(i)));
+          }
+          result.append('>');
+        }
+      }
+    }
+    else
+    {
+      ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+      if (eTypeParameter != null)
+      {
+        result.append(eTypeParameter.getName());
+      }
+      else
+      {
+        result.append('?');
+        EGenericType eUpperBound = eGenericType.getEUpperBound();
+        if (eUpperBound != null)
+        {
+          result.append(" extends ");
+          result.append(getEcoreType(eUpperBound));
+        }
+        else
+        {
+          EGenericType eLowerBound = eGenericType.getELowerBound();
+          if (eLowerBound != null)
+          {
+            result.append(" super ");
+            result.append(getEcoreType(eLowerBound));
+          }
+        }
+      }
+    }
+    return result.toString();
   }
 
   /**

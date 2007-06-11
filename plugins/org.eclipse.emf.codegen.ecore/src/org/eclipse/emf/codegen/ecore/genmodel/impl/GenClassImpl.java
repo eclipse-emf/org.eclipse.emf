@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.79 2007/06/08 12:27:11 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.80 2007/06/11 21:09:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1543,6 +1543,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   @Override
   public String getModelInfo()
   {
+    EClass eClass = getEcoreClass();
+
     StringBuffer result = new StringBuffer();
     if (isMapEntry())
     {
@@ -1570,7 +1572,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       appendModelSetting
         (result, 
          "instanceClass", 
-         getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 ? getEcoreClass().getInstanceClassName() : getEcoreClass().getInstanceTypeName());
+         getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 ? eClass.getInstanceClassName() : eClass.getInstanceTypeName());
     }
     else
     {
@@ -1610,7 +1612,28 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
     }
 
-    appendAnnotationInfo(result, getEcoreClass());
+    if (hasReferenceToClassifierWithInstanceTypeName(eClass.getEGenericSuperTypes()))
+    {
+      StringBuilder superTypes = new StringBuilder();
+      for (EGenericType eGenericType : eClass.getEGenericSuperTypes())
+      {
+        superTypes.append(getEcoreType(eGenericType));
+        superTypes.append(' ');
+      }
+      appendModelSetting(result, "superTypes", superTypes.toString().trim());
+    }
+    
+    for (GenTypeParameter genTypeParameter : getGenTypeParameters())
+    {
+      String info = genTypeParameter.getQualifiedModelInfo();
+      if (info.length() != 0)
+      {
+        result.append(info);
+        result.append(' ');
+      }
+    }
+
+    appendAnnotationInfo(result, eClass);
 
     return result.toString().trim();
   }

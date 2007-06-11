@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypeParameterImpl.java,v 1.4 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenTypeParameterImpl.java,v 1.5 2007/06/11 21:09:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -229,6 +229,28 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
       }
     }
     return false;
+  }
+  
+  public String getQualifiedModelInfo()
+  {
+    return getModelInfo(true);
+  }
+
+  protected String getModelInfo(boolean qualified)
+  {
+    StringBuffer result = new StringBuffer();
+    ETypeParameter eTypeParameter = getEcoreTypeParameter();
+    if (hasReferenceToClassifierWithInstanceTypeName(eTypeParameter.getEBounds()))
+    {
+      StringBuilder type = new StringBuilder();
+      for (EGenericType eGenericType : eTypeParameter.getEBounds())
+      {
+        type.append(getEcoreType(eGenericType));
+        type.append(' ');
+      }
+      appendModelSetting(result, getName(), "bounds", type.toString().trim());
+    }
+    return result.toString().trim();
   }
 
 } //GenTypeParameterImpl
