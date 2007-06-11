@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeItemProvider.java,v 1.9 2006/12/28 16:49:46 marcelop Exp $
+ * $Id: GenDataTypeItemProvider.java,v 1.10 2007/06/11 21:10:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -118,7 +118,7 @@ public class GenDataTypeItemProvider
     GenDataType genDataType = (GenDataType)object;
     return 
       genDataType.getName() + 
-        (genDataType.getQualifiedInstanceClassName() == null ? "" : " <" + genDataType.getQualifiedInstanceClassName() + ">");
+        (genDataType.getQualifiedInstanceClassName() == null ? "" : " [" + genDataType.getQualifiedInstanceClassName() + "]");
   }
 
   /**
