@@ -1,18 +1,18 @@
 /**
- * <copyright> 
+ * <copyright>
  *
  * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.38 2007/05/25 15:22:00 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.39 2007/06/11 21:11:53 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -85,6 +86,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
@@ -93,6 +95,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -101,6 +104,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -111,7 +115,7 @@ import org.eclipse.emf.importer.java.JavaImporterPlugin;
 public class JavaEcoreBuilder
 {
   /**
-   * The factory used to create JDOM.
+   * The factory used to create JNodes.
    */
   protected static FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(JMerger.DEFAULT_FACADE_HELPER_CLASS);
 
@@ -150,44 +154,32 @@ public class JavaEcoreBuilder
   protected Map<EPackage, String> ePackageToPrefixMap = new LinkedHashMap<EPackage, String>();
 
   /**
-   * The map from a model element to the corresponding JDOM node.
+   * The map from a model element to the corresponding JNode.
    * These are populated during traversal as each model element is created.
    */
   protected Map<EModelElement, JNode> eModelElementToJNodeMap = new LinkedHashMap<EModelElement, JNode>();
 
   /**
-   * The map from a typed element to its type name.
-   * These are populated during traversal as each typed element is created.
-   * They must be patched after traversal is completed.
+   * The features handled during the traversal.
+   * These are populated during traversal as each feature is created.
+   * They must be patched after traversal is completed to ensure they have resolved to the right type of classifier.
    */
-  protected Map<ETypedElement, String> eTypedElementToTypeNameMap = new LinkedHashMap<ETypedElement, String>();
+  protected Set<EStructuralFeature> eStructuralFeatures = new LinkedHashSet<EStructuralFeature>();
 
   /**
-   * The map from a typed element to its datatype's instance type name.
-   * These are populated during traversal as each typed element is created.
-   * They must be patched after traversal is completed.
-   * They are only needed if the instance must be determined bottom up.
+   * The attributes that must be treated as attributes because the are explicitly declared to be of that kind.
    */
-  protected Map<ETypedElement, String> eTypedElementToInstanceTypeNameMap = new LinkedHashMap<ETypedElement, String>();
+  protected Set<EAttribute> eAttributes = new LinkedHashSet<EAttribute>();
 
   /**
-   * The set of data types that were created without setting the instance class.
+   * A map from a generic type to the possibly null generic type that represents its proper Java type.
    */
-  protected Set<EDataType> demandCreatedEDataTypes = new HashSet<EDataType>();
+  protected Map<EGenericType, EGenericType> ecoreEGenericTypeToJavaEGenericTypeMap = new LinkedHashMap<EGenericType, EGenericType>();
 
   /**
-   * The map from a class to its base class names.
-   * These are populated during traversal as each class is created.
-   * They must be patched after traversal is completed.
+   * The set of classifiers that were demand created.
    */
-  protected Map<EClass, String[]> eClassToSuperTypeNamesMap = new LinkedHashMap<EClass, String[]>();
-
-  /**
-   * The map from an operation to its exception type names.
-   * These are populated during traversal as each operation is created.
-   * They must be patched after traversal is completed.
-   */
-  protected Map<EOperation, String[]> eOperationToExceptionTypeNamesMap = new LinkedHashMap<EOperation, String[]>();
+  protected Set<EClassifier> demandCreatedEClassifiers = new LinkedHashSet<EClassifier>();
 
   /**
    * The map from a reference to the name it's opposite.
@@ -207,15 +199,55 @@ public class JavaEcoreBuilder
    */
   protected Collection<GenPackage> usedGenPackages = new ArrayList<GenPackage>();
 
+  /**
+   * A collection of the problems encountered during the processing.
+   */
   protected BasicDiagnostic basicDiagnostic;
 
-  protected boolean foundJava = false;
+  /**
+   * Set to true when a compilation unit is processed and hence indicates if anything to process has been found.
+   */
+  protected boolean foundJava;
 
   /**
    * The old version to against which to reconcile.
    */
   protected GenModel oldGenModelVersion;
 
+  /**
+   * The utility used to convert a generate type to a fully qualified Java instance type.
+   */
+  protected EcoreUtil.EGenericTypeConverter eGenericTypeConverter =
+     new EcoreUtil.EGenericTypeConverter()
+     {
+       @Override
+       protected String getInstanceTypeName(EClassifier eClassifier)
+       {
+         String result = super.getInstanceTypeName(eClassifier);
+         if (result == null)
+         {
+           EPackage ePackage = eClassifier.getEPackage();
+           for (Map.Entry<String, EPackage> entry : packageNameToEPackageMap.entrySet())
+           {
+             if (entry.getValue() == ePackage)
+             {
+               return entry.getKey() + '.' + eClassifier.getName();
+             }
+           }
+           for (Map.Entry<String, EPackage> entry : externalPackageNameToEPackageMap.entrySet())
+           {
+             if (entry.getValue() == ePackage)
+             {
+               return entry.getKey() + '.' + eClassifier.getName();
+             }
+           }
+         }
+         return result;
+       }
+     };
+
+  protected static final String MAP_ENTRY_CLASS_CONTAINER_ANNOTATION_SOURCE = EcorePackage.eNS_URI + "#MapEntryClassContainer";
+  
   /**
    * Creates a builder for the given file.
    */
@@ -248,8 +280,8 @@ public class JavaEcoreBuilder
     result.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
     return result;
   }
-    
-  protected IPath analyseProject(IProject project) throws Exception
+
+  protected IPath analyzeProject(IProject project) throws Exception
   {
     // Walk the project looking for .java files to analyze.
     //
@@ -264,143 +296,110 @@ public class JavaEcoreBuilder
       }
     }
 
-    // Fix all the typed elements that have names which need resolving.
-    //
-    for (Map.Entry<ETypedElement, String> entry : eTypedElementToTypeNameMap.entrySet())
+    for (Map.Entry<EGenericType, EGenericType> entry : ecoreEGenericTypeToJavaEGenericTypeMap.entrySet())
     {
-      ETypedElement eTypedElement = entry.getKey();
-      String typeName = entry.getValue();
-      EClassifier eClassifier = resolve(eTypedElement, typeName);
+      EGenericType ecoreEGenericType = entry.getKey();
+      EGenericType javaEGenericType = entry.getValue();
+      EModelElement eModelElement = null;
+      for (EObject eObject = ecoreEGenericType.eContainer(); eObject != null; eObject = eObject.eContainer())
+      {
+        if (eObject instanceof EModelElement)
+        {
+          eModelElement = (EModelElement)eObject;
+          break;
+        }
+      }
+      RequiredClassifierType requiredClassifierType =
+         ecoreEGenericType.eContainer() instanceof EClass || ecoreEGenericType.eContainer() instanceof EReference ?
+           RequiredClassifierType.CLASS :
+           eAttributes.contains(ecoreEGenericType.eContainer()) ?
+             RequiredClassifierType.DATA_TYPE :
+             RequiredClassifierType.NONE;
+      resolve(eModelElement, ecoreEGenericType, requiredClassifierType);
+      if (javaEGenericType != null)
+      {
+        resolve(eModelElement, javaEGenericType, requiredClassifierType);
+      }
+
+      if (javaEGenericType != null)
+      {
+        resolve(eModelElement, ecoreEGenericType, javaEGenericType);
+      }
+    }
+
+    for (Map.Entry<EGenericType, EGenericType> entry : ecoreEGenericTypeToJavaEGenericTypeMap.entrySet())
+    {
+      EGenericType ecoreEGenericType = entry.getKey();
+      EGenericType javaEGenericType = entry.getValue();
+      EModelElement eModelElement = null;
+      for (EObject eObject = ecoreEGenericType.eContainer(); eObject != null; eObject = eObject.eContainer())
+      {
+        if (eObject instanceof EModelElement)
+        {
+          eModelElement = (EModelElement)eObject;
+          break;
+        }
+      }
+
+      if (javaEGenericType == null)
+      {
+        resolve(eModelElement, ecoreEGenericType, javaEGenericType);
+      }
+      used(ecoreEGenericType);
+    }
+
+    for (EStructuralFeature eStructuralFeature : eStructuralFeatures)
+    {
+      EGenericType eGenericType = eStructuralFeature.getEGenericType();
+      EClassifier eClassifier = eGenericType.getERawType();
 
       // If we have resolved to an EClass but we have an EAttribute, we can change it to be an EReference.
       //
-      if (eClassifier instanceof EClass && eTypedElement instanceof EAttribute)
+      if (eClassifier instanceof EClass && eStructuralFeature instanceof EAttribute)
       {
-        EAttribute eAttribute = (EAttribute)eTypedElement;
+        EAttribute eAttribute = (EAttribute)eStructuralFeature;
         EClass container = eAttribute.getEContainingClass();
         EReference eReference = EcoreFactory.eINSTANCE.createEReference();
         eReference.setChangeable(eAttribute.isChangeable());
         eReference.setVolatile(eAttribute.isVolatile());
         eReference.setTransient(eAttribute.isTransient());
+        eReference.setDerived(eAttribute.isDerived());
+        eReference.setUnsettable(eAttribute.isUnsettable());
         eReference.setLowerBound(eAttribute.getLowerBound());
         eReference.setUpperBound(eAttribute.getUpperBound());
-        eReference.setName(eTypedElement.getName());
-        eReference.getEAnnotations().addAll(eTypedElement.getEAnnotations());
-        container.getEStructuralFeatures().add(container.getEStructuralFeatures().indexOf(eTypedElement), eReference);
-        container.getEStructuralFeatures().remove(eTypedElement);
-        eTypedElement = eReference;
+        eReference.setName(eStructuralFeature.getName());
+        eReference.setEGenericType(eGenericType);
+        eReference.getEAnnotations().addAll(eStructuralFeature.getEAnnotations());
+        container.getEStructuralFeatures().add(container.getEStructuralFeatures().indexOf(eStructuralFeature), eReference);
+        container.getEStructuralFeatures().remove(eStructuralFeature);
+        eStructuralFeature = eReference;
       }
-      else if (eClassifier instanceof EDataType && eTypedElement instanceof EReference)
+      else if (eClassifier instanceof EDataType && eStructuralFeature instanceof EReference)
       {
-        EReference eReference = (EReference)eTypedElement;
+        EReference eReference = (EReference)eStructuralFeature;
         EClass container = eReference.getEContainingClass();
         EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
         eAttribute.setChangeable(eReference.isChangeable());
         eAttribute.setVolatile(eReference.isVolatile());
         eAttribute.setTransient(eReference.isTransient());
+        eAttribute.setDerived(eReference.isDerived());
+        eAttribute.setUnsettable(eReference.isUnsettable());
         eAttribute.setLowerBound(eReference.getLowerBound());
         eAttribute.setUpperBound(eReference.getUpperBound());
-        eAttribute.setName(eTypedElement.getName());
-        eAttribute.getEAnnotations().addAll(eTypedElement.getEAnnotations());
-        container.getEStructuralFeatures().remove(eTypedElement);
-        eTypedElement = eAttribute;
+        eAttribute.setName(eStructuralFeature.getName());
+        eAttribute.setEGenericType(eGenericType);
+        eAttribute.getEAnnotations().addAll(eStructuralFeature.getEAnnotations());
+        container.getEStructuralFeatures().remove(eStructuralFeature);
+        eStructuralFeature = eAttribute;
         eReferenceToOppositeNameMap.remove(eReference);
       }
 
-      String instanceClassName = eTypedElementToInstanceTypeNameMap.get(eTypedElement);
-      if (instanceClassName != null && demandCreatedEDataTypes.contains(eClassifier))
+      if (eClassifier.getEPackage() == null)
       {
-        demandCreatedEDataTypes.remove(eClassifier);
-        EClassifier resolvedInstanceClassName = resolve(eTypedElement, instanceClassName, false);
-        ((EDataType)eClassifier).setInstanceClassName(resolvedInstanceClassName.getInstanceClassName());
-      }
+        error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheTypeDoesNotResolveCorrectly_message", new Object []{ eClassifier.getInstanceTypeName() }));
 
-      if (eClassifier == null)
-      {
-        error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheTypeDoesNotResolveCorrectly_message", new Object []{ typeName }));
-        eClassifier = EcorePackage.Literals.EOBJECT;
-      }
-
-      // Finally set the type.
-      //
-      eTypedElement.setEType(eClassifier);
-
-      used(eClassifier);
-    }
-
-    // Fix all the classes that have supers that need resolving.
-    //
-    for (Map.Entry<EClass, String[]> entry : eClassToSuperTypeNamesMap.entrySet())
-    {
-      EClass eClass = entry.getKey();
-      String[] superTypeNames = entry.getValue();
-      if (superTypeNames != null)
-      {
-        for (int j = 0; j < superTypeNames.length; ++j)
-        {
-          EClassifier eClassifier = resolve(eClass, superTypeNames[j], false);
-          if (eClassifier.getEPackage() == null)
-          {
-            EPackage ePackage = (EPackage)EcoreUtil.getRootContainer(eClass);
-            EClass superEClass = EcoreFactory.eINSTANCE.createEClass();
-            superEClass.setInstanceClassName(eClassifier.getInstanceClassName());
-            superEClass.setName(eClassifier.getName());
-            superEClass.setAbstract(true);
-            superEClass.setInterface(true);
-            ePackage.getEClassifiers().add(superEClass);
-            eClassifier = superEClass;
-          }
-
-          if (eClassifier instanceof EClass)
-          {
-            if (eClassifier != EcorePackage.Literals.EOBJECT)
-            {
-              eClass.getESuperTypes().add((EClass)eClassifier);
-              used(eClassifier);
-            }
-          }
-          else
-          {
-            error(CodeGenEcorePlugin.INSTANCE.getString(
-              "_UI_TheSuperTypeDoesNotResolveCorrectly_message",
-              new Object []{ superTypeNames[j] }));
-          }
-        }
-      }
-    }
-
-    // Fix all the operations that have exceptions that need resolving.
-    //
-    for (Map.Entry<EOperation, String[]> entry : eOperationToExceptionTypeNamesMap.entrySet())
-    {
-      EOperation eOperation = entry.getKey();
-      String[] exceptionTypeNames = entry.getValue();
-      if (exceptionTypeNames != null)
-      {
-        for (int j = 0; j < exceptionTypeNames.length; ++j)
-        {
-          String compositeName = exceptionTypeNames[j];
-          int index = compositeName.indexOf(":");
-          String typeName = index == -1 ? compositeName : compositeName.substring(0, index);
-          EClassifier eClassifier = resolve(eOperation, typeName, true);
-          if (index != -1 && demandCreatedEDataTypes.contains(eClassifier)) 
-          {
-            demandCreatedEDataTypes.remove(eClassifier);
-            EClassifier resolvedInstanceClassName = resolve(eOperation, compositeName.substring(index + 1), false);
-            ((EDataType)eClassifier).setInstanceClassName(resolvedInstanceClassName.getInstanceClassName());
-          }
-          if (eClassifier != null)
-          {
-            eOperation.getEExceptions().add(eClassifier);
-            used(eClassifier);
-          }
-          else
-          {
-            error(CodeGenEcorePlugin.INSTANCE.getString(
-              "_UI_TheTypeDoesNotResolveCorrectly_message",
-              new Object []{ exceptionTypeNames[j] }));
-          }
-        }
+        eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+        eGenericType.setEClassifier(eClassifier instanceof EClass ? EcorePackage.Literals.EOBJECT : EcorePackage.Literals.EJAVA_OBJECT);
       }
     }
 
@@ -414,16 +413,14 @@ public class JavaEcoreBuilder
       EReference eOpposite = (EReference)eClass.getEStructuralFeature(oppositeName);
       if (eOpposite == null)
       {
-        error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheAttributeIsNotAMemberOf_message", new Object []{
-          oppositeName,
-          eClass.getName() }));
+        error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheAttributeIsNotAMemberOf_message", new Object []{ oppositeName, eClass.getName() }));
       }
       else if (eOpposite.getEOpposite() != eReference && eOpposite.getEOpposite() != null)
       {
-        error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheOppositeAlreadyHasOpposite_message", new Object []{
-          oppositeName,
-          eOpposite.getEOpposite().getName(),
-          eOpposite.getEOpposite().getEContainingClass().getName() }));
+        error
+          (CodeGenEcorePlugin.INSTANCE.getString
+             ("_UI_TheOppositeAlreadyHasOpposite_message",
+              new Object []{ oppositeName, eOpposite.getEOpposite().getName(), eOpposite.getEOpposite().getEContainingClass().getName() }));
       }
       else
       {
@@ -438,6 +435,17 @@ public class JavaEcoreBuilder
         {
           eReference.setTransient(true);
         }
+      }
+    }
+
+    // Clean up the temporary container annotations for holding map entry classes until they are for sure needed.
+    //
+    for (EPackage ePackage : packageNameToEPackageMap.values())
+    {
+      EAnnotation eAnnotation = ePackage.getEAnnotation(MAP_ENTRY_CLASS_CONTAINER_ANNOTATION_SOURCE);
+      if (eAnnotation != null)
+      { 
+        EcoreUtil.remove(eAnnotation);
       }
     }
 
@@ -459,7 +467,7 @@ public class JavaEcoreBuilder
       }
     }
 
-    // Find the fragment root so that we can generate to the right location (by default). 
+    // Find the fragment root so that we can generate to the right location (by default).
     //
     IPath targetFragmentRoot = project.getFullPath();
     for (int i = 0; i < packageFragmentRoots.length; ++i)
@@ -474,7 +482,7 @@ public class JavaEcoreBuilder
         }
       }
     }
-    
+
     facadeHelper.reset();
     return targetFragmentRoot;
   }
@@ -483,7 +491,7 @@ public class JavaEcoreBuilder
   {
     IProject project = genModelFile.getProject();
     project.open(BasicMonitor.toIProgressMonitor(monitor));
-    
+
     Collection<IFile> allGenModelFiles = new ArrayList<IFile>();
     Collection<IProject> allReferencedProjects = new ArrayList<IProject>();
     getAllReferencedProjects(allReferencedProjects, project.getDescription().getReferencedProjects());
@@ -492,7 +500,7 @@ public class JavaEcoreBuilder
     {
       getAllGenModelFiles(allGenModelFiles, referencedProject);
     }
-    
+
     ResourceSet resourceSet = modelImporter.createResourceSet();
     for (IFile file : allGenModelFiles)
     {
@@ -504,7 +512,7 @@ public class JavaEcoreBuilder
         determineExternalPackages(genPackage, modelImporter);
       }
     }
-    
+
     // Iterate over all projects to look at the manifests.
     //
     List<String> allReferencedPluginIDs = new UniqueEList<String>();
@@ -540,7 +548,7 @@ public class JavaEcoreBuilder
       }
     }
 
-    // Iterate over all the plugin IDs to determinethe dependency closure.
+    // Iterate over all the plugin IDs to determine the dependency closure.
     // The list grows as the plugins are visited.
     //
     for (int i = 0; i < allReferencedPluginIDs.size(); ++i)
@@ -613,8 +621,8 @@ public class JavaEcoreBuilder
       }
     }
 
-    IPath targetFragmentRoot = analyseProject(project);  
-    modelImporter.setModelPluginDirectory(targetFragmentRoot.toString());    
+    IPath targetFragmentRoot = analyzeProject(project);
+    modelImporter.setModelPluginDirectory(targetFragmentRoot.toString());
 
     if (packageNameToEPackageMap.isEmpty())
     {
@@ -642,10 +650,28 @@ public class JavaEcoreBuilder
           }
           break;
         }
-      }      
+      }
     }
   }
-  
+
+  public void used(EGenericType eGenericType)
+  {
+    if (eGenericType != null)
+    {
+      EClassifier eClassifier = eGenericType.getEClassifier();
+      if (eClassifier != null)
+      {
+        used(eClassifier);
+      }
+      used(eGenericType.getEUpperBound());
+      used(eGenericType.getELowerBound());
+      for (EGenericType eTypeArgument : eGenericType.getETypeArguments())
+      {
+        used(eTypeArgument);
+      }
+    }
+  }
+
   public void used(EModelElement modelElement)
   {
     EPackage ePackage = (EPackage)EcoreUtil.getRootContainer(modelElement);
@@ -684,7 +710,7 @@ public class JavaEcoreBuilder
   {
     determineExternalPackages(genPackage, null);
   }
-  
+
   protected void determineExternalPackages(GenPackage genPackage, ModelImporter modelImporter)
   {
     if (modelImporter != null)
@@ -785,7 +811,7 @@ public class JavaEcoreBuilder
   }
 
   /**
-   * Analyzes .java files as JDOM compilation units.
+   * Analyzes .java files as compilation units.
    */
   public void traverse(IFile file) throws CoreException
   {
@@ -798,12 +824,6 @@ public class JavaEcoreBuilder
         bufferedInputStream.read(input);
         bufferedInputStream.close();
 
-        //purpose: using charset from 'file' to decode bytes into in-memory 
-        //         String object
-        //modifer: Wu Zhi Qiang
-        //date:    Aug 25, 2004
-        //action:  first get the charset from 'file', then use it 
-        //         to decode the 'input' bytes object
         String encoding = null;
         try
         {
@@ -823,7 +843,7 @@ public class JavaEcoreBuilder
       }
     }
   }
-  
+
   /**
    * Walks the compilation unit to analyze the type.
    */
@@ -838,12 +858,12 @@ public class JavaEcoreBuilder
       }
       else
       {
-        analyzeType((JType)abstractType);        
+        analyzeType((JType)abstractType);
       }
       break;
     }
   }
-  
+
   protected void analyzeEnum(JEnum enumeration)
   {
     String modelAnnotation = getModelAnnotation(enumeration.getComment());
@@ -858,20 +878,29 @@ public class JavaEcoreBuilder
 
       // Walk the fields.
       //
+      boolean hasEnumLiteral = false;
       for (JEnumConstant enumConstant : facadeHelper.getChildren(enumeration, JEnumConstant.class))
       {
-        analyzeEnumLiteral(eEnum, enumConstant);
+        hasEnumLiteral |= analyzeEnumLiteral(eEnum, enumConstant);
+      }
+
+      if (!hasEnumLiteral)
+      {
+        for (JField field : facadeHelper.getChildren(enumeration, JField.class))
+        {
+          hasEnumLiteral |= analyzeEnumLiteral(eEnum, field);
+        }
       }
     }
   }
-  
+
   protected EPackage getEPackage(JNode node)
   {
-    JPackage jPackage = facadeHelper.getPackage(node);  
+    JPackage jPackage = facadeHelper.getPackage(node);
     String qualifiedPackageName = jPackage != null ?
       jPackage.getQualifiedName()
       : null;
-    
+
     EPackage ePackage = packageNameToEPackageMap.get(qualifiedPackageName);
     if (ePackage == null)
     {
@@ -892,7 +921,7 @@ public class JavaEcoreBuilder
         ePackageToPrefixMap.put(ePackage, prefix);
       }
     }
-      
+
     return ePackage;
   }
 
@@ -915,7 +944,7 @@ public class JavaEcoreBuilder
       kind = getModelAnnotationAttribute(modelAnnotation, "kind");
       isEClassifier = !"package".equals(kind);
     }
-    
+
     if (isEClassifier)
     {
       // Get the package name and see if there's an EPackage for it.
@@ -923,7 +952,7 @@ public class JavaEcoreBuilder
       EPackage ePackage = getEPackage(type);
 
       // If it's an interface, then it will be treated as an EClass
-      // 
+      //
       if ((type.getFlags() & Flags.AccInterface) != 0 || "class".equals(kind))
       {
         EClass eClass = EcoreFactory.eINSTANCE.createEClass();
@@ -933,9 +962,11 @@ public class JavaEcoreBuilder
         eClass.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
         EcoreUtil.setDocumentation(eClass, getModelDocumentation(type.getComment()));
 
+        analyzeTypeParameters(eClass.getETypeParameters(), type.getTypeParameters(), modelAnnotation);
+
         String[] superInterfaces = type.getSuperInterfaces();
         String extend = getExtendsAnnotation(type.getComment());
-        if (extend != null && superInterfaces != null)
+        if (extend != null)
         {
           List<String> superInterfaceList = new ArrayList<String>(Arrays.asList(superInterfaces));
           for (StringTokenizer stringTokenizer = new StringTokenizer(extend, " ,\t\n\r\f"); stringTokenizer.hasMoreTokens();)
@@ -945,7 +976,64 @@ public class JavaEcoreBuilder
           superInterfaces = new String [superInterfaceList.size()];
           superInterfaceList.toArray(superInterfaces);
         }
-        eClassToSuperTypeNamesMap.put(eClass, superInterfaces);
+
+        // Create a generic super type with an EClass as the classifier for each super interface in the Java representation.
+        //
+        List<EGenericType> javaEGenericSuperTypes = new ArrayList<EGenericType>();
+        for (String superType : superInterfaces)
+        {
+          Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(superType);
+          if (diagnostic.getSeverity() == Diagnostic.OK)
+          {
+            EGenericType eGenericSuperType = (EGenericType)diagnostic.getData().get(0);
+            EClass eSuperClass = EcoreFactory.eINSTANCE.createEClass();
+            eSuperClass.setAbstract(true);
+            eSuperClass.setInterface(true);
+            eSuperClass.setInstanceTypeName(eGenericSuperType.getEClassifier().getInstanceTypeName());
+            eGenericSuperType.setEClassifier(eSuperClass);
+            javaEGenericSuperTypes.add(eGenericSuperType);
+          }
+        }
+
+        // Create a generic super type with an EClass as the classifier for each super interface in the @model representation
+        //
+        List<EGenericType> ecoreEGenericSuperTypes = null;
+        String superTypes = getModelAnnotationAttribute(modelAnnotation, "superTypes");
+        if (superTypes != null)
+        {
+          ecoreEGenericSuperTypes = new ArrayList<EGenericType>();
+          for (EGenericType ecoreEGenericSuperType : analyzeEGenericTypes(superTypes))
+          {
+            EClass eSuperClass = EcoreFactory.eINSTANCE.createEClass();
+            eSuperClass.setAbstract(true);
+            eSuperClass.setInterface(true);
+            eSuperClass.setInstanceTypeName(ecoreEGenericSuperType.getEClassifier().getInstanceTypeName());
+            ecoreEGenericSuperType.setEClassifier(eSuperClass);
+            ecoreEGenericSuperTypes.add(ecoreEGenericSuperType);
+          }
+        }
+
+        // Filter out explicit EObject from super types, except in the Ecore package itself, or if it appears in the @model superTypes.
+        //
+        if (!javaEGenericSuperTypes.isEmpty() &&
+              javaEGenericSuperTypes.get(0).getERawType().getInstanceTypeName().endsWith("EObject") &&
+              (ecoreEGenericSuperTypes == null ||
+                ecoreEGenericSuperTypes.size() > 1 && !ecoreEGenericSuperTypes.get(0).getERawType().getInstanceTypeName().endsWith("EObject")) &&
+              !EcorePackage.eNS_URI.equals(ePackage.getNsURI()))
+        {
+           EGenericType superType = resolve(eClass, javaEGenericSuperTypes.get(0).getERawType().getInstanceTypeName(), RequiredClassifierType.CLASS, false);
+           EClassifier superClass = superType.getEClassifier();
+           if (superClass.getEPackage() != null &&
+                 EcorePackage.eNS_URI.equals(superClass.getEPackage().getNsURI()) &&
+                 "EObject".equals(superClass.getName()))
+           {
+             javaEGenericSuperTypes.remove(0);
+           }
+        }
+
+        // Match them and accumulate the appropriate result.
+        //
+        match(eClass.getEGenericSuperTypes(), javaEGenericSuperTypes, ecoreEGenericSuperTypes);
 
         String isInterface = getModelAnnotationAttribute(modelAnnotation, "interface");
         eClass.setInterface("true".equals(isInterface));
@@ -972,11 +1060,12 @@ public class JavaEcoreBuilder
             if (eClass.getEStructuralFeature(feature) == null)
             {
               analyzeMethod
-                (eClass, 
-                 getFilteredModelAnnotations(modelAnnotation, feature), 
-                 "get" + Character.toUpperCase(feature.charAt(0)) + feature.substring(1), 
-                 "java.lang.Object", 
-                 EMPTY_STRING_ARRAY, 
+                (eClass,
+                 getFilteredModelAnnotations(modelAnnotation, feature),
+                 "get" + Character.toUpperCase(feature.charAt(0)) + feature.substring(1),
+                 "java.lang.Object",
+                 EMPTY_STRING_ARRAY,
+                 EMPTY_STRING_ARRAY,
                  EMPTY_STRING_ARRAY,
                  EMPTY_STRING_ARRAY);
             }
@@ -1009,10 +1098,8 @@ public class JavaEcoreBuilder
     // Find Packages and Factories
     else
     {
-      JPackage jPackage = facadeHelper.getPackage(type);  
-      String qualifiedPackageName = jPackage != null ?
-        jPackage.getQualifiedName()
-        : null;
+      JPackage jPackage = facadeHelper.getPackage(type);
+      String qualifiedPackageName = jPackage != null ? jPackage.getQualifiedName() : null;
 
       String typeName = type.getName();
       boolean isEPackage = false;
@@ -1096,13 +1183,37 @@ public class JavaEcoreBuilder
                 if (returnType.endsWith("EDataType"))
                 {
                   EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
-                  eDataType.setInstanceClassName(getModelAnnotationAttribute(methodAnnotation, "instanceClass"));
+                  eDataType.setInstanceTypeName(getModelAnnotationAttribute(methodAnnotation, "instanceClass"));
                   eDataType.setName(method.getName().substring(3));
                   String isSerializable = getModelAnnotationAttribute(methodAnnotation, "serializable");
                   if ("false".equals(isSerializable))
                   {
                     eDataType.setSerializable(false);
                   }
+
+                  String typeParameterNames = getModelAnnotationAttribute(methodAnnotation, "typeParameters");
+                  if (typeParameterNames != null)
+                  {
+                    for (StringTokenizer stringTokenizer = new StringTokenizer(typeParameterNames, " "); stringTokenizer.hasMoreTokens();)
+                    {
+                      String typeParameterName = stringTokenizer.nextToken();
+                      ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
+                      eTypeParameter.setName(typeParameterName);
+                      String typeParameterModelAnnotation = getFilteredModelAnnotations(methodAnnotation, typeParameterName);
+                      String bounds = getModelAnnotationAttribute(typeParameterModelAnnotation, "bounds");
+                      if (bounds != null)
+                      {
+                        eTypeParameter.getEBounds().addAll(analyzeEGenericTypes(bounds));
+                        for (EGenericType eBound : eTypeParameter.getEBounds())
+                        {
+                          ecoreEGenericTypeToJavaEGenericTypeMap.put(eBound, null);
+                        }
+                      }
+
+                      eDataType.getETypeParameters().add(eTypeParameter);
+                    }
+                  }
+
                   eDataTypes.add(eDataType);
                   eDataType.getEAnnotations().addAll(extractEAnnotations(methodAnnotation));
                   EcoreUtil.setDocumentation(eDataType, getModelDocumentation(method.getComment()));
@@ -1115,13 +1226,13 @@ public class JavaEcoreBuilder
                   {
                     eClass.setInterface(true);
                     eClass.setAbstract(true);
-                    eClass.setInstanceClassName(instanceClass);
+                    eClass.setInstanceTypeName(instanceClass);
                     eClass.setName(method.getName().substring(3));
                     eClasses.add(eClass);
                   }
                   else
                   {
-                    eClass.setInstanceClassName("java.util.Map$Entry");
+                    eClass.setInstanceTypeName("java.util.Map$Entry");
                     eClass.setName(method.getName().substring(3));
                     eClasses.add(eClass);
 
@@ -1132,27 +1243,37 @@ public class JavaEcoreBuilder
                       {
                         String feature = stringTokenizer.nextToken();
                         analyzeMethod
-                          (eClass, 
-                           getFilteredModelAnnotations(methodAnnotation, feature), 
-                           "get" + Character.toUpperCase(feature.charAt(0)) + feature.substring(1), 
-                           "java.lang.Object", 
-                           EMPTY_STRING_ARRAY, 
+                          (eClass,
+                           getFilteredModelAnnotations(methodAnnotation, feature),
+                           "get" + Character.toUpperCase(feature.charAt(0)) + feature.substring(1),
+                           "java.lang.Object",
+                           EMPTY_STRING_ARRAY,
+                           EMPTY_STRING_ARRAY,
                            EMPTY_STRING_ARRAY,
                            EMPTY_STRING_ARRAY);
                       }
                     }
                     else
                     {
-                      analyzeMethod(eClass, getFilteredModelAnnotations(methodAnnotation, "key"), "getKey", "java.lang.Object", EMPTY_STRING_ARRAY, EMPTY_STRING_ARRAY, EMPTY_STRING_ARRAY);
+                      analyzeMethod
+                        (eClass,
+                         getFilteredModelAnnotations(methodAnnotation, "key"),
+                         "getKey",
+                         "java.lang.Object",
+                         EMPTY_STRING_ARRAY,
+                         EMPTY_STRING_ARRAY,
+                         EMPTY_STRING_ARRAY,
+                         EMPTY_STRING_ARRAY);
 
-                      analyzeMethod(
-                        eClass,
-                        getFilteredModelAnnotations(methodAnnotation, "value"),
-                        "getValue",
-                        "java.lang.Object",
-                        EMPTY_STRING_ARRAY,
-                        EMPTY_STRING_ARRAY,
-                        EMPTY_STRING_ARRAY);
+                      analyzeMethod
+                        (eClass,
+                         getFilteredModelAnnotations(methodAnnotation, "value"),
+                         "getValue",
+                         "java.lang.Object",
+                         EMPTY_STRING_ARRAY,
+                         EMPTY_STRING_ARRAY,
+                         EMPTY_STRING_ARRAY,
+                         EMPTY_STRING_ARRAY);
                     }
                   }
                   eClass.getEAnnotations().addAll(extractEAnnotations(methodAnnotation));
@@ -1208,8 +1329,9 @@ public class JavaEcoreBuilder
       String[] parameterNames = method.getParameterNames();
       String[] parameterTypes = method.getParameterTypes();
       String[] exceptionTypes = method.getExceptions();
+      String[] typeParameters = method.getTypeParameters();
 
-      ETypedElement eTypedElement = analyzeMethod(eClass, modelAnnotation, methodName, returnType, parameterNames, parameterTypes, exceptionTypes);
+      ETypedElement eTypedElement = analyzeMethod(eClass, modelAnnotation, methodName, returnType, parameterNames, parameterTypes, exceptionTypes, typeParameters);
       if (eTypedElement != null)
       {
         EcoreUtil.setDocumentation(eTypedElement, getModelDocumentation(method.getComment()));
@@ -1234,7 +1356,8 @@ public class JavaEcoreBuilder
     String returnType,
     String[] parameterNames,
     String[] parameterTypes,
-    String[] exceptionTypes)
+    String[] exceptionTypes,
+    String[] typeParameters)
   {
     // We will create an EAttribute, EReference, or an EOperation.
     //
@@ -1246,20 +1369,30 @@ public class JavaEcoreBuilder
     // An operation is declared via the kind property or, for backwards compatibility, by specifying parameters
     // (though attribute or reference kind takes precedence).
     //
-    boolean declaredEOperation = "operation".equals(kind) ||
-      (parameters != null && !"attribute".equals(kind) && !"reference".equals(kind));
+    boolean declaredEOperation =
+        "operation".equals(kind) ||
+          (parameters != null && !"attribute".equals(kind) && !"reference".equals(kind));
 
     // Check whether there are parameters; the special attribute and reference rules only apply for the case of no arguments.
     //
-    if (parameterNames.length == 0 && !declaredEOperation && methodName.startsWith("get") && methodName.length() > 3 &&
-        Character.isUpperCase(methodName.charAt(3)) && !"boolean".equals(returnType) && !"void".equals(returnType))
+    if (parameterNames.length == 0 &&
+         !declaredEOperation &&
+         methodName.startsWith("get") &&
+         methodName.length() > 3 &&
+         Character.isUpperCase(methodName.charAt(3)) &&
+         !"boolean".equals(returnType) &&
+         !"void".equals(returnType))
     {
       // The feature name is extracted lower cased.
       //
       featureName = CodeGenUtil.uncapName(methodName.substring(3));
     }
-    else if (parameterNames.length == 0 && !declaredEOperation && methodName.startsWith("is") && methodName.length() > 2 &&
-             Character.isUpperCase(methodName.charAt(2)) && "boolean".equals(returnType))
+    else if (parameterNames.length == 0 &&
+              !declaredEOperation &&
+              methodName.startsWith("is") &&
+              methodName.length() > 2 &&
+              Character.isUpperCase(methodName.charAt(2)) &&
+              "boolean".equals(returnType))
     {
       // The name is extracted and lower cased.
       //
@@ -1273,8 +1406,10 @@ public class JavaEcoreBuilder
       eTypedElement = eOperation;
       eClass.getEOperations().add(eOperation);
 
+      analyzeTypeParameters(eOperation.getETypeParameters(), typeParameters, modelAnnotation);
+
       handleETypedElement(eOperation, methodName, returnType, modelAnnotation, eClass.getName() + "." + methodName);
-      
+
       if (parameterTypes.length > 0)
       {
         // Each token in parameters will specify a dataType for the corresponding parameter, but can be overridden by a
@@ -1317,23 +1452,22 @@ public class JavaEcoreBuilder
       {
         // Each token in exceptions will specify a data type for the corresponding exception.
         //
+        List<EGenericType> ecoreEGenericExceptions = new ArrayList<EGenericType>();
         String exceptions = getModelAnnotationAttribute(modelAnnotation, "exceptions");
-        StringTokenizer stringTokenizer = new StringTokenizer(exceptions == null ? "" : exceptions);
-        String[] exceptionTypeNames = new String[exceptionTypes.length];
-        for (int i = 0; i < exceptionTypes.length; ++i)
+        if (exceptions != null)
         {
-          exceptionTypeNames[i] = exceptionTypes[i];
-          if (stringTokenizer.hasMoreTokens())
-          {
-            String dataType = stringTokenizer.nextToken();
-            if (!"-".equals(dataType))
-            {
-              exceptionTypeNames[i] = dataType + ":" + exceptionTypeNames[i];
-            }
-          }
-
-          eOperationToExceptionTypeNamesMap.put(eOperation, exceptionTypeNames); 
+          ecoreEGenericExceptions.addAll(analyzeEGenericTypes(exceptions));
         }
+        List<EGenericType> javaEGenericExceptions = new ArrayList<EGenericType>();
+        for (String exception : exceptionTypes)
+        {
+          Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(exception);
+          if (diagnostic.getSeverity() == Diagnostic.OK)
+          {
+            javaEGenericExceptions.add((EGenericType)diagnostic.getData().get(0));
+          }
+        }
+        match(eOperation.getEGenericExceptions(), javaEGenericExceptions, ecoreEGenericExceptions);
       }
     }
 
@@ -1353,7 +1487,13 @@ public class JavaEcoreBuilder
       String mapType = getModelAnnotationAttribute(modelAnnotation, "mapType");
       String keyType = getModelAnnotationAttribute(modelAnnotation, "keyType");
       String valueType = getModelAnnotationAttribute(modelAnnotation, "valueType");
-      if (opposite != null || containment != null || resolveProxies != null || mapType != null || (keyType != null && valueType != null))
+
+      if ("reference".equals(kind) ||
+            opposite != null ||
+            containment != null ||
+            resolveProxies != null ||
+            mapType != null ||
+            keyType != null && valueType != null)
       {
         EReference eReference = EcoreFactory.eINSTANCE.createEReference();
         eTypedElement = eStructuralFeature = eReference;
@@ -1361,8 +1501,10 @@ public class JavaEcoreBuilder
 
         // Set the EReference attributes.
         //
-        eReference.setContainment("true".equals(containment) || mapType != null && !separateTypeArgument(returnType)[0].endsWith("Entry") || keyType != null
-          && valueType != null);
+        eReference.setContainment
+          ("true".equals(containment) ||
+              mapType != null && !stripTypeArguments(returnType).endsWith("Entry") ||
+              keyType != null && valueType != null);
         eReference.setResolveProxies(eReference.isContainment() ? "true".equals(resolveProxies) : !"false".equals(resolveProxies));
         eReference.setUnsettable("true".equals(getModelAnnotationAttribute(modelAnnotation, "unsettable")));
 
@@ -1375,10 +1517,14 @@ public class JavaEcoreBuilder
       }
       else
       {
-        // Assume that it's an atttribute for now.
+        // Assume that it's an attribute for now.
         // It will/could become a reference if the type resolves to an EClass.
         //
         EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
+        if ("attribute".equals(kind))
+        {
+          eAttributes.add(eAttribute);
+        }
         eTypedElement = eStructuralFeature = eAttribute;
         eClass.getEStructuralFeatures().add(eAttribute);
 
@@ -1394,10 +1540,10 @@ public class JavaEcoreBuilder
         eStructuralFeature.setDefaultValueLiteral(defaultValueLiteral);
       }
 
-      // Handle the type, multiplicity and other ETypedElement attributes. 
+      // Handle the type, multiplicity and other ETypedElement attributes.
       //
-      handleETypedElement(eStructuralFeature, featureName, returnType, modelAnnotation,eClass.getName() + "." + methodName);
-      
+      handleETypedElement(eStructuralFeature, featureName, returnType, modelAnnotation, eClass.getName() + "." + methodName);
+
       // Set the EStructuralFeature attributes.
       //
       eStructuralFeature.setChangeable(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "changeable")));
@@ -1422,21 +1568,96 @@ public class JavaEcoreBuilder
       // Process the annotations.
       //
       eTypedElement.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
+      if (eTypedElement instanceof EStructuralFeature)
+      {
+        eStructuralFeatures.add((EStructuralFeature)eTypedElement);
+      }
     }
 
     return eTypedElement;
   }
 
+  protected List<EGenericType> analyzeEGenericTypes(String genericTypes)
+  {
+    List<EGenericType> result = new ArrayList<EGenericType>();
+    int depth = 0;
+    int start = -1;
+    int length = genericTypes.length();
+    for (int i = 0; i < length; i = Character.offsetByCodePoints(genericTypes, i, 1))
+    {
+      int codePoint = genericTypes.codePointAt(i);
+      if (codePoint == '<')
+      {
+        ++depth;
+      }
+      else if (codePoint == '>')
+      {
+        --depth;
+      }
+      else if (Character.isWhitespace(codePoint))
+      {
+        if (depth == 0 && start != -1)
+        {
+          Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(genericTypes.substring(start, i));
+          result.add((EGenericType)diagnostic.getData().get(0));
+          start = -1;
+        }
+      }
+      else if (start == -1)
+      {
+        start = i;
+      }
+    }
+    if (start != -1)
+    {
+      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(genericTypes.substring(start));
+      result.add((EGenericType)diagnostic.getData().get(0));
+    }
+    return result;
+  }
+
+  void analyzeTypeParameters(List<ETypeParameter> eTypeParameters, String[] typeParameters, String modelAnnotation)
+  {
+    if (typeParameters.length > 0)
+    {
+      for (String typeParameter : typeParameters)
+      {
+        Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseTypeParameter(typeParameter);
+        if (diagnostic.getSeverity() == Diagnostic.OK)
+        {
+          ETypeParameter eTypeParameter = (ETypeParameter)diagnostic.getData().get(0);
+          List<EGenericType> javaEBounds = new ArrayList<EGenericType>(eTypeParameter.getEBounds());
+          eTypeParameter.getEBounds().clear();
+          List<EGenericType> ecoreEBounds =  null;
+          String bounds = getModelAnnotationAttribute(getFilteredModelAnnotations(modelAnnotation, eTypeParameter.getName()), "bounds");
+          if (bounds != null)
+          {
+            ecoreEBounds = analyzeEGenericTypes(bounds);
+          }
+          match(eTypeParameter.getEBounds(), javaEBounds, ecoreEBounds);
+          eTypeParameters.add(eTypeParameter);
+        }
+      }
+    }
+  }
+
   protected boolean isListType(String type)
   {
+    type = stripTypeArguments(type);
     return "EList".equals(type) || "org.eclipse.emf.common.util.EList".equals(type)|| "List".equals(type) || "java.util.List".equals(type);
+  }
+
+  protected boolean isMapType(String type)
+  {
+    type = stripTypeArguments(type);
+    return "EMap".equals(type) || "org.eclipse.emf.common.util.EMap".equals(type)|| "Map".equals(type) || "java.util.Map".equals(type);
   }
 
   protected void handleETypedElement(ETypedElement eTypedElement, String name, String type, String modelAnnotation, String identifierName)
   {
     eTypedElement.setName(name);
     if ("void".equals(type)) return;
-    
+
     String mapType = getModelAnnotationAttribute(modelAnnotation, "mapType");
     String dataType = getModelAnnotationAttribute(modelAnnotation, "dataType");
     String modelType = getModelAnnotationAttribute(modelAnnotation, "type");
@@ -1444,22 +1665,34 @@ public class JavaEcoreBuilder
     String valueType = getModelAnnotationAttribute(modelAnnotation, "valueType");
     String many = getModelAnnotationAttribute(modelAnnotation, "many");
 
-    String[] ret = separateTypeArgument(type);
-    type = ret[0];
-    
-    // For lists, maps, and feature maps, the default is many-valued, which can be overriden by an upper-bound declaration.
+    // For lists, maps, and feature maps, the default is many-valued, which can be overridden by an upper-bound declaration.
     //
-    if (isListType(type) && (dataType == null || (modelType != null && !isListType(modelType))))
+    if (isListType(type) && (dataType == null || modelType != null && !isListType(modelType)))
     {
       eTypedElement.setUpperBound(-1);
+      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(type);
+      if (diagnostic.getSeverity() == Diagnostic.OK)
+      {
+        EGenericType eGenericType = (EGenericType)diagnostic.getData().get(0);
+        if (eGenericType.getETypeArguments().size() == 1)
+        {
+          type = eGenericTypeConverter.toJavaInstanceTypeName(eGenericType.getETypeArguments().get(0));
+          if (modelType == null)
+          {
+            modelType = type;
+          }
+        }
+      }
       if (modelType == null && !"false".equals(many))
       {
         error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheTypeMustBeSpecifiedFor_message", new Object [] { identifierName }));
         modelType = "java.lang.Object";
       }
     }
-    else if (mapType != null || (keyType != null && valueType != null) || 
-              "FeatureMap".equals(type) || "org.eclipse.emf.common.util.FeatureMap".equals(type))
+    else if (mapType != null ||
+              keyType != null && valueType != null ||
+              "FeatureMap".equals(type) ||
+              "org.eclipse.emf.common.util.FeatureMap".equals(type))
     {
       eTypedElement.setUpperBound(-1);
     }
@@ -1504,90 +1737,235 @@ public class JavaEcoreBuilder
       }
     }
 
+    EGenericType ecoreEGenericType = null;
+    EGenericType javaEGenericType = null;
+
     // The type can be augmented by specifying the it explicitly in the annotation.
     // This mostly makes sense only for many-valued typed elements, where the Java
     // type is a list and the item type needs to be specified.
     //
     if (modelType != null)
     {
+      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(modelType);
+      if (diagnostic.getSeverity() == Diagnostic.OK)
+      {
+        javaEGenericType = (EGenericType)diagnostic.getData().get(0);
+      }
       type = modelType;
     }
 
-    if (mapType != null)
+    if (mapType != null || keyType != null && valueType != null)
     {
-      if (keyType != null && valueType != null)
+      EPackage ePackage = (EPackage)EcoreUtil.getRootContainer(eTypedElement);
+      EGenericType ecoreKeyEGenericType = null;
+      EGenericType javaKeyEGenericType = null;
+      EGenericType ecoreValueEGenericType = null;
+      EGenericType javaValueEGenericType = null;
+      if (mapType != null)
       {
-        type = mapType + "@" + keyType + "/" + valueType;
+        Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(mapType);
+        if (diagnostic.getSeverity() == Diagnostic.OK)
+        {
+          ecoreEGenericType = (EGenericType)diagnostic.getData().get(0);
+          resolve(eTypedElement, ecoreEGenericType, RequiredClassifierType.CLASS);
+          List<EGenericType> mapETypeArguments = ecoreEGenericType.getETypeArguments();
+          if (mapETypeArguments.size() == 2)
+          {
+            ecoreKeyEGenericType = mapETypeArguments.get(0);
+            ecoreValueEGenericType = mapETypeArguments.get(1);
+          }
+          mapETypeArguments.clear();
+        }
+        else
+        {
+          ecoreEGenericType = resolve(eTypedElement, mapType, RequiredClassifierType.CLASS, false);
+        }
+        if (ecoreEGenericType.getERawType().getEPackage() == null)
+        {
+          if (keyType == null || valueType == null && isMapType(type))
+          {
+            diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(type);
+            if (diagnostic.getSeverity() == Diagnostic.OK)
+            {
+              EGenericType eGenericType = (EGenericType)diagnostic.getData().get(0);
+              if (eGenericType.getETypeArguments().size() == 2)
+              {
+                javaKeyEGenericType = eGenericType.getETypeArguments().get(0);
+                javaValueEGenericType = eGenericType.getETypeArguments().get(1);
+              }
+            }
+          }
+          if (javaKeyEGenericType == null)
+          {
+            javaKeyEGenericType = resolve(eTypedElement, keyType == null ? "java.lang.Object" : keyType, RequiredClassifierType.NONE, false);
+          }
+          if (javaValueEGenericType == null)
+          {
+            javaValueEGenericType = resolve(eTypedElement, valueType == null ? "java.lang.Object" : valueType, RequiredClassifierType.NONE, false);
+          }
+        }
       }
       else
       {
-        type = mapType;
+        javaKeyEGenericType = resolve(eTypedElement, keyType, RequiredClassifierType.NONE, false);
+        javaValueEGenericType = resolve(eTypedElement, valueType, RequiredClassifierType.NONE, false);
+        ecoreEGenericType = resolveMapEntry(ePackage, javaKeyEGenericType, javaValueEGenericType);
+        if (ecoreEGenericType == null)
+        {
+          ecoreEGenericType = 
+            resolve
+              (eTypedElement, 
+               javaKeyEGenericType.getERawType().getName() + "To" + javaValueEGenericType.getERawType().getName() + "MapEntry", 
+               RequiredClassifierType.CLASS, 
+               false);
+        }
+      }
+      
+      EClass mapEClass = (EClass)ecoreEGenericType.getEClassifier();
+      if (mapEClass.getEPackage() == null && mapEClass.getEStructuralFeatures().isEmpty())
+      {
+        eModelElementToJNodeMap.put(mapEClass, getJCompilationUnit(eTypedElement));
+        mapEClass.setInstanceTypeName("java.util.Map$Entry");
+        mapEClass.setAbstract(false);
+        mapEClass.setInterface(false);
+        if (ecoreKeyEGenericType == null)
+        {
+          createFeature(mapEClass, "key", javaKeyEGenericType);
+          ecoreEGenericTypeToJavaEGenericTypeMap.put(javaKeyEGenericType, null);
+        }
+        else
+        {
+          createFeature(mapEClass, "key", ecoreKeyEGenericType);
+          ecoreEGenericTypeToJavaEGenericTypeMap.put(ecoreKeyEGenericType, javaKeyEGenericType);
+        }
+        if (ecoreValueEGenericType == null)
+        {
+          createFeature(mapEClass, "value", javaValueEGenericType);
+          ecoreEGenericTypeToJavaEGenericTypeMap.put(javaValueEGenericType, null);
+        }
+        else
+        {
+          createFeature(mapEClass, "value", ecoreValueEGenericType);
+          ecoreEGenericTypeToJavaEGenericTypeMap.put(ecoreValueEGenericType, javaValueEGenericType);
+        }
+        EAnnotation container = ePackage.getEAnnotation(MAP_ENTRY_CLASS_CONTAINER_ANNOTATION_SOURCE);
+        if (container == null)
+        {
+           container = EcoreFactory.eINSTANCE.createEAnnotation();
+           container.setSource(MAP_ENTRY_CLASS_CONTAINER_ANNOTATION_SOURCE);
+           ePackage.getEAnnotations().add(container);
+        }
+        container.getContents().add(mapEClass);
       }
     }
     else if (dataType != null)
     {
-      eTypedElementToInstanceTypeNameMap.put(eTypedElement, type);
-      type = dataType;
+      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(dataType);
+      if (diagnostic.getSeverity() == Diagnostic.OK)
+      {
+        ecoreEGenericType = (EGenericType)diagnostic.getData().get(0);
+        diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(type);
+        if (diagnostic.getSeverity() == Diagnostic.OK)
+        {
+          javaEGenericType = (EGenericType)diagnostic.getData().get(0);
+        }
+      }
+      else
+      {
+        ecoreEGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+        ecoreEGenericType.setEClassifier(EcorePackage.Literals.EJAVA_OBJECT);
+        basicDiagnostic.add(diagnostic);
+      }
     }
-    else if (keyType != null && valueType != null)
+    else
     {
-      // Special paired return type.
-      //
-      type = keyType + "/" + valueType;
+      Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(type);
+      if (diagnostic.getSeverity() == Diagnostic.OK)
+      {
+        javaEGenericType = (EGenericType)diagnostic.getData().get(0);
+      }
+      else
+      {
+        ecoreEGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+        ecoreEGenericType.setEClassifier(EcorePackage.Literals.EJAVA_OBJECT);
+        basicDiagnostic.add(diagnostic);
+      }
     }
-    eTypedElementToTypeNameMap.put(eTypedElement, type);
+
+    if (ecoreEGenericType == null)
+    {
+      eTypedElement.setEGenericType(javaEGenericType);
+      ecoreEGenericTypeToJavaEGenericTypeMap.put(javaEGenericType, null);
+    }
+    else
+    {
+      eTypedElement.setEGenericType(ecoreEGenericType);
+      ecoreEGenericTypeToJavaEGenericTypeMap.put(ecoreEGenericType, javaEGenericType);
+    }
 
     eTypedElement.setUnique(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "unique")));
     eTypedElement.setOrdered(!"false".equals(getModelAnnotationAttribute(modelAnnotation, "ordered")));
   }
-  
-  /**
-   * Separates the type argument from the type.  The first position of the
-   * returned array is always the raw type and the second is either the type argument
-   * without the outmost '&lt;' and '&gt;' or <code>null</null>.
-   * @param type
-   * @return a String array with length == 2
-   */
-  protected String[] separateTypeArgument(String type)
+
+  protected JCompilationUnit getJCompilationUnit(EModelElement eModelElement)
   {
-    String typeArgument = null;
-    int ltIndex = type.indexOf('<');
-    if (ltIndex > 0)
+    for (; eModelElement != null; eModelElement = (EModelElement)eModelElement.eContainer())
     {
-      int gtIndex = type.lastIndexOf('>');
-      if (gtIndex > ltIndex+1)
+      JCompilationUnit compilationUnit = facadeHelper.getCompilationUnit(eModelElementToJNodeMap.get(eModelElement));
+      if (compilationUnit != null)
       {
-        typeArgument = type.substring(ltIndex+1, gtIndex).trim();
-        type = type.substring(0, ltIndex).trim();
+        return compilationUnit;
       }
     }
-    return new String[]{type, typeArgument};
+    return null;
   }
 
-  protected EStructuralFeature createFeature(EClass eClass, String name, EClassifier eType)
+  /**
+   * Strips the type arguments from the type, if it has any.
+   */
+  protected String stripTypeArguments(String type)
   {
-    if (eType instanceof EClass)
+    int start = type.indexOf('<');
+    if (start > 0)
+    {
+      int end = type.lastIndexOf('>');
+      if (end > start+1)
+      {
+        return type.substring(0, start).trim();
+      }
+    }
+    return type;
+  }
+
+  protected EStructuralFeature createFeature(EClass eClass, String name, EGenericType eGenericType)
+  {
+    EClassifier eClassifier = eGenericType.getERawType();
+    if (eClassifier instanceof EClass)
     {
       EReference eReference = EcoreFactory.eINSTANCE.createEReference();
       eReference.setName(name);
-      eReference.setEType(eType);
+      eReference.setEGenericType(eGenericType);
       eClass.getEStructuralFeatures().add(eReference);
+      eStructuralFeatures.add(eReference);
       return eReference;
     }
     else
     {
       EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
       eAttribute.setName(name);
-      eAttribute.setEType(eType);
+      eAttribute.setEGenericType(eGenericType);
       eClass.getEStructuralFeatures().add(eAttribute);
+      eStructuralFeatures.add(eAttribute);
       return eAttribute;
     }
   }
 
   /**
    * Creates EEnumLiteral as appropriate.
+   * @return <code>true</code> when the method has created an EnumLiteral after
+   * analyzing the JMember
    */
-  protected void analyzeEnumLiteral(EEnum eEnum, JMember member)
+  protected boolean analyzeEnumLiteral(EEnum eEnum, JMember member)
   {
     String modelAnnotation = getModelAnnotation(member.getComment());
     if (modelAnnotation != null)
@@ -1598,9 +1976,9 @@ public class JavaEcoreBuilder
       eModelElementToJNodeMap.put(eEnumLiteral, member);
       eEnumLiteral.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
       EcoreUtil.setDocumentation(eEnumLiteral, getModelDocumentation(member.getComment()));
-      
+
       // Allow the value to be defined by an annotation or by the field's initializer
-      //      
+      //
       String value = getModelAnnotationAttribute(modelAnnotation, "value");
       if (value == null)
       {
@@ -1609,7 +1987,7 @@ public class JavaEcoreBuilder
           value = ((JField)member).getInitializer().trim();
         }
       }
-      
+
       if (value != null)
       {
         try
@@ -1621,19 +1999,24 @@ public class JavaEcoreBuilder
         {
           warning
             (JavaImporterPlugin.INSTANCE.getString
-                ("_UI_InvalidLiteralValueForField", 
-                 new Object [] { value, eEnum.getName() + "." + fieldName }));
+               ("_UI_InvalidLiteralValueForField",
+                new Object [] { value, eEnum.getName() + "." + fieldName }));
           eEnumLiteral.setValue(eEnum.getELiterals().size());
-        }        
+        }
       }
       else
       {
         eEnumLiteral.setValue(eEnum.getELiterals().size());
       }
-      
+
       // Allow a mixed case version of the name to be provided.
       //
       String name = getModelAnnotationAttribute(modelAnnotation, "name");
+
+      if (fieldName.endsWith("_VALUE") && !name.toLowerCase().endsWith("value"))
+      {
+        fieldName = fieldName.substring(0, fieldName.length()-"_VALUE".length());
+      }
 
       // But, if name doesn't expand into field name, ignore it.
       //
@@ -1643,7 +2026,7 @@ public class JavaEcoreBuilder
           {
             warning
               (JavaImporterPlugin.INSTANCE.getString
-                ("_UI_InvalidLiteralNameForField", new Object[] { name, eEnum.getName() + "." + fieldName }));
+                 ("_UI_InvalidLiteralNameForField", new Object[] { name, eEnum.getName() + "." + fieldName }));
           }
           name = fieldName;
       }
@@ -1657,16 +2040,18 @@ public class JavaEcoreBuilder
         eEnumLiteral.setLiteral(literal);
       }
 
-      eEnum.getELiterals().add(eEnumLiteral);
+      return eEnum.getELiterals().add(eEnumLiteral);
     }
+    return false;
   }
 
   /**
    * The pattern for extracting the model documentation.
    */
-  protected static Pattern modelDocExpression = Pattern.compile(
-    "<!--\\s*begin-model-doc\\s*-->[ \\f\\n\\r\\t]*\\*\\s?(.*?)<!--\\s*end-model-doc\\s*-->",
-    Pattern.MULTILINE | Pattern.DOTALL);
+  protected static Pattern modelDocExpression =
+    Pattern.compile
+      ("<!--\\s*begin-model-doc\\s*-->[ \\f\\n\\r\\t]*\\*\\s?(.*?)<!--\\s*end-model-doc\\s*-->",
+       Pattern.MULTILINE | Pattern.DOTALL);
 
   /**
    * Returns the model documentation, or null.
@@ -1688,9 +2073,10 @@ public class JavaEcoreBuilder
   /**
    * The pattern for extracting the @model annotations.
    */
-  protected static Pattern modelAnnotationExpression = Pattern.compile(
-    "@[ \\f\\n\\r\\t*]*model[ \\f\\n\\r\\t*]*((\\w*\\s*=\\s*(['\"])(?>\\\\.|.)*?\\3[ \\f\\n\\r\\t*]*)*)",
-    Pattern.MULTILINE);
+  protected static Pattern modelAnnotationExpression =
+    Pattern.compile
+      ("@[ \\f\\n\\r\\t*]*model[ \\f\\n\\r\\t*]*((\\w*\\s*=\\s*(['\"])(?>\\\\.|.)*?\\3[ \\f\\n\\r\\t*]*)*)",
+       Pattern.MULTILINE);
 
   /**
    * Returns the @model annotation contents, or null.
@@ -1752,9 +2138,10 @@ public class JavaEcoreBuilder
    */
   protected String getModelAnnotationAttribute(String modelAnnotation, String attributeName)
   {
-    Pattern modelAnnotationAttributeExpressionDoubleQuote = Pattern.compile(
-      "\\b" + attributeName + "\\s*=\\s*([\"'])((?>\\\\.|.)*?)\\1",
-      Pattern.MULTILINE);
+    Pattern modelAnnotationAttributeExpressionDoubleQuote =
+      Pattern.compile
+        ("\\b" + attributeName + "\\s*=\\s*([\"'])((?>\\\\.|.)*?)\\1",
+         Pattern.MULTILINE);
     Matcher matcher = modelAnnotationAttributeExpressionDoubleQuote.matcher(modelAnnotation);
     if (matcher.find())
     {
@@ -1772,9 +2159,10 @@ public class JavaEcoreBuilder
   protected String getModelAnnotationAttributes(String modelAnnotation, String attributeName)
   {
     StringBuilder result = null;
-    Pattern modelAnnotationAttributeExpressionDoubleQuote = Pattern.compile(
-      "\\b" + attributeName + "\\s*=\\s*([\"'])((?>\\\\.|.)*?)\\1",
-      Pattern.MULTILINE);
+    Pattern modelAnnotationAttributeExpressionDoubleQuote =
+      Pattern.compile
+        ("\\b" + attributeName + "\\s*=\\s*([\"'])((?>\\\\.|.)*?)\\1",
+         Pattern.MULTILINE);
     for (Matcher matcher = modelAnnotationAttributeExpressionDoubleQuote.matcher(modelAnnotation); matcher.find();)
     {
       if (result == null)
@@ -1849,8 +2237,10 @@ public class JavaEcoreBuilder
   protected String getFilteredModelAnnotations(String modelAnnotation, String filter)
   {
     StringBuilder result = new StringBuilder();
-    Pattern modelAnnotationAttributeExpressionDoubleQuote = Pattern.compile("\\b" + filter
-      + "([A-Z]\\w*\\s*=\\s*([\"'])((?>\\\\.|.)*?)\\2)", Pattern.MULTILINE);
+    Pattern modelAnnotationAttributeExpressionDoubleQuote =
+      Pattern.compile
+        ("\\b" + filter + "([A-Z]\\w*\\s*=\\s*([\"'])((?>\\\\.|.)*?)\\2)",
+         Pattern.MULTILINE);
     int start = 0;
     int end = modelAnnotation.length();
     Matcher matcher;
@@ -1864,142 +2254,287 @@ public class JavaEcoreBuilder
     return result.toString();
   }
 
-  protected EClassifier resolve(EModelElement eModelElement, String typeName)
+  protected void match(List<EGenericType> target, List<EGenericType> javaEGenericTypes, List<EGenericType> ecoreEGenericTypes)
   {
-    return resolve(eModelElement, typeName, true);
+    for (Iterator<EGenericType> i = javaEGenericTypes.iterator(), j = ecoreEGenericTypes == null ? null : ecoreEGenericTypes.iterator(); i.hasNext(); )
+    {
+      EGenericType javaEGenericType = i.next();
+      EGenericType ecoreEGenericType = j != null && j.hasNext() ? j.next() : null;
+
+      // If there is no Ecore representation or it's invalid, e.g., when - is used to omit a specification, then just use the Java representation.
+      //
+      if (ecoreEGenericType == null || ecoreEGenericType.getEClassifier() == null)
+      {
+        ecoreEGenericTypeToJavaEGenericTypeMap.put(javaEGenericType, null);
+        target.add(javaEGenericType);
+      }
+      else
+      {
+        ecoreEGenericTypeToJavaEGenericTypeMap.put(ecoreEGenericType, javaEGenericType);
+        target.add(ecoreEGenericType);
+      }
+    }
   }
 
-  protected EClassifier resolve(EModelElement eModelElement, String typeName, boolean recordDemandCreatedEDataType)
+  protected void resolve(EModelElement eModelElement, EGenericType ecoreEGenericType, EGenericType javaEGenericType)
+  {
+    EClassifier eClassifier = ecoreEGenericType.getERawType();
+    if (eClassifier.getEPackage() == null)
+    {
+      if (javaEGenericType != null)
+      {
+        ETypeParameter eTypeParameter = javaEGenericType.getETypeParameter();
+        if (eTypeParameter != null)
+        {
+          eClassifier = null;
+          ecoreEGenericType.setEClassifier(null);
+          ecoreEGenericType.setETypeParameter(eTypeParameter);
+        }
+        else
+        {
+          eClassifier.setInstanceTypeName
+            (ecoreEGenericType.getETypeArguments().isEmpty() ?
+               eGenericTypeConverter.toJavaInstanceTypeName(javaEGenericType) :
+               javaEGenericType.getEClassifier().getInstanceTypeName());
+        }
+      }
+
+      if (eClassifier != null)
+      {
+        EPackage ePackage = (EPackage)EcoreUtil.getRootContainer(eModelElement);
+        addToPackage(ePackage, eClassifier);
+        if (eClassifier instanceof EClass)
+        {
+          for (EStructuralFeature eStructuralFeature : ((EClass)eClassifier).getEStructuralFeatures())
+          {
+            resolve(eStructuralFeature, eStructuralFeature.getEGenericType(), (EGenericType)null);
+          }
+        }
+      }
+    }
+    EGenericType ecoreEUpperBound = ecoreEGenericType.getEUpperBound();
+    if (ecoreEUpperBound != null)
+    {
+      resolve(eModelElement, ecoreEUpperBound, javaEGenericType == null ? null : javaEGenericType.getEUpperBound());
+    }
+    else
+    {
+      EGenericType ecoreELowerBound = ecoreEGenericType.getELowerBound();
+      if (ecoreELowerBound != null)
+      {
+        resolve(eModelElement, ecoreELowerBound, javaEGenericType == null ? null : javaEGenericType.getELowerBound());
+      }
+    }
+
+    if (eClassifier != null)
+    {
+      int index = 0;
+      for (Iterator<EGenericType>
+             i = ecoreEGenericType.getETypeArguments().iterator(),
+             j = javaEGenericType == null ? null : javaEGenericType.getETypeArguments().iterator();
+           i.hasNext();
+           ++index)
+      {
+        EGenericType eTypeArgument = i.next();
+        EGenericType eTypeArgumentInstance = j != null && j.hasNext() ? j.next() : null;
+        if (demandCreatedEClassifiers.contains(eClassifier) && eClassifier.getETypeParameters().size() <= index)
+        {
+          ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
+          eTypeParameter.setName(index == 0? "T"  : "T" + index);
+          eClassifier.getETypeParameters().add(eTypeParameter);
+        }
+        resolve(eModelElement, eTypeArgument, eTypeArgumentInstance);
+      }
+    }
+  }
+
+  protected void resolve(EModelElement eModelElement, EGenericType eGenericType, RequiredClassifierType requiredClassifierType)
+  {
+    EClassifier eClassifier = eGenericType.getEClassifier();
+    if (eClassifier != null)
+    {
+      if (eClassifier.eContainer() == null)
+      {
+        EGenericType resolvedEGenericType = resolve(eModelElement, eClassifier.getInstanceTypeName(), requiredClassifierType, false);
+        eGenericType.setETypeParameter(resolvedEGenericType.getETypeParameter());
+        eGenericType.setEClassifier(resolvedEGenericType.getEClassifier());
+      }
+      else if (eClassifier.getEPackage() == null)
+      {
+        EGenericType resolvedEGenericType = resolve(eModelElement, eClassifier.getName(), requiredClassifierType, false);
+        if (resolvedEGenericType.getERawType().getEPackage() == null)
+        {
+          EPackage ePackage = (EPackage)EcoreUtil.getRootContainer(eClassifier);
+          addToPackage(ePackage, eClassifier);
+        }
+        else
+        {
+          eGenericType.setETypeParameter(null);
+          eGenericType.setEClassifier(resolvedEGenericType.getEClassifier());
+        }
+      }
+      for (EGenericType eTypeArgument : eGenericType.getETypeArguments())
+      {
+        resolve(eModelElement, eTypeArgument, RequiredClassifierType.NONE);
+      }
+    }
+    else
+    {
+      EGenericType eUpperBound = eGenericType.getEUpperBound();
+      if (eUpperBound != null)
+      {
+        resolve(eModelElement, eUpperBound, RequiredClassifierType.NONE);
+      }
+      else
+      {
+        EGenericType eLowerBound = eGenericType.getELowerBound();
+        if (eLowerBound != null)
+        {
+          resolve(eModelElement, eLowerBound, RequiredClassifierType.NONE);
+        }
+      }
+    }
+  }
+
+  enum RequiredClassifierType
+  {
+    NONE
+    {
+      @Override
+      boolean isValid(EClassifier eClassifier)
+      {
+        return eClassifier != null;
+      }
+    },
+    CLASS
+    {
+      @Override
+      boolean isValid(EClassifier eClassifier)
+      {
+        return eClassifier instanceof EClass;
+      }
+    },
+    DATA_TYPE
+    {
+      @Override
+      boolean isValid(EClassifier eClassifier)
+      {
+        return eClassifier instanceof EDataType;
+      }
+    };
+
+    abstract boolean isValid(EClassifier eClassifier);
+  }
+
+  protected EGenericType resolve(EModelElement eModelElement, String typeName, RequiredClassifierType requiredClassifierType, boolean recordDemandCreatedEClassifier)
   {
     EPackage ePackage = (EPackage)EcoreUtil.getRootContainer(eModelElement);
 
     // We want to resolve to this.
     //
-    EClassifier eClassifier = null;
+    EGenericType eGenericType = null;
 
-    // Is this is a map entry name consisting of /-separated pair of type names.
-    // It may start with the name of the map entry followed by @.
+    // Check if it is exactly the name of a type parameter that's in scope.
     //
-    int indexOfSlash = typeName.indexOf("/");
-    if (indexOfSlash != -1)
+    for (EObject eObject = eModelElement; eObject != null; eObject = eObject.eContainer())
     {
-      String mapType = null;
-      String keyType = typeName.substring(0, indexOfSlash);
-      int indexOfAt = keyType.indexOf("@");
-      if (indexOfAt != -1)
+      EList<ETypeParameter> eTypeParameters = null;
+      if (eObject instanceof EOperation)
       {
-        mapType = keyType.substring(0, indexOfAt);
-        keyType = keyType.substring(indexOfAt + 1);
+        eTypeParameters = ((EOperation)eObject).getETypeParameters();
       }
-
-      // Resolve using the container so that EDataTypes will be created, if necessary, 
-      // which won't happen for EReferences, which typically must resolve to an EClass, but that's the the case here.
+      else if (eObject instanceof EClass)
+      {
+        eTypeParameters = ((EClass)eObject).getETypeParameters();
+      }
+      // If we've found thing with type parameters, search them for a match.
       //
-      EModelElement container = (EModelElement)eModelElement.eContainer();
-
-      EClassifier keyEClassifier = resolve(container, keyType);
-
-      String valueType = typeName.substring(indexOfSlash + 1);
-      EClassifier valueEClassifier = resolve(container, valueType);
-
-      if (mapType == null)
+      if (eTypeParameters != null)
       {
-        eClassifier = resolveMapEntry(ePackage, keyEClassifier, valueEClassifier);
-        if (eClassifier == null)
+        for (ETypeParameter localETypeParameter : eTypeParameters)
         {
-          eClassifier = resolveMapEntry(EcorePackage.eINSTANCE, keyEClassifier, valueEClassifier);
+          if (typeName.equals(localETypeParameter.getName()))
+          {
+            // If we find a match, make this generic type be for this type parameter,
+            // and then stop the whole process.
+            eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+            eGenericType.setETypeParameter(localETypeParameter);
+            return eGenericType;
+          }
         }
       }
-      else
-      {
-        eClassifier = resolve(eModelElement, mapType, false);
-      }
-
-      if (eClassifier == null)
-      {
-        EClass eClass = EcoreFactory.eINSTANCE.createEClass();
-        eClass.setInstanceClassName("java.util.Map$Entry");
-
-        String baseName = mapType != null ? mapType : keyEClassifier.getName() + "To" + valueEClassifier.getName() + "MapEntry";
-        String name = baseName;
-        for (int j = 1; ePackage.getEClassifier(name) != null; ++j)
-        {
-          name = baseName + "_" + j;
-        }
-        eClass.setName(name);
-        createFeature(eClass, "key", keyEClassifier);
-        createFeature(eClass, "value", valueEClassifier);
-
-        ePackage.getEClassifiers().add(eClass);
-
-        eClassifier = eClass;
-      }
-
-      return eClassifier;
     }
 
     // Check if the name is qualified
     //
     String baseName = typeName;
     String packageName = "";
-    int index = typeName.lastIndexOf(".");
+    int index = baseName.lastIndexOf(".");
     if (index == -1)
     {
       // Look through the imports of the containing compilation unit.
       //
-      for (JNode node = eModelElementToJNodeMap.get(eModelElement); node != null; node = node.getParent())
+      JCompilationUnit compilationUnit = getJCompilationUnit(eModelElement);
+      if (compilationUnit != null)
       {
-        if (node instanceof JCompilationUnit)
+        // Find an explicit import or the first wildcard import.
+        //
+        boolean firstWildcard = true;
+        for (JImport jImport : facadeHelper.getChildren(compilationUnit, JImport.class))
         {
-          // Find an explicit import or the first wildcard import.
-          //
-          boolean firstWildcard = true;
-          for (JImport jImport : facadeHelper.getChildren(node, JImport.class))
+          String importName = jImport.getName();
+          if (importName.endsWith("." + baseName))
           {
-            String importName = jImport.getName();
-            if (importName.endsWith("." + baseName))
-            {
-              int importIndex = importName.lastIndexOf(".");
-              packageName = importName.substring(0, importIndex);
-              typeName = packageName + "." + baseName;
-              break;
-            }
-            else if (firstWildcard && importName.endsWith(".*"))
-            {
-              int importIndex = importName.lastIndexOf(".");
-              packageName = importName.substring(0, importIndex);
-              typeName = packageName + "." + baseName;
-              firstWildcard = false;
-            }
+            int importIndex = importName.lastIndexOf(".");
+            packageName = importName.substring(0, importIndex);
+            typeName = packageName + "." + baseName;
+            break;
           }
+          else if (firstWildcard && importName.endsWith(".*"))
+          {
+            int importIndex = importName.lastIndexOf(".");
+            packageName = importName.substring(0, importIndex);
+            typeName = packageName + "." + baseName;
+            firstWildcard = false;
+          }
+        }
 
-          // Find the modeled package for the import and look up the name there.
-          //
-          EPackage otherEPackage = packageNameToEPackageMap.get(packageName);
-          if (otherEPackage == null)
+        // Find the modeled package for the import and look up the name there.
+        //
+        EPackage otherEPackage = packageNameToEPackageMap.get(packageName);
+        if (otherEPackage == null)
+        {
+          otherEPackage = externalPackageNameToEPackageMap.get(packageName);
+        }
+        if (otherEPackage != null)
+        {
+          EClassifier eClassifier = otherEPackage.getEClassifier(baseName);
+          if (requiredClassifierType.isValid(eClassifier))
           {
-            otherEPackage = externalPackageNameToEPackageMap.get(packageName);
+            eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+            eGenericType.setEClassifier(eClassifier);
           }
-          if (otherEPackage != null)
-          {
-            eClassifier = otherEPackage.getEClassifier(baseName);
-          }
-          break;
         }
       }
+
       // If we can't find it, try the simple name in the package...
       //
-      if (eClassifier == null && "".equals(packageName))
+      if (eGenericType == null && "".equals(packageName))
       {
-        eClassifier = ePackage.getEClassifier(typeName);
+        EClassifier eClassifier = ePackage.getEClassifier(baseName);
+        if (requiredClassifierType.isValid(eClassifier))
+        {
+          eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+          eGenericType.setEClassifier(eClassifier);
+        }
       }
     }
     else
     {
       // Find the modeled package for the name and look up the name there.
       //
-      packageName = typeName.substring(0, index);
-      baseName = typeName.substring(index + 1);
+      packageName = baseName.substring(0, index);
+      baseName = baseName.substring(index + 1);
       EPackage otherEPackage = packageNameToEPackageMap.get(packageName);
       if (otherEPackage == null)
       {
@@ -2022,78 +2557,96 @@ public class JavaEcoreBuilder
       }
       if (otherEPackage != null)
       {
-        eClassifier = otherEPackage.getEClassifier(baseName);
+        EClassifier eClassifier = otherEPackage.getEClassifier(baseName);
+        if (eClassifier != null)
+        {
+          eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+          eGenericType.setEClassifier(eClassifier);
+        }
       }
     }
 
     // If we still don't have one, we'll have to settle for an EDataType or EClass with an instance class name.
     //
-    if (eClassifier == null)
+    if (eGenericType == null)
     {
       // See if we already have the EDataType.
       //
+      String modifiedName = typeName.replace('$', '.');
       for (EClassifier ePackageClassifier : ePackage.getEClassifiers())
       {
-        String name = ePackageClassifier.getInstanceClassName();
-        if (name != null && name.replace('$', '.').equals(typeName.replace('$', '.')))
+        String name = ePackageClassifier.getInstanceTypeName();
+        if (name != null &&
+              name.replace('$', '.').equals(modifiedName) &&
+              requiredClassifierType.isValid(ePackageClassifier))
         {
-          eClassifier = ePackageClassifier;
+          eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+          eGenericType.setEClassifier(ePackageClassifier);
           break;
         }
       }
     }
 
-    if (EcorePackage.Literals.EOBJECT.getInstanceClassName().equals(typeName))
+    if (eGenericType == null &&
+          EcorePackage.Literals.EOBJECT.getInstanceTypeName().equals(typeName) &&
+          requiredClassifierType != RequiredClassifierType.DATA_TYPE)
     {
-      eClassifier = EcorePackage.Literals.EOBJECT;
+      eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+      eGenericType.setEClassifier(EcorePackage.Literals.EOBJECT);
     }
 
     // Just to be helpful, we'll recognize a type of org.eclipse.emf.ecore.util.FeatureMap and convert it to EFeatureMapEntry.
     // This way a dataType need not be specified. But, we won't do this if recordDemandCreateEDataType is false, so we don't
     // change the instanceClass of a new EDataType that's implicitly being defined for FeatureMap.
     //
-    if (eClassifier == null && recordDemandCreatedEDataType
-      && EcorePackage.Literals.EFEATURE_MAP.getInstanceClassName().equals(typeName))
+    if (eGenericType == null &&
+          EcorePackage.Literals.EFEATURE_MAP.getInstanceTypeName().equals(typeName) &&
+          requiredClassifierType != RequiredClassifierType.CLASS)
     {
-      eClassifier = EcorePackage.Literals.EFEATURE_MAP_ENTRY;
+      eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+      eGenericType.setEClassifier(EcorePackage.Literals.EFEATURE_MAP_ENTRY);
     }
 
     // If we don't have one yet, maybe it's one of the special types...
     //
-    if (eClassifier == null
-      && (packageName.length() == 0 || packageName.equals("java.lang") || packageName.equals("java.math") || packageName.equals("java.util")))
+    if (eGenericType == null &&
+          requiredClassifierType != RequiredClassifierType.CLASS &&
+          (packageName.length() == 0 ||
+             packageName.equals("java.lang") ||
+             packageName.equals("java.math") ||
+             packageName.equals("java.util")))
     {
       for (EClassifier ecoreEClassifier : EcorePackage.eINSTANCE.getEClassifiers())
       {
         if (ecoreEClassifier instanceof EDataType)
         {
           String instanceClassName = ecoreEClassifier.getInstanceClassName();
-          if (instanceClassName.equals(typeName) || instanceClassName.equals("java.lang." + typeName))
+          if ((instanceClassName.equals(typeName) || instanceClassName.equals("java.lang." + typeName)) && ecoreEClassifier.getETypeParameters().isEmpty())
           {
-            eClassifier = ecoreEClassifier;
+            eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+            eGenericType.setEClassifier(ecoreEClassifier);
             break;
           }
         }
       }
     }
 
-    // If we still don't have one, we'll have to settle for an EDataType not an EClass,
-    // so create a new EDataType with a nice unique name.
+    // If we still don't have one, we'll have to settle for a demand created EDataType or EClass,
+    // so create a new EClassifier with a nice unique name.
     //
-    if (eClassifier == null && !(eModelElement instanceof EReference))
+    if (eGenericType == null)
     {
-      EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
-
       // If the name isn't qualified, it might be a primitive or from java.lang. Otherwise, assume it's in the current
       // package and use the nsPrefix for the qualified package name.
       //
       boolean primitive = false;
+      String instanceTypeName = typeName;
       if (packageName.length() == 0)
       {
         // For arrays, consider the element type.
         //
-        int i = typeName.indexOf('[');
-        String elementTypeName = i == -1 ? typeName : typeName.substring(0, i);
+        int i = baseName.indexOf('[');
+        String elementTypeName = i == -1 ? baseName : baseName.substring(0, i);
 
         if (CodeGenUtil.isJavaPrimitiveType(elementTypeName))
         {
@@ -2102,85 +2655,114 @@ public class JavaEcoreBuilder
         else if (CodeGenUtil.isJavaLangType(elementTypeName))
         {
           packageName = "java.lang";
-          typeName = packageName + "." + typeName;
+          instanceTypeName = packageName + "." + instanceTypeName;
         }
         else
         {
           packageName = ePackage.getNsPrefix();
-          typeName = packageName + '.' + typeName;
+          instanceTypeName = packageName + '.' + instanceTypeName;
         }
       }
-      eDataType.setInstanceClassName(typeName);
 
-      // Even primitives should be represented by a data type with a conventional (i.e. capitalized) name.
-      //
-      String name = baseName;
-      if (primitive && name.length() > 0)
+      EClassifier eClassifier = null;
+      if (!"java.util.Map$Entry".equals(instanceTypeName))
       {
-        name = name.substring(0, 1).toUpperCase() + name.substring(1);
+        for (EClassifier demandCreatedEClassifier : demandCreatedEClassifiers)
+        {
+          if (requiredClassifierType.isValid(demandCreatedEClassifier) && 
+                instanceTypeName.equals(demandCreatedEClassifier.getInstanceTypeName()))
+          {
+            eClassifier = demandCreatedEClassifier;
+          }
+        }
       }
 
-      // Make array names legal.
-      //
-      while (name.endsWith("[]"))
+      if (eClassifier == null)
       {
-        name = name.substring(0, name.length() - 2) + "Array";
+        if (requiredClassifierType == RequiredClassifierType.CLASS)
+        {
+          EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+          eClass.setAbstract(true);
+          eClass.setInterface(true);
+          eClassifier = eClass;
+        }
+        else
+        {
+          eClassifier = EcoreFactory.eINSTANCE.createEDataType();
+        }
+        demandCreatedEClassifiers.add(eClassifier);
+  
+        eClassifier.setInstanceTypeName(instanceTypeName);
+  
+        // Even primitives should be represented by a data type with a conventional (i.e. capitalized) name.
+        //
+        String name = baseName;
+        if (primitive && name.length() > 0)
+        {
+          name = CodeGenUtil.capName(name);
+        }
+  
+        // Make array names legal.
+        //
+        while (name.endsWith("[]"))
+        {
+          name = name.substring(0, name.length() - 2) + "Array";
+        }
+        
+        eClassifier.setName(name);
+
+        if (recordDemandCreatedEClassifier)
+        {
+          addToPackage(ePackage, eClassifier);
+        }
       }
 
-      // Avoid classifier name collisions.
-      //
-      for (int j = 1; ePackage.getEClassifier(name) != null; ++j)
-      {
-        name = baseName + "_" + j;
-      }
-      eDataType.setName(name);
-
-      if (recordDemandCreatedEDataType)
-      {
-        demandCreatedEDataTypes.add(eDataType);
-        ePackage.getEClassifiers().add(eDataType);
-      }
-      eClassifier = eDataType;
+      eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+      eGenericType.setEClassifier(eClassifier);
     }
 
-    return eClassifier;
+    return eGenericType;
+  }
+  
+  protected void addToPackage(EPackage ePackage, EClassifier eClassifier)
+  {
+    String baseName = eClassifier.getName();
+    String name = baseName;
+    
+    // Avoid classifier name collisions.
+    //
+    for (int j = 1; ePackage.getEClassifier(name) != null; ++j)
+    {
+      name = baseName + "_" + j;
+    }
+    
+    eClassifier.setName(name);
+    ePackage.getEClassifiers().add(eClassifier);
   }
 
-  protected EClass resolveMapEntry(EPackage ePackage, EClassifier keyEClassifier, EClassifier valueEClassifier)
+  protected EGenericType resolveMapEntry(EPackage ePackage, EGenericType keyEGenericType, EGenericType valueEGenericType)
   {
     for (EClassifier ePackageClassifier : ePackage.getEClassifiers())
     {
-      if (ePackageClassifier instanceof EClass
-        && ("java.util.Map.Entry".equals(ePackageClassifier.getInstanceClassName()) || "java.util.Map$Entry".equals(ePackageClassifier.getInstanceClassName())))
+      if (ePackageClassifier instanceof EClass &&
+            ("java.util.Map.Entry".equals(ePackageClassifier.getInstanceClassName()) || "java.util.Map$Entry".equals(ePackageClassifier.getInstanceClassName())))
       {
         EClass mapEntryInterface = (EClass)ePackageClassifier;
         EStructuralFeature keyFeature = mapEntryInterface.getEStructuralFeature("key");
-        if (keyFeature != null && resolveType(keyFeature) == keyEClassifier && !keyFeature.isMany())
+        if (keyFeature != null && EcoreUtil.equals(keyFeature.getEGenericType(), keyEGenericType) && !keyFeature.isMany())
         {
           EStructuralFeature valueFeature = mapEntryInterface.getEStructuralFeature("value");
-          if (valueFeature != null && resolveType(valueFeature) == valueEClassifier && !valueFeature.isMany())
+          if (valueFeature != null && EcoreUtil.equals(valueFeature.getEGenericType(), valueEGenericType) && !valueFeature.isMany())
           {
-            return mapEntryInterface;
+            EGenericType result = EcoreFactory.eINSTANCE.createEGenericType();
+            result.setEClassifier(mapEntryInterface);
+            return result;
           }
         }
       }
     }
 
     return null;
-  }
-
-  protected EClassifier resolveType(ETypedElement eTypedElement)
-  {
-    EClassifier type = eTypedElement.getEType();
-    if (type == null)
-    {
-      String typeName = eTypedElementToTypeNameMap.get(eTypedElement);
-      if (typeName != null)
-      {
-        type = resolve(eTypedElement, typeName);
-      }
-    }
-    return type;
   }
 
   protected <T extends ENamedElement> void sort(EList<T> namedElements, final Map<Object, Integer> nameToIDMap)
@@ -2243,6 +2825,21 @@ public class JavaEcoreBuilder
     return Integer.MAX_VALUE;
   }
 
+  protected <T extends ENamedElement> T getNamedElement(List<T> namedElements, String name)
+  {
+    if (name != null)
+    {
+      for (T namedElement : namedElements)
+      {
+        if (name.equals(namedElement.getName()))
+        {
+          return namedElement;
+        }
+      }
+    }
+    return null;
+  }
+
   /**
    * Returns the diagnostic.
    * @return the status.
@@ -2260,7 +2857,7 @@ public class JavaEcoreBuilder
   {
     return genModel;
   }
-  
+
   /**
    * Returns the list of used GenPackages.
    * @return the list of used GenPackages.
