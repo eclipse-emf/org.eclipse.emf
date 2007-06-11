@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.16 2007/06/06 12:15:17 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.17 2007/06/11 21:11:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3703,7 +3703,7 @@ public class EcoreValidator extends EObjectValidator
     }
 
     /**
-     * Parses a list of type arguments and returns a diagnostic representing the result of the analysis.
+     * Parses a list of type parameters and returns a diagnostic representing the result of the analysis.
      * The {@link Diagnostic#getData() data} of the diagnostic will contain as the first object, the resulting list of {@link ETypeParameter type parameters}.
      * @param typeParameterList a comma separated list of type parameters delimited by '&lt;' and '>'.
      * @return the diagnostic result of the analysis.
@@ -3720,6 +3720,28 @@ public class EcoreValidator extends EObjectValidator
             char [] instanceTypeNameCharacterArray = typeParameterList.toCharArray();
             List<ETypeParameter> eTypeParameters = handleTypeParameters(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, this);
             data = dataAsList(new Object [] { eTypeParameters, typeParameterList });
+          }
+        };
+    }
+
+    /**
+     * Parses a type parameter and returns a diagnostic representing the result of the analysis.
+     * The {@link Diagnostic#getData() data} of the diagnostic will contain as the first object, the resulting {@link ETypeParameter type parameter}.
+     * @param typeParameter comma separated list of type parameters delimited by '&lt;' and '>'.
+     * @return the diagnostic result of the analysis.
+     */
+    public Diagnostic parseTypeParameter(final String typeParameter)
+    {
+      return
+        new BasicDiagnostic()
+        {
+          {
+            source = DIAGNOSTIC_SOURCE;
+            code = WELL_FORMED_INSTANCE_TYPE_NAME;
+            message = EcorePlugin.INSTANCE.getString("_UI_EClassifierInstanceTypeNameAnalysisResult_diagnostic", new Object [] { typeParameter });
+            char [] instanceTypeNameCharacterArray = typeParameter.toCharArray();
+            ETypeParameter eTypeParameter = handleTypeParameter(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, this);
+            data = dataAsList(new Object [] { eTypeParameter, typeParameter });
           }
         };
     }
