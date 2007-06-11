@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.54 2007/04/10 20:20:36 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.55 2007/06/11 21:10:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3776,66 +3776,112 @@ public class EcoreUtil
     }
   }
 
+  /**
+   * Converts a generic type to its Java representation.
+   * @param eGenericType the generic type to convert.
+   * @return the Java representation of the generic type.
+   */
   public static String toJavaInstanceTypeName(EGenericType eGenericType)
   {
-    StringBuilder result = new StringBuilder();
-    EClassifier eClassifier = eGenericType.getEClassifier();
-    if (eClassifier != null)
+    return EGenericTypeConverter.INSTANCE.toJavaInstanceTypeName(eGenericType);
+  }
+
+  /**
+   * A utility class that traverses a generic type to convert it to a string representation.
+   */
+  public static class EGenericTypeConverter
+  {
+    /**
+     * A default instance of the converter.
+     */
+    public static EGenericTypeConverter INSTANCE = new EGenericTypeConverter();
+
+    /**
+     * Converts a generic type to its Java representation.
+     * @param eGenericType the generic type to convert.
+     * @return the Java representation of the generic type.
+     */
+    public String toJavaInstanceTypeName(EGenericType eGenericType)
     {
-      String instanceTypeName = eClassifier.getInstanceTypeName();
-      EList<EGenericType> eTypeArguments = eGenericType.getETypeArguments();
-      if (eTypeArguments.isEmpty())
-      {
-        result.append(instanceTypeName);
-      }
-      else
-      {
-        int index = instanceTypeName.indexOf('[');
-        result.append(index == -1 ? instanceTypeName : instanceTypeName.substring(0, index));
-        result.append('<');
-        for (int i = 0, size = eTypeArguments.size(); i < size; ++i)
-        {
-          if (i != 0)
-          {
-            result.append(", ");
-          }
-          result.append(toJavaInstanceTypeName(eTypeArguments.get(i)));
-        }
-        result.append('>');
-        if (index != -1)
-        {
-          result.append(instanceTypeName.substring(index));
-        }
-      }
+      StringBuilder result = new StringBuilder();
+      convertJavaInstanceTypeName(result, eGenericType);
+      return result.toString();
     }
-    else
+
+    /**
+     * Converts a generic type to its Java representation in the result.
+     * @param result the target in which to accumulate the result
+     * @param eGenericType the generic type to convert.
+     */
+    public void convertJavaInstanceTypeName(StringBuilder result, EGenericType eGenericType)
     {
-      ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
-      if (eTypeParameter != null)
+      EClassifier eClassifier = eGenericType.getEClassifier();
+      if (eClassifier != null)
       {
-        result.append(eTypeParameter.getName());
-      }
-      else
-      {
-        result.append('?');
-        EGenericType eUpperBound = eGenericType.getEUpperBound();
-        if (eUpperBound != null)
+        String instanceTypeName = getInstanceTypeName(eClassifier);
+        EList<EGenericType> eTypeArguments = eGenericType.getETypeArguments();
+        if (eTypeArguments.isEmpty())
         {
-          result.append(" extends ");
-          result.append(toJavaInstanceTypeName(eUpperBound));
+          result.append(instanceTypeName);
         }
         else
         {
-          EGenericType eLowerBound = eGenericType.getELowerBound();
-          if (eLowerBound != null)
+          int index = instanceTypeName.indexOf('[');
+          result.append(index == -1 ? instanceTypeName : instanceTypeName.substring(0, index));
+          result.append('<');
+          for (int i = 0, size = eTypeArguments.size(); i < size; ++i)
           {
-            result.append(" super ");
-            result.append(toJavaInstanceTypeName(eLowerBound));
+            if (i != 0)
+            {
+              result.append(", ");
+            }
+            convertJavaInstanceTypeName(result, eTypeArguments.get(i));
+          }
+          result.append('>');
+          if (index != -1)
+          {
+            result.append(instanceTypeName.substring(index));
+          }
+        }
+      }
+      else
+      {
+        ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+        if (eTypeParameter != null)
+        {
+          result.append(eTypeParameter.getName());
+        }
+        else
+        {
+          result.append('?');
+          EGenericType eUpperBound = eGenericType.getEUpperBound();
+          if (eUpperBound != null)
+          {
+            result.append(" extends ");
+            convertJavaInstanceTypeName(result, eUpperBound);
+          }
+          else
+          {
+            EGenericType eLowerBound = eGenericType.getELowerBound();
+            if (eLowerBound != null)
+            {
+              result.append(" super ");
+              convertJavaInstanceTypeName(result, eLowerBound);
+            }
           }
         }
       }
     }
-    return result.toString();
+
+    /**
+     * Returns the appropriate fully qualified java instance type name for the given classifier.
+     * @param eClassifier the classifier in question.
+     * @return the java instance type name for the given classifier.
+     */
+    protected String getInstanceTypeName(EClassifier eClassifier)
+    {
+      return eClassifier.getInstanceTypeName();
+    }
   }
 
   /*
