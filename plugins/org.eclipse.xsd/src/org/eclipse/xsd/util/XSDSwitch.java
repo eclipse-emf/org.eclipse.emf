@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSwitch.java,v 1.9 2007/06/12 15:06:43 emerks Exp $
+ * $Id: XSDSwitch.java,v 1.10 2007/06/12 21:15:22 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -1648,13 +1648,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch, but this is the last case anyway.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
