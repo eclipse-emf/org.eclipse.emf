@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.46 2007/05/28 18:24:52 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.47 2007/06/12 15:07:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1096,7 +1096,7 @@ public class GenModelEditor
   }
 
   /**
-   * Returns a dignostic describing the errors and warnings listed in the resource
+   * Returns a diagnostic describing the errors and warnings listed in the resource
    * and the specified exception (if any).
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1503,7 +1503,7 @@ public class GenModelEditor
   }
 
   /**
-   * This returns wether something has been persisted to the URI of the specified resource.
+   * This returns whether something has been persisted to the URI of the specified resource.
    * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
