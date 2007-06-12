@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLSwitch.java,v 1.3 2006/12/29 18:29:11 marcelop Exp $
+ * $Id: Ecore2XMLSwitch.java,v 1.4 2007/06/12 15:07:51 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
@@ -133,13 +133,13 @@ public class Ecore2XMLSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>XML Info</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>XML Info</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>XML Info</em>'.
+   * @return the result of interpreting the object as an instance of '<em>XML Info</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -149,13 +149,13 @@ public class Ecore2XMLSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>XML Map</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>XML Map</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>XML Map</em>'.
+   * @return the result of interpreting the object as an instance of '<em>XML Map</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -165,13 +165,13 @@ public class Ecore2XMLSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>ENamed Element To XML Info Map Entry</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>ENamed Element To XML Info Map Entry</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>ENamed Element To XML Info Map Entry</em>'.
+   * @return the result of interpreting the object as an instance of '<em>ENamed Element To XML Info Map Entry</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

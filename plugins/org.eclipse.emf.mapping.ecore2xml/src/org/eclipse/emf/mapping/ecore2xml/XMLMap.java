@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMap.java,v 1.3 2006/12/29 18:29:12 marcelop Exp $
+ * $Id: XMLMap.java,v 1.4 2007/06/12 15:07:51 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -83,7 +83,7 @@ public interface XMLMap extends EObject, XMLResource.XMLMap{
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ecore To XML Info</em>' map.
    * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#getXMLMap_EcoreToXMLInfo()
-   * @model mapType="org.eclipse.emf.mapping.ecore2xml.ENamedElementToXMLInfoMapEntry" keyType="org.eclipse.emf.ecore.ENamedElement" valueType="org.eclipse.emf.mapping.ecore2xml.XMLInfo"
+   * @model mapType="org.eclipse.emf.mapping.ecore2xml.ENamedElementToXMLInfoMapEntry<org.eclipse.emf.ecore.ENamedElement, org.eclipse.emf.mapping.ecore2xml.XMLInfo>"
    * @generated
    */
   EMap<ENamedElement, XMLInfo> getEcoreToXMLInfo();
