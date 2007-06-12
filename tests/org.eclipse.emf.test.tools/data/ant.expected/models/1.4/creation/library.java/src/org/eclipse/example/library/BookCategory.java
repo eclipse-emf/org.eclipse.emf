@@ -16,7 +16,7 @@ public class BookCategory extends AbstractEnumerator
   public static final int MYSTERY = 0;
 
   /**
-   * @model value="300" name="ScienceFiction" literal="Science Fiction"
+   * @model name="ScienceFiction" literal="Science Fiction"
    */
   public static final int SCIENCE_FICTION = 2;
 
