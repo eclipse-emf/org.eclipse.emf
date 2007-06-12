@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterURIPage.java,v 1.3 2007/05/29 20:28:46 marcelop Exp $
+ * $Id: ModelConverterURIPage.java,v 1.4 2007/06/12 19:51:17 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -23,7 +23,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -122,14 +121,16 @@ public class ModelConverterURIPage extends ModelConverterPage
     {
       FormData data = new FormData();
       data.top = new FormAttachment(uriLabel, 0, SWT.CENTER);
+      data.left = new FormAttachment(uriLabel, 0);
       data.right = new FormAttachment(100);
       buttonComposite.setLayoutData(data);      
-      
-      RowLayout layout = new RowLayout();
-      layout.justify = true;
-      layout.pack = true;
-      layout.spacing = 5;
+
+      FormLayout layout = new FormLayout();
+      layout.marginTop = 0;
+      layout.marginBottom = 0;
+      layout.marginLeft = 0;
       layout.marginRight = 0;
+      layout.spacing = 5;
       buttonComposite.setLayout(layout);
     }
 
@@ -141,6 +142,18 @@ public class ModelConverterURIPage extends ModelConverterPage
     browseWorkspaceButton.setText(getBrowseWorkspaceButtonLabel());
     browseWorkspaceButton.addListener(SWT.Selection, this);
 
+    {
+      FormData data = new FormData();
+      data.right = new FormAttachment(browseWorkspaceButton);
+      browseFileSystemButton.setLayoutData(data);      
+    }
+
+    {
+      FormData data = new FormData();
+      data.right = new FormAttachment(100);
+      browseWorkspaceButton.setLayoutData(data);      
+    }
+     
     uriText = new Text(uriComposite, SWT.SINGLE | SWT.BORDER);
     setURIText(getURITextInitialValue());
     if (uriText.getText().length() > 0)
