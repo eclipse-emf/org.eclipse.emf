@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreSwitch.java,v 1.7 2006/12/29 18:29:00 marcelop Exp $
+ * $Id: XSD2EcoreSwitch.java,v 1.8 2007/06/12 15:06:46 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.util;
 
@@ -121,13 +121,13 @@ public class XSD2EcoreSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Mapping Root</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Mapping Root</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Mapping Root</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Mapping Root</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -137,13 +137,13 @@ public class XSD2EcoreSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Mapping</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Mapping</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Mapping</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Mapping</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -153,13 +153,13 @@ public class XSD2EcoreSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Root</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Root</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Root</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Root</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
