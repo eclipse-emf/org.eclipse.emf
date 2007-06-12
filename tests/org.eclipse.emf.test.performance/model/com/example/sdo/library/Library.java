@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Library.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: Library.java,v 1.3 2007/06/12 15:07:36 emerks Exp $
  */
 package com.example.sdo.library;
 
@@ -75,7 +75,7 @@ public interface Library
    * <!-- end-user-doc -->
    * @return the value of the '<em>Writers</em>' containment reference list.
    * @see com.example.sdo.library.LibraryPackage#getLibrary_Writers()
-   * @model type="com.example.sdo.library.Writer" containment="true"
+   * @model containment="true"
    * @generated
    */
   List<Writer> getWriters();
@@ -91,7 +91,7 @@ public interface Library
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' containment reference list.
    * @see com.example.sdo.library.LibraryPackage#getLibrary_Books()
-   * @model type="com.example.sdo.library.Book" containment="true"
+   * @model containment="true"
    * @generated
    */
   List<Book> getBooks();

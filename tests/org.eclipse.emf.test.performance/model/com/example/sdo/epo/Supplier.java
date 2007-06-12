@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Supplier.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: Supplier.java,v 1.3 2007/06/12 15:07:36 emerks Exp $
  */
 package com.example.sdo.epo;
 
@@ -93,7 +93,7 @@ public interface Supplier {
 	 * <!-- end-user-doc -->
    * @return the value of the '<em>Priority Orders</em>' containment reference list.
    * @see com.example.sdo.epo.EPOPackage#getSupplier_PriorityOrders()
-   * @model type="com.example.sdo.epo.PurchaseOrder" containment="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="group='#orders'"
    * @generated
    */
@@ -110,7 +110,7 @@ public interface Supplier {
 	 * <!-- end-user-doc -->
    * @return the value of the '<em>Standard Orders</em>' containment reference list.
    * @see com.example.sdo.epo.EPOPackage#getSupplier_StandardOrders()
-   * @model type="com.example.sdo.epo.PurchaseOrder" containment="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="group='#orders'"
    * @generated
    */

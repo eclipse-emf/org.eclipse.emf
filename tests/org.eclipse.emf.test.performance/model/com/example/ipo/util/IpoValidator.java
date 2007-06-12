@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IpoValidator.java,v 1.3 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: IpoValidator.java,v 1.4 2007/06/12 15:07:36 emerks Exp $
  */
 package com.example.ipo.util;
 
@@ -107,7 +107,7 @@ public class IpoValidator extends EObjectValidator
   }
 
   /**
-   * Calls <code>validateXXX</code> for the corresonding classifier of the model.
+   * Calls <code>validateXXX</code> for the corresponding classifier of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Writer.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: Writer.java,v 1.3 2007/06/12 15:07:36 emerks Exp $
  */
 package com.example.sdo.library;
 
@@ -76,7 +76,7 @@ public interface Writer
    * @return the value of the '<em>Books</em>' reference list.
    * @see com.example.sdo.library.LibraryPackage#getWriter_Books()
    * @see com.example.sdo.library.Book#getAuthor
-   * @model type="com.example.sdo.library.Book" opposite="author"
+   * @model opposite="author"
    * @generated
    */
   List<Book> getBooks();

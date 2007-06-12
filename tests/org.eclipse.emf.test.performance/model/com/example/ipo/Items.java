@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Items.java,v 1.2 2006/12/30 03:43:52 marcelop Exp $
+ * $Id: Items.java,v 1.3 2007/06/12 15:07:36 emerks Exp $
  */
 package com.example.ipo;
 
@@ -49,7 +49,7 @@ public interface Items extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Item</em>' containment reference list.
    * @see com.example.ipo.IpoPackage#getItems_Item()
-   * @model type="com.example.ipo.ItemType" containment="true"
+   * @model containment="true"
    *        extendedMetaData="kind='element' name='item'"
    * @generated
    */
