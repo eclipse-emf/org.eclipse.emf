@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIHandler.java,v 1.12 2007/02/03 18:26:34 emerks Exp $
+ * $Id: XMIHandler.java,v 1.13 2007/06/12 12:05:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -153,12 +153,16 @@ public abstract class XMIHandler extends XMLHandler
   @Override
   public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException
   {
-    if (documentRoot != null && objects.peekEObject() == documentRoot)
+    if (documentRoot != null)
     {
-      types.pop();
-      objects.pop();
-      mixedTargets.pop();
-      documentRoot= null;
+      EObject eObject = objects.peekEObject();
+      if (eObject == documentRoot && (extendedMetaData == null || "".equals(extendedMetaData.getName(eObject.eClass()))))
+      {
+        types.pop();
+        objects.pop();
+        mixedTargets.pop();
+        documentRoot= null;
+      }
     }
     super.startElement(uri, localName, name, attributes);
   }
