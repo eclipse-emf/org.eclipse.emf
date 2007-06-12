@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C4.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: C4.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -80,7 +80,7 @@ public interface C4 extends EObject
    * @return the value of the '<em>D</em>' containment reference list.
    * @see org.eclipse.emf.test.models.ref.RefPackage#getC4_D()
    * @see org.eclipse.emf.test.models.ref.D#getC4
-   * @model type="org.eclipse.emf.test.models.ref.D" opposite="c4" containment="true"
+   * @model opposite="c4" containment="true"
    * @generated
    */
   EList<D> getD();

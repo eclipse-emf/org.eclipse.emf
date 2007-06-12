@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomerSwitch.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: CustomerSwitch.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.util;
 
@@ -162,13 +162,13 @@ public class CustomerSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Address Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Address Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Address Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Address Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -178,13 +178,13 @@ public class CustomerSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Canada Addr</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Canada Addr</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Canada Addr</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Canada Addr</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -194,13 +194,13 @@ public class CustomerSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Credit Info</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Credit Info</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Credit Info</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Credit Info</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -210,13 +210,13 @@ public class CustomerSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Customers Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Customers Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Customers Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Customers Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -226,13 +226,13 @@ public class CustomerSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -242,13 +242,13 @@ public class CustomerSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Document Root</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Document Root</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Document Root</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Document Root</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -258,13 +258,13 @@ public class CustomerSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>US Addr</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>US Addr</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>US Addr</em>'.
+   * @return the result of interpreting the object as an instance of '<em>US Addr</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

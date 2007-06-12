@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonalSwitch.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: PersonalSwitch.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.util;
 
@@ -155,13 +155,13 @@ public class PersonalSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Document Root</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Document Root</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Document Root</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Document Root</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -171,13 +171,13 @@ public class PersonalSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Link Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Link Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Link Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Link Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -187,13 +187,13 @@ public class PersonalSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Name Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Name Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Name Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Name Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -203,13 +203,13 @@ public class PersonalSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Personnel Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Personnel Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Personnel Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Personnel Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -219,13 +219,13 @@ public class PersonalSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Person Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Person Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Person Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Person Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -235,13 +235,13 @@ public class PersonalSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Url Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Url Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Url Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Url Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

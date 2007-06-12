@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBPackage.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: DBPackage.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -821,7 +821,7 @@ public interface DBPackage extends EPackage
    * @return the meta object for data type '<em>Actors List</em>'.
    * @see java.util.List
    * @model instanceClass="java.util.List"
-   *        extendedMetaData="name='actorsList' itemType='http://www.eclipse.org/emf/2003/XMLType#NCName'" 
+   *        extendedMetaData="name='actorsList' itemType='http://www.eclipse.org/emf/2003/XMLType#NCName'"
    * @generated
    */
   EDataType getActorsList();
@@ -833,7 +833,7 @@ public interface DBPackage extends EPackage
    * @return the meta object for data type '<em>Genre Types Object</em>'.
    * @see org.eclipse.emf.test.models.movie.db.GenreTypes
    * @model instanceClass="org.eclipse.emf.test.models.movie.db.GenreTypes"
-   *        extendedMetaData="name='genreTypes:Object' baseType='genreTypes'" 
+   *        extendedMetaData="name='genreTypes:Object' baseType='genreTypes'"
    * @generated
    */
   EDataType getGenreTypesObject();
@@ -844,7 +844,7 @@ public interface DBPackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Rating Type</em>'.
    * @model instanceClass="int"
-   *        extendedMetaData="name='rating_._type' baseType='http://www.eclipse.org/emf/2003/XMLType#int' minInclusive='0' maxInclusive='10'" 
+   *        extendedMetaData="name='rating_._type' baseType='http://www.eclipse.org/emf/2003/XMLType#int' minInclusive='0' maxInclusive='10'"
    * @generated
    */
   EDataType getRatingType();
@@ -856,7 +856,7 @@ public interface DBPackage extends EPackage
    * @return the meta object for data type '<em>Rating Type Object</em>'.
    * @see java.lang.Integer
    * @model instanceClass="java.lang.Integer"
-   *        extendedMetaData="name='rating_._type:Object' baseType='rating_._type'" 
+   *        extendedMetaData="name='rating_._type:Object' baseType='rating_._type'"
    * @generated
    */
   EDataType getRatingTypeObject();
@@ -867,7 +867,7 @@ public interface DBPackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Rating Values</em>'.
    * @model instanceClass="int"
-   *        extendedMetaData="name='ratingValues' baseType='http://www.eclipse.org/emf/2003/XMLType#int' minInclusive='0' maxInclusive='10'" 
+   *        extendedMetaData="name='ratingValues' baseType='http://www.eclipse.org/emf/2003/XMLType#int' minInclusive='0' maxInclusive='10'"
    * @generated
    */
   EDataType getRatingValues();
@@ -879,7 +879,7 @@ public interface DBPackage extends EPackage
    * @return the meta object for data type '<em>Rating Values Object</em>'.
    * @see java.lang.Integer
    * @model instanceClass="java.lang.Integer"
-   *        extendedMetaData="name='ratingValues:Object' baseType='ratingValues'" 
+   *        extendedMetaData="name='ratingValues:Object' baseType='ratingValues'"
    * @generated
    */
   EDataType getRatingValuesObject();

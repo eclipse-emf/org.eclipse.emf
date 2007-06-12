@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Writer.java,v 1.2 2007/01/18 22:06:45 marcelop Exp $
+ * $Id: Writer.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.sdo.library;
 
@@ -73,7 +73,7 @@ public interface Writer
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' reference list.
    * @see org.eclipse.emf.test.models.sdo.library.Book#getAuthor
-   * @model type="org.eclipse.emf.test.models.sdo.library.Book" opposite="author"
+   * @model opposite="author"
    * @generated
    */
   List<Book> getBooks();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C2.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: C2.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -52,7 +52,7 @@ public interface C2 extends EObject
    * @return the value of the '<em>B</em>' containment reference list.
    * @see org.eclipse.emf.test.models.ref.RefPackage#getC2_B()
    * @see org.eclipse.emf.test.models.ref.B#getC2
-   * @model type="org.eclipse.emf.test.models.ref.B" opposite="c2" containment="true"
+   * @model opposite="c2" containment="true"
    * @generated
    */
   EList<B> getB();

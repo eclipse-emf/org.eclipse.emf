@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenreTypes.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: GenreTypes.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.models.movie.db.DBPackage#getGenreTypes()
- * @model
+ * @model extendedMetaData="name='genreTypes'"
  * @generated
  */
 public enum GenreTypes implements Enumerator

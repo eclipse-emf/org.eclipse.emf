@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DU.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: DU.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable;
 
@@ -138,7 +138,7 @@ public interface DU extends EObject
    * @see #unsetEu()
    * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getDU_Eu()
    * @see org.eclipse.emf.test.models.ref.unsettable.EU#getDu
-   * @model type="org.eclipse.emf.test.models.ref.unsettable.EU" opposite="du" unsettable="true"
+   * @model opposite="du" unsettable="true"
    * @generated
    */
   EList<EU> getEu();

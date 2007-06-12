@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: E.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: E.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -78,7 +78,7 @@ public interface E extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ids</em>' attribute list.
    * @see org.eclipse.emf.test.models.ref.RefPackage#getE_Ids()
-   * @model type="java.lang.String"
+   * @model
    * @generated
    */
   EList<String> getIds();
@@ -94,7 +94,7 @@ public interface E extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Labels</em>' attribute list.
    * @see org.eclipse.emf.test.models.ref.RefPackage#getE_Labels()
-   * @model type="java.lang.String" unique="false"
+   * @model unique="false"
    * @generated
    */
   EList<String> getLabels();
@@ -112,7 +112,7 @@ public interface E extends EObject
    * @return the value of the '<em>D</em>' reference list.
    * @see org.eclipse.emf.test.models.ref.RefPackage#getE_D()
    * @see org.eclipse.emf.test.models.ref.D#getE
-   * @model type="org.eclipse.emf.test.models.ref.D" opposite="e"
+   * @model opposite="e"
    * @generated
    */
   EList<D> getD();

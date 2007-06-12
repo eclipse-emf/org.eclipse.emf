@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonalPackageImpl.java,v 1.2 2007/01/18 22:06:41 marcelop Exp $
+ * $Id: PersonalPackageImpl.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.impl;
 
@@ -1000,7 +1000,7 @@ public class PersonalPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>Contr Type Object</em>'.
    * @see org.eclipse.emf.test.models.personal.ContrType
    * @model instanceClass="org.eclipse.emf.test.models.personal.ContrType"
-   *        extendedMetaData="name='contr_._type:Object' baseType='contr_._type'" 
+   *        extendedMetaData="name='contr_._type:Object' baseType='contr_._type'"
    * @generated
    */
   public EDataType getContrTypeObject()

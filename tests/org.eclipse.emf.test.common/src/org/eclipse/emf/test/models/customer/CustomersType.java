@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomersType.java,v 1.2 2007/01/18 22:06:43 marcelop Exp $
+ * $Id: CustomersType.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -69,7 +69,7 @@ public interface CustomersType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Customer</em>' containment reference list.
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomersType_Customer()
-   * @model type="org.eclipse.emf.test.models.customer.CustomerType" containment="true" required="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" required="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='customer' namespace='##targetNamespace'"
    * @generated
    */

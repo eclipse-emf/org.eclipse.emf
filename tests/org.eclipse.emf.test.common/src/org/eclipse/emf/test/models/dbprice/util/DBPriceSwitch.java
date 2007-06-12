@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBPriceSwitch.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: DBPriceSwitch.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.dbprice.util;
 
@@ -125,13 +125,13 @@ public class DBPriceSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Pencil Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Pencil Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Pencil Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Pencil Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -141,13 +141,13 @@ public class DBPriceSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Pen Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Pen Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Pen Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Pen Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

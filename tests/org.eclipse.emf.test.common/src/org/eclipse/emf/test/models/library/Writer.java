@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Writer.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: Writer.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.library;
 
@@ -78,7 +78,7 @@ public interface Writer extends EObject
    * @return the value of the '<em>Books</em>' reference list.
    * @see org.eclipse.emf.test.models.library.LibraryPackage#getWriter_Books()
    * @see org.eclipse.emf.test.models.library.Book#getAuthor
-   * @model type="org.eclipse.emf.test.models.library.Book" opposite="author"
+   * @model opposite="author"
    * @generated
    */
   EList<Book> getBooks();

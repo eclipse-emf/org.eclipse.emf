@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtE.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: ExtE.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.ext;
 
@@ -78,7 +78,7 @@ public interface ExtE extends E
    * @return the value of the '<em>F</em>' containment reference list.
    * @see org.eclipse.emf.test.models.ext.ExtPackage#getExtE_F()
    * @see org.eclipse.emf.test.models.ext.F#getE
-   * @model type="org.eclipse.emf.test.models.ext.F" opposite="e" containment="true"
+   * @model opposite="e" containment="true"
    * @generated
    */
   EList<F> getF();

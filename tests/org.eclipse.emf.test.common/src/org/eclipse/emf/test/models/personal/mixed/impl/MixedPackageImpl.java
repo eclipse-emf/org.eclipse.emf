@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MixedPackageImpl.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: MixedPackageImpl.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed.impl;
 
@@ -1092,7 +1092,7 @@ public class MixedPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>Contr Type Object</em>'.
    * @see org.eclipse.emf.test.models.personal.mixed.ContrType
    * @model instanceClass="org.eclipse.emf.test.models.personal.mixed.ContrType"
-   *        extendedMetaData="name='contr_._type:Object' baseType='contr_._type'" 
+   *        extendedMetaData="name='contr_._type:Object' baseType='contr_._type'"
    * @generated
    */
   public EDataType getContrTypeObject()

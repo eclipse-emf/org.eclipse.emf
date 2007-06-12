@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleSwitch.java,v 1.2 2007/01/18 22:06:47 marcelop Exp $
+ * $Id: SimpleSwitch.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.sdo.simple.util;
 
@@ -120,13 +120,13 @@ public class SimpleSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Quote</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Quote</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Quote</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Quote</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

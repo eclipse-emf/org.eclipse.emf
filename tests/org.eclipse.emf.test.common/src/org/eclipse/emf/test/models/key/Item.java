@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Item.java,v 1.2 2007/01/18 22:06:46 marcelop Exp $
+ * $Id: Item.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.key;
 
@@ -77,7 +77,7 @@ public interface Item extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Signature</em>' attribute list.
    * @see org.eclipse.emf.test.models.key.KeyPackage#getItem_Signature()
-   * @model type="java.lang.String" unique="false"
+   * @model unique="false"
    * @generated
    */
   EList<String> getSignature();
@@ -93,7 +93,7 @@ public interface Item extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Related Items</em>' reference list.
    * @see org.eclipse.emf.test.models.key.KeyPackage#getItem_RelatedItems()
-   * @model type="org.eclipse.emf.test.models.key.Item"
+   * @model
    * @generated
    */
   EList<Item> getRelatedItems();

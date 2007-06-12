@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonType.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: PersonType.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal;
 
@@ -79,7 +79,7 @@ public interface PersonType
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Email</em>' attribute list.
-   * @model type="java.lang.String" unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
    *        extendedMetaData="kind='element' name='email' namespace='##targetNamespace'"
    * @generated
    */
@@ -95,7 +95,7 @@ public interface PersonType
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Url</em>' containment reference list.
-   * @model type="org.eclipse.emf.test.models.personal.UrlType" containment="true"
+   * @model containment="true"
    *        extendedMetaData="kind='element' name='url' namespace='##targetNamespace'"
    * @generated
    */

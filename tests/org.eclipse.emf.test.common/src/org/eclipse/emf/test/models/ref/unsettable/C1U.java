@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C1U.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: C1U.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable;
 
@@ -105,7 +105,7 @@ public interface C1U extends EObject
    * @see #isSetBu()
    * @see #unsetBu()
    * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getC1U_Bu()
-   * @model type="org.eclipse.emf.test.models.ref.unsettable.BU" containment="true" unsettable="true"
+   * @model containment="true" unsettable="true"
    * @generated
    */
   EList<BU> getBu();

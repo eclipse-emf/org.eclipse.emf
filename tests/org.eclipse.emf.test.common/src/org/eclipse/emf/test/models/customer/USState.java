@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: USState.java,v 1.2 2007/01/18 22:06:43 marcelop Exp $
+ * $Id: USState.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.models.customer.CustomerPackage#getUSState()
- * @model
+ * @model extendedMetaData="name='USState'"
  * @generated
  */
 public enum USState implements Enumerator

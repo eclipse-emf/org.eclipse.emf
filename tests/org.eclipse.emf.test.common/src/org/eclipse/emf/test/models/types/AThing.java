@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AThing.java,v 1.3 2007/06/02 19:35:31 emerks Exp $
+ * $Id: AThing.java,v 1.4 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.types;
 
@@ -712,7 +712,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Boolean</em>' attribute list.
-   * @model type="boolean" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
    *        extendedMetaData="kind='element' name='manyBoolean'"
    * @generated
    */
@@ -728,7 +728,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Byte</em>' attribute list.
-   * @model type="byte" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Byte" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Byte" required="true"
    *        extendedMetaData="kind='element' name='manyByte'"
    * @generated
    */
@@ -744,7 +744,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Decimal</em>' attribute list.
-   * @model type="java.math.BigDecimal" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
    *        extendedMetaData="kind='element' name='manyDecimal'"
    * @generated
    */
@@ -760,7 +760,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Float</em>' attribute list.
-   * @model type="float" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Float" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Float" required="true"
    *        extendedMetaData="kind='element' name='manyFloat'"
    * @generated
    */
@@ -776,7 +776,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Double</em>' attribute list.
-   * @model type="double" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
    *        extendedMetaData="kind='element' name='manyDouble'"
    * @generated
    */
@@ -792,7 +792,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Int</em>' attribute list.
-   * @model type="int" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
    *        extendedMetaData="kind='element' name='manyInt'"
    * @generated
    */
@@ -808,7 +808,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Integer</em>' attribute list.
-   * @model type="java.math.BigInteger" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Integer" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Integer" required="true"
    *        extendedMetaData="kind='element' name='manyInteger'"
    * @generated
    */
@@ -824,7 +824,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Long</em>' attribute list.
-   * @model type="long" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Long" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Long" required="true"
    *        extendedMetaData="kind='element' name='manyLong'"
    * @generated
    */
@@ -840,7 +840,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Short</em>' attribute list.
-   * @model type="short" unique="false" dataType="org.eclipse.emf.ecore.xml.type.Short" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Short" required="true"
    *        extendedMetaData="kind='element' name='manyShort'"
    * @generated
    */
@@ -856,7 +856,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many String</em>' attribute list.
-   * @model type="java.lang.String" unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='manyString'"
    * @generated
    */
@@ -872,7 +872,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Char</em>' attribute list.
-   * @model type="char" unique="false" dataType="org.eclipse.emf.test.models.types.MyChar" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.test.models.types.MyChar" required="true"
    *        extendedMetaData="kind='element' name='manyChar'"
    * @generated
    */
@@ -888,7 +888,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Date</em>' attribute list.
-   * @model type="java.util.Date" unique="false" dataType="org.eclipse.emf.test.models.types.MyDate" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.test.models.types.MyDate" required="true"
    *        extendedMetaData="kind='element' name='manyDate'"
    * @generated
    */
@@ -904,7 +904,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Bytes</em>' attribute list.
-   * @model type="byte[]" unique="false" dataType="org.eclipse.emf.test.models.types.MyBytes" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.test.models.types.MyBytes" required="true"
    *        extendedMetaData="kind='element' name='manyBytes'"
    * @generated
    */
@@ -920,7 +920,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Number</em>' attribute list.
-   * @model type="java.lang.Number" unique="false" dataType="org.eclipse.emf.test.models.types.MyNumber" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.test.models.types.MyNumber" required="true"
    *        extendedMetaData="kind='element' name='manyNumber'"
    * @generated
    */
@@ -936,7 +936,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Object</em>' attribute list.
-   * @model type="java.lang.Object" unique="false" dataType="org.eclipse.emf.test.models.types.MyObject" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.test.models.types.MyObject" required="true"
    *        extendedMetaData="kind='element' name='manyObject'"
    * @generated
    */
@@ -952,7 +952,7 @@ public interface AThing
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Many Thread</em>' attribute list.
-   * @model type="java.lang.Thread" unique="false" dataType="org.eclipse.emf.test.models.types.MyThread" required="true"
+   * @model unique="false" dataType="org.eclipse.emf.test.models.types.MyThread" required="true"
    *        extendedMetaData="kind='element' name='manyThread'"
    * @generated
    */

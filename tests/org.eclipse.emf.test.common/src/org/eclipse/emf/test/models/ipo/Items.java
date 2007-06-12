@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Items.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: Items.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo;
 
@@ -45,7 +45,7 @@ public interface Items
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Item</em>' containment reference list.
-   * @model type="org.eclipse.emf.test.models.ipo.ItemType" containment="true"
+   * @model containment="true"
    *        extendedMetaData="kind='element' name='item'"
    * @generated
    */

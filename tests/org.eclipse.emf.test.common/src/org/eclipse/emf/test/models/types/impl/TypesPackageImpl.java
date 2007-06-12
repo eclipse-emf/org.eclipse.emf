@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TypesPackageImpl.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: TypesPackageImpl.java,v 1.3 2007/06/12 15:08:09 emerks Exp $
  */
 package org.eclipse.emf.test.models.types.impl;
 
@@ -1052,7 +1052,7 @@ public class TypesPackageImpl extends EPackageImpl
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>My Bytes</em>'.
    * @model instanceClass="byte[]"
-   *        extendedMetaData="name='myBytes'" 
+   *        extendedMetaData="name='myBytes'"
    * @generated
    */
   public EDataType getMyBytes()
@@ -1066,7 +1066,7 @@ public class TypesPackageImpl extends EPackageImpl
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>My Char</em>'.
    * @model instanceClass="char"
-   *        extendedMetaData="name='myChar'" 
+   *        extendedMetaData="name='myChar'"
    * @generated
    */
   public EDataType getMyChar()
@@ -1081,7 +1081,7 @@ public class TypesPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>My Char Object</em>'.
    * @see java.lang.Character
    * @model instanceClass="java.lang.Character"
-   *        extendedMetaData="name='myChar:Object' baseType='myChar'" 
+   *        extendedMetaData="name='myChar:Object' baseType='myChar'"
    * @generated
    */
   public EDataType getMyCharObject()
@@ -1096,7 +1096,7 @@ public class TypesPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>My Date</em>'.
    * @see java.util.Date
    * @model instanceClass="java.util.Date"
-   *        extendedMetaData="name='myDate'" 
+   *        extendedMetaData="name='myDate'"
    * @generated
    */
   public EDataType getMyDate()
@@ -1111,7 +1111,7 @@ public class TypesPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>My Number</em>'.
    * @see java.lang.Number
    * @model instanceClass="java.lang.Number"
-   *        extendedMetaData="name='myNumber'" 
+   *        extendedMetaData="name='myNumber'"
    * @generated
    */
   public EDataType getMyNumber()
@@ -1126,7 +1126,7 @@ public class TypesPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>My Object</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
-   *        extendedMetaData="name='myObject'" 
+   *        extendedMetaData="name='myObject'"
    * @generated
    */
   public EDataType getMyObject()
@@ -1141,7 +1141,7 @@ public class TypesPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>My Thread</em>'.
    * @see java.lang.Thread
    * @model instanceClass="java.lang.Thread"
-   *        extendedMetaData="name='myThread'" 
+   *        extendedMetaData="name='myThread'"
    * @generated
    */
   public EDataType getMyThread()

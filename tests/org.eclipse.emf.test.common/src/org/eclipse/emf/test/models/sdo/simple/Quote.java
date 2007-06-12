@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Quote.java,v 1.2 2007/01/18 22:06:45 marcelop Exp $
+ * $Id: Quote.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.sdo.simple;
 
@@ -317,7 +317,7 @@ public interface Quote
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Quotes</em>' containment reference list.
-   * @model type="org.eclipse.emf.test.models.sdo.simple.Quote" containment="true"
+   * @model containment="true"
    *        extendedMetaData="kind='element' name='quotes'"
    * @generated
    */

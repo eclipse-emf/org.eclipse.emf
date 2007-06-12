@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: C.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -52,7 +52,7 @@ public interface C extends EObject
    * @return the value of the '<em>D</em>' reference list.
    * @see org.eclipse.emf.test.models.ref.RefPackage#getC_D()
    * @see org.eclipse.emf.test.models.ref.D#getC
-   * @model type="org.eclipse.emf.test.models.ref.D" opposite="c"
+   * @model opposite="c"
    * @generated
    */
   EList<D> getD();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URefSwitch.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: URefSwitch.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.util;
 
@@ -174,13 +174,13 @@ public class URefSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>C1U</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>C1U</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>C1U</em>'.
+   * @return the result of interpreting the object as an instance of '<em>C1U</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -190,13 +190,13 @@ public class URefSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>C2U</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>C2U</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>C2U</em>'.
+   * @return the result of interpreting the object as an instance of '<em>C2U</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -206,13 +206,13 @@ public class URefSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>AU</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>AU</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>AU</em>'.
+   * @return the result of interpreting the object as an instance of '<em>AU</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -222,13 +222,13 @@ public class URefSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>BU</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>BU</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>BU</em>'.
+   * @return the result of interpreting the object as an instance of '<em>BU</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -238,13 +238,13 @@ public class URefSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>CU</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>CU</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>CU</em>'.
+   * @return the result of interpreting the object as an instance of '<em>CU</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -254,13 +254,13 @@ public class URefSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>DU</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>DU</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>DU</em>'.
+   * @return the result of interpreting the object as an instance of '<em>DU</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -270,13 +270,13 @@ public class URefSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>C4U</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>C4U</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>C4U</em>'.
+   * @return the result of interpreting the object as an instance of '<em>C4U</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -286,13 +286,13 @@ public class URefSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>C3U</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>C3U</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>C3U</em>'.
+   * @return the result of interpreting the object as an instance of '<em>C3U</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -302,13 +302,13 @@ public class URefSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EU</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EU</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EU</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EU</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ContrType.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: ContrType.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed;
 
@@ -26,7 +26,7 @@ import java.util.List;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.test.models.personal.mixed.impl.MixedPackageImpl#getContrType()
- * @model
+ * @model extendedMetaData="name='contr_._type'"
  * @generated
  */
 public enum ContrType implements InternalContrType

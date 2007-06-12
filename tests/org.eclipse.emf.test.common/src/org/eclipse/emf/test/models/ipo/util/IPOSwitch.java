@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IPOSwitch.java,v 1.2 2007/01/18 22:06:43 marcelop Exp $
+ * $Id: IPOSwitch.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo.util;
 
@@ -164,13 +164,13 @@ public class IPOSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Address</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Address</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Address</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Address</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -180,13 +180,13 @@ public class IPOSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Document Root</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Document Root</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Document Root</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Document Root</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -196,13 +196,13 @@ public class IPOSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Items</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Items</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Items</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Items</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -212,13 +212,13 @@ public class IPOSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Item Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Item Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Item Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Item Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -228,13 +228,13 @@ public class IPOSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Purchase Order Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Purchase Order Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Purchase Order Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Purchase Order Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -244,13 +244,13 @@ public class IPOSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>UK Address</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>UK Address</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>UK Address</em>'.
+   * @return the result of interpreting the object as an instance of '<em>UK Address</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -260,13 +260,13 @@ public class IPOSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>US Address</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>US Address</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>US Address</em>'.
+   * @return the result of interpreting the object as an instance of '<em>US Address</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

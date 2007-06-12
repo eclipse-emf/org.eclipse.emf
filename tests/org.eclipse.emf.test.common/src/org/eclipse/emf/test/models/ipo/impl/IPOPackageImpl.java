@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IPOPackageImpl.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: IPOPackageImpl.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo.impl;
 
@@ -1184,7 +1184,7 @@ public class IPOPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>Postcode</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
-   *        extendedMetaData="name='Postcode' baseType='http://www.eclipse.org/emf/2003/XMLType#string' length='7'" 
+   *        extendedMetaData="name='Postcode' baseType='http://www.eclipse.org/emf/2003/XMLType#string' length='7'"
    * @generated
    */
   public EDataType getPostcode()
@@ -1199,7 +1199,7 @@ public class IPOPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>Quantity Type</em>'.
    * @see java.math.BigInteger
    * @model instanceClass="java.math.BigInteger"
-   *        extendedMetaData="name='quantity_._type' baseType='http://www.eclipse.org/emf/2003/XMLType#positiveInteger' maxExclusive='100'" 
+   *        extendedMetaData="name='quantity_._type' baseType='http://www.eclipse.org/emf/2003/XMLType#positiveInteger' maxExclusive='100'"
    * @generated
    */
   public EDataType getQuantityType()
@@ -1214,7 +1214,7 @@ public class IPOPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>SKU</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
-   *        extendedMetaData="name='SKU' baseType='http://www.eclipse.org/emf/2003/XMLType#string' pattern='\\d{3}-[A-Z]{2}'" 
+   *        extendedMetaData="name='SKU' baseType='http://www.eclipse.org/emf/2003/XMLType#string' pattern='\\d{3}-[A-Z]{2}'"
    * @generated
    */
   public EDataType getSKU()
@@ -1229,7 +1229,7 @@ public class IPOPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>UK Postcode</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
-   *        extendedMetaData="name='UKPostcode' baseType='Postcode' pattern='[A-Z]{2}\\d\\s\\d[A-Z]{2}'" 
+   *        extendedMetaData="name='UKPostcode' baseType='Postcode' pattern='[A-Z]{2}\\d\\s\\d[A-Z]{2}'"
    * @generated
    */
   public EDataType getUKPostcode()
@@ -1244,7 +1244,7 @@ public class IPOPackageImpl extends EPackageImpl
    * @return the meta object for data type '<em>US State Object</em>'.
    * @see org.eclipse.emf.test.models.ipo.USState
    * @model instanceClass="org.eclipse.emf.test.models.ipo.USState"
-   *        extendedMetaData="name='USState:Object' baseType='USState'" 
+   *        extendedMetaData="name='USState:Object' baseType='USState'"
    * @generated
    */
   public EDataType getUSStateObject()

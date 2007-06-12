@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DocumentRoot.java,v 1.3 2007/05/07 17:26:29 marcelop Exp $
+ * $Id: DocumentRoot.java,v 1.4 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname;
 
@@ -80,7 +80,7 @@ public interface DocumentRoot extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getDocumentRoot_XMLNSPrefixMap()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>" transient="true"
    *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
@@ -98,7 +98,7 @@ public interface DocumentRoot extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getDocumentRoot_XSISchemaLocation()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>" transient="true"
    *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */

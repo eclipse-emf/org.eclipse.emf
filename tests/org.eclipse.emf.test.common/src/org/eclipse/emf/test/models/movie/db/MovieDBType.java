@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MovieDBType.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: MovieDBType.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -70,7 +70,7 @@ public interface MovieDBType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Movie</em>' containment reference list.
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieDBType_Movie()
-   * @model type="org.eclipse.emf.test.models.movie.db.MovieType" containment="true" required="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" required="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='movie' namespace='##targetNamespace' group='#:group'"
    * @generated
    */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IPOValidator.java,v 1.2 2007/01/18 22:06:43 marcelop Exp $
+ * $Id: IPOValidator.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo.util;
 
@@ -110,7 +110,7 @@ public class IPOValidator extends EObjectValidator
   }
 
   /**
-   * Calls <code>validateXXX</code> for the corresonding classifier of the model.
+   * Calls <code>validateXXX</code> for the corresponding classifier of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C4U.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: C4U.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable;
 
@@ -109,7 +109,7 @@ public interface C4U extends EObject
    * @see #unsetDu()
    * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getC4U_Du()
    * @see org.eclipse.emf.test.models.ref.unsettable.DU#getC4u
-   * @model type="org.eclipse.emf.test.models.ref.unsettable.DU" opposite="c4u" containment="true" unsettable="true"
+   * @model opposite="c4u" containment="true" unsettable="true"
    * @generated
    */
   EList<DU> getDu();

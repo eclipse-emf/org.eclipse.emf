@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNamePackage.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: QNamePackage.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname;
 
@@ -477,7 +477,7 @@ public interface QNamePackage extends EPackage
    * @return the meta object for data type '<em>Int QName Union</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
-   *        extendedMetaData="name='intQNameUnion' memberTypes='http://www.eclipse.org/emf/2003/XMLType#int http://www.eclipse.org/emf/2003/XMLType#QName'" 
+   *        extendedMetaData="name='intQNameUnion' memberTypes='http://www.eclipse.org/emf/2003/XMLType#int http://www.eclipse.org/emf/2003/XMLType#QName'"
    * @generated
    */
   EDataType getIntQNameUnion();
@@ -489,7 +489,7 @@ public interface QNamePackage extends EPackage
    * @return the meta object for data type '<em>List Union</em>'.
    * @see java.util.List
    * @model instanceClass="java.util.List"
-   *        extendedMetaData="name='listUnion' itemType='Union'" 
+   *        extendedMetaData="name='listUnion' itemType='Union'"
    * @generated
    */
   EDataType getListUnion();
@@ -501,7 +501,7 @@ public interface QNamePackage extends EPackage
    * @return the meta object for data type '<em>Qname List</em>'.
    * @see java.util.List
    * @model instanceClass="java.util.List"
-   *        extendedMetaData="name='qnameList' itemType='http://www.eclipse.org/emf/2003/XMLType#QName'" 
+   *        extendedMetaData="name='qnameList' itemType='http://www.eclipse.org/emf/2003/XMLType#QName'"
    * @generated
    */
   EDataType getQnameList();
@@ -513,7 +513,7 @@ public interface QNamePackage extends EPackage
    * @return the meta object for data type '<em>Union</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
-   *        extendedMetaData="name='Union' memberTypes='http://www.eclipse.org/emf/2003/XMLType#boolean intQNameUnion'" 
+   *        extendedMetaData="name='Union' memberTypes='http://www.eclipse.org/emf/2003/XMLType#boolean intQNameUnion'"
    * @generated
    */
   EDataType getUnion();

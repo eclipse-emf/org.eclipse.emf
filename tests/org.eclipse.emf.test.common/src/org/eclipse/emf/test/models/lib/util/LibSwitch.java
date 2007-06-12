@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibSwitch.java,v 1.2 2007/01/18 22:06:46 marcelop Exp $
+ * $Id: LibSwitch.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.lib.util;
 
@@ -146,13 +146,13 @@ public class LibSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Library</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Library</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Library</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Library</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -162,13 +162,13 @@ public class LibSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Book</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Book</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Book</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Book</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -178,13 +178,13 @@ public class LibSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Address</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Address</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Address</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Address</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -194,13 +194,13 @@ public class LibSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Person</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Person</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Person</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Person</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -210,13 +210,13 @@ public class LibSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Cafeteria</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Cafeteria</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Cafeteria</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Cafeteria</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

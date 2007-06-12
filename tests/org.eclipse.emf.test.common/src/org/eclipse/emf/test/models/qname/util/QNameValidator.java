@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameValidator.java,v 1.4 2007/05/07 17:26:29 marcelop Exp $
+ * $Id: QNameValidator.java,v 1.5 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname.util;
 
@@ -111,7 +111,7 @@ public class QNameValidator extends EObjectValidator
   }
 
   /**
-   * Calls <code>validateXXX</code> for the corresonding classifier of the model.
+   * Calls <code>validateXXX</code> for the corresponding classifier of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

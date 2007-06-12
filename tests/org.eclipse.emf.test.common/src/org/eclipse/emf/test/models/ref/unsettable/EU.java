@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EU.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: EU.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable;
 
@@ -107,7 +107,7 @@ public interface EU extends EObject
    * @see #isSetIds()
    * @see #unsetIds()
    * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getEU_Ids()
-   * @model type="java.lang.String" unsettable="true"
+   * @model unsettable="true"
    * @generated
    */
   EList<String> getIds();
@@ -146,7 +146,7 @@ public interface EU extends EObject
    * @see #isSetLabels()
    * @see #unsetLabels()
    * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getEU_Labels()
-   * @model type="java.lang.String" unsettable="true"
+   * @model unsettable="true"
    * @generated
    */
   EList<String> getLabels();
@@ -187,7 +187,7 @@ public interface EU extends EObject
    * @see #unsetDu()
    * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getEU_Du()
    * @see org.eclipse.emf.test.models.ref.unsettable.DU#getEu
-   * @model type="org.eclipse.emf.test.models.ref.unsettable.DU" opposite="eu" unsettable="true"
+   * @model opposite="eu" unsettable="true"
    * @generated
    */
   EList<DU> getDu();

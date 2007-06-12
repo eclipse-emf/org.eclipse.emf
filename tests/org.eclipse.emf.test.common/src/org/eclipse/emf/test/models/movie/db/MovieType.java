@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MovieType.java,v 1.4 2007/06/02 19:35:32 emerks Exp $
+ * $Id: MovieType.java,v 1.5 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -247,7 +247,7 @@ public interface MovieType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Critics Review</em>' containment reference list.
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieType_CriticsReview()
-   * @model type="org.eclipse.emf.test.models.movie.db.CriticsReviewType" containment="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='criticsReview' namespace='##targetNamespace' group='criticsReview:group'"
    * @generated
    */

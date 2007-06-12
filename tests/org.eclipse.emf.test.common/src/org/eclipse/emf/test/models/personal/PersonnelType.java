@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonnelType.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: PersonnelType.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal;
 
@@ -45,7 +45,7 @@ public interface PersonnelType
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Person</em>' containment reference list.
-   * @model type="org.eclipse.emf.test.models.personal.PersonType" containment="true" required="true"
+   * @model containment="true" required="true"
    *        extendedMetaData="kind='element' name='person' namespace='##targetNamespace'"
    * @generated
    */

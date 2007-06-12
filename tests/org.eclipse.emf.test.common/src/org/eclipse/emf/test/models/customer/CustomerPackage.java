@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomerPackage.java,v 1.2 2007/01/18 22:06:43 marcelop Exp $
+ * $Id: CustomerPackage.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -789,7 +789,7 @@ public interface CustomerPackage extends EPackage
    * @return the meta object for data type '<em>US State Object</em>'.
    * @see org.eclipse.emf.test.models.customer.USState
    * @model instanceClass="org.eclipse.emf.test.models.customer.USState"
-   *        extendedMetaData="name='USState:Object' baseType='USState'" 
+   *        extendedMetaData="name='USState:Object' baseType='USState'"
    * @generated
    */
   EDataType getUSStateObject();
@@ -801,7 +801,7 @@ public interface CustomerPackage extends EPackage
    * @return the meta object for data type '<em>Zip Codes</em>'.
    * @see java.math.BigInteger
    * @model instanceClass="java.math.BigInteger"
-   *        extendedMetaData="name='zipCodes' baseType='http://www.eclipse.org/emf/2003/XMLType#integer' minInclusive='10000' maxInclusive='99999'" 
+   *        extendedMetaData="name='zipCodes' baseType='http://www.eclipse.org/emf/2003/XMLType#integer' minInclusive='10000' maxInclusive='99999'"
    * @generated
    */
   EDataType getZipCodes();
@@ -813,7 +813,7 @@ public interface CustomerPackage extends EPackage
    * @return the meta object for data type '<em>Zip Union</em>'.
    * @see java.lang.Object
    * @model instanceClass="java.lang.Object"
-   *        extendedMetaData="name='zipUnion' memberTypes='USState zipCodes'" 
+   *        extendedMetaData="name='zipUnion' memberTypes='USState zipCodes'"
    * @generated
    */
   EDataType getZipUnion();

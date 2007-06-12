@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOLibrarySwitch.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: SDOLibrarySwitch.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.sdo.library.util;
 
@@ -134,13 +134,13 @@ public class SDOLibrarySwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Book</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Book</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Book</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Book</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -150,13 +150,13 @@ public class SDOLibrarySwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Library</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Library</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Library</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Library</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -166,13 +166,13 @@ public class SDOLibrarySwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Writer</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Writer</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Writer</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Writer</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

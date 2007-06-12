@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C1.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: C1.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -76,7 +76,7 @@ public interface C1 extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>B</em>' containment reference list.
    * @see org.eclipse.emf.test.models.ref.RefPackage#getC1_B()
-   * @model type="org.eclipse.emf.test.models.ref.B" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<B> getB();

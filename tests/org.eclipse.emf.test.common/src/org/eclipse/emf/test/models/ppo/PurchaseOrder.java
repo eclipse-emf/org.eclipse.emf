@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PurchaseOrder.java,v 1.2 2007/01/18 22:06:47 marcelop Exp $
+ * $Id: PurchaseOrder.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ppo;
 
@@ -55,7 +55,7 @@ public interface PurchaseOrder extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Items</em>' containment reference list.
    * @see org.eclipse.emf.test.models.ppo.PPOPackage#getPurchaseOrder_Items()
-   * @model type="org.eclipse.emf.test.models.ppo.Item" containment="true" lower="2"
+   * @model containment="true" lower="2"
    * @generated
    */
   EList<Item> getItems();

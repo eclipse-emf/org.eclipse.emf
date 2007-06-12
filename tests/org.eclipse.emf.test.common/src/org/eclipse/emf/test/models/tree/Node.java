@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Node.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: Node.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.tree;
 
@@ -109,7 +109,7 @@ public interface Node extends EObject
    * @return the value of the '<em>Children</em>' containment reference list.
    * @see org.eclipse.emf.test.models.tree.TreePackage#getNode_Children()
    * @see org.eclipse.emf.test.models.tree.Node#getParent
-   * @model type="org.eclipse.emf.test.models.tree.Node" opposite="parent" containment="true"
+   * @model opposite="parent" containment="true"
    * @generated
    */
   EList<Node> getChildren();
@@ -153,7 +153,7 @@ public interface Node extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Related Nodes</em>' reference list.
    * @see org.eclipse.emf.test.models.tree.TreePackage#getNode_RelatedNodes()
-   * @model type="org.eclipse.emf.test.models.tree.Node"
+   * @model
    * @generated
    */
   EList<Node> getRelatedNodes();

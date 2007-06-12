@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PPOValidator.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: PPOValidator.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.ppo.util;
 
@@ -106,7 +106,7 @@ public class PPOValidator extends EObjectValidator
   }
 
   /**
-   * Calls <code>validateXXX</code> for the corresonding classifier of the model.
+   * Calls <code>validateXXX</code> for the corresponding classifier of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

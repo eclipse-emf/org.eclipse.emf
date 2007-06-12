@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BU.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: BU.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable;
 
@@ -136,7 +136,7 @@ public interface BU extends EObject
    * @see #isSetDu()
    * @see #unsetDu()
    * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getBU_Du()
-   * @model type="org.eclipse.emf.test.models.ref.unsettable.DU" unsettable="true"
+   * @model unsettable="true"
    * @generated
    */
   EList<DU> getDu();

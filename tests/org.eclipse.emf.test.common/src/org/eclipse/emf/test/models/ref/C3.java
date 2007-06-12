@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C3.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: C3.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref;
 
@@ -50,7 +50,7 @@ public interface C3 extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>D</em>' containment reference list.
    * @see org.eclipse.emf.test.models.ref.RefPackage#getC3_D()
-   * @model type="org.eclipse.emf.test.models.ref.D" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<D> getD();

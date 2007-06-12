@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Library.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: Library.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.library;
 
@@ -77,7 +77,7 @@ public interface Library extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Writers</em>' containment reference list.
    * @see org.eclipse.emf.test.models.library.LibraryPackage#getLibrary_Writers()
-   * @model type="org.eclipse.emf.test.models.library.Writer" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<Writer> getWriters();
@@ -93,7 +93,7 @@ public interface Library extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' containment reference list.
    * @see org.eclipse.emf.test.models.library.LibraryPackage#getLibrary_Books()
-   * @model type="org.eclipse.emf.test.models.library.Book" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<Book> getBooks();

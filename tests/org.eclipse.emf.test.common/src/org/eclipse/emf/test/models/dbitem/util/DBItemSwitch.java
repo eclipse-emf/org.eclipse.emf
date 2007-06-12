@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBItemSwitch.java,v 1.2 2007/01/18 22:06:46 marcelop Exp $
+ * $Id: DBItemSwitch.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
  */
 package org.eclipse.emf.test.models.dbitem.util;
 
@@ -125,13 +125,13 @@ public class DBItemSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Db Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Db Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Db Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Db Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -141,13 +141,13 @@ public class DBItemSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Document Root</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Document Root</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Document Root</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Document Root</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

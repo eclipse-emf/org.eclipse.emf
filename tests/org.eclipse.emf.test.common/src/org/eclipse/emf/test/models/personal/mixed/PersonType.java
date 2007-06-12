@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonType.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: PersonType.java,v 1.4 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed;
 
@@ -98,7 +98,7 @@ public interface PersonType
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Email</em>' attribute list.
-   * @model type="java.lang.String" unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
+   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='email' namespace='##targetNamespace'"
    * @generated
    */
@@ -114,7 +114,7 @@ public interface PersonType
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Url</em>' containment reference list.
-   * @model type="org.eclipse.emf.test.models.personal.mixed.UrlType" containment="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='url' namespace='##targetNamespace'"
    * @generated
    */

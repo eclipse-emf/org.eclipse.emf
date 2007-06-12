@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: C3U.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: C3U.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable;
 
@@ -105,7 +105,7 @@ public interface C3U extends EObject
    * @see #isSetDu()
    * @see #unsetDu()
    * @see org.eclipse.emf.test.models.ref.unsettable.URefPackage#getC3U_Du()
-   * @model type="org.eclipse.emf.test.models.ref.unsettable.DU" containment="true" unsettable="true"
+   * @model containment="true" unsettable="true"
    * @generated
    */
   EList<DU> getDu();
