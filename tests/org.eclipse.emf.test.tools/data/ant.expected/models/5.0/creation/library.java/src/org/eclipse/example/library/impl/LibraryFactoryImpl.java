@@ -1,11 +1,14 @@
 /**
  * This is my code.
  *
- * $Id: LibraryFactoryImpl.java,v 1.5 2007/06/11 21:12:19 emerks Exp $
+ * $Id: LibraryFactoryImpl.java,v 1.6 2007/06/12 00:20:35 marcelop Exp $
  */
 package org.eclipse.example.library.impl;
 
+import java.util.List;
 import java.util.Map;
+
+import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -73,8 +76,8 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
       case LibraryPackage.BOOK: return createBook();
       case LibraryPackage.LIBRARY: return createLibrary();
       case LibraryPackage.WRITER: return createWriter();
-      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY: return (EObject)createEStringToBookMapEntry();
-      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY: return (EObject)createEStringToWriterMapEntry();
+      case LibraryPackage.WRITER_NAME_MAP: return (EObject)createWriterNameMap();
+      case LibraryPackage.MAP_OF_DATA_TYPES: return (EObject)createMapOfDataTypes();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -92,10 +95,18 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
     {
       case LibraryPackage.BOOK_CATEGORY:
         return createBookCategoryFromString(eDataType, initialValue);
+      case LibraryPackage.WRITER_NUMBER:
+        return createWriterNumberFromString(eDataType, initialValue);
+      case LibraryPackage.WRITER_ID:
+        return createWriterIDFromString(eDataType, initialValue);
+      case LibraryPackage.MANY_UR_IS:
+        return createManyURIsFromString(eDataType, initialValue);
       case LibraryPackage.MAP:
         return createMapFromString(eDataType, initialValue);
-      case LibraryPackage.MY_MAP_OF_INTEGERS_AND_STRINGS:
-        return createMyMapOfIntegersAndStringsFromString(eDataType, initialValue);
+      case LibraryPackage.LIST:
+        return createListFromString(eDataType, initialValue);
+      case LibraryPackage.URI:
+        return createURIFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -113,10 +124,18 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
     {
       case LibraryPackage.BOOK_CATEGORY:
         return convertBookCategoryToString(eDataType, instanceValue);
+      case LibraryPackage.WRITER_NUMBER:
+        return convertWriterNumberToString(eDataType, instanceValue);
+      case LibraryPackage.WRITER_ID:
+        return convertWriterIDToString(eDataType, instanceValue);
+      case LibraryPackage.MANY_UR_IS:
+        return convertManyURIsToString(eDataType, instanceValue);
       case LibraryPackage.MAP:
         return convertMapToString(eDataType, instanceValue);
-      case LibraryPackage.MY_MAP_OF_INTEGERS_AND_STRINGS:
-        return convertMyMapOfIntegersAndStringsToString(eDataType, instanceValue);
+      case LibraryPackage.LIST:
+        return convertListToString(eDataType, instanceValue);
+      case LibraryPackage.URI:
+        return convertURIToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -160,10 +179,10 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Map.Entry<String, Book> createEStringToBookMapEntry()
+  public Map.Entry<String, Writer> createWriterNameMap()
   {
-    EStringToBookMapEntryImpl eStringToBookMapEntry = new EStringToBookMapEntryImpl();
-    return eStringToBookMapEntry;
+    WriterNameMapImpl writerNameMap = new WriterNameMapImpl();
+    return writerNameMap;
   }
 
   /**
@@ -171,10 +190,10 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Map.Entry<String, Writer> createEStringToWriterMapEntry()
+  public Map.Entry<Integer, String> createMapOfDataTypes()
   {
-    EStringToWriterMapEntryImpl eStringToWriterMapEntry = new EStringToWriterMapEntryImpl();
-    return eStringToWriterMapEntry;
+    MapOfDataTypesImpl mapOfDataTypes = new MapOfDataTypesImpl();
+    return mapOfDataTypes;
   }
 
   /**
@@ -204,10 +223,70 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
-  public Map<String, String> createMapFromString(EDataType eDataType, String initialValue)
+  public Integer createWriterNumberFromString(EDataType eDataType, String initialValue)
   {
-    return (Map<String, String>)super.createFromString(initialValue);
+    return (Integer)super.createFromString(eDataType, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertWriterNumberToString(EDataType eDataType, Object instanceValue)
+  {
+    return super.convertToString(eDataType, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String createWriterIDFromString(EDataType eDataType, String initialValue)
+  {
+    return (String)super.createFromString(eDataType, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertWriterIDToString(EDataType eDataType, Object instanceValue)
+  {
+    return super.convertToString(eDataType, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  public List createManyURIsFromString(EDataType eDataType, String initialValue)
+  {
+    return (List)super.createFromString(initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertManyURIsToString(EDataType eDataType, Object instanceValue)
+  {
+    return super.convertToString(instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Map<?, ?> createMapFromString(EDataType eDataType, String initialValue)
+  {
+    return (Map<?, ?>)super.createFromString(initialValue);
   }
 
   /**
@@ -225,10 +304,9 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
-  public Map<Integer, String> createMyMapOfIntegersAndStringsFromString(EDataType eDataType, String initialValue)
+  public List<?> createListFromString(EDataType eDataType, String initialValue)
   {
-    return (Map<Integer, String>)super.createFromString(initialValue);
+    return (List<?>)super.createFromString(initialValue);
   }
 
   /**
@@ -236,9 +314,29 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public String convertMyMapOfIntegersAndStringsToString(EDataType eDataType, Object instanceValue)
+  public String convertListToString(EDataType eDataType, Object instanceValue)
   {
     return super.convertToString(instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public URI createURIFromString(EDataType eDataType, String initialValue)
+  {
+    return (URI)super.createFromString(eDataType, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertURIToString(EDataType eDataType, Object instanceValue)
+  {
+    return super.convertToString(eDataType, instanceValue);
   }
 
   /**

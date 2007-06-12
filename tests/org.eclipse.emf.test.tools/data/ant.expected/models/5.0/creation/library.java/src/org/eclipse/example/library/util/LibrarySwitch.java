@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: LibrarySwitch.java,v 1.5 2007/06/11 21:12:18 emerks Exp $
+ * $Id: LibrarySwitch.java,v 1.6 2007/06/12 00:20:35 marcelop Exp $
  */
 package org.eclipse.example.library.util;
 
@@ -117,17 +117,17 @@ public class LibrarySwitch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY:
+      case LibraryPackage.WRITER_NAME_MAP:
       {
-        @SuppressWarnings("unchecked") Map.Entry<String, Book> eStringToBookMapEntry = (Map.Entry<String, Book>)theEObject;
-        T result = caseEStringToBookMapEntry(eStringToBookMapEntry);
+        @SuppressWarnings("unchecked") Map.Entry<String, Writer> writerNameMap = (Map.Entry<String, Writer>)theEObject;
+        T result = caseWriterNameMap(writerNameMap);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY:
+      case LibraryPackage.MAP_OF_DATA_TYPES:
       {
-        @SuppressWarnings("unchecked") Map.Entry<String, Writer> eStringToWriterMapEntry = (Map.Entry<String, Writer>)theEObject;
-        T result = caseEStringToWriterMapEntry(eStringToWriterMapEntry);
+        @SuppressWarnings("unchecked") Map.Entry<Integer, String> mapOfDataTypes = (Map.Entry<Integer, String>)theEObject;
+        T result = caseMapOfDataTypes(mapOfDataTypes);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -184,33 +184,33 @@ public class LibrarySwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EString To Book Map Entry</em>'.
+   * Returns the result of interpretting the object as an instance of '<em>Writer Name Map</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EString To Book Map Entry</em>'.
+   * @return the result of interpretting the object as an instance of '<em>Writer Name Map</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseEStringToBookMapEntry(Map.Entry<String, Book> object)
+  public T caseWriterNameMap(Map.Entry<String, Writer> object)
   {
     return null;
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EString To Writer Map Entry</em>'.
+   * Returns the result of interpretting the object as an instance of '<em>Map Of Data Types</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EString To Writer Map Entry</em>'.
+   * @return the result of interpretting the object as an instance of '<em>Map Of Data Types</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseEStringToWriterMapEntry(Map.Entry<String, Writer> object)
+  public T caseMapOfDataTypes(Map.Entry<Integer, String> object)
   {
     return null;
   }

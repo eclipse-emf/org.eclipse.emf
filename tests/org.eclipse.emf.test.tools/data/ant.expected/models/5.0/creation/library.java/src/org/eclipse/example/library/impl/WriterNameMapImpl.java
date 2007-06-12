@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: EStringToWriterMapEntryImpl.java,v 1.3 2007/06/11 21:12:19 emerks Exp $
+ * $Id: WriterNameMapImpl.java,v 1.1 2007/06/12 00:20:35 marcelop Exp $
  */
 package org.eclipse.example.library.impl;
 
@@ -22,19 +22,19 @@ import org.eclipse.example.library.Writer;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>EString To Writer Map Entry</b></em>'.
+ * An implementation of the model object '<em><b>Writer Name Map</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.example.library.impl.EStringToWriterMapEntryImpl#getTypedKey <em>Key</em>}</li>
- *   <li>{@link org.eclipse.example.library.impl.EStringToWriterMapEntryImpl#getTypedValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.example.library.impl.WriterNameMapImpl#getTypedKey <em>Key</em>}</li>
+ *   <li>{@link org.eclipse.example.library.impl.WriterNameMapImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class EStringToWriterMapEntryImpl extends EObjectImpl implements BasicEMap.Entry<String,Writer>
+public class WriterNameMapImpl extends EObjectImpl implements BasicEMap.Entry<String,Writer>
 {
   /**
    * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
@@ -71,7 +71,7 @@ public class EStringToWriterMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EStringToWriterMapEntryImpl()
+  protected WriterNameMapImpl()
   {
     super();
   }
@@ -84,7 +84,7 @@ public class EStringToWriterMapEntryImpl extends EObjectImpl implements BasicEMa
   @Override
   protected EClass eStaticClass()
   {
-    return LibraryPackage.Literals.ESTRING_TO_WRITER_MAP_ENTRY;
+    return LibraryPackage.Literals.WRITER_NAME_MAP;
   }
 
   /**
@@ -107,7 +107,7 @@ public class EStringToWriterMapEntryImpl extends EObjectImpl implements BasicEMa
     String oldKey = key;
     key = newKey;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY__KEY, oldKey, key));
+      eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.WRITER_NAME_MAP__KEY, oldKey, key));
   }
 
   /**
@@ -124,7 +124,7 @@ public class EStringToWriterMapEntryImpl extends EObjectImpl implements BasicEMa
       if (value != oldValue)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY__VALUE, oldValue, value));
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, LibraryPackage.WRITER_NAME_MAP__VALUE, oldValue, value));
       }
     }
     return value;
@@ -150,7 +150,7 @@ public class EStringToWriterMapEntryImpl extends EObjectImpl implements BasicEMa
     Writer oldValue = value;
     value = newValue;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY__VALUE, oldValue, value));
+      eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.WRITER_NAME_MAP__VALUE, oldValue, value));
   }
 
   /**
@@ -163,9 +163,9 @@ public class EStringToWriterMapEntryImpl extends EObjectImpl implements BasicEMa
   {
     switch (featureID)
     {
-      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY__KEY:
+      case LibraryPackage.WRITER_NAME_MAP__KEY:
         return getTypedKey();
-      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY__VALUE:
+      case LibraryPackage.WRITER_NAME_MAP__VALUE:
         if (resolve) return getTypedValue();
         return basicGetTypedValue();
     }
@@ -182,10 +182,10 @@ public class EStringToWriterMapEntryImpl extends EObjectImpl implements BasicEMa
   {
     switch (featureID)
     {
-      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY__KEY:
+      case LibraryPackage.WRITER_NAME_MAP__KEY:
         setTypedKey((String)newValue);
         return;
-      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY__VALUE:
+      case LibraryPackage.WRITER_NAME_MAP__VALUE:
         setTypedValue((Writer)newValue);
         return;
     }
@@ -202,10 +202,10 @@ public class EStringToWriterMapEntryImpl extends EObjectImpl implements BasicEMa
   {
     switch (featureID)
     {
-      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY__KEY:
+      case LibraryPackage.WRITER_NAME_MAP__KEY:
         setTypedKey(KEY_EDEFAULT);
         return;
-      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY__VALUE:
+      case LibraryPackage.WRITER_NAME_MAP__VALUE:
         setTypedValue((Writer)null);
         return;
     }
@@ -222,9 +222,9 @@ public class EStringToWriterMapEntryImpl extends EObjectImpl implements BasicEMa
   {
     switch (featureID)
     {
-      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY__KEY:
+      case LibraryPackage.WRITER_NAME_MAP__KEY:
         return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
-      case LibraryPackage.ESTRING_TO_WRITER_MAP_ENTRY__VALUE:
+      case LibraryPackage.WRITER_NAME_MAP__VALUE:
         return value != null;
     }
     return super.eIsSet(featureID);
@@ -333,4 +333,4 @@ public class EStringToWriterMapEntryImpl extends EObjectImpl implements BasicEMa
     return container == null ? null : (EMap<String, Writer>)container.eGet(eContainmentFeature());
   }
 
-} //EStringToWriterMapEntryImpl
+} //WriterNameMapImpl

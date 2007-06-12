@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: EStringToBookMapEntryImpl.java,v 1.3 2007/06/11 21:12:19 emerks Exp $
+ * $Id: MapOfDataTypesImpl.java,v 1.1 2007/06/12 00:20:35 marcelop Exp $
  */
 package org.eclipse.example.library.impl;
 
@@ -12,29 +12,27 @@ import org.eclipse.emf.common.util.EMap;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.example.library.Book;
 import org.eclipse.example.library.LibraryPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>EString To Book Map Entry</b></em>'.
+ * An implementation of the model object '<em><b>Map Of Data Types</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.example.library.impl.EStringToBookMapEntryImpl#getTypedKey <em>Key</em>}</li>
- *   <li>{@link org.eclipse.example.library.impl.EStringToBookMapEntryImpl#getTypedValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.example.library.impl.MapOfDataTypesImpl#getTypedKey <em>Key</em>}</li>
+ *   <li>{@link org.eclipse.example.library.impl.MapOfDataTypesImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.Entry<String,Book>
+public class MapOfDataTypesImpl extends EObjectImpl implements BasicEMap.Entry<Integer,String>
 {
   /**
    * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
@@ -44,7 +42,7 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
    * @generated
    * @ordered
    */
-  protected static final String KEY_EDEFAULT = null;
+  protected static final Integer KEY_EDEFAULT = null;
 
   /**
    * The cached value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
@@ -54,24 +52,34 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
    * @generated
    * @ordered
    */
-  protected String key = KEY_EDEFAULT;
+  protected Integer key = KEY_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getTypedValue() <em>Value</em>}' reference.
+   * The default value of the '{@link #getTypedValue() <em>Value</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getTypedValue()
    * @generated
    * @ordered
    */
-  protected Book value;
+  protected static final String VALUE_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getTypedValue() <em>Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTypedValue()
+   * @generated
+   * @ordered
+   */
+  protected String value = VALUE_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EStringToBookMapEntryImpl()
+  protected MapOfDataTypesImpl()
   {
     super();
   }
@@ -84,7 +92,7 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
   @Override
   protected EClass eStaticClass()
   {
-    return LibraryPackage.Literals.ESTRING_TO_BOOK_MAP_ENTRY;
+    return LibraryPackage.Literals.MAP_OF_DATA_TYPES;
   }
 
   /**
@@ -92,7 +100,7 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getTypedKey()
+  public Integer getTypedKey()
   {
     return key;
   }
@@ -102,12 +110,12 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setTypedKey(String newKey)
+  public void setTypedKey(Integer newKey)
   {
-    String oldKey = key;
+    Integer oldKey = key;
     key = newKey;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY__KEY, oldKey, key));
+      eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.MAP_OF_DATA_TYPES__KEY, oldKey, key));
   }
 
   /**
@@ -115,27 +123,7 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
    * <!-- end-user-doc -->
    * @generated
    */
-  public Book getTypedValue()
-  {
-    if (value != null && value.eIsProxy())
-    {
-      InternalEObject oldValue = (InternalEObject)value;
-      value = (Book)eResolveProxy(oldValue);
-      if (value != oldValue)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY__VALUE, oldValue, value));
-      }
-    }
-    return value;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Book basicGetTypedValue()
+  public String getTypedValue()
   {
     return value;
   }
@@ -145,12 +133,12 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setTypedValue(Book newValue)
+  public void setTypedValue(String newValue)
   {
-    Book oldValue = value;
+    String oldValue = value;
     value = newValue;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY__VALUE, oldValue, value));
+      eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.MAP_OF_DATA_TYPES__VALUE, oldValue, value));
   }
 
   /**
@@ -163,11 +151,10 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
   {
     switch (featureID)
     {
-      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY__KEY:
+      case LibraryPackage.MAP_OF_DATA_TYPES__KEY:
         return getTypedKey();
-      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY__VALUE:
-        if (resolve) return getTypedValue();
-        return basicGetTypedValue();
+      case LibraryPackage.MAP_OF_DATA_TYPES__VALUE:
+        return getTypedValue();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -182,11 +169,11 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
   {
     switch (featureID)
     {
-      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY__KEY:
-        setTypedKey((String)newValue);
+      case LibraryPackage.MAP_OF_DATA_TYPES__KEY:
+        setTypedKey((Integer)newValue);
         return;
-      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY__VALUE:
-        setTypedValue((Book)newValue);
+      case LibraryPackage.MAP_OF_DATA_TYPES__VALUE:
+        setTypedValue((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -202,11 +189,11 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
   {
     switch (featureID)
     {
-      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY__KEY:
+      case LibraryPackage.MAP_OF_DATA_TYPES__KEY:
         setTypedKey(KEY_EDEFAULT);
         return;
-      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY__VALUE:
-        setTypedValue((Book)null);
+      case LibraryPackage.MAP_OF_DATA_TYPES__VALUE:
+        setTypedValue(VALUE_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -222,10 +209,10 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
   {
     switch (featureID)
     {
-      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY__KEY:
+      case LibraryPackage.MAP_OF_DATA_TYPES__KEY:
         return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
-      case LibraryPackage.ESTRING_TO_BOOK_MAP_ENTRY__VALUE:
-        return value != null;
+      case LibraryPackage.MAP_OF_DATA_TYPES__VALUE:
+        return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
     }
     return super.eIsSet(featureID);
   }
@@ -243,6 +230,8 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (key: ");
     result.append(key);
+    result.append(", value: ");
+    result.append(value);
     result.append(')');
     return result.toString();
   }
@@ -284,7 +273,7 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getKey()
+  public Integer getKey()
   {
     return getTypedKey();
   }
@@ -294,7 +283,7 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setKey(String key)
+  public void setKey(Integer key)
   {
     setTypedKey(key);
   }
@@ -304,7 +293,7 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
    * <!-- end-user-doc -->
    * @generated
    */
-  public Book getValue()
+  public String getValue()
   {
     return getTypedValue();
   }
@@ -314,9 +303,9 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
    * <!-- end-user-doc -->
    * @generated
    */
-  public Book setValue(Book value)
+  public String setValue(String value)
   {
-    Book oldValue = getValue();
+    String oldValue = getValue();
     setTypedValue(value);
     return oldValue;
   }
@@ -327,10 +316,10 @@ public class EStringToBookMapEntryImpl extends EObjectImpl implements BasicEMap.
    * @generated
    */
   @SuppressWarnings("unchecked")
-  public EMap<String, Book> getEMap()
+  public EMap<Integer, String> getEMap()
   {
     EObject container = eContainer();
-    return container == null ? null : (EMap<String, Book>)container.eGet(eContainmentFeature());
+    return container == null ? null : (EMap<Integer, String>)container.eGet(eContainmentFeature());
   }
 
-} //EStringToBookMapEntryImpl
+} //MapOfDataTypesImpl

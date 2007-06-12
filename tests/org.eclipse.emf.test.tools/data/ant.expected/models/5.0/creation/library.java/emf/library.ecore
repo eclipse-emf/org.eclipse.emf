@@ -24,15 +24,16 @@
         eType="#//Book" containment="true" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="specialBooks" upperBound="-1"
         eType="#//Book"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="bookByTitleMap" upperBound="-1"
-        eType="#//EStringToBookMapEntry" containment="true" resolveProxies="false"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="writerByNameMap">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bookByTitleMap">
       <eGenericType eClassifier="#//Map">
         <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-        <eTypeArguments eClassifier="#//Writer"/>
+        <eTypeArguments eClassifier="#//Book"/>
       </eGenericType>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="writerByIDMap" eType="#//MyMapOfIntegersAndStrings"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="writerByNameMap" upperBound="-1"
+        eType="#//WriterNameMap" containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="writerByIDMap" upperBound="-1"
+        eType="#//MapOfDataTypes" containment="true" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="options">
       <eGenericType eClassifier="#//Map">
         <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -42,34 +43,35 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="map1">
       <eGenericType eClassifier="#//Map">
         <eTypeArguments eClassifier="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-        <eTypeArguments eClassifier="#//URI"/>
+        <eTypeArguments eClassifier="#//List">
+          <eTypeArguments eClassifier="#//URI"/>
+        </eTypeArguments>
       </eGenericType>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="map2">
-      <eGenericType eClassifier="#//Map">
-        <eTypeArguments eClassifier="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-        <eTypeArguments eClassifier="#//URI"/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="list10" upperBound="-1"
-        eType="#//URI"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="list20" upperBound="-1"
-        eType="#//URI"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="list30" eType="#//URI"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uRIs_1" eType="#//ManyURIs"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Writer">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="books" upperBound="-1"
         eType="#//Book" eOpposite="#//Book/author"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EStringToBookMapEntry" instanceClassName="java.util.Map$Entry">
+  <eClassifiers xsi:type="ecore:EClass" name="WriterNameMap" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Book"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//Writer"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="MyMapOfIntegersAndStrings" instanceTypeName="java.util.Map&lt;java.lang.Integer, java.lang.String>"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="WriterNumber" instanceClassName="java.lang.Integer"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="WriterID" instanceClassName="java.lang.String"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MapOfDataTypes" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="#//WriterNumber"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//WriterID"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ManyURIs" instanceTypeName="java.util.List&lt;org.eclipse.emf.common.util.URI>"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Map" instanceClassName="java.util.Map">
     <eTypeParameters name="T"/>
     <eTypeParameters name="T1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="List" instanceClassName="java.util.List">
+    <eTypeParameters name="T"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="URI" instanceClassName="org.eclipse.emf.common.util.URI"/>
 </ecore:EPackage>

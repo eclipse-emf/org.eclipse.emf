@@ -24,7 +24,7 @@ public interface Writer extends EObject
   void setName(String value);
 
   /**
-   * @model type="Book" opposite="author"
+   * @model opposite="author"
    */
   EList<Book> getBooks();
 }

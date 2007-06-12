@@ -2,8 +2,10 @@ package org.eclipse.example.library;
 
 import java.util.List;
 import java.util.Map;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -27,7 +29,7 @@ public interface Library extends EObject
   void setName(String value);
 
   /**
-   * @model type="Writer" containment="true"
+   * @model containment="true"
    */
   EList<Writer> getWriters();
 
@@ -37,20 +39,40 @@ public interface Library extends EObject
   EList<Book> getBooks();
   
   /**
-   * @model keyType="String" valueType="Book"
+   * @model
    */
-  EMap<String, Book> getBookByTitleMap();
-  
+  EList<Book> getSpecialBooks();
+
   /**
    * @model
    */
+  Map<String, Book> getBookByTitleMap();
+  
+  /**
+   * Sets the value of the '{@link org.eclipse.example.library.Library#getBookByTitleMap <em>Book By Title Map</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Book By Title Map</em>' attribute.
+   * @see #getBookByTitleMap()
+   * @generated
+   */
+  void setBookByTitleMap(Map<String, Book> value);
+
+  /**
+   * @model mapType="WriterNameMap"
+   */
   EMap<String, Writer> getWriterByNameMap();
+    
+  /**
+   * @model mapType="MapOfDataTypes<WriterNumber, WriterID>"
+   */  
+  EMap<Integer, String> getWriterByIDMap();
   
   /**
    * @model kind="attribute"
    */
   Map<String, String> getOptions();
-  
+    
   /**
    * Sets the value of the '{@link org.eclipse.example.library.Library#getOptions <em>Options</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -62,17 +84,32 @@ public interface Library extends EObject
   void setOptions(Map<String, String> value);
 
   /**
-   * @model dataType="MyMapOfIntegersAndStrings"
-   */  
-  Map<Integer, String> getWriterByIDMap();
-
+   * @model
+   */
+  Map<EObject, List<URI>> getMap1();
+  
   /**
-   * Sets the value of the '{@link org.eclipse.example.library.Library#getWriterByIDMap <em>Writer By ID Map</em>}' attribute.
+   * Sets the value of the '{@link org.eclipse.example.library.Library#getMap1 <em>Map1</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Writer By ID Map</em>' attribute.
-   * @see #getWriterByIDMap()
+   * @param value the new value of the '<em>Map1</em>' attribute.
+   * @see #getMap1()
    * @generated
    */
-  void setWriterByIDMap(Map<Integer, String> value);
+  void setMap1(Map<EObject, List<URI>> value);
+
+  /**
+   * @model dataType="ManyURIs"
+   */
+  List<URI> getURIs_1();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.example.library.Library#getURIs_1 <em>UR Is 1</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>UR Is 1</em>' attribute.
+   * @see #getURIs_1()
+   * @generated
+   */
+  void setURIs_1(List<URI> value);  
 }
