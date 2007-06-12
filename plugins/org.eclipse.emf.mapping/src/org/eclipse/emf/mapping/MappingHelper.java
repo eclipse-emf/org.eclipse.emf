@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelper.java,v 1.5 2006/12/29 18:29:09 marcelop Exp $
+ * $Id: MappingHelper.java,v 1.6 2007/06/12 15:07:33 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -137,7 +137,7 @@ public interface MappingHelper extends EObject
    * @return the value of the '<em>Nested</em>' containment reference list.
    * @see org.eclipse.emf.mapping.MappingPackage#getMappingHelper_Nested()
    * @see org.eclipse.emf.mapping.MappingHelper#getNestedIn
-   * @model type="org.eclipse.emf.mapping.MappingHelper" opposite="nestedIn" containment="true"
+   * @model opposite="nestedIn" containment="true"
    * @generated
    */
   EList<MappingHelper> getNested();

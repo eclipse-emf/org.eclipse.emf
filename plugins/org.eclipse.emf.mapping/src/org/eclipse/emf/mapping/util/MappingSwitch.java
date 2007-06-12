@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingSwitch.java,v 1.6 2006/12/29 18:29:10 marcelop Exp $
+ * $Id: MappingSwitch.java,v 1.7 2007/06/12 15:07:33 emerks Exp $
  */
 package org.eclipse.emf.mapping.util;
 
@@ -176,13 +176,13 @@ public class MappingSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Helper</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Helper</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Helper</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Helper</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -192,13 +192,13 @@ public class MappingSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Mapping</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Mapping</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Mapping</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Mapping</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -208,13 +208,13 @@ public class MappingSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Type Converter</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Type Converter</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Type Converter</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Type Converter</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -224,13 +224,13 @@ public class MappingSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Function Pair</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Function Pair</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Function Pair</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Function Pair</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -240,13 +240,13 @@ public class MappingSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Function Name Pair</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Function Name Pair</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Function Name Pair</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Function Name Pair</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -256,13 +256,13 @@ public class MappingSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Strategy</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Strategy</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Strategy</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Strategy</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -272,13 +272,13 @@ public class MappingSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Root</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Root</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Root</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Root</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -288,13 +288,13 @@ public class MappingSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Complex Type Converter</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Complex Type Converter</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Complex Type Converter</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Complex Type Converter</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

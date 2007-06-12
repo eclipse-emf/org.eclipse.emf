@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Mapping.java,v 1.4 2006/12/29 18:29:09 marcelop Exp $
+ * $Id: Mapping.java,v 1.5 2007/06/12 15:07:33 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -88,7 +88,7 @@ public interface Mapping extends EObject
    * @return the value of the '<em>Nested</em>' containment reference list.
    * @see org.eclipse.emf.mapping.MappingPackage#getMapping_Nested()
    * @see org.eclipse.emf.mapping.Mapping#getNestedIn
-   * @model type="org.eclipse.emf.mapping.Mapping" opposite="nestedIn" containment="true"
+   * @model opposite="nestedIn" containment="true"
    * @generated
    */
   EList<Mapping> getNested();
@@ -132,7 +132,7 @@ public interface Mapping extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Inputs</em>' reference list.
    * @see org.eclipse.emf.mapping.MappingPackage#getMapping_Inputs()
-   * @model type="org.eclipse.emf.ecore.EObject"
+   * @model
    * @generated
    */
   EList<EObject> getInputs();
@@ -148,7 +148,7 @@ public interface Mapping extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Outputs</em>' reference list.
    * @see org.eclipse.emf.mapping.MappingPackage#getMapping_Outputs()
-   * @model type="org.eclipse.emf.ecore.EObject"
+   * @model
    * @generated
    */
   EList<EObject> getOutputs();
