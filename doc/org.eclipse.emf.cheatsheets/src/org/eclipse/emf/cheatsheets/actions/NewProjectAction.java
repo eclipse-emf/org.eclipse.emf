@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NewProjectAction.java,v 1.2 2006/12/19 01:45:57 marcelop Exp $
+ * $Id: NewProjectAction.java,v 1.3 2007/06/12 20:56:18 emerks Exp $
  */
 package org.eclipse.emf.cheatsheets.actions;
 
@@ -103,7 +103,7 @@ public class NewProjectAction extends Action implements ICheatSheetAction
    * @param projectName Name of the project
    * @return Project
    * @throws CoreException 
-   * @throws Exception
+   * @throws CoreException
    */
   protected IProject createProject(String projectName, IProgressMonitor monitor) throws CoreException
   {
