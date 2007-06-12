@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Borrower.java,v 1.2 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: Borrower.java,v 1.3 2007/06/12 15:07:54 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -51,7 +51,7 @@ public interface Borrower extends Person
    * @return the value of the '<em>Borrowed</em>' reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getBorrower_Borrowed()
    * @see org.eclipse.emf.examples.extlibrary.Lendable#getBorrowers
-   * @model type="org.eclipse.emf.examples.extlibrary.Lendable" opposite="borrowers"
+   * @model opposite="borrowers"
    * @generated
    */
   EList<Lendable> getBorrowed();

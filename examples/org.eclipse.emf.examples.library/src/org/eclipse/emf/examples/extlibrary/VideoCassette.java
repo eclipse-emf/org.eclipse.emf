@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: VideoCassette.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: VideoCassette.java,v 1.4 2007/06/12 15:07:54 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -49,7 +49,7 @@ public interface VideoCassette extends AudioVisualItem
    * <!-- end-user-doc -->
    * @return the value of the '<em>Cast</em>' reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getVideoCassette_Cast()
-   * @model type="org.eclipse.emf.examples.extlibrary.Person"
+   * @model
    * @generated
    */
   EList<Person> getCast();

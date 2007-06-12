@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Writer.java,v 1.2 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: Writer.java,v 1.3 2007/06/12 15:07:54 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -78,7 +78,7 @@ public interface Writer extends Person
    * @return the value of the '<em>Books</em>' reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getWriter_Books()
    * @see org.eclipse.emf.examples.extlibrary.Book#getAuthor
-   * @model type="org.eclipse.emf.examples.extlibrary.Book" opposite="author"
+   * @model opposite="author"
    * @generated
    */
   EList<Book> getBooks();

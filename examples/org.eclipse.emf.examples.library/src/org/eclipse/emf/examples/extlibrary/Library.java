@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Library.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: Library.java,v 1.4 2007/06/12 15:07:54 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -85,7 +85,7 @@ public interface Library extends Addressable
    * <!-- end-user-doc -->
    * @return the value of the '<em>Writers</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Writers()
-   * @model type="org.eclipse.emf.examples.extlibrary.Writer" containment="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="group='#people'"
    * @generated
    */
@@ -102,7 +102,7 @@ public interface Library extends Addressable
    * <!-- end-user-doc -->
    * @return the value of the '<em>Employees</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Employees()
-   * @model type="org.eclipse.emf.examples.extlibrary.Employee" containment="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="group='#people'"
    * @generated
    */
@@ -119,7 +119,7 @@ public interface Library extends Addressable
    * <!-- end-user-doc -->
    * @return the value of the '<em>Borrowers</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Borrowers()
-   * @model type="org.eclipse.emf.examples.extlibrary.Borrower" containment="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="group='#people'"
    * @generated
    */
@@ -136,7 +136,7 @@ public interface Library extends Addressable
    * <!-- end-user-doc -->
    * @return the value of the '<em>Stock</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Stock()
-   * @model type="org.eclipse.emf.examples.extlibrary.Item" containment="true" ordered="false"
+   * @model containment="true" ordered="false"
    * @generated
    */
   EList<Item> getStock();
@@ -152,7 +152,7 @@ public interface Library extends Addressable
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Books()
-   * @model type="org.eclipse.emf.examples.extlibrary.Book" transient="true" derived="true" ordered="false"
+   * @model transient="true" derived="true" ordered="false"
    * @generated
    */
   EList<Book> getBooks();
@@ -170,7 +170,7 @@ public interface Library extends Addressable
    * @return the value of the '<em>Branches</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Branches()
    * @see org.eclipse.emf.examples.extlibrary.Library#getParentBranch
-   * @model type="org.eclipse.emf.examples.extlibrary.Library" opposite="parentBranch" containment="true"
+   * @model opposite="parentBranch" containment="true"
    * @generated
    */
   EList<Library> getBranches();

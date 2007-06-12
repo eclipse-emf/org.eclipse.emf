@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Lendable.java,v 1.2 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: Lendable.java,v 1.3 2007/06/12 15:07:54 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -80,7 +80,7 @@ public interface Lendable extends EObject
    * @return the value of the '<em>Borrowers</em>' reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLendable_Borrowers()
    * @see org.eclipse.emf.examples.extlibrary.Borrower#getBorrowed
-   * @model type="org.eclipse.emf.examples.extlibrary.Borrower" opposite="borrowed" ordered="false"
+   * @model opposite="borrowed" ordered="false"
    * @generated
    */
   EList<Borrower> getBorrowers();
