@@ -13,7 +13,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="BookCategory">
     <eLiterals name="MYSTERY"/>
-    <eLiterals name="ScienceFiction" value="300" literal="Science Fiction"/>
+    <eLiterals name="ScienceFiction" value="2" literal="Science Fiction"/>
     <eLiterals name="Biography" value="100"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Library">
