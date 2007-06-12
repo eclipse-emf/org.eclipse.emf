@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.77 2007/06/05 19:02:44 emerks Exp $
+ * $Id: XMLHandler.java,v 1.78 2007/06/12 12:05:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1398,7 +1398,9 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       {
         EObject object = objects.popEObject();
         if (mixedTargets.peek() != null && 
-              (object.eContainer() != null || recordUnknownFeature && eObjectToExtensionMap.containsValue(object))) 
+              (object.eContainer() != null || 
+                 recordUnknownFeature && 
+                   (eObjectToExtensionMap.containsValue(object) || ((InternalEObject)object).eDirectResource() != null))) 
         {
           handleMixedText();
           mixedTargets.pop();
