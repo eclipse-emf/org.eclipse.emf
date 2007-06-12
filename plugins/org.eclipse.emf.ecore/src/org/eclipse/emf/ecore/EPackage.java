@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackage.java,v 1.8 2006/12/26 19:06:33 emerks Exp $
+ * $Id: EPackage.java,v 1.9 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -176,7 +176,7 @@ public interface EPackage extends ENamedElement
    * @return the value of the '<em>EClassifiers</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEPackage_EClassifiers()
    * @see org.eclipse.emf.ecore.EClassifier#getEPackage
-   * @model type="org.eclipse.emf.ecore.EClassifier" opposite="ePackage" containment="true" resolveProxies="true"
+   * @model opposite="ePackage" containment="true" resolveProxies="true"
    * @generated
    */
   EList<EClassifier> getEClassifiers();
@@ -193,7 +193,7 @@ public interface EPackage extends ENamedElement
    * @return the value of the '<em>ESubpackages</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEPackage_ESubpackages()
    * @see org.eclipse.emf.ecore.EPackage#getESuperPackage
-   * @model type="org.eclipse.emf.ecore.EPackage" opposite="eSuperPackage" containment="true" resolveProxies="true"
+   * @model opposite="eSuperPackage" containment="true" resolveProxies="true"
    * @generated
    */
   EList<EPackage> getESubpackages();

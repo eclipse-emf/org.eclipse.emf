@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpaceType.java,v 1.5 2006/12/15 20:51:56 marcelop Exp $
+ * $Id: SpaceType.java,v 1.6 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getSpaceType()
- * @model
+ * @model extendedMetaData="name='space_._type'"
  * @generated
  */
 public enum SpaceType implements Enumerator

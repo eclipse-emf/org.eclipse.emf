@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypeParameter.java,v 1.2 2006/12/26 19:05:26 emerks Exp $
+ * $Id: ETypeParameter.java,v 1.3 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -47,7 +47,7 @@ public interface ETypeParameter extends ENamedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>EBounds</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getETypeParameter_EBounds()
-   * @model type="org.eclipse.emf.ecore.EGenericType" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<EGenericType> getEBounds();

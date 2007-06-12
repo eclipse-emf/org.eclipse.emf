@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.17 2007/06/11 21:11:10 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.18 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -356,7 +356,7 @@ public class EcoreValidator extends EObjectValidator
   }
 
   /**
-   * Calls <code>validateXXX</code> for the corresonding classifier of the model.
+   * Calls <code>validateXXX</code> for the corresponding classifier of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

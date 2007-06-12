@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSwitch.java,v 1.10 2006/12/13 16:00:14 emerks Exp $
+ * $Id: EcoreSwitch.java,v 1.11 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -286,13 +286,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EModel Element</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EModel Element</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EModel Element</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EModel Element</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -302,13 +302,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EStructural Feature</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EStructural Feature</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EStructural Feature</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EStructural Feature</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -318,13 +318,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EAnnotation</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EAnnotation</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EAnnotation</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EAnnotation</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -334,13 +334,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EAttribute</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EAttribute</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EAttribute</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EAttribute</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -350,13 +350,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EClass</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EClass</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EClass</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EClass</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -366,13 +366,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EData Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EData Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EData Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EData Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -382,13 +382,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EClassifier</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EClassifier</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EClassifier</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EClassifier</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -398,13 +398,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>ENamed Element</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>ENamed Element</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>ENamed Element</em>'.
+   * @return the result of interpreting the object as an instance of '<em>ENamed Element</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -430,13 +430,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>ETyped Element</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>ETyped Element</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>ETyped Element</em>'.
+   * @return the result of interpreting the object as an instance of '<em>ETyped Element</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -446,13 +446,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EString To String Map Entry</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EString To String Map Entry</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EString To String Map Entry</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EString To String Map Entry</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -462,13 +462,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EGeneric Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EGeneric Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EGeneric Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EGeneric Type</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -478,13 +478,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EType Parameter</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EType Parameter</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EType Parameter</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EType Parameter</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -494,13 +494,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EParameter</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EParameter</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EParameter</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EParameter</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -510,13 +510,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EOperation</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EOperation</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EOperation</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EOperation</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -526,13 +526,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EPackage</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EPackage</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EPackage</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EPackage</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -542,13 +542,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EFactory</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EFactory</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EFactory</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EFactory</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -558,13 +558,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EEnum Literal</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EEnum Literal</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EEnum Literal</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EEnum Literal</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -574,13 +574,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EEnum</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EEnum</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EEnum</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EEnum</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -590,13 +590,13 @@ public class EcoreSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EReference</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EReference</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EReference</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EReference</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

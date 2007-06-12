@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifier.java,v 1.7 2006/12/26 19:06:33 emerks Exp $
+ * $Id: EClassifier.java,v 1.8 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -160,7 +160,7 @@ public interface EClassifier extends ENamedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>EType Parameters</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClassifier_ETypeParameters()
-   * @model type="org.eclipse.emf.ecore.ETypeParameter" containment="true" resolveProxies="true"
+   * @model containment="true" resolveProxies="true"
    * @generated
    */
   EList<ETypeParameter> getETypeParameters();

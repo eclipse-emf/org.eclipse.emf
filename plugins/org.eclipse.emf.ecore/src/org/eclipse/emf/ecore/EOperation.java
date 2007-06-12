@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperation.java,v 1.7 2006/12/26 19:06:33 emerks Exp $
+ * $Id: EOperation.java,v 1.8 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -70,7 +70,7 @@ public interface EOperation extends ETypedElement
    * @return the value of the '<em>EParameters</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEOperation_EParameters()
    * @see org.eclipse.emf.ecore.EParameter#getEOperation
-   * @model type="org.eclipse.emf.ecore.EParameter" opposite="eOperation" containment="true"
+   * @model opposite="eOperation" containment="true"
    * @generated
    */
   EList<EParameter> getEParameters();
@@ -87,7 +87,7 @@ public interface EOperation extends ETypedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>EExceptions</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEOperation_EExceptions()
-   * @model type="org.eclipse.emf.ecore.EClassifier" unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @model unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
    * @generated
    */
   EList<EClassifier> getEExceptions();
@@ -105,7 +105,7 @@ public interface EOperation extends ETypedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>EGeneric Exceptions</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEOperation_EGenericExceptions()
-   * @model type="org.eclipse.emf.ecore.EGenericType" containment="true" unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @model containment="true" unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
    * @generated
    */
   EList<EGenericType> getEGenericExceptions();
@@ -121,7 +121,7 @@ public interface EOperation extends ETypedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>EType Parameters</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEOperation_ETypeParameters()
-   * @model type="org.eclipse.emf.ecore.ETypeParameter" containment="true" resolveProxies="true"
+   * @model containment="true" resolveProxies="true"
    * @generated
    */
   EList<ETypeParameter> getETypeParameters();

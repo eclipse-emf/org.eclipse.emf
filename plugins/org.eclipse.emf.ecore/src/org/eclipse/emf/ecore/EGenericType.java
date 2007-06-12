@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericType.java,v 1.4 2007/01/16 20:00:38 emerks Exp $
+ * $Id: EGenericType.java,v 1.5 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -83,7 +83,7 @@ public interface EGenericType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>EType Arguments</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEGenericType_ETypeArguments()
-   * @model type="org.eclipse.emf.ecore.EGenericType" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<EGenericType> getETypeArguments();

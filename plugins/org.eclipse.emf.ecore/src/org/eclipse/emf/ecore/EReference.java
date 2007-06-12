@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReference.java,v 1.7 2006/12/29 18:09:56 marcelop Exp $
+ * $Id: EReference.java,v 1.8 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -156,7 +156,7 @@ public interface EReference extends EStructuralFeature
    * <!-- end-user-doc -->
    * @return the value of the '<em>EKeys</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEReference_EKeys()
-   * @model type="org.eclipse.emf.ecore.EAttribute"
+   * @model
    * @generated
    */
   EList<EAttribute> getEKeys();

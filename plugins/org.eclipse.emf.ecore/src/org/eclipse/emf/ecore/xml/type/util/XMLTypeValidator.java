@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.12 2007/04/04 20:05:52 emerks Exp $
+ * $Id: XMLTypeValidator.java,v 1.13 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -108,7 +108,7 @@ public class XMLTypeValidator extends EObjectValidator
   }
 
   /**
-   * Calls <code>validateXXX</code> for the corresonding classifier of the model.
+   * Calls <code>validateXXX</code> for the corresponding classifier of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

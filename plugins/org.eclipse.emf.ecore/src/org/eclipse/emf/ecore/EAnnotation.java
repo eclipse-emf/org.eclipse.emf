@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotation.java,v 1.7 2006/12/26 19:06:33 emerks Exp $
+ * $Id: EAnnotation.java,v 1.8 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -79,7 +79,7 @@ public interface EAnnotation extends EModelElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Details</em>' map.
    * @see org.eclipse.emf.ecore.EcorePackage#getEAnnotation_Details()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
    * @generated
    */
   EMap<String, String> getDetails();
@@ -118,7 +118,7 @@ public interface EAnnotation extends EModelElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Contents</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEAnnotation_Contents()
-   * @model type="org.eclipse.emf.ecore.EObject" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<EObject> getContents();
@@ -133,7 +133,7 @@ public interface EAnnotation extends EModelElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>References</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEAnnotation_References()
-   * @model type="org.eclipse.emf.ecore.EObject"
+   * @model
    * @generated
    */
   EList<EObject> getReferences();

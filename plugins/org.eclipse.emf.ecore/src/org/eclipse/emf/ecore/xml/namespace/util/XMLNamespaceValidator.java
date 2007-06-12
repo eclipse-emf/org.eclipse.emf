@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceValidator.java,v 1.4 2006/12/05 20:22:30 emerks Exp $
+ * $Id: XMLNamespaceValidator.java,v 1.5 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.util;
 
@@ -108,7 +108,7 @@ public class XMLNamespaceValidator extends EObjectValidator
   }
 
   /**
-   * Calls <code>validateXXX</code> for the corresonding classifier of the model.
+   * Calls <code>validateXXX</code> for the corresponding classifier of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

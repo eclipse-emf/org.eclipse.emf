@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRoot.java,v 1.5 2006/12/09 18:09:29 emerks Exp $
+ * $Id: XMLTypeDocumentRoot.java,v 1.6 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -38,13 +38,13 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot()
  * @model features="cDATA comment processingInstruction text" 
- *        cDATAType="java.lang.String" cDATAUnique="false" cDATADataType="org.eclipse.emf.ecore.xml.type.String" cDATAUpper="-2" cDATATransient="true" cDATAVolatile="true" cDATADerived="true" cDATASuppressedGetVisibility="true"
+ *        cDATAUnique="false" cDATADataType="org.eclipse.emf.ecore.xml.type.String" cDATAUpper="-2" cDATATransient="true" cDATAVolatile="true" cDATADerived="true" cDATASuppressedGetVisibility="true"
  *        cDATAExtendedMetaData="kind='element' name='cDATA' namespace='##targetNamespace'"
- *        commentType="java.lang.String" commentUnique="false" commentDataType="org.eclipse.emf.ecore.xml.type.String" commentUpper="-2" commentTransient="true" commentVolatile="true" commentDerived="true" commentSuppressedGetVisibility="true"
+ *        commentUnique="false" commentDataType="org.eclipse.emf.ecore.xml.type.String" commentUpper="-2" commentTransient="true" commentVolatile="true" commentDerived="true" commentSuppressedGetVisibility="true"
  *        commentExtendedMetaData="kind='element' name='comment' namespace='##targetNamespace'"
  *        processingInstructionType="org.eclipse.emf.ecore.xml.type.ProcessingInstruction" processingInstructionContainment="true" processingInstructionUpper="-2" processingInstructionTransient="true" processingInstructionVolatile="true" processingInstructionDerived="true" processingInstructionSuppressedGetVisibility="true"
  *        processingInstructionExtendedMetaData="kind='element' name='processingInstruction' namespace='##targetNamespace'"
- *        textType="java.lang.String" textUnique="false" textDataType="org.eclipse.emf.ecore.xml.type.String" textUpper="-2" textTransient="true" textVolatile="true" textDerived="true" textSuppressedGetVisibility="true"
+ *        textUnique="false" textDataType="org.eclipse.emf.ecore.xml.type.String" textUpper="-2" textTransient="true" textVolatile="true" textDerived="true" textSuppressedGetVisibility="true"
  *        textExtendedMetaData="kind='element' name='text' namespace='##targetNamespace'"
  *        extendedMetaData="name='' kind='mixed'"
  * @generated
@@ -72,7 +72,7 @@ public interface XMLTypeDocumentRoot extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_XMLNSPrefixMap()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>" transient="true"
    *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
@@ -86,7 +86,7 @@ public interface XMLTypeDocumentRoot extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_XSISchemaLocation()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String" transient="true"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>" transient="true"
    *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */

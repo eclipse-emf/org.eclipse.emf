@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.14 2007/01/09 05:16:42 davidms Exp $
+ * $Id: EcorePackage.java,v 1.15 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -3425,8 +3425,8 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for class '<em>EString To String Map Entry</em>'.
    * @see java.util.Map.Entry
-   * @model keyType="java.lang.String"
-   *        valueType="java.lang.String"
+   * @model keyDataType="org.eclipse.emf.ecore.EString"
+   *        valueDataType="org.eclipse.emf.ecore.EString"
    * @generated
    */
   EClass getEStringToStringMapEntry();
@@ -3557,7 +3557,7 @@ public interface EcorePackage extends EPackage
    * @return the meta object for data type '<em>EBig Decimal</em>'.
    * @see java.math.BigDecimal
    * @model instanceClass="java.math.BigDecimal"
-   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#decimal'" 
+   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#decimal'"
    * @generated
    */
   EDataType getEBigDecimal();
@@ -3569,7 +3569,7 @@ public interface EcorePackage extends EPackage
    * @return the meta object for data type '<em>EBig Integer</em>'.
    * @see java.math.BigInteger
    * @model instanceClass="java.math.BigInteger"
-   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#integer'" 
+   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#integer'"
    * @generated
    */
   EDataType getEBigInteger();
@@ -3580,7 +3580,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EE List</em>'.
    * @see org.eclipse.emf.common.util.EList
-   * @model instanceClass="org.eclipse.emf.common.util.EList" serializable="false"
+   * @model instanceClass="org.eclipse.emf.common.util.EList" serializeable="false" typeParameters="E"
    * @generated
    */
   EDataType getEEList();
@@ -3591,7 +3591,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EResource</em>'.
    * @see org.eclipse.emf.ecore.resource.Resource
-   * @model instanceClass="org.eclipse.emf.ecore.resource.Resource" serializable="false"
+   * @model instanceClass="org.eclipse.emf.ecore.resource.Resource" serializeable="false"
    * @generated
    */
   EDataType getEResource();
@@ -3602,7 +3602,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EResource Set</em>'.
    * @see org.eclipse.emf.ecore.resource.ResourceSet
-   * @model instanceClass="org.eclipse.emf.ecore.resource.ResourceSet" serializable="false"
+   * @model instanceClass="org.eclipse.emf.ecore.resource.ResourceSet" serializeable="false"
    * @generated
    */
   EDataType getEResourceSet();
@@ -3614,7 +3614,7 @@ public interface EcorePackage extends EPackage
    * @return the meta object for data type '<em>EBoolean Object</em>'.
    * @see java.lang.Boolean
    * @model instanceClass="java.lang.Boolean"
-   *        extendedMetaData="baseType='EBoolean' name='EBoolean:Object'" 
+   *        extendedMetaData="baseType='EBoolean' name='EBoolean:Object'"
    * @generated
    */
   EDataType getEBooleanObject();
@@ -3626,7 +3626,7 @@ public interface EcorePackage extends EPackage
    * @return the meta object for data type '<em>ECharacter Object</em>'.
    * @see java.lang.Character
    * @model instanceClass="java.lang.Character"
-   *        extendedMetaData="baseType='EChar' name='EChar:Object'" 
+   *        extendedMetaData="baseType='EChar' name='EChar:Object'"
    * @generated
    */
   EDataType getECharacterObject();
@@ -3648,7 +3648,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EDiagnostic Chain</em>'.
    * @see org.eclipse.emf.common.util.DiagnosticChain
-   * @model instanceClass="org.eclipse.emf.common.util.DiagnosticChain" serializable="false"
+   * @model instanceClass="org.eclipse.emf.common.util.DiagnosticChain" serializeable="false"
    * @generated
    */
   EDataType getEDiagnosticChain();
@@ -3660,7 +3660,7 @@ public interface EcorePackage extends EPackage
    * @return the meta object for data type '<em>EDouble Object</em>'.
    * @see java.lang.Double
    * @model instanceClass="java.lang.Double"
-   *        extendedMetaData="baseType='EDouble' name='EDouble:Object'" 
+   *        extendedMetaData="baseType='EDouble' name='EDouble:Object'"
    * @generated
    */
   EDataType getEDoubleObject();
@@ -3672,7 +3672,7 @@ public interface EcorePackage extends EPackage
    * @return the meta object for data type '<em>EFloat Object</em>'.
    * @see java.lang.Float
    * @model instanceClass="java.lang.Float"
-   *        extendedMetaData="baseType='EFloat' name='EFloat:Object'" 
+   *        extendedMetaData="baseType='EFloat' name='EFloat:Object'"
    * @generated
    */
   EDataType getEFloatObject();
@@ -3684,7 +3684,7 @@ public interface EcorePackage extends EPackage
    * @return the meta object for data type '<em>EInteger Object</em>'.
    * @see java.lang.Integer
    * @model instanceClass="java.lang.Integer"
-   *        extendedMetaData="baseType='EInt' name='EInt:Object'" 
+   *        extendedMetaData="baseType='EInt' name='EInt:Object'"
    * @generated
    */
   EDataType getEIntegerObject();
@@ -3695,7 +3695,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EBoolean</em>'.
    * @model instanceClass="boolean"
-   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#boolean'" 
+   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#boolean'"
    * @generated
    */
   EDataType getEBoolean();
@@ -3707,7 +3707,7 @@ public interface EcorePackage extends EPackage
    * @return the meta object for data type '<em>EByte Object</em>'.
    * @see java.lang.Byte
    * @model instanceClass="java.lang.Byte"
-   *        extendedMetaData="baseType='EByte' name='EByte:Object'" 
+   *        extendedMetaData="baseType='EByte' name='EByte:Object'"
    * @generated
    */
   EDataType getEByteObject();
@@ -3718,7 +3718,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EByte</em>'.
    * @model instanceClass="byte"
-   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#byte'" 
+   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#byte'"
    * @generated
    */
   EDataType getEByte();
@@ -3729,7 +3729,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EByte Array</em>'.
    * @model instanceClass="byte[]"
-   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#hexBinary'" 
+   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#hexBinary'"
    * @generated
    */
   EDataType getEByteArray();
@@ -3750,7 +3750,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EDouble</em>'.
    * @model instanceClass="double"
-   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#double'" 
+   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#double'"
    * @generated
    */
   EDataType getEDouble();
@@ -3761,7 +3761,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EFloat</em>'.
    * @model instanceClass="float"
-   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#float'" 
+   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#float'"
    * @generated
    */
   EDataType getEFloat();
@@ -3772,7 +3772,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EInt</em>'.
    * @model instanceClass="int"
-   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#int'" 
+   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#int'"
    * @generated
    */
   EDataType getEInt();
@@ -3783,7 +3783,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EJava Class</em>'.
    * @see java.lang.Class
-   * @model instanceClass="java.lang.Class"
+   * @model instanceClass="java.lang.Class" typeParameters="T"
    * @generated
    */
   EDataType getEJavaClass();
@@ -3806,7 +3806,7 @@ public interface EcorePackage extends EPackage
    * @return the meta object for data type '<em>ELong Object</em>'.
    * @see java.lang.Long
    * @model instanceClass="java.lang.Long"
-   *        extendedMetaData="baseType='ELong' name='ELong:Object'" 
+   *        extendedMetaData="baseType='ELong' name='ELong:Object'"
    * @generated
    */
   EDataType getELongObject();
@@ -3817,7 +3817,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EMap</em>'.
    * @see java.util.Map
-   * @model instanceClass="java.util.Map" serializable="false"
+   * @model instanceClass="java.util.Map" serializeable="false" typeParameters="K V"
    * @generated
    */
   EDataType getEMap();
@@ -3829,7 +3829,7 @@ public interface EcorePackage extends EPackage
    * @return the meta object for data type '<em>EShort Object</em>'.
    * @see java.lang.Short
    * @model instanceClass="java.lang.Short"
-   *        extendedMetaData="baseType='EShort' name='EShort:Object'" 
+   *        extendedMetaData="baseType='EShort' name='EShort:Object'"
    * @generated
    */
   EDataType getEShortObject();
@@ -3840,7 +3840,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>ELong</em>'.
    * @model instanceClass="long"
-   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#long'" 
+   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#long'"
    * @generated
    */
   EDataType getELong();
@@ -3851,7 +3851,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EShort</em>'.
    * @model instanceClass="short"
-   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#short'" 
+   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#short'"
    * @generated
    */
   EDataType getEShort();
@@ -3862,7 +3862,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>ETree Iterator</em>'.
    * @see org.eclipse.emf.common.util.TreeIterator
-   * @model instanceClass="org.eclipse.emf.common.util.TreeIterator" serializable="false"
+   * @model instanceClass="org.eclipse.emf.common.util.TreeIterator" serializeable="false" typeParameters="E"
    * @generated
    */
   EDataType getETreeIterator();
@@ -3873,7 +3873,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EFeature Map Entry</em>'.
    * @see org.eclipse.emf.ecore.util.FeatureMap.Entry
-   * @model instanceClass="org.eclipse.emf.ecore.util.FeatureMap$Entry" serializable="false"
+   * @model instanceClass="org.eclipse.emf.ecore.util.FeatureMap$Entry" serializeable="false"
    * @generated
    */
   EDataType getEFeatureMapEntry();
@@ -3884,7 +3884,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EEnumerator</em>'.
    * @see org.eclipse.emf.common.util.Enumerator
-   * @model instanceClass="org.eclipse.emf.common.util.Enumerator" serializable="false"
+   * @model instanceClass="org.eclipse.emf.common.util.Enumerator" serializeable="false"
    * @generated
    */
   EDataType getEEnumerator();
@@ -3895,7 +3895,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EFeature Map</em>'.
    * @see org.eclipse.emf.ecore.util.FeatureMap
-   * @model instanceClass="org.eclipse.emf.ecore.util.FeatureMap" serializable="false"
+   * @model instanceClass="org.eclipse.emf.ecore.util.FeatureMap" serializeable="false"
    * @generated
    */
   EDataType getEFeatureMap();
@@ -3907,7 +3907,7 @@ public interface EcorePackage extends EPackage
    * @return the meta object for data type '<em>EString</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
-   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#string'" 
+   *        extendedMetaData="baseType='http://www.w3.org/2001/XMLSchema#string'"
    * @generated
    */
   EDataType getEString();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClass.java,v 1.10 2006/12/26 19:06:33 emerks Exp $
+ * $Id: EClass.java,v 1.11 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -122,7 +122,7 @@ public interface EClass extends EClassifier
    * <!-- end-user-doc -->
    * @return the value of the '<em>ESuper Types</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_ESuperTypes()
-   * @model type="org.eclipse.emf.ecore.EClass" unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @model unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
    * @generated
    */
   EList<EClass> getESuperTypes();
@@ -140,7 +140,7 @@ public interface EClass extends EClassifier
    * <!-- end-user-doc -->
    * @return the value of the '<em>EAll Super Types</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EAllSuperTypes()
-   * @model type="org.eclipse.emf.ecore.EClass" transient="true" changeable="false" volatile="true" derived="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   EList<EClass> getEAllSuperTypes();
@@ -173,7 +173,7 @@ public interface EClass extends EClassifier
    * @return the value of the '<em>EStructural Features</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EStructuralFeatures()
    * @see org.eclipse.emf.ecore.EStructuralFeature#getEContainingClass
-   * @model type="org.eclipse.emf.ecore.EStructuralFeature" opposite="eContainingClass" containment="true"
+   * @model opposite="eContainingClass" containment="true"
    * @generated
    */
   EList<EStructuralFeature> getEStructuralFeatures();
@@ -191,7 +191,7 @@ public interface EClass extends EClassifier
    * <!-- end-user-doc -->
    * @return the value of the '<em>EGeneric Super Types</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EGenericSuperTypes()
-   * @model type="org.eclipse.emf.ecore.EGenericType" containment="true" unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @model containment="true" unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
    * @generated
    */
   EList<EGenericType> getEGenericSuperTypes();
@@ -210,7 +210,7 @@ public interface EClass extends EClassifier
    * <!-- end-user-doc -->
    * @return the value of the '<em>EAll Generic Super Types</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EAllGenericSuperTypes()
-   * @model type="org.eclipse.emf.ecore.EGenericType" transient="true" changeable="false" volatile="true" derived="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   EList<EGenericType> getEAllGenericSuperTypes();
@@ -225,7 +225,7 @@ public interface EClass extends EClassifier
    * <!-- end-user-doc -->
    * @return the value of the '<em>EAttributes</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EAttributes()
-   * @model type="org.eclipse.emf.ecore.EAttribute" transient="true" changeable="false" volatile="true" derived="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   EList<EAttribute> getEAttributes();
@@ -240,7 +240,7 @@ public interface EClass extends EClassifier
    * <!-- end-user-doc -->
    * @return the value of the '<em>EAll Attributes</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EAllAttributes()
-   * @model type="org.eclipse.emf.ecore.EAttribute" transient="true" changeable="false" volatile="true" derived="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   EList<EAttribute> getEAllAttributes();
@@ -255,7 +255,7 @@ public interface EClass extends EClassifier
    * <!-- end-user-doc -->
    * @return the value of the '<em>EReferences</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EReferences()
-   * @model type="org.eclipse.emf.ecore.EReference" transient="true" changeable="false" volatile="true" derived="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   EList<EReference> getEReferences();
@@ -270,7 +270,7 @@ public interface EClass extends EClassifier
    * <!-- end-user-doc -->
    * @return the value of the '<em>EAll References</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EAllReferences()
-   * @model type="org.eclipse.emf.ecore.EReference" transient="true" changeable="false" volatile="true" derived="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   EList<EReference> getEAllReferences();
@@ -287,7 +287,7 @@ public interface EClass extends EClassifier
    * <!-- end-user-doc -->
    * @return the value of the '<em>EAll Containments</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EAllContainments()
-   * @model type="org.eclipse.emf.ecore.EReference" transient="true" changeable="false" volatile="true" derived="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   EList<EReference> getEAllContainments();
@@ -302,7 +302,7 @@ public interface EClass extends EClassifier
    * <!-- end-user-doc -->
    * @return the value of the '<em>EAll Structural Features</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EAllStructuralFeatures()
-   * @model type="org.eclipse.emf.ecore.EStructuralFeature" transient="true" changeable="false" volatile="true" derived="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   EList<EStructuralFeature> getEAllStructuralFeatures();
@@ -319,7 +319,7 @@ public interface EClass extends EClassifier
    * @return the value of the '<em>EOperations</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EOperations()
    * @see org.eclipse.emf.ecore.EOperation#getEContainingClass
-   * @model type="org.eclipse.emf.ecore.EOperation" opposite="eContainingClass" containment="true"
+   * @model opposite="eContainingClass" containment="true"
    * @generated
    */
   EList<EOperation> getEOperations();
@@ -334,7 +334,7 @@ public interface EClass extends EClassifier
    * <!-- end-user-doc -->
    * @return the value of the '<em>EAll Operations</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEClass_EAllOperations()
-   * @model type="org.eclipse.emf.ecore.EOperation" transient="true" changeable="false" volatile="true" derived="true"
+   * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
   EList<EOperation> getEAllOperations();

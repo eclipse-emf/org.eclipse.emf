@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElement.java,v 1.6 2006/12/05 20:22:25 emerks Exp $
+ * $Id: EModelElement.java,v 1.7 2007/06/12 15:07:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -50,7 +50,7 @@ public interface EModelElement extends EObject
    * @return the value of the '<em>EAnnotations</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEModelElement_EAnnotations()
    * @see org.eclipse.emf.ecore.EAnnotation#getEModelElement
-   * @model type="org.eclipse.emf.ecore.EAnnotation" opposite="eModelElement" containment="true"
+   * @model opposite="eModelElement" containment="true"
    * @generated
    */
   EList<EAnnotation> getEAnnotations();
