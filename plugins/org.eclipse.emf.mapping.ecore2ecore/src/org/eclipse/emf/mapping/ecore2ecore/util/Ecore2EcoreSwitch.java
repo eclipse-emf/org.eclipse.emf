@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreSwitch.java,v 1.7 2007/06/12 15:07:20 emerks Exp $
+ * $Id: Ecore2EcoreSwitch.java,v 1.8 2007/06/12 21:15:32 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.util;
 
@@ -172,13 +172,13 @@ public class Ecore2EcoreSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch, but this is the last case anyway.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
