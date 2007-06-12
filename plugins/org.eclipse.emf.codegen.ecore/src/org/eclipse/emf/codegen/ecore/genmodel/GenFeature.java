@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.22 2007/04/23 17:21:17 emerks Exp $
+ * $Id: GenFeature.java,v 1.23 2007/06/12 15:07:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -225,7 +225,7 @@ public interface GenFeature extends GenTypedElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Property Filter Flags</em>' attribute list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature_PropertyFilterFlags()
-   * @model type="java.lang.String"
+   * @model
    * @generated
    */
   EList<String> getPropertyFilterFlags();

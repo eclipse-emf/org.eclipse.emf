@@ -65,8 +65,8 @@ public class SwitchClass
   protected final String TEXT_48 = " = defaultCase(theEObject);" + NL + "\t\t\t\treturn ";
   protected final String TEXT_49 = ";" + NL + "\t\t\t}";
   protected final String TEXT_50 = NL + "\t\t\tdefault: return defaultCase(theEObject);" + NL + "\t\t}" + NL + "\t}";
-  protected final String TEXT_51 = NL + NL + "\t/**" + NL + "\t * Returns the result of interpretting the object as an instance of '<em>";
-  protected final String TEXT_52 = "</em>'." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * This implementation returns null;" + NL + "\t * returning a non-null result will terminate the switch." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @param object the target of the switch." + NL + "\t * @return the result of interpretting the object as an instance of '<em>";
+  protected final String TEXT_51 = NL + NL + "\t/**" + NL + "\t * Returns the result of interpreting the object as an instance of '<em>";
+  protected final String TEXT_52 = "</em>'." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * This implementation returns null;" + NL + "\t * returning a non-null result will terminate the switch." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @param object the target of the switch." + NL + "\t * @return the result of interpreting the object as an instance of '<em>";
   protected final String TEXT_53 = "</em>'." + NL + "\t * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
   protected final String TEXT_54 = " case";
   protected final String TEXT_55 = "(";

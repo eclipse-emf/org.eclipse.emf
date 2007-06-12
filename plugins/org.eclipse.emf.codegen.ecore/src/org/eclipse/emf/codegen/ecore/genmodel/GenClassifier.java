@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifier.java,v 1.9 2007/05/10 13:52:56 emerks Exp $
+ * $Id: GenClassifier.java,v 1.10 2007/06/12 15:07:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -68,7 +68,7 @@ public interface GenClassifier extends GenBase {
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Type Parameters</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClassifier_GenTypeParameters()
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<GenTypeParameter> getGenTypeParameters();

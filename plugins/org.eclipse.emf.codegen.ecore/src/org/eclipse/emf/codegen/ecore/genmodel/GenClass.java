@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.26 2007/05/03 20:58:43 emerks Exp $
+ * $Id: GenClass.java,v 1.27 2007/06/12 15:07:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -169,7 +169,7 @@ public interface GenClass extends GenClassifier
    * @return the value of the '<em>Gen Features</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClass_GenFeatures()
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getGenClass
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenFeature" opposite="genClass" containment="true"
+   * @model opposite="genClass" containment="true"
    * @generated
    */
   EList<GenFeature> getGenFeatures();
@@ -187,7 +187,7 @@ public interface GenClass extends GenClassifier
    * @return the value of the '<em>Gen Operations</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClass_GenOperations()
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getGenClass
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenOperation" opposite="genClass" containment="true"
+   * @model opposite="genClass" containment="true"
    * @generated
    */
   EList<GenOperation> getGenOperations();

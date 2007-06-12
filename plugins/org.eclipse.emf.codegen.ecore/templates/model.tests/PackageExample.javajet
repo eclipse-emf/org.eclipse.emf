@@ -68,7 +68,7 @@ public class <%=genPackage.getExampleClassName()%>
 		//
 		<%=_ResourceSet%> resourceSet = new <%=_ResourceSetImpl%>();
 		
-		// Register the appropriate resource factory to handle all file extentions.
+		// Register the appropriate resource factory to handle all file extensions.
 		//
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
 			(Resource.Factory.Registry.DEFAULT_EXTENSION, 

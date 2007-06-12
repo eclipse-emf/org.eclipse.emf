@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenAnnotation.java,v 1.2 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenAnnotation.java,v 1.3 2007/06/12 15:07:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -70,7 +70,7 @@ public interface GenAnnotation extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Details</em>' map.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenAnnotation_Details()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
    * @generated
    */
   EMap<String, String> getDetails();
@@ -114,7 +114,7 @@ public interface GenAnnotation extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>References</em>' reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenAnnotation_References()
-   * @model type="org.eclipse.emf.ecore.EObject"
+   * @model
    * @generated
    */
   EList<EObject> getReferences();
@@ -130,7 +130,7 @@ public interface GenAnnotation extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Contents</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenAnnotation_Contents()
-   * @model type="org.eclipse.emf.ecore.EObject" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<EObject> getContents();

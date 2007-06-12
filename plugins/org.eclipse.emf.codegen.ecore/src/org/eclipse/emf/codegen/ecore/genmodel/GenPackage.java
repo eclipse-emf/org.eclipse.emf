@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.30 2006/12/29 18:06:38 marcelop Exp $
+ * $Id: GenPackage.java,v 1.31 2007/06/12 15:07:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -614,7 +614,7 @@ public interface GenPackage extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Enums</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_GenEnums()
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenEnum" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<GenEnum> getGenEnums();
@@ -630,7 +630,7 @@ public interface GenPackage extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Data Types</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_GenDataTypes()
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenDataType" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<GenDataType> getGenDataTypes();
@@ -646,7 +646,7 @@ public interface GenPackage extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Classes</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_GenClasses()
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenClass" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<GenClass> getGenClasses();
@@ -662,7 +662,7 @@ public interface GenPackage extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Nested Gen Packages</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_NestedGenPackages()
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenPackage" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<GenPackage> getNestedGenPackages();
@@ -680,7 +680,7 @@ public interface GenPackage extends GenBase
    * @return the value of the '<em>Gen Classifiers</em>' reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_GenClassifiers()
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenClassifier#getGenPackage
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenClassifier" opposite="genPackage" resolveProxies="false" transient="true" changeable="false" volatile="true"
+   * @model opposite="genPackage" resolveProxies="false" transient="true" changeable="false" volatile="true"
    * @generated
    */
   EList<GenClassifier> getGenClassifiers();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.14 2007/05/10 13:52:56 emerks Exp $
+ * $Id: GenOperation.java,v 1.15 2007/06/12 15:07:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -110,7 +110,7 @@ public interface GenOperation extends GenTypedElement {
    * @return the value of the '<em>Gen Parameters</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenOperation_GenParameters()
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenParameter#getGenOperation
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenParameter" opposite="genOperation" containment="true"
+   * @model opposite="genOperation" containment="true"
    * @generated
    */
   EList<GenParameter> getGenParameters();
@@ -125,7 +125,7 @@ public interface GenOperation extends GenTypedElement {
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Type Parameters</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenOperation_GenTypeParameters()
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<GenTypeParameter> getGenTypeParameters();

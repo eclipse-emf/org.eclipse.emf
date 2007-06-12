@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.49 2007/05/15 22:35:12 emerks Exp $
+ * $Id: GenModel.java,v 1.50 2007/06/12 15:07:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -430,7 +430,7 @@ public interface GenModel extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Foreign Model</em>' attribute list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ForeignModel()
-   * @model type="java.lang.String"
+   * @model
    * @generated
    */
   EList<String> getForeignModel();
@@ -784,7 +784,7 @@ public interface GenModel extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Static Packages</em>' attribute list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_StaticPackages()
-   * @model type="java.lang.String"
+   * @model
    * @generated
    */
   EList<String> getStaticPackages();
@@ -800,7 +800,7 @@ public interface GenModel extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Model Plugin Variables</em>' attribute list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ModelPluginVariables()
-   * @model type="java.lang.String"
+   * @model
    * @generated
    */
   EList<String> getModelPluginVariables();
@@ -1742,7 +1742,7 @@ public interface GenModel extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Template Plugin Variables</em>' attribute list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TemplatePluginVariables()
-   * @model type="java.lang.String"
+   * @model
    * @generated
    */
   EList<String> getTemplatePluginVariables();
@@ -1784,7 +1784,7 @@ public interface GenModel extends GenBase
    * @return the value of the '<em>Gen Packages</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_GenPackages()
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenPackage" opposite="genModel" containment="true"
+   * @model opposite="genModel" containment="true"
    * @generated
    */
   EList<GenPackage> getGenPackages();
@@ -1800,7 +1800,7 @@ public interface GenModel extends GenBase
    * <!-- end-user-doc -->
    * @return the value of the '<em>Used Gen Packages</em>' reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_UsedGenPackages()
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenPackage"
+   * @model
    * @generated
    */
   EList<GenPackage> getUsedGenPackages();

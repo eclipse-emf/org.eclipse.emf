@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnum.java,v 1.6 2006/12/29 18:06:38 marcelop Exp $
+ * $Id: GenEnum.java,v 1.7 2007/06/12 15:07:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -108,7 +108,7 @@ public interface GenEnum extends GenDataType
    * @return the value of the '<em>Gen Enum Literals</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenEnum_GenEnumLiterals()
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral#getGenEnum
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral" opposite="genEnum" containment="true"
+   * @model opposite="genEnum" containment="true"
    * @generated
    */
   EList<GenEnumLiteral> getGenEnumLiterals();

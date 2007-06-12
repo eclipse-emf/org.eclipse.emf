@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.50 2007/05/28 18:24:24 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.51 2007/06/12 15:07:28 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -1206,7 +1206,7 @@ public class <%=genPackage.getEditorClassName()%>
 	}
 
 	/**
-	 * Returns a dignostic describing the errors and warnings listed in the resource
+	 * Returns a diagnostic describing the errors and warnings listed in the resource
 	 * and the specified exception (if any).
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1931,7 +1931,7 @@ public class <%=genPackage.getEditorClassName()%>
 	}
 
 	/**
-	 * This returns wether something has been persisted to the URI of the specified resource.
+	 * This returns whether something has been persisted to the URI of the specified resource.
 	 * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.18 2007/04/26 20:54:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.19 2007/06/12 15:07:28 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -165,13 +165,13 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%>
 <%for (GenClass genClass : genPackage.getAllSwitchGenClasses()) {%>
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em><%=genClass.getFormattedName()%></em>'.
+	 * Returns the result of interpreting the object as an instance of '<em><%=genClass.getFormattedName()%></em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em><%=genClass.getFormattedName()%></em>'.
+	 * @return the result of interpreting the object as an instance of '<em><%=genClass.getFormattedName()%></em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */

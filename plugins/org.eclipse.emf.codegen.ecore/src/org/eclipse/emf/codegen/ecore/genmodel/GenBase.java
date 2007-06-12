@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBase.java,v 1.14 2007/04/26 20:55:19 emerks Exp $
+ * $Id: GenBase.java,v 1.15 2007/06/12 15:07:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -56,7 +56,7 @@ public interface GenBase extends EObject {
    * @return the value of the '<em>Gen Annotations</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenBase_GenAnnotations()
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getGenBase
-   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation" opposite="genBase" containment="true"
+   * @model opposite="genBase" containment="true"
    * @generated
    */
   EList<GenAnnotation> getGenAnnotations();
