@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPatternFacet.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDPatternFacet.java,v 1.6 2007/06/12 15:06:43 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -55,7 +55,7 @@ public interface XSDPatternFacet extends XSDRepeatableFacet
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' attribute list.
    * @see org.eclipse.xsd.XSDPackage#getXSDPatternFacet_Value()
-   * @model type="java.lang.String"
+   * @model
    * @generated
    */
   EList<String> getValue();

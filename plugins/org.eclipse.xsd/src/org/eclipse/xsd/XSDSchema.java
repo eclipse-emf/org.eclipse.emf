@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchema.java,v 1.9 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDSchema.java,v 1.10 2007/06/12 15:06:43 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -278,7 +278,7 @@ public interface XSDSchema extends XSDScope
    * @see #isSetFinalDefault()
    * @see #unsetFinalDefault()
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_FinalDefault()
-   * @model type="org.eclipse.xsd.XSDProhibitedSubstitutions" unsettable="true"
+   * @model unsettable="true"
    * @generated
    */
   EList<XSDProhibitedSubstitutions> getFinalDefault();
@@ -339,7 +339,7 @@ public interface XSDSchema extends XSDScope
    * @see #isSetBlockDefault()
    * @see #unsetBlockDefault()
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_BlockDefault()
-   * @model type="org.eclipse.xsd.XSDDisallowedSubstitutions" unsettable="true"
+   * @model unsettable="true"
    * @generated
    */
   EList<XSDDisallowedSubstitutions> getBlockDefault();
@@ -422,7 +422,7 @@ public interface XSDSchema extends XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Contents</em>' containment reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_Contents()
-   * @model type="org.eclipse.xsd.XSDSchemaContent" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<XSDSchemaContent> getContents();
@@ -440,7 +440,7 @@ public interface XSDSchema extends XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Element Declarations</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_ElementDeclarations()
-   * @model type="org.eclipse.xsd.XSDElementDeclaration" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDElementDeclaration> getElementDeclarations();
@@ -458,7 +458,7 @@ public interface XSDSchema extends XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Attribute Declarations</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_AttributeDeclarations()
-   * @model type="org.eclipse.xsd.XSDAttributeDeclaration" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDAttributeDeclaration> getAttributeDeclarations();
@@ -476,7 +476,7 @@ public interface XSDSchema extends XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Attribute Group Definitions</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_AttributeGroupDefinitions()
-   * @model type="org.eclipse.xsd.XSDAttributeGroupDefinition" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDAttributeGroupDefinition> getAttributeGroupDefinitions();
@@ -494,7 +494,7 @@ public interface XSDSchema extends XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Type Definitions</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_TypeDefinitions()
-   * @model type="org.eclipse.xsd.XSDTypeDefinition" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDTypeDefinition> getTypeDefinitions();
@@ -512,7 +512,7 @@ public interface XSDSchema extends XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Model Group Definitions</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_ModelGroupDefinitions()
-   * @model type="org.eclipse.xsd.XSDModelGroupDefinition" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDModelGroupDefinition> getModelGroupDefinitions();
@@ -533,7 +533,7 @@ public interface XSDSchema extends XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Identity Constraint Definitions</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_IdentityConstraintDefinitions()
-   * @model type="org.eclipse.xsd.XSDIdentityConstraintDefinition" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDIdentityConstraintDefinition> getIdentityConstraintDefinitions();
@@ -551,7 +551,7 @@ public interface XSDSchema extends XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Notation Declarations</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_NotationDeclarations()
-   * @model type="org.eclipse.xsd.XSDNotationDeclaration" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDNotationDeclaration> getNotationDeclarations();
@@ -569,7 +569,7 @@ public interface XSDSchema extends XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Annotations</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_Annotations()
-   * @model type="org.eclipse.xsd.XSDAnnotation" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDAnnotation> getAnnotations();
@@ -586,7 +586,7 @@ public interface XSDSchema extends XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>All Diagnostics</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_AllDiagnostics()
-   * @model type="org.eclipse.xsd.XSDDiagnostic" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDDiagnostic> getAllDiagnostics();
@@ -603,7 +603,7 @@ public interface XSDSchema extends XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Referencing Directives</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_ReferencingDirectives()
-   * @model type="org.eclipse.xsd.XSDSchemaDirective" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDSchemaDirective> getReferencingDirectives();
@@ -651,7 +651,7 @@ public interface XSDSchema extends XSDScope
    * @<!-- end-user-doc -->
    * @return the value of the '<em>Incorporated Versions</em>' containment reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_IncorporatedVersions()
-   * @model type="org.eclipse.xsd.XSDSchema" containment="true" transient="true"
+   * @model containment="true" transient="true"
    * @generated
    */
   EList<XSDSchema> getIncorporatedVersions();

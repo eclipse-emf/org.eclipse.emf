@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclaration.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDElementDeclaration.java,v 1.6 2007/06/12 15:06:42 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -123,7 +123,7 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * @return the value of the '<em>Disallowed Substitutions</em>' attribute list.
    * @see org.eclipse.xsd.XSDDisallowedSubstitutions
    * @see org.eclipse.xsd.XSDPackage#getXSDElementDeclaration_DisallowedSubstitutions()
-   * @model type="org.eclipse.xsd.XSDDisallowedSubstitutions"
+   * @model
    * @generated
    */
   EList<XSDDisallowedSubstitutions> getDisallowedSubstitutions();
@@ -155,7 +155,7 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * @return the value of the '<em>Substitution Group Exclusions</em>' attribute list.
    * @see org.eclipse.xsd.XSDSubstitutionGroupExclusions
    * @see org.eclipse.xsd.XSDPackage#getXSDElementDeclaration_SubstitutionGroupExclusions()
-   * @model type="org.eclipse.xsd.XSDSubstitutionGroupExclusions"
+   * @model
    * @generated
    */
   EList<XSDSubstitutionGroupExclusions> getSubstitutionGroupExclusions();
@@ -241,7 +241,7 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * @see #isSetLexicalFinal()
    * @see #unsetLexicalFinal()
    * @see org.eclipse.xsd.XSDPackage#getXSDElementDeclaration_LexicalFinal()
-   * @model type="org.eclipse.xsd.XSDProhibitedSubstitutions" unsettable="true"
+   * @model unsettable="true"
    * @generated
    */
   EList<XSDProhibitedSubstitutions> getLexicalFinal();
@@ -304,7 +304,7 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * @see #isSetBlock()
    * @see #unsetBlock()
    * @see org.eclipse.xsd.XSDPackage#getXSDElementDeclaration_Block()
-   * @model type="org.eclipse.xsd.XSDDisallowedSubstitutions" unsettable="true"
+   * @model unsettable="true"
    * @generated
    */
   EList<XSDDisallowedSubstitutions> getBlock();
@@ -476,7 +476,7 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * <!-- end-user-doc -->
    * @return the value of the '<em>Identity Constraint Definitions</em>' containment reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDElementDeclaration_IdentityConstraintDefinitions()
-   * @model type="org.eclipse.xsd.XSDIdentityConstraintDefinition" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<XSDIdentityConstraintDefinition> getIdentityConstraintDefinitions();
@@ -548,7 +548,7 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * <!-- end-user-doc -->
    * @return the value of the '<em>Substitution Group</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDElementDeclaration_SubstitutionGroup()
-   * @model type="org.eclipse.xsd.XSDElementDeclaration" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDElementDeclaration> getSubstitutionGroup();

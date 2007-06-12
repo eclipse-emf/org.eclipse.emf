@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroup.java,v 1.5 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDModelGroup.java,v 1.6 2007/06/12 15:06:42 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -112,7 +112,7 @@ public interface XSDModelGroup extends XSDTerm
    * <!-- end-user-doc -->
    * @return the value of the '<em>Contents</em>' containment reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDModelGroup_Contents()
-   * @model type="org.eclipse.xsd.XSDParticle" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<XSDParticle> getContents();
@@ -129,7 +129,7 @@ public interface XSDModelGroup extends XSDTerm
    * <!-- end-user-doc -->
    * @return the value of the '<em>Particles</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDModelGroup_Particles()
-   * @model type="org.eclipse.xsd.XSDParticle" resolveProxies="false" required="true"
+   * @model resolveProxies="false" required="true"
    * @generated
    */
   EList<XSDParticle> getParticles();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponent.java,v 1.8 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDConcreteComponent.java,v 1.9 2007/06/12 15:06:42 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -149,7 +149,7 @@ public interface XSDConcreteComponent extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Diagnostics</em>' containment reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDConcreteComponent_Diagnostics()
-   * @model type="org.eclipse.xsd.XSDDiagnostic" containment="true" transient="true"
+   * @model containment="true" transient="true"
    * @generated
    */
   EList<XSDDiagnostic> getDiagnostics();

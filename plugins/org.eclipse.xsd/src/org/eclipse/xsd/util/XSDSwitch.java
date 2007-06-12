@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSwitch.java,v 1.8 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDSwitch.java,v 1.9 2007/06/12 15:06:43 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -736,13 +736,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Annotation</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Annotation</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Annotation</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Annotation</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -752,13 +752,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Attribute Declaration</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Attribute Declaration</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Attribute Declaration</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Attribute Declaration</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -768,13 +768,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Attribute Group Content</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Attribute Group Content</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Attribute Group Content</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Attribute Group Content</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -784,13 +784,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Attribute Group Definition</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Attribute Group Definition</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Attribute Group Definition</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Attribute Group Definition</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -800,13 +800,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Attribute Use</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Attribute Use</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Attribute Use</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Attribute Use</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -816,13 +816,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Bounded Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Bounded Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Bounded Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Bounded Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -832,13 +832,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Cardinality Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Cardinality Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Cardinality Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Cardinality Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -848,13 +848,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Complex Type Content</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Complex Type Content</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Complex Type Content</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Complex Type Content</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -864,13 +864,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Complex Type Definition</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Complex Type Definition</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Complex Type Definition</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Complex Type Definition</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -880,13 +880,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Component</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Component</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Component</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Component</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -896,13 +896,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Concrete Component</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Concrete Component</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Concrete Component</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Concrete Component</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -912,13 +912,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Constraining Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Constraining Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Constraining Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Constraining Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -928,13 +928,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Diagnostic</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Diagnostic</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Diagnostic</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Diagnostic</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -944,13 +944,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Element Declaration</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Element Declaration</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Element Declaration</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Element Declaration</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -960,13 +960,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Enumeration Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Enumeration Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Enumeration Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Enumeration Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -976,13 +976,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -992,13 +992,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Feature</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Feature</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Feature</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Feature</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1008,13 +1008,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Fixed Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Fixed Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Fixed Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Fixed Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1024,13 +1024,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Fraction Digits Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Fraction Digits Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Fraction Digits Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Fraction Digits Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1040,13 +1040,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Fundamental Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Fundamental Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Fundamental Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Fundamental Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1056,13 +1056,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Identity Constraint Definition</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Identity Constraint Definition</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Identity Constraint Definition</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Identity Constraint Definition</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1072,13 +1072,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Import</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Import</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Import</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Import</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1088,13 +1088,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Include</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Include</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Include</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Include</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1104,13 +1104,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Length Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Length Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Length Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Length Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1120,13 +1120,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Max Exclusive Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Max Exclusive Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Max Exclusive Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Max Exclusive Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1136,13 +1136,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Max Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Max Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Max Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Max Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1152,13 +1152,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Max Inclusive Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Max Inclusive Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Max Inclusive Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Max Inclusive Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1168,13 +1168,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Max Length Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Max Length Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Max Length Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Max Length Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1184,13 +1184,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Min Exclusive Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Min Exclusive Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Min Exclusive Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Min Exclusive Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1200,13 +1200,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Min Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Min Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Min Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Min Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1216,13 +1216,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Min Inclusive Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Min Inclusive Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Min Inclusive Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Min Inclusive Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1232,13 +1232,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Min Length Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Min Length Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Min Length Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Min Length Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1248,13 +1248,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Model Group</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Model Group</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Model Group</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Model Group</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1264,13 +1264,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Model Group Definition</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Model Group Definition</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Model Group Definition</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Model Group Definition</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1280,13 +1280,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Named Component</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Named Component</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Named Component</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Named Component</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1296,13 +1296,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Notation Declaration</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Notation Declaration</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Notation Declaration</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Notation Declaration</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1312,13 +1312,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Numeric Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Numeric Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Numeric Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Numeric Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1328,13 +1328,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Ordered Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Ordered Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Ordered Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Ordered Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1344,13 +1344,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Particle</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Particle</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Particle</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Particle</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1360,13 +1360,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Particle Content</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Particle Content</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Particle Content</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Particle Content</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1376,13 +1376,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Pattern Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Pattern Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Pattern Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Pattern Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1392,13 +1392,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Redefinable Component</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Redefinable Component</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Redefinable Component</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Redefinable Component</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1408,13 +1408,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Redefine Content</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Redefine Content</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Redefine Content</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Redefine Content</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1424,13 +1424,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Redefine</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Redefine</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Redefine</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Redefine</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1440,13 +1440,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Repeatable Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Repeatable Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Repeatable Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Repeatable Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1456,13 +1456,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Schema</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Schema</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Schema</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Schema</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1472,13 +1472,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Schema Compositor</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Schema Compositor</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Schema Compositor</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Schema Compositor</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1488,13 +1488,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Schema Content</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Schema Content</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Schema Content</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Schema Content</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1504,13 +1504,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Schema Directive</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Schema Directive</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Schema Directive</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Schema Directive</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1520,13 +1520,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Scope</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Scope</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Scope</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Scope</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1536,13 +1536,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Simple Type Definition</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Simple Type Definition</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Simple Type Definition</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Simple Type Definition</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1552,13 +1552,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Term</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Term</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Term</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Term</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1568,13 +1568,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Total Digits Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Total Digits Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Total Digits Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Total Digits Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1584,13 +1584,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Type Definition</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Type Definition</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Type Definition</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Type Definition</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1600,13 +1600,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>White Space Facet</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>White Space Facet</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>White Space Facet</em>'.
+   * @return the result of interpreting the object as an instance of '<em>White Space Facet</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1616,13 +1616,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Wildcard</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Wildcard</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Wildcard</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Wildcard</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -1632,13 +1632,13 @@ public class XSDSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>XPath Definition</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>XPath Definition</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>XPath Definition</em>'.
+   * @return the result of interpreting the object as an instance of '<em>XPath Definition</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

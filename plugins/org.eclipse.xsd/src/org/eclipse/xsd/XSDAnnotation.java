@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnnotation.java,v 1.6 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDAnnotation.java,v 1.7 2007/06/12 15:06:43 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -60,7 +60,7 @@ public interface XSDAnnotation extends XSDComponent, XSDRedefineContent
    * <!-- end-user-doc -->
    * @return the value of the '<em>Application Information</em>' attribute list.
    * @see org.eclipse.xsd.XSDPackage#getXSDAnnotation_ApplicationInformation()
-   * @model type="org.w3c.dom.Element" dataType="org.eclipse.xsd.DOMElement"
+   * @model dataType="org.eclipse.xsd.DOMElement"
    * @generated
    */
   EList<Element> getApplicationInformation();
@@ -78,7 +78,7 @@ public interface XSDAnnotation extends XSDComponent, XSDRedefineContent
    * <!-- end-user-doc -->
    * @return the value of the '<em>User Information</em>' attribute list.
    * @see org.eclipse.xsd.XSDPackage#getXSDAnnotation_UserInformation()
-   * @model type="org.w3c.dom.Element" dataType="org.eclipse.xsd.DOMElement"
+   * @model dataType="org.eclipse.xsd.DOMElement"
    * @generated
    */
   EList<Element> getUserInformation();
@@ -95,7 +95,7 @@ public interface XSDAnnotation extends XSDComponent, XSDRedefineContent
    * <!-- end-user-doc -->
    * @return the value of the '<em>Attributes</em>' attribute list.
    * @see org.eclipse.xsd.XSDPackage#getXSDAnnotation_Attributes()
-   * @model type="org.w3c.dom.Attr" dataType="org.eclipse.xsd.DOMAttr"
+   * @model dataType="org.eclipse.xsd.DOMAttr"
    * @generated
    */
   EList<Attr> getAttributes();

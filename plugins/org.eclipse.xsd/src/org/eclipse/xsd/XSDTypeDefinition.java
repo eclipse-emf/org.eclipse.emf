@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTypeDefinition.java,v 1.4 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDTypeDefinition.java,v 1.5 2007/06/12 15:06:43 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -124,7 +124,7 @@ public interface XSDTypeDefinition extends XSDRedefinableComponent, XSDRedefineC
    * <!-- end-user-doc -->
    * @return the value of the '<em>Annotations</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDTypeDefinition_Annotations()
-   * @model type="org.eclipse.xsd.XSDAnnotation" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDAnnotation> getAnnotations();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefine.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDRedefine.java,v 1.6 2007/06/12 15:06:43 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -52,7 +52,7 @@ public interface XSDRedefine extends XSDSchemaCompositor
    * <!-- end-user-doc -->
    * @return the value of the '<em>Annotations</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDRedefine_Annotations()
-   * @model type="org.eclipse.xsd.XSDAnnotation" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDAnnotation> getAnnotations();
@@ -68,7 +68,7 @@ public interface XSDRedefine extends XSDSchemaCompositor
    * <!-- end-user-doc -->
    * @return the value of the '<em>Contents</em>' containment reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDRedefine_Contents()
-   * @model type="org.eclipse.xsd.XSDRedefineContent" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<XSDRedefineContent> getContents();

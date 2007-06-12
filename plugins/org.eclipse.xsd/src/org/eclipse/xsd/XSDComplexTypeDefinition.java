@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinition.java,v 1.6 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDComplexTypeDefinition.java,v 1.7 2007/06/12 15:06:42 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -131,7 +131,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * @return the value of the '<em>Final</em>' attribute list.
    * @see org.eclipse.xsd.XSDComplexFinal
    * @see org.eclipse.xsd.XSDPackage#getXSDComplexTypeDefinition_Final()
-   * @model type="org.eclipse.xsd.XSDComplexFinal"
+   * @model
    * @generated
    */
   EList<XSDComplexFinal> getFinal();
@@ -248,7 +248,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * @return the value of the '<em>Prohibited Substitutions</em>' attribute list.
    * @see org.eclipse.xsd.XSDProhibitedSubstitutions
    * @see org.eclipse.xsd.XSDPackage#getXSDComplexTypeDefinition_ProhibitedSubstitutions()
-   * @model type="org.eclipse.xsd.XSDProhibitedSubstitutions"
+   * @model
    * @generated
    */
   EList<XSDProhibitedSubstitutions> getProhibitedSubstitutions();
@@ -280,7 +280,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * @see #isSetLexicalFinal()
    * @see #unsetLexicalFinal()
    * @see org.eclipse.xsd.XSDPackage#getXSDComplexTypeDefinition_LexicalFinal()
-   * @model type="org.eclipse.xsd.XSDComplexFinal" unsettable="true"
+   * @model unsettable="true"
    * @generated
    */
   EList<XSDComplexFinal> getLexicalFinal();
@@ -344,7 +344,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * @see #isSetBlock()
    * @see #unsetBlock()
    * @see org.eclipse.xsd.XSDPackage#getXSDComplexTypeDefinition_Block()
-   * @model type="org.eclipse.xsd.XSDProhibitedSubstitutions" unsettable="true"
+   * @model unsettable="true"
    * @generated
    */
   EList<XSDProhibitedSubstitutions> getBlock();
@@ -566,7 +566,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Attribute Uses</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDComplexTypeDefinition_AttributeUses()
-   * @model type="org.eclipse.xsd.XSDAttributeUse" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDAttributeUse> getAttributeUses();
@@ -582,7 +582,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * <!-- end-user-doc -->
    * @return the value of the '<em>Attribute Contents</em>' containment reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDComplexTypeDefinition_AttributeContents()
-   * @model type="org.eclipse.xsd.XSDAttributeGroupContent" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<XSDAttributeGroupContent> getAttributeContents();

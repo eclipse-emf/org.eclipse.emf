@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintDefinition.java,v 1.5 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDIdentityConstraintDefinition.java,v 1.6 2007/06/12 15:06:43 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -166,7 +166,7 @@ public interface XSDIdentityConstraintDefinition extends XSDNamedComponent
    * <!-- end-user-doc -->
    * @return the value of the '<em>Fields</em>' containment reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDIdentityConstraintDefinition_Fields()
-   * @model type="org.eclipse.xsd.XSDXPathDefinition" containment="true" required="true"
+   * @model containment="true" required="true"
    * @generated
    */
   EList<XSDXPathDefinition> getFields();

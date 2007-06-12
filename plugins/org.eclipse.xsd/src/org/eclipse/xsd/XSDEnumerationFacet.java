@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEnumerationFacet.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDEnumerationFacet.java,v 1.6 2007/06/12 15:06:43 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -52,7 +52,7 @@ public interface XSDEnumerationFacet extends XSDRepeatableFacet
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' attribute list.
    * @see org.eclipse.xsd.XSDPackage#getXSDEnumerationFacet_Value()
-   * @model type="java.lang.Object" dataType="org.eclipse.xsd.Value"
+   * @model dataType="org.eclipse.xsd.Value"
    * @generated
    */
   EList<Object> getValue();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcard.java,v 1.5 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDWildcard.java,v 1.6 2007/06/12 15:06:42 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -89,7 +89,7 @@ public interface XSDWildcard extends XSDTerm
    * @<!-- end-user-doc -->
    * @return the value of the '<em>Namespace Constraint</em>' attribute list.
    * @see org.eclipse.xsd.XSDPackage#getXSDWildcard_NamespaceConstraint()
-   * @model type="java.lang.String"
+   * @model
    * @generated
    */
   EList<String> getNamespaceConstraint();
@@ -174,7 +174,7 @@ public interface XSDWildcard extends XSDTerm
    * @see #isSetLexicalNamespaceConstraint()
    * @see #unsetLexicalNamespaceConstraint()
    * @see org.eclipse.xsd.XSDPackage#getXSDWildcard_LexicalNamespaceConstraint()
-   * @model type="java.lang.String" unsettable="true"
+   * @model unsettable="true"
    * @generated
    */
   EList<String> getLexicalNamespaceConstraint();
@@ -261,7 +261,7 @@ public interface XSDWildcard extends XSDTerm
    * <!-- end-user-doc -->
    * @return the value of the '<em>Annotations</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDWildcard_Annotations()
-   * @model type="org.eclipse.xsd.XSDAnnotation" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   EList<XSDAnnotation> getAnnotations();

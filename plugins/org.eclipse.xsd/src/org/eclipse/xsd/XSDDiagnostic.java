@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnostic.java,v 1.6 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDDiagnostic.java,v 1.7 2007/06/12 15:06:43 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -278,7 +278,7 @@ public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
    * <!-- end-user-doc -->
    * @return the value of the '<em>Substitutions</em>' attribute list.
    * @see org.eclipse.xsd.XSDPackage#getXSDDiagnostic_Substitutions()
-   * @model type="java.lang.String"
+   * @model
    * @generated
    */
   EList<String> getSubstitutions();
@@ -294,7 +294,7 @@ public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
    * <!-- end-user-doc -->
    * @return the value of the '<em>Components</em>' reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDDiagnostic_Components()
-   * @model type="org.eclipse.xsd.XSDConcreteComponent" resolveProxies="false" required="true"
+   * @model resolveProxies="false" required="true"
    * @generated
    */
   EList<XSDConcreteComponent> getComponents();
