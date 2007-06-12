@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RemoveVersionTask.java,v 1.5 2006/12/19 01:45:08 marcelop Exp $
+ * $Id: RemoveVersionTask.java,v 1.6 2007/06/12 20:56:07 emerks Exp $
  */
 package org.eclipse.emf.ant.taskdefs;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.ant.util.Util;
  * <p>
  * Removes the version of all the subdirectories of a given directory.  See
  * {@link Util#removeVersion(File)} for further details.
- * This task may be usefull when generating code for which the defined model (a
+ * This task may be useful when generating code for which the defined model (a
  * Rose file for example) depends on directory names to find its dependencies.
  * </p>
  * <p>

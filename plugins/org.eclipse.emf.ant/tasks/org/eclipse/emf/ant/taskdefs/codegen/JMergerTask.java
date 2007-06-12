@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTask.java,v 1.6 2006/12/19 01:45:08 marcelop Exp $
+ * $Id: JMergerTask.java,v 1.7 2007/06/12 20:56:07 emerks Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen;
 
@@ -63,7 +63,7 @@ import org.eclipse.emf.common.util.URI;
  *              newFile=&quot;c:\MyClass.java&quot;/&gt;
  * </pre>
  * <pre>
- * &lt;emf.JMerger mergeXMLFile=&quot;c:\mergefiles\merge.xml&quot;
+ * &lt;emf.JMerger mergeXMLFile=&quot;c:\merge-files\merge.xml&quot;
  *              sourceFile=&quot;d:\old\MyClass.java&quot;
  *              targetFile=&quot;d:\new\MyNewClass.java&quot;;
  *              newFile=&quot;MyMergedClass.java&quot;/&gt;
