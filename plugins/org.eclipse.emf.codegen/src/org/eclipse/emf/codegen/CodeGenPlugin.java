@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGenPlugin.java,v 1.6 2006/12/19 01:49:57 marcelop Exp $
+ * $Id: CodeGenPlugin.java,v 1.7 2007/06/12 20:56:06 emerks Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
  * within a headless Eclipse workspace,
  * or just stand-alone as part of some other application.
  * To support this, all resource access should be directed to the resource locator,
- * which can redirect the service as appopriate to the runtime.
+ * which can redirect the service as appropriate to the runtime.
  * During stand-alone invocation no plugin initialization takes place.
  * In this case, common.resources.jar must be on the CLASSPATH.
  * @see #INSTANCE

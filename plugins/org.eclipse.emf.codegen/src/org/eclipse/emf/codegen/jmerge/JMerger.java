@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.28 2007/04/27 16:01:49 marcelop Exp $
+ * $Id: JMerger.java,v 1.29 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -1126,11 +1126,7 @@ public class JMerger
   }
   
   /**
-   * Utilitiy for headless operations.
-   * 
-   * @param mergeXML
-   * @param sourceURI
-   * @param targetURI
+   * Utility for headless operations.
    * @return the merged content
    * @since 2.1.0
    */

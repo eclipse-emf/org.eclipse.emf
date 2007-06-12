@@ -25,7 +25,7 @@ public interface NodeConverter
    * Original node must be removed from the tree, and returned node inserted in its place.
    * All children of the removed node may be moved to the converted node if needed.
    * 
-   * @param abstract type to convert
+   * @param abstractType type to convert
    * @param cls class of the converted node
    * @return converted node
    */

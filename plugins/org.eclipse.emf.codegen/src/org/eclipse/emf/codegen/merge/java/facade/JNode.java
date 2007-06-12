@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JNode.java,v 1.3 2006/12/06 03:49:11 marcelop Exp $
+ * $Id: JNode.java,v 1.4 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -25,8 +25,6 @@ import java.util.List;
  * The children are of type {@link JPackage}, {@link JImport}, 
  * and {@link JType}, and appear in the order in which they are declared in the source.
  * If a <code>.java</code> file cannot be parsed, its structure remains unknown.
- * Use {@link JNode#isStructureKnown} to determine whether this is 
- * the case.
  *  
  * @since 2.2.0
  */

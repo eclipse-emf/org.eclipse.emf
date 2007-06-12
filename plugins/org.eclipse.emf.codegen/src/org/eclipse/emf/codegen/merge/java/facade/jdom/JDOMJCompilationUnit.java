@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJCompilationUnit.java,v 1.5 2006/12/21 17:49:25 marcelop Exp $
+ * $Id: JDOMJCompilationUnit.java,v 1.6 2007/06/12 20:56:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -30,9 +30,6 @@ public class JDOMJCompilationUnit extends JDOMJNode implements JCompilationUnit
 {
   protected String originalContent;
   
-  /**
-   * @param node
-   */
   public JDOMJCompilationUnit(IDOMCompilationUnit compilationUnit)
   {
     super(compilationUnit);

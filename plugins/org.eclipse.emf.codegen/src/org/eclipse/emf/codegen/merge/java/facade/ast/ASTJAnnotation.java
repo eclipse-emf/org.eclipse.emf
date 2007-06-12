@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJAnnotation.java,v 1.4 2006/12/31 02:32:47 marcelop Exp $
+ * $Id: ASTJAnnotation.java,v 1.5 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -82,7 +82,7 @@ public class ASTJAnnotation extends ASTJNode<Annotation> implements JAnnotation
     if (name == UNITIALIZED_STRING)
     {
       // adding 'at' allows distinguish annotations from other members
-      // (i.e. inner class vs. annotation of a class)
+      // (i.e. inner class verses annotation of a class)
       //
       name = "@" + ASTFacadeHelper.toString(getASTNode().getTypeName());
     }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJField.java,v 1.8 2006/12/31 02:32:47 marcelop Exp $
+ * $Id: ASTJField.java,v 1.9 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -107,7 +107,7 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
    * separation if required
    * 
    * @param variableDeclarationFragment must have parent of type {@link FieldDeclaration}
-   * @param getFacadeHelper() facade helper to use for this field, must not be <code>null</code>
+   * @param facadeHelper facade helper to use for this field, must not be <code>null</code>
    * @param rewriter to use, must not be <code>null</code>
    * @see #prepareSplit()
    */
@@ -170,7 +170,7 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
   }
 
   /**
-   * May split the declaration same way as {@link ASTJField#setType(Object)}.
+   * May split the declaration same way as {@link ASTJField#setType(String)}.
    * <p>
    * If the declaration has been split, <code>getComment()</code> might not return the correct value.
    * 
@@ -211,7 +211,7 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
   }  
   
   /**
-   * May split the declaration same way as {@link ASTJField#setType(Object)}
+   * May split the declaration same way as {@link ASTJField#setType(String)}
    * If the declaration has been split, <code>getFlags()</code> might not return 
    * the correct value.
    * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJMember#setFlags(int)
@@ -316,7 +316,7 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
    * <code>getInitializer()</code> will not return
    * the original content. 
    * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JField#setType(java.lang.Object)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JField#setType(String)
    */
   public void setType(String type)
   {

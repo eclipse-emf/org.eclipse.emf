@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JType.java,v 1.2 2006/12/06 03:49:11 marcelop Exp $
+ * $Id: JType.java,v 1.3 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -57,11 +57,11 @@ public interface JType extends JAbstractType
   /**
    * Returns the names of interfaces that this type implements or extends,
    * in the order in which they are listed in the source, or an empty array
-   * if no superinterfaces are present. The syntax for interface names is
+   * if no super interfaces are present. The syntax for interface names is
    * defined by Interfaces in ClassDeclaration (JLS2 8.1). Type names appear
    * as they would in source code. For example: <code>"Cloneable"</code>,
    * or <code>"java.io.Serializable"</code>.
-   * As of J2SE 1.5, superinterfaces may also include parameterized
+   * As of J2SE 1.5, super interfaces may also include parameterized
    * types like <code>"List&lt;String&gt;"</code>.
    * <p>
    * For classes, this method returns the interfaces that this class implements.
@@ -76,11 +76,11 @@ public interface JType extends JAbstractType
   /**
    * Sets the names of interfaces that this type implements or extends,
    * in the order in which they are to be listed in the source. An empty array
-   * parameter indicates that no superinterfaces are present. The syntax for
+   * parameter indicates that no super interfaces are present. The syntax for
    * interface names is defined by Interfaces in ClassDeclaration (JLS2 8.1).
    * Type names appear as they would in source code. For example: 
    * <code>"Cloneable"</code>, or <code>"java.io.Serializable"</code>.
-   * As of J2SE 1.5, superinterfaces may also include parameterized
+   * As of J2SE 1.5, super interfaces may also include parameterized
    * types like <code>"List&lt;String&gt;"</code>.
    * <p>
    * For classes, this method sets the interfaces that this class implements.

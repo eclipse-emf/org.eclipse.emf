@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.13 2007/05/29 20:10:26 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.14 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -54,6 +54,7 @@ import org.eclipse.jdt.core.dom.rewrite.TargetSourceRangeComputer.SourceRange;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
@@ -365,8 +366,8 @@ public class ASTFacadeHelper extends FacadeHelper
    * @return map of options
    * 
    * @see #getJavaCoreOptions()
-   * @see JavaCore.getOptions()
-   * @see JControlModel.getLeadingTabReplacement()
+   * @see JavaCore#getOptions()
+   * @see JControlModel#getLeadingTabReplacement()
    */
   @SuppressWarnings("unchecked")
   private Map getDefaultJavaCoreOptions()
@@ -502,7 +503,7 @@ public class ASTFacadeHelper extends FacadeHelper
       // create new node and replace it all by original contents
       {
         String contents = applyFormatRules(node.getContents());
-        // note that string placeholder adjusts indentation
+        // note that string place holder adjusts indentation
         // to correct this trackAndReplace method is used below
         ASTNode newASTNode = rewriter.createStringPlaceholder(contents, originalASTNode.getNodeType());
         newASTJNode = (ASTJNode<?>)convertToNode(newASTNode);
@@ -533,7 +534,6 @@ public class ASTFacadeHelper extends FacadeHelper
    * 
    * @param originalField
    * @param contextNode
-   * @return
    */
   protected ASTJField cloneField(ASTJField originalField, ASTJNode<?> contextNode)
   {
@@ -843,7 +843,7 @@ public class ASTFacadeHelper extends FacadeHelper
       return resultString;      
     }
 
-    // this is a fallback, however, this should never be called
+    // this is a fall-back, however, this should never be called
     return node.toString();
   }
   

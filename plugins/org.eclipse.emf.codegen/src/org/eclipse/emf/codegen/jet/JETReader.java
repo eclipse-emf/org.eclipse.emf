@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETReader.java,v 1.9 2006/12/29 18:03:52 marcelop Exp $
+ * $Id: JETReader.java,v 1.10 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -31,8 +31,8 @@ import org.eclipse.emf.codegen.CodeGenPlugin;
 
 /**
  * JETReader is an input buffer for the JSP parser. It should allow
- * unlimited lookahead and pushback. It also has a bunch of parsing
- * utility methods for understanding htmlesque thingies.
+ * unlimited lookahead and push-back. It also has a bunch of parsing
+ * utility methods for understanding html-style things.
  */
 public class JETReader 
 {
@@ -162,7 +162,7 @@ public class JETReader
   /**
    * Register a new source file.
    * This method is used to implement file inclusion. Each included file
-   * gets a uniq identifier (which is the index in the array of source files).
+   * gets a unique identifier (which is the index in the array of source files).
    * @return The index of the now registered file.
    */
   protected int registerSourceFile(String file) 
@@ -175,8 +175,7 @@ public class JETReader
   /**
    * Register a new baseURI.
    * This method is used to implement file inclusion. Each included file
-   * gets a uniq identifier (which is the index in the array of base URIs).
-   * @return The index of the now registered file.
+   * gets a unique identifier (which is the index in the array of base URIs).
    */
   protected void registerBaseURI(String baseURI) 
   {
@@ -289,7 +288,7 @@ public class JETReader
     if (cur_cursor == len) return "";
     char ch;
 
-    // pure obsfuscated genius!
+    // pure obfuscated genius!
     while (++current.cursor < len && (ch = current.stream[current.cursor]) != startTagInitialChar) 
     {
       if (ch == '\n') 
@@ -526,7 +525,7 @@ public class JETReader
     String value = parseToken(true);
     skipSpaces();
 
-    // Add the binding to the provided hashtable:
+    // Add the binding to the provided hash table:
     //
     into.put(name, value);
   }
@@ -596,11 +595,11 @@ public class JETReader
    * The stream is assumed to be positioned right after the tag name. The
    * syntax recognized is:
    * <pre>
-   * tag-attrs := empty | attr-list ("&gt;" | "--&gt;" | %&gt;)
-   * attr-list := empty | av spaces attr-list
+   * tag-attributes := empty | attribute-list ("&gt;" | "--&gt;" | %&gt;)
+   * attribute-list := empty | attribute-value spaces attribute-list
    * empty     := spaces
    * </pre>
-   * Where <em>av</em> is defined by <code>parseAttributeValue</code>.
+   * Where <em>attribute-value</em> is defined by <code>parseAttributeValue</code>.
    * @return A HashMap mapping String instances (variable names) into
    * String instances (variable values).
    */
@@ -680,7 +679,7 @@ public class JETReader
   }
 
   /**
-   * Parse utils - Is current character a token delimiter ?
+   * Parse utilities - Is current character a token delimiter ?
    * Delimiters are currently defined to be =, &gt;, &lt;, ", and ' or any
    * any space character as defined by <code>isSpace</code>.
    * @return A boolean.

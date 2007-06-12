@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJAbstractType.java,v 1.4 2006/12/31 02:32:47 marcelop Exp $
+ * $Id: ASTJAbstractType.java,v 1.5 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -143,10 +143,10 @@ public abstract class ASTJAbstractType<T extends AbstractTypeDeclaration> extend
   /**
    * Removes the node. Node must be a child of ASTJType.
    * <p>
-   * This implementation supports moving the nodes by calling {@link #remove(JNode)} and 
-   * then {@link #insertSibling(JNode, JNode, boolean)} or {@link #addChild(JNode)}.
+   * This implementation supports moving the nodes by calling {@link #remove(ASTJNode)} and 
+   * then {@link #insertSibling(ASTJNode, ASTJNode, boolean)} or {@link #addChild(ASTJNode)}.
    * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#remove(org.eclipse.emf.codegen.merge.java.facade.JNode)
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#remove(ASTJNode)
    */
   @Override
   public boolean remove(ASTJNode<?> node)

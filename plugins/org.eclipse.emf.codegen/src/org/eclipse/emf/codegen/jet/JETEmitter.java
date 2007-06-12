@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.24 2007/05/15 22:32:06 emerks Exp $
+ * $Id: JETEmitter.java,v 1.25 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -179,7 +179,7 @@ public class JETEmitter
    * where emitted JET templates are compiled.
    * <p>
    * This method must be called <b>before</b>
-   * {@link #initialize initialize} or {@link #generate generate}
+   * {@link #initialize(Monitor) initialize} or {@link #generate(Monitor, Object[]) generate}
    * are called.
    * @return a list of classpath entries.
    */
@@ -257,7 +257,7 @@ public class JETEmitter
   }
 
   /**
-   * Returns the method that will be invoked when {@link #generate generate} called.
+   * Returns the method that will be invoked when {@link #generate(Monitor, Object[]) generate} called.
    * @return the generator method.
    */
   public Method getMethod()
@@ -266,7 +266,7 @@ public class JETEmitter
   }
 
   /**
-   * Set the method that will be invoked when {@link #generate generate} called.
+   * Set the method that will be invoked when {@link #generate(Monitor, Object[]) generate} called.
    * @param method the generator method.
    */
   public void setMethod(Method method)
@@ -391,13 +391,13 @@ public class JETEmitter
    * and adds a classpath entry to the {@link #getClasspathEntries() classpath entry list}.
    * The variable is bound to the first runtime library JAR file in the list
    * of runtime libraries of the specified plugin.
-   * When {@link #generate generate} is called 
+   * When {@link #generate(Monitor, Object[]) generate} is called 
    * and it needs to generate the {@link #getMethod method} to invoke,
-   * it will call {@link #initialize initialize} 
+   * it will call {@link #initialize(Monitor) initialize} 
    * which will add the classpath entries to the {@link #getProjectName project} created to hold and compile the emitted template.
    * <p>
    * This method must be called <b>before</b>
-   * {@link #initialize initialize} or {@link #generate generate}
+   * {@link #initialize(Monitor) initialize} or {@link #generate(Monitor, Object[]) generate}
    * are called.
    * <p>
    * The specified plugin ID must be the ID of an existing plugin.

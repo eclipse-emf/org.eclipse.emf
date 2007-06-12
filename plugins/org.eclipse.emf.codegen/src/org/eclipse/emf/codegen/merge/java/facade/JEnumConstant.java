@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JEnumConstant.java,v 1.1 2006/12/06 03:49:11 marcelop Exp $
+ * $Id: JEnumConstant.java,v 1.2 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -35,7 +35,7 @@ package org.eclipse.emf.codegen.merge.java.facade;
  * </em>
  * </pre></blockquote>
  * 
- * @see http://java.sun.com/docs/books/jls/third_edition/html/classes.html#8.9
+ * @see <a href="http://java.sun.com/docs/books/jls/third_edition/html/classes.html">JLS3 Section 8.9</a>
  * @since 2.3.0
  *
  */

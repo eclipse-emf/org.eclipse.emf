@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.11 2007/04/09 19:53:28 marcelop Exp $
+ * $Id: JControlModel.java,v 1.12 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -350,10 +350,10 @@ public class JControlModel extends PrefixHandler
    * element is pushed only if the element is marked up by at least one push rule with 
    * matching selector class.</p>
    * 
-   * <p>If none of markup and targetParentMarkup is set in the push rule with matching 
-   * selector class, then node is marked up. If both markup and targetParentMarkup is set, 
+   * <p>If none of mark-up and targetParentMarkup is set in the push rule with matching 
+   * selector class, then node is marked up. If both mark-up and targetParentMarkup is set, 
    * then the node is marked up only if node and its parent in the target are marked up 
-   * respectively. If markup or targetParentMarkup is set, the node is marked up if node or 
+   * respectively. If mark-up or targetParentMarkup is set, the node is marked up if node or 
    * its parent in the target are marked up respectively.</p>
    */
   public static class PushRule extends PrefixHandler
@@ -650,7 +650,7 @@ public class JControlModel extends PrefixHandler
       }
       catch (ClassNotFoundException exception)
       {
-        //  We expect this failure when running standalone
+        //  We expect this failure when running stand-alone
         //
         if (EMFPlugin.IS_ECLIPSE_RUNNING)
         {

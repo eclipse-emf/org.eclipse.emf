@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJImport.java,v 1.2 2006/12/06 03:48:07 marcelop Exp $
+ * $Id: JDOMJImport.java,v 1.3 2007/06/12 20:56:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -27,9 +27,6 @@ import org.eclipse.emf.codegen.merge.java.facade.JImport;
 @SuppressWarnings({"deprecation", "unchecked"})
 public class JDOMJImport extends JDOMJNode implements JImport
 {
-  /**
-   * @param node
-   */
   public JDOMJImport(IDOMImport imp)
   {
     super(imp);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJMember.java,v 1.7 2006/12/31 02:32:47 marcelop Exp $
+ * $Id: ASTJMember.java,v 1.8 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -237,7 +237,6 @@ public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> 
    * This method inserts the new annotation after the last existing annotation.
    * 
    * @param annotation
-   * @param bodyDeclaration
    */
   protected void insertLastAnnotation(ASTJAnnotation annotation)
   {

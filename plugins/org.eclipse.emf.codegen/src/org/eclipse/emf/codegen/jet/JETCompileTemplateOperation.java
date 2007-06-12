@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompileTemplateOperation.java,v 1.10 2006/12/19 01:49:57 marcelop Exp $
+ * $Id: JETCompileTemplateOperation.java,v 1.11 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -173,7 +173,7 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
   }
 
   /**
-   * Considers all the files of a container and all it's subcontainer.
+   * Considers all the files of a container and all its subcontainer.
    */
   protected void consider(IContainer container) throws CoreException 
   {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommentAwareSourceRangeComputer.java,v 1.6 2006/12/15 20:24:45 marcelop Exp $
+ * $Id: CommentAwareSourceRangeComputer.java,v 1.7 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -641,7 +641,6 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
   /**
    * If possible, extends given position to include any whitespace following the position.
    * @param position
-   * @return
    */
   protected int addWhitespaceAfterPosition(int position)
   {

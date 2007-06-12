@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JAnnotationType.java,v 1.2 2006/12/19 01:49:57 marcelop Exp $
+ * $Id: JAnnotationType.java,v 1.3 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -26,7 +26,7 @@ package org.eclipse.emf.codegen.merge.java.facade;
  * &nbsp;&nbsp;</em>{<em> AnnotationTypeElementDeclarations<sub>opt</sub> </em>}
  * </pre></blockquote>
  * 
- * @see http://java.sun.com/docs/books/jls/third_edition/html/interfaces.html#9.6
+ * @see <a href="http://java.sun.com/docs/books/jls/third_edition/html/interfaces.html">Section 9.6</a>
  * @since 2.3.0
  */
 public interface JAnnotationType extends JAbstractType

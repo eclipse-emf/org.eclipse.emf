@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJType.java,v 1.3 2006/12/06 03:48:07 marcelop Exp $
+ * $Id: JDOMJType.java,v 1.4 2007/06/12 20:56:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -31,9 +31,6 @@ public class JDOMJType extends JDOMJMember implements JType
 {
   protected JPackage jPackage;
 
-  /**
-   * @param member
-   */
   public JDOMJType(IDOMType type)
   {
     super(type);

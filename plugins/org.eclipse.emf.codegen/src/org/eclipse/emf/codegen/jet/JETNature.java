@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETNature.java,v 1.7 2006/12/29 18:03:52 marcelop Exp $
+ * $Id: JETNature.java,v 1.8 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -253,7 +253,7 @@ public class JETNature implements IJETNature
   }
 
   /**
-   * Adds a builder to the build spec for the given project.
+   * Adds a builder to the build specification for the given project.
    */
   protected void addToFrontOfBuildSpec(String builderID) throws CoreException 
   {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJInitializer.java,v 1.5 2006/12/31 02:32:47 marcelop Exp $
+ * $Id: ASTJInitializer.java,v 1.6 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -67,7 +67,7 @@ public class ASTJInitializer extends ASTJMember<Initializer> implements JInitial
    */
   public void setName(String name)
   {
-    // no op
+    // Ignore.
   }  
     
   /* (non-Javadoc)

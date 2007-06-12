@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JAnnotationTypeMember.java,v 1.1 2006/12/06 03:49:11 marcelop Exp $
+ * $Id: JAnnotationTypeMember.java,v 1.2 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -24,7 +24,7 @@ package org.eclipse.emf.codegen.merge.java.facade;
  * </em>
  * </pre></blockquote>
  * 
- * @see http://java.sun.com/docs/books/jls/third_edition/html/interfaces.html#9.6
+ * @see <a href="http://java.sun.com/docs/books/jls/third_edition/html/interfaces.html">JLS3 Section 9.6</a>
  * @since 2.3.0
  */
 public interface JAnnotationTypeMember extends JMember

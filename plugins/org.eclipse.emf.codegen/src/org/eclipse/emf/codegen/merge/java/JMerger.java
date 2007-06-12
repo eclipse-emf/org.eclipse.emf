@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.21 2007/04/27 16:01:49 marcelop Exp $
+ * $Id: JMerger.java,v 1.22 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -186,7 +186,6 @@ public class JMerger
      * Returns whether the children should be visited (ie, when the source 
      * is not in the target).
      * @param sourceNode
-     * @return
      */
     protected boolean doPush(JNode sourceNode)
     {
@@ -960,7 +959,7 @@ public class JMerger
    * Converts the target abstract type to be compatible with the given source node class
    * 
    * @param targetAbstractType
-   * @param sourceClass, or class to convert node to
+   * @param sourceClass the class to which to convert the node.
    * @return <code>null</code> when conversion not possible, converted node otherwise
    */
   protected JNode convertTarget(JAbstractType targetAbstractType, Class<? extends JAbstractType> sourceClass)
@@ -1192,11 +1191,7 @@ public class JMerger
 
   /**
    * Utility for headless operations.
-   * 
-   * @param mergeXML
-   * @param sourceURI
-   * @param targetURI
-   * @return the merged content
+   * @return the merged content.
    */
   public String execute(Monitor monitor, String[] arguments)
   {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJCompilationUnit.java,v 1.9 2006/12/31 02:32:47 marcelop Exp $
+ * $Id: ASTJCompilationUnit.java,v 1.10 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -481,7 +481,7 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
    * This implementation will not perform moving of the node if the node is inserted after being removed.
    * Hence, the removed node must not be inserted again.
    * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#remove(org.eclipse.emf.codegen.merge.java.facade.JNode)
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#remove(ASTJNode)
    */
   @Override
   public boolean remove(ASTJNode<?> node)
@@ -596,7 +596,7 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
      * @param doc document after call to {@link ASTRewrite#rewriteAST()} or {@link ASTRewrite#rewriteAST(IDocument, Map)}.
      * @return existingEdits with new edits added
      * 
-     * @see #trackNodePositions()
+     * @see #trackedNodePositionsMap
      */
     @Override
     protected TextEdit addEdits(TextEdit existingEdits, IDocument doc)
@@ -691,7 +691,7 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
      * @param doc document after call to {@link ASTRewrite#rewriteAST()} or {@link ASTRewrite#rewriteAST(IDocument, Map)}.
      * @return existingEdits with new edits added
      * 
-     * @see #trackNodePositions()
+     * @see NodeContentsReplacer#trackedNodePositionsMap
      */    
     @Override
     protected TextEdit addEdits(TextEdit existingEdits, IDocument doc)
@@ -770,7 +770,7 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
      * @return line number of the next line that has to be commented out
      * @throws BadLocationException
      * 
-     * @see {@link LineBreakInserter#createLineBreakBeforeNode(ITrackedNodePosition, ASTNode)}
+     * @see LineBreakInserter#createLineBreakBeforeNode(ITrackedNodePosition, ASTNode)
      */
     protected int addLineBreakBeforeNode(TextEdit existingEdits, ITrackedNodePosition nodePosition, ASTNode node) throws BadLocationException
     {
@@ -971,7 +971,7 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
      * @param node
      * @throws BadLocationException
      * 
-     * @see {@link LineBreakInserter#createLineBreakAfterNode(ITrackedNodePosition, ASTNode)}
+     * @see LineBreakInserter#createLineBreakAfterNode(ITrackedNodePosition, ASTNode)
      */
     protected void addLineBreakAfterNode(TextEdit existingEdits, ITrackedNodePosition nodePosition, ASTNode node) throws BadLocationException
     {

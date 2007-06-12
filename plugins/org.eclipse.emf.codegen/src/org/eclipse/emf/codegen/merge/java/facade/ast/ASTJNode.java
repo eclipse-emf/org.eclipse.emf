@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJNode.java,v 1.8 2006/12/31 02:32:47 marcelop Exp $
+ * $Id: ASTJNode.java,v 1.9 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -135,7 +135,7 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
   private Map<ASTNode, String> trackedContentsMap = new HashMap<ASTNode, String>(4);
 
   /**
-   * @see AbstractJNode#AbstractJNode(Object)
+   * @see AbstractJNode#AbstractJNode()
    * @param astNode to be used as wrapped object
    */
   protected ASTJNode(T astNode)
@@ -182,7 +182,7 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
    * Returns AST node used to read contents and make modifications to the nodes.
    * <p>
    * When the node is removed, the wrapped node returned by {@link #getWrappedObject()} will be
-   * a placeholder node, while this method will return the original node that can be modified by
+   * a place-holder node, while this method will return the original node that can be modified by
    * <code>set...</code> methods.
    * 
    * @return AST node
@@ -207,7 +207,6 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
    * 
    * @return wrapped AST node 
    * @see #getASTNode()
-   * @see #getMainASTNode()
    * @see #getRemovedASTNode()
    */
   @Override
@@ -285,7 +284,6 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
    * @param node
    * @param value
    * @param property
-   * @param noteType of the placeholder
    */
   protected void addValueToListProperty(ASTNode node, ASTNode value, ChildListPropertyDescriptor property)
   {
@@ -304,14 +302,14 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
   }
 
   /**
-   * Adds <code>value</code> as a new string placeholder to the <code>property</code> of the <code>node</code>.
+   * Adds <code>value</code> as a new string place-holder to the <code>property</code> of the <code>node</code>.
    * <p>
    * If <code>value</code> is <code>null</code>, no changes are made.
    * 
    * @param node
    * @param value
    * @param property
-   * @param noteType of the placeholder
+   * @param nodeType of the place-holder
    */
   protected void addValueToListProperty(ASTNode node, String value, ChildListPropertyDescriptor property, int nodeType)
   {
@@ -590,9 +588,7 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
    * Notifies the range computer of {@link ASTRewrite} that the node will be removed.
    * 
    * @param node to be removed
-   * 
    * @see CommentAwareSourceRangeComputer#computeSourceRange(ASTNode) 
-   * @param node
    */
   protected void nodeToBeRemoved(ASTNode node)
   {
@@ -620,7 +616,7 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
    * Removes AST node wrapped by given <code>ASTJNode</code> from the given property.
    * <p>
    * This method notifies children and source range computer that the node is removed, then creates
-   * a placeholder node that allows to insert the removed node later.
+   * a place-holder node that allows to insert the removed node later.
    * <p>
    * No checks are performed if the node is a child of this node. 
    * 
@@ -710,7 +706,7 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
 
   /**
    * Sets the list property to the given array of values. For each string in the array,
-   * a string placeholder node is created.
+   * a string place-holder node is created.
    * 
    * @param node
    * @param values
@@ -770,7 +766,7 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
    * <p>
    * 
    * @param node
-   * @param value
+   * @param stringValue
    * @param property
    * @param nodeType
    */
@@ -794,7 +790,6 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
    * 
    * @param strings can <b>not</b> be <code>null</code>
    * @param stringsList can be <code>null</code>
-   * @return
    */
   protected String[] combineArrayAndList(String[] strings, List<String> stringsList)
   {
@@ -873,7 +868,7 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
    * will replaced by the given <code>contents</code>. No changes will be made to <code>contents</code>.
    * <p>
    * This method should be used to undo correction of indentation done by {@link ASTRewrite#rewriteAST(org.eclipse.jface.text.IDocument, Map)}
-   * on string placeholder nodes ({@link ASTRewrite#createStringPlaceholder(String, int)})
+   * on string place-holder nodes ({@link ASTRewrite#createStringPlaceholder(String, int)})
    * during rewrite process.
    * <p>
    * Note that all the tracked nodes must exist in the rewritten tree. If some tracked nodes are removed from rewritten tree, wrong

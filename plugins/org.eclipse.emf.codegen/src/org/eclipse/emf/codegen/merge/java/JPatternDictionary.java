@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.12 2007/05/15 22:32:59 emerks Exp $
+ * $Id: JPatternDictionary.java,v 1.13 2007/06/12 20:56:05 emerks Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java;
@@ -261,7 +261,6 @@ public class JPatternDictionary extends FacadeVisitor
    * @param markupPattern
    * @param parentMarkupPattern
    * @param node
-   * @return
    * 
    * @see #isMarkedUp(Pattern, JNode) 
    */
@@ -503,7 +502,7 @@ public class JPatternDictionary extends FacadeVisitor
           {
             if (++count > 1)
             {
-              // Ignore the furthermost javadoc
+              // Ignore the further-most javadoc
               //
               selection = contents;
             }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeHelper.java,v 1.9 2006/12/29 20:52:29 marcelop Exp $
+ * $Id: FacadeHelper.java,v 1.10 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -243,7 +243,7 @@ public abstract class FacadeHelper
    * the given class.  The list should be an unmodifiable list if it doesn't support 
    * changes.
    * @param node
-   * @param the class of the child
+   * @param cls class of the child
    * @return the list of children of a {@link JNode}
    */
   public <T extends JNode> List<T> getChildren(JNode node, Class<T> cls)
@@ -273,7 +273,7 @@ public abstract class FacadeHelper
    * Children appear in the order in which they exist in the source code.
    * @param node
    * @return the first child, or <code>null</code> if this node has no children
-   * @see #getChildren()
+   * @see #getChildren(JNode, Class)
    */  
   public JNode getFirstChild(JNode node)
   {
@@ -312,9 +312,9 @@ public abstract class FacadeHelper
    * Returns the sibling of the specified node that is located 
    * in a specific position relative to the node.
    * @param node
-   * @param index position of the sibling, relative to the node (can be a negative number)
+   * @param pos position of the sibling, relative to the node (can be a negative number)
    * @return the sibling, or <code>null</code> if this node has no children
-   * @see #getChildren()
+   * @see #getChildren(JNode, Class)
    */    
   protected JNode getSibiling(JNode node, int pos)
   {
@@ -331,12 +331,12 @@ public abstract class FacadeHelper
   }
   
   /**
-   * Adds the given un-parented node (document fragment) as the last child of the
+   * Adds the given orphan node (document fragment) as the last child of the
    * specified node.
    * @param node the parent of the child to be added
    * @param child the new child node
    * @return whether the operation was successful.
-   * @see #insertSibling(JNode, JNode)
+   * @see #insertSibling(JNode, JNode, boolean)
    * @see #remove(JNode)
    */
   public boolean addChild(JNode node, JNode child)
@@ -356,7 +356,7 @@ public abstract class FacadeHelper
   }
   
   /**
-   * Inserts the given un-parented node as a sibling of the specified node, immediately 
+   * Inserts the given orphan node as a sibling of the specified node, immediately 
    * before or after it.
    * @param node the node that will be after the new sibling
    * @param newSibling the new sibling node
@@ -407,7 +407,7 @@ public abstract class FacadeHelper
    * @param node the node to be removed
    * @return whether the operation was successful.
    * @see #addChild(JNode, JNode)
-   * @see #insertSibling(JNode, JNode)
+   * @see #insertSibling(JNode, JNode, boolean)
    */
   public boolean remove(JNode node)
   {
@@ -455,7 +455,6 @@ public abstract class FacadeHelper
   
   /**
    * @param object
-   * @return
    */
   public String toString(Object object)
   {

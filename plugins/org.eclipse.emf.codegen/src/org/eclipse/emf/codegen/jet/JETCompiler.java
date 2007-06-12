@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.18 2007/04/25 02:17:23 emerks Exp $
+ * $Id: JETCompiler.java,v 1.19 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -185,14 +185,14 @@ public class JETCompiler implements JETParseEventListener
           BufferedInputStream bufferedInputStream = new BufferedInputStream(openStream(resolvedFileURI[1]));
           reader.stackStream(resolvedFileURI[2], resolvedFileURI[0], bufferedInputStream, null);
 
-          // The include succeeded, so if there is an alternative and we're not skippping, we need to start.
+          // The include succeeded, so if there is an alternative and we're not skipping, we need to start.
           //
           if ("alternative".equals(attributes.get("fail")))
           {
             skipSections.push(new SkipSection(sectionDepth + 1, !skipping));
           }
 
-          // If a newline from the previous character data remains, leave it around to be procssed as if it appeared in the included file.
+          // If a newline from the previous character data remains, leave it around to be processed as if it appeared in the included file.
           //
           if (fSavedLine != null)
           {
@@ -232,7 +232,7 @@ public class JETCompiler implements JETParseEventListener
     {
       sectionDepth++;
       
-      // A section is not allowed without a preceeding include with alternative.
+      // A section is not allowed without a preceding include with alternative.
       //
       SkipSection skipSection = skipSections.isEmpty() ? null : (SkipSection)skipSections.peek();
       if (skipSection == null || skipSection.depth != sectionDepth)
@@ -331,42 +331,14 @@ public class JETCompiler implements JETParseEventListener
           {
             // Ignore the version
           }
-
-          /*
-           if ( attr.equals("package") )
-           skeleton.setPackageName((String) attributes.get(attr));
-
-           else if ( attr.equals("imports") )
-           skeleton.setImportsList((String) attributes.get(attr));
-
-           else if ( attr.equals("class") )
-           skeleton.setClassName((String) attributes.get(attr));
-
-           else if ( attr.equals("extends") )
-           skeleton.setExtendsName((String) attributes.get(attr));
-
-           else if ( attr.equals("implements") )
-           skeleton.setImplementsList((String) attributes.get(attr));
-
-           else if ( attr.equals("methodname") || attr.equals("methodName"))
-           skeleton.setMethodName((String) attributes.get(attr));
-
-           else if ( attr.equals("throws") )
-           skeleton.setThrowsList((String) attributes.get(attr));
-
-           else if ( attr.equals("parameters") )
-           skeleton.setParametersList((String) attributes.get(attr));
-
-           else if ( attr.equals("writer") )
-           skeleton.setWriterName((String) attributes.get(attr));
-
-           */
           else
+          {
             throw 
               new JETException
                 (CodeGenPlugin.getPlugin().getString
                   ("jet.error.bad.attribute", 
               new Object []{ entry.getKey(), start.format("jet.mark.file.line.column") }));
+          }
         }
 
         handleNewSkeleton();

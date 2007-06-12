@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJNode.java,v 1.4 2006/12/29 20:54:06 marcelop Exp $
+ * $Id: JDOMJNode.java,v 1.5 2007/06/12 20:56:06 emerks Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
@@ -92,7 +92,7 @@ public abstract class JDOMJNode extends AbstractJNode
   
   public void setFlags(int flags)
   {
-    // No op
+    // Ignore.
   }
 
   public String getContents()

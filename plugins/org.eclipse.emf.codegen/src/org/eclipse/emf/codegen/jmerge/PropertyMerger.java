@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.9 2006/12/19 01:49:57 marcelop Exp $
+ * $Id: PropertyMerger.java,v 1.10 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.IPlatformRunnable;
 
 
 /**
- * This implements the method {@link #run}, 
+ * This implements the method {@link #run(Object)}, 
  * which is called just like main during headless workbench invocation.
  * @deprecated in 2.2.0. Use {@link org.eclipse.emf.codegen.merge.properties.PropertyMerger} instead.
  */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnit.java,v 1.2 2006/04/17 21:33:50 marcelop Exp $
+ * $Id: JCompilationUnit.java,v 1.3 2007/06/12 20:56:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -23,8 +23,6 @@ package org.eclipse.emf.codegen.merge.java.facade;
  * The children are of type {@link JPackage}, {@link JImport}, 
  * and {@link JType}, and appear in the order in which they are declared in the source.
  * If a <code>.java</code> file cannot be parsed, its structure remains unknown.
- * Use {@link JNode#isStructureKnown} to determine whether this is 
- * the case.
  *  
  * @since 2.2.0
  */
@@ -45,7 +43,7 @@ public interface JCompilationUnit extends JNode
    * The syntax for a comment corresponds to Comments (JLS2 3.7), <b>including</b>
    * comment delimiters.
    *
-   * @param comment the header comment for this compilation unit, or <code>null</code> if
+   * @param header the header comment for this compilation unit, or <code>null</code> if
    *   indicating no header comment
    */
   void setHeader(String header);

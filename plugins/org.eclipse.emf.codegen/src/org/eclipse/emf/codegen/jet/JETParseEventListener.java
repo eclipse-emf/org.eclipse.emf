@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETParseEventListener.java,v 1.4 2006/12/29 18:03:52 marcelop Exp $
+ * $Id: JETParseEventListener.java,v 1.5 2007/06/12 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -21,7 +21,7 @@ import java.util.Map;
 
 
 /**
- * The interface for the JET code generation backend. 
+ * The interface for the JET code generation back-end. 
  */
 public interface JETParseEventListener 
 {
