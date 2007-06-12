@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.22 2007/06/02 19:34:44 emerks Exp $
+ * $Id: JavaEditor.java,v 1.23 2007/06/12 15:07:14 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -1059,7 +1059,7 @@ public class JavaEditor
   }
 
   /**
-   * Returns a dignostic describing the errors and warnings listed in the resource
+   * Returns a diagnostic describing the errors and warnings listed in the resource
    * and the specified exception (if any).
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1782,7 +1782,7 @@ public class JavaEditor
   }
 
   /**
-   * This returns wether something has been persisted to the URI of the specified resource.
+   * This returns whether something has been persisted to the URI of the specified resource.
    * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
