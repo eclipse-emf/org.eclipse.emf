@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECollections.java,v 1.6 2006/12/05 20:19:54 emerks Exp $
+ * $Id: ECollections.java,v 1.7 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -93,7 +93,7 @@ public class ECollections
   }
   
   /**
-   * Searches for the first occurence of the given argument in list starting from
+   * Searches for the first occurrence of the given argument in list starting from
    * a specified index.  The equality is tested using the operator <tt>==<tt> and
    * the <tt>equals</tt> method. 
    * @param list
@@ -174,7 +174,7 @@ public class ECollections
   
   /** 
    * Sets the <code>eList</code>'s contents and order to be exactly that of the <code>prototype</code> list.
-   * This implementation mimimizes the number of notifications the operation will produce.
+   * This implementation minimizes the number of notifications the operation will produce.
    * Objects already in the list will be moved, missing objects will be added, and extra objects will be removed.
    * If <code>eList</code>'s contents and order are already exactly that of the <code>prototype</code> list,
    * no change will be made.

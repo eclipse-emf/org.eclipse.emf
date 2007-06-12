@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Command.java,v 1.3 2006/12/05 20:19:54 emerks Exp $
+ * $Id: Command.java,v 1.4 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -27,7 +27,7 @@ import java.util.Collection;
  * it can be tested for undoability, 
  * it can be undone, 
  * and can then be redone.
- * A comand also provides access to a result collection, an affected-objects collection,
+ * A command also provides access to a result collection, an affected-objects collection,
  * a label, and a description.
  *
  * <p>
@@ -38,10 +38,10 @@ import java.util.Collection;
 public interface Command 
 {
   /**
-   * Returns whether the comamad is valid to <code>execute</code>.
+   * Returns whether the command is valid to <code>execute</code>.
    * The {@link UnexecutableCommand#INSTANCE}.<code>canExecute()</code> always returns <code>false</code>.
    * This <b>must</b> be called before calling <code>execute</code>.
-   * @return whether the comamad is valid to <code>execute</code>.
+   * @return whether the command is valid to <code>execute</code>.
    */
   boolean canExecute();
 
@@ -114,7 +114,7 @@ public interface Command
 
   /**
    * Returns a command that represents the composition of this command with the given command.
-   * The resulting command may just be this, if this command is capabable of composition.
+   * The resulting command may just be this, if this command is capable of composition.
    * Otherwise, it will be a new command created to compose the two.
    * <p>
    * Instead of the following pattern of usage

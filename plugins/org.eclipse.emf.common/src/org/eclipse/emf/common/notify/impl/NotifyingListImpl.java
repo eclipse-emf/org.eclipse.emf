@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.17 2007/05/15 18:54:39 marcelop Exp $
+ * $Id: NotifyingListImpl.java,v 1.18 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -541,7 +541,8 @@ public class NotifyingListImpl<E> extends BasicEList<E> implements NotifyingList
    * Adds each object from start to end of the array at each successive index in the list 
    * and returns whether any objects were added;
    * it does no ranging checking or uniqueness checking.
-   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
+   * This implementation delegates to {@link #assign(int, Object) assign},
+   * {@link #didAdd(int, Object) didAdd}, and {@link #didChange() didChange}.
    * In addition to the normal effects, 
    * this override implementation generates notifications as {@link #isNotificationRequired required} 
    * and delegates to {@link #inverseAdd inverseAdd} as {@link #hasInverse required}.
@@ -554,6 +555,7 @@ public class NotifyingListImpl<E> extends BasicEList<E> implements NotifyingList
    * @see #isNotificationRequired
    * @see #hasInverse
    * @see #inverseAdd
+   * @see #assign(int, Object)
    */
   @Override
   public boolean addAllUnique(int index, Object [] objects, int start, int end)

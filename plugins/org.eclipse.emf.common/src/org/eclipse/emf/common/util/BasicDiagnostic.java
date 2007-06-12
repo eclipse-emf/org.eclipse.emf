@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.12 2007/01/26 06:04:42 marcelop Exp $
+ * $Id: BasicDiagnostic.java,v 1.13 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.common.EMFPlugin;
 
 
 /**
- * A basic implementation of a diagostic that that also acts as a chain.
+ * A basic implementation of a diagnostic that that also acts as a chain.
  */
 public class BasicDiagnostic implements Diagnostic, DiagnosticChain
 {

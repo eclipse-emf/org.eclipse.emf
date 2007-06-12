@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceLocator.java,v 1.3 2005/06/08 06:19:08 nickb Exp $
+ * $Id: ResourceLocator.java,v 1.4 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -57,7 +57,7 @@ public interface ResourceLocator
   String getString(String key, boolean translate);
 
   /**
-   * Returns a string resource associated with the key, and peforms substitutions.
+   * Returns a string resource associated with the key, and performs substitutions.
    * @param key the key of the string.
    * @param substitutions the message substitutions.
    * @return a string resource associated with the key.
@@ -67,7 +67,7 @@ public interface ResourceLocator
   String getString(String key, Object [] substitutions);
 
   /**
-   * Returns a string resource associated with the key, and peforms substitutions.
+   * Returns a string resource associated with the key, and performs substitutions.
    * @param key the key of the string.
    * @param substitutions the message substitutions.
    * @param translate whether the result is to be translated to the current locale.

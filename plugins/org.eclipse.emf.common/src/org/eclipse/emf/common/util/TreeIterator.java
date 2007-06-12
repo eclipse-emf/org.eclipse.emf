@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeIterator.java,v 1.3 2006/12/05 20:19:54 emerks Exp $
+ * $Id: TreeIterator.java,v 1.4 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -27,7 +27,7 @@ import java.util.Iterator;
 public interface TreeIterator<E> extends Iterator<E>
 {
   /**
-   * Prunes the iterator so that it skips over all the nodes below the most recent result of calling {@link #next next()}.
+   * Prunes the iterator so that it skips over all the nodes below the most recent result of calling {@link #next() next()}.
    */
   void prune();
 }

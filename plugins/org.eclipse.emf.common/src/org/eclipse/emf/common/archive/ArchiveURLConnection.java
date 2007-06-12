@@ -175,7 +175,7 @@ public class ArchiveURLConnection extends URLConnection
     {
       if (emulateArchiveScheme())
       {
-        // Skip a scheme for the achive accessor to be handled directly here.
+        // Skip a scheme for the archive accessor to be handled directly here.
         //
         start = ++i;
       }
@@ -290,7 +290,7 @@ public class ArchiveURLConnection extends URLConnection
   }
   
   /**
-   * Creates an input stream for the nested URL by calling {@link URL#openStream()opening} a stream on it.
+   * Creates an input stream for the nested URL by calling {@link URL#openStream() opening} a stream on it.
    * @param nestedURL the nested URL for which a stream is required.
    * @return the open stream of the nested URL.
    */
@@ -544,7 +544,7 @@ public class ArchiveURLConnection extends URLConnection
   }
   
   /**
-   * Creates an input stream for the nested URL by calling {@link URL#openStream()opening} a stream on it.
+   * Creates an output stream for the nested URL by calling {@link URL#openConnection() opening} a stream on it.
    * @param nestedURL the nested URL for which a stream is required.
    * @return the open stream of the nested URL.
    */

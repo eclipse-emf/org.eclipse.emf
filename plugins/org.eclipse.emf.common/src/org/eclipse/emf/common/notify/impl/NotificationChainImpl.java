@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationChainImpl.java,v 1.3 2006/12/05 20:19:57 emerks Exp $
+ * $Id: NotificationChainImpl.java,v 1.4 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -40,7 +40,7 @@ public class NotificationChainImpl extends BasicEList<Notification> implements N
 
   /**
    * Creates an empty instance with a given capacity.
-   * param initialCapacity the initial capacity of the list before it must grow.
+   * @param initialCapacity the initial capacity of the list before it must grow.
    */
   public NotificationChainImpl(int initialCapacity)
   {
@@ -94,7 +94,7 @@ public class NotificationChainImpl extends BasicEList<Notification> implements N
   }
 
   /**
-   * Dispatches the notification to it's notifier.
+   * Dispatches the notification to its notifier.
    */
   protected void dispatch(Notification notification)
   {

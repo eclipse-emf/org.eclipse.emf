@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Notification.java,v 1.3 2006/12/05 20:19:54 emerks Exp $
+ * $Id: Notification.java,v 1.4 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.notify;
 
@@ -168,7 +168,7 @@ public interface Notification
    * it always returns false.
    * For the events {@link #RESOLVE} and {@link #REMOVING_ADAPTER} it always returns true.
    * For the events {@link #SET} and {@link #UNSET} it returns true if the old and the new value are equal;
-   * In addition, for certain types of features there may be a distiction between 
+   * In addition, for certain types of features there may be a distinction between 
    * being set to a default value and not being set at all, which implies that it has the default value.
    * In this situation, even in the case that the old and new values are equal, 
    * isTouch may never the less return false in order to indicate that, although the value has not changed,
@@ -194,7 +194,7 @@ public interface Notification
   /**
    * Returns the position within a list-based feature at which the change occurred.
    * It returns {@link #NO_INDEX} when not applicable.
-   * @return the positition at which the change occurred.
+   * @return the position at which the change occurred.
    */
   int getPosition();
 

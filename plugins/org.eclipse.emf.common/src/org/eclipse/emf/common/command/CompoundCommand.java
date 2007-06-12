@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CompoundCommand.java,v 1.5 2006/12/05 20:19:53 emerks Exp $
+ * $Id: CompoundCommand.java,v 1.6 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -727,7 +727,7 @@ public class CompoundCommand extends AbstractCommand
    *   Command result = subcommands.unwrap();
    * </pre>
    * is a good way to create an efficient accumulated result.
-   * @return the unwapped command.
+   * @return the unwrapped command.
    */
   public Command unwrap()
   {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.27 2007/05/07 17:09:54 emerks Exp $
+ * $Id: URI.java,v 1.28 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -50,7 +50,7 @@ import java.util.StringTokenizer;
  * <p>In the <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC</a>, much
  * attention is focused on a hierarchical naming system used widely to
  * locate resources via common protocols such as HTTP, FTP, and Gopher, and
- * to identify files on a local file system.  Acordingly, most of this
+ * to identify files on a local file system.  Accordingly, most of this
  * class's functionality is for handling such URIs, which can be identified
  * via {@link #isHierarchical isHierarchical}.
  *
@@ -85,9 +85,9 @@ import java.util.StringTokenizer;
  * entire URI of the archive, up to and including the <code>!</code>
  * character.  The URI of the archive must have no fragment.  The whole
  * archive URI must have no device and an absolute path.  Special handling
- * is supported for {@link #createURI creating}, {@link
+ * is supported for {@link #createURI(String) creating}, {@link
  * #validArchiveAuthority validating}, {@link #devicePath getting the path}
- * from, and {@link #toString displaying} archive URIs. In all other
+ * from, and {@link #toString() displaying} archive URIs. In all other
  * operations, including {@link #resolve(URI) resolving} and {@link
  * #deresolve(URI) deresolving}, they are handled like any ordinary URI.
  * The schemes that identify archive URIs can be changed from their default
@@ -100,15 +100,15 @@ import java.util.StringTokenizer;
  * names begin with "valid" are used to test whether a given string is valid
  * value for the various URI components.  Presently, these tests place no
  * restrictions beyond what would have been required in order for {@link
- * createURI(String) createURI} to have parsed them correctly from a single
+ * #createURI(String) createURI} to have parsed them correctly from a single
  * URI string.  If necessary in the future, these tests may be made more
- * strict, to better coform to the RFC.
+ * strict, to better conform to the RFC.
  * 
  * <p>Another group of static methods, whose names begin with "encode", use
  * percent escaping to encode any characters that are not permitted in the
  * various URI components. Another static method is provided to {@link
  * #decode decode} encoded strings.  An escaped character is represented as
- * a percent sybol (<code>%</code>), followed by two hex digits that specify
+ * a percent symbol (<code>%</code>), followed by two hex digits that specify
  * the character code.  These encoding methods are more strict than the
  * validation methods described above.  They ensure validity according to the
  * RFC, with one exception: non-ASCII characters.
@@ -125,7 +125,7 @@ import java.util.StringTokenizer;
  *
  * <p>Finally, note the difference between a <code>null</code> parameter to
  * the static factory methods and an empty string.  The former signifies the
- * absense of a given URI component, while the latter simply makes the
+ * absence of a given URI component, while the latter simply makes the
  * component blank.  This can have a significant effect when resolving.  For
  * example, consider the following two URIs: <code>/bar</code> (with no
  * authority) and <code>///bar</code> (with a blank authority).  Imagine
@@ -454,7 +454,7 @@ public final class URI
    *
    * @param segments an array of non-null strings, each representing one
    * segment of the path.  As an absolute path, it is automatically
-   * preceeded by a <code>/</code> separator.  If desired, a trailing
+   * preceded by a <code>/</code> separator.  If desired, a trailing
    * separator should be represented by an empty-string segment as the last
    * element of the array. 
    *
@@ -631,7 +631,7 @@ public final class URI
    * #validSegments validSegments}, {@link #validQuery validQuery}, or {@link
    * #validFragment validFragment}, as appropriate.
    *
-   * @deprecated Use {@link #createURI createURI}, which now has explicit
+   * @deprecated Use {@link #createURI(String) createURI}, which now has explicit
    * device support enabled. The two methods now operate identically.
    */
   @Deprecated
@@ -650,7 +650,7 @@ public final class URI
   /**
    * This method was included in the public API by mistake.
    * 
-   * @deprecated Please use {@link #createURI createURI} instead.
+   * @deprecated Please use {@link #createURI(String) createURI} instead.
    */
   @Deprecated
   public static URI createURIWithCache(String uri)
@@ -786,7 +786,7 @@ public final class URI
       uri.charAt(i) != FRAGMENT_SEPARATOR;
   }
 
-  // Finds the next occurance of one of the characters in the set represented
+  // Finds the next occurrence of one of the characters in the set represented
   // by the given bitmask in the given string, beginning at index i. The index
   // of the first found character, or s.length() if there is none, is
   // returned.  Before searching, i is limited to the range [0, s.length()].
@@ -855,9 +855,9 @@ public final class URI
    * <pre>
    *   /project-name/path</pre>
    *
-   * <p>Platform-specific path separators will be converterted to slashes.
+   * <p>Platform-specific path separators will be converted to slashes.
    * If not included, the leading path separator will be added.  The
-   * result will be of this form, which is parsed using {@link #createURI
+   * result will be of this form, which is parsed using {@link #createURI(String)
    * createURI}:
    * <pre>
    *   platform:/resource/project-name/path</pre>
@@ -893,9 +893,9 @@ public final class URI
    * <pre>
    *   /project-name/path</pre>
    *
-   * <p>Platform-specific path separators will be converterted to slashes.
+   * <p>Platform-specific path separators will be converted to slashes.
    * If not included, the leading path separator will be added.  The
-   * result will be of this form, which is parsed using {@link #createURI
+   * result will be of this form, which is parsed using {@link #createURI(String)
    * createURI}:
    * <pre>
    *   platform:/resource/project-name/path</pre>
@@ -929,9 +929,9 @@ public final class URI
    * <pre>
    *   /plugin-id/path</pre>
    *
-   * <p>Platform-specific path separators will be converterted to slashes.
+   * <p>Platform-specific path separators will be converted to slashes.
    * If not included, the leading path separator will be added.  The
-   * result will be of this form, which is parsed using {@link #createURI
+   * result will be of this form, which is parsed using {@link #createURI(String)
    * createURI}:
    * <pre>
    *   platform:/plugin/plugin-id/path</pre>
@@ -1233,7 +1233,7 @@ public final class URI
    * a valid path segment array of a URI; <code>false</code> otherwise.
    *
    * <p>A valid path segment array must be non-null and contain only path
-   * segements that are valid according to {@link #validSegment validSegment}.
+   * segments that are valid according to {@link #validSegment validSegment}.
    */
   public static boolean validSegments(String[] value)
   {
@@ -1245,7 +1245,7 @@ public final class URI
     return true;
   }
 
-  // Returns null if the specicied value is null or would be a valid path
+  // Returns null if the specified value is null or would be a valid path
   // segment array of a URI; otherwise, the value of the first invalid
   // segment. 
   private static String firstInvalidSegment(String[] value)
@@ -1289,7 +1289,7 @@ public final class URI
     //return value == null || validate(value, URIC_HI, URIC_LO, true, true);
   }
 
-  // Searches the specified string for any characters in the set represnted
+  // Searches the specified string for any characters in the set represented
   // by the 128-bit bitmask.  Returns true if any occur, or false otherwise.
   private static boolean contains(String s, long highBitmask, long lowBitmask)
   {
@@ -1310,7 +1310,7 @@ public final class URI
   private static boolean validate(String value, long highBitmask, long lowBitmask,
                                      boolean allowNonASCII, boolean allowEscaped)
   {
-    for (int i = 0, len = value.length(); i < len; i++)
+    for (int i = 0, length = value.length(); i < length; i++)
     { 
       char c = value.charAt(i);
 
@@ -1554,7 +1554,7 @@ public final class URI
   }
 
   /**
-   * Returns <code>true</code> if <code>obj</code> is an instance of
+   * Returns <code>true</code> if <code>object</code> is an instance of
    * <code>URI</code> equal to this one; <code>false</code> otherwise.
    *
    * <p>Equality is determined strictly by comparing components, not by
@@ -1562,11 +1562,11 @@ public final class URI
    * comparison of schemes is case-insensitive.
    */
   @Override
-  public boolean equals(Object obj)
+  public boolean equals(Object object)
   {
-    if (this == obj) return true;
-    if (!(obj instanceof URI)) return false;
-    URI uri = (URI) obj;
+    if (this == object) return true;
+    if (!(object instanceof URI)) return false;
+    URI uri = (URI) object;
 
     return hashCode == uri.hashCode() &&
       hierarchical == uri.isHierarchical() &&
@@ -1920,13 +1920,13 @@ public final class URI
    * detail in section 5.2 of <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC
    * 2396</a>, "Resolving Relative References to Absolute Form."
    *
-   * <p>During resultion, empty segments, self references ("."), and parent
+   * <p>During resolution, empty segments, self references ("."), and parent
    * references ("..") are interpreted, so that they can be removed from the
    * path.  Step 6(g) gives a choice of how to handle the case where parent
    * references point to a path above the root: the offending segments can
    * be preserved or discarded.  This method can do either.
    *
-   * @param preserveRootParents <code>true</code> if segments refering to the
+   * @param preserveRootParents <code>true</code> if segments referring to the
    * parent of the root path are to be preserved; <code>false</code> if they
    * are to be discarded.
    *
@@ -2025,7 +2025,7 @@ public final class URI
     }
 
     // if the relative path is empty or ends in an empty segment, a parent 
-    // reference, or a self referenfce, add a trailing separator to a
+    // reference, or a self reference, add a trailing separator to a
     // non-empty path
     if (sp > 0 &&  (segmentCount == 0 ||
                     SEGMENT_EMPTY.equals(segments[segmentCount - 1]) ||
@@ -2197,10 +2197,10 @@ public final class URI
 
   // Returns true if the non-relative path includes segments that would be
   // collapsed when resolving; false otherwise.  If preserveRootParents is
-  // true, collapsable segments include any empty segments, except for the
+  // true, collapsible segments include any empty segments, except for the
   // last segment, as well as and parent and self references.  If
-  // preserveRootsParents is false, parent references are not collapsable if
-  // they are the first segment or preceeded only by other parent
+  // preserveRootsParents is false, parent references are not collapsible if
+  // they are the first segment or preceded only by other parent
   // references.
   private boolean hasCollapsableSegments(boolean preserveRootParents)
   {
@@ -2253,7 +2253,7 @@ public final class URI
 
     // if endPath is shorter than startPath, the last segment of endPath may
     // not be compared: because startPath has been collapsed and had its
-    // last segment removed, all preceeding segments can be considered non-
+    // last segment removed, all preceding segments can be considered non-
     // empty and followed by a separator, while the last segment of endPath
     // will either be non-empty and not followed by a separator, or just empty
     for (int count = startCount < endCount ? startCount : endCount - 1;
@@ -2265,7 +2265,7 @@ public final class URI
     int upCount = startCount - diff;
     int downCount = endCount - diff;
 
-    // a single separator, possibly preceeded by some parent reference
+    // a single separator, possibly preceded by some parent reference
     // segments, is redundant
     if (downCount == 1 && SEGMENT_EMPTY.equals(endPath[endCount - 1]))
     {
@@ -2437,7 +2437,7 @@ public final class URI
    * <pre>
    *   //authority/device/pathSegment1/pathSegment2...</pre>
    * 
-   * <p>However, the character used as a separator is system-dependant and
+   * <p>However, the character used as a separator is system-dependent and
    * obtained from {@link java.io.File#separatorChar}.
    */
   public String toFileString()
@@ -3043,7 +3043,7 @@ public final class URI
   // false otherwise.
   private static boolean containsNonASCII(String value)
   {
-    for (int i = 0, len = value.length(); i < len; i++)
+    for (int i = 0, length = value.length(); i < length; i++)
     {
       if (value.charAt(i) > 127) return true;
     }
@@ -3083,14 +3083,14 @@ public final class URI
 
   // Returns a strict ASCII encoding of the given value.  Each non-ASCII
   // character is converted to bytes using UTF-8 encoding, which are then
-  // represnted using % escaping.
+  // represented using % escaping.
   private String encodeAsASCII(String value)
   {
     if (value == null) return null;
 
     StringBuffer result = null;
 
-    for (int i = 0, len = value.length(); i < len; i++)
+    for (int i = 0, length = value.length(); i < length; i++)
     {
       char c = value.charAt(i);
 
@@ -3129,7 +3129,7 @@ public final class URI
   {
     int result = 0;
 
-    for (int len = s.length(); i < len; i += 3)
+    for (int length = s.length(); i < length; i += 3)
     {
       if (isEscaped(s, i)) result++;
     }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.14 2006/12/05 20:19:55 emerks Exp $
+ * $Id: BasicEList.java,v 1.15 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -106,7 +106,7 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
   /**
    * Returns new allocated data storage.
    * Clients may override this to create typed storage.
-   * The cost of type checking via a typed array is negligable.
+   * The cost of type checking via a typed array is negligible.
    * @return new data storage.
    */
   protected Object [] newData(int capacity)
@@ -150,7 +150,7 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
   /**
    * Returns whether objects are constrained to appear at most once in the list.
    * The default is to return <code>false</code>, but clients can override this to ensure uniqueness of contents.
-   * The performance impact is signifcant: operations such as <code>add</code> are O(n) as a result requiring uniqueness.
+   * The performance impact is significant: operations such as <code>add</code> are O(n) as a result requiring uniqueness.
    * @return whether objects are constrained to appear at most once in the list.
    */
   protected boolean isUnique()
@@ -608,11 +608,11 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
    * and returns whether the object was added; 
    * if {@link #isUnique uniqueness} is required,
    * duplicates will be ignored and <code>false</code> will be returned.
-   * This implementation delegates to {@link #addUnique(E) addUnique(E)} 
+   * This implementation delegates to {@link #addUnique(Object) addUnique(E)} 
    * after uniqueness checking.
    * @param object the object to be added.
    * @return whether the object was added.
-   * @see #addUnique(E)
+   * @see #addUnique(Object)
    */
   @Override
   public boolean add(E object)
@@ -634,7 +634,7 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
    * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
    * after uniqueness checking.
    * @param object the object to be added.
-   * @see #add(E)
+   * @see #add(Object)
    */
   public void addUnique(E object) 
   {
@@ -651,12 +651,12 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
    * Adds the object at the given index in the list.
    * If {@link #isUnique uniqueness} is required,
    * duplicates will be ignored.
-   * This implementation delegates to {@link #addUnique(int, E) addUnique(int, E)} 
+   * This implementation delegates to {@link #addUnique(int, Object) addUnique(int, E)} 
    * after uniqueness checking.
    * @param object the object to be added.
    * @exception IllegalArgumentException if {@link #isUnique uniqueness} is required,
    * and the object is a duplicate.
-   * @see #addUnique(int, E)
+   * @see #addUnique(int, Object)
    */
   @Override
   public void add(int index, E object)
@@ -677,7 +677,7 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
    * it does no ranging checking or uniqueness checking.
    * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
    * @param object the object to be added.
-   * @see #add(int, E)
+   * @see #add(int, Object)
    */
   public void addUnique(int index, E object) 
   {
@@ -814,12 +814,11 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
    * and returns whether any objects were added;
    * it does no ranging checking or uniqueness checking.
    * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
-   * @param index the index at which to add.
    * @param objects the objects to be added.
    * @param start the index of first object to be added.
-   * @param end the index past teh last object to be added.
+   * @param end the index past the last object to be added.
    * @return whether any objects were added.
-   * @see #addAllUnique(int Object[], int, int)
+   * @see #addAllUnique(Object[], int, int)
    */
   public boolean addAllUnique(Object [] objects, int start, int end) 
   {
@@ -1392,7 +1391,7 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
   }
 
   /**
-   * An extended read-only iterator that does not {@link #resolve resolve} objects.
+   * An extended read-only iterator that does not {@link BasicEList#resolve resolve} objects.
    */
   protected class NonResolvingEIterator<E1> extends EIterator<E1>
   {
@@ -1492,7 +1491,7 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
 
     /**
      * Returns the previous object and advances the iterator.
-     * This implementation delegates to {@link BasicEList#doPrevious doPrevious}.
+     * This implementation delegates to {@link #doPrevious doPrevious}.
      * @return the previous object.
      * @exception NoSuchElementException if the iterator is done.
      */
@@ -1525,7 +1524,7 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
     }
 
     /**
-     * Returns the index of the object that would be returned by calling {@link #next next}.
+     * Returns the index of the object that would be returned by calling {@link #next() next}.
      * @return the index of the object that would be returned by calling <code>next</code>.
      */
     public int nextIndex() 
@@ -1543,12 +1542,12 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
     }
 
     /**
-     * Sets the object at the index of the last call to {@link #next next} or {@link #previous previous}.
+     * Sets the object at the index of the last call to {@link #next() next} or {@link #previous previous}.
      * This implementation delegates to {@link BasicEList#set set}.
      * @param object the object to set.
      * @exception IllegalStateException
      * if <code>next</code> or <code>previous</code> have not yet been called,
-     * or {@link #remove remove} or {@link #add add} have already been called 
+     * or {@link #remove(Object) remove} or {@link #add add} have already been called 
      * after the last call to <code>next</code> or <code>previous</code>.
      */
     @SuppressWarnings("unchecked")
@@ -1558,12 +1557,12 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
     }
 
     /**
-     * Sets the object at the index of the last call to {@link #next next} or {@link #previous previous}.
+     * Sets the object at the index of the last call to {@link #next() next} or {@link #previous previous}.
      * This implementation delegates to {@link BasicEList#set set}.
      * @param object the object to set.
      * @exception IllegalStateException
      * if <code>next</code> or <code>previous</code> have not yet been called,
-     * or {@link #remove remove} or {@link #add add} have already been called 
+     * or {@link #remove(Object) remove} or {@link #add add} have already been called 
      * after the last call to <code>next</code> or <code>previous</code>.
      */
     protected void doSet(E object) 
@@ -1585,8 +1584,8 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
     }
 
     /**
-     * Adds the object at the {@link #next next} index and advances the iterator past it.
-     * This implementation delegates to {@link BasicEList#doAdd(int, E) doAdd(E)}.
+     * Adds the object at the {@link #next() next} index and advances the iterator past it.
+     * This implementation delegates to {@link #doAdd(Object) doAdd(E)}.
      * @param object the object to add.
      */
     @SuppressWarnings("unchecked")
@@ -1596,8 +1595,8 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
     }
     
     /**
-     * Adds the object at the {@link #next next} index and advances the iterator past it.
-     * This implementation delegates to {@link BasicEList#add(int, E) add(int, E)}.
+     * Adds the object at the {@link #next() next} index and advances the iterator past it.
+     * This implementation delegates to {@link BasicEList#add(int, Object) add(int, E)}.
      * @param object the object to add.
      */
     protected void doAdd(E object) 
@@ -1643,7 +1642,7 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
   }
 
   /**
-   * An extended read-only list iterator that does not {@link #resolve resolve} objects.
+   * An extended read-only list iterator that does not {@link BasicEList#resolve resolve} objects.
    */
   protected class NonResolvingEListIterator<E1> extends EListIterator<E1>
   {
@@ -1689,7 +1688,7 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
 
     /**
      * Returns the previous object and advances the iterator.
-     * This implementation acesses the data storage directly.
+     * This implementation accesses the data storage directly.
      * @return the previous object.
      * @exception NoSuchElementException if the iterator is done.
      */

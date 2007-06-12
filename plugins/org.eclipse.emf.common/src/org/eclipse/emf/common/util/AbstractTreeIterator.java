@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractTreeIterator.java,v 1.5 2006/12/05 20:19:54 emerks Exp $
+ * $Id: AbstractTreeIterator.java,v 1.6 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -63,7 +63,7 @@ public abstract class AbstractTreeIterator<E> extends BasicEList<Iterator<? exte
    * <p>Creates and instance that iterates over an object (but only if <code>includeRoot</code> is <code>true</code>), 
    * it's children, their children, and so on.<p>
    * <p>If <code>includeRoot</code> is <code>true</code>, the <code>object</code> is expected
-   * to be of the type {@link E}. 
+   * to be of the type <code>E</code>. 
    */
   public AbstractTreeIterator(Object object, boolean includeRoot)
   {
@@ -212,7 +212,7 @@ public abstract class AbstractTreeIterator<E> extends BasicEList<Iterator<? exte
         //
         data[--size] = null;
 
-        // Keep poping the stack until an iterator that has a next is at the top.
+        // Keep popping the stack until an iterator that has a next is at the top.
         //
         while (!isEmpty() && !((Iterator<?>)data[size - 1]).hasNext())
         {

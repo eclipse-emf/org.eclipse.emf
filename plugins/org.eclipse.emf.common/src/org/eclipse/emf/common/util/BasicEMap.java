@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEMap.java,v 1.7 2006/12/05 20:19:56 emerks Exp $
+ * $Id: BasicEMap.java,v 1.8 2007/06/12 20:56:17 emerks Exp $
  */
 package  org.eclipse.emf.common.util;
 
@@ -42,7 +42,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
 
   /**
    * An extended implementation interface for caching hash values 
-   * and for upating an entry that may be manufactured as a uninitialized instance by a factory.
+   * and for updating an entry that may be manufactured as a uninitialized instance by a factory.
    * No client is expected to use this interface, 
    * other than to implement it in conjunction with a map implementation.
    */
@@ -218,7 +218,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
   /**
    * Returns new allocated entry data storage.
    * Clients may override this to create typed storage, but it's not likely.
-   * The cost of type checking via a typed array is negligable.
+   * The cost of type checking via a typed array is negligible.
    * @param capacity the capacity of storage needed.
    * @return new entry data storage.
    */
@@ -253,7 +253,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
   /**
    * Returns a new allocated list of entries.
    * Clients may override this to create typed storage.
-   * The cost of type checking via a typed array is negligable.
+   * The cost of type checking via a typed array is negligible.
    * The type must be kept in synch with {@link #newEntry(int, Object, Object) newEntry}.
    * @return a new list of entries.
    * @see #newEntry(int, Object, Object)

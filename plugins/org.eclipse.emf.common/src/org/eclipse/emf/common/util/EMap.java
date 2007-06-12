@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMap.java,v 1.3 2006/12/05 20:19:57 emerks Exp $
+ * $Id: EMap.java,v 1.4 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -26,7 +26,7 @@ import java.util.Set;
  * A list of {@link java.util.Map.Entry java.util.Map.Entry} instances, i.e., entries, that 
  * supports a {@link #map} view
  * as well as the full {@link java.util.Map} API,
- * with the noteable exception of {@link java.util.Map#remove(Object)}.
+ * with the notable exception of {@link java.util.Map#remove(Object)}.
  * It's return type conflicts with that of {@link java.util.Collection#remove(Object)}.
  * The {@link #removeKey removeKey(Object)} method may be used instead.
  * The implementation of remove may delegate to <code>removeKey</code> 

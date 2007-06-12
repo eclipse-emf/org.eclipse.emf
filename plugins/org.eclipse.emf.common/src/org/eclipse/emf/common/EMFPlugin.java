@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.18 2007/03/23 17:36:49 marcelop Exp $
+ * $Id: EMFPlugin.java,v 1.19 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -49,7 +49,7 @@ import org.eclipse.emf.common.util.WrappedException;
  * within a headless Eclipse workspace,
  * or just stand-alone as part of some other application.
  * To support this, all resource access (e.g., NL strings, images, and so on) is directed to the resource locator methods,
- * which can redirect the service as appopriate to the runtime.
+ * which can redirect the service as appropriate to the runtime.
  * During Eclipse invocation, the implementation delegates to a plugin implementation.
  * During stand-alone invocation, no plugin initialization takes place,
  * so the implementation delegates to a resource JAR on the CLASSPATH.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Adapter.java,v 1.3 2005/06/08 06:19:08 nickb Exp $
+ * $Id: Adapter.java,v 1.4 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.notify;
 
@@ -69,8 +69,8 @@ public interface Adapter
      * than one notifier, so this mechanism allows the adapter to know specifically which notifier will no longer
      * be notifying.
      * @param oldTarget the old notifier.
-     * @see #getTarget
-     * @see #setTarget
+     * @see #getTarget()
+     * @see #setTarget(Notifier)
      */
     void unsetTarget(Notifier oldTarget);
   }

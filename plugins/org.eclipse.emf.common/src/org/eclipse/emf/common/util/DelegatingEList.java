@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEList.java,v 1.8 2007/02/07 18:04:40 emerks Exp $
+ * $Id: DelegatingEList.java,v 1.9 2007/06/12 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -85,7 +85,7 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
   /**
    * Returns whether objects are constrained to appear at most once in the list.
    * The default is to return <code>false</code>, but clients can override this to ensure uniqueness of contents.
-   * The performance impact is signifcant: operations such as <code>add</code> are O(n) as a result requiring uniqueness.
+   * The performance impact is significant: operations such as <code>add</code> are O(n) as a result requiring uniqueness.
    * @return whether objects are constrained to appear at most once in the list.
    */
   protected boolean isUnique()
@@ -682,11 +682,10 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
    * Adds each object from start to end of the array at the index of list 
    * and returns whether any objects were added;
    * it does no ranging checking or uniqueness checking.
-   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
-   * @param index the index at which to add.
+   * This implementation delegates to {@link #delegateAdd(Object) delegatedAdd}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
    * @param objects the objects to be added.
    * @param start the index of first object to be added.
-   * @param end the index past teh last object to be added.
+   * @param end the index past the last object to be added.
    * @return whether any objects were added.
    * @see #addAllUnique(int, Object[], int, int)
    */
@@ -719,7 +718,7 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
    * Adds each object from start to end of the array at each successive index in the list 
    * and returns whether any objects were added;
    * it does no ranging checking or uniqueness checking.
-   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
+   * This implementation delegates to {@link #delegateAdd(int, Object) delegatedAdd}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
    * @param index the index at which to add.
    * @param objects the objects to be added.
    * @param start the index of first object to be added.
@@ -1120,7 +1119,7 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
   }
 
   /**
-   * An extended read-only iterator that does not {@link #resolve resolve} objects.
+   * An extended read-only iterator that does not {@link DelegatingEList#resolve resolve} objects.
    */
   protected class NonResolvingEIterator<E1> extends EIterator<E1> 
   {
@@ -1263,7 +1262,7 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
     }
 
     /**
-     * Returns the index of the object that would be returned by calling {@link #next next}.
+     * Returns the index of the object that would be returned by calling {@link #next() next}.
      * @return the index of the object that would be returned by calling <code>next</code>.
      */
     public int nextIndex() 
@@ -1281,12 +1280,12 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
     }
 
     /**
-     * Sets the object at the index of the last call to {@link #next next} or {@link #previous previous}.
+     * Sets the object at the index of the last call to {@link #next() next} or {@link #previous previous}.
      * This implementation delegates to {@link #doSet doSet}.
      * @param object the object to set.
      * @exception IllegalStateException
      * if <code>next</code> or <code>previous</code> have not yet been called,
-     * or {@link #remove remove} or {@link #add add} have already been called 
+     * or {@link #remove() remove} or {@link #add add} have already been called 
      * after the last call to <code>next</code> or <code>previous</code>.
      */
     @SuppressWarnings("unchecked")
@@ -1296,12 +1295,12 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
     }
 
     /**
-     * Sets the object at the index of the last call to {@link #next next} or {@link #previous previous}.
+     * Sets the object at the index of the last call to {@link #next() next} or {@link #previous previous}.
      * This implementation delegates to {@link DelegatingEList#set set}.
      * @param object the object to set.
      * @exception IllegalStateException
      * if <code>next</code> or <code>previous</code> have not yet been called,
-     * or {@link #remove remove} or {@link #add add} have already been called 
+     * or {@link #remove() remove} or {@link #add add} have already been called 
      * after the last call to <code>next</code> or <code>previous</code>.
      */
     protected void doSet(E object) 
@@ -1323,7 +1322,7 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
     }
 
     /**
-     * Adds the object at the {@link #next next} index and advances the iterator past it.
+     * Adds the object at the {@link #next() next} index and advances the iterator past it.
      * This implementation delegates to {@link #doAdd doAdd}.
      * @param object the object to add.
      */
@@ -1334,7 +1333,7 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
     }
 
     /**
-     * Adds the object at the {@link #next next} index and advances the iterator past it.
+     * Adds the object at the {@link #next() next} index and advances the iterator past it.
      * This implementation delegates to {@link DelegatingEList#add(int, Object) add(int, Object)}.
      * @param object the object to add.
      */
@@ -1382,7 +1381,7 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
   }
 
   /**
-   * An extended read-only list iterator that does not {@link #resolve resolve} objects.
+   * An extended read-only list iterator that does not {@link DelegatingEList#resolve resolve} objects.
    */
   protected class NonResolvingEListIterator<E1> extends EListIterator<E1>
   {
@@ -1428,7 +1427,7 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
 
     /**
      * Returns the previous object and advances the iterator.
-     * This implementation acesses the backing list directly.
+     * This implementation accesses the backing list directly.
      * @return the previous object.
      * @exception NoSuchElementException if the iterator is done.
      */
@@ -1658,7 +1657,7 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
 
   /**
    * Returns an <b>unsafe</b> list that provides a {@link #resolve non-resolving} view of the backing store list.
-   * @return an <b>unsafe</b> list that provides a non-resolving view of the backign store list.
+   * @return an <b>unsafe</b> list that provides a non-resolving view of the backing store list.
    */
   protected List<E> basicList()
   {
