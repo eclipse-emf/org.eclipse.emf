@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: LibrarySwitch.java,v 1.6 2007/06/12 00:20:35 marcelop Exp $
+ * $Id: LibrarySwitch.java,v 1.7 2007/06/12 15:06:57 emerks Exp $
  */
 package org.eclipse.example.library.util;
 
@@ -136,13 +136,13 @@ public class LibrarySwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Book</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Book</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Book</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Book</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -152,13 +152,13 @@ public class LibrarySwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Library</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Library</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Library</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Library</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -168,13 +168,13 @@ public class LibrarySwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Writer</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Writer</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Writer</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Writer</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -184,13 +184,13 @@ public class LibrarySwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Writer Name Map</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Writer Name Map</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Writer Name Map</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Writer Name Map</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -200,13 +200,13 @@ public class LibrarySwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Map Of Data Types</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Map Of Data Types</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Map Of Data Types</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Map Of Data Types</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
