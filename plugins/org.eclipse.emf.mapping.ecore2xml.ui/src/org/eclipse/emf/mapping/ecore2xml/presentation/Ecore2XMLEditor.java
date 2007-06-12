@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.13 2007/06/02 19:35:05 emerks Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.14 2007/06/12 15:07:04 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -1081,7 +1081,7 @@ public class Ecore2XMLEditor
   }
 
   /**
-   * Returns a dignostic describing the errors and warnings listed in the resource
+   * Returns a diagnostic describing the errors and warnings listed in the resource
    * and the specified exception (if any).
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1713,7 +1713,7 @@ public class Ecore2XMLEditor
   }
 
   /**
-   * This returns wether something has been persisted to the URI of the specified resource.
+   * This returns whether something has been persisted to the URI of the specified resource.
    * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
