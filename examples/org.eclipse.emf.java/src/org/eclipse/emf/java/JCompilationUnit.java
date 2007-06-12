@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnit.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JCompilationUnit.java,v 1.5 2007/06/12 15:06:50 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -80,7 +80,7 @@ public interface JCompilationUnit extends JModelElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Imports</em>' attribute list.
    * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit_Imports()
-   * @model type="java.lang.String"
+   * @model
    * @generated
    */
   EList<String> getImports();
@@ -124,7 +124,7 @@ public interface JCompilationUnit extends JModelElement
    * @return the value of the '<em>Types</em>' containment reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit_Types()
    * @see org.eclipse.emf.java.JClass#getUnit
-   * @model type="org.eclipse.emf.java.JClass" opposite="unit" containment="true"
+   * @model opposite="unit" containment="true"
    * @generated
    */
   EList<JClass> getTypes();
@@ -140,7 +140,7 @@ public interface JCompilationUnit extends JModelElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Imported Packages</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit_ImportedPackages()
-   * @model type="org.eclipse.emf.java.JPackage"
+   * @model
    * @generated
    */
   EList<JPackage> getImportedPackages();
@@ -156,7 +156,7 @@ public interface JCompilationUnit extends JModelElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Imported Types</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit_ImportedTypes()
-   * @model type="org.eclipse.emf.java.JClass"
+   * @model
    * @generated
    */
   EList<JClass> getImportedTypes();

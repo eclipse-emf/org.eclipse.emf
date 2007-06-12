@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackage.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JPackage.java,v 1.5 2007/06/12 15:06:50 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -78,7 +78,7 @@ public interface JPackage extends JModelElement
    * @return the value of the '<em>Types</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJPackage_Types()
    * @see org.eclipse.emf.java.JClass#getPackage
-   * @model type="org.eclipse.emf.java.JClass" opposite="package"
+   * @model opposite="package"
    * @generated
    */
   EList<JClass> getTypes();

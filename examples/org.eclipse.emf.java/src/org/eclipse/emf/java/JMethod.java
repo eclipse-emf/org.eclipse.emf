@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethod.java,v 1.5 2007/06/02 19:34:28 emerks Exp $
+ * $Id: JMethod.java,v 1.6 2007/06/12 15:06:50 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -218,7 +218,7 @@ public interface JMethod extends JMember
    * @return the value of the '<em>Java Constructor</em>' attribute.
    * @see #setJavaConstructor(Constructor)
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_JavaConstructor()
-   * @model dataType="org.eclipse.emf.java.JavaConstructor" transient="true"
+   * @model dataType="org.eclipse.emf.java.JavaConstructor<?>" transient="true"
    * @generated
    */
   Constructor<?> getJavaConstructor();
@@ -272,7 +272,7 @@ public interface JMethod extends JMember
    * @return the value of the '<em>Parameters</em>' containment reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_Parameters()
    * @see org.eclipse.emf.java.JParameter#getMethod
-   * @model type="org.eclipse.emf.java.JParameter" opposite="method" containment="true"
+   * @model opposite="method" containment="true"
    * @generated
    */
   EList<JParameter> getParameters();
@@ -288,7 +288,7 @@ public interface JMethod extends JMember
    * <!-- end-user-doc -->
    * @return the value of the '<em>Exceptions</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_Exceptions()
-   * @model type="org.eclipse.emf.java.JClass"
+   * @model
    * @generated
    */
   EList<JClass> getExceptions();

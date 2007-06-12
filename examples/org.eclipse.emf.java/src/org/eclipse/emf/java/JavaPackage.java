@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackage.java,v 1.5 2005/11/23 18:09:55 emerks Exp $
+ * $Id: JavaPackage.java,v 1.6 2007/06/12 15:06:50 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -1771,7 +1771,7 @@ public interface JavaPackage extends EPackage{
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>JNode</em>'.
    * @see java.lang.Object
-   * @model instanceClass="java.lang.Object" serializable="false"
+   * @model instanceClass="java.lang.Object" serializeable="false"
    * @generated
    */
   EDataType getJNode();
@@ -1782,7 +1782,7 @@ public interface JavaPackage extends EPackage{
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Class</em>'.
    * @see java.lang.Class
-   * @model instanceClass="java.lang.Class" serializable="false"
+   * @model instanceClass="java.lang.Class" serializeable="false" typeParameters="T"
    * @generated
    */
   EDataType getJavaClass();
@@ -1793,7 +1793,7 @@ public interface JavaPackage extends EPackage{
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Method</em>'.
    * @see java.lang.reflect.Method
-   * @model instanceClass="java.lang.reflect.Method" serializable="false"
+   * @model instanceClass="java.lang.reflect.Method" serializeable="false"
    * @generated
    */
   EDataType getJavaMethod();
@@ -1804,7 +1804,7 @@ public interface JavaPackage extends EPackage{
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Constructor</em>'.
    * @see java.lang.reflect.Constructor
-   * @model instanceClass="java.lang.reflect.Constructor" serializable="false"
+   * @model instanceClass="java.lang.reflect.Constructor" serializeable="false" typeParameters="T"
    * @generated
    */
   EDataType getJavaConstructor();
@@ -1815,7 +1815,7 @@ public interface JavaPackage extends EPackage{
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>Field</em>'.
    * @see java.lang.reflect.Field
-   * @model instanceClass="java.lang.reflect.Field" serializable="false"
+   * @model instanceClass="java.lang.reflect.Field" serializeable="false"
    * @generated
    */
   EDataType getJavaField();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClass.java,v 1.5 2007/06/02 19:34:28 emerks Exp $
+ * $Id: JClass.java,v 1.6 2007/06/12 15:06:50 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -170,7 +170,7 @@ public interface JClass extends JMember
    * @return the value of the '<em>Java Class</em>' attribute.
    * @see #setJavaClass(Class)
    * @see org.eclipse.emf.java.JavaPackage#getJClass_JavaClass()
-   * @model dataType="org.eclipse.emf.java.JavaClass" transient="true"
+   * @model dataType="org.eclipse.emf.java.JavaClass<?>" transient="true"
    * @generated
    */
   Class<?> getJavaClass();
@@ -196,7 +196,7 @@ public interface JClass extends JMember
    * <!-- end-user-doc -->
    * @return the value of the '<em>Fields</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Fields()
-   * @model type="org.eclipse.emf.java.JField" transient="true" volatile="true"
+   * @model transient="true" volatile="true"
    * @generated
    */
   EList<JField> getFields();
@@ -212,7 +212,7 @@ public interface JClass extends JMember
    * <!-- end-user-doc -->
    * @return the value of the '<em>Methods</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Methods()
-   * @model type="org.eclipse.emf.java.JMethod" transient="true" volatile="true"
+   * @model transient="true" volatile="true"
    * @generated
    */
   EList<JMethod> getMethods();
@@ -228,7 +228,7 @@ public interface JClass extends JMember
    * <!-- end-user-doc -->
    * @return the value of the '<em>Super Types</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_SuperTypes()
-   * @model type="org.eclipse.emf.java.JClass"
+   * @model
    * @generated
    */
   EList<JClass> getSuperTypes();
@@ -244,7 +244,7 @@ public interface JClass extends JMember
    * <!-- end-user-doc -->
    * @return the value of the '<em>All Super Types</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_AllSuperTypes()
-   * @model type="org.eclipse.emf.java.JClass" transient="true" volatile="true"
+   * @model transient="true" volatile="true"
    * @generated
    */
   EList<JClass> getAllSuperTypes();
@@ -262,7 +262,7 @@ public interface JClass extends JMember
    * @return the value of the '<em>Members</em>' containment reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Members()
    * @see org.eclipse.emf.java.JMember#getContainingType
-   * @model type="org.eclipse.emf.java.JMember" opposite="containingType" containment="true"
+   * @model opposite="containingType" containment="true"
    * @generated
    */
   EList<JMember> getMembers();
@@ -362,7 +362,7 @@ public interface JClass extends JMember
    * <!-- end-user-doc -->
    * @return the value of the '<em>All Methods</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_AllMethods()
-   * @model type="org.eclipse.emf.java.JMethod" transient="true" volatile="true"
+   * @model transient="true" volatile="true"
    * @generated
    */
   EList<JMethod> getAllMethods();
@@ -378,7 +378,7 @@ public interface JClass extends JMember
    * <!-- end-user-doc -->
    * @return the value of the '<em>All Fields</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_AllFields()
-   * @model type="org.eclipse.emf.java.JField" transient="true" volatile="true"
+   * @model transient="true" volatile="true"
    * @generated
    */
   EList<JField> getAllFields();
@@ -422,7 +422,7 @@ public interface JClass extends JMember
    * <!-- end-user-doc -->
    * @return the value of the '<em>Types</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Types()
-   * @model type="org.eclipse.emf.java.JClass"
+   * @model
    * @generated
    */
   EList<JClass> getTypes();
@@ -438,7 +438,7 @@ public interface JClass extends JMember
    * <!-- end-user-doc -->
    * @return the value of the '<em>All Types</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_AllTypes()
-   * @model type="org.eclipse.emf.java.JClass"
+   * @model
    * @generated
    */
   EList<JClass> getAllTypes();

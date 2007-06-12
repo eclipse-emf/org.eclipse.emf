@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaSwitch.java,v 1.7 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JavaSwitch.java,v 1.8 2007/06/12 15:06:49 emerks Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -186,13 +186,13 @@ public class JavaSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>JClass</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>JClass</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>JClass</em>'.
+   * @return the result of interpreting the object as an instance of '<em>JClass</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -202,13 +202,13 @@ public class JavaSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>JModel Element</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>JModel Element</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>JModel Element</em>'.
+   * @return the result of interpreting the object as an instance of '<em>JModel Element</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -218,13 +218,13 @@ public class JavaSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>JMember</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>JMember</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>JMember</em>'.
+   * @return the result of interpreting the object as an instance of '<em>JMember</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -234,13 +234,13 @@ public class JavaSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>JCompilation Unit</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>JCompilation Unit</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>JCompilation Unit</em>'.
+   * @return the result of interpreting the object as an instance of '<em>JCompilation Unit</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -250,13 +250,13 @@ public class JavaSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>JField</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>JField</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>JField</em>'.
+   * @return the result of interpreting the object as an instance of '<em>JField</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -266,13 +266,13 @@ public class JavaSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>JInitializer</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>JInitializer</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>JInitializer</em>'.
+   * @return the result of interpreting the object as an instance of '<em>JInitializer</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -282,13 +282,13 @@ public class JavaSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>JMethod</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>JMethod</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>JMethod</em>'.
+   * @return the result of interpreting the object as an instance of '<em>JMethod</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -298,13 +298,13 @@ public class JavaSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>JParameter</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>JParameter</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>JParameter</em>'.
+   * @return the result of interpreting the object as an instance of '<em>JParameter</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -314,13 +314,13 @@ public class JavaSwitch<T> {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>JPackage</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>JPackage</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>JPackage</em>'.
+   * @return the result of interpreting the object as an instance of '<em>JPackage</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
