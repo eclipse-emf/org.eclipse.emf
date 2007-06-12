@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SupplierSwitch.java,v 1.3 2007/06/12 15:07:00 emerks Exp $
+ * $Id: SupplierSwitch.java,v 1.4 2007/06/12 21:15:34 emerks Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier.util;
 
@@ -147,13 +147,13 @@ public class SupplierSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch, but this is the last case anyway.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
