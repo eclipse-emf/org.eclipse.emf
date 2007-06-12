@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.10 2007/05/28 19:10:21 emerks Exp $
+ * $Id: EXTLibraryEditor.java,v 1.11 2007/06/12 15:06:45 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -1078,7 +1078,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
   }
 
   /**
-   * Returns a dignostic describing the errors and warnings listed in the resource
+   * Returns a diagnostic describing the errors and warnings listed in the resource
    * and the specified exception (if any).
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1710,7 +1710,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
   }
 
   /**
-   * This returns wether something has been persisted to the URI of the specified resource.
+   * This returns whether something has been persisted to the URI of the specified resource.
    * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
