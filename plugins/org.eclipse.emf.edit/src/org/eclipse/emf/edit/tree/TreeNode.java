@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNode.java,v 1.4 2006/12/28 06:48:57 marcelop Exp $
+ * $Id: TreeNode.java,v 1.5 2007/06/12 15:07:32 emerks Exp $
  */
 package org.eclipse.emf.edit.tree;
 
@@ -82,7 +82,7 @@ public interface TreeNode extends EObject
    * @return the value of the '<em>Children</em>' containment reference list.
    * @see org.eclipse.emf.edit.tree.TreePackage#getTreeNode_Children()
    * @see org.eclipse.emf.edit.tree.TreeNode#getParent
-   * @model type="org.eclipse.emf.edit.tree.TreeNode" opposite="parent" containment="true"
+   * @model opposite="parent" containment="true"
    * @generated
    */
   EList<TreeNode> getChildren();
