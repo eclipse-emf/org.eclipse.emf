@@ -11,7 +11,7 @@ public interface Writer
   String getName();
 
   /**
-   * @model type="Book" opposite="author"
+   * @model opposite="author"
    */
   java.util.List<Book> getBooks();
 }

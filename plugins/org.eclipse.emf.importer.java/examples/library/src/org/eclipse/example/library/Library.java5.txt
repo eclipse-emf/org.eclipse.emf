@@ -1,5 +1,9 @@
 package org.eclipse.example.library;
+
 import java.util.List;
+import java.util.Map;
+
+import org.eclipse.emf.common.util.URI;
 
 /**
  * @model
@@ -12,12 +16,47 @@ public interface Library
   String getName();
 
   /**
-   * @model type="Writer" containment="true"
+   * @model containment="true"
    */
   List<Writer> getWriters();
 
   /**
-   * @model type="Book" containment="true"
+   * @model containment="true"
    */
   List<Book> getBooks();
+  
+  /**
+   * @model
+   */
+  List<Book> getSpecialBooks();
+
+  /**
+   * @model
+   */
+  Map<String, Book> getBookByTitleMap();
+  
+  /**
+   * @model mapType="WriterNameMap"
+   */
+  Map<String, Writer> getWriterByNameMap();
+    
+  /**
+   * @model mapType="MapOfDataTypes<WriterNumber, WriterID>"
+   */  
+  Map<Integer, String> getWriterByIDMap();
+  
+  /**
+   * @model kind="attribute"
+   */
+  Map<String, String> getOptions();
+    
+  /**
+   * @model
+   */
+  Map<org.eclipse.emf.ecore.EObject, List<URI>> getMap1();
+  
+  /**
+   * @model dataType="ManyURIs"
+   */
+  List<URI> getURIs_1();  
 }
