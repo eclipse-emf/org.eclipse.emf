@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Supplier.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
+ * $Id: Supplier.java,v 1.3 2007/06/12 15:07:00 emerks Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier;
 
@@ -88,7 +88,7 @@ public interface Supplier extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Preferred Orders</em>' containment reference list.
    * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getSupplier_PreferredOrders()
-   * @model type="org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder" containment="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='preferredOrders' group='#orders:1'"
    * @generated
    */
@@ -105,7 +105,7 @@ public interface Supplier extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Standard Orders</em>' containment reference list.
    * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getSupplier_StandardOrders()
-   * @model type="org.eclipse.emf.test.core.featuremap.supplier.PurchaseOrder" containment="true" transient="true" volatile="true" derived="true"
+   * @model containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='standardOrders' group='#orders:1'"
    * @generated
    */
