@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeSwitch.java,v 1.7 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: ChangeSwitch.java,v 1.8 2007/06/12 15:07:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -155,13 +155,13 @@ public class ChangeSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Description</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Description</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Description</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Description</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -171,13 +171,13 @@ public class ChangeSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>EObject To Changes Map Entry</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>EObject To Changes Map Entry</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EObject To Changes Map Entry</em>'.
+   * @return the result of interpreting the object as an instance of '<em>EObject To Changes Map Entry</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -187,13 +187,13 @@ public class ChangeSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Feature Change</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Feature Change</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Feature Change</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Feature Change</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -203,13 +203,13 @@ public class ChangeSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>List Change</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>List Change</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>List Change</em>'.
+   * @return the result of interpreting the object as an instance of '<em>List Change</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -219,13 +219,13 @@ public class ChangeSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Resource Change</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Resource Change</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Resource Change</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Resource Change</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
@@ -235,13 +235,13 @@ public class ChangeSwitch<T>
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Feature Map Entry</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Feature Map Entry</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Feature Map Entry</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Feature Map Entry</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */

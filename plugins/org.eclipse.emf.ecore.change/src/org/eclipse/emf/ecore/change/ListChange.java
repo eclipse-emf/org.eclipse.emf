@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChange.java,v 1.7 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: ListChange.java,v 1.8 2007/06/12 15:07:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -79,7 +79,7 @@ public interface ListChange extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Data Values</em>' attribute list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_DataValues()
-   * @model type="java.lang.String"
+   * @model
    * @generated
    */
   EList<String> getDataValues();
@@ -136,7 +136,7 @@ public interface ListChange extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Reference Values</em>' reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_ReferenceValues()
-   * @model type="org.eclipse.emf.ecore.EObject"
+   * @model
    * @generated
    */
   EList<EObject> getReferenceValues();
@@ -170,7 +170,7 @@ public interface ListChange extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Feature Map Entry Values</em>' containment reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_FeatureMapEntryValues()
-   * @model type="org.eclipse.emf.ecore.change.FeatureMapEntry" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<FeatureMapEntry> getFeatureMapEntryValues();
@@ -182,7 +182,7 @@ public interface ListChange extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Values</em>' attribute list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_Values()
-   * @model type="java.lang.Object" transient="true" volatile="true" derived="true"
+   * @model transient="true" volatile="true" derived="true"
    * @generated
    */
   EList<Object> getValues();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescription.java,v 1.7 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: ChangeDescription.java,v 1.8 2007/06/12 15:07:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -51,7 +51,7 @@ public interface ChangeDescription extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Object Changes</em>' map.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription_ObjectChanges()
-   * @model mapType="org.eclipse.emf.ecore.change.EObjectToChangesMapEntry" keyType="org.eclipse.emf.ecore.EObject" valueType="org.eclipse.emf.ecore.change.FeatureChange"
+   * @model mapType="org.eclipse.emf.ecore.change.EObjectToChangesMapEntry<org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.change.FeatureChange>"
    * @generated
    */
   EMap<EObject, EList<FeatureChange>> getObjectChanges();
@@ -67,7 +67,7 @@ public interface ChangeDescription extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Objects To Detach</em>' reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription_ObjectsToDetach()
-   * @model type="org.eclipse.emf.ecore.EObject" resolveProxies="false" transient="true" derived="true"
+   * @model resolveProxies="false" transient="true" derived="true"
    * @generated
    */
   EList<EObject> getObjectsToDetach();
@@ -79,7 +79,7 @@ public interface ChangeDescription extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Objects To Attach</em>' containment reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription_ObjectsToAttach()
-   * @model type="org.eclipse.emf.ecore.EObject" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<EObject> getObjectsToAttach();
@@ -91,7 +91,7 @@ public interface ChangeDescription extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Resource Changes</em>' containment reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription_ResourceChanges()
-   * @model type="org.eclipse.emf.ecore.change.ResourceChange" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<ResourceChange> getResourceChanges();

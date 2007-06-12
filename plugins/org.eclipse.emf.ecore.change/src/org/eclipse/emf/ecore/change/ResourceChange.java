@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceChange.java,v 1.4 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: ResourceChange.java,v 1.5 2007/06/12 15:07:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -103,7 +103,7 @@ public interface ResourceChange extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>List Changes</em>' containment reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getResourceChange_ListChanges()
-   * @model type="org.eclipse.emf.ecore.change.ListChange" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<ListChange> getListChanges();

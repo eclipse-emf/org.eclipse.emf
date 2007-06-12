@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChange.java,v 1.5 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: FeatureChange.java,v 1.6 2007/06/12 15:07:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -218,7 +218,7 @@ public interface FeatureChange extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>List Changes</em>' containment reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getFeatureChange_ListChanges()
-   * @model type="org.eclipse.emf.ecore.change.ListChange" containment="true"
+   * @model containment="true"
    * @generated
    */
   EList<ListChange> getListChanges();
