@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.50 2007/06/12 15:07:28 emerks Exp $
+ * $Id: GenModel.java,v 1.51 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -144,7 +144,7 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Model Directory</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * When unset, this attribute takes a default value based on {@link modelPluginID #getModelPluginID}.
+   * When unset, this attribute takes a default value based on {@link #getModelPluginID() model plugin ID}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Model Directory</em>' attribute.
@@ -219,7 +219,7 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Edit Directory</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * When unset, this attribute takes a default value based on {@link modelDirectory #getModelDirectory}.
+   * When unset, this attribute takes a default value based on the {@link #getModelDirectory model directory}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Edit Directory</em>' attribute.
@@ -297,7 +297,7 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Editor Directory</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * When unset, this attribute takes a default value based on {@link modelDirectory #getModelDirectory}.
+   * When unset, this attribute takes a default value based on the {@link #getModelDirectory model directory}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Editor Directory</em>' attribute.
@@ -592,8 +592,8 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Edit Plugin Class</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * When unset, this attribute takes a default value based on {@link modelName #getModelName},
-   * and the first of the {@link genPackages #getGenPackages}.
+   * When unset, this attribute takes a default value based on the {@link #getModelName model name},
+   * and the first of the {@link #getGenPackages generated packages}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Edit Plugin Class</em>' attribute.
@@ -645,8 +645,8 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Editor Plugin Class</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * When unset, this attribute takes a default value based on {@link modelName #getModelName},
-   * and the first of the {@link genPackages #getGenPackages}.
+   * When unset, this attribute takes a default value based on {@link #getModelName model name},
+   * and the first of the {@link #getGenPackages generated packages}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Editor Plugin Class</em>' attribute.
@@ -1180,7 +1180,8 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Tests Directory</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * By default, this attribute is set to null.  When unset, it takes a default value based on {@link modelDirectory #getModelDirectory}.
+   * By default, this attribute is set to null.  
+   * When unset, it takes a default value based on the {@link #getModelDirectory model directory}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Tests Directory</em>' attribute.
@@ -1232,8 +1233,8 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Test Suite Class</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * When unset, this attribute takes a default value based on {@link modelName #getModelName},
-   * and the first of the {@link genPackages #getGenPackages}.
+   * When unset, this attribute takes a default value based on the {@link #getModelName model name},
+   * and the first of the {@link #getGenPackages generated packages}.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Test Suite Class</em>' attribute.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.86 2007/05/15 22:36:15 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.87 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1859,15 +1859,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public String getDriverNumber()
   {
-    //TBD
-    // EATM return "jet0000";
     return null;
   }
 
   public String getDate()
   {
-    //TBD
-    // EATM return "mm-dd-yyyy";
     return null;
   }
 
@@ -7520,8 +7516,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     ArrayList<GenFeature> result = new ArrayList<GenFeature>();
 
     // We need to filer out duplicates in the unlikely event that we have two
-    // features with the same class-qualifed name. We'll only generate one property
-    // string in that case and let the user add the second one mannually, if necessary.
+    // features with the same class-qualified name. We'll only generate one property
+    // string in that case and let the user add the second one manually, if necessary.
     //
     Set<String> noDupSet = new HashSet<String>();
     for (GenFeature genFeature : getAllGenFeatures())

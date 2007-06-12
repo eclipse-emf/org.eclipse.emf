@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.10 2007/05/15 22:35:35 emerks Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.11 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -126,7 +126,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   }
 
   /**
-   * Delegates to the GenMoel element's {@link GenBase#canGenerateEdit()() canGenerateEdit()} method.
+   * Delegates to the GenMoel element's {@link GenBase#canGenerateEdit() canGenerateEdit()} method.
    */
   public boolean canGenerateEdit(Object object)
   {
@@ -134,7 +134,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   }
 
   /**
-   * Delegates to the GenMoel element's {@link GenBase#canGenerateEditor()() canGenerateEditor()} method.
+   * Delegates to the GenMoel element's {@link GenBase#canGenerateEditor() canGenerateEditor()} method.
    */
   public boolean canGenerateEditor(Object object)
   {
@@ -357,7 +357,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
 
   /*
    * All Eclipse-dependent operations are delegated to this class. This pattern avoids any runtime failure due to
-   * missing dependencies in the standalone case.
+   * missing dependencies in the stand-alone case.
    */
   private static class EclipseHelper
   {

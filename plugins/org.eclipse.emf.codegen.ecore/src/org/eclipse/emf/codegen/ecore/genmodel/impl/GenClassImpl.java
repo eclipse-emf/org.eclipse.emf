@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.80 2007/06/11 21:09:49 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.81 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1344,7 +1344,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List<GenClass> getMixinGenClasses()
   {
-    // Simple cases: no mixins for no inheritance or for a single base class.
+    // Simple cases: no mix-ins for no inheritance or for a single base class.
     //
     List<EClass> superTypes = getEcoreClass().getESuperTypes();
     if (superTypes.isEmpty() || (superTypes.size() == 1 && !superTypes.get(0).isInterface()))
@@ -1355,7 +1355,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     List<GenClass> allBases = getAllBaseGenClasses();
     List<GenClass> result = new ArrayList<GenClass>(allBases.size());
 
-    // If extending an interface, its mixins must be included, since there is no implementation to handle them.
+    // If extending an interface, its mix-ins must be included, since there is no implementation to handle them.
     //
     GenClass baseGenClass = getBaseGenClass();
     if (baseGenClass.isInterface())
@@ -1363,7 +1363,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       result.addAll(baseGenClass.getMixinGenClasses());
     }
 
-    // Mixins are everything after the base class.
+    // Mix-ins are everything after the base class.
     //
     int i = allBases.indexOf(baseGenClass) + 1;
     result.addAll(allBases.subList(i, allBases.size()));
@@ -2809,7 +2809,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
     }
     else
-    { //datatype
+    { //data type
       if (genFeature.isUnique())
       {
         sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EDataTypeUniqueEList"));

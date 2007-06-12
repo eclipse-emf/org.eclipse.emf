@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifier.java,v 1.10 2007/06/12 15:07:28 emerks Exp $
+ * $Id: GenClassifier.java,v 1.11 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -40,7 +40,8 @@ import org.eclipse.emf.ecore.EClassifier;
  * @model abstract="true"
  * @generated
  */
-public interface GenClassifier extends GenBase {
+public interface GenClassifier extends GenBase
+{
   /**
    * Returns the value of the '<em><b>Gen Package</b></em>' reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenClassifiers <em>Gen Classifiers</em>}'.

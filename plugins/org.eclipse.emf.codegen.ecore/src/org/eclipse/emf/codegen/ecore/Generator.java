@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.32 2007/01/24 20:11:42 davidms Exp $
+ * $Id: Generator.java,v 1.33 2007/06/12 20:56:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -79,7 +79,7 @@ public class Generator extends CodeGen
   /**
    * This supports a non-headless invocation.
    * The variable VABASE or ECLIPSE.
-   * @deprecated It is not possible to generate code withtout using Eclipse.  If
+   * @deprecated It is not possible to generate code without using Eclipse.  If
    * you are invoking this method, you should instantiate a Generator and call
    * {@link #run(Object)}.  This method will be removed in a future release.
    */

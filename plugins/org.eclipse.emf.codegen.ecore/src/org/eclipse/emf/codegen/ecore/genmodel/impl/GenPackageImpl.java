@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.72 2007/06/07 13:28:27 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.73 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2314,7 +2314,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
     protected void initBases()
     {
-      // Go through class supertypes to catch any from other packages
+      // Go through class super types to catch any from other packages
       for (GenClass genClass : getGenClasses())
       {
         if (genClass.isEObject()) continue;
@@ -2384,7 +2384,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
     protected void init()
     {
-      // Go through class supertypes to catch constraints from other packages
+      // Go through class super types to catch constraints from other packages
       for (GenClass genClass : getGenClasses())
       {
         if (!genClass.isEObject()) 
@@ -3272,8 +3272,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     ArrayList<GenFeature> result = new ArrayList<GenFeature>();
 
     // We need to screen out duplicates in the unlikely event that we have two
-    //  features with the same class-qualifed name. We'll only generate one property
-    //  string in that case and let the user add the second one mannually, if necessary.
+    //  features with the same class-qualified name. We'll only generate one property
+    //  string in that case and let the user add the second one manually, if necessary.
     //
     Set<String> noDupHash = new HashSet<String>();
     for (GenClass genClass : getGenClasses())
@@ -3303,7 +3303,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   {
     List<GenClass> result = new ArrayList<GenClass>();
 
-    //TBD return superclasses of classes in this package that come from a delegate package.
+    //TBD return super classes of classes in this package that come from a delegate package.
 
     return result;
   }

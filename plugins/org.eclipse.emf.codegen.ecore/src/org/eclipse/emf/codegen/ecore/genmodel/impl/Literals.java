@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Literals.java,v 1.7 2007/01/29 19:10:47 davidms Exp $
+ * $Id: Literals.java,v 1.8 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -30,7 +30,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
  */
 public class Literals
 {
-  // Supress default constructor for non-instantiability.
+  // Suppress default constructor for non-instantiability.
   private Literals()
   {
     super();
@@ -172,7 +172,7 @@ public class Literals
   }
 
   /**
-   * Returns the hexidecimal literal expression for the given <code>byte</code>
+   * Returns the hexadecimal literal expression for the given <code>byte</code>
    * value, with optional boxing.
    */
   private static String toByteLiteral(byte b, boolean box, GenModel genModel)
@@ -197,7 +197,7 @@ public class Literals
   }
 
   /**
-   * Returns the hexidecimal literal expression for the given <code>byte</code>
+   * Returns the hexadecimal literal expression for the given <code>byte</code>
    * value.
    */
   public static String toByteLiteral(byte b, GenModel genModel)

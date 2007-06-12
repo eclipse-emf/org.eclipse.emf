@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.15 2007/06/12 15:07:28 emerks Exp $
+ * $Id: GenOperation.java,v 1.16 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -42,7 +42,8 @@ import org.eclipse.emf.ecore.EOperation;
  * @model
  * @generated
  */
-public interface GenOperation extends GenTypedElement {
+public interface GenOperation extends GenTypedElement
+{
   /**
    * Returns the value of the '<em><b>Gen Class</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getGenOperations <em>Gen Operations</em>}'.
@@ -149,19 +150,19 @@ public interface GenOperation extends GenTypedElement {
   GenPackage getReturnTypeGenPackage();
 
   /**
-   * @deprecated As of EMF 2.1, use {@link GenTypedElement#getType getType} instead.
+   * @deprecated As of EMF 2.1, use {@link GenTypedElement#getType(GenClass) getType(GenClass)} instead.
    */
   @Deprecated
   String getReturnType();
 
   /**
-   * @deprecated As of EMF 2.1, use {@link GenTypedElement#getImportedType getImportedType} instead.
+   * @deprecated As of EMF 2.1, use {@link GenTypedElement#getImportedType(GenClass) getImportedType(GenClass)} instead.
    */
   @Deprecated
   String getImportedReturnType();
 
   /**
-   * @deprecated As of EMF 2.1, use {@link GenTypedElement#getObjectType getObjectType} instead.
+   * @deprecated As of EMF 2.1, use {@link GenTypedElement#getObjectType(GenClass) getObjectType(GenClass)} instead.
    */
   @Deprecated
   String getObjectReturnType();

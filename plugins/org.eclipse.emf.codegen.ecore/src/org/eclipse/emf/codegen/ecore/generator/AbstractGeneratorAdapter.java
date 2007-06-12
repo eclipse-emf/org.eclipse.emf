@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.14 2007/05/17 13:38:21 emerks Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.15 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -92,7 +92,7 @@ import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
  *     colourizing grey-scale images.
  * </ul>
  * 
- * <p>Code generation is supported in the Eclipse IDE or standalone. However, merging and formatting of Java code are
+ * <p>Code generation is supported in the Eclipse IDE or stand-alone. However, merging and formatting of Java code are
  * not available in the latter scenario.
  * 
  * <p>At a minimum, subclasses must implement {@link #canGenerate(Object, Object)}, to determine whether code can be
@@ -276,8 +276,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * {@link Diagnostic#OK_INSTANCE OK}. The object is cached as {@link #generatingObject} and the {@link #message} is
    * cleared before calling {@link #doGenerate(Object, Object, Monitor)}; both are cleared again afterwards.
    * 
-   * @link #canGenerate(Object, Object)
-   * @link #doGenerate(Object, Object, Monitor)
+   * @see #canGenerate(Object, Object)
+   * @see #doGenerate(Object, Object, Monitor)
    */
   public final Diagnostic generate(Object object, Object projectType, Monitor monitor)
   {
@@ -502,7 +502,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
   /**
    * If {@link Generator.Options#dynamicTemplates dynamic templates} are not being used, attempts to set the emitter to
-   * use an existing, pre-compiled template class.
+   * use an existing, precompiled template class.
    */
   protected void setStaticTemplateClass(JETEmitter jetEmitter, String className)
   {
@@ -525,7 +525,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * Override this to {@link org.eclipse.emf.codegen.jet.JETEmitter#addVariable(String, String) add classpath variables}
    * to the JETEmitter. These will be used to build and execute dynamic templates.
    * 
-   * @link org.eclipse.emf.codegen.jet.JETEmitter#addVariable(String, String)
+   * @see org.eclipse.emf.codegen.jet.JETEmitter#addVariable(String, String)
    */
   protected void addClasspathEntries(JETEmitter jetEmitter) throws JETException
   {
@@ -583,18 +583,18 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   /**
    * Generates an arbitrary text artifact using JET.
    * 
-   * @param targetPathName the path name of the target file. This should be a workspace path; when running standalone,
+   * @param targetPathName the path name of the target file. This should be a workspace path; when running stand-alone,
    *         it will be converted to a platform resource URI that should be mapped to a physical file URI by the
    *         {@link #getURIConverter() URIConverter}.
    * @param jetEmitter the <code>JETEmitter</code> to use for generating the text.
    * @param arguments the argument array to pass to the <code>JETEmitter</code>'s
    *         {@link JETEmitter#generate(Monitor, Object[]) generate(Monitor, Object[])} method. If null, an array will
    *         be constructed containing only the {@link #generatingObject object} for which code is being generated. 
-   * @param overwrite whether an existing file should be overritten.
+   * @param overwrite whether an existing file should be overwritten.
    * @param encoding an override of the default encoding. If "ISO-8859-1" is specified,
    *         {@link org.eclipse.emf.codegen.util.CodeGenUtil#unicodeEscapeEncode(String) Unicode escape encoding}  
    *         is performed to represent non-Latin characters. The default encoding, when running under Eclipse, is
-   *         determined from the workspace. Failing that, or in standalone, the platform default is used.
+   *         determined from the workspace. Failing that, or in stand-alone, the platform default is used.
    * @param monitor the <code>Monitor</code> through which to report progress.
    * 
    * <p>This method also consults the following {@link Generator#getOptions() generator options}:
@@ -708,7 +708,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * {@link org.eclipse.emf.codegen.util.CodeGenUtil#unicodeEscapeEncode(String) Unicode escape encoding} is
    * performed to represent non-Latin characters.
    *
-   * @param targetPathName the path name of the target file. This should be a workspace path; when running standalone,
+   * @param targetPathName the path name of the target file. This should be a workspace path; when running stand-alone,
    *         it will be converted to a platform resource URI that should be mapped to a physical file URI by the
    *         {@link #getURIConverter() URIConverter}.
    * @param jetEmitter the <code>JETEmitter</code> to use for generating the text.
@@ -826,13 +826,13 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * Generates an icon using a {@link org.eclipse.emf.codegen.util.GIFEmitter GIFEmitter} to colourize a grey-scale GIF
    * image. The colours to use are calculated from one or, optionally, two text keys. 
    * 
-   * @param targetPathName the path name of the target file. This should be a workspace path; when running standalone,
+   * @param targetPathName the path name of the target file. This should be a workspace path; when running stand-alone,
    *         it will be converted to a platform resource URI that should be mapped to a physical file URI by the
    *         {@link #getURIConverter() URIConverter}.
    * @param gifEmitter the <code>GIFEmitter</code> to use for generating the icon.
    * @param parentKey the key used to determine the first colour set.
    * @param childKey the key used to determine the second colour set. If null, this key is ignored.
-   * @param overwrite whether an existing file should be overritten.
+   * @param overwrite whether an existing file should be overwritten.
    * @param monitor the <code>Monitor</code> through which to report progress.
    * 
    * <p>This method also consults the following {@link Generator#getOptions() generator options}:
@@ -915,10 +915,10 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * {@link org.eclipse.jdt.core.formatter.CodeFormatter code formatting} capabilities.
    * 
    * <p>When running under Eclipse, the encoding for the file is determined from the workspace. Failing that, or in
-   * standalone, the platform default is used.
+   * stand-alone, the platform default is used.
    * 
    * @param targetPath the workspace path of the directory in or under which the file will be created, depending on the
-   *         specified package name. When running standalone, this path will be converted to a platform resource URI
+   *         specified package name. When running stand-alone, this path will be converted to a platform resource URI
    *         that should be mapped to a physical file URI by the {@link #getURIConverter() URIConverter}.
    * @param packageName the package name for the generated compilation unit.
    * @param className the name of the public class in the generated compilation unit.
@@ -1116,7 +1116,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
   /**
    * Converts the given workspace path to a <code>URI</code>. No encoding is performed, so the URI may contain invalid
-   * characters. Such a URI is only used to easily acess and manipulate parts of the workspace path. It can then be
+   * characters. Such a URI is only used to easily access and manipulate parts of the workspace path. It can then be
    * converted back to a string and an {@link org.eclipse.core.runtime.IPath IPath} for use in the workspace, or to an 
    * encoded {@link #toPlatformResourceURI(URI) platform resource URI} for direct use with the EMF persistence
    * framework.
@@ -1136,7 +1136,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   }
 
   /**
-   * Creates and returns a sub-monitor for the given progress monitor. When running standalone, the same monitor is
+   * Creates and returns a sub-monitor for the given progress monitor. When running stand-alone, the same monitor is
    * actually returned.
    * 
    * @param monitor the parent monitor
@@ -1194,12 +1194,12 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   }
 
   /**
-   * Ensures that a project, corresponding to the first segment in the specifed workspace path, exists. If the project
+   * Ensures that a project, corresponding to the first segment in the specified workspace path, exists. If the project
    * does not exist, a default project will be created. If it does exist and <code>force</code> is true, it will be
    * reconfigured to match the default configuration. The remainder of the path suggests the folder under which source
    * will be generated.
    *
-   * <p>When running standalone, this method does nothing, since simply opening a stream via a <code>URIConverter</code>
+   * <p>When running stand-alone, this method does nothing, since simply opening a stream via a <code>URIConverter</code>
    * will automatically create the necessary directories.
    */
   protected void ensureProjectExists(String workspacePath, Object object, Object projectType, boolean force, Monitor monitor)
@@ -1218,11 +1218,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   }
 
   /**
-   * Ensures that a container coresponding to the specified relative URI exists. The URI represents a workspace
+   * Ensures that a container corresponding to the specified relative URI exists. The URI represents a workspace
    * path for which the project must already exist, since this method doesn't have the necessary information to
    * set up a project. This method will create nested folders within the project, if possible.
    *
-   * <p>When running standalone, this method does nothing, since simply opening a stream via a <code>URIConverter</code>
+   * <p>When running stand-alone, this method does nothing, since simply opening a stream via a <code>URIConverter</code>
    * will automatically create the necessary directories.
    */
   protected void ensureContainerExists(URI workspacePath, Monitor monitor)
@@ -1389,7 +1389,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   }
 
   /**
-   * Sets the file represented by a workspace path URI to be writable. When running standalone, this actually
+   * Sets the file represented by a workspace path URI to be writable. When running stand-alone, this actually
    * <em>deletes</em> the file, since there is no Java platform API for making a file writable.
    */
   protected void setWriteable(URI workspacePath) throws Exception
@@ -1411,7 +1411,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * When running under Eclipse, performs an
    * {@link org.eclipse.core.resources.IWorkspace#validateEdit(IFile[], Object) IWorkspace.validateEdit(IFile[], Object)}
    * for the file identified by the given workspace path URI. This notifies the workspace that the file will be edited,
-   * providing it the opportunity to prepare the files if required. When running standalone, does nothing.
+   * providing it the opportunity to prepare the files if required. When running stand-alone, does nothing.
    */
   protected boolean validateEdit(URI workspacePath, Monitor monitor)
   {
@@ -1463,7 +1463,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
   /**
    * When running under Eclipse, queries the workspace to determine the correct encoding for the file identified by
-   * the given workspace path URI. When running standalone, returns null.
+   * the given workspace path URI. When running stand-alone, returns null.
    */
   protected String getEncoding(URI workspacePath)
   {
@@ -1475,13 +1475,13 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   }
 
   /**
-   * When running under Eclipse, returns a code formatter; when standalone, returns null. If <code>options</code> is
-   * non-null, the code formatting options it specifies are used to create the formatter. Otherwose, the project is
+   * When running under Eclipse, returns a code formatter; when stand-alone, returns null. If <code>options</code> is
+   * non-null, the code formatting options it specifies are used to create the formatter. Otherwise, the project is
    * obtained from the given workspace path URI, and its default formatting options are used.
    *
    * @return the created code formatter. If non-null, this will be an instance of
    *          {@link org.eclipse.jdt.core.formatter.CodeFormatter CodeFormatter}; however, it is not statically typed
-   *          as such to avoid failure when running standalone.
+   *          as such to avoid failure when running stand-alone.
    */
   protected Object createCodeFormatter(Map<?, ?> options, URI workspacePath)
   {
@@ -1495,7 +1495,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   /**
    * If non-null, use the specified code formatter to format the given compilation unit contents.
    *
-   * @return the formatted version of the contents. If the code formatter is null or when running standalone, the
+   * @return the formatted version of the contents. If the code formatter is null or when running stand-alone, the
    *          contents are returned unchanged. 
    */
   protected String formatCode(String contents, Object codeFormatter)
@@ -1505,7 +1505,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
   /*
    * All Eclipse-dependent operations are delegated to this class. This pattern avoids any runtime failure due to
-   * missing dependencies in the standalone case.
+   * missing dependencies in the stand-alone case.
    */
   private static class EclipseHelper
   {

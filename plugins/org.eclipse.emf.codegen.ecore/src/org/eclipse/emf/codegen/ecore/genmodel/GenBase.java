@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBase.java,v 1.15 2007/06/12 15:07:28 emerks Exp $
+ * $Id: GenBase.java,v 1.16 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -42,7 +42,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface GenBase extends EObject {
+public interface GenBase extends EObject
+{
   /**
    * Returns the value of the '<em><b>Gen Annotations</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation}.

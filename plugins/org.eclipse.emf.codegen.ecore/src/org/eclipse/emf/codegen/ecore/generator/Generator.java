@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.11 2007/05/11 15:12:39 emerks Exp $
+ * $Id: Generator.java,v 1.12 2007/06/12 20:56:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -52,7 +52,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  * 
  * <pre>
  *   // Globally register the default generator adapter factory for GenModel
- *   // elements (only needed in standalone).
+ *   // elements (only needed in stand-alone).
  *   // 
  *   GeneratorAdapterFactory.Descriptor.Registry.INSTANCE.addDescriptor
  *     (GenModelPackage.eNS_URI, GenModelGeneratorAdapterFactory.DESCRIPTOR);
@@ -171,7 +171,7 @@ public class Generator
   protected Options options;
 
   /**
-   * Whether the adapter factories for the input need to be called to initalize before generating code.
+   * Whether the adapter factories for the input need to be called to initialize before generating code.
    * 
    * @see #requestInitialize()
    */
@@ -474,7 +474,7 @@ public class Generator
 
   /**
    * Returns whether code can be generated for the given object and project type.
-   * A project type is repesented by an arbitrary object that is meaningful to the generator adapters for the relevant
+   * A project type is represented by an arbitrary object that is meaningful to the generator adapters for the relevant
    * objects.
    *
    * <p>This result is obtained as follows:
@@ -510,7 +510,7 @@ public class Generator
   }
 
   /**
-   * Performs code generation for the given object and project type. A project type is repesented by an arbitrary object
+   * Performs code generation for the given object and project type. A project type is represented by an arbitrary object
    * that is meaningful to the generator adapters for the relevant objects. Since this is a long-running operation, it
    * reports progress using the given <code>Monitor</code>. Its final status is returned as a <code>Diagnostic</code>.
    * 
@@ -529,7 +529,7 @@ public class Generator
   }
 
   /**
-   * Performs code generation for the given object and project type. A project type is repesented by an arbitrary object
+   * Performs code generation for the given object and project type. A project type is represented by an arbitrary object
    * that is meaningful to the generator adapters for the relevant objects. Since this is a long-running operation, it
    * reports progress using the given <code>Monitor</code>. Its final status is returned as a <code>Diagnostic</code>.
    * The <code>projectTypeName</code>, if non-null, is used only to provide to the <code>Monitor</code> a more specific
@@ -561,11 +561,11 @@ public class Generator
    *     generation.
    * </ol>
    * 
-   * <p>The operation may be cancelled during step 4 or 5, either based on the <code>Monitor</code> or the
+   * <p>The operation may be canceled during step 4 or 5, either based on the <code>Monitor</code> or the
    * <code>Diagnostic</code> returned by any generator adapter invocation. By default, only a <code>CANCEL</code>
    * {@link org.eclipse.emf.common.util.Diagnostic#getSeverity severity} will cause code generation to stop; however,
    * this can be customized by overriding {@link #canContinue(Diagnostic) canContinue(Diagnostic)}. Even if code
-   * generation is cancelled, {@link GeneratorAdapter#postGenerate(Object, Object) postGenerate(Object, Object)} will
+   * generation is canceled, {@link GeneratorAdapter#postGenerate(Object, Object) postGenerate(Object, Object)} will
    * still be called on all the adapters on which {@link GeneratorAdapter#preGenerate(Object, Object) preGenerate(Object, Object)}
    * has been called.
    * 
@@ -621,7 +621,7 @@ public class Generator
         }
       }
 
-      // Give all generator adapters the chance to do teardown.
+      // Give all generator adapters the chance to do tear down.
       //
       for (int i = 0; i < preIndex; i++)
       {

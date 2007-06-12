@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.29 2007/06/11 21:09:49 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.30 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1004,7 +1004,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   /**
    * First follows base types in extended metadata, returning the first data type from Ecore or XMLTypes encountered.
    * In none, looks for a serializable Ecore data type that represents the Java type.
-   * This Ecore type matching is unfortunately hacky, but required for backwards compatibility.
+   * This Ecore type matching is unfortunately not so great, but required for backwards compatibility.
    */
   EDataType getBasicType()
   {

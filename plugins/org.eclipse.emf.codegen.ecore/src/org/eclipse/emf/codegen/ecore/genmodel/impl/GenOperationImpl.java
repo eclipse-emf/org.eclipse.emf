@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.32 2007/06/11 21:09:49 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.33 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -526,7 +526,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   }
 
   /**
-   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getType getType} instead.
+   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getType(GenClass) getType(GenClass)} instead.
    */
   @Deprecated
   public String getReturnType()
@@ -535,7 +535,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   }
 
   /**
-   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getImporterType getImportedType} instead.
+   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getImportedType(GenClass) getImportedType(GenClass)} instead.
    */
   @Deprecated
   public String getImportedReturnType()
@@ -544,7 +544,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   }
 
   /**
-   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getObjectType getObjectType} instead.
+   * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getObjectType(GenClass) getObjectType(GenClass)} instead.
    */
   @Deprecated
   public String getObjectReturnType()

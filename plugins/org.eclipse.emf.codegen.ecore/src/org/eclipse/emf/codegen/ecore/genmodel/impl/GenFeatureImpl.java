@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.49 2007/06/11 21:09:49 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.50 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1230,7 +1230,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   {
     // We treat the feature as volatile if it is volatile itself or if it is 
     // a reference whose opposite end is volatile, 
-    // unless that oppsosite volatile reference delegates to a feature map,
+    // unless that opposite volatile reference delegates to a feature map,
     // in which case, a full implementation of the references can be generated.
     //
     EReference eReverseFeature = isReferenceType() ?

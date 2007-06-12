@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactory.java,v 1.6 2006/12/05 20:30:25 emerks Exp $
+ * $Id: GenModelFactory.java,v 1.7 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -28,7 +28,8 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
  * @generated
  */
-public interface GenModelFactory extends EFactory{
+public interface GenModelFactory extends EFactory
+{
   /**
    * The singleton instance of the factory.
    * @generated

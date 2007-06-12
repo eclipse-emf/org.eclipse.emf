@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapterFactory.java,v 1.3 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: AbstractGeneratorAdapterFactory.java,v 1.4 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -133,7 +133,7 @@ public abstract class AbstractGeneratorAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Performs initialization for the given model-level input object. This implementaiton does nothing; it should be
+   * Performs initialization for the given model-level input object. This implementation does nothing; it should be
    * overridden when {@link Generator#getOptions() options} should be set on the generator, or other initialization
    * is required.
    */

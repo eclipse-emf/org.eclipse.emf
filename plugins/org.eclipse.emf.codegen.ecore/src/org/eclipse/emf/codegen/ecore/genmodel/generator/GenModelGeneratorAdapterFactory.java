@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapterFactory.java,v 1.8 2007/05/11 15:12:39 emerks Exp $
+ * $Id: GenModelGeneratorAdapterFactory.java,v 1.9 2007/06/12 20:56:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -254,7 +254,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
    * 
    * <p>The default implementation of this method is to search the default path that would be returned by
    * {@link #getTemplatePath(GenModel)}, if not overridden, for a file called "emf-merge.xml", and return the URI of
-   * the first such file encontered. Since that method has been deprecated, this method can now be overridden to search
+   * the first such file encountered. Since that method has been deprecated, this method can now be overridden to search
    * a different path, or indeed, obtain the merge rules URI in some other way.
    * 
    * <p>This method is only invoked if {@link #getTemplatePath(GenModel)} has not been overridden.
