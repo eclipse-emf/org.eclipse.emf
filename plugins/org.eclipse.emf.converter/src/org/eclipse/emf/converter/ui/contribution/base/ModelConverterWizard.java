@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterWizard.java,v 1.6 2007/02/05 21:49:42 emerks Exp $
+ * $Id: ModelConverterWizard.java,v 1.7 2007/06/14 18:32:49 emerks Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -278,8 +278,8 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
    * <p>Subclasses should overwrite this method, adding the code that performs the
    * actions required when this wizard is &quot;finished&quot;.</p>
    * <p>The {@link Diagnostic} returned by this method should be used to provide
-   * the user some information regarding a <b>successfull</b> convertion.  If the
-   * coversion fails, an exception should be thrown.<p>
+   * the user some information regarding a <b>successful</b> conversion.  If the
+   * conversion fails, an exception should be thrown.<p>
    * @param monitor
    * @return {@link Diagnostic}
    * @throws Exception

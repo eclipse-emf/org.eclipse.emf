@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterDescriptor.java,v 1.2 2006/12/28 06:43:30 marcelop Exp $
+ * $Id: ModelConverterDescriptor.java,v 1.3 2007/06/14 18:32:49 emerks Exp $
  */
 package org.eclipse.emf.converter.ui.contribution;
 
@@ -21,7 +21,7 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * <p>Basic interface to describe the objects responsible to import and export
- * the Genmodel and Ecore models.  Usually these models are contributed throught
+ * the Genmodel and Ecore models.  Usually these models are contributed through
  * extension points.</p>
  * <p>It is highly recommended not to implement this interface.  Implementations
  * are provided in the importer and exporter plugins.</p>

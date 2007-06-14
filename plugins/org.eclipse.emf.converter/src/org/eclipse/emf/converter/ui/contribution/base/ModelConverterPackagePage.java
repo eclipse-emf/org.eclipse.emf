@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.13 2007/05/29 20:28:45 marcelop Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.14 2007/06/14 18:32:49 emerks Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -1014,7 +1014,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
   
   /**
    * Returns a not null list with the GenPackages that should be selected 
-   * in the Rereferenced Tree Viewer.  The list passed in the genPackage
+   * in the referenced Tree Viewer.  The list passed in the genPackage
    * is not null and contains all GenPackages that can be marked.  This list
    * can be both changed and returned. 
    */
