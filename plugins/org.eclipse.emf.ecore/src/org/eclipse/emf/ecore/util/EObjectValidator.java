@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.20 2007/05/08 15:31:24 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.21 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1146,7 +1146,7 @@ public class EObjectValidator implements EValidator
    * @param eObject
    * @param diagnostics
    * @param context
-   * @return
+   * @return whether every key is unique.
    */
   public boolean validate_EveryKeyUnique(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
@@ -1245,7 +1245,7 @@ public class EObjectValidator implements EValidator
    * @param eObject
    * @param diagnostics
    * @param context
-   * @return
+   * @return whether every map entry is unique.
    */
   public boolean validate_EveryMapEntryUnique(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttribute.java,v 1.5 2006/12/29 18:09:56 marcelop Exp $
+ * $Id: EAttribute.java,v 1.6 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -69,7 +69,7 @@ public interface EAttribute extends EStructuralFeature
    * Returns the value of the '<em><b>EAttribute Type</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * The {@link #getEType type} of an attribute must always be a data type; this method provides access to it.
+   * The {@link #getEType() type} of an attribute must always be a data type; this method provides access to it.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>EAttribute Type</em>' reference.

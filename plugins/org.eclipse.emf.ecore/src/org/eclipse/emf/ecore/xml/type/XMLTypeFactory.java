@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactory.java,v 1.8 2007/06/08 11:02:29 emerks Exp $
+ * $Id: XMLTypeFactory.java,v 1.9 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -1011,7 +1011,7 @@ public interface XMLTypeFactory extends EFactory
    * Returns an instance of data type '<em>QName</em>' corresponding the given literal.
    * <!-- begin-user-doc -->
    * The literal must be of the form "prefix:localPart" where the "prefix:" is optional.
-   * It's expected that this method will be used only to deserialize literals produced by {@ #convertQName(QName)}
+   * It's expected that this method will be used only to deserialize literals produced by {@link #convertQName(QName)}
    * and that subsequent processing to resolve the prefix will create a new QName that specifies the namespace URI, local part, and prefix.
    * <!-- end-user-doc -->
    * @param literal a literal of the data type.

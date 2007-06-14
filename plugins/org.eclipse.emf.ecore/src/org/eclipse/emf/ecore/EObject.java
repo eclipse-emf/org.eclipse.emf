@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObject.java,v 1.10 2007/01/26 18:23:19 emerks Exp $
+ * $Id: EObject.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -128,7 +128,7 @@ public interface EObject extends Notifier
    * @see org.eclipse.emf.ecore.util.EcoreUtil#remove(EObject)
    * @see #eContainmentFeature
    * @see #eContainingFeature
-   * @see org.eclipse.emf.ecore.util.EcoreUtil#getRootContainer
+   * @see org.eclipse.emf.ecore.util.EcoreUtil#getRootContainer(EObject)
    * @see #eContents
    * @ignore
    * <!-- end-user-doc -->
@@ -212,7 +212,7 @@ public interface EObject extends Notifier
    * Returns a tree iterator that iterates over all the {@link #eContents direct contents} and indirect contents of this object.
    * @return a tree iterator that iterates over all contents.
    * @see Resource#getAllContents
-   * @see org.eclipse.emf.ecore.util.EcoreUtil#getAllContents
+   * @see org.eclipse.emf.ecore.util.EcoreUtil#getAllContents(EObject, boolean)
    * @ignore
    * <!-- end-user-doc -->
    * @model
@@ -227,7 +227,7 @@ public interface EObject extends Notifier
    * A proxy is an object that is defined in a <code>Resource</code> that has not been loaded.
    * An object may be a proxy either because proxy resolution was disabled 
    * when the object was accessed (see {@link #eGet(EStructuralFeature,boolean)})
-   * or because proxy {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve resolution} failed.
+   * or because proxy {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve(EObject, EObject) resolution} failed.
    * </p>
    * @return <code>true</code> if this object is a proxy or <code>false</code>, otherwise.
    * @see Resource#unload
@@ -297,12 +297,12 @@ public interface EObject extends Notifier
   /**
    * <!-- begin-user-doc -->
    * Returns the value of the given feature of the object; 
-   * the value is optionally {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve resolved} before it is returned.
+   * the value is optionally {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve(EObject, EObject) resolved} before it is returned.
    * <p>
-   * If the feature is {@link EStructuralFeature#isMany many-valued},
+   * If the feature is {@link ETypedElement#isMany() many-valued},
    * the result will be an {@link EList}
    * and each object in the list will be {@link EClassifier#isInstance an instance of} 
-   * the feature's {@link EStructuralFeature#getEType type};
+   * the feature's {@link ETypedElement#getEType() type};
    * the list's contents are <b>not</b> affected by <code>resolve</code> argument.
    * Otherwise the result directly will be an instance of the feature's type;
    * if it is a {@link #eIsProxy proxy},
@@ -332,17 +332,17 @@ public interface EObject extends Notifier
    * <!-- begin-user-doc -->
    * Sets the value of the given feature of the object to the new value.
    * <p>
-   * If the feature is {@link EStructuralFeature#isMany many-valued},
+   * If the feature is {@link ETypedElement#isMany() many-valued},
    * the new value must be an {@link EList}
    * and each object in that list must be {@link EClassifier#isInstance an instance of} 
-   * the feature's {@link EStructuralFeature#getEType type};
+   * the feature's {@link ETypedElement#getEType() type};
    * the existing contents are cleared and the contents of the new value are added.
    * However, if the new value is the content list itself, or is modified as a side effect of modifying the content list 
    * (i.e., if it is a view on the content list),
    * the behavior is undefined and will likely result in simply clearing the list.
    * If the feature is single-valued, the new value directly must be an instance of the feature's type
    * and it becomes the new value of the feature of the object.
-   * If the feature is {@link EAttribute#isUnsettable unsettable},
+   * If the feature is {@link EStructuralFeature#isUnsettable() unsettable},
    * the modeled state becomes set;
    * otherwise, the feature may still not considered {@link #eIsSet set} if the new value is the same as the default.
    * @param feature the feature of the value to set.
@@ -366,10 +366,10 @@ public interface EObject extends Notifier
    * <!-- begin-user-doc -->
    * Returns whether the feature of the object is considered to be set.
    * <p>
-   * If the feature is {@link EStructuralFeature#isMany many-valued},
+   * If the feature is {@link ETypedElement#isMany() many-valued},
    * the value must be an {@link EList}
    * and the feature is considered set if the list is not empty.
-   * If the feature is {@link EAttribute#isUnsettable unsettable},
+   * If the feature is {@link EStructuralFeature#isUnsettable unsettable},
    * the modeled state is directly available and is used.
    * Otherwise, 
    * the {@link #eGet(EStructuralFeature, boolean) unresolved value} of the feature of the object 
@@ -400,7 +400,7 @@ public interface EObject extends Notifier
    * <!-- begin-user-doc -->
    * Unsets the feature of the object.
    * <p>
-   * If the feature is {@link EStructuralFeature#isMany many-valued},
+   * If the feature is {@link ETypedElement#isMany() many-valued},
    * the value must be an {@link EList}
    * and that list is cleared.
    * Otherwise, 
@@ -408,7 +408,7 @@ public interface EObject extends Notifier
    * is set to the feature's {@link EStructuralFeature#getDefaultValue() default value}
    * or the {@link #eClass meta class}'s {@link EStructuralFeature#getDefaultValue() default value},
    * as appropriate.
-   * If the feature is {@link EAttribute#isUnsettable unsettable},
+   * If the feature is {@link EStructuralFeature#isUnsettable() unsettable},
    * the modeled state becomes unset.
    * In any case, the feature will no longer be considered {@link #eIsSet set}.
    * </p>

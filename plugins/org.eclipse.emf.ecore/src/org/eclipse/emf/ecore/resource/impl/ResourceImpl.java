@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.21 2007/03/28 19:49:21 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.22 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1278,7 +1278,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * clients must override it.
    * @param outputStream the stream
    * @param options the save options.
-   * @exception UnsupportedOperationException.
+   * @exception UnsupportedOperationException
    */
   protected void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
@@ -1385,7 +1385,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * clients must override it.
    * @param inputStream the stream
    * @param options the load options.
-   * @exception UnsupportedOperationException.
+   * @exception UnsupportedOperationException
    */
   protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
   {

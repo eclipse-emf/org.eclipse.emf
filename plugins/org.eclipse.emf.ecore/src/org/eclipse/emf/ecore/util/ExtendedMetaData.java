@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedMetaData.java,v 1.11 2006/12/05 20:22:26 emerks Exp $
+ * $Id: ExtendedMetaData.java,v 1.12 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -41,10 +41,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * the following utility methods to set and query those annotations:
  * 
  * <ul>
+ * <li>{@link #getNamespace(EPackage) getNamespace} (package)</li>
  * <li>{@link #isQualified isQualified}/{@link #setQualified setQualified}</li>
- * <li>{@link #getNamespace getNamespace}/{@link #setNamespace setNamespace}</li>
- * <li>{@link #getName(EClassifier) getName}/{@link #setName(EClassifier, String) setName} (classifer)</li>
+ * <li>{@link #getName(EClassifier) getName}/{@link #setName(EClassifier, String) setName} (classifier)</li>
+ * <li>{@link #getNamespace(EClassifier) getNamespace} (classifier)</li>
  * <li>{@link #getName(EStructuralFeature getName) getName}/{@link #setName(EStructuralFeature, String) setName} (structural feature)</li>
+ * <li>{@link #getNamespace(EStructuralFeature) getNamespace}/{@link #setNamespace(EStructuralFeature, String) setNamespace}</li>
  * <li>{@link #getFeatureKind getFeatureKind}/{@link #setFeatureKind setFeatureKind}</li>
  * <li>{@link #getContentKind getContentKind}/{@link #setContentKind setContentKind}</li>
  * <li>{@link #getBaseType getBaseType}/{@link #setBaseType setBaseType}</li>
@@ -215,15 +217,15 @@ public interface ExtendedMetaData
 
   /**
    * Returns the XML name for a structural feature. This is the original name specified for the element or attribute
-   * in the schema, which may be mapped into a valid and conventional Java field name for the Ecore strucutral feature.
+   * in the schema, which may be mapped into a valid and conventional Java field name for the Ecore structural feature.
    * This is also the name which should be used for the element or attribute in instance documents.
    * <p>details key: "name"
    */
   String getName(EStructuralFeature eStructuralFeature);
 
   /**
-   * Set the XML name for a structural feature. This shoudl be the original name specified for the element or attribute
-   * in the schema, which may be mapped into a valid and conventional Java field name for the Ecore strucutral feature.
+   * Set the XML name for a structural feature. This should be the original name specified for the element or attribute
+   * in the schema, which may be mapped into a valid and conventional Java field name for the Ecore structural feature.
    * This is also the name which should be used for the element or attribute in instance documents.
    * <p>details key: "name"
    */
@@ -452,7 +454,7 @@ public interface ExtendedMetaData
   String [] DERIVATION_KINDS = { "unspecified", "restriction", "list", "union" };
 
   /**
-   * Returns the derivation kind of the simple type corresponding to the given datatype.
+   * Returns the derivation kind of the simple type corresponding to the given data type.
    * @see #UNSPECIFIED_DERIVATION
    * @see #RESTRICTION_DERIVATION
    * @see #LIST_DERIVATION
@@ -461,51 +463,51 @@ public interface ExtendedMetaData
   int getDerivationKind(EDataType eDataType);
 
   /**
-   * If a datatype corresponds to simple type that derives from another by restriction, returns the datatype
+   * If a data type corresponds to simple type that derives from another by restriction, returns the data type
    * corresponding to the base type.
    * <p>details key: "baseType" 
    */
   EDataType getBaseType(EDataType eDataType);
 
   /**
-   * Sets the base type for a datatype, indicating that the datatype corresponds to a simple type that derives from
+   * Sets the base type for a data type, indicating that the data type corresponds to a simple type that derives from
    * another by restriction.
    * <p>details key: "baseType"
    */
   void setBaseType(EDataType eDataType, EDataType baseType);
 
   /**
-   * If a datatype corresponds to a list type, returns the datatype corresponding to its item type.
+   * If a data type corresponds to a list type, returns the data type corresponding to its item type.
    * <p>details key: "itemType"
    */
   EDataType getItemType(EDataType eDataType);
 
   /**
-   * Sets the item type for a datatype, indicating that the datatype corresponds to a list type. 
+   * Sets the item type for a data type, indicating that the data type corresponds to a list type. 
    * <p>details key: "itemType"
    */
   void setItemType(EDataType eDataType, EDataType itemType);
 
   /**
-   * If a datatype corresponds to a union type, returns the datatypes corresponding to its member types. 
+   * If a data type corresponds to a union type, returns the data types corresponding to its member types. 
    * <p>details key: "memberTypes"
    */
   List<EDataType> getMemberTypes(EDataType eDataType);
 
   /**
-   * Sets the member types for a datatype, indicating that the datatype corresponds to a union type. 
+   * Sets the member types for a data type, indicating that the data type corresponds to a union type. 
    * <p>details key: "memberTypes"
    */
   void setMemberTypes(EDataType eDataType, List<EDataType> memberTypes);
 
   /**
-   * Returns all the structural features of the given class, and its superclasses, corresponding to XML attributes
+   * Returns all the structural features of the given class, and its super classes, corresponding to XML attributes
    * and attribute wildcards.
    */
   List<EStructuralFeature> getAllAttributes(EClass eClass);
 
   /**
-   * Returns all the structural features of the given class, and its superclasses, corresponding to elements, element
+   * Returns all the structural features of the given class, and its super classes, corresponding to elements, element
    * wildards, and model groups.
    */
   List<EStructuralFeature> getAllElements(EClass eClass);
@@ -526,7 +528,7 @@ public interface ExtendedMetaData
   boolean matches(List<String> wildcards, String namespace);
 
   /**
-   * Tests whether a wildcard matches a given namesapce. 
+   * Tests whether a wildcard matches a given namespace. 
    */
   boolean matches(String wildcard, String namespace);
 
@@ -682,7 +684,7 @@ public interface ExtendedMetaData
   String [] WHITE_SPACE_KINDS = { "unspecified", "preserve", "replace", "collapse" };
 
   /**
-   * Returns the white space constraint on the given datatype.
+   * Returns the white space constraint on the given data type.
    * <p>details key: "whiteSpace"
    * @see #UNSPECIFIED_WHITE_SPACE
    * @see #PRESERVE_WHITE_SPACE
@@ -692,7 +694,7 @@ public interface ExtendedMetaData
   int getWhiteSpaceFacet(EDataType eDataType);
 
   /**
-   * Sets the white space constraint on the given datatype.
+   * Sets the white space constraint on the given data type.
    * <p>details key: "whiteSpace"
    * @see #UNSPECIFIED_WHITE_SPACE
    * @see #PRESERVE_WHITE_SPACE
@@ -702,133 +704,133 @@ public interface ExtendedMetaData
   void setWhiteSpaceFacet(EDataType eDataType, int whiteSpace);
 
   /**
-   * Returns the enumeration constraint on the given datatype.
+   * Returns the enumeration constraint on the given data type.
    * <p>details key: "enumeration"
    */
   List<String> getEnumerationFacet(EDataType eDataType);
 
   /**
-   * Sets the enumeration constraint on the given datatype.
+   * Sets the enumeration constraint on the given data type.
    * <p>details key: "enumeration"
    */
   void setEnumerationFacet(EDataType eDataType, List<String> literals);
 
   /**
-   * Returns the pattern constraint on the given datatype.
+   * Returns the pattern constraint on the given data type.
    * <p>details key: "pattern"
    */
   List<String> getPatternFacet(EDataType eDataType);
 
   /**
-   * Sets the pattern constraint on the given datatype.
+   * Sets the pattern constraint on the given data type.
    * <p>details key: "pattern"
    */
   void setPatternFacet(EDataType eDataType, List<String> pattern);
 
   /**
-   * Returns the total digits constraint on the given datatype.
+   * Returns the total digits constraint on the given data type.
    * <p>details key: "totalDigits"
    */
   int getTotalDigitsFacet(EDataType eDataType);
 
   /**
-   * Sets the total digits constraint on the given datatype.
+   * Sets the total digits constraint on the given data type.
    * <p>details key: "totalDigits"
    */
   void setTotalDigitsFacet(EDataType eDataType, int digits);
 
   /**
-   * Returns the fraction digits constraint on the given datatype.
+   * Returns the fraction digits constraint on the given data type.
    * <p>details key: "fractionDigits"
    */
   int getFractionDigitsFacet(EDataType eDataType);
 
   /**
-   * Sets the fraction digits constraint on the given datatype.
+   * Sets the fraction digits constraint on the given data type.
    * <p>details key: "fractionDigits"
    */
   void setFractionDigitsFacet(EDataType eDataType, int digits);
 
   /**
-   * Returns the length constraint on the given datatype.
+   * Returns the length constraint on the given data type.
    * <p>details key: "length"
    */
   int getLengthFacet(EDataType eDataType);
 
   /**
-   * Sets the length constraint on the given datatype.
+   * Sets the length constraint on the given data type.
    * <p>details key: "length"
    */
   void setLengthFacet(EDataType eDataType, int length);
 
   /**
-   * Returns the minumum length constraint on the given datatype.
+   * Returns the minumum length constraint on the given data type.
    * <p>details key: "minLength"
    */
   int getMinLengthFacet(EDataType eDataType);
 
   /**
-   * Sets the minimum length constraint on the given datatype.
+   * Sets the minimum length constraint on the given data type.
    * <p>details key: "minLength"
    */
   void setMinLengthFacet(EDataType eDataType, int length);
 
   /**
-   * Returns the maximum length constraint on the given datatype.
+   * Returns the maximum length constraint on the given data type.
    * <p>details key: "maxLength"
    */
   int getMaxLengthFacet(EDataType eDataType);
 
   /**
-   * Sets the maximum length constraint on the given datatype.
+   * Sets the maximum length constraint on the given data type.
    * <p>details key: "maxLength"
    */
   void setMaxLengthFacet(EDataType eDataType, int length);
 
   /**
-   * Returns the minimum (exclusive) constraint on the given datatype.
+   * Returns the minimum (exclusive) constraint on the given data type.
    * <p>details key: "minExclusive"
    */
   String getMinExclusiveFacet(EDataType eDataType);
 
   /**
-   * Sets the minimum (exclusive) constraint on the given datatype.
+   * Sets the minimum (exclusive) constraint on the given data type.
    * <p>details key: "minExclusive"
    */
   void setMinExclusiveFacet(EDataType eDataType, String literal);
 
   /**
-   * Returns the maximum (exclusive) constraint on the given datatype.
+   * Returns the maximum (exclusive) constraint on the given data type.
    * <p>details key: "maxExclusive"
    */
   String getMaxExclusiveFacet(EDataType eDataType);
 
   /**
-   * Sets the maximum (exclusive) constraint on the given datatype.
+   * Sets the maximum (exclusive) constraint on the given data type.
    * <p>details key: "maxExclusive"
    */
   void setMaxExclusiveFacet(EDataType eDataType, String literal);
 
   /**
-   * Returns the minimum (inclusive) constraint on the given datatype.
+   * Returns the minimum (inclusive) constraint on the given data type.
    * <p>details key: "minInclusive"
    */
   String getMinInclusiveFacet(EDataType eDataType);
 
   /**
-   * Sets the minimum (inclusive) constraint on the given datatype.
+   * Sets the minimum (inclusive) constraint on the given data type.
    * <p>details key: "minInclusive"
    */
   void setMinInclusiveFacet(EDataType eDataType, String literal);
 
   /**
-   * Returns the maximum (inclusive) constraint on the given datatype.
+   * Returns the maximum (inclusive) constraint on the given data type.
    * <p>details key: "maxInclusive"
    */
   String getMaxInclusiveFacet(EDataType eDataType);
 
   /**
-   * Sets the maximum (inclusive) constraint on the given datatype.
+   * Sets the maximum (inclusive) constraint on the given data type.
    * <p>details key: "maxInclusive"
    */
   void setMaxInclusiveFacet(EDataType eDataType, String literal);

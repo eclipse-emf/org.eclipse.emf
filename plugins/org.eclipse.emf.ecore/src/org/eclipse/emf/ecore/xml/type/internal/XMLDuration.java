@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLDuration.java,v 1.6 2007/04/04 20:04:15 emerks Exp $
+ * $Id: XMLDuration.java,v 1.7 2007/06/14 18:32:46 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -86,7 +86,7 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 /**
  * An internal extension of Java's Duration to represent
  * the <a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/">W3C XML Schema 1.0</a>
- * duration datatype.
+ * duration data type.
  * <p> 
  * NOTE: this class is for internal use only. 
  */

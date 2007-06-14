@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.7 2007/05/01 14:15:59 emerks Exp $
+ * $Id: URIConverter.java,v 1.8 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -53,7 +53,7 @@ public interface URIConverter
   /**
    * Returns the normalized form of the URI.
    * <p>
-   * This may, in theory, do absolutly anything.
+   * This may, in theory, do absolutely anything.
    * Default behaviour includes 
    * applying URI {@link URIConverter#getURIMap mapping},
    * assuming <code>"file:"</code> protocol 
@@ -119,7 +119,7 @@ public interface URIConverter
    * Registrations made in this instance will (typically) be available
    * for {@link URIConverter#normalize use} by any URI converter.
    * It is populated by URI mappings registered via
-   * {@link org.eclipse.emf.ecore.plugin.EcorePlugin.Implementation#startup plugin registration}.
+   * {@link org.eclipse.emf.ecore.plugin.EcorePlugin.Implementation#startup() plugin registration}.
    * @see #normalize(URI)
    */
   Map<URI, URI> URI_MAP = org.eclipse.emf.ecore.resource.impl.URIMappingRegistryImpl.INSTANCE.map();

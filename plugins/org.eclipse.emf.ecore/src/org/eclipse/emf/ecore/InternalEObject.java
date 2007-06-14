@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InternalEObject.java,v 1.6 2006/12/05 20:22:25 emerks Exp $
+ * $Id: InternalEObject.java,v 1.7 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -53,7 +53,7 @@ public interface InternalEObject extends EObject
    *<pre>
    *  "@&lt;feature-name>[.&lt;index>]"
    *</pre>
-   * The index is used only for {@link EStructuralFeature#isMany many-valued} features;
+   * The index is used only for {@link ETypedElement#isMany() many-valued} features;
    * it represents the position within the list.
    * </p>
    * @param eFeature the feature relating the given object to this object, or <code>null</code>.
@@ -152,7 +152,7 @@ public interface InternalEObject extends EObject
 
   /**
    * Returns the proxy URI of this object.
-   * It can be used to {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve resolve} to the actual object.
+   * It can be used to {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve(EObject, EObject) resolve} to the actual object.
    * @return the proxy URI of this object.
    * @see org.eclipse.emf.ecore.util.EcoreUtil#resolve(EObject, org.eclipse.emf.ecore.resource.ResourceSet)
    * @see Resource#unload
@@ -221,7 +221,7 @@ public interface InternalEObject extends EObject
   {
     /**
      * A value indicating that no index is specified.
-     * It is used in the case of accessing {@link EStructuralFeature#isMany single-valued} features 
+     * It is used in the case of accessing {@link ETypedElement#isMany() single-valued} features 
      * where an index would be meaningless.
      */
     int NO_INDEX = -1;
@@ -263,7 +263,7 @@ public interface InternalEObject extends EObject
     /**
      * Returns whether the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature is empty.
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      * @return <code>true</code> if the content of the object's feature is empty.
      */
     boolean isEmpty(InternalEObject object, EStructuralFeature feature);
@@ -271,7 +271,7 @@ public interface InternalEObject extends EObject
     /**
      * Returns the number of values in the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature.
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      * @return the number of values in the content of the object's feature.
      */
     int size(InternalEObject object, EStructuralFeature feature);
@@ -279,7 +279,7 @@ public interface InternalEObject extends EObject
     /**
      * Returns whether the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature contains the given value.
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      * @param value the value in question.
      * @return <code>true</code> if the content of the object's feature contains the given value.
      */
@@ -288,7 +288,7 @@ public interface InternalEObject extends EObject
     /**
      * Returns the first index of the given value in the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature.
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      * @param value the value in question.
      * @return the first index of the given value in the content of the object's feature.
      */
@@ -297,7 +297,7 @@ public interface InternalEObject extends EObject
     /**
      * Returns the last index of the given value in the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature.
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      * @param value the value in question.
      * @return the last index of the given value in the content of the object's feature.
      */
@@ -306,7 +306,7 @@ public interface InternalEObject extends EObject
     /**
      * Adds the value at the index in the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature.
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      * @param index an index within the content.
      * @param value the value to add.
      */
@@ -315,7 +315,7 @@ public interface InternalEObject extends EObject
     /**
      * Removes the value at the index in the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature.
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      * @param index the index within the feature's content of the value to remove.
      * @return the removed value.
      */
@@ -325,7 +325,7 @@ public interface InternalEObject extends EObject
      * Moves the value at the source index in the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature
      * to the target index.
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      * @param targetIndex the index within the feature's content to which to move the value.
      * @param sourceIndex the index within the feature's content of the value to move.
      * @return the moved value.
@@ -335,14 +335,14 @@ public interface InternalEObject extends EObject
     /**
      * Removes all values form the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      */
     void clear(InternalEObject object, EStructuralFeature feature);
       
     /**
      * Returns a new array of the values in the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature.
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      * @return a new array of the values in the content of the object's feature.
      */
     Object[] toArray(InternalEObject object, EStructuralFeature feature);
@@ -351,7 +351,7 @@ public interface InternalEObject extends EObject
      * Returns an array of the values in the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature.
      * The given array will be used, unless it's too small, in which case a new array of the same type is allocated instead.
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      * @param array the array to fill.
      * @return an array of the values in the content of the object's feature.
      */
@@ -360,7 +360,7 @@ public interface InternalEObject extends EObject
     /**
      * Returns the hash code of the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature.
      * @param object the object in question.
-     * @param feature a {@link EStructuralFeature#isMany many-valued} feature of the object.
+     * @param feature a {@link ETypedElement#isMany() many-valued} feature of the object.
      * @return the hash code of the content of the object's feature.
      */ 
     int hashCode(InternalEObject object, EStructuralFeature feature);
@@ -390,25 +390,25 @@ public interface InternalEObject extends EObject
 
   /**
    * Returns the value of the given feature of the object; 
-   * the value is optionally {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve resolved} before it is returned.
+   * the value is optionally {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve(EObject, EObject) resolved} before it is returned.
    * <p>
-   * If the feature is {@link EStructuralFeature#isMany many-valued},
+   * If the feature is {@link ETypedElement#isMany() many-valued},
    * the result will be an {@link EList}
    * and each object in the list will be {@link EClassifier#isInstance an instance of} 
-   * the feature's {@link EStructuralFeature#getEType type};
+   * the feature's {@link ETypedElement#getEType() type};
    * the list's contents are <b>not</b> affected by <code>resolve</code> argument.
    * Otherwise the result directly will be an instance of the feature's type;
-   * if it is a {@link #eIsProxy proxy},
+   * if it is a {@link EObject#eIsProxy() proxy},
    * it is resolved.
    * The core type specifies whether to return the core reflective value,  
    * e.g., {@link org.eclipse.emf.common.util.EMap},
    * or the public API value,
    * e.g., {@link java.util.Map}.
-   * @param feature the feature of the value to fetch.
+   * @param eFeature the feature of the value to fetch.
    * @param resolve whether to resolve.
    * @param coreType whether to return the core type value or the API type value.
    * @return the value of the given feature of the object.
-   * @see #eGet(EStructuralFeature, boolean);
+   * @see EObject#eGet(EStructuralFeature, boolean)
    */
   public Object eGet(EStructuralFeature eFeature, boolean resolve, boolean coreType);
 

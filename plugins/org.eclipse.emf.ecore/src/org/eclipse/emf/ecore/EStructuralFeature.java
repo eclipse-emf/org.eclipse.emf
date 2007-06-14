@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.13 2007/05/08 15:30:09 emerks Exp $
+ * $Id: EStructuralFeature.java,v 1.14 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -291,7 +291,7 @@ public interface EStructuralFeature extends ETypedElement
 
     /**
      * Returns the value held by the feature of the object;
-     * it optionally {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve resolves} the value.
+     * it optionally {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve(EObject, EObject) resolves} the value.
      * @param resolve whether to resolve.
      * @return the value held by the feature of the object.
      * @see EObject#eGet(EStructuralFeature, boolean)

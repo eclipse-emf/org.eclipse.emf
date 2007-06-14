@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeImpl.java,v 1.5 2007/04/12 12:21:29 emerks Exp $
+ * $Id: EGenericTypeImpl.java,v 1.6 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -82,7 +82,7 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
 
   /**
    * The cached default value for the {@link #eRawType eRawType} field.
-   * It needs to be set to {@link org.eclipse.emf.ecore.EcorePackage.Literals#EJAVA_OBJECT
+   * It needs to be set to {@link org.eclipse.emf.ecore.EcorePackage.Literals#EJAVA_OBJECT}
    * but due to bootstrap delays initializing that field, 
    * it needs to be set after the Ecore package has been initialized.
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#internalBootstrap()

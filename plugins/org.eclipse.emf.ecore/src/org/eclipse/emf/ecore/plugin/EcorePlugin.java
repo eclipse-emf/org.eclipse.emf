@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.18 2007/01/19 14:09:02 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.19 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -86,7 +86,7 @@ public class EcorePlugin  extends EMFPlugin
    * that has a {@link org.eclipse.core.resources.IResource#getName name} 
    * and a location {@link org.eclipse.core.resources.IResource#getLocation location};
    * the name is the key 
-   * and the location, interpretted as a {@link URI#createFileURI file URI}, is the value.
+   * and the location, interpreted as a {@link URI#createFileURI file URI}, is the value.
    * This map is used to {@link #resolvePlatformResourcePath resolve} a platform resource path,
    * and thereby supports relocatable projects in a manner that is transparently the same as an Eclipse workspace.
    * </p>
@@ -108,7 +108,7 @@ public class EcorePlugin  extends EMFPlugin
    * <p>
    * The first segment of the path, i.e., the <em>project name</em>,
    * is used to get a URI from the {@link #getPlatformResourceMap() map}.
-   * If a URI results, the remaining segments are {@link URI#resolve resolved} against it
+   * If a URI results, the remaining segments are {@link URI#resolve(URI) resolved} against it
    * and that is the result.
    * Otherwise, the result is <code>null</code>.
    * For example, given this mapping
@@ -235,7 +235,6 @@ public class EcorePlugin  extends EMFPlugin
    * This allows each plugin to be {@link org.eclipse.emf.ecore.resource.URIConverter#getURIMap() treated} 
    * as if it were a project in the workspace.
    * If the workspace already contains a project for the plugin location, no mapping is produced.
-   * @return a map from workspace URIs to plugin URIs.
    * @param uris a collections of {@link URI}s.
    * @return a map from platform resource URI to platform plugin URI.
    */
@@ -419,14 +418,14 @@ public class EcorePlugin  extends EMFPlugin
   private static Map<String, URI> platformResourceMap;
   
   /**
-   * The map fro
+   * The map from package namespace URIs to the location of the GenModel for that package.
    * @see #getPlatformResourceMap
    */
   private static Map<String, URI> ePackageNsURIToGenModelLocationMap;
 
   /** 
    * A plugin implementation that handles Ecore plugin registration.
-   * @see #startup
+   * @see #startup()
    */
   static public class Implementation extends EclipsePlugin
   {

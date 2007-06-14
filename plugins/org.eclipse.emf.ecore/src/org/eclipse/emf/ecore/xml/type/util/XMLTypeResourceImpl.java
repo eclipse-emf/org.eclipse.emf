@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeResourceImpl.java,v 1.5 2007/04/04 20:04:35 emerks Exp $
+ * $Id: XMLTypeResourceImpl.java,v 1.6 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -43,10 +43,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 
 /**
- * <!-- begin-user-doc -->
- * The <b>Resource </b> associated with the package.
- * <!-- end-user-doc -->
- * @see org.eclipse.emf.ecore.xml.type.util.XMLTypeResourceFactoryImpl
+ * Provides access to the generated frame factory for the built-in XML types.
  * @generated
  */
 public class XMLTypeResourceImpl extends ResourceImpl

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.12 2007/03/29 14:35:51 emerks Exp $
+ * $Id: EcoreEList.java,v 1.13 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -403,8 +403,6 @@ public class EcoreEList<E> extends NotifyingListImpl<E> implements InternalEList
     if (index >= 0)
       return index;
 
-    // EATM This might be better written as a single loop for the EObject case?
-    //
     if (isEObject())
     {
       for (int i = 0; i < size; ++i)

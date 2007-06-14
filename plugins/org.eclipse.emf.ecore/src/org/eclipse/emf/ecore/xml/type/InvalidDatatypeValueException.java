@@ -12,12 +12,12 @@
  *
  * </copyright>
  *
- * $Id: InvalidDatatypeValueException.java,v 1.3 2006/12/05 20:22:27 emerks Exp $
+ * $Id: InvalidDatatypeValueException.java,v 1.4 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
 /**
- * Datatype exception for invalid values.
+ * Data type exception for invalid values.
  */
 public class InvalidDatatypeValueException extends RuntimeException
 {

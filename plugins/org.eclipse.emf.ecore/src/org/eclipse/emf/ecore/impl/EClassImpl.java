@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.37 2007/04/08 16:37:29 marcelop Exp $
+ * $Id: EClassImpl.java,v 1.38 2007/06/14 18:32:46 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -1879,7 +1879,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
   /**
    * Determines if the class or interface represented by this Class object is either
-   * the same as, or is a superclass or superinterface of, the class or interface
+   * the same as, or is a super class or super interface of, the class or interface
    * represented by the specified someClass parameter.  Semantics are the same as
    * java.lang.Class#isAssignableFrom
    */
@@ -1889,7 +1889,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   }
 
   /**
-   * Returns all the supertypes in the hierarchy.
+   * Returns all the supe rtypes in the hierarchy.
    */
   public EList<EClass> getEAllSuperTypes()
   {

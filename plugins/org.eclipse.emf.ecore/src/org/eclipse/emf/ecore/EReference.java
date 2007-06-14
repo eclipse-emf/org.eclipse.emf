@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReference.java,v 1.8 2007/06/12 15:07:48 emerks Exp $
+ * $Id: EReference.java,v 1.9 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -135,7 +135,7 @@ public interface EReference extends EStructuralFeature
    * Returns the value of the '<em><b>EReference Type</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * The {@link #getEType type} of a reference must always be a class; this method provides access to it.
+   * The {@link #getEType() type} of a reference must always be a class; this method provides access to it.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>EReference Type</em>' reference.

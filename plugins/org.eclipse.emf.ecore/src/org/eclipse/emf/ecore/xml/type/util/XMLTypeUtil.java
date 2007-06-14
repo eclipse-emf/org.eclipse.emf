@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.12 2007/06/08 11:02:29 emerks Exp $
+ * $Id: XMLTypeUtil.java,v 1.13 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -343,24 +343,4 @@ public final class XMLTypeUtil
   {
     return DataValue.XMLChar.isNCName(codePoint);
   }
-
-/*
-  public static void main(String args[])
-  {
-    System.err.println("###YES");
-    String x1 = normalize("  x  ", true);
-    String x2 = normalize("  x  ", false);
-    String x3 = normalize("  x  x  ", true);
-    String x4 = normalize("  x  x  ", false);
-    String x5 = normalize("  x  x ", true);
-    String x6 = normalize("  x  x ", false);
-    String x7 = normalize("  x  x", true);
-    String x8 = normalize("  x  x", false);
-    String x9 = normalize("  x \n x", true);
-    String x10 = normalize("  x \n x", false);
-    System.err.println(XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getInt(), " 1 "));
-    System.err.println(XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getInt(), "  1 \n "));
-    System.err.println("###YES");
-  }
-*/
 }

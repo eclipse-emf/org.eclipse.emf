@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.11 2007/05/11 19:56:30 emerks Exp $
+ * $Id: Resource.java,v 1.12 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -167,7 +167,7 @@ public interface Resource extends Notifier
   /**
    * Returns the URI of this resource.
    * The URI is normally expected to be {@link URI#isRelative absolute} and {@link URI#isHierarchical hierarchical};
-   * document-relative references will not be serialized and will not be {@link URI#resolve resolved},
+   * document-relative references will not be serialized and will not be {@link URI#resolve(URI) resolved},
    * if this is not the case.
    * @return the URI of this resource, or <code>null</code> if there isn't one.
    * @see #setURI(URI)
@@ -203,7 +203,7 @@ public interface Resource extends Notifier
    * @return a tree iterator that iterates over all contents.
    * @see EObject#eAllContents
    * @see ResourceSet#getAllContents
-   * @see org.eclipse.emf.ecore.util.EcoreUtil#getAllContents
+   * @see org.eclipse.emf.ecore.util.EcoreUtil#getAllContents(Resource, boolean)
    */
   TreeIterator<EObject> getAllContents();
 
@@ -465,7 +465,7 @@ public interface Resource extends Notifier
     /**
      * A descriptor used by a resource factory registry to defer factory creation.
      * <p>
-     * The creation is defered until the factory is {@link Resource.Factory.Registry#getFactory fetched} for the first time.
+     * The creation is deferred until the factory is {@link Resource.Factory.Registry#getFactory fetched} for the first time.
      * </p>
      * @see Resource.Factory.Registry#getFactory(URI)
      */
@@ -495,7 +495,7 @@ public interface Resource extends Notifier
      * A {@link Resource.Factory.Descriptor descriptor} can be used in place of an actual {@link Resource.Factory factory}
      * as a value in the map.
      * It is used for factories registered via
-     * {@link org.eclipse.emf.ecore.plugin.EcorePlugin.Implementation#startup plugin registration}
+     * {@link org.eclipse.emf.ecore.plugin.EcorePlugin.Implementation#startup() plugin registration}
      * to ensure delayed plugin load.
      * </p>
      * <p>
@@ -616,10 +616,10 @@ public interface Resource extends Notifier
      * Called when the object is attached to this resource,
      * i.e., when it's {@link EObject#eResource eResource} changes to be this one.
      * <p>
-     * An implementation that {@link #getEObject resolves} based on IDs
+     * An implementation that {@link Resource#getEObject resolves} based on IDs
      * will need to walk the {@link EObject#eAllContents tree} of this object
      * in order to tabulate an index.
-     * An implementation that needs to {@link #isTrackingModification track modification}
+     * An implementation that needs to {@link Resource#isTrackingModification track modification}
      * will also need to walk the tree
      * in order to add the necessary adapter.
      * In either of these cases,
@@ -634,10 +634,10 @@ public interface Resource extends Notifier
      * Called when the object is detached from this resource,
      * i.e., when it's {@link EObject#eResource eResource} changes to no longer be this one.
      * <p>
-     * An implementation that {@link #getEObject resolves} based on IDs
+     * An implementation that {@link Resource#getEObject resolves} based on IDs
      * will need to walk the {@link EObject#eAllContents tree} of this object
      * in order clean up it's index.
-     * An implementation that needs to {@link #isTrackingModification track modification}
+     * An implementation that needs to {@link Resource#isTrackingModification track modification}
      * will also need to walk the tree
      * in order to remove the added adapter.
      * In either of these cases,

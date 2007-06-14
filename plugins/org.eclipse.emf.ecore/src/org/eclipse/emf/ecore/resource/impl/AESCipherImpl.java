@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AESCipherImpl.java,v 1.1 2007/01/16 22:05:48 marcelop Exp $
+ * $Id: AESCipherImpl.java,v 1.2 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -222,7 +222,7 @@ public class AESCipherImpl implements URIConverter.Cipher
       this.key = key;
     }
 
-    // now create the decryption cipher
+    // now create the decrypt cipher
     Cipher cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
     cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(encryptionIV));
     return new CipherInputStream(in, cipher);

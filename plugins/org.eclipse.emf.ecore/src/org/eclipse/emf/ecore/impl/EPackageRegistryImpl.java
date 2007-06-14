@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.12 2007/03/23 17:36:42 marcelop Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.13 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -287,7 +287,7 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
       {
         String valueClassName = valueClass.getName();
 
-        // Find the uppermost classloader in the hierarchy that can load the class.
+        // Find the uppermost class loader in the hierarchy that can load the class.
         //
         ClassLoader result = Thread.currentThread().getContextClassLoader();
         for (ClassLoader classLoader = result.getParent(); classLoader != null; classLoader = classLoader.getParent())
@@ -301,7 +301,7 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
             } 
             else 
             {
-              // The class address was not equal, so we don't want this classloader,
+              // The class address was not equal, so we don't want this class loader,
               // but instead want the last result that was able to load the class.
               //
               break;
@@ -309,14 +309,14 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
           } 
           catch (ClassNotFoundException exception) 
           {
-            // We can't find the class, so we don't want this classloader,
+            // We can't find the class, so we don't want this class loader,
             // but instead want the last result that was able to load the class.
             //
             break;
           }
         }
 
-        // Register with the upper most classloader that's able to load the class.
+        // Register with the upper most class loader that's able to load the class.
         //
         return delegateRegistry(result).put(key, value);
       }

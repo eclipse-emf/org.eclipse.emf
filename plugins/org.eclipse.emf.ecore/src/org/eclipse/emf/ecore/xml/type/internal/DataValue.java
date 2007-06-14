@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataValue.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
+ * $Id: DataValue.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -105,7 +105,7 @@ static class XSSimpleType
  *
  * This implementation does not encode/decode streaming
  * data. You need the data that you will encode/decode
- * already on a byte arrray.
+ * already on a byte array.
  *
  * @author Jeffrey Rodriguez
  * @author Sandy Gao
@@ -1472,7 +1472,7 @@ public static class EncodingMap {
 * default port for a specific scheme). Rather, it only knows the
 * grammar and basic set of operations that can be applied to a URI.
 *
-* @version  $Id: DataValue.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
+* @version  $Id: DataValue.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
 *
 **********************************************************************/
  public static final class URI implements Serializable {
@@ -3497,7 +3497,7 @@ public static class EncodingMap {
   * @author Michael Glavassevich, IBM
   * @author Rahul Srivastava, Sun Microsystems Inc.
   *
-  * @version $Id: DataValue.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
+  * @version $Id: DataValue.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
   */
  public static final class XMLChar {
 

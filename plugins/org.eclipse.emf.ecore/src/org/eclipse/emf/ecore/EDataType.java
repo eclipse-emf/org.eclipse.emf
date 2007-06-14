@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EDataType.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EDataType.java,v 1.4 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -42,7 +42,7 @@ public interface EDataType extends EClassifier
    * <!-- begin-user-doc -->
    * <p>
    * It represents whether values of this type will be {@link org.eclipse.emf.ecore.resource.Resource#save(java.util.Map) serialized}.
-   * For a serializable datatype,
+   * For a serializable data type,
    * there will be factory methods of the form:
    *<pre>
    *  String convertXyzToString(EDataType metaObject, Object instanceValue)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.21 2007/05/29 15:11:23 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.22 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -676,7 +676,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   }
 
   /**
-   * Handles deinstallation of the adapter
+   * Handles undoing the installation of the adapter
    * by removing the adapter to each of the directly contained objects.
    */
   public void unsetTarget(Notifier target)
@@ -696,7 +696,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   }
 
   /**
-   * Handles deinstallation of the adapter from an EObject
+   * Handles undoing the installation of the adapter from an EObject
    * by removing the adapter to each of the directly contained objects.
    */
   protected void unsetTarget(EObject target)
@@ -727,7 +727,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   }
 
   /**
-   * Handles deinstallation of the adapter from a Resource
+   * Handles undoing the installation of the adapter from a Resource
    * by removing the adapter to each of the directly contained objects.
    */
   protected void unsetTarget(Resource target)
@@ -741,7 +741,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   }
 
   /**
-   * Handles deinstallation of the adapter from a ResourceSet
+   * Handles undoing the installation of the adapter from a ResourceSet
    * by removing the adapter to each of the directly contained objects.
    */
   protected void unsetTarget(ResourceSet target)

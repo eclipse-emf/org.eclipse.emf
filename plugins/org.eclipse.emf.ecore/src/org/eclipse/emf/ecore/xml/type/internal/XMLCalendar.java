@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.12 2007/06/06 11:24:23 emerks Exp $
+ * $Id: XMLCalendar.java,v 1.13 2007/06/14 18:32:46 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -99,7 +99,7 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 /**
  * An internal extension of Java's XMLGregorianCalendar to represent
  * <a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/">W3C XML Schema 1.0</a> 
- * dateTime, time, date, gYearMonth,  gYear, gMonthDay, gDay, gMonth datatypes.
+ * dateTime, time, date, gYearMonth,  gYear, gMonthDay, gDay, gMonth data types.
  * <p> 
  * NOTE: this class is for internal use only. 
  */

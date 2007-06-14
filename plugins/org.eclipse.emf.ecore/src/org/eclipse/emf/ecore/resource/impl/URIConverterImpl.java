@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.11 2007/05/28 18:25:54 emerks Exp $
+ * $Id: URIConverterImpl.java,v 1.12 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -181,11 +181,11 @@ public class URIConverterImpl implements URIConverter
     /**
      * Creates an input stream for the given {@link IFile} path.
      * <p>
-     * This implementation uses {@link IFile#getContents IFile.getContents}.
+     * This implementation uses {@link IFile#getContents() IFile.getContents}.
      * </p>
      * @return an open input stream.
      * @see IWorkspaceRoot#getFile(org.eclipse.core.runtime.IPath)
-     * @see IFile#getContents
+     * @see IFile#getContents()
      * @exception IOException if there is a problem obtaining an open input stream.
      */
     public static InputStream createPlatformResourceInputStream(String platformResourcePath) throws IOException
@@ -265,7 +265,7 @@ public class URIConverterImpl implements URIConverter
    */
   public URIConverterImpl()
   {
-    // This is a hacky way to test stand-alone platform:/resource support in what's really an headless environment.
+    // This is a way to test stand-alone platform:/resource support in what's really an headless environment.
     //
     // org.eclipse.core.resources.IProject [] projects = workspaceRoot.getProjects();
     // for (int i = 0; i < projects.length; ++i)
@@ -512,7 +512,7 @@ public class URIConverterImpl implements URIConverter
    *  /project/directory/file 
    *</pre>
    * and is delegated to {@link #createPlatformResourceInputStream createPlatformResourceInputStream}.
-   * An {@link #isEFSScheme(String) EFS-based} URI is delgated to {@link #createEFSInputStream(URI) createEFSInputStream}.
+   * An {@link #isEFSScheme(String) EFS-based} URI is delegated to {@link #createEFSInputStream(URI) createEFSInputStream}.
    * And all other cases are handled as standard URLs by {@link #createURLInputStream createURLInputStream}.
    * </p>
    * @return an open input stream.

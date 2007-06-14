@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypeParameterImpl.java,v 1.3 2007/02/20 17:40:49 emerks Exp $
+ * $Id: ETypeParameterImpl.java,v 1.4 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -64,7 +64,7 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
 
   /**
    * The cached set of all generic types that reference this type parameter.
-   * It is populated as the type parameter is {@link EGenericType#setETypeParameter(ETypeParameter)set} on the generic type.
+   * It is populated as the type parameter is {@link EGenericType#setETypeParameter(ETypeParameter) set} on the generic type.
    * @see EGenericTypeImpl#setETypeParameter(ETypeParameter)
    */
   protected Set<EGenericType> eGenericTypes;

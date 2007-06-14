@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentAdapter.java,v 1.8 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EContentAdapter.java,v 1.9 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -257,7 +257,7 @@ public class EContentAdapter extends AdapterImpl
   }
 
   /**
-   * Handles deinstallation of the adapter
+   * Handles undoing the installation of the adapter
    * by removing the adapter from each of the directly contained objects.
    */
   @Override
@@ -275,9 +275,9 @@ public class EContentAdapter extends AdapterImpl
   }
   
   /**
-   * Handles deinstallation of the adapter
+   * Handles undoing the installation of the adapter
    * by removing the adapter from each of the directly contained objects.
-   * @deprecated Use or override {@link #unsetTarget(Notifier) instead.
+   * @deprecated Use or override {@link #unsetTarget(Notifier)} instead.
    */
   @Deprecated
   protected void unsetTarget(Object target)
@@ -301,7 +301,7 @@ public class EContentAdapter extends AdapterImpl
   }
 
   /**
-   * Handles deinstallation of the adapter from an EObject
+   * Handles undoing the installation of the adapter from an EObject
    * by removing the adapter from each of the directly contained objects.
    */
   protected void unsetTarget(EObject target)
@@ -318,7 +318,7 @@ public class EContentAdapter extends AdapterImpl
   }
 
   /**
-   * Handles deinstallation of the adapter from a Resource
+   * Handles undoing the installation of the adapter from a Resource
    * by removing the adapter from each of the directly contained objects.
    */
   protected void unsetTarget(Resource target)
@@ -333,7 +333,7 @@ public class EContentAdapter extends AdapterImpl
   }
 
   /**
-   * Handles deinstallation of the adapter from a ResourceSet
+   * Handles undoing the installation of the adapter from a ResourceSet
    * by removing the adapter from each of the directly contained objects.
    */
   protected void unsetTarget(ResourceSet target)

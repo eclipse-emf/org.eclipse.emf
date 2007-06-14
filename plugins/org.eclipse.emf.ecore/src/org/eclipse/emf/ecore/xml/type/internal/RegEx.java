@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
+ * $Id: RegEx.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1265,7 +1265,7 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
+   * @version $Id: RegEx.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       private static final long serialVersionUID = 1L;
@@ -3750,7 +3750,7 @@ public final class RegEx
        * Creates a new RegularExpression instance.
        *
        * @param regex A regular expression
-       * @exception org.apache.xerces.utils.regex.ParseException <VAR>regex</VAR> is not conforming to the syntax.
+       * @exception ParseException <VAR>regex</VAR> is not conforming to the syntax.
        */
       public RegularExpression(String regex) throws ParseException {
           this.setPattern(regex, null);
@@ -3761,7 +3761,7 @@ public final class RegEx
        *
        * @param regex A regular expression
        * @param options A String consisted of "i" "m" "s" "u" "w" "," "X"
-       * @exception org.apache.xerces.utils.regex.ParseException <VAR>regex</VAR> is not conforming to the syntax.
+       * @exception ParseException <VAR>regex</VAR> is not conforming to the syntax.
        */
       public RegularExpression(String regex, String options) throws ParseException {
           this.setPattern(regex, options);
@@ -3809,7 +3809,7 @@ public final class RegEx
       }
 
       /**
-       * Represents this instence in String.
+       * Represents this instance in String.
        */
       @Override
       public String toString() {
@@ -7467,7 +7467,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.10 2007/03/23 17:36:42 marcelop Exp $
+   * @version $Id: RegEx.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {

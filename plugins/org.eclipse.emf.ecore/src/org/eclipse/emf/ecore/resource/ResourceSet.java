@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSet.java,v 1.5 2007/05/11 19:56:30 emerks Exp $
+ * $Id: ResourceSet.java,v 1.6 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -35,7 +35,8 @@ import org.eclipse.emf.ecore.EPackage;
  * and produces notification for changes to that collection.
  * It provides a {@link #getAllContents tree} of contents.
  * A collection of {@link #getAdapterFactories adapter factories} 
- * supports {@link org.eclipse.emf.ecore.util.EcoreUtil#getRegisteredAdapter adapter lookup} via registered adapter factory.
+ * supports {@link org.eclipse.emf.ecore.util.EcoreUtil#getRegisteredAdapter(EObject, Object) adapter lookup} 
+ * via registered adapter factory.
  * </p>
  * <p>
  * A resource can be {@link #createResource created} 
@@ -55,6 +56,7 @@ import org.eclipse.emf.ecore.EPackage;
  * @see Resource.Factory
  * @see URIConverter
  * @see org.eclipse.emf.ecore.util.EcoreUtil#getRegisteredAdapter(EObject, Object)
+ * @see org.eclipse.emf.ecore.util.EcoreUtil#getRegisteredAdapter(Resource, Object)
  */
 public interface ResourceSet extends Notifier
 {
@@ -81,14 +83,14 @@ public interface ResourceSet extends Notifier
    * @return a tree iterator that iterates over all contents.
    * @see EObject#eAllContents
    * @see Resource#getAllContents
-   * @see org.eclipse.emf.ecore.util.EcoreUtil#getAllContents
+   * @see org.eclipse.emf.ecore.util.EcoreUtil#getAllContents(ResourceSet, boolean)
    */
   TreeIterator<Notifier> getAllContents();
 
   /**
    * Returns the list of registered {@link org.eclipse.emf.common.notify.AdapterFactory} instances.
    * <p>
-   * One style of adapter {@link org.eclipse.emf.ecore.util.EcoreUtil#getRegisteredAdapter lookup} supported by EMF 
+   * One style of adapter {@link org.eclipse.emf.ecore.util.EcoreUtil#getRegisteredAdapter(EObject, Object) lookup} supported by EMF 
    * is via registered adapter factories.
    * Since these factories are accessible to any fully contained object via
    *<pre>
@@ -99,6 +101,7 @@ public interface ResourceSet extends Notifier
    * </p>
    * @return the list of adapter factories.
    * @see org.eclipse.emf.ecore.util.EcoreUtil#getRegisteredAdapter(EObject, Object)
+   * @see org.eclipse.emf.ecore.util.EcoreUtil#getRegisteredAdapter(Resource, Object)
    * @see org.eclipse.emf.common.notify.AdapterFactory#adapt(Notifier, Object)
    */
   EList<AdapterFactory> getAdapterFactories();

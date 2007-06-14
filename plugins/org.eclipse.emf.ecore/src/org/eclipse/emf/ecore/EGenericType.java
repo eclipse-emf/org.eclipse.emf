@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericType.java,v 1.5 2007/06/12 15:07:48 emerks Exp $
+ * $Id: EGenericType.java,v 1.6 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -21,7 +21,7 @@ import org.eclipse.emf.common.util.EList;
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>EGeneric Type</b></em>'.
- * A generic type is analagous to Java 5.0 {@link java.lang.reflect.Type Type}.
+ * A generic type is analogous to Java 5.0 {@link java.lang.reflect.Type Type}.
  * It can represent a reference to a type parameter, 
  * a reference to a classifier, along with optional type arguments if the classifier specify type parameters,
  * or a wildcard with an optional upper or lower bound.

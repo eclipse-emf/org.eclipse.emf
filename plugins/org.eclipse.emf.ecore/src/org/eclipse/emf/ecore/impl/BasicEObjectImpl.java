@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.32 2007/03/23 17:36:42 marcelop Exp $
+ * $Id: BasicEObjectImpl.java,v 1.33 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1602,7 +1602,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   /**
    * Returns the number of bits that are on in the two's complement bit pattern.
-   * This is used to maintain the bit set repesenting which feature IDs
+   * This is used to maintain the bit set representing which feature IDs
    * currently have and index allocated in the {@link #eVirtualValues() virtual values}.
    * @param value a two's complement bit pattern.
    * @return the number of bits that are on.

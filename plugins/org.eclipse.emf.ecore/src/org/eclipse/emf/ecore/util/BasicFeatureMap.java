@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.26 2007/03/23 17:36:43 marcelop Exp $
+ * $Id: BasicFeatureMap.java,v 1.27 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2293,28 +2293,6 @@ public class BasicFeatureMap
         }
         featureMap.setting(eFeature).set(newValue);
       }
-
-/*
-      if (eFeature instanceof EReference)
-      {
-        EReference eReference = (EReference)eFeature;
-        EReference eOpposite = ((EReference)eFeature).getEOpposite();
-        if (eOpposite != null)
-        {
-          if (!eReference.isContainment() && !eReference.isMany() && !eOpposite.isMany() && !eOpposite.isContainment())
-          {
-            if (eDynamicGet(eFeature, false) != newValue)
-            {
-              //Thread.dumpStack();
-            }
-            else if (newValue instanceof EObject && ((EObject)newValue).eGet(eOpposite) != this)
-            {
-              Thread.dumpStack();
-            }
-          }
-        }
-      }
-*/
     }
 
     @Override

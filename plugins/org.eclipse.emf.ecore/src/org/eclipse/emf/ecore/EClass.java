@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClass.java,v 1.11 2007/06/12 15:07:48 emerks Exp $
+ * $Id: EClass.java,v 1.12 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -149,7 +149,7 @@ public interface EClass extends EClassifier
    * Returns the value of the '<em><b>EID Attribute</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * It represents the attribute that will be used as the ID of an instace.
+   * It represents the attribute that will be used as the ID of an instance.
    * @see org.eclipse.emf.ecore.EAttribute#isID()
    * @ignore
    * </p>

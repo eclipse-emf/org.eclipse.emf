@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackage.java,v 1.9 2007/06/12 15:07:48 emerks Exp $
+ * $Id: EPackage.java,v 1.10 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -115,7 +115,7 @@ public interface EPackage extends ENamedElement
    * Returns the value of the '<em><b>Ns Prefix</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * It represents the prefered XMLNS prefix to be used for this package's the {@link #getNsURI namespace URI}.
+   * It represents the preferred XMLNS prefix to be used for this package's the {@link #getNsURI namespace URI}.
    * It will be used in an XMI serialization.
    * </p>
    * <!-- end-user-doc -->
@@ -170,7 +170,7 @@ public interface EPackage extends ENamedElement
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.ecore.EClassifier#getEPackage <em>EPackage</em>}'.
    * <!-- begin-user-doc -->
    * <p>
-   * It represents the meta objects, i.e., classes and datatypes, defined in this package.
+   * It represents the meta objects, i.e., classes and data types, defined in this package.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>EClassifiers</em>' containment reference list.

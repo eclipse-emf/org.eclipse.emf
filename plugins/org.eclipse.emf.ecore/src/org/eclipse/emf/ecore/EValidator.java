@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EValidator.java,v 1.7 2006/12/26 19:04:56 emerks Exp $
+ * $Id: EValidator.java,v 1.8 2007/06/14 18:32:46 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -41,7 +41,7 @@ public interface EValidator
 
   /**
    * This is the name of the marker attribute to hold a space separated sequence 
-   * of {@link org.eclipse.emf.common.util.URI#encodeFragment(String, boolean)encoded} Strings 
+   * of {@link org.eclipse.emf.common.util.URI#encodeFragment(String, boolean) encoded} Strings 
    * where each string is the {@link org.eclipse.emf.ecore.util.EcoreUtil#getURI URI} of an object related to the target of the marker.
    * The vale of this attribute should be processed as follows:
    *<pre>
