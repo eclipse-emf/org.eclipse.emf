@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.14 2007/05/07 14:42:45 emerks Exp $
+ * $Id: ModelExporter.java,v 1.15 2007/06/14 18:32:49 emerks Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -550,7 +550,7 @@ public abstract class ModelExporter extends ModelConverter
    * <p>Creates the {@link ExportData} instance and delegates the export work to
    * the {@link #doExport(Monitor, ModelExporter.ExportData)} method.</p>
    * <p>The {@link Diagnostic} returned by this method should be used to provide
-   * the user some information regarding a <b>successfull</b> export.  If the
+   * the user some information regarding a <b>successful</b> export.  If the
    * export fails, an exception should be thrown.<p>
    * @param monitor
    * @return {@link Diagnostic}
