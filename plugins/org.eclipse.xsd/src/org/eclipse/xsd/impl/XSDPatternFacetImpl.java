@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPatternFacetImpl.java,v 1.15 2007/02/20 17:42:20 emerks Exp $
+ * $Id: XSDPatternFacetImpl.java,v 1.16 2007/06/14 14:00:25 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -303,14 +303,21 @@ public class XSDPatternFacetImpl
   @Override
   public boolean isConstraintSatisfied(Object value)
   {
-    for (RegularExpression pattern : getPatterns(false))
+    if (value == null)
     {
-      if (!pattern.matches((String)value))
-      {
-        return false;
-      }
+      return false;
     }
-    return true;
+    else
+    {
+      for (RegularExpression pattern : getPatterns(false))
+      {
+        if (!pattern.matches((String)value))
+        {
+          return false;
+        }
+      }
+      return true;
+    }
   }
 
   @Override
