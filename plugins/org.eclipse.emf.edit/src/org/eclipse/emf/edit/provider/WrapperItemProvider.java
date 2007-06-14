@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.11 2007/03/22 01:46:31 davidms Exp $
+ * $Id: WrapperItemProvider.java,v 1.12 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -595,10 +595,10 @@ public class WrapperItemProvider implements IWrapperItemProvider
 
   /**
    * An item property descriptor for the single property of a wrapper for a simple value. This extends the base
-   * implentation and substitutes the wrapper's owner for the selected object (the wrapper itself) in the call to {@link
+   * implementation and substitutes the wrapper's owner for the selected object (the wrapper itself) in the call to {@link
    * #getPropertyValue getPropertyValue}. Thus, the owner must be an EObject to use this class. The property's name,
    * description, settable flag, static image, category, and filter flags are obtained by calling out to various
-   * template methods, so can be easily changed by subclassing.
+   * template methods, so can be easily changed by deriving a subclass.
    */
   protected class WrapperItemPropertyDescriptor extends ItemPropertyDescriptor
   {

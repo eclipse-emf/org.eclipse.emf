@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetItemProvider.java,v 1.7 2007/06/05 18:20:55 emerks Exp $
+ * $Id: ResourceSetItemProvider.java,v 1.8 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -39,8 +39,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.ecore.resource.ResourceSet} object.
- * @generated
+ * This is the item provider adapter for a {@link org.eclipse.emf.ecore.resource.ResourceSet} object.
  */
 public class ResourceSetItemProvider
   extends ItemProviderAdapter
@@ -53,7 +52,6 @@ public class ResourceSetItemProvider
 {
   /**
    * This constructs an instance from a factory and a notifier.
-   * @generated
    */
   public ResourceSetItemProvider(AdapterFactory adapterFactory)
   {
@@ -62,7 +60,6 @@ public class ResourceSetItemProvider
 
   /**
    * This returns the property descriptors for the adapted class.
-   * @generated
    */
   @Override
   public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
@@ -84,10 +81,7 @@ public class ResourceSetItemProvider
   /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand(Object, EditingDomain, Class, org.eclipse.emf.edit.command.CommandParameter) createCommand}.
    */
   @Override
   public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
@@ -105,7 +99,6 @@ public class ResourceSetItemProvider
 
   /**
    * This returns the parent of the ResourceSet.
-   * @generated
    */
   @Override
   public Object getParent(Object object)
@@ -115,7 +108,6 @@ public class ResourceSetItemProvider
 
   /**
    * This returns ResourceSet.gif.
-   * @generated
    */
   @Override
   public Object getImage(Object object)
@@ -125,7 +117,6 @@ public class ResourceSetItemProvider
 
   /**
    * This returns the label text for the adapted class.
-   * @generated
    */
   @Override
   public String getText(Object object)
@@ -134,8 +125,7 @@ public class ResourceSetItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
-   * @generated
+   * This handles notification by calling {@link #fireNotifyChanged(Notification) fireNotifyChanged}.
    */
   @Override
   public void notifyChanged(Notification notification) 
@@ -160,25 +150,15 @@ public class ResourceSetItemProvider
   /**
    * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
    * that can be created under this object.
-   * @generated
    */
   @Override
   protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-/*
-    ResourceSet resourceSet = (ResourceSet)object;
-
-    newChildDescriptors.add
-      (createChildParameter
-        (ResourcePackage.eINSTANCE.getResourceSet_Resources(),
-         ResourcePackage.eINSTANCE.getResourceFactory().createResource()));
-*/
   }
 
   /**
    * Return the resource locator for this item provider's resources.
-   * @generated
    */
   @Override
   public ResourceLocator getResourceLocator()

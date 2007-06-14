@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProvider.java,v 1.5 2006/12/28 06:48:53 marcelop Exp $
+ * $Id: ItemProvider.java,v 1.6 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -37,13 +37,13 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * This item provider implementation is a convenient reusable base 
  * that can be used for an item provider that isn't an adapter for an EMF object.
  *
- * This default implemention is highly functional and is plastic enough for a wide variety of uses
+ * This default implementation is highly functional and is plastic enough for a wide variety of uses
  * (as will be illustrated in the examples to come).
  * The plasticity is the reason for providing a huge number of constructors.
  *
  * <p>
  * The {@link #children} list is implemented using {@link ItemProviderNotifyingArrayList}.
- * As a result, any modification of the collection (using the stanandard {@link java.util.List} interface) 
+ * As a result, any modification of the collection (using the standard {@link java.util.List} interface) 
  * will automatically fire the correct call to each {@link INotifyChangedListener} in the {@link #changeNotifier}.
  * Furthermore, {@link IUpdateableItemParent#setParent IUpdateableItemParent.setParent} 
  * is called to update {@link #parent} for the objects that are added to or removed from the list,
@@ -51,7 +51,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  *
  * <p>
  * There is also a {@link #text} and an {@link #image}, 
- * which can be set via {@link #setText setText} and {@link #setImage setImage}
+ * which can be set via {@link #setText(String) setText} and {@link #setImage(Object) setImage}
  * to cause appropriate domain event notifications to be fired.
  * The set methods use the stateless adapter signature for uniformity and to support 
  * {@link IUpdateableItemText#setText(Object, String)}.
@@ -63,8 +63,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * </pre>
  * lets you take a mixed collection of model objects and item providers,
  * and show it as the elements of a structured view, i.e., as the visible roots of the view.
- * Although a structured viewer <bf>does not</bf> show it's input object within the view, 
- * it <bf>does</bf> show the imput object on the pane title.
+ * Although a structured viewer <b>does not</b> show it's input object within the view, 
+ * it <b>does</b> show the input object on the pane title.
  * The above pattern allows you to inject a collection or the object itself into the structured viewer 
  * and to control the pane title at the same time, e.g.,
  * <pre>

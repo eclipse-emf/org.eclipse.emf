@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DragAndDropCommand.java,v 1.9 2006/12/28 06:48:57 marcelop Exp $
+ * $Id: DragAndDropCommand.java,v 1.10 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -264,7 +264,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
         result = prepareDropInsert();
         if (result)
         {
-          // Set the bounds so that we recheck when we are closer to the middle.
+          // Set the bounds so that we re-check when we are closer to the middle.
           //
           if (location <= 0.20)
           {
@@ -284,7 +284,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
           reset();
           result = prepareDropOn();
 
-          // Set the bounds so that we recheck when we get near the other end.
+          // Set the bounds so that we re-check when we get near the other end.
           //
           if (location <= 0.20)
           {
@@ -298,7 +298,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
           }
         }
       }
-      // We are near the middele, so we'll start by trying to do a drop on.
+      // We are near the middle, so we'll start by trying to do a drop on.
       //
       else
       {
@@ -307,7 +307,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
         result = prepareDropOn();
         if (result)
         {
-          // Set the range so that we recheck when we get aren't in the middle.
+          // Set the range so that we re-check when we get aren't in the middle.
           //
           lowerLocationBound = 0.2F;
           upperLocationBound = 0.8F;
@@ -319,7 +319,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
           reset();
           result = prepareDropInsert();
 
-          // Set the range so that we recheck when we get into the other half.
+          // Set the range so that we re-check when we get into the other half.
           //
           if (location <= 0.50)
           {
@@ -336,7 +336,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     }
     else
     {
-      // We'll always be wrong for these arguments, so don't bother rechecking.
+      // We'll always be wrong for these arguments, so don't bother re-checking.
       //
       lowerLocationBound = 0.0F;
       upperLocationBound = 1.0F;
@@ -346,7 +346,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
   }
 
   /**
-   * This can be overriden to determine the parent of an object; this implementation uses {@link EditingDomain#getParent}.
+   * This can be overridden to determine the parent of an object; this implementation uses {@link EditingDomain#getParent}.
    */
   protected Object getParent(Object object)
   {
@@ -354,7 +354,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
   }
 
   /**
-   * This can be overriden to determine the children of an object; this implementation uses {@link EditingDomain#getChildren}.
+   * This can be overridden to determine the children of an object; this implementation uses {@link EditingDomain#getChildren}.
    */
   protected Collection<?> getChildren(Object object)
   {

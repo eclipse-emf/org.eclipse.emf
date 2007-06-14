@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: OverrideableCommand.java,v 1.3 2006/12/28 06:48:57 marcelop Exp $
+ * $Id: OverrideableCommand.java,v 1.4 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -45,7 +45,7 @@ import org.eclipse.emf.common.command.Command;
  * methods in corresponding doXxx methods, e.g., execute() is implemented in doExecute(), so that the
  * overriding command can call back to the overrideable command's doXxx methods if it wants to extend
  * rather than replace the original implementation.
- * {@link AbstractOverrideableCommand} provides a convienient base implementation for overrideable commands.
+ * {@link AbstractOverrideableCommand} provides a convenient base implementation for overrideable commands.
  */
 public interface OverrideableCommand extends Command
 {

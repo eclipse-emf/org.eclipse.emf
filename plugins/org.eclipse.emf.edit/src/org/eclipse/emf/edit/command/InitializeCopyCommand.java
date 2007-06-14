@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InitializeCopyCommand.java,v 1.6 2007/03/27 16:21:51 emerks Exp $
+ * $Id: InitializeCopyCommand.java,v 1.7 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -34,7 +34,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 
 /**
- * The initialize copy command is implementated to set the values of an object copy based on those
+ * The initialize copy command is implemented to set the values of an object copy based on those
  * of the original (copied) object. It is a helper command used by the CopyCommand.
  *
  * <p>

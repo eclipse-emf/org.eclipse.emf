@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RemoveCommand.java,v 1.7 2006/12/28 06:48:57 marcelop Exp $
+ * $Id: RemoveCommand.java,v 1.8 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -59,7 +59,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * failing that, equal values (<code>.equals()</code>).
  *
  * <p>
- * Like all the low-level comands in this package, the remove command is undoable. 
+ * Like all the low-level commands in this package, the remove command is undoable. 
  *
  * <p>
  * A remove command is an {@link OverrideableCommand}.
@@ -356,7 +356,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
   }
 
   /**
-   * Removes the first occurence of the given target object, itself, from the collection.
+   * Removes the first occurrence of the given target object, itself, from the collection.
    */
   protected boolean removeExact(Collection<?> collection, Object target)
   {

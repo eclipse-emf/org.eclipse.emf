@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPlugin.java,v 1.7 2007/05/10 19:16:06 emerks Exp $
+ * $Id: EMFEditPlugin.java,v 1.8 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit;
 
@@ -39,7 +39,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
  * within a headless Eclipse workspace,
  * or just stand-alone as part of some other application.
  * To support this, all resource access should be directed to the resource locator,
- * which can redirect the service as appopriate to the runtime.
+ * which can redirect the service as appropriate to the runtime.
  * During stand-alone invocation no plugin initialization takes place.
  * In this case, emf.edit.resources.jar must be on the CLASSPATH.
  * @see #INSTANCE

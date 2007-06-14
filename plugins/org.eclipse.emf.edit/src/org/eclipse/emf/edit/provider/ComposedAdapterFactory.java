@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedAdapterFactory.java,v 1.7 2007/03/23 17:37:21 marcelop Exp $
+ * $Id: ComposedAdapterFactory.java,v 1.8 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -47,7 +47,7 @@ public class ComposedAdapterFactory
 {
   /**
    * A descriptor is can create an adapter factory.
-   * They are used as the values in a {@link Descritor.Registry registry}.
+   * They are used as the values in a {@link Descriptor.Registry registry}.
    */
   public interface Descriptor
   {

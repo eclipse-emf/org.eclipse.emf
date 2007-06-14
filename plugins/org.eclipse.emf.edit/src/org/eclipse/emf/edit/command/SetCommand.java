@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.11 2006/12/28 06:48:55 marcelop Exp $
+ * $Id: SetCommand.java,v 1.12 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -57,7 +57,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * </pre>
  * if the value is {@link #UNSET_VALUE}.
  * <p>
- * Setting a feature that is a bi-directional reference with a multiplicity-many reverse or with a
+ * Setting a feature that is a bidirectional reference with a multiplicity-many reverse or with a
  * multiplicity-1 reverse that is already set (on value), is not undoable.
  * In this case, the SetCommand static create function will not return an instance of this class, but
  * instead will return a compound command (e.g., a {@link RemoveCommand} followed by an {@link AddCommand}
@@ -93,7 +93,7 @@ public class SetCommand extends AbstractOverrideableCommand
    */
   public static Command create(EditingDomain domain, final Object owner, Object feature, Object value, int index) 
   {
-    // If the feature is a bi-directional reference with a multiplicity-many reverse, a composite reverse,
+    // If the feature is a bidirectional reference with a multiplicity-many reverse, a composite reverse,
     // or a multiplicity-1 reverse that is already set (on value), then we'll switch things around and 
     // execute this command a little differently, because otherwise it's not undoable.
     //
@@ -344,7 +344,7 @@ public class SetCommand extends AbstractOverrideableCommand
               };
             if (eReference.isMany())
             {
-              // For a many-to-1, we use SetCommand.create() to create the commmand to remove the opposite reference;
+              // For a many-to-1, we use SetCommand.create() to create the command to remove the opposite reference;
               // a RemoveCommand on its opposite will actually result.
               //
               compound.append(SetCommand.create(domain, value, eOtherEnd, null));

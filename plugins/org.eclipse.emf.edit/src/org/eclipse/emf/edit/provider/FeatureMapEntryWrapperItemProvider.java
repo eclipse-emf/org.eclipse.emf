@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.7 2006/12/28 06:48:54 marcelop Exp $
+ * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.8 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -82,8 +82,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    * 
    * @exception IllegalArgumentException If the specified feature map entry is null.
    * 
-   * @deprecated As of EMF 2.0.1, replaced by {@link #FeatureMapEntryWrapperItemProvider(FeatureMap.Entry, EObject, EAttribute, int index, AdapterFactory, ResourceLocator)
-   * this form}.
+   * @deprecated As of EMF 2.0.1, replaced by {@link #FeatureMapEntryWrapperItemProvider(org.eclipse.emf.ecore.util.FeatureMap.Entry, EObject, EAttribute, int, AdapterFactory, ResourceLocator) this form}.
    */
   @Deprecated
   public FeatureMapEntryWrapperItemProvider(
@@ -222,7 +221,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
   }
 
   /**
-   * Encodes the given string by replacing any occurences of non-printable characters by the corresponding Java escape
+   * Encodes the given string by replacing any occurrences of non-printable characters by the corresponding Java escape
    * sequence.
    */
   protected String encode(String s)
@@ -274,7 +273,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
   }
 
   /**
-   * Decodes the given string by replacing any occurences Java escape sequences to actual characters.
+   * Decodes the given string by replacing any occurrences Java escape sequences to actual characters.
    */
   protected String decode(String s)
   {

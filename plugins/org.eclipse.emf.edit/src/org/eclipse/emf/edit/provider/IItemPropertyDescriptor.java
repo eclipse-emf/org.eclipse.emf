@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IItemPropertyDescriptor.java,v 1.6 2006/12/28 06:48:53 marcelop Exp $
+ * $Id: IItemPropertyDescriptor.java,v 1.7 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -101,12 +101,12 @@ public interface IItemPropertyDescriptor
 
   /**
    * Returns whether this property represents multiple values. This may not be the same as the feature's getMany(), as
-   * the property may allows editing only a single value of a multi-vlaued feature.
+   * the property may allows editing only a single value of a multi-valued feature.
    */
   public boolean isMany(Object object);
 
   /**
-   * Returns the choices of all the values that this propery may take one.
+   * Returns the choices of all the values that this property may take one.
    */
   public Collection<?> getChoiceOfValues(Object object);
   
@@ -135,7 +135,7 @@ public interface IItemPropertyDescriptor
     public void setCommandOwner(Object override);
 
     /**
-     * Returns the override command owner set via {@link setCommandOwner setCommandOwner}.
+     * Returns the override command owner set via {@link #setCommandOwner setCommandOwner}.
      */
     public Object getCommandOwner();
   }

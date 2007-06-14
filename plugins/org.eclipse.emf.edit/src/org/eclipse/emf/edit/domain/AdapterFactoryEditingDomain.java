@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.21 2007/03/22 01:44:48 davidms Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.22 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -138,7 +138,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   }
 
   /**
-   * This returns the editing domain for the given aribtrary object, or null, if it can't be determined.
+   * This returns the editing domain for the given arbitrary object, or null, if it can't be determined.
    * It is recommended that you always work directly with an EditingDomain instance whenever possible.
    * This is implemented to checks if the object itself implements {@link org.eclipse.emf.edit.domain.IEditingDomainProvider}
    * and returns that result.
@@ -288,7 +288,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   /**
    * Create an instance from the adapter factory, the specialized command stack, and the specialized resource set.
    * If the resource set's context is null, one will be created here;
-   * otherwize, the existing context should implement {@link org.eclipse.emf.edit.domain.IEditingDomainProvider}.
+   * otherwise, the existing context should implement {@link org.eclipse.emf.edit.domain.IEditingDomainProvider}.
    */
   public AdapterFactoryEditingDomain(AdapterFactory adapterFactory, CommandStack commandStack, ResourceSet resourceSet)
   {
@@ -827,44 +827,3 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     return resource != null && container != null && resource != container.eResource();
   }
 }
-
-/**
- * This implementation of {@link org.eclipse.emf.ecore.resource.ContextResourceFactoryRegister} 
- * behaves so that it extends, 
- * and potentially overrides,
- * the behaviour you would get without setting this into a {@link org.eclipse.emf.ecore.resource.Context},
- * In other words, 
- * this provides for registrations in addition to the factories registered with {@link org.eclipse.emf.ecore.resource.ResourceFactoryRegister}.
- * Since the are considered first, they can override default registrations.
- * EATM We should move this.
- */
-/*
-class ExtensibleContextResourceFactoryRegister extends ContextResourceFactoryRegister 
-{
-  public ExtensibleContextResourceFactoryRegister() 
-  {
-  }
-
-  public ResourceFactory getFactory(String uri) 
-  {
-    ResourceFactory resourceFactory = super.getFactory(uri);
-    if (resourceFactory == null)
-    {
-      resourceFactory = ResourceFactoryRegister.getFactory(uri);
-    }
-
-    return resourceFactory;
-  }
-
-  public ResourceFactory getFileFactory(String fileName) 
-  {
-    ResourceFactory resourceFactory = super.getFileFactory(fileName);
-    if (resourceFactory == null)
-    {
-      resourceFactory = ResourceFactoryRegister.getFileFactory(fileName);
-    }
-
-    return resourceFactory;
-  }
-}
-*/

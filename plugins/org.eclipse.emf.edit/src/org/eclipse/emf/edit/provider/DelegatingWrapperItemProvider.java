@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingWrapperItemProvider.java,v 1.8 2007/03/22 01:45:51 davidms Exp $
+ * $Id: DelegatingWrapperItemProvider.java,v 1.9 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -164,7 +164,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   }
 
   /**
-   * Uses the delgate item provider to return the delegate value's children, with appropriate wrappers to ensure that
+   * Uses the delegate item provider to return the delegate value's children, with appropriate wrappers to ensure that
    * this wrapper is considered their parent. Each child is replaced by the corresponding wrapper from {@link
    * #childrenMap}, after updating it by calling {@link #updateChildren updateChildren}.
    */
@@ -392,8 +392,8 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   }
 
   /**
-   * An <code>AffectedObjectsWrappingCommand</code> wraps another command to substitue this wrapper for its value
-   * and child wrappers for their corresonding child values, whenever they appear in the affected objects.
+   * An <code>AffectedObjectsWrappingCommand</code> wraps another command to substitute this wrapper for its value
+   * and child wrappers for their corresponding child values, whenever they appear in the affected objects.
    */
   protected class AffectedObjectsWrappingCommand extends CommandWrapper
   {
@@ -431,8 +431,8 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
 
   /**
    * An <code>AffectedObjectsWrappingCommandActionDelegate</code> wraps another command that also implements
-   * <code>CommandActionDelegate</code>, to substitue this wrapper for its value and child wrappers for their
-   * corresonding child values, whenever they appear in the affected objects. Action delegate methods are delegated
+   * <code>CommandActionDelegate</code>, to substitute this wrapper for its value and child wrappers for their
+   * corresponding child values, whenever they appear in the affected objects. Action delegate methods are delegated
    * directly to the wrapped command.
    */
   protected class AffectedObjectsWrappingCommandActionDelegate extends AffectedObjectsWrappingCommand

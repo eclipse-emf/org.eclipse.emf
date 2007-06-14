@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeItemProvider.java,v 1.6 2007/03/22 01:52:21 davidms Exp $
+ * $Id: TreeNodeItemProvider.java,v 1.7 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.provider;
 
@@ -109,9 +109,9 @@ public class TreeNodeItemProvider
   }
 
   /**
-   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * This specifies how to implement {@link #getChildren(Object) getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand(Object, org.eclipse.emf.edit.domain.EditingDomain, Class, org.eclipse.emf.edit.command.CommandParameter) createCommand}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    */
@@ -150,7 +150,7 @@ public class TreeNodeItemProvider
   }
 
   /**
-   * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
+   * This handles notification by calling {@link #fireNotifyChanged(Notification) fireNotifyChanged}.
    * This will also be called by the {@link #delegateItemProvider} when it normally fires a notification to its adapter factory;
    * the listener method is hooked up in {@link #setTarget setTarget}. Notifications are wrapped to look like they originate from
    * the target.

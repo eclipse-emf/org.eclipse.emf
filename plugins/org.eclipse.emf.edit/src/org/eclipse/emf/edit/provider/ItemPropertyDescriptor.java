@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.27 2006/12/28 06:48:53 marcelop Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.28 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -262,7 +262,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
 
   /**
    * This creates an instance that does not use a resource locator and determines the cell editor from the type of the
-   * structural feature.  It assumed that the feature should be setable from this property.
+   * structural feature.  It assumed that the feature should be settable from this property.
    * 
    * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
    * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean)
@@ -279,7 +279,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
 
   /**
    * This creates an instance that uses a resource locator and determines the cell editor from the type of the
-   * structural feature.  It assumed that the feature should be setable from this property.
+   * structural feature.  It assumed that the feature should be settable from this property.
    * 
    * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
    * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean)
@@ -299,7 +299,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
    * This creates an instance that does not use a resource locator and determines the cell editor from the type of the
    * structural feature. 
    * 
-   * <p>To reduce the number of constructors for this class, this ony may be deprecated in the future.  For new code, please
+   * <p>To reduce the number of constructors for this class, this one may be deprecated in the future.  For new code, please
    * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean)
    * this} form, instead.
    */
@@ -521,7 +521,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   }
 
   /**
-   * This creates an instance that uses a resource locator; indicates whether to be mutli-line and to sort choices; specifies
+   * This creates an instance that uses a resource locator; indicates whether to be multi-line and to sort choices; specifies
    * a  static image, a category, and filter flags; and determines the cell editor from the type of the structural feature. 
    * @since 2.2.0
    */
@@ -554,7 +554,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
 
   /**
    * This creates an instance that does not use a resource locator and determines the cell editor from the parent
-   * references.  It assumed that the feature should be setable from this property.
+   * references.  It assumed that the feature should be settable from this property.
    * 
    * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
    * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EReference[], boolean)
@@ -571,7 +571,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
 
   /**
    * This creates an instance that uses a resource locator and determines the cell editor from the parent references. 
-   * It assumed that the feature should be setable from this property.
+   * It assumed that the feature should be settable from this property.
    * 
    * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
    * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EReference[], boolean)
@@ -704,7 +704,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   }
 
   /**
-   * This returns the group of propertiesk into which this one should be placed.
+   * This returns the group of properties into which this one should be placed.
    */
   public String getCategory(Object object) 
   {
@@ -1233,7 +1233,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   }
 
   /**
-   * Returns the override command owner set via {@link setCommandOwner setCommandOwner}.
+   * Returns the override command owner set via {@link #setCommandOwner setCommandOwner}.
    */
   public Object getCommandOwner()
   {
@@ -1242,7 +1242,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
 
   /**
    * Returns either the override command owner set via {@link #setCommandOwner setCommandOwner} or, if that is null, the
-   * fallback object provided.
+   * fall-back object provided.
    */
   protected Object getCommandOwner(Object fallback)
   {

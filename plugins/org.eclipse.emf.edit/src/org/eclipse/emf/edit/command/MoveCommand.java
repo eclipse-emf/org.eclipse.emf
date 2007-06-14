@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MoveCommand.java,v 1.4 2006/12/28 06:48:54 marcelop Exp $
+ * $Id: MoveCommand.java,v 1.5 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -33,7 +33,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * containing an object that is to be moved to a new position within the collection.
  * The static create method delegates command creation to {@link EditingDomain#createCommand EditingDomain.createCommand},
  * which may or may not result in the actual creation of an instance of this class.
- * Like all the low level comands in this package, the move command is undoable.
+ * Like all the low level commands in this package, the move command is undoable.
  *
  * <p>
  * The implementation of this class is low-level and EMF specific;
@@ -49,7 +49,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  *   ((EList)extent).move(index, object);
  * </pre>
  * which is how root objects are moved within the contents of a resource.
- * Like all the low-level comands in this package, the move command is undoable.
+ * Like all the low-level commands in this package, the move command is undoable.
  *
  * <p>
  * A move command is an {@link OverrideableCommand}.
@@ -187,7 +187,7 @@ public class MoveCommand extends AbstractOverrideableCommand
   }
 
   /**
-   * This returns the orginal position to which the object will be moved upon undo.
+   * This returns the original position to which the object will be moved upon undo.
    */
   public int getOldIndex()
   {

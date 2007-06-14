@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReplaceCommand.java,v 1.5 2006/12/28 06:48:55 marcelop Exp $
+ * $Id: ReplaceCommand.java,v 1.6 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -52,7 +52,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  *   ((EList)extent).addAll(index, (Collection)collection);
  * </pre>
  * which is how root objects are replaced in the contents of a resource.
- * Like all the low level comands in this package, the replace command is undoable.
+ * Like all the low level commands in this package, the replace command is undoable.
  *
  * <p>
  * A replace command is an {@link OverrideableCommand}.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddCommand.java,v 1.10 2007/03/23 17:37:21 marcelop Exp $
+ * $Id: AddCommand.java,v 1.11 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -55,7 +55,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  *   ((EList)extent).addAll(index, (Collection)collection);
  * </pre>
  * which is how root objects are added into the contents of a resource.
- * Like all the low-level comands in this package, the add command is undoable.
+ * Like all the low-level commands in this package, the add command is undoable.
  *
  * <p>
  * An add command is an {@link OverrideableCommand}.
@@ -104,12 +104,12 @@ public class AddCommand extends AbstractOverrideableCommand
   protected static final String LABEL = EMFEditPlugin.INSTANCE.getString("_UI_AddCommand_label");
 
   /**
-   * This cachaes the description.
+   * This caches the description.
    */
   protected static final String DESCRIPTION = EMFEditPlugin.INSTANCE.getString("_UI_AddCommand_description");
 
   /**
-   * This cachaes the description for a list-based addition.
+   * This caches the description for a list-based addition.
    */
   protected static final String DESCRIPTION_FOR_LIST = EMFEditPlugin.INSTANCE.getString("_UI_AddCommand_description_for_list");
     

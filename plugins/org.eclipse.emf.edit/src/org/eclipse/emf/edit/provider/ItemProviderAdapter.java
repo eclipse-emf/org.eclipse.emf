@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.30 2007/05/18 18:50:42 marcelop Exp $
+ * $Id: ItemProviderAdapter.java,v 1.31 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1116,7 +1116,7 @@ public class ItemProviderAdapter
       {
         List<?> value = (List<?>)getFeatureValue(eObject, feature);
 
-        // These will be the children beloging to this feature.
+        // These will be the children belonging to this feature.
         //
         Collection<Object> childrenOfThisFeature = new ArrayList<Object>();
         for (ListIterator<Object> objects = list.listIterator(); objects.hasNext(); )
@@ -2241,7 +2241,7 @@ public class ItemProviderAdapter
    * Wraps a value, if needed, and keeps the wrapper for disposal along with the item provider. This method actually
    * calls {@link #createWrapper createWrapper} to determine if the given value, at the given index in the given
    * feature of the given object, should be wrapped and to obtain the wrapper. If a wrapper is obtained, it is recorded
-   * and returned. Otherwise, the orginal value is returned. Subclasses may override {@link #createWrapper
+   * and returned. Otherwise, the original value is returned. Subclasses may override {@link #createWrapper
    * createWrapper} to specify when and with what to wrap values.
    */
   protected Object wrap(EObject object, EStructuralFeature feature, Object value, int index)
@@ -2721,7 +2721,7 @@ public class ItemProviderAdapter
   }
 
   /**
-   * Creates an instance that uses a resource locator; indicates whether to be mutli-line and to sort choices; specifies
+   * Creates an instance that uses a resource locator; indicates whether to be multi-line and to sort choices; specifies
    * a  static image, a category, and filter flags; and determines the cell editor from the type of the structural feature. 
    * @since 2.2.0
    */
@@ -2757,10 +2757,10 @@ public class ItemProviderAdapter
    * IWrapperItemProvider}s for their values in the command's result and affected objects. This is needed
    * as the values have been unwrapped for the command to operate on properly.
    * <p>
-   * A list of wrappers from which to substitute is formed by calling {@link #getChildren getChildren} on the command's
+   * A list of wrappers from which to substitute is formed by calling {@link ItemProviderAdapter#getChildren getChildren} on the command's
    * owner(s). Additional wrappers to be considered for the result can by specified in the two-argument constructor.
    * The first wrapper whose {@link IWrapperItemProvider#getValue value} matches a given value in the result or
-   * affected objects is substitued for it.
+   * affected objects is substituted for it.
    */
   public class ResultAndAffectedObjectsWrappingCommand extends CommandWrapper
   {

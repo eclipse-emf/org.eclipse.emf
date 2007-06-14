@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateChildCommand.java,v 1.8 2006/12/28 06:48:55 marcelop Exp $
+ * $Id: CreateChildCommand.java,v 1.9 2007/06/14 18:32:42 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -403,7 +403,7 @@ public class CreateChildCommand extends CommandWrapper
 
   /**
    * This is the default helper.  It returns a singleton list of the child
-   * itself as a result; default text, description and tooltip text; and
+   * itself as a result; default text, description and tool-tip text; and
    * no image.
    */
   private static final Helper defaultHelper = new Helper()

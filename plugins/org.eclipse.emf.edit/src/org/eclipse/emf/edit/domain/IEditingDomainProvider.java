@@ -19,7 +19,7 @@ package org.eclipse.emf.edit.domain;
 
 /**
  * This is the interface specified by an object that is able to yield its {@link EditingDomain}.
- * See {@link AdapterFactoryEditingDomain#getEditingDomainFor AdapterFactoryEditingDomain.getEditingDomainFor} 
+ * See {@link AdapterFactoryEditingDomain#getEditingDomainFor(Object) AdapterFactoryEditingDomain.getEditingDomainFor} 
  * for one use of this.
  */
 public interface IEditingDomainProvider
