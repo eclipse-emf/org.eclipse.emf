@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.18 2007/06/12 15:07:48 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.19 2007/06/14 14:18:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -42,6 +43,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeValidator;
 
 /**
@@ -2192,11 +2194,33 @@ public class EcoreValidator extends EObjectValidator
   public boolean validateEStructuralFeature_ValidDefaultValueLiteral(EStructuralFeature eStructuralFeature, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     String defaultValueLiteral = eStructuralFeature.getDefaultValueLiteral();
-    boolean result = 
-      defaultValueLiteral == null ||
-        eStructuralFeature.getEType() instanceof EDataType && 
-          eStructuralFeature.getDefaultValue() != null &&
-          getRootEValidator(context).validate((EDataType)eStructuralFeature.getEType(), eStructuralFeature.getDefaultValue(), null, context);
+    Object defaultValue = null;
+    EDataType eDataType = null;
+    boolean result = true;
+    if (defaultValueLiteral != null)
+    {
+      EClassifier eType = eStructuralFeature.getEType();
+      if (eType instanceof EDataType)
+      {
+        eDataType = (EDataType)eType;
+        defaultValue = eStructuralFeature.getDefaultValue();
+        if (defaultValue == null)
+        {
+          // We need to be conservative and diagnose a problem only if we are quite sure that type is built-in 
+          // and hence that the lack of a default value really represents a problem with being unable to convert the literal to a value.
+          // 
+          result = !isBuiltinEDataType(eDataType);
+        }
+        else
+        {
+          result = getRootEValidator(context).validate(eDataType, defaultValue, null, context);
+        }
+      }
+      else
+      {
+        result = false;
+      }
+    }
     if (diagnostics != null && !result)
     {
       BasicDiagnostic diagnostic =
@@ -2206,13 +2230,49 @@ public class EcoreValidator extends EObjectValidator
           VALID_LOWER_BOUND,
           EcorePlugin.INSTANCE.getString("_UI_EStructuralFeatureValidDefaultValueLiteral_diagnostic", new Object[] { defaultValueLiteral }),
           new Object[] { eStructuralFeature });
-      if (eStructuralFeature.getEType() instanceof EDataType)
+      if (defaultValue != null)
       {
-        getRootEValidator(context).validate((EDataType)eStructuralFeature.getEType(), eStructuralFeature.getDefaultValue(), diagnostic, context);
+        getRootEValidator(context).validate(eDataType, defaultValue, diagnostic, context);
       }
       diagnostics.add(diagnostic);
     }
     return result;
+  }
+  
+  protected boolean isBuiltinEDataType(EDataType eDataType)
+  {
+    EPackage ePackage = eDataType.getEPackage();
+    if (ePackage == EcorePackage.eINSTANCE || ePackage == XMLTypePackage.eINSTANCE || ePackage == XMLNamespacePackage.eINSTANCE)
+    {
+      return true;
+    }
+    
+    EDataType baseType = ExtendedMetaData.INSTANCE.getBaseType(eDataType);
+    if (baseType != null)
+    {
+      return isBuiltinEDataType(baseType);
+    }
+
+    EDataType itemType = ExtendedMetaData.INSTANCE.getItemType(eDataType);
+    if (itemType != null)
+    {
+      return isBuiltinEDataType(itemType);
+    }
+
+    List<EDataType> memberTypes = ExtendedMetaData.INSTANCE.getMemberTypes(eDataType);
+    if (!memberTypes.isEmpty())
+    {
+      for (EDataType memberType : memberTypes)
+      {
+        if (!isBuiltinEDataType(memberType))
+        {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    return false;
   }
 
   /**
