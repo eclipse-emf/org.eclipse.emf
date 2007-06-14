@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingCommandAction.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: DelegatingCommandAction.java,v 1.5 2007/06/14 18:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.IActionDelegate;
+import org.eclipse.ui.IActionDelegate2;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionListener;
@@ -33,8 +34,8 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * This class wraps an {@link IActionDelegate}, e.g., a {@link CommandAction}, to make it into an {@link Action}.
- * Even if the action delegate implements {@link IActionDelegate2}, this class will still ony use the older interface
- * (i.e. it will not call {@link IActionDelegate2#init(IAction) init}, {@link IActoinDelegate2#runWithEvent
+ * Even if the action delegate implements {@link IActionDelegate2}, this class will still only use the older interface
+ * (i.e. it will not call {@link IActionDelegate2#init(org.eclipse.jface.action.IAction) init}, {@link IActionDelegate2#runWithEvent
  * runWithEvent}, or {@link IActionDelegate2#dispose dispose}, since it does not have the information required
  * to do so).
  */

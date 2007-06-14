@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LocalTransfer.java,v 1.4 2006/12/29 18:11:20 marcelop Exp $
+ * $Id: LocalTransfer.java,v 1.5 2007/06/14 18:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -29,8 +29,8 @@ import org.eclipse.swt.dnd.TransferData;
  * so that you can include it in when adding drag support to a viewer.
  * See {@link EditingDomainViewerDropAdapter} and {@link ViewerDragAdapter} for more details.
  * <p>
- * As an addded guard, the time is recorded and serialized in javaToNative
- * to that navive to java can ensure that it's returns the value that was really to have been transferred.
+ * As an added guard, the time is recorded and serialized in javaToNative
+ * to that native to java can ensure that it's returns the value that was really to have been transferred.
  */
 public class LocalTransfer extends ByteArrayTransfer
 {
@@ -81,7 +81,7 @@ public class LocalTransfer extends ByteArrayTransfer
   }
 
   /**
-   * This returns the transfer ids that this agent supports.
+   * This returns the transfer IDs that this agent supports.
    */
   @Override
   protected int[] getTypeIds() 

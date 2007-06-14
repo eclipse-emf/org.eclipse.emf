@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommandActionHandler.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: CommandActionHandler.java,v 1.5 2007/06/14 18:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -46,7 +46,7 @@ public class CommandActionHandler extends BaseSelectionListenerAction
   protected Command command;
 
   /**
-   * This contructs and instance in this editing domain.
+   * This constructs and instance in this editing domain.
    */
   public CommandActionHandler(EditingDomain domain)
   {
@@ -58,7 +58,7 @@ public class CommandActionHandler extends BaseSelectionListenerAction
   }
 
   /**
-   * This contructs and instance in this editing domain.
+   * This constructs and instance in this editing domain.
    */
   public CommandActionHandler(EditingDomain domain, String label)
   {

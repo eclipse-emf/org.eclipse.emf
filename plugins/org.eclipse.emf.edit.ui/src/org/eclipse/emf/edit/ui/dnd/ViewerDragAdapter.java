@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerDragAdapter.java,v 1.4 2006/12/29 18:11:20 marcelop Exp $
+ * $Id: ViewerDragAdapter.java,v 1.5 2007/06/14 18:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -24,7 +24,7 @@ import org.eclipse.swt.dnd.DragSourceListener;
 
 
 /**
- * This is an implemention of {@link DragSourceListener}.
+ * This is an implementation of {@link DragSourceListener}.
  * It allows the selection in effect at the start of the drag and drop interaction to be recorded,
  * which is especially important for a drag and drop interaction within a single view.
  * This is how one of these adapters is typically hooked up:

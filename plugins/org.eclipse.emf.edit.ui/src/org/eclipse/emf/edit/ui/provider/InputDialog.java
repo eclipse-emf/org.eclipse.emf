@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InputDialog.java,v 1.2 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: InputDialog.java,v 1.3 2007/06/14 18:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -38,8 +38,8 @@ import org.eclipse.swt.widgets.Text;
  * </p>
  * <p>
  * This class is cloned from <code>org.eclipse.jface.dialogs.InputDialog</code>,
- * with minimal changes required for extensibility. Bug xxxx has been filed to request
- * a more flexible implentation.  If it is fixed, this class will go away.
+ * with minimal changes required for extensibility. A bugzilla has been filed to request
+ * a more flexible implementation.  If it is fixed, this class will go away.
  * </p>
  */
 class InputDialog extends Dialog {

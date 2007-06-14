@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSelectionCommandAction.java,v 1.5 2007/02/15 12:43:42 emerks Exp $
+ * $Id: StaticSelectionCommandAction.java,v 1.6 2007/06/14 18:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -39,7 +39,7 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 
 /**
  * This class is used as a basis for implementing an {@link org.eclipse.jface.action.IAction} 
- * on the menubar, the toolbar, or a popup menu by delegating all required
+ * on the menubar, the toolbar, or a pop-up menu by delegating all required
  * behaviour to a {@link Command}, only when it is guaranteed that the
  * selection will not change during the life of the action.  In other words,
  * the action itself would be created based on the selection, and destroyed
@@ -148,7 +148,7 @@ public abstract class StaticSelectionCommandAction extends Action
       }
 
       // give up if we couldn't create the command; otherwise, use a
-      // CommandActionDelegate to set the action's text, tooltip, icon,
+      // CommandActionDelegate to set the action's text, tool-tip, icon,
       // etc. or just use the default icon
       if (command == null || command == UnexecutableCommand.INSTANCE)
       {

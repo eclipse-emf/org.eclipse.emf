@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.13 2006/12/28 06:50:04 marcelop Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.14 2007/06/14 18:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -42,18 +42,18 @@ import org.eclipse.ui.views.properties.PropertySheet;
 
 
 /**
- * This is a contributor for an editor, multipage or otherwise,
+ * This is a contributor for an editor, multi-page or otherwise,
  * that implements {@link IEditingDomainProvider}.
  * It automatically hooks up the Undo, Redo, Cut, Copy, Paste, and Delete actions on the Edit menu
  * to the corresponding commands supported by the {@link org.eclipse.emf.edit.domain.EditingDomain}.
  * The editor site'selection provider is used to keep the Cut, Copy, Paste, and Delete actions up-to-date.
- * The actions are also refreshed everytime the editor fires to its {@link IPropertyListener}s.
+ * The actions are also refreshed every time the editor fires to its {@link IPropertyListener}s.
  * <p>
  * Another very useful feature of this contributor is that it can be used as follows:
  * <pre>
  *   ((IMenuListener)((IEditorSite)getSite()).getActionBarContributor()).menuAboutToShow(menuManager);
  * </pre>
- * to contribute the Edit menu actions to a popup menu.
+ * to contribute the Edit menu actions to a pop-up menu.
  */
 public class EditingDomainActionBarContributor 
   extends 

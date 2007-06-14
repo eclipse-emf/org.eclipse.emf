@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainViewerDropAdapter.java,v 1.7 2007/06/01 10:53:35 emerks Exp $
+ * $Id: EditingDomainViewerDropAdapter.java,v 1.8 2007/06/14 18:32:37 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -49,7 +49,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * {@link EditingDomain} and created by {@link DragAndDropCommand#create}. It is
  * designed to do early data transfer so the the enablement and feedback of the
  * drag and drop interaction can intimately depend on the state of the model objects
- * involed.  On some platforms, however, early data transfer is not available, so this
+ * involved.  On some platforms, however, early data transfer is not available, so this
  * feedback cannot be provided.
  * <p>
  * The base implementation of this class should be sufficient for most applications.
@@ -66,9 +66,9 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * <p>
  * This implementation prefers to use a {@link LocalTransfer}, 
  * which short-circuits the transfer process for simple transfers within the workbench,
- * the method {@link #getDragSource} can be overriden to change the behaviour.
+ * the method {@link #getDragSource} can be overridden to change the behaviour.
  * The implementation also only handles an {@link IStructuredSelection},
- * but the method {@link #extractDragSource} can be overriden to change the behaviour.
+ * but the method {@link #extractDragSource} can be overridden to change the behaviour.
  * <p>
  * SWT's {@link DND#FEEDBACK_SCROLL auto-scroll} and {@link DND#FEEDBACK_EXPAND auto-expand}
  * (hover) are enabled by default.  The method {@link #getAutoFeedback} can be overridden
