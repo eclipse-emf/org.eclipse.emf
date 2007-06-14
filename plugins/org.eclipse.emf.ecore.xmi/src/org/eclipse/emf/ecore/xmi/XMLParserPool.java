@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- *$Id: XMLParserPool.java,v 1.4 2006/12/05 20:23:28 emerks Exp $
+ *$Id: XMLParserPool.java,v 1.5 2007/06/14 18:32:39 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.xmi;
@@ -72,7 +72,7 @@ public interface XMLParserPool
   public void release(SAXParser parser, Map<String, Boolean> features, Map<String, ?> properties, boolean useLexicalHandler);
   
   /**
-   * Retrives XMLDefaultHandler from the pool and initializes / prepares it.
+   * Retrieves XMLDefaultHandler from the pool and initializes / prepares it.
    * @param resource - the resource
    * @param xmlLoad - the XMLLoad
    * @param helper - XMLHelper

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.43 2007/06/06 15:27:36 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.44 2007/06/14 18:32:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1355,7 +1355,7 @@ public class XMLHelperImpl implements XMLHelper
       if (uri == null)
       {
         // xmlns="" declaration
-        // Example #1: <a><qname>q</qname><b xmlns="abc"/></a>
+        // Example #1: <a><q-name>q</q-name><b xmlns="abc"/></a>
         // Example #2: <a xmlns="abc"><b xmlns=""/><c xmlns="abc2"/></a>
         // Example #3: <a xmlns:a="abc"><b xmlns:a="abc2"/></a>
         

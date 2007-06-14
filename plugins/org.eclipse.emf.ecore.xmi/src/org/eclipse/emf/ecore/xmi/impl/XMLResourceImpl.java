@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.20 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLResourceImpl.java,v 1.21 2007/06/14 18:32:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -215,7 +215,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
    * Saves the resource to the writer using the specified options.
    * <p>
    * This implementation is <code>final</code>;
-   * clients should override {@link #doSave doSave}.
+   * clients should override {@link #doSave(Writer, Map) doSave}.
    * </p>
    * @param writer the writer
    * @param options the save options.

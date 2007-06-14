@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLProcessor.java,v 1.8 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLProcessor.java,v 1.9 2007/06/14 18:32:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -76,7 +76,7 @@ public class XMLProcessor
   protected EPackage.Registry registry;
 
   /**
-   * Protected constructor - should be used for in staticly generated models, 
+   * Protected constructor - should be used for in statically generated models, 
    * or in the case schema(s) is known when XMLProcessor is created
    */
   protected XMLProcessor(EPackage.Registry registry)
@@ -123,7 +123,7 @@ public class XMLProcessor
 
   /**
    * Create an XML processor that is aware of XML Schemas specified.
-   * @param schemaURIs - a list of URI {@link org.eclipse.common.util.URI} which point to XML Schemas
+   * @param schemaURIs - a list of URI {@link URI} which point to XML Schemas
    * @throws SAXException
    */
   public XMLProcessor(Collection<URI> schemaURIs) throws SAXException

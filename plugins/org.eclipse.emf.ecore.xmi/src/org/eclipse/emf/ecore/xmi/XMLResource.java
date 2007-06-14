@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.39 2007/05/26 13:45:57 emerks Exp $
+ * $Id: XMLResource.java,v 1.40 2007/06/14 18:32:39 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -169,7 +169,7 @@ public interface XMLResource extends Resource
    * <p>
    * It is strongly suggested to use instead of this option the ExtendedMetaData. 
    * </p>
-   * @see OPTION_EXTENDED_META_DATA
+   * @see #OPTION_EXTENDED_META_DATA
    */
   String OPTION_XML_MAP = "XML_MAP";
 
@@ -207,7 +207,7 @@ public interface XMLResource extends Resource
   String OPTION_KEEP_DEFAULT_CONTENT = "KEEP_DEFAULT_CONTENT";
   
   /** 
-   * Save a doctype declaration using systemId and publicId values specified on the resource
+   * Save a <code>doctype</code> declaration using systemId and publicId values specified on the resource
    * @see #getSystemId() 
    * @see #getPublicId() 
    * @see #setDoctypeInfo(String,String)
@@ -247,7 +247,7 @@ public interface XMLResource extends Resource
     
     /**
      * Returns the name associated with the entity value; 
-     * a new name will be generated if there is not yet a name assocaited with the entity value.
+     * a new name will be generated if there is not yet a name associated with the entity value.
      * @param entityValue the entity value for which a named entity is needed.
      * @return the name associated with the entity value.
      */
@@ -527,9 +527,9 @@ public interface XMLResource extends Resource
   void setEncoding(String encoding);
   
   /**
-   * Get the XML version for this resource.
+   * Returns the XML version for this resource.
    * The default is 1.0.
-   * @return
+   * @return the XML version.
    */
   String getXMLVersion();
   

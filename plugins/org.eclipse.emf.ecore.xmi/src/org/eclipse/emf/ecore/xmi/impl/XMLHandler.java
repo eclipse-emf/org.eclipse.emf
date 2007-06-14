@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.78 2007/06/12 12:05:54 emerks Exp $
+ * $Id: XMLHandler.java,v 1.79 2007/06/14 18:32:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -593,8 +593,8 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     mixedTargets.clear();
     contextFeature = null;
     eObjectToExtensionMap = null;
-    // external schema locations should only be processed onces, i.e. in the subsequent parse
-    // there is no need to reprocess those
+    // external schema locations should only be processed once, i.e. in the subsequent parse
+    // there is no need to process those again.
     externalURIToLocations = null;
 
     types.clear();
@@ -983,11 +983,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   /**
    * Check if the values of the forward references have been set (they may
-   * have been set due to a bi-directional reference being set).  If not,
-   * set them.
+   * have been set due to a bidirectional reference being set).  If not, set them.
    * If this is called during end document processing, errors should be diagnosed.
    * If it is called in the middle of a document, 
-   * we need to clean up the forward reference lists to avoid reprocessing resolved references again later.
+   * we need to clean up the forward reference lists to avoid processing resolved references again later.
    */
   protected void handleForwardReferences(boolean isEndDocument)
   {

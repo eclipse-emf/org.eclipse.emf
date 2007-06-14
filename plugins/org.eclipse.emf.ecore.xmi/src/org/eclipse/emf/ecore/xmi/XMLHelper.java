@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.13 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLHelper.java,v 1.14 2007/06/14 18:32:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -212,7 +212,7 @@ public interface XMLHelper
    * @since 2.2
    * @param eFactory
    * @param type
-   * @return
+   * @return the created object.
    * @see #createObject(EFactory, String)
    */
   EObject createObject(EFactory eFactory, EClassifier type);
@@ -338,7 +338,7 @@ public interface XMLHelper
   public void popContext(Map<String, EFactory> prefixesToFactories);
   
   /** 
-   * Converts the given valuevalue to string while saving an XML document. 
+   * Converts the given data value to a string while saving an XML document. 
    */
   public String convertToString(EFactory factory, EDataType dataType, Object data);
 

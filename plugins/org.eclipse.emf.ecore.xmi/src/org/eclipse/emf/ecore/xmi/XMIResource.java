@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIResource.java,v 1.5 2005/12/04 17:44:30 elena Exp $
+ * $Id: XMIResource.java,v 1.6 2007/06/14 18:32:39 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -25,10 +25,6 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
  * on the XMI 2.0 specification from the OMG. The various save and load
  * options in this interface enable you to tailor the XMI files that are
  * produced.
- * <p>
- * You may specify that the contents of the resource will be zipped by
- * using the {@link #setUseZip setUseZip} method.
- * </p>
  * <p>
  * You may specify the XML encoding to be used when saving the resource
  * by using the {@link XMLResource#setEncoding setEncoding} method.

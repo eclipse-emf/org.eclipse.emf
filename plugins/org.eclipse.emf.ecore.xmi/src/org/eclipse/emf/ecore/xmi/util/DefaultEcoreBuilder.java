@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DefaultEcoreBuilder.java,v 1.4 2007/05/29 11:14:58 emerks Exp $
+ * $Id: DefaultEcoreBuilder.java,v 1.5 2007/06/14 18:32:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -32,8 +32,6 @@ import org.eclipse.emf.ecore.xmi.EcoreBuilder;
 
 /**
  * Default implementation of XML Schema to Ecore builder.
- * {@link org.eclipse.xsd.ecore.XSDEcoreBuilder}
- *
  */
 public class DefaultEcoreBuilder implements EcoreBuilder
 {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceEntityHandlerImpl.java,v 1.2 2006/12/10 14:06:37 emerks Exp $
+ * $Id: ResourceEntityHandlerImpl.java,v 1.3 2007/06/14 18:32:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 /**
  * This resource entity handler implementation extends the URI handler implementation 
  * so that this object can be used as both a resource entity handler and a URI handler
- * since it's far more efficient to deresovle a URI once to compute the entity value 
+ * since it's far more efficient to deresolve a URI once to compute the entity value 
  * than to deresolve it for each use and then map that deresolved result to an entity.
  * For this reason, this implementation overrides {@link #deresolve} to return the incoming URI.
  */
@@ -38,7 +38,7 @@ public class ResourceEntityHandlerImpl extends URIHandlerImpl implements XMLReso
   
   /**
    * Creates an instance that will generate entity names based on the given entity name 
-   * followed by the {@link #count} starting from 1 to ensure uniquenss.
+   * followed by the {@link #count} starting from 1 to ensure uniqueness.
    * @param entityName
    */
   public ResourceEntityHandlerImpl(String entityName)

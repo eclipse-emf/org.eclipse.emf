@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.75 2007/06/06 15:28:25 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.76 2007/06/14 18:32:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1268,7 +1268,7 @@ public class XMLSaveImpl implements XMLSave
               saveManyEmpty(o, f);
               continue LOOP;
             }
-            // It's intental to keep going.
+            // It's intentional to keep going.
           }
           case OBJECT_HREF_MANY:
           {
@@ -2192,34 +2192,6 @@ public class XMLSaveImpl implements XMLSave
       return svalue;
     }
   }
-
-/*
-  protected void saveElementIDRefMany(EObject o, EStructuralFeature f)
-  {
-    InternalEList values = (InternalEList)helper.getValue(o, f);
-    if (!values.isEmpty())
-    {
-      String name = helper.getQName(f);
-      StringBuffer ids = new StringBuffer(values.size() * 10);
-      for (Iterator i = values.basicIterator();;)
-      {
-        EObject value = (EObject)i.next();
-        String id = helper.getIDREF(value);
-        ids.append(id);
-        if (i.hasNext())
-        {
-          ids.append(" ");
-        }
-        else
-        {
-          break;
-        }
-      }
-      doc.startElement(name);
-      doc.endContentElement(ids.toString());
-    }
-  }
-*/
 
   protected void saveHref(EObject remote, EStructuralFeature f)
   {   
@@ -3207,14 +3179,14 @@ public class XMLSaveImpl implements XMLSave
             }
             else
             {
-              // Normal (BMP) unicode codepoint. See if we know for a fact that the encoding supports it:
+              // Normal (BMP) unicode code point. See if we know for a fact that the encoding supports it:
               if (ch <= mappableLimit)
               {
                 value[outputPos++] = ch;
               }
               else
               {
-                // We not sure the encoding supports this codepoint, so we write it as a character entity reference.
+                // We not sure the encoding supports this code point, so we write it as a character entity reference.
                 outputPos = replaceChars(outputPos, ("&#x" + Integer.toHexString(ch) + ";").toCharArray(), inputLength);
                 changed = true;
               }
@@ -3368,14 +3340,14 @@ public class XMLSaveImpl implements XMLSave
             }
             else
             {
-              // Normal (BMP) unicode codepoint. See if we know for a fact that the encoding supports it:
+              // Normal (BMP) unicode code point. See if we know for a fact that the encoding supports it:
               if (ch <= mappableLimit)
               {
                 value[outputPos++] = ch;
               }
               else
               {
-                // We not sure the encoding supports this codepoint, so we write it as a character entity reference.
+                // We not sure the encoding supports this code point, so we write it as a character entity reference.
                 outputPos = replaceChars(outputPos, ("&#x" + Integer.toHexString(ch) + ";").toCharArray(), inputLength);
                 changed = true;
               }
