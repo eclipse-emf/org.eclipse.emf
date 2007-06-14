@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.29 2007/05/08 15:30:50 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.30 2007/06/14 14:17:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -130,7 +130,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         {
           try
           {
-            defaultValue = factory.createFromString((EDataType)eType, literal);
+            defaultValue = factory.createFromString(eDataType, literal);
           }
           catch (Throwable e)
           {
