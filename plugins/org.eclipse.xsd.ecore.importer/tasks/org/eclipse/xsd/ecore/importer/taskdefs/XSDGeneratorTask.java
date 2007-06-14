@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGeneratorTask.java,v 1.4 2006/12/28 07:03:54 marcelop Exp $
+ * $Id: XSDGeneratorTask.java,v 1.5 2007/06/14 18:32:43 emerks Exp $
  */
 package org.eclipse.xsd.ecore.importer.taskdefs;
 
@@ -23,8 +23,8 @@ import org.eclipse.xsd.ecore.importer.XSDImporterApplication;
 
 /**
  * <p>
- * Generates source code from models specifed in <b>XML Schema</b> files.  Exposes some 
- * functionalities available on the {@link org.eclipse.emf.codegen.ecore.XSD2GenModel} 
+ * Generates source code from models specified in <b>XML Schema</b> files.  Exposes some 
+ * functionalities available on the {@link XSDImporterApplication}
  * class - check its <tt>printUsage()</tt> method for detailed information on the arguments 
  * you can use with this task.
  * </p>
