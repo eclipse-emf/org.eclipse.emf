@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.12 2007/06/14 18:32:46 emerks Exp $
+ * $Id: URIConverterImpl.java,v 1.13 2007/06/14 20:07:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -346,7 +346,7 @@ public class URIConverterImpl implements URIConverter
    *  /project/directory/file 
    *</pre>
    * and is delegated to {@link #createPlatformResourceOutputStream createPlatformResourceOutputStream}.
-   * An {@link #isEFSScheme(String) EFS-based} URI is delgated to {@link #createEFSInputStream(URI) createEFSOutputStream}.
+   * An {@link #isEFSScheme(String) EFS-based} URI is delegated to {@link #createEFSInputStream(URI) createEFSOutputStream}.
    * And all other cases are handled as standard URLs by {@link #createURLOutputStream createURLOutputStream}.
    * </p>
    * @return an open output stream.
