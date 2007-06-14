@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateChildAction.java,v 1.3 2006/12/28 16:49:46 marcelop Exp $
+ * $Id: CreateChildAction.java,v 1.4 2007/06/14 18:32:48 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.action;
 
@@ -44,8 +44,7 @@ public class CreateChildAction extends StaticSelectionCommandAction
   protected CommandParameter newChildDescriptor;
 
   /**
-   * This constructs an instance of an action that creates a child
-   * descripted by newChildDescriptor.
+   * This constructs an instance of an action that creates a child described by newChildDescriptor.
    */
   public CreateChildAction(IEditorPart editorPart, ISelection selection, CommandParameter newChildDescriptor)
   {
