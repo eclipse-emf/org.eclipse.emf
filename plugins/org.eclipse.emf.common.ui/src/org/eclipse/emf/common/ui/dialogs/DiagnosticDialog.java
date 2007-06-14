@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DiagnosticDialog.java,v 1.3 2007/03/22 15:54:17 davidms Exp $
+ * $Id: DiagnosticDialog.java,v 1.4 2007/06/14 18:32:40 emerks Exp $
  */
 package org.eclipse.emf.common.ui.dialogs;
 
@@ -245,8 +245,8 @@ public class DiagnosticDialog extends IconAndMessageDialog
   }
 
   /**
-   * Handles the pressing of the Ok
-   * or Details button in this dialog. If the Ok button was pressed then close
+   * Handles the pressing of the OK
+   * or Details button in this dialog. If the OK button was pressed then close
    * this dialog. If the Details button was pressed then toggle the displaying
    * of the diagnostic details area. Note that the Details button will only be
    * visible if the diagnostic being displayed specifies child details.

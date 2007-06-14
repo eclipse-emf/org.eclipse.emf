@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedTableTreeViewer.java,v 1.3 2006/12/28 06:42:02 marcelop Exp $
+ * $Id: ExtendedTableTreeViewer.java,v 1.4 2007/06/14 18:32:41 emerks Exp $
  */
 package org.eclipse.emf.common.ui.viewer;
 
@@ -77,7 +77,7 @@ public class ExtendedTableTreeViewer extends TableTreeViewer
   }
 
   // We cache the dimensions of the expand/collapse icon as soon as we find
-  // them.  They shouldn't ever change, but on GTK, they may be misreported
+  // them.  They shouldn't ever change, but on GTK, they may be incorrectly reported
   // as 0 when the mouse pointer moves down into or up out of a leaf item.
   // Also on GTK, they're originally reported as 0, so we need the
   // default-value hack.  

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MarkerHelper.java,v 1.8 2006/12/28 06:42:02 marcelop Exp $
+ * $Id: MarkerHelper.java,v 1.9 2007/06/14 18:32:41 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -207,7 +207,6 @@ public class MarkerHelper
    * Deletes a maker with id equals to the return of {@link #getMarkerID()}
    * from the IResource computed from the specified object.
    * @param object
-   * @return boolean
    */  
   public void deleteMarkers(Object object)
   {

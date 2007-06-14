@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerPane.java,v 1.7 2006/12/28 06:42:02 marcelop Exp $
+ * $Id: ViewerPane.java,v 1.8 2007/06/14 18:32:41 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -303,7 +303,7 @@ public abstract class ViewerPane implements IPropertyListener, Listener
   }
 
   /**
-   * Create a pulldown menu on the action bar.
+   * Create a pull-down menu on the action bar.
    */
   private void createPulldownMenu() 
   {
@@ -474,12 +474,12 @@ public abstract class ViewerPane implements IPropertyListener, Listener
    * Indicates that a property has changed.
    *
    * @param source the object whose property has changed
-   * @param propId the id of the property which has changed; property ids
+   * @param propID the ID of the property which has changed; property IDs
    *   are generally defined as constants on the source class
    */
-  public void propertyChanged(Object source, int propId) 
+  public void propertyChanged(Object source, int propID) 
   {
-    if (propId == IWorkbenchPart.PROP_TITLE)
+    if (propID == IWorkbenchPart.PROP_TITLE)
     {
       updateTitles();
     }
@@ -733,27 +733,6 @@ static public void startup() {
   init = true;
   Display disp = Display.getDefault();
   colorMap = new HashMap<Object, Color>(10);
-
-/*
-  // Define gradient (blue to widget background color)
-  //Color clr1 = new Color(disp, 57, 90, 189); //blue
-  Color clr1 = new Color(disp, 201, 211, 239); //lighter blue
-  colorMap.put(CLR_GRAD_START, clr1);
-  Color clr2 = disp.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
-  colorMap.put(CLR_GRAD_END, clr2);
-  colorMap.put(CLR_GRAD_MID, clr2);
-  activeGradient = new Color [] { clr1, clr2, clr2 };
-  activePercentages = new int[] {50, 100};
-*/
-
-  //define editor gradient (blue to white)
-/*
-  colorMap.put(CLR_EDITOR_GRAD_START, clr1);
-  Color clr3 = disp.getSystemColor(SWT.COLOR_WHITE);
-  colorMap.put(CLR_EDITOR_GRAD_END, clr3);
-  colorMap.put(CLR_EDITOR_GRAD_MID, clr3);
-  activeEditorGradient = new Color [] { clr1, clr3, clr3 };
-*/
 
   // Define gradient (blue to widget background color)
   Color clr1 = disp.getSystemColor(SWT.COLOR_TITLE_BACKGROUND);

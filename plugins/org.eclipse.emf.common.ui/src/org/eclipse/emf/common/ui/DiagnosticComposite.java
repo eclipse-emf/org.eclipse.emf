@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DiagnosticComposite.java,v 1.3 2007/04/18 20:54:14 marcelop Exp $
+ * $Id: DiagnosticComposite.java,v 1.4 2007/06/14 18:32:41 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -52,7 +52,7 @@ public class DiagnosticComposite extends Composite
   {
     /**
      * Returns the text associated to be displayed in the detail text
-     * when a a dignostic is selected in the tree.
+     * when a a diagnostic is selected in the tree.
      * @param diagnostic
      * @return a not null String
      */
