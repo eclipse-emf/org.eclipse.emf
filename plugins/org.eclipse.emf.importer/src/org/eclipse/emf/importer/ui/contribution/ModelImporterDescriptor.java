@@ -24,7 +24,7 @@ import org.eclipse.emf.converter.ui.contribution.ModelConverterDescriptor;
 /**
  * It is highly recommended not to implement this interface.  If you need to create
  * instances of a <tt>ModelImporterDescriptor</tt>, use 
- * {@link org.eclipse.emf.importer.ui.contribution.ModelImporterUtil#ModelImporterDescriptorImpl}.
+ * org.eclipse.emf.importer.ui.contribution.ModelImporterDescriptorImpl.
  * 
  * @since 2.1.0
  */
