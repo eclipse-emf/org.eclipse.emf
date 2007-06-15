@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.12 2007/06/14 18:32:42 emerks Exp $
+ * $Id: WrapperItemProvider.java,v 1.13 2007/06/15 21:57:41 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -299,7 +299,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
   }
 
   /**
-   * Returns the property image for the specified type. Implementations of {@link #getPropertyImage getPropertyImage}
+   * Returns the property image for the specified type. Implementations of {@link #getPropertyImage() getPropertyImage}
    * typically call this method.
    */
   protected Object getPropertyImage(Class<?> typeClass)

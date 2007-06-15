@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.31 2007/06/14 18:32:42 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.32 2007/06/15 21:57:41 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -2319,7 +2319,7 @@ public class ItemProviderAdapter
 
   /**
    * If the given object implements {@link IWrapperItemProvider}, it is disposed by calling {@link
-   * IWrapperItemProvider#dispose dispose}. It is also removed from {@link #wrappers}, as it will longer need to be
+   * IDisposable#dispose dispose}. It is also removed from {@link #wrappers}, as it will longer need to be
    * disposed along with this item provider.
    */
   protected void disposeWrapper(Object object)
@@ -2395,7 +2395,7 @@ public class ItemProviderAdapter
    * <p>Existing children in the store that correspond to any set, removed or unset values are {@link
    * #disposeWrapper disposed} before being removed from the store. When children are added to, removed from, or moved
    * within a feature, the indices of any others affected are {@link #adjustWrapperIndex adjusted}. Since this method
-   * is typically called from {@link #notifyChanged notifyChanged}, which, in subclasses, is often invoked repeatedly
+   * is typically called from {@link #notifyChanged(Notification) notifyChanged}, which, in subclasses, is often invoked repeatedly
    * up the inheritance chain, it can be safely called repeatedly for a single notification, and only the first such
    * call will have an effect. Such repeated calls may not, however, safely be interleaved with calls for another
    * notification.
@@ -2692,7 +2692,7 @@ public class ItemProviderAdapter
    * and determines the cell editor from the type of the structural feature. 
    * <p>
    * Newly regenerated code will no longer use this method. You'll need to override {@link
-   * #createItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, boolean, Object, String, String[])
+   * #createItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, boolean, boolean, Object, String, String[])
    * this form} instead.
    */
   protected ItemPropertyDescriptor createItemPropertyDescriptor(

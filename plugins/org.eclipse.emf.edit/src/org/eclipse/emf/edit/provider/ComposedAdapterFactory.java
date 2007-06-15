@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedAdapterFactory.java,v 1.8 2007/06/14 18:32:42 emerks Exp $
+ * $Id: ComposedAdapterFactory.java,v 1.9 2007/06/15 21:57:41 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -71,7 +71,7 @@ public class ComposedAdapterFactory
       
       /**
        * Returns descriptor that can create a factory for the types.
-       * @param  a collections of keys, typically a pair consisting of an EPackage or java.lang.Package, and a java.lang.Class.
+       * @param types collections of keys, typically a pair consisting of an EPackage or java.lang.Package, and a java.lang.Class.
        * @return a descriptor that can create a factory for the types.
        */
       Descriptor getDescriptor(Collection<?> types);
