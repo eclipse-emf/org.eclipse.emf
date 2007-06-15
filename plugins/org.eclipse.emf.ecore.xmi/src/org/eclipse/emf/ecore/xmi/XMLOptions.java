@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLOptions.java,v 1.3 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLOptions.java,v 1.4 2007/06/15 21:57:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -33,7 +33,7 @@ public interface XMLOptions
    * To process schemaLocation/noNamespaceSchemaLocation attributes, user have to set 
    * {@link #setProcessSchemaLocations(boolean)} to <code>true</code>.
    * @see XMLResource#getEObjectToExtensionMap()
-   * @param anyXML
+   * @param processAnyXML whether to process arbitrary XML.
    */
   void setProcessAnyXML(boolean processAnyXML);
 

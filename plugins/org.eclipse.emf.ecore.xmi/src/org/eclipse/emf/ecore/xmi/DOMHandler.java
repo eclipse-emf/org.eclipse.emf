@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DOMHandler.java,v 1.4 2007/06/14 18:32:39 emerks Exp $
+ * $Id: DOMHandler.java,v 1.5 2007/06/15 21:57:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -34,7 +34,7 @@ public interface DOMHandler
    * @param node the DOM node
    * @param container the {@link org.eclipse.emf.ecore.EObject} which is the node's container
    * @param feature the feature for DOM node value
-   * @param object the EMF value which is obtained by querying the value of the specified feature on the container 
+   * @param value the EMF value which is obtained by querying the value of the specified feature on the container 
    *               {@link  EObject#eGet(EStructuralFeature)}; 
    *               this value is used to create the <emf>node</emf>
    */

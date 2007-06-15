@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.40 2007/06/14 18:32:39 emerks Exp $
+ * $Id: XMLResource.java,v 1.41 2007/06/15 21:57:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -285,7 +285,7 @@ public interface XMLResource extends Resource
    * This options allows you to record unknown features during deserialization/loading.
    * The default is <code>Boolean.FALSE</code> unless set to <code>Boolean.TRUE</code> explicitly. 
    * The unknown features and their values can be accessed via getEObjectToExtensionMap().
-   * @see {@link #getEObjectToExtensionMap}  
+   * @see #getEObjectToExtensionMap()  
    */
   String OPTION_RECORD_UNKNOWN_FEATURE = "RECORD_UNKNOWN_FEATURE";
   
@@ -395,7 +395,7 @@ public interface XMLResource extends Resource
     /**
      * Called before saving begins.
      * @param resource the resource being saved.
-     * @param inputStream the stream being written.
+     * @param outputStream the stream being written.
      * @param options the save options.
      */
     void preSave(XMLResource resource, OutputStream outputStream, Map<?, ?> options);
@@ -403,7 +403,7 @@ public interface XMLResource extends Resource
     /**
      * Called before saving begins.
      * @param resource the resource being saved.
-     * @param inputStream the stream being written.
+     * @param outputStream the stream being written.
      * @param options the save options.
      */
     void postSave(XMLResource resource, OutputStream outputStream, Map<?, ?> options);
