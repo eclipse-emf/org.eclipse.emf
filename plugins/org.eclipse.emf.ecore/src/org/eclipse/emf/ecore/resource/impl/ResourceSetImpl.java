@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.9 2006/12/05 20:22:27 emerks Exp $
+ * $Id: ResourceSetImpl.java,v 1.10 2007/06/15 21:57:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -281,7 +281,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * by recording it as an error diagnostic 
    * and throwing a wrapping runtime exception.
    * @param resource the resource that threw an exception while loading.
-   * @param resource the exception thrown from the resource while loading.
+   * @param exception the exception thrown from the resource while loading.
    * @see #demandLoadHelper(Resource)
    */
   protected void handleDemandLoadException(Resource resource, IOException exception) throws RuntimeException

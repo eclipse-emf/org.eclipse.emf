@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.13 2007/06/14 20:07:51 emerks Exp $
+ * $Id: URIConverterImpl.java,v 1.14 2007/06/15 21:57:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -605,7 +605,7 @@ public class URIConverterImpl implements URIConverter
   
   /**
    * Creates an input stream for the archive paths and returns it.
-   * It uses {@link ArchiveReader} to implement read access.
+   * It uses {@link Archive} to implement read access.
    * </p>
    * @return an open input stream.
    * @exception IOException if there is a problem obtaining an open input stream.

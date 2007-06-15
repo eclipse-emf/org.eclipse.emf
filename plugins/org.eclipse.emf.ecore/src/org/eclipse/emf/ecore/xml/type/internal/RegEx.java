@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
+ * $Id: RegEx.java,v 1.12 2007/06/15 21:57:52 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1265,7 +1265,7 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
+   * @version $Id: RegEx.java,v 1.12 2007/06/15 21:57:52 emerks Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       private static final long serialVersionUID = 1L;
@@ -2105,7 +2105,7 @@ public final class RegEx
       }
 
   /**
-   * @see java.lang.String#regionMatches
+   * @see java.lang.String#regionMatches(int, String, int, int)
    */
       private static final boolean regionMatchesIgnoreCase(char[]  target, int offset, int limit,
                                                            String part, int partlen) {
@@ -3472,7 +3472,7 @@ public final class RegEx
       }
 
       /**
-       * @see java.lang.String#regionMatches
+       * @see java.lang.String#regionMatches(int, String, int, int)
        */
       private static final boolean regionMatchesIgnoreCase(CharacterIterator  target, int offset, int limit,
                                                            String part, int partlen) {
@@ -3704,7 +3704,7 @@ public final class RegEx
       /**
        * This option redefines <span class="REGEX"><kbd>\d \D \w \W \s \S</kbd></span>.
        *
-       * @see #RegularExpression(java.lang.String,int)
+       * @see #RegularExpression(String)
        * @see #setPattern(java.lang.String,int)
        * @see #UNICODE_WORD_BOUNDARY
        */
@@ -3719,7 +3719,7 @@ public final class RegEx
        * <p>By this option, the engine checks word boundaries with the method of
        * 'Unicode Regular Expression Guidelines' Revision 4.
        *
-       * @see #RegularExpression(java.lang.String,int)
+       * @see RegEx#RegEx()
        * @see #setPattern(java.lang.String,int)
        */
       static final int UNICODE_WORD_BOUNDARY = 1<<6; // "w"
@@ -4500,7 +4500,7 @@ public final class RegEx
     }
 
     /**
-     * @param tok Ignore whether it is NRANGE or not.
+     * @param token Ignore whether it is NRANGE or not.
      */
     @Override
     protected void intersectRanges(Token token) {
@@ -7467,7 +7467,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
+   * @version $Id: RegEx.java,v 1.12 2007/06/15 21:57:52 emerks Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {
@@ -7696,7 +7696,7 @@ public final class RegEx
      * cc-normal-c      ::= <any character except [, ], \>
      * from-to-range    ::= cc-normal-c '-' cc-normal-c
      *
-     * @param useNrage Ignored.
+     * @param useNrange Ignored.
      * @return This returns no NrageToken.
      */
     @Override

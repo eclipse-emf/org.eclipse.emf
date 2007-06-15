@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.56 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.57 2007/06/15 21:57:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1275,7 +1275,8 @@ public class EcoreUtil
 
     /**
      * Creates an instance for the given collection of objects.
-     * @param emfObjects the collection of objects to iterate over.
+     * @param object the collection of objects to iterate over.
+     * @param isResolveProxies whether proxies should be resolved during the traversal.
      */
     protected ContentTreeIterator(Object object, boolean isResolveProxies)
     {
