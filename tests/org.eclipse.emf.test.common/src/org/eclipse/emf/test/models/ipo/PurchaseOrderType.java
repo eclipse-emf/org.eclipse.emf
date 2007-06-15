@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PurchaseOrderType.java,v 1.3 2007/06/02 19:35:31 emerks Exp $
+ * $Id: PurchaseOrderType.java,v 1.4 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo;
 
@@ -102,7 +102,7 @@ public interface PurchaseOrderType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Comment</em>' attribute.
    * @see #setComment(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String"
    *        extendedMetaData="kind='element' name='comment' namespace='##targetNamespace'"
    * @generated
    */
@@ -154,7 +154,7 @@ public interface PurchaseOrderType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Order Date</em>' attribute.
    * @see #setOrderDate(XMLGregorianCalendar)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.DateTime"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.DateTime"
    *        extendedMetaData="kind='attribute' name='orderDate'"
    * @generated
    */

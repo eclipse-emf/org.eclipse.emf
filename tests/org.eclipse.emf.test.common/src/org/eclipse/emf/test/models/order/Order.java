@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Order.java,v 1.3 2007/06/02 19:35:32 emerks Exp $
+ * $Id: Order.java,v 1.4 2007/06/15 21:22:18 emerks Exp $
  */
 package org.eclipse.emf.test.models.order;
 
@@ -56,7 +56,7 @@ public interface Order extends EObject
    * @return the value of the '<em>Date Requested</em>' attribute.
    * @see #setDateRequested(XMLGregorianCalendar)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder_DateRequested()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Date"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Date"
    *        extendedMetaData="kind='element' name='dateRequested'"
    * @generated
    */
@@ -83,7 +83,7 @@ public interface Order extends EObject
    * @return the value of the '<em>Last Updated</em>' attribute.
    * @see #setLastUpdated(XMLGregorianCalendar)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder_LastUpdated()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Date"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Date"
    *        extendedMetaData="kind='element' name='lastUpdated'"
    * @generated
    */
@@ -110,7 +110,7 @@ public interface Order extends EObject
    * @return the value of the '<em>Movies</em>' attribute.
    * @see #setMovies(List)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getOrder_Movies()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.IDREFS" required="true" many="false"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.IDREFS" required="true" many="false"
    *        extendedMetaData="kind='element' name='movies'"
    * @generated
    */

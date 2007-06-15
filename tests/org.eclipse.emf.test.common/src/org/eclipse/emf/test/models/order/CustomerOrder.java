@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomerOrder.java,v 1.2 2007/01/18 22:06:43 marcelop Exp $
+ * $Id: CustomerOrder.java,v 1.3 2007/06/15 21:22:18 emerks Exp $
  */
 package org.eclipse.emf.test.models.order;
 
@@ -123,7 +123,7 @@ public interface CustomerOrder extends EObject
    * @return the value of the '<em>Customer ID</em>' attribute.
    * @see #setCustomerID(String)
    * @see org.eclipse.emf.test.models.order.OrderPackage#getCustomerOrder_CustomerID()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.IDREF"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.IDREF"
    *        extendedMetaData="kind='attribute' name='customerID'"
    * @generated
    */

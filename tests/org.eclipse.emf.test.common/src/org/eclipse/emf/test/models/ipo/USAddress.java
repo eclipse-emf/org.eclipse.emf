@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: USAddress.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: USAddress.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo;
 
@@ -51,7 +51,7 @@ public interface USAddress extends Address
    * @see #isSetState()
    * @see #unsetState()
    * @see #setState(USState)
-   * @model default="AK" unique="false" unsettable="true" required="true"
+   * @model default="AK" unsettable="true" required="true"
    *        extendedMetaData="kind='element' name='state'"
    * @generated
    */
@@ -103,7 +103,7 @@ public interface USAddress extends Address
    * <!-- end-user-doc -->
    * @return the value of the '<em>Zip</em>' attribute.
    * @see #setZip(BigInteger)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.PositiveInteger" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.PositiveInteger" required="true"
    *        extendedMetaData="kind='element' name='zip'"
    * @generated
    */

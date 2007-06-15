@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PenType.java,v 1.2 2007/01/18 22:06:40 marcelop Exp $
+ * $Id: PenType.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.dbprice;
 
@@ -49,7 +49,7 @@ public interface PenType extends EObject
    * @see #unsetPrice()
    * @see #setPrice(int)
    * @see org.eclipse.emf.test.models.dbprice.DBPricePackage#getPenType_Price()
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
    *        extendedMetaData="kind='element' name='price' namespace='##targetNamespace'"
    * @generated
    */

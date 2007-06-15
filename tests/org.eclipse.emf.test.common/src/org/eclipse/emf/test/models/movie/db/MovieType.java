@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MovieType.java,v 1.5 2007/06/12 15:08:10 emerks Exp $
+ * $Id: MovieType.java,v 1.6 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -64,7 +64,7 @@ public interface MovieType extends EObject
    * @return the value of the '<em>Title</em>' attribute.
    * @see #setTitle(String)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieType_Title()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='title'"
    * @generated
    */
@@ -91,7 +91,7 @@ public interface MovieType extends EObject
    * @return the value of the '<em>Actors</em>' attribute.
    * @see #setActors(List)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieType_Actors()
-   * @model unique="false" dataType="org.eclipse.emf.test.models.movie.db.ActorsList" required="true" many="false"
+   * @model dataType="org.eclipse.emf.test.models.movie.db.ActorsList" required="true" many="false"
    *        extendedMetaData="kind='element' name='actors'"
    * @generated
    */
@@ -118,7 +118,7 @@ public interface MovieType extends EObject
    * @return the value of the '<em>Director</em>' attribute.
    * @see #setDirector(String)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieType_Director()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='director'"
    * @generated
    */
@@ -150,7 +150,7 @@ public interface MovieType extends EObject
    * @see #unsetGenre()
    * @see #setGenre(GenreTypes)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieType_Genre()
-   * @model default="NewRelease" unique="false" unsettable="true" required="true"
+   * @model default="NewRelease" unsettable="true" required="true"
    *        extendedMetaData="kind='element' name='genre'"
    * @generated
    */
@@ -203,7 +203,7 @@ public interface MovieType extends EObject
    * @return the value of the '<em>Summary</em>' attribute.
    * @see #setSummary(String)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieType_Summary()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='summary'"
    * @generated
    */
@@ -291,7 +291,7 @@ public interface MovieType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Any</em>' attribute list.
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieType_Any()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="false"
+   * @model dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="false"
    *        extendedMetaData="kind='elementWildcard' wildcards='##any' name=':8' processing='strict'"
    * @generated
    */
@@ -308,7 +308,7 @@ public interface MovieType extends EObject
    * @return the value of the '<em>ID</em>' attribute.
    * @see #setID(String)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieType_ID()
-   * @model unique="false" id="true" dataType="org.eclipse.emf.ecore.xml.type.ID" required="true"
+   * @model id="true" dataType="org.eclipse.emf.ecore.xml.type.ID" required="true"
    *        extendedMetaData="kind='attribute' name='ID' namespace='http:///org.eclipse.emf.test.models/Customer'"
    * @generated
    */

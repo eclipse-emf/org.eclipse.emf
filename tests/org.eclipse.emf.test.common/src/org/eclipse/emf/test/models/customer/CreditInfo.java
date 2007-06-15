@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreditInfo.java,v 1.3 2007/06/02 19:35:32 emerks Exp $
+ * $Id: CreditInfo.java,v 1.4 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -52,7 +52,7 @@ public interface CreditInfo extends EObject
    * @return the value of the '<em>Holder</em>' attribute.
    * @see #setHolder(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCreditInfo_Holder()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='holder'"
    * @generated
    */
@@ -79,7 +79,7 @@ public interface CreditInfo extends EObject
    * @return the value of the '<em>Cc Number</em>' attribute.
    * @see #setCcNumber(BigInteger)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCreditInfo_CcNumber()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Integer" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Integer" required="true"
    *        extendedMetaData="kind='element' name='cc_number'"
    * @generated
    */
@@ -106,7 +106,7 @@ public interface CreditInfo extends EObject
    * @return the value of the '<em>Expire Date</em>' attribute.
    * @see #setExpireDate(XMLGregorianCalendar)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCreditInfo_ExpireDate()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.GYearMonth" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.GYearMonth" required="true"
    *        extendedMetaData="kind='element' name='expireDate'"
    * @generated
    */

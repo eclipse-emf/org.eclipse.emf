@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Address.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: Address.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo;
 
@@ -46,7 +46,7 @@ public interface Address
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='name'"
    * @generated
    */
@@ -72,7 +72,7 @@ public interface Address
    * <!-- end-user-doc -->
    * @return the value of the '<em>Street</em>' attribute.
    * @see #setStreet(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='street'"
    * @generated
    */
@@ -98,7 +98,7 @@ public interface Address
    * <!-- end-user-doc -->
    * @return the value of the '<em>City</em>' attribute.
    * @see #setCity(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='city'"
    * @generated
    */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceType.java,v 1.4 2007/05/07 17:26:29 marcelop Exp $
+ * $Id: ResourceType.java,v 1.5 2007/06/15 21:22:18 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname;
 
@@ -57,7 +57,7 @@ public interface ResourceType extends EObject
    * @return the value of the '<em>Unionvalue</em>' attribute.
    * @see #setUnionvalue(Object)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getResourceType_Unionvalue()
-   * @model unique="false" dataType="org.eclipse.emf.test.models.qname.IntQNameUnion" required="true"
+   * @model dataType="org.eclipse.emf.test.models.qname.IntQNameUnion" required="true"
    *        extendedMetaData="kind='element' name='unionvalue' namespace='##targetNamespace'"
    * @generated
    */
@@ -84,7 +84,7 @@ public interface ResourceType extends EObject
    * @return the value of the '<em>Qnamelist</em>' attribute.
    * @see #setQnamelist(List)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getResourceType_Qnamelist()
-   * @model unique="false" dataType="org.eclipse.emf.test.models.qname.QnameList" required="true" many="false"
+   * @model dataType="org.eclipse.emf.test.models.qname.QnameList" required="true" many="false"
    *        extendedMetaData="kind='element' name='qnamelist' namespace='##targetNamespace'"
    * @generated
    */
@@ -113,7 +113,7 @@ public interface ResourceType extends EObject
    * @see #unsetIntvalue()
    * @see #setIntvalue(int)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getResourceType_Intvalue()
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
    *        extendedMetaData="kind='element' name='intvalue' namespace='##targetNamespace'"
    * @generated
    */
@@ -165,7 +165,7 @@ public interface ResourceType extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Any</em>' attribute list.
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getResourceType_Any()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="false"
+   * @model dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="false"
    *        extendedMetaData="kind='elementWildcard' wildcards='##any' name=':3' processing='strict'"
    * @generated
    */
@@ -182,7 +182,7 @@ public interface ResourceType extends EObject
    * @return the value of the '<em>My Qname</em>' attribute.
    * @see #setMyQname(List)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getResourceType_MyQname()
-   * @model unique="false" dataType="org.eclipse.emf.test.models.qname.QnameList" many="false"
+   * @model dataType="org.eclipse.emf.test.models.qname.QnameList" many="false"
    *        extendedMetaData="kind='attribute' name='myQname'"
    * @generated
    */

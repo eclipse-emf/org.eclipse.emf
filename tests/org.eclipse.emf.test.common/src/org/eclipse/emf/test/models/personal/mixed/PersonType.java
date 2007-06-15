@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonType.java,v 1.4 2007/06/12 15:08:10 emerks Exp $
+ * $Id: PersonType.java,v 1.5 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed;
 
@@ -155,7 +155,7 @@ public interface PersonType
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Any</em>' attribute list.
-   * @model unique="false" dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="false" transient="true" volatile="true" derived="true"
+   * @model dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="false" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='elementWildcard' wildcards='##any' name=':5' processing='lax'"
    * @generated
    */
@@ -176,7 +176,7 @@ public interface PersonType
    * @see #isSetContr()
    * @see #unsetContr()
    * @see #setContr(ContrType)
-   * @model default="false" unique="false" unsettable="true"
+   * @model default="false" unsettable="true"
    *        extendedMetaData="kind='attribute' name='contr'"
    * @generated
    */
@@ -228,7 +228,7 @@ public interface PersonType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Id</em>' attribute.
    * @see #setId(String)
-   * @model unique="false" id="true" dataType="org.eclipse.emf.ecore.xml.type.ID" required="true"
+   * @model id="true" dataType="org.eclipse.emf.ecore.xml.type.ID" required="true"
    *        extendedMetaData="kind='attribute' name='id'"
    * @generated
    */
@@ -254,7 +254,7 @@ public interface PersonType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Salary</em>' attribute.
    * @see #setSalary(BigInteger)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Integer"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Integer"
    *        extendedMetaData="kind='attribute' name='salary'"
    * @generated
    */

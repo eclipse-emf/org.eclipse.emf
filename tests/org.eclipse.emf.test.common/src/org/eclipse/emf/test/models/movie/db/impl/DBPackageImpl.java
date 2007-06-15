@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBPackageImpl.java,v 1.2 2007/01/18 22:06:45 marcelop Exp $
+ * $Id: DBPackageImpl.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -717,11 +717,11 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(criticsReviewTypeEClass, CriticsReviewType.class, "CriticsReviewType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getCriticsReviewType_Rating(), this.getRatingType(), "rating", null, 1, 1, CriticsReviewType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getCriticsReviewType_ReviewedBy(), theXMLTypePackage.getString(), "reviewedBy", null, 1, 1, CriticsReviewType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCriticsReviewType_Rating(), this.getRatingType(), "rating", null, 1, 1, CriticsReviewType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCriticsReviewType_ReviewedBy(), theXMLTypePackage.getString(), "reviewedBy", null, 1, 1, CriticsReviewType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(customerReviewTypeEClass, CustomerReviewType.class, "CustomerReviewType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getCustomerReviewType_Comment(), theXMLTypePackage.getString(), "comment", null, 1, 1, CustomerReviewType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCustomerReviewType_Comment(), theXMLTypePackage.getString(), "comment", null, 1, 1, CustomerReviewType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -737,19 +737,19 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
     initEClass(movieDBTypeEClass, MovieDBType.class, "MovieDBType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getMovieDBType_MovieDBFeatureMap(), ecorePackage.getEFeatureMapEntry(), "movieDBFeatureMap", null, 0, -1, MovieDBType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMovieDBType_Movie(), this.getMovieType(), null, "movie", null, 1, -1, MovieDBType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMovieDBType_Comment(), theXMLTypePackage.getString(), "comment", null, 0, 1, MovieDBType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMovieDBType_Comment(), theXMLTypePackage.getString(), "comment", null, 0, 1, MovieDBType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
     initEClass(movieTypeEClass, MovieType.class, "MovieType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getMovieType_Title(), theXMLTypePackage.getString(), "title", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMovieType_Actors(), this.getActorsList(), "actors", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMovieType_Director(), theXMLTypePackage.getString(), "director", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMovieType_Genre(), this.getGenreTypes(), "genre", "NewRelease", 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMovieType_Summary(), theXMLTypePackage.getString(), "summary", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMovieType_Title(), theXMLTypePackage.getString(), "title", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMovieType_Actors(), this.getActorsList(), "actors", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMovieType_Director(), theXMLTypePackage.getString(), "director", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMovieType_Genre(), this.getGenreTypes(), "genre", "NewRelease", 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMovieType_Summary(), theXMLTypePackage.getString(), "summary", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMovieType_CriticsReviewGroup(), ecorePackage.getEFeatureMapEntry(), "criticsReviewGroup", null, 0, -1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMovieType_CriticsReview(), this.getCriticsReviewType(), null, "criticsReview", null, 0, -1, MovieType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getMovieType_CheckedOutBy(), theCustomerPackage.getCustomerType(), null, "checkedOutBy", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMovieType_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 0, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMovieType_ID(), theXMLTypePackage.getID(), "iD", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMovieType_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 0, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMovieType_ID(), theXMLTypePackage.getID(), "iD", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(genreTypesEEnum, GenreTypes.class, "GenreTypes");

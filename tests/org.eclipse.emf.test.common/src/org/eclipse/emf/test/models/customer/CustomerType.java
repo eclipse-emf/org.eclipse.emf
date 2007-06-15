@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomerType.java,v 1.3 2007/06/02 19:35:32 emerks Exp $
+ * $Id: CustomerType.java,v 1.4 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -52,7 +52,7 @@ public interface CustomerType extends EObject
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType_Name()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='name'"
    * @generated
    */
@@ -135,7 +135,7 @@ public interface CustomerType extends EObject
    * @see #unsetPaymentDay()
    * @see #setPaymentDay(XMLGregorianCalendar)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType_PaymentDay()
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.GDay" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.GDay" required="true"
    *        extendedMetaData="kind='element' name='paymentDay'"
    * @generated
    */
@@ -187,7 +187,7 @@ public interface CustomerType extends EObject
    * @return the value of the '<em>ID</em>' attribute.
    * @see #setID(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCustomerType_ID()
-   * @model unique="false" id="true" dataType="org.eclipse.emf.ecore.xml.type.ID" required="true"
+   * @model id="true" dataType="org.eclipse.emf.ecore.xml.type.ID" required="true"
    *        extendedMetaData="kind='attribute' name='ID' namespace='##targetNamespace'"
    * @generated
    */

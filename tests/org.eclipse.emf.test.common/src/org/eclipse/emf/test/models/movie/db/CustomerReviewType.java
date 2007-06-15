@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomerReviewType.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: CustomerReviewType.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -46,7 +46,7 @@ public interface CustomerReviewType extends CriticsReviewType
    * @return the value of the '<em>Comment</em>' attribute.
    * @see #setComment(String)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getCustomerReviewType_Comment()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='comment'"
    * @generated
    */

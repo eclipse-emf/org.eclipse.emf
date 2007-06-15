@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemType.java,v 1.3 2007/06/02 19:35:31 emerks Exp $
+ * $Id: ItemType.java,v 1.4 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo;
 
@@ -52,7 +52,7 @@ public interface ItemType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Product Name</em>' attribute.
    * @see #setProductName(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='productName'"
    * @generated
    */
@@ -78,7 +78,7 @@ public interface ItemType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Quantity</em>' attribute.
    * @see #setQuantity(BigInteger)
-   * @model unique="false" dataType="org.eclipse.emf.test.models.ipo.QuantityType" required="true"
+   * @model dataType="org.eclipse.emf.test.models.ipo.QuantityType" required="true"
    *        extendedMetaData="kind='element' name='quantity'"
    * @generated
    */
@@ -104,7 +104,7 @@ public interface ItemType
    * <!-- end-user-doc -->
    * @return the value of the '<em>US Price</em>' attribute.
    * @see #setUSPrice(BigDecimal)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
    *        extendedMetaData="kind='element' name='USPrice'"
    * @generated
    */
@@ -130,7 +130,7 @@ public interface ItemType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Comment</em>' attribute.
    * @see #setComment(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String"
    *        extendedMetaData="kind='element' name='comment' namespace='##targetNamespace'"
    * @generated
    */
@@ -156,7 +156,7 @@ public interface ItemType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ship Date</em>' attribute.
    * @see #setShipDate(XMLGregorianCalendar)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Date"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Date"
    *        extendedMetaData="kind='element' name='shipDate'"
    * @generated
    */
@@ -182,7 +182,7 @@ public interface ItemType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Part Num</em>' attribute.
    * @see #setPartNum(String)
-   * @model unique="false" dataType="org.eclipse.emf.test.models.ipo.SKU" required="true"
+   * @model dataType="org.eclipse.emf.test.models.ipo.SKU" required="true"
    *        extendedMetaData="kind='attribute' name='partNum'"
    * @generated
    */

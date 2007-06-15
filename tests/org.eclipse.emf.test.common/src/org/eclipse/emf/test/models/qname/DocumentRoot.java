@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DocumentRoot.java,v 1.4 2007/06/12 15:08:10 emerks Exp $
+ * $Id: DocumentRoot.java,v 1.5 2007/06/15 21:22:18 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname;
 
@@ -198,7 +198,7 @@ public interface DocumentRoot extends EObject
    * @see #unsetAInt()
    * @see #setAInt(int)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getDocumentRoot_AInt()
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
    *        extendedMetaData="kind='attribute' name='aInt' namespace='##targetNamespace'"
    * @generated
    */
@@ -250,7 +250,7 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>AQname</em>' attribute.
    * @see #setAQname(QName)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getDocumentRoot_AQname()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.QName"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.QName"
    *        extendedMetaData="kind='attribute' name='aQname' namespace='##targetNamespace'"
    * @generated
    */
@@ -277,7 +277,7 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>AUnion</em>' attribute.
    * @see #setAUnion(List)
    * @see org.eclipse.emf.test.models.qname.QNamePackage#getDocumentRoot_AUnion()
-   * @model unique="false" dataType="org.eclipse.emf.test.models.qname.ListUnion" many="false"
+   * @model dataType="org.eclipse.emf.test.models.qname.ListUnion" many="false"
    *        extendedMetaData="kind='attribute' name='aUnion' namespace='##targetNamespace'"
    * @generated
    */

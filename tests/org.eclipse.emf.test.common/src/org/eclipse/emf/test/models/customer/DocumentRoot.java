@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DocumentRoot.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
+ * $Id: DocumentRoot.java,v 1.4 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -135,7 +135,7 @@ public interface DocumentRoot extends EObject
    * @return the value of the '<em>ID</em>' attribute.
    * @see #setID(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getDocumentRoot_ID()
-   * @model unique="false" id="true" dataType="org.eclipse.emf.ecore.xml.type.ID"
+   * @model id="true" dataType="org.eclipse.emf.ecore.xml.type.ID"
    *        extendedMetaData="kind='attribute' name='ID' namespace='##targetNamespace'"
    * @generated
    */

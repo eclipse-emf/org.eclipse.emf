@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CanadaAddr.java,v 1.2 2007/01/18 22:06:43 marcelop Exp $
+ * $Id: CanadaAddr.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -47,7 +47,7 @@ public interface CanadaAddr extends AddressType
    * @return the value of the '<em>Zip</em>' attribute.
    * @see #setZip(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCanadaAddr_Zip()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='zip'"
    * @generated
    */
@@ -74,7 +74,7 @@ public interface CanadaAddr extends AddressType
    * @return the value of the '<em>Province</em>' attribute.
    * @see #setProvince(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getCanadaAddr_Province()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='province'"
    * @generated
    */

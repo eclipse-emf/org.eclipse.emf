@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AThing.java,v 1.4 2007/06/12 15:08:11 emerks Exp $
+ * $Id: AThing.java,v 1.5 2007/06/15 21:22:18 emerks Exp $
  */
 package org.eclipse.emf.test.models.types;
 
@@ -82,7 +82,7 @@ public interface AThing
    * @see #isSetABoolean()
    * @see #unsetABoolean()
    * @see #setABoolean(boolean)
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
    *        extendedMetaData="kind='element' name='aBoolean'"
    * @generated
    */
@@ -135,7 +135,7 @@ public interface AThing
    * @see #isSetAByte()
    * @see #unsetAByte()
    * @see #setAByte(byte)
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Byte" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Byte" required="true"
    *        extendedMetaData="kind='element' name='aByte'"
    * @generated
    */
@@ -186,7 +186,7 @@ public interface AThing
    * <!-- end-user-doc -->
    * @return the value of the '<em>ADecimal</em>' attribute.
    * @see #setADecimal(BigDecimal)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
    *        extendedMetaData="kind='element' name='aDecimal'"
    * @generated
    */
@@ -214,7 +214,7 @@ public interface AThing
    * @see #isSetAFloat()
    * @see #unsetAFloat()
    * @see #setAFloat(float)
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Float" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Float" required="true"
    *        extendedMetaData="kind='element' name='aFloat'"
    * @generated
    */
@@ -267,7 +267,7 @@ public interface AThing
    * @see #isSetADouble()
    * @see #unsetADouble()
    * @see #setADouble(double)
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
    *        extendedMetaData="kind='element' name='aDouble'"
    * @generated
    */
@@ -320,7 +320,7 @@ public interface AThing
    * @see #isSetAInt()
    * @see #unsetAInt()
    * @see #setAInt(int)
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
    *        extendedMetaData="kind='element' name='aInt'"
    * @generated
    */
@@ -371,7 +371,7 @@ public interface AThing
    * <!-- end-user-doc -->
    * @return the value of the '<em>AInteger</em>' attribute.
    * @see #setAInteger(BigInteger)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Integer" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Integer" required="true"
    *        extendedMetaData="kind='element' name='aInteger'"
    * @generated
    */
@@ -399,7 +399,7 @@ public interface AThing
    * @see #isSetALong()
    * @see #unsetALong()
    * @see #setALong(long)
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Long" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Long" required="true"
    *        extendedMetaData="kind='element' name='aLong'"
    * @generated
    */
@@ -452,7 +452,7 @@ public interface AThing
    * @see #isSetAShort()
    * @see #unsetAShort()
    * @see #setAShort(short)
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Short" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Short" required="true"
    *        extendedMetaData="kind='element' name='aShort'"
    * @generated
    */
@@ -503,7 +503,7 @@ public interface AThing
    * <!-- end-user-doc -->
    * @return the value of the '<em>AString</em>' attribute.
    * @see #setAString(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='aString'"
    * @generated
    */
@@ -531,7 +531,7 @@ public interface AThing
    * @see #isSetAChar()
    * @see #unsetAChar()
    * @see #setAChar(char)
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.test.models.types.MyChar" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.test.models.types.MyChar" required="true"
    *        extendedMetaData="kind='element' name='aChar'"
    * @generated
    */
@@ -582,7 +582,7 @@ public interface AThing
    * <!-- end-user-doc -->
    * @return the value of the '<em>ADate</em>' attribute.
    * @see #setADate(Date)
-   * @model unique="false" dataType="org.eclipse.emf.test.models.types.MyDate" required="true"
+   * @model dataType="org.eclipse.emf.test.models.types.MyDate" required="true"
    *        extendedMetaData="kind='element' name='aDate'"
    * @generated
    */
@@ -608,7 +608,7 @@ public interface AThing
    * <!-- end-user-doc -->
    * @return the value of the '<em>ABytes</em>' attribute.
    * @see #setABytes(byte[])
-   * @model unique="false" dataType="org.eclipse.emf.test.models.types.MyBytes" required="true"
+   * @model dataType="org.eclipse.emf.test.models.types.MyBytes" required="true"
    *        extendedMetaData="kind='element' name='aBytes'"
    * @generated
    */
@@ -634,7 +634,7 @@ public interface AThing
    * <!-- end-user-doc -->
    * @return the value of the '<em>ANumber</em>' attribute.
    * @see #setANumber(Number)
-   * @model unique="false" dataType="org.eclipse.emf.test.models.types.MyNumber" required="true"
+   * @model dataType="org.eclipse.emf.test.models.types.MyNumber" required="true"
    *        extendedMetaData="kind='element' name='aNumber'"
    * @generated
    */
@@ -660,7 +660,7 @@ public interface AThing
    * <!-- end-user-doc -->
    * @return the value of the '<em>AObject</em>' attribute.
    * @see #setAObject(Object)
-   * @model unique="false" dataType="org.eclipse.emf.test.models.types.MyObject" required="true"
+   * @model dataType="org.eclipse.emf.test.models.types.MyObject" required="true"
    *        extendedMetaData="kind='element' name='aObject'"
    * @generated
    */
@@ -686,7 +686,7 @@ public interface AThing
    * <!-- end-user-doc -->
    * @return the value of the '<em>AThread</em>' attribute.
    * @see #setAThread(Thread)
-   * @model unique="false" dataType="org.eclipse.emf.test.models.types.MyThread" required="true"
+   * @model dataType="org.eclipse.emf.test.models.types.MyThread" required="true"
    *        extendedMetaData="kind='element' name='aThread'"
    * @generated
    */

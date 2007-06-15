@@ -31,8 +31,7 @@
         <details key="processing" value="strict"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="customerID" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IDREF">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="customerID" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IDREF">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
         <details key="name" value="customerID"/>
@@ -88,22 +87,20 @@
       <details key="name" value="order"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateRequested" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Date">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateRequested" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Date">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="dateRequested"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastUpdated" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Date">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastUpdated" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Date">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="lastUpdated"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="movies" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IDREFS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="movies" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//IDREFS">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="movies"/>

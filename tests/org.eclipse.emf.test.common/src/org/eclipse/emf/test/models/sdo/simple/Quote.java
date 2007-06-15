@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Quote.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
+ * $Id: Quote.java,v 1.4 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.sdo.simple;
 
@@ -55,7 +55,7 @@ public interface Quote
    * <!-- end-user-doc -->
    * @return the value of the '<em>Symbol</em>' attribute.
    * @see #setSymbol(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='symbol'"
    * @generated
    */
@@ -81,7 +81,7 @@ public interface Quote
    * <!-- end-user-doc -->
    * @return the value of the '<em>Company Name</em>' attribute.
    * @see #setCompanyName(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='companyName'"
    * @generated
    */
@@ -107,7 +107,7 @@ public interface Quote
    * <!-- end-user-doc -->
    * @return the value of the '<em>Price</em>' attribute.
    * @see #setPrice(BigDecimal)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
    *        extendedMetaData="kind='element' name='price'"
    * @generated
    */
@@ -133,7 +133,7 @@ public interface Quote
    * <!-- end-user-doc -->
    * @return the value of the '<em>Open1</em>' attribute.
    * @see #setOpen1(BigDecimal)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
    *        extendedMetaData="kind='element' name='open1'"
    * @generated
    */
@@ -159,7 +159,7 @@ public interface Quote
    * <!-- end-user-doc -->
    * @return the value of the '<em>High</em>' attribute.
    * @see #setHigh(BigDecimal)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
    *        extendedMetaData="kind='element' name='high'"
    * @generated
    */
@@ -185,7 +185,7 @@ public interface Quote
    * <!-- end-user-doc -->
    * @return the value of the '<em>Low</em>' attribute.
    * @see #setLow(BigDecimal)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.Decimal" required="true"
    *        extendedMetaData="kind='element' name='low'"
    * @generated
    */
@@ -213,7 +213,7 @@ public interface Quote
    * @see #isSetVolume()
    * @see #unsetVolume()
    * @see #setVolume(double)
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
    *        extendedMetaData="kind='element' name='volume'"
    * @generated
    */
@@ -266,7 +266,7 @@ public interface Quote
    * @see #isSetChange1()
    * @see #unsetChange1()
    * @see #setChange1(double)
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
    *        extendedMetaData="kind='element' name='change1'"
    * @generated
    */

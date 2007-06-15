@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: UrlType.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: UrlType.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed;
 
@@ -47,7 +47,7 @@ public interface UrlType
    * @see #isSetHref()
    * @see #unsetHref()
    * @see #setHref(String)
-   * @model default="http://" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.String"
+   * @model default="http://" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.String"
    *        extendedMetaData="kind='attribute' name='href'"
    * @generated
    */

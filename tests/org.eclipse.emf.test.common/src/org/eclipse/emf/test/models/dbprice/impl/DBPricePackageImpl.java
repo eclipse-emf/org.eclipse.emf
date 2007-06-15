@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBPricePackageImpl.java,v 1.2 2007/01/18 22:06:47 marcelop Exp $
+ * $Id: DBPricePackageImpl.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.dbprice.impl;
 
@@ -245,10 +245,10 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(pencilTypeEClass, PencilType.class, "PencilType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getPencilType_Price(), theXMLTypePackage.getInt(), "price", null, 1, 1, PencilType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getPencilType_Price(), theXMLTypePackage.getInt(), "price", null, 1, 1, PencilType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(penTypeEClass, PenType.class, "PenType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getPenType_Price(), theXMLTypePackage.getInt(), "price", null, 1, 1, PenType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getPenType_Price(), theXMLTypePackage.getInt(), "price", null, 1, 1, PenType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);

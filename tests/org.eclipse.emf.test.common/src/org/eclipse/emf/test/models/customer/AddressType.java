@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddressType.java,v 1.2 2007/01/18 22:06:43 marcelop Exp $
+ * $Id: AddressType.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer;
 
@@ -49,7 +49,7 @@ public interface AddressType extends EObject
    * @return the value of the '<em>Street</em>' attribute.
    * @see #setStreet(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getAddressType_Street()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='street'"
    * @generated
    */
@@ -76,7 +76,7 @@ public interface AddressType extends EObject
    * @return the value of the '<em>Town</em>' attribute.
    * @see #setTown(String)
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getAddressType_Town()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='town'"
    * @generated
    */

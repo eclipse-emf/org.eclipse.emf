@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Root.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
+ * $Id: Root.java,v 1.4 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.key;
 
@@ -49,7 +49,7 @@ public interface Root extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Items</em>' containment reference list.
    * @see org.eclipse.emf.test.models.key.KeyPackage#getRoot_Items()
-   * @model containment="true"
+   * @model containment="true" keys="name signature"
    * @generated
    */
   EList<Item> getItems();

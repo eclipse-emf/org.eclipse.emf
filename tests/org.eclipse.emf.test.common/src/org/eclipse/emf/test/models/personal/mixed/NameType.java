@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NameType.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: NameType.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed;
 
@@ -62,7 +62,7 @@ public interface NameType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Family</em>' attribute.
    * @see #setFamily(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true" transient="true" volatile="true" derived="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='family' namespace='##targetNamespace'"
    * @generated
    */
@@ -88,7 +88,7 @@ public interface NameType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Given</em>' attribute.
    * @see #setGiven(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true" transient="true" volatile="true" derived="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='given' namespace='##targetNamespace'"
    * @generated
    */

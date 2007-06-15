@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MovieDBType.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
+ * $Id: MovieDBType.java,v 1.4 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -87,7 +87,7 @@ public interface MovieDBType extends EObject
    * @return the value of the '<em>Comment</em>' attribute.
    * @see #setComment(String)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieDBType_Comment()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
    *        extendedMetaData="kind='element' name='comment' group='#:group'"
    * @generated
    */

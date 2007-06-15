@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LinkType.java,v 1.3 2007/06/02 19:35:32 emerks Exp $
+ * $Id: LinkType.java,v 1.4 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal;
 
@@ -46,7 +46,7 @@ public interface LinkType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Manager</em>' attribute.
    * @see #setManager(String)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.IDREF"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.IDREF"
    *        extendedMetaData="kind='attribute' name='manager'"
    * @generated
    */
@@ -72,7 +72,7 @@ public interface LinkType
    * <!-- end-user-doc -->
    * @return the value of the '<em>Subordinates</em>' attribute.
    * @see #setSubordinates(List)
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.IDREFS" many="false"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.IDREFS" many="false"
    *        extendedMetaData="kind='attribute' name='subordinates'"
    * @generated
    */

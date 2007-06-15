@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: UKAddress.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: UKAddress.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo;
 
@@ -46,7 +46,7 @@ public interface UKAddress extends Address
    * <!-- end-user-doc -->
    * @return the value of the '<em>Postcode</em>' attribute.
    * @see #setPostcode(String)
-   * @model unique="false" dataType="org.eclipse.emf.test.models.ipo.UKPostcode" required="true"
+   * @model dataType="org.eclipse.emf.test.models.ipo.UKPostcode" required="true"
    *        extendedMetaData="kind='element' name='postcode'"
    * @generated
    */
@@ -75,7 +75,7 @@ public interface UKAddress extends Address
    * @see #isSetExportCode()
    * @see #unsetExportCode()
    * @see #setExportCode(BigInteger)
-   * @model default="1" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.PositiveInteger"
+   * @model default="1" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.PositiveInteger"
    *        extendedMetaData="kind='attribute' name='exportCode'"
    * @generated
    */

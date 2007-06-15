@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CriticsReviewType.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: CriticsReviewType.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -50,7 +50,7 @@ public interface CriticsReviewType extends EObject
    * @see #unsetRating()
    * @see #setRating(int)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getCriticsReviewType_Rating()
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.test.models.movie.db.RatingType" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.test.models.movie.db.RatingType" required="true"
    *        extendedMetaData="kind='element' name='rating'"
    * @generated
    */
@@ -102,7 +102,7 @@ public interface CriticsReviewType extends EObject
    * @return the value of the '<em>Reviewed By</em>' attribute.
    * @see #setReviewedBy(String)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getCriticsReviewType_ReviewedBy()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='attribute' name='ReviewedBy'"
    * @generated
    */
