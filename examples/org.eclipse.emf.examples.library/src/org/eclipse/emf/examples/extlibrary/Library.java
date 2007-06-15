@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Library.java,v 1.4 2007/06/12 15:07:54 emerks Exp $
+ * $Id: Library.java,v 1.5 2007/06/15 21:22:20 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -188,7 +188,7 @@ public interface Library extends Addressable
    * @see #setParentBranch(Library)
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_ParentBranch()
    * @see org.eclipse.emf.examples.extlibrary.Library#getBranches
-   * @model opposite="branches"
+   * @model opposite="branches" transient="false"
    * @generated
    */
   Library getParentBranch();
