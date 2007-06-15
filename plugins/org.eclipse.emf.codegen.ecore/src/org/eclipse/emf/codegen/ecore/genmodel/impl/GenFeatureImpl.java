@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.50 2007/06/12 20:56:34 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.51 2007/06/15 21:17:21 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -39,9 +39,11 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -1560,6 +1562,28 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     StringBuffer result = new StringBuffer();
     boolean defaultTransient = false;
 
+    if (eStructuralFeature instanceof EReference)
+    {
+      EGenericType eGenericType = eStructuralFeature.getEGenericType();
+      ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+      if (eTypeParameter != null)
+      {
+        boolean needsKindAnnotation = true;
+        for (EGenericType eBound : eTypeParameter.getEBounds())
+        {
+          if (eBound.getERawType() instanceof EClass)
+          {
+            needsKindAnnotation = false;
+            break;
+          }
+        }
+        if (needsKindAnnotation)
+        {
+          appendModelSetting(result, qualified, "kind", "reference");
+        }
+      }
+    }
+
     // We don't want keyType and valueType on a map type specification in a package interface.
     // But, we also use qualified model information when defining a feature with suppressed get accessor
     // on the interface, and we do want to include these properties in that case.
@@ -1607,7 +1631,18 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         {
           appendModelSetting(result, qualified, "unsettable", "true");
         }
-      } 
+
+        if (!reference.getEKeys().isEmpty())
+        {
+          StringBuilder keys = new StringBuilder();
+          for (EAttribute eKey : reference.getEKeys())
+          {
+            keys.append(eKey.getName());
+            keys.append(' ');
+          }
+          appendModelSetting(result, qualified, "keys", keys.toString().trim());
+        }
+      }
       else if (eStructuralFeature instanceof EAttribute)
       {
         EAttribute attribute = (EAttribute) eStructuralFeature;
@@ -1648,6 +1683,10 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     if (eStructuralFeature.isTransient() && !defaultTransient)
     {
       appendModelSetting(result, qualified, "transient", "true");
+    }
+    else if (!eStructuralFeature.isTransient() && defaultTransient)
+    {
+      appendModelSetting(result, qualified, "transient", "false");
     }
 
     if (!eStructuralFeature.isChangeable())
