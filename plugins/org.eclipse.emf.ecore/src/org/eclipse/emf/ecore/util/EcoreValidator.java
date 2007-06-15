@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.19 2007/06/14 14:18:08 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.20 2007/06/15 20:40:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1779,8 +1779,9 @@ public class EcoreValidator extends EObjectValidator
   {
     String nsPrefix = ePackage.getNsPrefix();
     boolean
-      result = nsPrefix == null ||
-        XMLTypeValidator.INSTANCE.validateNCName(nsPrefix, null, context) &&
+      result = "".equals(nsPrefix) ||
+        nsPrefix != null &&
+          XMLTypeValidator.INSTANCE.validateNCName(nsPrefix, null, context) &&
           (!nsPrefix.toLowerCase().startsWith("xml") || XMLNamespacePackage.eNS_URI.equals(ePackage.getNsURI()));
     if (!result && diagnostics != null)
     {
