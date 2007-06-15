@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.36 2007/05/15 11:46:37 emerks Exp $
+ * $Id: ModelImporter.java,v 1.37 2007/06/15 21:20:38 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -388,7 +388,10 @@ public abstract class ModelImporter extends ModelConverter
     {
       for (GenPackage referencedGenPackage : getOriginalGenModel().getGenPackages())
       {
-        if (referencedGenPackage.getEcorePackage() != null && referencedGenPackage.getEcorePackage().getNsURI().equals(ePackage.getNsURI()))
+        if (referencedGenPackage.getEcorePackage() != null && 
+             (referencedGenPackage.getEcorePackage().getNsURI() == null ? 
+                ePackage.getNsURI() == null :
+                referencedGenPackage.getEcorePackage().getNsURI().equals(ePackage.getNsURI())))
         {
           return referencedGenPackage;
         }
@@ -582,6 +585,10 @@ public abstract class ModelImporter extends ModelConverter
     EPackageImportInfo ePackageInfo = getEPackageImportInfo(ePackage);
 
     String name = ePackage.getName();
+    if (name == null)
+    {
+      name = "null";
+    }
     int index = name.lastIndexOf(".");
     if (index != -1)
     {

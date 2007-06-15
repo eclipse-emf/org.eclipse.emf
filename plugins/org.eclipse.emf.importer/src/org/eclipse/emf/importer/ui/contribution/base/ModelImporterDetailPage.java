@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterDetailPage.java,v 1.6 2007/04/18 20:56:37 marcelop Exp $
+ * $Id: ModelImporterDetailPage.java,v 1.7 2007/06/15 21:20:38 emerks Exp $
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
@@ -404,10 +404,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     try
     {
       diagnostic = getModelImporter().computeEPackages(monitor);
-      if (diagnostic.getSeverity() == Diagnostic.OK)
-      {
-        getModelImporter().adjustEPackages(monitor);
-      }
+      getModelImporter().adjustEPackages(monitor);
     }
     catch (WrappedException wrappedException)
     {
