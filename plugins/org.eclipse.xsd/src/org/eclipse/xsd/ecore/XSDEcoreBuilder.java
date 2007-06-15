@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.80 2007/06/06 19:15:49 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.81 2007/06/15 21:19:07 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -89,6 +89,7 @@ public class XSDEcoreBuilder extends MapBuilder
   protected Map<String, EPackage> targetNamespaceToEPackageMap = new LinkedHashMap<String, EPackage>();
   protected ExtendedMetaData extendedMetaData;
   protected Map<EReference, String> eReferenceToOppositeNameMap = new LinkedHashMap<EReference, String>();
+  protected Map<EReference, List<String>> eReferenceToKeyNamesMap = new LinkedHashMap<EReference, List<String>>();
   protected Map<EClassifier, EClassifier> typeToTypeObjectMap = new HashMap<EClassifier, EClassifier>();
   protected EcoreValidator.EGenericTypeBuilder eGenericTypeBuilder = 
     new EcoreValidator.EGenericTypeBuilder()
@@ -1545,7 +1546,10 @@ public class XSDEcoreBuilder extends MapBuilder
         EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
         setAnnotations(eAttribute, xsdComponent);
         eAttribute.setName(Character.toLowerCase(name.charAt(0)) + name.substring(1));
-        eAttribute.setUnique(false);
+        if (maxOccurs != 1)
+        {
+          eAttribute.setUnique(false);
+        }
         eAttribute.setEType(type);
         eAttribute.setLowerBound(minOccurs);
         eAttribute.setUpperBound(maxOccurs);
@@ -1627,6 +1631,17 @@ public class XSDEcoreBuilder extends MapBuilder
             {
               eReferenceToOppositeNameMap.put(eReference, opposite);
             }
+
+            String key = getEcoreAttribute(xsdParticle, "keys");
+            if (key != null)
+            {
+              List<String> keyNames = new ArrayList<String>();
+              for (StringTokenizer stringTokenizer = new StringTokenizer(key); stringTokenizer.hasMoreTokens(); )
+              {
+                keyNames.add(stringTokenizer.nextToken());
+              }
+              eReferenceToKeyNamesMap.put(eReference, keyNames);
+            }
           }
           else if (xsdTerm instanceof XSDWildcard)
           {
@@ -1682,6 +1697,17 @@ public class XSDEcoreBuilder extends MapBuilder
             eReferenceToOppositeNameMap.put(eReference, opposite);
           }
 
+          String key = getEcoreAttribute(xsdComponent, "keys");
+          if (key != null)
+          {
+            List<String> keyNames = new ArrayList<String>();
+            for (StringTokenizer stringTokenizer = new StringTokenizer(key); stringTokenizer.hasMoreTokens(); )
+            {
+              keyNames.add(stringTokenizer.nextToken());
+            }
+              eReferenceToKeyNamesMap.put(eReference, keyNames);
+          }
+
           XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)xsdComponent;
           XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
           extendedMetaData.setFeatureKind(eReference, ExtendedMetaData.ATTRIBUTE_FEATURE);
@@ -1708,7 +1734,10 @@ public class XSDEcoreBuilder extends MapBuilder
       EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
       setAnnotations(eAttribute, xsdComponent);
       eAttribute.setName(Character.toLowerCase(name.charAt(0)) + name.substring(1));
-      eAttribute.setUnique(false);
+      if (maxOccurs != 1)
+      {
+        eAttribute.setUnique(false);
+      }
       eAttribute.setEType(type);
       eAttribute.setLowerBound(minOccurs);
       eAttribute.setUpperBound(maxOccurs);
@@ -1868,6 +1897,10 @@ public class XSDEcoreBuilder extends MapBuilder
     if (referenceType != null && referenceType.getERawType() != null)
     {
       EClassifier referenceClassifier = referenceType.getERawType();
+      if (referenceType.getETypeParameter() != null && referenceClassifier instanceof EDataType)
+      {
+        referenceClassifier = EcorePackage.Literals.EOBJECT;
+      }
       boolean needsHolder = false;
       if (elementTypeDefinition instanceof XSDSimpleTypeDefinition)
       {
@@ -2001,6 +2034,10 @@ public class XSDEcoreBuilder extends MapBuilder
       }
 
       EClassifier referenceClassifier = referenceType.getERawType();
+      if (referenceType.getETypeParameter() != null && referenceClassifier instanceof EDataType)
+      {
+        referenceClassifier = EcorePackage.Literals.EOBJECT;
+      }
       EStructuralFeature result =
         createFeature
           (eClass,
@@ -2820,6 +2857,34 @@ public class XSDEcoreBuilder extends MapBuilder
     }
 
     eReferenceToOppositeNameMap.clear();
+
+    for (Map.Entry<EReference, List<String>> entry : eReferenceToKeyNamesMap.entrySet())
+    {
+      EReference eReference = entry.getKey();
+      EClass eReferenceType = eReference.getEReferenceType();
+      for (String key : entry.getValue())
+      {
+        EStructuralFeature eKey =  eReferenceType.getEStructuralFeature(key);
+        // Match by XML name if this fails.
+        if (eKey == null)
+        {
+          for(EStructuralFeature feature : eReferenceType.getEAllStructuralFeatures())
+          {
+            if (key.equals(extendedMetaData.getName(feature)))
+            {
+              eKey = feature;
+              break;
+            }
+          }
+        }
+        if (eKey instanceof EAttribute)
+        {
+          eReference.getEKeys().add((EAttribute)eKey);
+        }
+      }
+    }
+
+    eReferenceToKeyNamesMap.clear();
   }
 
   protected String getEcoreAttribute(XSDConcreteComponent xsdConcreteComponent1, XSDConcreteComponent xsdConcreteComponent2, String attribute)
