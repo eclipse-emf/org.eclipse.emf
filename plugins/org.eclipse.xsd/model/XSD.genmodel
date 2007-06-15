@@ -5,7 +5,6 @@
     editDirectory="" editorDirectory="" modelPluginID="org.eclipse.xsd" runtimeJar="true"
     modelName="XSD" updateClasspath="false" featureMapWrapperClass="" testsDirectory=""
     booleanFlagsField="eFlags" booleanFlagsReservedBits="8" importerID="org.eclipse.emf.importer.rose"
-    facadeHelperClass="org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper"
     complianceLevel="5.0">
   <foreignModel>XSD.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
