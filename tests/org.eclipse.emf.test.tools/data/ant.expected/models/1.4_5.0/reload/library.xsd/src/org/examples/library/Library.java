@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: Library.java,v 1.3 2007/06/11 21:12:18 emerks Exp $
+ * $Id: Library.java,v 1.4 2007/06/15 21:22:34 emerks Exp $
  */
 package org.examples.library;
 
@@ -41,7 +41,7 @@ public interface Library extends EObject
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
    * @see org.examples.library.LibraryPackage#getLibrary_Name()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='name'"
    * @generated
    */
@@ -68,7 +68,7 @@ public interface Library extends EObject
    * @return the value of the '<em>Site</em>' attribute.
    * @see #setSite(String)
    * @see org.examples.library.LibraryPackage#getLibrary_Site()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='site'"
    * @generated
    */

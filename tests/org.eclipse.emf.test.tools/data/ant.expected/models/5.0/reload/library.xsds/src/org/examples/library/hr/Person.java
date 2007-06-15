@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: Person.java,v 1.2 2007/04/26 20:57:11 emerks Exp $
+ * $Id: Person.java,v 1.3 2007/06/15 21:22:34 emerks Exp $
  */
 package org.examples.library.hr;
 
@@ -39,7 +39,7 @@ public interface Person extends EObject
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
    * @see org.examples.library.hr.HrPackage#getPerson_Name()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='name'"
    * @generated
    */

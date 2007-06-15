@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: Book.java,v 1.3 2007/06/04 18:49:09 emerks Exp $
+ * $Id: Book.java,v 1.4 2007/06/15 21:22:34 emerks Exp $
  */
 package org.examples.library.elements;
 
@@ -40,7 +40,7 @@ public interface Book extends EObject
    * @return the value of the '<em>Title</em>' attribute.
    * @see #setTitle(String)
    * @see org.examples.library.elements.ElementsPackage#getBook_Title()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='title'"
    * @generated
    */
@@ -69,7 +69,7 @@ public interface Book extends EObject
    * @see #unsetPages()
    * @see #setPages(int)
    * @see org.examples.library.elements.ElementsPackage#getBook_Pages()
-   * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+   * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
    *        extendedMetaData="kind='element' name='pages'"
    * @generated
    */
@@ -126,7 +126,7 @@ public interface Book extends EObject
    * @see #unsetCategory()
    * @see #setCategory(BookCategory)
    * @see org.examples.library.elements.ElementsPackage#getBook_Category()
-   * @model default="Mystery" unique="false" unsettable="true" required="true"
+   * @model default="Mystery" unsettable="true" required="true"
    *        extendedMetaData="kind='element' name='category'"
    * @generated
    */
@@ -206,7 +206,7 @@ public interface Book extends EObject
    * @return the value of the '<em>Uuid</em>' attribute.
    * @see #setUuid(byte[])
    * @see org.examples.library.elements.ElementsPackage#getBook_Uuid()
-   * @model unique="false" dataType="org.examples.library.elements.UUID"
+   * @model dataType="org.examples.library.elements.UUID"
    *        extendedMetaData="kind='attribute' name='uuid'"
    * @generated
    */

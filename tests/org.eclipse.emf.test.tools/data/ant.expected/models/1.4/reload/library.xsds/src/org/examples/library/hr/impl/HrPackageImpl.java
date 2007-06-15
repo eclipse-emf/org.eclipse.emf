@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: HrPackageImpl.java,v 1.2 2007/04/26 20:57:17 emerks Exp $
+ * $Id: HrPackageImpl.java,v 1.3 2007/06/15 21:22:34 emerks Exp $
  */
 package org.examples.library.hr.impl;
 
@@ -219,7 +219,7 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(personEClass, Person.class, "Person", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-    initEAttribute(getPerson_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEAttribute(getPerson_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
     initEReference(getPerson_Library(), theLibraryPackage.getLibrary(), theLibraryPackage.getLibrary_Employees(), "library", null, 1, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
     // Create resource
