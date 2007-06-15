@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaUtil.java,v 1.5 2007/01/10 02:39:45 marcelop Exp $
+ * $Id: JavaUtil.java,v 1.6 2007/06/15 21:58:01 emerks Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -209,7 +209,7 @@ public class JavaUtil
   /**
    * Separates the type argument from the type.  The first position of the
    * returned array is always the raw type and the second is either the type argument
-   * without the outmost '&lt;' and '&gt;' or <code>null</null>.
+   * without the outermost '&lt;' and '&gt;' or <code>null</null>.
    * @param typeName
    * @return a String array with length == 2
    */
@@ -234,7 +234,6 @@ public class JavaUtil
     /**
      * Executes a stand-alone test.
      * @param arguments an array of Strings from the command line.
-     * @see #run
      */
     public static void main(String arguments[])
     {
