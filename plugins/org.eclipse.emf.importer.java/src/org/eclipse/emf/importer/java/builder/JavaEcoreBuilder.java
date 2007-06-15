@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.39 2007/06/11 21:11:53 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.40 2007/06/15 21:20:58 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -182,12 +182,25 @@ public class JavaEcoreBuilder
   protected Set<EClassifier> demandCreatedEClassifiers = new LinkedHashSet<EClassifier>();
 
   /**
-   * The map from a reference to the name it's opposite.
+   * The map from a reference to the name of its opposite.
    * These are populated during traversal as each reference with an opposite is created.
    * They must be patched after traversal and patching of typed elements is completed.
    * The opposite found as a feature of the type.
    */
   protected Map<EReference, String> eReferenceToOppositeNameMap = new LinkedHashMap<EReference, String>();
+
+  /**
+   * The set of references that have opposites and have been explicitly marked as being transient.
+   */
+  protected Set<EReference> transientEReferenceWithOpposite = new HashSet<EReference>();
+
+  /**
+   * The map from a reference to the names of its keys.
+   * These are populated during traversal as each reference with keys is created.
+   * They must be patched after traversal and patching of typed elements is completed.
+   * The key is found as an attribute of the type.
+   */
+  protected Map<EReference, List<String>> eReferenceToKeyNamesMap = new LinkedHashMap<EReference, List<String>>();
 
   /**
    * All the external GenModels from all required projects.
@@ -410,6 +423,7 @@ public class JavaEcoreBuilder
       EReference eReference = entry.getKey();
       String oppositeName = entry.getValue();
       EClass eClass = (EClass)eReference.getEType();
+      // TODO handle class cast exception better.
       EReference eOpposite = (EReference)eClass.getEStructuralFeature(oppositeName);
       if (eOpposite == null)
       {
@@ -429,11 +443,36 @@ public class JavaEcoreBuilder
 
         used(eOpposite);
 
-        // Containers must be transient.
+        // Containers are transient by default unless explicitly annotated otherwise.
         //
-        if (eOpposite.isContainment())
+        if (eOpposite.isContainment() && !transientEReferenceWithOpposite.contains(eReference))
         {
           eReference.setTransient(true);
+        }
+      }
+    }
+
+    // Now we need to hook up keys by finding the named feature in the type.
+    //
+    for (Map.Entry<EReference, List<String>> entry : eReferenceToKeyNamesMap.entrySet())
+    {
+      EReference eReference = entry.getKey();
+      EClass eClass = (EClass)eReference.getEType();
+      for (String keyName : entry.getValue())
+      {
+        EStructuralFeature eKey = eClass.getEStructuralFeature(keyName);
+        if (eKey == null)
+        {
+          error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheAttributeIsNotAMemberOf_message", new Object []{ keyName, eClass.getName() }));
+        }
+        else if (!(eKey instanceof EAttribute))
+        {
+          // TODO Ignore for now.
+        }
+        else
+        {
+          eReference.getEKeys().add((EAttribute)eKey);
+          used(eKey);
         }
       }
     }
@@ -1482,6 +1521,7 @@ public class JavaEcoreBuilder
       // If any of these attributes appear, this must be a reference.
       //
       String opposite = getModelAnnotationAttribute(modelAnnotation, "opposite");
+      String keys = getModelAnnotationAttribute(modelAnnotation, "keys");
       String containment = getModelAnnotationAttribute(modelAnnotation, "containment");
       String resolveProxies = getModelAnnotationAttribute(modelAnnotation, "resolveProxies");
       String mapType = getModelAnnotationAttribute(modelAnnotation, "mapType");
@@ -1490,6 +1530,7 @@ public class JavaEcoreBuilder
 
       if ("reference".equals(kind) ||
             opposite != null ||
+            keys != null ||
             containment != null ||
             resolveProxies != null ||
             mapType != null ||
@@ -1513,6 +1554,20 @@ public class JavaEcoreBuilder
         if (opposite != null)
         {
           eReferenceToOppositeNameMap.put(eReference, opposite);
+          if ("false".equals(getModelAnnotationAttribute(modelAnnotation, "transient")))
+          {
+            transientEReferenceWithOpposite.add(eReference);
+          }
+        }
+        
+        if (keys != null)
+        {
+          List<String> keyNames = new ArrayList<String>();
+          for (StringTokenizer stringTokenizer = new StringTokenizer(keys, " ,\t\n\r\f"); stringTokenizer.hasMoreTokens();)
+          {
+            keyNames.add(stringTokenizer.nextToken());
+          }
+          eReferenceToKeyNamesMap.put(eReference, keyNames);
         }
       }
       else
