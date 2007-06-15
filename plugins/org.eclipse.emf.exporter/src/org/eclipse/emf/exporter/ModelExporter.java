@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.15 2007/06/14 18:32:49 emerks Exp $
+ * $Id: ModelExporter.java,v 1.16 2007/06/15 21:57:55 emerks Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -190,7 +190,7 @@ public abstract class ModelExporter extends ModelConverter
   
   /**
    * Returns the {@link GenBase} object's {@link GenAnnotation} Details map
-   * associated with this Model Exporter or {@link ECollections.EMPTY_EMAP}
+   * associated with this Model Exporter or {@link ECollections#EMPTY_EMAP}
    */
   protected EMap<String, String> getExporterGenAnnotationDetails(GenBase genBase)
   {
