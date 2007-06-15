@@ -138,7 +138,7 @@
     <eSubpackages name="blankNsURI" nsURI="" nsPrefix="bad.package.blank.ns.uri"/>
     <eSubpackages name="nsURIWithSpace" nsURI="NSUI With Space" nsPrefix="bad.package.ns.uri.with.space"/>
     <eSubpackages name="nsURIWithUnencodedPercent" nsURI="NsURIWithUnencoded%" nsPrefix="bad.package.ns.uri.with.unecoded.percent"/>
-    <eSubpackages name="blankPrefix" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/blankPrefix"
+    <eSubpackages name="nullPrefix" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/nullPrefix"
         nsPrefix=""/>
     <eSubpackages name="xmlPrefix" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/xmlPrefix"
         nsPrefix="xml.prefix"/>

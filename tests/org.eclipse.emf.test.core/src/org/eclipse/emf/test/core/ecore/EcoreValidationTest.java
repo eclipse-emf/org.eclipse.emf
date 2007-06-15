@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidationTest.java,v 1.5 2007/01/17 15:28:52 marcelop Exp $
+ * $Id: EcoreValidationTest.java,v 1.6 2007/06/15 20:42:09 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -525,6 +525,7 @@ public class EcoreValidationTest extends TestCase
     {
       EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
       ePackage.setName("_");
+      ePackage.setNsPrefix("");
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(ePackage);
       assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
@@ -540,6 +541,7 @@ public class EcoreValidationTest extends TestCase
       EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
       ePackage.setName("_");
       ePackage.setNsURI("");
+      ePackage.setNsPrefix("");
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(ePackage);
       assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
@@ -555,6 +557,7 @@ public class EcoreValidationTest extends TestCase
       EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
       ePackage.setName("_");
       ePackage.setNsURI("a b");
+      ePackage.setNsPrefix("");
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(ePackage);
       assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
@@ -597,12 +600,11 @@ public class EcoreValidationTest extends TestCase
          diagnostic.getChildren().get(0));
     }
 
-    // A blank prefix that isn't an NCName and is not a well formed nsPrefix for a package.
+    // A null prefix that an NCName and is not a well formed nsPrefix for a package.
     {
       EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
       ePackage.setName("_");
       ePackage.setNsURI("_");
-      ePackage.setNsPrefix("");
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(ePackage);
       assertEquals(1, diagnostic.getChildren().size());
       assertDiagnostic
@@ -618,16 +620,19 @@ public class EcoreValidationTest extends TestCase
       EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
       ePackage.setName("_");
       ePackage.setNsURI("_");
+      ePackage.setNsPrefix("");
       {
         EPackage eSubpackage = EcoreFactory.eINSTANCE.createEPackage();
         eSubpackage.setName("a");
         eSubpackage.setNsURI("a");
+        eSubpackage.setNsPrefix("");
         ePackage.getESubpackages().add(eSubpackage);
       }
       {
         EPackage eSubpackage = EcoreFactory.eINSTANCE.createEPackage();
         eSubpackage.setName("a");
         eSubpackage.setNsURI("b");
+        eSubpackage.setNsPrefix("");
         ePackage.getESubpackages().add(eSubpackage);
       }
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(ePackage);
@@ -645,6 +650,7 @@ public class EcoreValidationTest extends TestCase
       EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
       ePackage.setName("_");
       ePackage.setNsURI("_");
+      ePackage.setNsPrefix("");
       {
         EClass eClass = EcoreFactory.eINSTANCE.createEClass();
         eClass.setName("a");
@@ -681,10 +687,12 @@ public class EcoreValidationTest extends TestCase
       EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
       ePackage.setName("_");
       ePackage.setNsURI("_");
+      ePackage.setNsPrefix("");
       {
         EPackage eSubpackage = EcoreFactory.eINSTANCE.createEPackage();
         eSubpackage.setName("a");
         eSubpackage.setNsURI("_");
+        eSubpackage.setNsPrefix("");
         ePackage.getESubpackages().add(eSubpackage);
       }
       Diagnostic diagnostic = Diagnostician.INSTANCE.validate(ePackage);
@@ -729,6 +737,7 @@ public class EcoreValidationTest extends TestCase
       EReference b;
       ePackage.setName("_");
       ePackage.setNsURI("_");
+      ePackage.setNsPrefix("");
       {
         EClass eClass = EcoreFactory.eINSTANCE.createEClass();
         eClass.setName("A");
@@ -1904,6 +1913,7 @@ public class EcoreValidationTest extends TestCase
       EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
       ePackage.setName("_");
       ePackage.setNsURI("_");
+      ePackage.setNsPrefix("");
 
       // interface X {}
       //
@@ -2113,6 +2123,7 @@ public class EcoreValidationTest extends TestCase
       EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
       ePackage.setName("_");
       ePackage.setNsURI("_");
+      ePackage.setNsPrefix("");
 
       // interface X {}
       //
