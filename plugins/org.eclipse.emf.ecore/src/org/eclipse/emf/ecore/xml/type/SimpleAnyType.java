@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleAnyType.java,v 1.4 2006/12/05 20:22:27 emerks Exp $
+ * $Id: SimpleAnyType.java,v 1.5 2007/06/15 21:22:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -47,7 +47,7 @@ public interface SimpleAnyType extends AnyType
    * @return the value of the '<em>Raw Value</em>' attribute.
    * @see #setRawValue(String)
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getSimpleAnyType_RawValue()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" transient="true" volatile="true" derived="true"
    *        extendedMetaData="name=':3' kind='simple'"
    * @generated
    */
@@ -70,7 +70,7 @@ public interface SimpleAnyType extends AnyType
    * @return the value of the '<em>Value</em>' attribute.
    * @see #setValue(Object)
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getSimpleAnyType_Value()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" transient="true" volatile="true" derived="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" transient="true" volatile="true" derived="true"
    *        extendedMetaData="name=':4' kind='simple'"
    * @generated
    */

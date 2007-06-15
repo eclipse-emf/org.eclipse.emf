@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackage.java,v 1.9 2007/06/12 15:07:48 emerks Exp $
+ * $Id: XMLNamespacePackage.java,v 1.10 2007/06/15 21:22:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespaceFactory
  * @model kind="package"
+ *        annotation="http://www.w3.org/XML/1998/namespace lang='en'"
  * @generated
  */
 public interface XMLNamespacePackage extends EPackage{
@@ -300,7 +301,7 @@ public interface XMLNamespacePackage extends EPackage{
    * @return the meta object for data type '<em>Lang Type</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
-   *        extendedMetaData="name='lang_._1_._type' memberTypes='http://www.eclipse.org/emf/2003/XMLType#language lang_._1_._type_._member_._1'"
+   *        extendedMetaData="name='lang_._type' memberTypes='http://www.eclipse.org/emf/2003/XMLType#language lang_._type_._member_._1'"
    * @generated
    */
   EDataType getLangType();
@@ -312,7 +313,7 @@ public interface XMLNamespacePackage extends EPackage{
    * @return the meta object for data type '<em>Lang Type Null</em>'.
    * @see java.lang.String
    * @model instanceClass="java.lang.String"
-   *        extendedMetaData="name='lang_._1_._type_._member_._1' baseType='http://www.eclipse.org/emf/2003/XMLType#string' enumeration=''"
+   *        extendedMetaData="name='lang_._type_._member_._1' baseType='http://www.eclipse.org/emf/2003/XMLType#string' enumeration=''"
    * @generated
    */
   EDataType getLangTypeNull();

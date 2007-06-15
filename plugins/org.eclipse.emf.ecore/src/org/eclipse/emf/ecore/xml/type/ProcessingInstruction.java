@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProcessingInstruction.java,v 1.1 2006/12/09 18:07:08 emerks Exp $
+ * $Id: ProcessingInstruction.java,v 1.2 2007/06/15 21:22:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -47,7 +47,7 @@ public interface ProcessingInstruction extends EObject
    * @return the value of the '<em>Data</em>' attribute.
    * @see #setData(String)
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getProcessingInstruction_Data()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String"
    *        extendedMetaData="kind='attribute' name='data'"
    * @generated
    */
@@ -73,7 +73,7 @@ public interface ProcessingInstruction extends EObject
    * @return the value of the '<em>Target</em>' attribute.
    * @see #setTarget(String)
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getProcessingInstruction_Target()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='attribute' name='target'"
    * @generated
    */

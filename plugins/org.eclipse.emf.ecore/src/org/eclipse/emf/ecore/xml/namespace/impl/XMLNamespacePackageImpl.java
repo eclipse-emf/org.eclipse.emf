@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackageImpl.java,v 1.13 2006/12/29 18:09:56 marcelop Exp $
+ * $Id: XMLNamespacePackageImpl.java,v 1.14 2007/06/15 21:22:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -366,10 +366,10 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     initEAttribute(getXMLNamespaceDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXMLNamespaceDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXMLNamespaceDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXMLNamespaceDocumentRoot_Base(), theXMLTypePackage.getAnyURI(), "base", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXMLNamespaceDocumentRoot_Id(), theXMLTypePackage.getID(), "id", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXMLNamespaceDocumentRoot_Lang(), this.getLangType(), "lang", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getXMLNamespaceDocumentRoot_Space(), this.getSpaceType(), "space", "preserve", 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXMLNamespaceDocumentRoot_Base(), theXMLTypePackage.getAnyURI(), "base", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXMLNamespaceDocumentRoot_Id(), theXMLTypePackage.getID(), "id", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXMLNamespaceDocumentRoot_Lang(), this.getLangType(), "lang", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXMLNamespaceDocumentRoot_Space(), this.getSpaceType(), "space", "preserve", 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(spaceTypeEEnum, SpaceType.class, "SpaceType");
@@ -385,8 +385,28 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     createResource(eNS_URI);
 
     // Create annotations
+    // http://www.w3.org/XML/1998/namespace
+    createNamespaceAnnotations();
     // http:///org/eclipse/emf/ecore/util/ExtendedMetaData
     createExtendedMetaDataAnnotations();
+  }
+
+  /**
+   * Initializes the annotations for <b>http://www.w3.org/XML/1998/namespace</b>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void createNamespaceAnnotations()
+  {
+    String source = "http://www.w3.org/XML/1998/namespace";		
+    addAnnotation
+      (this, 
+       source, 
+       new String[] 
+       {
+       "lang", "en"
+       });												
   }
 
   /**
@@ -397,21 +417,21 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";			
     addAnnotation
       (langTypeEDataType, 
        source, 
        new String[] 
        {
-       "name", "lang_._1_._type",
-       "memberTypes", "http://www.eclipse.org/emf/2003/XMLType#language lang_._1_._type_._member_._1"
+       "name", "lang_._type",
+       "memberTypes", "http://www.eclipse.org/emf/2003/XMLType#language lang_._type_._member_._1"
        });		
     addAnnotation
       (langTypeNullEDataType, 
        source, 
        new String[] 
        {
-       "name", "lang_._1_._type_._member_._1",
+       "name", "lang_._type_._member_._1",
        "baseType", "http://www.eclipse.org/emf/2003/XMLType#string",
        "enumeration", ""
        });		

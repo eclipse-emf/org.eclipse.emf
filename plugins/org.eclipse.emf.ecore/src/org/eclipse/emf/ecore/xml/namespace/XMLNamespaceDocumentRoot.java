@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRoot.java,v 1.8 2007/06/12 15:07:48 emerks Exp $
+ * $Id: XMLNamespaceDocumentRoot.java,v 1.9 2007/06/15 21:22:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -94,7 +94,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @return the value of the '<em>Base</em>' attribute.
    * @see #setBase(String)
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Base()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnyURI"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.AnyURI"
    *        extendedMetaData="kind='attribute' name='base' namespace='##targetNamespace'"
    * @generated
    */
@@ -117,7 +117,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @return the value of the '<em>Id</em>' attribute.
    * @see #setId(String)
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Id()
-   * @model unique="false" id="true" dataType="org.eclipse.emf.ecore.xml.type.ID"
+   * @model id="true" dataType="org.eclipse.emf.ecore.xml.type.ID"
    *        extendedMetaData="kind='attribute' name='id' namespace='##targetNamespace'"
    * @generated
    */
@@ -140,7 +140,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @return the value of the '<em>Lang</em>' attribute.
    * @see #setLang(String)
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Lang()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.namespace.LangType"
+   * @model dataType="org.eclipse.emf.ecore.xml.namespace.LangType"
    *        extendedMetaData="kind='attribute' name='lang' namespace='##targetNamespace'"
    * @generated
    */
@@ -168,7 +168,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @see #unsetSpace()
    * @see #setSpace(SpaceType)
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Space()
-   * @model default="preserve" unique="false" unsettable="true"
+   * @model default="preserve" unsettable="true"
    *        extendedMetaData="kind='attribute' name='space' namespace='##targetNamespace'"
    * @generated
    */
