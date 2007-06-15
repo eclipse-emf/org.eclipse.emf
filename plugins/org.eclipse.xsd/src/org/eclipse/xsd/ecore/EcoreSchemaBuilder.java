@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.21 2007/06/04 18:48:13 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.22 2007/06/15 21:19:48 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1268,6 +1268,7 @@ public class EcoreSchemaBuilder extends MapBuilder
 
     EClassifier referenceType = null;
     EReference eOpposite = null;
+    List<EAttribute> eKeys = null;
     EClassifier eType = eStructuralFeature.getEType();
     if (isRef)
     {
@@ -1277,7 +1278,9 @@ public class EcoreSchemaBuilder extends MapBuilder
 
       if (eStructuralFeature instanceof EReference)
       {
-        eOpposite = ((EReference)eStructuralFeature).getEOpposite();
+        EReference eReference = (EReference)eStructuralFeature;
+        eOpposite = eReference.getEOpposite();
+        eKeys = eReference.getEKeys();
       }
     }
     else
@@ -1302,6 +1305,7 @@ public class EcoreSchemaBuilder extends MapBuilder
       {
         EReference eReference = (EReference)eStructuralFeature;
         eOpposite = eReference.getEOpposite();
+        eKeys = eReference.getEKeys();
         if (!eReference.isContainment() && !eReference.isContainer())
         {
           referenceType = eType;
@@ -1354,6 +1358,17 @@ public class EcoreSchemaBuilder extends MapBuilder
     if (eOpposite != null)
     {
       createEcoreAnnotation(xsdParticle, "opposite", eOpposite.getName());
+    }
+
+    if (eKeys != null && !eKeys.isEmpty())
+    {
+      StringBuilder keys = new StringBuilder();
+      for (EAttribute eKey : eKeys)
+      {
+        keys.append(eKey.getName());
+        keys.append(' ');
+      }
+      createEcoreAnnotation(xsdParticle, "keys", keys.toString().trim());
     }
 
     if (group == null)
