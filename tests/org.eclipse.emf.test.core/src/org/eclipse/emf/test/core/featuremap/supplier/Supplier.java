@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Supplier.java,v 1.3 2007/06/12 15:07:00 emerks Exp $
+ * $Id: Supplier.java,v 1.4 2007/06/15 21:22:36 emerks Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier;
 
@@ -44,7 +44,7 @@ public interface Supplier extends EObject
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
    * @see org.eclipse.emf.test.core.featuremap.supplier.SupplierPackage#getSupplier_Name()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+   * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
    *        extendedMetaData="kind='element' name='name'"
    * @generated
    */
