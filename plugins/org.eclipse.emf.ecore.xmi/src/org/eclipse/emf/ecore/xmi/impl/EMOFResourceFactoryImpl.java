@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFResourceFactoryImpl.java,v 1.4 2006/12/05 20:23:28 emerks Exp $
+ * $Id: EMOFResourceFactoryImpl.java,v 1.5 2007/06/18 17:26:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -79,6 +79,7 @@ public class EMOFResourceFactoryImpl extends ResourceFactoryImpl
     xmlMap.add(EcorePackage.eINSTANCE.getEOperation_EExceptions(), createXMLInfo("raisedException"));
 
     xmlMap.add(EcorePackage.eINSTANCE.getEClassifier_InstanceClassName(), createXMLInfo()); // no property
+    xmlMap.add(EcorePackage.eINSTANCE.getEClassifier_InstanceTypeName(), createXMLInfo()); // no property
 
     xmlMap.add(EcorePackage.eINSTANCE.getEDataType_Serializable(), createXMLInfo()); // no property
 
