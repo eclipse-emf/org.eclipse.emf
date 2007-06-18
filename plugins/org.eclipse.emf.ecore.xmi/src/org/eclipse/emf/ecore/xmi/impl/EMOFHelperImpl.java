@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.13 2007/06/04 15:23:54 emerks Exp $
+ * $Id: EMOFHelperImpl.java,v 1.14 2007/06/18 18:00:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -190,7 +190,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
   @Override
   public EObject createObject(EFactory eFactory, EClassifier type)
   {
-    if (type == propertyClass)
+    if (type == propertyClass && propertyClass != null)
     {
       EObject property = propertyClass.getEPackage().getEFactoryInstance().create(propertyClass);
       propertyFeatureList.add(property);
