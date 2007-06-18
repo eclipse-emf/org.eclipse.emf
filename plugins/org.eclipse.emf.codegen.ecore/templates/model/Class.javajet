@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.69 2007/05/10 19:40:27 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.70 2007/06/18 19:35:21 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -1357,6 +1357,8 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
   <%} else {%>
     <%if (genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {%>
 				<%=genFeature.getImportedType(genClass)%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType(genClass)%>)eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%>);
+    <%} else if (genFeature.isVolatile()) {%>
+				<%=genFeature.getImportedType(genClass)%> <%=genFeature.getSafeName()%> = <%if (genFeature.isResolveProxies()) {%>basicGet<%=genFeature.getAccessorName()%><%} else {%><%=genFeature.getGetAccessor()%><%}%>();
     <%}%>
 				if (<%=genFeature.getSafeName()%> != null)
     <%if (genFeature.isEffectiveContains()) {%>
