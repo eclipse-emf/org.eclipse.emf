@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MapToEcoreActionDelegate.java,v 1.6 2006/12/29 18:28:58 marcelop Exp $
+ * $Id: MapToEcoreActionDelegate.java,v 1.7 2007/06/19 17:31:46 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.action;
 
@@ -20,13 +20,33 @@ package org.eclipse.emf.mapping.ecore2ecore.action;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionDelegate;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.part.ISetSelectionTarget;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -41,21 +61,6 @@ import org.eclipse.emf.mapping.ecore2ecore.Ecore2EcoreFactory;
 import org.eclipse.emf.mapping.ecore2ecore.Ecore2EcoreMappingRoot;
 import org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorPlugin;
 import org.eclipse.emf.mapping.provider.MappingItemProviderAdapterFactory;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.ActionDelegate;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.ui.dialogs.ResourceSelectionDialog;
-import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.part.ISetSelectionTarget;
 
 
 /**
@@ -63,8 +68,7 @@ import org.eclipse.ui.part.ISetSelectionTarget;
  */
 public class MapToEcoreActionDelegate extends ActionDelegate
 {
-  private static final String ECORE_FILE_EXTENSION = "ecore";
-
+  private static final List<String> FILE_EXTENSIONS = Arrays.asList(new String [] { "ecore", "emof" });
   private static final String ECORE2ECORE_FILE_EXTENSION = "ecore2ecore";
 
   protected EPackage getInputEPackage(IStructuredSelection structuredSelection)
@@ -73,7 +77,7 @@ public class MapToEcoreActionDelegate extends ActionDelegate
     {
       IFile file = (IFile)structuredSelection.getFirstElement();
 
-      if (ECORE_FILE_EXTENSION.equals(file.getFullPath().getFileExtension()))
+      if (FILE_EXTENSIONS.contains(file.getFullPath().getFileExtension()))
       {
         return (EPackage)EcoreUtil.getObjectByType(new ResourceSetImpl().getResource(
           URI.createPlatformResourceURI(file.getFullPath().toString(), true),
@@ -103,16 +107,37 @@ public class MapToEcoreActionDelegate extends ActionDelegate
   public void run(IAction action)
   {
     final IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+    Object selection = ((IStructuredSelection)workbenchWindow.getSelectionService().getSelection()).getFirstElement();
+    final IFile selectedEcoreFile = 
+      selection instanceof IFile && FILE_EXTENSIONS.contains(((IFile)selection).getFileExtension()) ? 
+        (IFile)selection :
+        null;
 
-    ResourceSelectionDialog resourceSelectionDialog = new ResourceSelectionDialog(
-      workbenchWindow.getShell(),
-      ResourcesPlugin.getWorkspace().getRoot(),
-      Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_SelectOutputEcoreModels_label"));
-    resourceSelectionDialog.open();
-
-    final Object[] result = resourceSelectionDialog.getResult();
-
-    if (result != null)
+    ViewerFilter viewerFilter = new ViewerFilter()
+    {
+      @Override
+      public boolean select(Viewer viewer, Object parentElement, Object element)
+      {
+        if (element instanceof IFile)
+        {
+          IFile file = (IFile)element;
+          return 
+            FILE_EXTENSIONS.contains(file.getFileExtension()) &&
+            (selectedEcoreFile == null || !selectedEcoreFile.getFullPath().equals(file.getFullPath()));
+        }
+        return true;
+      }
+    };
+    
+    final IFile[] files = WorkspaceResourceDialog.openFileSelection(
+      workbenchWindow.getShell(), 
+      null, 
+      Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_SelectOutputEcoreModels_label"), 
+      true, 
+      null, 
+      Collections.singletonList(viewerFilter));
+    
+    if (files.length > 0)
     {
       final EPackage inputEPackage = getInputEPackage((IStructuredSelection)workbenchWindow.getSelectionService().getSelection());
       final Resource inputResource = inputEPackage.eResource();
@@ -129,63 +154,58 @@ public class MapToEcoreActionDelegate extends ActionDelegate
             {
               try
               {
-                progressMonitor.beginTask("", result.length);
+                progressMonitor.beginTask("", files.length);
 
-                for (int i = 0; i < result.length; i++)
+                for (int i = 0; i < files.length; i++)
                 {
-                  IResource resource = (IResource)result[i];
+                  Resource outputResource = inputResource.getResourceSet().getResource(
+                    URI.createPlatformResourceURI(files[i].getFullPath().toString(), true),
+                    true);
+                  EPackage outputEPackage = (EPackage)EcoreUtil.getObjectByType(
+                    outputResource.getContents(),
+                    EcorePackage.eINSTANCE.getEPackage());
 
-                  if (resource.getType() == IResource.FILE && ECORE_FILE_EXTENSION.equals(resource.getFullPath().getFileExtension()))
+                  String base = inputResource.getURI().trimFileExtension().lastSegment() + "_2_" +
+                    outputResource.getURI().trimFileExtension().lastSegment();
+                  URI mappingURI = outputResource.getURI().trimSegments(1).appendSegment(base).appendFileExtension(ECORE2ECORE_FILE_EXTENSION);
+
+                  Resource mappingResource = inputResource.getResourceSet().createResource(mappingURI);
+
+                  progressMonitor.subTask(MessageFormat.format(
+                    Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_BuildingMappingFromTo_message"),
+                    new Object[] { inputResource.getURI().lastSegment(), outputResource.getURI().lastSegment() }));
+
+                  mappingResource.getContents().add(createMappingRoot(inputEPackage, outputEPackage));
+                  
+                  try
                   {
-                    Resource outputResource = inputResource.getResourceSet().getResource(
-                      URI.createPlatformResourceURI(resource.getFullPath().toString(), true),
-                      true);
-                    EPackage outputEPackage = (EPackage)EcoreUtil.getObjectByType(
-                      outputResource.getContents(),
-                      EcorePackage.eINSTANCE.getEPackage());
-
-                    String base = inputResource.getURI().trimFileExtension().lastSegment() + "_2_" +
-                      outputResource.getURI().trimFileExtension().lastSegment();
-                    URI mappingURI = outputResource.getURI().trimSegments(1).appendSegment(base).appendFileExtension(ECORE2ECORE_FILE_EXTENSION);
-
-                    Resource mappingResource = inputResource.getResourceSet().createResource(mappingURI);
-
-                    progressMonitor.subTask(MessageFormat.format(
-                      Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_BuildingMappingFromTo_message"),
-                      new Object[] { inputResource.getURI().lastSegment(), outputResource.getURI().lastSegment() }));
-
-                    mappingResource.getContents().add(createMappingRoot(inputEPackage, outputEPackage));
+                    mappingResource.save(null);
                     
-                    try
+                    IFile file = getFile(mappingResource);
+                    IWorkbenchPage workbenchPage = workbenchWindow.getActivePage();
+                    
+                    final IWorkbenchPart activePart = workbenchPage.getActivePart();
+                    if (activePart instanceof ISetSelectionTarget)
                     {
-                      mappingResource.save(null);
-                      
-                      IFile file = getFile(mappingResource);
-                      IWorkbenchPage workbenchPage = workbenchWindow.getActivePage();
-                      
-                      final IWorkbenchPart activePart = workbenchPage.getActivePart();
-                      if (activePart instanceof ISetSelectionTarget)
-                      {
-                        final ISelection targetSelection = new StructuredSelection(file);
-                        workbenchWindow.getShell().getDisplay().asyncExec(new Runnable()
+                      final ISelection targetSelection = new StructuredSelection(file);
+                      workbenchWindow.getShell().getDisplay().asyncExec(new Runnable()
+                        {
+                          public void run()
                           {
-                            public void run()
-                            {
-                              ((ISetSelectionTarget)activePart).selectReveal(targetSelection);
-                            }
-                          });
-                      }
+                            ((ISetSelectionTarget)activePart).selectReveal(targetSelection);
+                          }
+                        });
+                    }
 
-                      try {
-                        workbenchPage.openEditor(new FileEditorInput(file), workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor(file.getFullPath().toString()).getId());                      
-                      } catch (PartInitException pie) {
-                        Ecore2EcoreEditorPlugin.INSTANCE.log(pie);                      
-                      }
+                    try {
+                      workbenchPage.openEditor(new FileEditorInput(file), workbenchWindow.getWorkbench().getEditorRegistry().getDefaultEditor(file.getFullPath().toString()).getId());                      
+                    } catch (PartInitException pie) {
+                      Ecore2EcoreEditorPlugin.INSTANCE.log(pie);                      
                     }
-                    catch (IOException ioe)
-                    {
-                      Ecore2EcoreEditorPlugin.INSTANCE.log(ioe);
-                    }
+                  }
+                  catch (IOException ioe)
+                  {
+                    Ecore2EcoreEditorPlugin.INSTANCE.log(ioe);
                   }
                 }
               }
