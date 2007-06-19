@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,21 +12,24 @@
  *
  * </copyright>
  *
- * $Id: AddOutputRootAction.java,v 1.6 2006/12/29 18:28:58 marcelop Exp $
+ * $Id: AddOutputRootAction.java,v 1.7 2007/06/19 17:31:27 marcelop Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.action;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
+
+import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.mapping.action.AddRootBottomAction;
 import org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditor;
 import org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorPlugin;
-import org.eclipse.ui.dialogs.ResourceSelectionDialog;
 
 
 /**
@@ -50,32 +53,34 @@ public class AddOutputRootAction extends AddRootBottomAction
   @Override
   protected Collection<?> getBottomsToAdd()
   {
-    Collection<Object> bottomsToAdd = new ArrayList<Object>();
+    Collection<Object> objects = new ArrayList<Object>();
 
-    ResourceSelectionDialog resourceSelectionDialog = new ResourceSelectionDialog(
-      workbenchPart.getSite().getShell(),
-      ResourcesPlugin.getWorkspace().getRoot(),
-      Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_SelectOutputEcoreModels_label")); //$NON-NLS-1$
-    resourceSelectionDialog.open();
-
-    Object[] result = resourceSelectionDialog.getResult();
-
-    if (result != null)
+    ViewerFilter viewerFilter = new ViewerFilter()
     {
-
-      for (int i = 0; i < result.length; i++)
+      @Override
+      public boolean select(Viewer viewer, Object parentElement, Object element)
       {
-        IResource resource = (IResource)result[i];
-
-        if (resource.getType() == IResource.FILE && "ecore".equals(resource.getFullPath().getFileExtension())) //$NON-NLS-1$
-        {
-          bottomsToAdd.addAll(((Ecore2EcoreEditor)workbenchPart).getEditingDomain().getResourceSet().getResource(
-            URI.createPlatformResourceURI(resource.getFullPath().toString(), true),
-            true).getContents());
-        }
+         return !(element instanceof IFile) || "ecore".equals(((IFile)element).getFileExtension());  //$NON-NLS-1$
+      }
+    };
+    final IFile[] files = WorkspaceResourceDialog.openFileSelection(
+      workbenchPart.getSite().getShell(), 
+      null, 
+      Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_SelectOutputEcoreModels_label"), //$NON-NLS-1$
+      true, 
+      null, 
+      Collections.singletonList(viewerFilter));
+        
+    if (files.length > 0)
+    {
+      for (int i = 0; i < files.length; i++)
+      {
+        objects.addAll(((Ecore2EcoreEditor)workbenchPart).getEditingDomain().getResourceSet().getResource(
+          URI.createPlatformResourceURI(files[i].getFullPath().toString(), true),
+          true).getContents());
       }
     }
 
-    return bottomsToAdd;
+    return objects;
   }
 }
