@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.39 2007/05/23 18:21:12 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.40 2007/06/25 14:59:29 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1475,11 +1475,39 @@ public class XSDSchemaImpl
 
   protected Collection<XSDSchemaImpl> circularResolveDependencies;
 
+  protected void computeSchemasToPatch(XSDSchema root, List<XSDSchema> schemasToPatch)
+  {
+    schemasToPatch.add(root);
+    for (int i = 0; i < schemasToPatch.size(); ++i)
+    {
+      XSDSchema xsdSchema = schemasToPatch.get(i); 
+      for (XSDSchemaContent content :  xsdSchema.getContents())
+      {
+        if (content instanceof XSDSchemaDirective)
+        {
+          if (content instanceof XSDSchemaCompositor)
+          {
+            XSDSchemaCompositor xsdSchemaCompositor = (XSDSchemaCompositor)content;
+            XSDSchemaImpl xsdIncorporatedSchema =  (XSDSchemaImpl)xsdSchemaCompositor.getIncorporatedSchema();
+            if (xsdIncorporatedSchema != null && !schemasToPatch.contains(xsdIncorporatedSchema))
+            {
+              xsdIncorporatedSchema.patchContents();
+              computeSchemasToPatch(xsdIncorporatedSchema, schemasToPatch);
+            }
+          }
+        }
+        else if (!(content instanceof XSDAnnotation))
+        {
+          break;
+        }
+      }
+    }
+  }
+
   @Override
   protected void patch()
   {
     circularResolveDependencies = new HashSet<XSDSchemaImpl>();
-    incorporatingSchemas = null;
     
     if (XSDConstants.isSchemaForSchemaNamespace(getTargetNamespace()))
     {
@@ -1516,31 +1544,7 @@ public class XSDSchemaImpl
     super.patch();
     
     List<XSDSchema> schemasToPatch = new ArrayList<XSDSchema>();
-    schemasToPatch.add(this);
-    for (int i = 0; i < schemasToPatch.size(); ++i)
-    {
-      XSDSchema xsdSchema = schemasToPatch.get(i); 
-      for (XSDSchemaContent content :  xsdSchema.getContents())
-      {
-        if (content instanceof XSDSchemaDirective)
-        {
-          if (content instanceof XSDSchemaCompositor)
-          {
-            XSDSchemaCompositor xsdSchemaCompositor = (XSDSchemaCompositor)content;
-            XSDSchemaImpl xsdIncorporatedSchema =  (XSDSchemaImpl)xsdSchemaCompositor.getIncorporatedSchema();
-            if (xsdIncorporatedSchema != null && !schemasToPatch.contains(xsdIncorporatedSchema))
-            {
-              schemasToPatch.add(xsdIncorporatedSchema);
-              xsdIncorporatedSchema.patchContents();
-            }
-          }
-        }
-        else if (!(content instanceof XSDAnnotation))
-        {
-          break;
-        }
-      }
-    }
+    computeSchemasToPatch(this, schemasToPatch);
     
     if (circularResolveDependencies != null)
     {
@@ -1564,6 +1568,7 @@ public class XSDSchemaImpl
   
   protected void patchContents()
   {
+    incorporatingSchemas = null;
     super.patch();
   }
 
@@ -2124,6 +2129,34 @@ public class XSDSchemaImpl
   }
 
   protected List<XSDSchema> incorporatingSchemas;
+
+  protected List<XSDSchema> getIncorporatingSchemas()
+  {
+    if (incorporatingSchemas == null)
+    {
+      List<XSDSchema> visited = new UniqueEList.FastCompare<XSDSchema>();
+      visited.add(this);
+      incorporatingSchemas = new ArrayList<XSDSchema>();
+      for (int i = 0; i < visited.size(); ++i)
+      {
+        XSDSchemaImpl xsdSchema = (XSDSchemaImpl)visited.get(i);
+        incorporatingSchemas.add(xsdSchema);
+        for (XSDSchemaDirective xsdSchemaDirective : xsdSchema.getReferencingDirectives())
+        {
+          if (xsdSchemaDirective instanceof XSDSchemaCompositor && ((XSDSchemaCompositor)xsdSchemaDirective).getIncorporatedSchema() == xsdSchema)
+          {
+            XSDSchemaImpl incorporatingSchema = (XSDSchemaImpl)xsdSchemaDirective.getSchema();
+            if (incorporatingSchema != null && visited.add(incorporatingSchema))
+            {
+              incorporatingSchemas.add(incorporatingSchema);
+              visited.addAll(incorporatingSchema.getIncorporatingSchemas());
+            }
+          }
+        }
+      }
+    }
+    return incorporatingSchemas;
+  }
   
   /**
    * This returns set of schemas with the given namespace as it's target namespace.
@@ -2137,30 +2170,7 @@ public class XSDSchemaImpl
 
     if (namespace == null ? getTargetNamespace() == null || "".equals(getTargetNamespace()) || hasRetargetedNamespace() : namespace.equals(getTargetNamespace()))
     {
-      if (incorporatingSchemas == null)
-      {
-        List<XSDSchema> visited = new ArrayList<XSDSchema>();
-        visited.add(this);
-        incorporatingSchemas = new ArrayList<XSDSchema>();
-        incorporatingSchemas.add(this);
-        for (int i = 0; i < visited.size(); ++i)
-        {
-          XSDSchemaImpl xsdSchema = (XSDSchemaImpl)visited.get(i);
-          for (XSDSchemaDirective xsdSchemaDirective : xsdSchema.getReferencingDirectives())
-          {
-            if (xsdSchemaDirective instanceof XSDSchemaCompositor && ((XSDSchemaCompositor)xsdSchemaDirective).getIncorporatedSchema() == xsdSchema)
-            {
-              XSDSchema incorporatingSchema = xsdSchemaDirective.getSchema();
-              if (incorporatingSchema != null && !visited.contains(incorporatingSchema))
-              {
-                visited.add(incorporatingSchema);
-                incorporatingSchemas.add(incorporatingSchema);
-              }
-            }
-          }
-        }
-      }
-      return incorporatingSchemas;
+      return getIncorporatingSchemas();
     }
     else if (XSDConstants.isSchemaInstanceNamespace(namespace))
     {
