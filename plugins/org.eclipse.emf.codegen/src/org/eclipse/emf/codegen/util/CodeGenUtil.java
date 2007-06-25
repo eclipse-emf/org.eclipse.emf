@@ -1000,7 +1000,6 @@ public class CodeGenUtil
             {
               throw new JETException(exception);
             }
-            break;
           }
         }
       }
