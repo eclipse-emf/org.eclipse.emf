@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.10 2006/12/28 12:55:43 emerks Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.11 2007/06/25 14:45:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -290,6 +290,13 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
       return store.toArray(owner, eStructuralFeature, array);
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    protected E delegateMove(int targetIndex, int sourceIndex)
+    {
+      return (E)store.move(owner, eStructuralFeature, targetIndex, sourceIndex);
+    }
+
     @Override
     protected boolean delegateEquals(Object object)
     {
@@ -490,6 +497,12 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     protected <T> T[] delegateToArray(T[] array)
     {
       return store.toArray(owner, eStructuralFeature, array);
+    }
+
+    @Override
+    protected Entry delegateMove(int targetIndex, int sourceIndex)
+    {
+      return (Entry)store.move(owner, eStructuralFeature, targetIndex, sourceIndex);
     }
 
     @Override
