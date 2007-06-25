@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.81 2007/06/15 21:19:07 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.82 2007/06/25 14:41:26 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2211,6 +2211,12 @@ public class XSDEcoreBuilder extends MapBuilder
     if (isSuppressedUnsetVisibility != null)
     {
       EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, "true".equals(isSuppressedUnsetVisibility));
+    }
+
+    String isID = getEcoreAttribute(xsdComponent, xsdFeature, "id");
+    if (isID != null && eStructuralFeature instanceof EAttribute)
+    {
+      ((EAttribute)eStructuralFeature).setID("true".equals(isID));
     }
   }
 

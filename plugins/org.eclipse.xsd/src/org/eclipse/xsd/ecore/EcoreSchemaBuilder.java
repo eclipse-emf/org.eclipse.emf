@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.22 2007/06/15 21:19:48 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.23 2007/06/25 14:41:26 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -904,6 +904,13 @@ public class EcoreSchemaBuilder extends MapBuilder
 
     buildAttributeInformation(xsdComplexTypeDefinition, "value", false, referenceType, xsdSimpleTypeDefinition, eStructuralFeature);
 
+    if (eStructuralFeature instanceof EAttribute && 
+          ((EAttribute)eStructuralFeature).isID() && 
+          !XSDConstants.isOrIsDerivedFromID(xsdSimpleTypeDefinition))
+    {
+      createEcoreAnnotation(xsdSimpleTypeDefinition, "id", "true");
+    }
+
     if (eStructuralFeature.eIsSet(EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE))
     {
       createEcoreAnnotation(xsdSimpleTypeDefinition, referenceType == null ? "type" : "reference", getGenericType(xsdSchema, eStructuralFeature.getEGenericType()));
@@ -972,6 +979,13 @@ public class EcoreSchemaBuilder extends MapBuilder
     map(xsdAttributeUse, eStructuralFeature);
 
     buildAttributeInformation(xsdComplexTypeDefinition, name, isRef, referenceType, xsdAttributeUse, eStructuralFeature);
+
+    if (eStructuralFeature instanceof EAttribute && 
+          ((EAttribute)eStructuralFeature).isID() && 
+          !XSDConstants.isOrIsDerivedFromID(xsdAttributeDeclaration.getTypeDefinition()))
+    {
+      createEcoreAnnotation(xsdAttributeUse, "id", "true");
+    }
 
     if (eStructuralFeature.eIsSet(EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE))
     {
@@ -1490,6 +1504,14 @@ public class EcoreSchemaBuilder extends MapBuilder
     if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET))
     {
       createEcoreAnnotation(xsdElementDeclaration, "suppressedUnsetVisibility", "true");
+    }
+
+    if (eStructuralFeature instanceof EAttribute && 
+          ((EAttribute)eStructuralFeature).isID() && 
+          xsdElementDeclaration.getTypeDefinition() instanceof XSDSimpleTypeDefinition &&
+          !XSDConstants.isOrIsDerivedFromID((XSDSimpleTypeDefinition)xsdElementDeclaration.getTypeDefinition()))
+    {
+      createEcoreAnnotation(xsdParticle, "id", "true");
     }
 
     buildAnnotations(xsdParticle, eStructuralFeature);
