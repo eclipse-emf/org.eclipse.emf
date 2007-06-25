@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.23 2007/03/16 18:35:03 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.24 2007/06/25 15:19:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1571,11 +1571,11 @@ public class XSDComplexTypeDefinitionImpl
             {
               createDiagnostic(XSDDiagnosticSeverity.ERROR_LITERAL, "src-ct.2.2", theBaseTypeDefinition.getURI());
             }
-            else if (!XSDConstants.isSchemaForSchemaNamespace(getTargetNamespace()) && 
-                       XSDConstants.isAnySimpleType(xsdSimpleTypeDefinition))
-            {
-              createDiagnostic(XSDDiagnosticSeverity.ERROR_LITERAL, "cos-ct-retricts.0", theBaseTypeDefinition.getURI());
-            }
+            // else if (!XSDConstants.isSchemaForSchemaNamespace(getTargetNamespace()) && 
+            //            XSDConstants.isAnySimpleType(xsdSimpleTypeDefinition))
+            // {
+            //   createDiagnostic(XSDDiagnosticSeverity.ERROR_LITERAL, "cos-ct-retricts.0", theBaseTypeDefinition.getURI());
+            // }
           }
           break;
         }
