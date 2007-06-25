@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.13 2007/05/08 19:15:14 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.14 2007/06/25 16:30:42 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -237,7 +237,6 @@ public class XSDValidateTest extends TestCase
       "XSD: The 'disallowed substitutions' of '#e' must be a superset of those in the base",
       "XSD: The type of element '#e' must derive from 'http://www.example.com/Bad#e_._type'",
       "XSD: The restricted content type must accept a subset of the content accepted by the base type",
-      "XSD: The type 'http://www.w3.org/2001/XMLSchema#anySimpleType' is not a valid base type",
       "XSD: The type may not have duplicate name and target namespace 'http://www.example.com/Bad#badComplexBaseForRestrictionSimpleContent'",
       "XSD: The type may not have duplicate name and target namespace 'http://www.example.com/Bad#badComplexExtension'",
       "XSD: The type may not have duplicate name and target namespace 'http://www.example.com/Bad#badSimpleBaseForRestrictionSimpleContent'",
