@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinition.java,v 1.6 2007/06/12 15:06:42 emerks Exp $
+ * $Id: XSDAttributeGroupDefinition.java,v 1.7 2007/06/25 15:13:27 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -219,7 +219,7 @@ public interface XSDAttributeGroupDefinition extends XSDRedefinableComponent, XS
    * @return the value of the '<em>Synthetic Wildcard</em>' containment reference.
    * @see #setSyntheticWildcard(XSDWildcard)
    * @see org.eclipse.xsd.XSDPackage#getXSDAttributeGroupDefinition_SyntheticWildcard()
-   * @model containment="true"
+   * @model containment="true" transient="true"
    * @generated
    */
   XSDWildcard getSyntheticWildcard();

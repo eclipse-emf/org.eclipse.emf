@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackageImpl.java,v 1.10 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDPackageImpl.java,v 1.11 2007/06/25 15:13:27 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -4293,7 +4293,7 @@ public class XSDPackageImpl
     initEReference(getXSDAttributeGroupDefinition_AttributeWildcardContent(), this.getXSDWildcard(), null, "attributeWildcardContent", null, 0, 1, XSDAttributeGroupDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDAttributeGroupDefinition_AttributeWildcard(), this.getXSDWildcard(), null, "attributeWildcard", null, 0, 1, XSDAttributeGroupDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDAttributeGroupDefinition_ResolvedAttributeGroupDefinition(), this.getXSDAttributeGroupDefinition(), null, "resolvedAttributeGroupDefinition", null, 1, 1, XSDAttributeGroupDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getXSDAttributeGroupDefinition_SyntheticWildcard(), this.getXSDWildcard(), null, "syntheticWildcard", null, 0, 1, XSDAttributeGroupDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getXSDAttributeGroupDefinition_SyntheticWildcard(), this.getXSDWildcard(), null, "syntheticWildcard", null, 0, 1, XSDAttributeGroupDefinition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(xsdAttributeUseEClass, XSDAttributeUse.class, "XSDAttributeUse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getXSDAttributeUse_Required(), ecorePackage.getEBoolean(), "required", null, 0, 1, XSDAttributeUse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

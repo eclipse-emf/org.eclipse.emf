@@ -43,7 +43,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="resolvedAttributeGroupDefinition"
         lowerBound="1" eType="#//XSDAttributeGroupDefinition" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="syntheticWildcard" eType="#//XSDWildcard"
-        containment="true"/>
+        transient="true" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XSDAttributeUse" eSuperTypes="#//XSDComponent #//XSDAttributeGroupContent">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="required" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
