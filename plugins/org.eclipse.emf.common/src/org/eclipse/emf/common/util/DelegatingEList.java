@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEList.java,v 1.9 2007/06/12 20:56:17 emerks Exp $
+ * $Id: DelegatingEList.java,v 1.10 2007/06/25 14:45:48 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -910,14 +910,33 @@ public abstract class DelegatingEList<E> extends AbstractList<E> implements ELis
     if (sourceIndex >= size || sourceIndex < 0)
       throw new IndexOutOfBoundsException("sourceIndex=" + sourceIndex + ", size=" + size);
 
-    E object = delegateGet(sourceIndex);
+    E object;
     if (targetIndex != sourceIndex)
     {
-      delegateAdd(targetIndex, delegateRemove(sourceIndex));
+      object = delegateMove(targetIndex, sourceIndex);
       didMove(targetIndex, object, sourceIndex);
       didChange();
     }
+    else
+    {
+      object = delegateGet(sourceIndex);
+    }
     return object;
+  }
+
+  /**
+   * Moves the object at the source index in the backing store list by removing it and adding it at the new target index.
+   * @param targetIndex the new position for the object in the list.
+   * @param sourceIndex the old position of the object in the list.
+   * @return the moved object.
+   * @exception IndexOutOfBoundsException if either index isn't within the size range.
+   * @since 2.3
+   */
+  protected E delegateMove(int targetIndex, int sourceIndex)
+  {
+    E result = delegateRemove(sourceIndex);
+    delegateAdd(targetIndex, result);
+    return result;
   }
 
   /**
