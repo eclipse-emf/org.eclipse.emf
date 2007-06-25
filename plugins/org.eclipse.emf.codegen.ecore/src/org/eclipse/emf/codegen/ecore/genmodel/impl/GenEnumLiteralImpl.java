@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.16 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.17 2007/06/25 14:49:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -335,16 +335,28 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   {
     return 
       getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 || getGenEnum().isTypeSafeEnumCompatible() ? 
-        getEnumLiteralID() + "_LITERAL" :
+        ensureUniqueness(getEnumLiteralID() + "_LITERAL") :
         getEnumLiteralID();
   }
   
+  protected String ensureUniqueness(String string)
+  {
+    for (GenEnumLiteral genEnumLiteral : getGenEnum().getGenEnumLiterals())
+    {
+      if (string.equals(genEnumLiteral.getEnumLiteralID()))
+      {
+        return string + "_";
+      }
+    }
+    return string;
+  }
+
   public String getEnumLiteralValueConstantName()
   {
     return 
       getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 || getGenEnum().isTypeSafeEnumCompatible() ? 
         getEnumLiteralID() :
-        getEnumLiteralID() + "_VALUE";
+        ensureUniqueness(getEnumLiteralID() + "_VALUE");
   }
 
   public GenPackage getGenPackage()
