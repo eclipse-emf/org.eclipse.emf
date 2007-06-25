@@ -687,7 +687,7 @@ public class CodeGenUtil
   }
 
   protected static final String MATCH_LINE_SEPARATOR = "(\n\r?|\r\n?)";
-  protected static final Pattern BRACE_LINE_PATTERN = Pattern.compile("(\\s*" + MATCH_LINE_SEPARATOR + "\\s*\\{\\s*)" + MATCH_LINE_SEPARATOR); // }
+  protected static final Pattern BRACE_LINE_PATTERN = Pattern.compile("(\\s*" + MATCH_LINE_SEPARATOR + "\\s*\\{\\s*?)" + MATCH_LINE_SEPARATOR); // }
 
   public static String convertFormat(final String tabReplacement, boolean convertToStandardBraceStyle, String value)
   {
