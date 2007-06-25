@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.15 2007/02/20 17:42:20 emerks Exp $
+ * $Id: XSDWildcardImpl.java,v 1.16 2007/06/25 15:06:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1031,7 +1031,7 @@ public class XSDWildcardImpl
       //
       else
       {
-        return this;
+        return otherWildcard;
       }
     }
     //  Clause 5
@@ -1055,7 +1055,7 @@ public class XSDWildcardImpl
       //
       else
       {
-        return otherWildcard;
+        return this;
       }
     }
     //  Failure
