@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.38 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EClassImpl.java,v 1.39 2007/06/26 15:10:55 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -2004,7 +2004,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   @Override
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
-    EObject result = eAllStructuralFeaturesData == null ? null : getEStructuralFeature(uriFragmentSegment);
+    EObject result = eAllStructuralFeaturesData == null || eOperations != null && !eOperations.isEmpty() ? null : getEStructuralFeature(uriFragmentSegment);
     return result != null ? result : super.eObjectForURIFragmentSegment(uriFragmentSegment);
   }
 
