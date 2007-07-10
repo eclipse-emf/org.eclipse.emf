@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.13 2007/06/14 18:32:46 emerks Exp $
+ * $Id: XMLCalendar.java,v 1.14 2007/07/10 16:17:38 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -450,7 +450,7 @@ public final class XMLCalendar extends XMLGregorianCalendar
   @Override
   public void setMinute(int minute)
   {
-    xmlGregorianCalendar.setMillisecond(minute);
+    xmlGregorianCalendar.setMinute(minute);
   }
 
   @Override
