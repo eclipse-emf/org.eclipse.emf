@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.13 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EcoreEList.java,v 1.14 2007/07/10 19:44:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -113,7 +113,7 @@ public class EcoreEList<E> extends NotifyingListImpl<E> implements InternalEList
 
   protected Class<?> getInverseFeatureClass()
   {
-    return ((EClass)getInverseEReference().getEType()).getInstanceClass();
+    return ((EClass)getEStructuralFeature().getEType()).getInstanceClass();
   }
 
   protected boolean hasManyInverse()

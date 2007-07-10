@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.13 2007/03/29 14:35:51 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.14 2007/07/10 19:44:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -185,7 +185,7 @@ public abstract class DelegatingEcoreEList<E>
 
   protected Class<?> getInverseFeatureClass()
   {
-    return ((EClass)getInverseEReference().getEType()).getInstanceClass();
+    return ((EClass)getEStructuralFeature().getEType()).getInstanceClass();
   }
 
   protected boolean hasManyInverse()
