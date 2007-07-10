@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRepeatableFacetImpl.java,v 1.12 2007/02/20 17:42:21 emerks Exp $
+ * $Id: XSDRepeatableFacetImpl.java,v 1.13 2007/07/10 14:33:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -195,6 +195,15 @@ public abstract class XSDRepeatableFacetImpl
          XSDConstants.VALUE_ATTRIBUTE,
          XSDConstants.ID_ATTRIBUTE
        });
+
+    checkBuiltInTypeConstraint
+      ("ID",
+       null,
+       XSDConstants.PART2,
+       "element-" + getFacetName(),
+       theElement,
+       XSDConstants.ID_ATTRIBUTE,
+       false);
   }
 
   @Override
