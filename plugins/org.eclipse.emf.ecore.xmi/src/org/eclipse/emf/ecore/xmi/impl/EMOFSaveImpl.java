@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFSaveImpl.java,v 1.8 2007/06/04 15:23:54 emerks Exp $
+ * $Id: EMOFSaveImpl.java,v 1.9 2007/07/10 16:23:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -82,20 +82,6 @@ public class EMOFSaveImpl extends XMISaveImpl
         f == EcorePackage.Literals.EDATA_TYPE__SERIALIZABLE ||
         f == EcorePackage.Literals.ECLASS__INTERFACE)
     {
-      if (f == EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE && 
-          o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE)) return;
-      if (f == EcorePackage.Literals.ESTRUCTURAL_FEATURE__TRANSIENT && 
-          (o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE) ||
-           o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE))) return;
-      if (f == EcorePackage.Literals.EREFERENCE__RESOLVE_PROXIES && 
-          (o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__TRANSIENT) || 
-           o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE) ||
-           o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE))) return;
-      if (f == EcorePackage.Literals.EDATA_TYPE__SERIALIZABLE && 
-          o.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME)) return;
-      if (f == EcorePackage.Literals.ECLASS__INTERFACE && 
-          o.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME)) return;
-
       doc.startElement(EMOFExtendedMetaData.XMI_EXTENSION_ELEMENT);
       doc.addAttribute(EMOFExtendedMetaData.XMI_EXTENDER_ATTRIBUTE, EcorePackage.eNS_URI);
       saveExtensionFeature(o, f);
@@ -193,7 +179,9 @@ public class EMOFSaveImpl extends XMISaveImpl
   {
     if (f == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ||
           f == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS ||
-          f == EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS)
+          f == EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS ||
+          f == EcorePackage.Literals.ECLASSIFIER__ETYPE_PARAMETERS ||
+          f == EcorePackage.Literals.EOPERATION__ETYPE_PARAMETERS)
     {
       doc.startElement(EMOFExtendedMetaData.XMI_EXTENSION_ELEMENT);
       doc.addAttribute(EMOFExtendedMetaData.XMI_EXTENDER_ATTRIBUTE, EcorePackage.eNS_URI);
