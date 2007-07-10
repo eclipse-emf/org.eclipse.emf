@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.18 2007/04/08 16:37:29 marcelop Exp $
+ * $Id: EOperationImpl.java,v 1.19 2007/07/10 16:41:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -360,7 +360,21 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
           {
             EGenericType eGenericType = getEGenericExceptions().get(index);
             EClassifier result = unwrap(eGenericType);
-            eGenericType.setEClassifier(eClassifier);
+
+            // If this is just a proxy being resolved...
+            //
+            if (resolveProxy(result) == eClassifier)
+            {
+              // Force the raw type to be resolved so we don't resolve this endlessly.
+              //
+              eGenericType.getERawType();
+            }
+            else
+            {
+              // Update the classifier and hence the raw type as normal.
+              //
+              eGenericType.setEClassifier(eClassifier);
+            }
             return result;
           }
 

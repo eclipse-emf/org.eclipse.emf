@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.39 2007/06/26 15:10:55 emerks Exp $
+ * $Id: EClassImpl.java,v 1.40 2007/07/10 16:41:55 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -51,7 +51,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.DelegatingEcoreEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-// import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -1679,7 +1678,21 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           {
             EGenericType eGenericType = getEGenericSuperTypes().get(index);
             EClass result = unwrap(eGenericType);
-            eGenericType.setEClassifier(eClass);
+
+            // If this is just a proxy being resolved...
+            //
+            if (resolveProxy(result) == eClass)
+            {
+              // Force the raw type to be resolved so we don't resolve this endlessly.
+              //
+              eGenericType.getERawType();
+            }
+            else
+            {
+              // Update the classifier and hence the raw type as normal.
+              //
+              eGenericType.setEClassifier(eClass);
+            }
             return result;
           }
 
