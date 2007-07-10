@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InitializeCopyCommand.java,v 1.7 2007/06/14 18:32:42 emerks Exp $
+ * $Id: InitializeCopyCommand.java,v 1.8 2007/07/10 16:19:08 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -256,6 +256,7 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
             {
               copyList.add(target);
             }
+            ++index;
           }
         }
       }
