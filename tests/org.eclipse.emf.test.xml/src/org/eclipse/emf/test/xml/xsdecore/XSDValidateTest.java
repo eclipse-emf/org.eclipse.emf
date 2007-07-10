@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.7.2.3 2007/06/25 16:31:05 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.7.2.4 2007/07/10 14:29:37 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -424,6 +424,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The attribute 'x' is not permitted",
       "XSD: The content is incomplete as constrained by 'http://www.w3.org/2001/XMLSchema#keybase'; expecting annotation | selector",
       "XSD: The content is incomplete as constrained by 'http://www.w3.org/2001/XMLSchema#keybase'; expecting annotation | selector",
+      "XSD: The value 'id:badKeyID' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#annotation' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#keybase'; expecting selector",
       "XSD: The attribute 'xpath' is required",
       "XSD: The content is incomplete as constrained by 'http://www.w3.org/2001/XMLSchema#keybase'; expecting field",
@@ -440,6 +441,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The attribute 'x' is not permitted",
       "XSD: The content is incomplete as constrained by 'http://www.w3.org/2001/XMLSchema#keybase'; expecting annotation | selector",
       "XSD: The content is incomplete as constrained by 'http://www.w3.org/2001/XMLSchema#keybase'; expecting annotation | selector",
+      "XSD: The value 'id:badUniqueID' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#annotation' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#keybase'; expecting selector",
       "XSD: The attribute 'xpath' is required",
       "XSD: The content is incomplete as constrained by 'http://www.w3.org/2001/XMLSchema#keybase'; expecting field",
@@ -457,6 +459,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The attribute 'x' is not permitted",
       "XSD: The content is incomplete as constrained by 'http://www.w3.org/2001/XMLSchema#keyref_._type'; expecting annotation | selector",
       "XSD: The content is incomplete as constrained by 'http://www.w3.org/2001/XMLSchema#keyref_._type'; expecting annotation | selector",
+      "XSD: The value 'id:badKeyRefID' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#annotation' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#keyref_._type'; expecting selector",
       "XSD: The attribute 'xpath' is required",
       "XSD: The content is incomplete as constrained by 'http://www.w3.org/2001/XMLSchema#keyref_._type'; expecting field",
