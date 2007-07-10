@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.87 2007/06/12 20:56:34 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.88 2007/07/10 16:22:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2726,7 +2726,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         if (!EcorePackage.eNS_URI.equals(ePackage.getNsURI()) && ! GenModelPackage.eNS_URI.equals(ePackage.getNsURI()))
         {
-          extendedMetaData.putPackage(ePackage.getNsURI(), ePackage);
+          extendedMetaData.putPackage(extendedMetaData.getNamespace(ePackage), ePackage);
         }
         populateExtendedMetaData(genPackage.getSubGenPackages());
       }
