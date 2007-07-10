@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.73 2007/06/12 20:56:34 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.74 2007/07/10 21:06:08 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2572,7 +2572,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
     if (isDifferentPackage)
     {
-      setLoadInitialization(isBigModel());
+      boolean isBigModel = isBigModel();
+      setLoadInitialization(isBigModel);
+      setLiteralsInterface(!isBigModel);
     }
   }
 
