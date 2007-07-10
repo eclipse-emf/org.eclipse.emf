@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.30 2007/06/12 20:56:34 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.31 2007/07/10 21:05:46 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1066,7 +1066,9 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       // EDate is far too often overridden to provide a different mapping, and the for the default is somewhat obscure.
       // So, it's best to delegate to the factory.
       //
-      return "EDate".equals(eDataType.getName());
+      return
+        "EDate".equals(eDataType.getName()) ||
+          "EJavaObject".equals(eDataType.getName()) && !getExtendedMetaData().getMemberTypes(getEcoreDataType()).isEmpty();
     }
     return true;
   }
