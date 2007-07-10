@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.20 2007/06/15 20:40:10 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.21 2007/07/10 21:06:39 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -673,7 +673,12 @@ public class EcoreValidator extends EObjectValidator
   {
     boolean result = true;
     EAttribute eIDAttribute = eClass.getEIDAttribute();
-    if (eIDAttribute != null)
+
+    // A document root can have multiple ID attributes because there can be multiple global element or attribute declarations of type ID 
+    // and these will be the ID in the complex types that reference them,
+    // i.e., they aren't really the ID of the document root.
+    //
+    if (eIDAttribute != null && !"".equals(ExtendedMetaData.INSTANCE.getName(eClass)))
     {
       LOOP:
       for (EAttribute eAttribute : eClass.getEAllAttributes())
