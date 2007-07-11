@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.xsd.sdk"
       label="%featureName"
-      version="2.3.0.qualifier"
+      version="2.3.1.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -28,38 +28,116 @@ http://www.eclipse.org/legal/epl-v10.html
       <discovery label="%MDTUpdateSiteName" url="http://download.eclipse.org/modeling/mdt/updates/"/>
    </url>
 
+   <includes
+         id="org.eclipse.xsd"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.edit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.editor"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.mapping"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.mapping.editor"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.ecore.converter"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.source"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xsd.doc"
+         version="0.0.0"/>
+
    <requires>
       <import feature="org.eclipse.emf" version="2.3.0" match="compatible"/>
    </requires>
 
-   <includes id="org.eclipse.xsd" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.edit" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.editor" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.mapping" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.mapping.editor" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.ecore.converter" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.source" version="0.0.0"/>
-   <includes id="org.eclipse.xsd.doc" version="0.0.0"/>
+   <plugin
+         id="org.eclipse.xsd.doc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
-<!-- TemplateEntriesBegin -->
-   <!-- 
-		NOTE: this file is a template. At build-time, use 
-		org.eclipse.emf.releng*/scripts/genPluginAll.sh 
-		to get plugins and merge XML into this file.
-		Any XML below the INCLUDE line below will be lost. 
-   -->  
+   <plugin
+         id="org.eclipse.emf.mapping.xsd2ecore"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
-   <!-- generated plugins -->
-	<plugin id="org.eclipse.xsd.doc" download-size="0" install-size="0" version="0.0.0" unpack="true"/>
-	<plugin id="org.eclipse.emf.mapping.xsd2ecore" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.mapping.xsd2ecore.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.ecore.converter" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.ecore.exporter" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.ecore.importer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.edit" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.mapping" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.xsd.mapping.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-<!-- TemplateEntriesEnd -->
+   <plugin
+         id="org.eclipse.emf.mapping.xsd2ecore.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.ecore.converter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.ecore.exporter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.ecore.importer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.mapping"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.mapping.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
