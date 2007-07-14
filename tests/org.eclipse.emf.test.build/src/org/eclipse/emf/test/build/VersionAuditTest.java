@@ -12,11 +12,13 @@
  *
  * </copyright>
  *
- * $Id: VersionAuditTest.java,v 1.1 2007/07/13 18:41:57 nickb Exp $
+ * $Id: VersionAuditTest.java,v 1.2 2007/07/14 18:02:36 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
+import java.io.File;
 import java.net.HttpURLConnection;
+import java.util.HashMap;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -26,20 +28,24 @@ import junit.framework.TestSuite;
 public class VersionAuditTest extends TestCase
 {
 
+  private static File buildConfigFile = new File("../../../../../../../build.cfg");
+  
   private static String[] URLs = {
     "http://build.eclipse.org/modeling/emf/emf/versionaudit.php?branch=",
     "http://build.eclipse.org/modeling/emf/sdo/versionaudit.php?branch=",
     "http://build.eclipse.org/modeling/mdt/xsd/versionaudit.php?branch="
   };
-  private static String branch = "HEAD";
+  private static String branch = "";
+  
+  private HashMap< String , String > pairs = new HashMap<String, String>();
   
   public static Test suite()
   {
     TestSuite ts = new TestSuite("EMF Plugin / Feature Version Auditing");
-    ts.addTest(new VersionAuditTest("testWhereAmI"));
+    //ts.addTest(new VersionAuditTest("testWhereAmI")); /* for debugging only */
     ts.addTest(new VersionAuditTest("testVersionEMF"));
-    ts.addTest(new VersionAuditTest("testVersionXSD"));
     ts.addTest(new VersionAuditTest("testVersionSDO"));
+    ts.addTest(new VersionAuditTest("testVersionXSD"));
     return ts;
   }
 
@@ -48,10 +54,25 @@ public class VersionAuditTest extends TestCase
     super(name);
   }
 
+  /* 
+   * Use to get absolute plugin directory; test will fail and echo path into JUnit log
+   */
   public void testWhereAmI() throws Exception
   {
-    
     assertEquals("where am I?",TestUtil.getPluginDirectory());
+  }
+  
+  public void testLoadBuildConfigFile() throws Exception
+  {
+    assertTrue("Could not find build.cfg relative to " + TestUtil.getPluginDirectory() + " in " + buildConfigFile.toString(), buildConfigFile.isFile());
+    pairs = TestUtil.readFileAsHash(buildConfigFile);
+    assertNotNull("No data found in buildConfigFile!",pairs);
+  }
+  
+  public void testGetBranch() throws Exception
+  {
+    assertNotNull("No value found for branch in " + buildConfigFile.toString() + "!", pairs.get("branch"));
+    branch = pairs.get("branch");
   }
   
   public void testVersionEMF() throws Exception
@@ -78,11 +99,16 @@ public class VersionAuditTest extends TestCase
 
   /**
    * @see TestCase#setUp()
+   * 
+   * Use testWhereAmI to get absolute plugin directory, eg., 
+   * .../downloads/drops/2.3.1/N200707131702/testing/N200707131702/testing/target/eclipse/plugins/org.eclipse.emf.test.build_2.3.0.v200707131702
    */
   @Override
   protected void setUp() throws Exception
   {
-    //TODO figure out where this plugin is, relative to the build root folder 
-    //TODO need to find build.cfg so we can load a value for branch=
+    // verify we can load build.cfg
+    testLoadBuildConfigFile();
+    // get a new value for branch from build.cfg HashMap
+    testGetBranch();
   }
 }
