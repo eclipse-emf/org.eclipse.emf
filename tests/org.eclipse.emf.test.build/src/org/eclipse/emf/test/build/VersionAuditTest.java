@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: VersionAuditTest.java,v 1.2 2007/07/14 18:02:36 nickb Exp $
+ * $Id: VersionAuditTest.java,v 1.3 2007/07/14 18:30:55 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -28,7 +28,7 @@ import junit.framework.TestSuite;
 public class VersionAuditTest extends TestCase
 {
 
-  private static File buildConfigFile = new File("../../../../../../../build.cfg");
+  private static File buildConfigFile = new File(TestUtil.getPluginDirectory() + "/../../../../../../../build.cfg");
   
   private static String[] URLs = {
     "http://build.eclipse.org/modeling/emf/emf/versionaudit.php?branch=",
@@ -64,7 +64,7 @@ public class VersionAuditTest extends TestCase
   
   public void testLoadBuildConfigFile() throws Exception
   {
-    assertTrue("Could not find build.cfg relative to " + TestUtil.getPluginDirectory() + " in " + buildConfigFile.toString(), buildConfigFile.isFile());
+    assertTrue("Could not find " + buildConfigFile.toString(), buildConfigFile.isFile());
     pairs = TestUtil.readFileAsHash(buildConfigFile);
     assertNotNull("No data found in buildConfigFile!",pairs);
   }
