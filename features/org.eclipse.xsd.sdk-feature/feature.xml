@@ -6,7 +6,7 @@
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
    <!-- do not increment version here; instead, use feature.xml.template -->
-
+   
    <description>
       %description
    </description>
