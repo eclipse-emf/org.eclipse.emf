@@ -14,13 +14,13 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.5.2.9 2007/06/08 14:53:34 nickb Exp $
+ * $Id: feature.xml,v 1.5.2.10 2007/07/18 04:56:54 nickb Exp $
  */
 -->
 <feature
       id="org.eclipse.emf.tests"
       label="%featureName"
-      version="2.0.4"
+      version="2.0.5"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -92,7 +92,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.test.build"
          download-size="0"
          install-size="0"
-         version="2.0.2"/>
+         version="2.0.3"/>
 
    <plugin
          id="org.eclipse.emf.test.core"
