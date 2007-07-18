@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
 /**
  * <copyright>
@@ -15,16 +14,15 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.25.2.3 2005/12/20 18:18:46 marcelop Exp $
+ * $Id: feature.xml,v 1.25.2.4 2007/07/18 04:58:09 nickb Exp $
  */
 -->
-
 <feature
       id="org.eclipse.emf.tests"
       label="%featureName"
-      version="2.1.2"
-      image= "eclipse_update_120.jpg"
-      provider-name="%providerName">
+      version="2.1.3"
+      provider-name="%providerName"
+      image="eclipse_update_120.jpg">
 
    <description>
       %description
@@ -44,7 +42,6 @@ http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <url>
-<!--      <update label="%updateSiteName" url="http://update.eclipse.org/updates/3.0"/> -->
       <update label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
       <discovery label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
    </url>
@@ -53,8 +50,6 @@ http://www.eclipse.org/legal/epl-v10.html
       <import feature="org.eclipse.emf" version="2.1.0"/>
    </requires>
 
-   <!-- Required Eclipse plugins -->
-   
    <plugin
          id="org.eclipse.test"
          download-size="0"
@@ -81,8 +76,6 @@ http://www.eclipse.org/legal/epl-v10.html
          version="2.1.0"
          fragment="true"/>
 
-   <!-- End of required Eclipse plugins -->
-
    <plugin
          id="org.eclipse.emf.tests"
          download-size="0"
@@ -99,14 +92,14 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.test.build"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="2.1.1"/>
 
    <plugin
          id="org.eclipse.emf.test.core"
          download-size="0"
          install-size="0"
          version="2.1.2"/>
-   
+
    <plugin
          id="org.eclipse.emf.test.edit"
          download-size="0"
@@ -130,4 +123,5 @@ http://www.eclipse.org/legal/epl-v10.html
          download-size="0"
          install-size="0"
          version="2.1.0"/>
+
 </feature>
