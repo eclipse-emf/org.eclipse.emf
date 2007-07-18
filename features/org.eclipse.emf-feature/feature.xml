@@ -36,7 +36,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf"
          download-size="0"
          install-size="0"
-         version="2.0.3.1"/>
+         version="2.0.4"/>
 
    <plugin
          id="org.eclipse.emf.codegen"
@@ -78,7 +78,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.ecore"
          download-size="0"
          install-size="0"
-         version="2.0.3.1"/>
+         version="2.0.4"/>
 
    <plugin
          id="org.eclipse.emf.ecore.edit"
