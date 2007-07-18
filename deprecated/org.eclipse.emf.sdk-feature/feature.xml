@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.emf.sdk"
+      label="%featureName"
+      version="2.1.2"
+      provider-name="%providerName"
+      image="eclipse_update_120.jpg">
+
+   <description>
+      %description
+   </description>
+
+   <copyright url="http://www.eclipse.org/legal/epl-v10.html">
+      Copyright (c) 2002-2007 IBM Corporation and others.
+All rights reserved.   This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/updates/"/>
+      <discovery label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/updates/"/>
+      <discovery label="%EMFTUpdateSiteName" url="http://download.eclipse.org/technology/emft/updates/"/>
+   </url>
+
+   <includes
+         id="org.eclipse.emf"
+         version="2.1.2"
+         match="compatible"/>
+
+   <includes
+         id="org.eclipse.emf.source"
+         version="2.1.2"
+         match="compatible"/>
+
+   <includes
+         id="org.eclipse.emf.doc"
+         version="2.1.2"
+         match="compatible"/>
+
+   <includes
+         id="org.eclipse.xsd"
+         version="2.1.1"
+         match="compatible"/>
+
+   <includes
+         id="org.eclipse.xsd.source"
+         version="2.1.1"
+         match="compatible"/>
+
+   <includes
+         id="org.eclipse.xsd.doc"
+         version="2.1.1"
+         match="compatible"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.sdo"
+         version="2.1.1"
+         match="compatible"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.sdo.source"
+         version="2.1.1"
+         match="compatible"/>
+
+   <includes
+         id="org.eclipse.emf.ecore.sdo.doc"
+         version="2.1.1"
+         match="compatible"/>
+
+</feature>
