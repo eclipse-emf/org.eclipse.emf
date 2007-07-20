@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.34.2.2 2007/05/01 13:30:19 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.34.2.3 2007/07/20 13:54:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1061,13 +1061,20 @@ public class XMLHelperImpl implements XMLHelper
 
         if (position == -1)
         {
-          list.addUnique(value);
+          if (object == value)
+          {
+            list.add(value);
+          }
+          else
+          {
+            list.addUnique(value);
+          }
         }
         else if (position == -2)
         {
           list.clear();
         }
-        else if (checkForDuplicates)
+        else if (checkForDuplicates || object == value)
         {
           int index = list.indexOf(value);
           if (index == -1)
@@ -1101,7 +1108,8 @@ public class XMLHelperImpl implements XMLHelper
   {
     EStructuralFeature feature = reference.getFeature();
     int kind = getFeatureKind(feature);
-    InternalEList list = (InternalEList) reference.getObject().eGet(feature);
+    EObject object = reference.getObject();
+    InternalEList list = (InternalEList)object.eGet(feature);
     List xmiExceptions = new BasicEList();
     Object[] values = reference.getValues();
     int[] positions = reference.getPositions();
@@ -1110,18 +1118,35 @@ public class XMLHelperImpl implements XMLHelper
     {
       for (int i = 0, l = values.length; i < l; i++)
       {
-        if (values[i] != null)
+        Object value = values[i];
+        if (value != null)
         {
+          int position = positions[i];
           try
           {
-            list.addUnique(positions[i], values[i]);
+            if (checkForDuplicates || object == value)
+            {
+              int index = list.indexOf(value);
+              if (index == -1)
+              {
+                list.addUnique(position, value);
+              }
+              else
+              {
+                list.move(position, index);
+              }
+            }
+            else
+            {
+              list.addUnique(position, value);
+            }
           }
           catch (RuntimeException e)
           {
             xmiExceptions.add(new IllegalValueException
-                                    (reference.getObject(),
+                                    (object,
                                      feature,
-                                     values[i],
+                                     value,
                                      e,
                                      location,
                                      reference.getLineNumber(),
@@ -1153,9 +1178,9 @@ public class XMLHelperImpl implements XMLHelper
           catch (RuntimeException e)
           {
             xmiExceptions.add(new IllegalValueException
-                                    (reference.getObject(),
+                                    (object,
                                      feature,
-                                     values[i],
+                                     value,
                                      e,
                                      location,
                                      reference.getLineNumber(),
