@@ -16,14 +16,14 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5.2.1 2005/06/08 18:27:45 nickb Exp $
+ * $Id: plugin.xml,v 1.5.2.2 2007/07/24 23:54:26 nickb Exp $
  */
 -->
 
 <plugin
    id="org.eclipse.emf.mapping.ecore2ecore.editor"
    name="%pluginName"
-   version="2.0.1"
+   version="2.0.2"
    provider-name="%providerName"
    class="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorPlugin$Implementation">
 

@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf"
       label="%featureName"
-      version="2.0.4"
+      version="2.0.5"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -36,19 +36,19 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf"
          download-size="0"
          install-size="0"
-         version="2.0.4"/>
+         version="2.0.5"/>
 
    <plugin
          id="org.eclipse.emf.codegen"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.0.2"/>
 
    <plugin
          id="org.eclipse.emf.codegen.ui"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.0.1"/>
 
    <plugin
          id="org.eclipse.emf.codegen.ecore"
@@ -66,13 +66,13 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.common"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.0.2"/>
 
    <plugin
          id="org.eclipse.emf.common.ui"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.0.2"/>
 
    <plugin
          id="org.eclipse.emf.ecore"
@@ -84,66 +84,66 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.ecore.edit"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.0.1"/>
 
    <plugin
          id="org.eclipse.emf.ecore.editor"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.0.2"/>
 
    <plugin
          id="org.eclipse.emf.ecore.change"
          download-size="0"
          install-size="0"
-         version="2.0.2"/>
+         version="2.0.3"/>
 
    <plugin
          id="org.eclipse.emf.ecore.change.edit"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.0.1"/>
 
    <plugin
          id="org.eclipse.emf.ecore.xmi"
          download-size="0"
          install-size="0"
-         version="2.0.2"/>
+         version="2.0.3"/>
 
    <plugin
          id="org.eclipse.emf.edit"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.0.2"/>
 
    <plugin
          id="org.eclipse.emf.edit.ui"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.0.2"/>
 
    <plugin
          id="org.eclipse.emf.mapping"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.0.2"/>
 
    <plugin
          id="org.eclipse.emf.mapping.ui"
          download-size="0"
          install-size="0"
-         version="2.0.0"/>
+         version="2.0.1"/>
 
    <plugin
          id="org.eclipse.emf.mapping.ecore2ecore"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.0.2"/>
 
    <plugin
          id="org.eclipse.emf.mapping.ecore2ecore.editor"
          download-size="0"
          install-size="0"
-         version="2.0.1"/>
+         version="2.0.2"/>
 
 </feature>
