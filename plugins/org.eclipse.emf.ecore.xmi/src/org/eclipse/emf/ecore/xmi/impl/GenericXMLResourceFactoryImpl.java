@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenericXMLResourceFactoryImpl.java,v 1.4 2005/08/23 20:02:55 elena Exp $
+ * $Id: GenericXMLResourceFactoryImpl.java,v 1.4.2.1 2007/07/24 19:22:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -44,6 +44,7 @@ public class GenericXMLResourceFactoryImpl extends ResourceFactoryImpl
     result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, new Integer(80));
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+    result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 
