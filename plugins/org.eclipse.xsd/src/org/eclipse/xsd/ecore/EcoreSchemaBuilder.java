@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.23 2007/06/25 14:41:26 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.24 2007/07/24 19:38:44 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -231,8 +231,6 @@ public class EcoreSchemaBuilder extends MapBuilder
         buildTypeDefinition(xsdSchema, eClassifier);
       }
     }
-
-    buildAnnotations(xsdSchema, ePackage);
 
     return xsdSchema;
   }
