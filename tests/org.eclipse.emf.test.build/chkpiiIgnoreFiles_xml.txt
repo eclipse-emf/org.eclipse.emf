@@ -1,0 +1,4 @@
+examples/**/*.xml
+xsd.test*/test/SampleMarkup.xml
+**/build.xml
+CVS/*
