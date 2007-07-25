@@ -5,7 +5,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.6.2.5 2007/06/07 16:38:27 emerks Exp $
+ * $Id: plugin.xml,v 1.6.2.6 2007/07/25 23:00:00 nickb Exp $
  */
 -->
 
@@ -40,7 +40,7 @@
     </library>
   </runtime>
 
-  <extension-point name="EMF Generated Package Registry" id="generated_package"/>
+  <extension-point id="generated_package" name="%_UI_PackageRegistry_extensionpoint" />
 <!--
     An EMF generated package can be registered with the EPackage.Registry.INSTANCE as follows:
 
@@ -49,7 +49,7 @@
       </extension>
 -->
 
-  <extension-point name="EMF URI Extension Parser Registry" id="extension_parser"/>
+  <extension-point id="extension_parser" name="%_UI_URIExtensionParserRegistry_extensionpoint" />
 
 <!-- 
     An EMF Resource.Factory can be registered with the Resource.Factory.Registry.INSTANCE as an extension parser as follows:
@@ -59,7 +59,7 @@
       </extension>
 -->
 
-  <extension-point name="EMF URI Protocol Parser Registry" id="protocol_parser"/>
+  <extension-point id="protocol_parser" name="%_UI_URIProtocolParserRegistry_extensionpoint" />
 <!--
     An EMF Resource.Factory can be registered with the Resource.Factory.Registry.INSTANCE as a protocol parser as follows:
 
@@ -68,7 +68,7 @@
       </extension>
 -->
 
-  <extension-point name="EMF URI Mapping Registry" id="uri_mapping"/>
+  <extension-point id="uri_mapping" name="%_UI_URIMappingRegistry_extensionpoint" />
 <!--
     A URI mapping can be registered with the URIConverter.URI_MAP as follows:
 

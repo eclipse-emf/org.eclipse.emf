@@ -5,7 +5,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,7 +16,7 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.5.2.2 2007/07/24 23:54:26 nickb Exp $
+ * $Id: plugin.xml,v 1.5.2.3 2007/07/25 23:00:00 nickb Exp $
  */
 -->
 
@@ -41,124 +41,39 @@
    </runtime>
 
    <extension point="org.eclipse.ui.newWizards">
-      <category
-            name="%_UI_Wizard_category"
-            id="org.eclipse.emf.ecore.Wizard.category.ID">
-      </category>
-      <wizard
-            name="%_UI_Ecore2EcoreModelWizard_label"
-            icon="icons/full/ctool16/NewEcore2Ecore.gif"
-            category="org.eclipse.emf.ecore.Wizard.category.ID"
-            class="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreModelWizard"
-            id="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreModelWizardID">
-         <description>%_UI_Ecore2EcoreModelWizard_description</description>
-         <selection class="org.eclipse.core.resources.IResource"/>
-      </wizard>
-   </extension>
+    <category name="%_UI_Wizard_category" id="org.eclipse.emf.ecore.Wizard.category.ID" />
+    <wizard name="%_UI_Ecore2EcoreModelWizard_label" icon="icons/full/ctool16/NewEcore2Ecore.gif" category="org.eclipse.emf.ecore.Wizard.category.ID" class="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreModelWizard" id="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreModelWizardID">
+      <description>%_UI_Ecore2EcoreModelWizard_description</description>
+      <selection class="org.eclipse.core.resources.IResource" />
+    </wizard>
+  </extension>
 
-   <extension point="org.eclipse.ui.editors">
-      <editor
-            name="%_UI_Ecore2EcoreEditor_label"
-            extensions="ecore2ecore"
-            icon="icons/full/obj16/Ecore2EcoreModelFile.gif"
-            contributorClass="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreActionBarContributor"
-            class="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditor"
-            id="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorID">
-      </editor>
-   </extension>
+  <extension point="org.eclipse.ui.editors">
+    <editor name="%_UI_Ecore2EcoreEditor_label" extensions="ecore2ecore" icon="icons/full/obj16/Ecore2EcoreModelFile.gif" contributorClass="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreActionBarContributor" class="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditor" id="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorID" />
+  </extension>
 
-   <extension point="org.eclipse.ui.editorActions">
-      <editorContribution
-            targetID="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorID"
-            id="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreContributionID">
-         <menu
-               label="&amp;Ecore to Ecore Mapping Editor"
-               path="additions"
-               id="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID">
-            <separator name="settings"/>
-            <separator name="actions"/>
-            <separator name="global-actions"/>
-            <separator name="additions"/>
-            <separator name="additions-end"/>
-         </menu>
-         <action
-               label="&amp;Remove Mapping"
-               icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/RemoveOneToOneMapping.gif"
-               class="org.eclipse.emf.mapping.action.RemoveMappingAction"
-               tooltip="Remove the mapping associated with the selected objects."
-               menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions"
-               toolbarPath="Normal/mapping-additions"
-               id="org.eclipse.emf.mapping.action.RemoveMappingActionID">
-         </action>
-         <action
-               label="Match Mapping by &amp;Type"
-               icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/MatchByType.gif"
-               class="org.eclipse.emf.mapping.action.TypeMatchMappingAction"
-               tooltip="Create child mappings automatically by type."
-               menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions"
-               toolbarPath="Normal/mapping-additions"
-               id="org.eclipse.emf.mapping.action.TypeMatchMappingActionID">
-         </action>
-         <action
-               label="Match Mapping by &amp;Name"
-               icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/MatchByName.gif"
-               class="org.eclipse.emf.mapping.action.NameMatchMappingAction"
-               tooltip="Create child mappings automatically by name."
-               menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions"
-               toolbarPath="Normal/mapping-additions"
-               id="org.eclipse.emf.mapping.action.NameMatchMappingActionID">
-         </action>
-         <action
-               label="Create &amp;One-sided Mapping"
-               icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateOneToNoneMapping.gif"
-               class="org.eclipse.emf.mapping.action.CreateOneSidedMappingAction"
-               tooltip="Create a new mapping for the selected object."
-               menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions"
-               toolbarPath="Normal/mapping-additions"
-               id="org.eclipse.emf.mapping.action.CreateOneSidedMappingActionID">
-         </action>
-         <action
-               label="Create &amp;Mapping"
-               icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateOneToOneMapping.gif"
-               class="org.eclipse.emf.mapping.action.CreateMappingAction"
-               tooltip="Create a new mapping between the selected objects."
-               menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions"
-               toolbarPath="Normal/mapping-additions"
-               id="org.eclipse.emf.mapping.action.CreateMappingActionID">
-         </action>
-         <action
-               label="Add &amp;Output Root..."
-               icon="platform:/plugin/org.eclipse.emf.mapping.ui/icons/full/ctool16/AddRootBottom.gif"
-               class="org.eclipse.emf.mapping.ecore2ecore.action.AddOutputRootAction"
-               tooltip="Add new output root."
-               menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions"
-               toolbarPath="Normal/mapping-additions"
-               id="org.eclipse.emf.mapping.ecore2ecore.action.AddOuputRootActionID">
-         </action>
-         <action
-               label="Add &amp;Input Root..."
-               icon="platform:/plugin/org.eclipse.emf.mapping.ui/icons/full/ctool16/AddRootTop.gif"
-               class="org.eclipse.emf.mapping.ecore2ecore.action.AddInputRootAction"
-               tooltip="Add new input root."
-               menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions"
-               toolbarPath="Normal/mapping-additions"
-               id="org.eclipse.emf.mapping.ecore2ecore.action.AddInputRootActionID">
-         </action>
-      </editorContribution>
-   </extension>
+  <extension point="org.eclipse.ui.editorActions">
+    <editorContribution targetID="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorID" id="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreContributionID">
+      <menu label="%_UI_Ecore2EcoreEditor_menu_item" path="additions" id="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID">
+        <separator name="settings" />
+        <separator name="actions" />
+        <separator name="global-actions" />
+        <separator name="additions" />
+        <separator name="additions-end" />
+      </menu>
+      <action label="%_UI_RemoveMapping_menu_item" icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/RemoveOneToOneMapping.gif" class="org.eclipse.emf.mapping.action.RemoveMappingAction" tooltip="%_UI_RemoveMapping_tooltip" menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" id="org.eclipse.emf.mapping.action.RemoveMappingActionID" />
+      <action label="%_UI_MatchMappingByType_menu_item" icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/MatchByType.gif" class="org.eclipse.emf.mapping.action.TypeMatchMappingAction" tooltip="%_UI_MatchMappingByType_tooltip" menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" id="org.eclipse.emf.mapping.action.TypeMatchMappingActionID" />
+      <action label="%_UI_MatchMappingByName_menu_item" icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/MatchByName.gif" class="org.eclipse.emf.mapping.action.NameMatchMappingAction" tooltip="%_UI_MatchMappingByName_tooltip" menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" id="org.eclipse.emf.mapping.action.NameMatchMappingActionID" />
+      <action label="%_UI_CreateOneSideMapping_menu_item" icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateOneToNoneMapping.gif" class="org.eclipse.emf.mapping.action.CreateOneSidedMappingAction" tooltip="%_UI_CreateOneSideMapping_tooltip" menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" id="org.eclipse.emf.mapping.action.CreateOneSidedMappingActionID" />
+      <action label="%_UI_CreateMapping_menu_item" icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateOneToOneMapping.gif" class="org.eclipse.emf.mapping.action.CreateMappingAction" tooltip="%_UI_CreateMapping_tooltip" menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" id="org.eclipse.emf.mapping.action.CreateMappingActionID" />
+      <action label="%_UI_AddOutputRoot_menu_item" icon="platform:/plugin/org.eclipse.emf.mapping.ui/icons/full/ctool16/AddRootBottom.gif" class="org.eclipse.emf.mapping.ecore2ecore.action.AddOutputRootAction" tooltip="%_UI_AddOutputRoot_tooltip" menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" id="org.eclipse.emf.mapping.ecore2ecore.action.AddOuputRootActionID" />
+      <action label="%_UI_AddInputRoot_menu_item" icon="platform:/plugin/org.eclipse.emf.mapping.ui/icons/full/ctool16/AddRootTop.gif" class="org.eclipse.emf.mapping.ecore2ecore.action.AddInputRootAction" tooltip="%_UI_AddInputRoot_tooltip" menubarPath="org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" id="org.eclipse.emf.mapping.ecore2ecore.action.AddInputRootActionID" />
+    </editorContribution>
+  </extension>
 
-   <extension point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.ecore"
-            id="org.eclipse.emf.mapping.ecore2ecore.editor.MapToEcoreActionID">
-         <action
-               label="Map to Ecore..."
-               class="org.eclipse.emf.mapping.ecore2ecore.action.MapToEcoreActionDelegate"
-               menubarPath="additions"
-               enablesFor="1"
-               id="org.eclipse.emf.mapping.ecore2ecore.editor.MapToEcoreActionID">
-         </action>
-      </objectContribution>
-   </extension>
+  <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution objectClass="org.eclipse.core.resources.IFile" nameFilter="*.ecore" id="org.eclipse.emf.mapping.ecore2ecore.editor.MapToEcoreActionID">
+      <action label="%_UI_MapToEcore_menu_item" class="org.eclipse.emf.mapping.ecore2ecore.action.MapToEcoreActionDelegate" menubarPath="additions" enablesFor="1" id="org.eclipse.emf.mapping.ecore2ecore.editor.MapToEcoreActionID" />
+    </objectContribution>
+  </extension>
 </plugin>
