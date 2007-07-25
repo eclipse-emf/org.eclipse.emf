@@ -45,12 +45,12 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <includes
          id="org.eclipse.xsd"
-         version="2.0.3"
+         version="2.0.6"
          match="compatible"/>
 
    <includes
          id="org.eclipse.xsd.source"
-         version="2.0.3"
+         version="2.0.6"
          match="compatible"/>
 
    <includes
@@ -60,12 +60,12 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <includes
          id="org.eclipse.emf.ecore.sdo"
-         version="2.0.4"
+         version="2.0.5"
          match="compatible"/>
 
    <includes
          id="org.eclipse.emf.ecore.sdo.source"
-         version="2.0.4"
+         version="2.0.5"
          match="compatible"/>
 
    <includes
