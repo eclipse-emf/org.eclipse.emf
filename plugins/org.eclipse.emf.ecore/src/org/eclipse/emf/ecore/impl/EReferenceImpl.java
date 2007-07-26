@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.13 2007/02/20 17:40:49 emerks Exp $
+ * $Id: EReferenceImpl.java,v 1.14 2007/07/26 19:23:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.ecore.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -252,6 +253,13 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
     eOpposite = newEOpposite;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EREFERENCE__EOPPOSITE, oldEOpposite, eOpposite));
+  }
+
+  @Override
+  public NotificationChain setEType(EClassifier newEType, NotificationChain msgs)
+  {
+    eReferenceType = null;
+    return super.setEType(newEType, msgs);
   }
 
   protected EClass eReferenceType;
