@@ -3,7 +3,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,7 +14,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.5.2.10 2007/07/18 04:56:54 nickb Exp $
+ * $Id: feature.xml,v 1.5.2.11 2007/07/27 05:06:09 nickb Exp $
  */
 -->
 <feature
@@ -80,7 +80,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.tests"
          download-size="0"
          install-size="0"
-         version="2.0.3"/>
+         version="2.0.4"/>
 
    <plugin
          id="org.eclipse.emf.test.performance"
@@ -104,7 +104,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.test.edit"
          download-size="0"
          install-size="0"
-         version="2.0.2"/>
+         version="2.0.3"/>
 
    <plugin
          id="org.eclipse.emf.test.sdo"
