@@ -5,7 +5,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,14 +16,14 @@
  *
  * </copyright>
  *
- * $Id: plugin.xml,v 1.2.2.2 2005/06/08 18:27:45 nickb Exp $
+ * $Id: plugin.xml,v 1.2.2.3 2007/07/27 05:05:45 nickb Exp $
  */
 -->
 
 <plugin
    id="org.eclipse.emf.test.edit"
    name="%pluginName"
-   version="2.0.2"
+   version="2.0.3"
    provider-name="%providerName"
    class="org.eclipse.emf.test.edit.EMFTestEditPlugin">
 
