@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.40 2007/06/15 21:20:58 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.41 2007/07/27 17:33:44 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1345,6 +1345,7 @@ public class JavaEcoreBuilder
           if (existingEPackage != null)
           {
             ePackage.getEClassifiers().addAll(existingEPackage.getEClassifiers());
+            ePackage.getEAnnotations().addAll(existingEPackage.getEAnnotations());
           }
 
           packageNameToEPackageMap.put(qualifiedPackageName, ePackage);
