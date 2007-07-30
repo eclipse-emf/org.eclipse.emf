@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.33 2007/06/14 18:32:46 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.34 2007/07/30 17:44:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1237,7 +1237,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       
     return dynamicFeatureID < 0 ?
       eIsSet(eFeature) /* backward compatibility with old generated overrides */ : 
-      eSettingDelegate(eFeature).dynamicIsSet(this, eSettings(), dynamicFeatureID);
+      eDynamicIsSet(dynamicFeatureID, eFeature);
   }
 
   public boolean eDynamicIsSet(EStructuralFeature eFeature) 

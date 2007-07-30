@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.11 2007/06/25 14:45:47 emerks Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.12 2007/07/30 17:44:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -628,12 +628,14 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
   }
 
   @Override
-  public boolean eDynamicIsSet(EStructuralFeature eStructuralFeature)
+  protected boolean eDynamicIsSet(int dynamicFeatureID, EStructuralFeature eFeature)
   {
-    return 
-      eStructuralFeature.isTransient() ?
-        super.eDynamicIsSet(eStructuralFeature) :
-        eStore().isSet(this, eStructuralFeature);
+    return
+      dynamicFeatureID < 0 ?
+        eOpenIsSet(eFeature) :
+        eFeature.isTransient() ?
+          eSettingDelegate(eFeature).dynamicIsSet(this, eSettings(), dynamicFeatureID) :
+          eStore().isSet(this, eFeature);
   }
 
   protected EList<?> createList(EStructuralFeature eStructuralFeature)
