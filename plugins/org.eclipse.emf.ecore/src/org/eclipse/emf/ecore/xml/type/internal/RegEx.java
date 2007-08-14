@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.8 2005/06/12 13:29:22 emerks Exp $
+ * $Id: RegEx.java,v 1.8.4.1 2007/08/14 18:18:44 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1262,7 +1262,7 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.8 2005/06/12 13:29:22 emerks Exp $
+   * @version $Id: RegEx.java,v 1.8.4.1 2007/08/14 18:18:44 emerks Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       static final boolean DEBUG = false;
@@ -7395,7 +7395,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.8 2005/06/12 13:29:22 emerks Exp $
+   * @version $Id: RegEx.java,v 1.8.4.1 2007/08/14 18:18:44 emerks Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {
@@ -7692,10 +7692,10 @@ public final class RegEx
               throw this.ex("parser.cc.6", this.offset - 2);
             if (c == ']')
               throw this.ex("parser.cc.7", this.offset - 2);
-            if (c == '-')
+            if (c == '-' && !firstloop && chardata != ']')
               throw this.ex("parser.cc.8", this.offset - 2);
           }
-          if (this.read() != T_CHAR || this.chardata != '-')
+          if (this.read() != T_CHAR || this.chardata != '-' || c == '-' && firstloop)
           { // Here is no '-'.
             tok.addRange(c, c);
           }
@@ -7706,7 +7706,12 @@ public final class RegEx
             if ((type = this.read()) == T_EOF)
               throw this.ex("parser.cc.2", this.offset);
             // c '-' ']' -> '-' is a single-range.
-            if ((type == T_CHAR && this.chardata == ']') || type == T_XMLSCHEMA_CC_SUBTRACTION)
+            if (type == T_CHAR && this.chardata == ']') 
+            { // if - is at the last position of the group
+              tok.addRange(c, c);
+              tok.addRange('-', '-');
+            }
+            else if ((type == T_CHAR && this.chardata == ']') || type == T_XMLSCHEMA_CC_SUBTRACTION)
             {
               throw this.ex("parser.cc.8", this.offset - 1);
             }
@@ -7720,7 +7725,7 @@ public final class RegEx
                 if (rangeend == ']')
                   throw this.ex("parser.cc.7", this.offset - 1);
                 if (rangeend == '-')
-                  throw this.ex("parser.cc.8", this.offset - 2);
+                  throw this.ex("parser.cc.8", this.offset - 1);
               }
               else if (type == T_BACKSOLIDUS)
                 rangeend = this.decodeEscaped();
