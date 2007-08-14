@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.41 2007/07/27 17:33:44 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.42 2007/08/14 17:23:07 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -2452,7 +2452,7 @@ public class JavaEcoreBuilder
     }
   }
 
-  enum RequiredClassifierType
+  protected enum RequiredClassifierType
   {
     NONE
     {
