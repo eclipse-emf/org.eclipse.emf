@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.12 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDParser.java,v 1.13 2007/08/14 18:22:57 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -36,6 +36,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -142,6 +143,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
   protected int line;
   protected int column;
   protected String encoding;
+  protected StringBuilder cdata;
 
   /**
    * @deprecated since 2.2
@@ -452,9 +454,16 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
   @Override
   public void characters(char [] characters, int start, int length) throws SAXException
   {
-    Text textNode = document.createTextNode(new String(characters, start, length));
-    element.appendChild(textNode);
-    saveLocation();
+    if (cdata != null)
+    {
+      cdata.append(characters, start, length);
+    }
+    else
+    {
+      Text textNode = document.createTextNode(new String(characters, start, length));
+      element.appendChild(textNode);
+      saveLocation();
+    }
   }
 
   public void comment(char [] characters, int start, int length) throws SAXException
@@ -473,12 +482,15 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 
   public void startCDATA() 
   {
-    // Ignore
+    cdata = new StringBuilder();
   }
 
   public void endCDATA() 
   {
-    // Ignore
+    CDATASection cdataSection = document.createCDATASection(cdata.toString());
+    element.appendChild(cdataSection);
+    cdata = null;
+    saveLocation();
   }
 
   public void startDTD(String name, String publicId, String systemId) 
