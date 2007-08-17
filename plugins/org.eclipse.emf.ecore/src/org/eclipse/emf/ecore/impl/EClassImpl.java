@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.40 2007/07/10 16:41:55 emerks Exp $
+ * $Id: EClassImpl.java,v 1.41 2007/08/17 19:00:12 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -198,9 +198,9 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    */
   public EList<EGenericType> getEGenericSuperTypes()
   {
-    getESuperAdapter();
     if (eGenericSuperTypes == null)
     {
+      getESuperAdapter();
       eGenericSuperTypes = 
         new EObjectContainmentEList.Unsettable<EGenericType>(EGenericType.class, this, EcorePackage.ECLASS__EGENERIC_SUPER_TYPES)
         {
@@ -340,6 +340,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             }
           }
         };
+      getESuperTypes();
     }
     return eGenericSuperTypes;
   }
@@ -1481,9 +1482,9 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
   public EList<EClass> getESuperTypes()
   {
-    getESuperAdapter();
     if (eSuperTypes == null)
     {
+      getESuperAdapter();
       eSuperTypes = 
         new DelegatingEcoreEList<EClass>(this)
         {
