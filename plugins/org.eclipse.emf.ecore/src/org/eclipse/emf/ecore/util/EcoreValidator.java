@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.21 2007/07/10 21:06:39 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.22 2007/08/20 11:41:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1048,7 +1048,19 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEClass_NoCircularSuperTypes(EClass eClass, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    boolean result = !eClass.getEAllSuperTypes().contains(eClass);
+    EList<EClass> eAllSuperTypes = eClass.getEAllSuperTypes();
+    boolean result = !eAllSuperTypes.contains(eClass);
+    if (result)
+    {
+      for (EClass otherEClass : eAllSuperTypes)
+      {
+        if (otherEClass.getEAllSuperTypes().contains(eClass))
+        {
+          result = false;
+          break;
+        }
+      }
+    }
     if (!result && diagnostics != null)
     {
       diagnostics.add
