@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.13 2006/05/24 18:45:34 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.13.2.1 2007/08/24 20:34:58 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -476,6 +476,11 @@ public abstract class GeneratorTask extends EMFTask
       arguments.add("-autoBuild");
       arguments.add(autoBuild.toString());
     };
+    
+    if (templatePath != null)
+    {
+      arguments.add("-dynamicTemplates");
+    }
 
     arguments.add(genModel.getAbsolutePath());
     return arguments;
