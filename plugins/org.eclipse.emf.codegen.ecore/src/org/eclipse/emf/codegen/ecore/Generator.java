@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.27 2006/07/07 17:21:11 marcelop Exp $
+ * $Id: Generator.java,v 1.27.2.1 2007/08/24 20:32:50 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -92,12 +92,11 @@ public class Generator extends CodeGen
   public void printGenerateUsage()
   {
     System.out.println("Usage arguments:");
-    System.out.println("  [-platform | -data] <workspace-directory> ");
-    System.out.println("  [-projects ] <project-root-directory> ");
+    System.out.println("  [-projects <project-root-directory>] ");
     System.out.println("  [-dynamicTemplates] [-forceOverwrite | -diff]");
     System.out.println("  [-generateSchema] [-nonNLSMarkers]");
     System.out.println("  [-codeFormatting { default | <profile-file> } ]");
-    System.out.println("  [-model] [-edit] [-editor]");
+    System.out.println("  [-model] [-edit] [-editor] [-tests]");
     System.out.println("  [-autoBuild <true|false>]");
     System.out.println("  <genmodel-file>");
     System.out.println("  [ <target-root-directory> ]");
