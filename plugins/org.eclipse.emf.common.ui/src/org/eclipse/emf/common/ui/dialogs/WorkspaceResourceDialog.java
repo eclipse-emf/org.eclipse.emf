@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WorkspaceResourceDialog.java,v 1.3 2006/12/28 06:42:02 marcelop Exp $
+ * $Id: WorkspaceResourceDialog.java,v 1.4 2007/08/27 18:15:07 marcelop Exp $
  */
 
 package org.eclipse.emf.common.ui.dialogs;
@@ -246,6 +246,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
         }
       });
     newFolderButton.setFont(parent.getFont());
+    updateNewFolderButtonState();
   }
 
   protected void updateNewFolderButtonState()
