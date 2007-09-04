@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.14 2007/06/18 18:00:43 emerks Exp $
+ * $Id: EMOFHelperImpl.java,v 1.15 2007/09/04 12:57:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -30,7 +30,9 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
@@ -187,12 +189,16 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     return super.getType(eFactory, typeName);
   }
   
+  private static final Integer ONE = 1;
+
   @Override
   public EObject createObject(EFactory eFactory, EClassifier type)
   {
     if (type == propertyClass && propertyClass != null)
     {
       EObject property = propertyClass.getEPackage().getEFactoryInstance().create(propertyClass);
+      property.eSet(EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND, ONE);
+      property.eSet(EcorePackage.Literals.ETYPED_ELEMENT__ORDERED, Boolean.FALSE);
       propertyFeatureList.add(property);
       return property;
     }
@@ -201,6 +207,20 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
       EAnnotation annotation = EcoreFactory.eINSTANCE.createEAnnotation();
       annotation.setSource(EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI);
       return annotation;
+    }
+    else if (EcorePackage.Literals.EOPERATION == type)
+    {
+      EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
+      eOperation.setLowerBound(1);
+      eOperation.setOrdered(false);
+      return eOperation;
+    }
+    else if (EcorePackage.Literals.EPARAMETER == type)
+    {
+      EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
+      eParameter.setLowerBound(1);
+      eParameter.setOrdered(false);
+      return eParameter;
     }
     return super.createObject(eFactory, type);
   }
@@ -248,6 +268,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
         EStructuralFeature emofFeature = (EStructuralFeature)entry.getKey();
         EStructuralFeature ecoreFeature = (EStructuralFeature)entry.getValue();
         EClass eClass = emofFeature.getEContainingClass();
+        resource.setID(ecoreFeature, resource.getID(emofFeature));
         eClass.getEStructuralFeatures().set(eClass.getEStructuralFeatures().indexOf(emofFeature), ecoreFeature);
       }
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFSaveImpl.java,v 1.9 2007/07/10 16:23:47 emerks Exp $
+ * $Id: EMOFSaveImpl.java,v 1.10 2007/09/04 12:57:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -41,6 +41,8 @@ public class EMOFSaveImpl extends XMISaveImpl
     idAttributeName = XMI_ID_NS;
   }
 
+  private static final Integer ONE = 1;
+
   @Override
   protected boolean shouldSaveFeature(EObject o, EStructuralFeature f)
   {
@@ -52,6 +54,14 @@ public class EMOFSaveImpl extends XMISaveImpl
              f == EcorePackage.Literals.ECLASS__ESUPER_TYPES)
     {
       return !((EList<?>)o.eGet(f)).isEmpty();
+    }
+    else if (f == EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND)
+    {
+      return keepDefaults || !ONE.equals(o.eGet(f));
+    }
+    else if (f == EcorePackage.Literals.ETYPED_ELEMENT__ORDERED)
+    {
+      return keepDefaults || !Boolean.FALSE.equals(o.eGet(f));
     }
     else
     {
@@ -82,10 +92,23 @@ public class EMOFSaveImpl extends XMISaveImpl
         f == EcorePackage.Literals.EDATA_TYPE__SERIALIZABLE ||
         f == EcorePackage.Literals.ECLASS__INTERFACE)
     {
+      if (f == EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE && 
+          o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE)) return;
+      if (f == EcorePackage.Literals.ESTRUCTURAL_FEATURE__TRANSIENT && 
+          (o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE) ||
+           o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE))) return;
+      if (f == EcorePackage.Literals.EREFERENCE__RESOLVE_PROXIES && 
+          (o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__TRANSIENT) || 
+           o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE) ||
+           o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE))) return;
+      if (f == EcorePackage.Literals.EDATA_TYPE__SERIALIZABLE && 
+          (o.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME) || o.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME))) return;
+      if (f == EcorePackage.Literals.ECLASS__INTERFACE && 
+          (o.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME) || o.eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME))) return;
       doc.startElement(EMOFExtendedMetaData.XMI_EXTENSION_ELEMENT);
       doc.addAttribute(EMOFExtendedMetaData.XMI_EXTENDER_ATTRIBUTE, EcorePackage.eNS_URI);
       saveExtensionFeature(o, f);
-      if (f == EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME)
+      if (f == EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME || f == EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME)
       {
         if (o instanceof EDataType)
         {
@@ -122,7 +145,7 @@ public class EMOFSaveImpl extends XMISaveImpl
       }
       else if (f == EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE)
       { 
-        if (f == EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE)
+        if (o.eIsSet(EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE))
         {
           saveExtensionFeature(o, EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE);
         }
