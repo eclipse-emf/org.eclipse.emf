@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.15 2007/09/04 12:57:11 emerks Exp $
+ * $Id: EMOFHelperImpl.java,v 1.16 2007/09/04 12:58:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -165,7 +165,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     EPackage ePackage = eFactory.getEPackage();
     if (ePackage == EcorePackage.eINSTANCE)
     {
-      if (EcorePackage.Literals.ESTRUCTURAL_FEATURE.getName().equals(typeName))
+      if (EcorePackage.Literals.ESTRUCTURAL_FEATURE.getName().equals(typeName) || "Property".equals(typeName))
       {
         if (propertyClass == null)
         {
