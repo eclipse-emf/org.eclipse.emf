@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.28 2007/03/29 18:14:16 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.29 2007/09/06 19:46:46 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -557,6 +557,10 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
       if (editorProjectLocationPath != null)
       {
         genModel.setEditorDirectory(editorProjectLocationPath + "/./" + editorFragmentPath + "/.");
+      }
+      if (testsProjectLocationPath != null)
+      {
+        genModel.setTestsDirectory(testsProjectLocationPath + "/./" + testsFragmentPath + "/.");
       }
       if (templatePath != null)
       {
