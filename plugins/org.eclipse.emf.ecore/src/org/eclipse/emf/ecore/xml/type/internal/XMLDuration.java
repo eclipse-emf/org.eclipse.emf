@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLDuration.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLDuration.java,v 1.4.4.1 2007/09/06 18:24:36 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -347,6 +347,12 @@ public final class XMLDuration {
         //add years (may be modified additionaly below)
         duration[XMLCalendar.CY]=addto[XMLCalendar.CY] + date[XMLCalendar.CY] + carry;
         
+        //add milliseconds
+        temp = addto[XMLCalendar.ms] + date[XMLCalendar.ms];
+        carry = XMLCalendar.fQuotient(temp, 1000);
+        duration[XMLCalendar.ms] = XMLCalendar.mod(temp, 1000, carry);
+
+
         //add seconds
         temp = addto[XMLCalendar.s] + date[XMLCalendar.s];
         carry = XMLCalendar.fQuotient (temp, 60);
