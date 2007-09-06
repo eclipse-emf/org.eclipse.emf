@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.21 2006/06/13 14:57:06 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.21.2.1 2007/09/06 19:47:40 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -523,6 +523,10 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       if (editorProjectLocationPath != null)
       {
         genModel.setEditorDirectory(editorProjectLocationPath + "/./" + editorFragmentPath + "/.");
+      }
+      if (testsProjectLocationPath != null)
+      {
+        genModel.setTestsDirectory(testsProjectLocationPath + "/./" + testsFragmentPath + "/.");
       }
       if (templatePath != null)
       {
