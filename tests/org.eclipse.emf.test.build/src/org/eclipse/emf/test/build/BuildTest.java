@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.18 2007/09/07 01:53:24 nickb Exp $
+ * $Id: BuildTest.java,v 1.19 2007/09/07 02:36:39 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -174,14 +174,6 @@ public class BuildTest extends TestCase
           {
             result.append(",").append(missingFiles);
           }
-          else
-          {
-            String docZipResult = testDocZip(plugin);
-            if (docZipResult.length() > 0)
-            {
-              result.append(",").append(docZipResult);
-            }
-          }
         }
         
         if (isBrandingPlugin(name))
@@ -338,26 +330,6 @@ public class BuildTest extends TestCase
     brandingPluginNames.add("org.eclipse.xsd.source");
     brandingPluginNames.add("org.eclipse.xsd");
     return brandingPluginNames;
-  }
-  
-  protected String testDocZip(File pluginDir) throws ZipException, IOException
-  {
-    boolean hasJavadocGif = false;
-    ZipFile docZip = new ZipFile(new File(pluginDir, "doc.zip"));
-    for (Enumeration<? extends ZipEntry> entries=docZip.entries(); entries.hasMoreElements();)
-    {
-      ZipEntry entry = entries.nextElement();
-      String name = entry.getName();
-      if(name.matches("references\\/javadoc\\/.*\\/doc-files/.*\\.gif$"))
-      {
-        hasJavadocGif = true;
-        break;
-      }
-    }
-    docZip.close();
-    
-    return hasJavadocGif ? "" : 
-      pluginDir + "/doc.zip doesn't have a reference/javadoc/*/doc-files/*.gif";
   }
   
   /*
