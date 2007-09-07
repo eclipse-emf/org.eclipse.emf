@@ -5,7 +5,7 @@
 	<property name="pluginVersion" value="2.3.1"/>
 	<property name="docPlugin" value="org.eclipse.xsd.doc"/>
 	
-	<property name="filesToInclude" value="META-INF/**,about.*,modeling*.png,plugin.*,doc.zip,toc*.xml,topics_*.xml,index/**,images/**,tutorials/**,references/**"/>
+	<property name="filesToInclude" value="META-INF/**,about.*,modeling*.png,plugin.*,doc.zip,toc*.xml,topics_*.xml,index/**,images/**,tutorials/**,references/**,css/**"/>
 
 	<!-- Compiler settings. -->
 	<property name="javacFailOnError" value="false"/>
