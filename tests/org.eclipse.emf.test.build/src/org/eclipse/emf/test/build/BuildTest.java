@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.19 2007/09/07 02:36:39 nickb Exp $
+ * $Id: BuildTest.java,v 1.20 2007/09/07 04:03:11 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -169,7 +169,9 @@ public class BuildTest extends TestCase
         if (isDocPlugin(name))
         {
           docPluginsCounter++;
-          String missingFiles = getMissingFiles(plugin, REQUIRED_DOC_PLUGIN_FILES); 
+          String missingFiles = jarFile == null ?
+            getMissingFiles(plugin, REQUIRED_DOC_PLUGIN_FILES) : 
+            getMissingFiles(jarFile, REQUIRED_DOC_PLUGIN_FILES); 
           if (missingFiles.length() > 0)
           {
             result.append(",").append(missingFiles);
