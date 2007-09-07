@@ -13,19 +13,19 @@
 <div align="right">&nbsp; &copy; 
   Copyright <a href="http://www.azzurri.jp">Azzurri Ltd.</a> 2003 - 2005. All rights 
   reserved
-  <table border=0 cellspacing=0 cellpadding=2 width="100%">
+  <table border="0" cellspacing="0" cellpadding="2" width="100%">
 
     <tr> 
-      <td align=LEFT valign=TOP colspan="2" bgcolor="#0080C0"><b><font face="Arial,Helvetica"><font color="#FFFFFF">&nbsp;Eclipse 
+      <td align="left" valign="top" colspan="2" bgcolor="#0080C0"><b><font face="Arial,Helvetica"><font color="#FFFFFF">&nbsp;Eclipse 
         Corner Article</font></font></b></td>
     </tr>
   </table>
 </div>
 <div align="left"> 
-  <h1><img src="http://www.eclipse.org/images/Idea.jpg" align=CENTER width="120" height="86"/></h1>
+  <h1><img src="http://www.eclipse.org/images/Idea.jpg" align="middle" width="120" height="86"/></h1>
 </div>
 
-<h1 align="CENTER">JET Tutorial Part 1 (Introduction to JET) </h1>
+<h1 align="center">JET Tutorial Part 1 (Introduction to JET) </h1>
 
 <blockquote>
 <b>Summary</b>
@@ -98,10 +98,11 @@ Project wizard. Create a new Java project and add a source folder to it named
 <h4> Step 2. Convert the Project to a JET Project</h4>
 <p>After creating the project, right-click on it in the Package Explorer or Hierarchy 
   view and select New &gt; Other... &gt; Java Emitter Templates &gt; Convert Projects to JET Projects.  
+</p>
   
 <p><img src="images/img002.gif" alt="New Java Project with src folder"/></p>
 
-  After pressing the Next button, select
+  <p>After pressing the Next button, select
   the project you've created and click Finish.</p>
 
 <p><img src="images/img003.gif" alt="Adding JET Nature to Java Project"/></p>
@@ -466,8 +467,7 @@ and how to use these Java implementation classes to generate code.
 After the JET Builder translates the template, the implementation class looks 
 like this: 
 </p>
-<pre><font color="#4444cc">
-</font> package hello;
+<pre> package hello;
  
  public class GreetingTemplate <img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/>implements IGenerator
  {
