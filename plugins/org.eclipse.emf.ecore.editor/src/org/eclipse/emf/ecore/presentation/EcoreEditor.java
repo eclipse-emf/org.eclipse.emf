@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.48 2007/06/12 15:07:52 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.49 2007/09/08 10:25:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -164,6 +164,7 @@ import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
@@ -1077,6 +1078,8 @@ public class EcoreEditor
 
   public void createModel()
   {
+    editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+
     createModelGen();
 
     if (!editingDomain.getResourceSet().getResources().isEmpty())
