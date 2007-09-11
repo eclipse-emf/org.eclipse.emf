@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupImpl.java,v 1.11 2007/02/20 17:42:20 emerks Exp $
+ * $Id: XSDModelGroupImpl.java,v 1.12 2007/09/11 18:26:18 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -673,6 +673,16 @@ public class XSDModelGroupImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
+    if (eReference == XSDPackage.Literals.XSD_MODEL_GROUP__CONTENTS)
+    {
+      traverseToRootForPatching();
+    }
+  }
+
+  @Override
+  public void moveContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
+  {
+    super.moveContent(eReference, xsdConcreteComponent);
     if (eReference == XSDPackage.Literals.XSD_MODEL_GROUP__CONTENTS)
     {
       traverseToRootForPatching();
