@@ -4,6 +4,7 @@
     
   <!-- Global properties -->
 	<property name="main.directory" location="${antfile.dir}/.."/>
+	<property name="output.directory" location="${main.directory}"/>
 	<property name="source.directory" value="src"/>
 	<property name="genJDKLevel" value="5.0"/>
 	
@@ -16,8 +17,8 @@
 			<sequential>
 				<emf.Ecore2Java
 					model="${main.directory}/model/@{modelName}.ecore"
-					genModel="${main.directory}/emf/@{modelName}.genmodel"
-					modelProject="${main.directory}"
+					genModel="${output.directory}/emf/@{modelName}.genmodel"
+					modelProject="${output.directory}"
 					modelProjectFragmentPath="${source.directory}"
 					modelPluginID="@{modelName}.model"
 					copyright="This is my code."
