@@ -4,6 +4,7 @@
     
   <!-- Global properties -->
 	<property name="main.directory" location="${antfile.dir}/.."/>
+	<property name="output.directory" location="${main.directory}"/>
 	<property name="source.directory" value="src"/>
 	<property name="genJDKLevel" value="5.0"/>
 	
@@ -15,8 +16,8 @@
 			<element name="settings"/>
 			<sequential>
 				<emf.XSD2Java
-					genModel="${main.directory}/emf/@{genModelName}.genmodel"
-					modelProject="${main.directory}"
+					genModel="${output.directory}/emf/@{genModelName}.genmodel"
+					modelProject="${output.directory}"
 					modelProjectFragmentPath="${source.directory}"
 					modelPluginID="@{genModelName}.model"
 					copyright="This is my code."

@@ -4,6 +4,7 @@
     
   <!-- Global properties -->
 	<property name="main.directory" location="${antfile.dir}/.."/>
+	<property name="ouput.directory" location="${antfile.dir}/.."/>
 	<property name="source.directory" value="src"/>
 	<property name="genJDKLevel" value="5.0"/>
 	
@@ -16,8 +17,8 @@
 			<sequential>
 				<emf.XSD2Java
 					model="${main.directory}/model/@{modelName}.xsd"
-					genModel="${main.directory}/emf/@{modelName}.genmodel"
-					modelProject="${main.directory}"
+					genModel="${ouput.directory}/emf/@{modelName}.genmodel"
+					modelProject="${ouput.directory}"
 					modelProjectFragmentPath="${source.directory}"
 					copyright="This is my code."
 					jdkLevel="${genJDKLevel}">

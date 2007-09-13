@@ -8,7 +8,7 @@ rem The directory indicated by the -modelProject argument should be neither a pa
 set WORKSPACE=%MAIN_DIR%\..\codegenWorkspace
 
 rem XSD2GenModel application
-java -classpath %ECLIPSE_DIR%\startup.jar org.eclipse.core.launcher.Main -clean -data %WORKSPACE% -application org.eclipse.xsd.ecore.importer.XSD2GenModel %MAIN_DIR%\model\library.xsd %MAIN_DIR%\emf\library.genmodel -modelProject %MAIN_DIR% src -copyright "This is my code." -jdkLevel "5.0" -packages http://www.example.eclipse.org/Library -packageMap http://www.example.eclipse.org/Library org.examples.library
+%ECLIPSE_DIR%\eclipsec -noSplash -clean -data %WORKSPACE% -application org.eclipse.xsd.ecore.importer.XSD2GenModel %MAIN_DIR%\model\library.xsd %MAIN_DIR%\emf\library.genmodel -modelProject %MAIN_DIR% src -copyright "This is my code." -jdkLevel "5.0" -packages http://www.example.eclipse.org/Library -packageMap http://www.example.eclipse.org/Library org.examples.library
 
 rem Generator application
-java -classpath %ECLIPSE_DIR%\startup.jar org.eclipse.core.launcher.Main -clean -data %WORKSPACE% -application org.eclipse.emf.codegen.ecore.Generator -model %MAIN_DIR%\emf\library.genmodel
+%ECLIPSE_DIR%\eclipsec -noSplash -clean -data %WORKSPACE% -application org.eclipse.emf.codegen.ecore.Generator -model %MAIN_DIR%\emf\library.genmodel

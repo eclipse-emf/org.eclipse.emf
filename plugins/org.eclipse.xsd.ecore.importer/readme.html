@@ -61,12 +61,14 @@ summary="Lists the details about the Generator application.">
 <p>In order to run these or any other Eclipse application, you need to execute the following 
 command (without the line breaks):</p>
 <p>
-java
-<br/>&nbsp;&nbsp;-classpath <i>&lt;eclipseDir&gt;</i>/startup.jar org.eclipse.core.launcher.Main
+eclipse
+<br/>&nbsp;&nbsp;-noSplash
 <br/>&nbsp;&nbsp;-data <i>&lt;full path to a workspace - ideally an empty directory&gt;</i>
 <br/>&nbsp;&nbsp;-application <i>&lt;application ID&gt;</i>
 <br/>&nbsp;&nbsp;<i>&lt;application arguments&gt;</i>
 </p>
+<p>In Windows you should execute <i>eclipsec</i> instead of <i>eclipse</i> in order to have
+access to the application's console output.</p> 
 <p>The directory &quot;examples/library/build&quot; has shell scripts that generate the code for
 the model provided.  If you have any questions after reading and experimenting with it, look at the 
 applications's javadoc for more details.  Also, check the application's class  
@@ -82,12 +84,14 @@ summary="Lists the details about the XSD task.">
 </table>
 <p>This is the usual command line to run an Ant script using a headless Eclipse instance (remove the line breaks):</p>
 <p>
-java 
-<br/>&nbsp;&nbsp;-classpath <i>&lt;eclipseDir&gt;</i>/startup.jar org.eclipse.core.launcher.Main 
+eclipse
+<br/>&nbsp;&nbsp;-noSplash 
 <br/>&nbsp;&nbsp;-data <i>&lt;full path to a workspace - ideally an empty directory&gt;</i>
 <br/>&nbsp;&nbsp;-application org.eclipse.ant.core.antRunner
 <br/>&nbsp;&nbsp;-buildfile <i>&lt;full path to your script&gt;</i>
 </p>
+<p>In Windows you should execute <i>eclipsec</i> instead of <i>eclipse</i> in order to have
+access to the Ant build script console output.</p>
 <p>The directory &quot;examples/library/build&quot; has an Ant script that generate the code for
 the model provided.  The task's javadoc has lots of information you may find useful.</p>
 
