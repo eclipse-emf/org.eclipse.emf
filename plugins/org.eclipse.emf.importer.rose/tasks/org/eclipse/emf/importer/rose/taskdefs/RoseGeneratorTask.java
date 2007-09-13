@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseGeneratorTask.java,v 1.4 2006/12/28 06:56:06 marcelop Exp $
+ * $Id: RoseGeneratorTask.java,v 1.5 2007/09/13 14:59:43 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.taskdefs;
 
@@ -38,11 +38,17 @@ import org.eclipse.emf.importer.rose.RoseImporterApplication;
  * Ant script.
  * </p>
  * <p>
- * java -classpath <i>eclipseDir</i>/startup.jar org.eclipse.core.launcher.Main
+ * <i>eclipseDir</i>/eclipse
+ *      -noSplash
  *      -data <i>worspaceDir</i>
  *      -application org.eclipse.ant.core.antRunner
  *      -buildfile <i>antScript</i>
  * </p>
+ * <p>In Windows you should execute <i>eclipsec</i> instead of <i>eclipse</i> in order to have
+ * access to the Ant build script console output.</p>
+ * <p>You can also use the Eclipse UI to execute an Ant script containing this task by right-clicking the script and selecting 
+ * <i>Run As &gt; Ant Build... &gt; JRE &gt; "Run in the same JRE as the workspace&quot;</i>.</p>
+ * 
  * <p>
  * Usage example:
  * </p>
