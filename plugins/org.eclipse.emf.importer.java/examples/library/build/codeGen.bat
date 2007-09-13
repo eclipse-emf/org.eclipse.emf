@@ -13,7 +13,7 @@ rem The workspace directory
 set WORKSPACE=%MAIN_DIR%\..\codegenWorkspace
 
 rem Java2GenModel application
-java -classpath %ECLIPSE_DIR%\startup.jar org.eclipse.core.launcher.Main -clean -data %WORKSPACE% -application org.eclipse.emf.importer.ecore.Java2GenModel %GENMODEL_IPATH% -modelProject %MODEL_PROJECT% src -modelPluginID library.model -copyright "This is my code." -jdkLevel "5.0" 
+%ECLIPSE_DIR%\eclipsec -noSplash -clean -data %WORKSPACE% -application org.eclipse.emf.importer.ecore.Java2GenModel %GENMODEL_IPATH% -modelProject %MODEL_PROJECT% src -modelPluginID library.model -copyright "This is my code." -jdkLevel "5.0" 
 
 rem Generator application
-java -classpath %ECLIPSE_DIR%\startup.jar org.eclipse.core.launcher.Main -clean -data %WORKSPACE% -application org.eclipse.emf.codegen.ecore.Generator -model %GENMODEL_LOCATION%
+%ECLIPSE_DIR%\eclipsec -noSplash -clean -data %WORKSPACE% -application org.eclipse.emf.codegen.ecore.Generator -model %GENMODEL_LOCATION%
