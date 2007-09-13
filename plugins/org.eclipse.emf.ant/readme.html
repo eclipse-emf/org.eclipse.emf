@@ -46,13 +46,15 @@ on files located in any directory.  In other words, your models, templates and o
 to be in the &quot;plugins&quot; directory nor in the workspace.<br/><br/></li>
 <li>This is the usual command line to run an Ant script using a headless Eclipse instance 
 (you will need to remove the line breaks):
-<br/> 
-java 
-<br/>&nbsp;&nbsp;-classpath <i>&lt;eclipseDir&gt;</i>/startup.jar org.eclipse.core.launcher.Main 
-<br/>&nbsp;&nbsp;-data <i>&lt;full path to a workspace - ideally an empty directory&gt;</i>
-<br/>&nbsp;&nbsp;-application org.eclipse.ant.core.antRunner
-<br/>&nbsp;&nbsp;-buildfile <i>&lt;full path to your script&gt;</i>
-<br/><br/></li>
+<br/><br/> 
+&nbsp;&nbsp;eclipse
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;-noSplash 
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;-data <i>&lt;full path to a workspace - ideally an empty directory&gt;</i>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;-application org.eclipse.ant.core.antRunner
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;-buildfile <i>&lt;full path to your script&gt;</i>
+<br/><br/>
+<p>In Windows you should execute <i>eclipsec</i> instead of <i>eclipse</i> in order to have
+access to the Ant build script console output.</p></li>
 <li>Starting a new JVM process and invoking Eclipse are expensive operations.  Your build will 
 perform better if you are able to group the tasks that require Eclipse in a few scripts 
 (one script would be ideal).
