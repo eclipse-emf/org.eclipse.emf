@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.15 2007/03/22 15:42:20 davidms Exp $
+ * $Id: PropertyDescriptor.java,v 1.16 2007/09/13 15:05:01 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -52,7 +52,6 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 import org.eclipse.emf.edit.ui.celleditor.FeatureEditorDialog;
 
@@ -453,7 +452,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
                     getEditLabelProvider(),
                     object,
                     feature.getEType(),
-                    (List<?>)((IItemPropertySource)itemPropertyDescriptor.getPropertyValue(object)).getEditableValue(object),
+                    (List<?>)doGetValue(),
                     getDisplayName(),
                     new ArrayList<Object>(choiceOfValues),
                     false,
@@ -489,7 +488,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
                     getEditLabelProvider(),
                     object,
                     feature.getEType(),
-                    (List<?>)((IItemPropertySource)itemPropertyDescriptor.getPropertyValue(object)).getEditableValue(object),
+                    (List<?>)doGetValue(),
                     getDisplayName(),
                     null,
                     itemPropertyDescriptor.isMultiLine(object),
