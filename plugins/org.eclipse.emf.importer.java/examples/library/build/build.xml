@@ -4,6 +4,7 @@
     
   <!-- Global properties -->
 	<property name="main.directory" location="${antfile.dir}/.."/>
+	<property name="output.directory" location="${main.directory}"/>
 	<basename property="projectName" file="${main.directory}"/>
 	<property name="genJDKLevel" value="5.0"/>
 	
@@ -16,7 +17,7 @@
 			<sequential>
 				<emf.Java2Java
 					genModelPath="/${projectName}/emf/@{modelName}.genmodel"
-					modelProject="${main.directory}"
+					modelProject="${output.directory}"
 					modelPluginID="@{modelName}.model"
 					copyright="This is my code."
 					jdkLevel="${genJDKLevel}">
