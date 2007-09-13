@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompilerTask.java,v 1.3 2007/06/12 20:56:07 emerks Exp $
+ * $Id: JETCompilerTask.java,v 1.4 2007/09/13 14:58:57 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen;
 
@@ -47,11 +47,19 @@ import org.eclipse.emf.codegen.jet.JETSkeleton;
  * The following command line will start a headless Eclipse instance and run the specified Ant script.
  * </p>
  * <p>
- * java -classpath <i>eclipseDir</i>/startup.jar org.eclipse.core.launcher.Main
+ * <i>eclipseDir</i>/eclipse
+ *      -noSplash
  *      -data <i>worspaceDir</i>
  *      -application org.eclipse.ant.core.antRunner
  *      -buildfile <i>antScript</i>
  * </p>
+ * <p>In Windows you should execute <i>eclipsec</i> instead of <i>eclipse</i> in order to have
+ * access to the Ant build script console output.</p>
+ * <p>You can also use the Eclipse UI to execute an Ant script containing this task by right-clicking the script and selecting 
+ * <i>Run As &gt; Ant Build... &gt; JRE &gt; "Run in the same JRE as the workspace&quot;</i>.</p>
+ * 
+ * <p>
+ 
  * <p>
  * Usage examples:
  * </p>
