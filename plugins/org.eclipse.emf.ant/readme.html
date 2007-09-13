@@ -44,6 +44,7 @@ and select &quot;PDE Tools&gt;Create Ant Build File&quot;.
 <li>Although all the EMF tasks must be executed by Eclipse (usually in headless mode), they can work 
 on files located in any directory.  In other words, your models, templates and other files don't need 
 to be in the &quot;plugins&quot; directory nor in the workspace.<br/><br/></li>
+
 <li>This is the usual command line to run an Ant script using a headless Eclipse instance 
 (you will need to remove the line breaks):
 <br/><br/> 
@@ -55,10 +56,16 @@ to be in the &quot;plugins&quot; directory nor in the workspace.<br/><br/></li>
 <br/><br/>
 <p>In Windows you should execute <i>eclipsec</i> instead of <i>eclipse</i> in order to have
 access to the Ant build script console output.</p></li>
+
+<li>You can also use the Eclipse UI to execute an Ant script containing an EMF task.  This can be 
+done by right-clicking the script and selecting <br/>
+<i>Run As &gt; Ant Build... &gt; JRE &gt; "Run in the same JRE as the workspace&quot;<br/><br/></i></li>
+
 <li>Starting a new JVM process and invoking Eclipse are expensive operations.  Your build will 
 perform better if you are able to group the tasks that require Eclipse in a few scripts 
 (one script would be ideal).
 <br/><br/></li>
+
 <li>In order to preserve the original state of this plugin's &quot;examples&quot; directory, you
 should copy it to a different location and run the Ant scripts from there.</li>
 </ul>
