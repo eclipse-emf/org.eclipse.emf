@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaGeneratorTask.java,v 1.1 2007/03/29 18:16:04 marcelop Exp $
+ * $Id: JavaGeneratorTask.java,v 1.2 2007/09/13 14:59:30 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.taskdefs;
 
@@ -46,11 +46,17 @@ import org.eclipse.emf.importer.java.JavaImporterApplication;
  * Ant script.
  * </p>
  * <p>
- * java -classpath <i>eclipseDir</i>/startup.jar org.eclipse.core.launcher.Main
+ * <i>eclipseDir</i>/eclipse
+ *      -noSplash
  *      -data <i>worspaceDir</i>
  *      -application org.eclipse.ant.core.antRunner
  *      -buildfile <i>antScript</i>
  * </p>
+ * <p>In Windows you should execute <i>eclipsec</i> instead of <i>eclipse</i> in order to have
+ * access to the Ant build script console output.</p>
+ * <p>You can also use the Eclipse UI to execute an Ant script containing this task by right-clicking the script and selecting 
+ * <i>Run As &gt; Ant Build... &gt; JRE &gt; "Run in the same JRE as the workspace&quot;</i>.</p>
+ * 
  * <p>
  * Usage example:
  * </p>
