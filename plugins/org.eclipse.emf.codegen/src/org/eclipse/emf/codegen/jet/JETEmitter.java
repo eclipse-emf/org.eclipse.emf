@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.25 2007/06/12 20:56:05 emerks Exp $
+ * $Id: JETEmitter.java,v 1.26 2007/09/13 15:06:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -584,20 +584,35 @@ public class JETEmitter
             try
             {
               Class<?> theClass = theClassLoader.loadClass(className);
-              String methodName = jetCompiler.getSkeleton().getMethodName();
-              Method [] methods = theClass.getDeclaredMethods();
-              for (int i = 0; i < methods.length; ++i)
-              {
-                if (methods[i].getName().equals(methodName))
-                {
-                  jetEmitter.setMethod(methods[i]);
-                  break;
-                }
-              }
 
-              // Don't do any of the other normally dynamic JETEmitter project processing.
+              // Check that the class is actually different from the one that's directly visible to the JETEmitter.
               //
-              return;
+              Class<?> theOtherClass = null;
+              try
+              {
+                 theOtherClass = jetEmitter.classLoader.loadClass(className);
+              }
+              catch (ClassNotFoundException exception)
+              {
+                // Ignore.
+              }
+              if (theClass != theOtherClass)
+              {
+                String methodName = jetCompiler.getSkeleton().getMethodName();
+                Method [] methods = theClass.getDeclaredMethods();
+                for (int i = 0; i < methods.length; ++i)
+                {
+                  if (methods[i].getName().equals(methodName))
+                  {
+                    jetEmitter.setMethod(methods[i]);
+                    break;
+                  }
+                }
+  
+                // Don't do any of the other normally dynamic JETEmitter project processing.
+                //
+                return;
+              }
             }
             catch (ClassNotFoundException exception)
             {
