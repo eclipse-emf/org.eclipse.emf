@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.14 2007/07/10 16:17:38 emerks Exp $
+ * $Id: XMLCalendar.java,v 1.15 2007/09/15 11:58:07 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -329,7 +329,9 @@ public final class XMLCalendar extends XMLGregorianCalendar
   @Override
   public int compare(XMLGregorianCalendar xmlGregorianCalendar)
   {
-    return this.xmlGregorianCalendar.compare(xmlGregorianCalendar);
+    return
+      this.xmlGregorianCalendar.compare
+       (xmlGregorianCalendar instanceof XMLCalendar ? ((XMLCalendar)xmlGregorianCalendar).xmlGregorianCalendar : xmlGregorianCalendar);
   }
 
   @Override
