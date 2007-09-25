@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.22 2007/06/14 18:32:46 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.22.2.1 2007/09/25 15:03:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -68,6 +68,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   }
   
   protected Set<Resource> unloadedResources = new HashSet<Resource>();
+  private Map<EObject, Resource> unloadedEObjects = new HashMap<EObject, Resource>();
   
   protected class InverseCrossReferencer extends EcoreUtil.CrossReferencer
   {
@@ -455,7 +456,42 @@ public class ECrossReferenceAdapter implements Adapter.Internal
         {
           if (!unloadedResources.contains(notifier))
           {
-            handleContainment(notification);
+            switch (notification.getEventType())
+            {
+              case Notification.REMOVE:
+              {
+                Resource resource = (Resource)notifier;
+                if (!resource.isLoaded())
+                {
+                  EObject eObject = (EObject)notification.getOldValue();
+                  unloadedEObjects.put(eObject, resource);
+                  for (Iterator<EObject> i = EcoreUtil.getAllProperContents(eObject, false); i.hasNext(); )
+                  {
+                    unloadedEObjects.put(i.next(), resource);
+                  }
+                }
+                break;
+              }
+              case Notification.REMOVE_MANY:
+              {
+                Resource resource = (Resource)notifier;
+                if (!resource.isLoaded())
+                {
+                  @SuppressWarnings("unchecked")
+                  List<EObject> eObjects = (List<EObject>)notification.getOldValue();
+                  for (Iterator<EObject> i = EcoreUtil.getAllProperContents(eObjects, false); i.hasNext(); )
+                  {
+                    unloadedEObjects.put(i.next(), resource);
+                  }
+                }
+                break;
+              }
+              default:
+              {
+                handleContainment(notification);
+                break;
+              }
+            }
           }
           break;
         }
@@ -472,6 +508,23 @@ public class ECrossReferenceAdapter implements Adapter.Internal
           else
           {
             unloadedResources.add((Resource)notifier);
+            for (Iterator<Map.Entry<EObject, Resource>> i = unloadedEObjects.entrySet().iterator(); i.hasNext(); )
+            {
+              Map.Entry<EObject, Resource> entry = i.next();
+              if (entry.getValue() == notifier)
+              {
+                i.remove();
+                EObject eObject = entry.getKey();
+                Collection<EStructuralFeature.Setting> settings = inverseCrossReferencer.get(eObject);
+                if (settings != null)
+                {
+                  for (EStructuralFeature.Setting setting : settings)
+                  {
+                    inverseCrossReferencer.addProxy(eObject, setting.getEObject());
+                  }
+                }
+              }
+            }
           }
           break;
         }
@@ -701,7 +754,6 @@ public class ECrossReferenceAdapter implements Adapter.Internal
    */
   protected void unsetTarget(EObject target)
   {
-    inverseCrossReferencer.remove(target);
     for (EContentsEList.FeatureIterator<EObject> i = inverseCrossReferencer.getCrossReferences(target); i.hasNext(); )
     {
       EObject crossReferencedEObject = i.next();
