@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InitializeCopyCommand.java,v 1.8 2007/07/10 16:19:08 emerks Exp $
+ * $Id: InitializeCopyCommand.java,v 1.9 2007/09/28 19:37:46 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -225,16 +225,16 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
       {
         @SuppressWarnings("unchecked")
         List<EObject> valueList = (List<EObject>)value;
+        @SuppressWarnings("unchecked")
+        EList<EObject> copyList = (EList<EObject>)copy.eGet(reference);
         if (valueList.isEmpty())
         {
           // It must be an unsettable feature to be empty and considered set.
           //
-          valueList.clear();
+          copyList.clear();
         }
         else
         {
-          @SuppressWarnings("unchecked")
-          EList<EObject> copyList = (EList<EObject>)copy.eGet(reference);
           int index = 0;
           for (EObject item : valueList)
           {
