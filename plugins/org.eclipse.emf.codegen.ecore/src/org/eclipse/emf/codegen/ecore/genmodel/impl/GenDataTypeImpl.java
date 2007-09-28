@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.31 2007/07/10 21:05:46 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.31.2.1 2007/09/28 19:50:48 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1063,12 +1063,29 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     }
     else if (EcorePackage.eNS_URI.equals(nsURI))
     {
-      // EDate is far too often overridden to provide a different mapping, and the for the default is somewhat obscure.
+      // EDate is far too often overridden to provide a different mapping, and therefor the default is somewhat obscure.
       // So, it's best to delegate to the factory.
       //
-      return
-        "EDate".equals(eDataType.getName()) ||
-          "EJavaObject".equals(eDataType.getName()) && !getExtendedMetaData().getMemberTypes(getEcoreDataType()).isEmpty();
+      if ("EDate".equals(eDataType.getName()))
+      {
+        return true;
+      }
+      else if ("EJavaObject".equals(eDataType.getName()))
+      {
+        ExtendedMetaData extendedMetaData = getExtendedMetaData();
+        for (EDataType base = getEcoreDataType(); base != null; base = extendedMetaData.getBaseType(base))
+        {
+          if (!extendedMetaData.getMemberTypes(base).isEmpty())
+          {
+            return false;
+          }
+        }
+        return true;
+      }
+      else
+      {
+        return false;
+      }
     }
     return true;
   }
