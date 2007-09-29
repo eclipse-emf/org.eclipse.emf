@@ -12,13 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ControlAction.java,v 1.5 2007/03/23 17:36:45 marcelop Exp $
+ * $Id: ControlAction.java,v 1.6 2007/09/29 16:43:49 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 
@@ -201,20 +199,7 @@ public class ControlAction extends CommandActionHandler
         return false;                
       }
 
-      boolean resourceExists = false;
-      try
-      {
-        InputStream stream = resourceSet.getURIConverter().createInputStream(uri);
-        if (stream != null)
-        {
-          resourceExists = true;
-          stream.close();
-        }
-      }
-      catch (IOException exception) 
-      { 
-        // Ignore 
-      }
+      boolean resourceExists = resourceSet.getURIConverter().exists(uri, null);
 
       boolean resourceBad = false;
       if (!resourceInSet)
