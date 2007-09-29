@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.57 2007/06/15 21:57:52 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.58 2007/09/29 09:30:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -24,11 +24,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -3076,6 +3078,84 @@ public class EcoreUtil
     }
 
     remove(eObject);
+  }
+
+  /**
+   * Deletes the object from its {@link EObject#eResource containing} resource 
+   * and/or its {@link EObject#eContainer containing} object
+   * as well as from any other feature that references it 
+   * within the enclosing resource set, resource, or root object.
+   * If recursive true, contained children of the object that are in the same resource 
+   * are similarly removed from any features that references them.
+   * @param eObject the object to delete.
+   * @param recursive whether references to contained children should also be removed.
+   * @since 2.4
+   */
+  public static void delete(EObject eObject, boolean recursive)
+  {
+    if (recursive)
+    {
+      EObject rootEObject = getRootContainer(eObject);
+      Resource resource = rootEObject.eResource();
+
+      Set<EObject> eObjects = new HashSet<EObject>();        
+      Set<EObject> crossResourceEObjects = new HashSet<EObject>();        
+      eObjects.add(eObject);
+      for (@SuppressWarnings("unchecked") TreeIterator<InternalEObject> j = (TreeIterator<InternalEObject>)(TreeIterator<?>)eObject.eAllContents();  j.hasNext(); )
+      {
+        InternalEObject childEObject = j.next();
+        if (childEObject.eDirectResource() != null)
+        {
+          crossResourceEObjects.add(childEObject);
+        }
+        else
+        {
+          eObjects.add(childEObject);
+        }
+      }
+
+      Map<EObject, Collection<EStructuralFeature.Setting>> usages;
+      if (resource == null)
+      {
+        usages = UsageCrossReferencer.findAll(eObjects, rootEObject);
+      }
+      else
+      {
+        ResourceSet resourceSet = resource.getResourceSet();
+        if (resourceSet == null)
+        {
+          usages = UsageCrossReferencer.findAll(eObjects, resource);
+        }
+        else
+        {
+          usages = UsageCrossReferencer.findAll(eObjects, resourceSet);
+        }
+      }
+
+      for (Map.Entry<EObject, Collection<EStructuralFeature.Setting>> entry : usages.entrySet())
+      {
+        EObject deletedEObject = entry.getKey();
+        Collection<EStructuralFeature.Setting> settings = entry.getValue();
+        for (EStructuralFeature.Setting setting : settings)
+        {
+          if (!eObjects.contains(setting.getEObject()) && setting.getEStructuralFeature().isChangeable())
+          {
+            remove(setting, deletedEObject);
+          }
+        }
+      }
+  
+      remove(eObject);
+
+      for (EObject crossResourceEObject : crossResourceEObjects)
+      {
+        remove(crossResourceEObject.eContainer(), crossResourceEObject.eContainmentFeature(), crossResourceEObject);
+      }
+    }
+    else
+    {
+      delete(eObject);
+    }
   }
 
   /**
