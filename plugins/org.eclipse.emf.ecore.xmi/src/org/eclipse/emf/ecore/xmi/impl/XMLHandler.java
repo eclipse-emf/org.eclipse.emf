@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.79 2007/06/14 18:32:40 emerks Exp $
+ * $Id: XMLHandler.java,v 1.80 2007/09/29 16:43:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -48,7 +48,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
+ import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -770,7 +770,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   {
     try
     {
-      InputStream inputStream = getURIConverter().createInputStream(URI.createURI(systemId));
+      InputStream inputStream = getURIConverter().createInputStream(URI.createURI(systemId), null);
       InputSource result = new InputSource(inputStream);
       result.setPublicId(publicId);
       result.setSystemId(systemId);
@@ -2393,7 +2393,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         {
           try
           {
-            InputStream inputStream = getURIConverter().createInputStream(trimmedURI);
+            InputStream inputStream = getURIConverter().createInputStream(trimmedURI, null);
             resource = resourceSet.createResource(trimmedURI);
             if (resource == null)
             {
@@ -2501,7 +2501,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   protected URIConverter getURIConverter()
   {
-    return resourceSet != null ? resourceSet.getURIConverter() : new URIConverterImpl();
+    return resourceSet != null ? resourceSet.getURIConverter() : new ExtensibleURIConverterImpl();
   }
 
   protected void setFeatureValue(EObject object, EStructuralFeature feature, Object value)

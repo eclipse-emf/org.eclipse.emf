@@ -9,6 +9,14 @@
     <parser type="ecore" class="org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl" />
   </extension>
 
+  <extension
+        point="org.eclipse.emf.ecore.content_parser">
+     <parser
+           class="org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl"
+           contentTypeIdentifier="org.eclipse.emf.ecore">
+     </parser>
+  </extension>
+
   <extension point="org.eclipse.emf.ecore.extension_parser">
     <parser type="emof" class="org.eclipse.emf.ecore.xmi.impl.EMOFResourceFactoryImpl" />
   </extension>
@@ -16,5 +24,27 @@
   <extension point="org.eclipse.team.core.fileTypes">
     <fileTypes extension="ecore" type="text" />
     <fileTypes extension="emof" type="text" />
+  </extension>
+
+  <extension
+        point="org.eclipse.core.runtime.contentTypes">
+     <content-type
+           base-type="org.eclipse.core.runtime.xml"
+           file-extensions="ecore,xmi"
+           id="org.eclipse.emf.ecore"
+           name="Ecore Model Content"
+           priority="normal">
+        <describer
+              class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
+           <parameter
+                 name="namespace"
+                 value="http://www.eclipse.org/emf/2002/Ecore">
+           </parameter>
+           <parameter
+                 name="kind"
+                 value="xmi">
+           </parameter>
+        </describer>
+     </content-type>
   </extension>
 </plugin>
