@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedMetaData.java,v 1.12 2007/06/14 18:32:46 emerks Exp $
+ * $Id: ExtendedMetaData.java,v 1.13 2007/09/29 19:03:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -143,6 +143,12 @@ public interface ExtendedMetaData
    * and its content kind to mixed content.
    */  
   void setDocumentRoot(EClass eClass);
+
+  /**
+   * Returns whether the given class is a document root, i.e., whether it has an empty string as its XML Name.
+   * @since 2.4
+   */
+  boolean isDocumentRoot(EClass eClass);
 
   /**
    * If the given class has mixed content type, returns the "xmlns:prefix" feature, which is used to store namespace

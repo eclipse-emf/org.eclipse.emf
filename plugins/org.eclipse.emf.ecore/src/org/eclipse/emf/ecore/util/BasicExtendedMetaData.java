@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.31 2007/08/14 17:28:53 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.32 2007/09/29 19:03:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -140,6 +140,11 @@ public class BasicExtendedMetaData implements ExtendedMetaData
   {
     setName(eClass, "");
     setContentKind(eClass, MIXED_CONTENT);
+  }
+
+  public boolean isDocumentRoot(EClass eClass)
+  {
+    return "".equals(getName(eClass));
   }
 
   public EReference getXMLNSPrefixMapFeature(EClass eClass)

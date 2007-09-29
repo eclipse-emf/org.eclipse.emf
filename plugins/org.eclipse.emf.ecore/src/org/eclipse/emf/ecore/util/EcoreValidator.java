@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.22 2007/08/20 11:41:31 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.23 2007/09/29 19:03:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -678,7 +678,7 @@ public class EcoreValidator extends EObjectValidator
     // and these will be the ID in the complex types that reference them,
     // i.e., they aren't really the ID of the document root.
     //
-    if (eIDAttribute != null && !"".equals(ExtendedMetaData.INSTANCE.getName(eClass)))
+    if (eIDAttribute != null && !ExtendedMetaData.INSTANCE.isDocumentRoot(eClass))
     {
       LOOP:
       for (EAttribute eAttribute : eClass.getEAllAttributes())
