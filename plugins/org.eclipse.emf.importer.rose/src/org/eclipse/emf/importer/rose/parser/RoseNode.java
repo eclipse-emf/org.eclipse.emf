@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseNode.java,v 1.5 2006/12/28 06:56:06 marcelop Exp $
+ * $Id: RoseNode.java,v 1.6 2007/09/29 09:48:49 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -437,6 +437,12 @@ public class RoseNode
   public boolean isUnique()
   {
     String attributeValue = getAttributeValue("Ecore", "isUnique");
+    return !"false".equalsIgnoreCase(attributeValue);
+  }
+
+  public boolean isOrdered()
+  {
+    String attributeValue = getAttributeValue("Ecore", "isOrdered");
     return !"false".equalsIgnoreCase(attributeValue);
   }
 

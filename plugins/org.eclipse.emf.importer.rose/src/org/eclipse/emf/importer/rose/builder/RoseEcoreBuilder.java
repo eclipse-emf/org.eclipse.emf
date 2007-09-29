@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.17 2007/01/15 21:10:46 davidms Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.18 2007/09/29 09:48:49 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -933,6 +933,7 @@ public class RoseEcoreBuilder implements RoseVisitor
   protected void setEOperationProperties(RoseNode roseNode, EOperation eOperation)
   {
     setETypedElementProperties(roseNode, eOperation);
+    eOperation.setOrdered(roseNode.isOrdered());
     eOperation.setUnique(roseNode.isUnique());
     
     String semantics = roseNode.getSemantics();
@@ -1093,6 +1094,7 @@ public class RoseEcoreBuilder implements RoseVisitor
     eAttribute.setTransient(roseNode.isTransient());
     eAttribute.setVolatile(roseNode.isVolatile());
     eAttribute.setChangeable(roseNode.isChangeable());
+    eAttribute.setOrdered(roseNode.isOrdered());
     eAttribute.setUnique(roseNode.isUnique());
     eAttribute.setUnsettable(roseNode.isUnsettable());
     eAttribute.setID(roseNode.isID());
@@ -1113,6 +1115,8 @@ public class RoseEcoreBuilder implements RoseVisitor
     eReference.setChangeable(roseNode.isChangeable());
     eReference.setResolveProxies(roseNode.isResolveProxies());
     eReference.setUnsettable(roseNode.isUnsettable());
+    eReference.setOrdered(roseNode.isOrdered());
+    eReference.setUnique(roseNode.isUnique());
 
     setEStructuralFeatureVisibility(roseNode, eReference);
   }
@@ -2208,6 +2212,8 @@ public class RoseEcoreBuilder implements RoseVisitor
         eReference.setResolveProxies(false);
         eReference.getEAnnotations().addAll(eAttribute.getEAnnotations());
         eReference.setUnsettable(eAttribute.isUnsettable());
+        eReference.setOrdered(eAttribute.isOrdered());
+        eReference.setUnique(eAttribute.isUnique());
 
         eStructuralFeatures.set(eStructuralFeatures.indexOf(eAttribute), eReference);
 
@@ -2247,6 +2253,8 @@ public class RoseEcoreBuilder implements RoseVisitor
           eAttribute.setUpperBound(eReference.getUpperBound());
           eAttribute.getEAnnotations().addAll(eReference.getEAnnotations());
           eAttribute.setUnsettable(eReference.isUnsettable());
+          eAttribute.setOrdered(eReference.isOrdered());
+          eAttribute.setUnique(eReference.isUnique());
 
           eStructuralFeatures.set(eStructuralFeatures.indexOf(eReference), eAttribute);
 

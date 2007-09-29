@@ -100,6 +100,10 @@
                 value      	TRUE)
             (object Attribute
                 tool       	"Ecore"
+                name       	"isOrdered"
+                value      	TRUE)
+            (object Attribute
+                tool       	"Ecore"
                 name       	"annotation"
                 value      	"")))
     (object Attribute
@@ -129,6 +133,10 @@
             (object Attribute
                 tool       	"Ecore"
                 name       	"isUnique"
+                value      	TRUE)
+            (object Attribute
+                tool       	"Ecore"
+                name       	"isOrdered"
                 value      	TRUE)
             (object Attribute
                 tool       	"Ecore"
@@ -229,6 +237,14 @@
             (object Attribute
                 tool       	"Ecore"
                 name       	"isResolveProxies"
+                value      	TRUE)
+            (object Attribute
+                tool       	"Ecore"
+                name       	"isOrdered"
+                value      	TRUE)
+            (object Attribute
+                tool       	"Ecore"
+                name       	"isUnique"
                 value      	TRUE)
             (object Attribute
                 tool       	"Ecore"
