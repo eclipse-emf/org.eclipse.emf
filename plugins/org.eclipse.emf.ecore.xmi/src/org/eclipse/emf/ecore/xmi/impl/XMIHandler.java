@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIHandler.java,v 1.13 2007/06/12 12:05:20 emerks Exp $
+ * $Id: XMIHandler.java,v 1.14 2007/09/29 19:03:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -156,7 +156,7 @@ public abstract class XMIHandler extends XMLHandler
     if (documentRoot != null)
     {
       EObject eObject = objects.peekEObject();
-      if (eObject == documentRoot && (extendedMetaData == null || "".equals(extendedMetaData.getName(eObject.eClass()))))
+      if (eObject == documentRoot && (extendedMetaData == null || extendedMetaData.isDocumentRoot(eObject.eClass())))
       {
         types.pop();
         objects.pop();
