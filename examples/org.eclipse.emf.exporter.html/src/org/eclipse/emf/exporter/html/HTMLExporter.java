@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporter.java,v 1.6 2007/01/06 22:50:22 marcelop Exp $
+ * $Id: HTMLExporter.java,v 1.7 2007/09/29 16:44:21 emerks Exp $
  */
 package org.eclipse.emf.exporter.html;
 
@@ -45,7 +45,6 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
 import org.eclipse.emf.exporter.ModelExporter;
 
 /**
@@ -468,8 +467,7 @@ public class HTMLExporter extends ModelExporter
 
   protected void save(String content) throws IOException
   {
-    URIConverter uriConverter = new URIConverterImpl();
-    OutputStream outputStream = uriConverter.createOutputStream(currentArtifactURI);
+    OutputStream outputStream = URIConverter.INSTANCE.createOutputStream(currentArtifactURI, null);
     outputStream.write(content.getBytes("UTF-8"));
     outputStream.close();
   }
