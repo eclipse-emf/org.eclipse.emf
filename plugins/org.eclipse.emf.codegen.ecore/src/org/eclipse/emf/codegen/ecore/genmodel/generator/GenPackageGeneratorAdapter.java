@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.12 2007/04/25 20:25:32 emerks Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.13 2007/09/29 16:42:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -335,7 +335,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
         try
         {
-          outputResource.save(set.getURIConverter().createOutputStream(targetURI), options);
+          outputResource.save(set.getURIConverter().createOutputStream(targetURI, options), options);
         }
         catch (IOException exception)
         {

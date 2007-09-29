@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.15 2007/06/12 20:56:34 emerks Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.16 2007/09/29 16:42:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -73,7 +73,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
+import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 
 /**
  * A base <code>GeneratorAdapter</code> implementation. This base provides support for
@@ -1254,7 +1254,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
     if (uriConverter == null)
     {
-      uriConverter = new URIConverterImpl();
+      uriConverter = new ExtensibleURIConverterImpl();
     }
     return uriConverter;
   }
@@ -1341,29 +1341,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   protected boolean exists(URI workspacePath)
   {
-    if (EMFPlugin.IS_ECLIPSE_RUNNING)
-    {
-      return EclipseHelper.exists(workspacePath.toString());
-    }
-
-    URI uri = getURIConverter().normalize(toPlatformResourceURI(workspacePath));
-    if ("file".equalsIgnoreCase(uri.scheme()))
-    {
-      return new File(uri.toFileString()).exists();
-    }
-    else
-    {
-      try
-      {
-        InputStream inputStream = getURIConverter().createInputStream(uri);
-        inputStream.close();
-        return true;
-      }
-      catch (IOException exception)
-      { 
-        return false;
-      }
-    }
+    return getURIConverter().exists(toPlatformResourceURI(workspacePath), null);
   }
 
   /**
@@ -1438,7 +1416,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     {
       return EclipseHelper.createInputStream(workspacePath.toString());
     }
-    return getURIConverter().createInputStream(toPlatformResourceURI(workspacePath));
+    return getURIConverter().createInputStream(toPlatformResourceURI(workspacePath), null);
   }
 
   /**
@@ -1446,7 +1424,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   protected OutputStream createOutputStream(URI workspacePath) throws Exception
   {
-    return getURIConverter().createOutputStream(toPlatformResourceURI(workspacePath));
+    return getURIConverter().createOutputStream(toPlatformResourceURI(workspacePath), null);
   }
 
   /**
