@@ -143,13 +143,8 @@ public class ArchiveURLConnection extends URLConnection
   {
     connected = true;
   }
-  
-  /**
-   * Creates the input stream for the URL.
-   * @return the input stream for the URL.
-   */
-  @Override
-  public InputStream getInputStream() throws IOException 
+
+  protected String getNestedURL() throws IOException
   {
     // There must be at least one archive path.
     //
@@ -158,7 +153,7 @@ public class ArchiveURLConnection extends URLConnection
     {
       throw new MalformedURLException("missing archive separators " + urlString);
     }
-    
+
     // There needs to be another URL protocol right after the archive protocol, and not a "/".
     //
     int start = urlString.indexOf(':') + 1;
@@ -168,7 +163,7 @@ public class ArchiveURLConnection extends URLConnection
         new IllegalArgumentException
           ("archive protocol must be immediately followed by another URL protocol " + urlString);
     }
-    
+
     // Parse to extract the archives that will be delegated to the nested URL based on the number of schemes at the start.
     //
     for (int i = start, end = urlString.indexOf("/") - 1; (i = urlString.indexOf(":", i)) < end; )
@@ -191,20 +186,30 @@ public class ArchiveURLConnection extends URLConnection
         ++i;
       }
     }
-          
-    // System.out.println("archive: " + urlString.substring(start, archiveSeparator) + " -> " + urlString.substring(archiveSeparator + 2));
-          
+
+    return urlString.substring(start, archiveSeparator);
+  }
+
+  /**
+   * Creates the input stream for the URL.
+   * @return the input stream for the URL.
+   */
+  @Override
+  public InputStream getInputStream() throws IOException 
+  {
     // Create the delegate URL.
     //
-    String nestedURL = urlString.substring(start, archiveSeparator);
+    String nestedURL = getNestedURL();
           
     // The cutoff point to the next archive.
     //
+    int archiveSeparator = urlString.indexOf(nestedURL) + nestedURL.length();
     int nextArchiveSeparator = urlString.indexOf("!/", archiveSeparator + 2);
           
     // Construct the input stream in a special efficient way for case of a file scheme.
     //
     InputStream inputStream;
+    ZipEntry inputZipEntry = null;
     if (!useZipFile() || !nestedURL.startsWith("file:"))
     {
       // Just get the stream from the URL.
@@ -230,13 +235,13 @@ public class ArchiveURLConnection extends URLConnection
       // and wrap it so that closing it closes the zip file.
       //
       final ZipFile zipFile = new ZipFile(nestedURL.substring(5));
-      ZipEntry zipEntry = zipFile.getEntry(entry);
-      if (zipEntry == null)
+      inputZipEntry = zipFile.getEntry(entry);
+      if (inputZipEntry == null)
       {
         throw new IOException("archive entry not found " + entry);
       }
       inputStream = 
-        new FilterInputStream(zipFile.getInputStream(zipEntry))
+        new FilterInputStream(zipFile.getInputStream(inputZipEntry))
         {
           @Override
           public void close() throws IOException
@@ -252,6 +257,8 @@ public class ArchiveURLConnection extends URLConnection
     LOOP:
     while (archiveSeparator > 0)
     {
+      inputZipEntry = null;
+
       // The entry name to be matched.
       //
       String entry = 
@@ -271,6 +278,7 @@ public class ArchiveURLConnection extends URLConnection
         }
         else if (entry.equals(zipEntry.getName()))
         {
+          inputZipEntry = zipEntry;
           inputStream = zipInputStream;
                   
           // Skip to the next archive path and continue the loop.
@@ -280,15 +288,26 @@ public class ArchiveURLConnection extends URLConnection
           continue LOOP;
         }
       }
-            
+
+      if (inputZipEntry == null)
+      {
+        zipInputStream.close();
+        throw new IOException("archive entry not found " + entry);
+      }
+
       // Unless we matched an entry, we're done.
       //
       break;
     }
-          
+
+    return yield(inputZipEntry, inputStream);
+  }
+
+  protected InputStream yield(ZipEntry zipEntry, InputStream inputStream) throws IOException
+  {
     return inputStream;
   }
-  
+
   /**
    * Creates an input stream for the nested URL by calling {@link URL#openStream() opening} a stream on it.
    * @param nestedURL the nested URL for which a stream is required.
@@ -306,52 +325,19 @@ public class ArchiveURLConnection extends URLConnection
   @Override
   public OutputStream getOutputStream() throws IOException
   {
-    // There must be at least one archive separator.
-    //
-    int archiveSeparator = urlString.indexOf("!/");
-    if (archiveSeparator < 0)
-    {
-      throw new MalformedURLException("missing archive separator in " + urlString);
-    }
-    
-    // There needs to be another URL protocol right after the archive protocol, and not a "/".
-    //
-    int start = urlString.indexOf(':') + 1;
-    if (start > urlString.length() || urlString.charAt(start) == '/')
-    {
-      throw 
-        new IllegalArgumentException
-          ("archive protocol must be immediately followed by another URL protocol " + urlString);
-    }
-    
-    // Parse the URI to extract the nested/delegate URI based on preference and the number of schemes at the start.
-    //
-    for (int i = start, end = urlString.indexOf("/") - 1; (i = urlString.indexOf(":", i)) < end; )
-    {
-      if (emulateArchiveScheme())
-      {
-        // Skip a scheme for the achive accessor to be handled directly here.
-        //
-        start = ++i;
-      }
-      else
-      {
-        // Skip an archive accessor to be handled by delegation to the scheme in nested URI.
-        //
-        archiveSeparator = urlString.indexOf("!/", archiveSeparator + 2);
-        if (archiveSeparator < 0)
-        {
-          throw new MalformedURLException("too few archive separators in " + urlString);
-        }
-        ++i;
-      }
-    }
-    
-    // System.out.println("archive: -> " + urlString.substring(start, archiveSeparator) + " -> " + urlString.substring(archiveSeparator + 2));
-    
+    return getOutputStream(false);
+  }
+
+  public void delete() throws IOException
+  {
+    getOutputStream(true).close();
+  }
+
+  private OutputStream getOutputStream(boolean delete) throws IOException
+  {
     // Create the delegate URL
     //
-    final String nestedURL = urlString.substring(start, archiveSeparator);
+    final String nestedURL = getNestedURL();
     
     // Create a temporary file where the existing contents of the archive can be written 
     // before the new contents are added.
@@ -383,6 +369,7 @@ public class ArchiveURLConnection extends URLConnection
       
       // The cutoff point to the next archive.
       //
+      int archiveSeparator = urlString.indexOf(nestedURL) + nestedURL.length();
       int nextArchiveSeparator = urlString.indexOf("!/", archiveSeparator + 2);
       
       // The most deeply nested output stream that will be returned wrapped as the result.
@@ -395,7 +382,8 @@ public class ArchiveURLConnection extends URLConnection
               
       // We expect there to be at least one archive path.
       //
-      do
+      ZipEntry outputZipEntry;
+      for (;;)
       {
         // The name that will be used as the archive entry.
         //
@@ -406,8 +394,7 @@ public class ArchiveURLConnection extends URLConnection
              
         // Wrap the current result as a zip stream, and record it for loop-based recursion.
         //
-        zipOutputStream =  new ZipOutputStream(outputStream);
-        outputStream = zipOutputStream;
+        zipOutputStream = null;
         
         // Wrap the current input as a zip stream, and record it for loop-based recursion.
         //
@@ -428,6 +415,11 @@ public class ArchiveURLConnection extends URLConnection
           }
           else if (!entry.equals(zipEntry.getName()))
           {
+            if (zipOutputStream == null)
+            {
+              zipOutputStream =  new ZipOutputStream(outputStream);
+              outputStream = zipOutputStream;
+            }
             // Transfer the entry and its contents.
             //
             zipOutputStream.putNextEntry(zipEntry);
@@ -437,17 +429,40 @@ public class ArchiveURLConnection extends URLConnection
             }
           }
         }
-        
-        // Create a new or replaced entry.
-        //
-        zipOutputStream.putNextEntry(new ZipEntry(entry));
-        
+
         // Find the next archive path and continue "recursively" if there is one.
         //
         archiveSeparator = nextArchiveSeparator;
         nextArchiveSeparator = urlString.indexOf("!/", archiveSeparator + 2);
+
+        if (delete && archiveSeparator < 0)
+        {
+          // Create no entry since we are deleting and return immediately.
+          //
+          outputZipEntry = null;
+          break;
+        }
+        else 
+        {
+          // Create a new or replaced entry and continue processing the remaining archives.
+          //
+          outputZipEntry = new ZipEntry(entry);
+          if (zipOutputStream == null)
+          {
+            zipOutputStream =  new ZipOutputStream(outputStream);
+            outputStream = zipOutputStream;
+          }
+          zipOutputStream.putNextEntry(outputZipEntry);
+          if (archiveSeparator > 0)
+          {
+            continue;
+          }
+          else
+          {
+            break;
+          }
+        }
       }
-      while (archiveSeparator > 0);
       
       // Ensure that it won't be closed in the finally block.
       //
@@ -456,8 +471,8 @@ public class ArchiveURLConnection extends URLConnection
       // Wrap the deepest result so that on close, the results are finally transferred.
       //
       final boolean deleteRequired = sourceInputStream != null;
-      return
-        new FilterOutputStream(zipOutputStream)
+      FilterOutputStream result = 
+        new FilterOutputStream(zipOutputStream == null ? outputStream : zipOutputStream)
         {
           protected boolean isClosed;
           
@@ -523,7 +538,8 @@ public class ArchiveURLConnection extends URLConnection
               }
             }
           }
-       };
+        };
+      return outputZipEntry == null ? result : yield(outputZipEntry, result);
     }
     finally
     {
@@ -541,6 +557,11 @@ public class ArchiveURLConnection extends URLConnection
         sourceInputStream.close();
       }
     }
+  }
+
+  protected OutputStream yield(ZipEntry zipEntry, OutputStream outputStream) throws IOException
+  {
+    return outputStream;
   }
   
   /**
