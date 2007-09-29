@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.12 2007/07/30 17:44:00 emerks Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.13 2007/09/29 18:51:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -137,18 +137,21 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
   }
 
   /**
-   * A list that delegates to a eStore.
+   * A list that delegates to a store.
+   * @since 2.4
    */
-  public static class EStoreEList<E> extends DelegatingEcoreEList.Dynamic<E>
+  public static class BasicEStoreEList<E> extends DelegatingEcoreEList.Dynamic<E>
   {
     private static final long serialVersionUID = 1L;
 
-    protected InternalEObject.EStore store; 
-
-    public EStoreEList(InternalEObject owner, EStructuralFeature eStructuralFeature, InternalEObject.EStore store)
+    public BasicEStoreEList(InternalEObject owner, EStructuralFeature eStructuralFeature)
     {
       super(owner, eStructuralFeature);
-      this.store = store;
+    }
+    
+    protected EStore eStore()
+    {
+      return owner.eStore();
     }
 
     @Override
@@ -166,7 +169,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected void delegateAdd(int index, Object object)
     {
-      store.add(owner, eStructuralFeature, index, object);
+      eStore().add(owner, eStructuralFeature, index, object);
     }
 
     @Override
@@ -185,7 +188,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
       }
       else
       {
-        Object[] data = store.toArray(owner, eStructuralFeature);
+        Object[] data = eStore().toArray(owner, eStructuralFeature);
         return new EcoreEList.UnmodifiableEList<E>(owner, eStructuralFeature, data.length, data);
       }
     }
@@ -193,13 +196,13 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected void delegateClear()
     {
-      store.clear(owner, eStructuralFeature);
+      eStore().clear(owner, eStructuralFeature);
     }
 
     @Override
     protected boolean delegateContains(Object object)
     {
-      return store.contains(owner, eStructuralFeature, object);
+      return eStore().contains(owner, eStructuralFeature, object);
     }
 
     @Override
@@ -219,25 +222,25 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected E delegateGet(int index)
     {
-      return (E)store.get(owner, eStructuralFeature, index);
+      return (E)eStore().get(owner, eStructuralFeature, index);
     }
 
     @Override
     protected int delegateHashCode()
     {
-      return store.hashCode(owner, eStructuralFeature);
+      return eStore().hashCode(owner, eStructuralFeature);
     }
 
     @Override
     protected int delegateIndexOf(Object object)
     {
-      return store.indexOf(owner, eStructuralFeature, object);
+      return eStore().indexOf(owner, eStructuralFeature, object);
     }
 
     @Override
     protected boolean delegateIsEmpty()
     {
-      return store.isEmpty(owner, eStructuralFeature);
+      return eStore().isEmpty(owner, eStructuralFeature);
     }
 
     @Override
@@ -249,7 +252,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected int delegateLastIndexOf(Object object)
     {
-      return store.lastIndexOf(owner, eStructuralFeature, object);
+      return eStore().lastIndexOf(owner, eStructuralFeature, object);
     }
 
     @Override
@@ -262,39 +265,39 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected E delegateRemove(int index)
     {
-      return (E)store.remove(owner, eStructuralFeature, index);
+      return (E)eStore().remove(owner, eStructuralFeature, index);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     protected E delegateSet(int index, E object)
     {
-      return (E)store.set(owner, eStructuralFeature, index, object);
+      return (E)eStore().set(owner, eStructuralFeature, index, object);
     }
 
     @Override
     protected int delegateSize()
     {
-      return store.size(owner, eStructuralFeature);
+      return eStore().size(owner, eStructuralFeature);
     }
 
     @Override
     protected Object[] delegateToArray()
     {
-      return store.toArray(owner, eStructuralFeature);
+      return eStore().toArray(owner, eStructuralFeature);
     }
 
     @Override
     protected <T> T[] delegateToArray(T[] array)
     {
-      return store.toArray(owner, eStructuralFeature, array);
+      return eStore().toArray(owner, eStructuralFeature, array);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     protected E delegateMove(int targetIndex, int sourceIndex)
     {
-      return (E)store.move(owner, eStructuralFeature, targetIndex, sourceIndex);
+      return (E)eStore().move(owner, eStructuralFeature, targetIndex, sourceIndex);
     }
 
     @Override
@@ -349,18 +352,43 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
   }
 
   /**
-   * A feature map that delegates to a store.
+   * A list that delegates to a store.
    */
-  public static class EStoreFeatureMap extends DelegatingFeatureMap
+  public static class EStoreEList<E> extends BasicEStoreEList<E>
   {
     private static final long serialVersionUID = 1L;
 
-    protected final InternalEObject.EStore store; 
+    protected InternalEObject.EStore store; 
 
-    public EStoreFeatureMap(InternalEObject owner, EStructuralFeature eStructuralFeature, InternalEObject.EStore store)
+    public EStoreEList(InternalEObject owner, EStructuralFeature eStructuralFeature, InternalEObject.EStore store)
     {
       super(owner, eStructuralFeature);
       this.store = store;
+    }
+    
+    @Override
+    protected final EStore eStore()
+    {
+      return store;
+    }
+  }
+
+  /**
+   * A feature map that delegates to a store.
+   * @since 2.4
+   */
+  public static class BasicEStoreFeatureMap extends DelegatingFeatureMap
+  {
+    private static final long serialVersionUID = 1L;
+
+    public BasicEStoreFeatureMap(InternalEObject owner, EStructuralFeature eStructuralFeature)
+    {
+      super(owner, eStructuralFeature);
+    }
+    
+    protected EStore eStore()
+    {
+      return owner.eStore();
     }
     
     @Override
@@ -378,7 +406,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected void delegateAdd(int index, Entry object)
     {
-      store.add(owner, eStructuralFeature, index, object);
+      eStore().add(owner, eStructuralFeature, index, object);
     }
 
     @Override
@@ -397,7 +425,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
       }
       else
       {
-        Object[] data = store.toArray(owner, eStructuralFeature);
+        Object[] data = eStore().toArray(owner, eStructuralFeature);
         return new EcoreEList.UnmodifiableEList<FeatureMap.Entry>(owner, eStructuralFeature, data.length, data);
       }
     }
@@ -405,13 +433,13 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected void delegateClear()
     {
-      store.clear(owner, eStructuralFeature);
+      eStore().clear(owner, eStructuralFeature);
     }
 
     @Override
     protected boolean delegateContains(Object object)
     {
-      return store.contains(owner, eStructuralFeature, object);
+      return eStore().contains(owner, eStructuralFeature, object);
     }
 
     @Override
@@ -430,25 +458,25 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected Entry delegateGet(int index)
     {
-      return (Entry)store.get(owner, eStructuralFeature, index);
+      return (Entry)eStore().get(owner, eStructuralFeature, index);
     }
 
     @Override
     protected int delegateHashCode()
     {
-      return store.hashCode(owner, eStructuralFeature);
+      return eStore().hashCode(owner, eStructuralFeature);
     }
 
     @Override
     protected int delegateIndexOf(Object object)
     {
-      return store.indexOf(owner, eStructuralFeature, object);
+      return eStore().indexOf(owner, eStructuralFeature, object);
     }
 
     @Override
     protected boolean delegateIsEmpty()
     {
-      return store.isEmpty(owner, eStructuralFeature);
+      return eStore().isEmpty(owner, eStructuralFeature);
     }
 
     @Override
@@ -460,7 +488,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected int delegateLastIndexOf(Object object)
     {
-      return store.lastIndexOf(owner, eStructuralFeature, object);
+      return eStore().lastIndexOf(owner, eStructuralFeature, object);
     }
 
     @Override
@@ -472,37 +500,37 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     @Override
     protected Entry delegateRemove(int index)
     {
-      return (Entry)store.remove(owner, eStructuralFeature, index);
+      return (Entry)eStore().remove(owner, eStructuralFeature, index);
     }
 
     @Override
     protected Entry delegateSet(int index, Entry object)
     {
-      return (Entry)store.set(owner, eStructuralFeature, index, object);
+      return (Entry)eStore().set(owner, eStructuralFeature, index, object);
     }
 
     @Override
     protected int delegateSize()
     {
-      return store.size(owner, eStructuralFeature);
+      return eStore().size(owner, eStructuralFeature);
     }
 
     @Override
     protected Object[] delegateToArray()
     {
-      return store.toArray(owner, eStructuralFeature);
+      return eStore().toArray(owner, eStructuralFeature);
     }
 
     @Override
     protected <T> T[] delegateToArray(T[] array)
     {
-      return store.toArray(owner, eStructuralFeature, array);
+      return eStore().toArray(owner, eStructuralFeature, array);
     }
 
     @Override
     protected Entry delegateMove(int targetIndex, int sourceIndex)
     {
-      return (Entry)store.move(owner, eStructuralFeature, targetIndex, sourceIndex);
+      return (Entry)eStore().move(owner, eStructuralFeature, targetIndex, sourceIndex);
     }
 
     @Override
@@ -521,6 +549,28 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
       }
       stringBuffer.append("]");
       return stringBuffer.toString();
+    }
+  }
+
+  /**
+   * A feature map that delegates to a store.
+   */
+  public static class EStoreFeatureMap extends BasicEStoreFeatureMap
+  {
+    private static final long serialVersionUID = 1L;
+
+    protected final InternalEObject.EStore store; 
+
+    public EStoreFeatureMap(InternalEObject owner, EStructuralFeature eStructuralFeature, InternalEObject.EStore store)
+    {
+      super(owner, eStructuralFeature);
+      this.store = store;
+    }
+    
+    @Override
+    protected EStore eStore()
+    {
+      return store;
     }
   }
 
