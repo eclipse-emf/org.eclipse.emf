@@ -12,6 +12,8 @@
 
   <extension point="org.eclipse.ui.editors">
     <editor id="org.eclipse.emf.ecore.presentation.EcoreEditorID" name="%_UI_EcoreEditor_label" icon="icons/full/obj16/EcoreModelFile.gif" extensions="ecore,emof" class="org.eclipse.emf.ecore.presentation.EcoreEditor" contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor">
+      <contentTypeBinding contentTypeId="org.eclipse.emf.ecore">
+      </contentTypeBinding>
     </editor>
   </extension>
 
