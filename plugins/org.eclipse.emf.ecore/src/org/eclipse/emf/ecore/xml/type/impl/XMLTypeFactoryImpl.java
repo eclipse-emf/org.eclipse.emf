@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.27 2007/06/08 11:02:29 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.28 2007/09/29 19:30:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -82,7 +82,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   public String createAnyURI(String literal)
   {
     // Per Schema 1.0 it is not clear if the result returned should be a valid URI. 
-    // For the future if we plant to surport IRIs then it is better not to massage
+    // For the future if we plant to support IRIs then it is better not to massage
     // the initialValue. 
     // We should thought consider where would be the best way to validate anyURI values -- EL
     
@@ -494,7 +494,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createENTITY(String literal)
   {
-    return literal;
+    return collapseWhiteSpace(literal);
   }
 
   /**
@@ -709,7 +709,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createID(String literal)
   {
-    return createNCNameFromString(XMLTypePackage.Literals.NC_NAME, literal);
+    return collapseWhiteSpace(literal);
   }
 
   /**
@@ -719,7 +719,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createIDFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue;
+    return createID(initialValue);
   }
 
   /**
@@ -739,7 +739,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createIDREF(String literal)
   {
-    return literal;
+    return collapseWhiteSpace(literal);
   }
 
   /**
@@ -749,7 +749,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createIDREFFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue;
+    return createIDREF(initialValue);
   }
 
   /**
@@ -985,7 +985,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createName(String literal)
   {
-    return literal;
+    return collapseWhiteSpace(literal);
   }
 
   /**
@@ -1005,7 +1005,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createNCName(String literal)
   {
-    return literal;
+    return collapseWhiteSpace(literal);
   }
 
   /**
@@ -1065,8 +1065,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createNMTOKEN(String literal)
   {
-    if (literal == null) return null;
-    return literal;  
+    return collapseWhiteSpace(literal);
   }
 
   /**
