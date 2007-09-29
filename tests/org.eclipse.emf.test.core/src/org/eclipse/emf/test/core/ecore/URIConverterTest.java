@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterTest.java,v 1.6 2007/01/18 15:53:11 marcelop Exp $
+ * $Id: URIConverterTest.java,v 1.7 2007/09/29 16:44:35 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
+import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.core.AllSuites;
 
@@ -55,7 +55,7 @@ public class URIConverterTest extends TestCase
     // On real applications the URIConverter is usually obtained from 
     // a ResourceSet
     //
-    uriConverter = new URIConverterImpl();
+    uriConverter = new ExtensibleURIConverterImpl();
   }
   
   public void testReadArchiveURI() throws Exception
