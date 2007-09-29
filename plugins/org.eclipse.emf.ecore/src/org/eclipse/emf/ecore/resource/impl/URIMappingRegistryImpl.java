@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIMappingRegistryImpl.java,v 1.4 2007/06/14 18:32:46 emerks Exp $
+ * $Id: URIMappingRegistryImpl.java,v 1.5 2007/09/29 16:41:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -144,8 +144,9 @@ public class URIMappingRegistryImpl extends BasicEMap<URI, URI>
   }
 
   /**
-   * A map that is a {@link URIConverterImpl.URIMap}.
+   * A map that is a {@link ExtensibleURIConverterImpl.URIMap}.
    */
+  @SuppressWarnings("deprecation")
   protected class URIMapImpl extends DelegatingMap implements URIConverterImpl.URIMap
   {
     /**
@@ -169,7 +170,7 @@ public class URIMappingRegistryImpl extends BasicEMap<URI, URI>
   }
 
   /** 
-   * Returns a map view that implements {@link URIConverterImpl.URIMap}.
+   * Returns a map view that implements {@link ExtensibleURIConverterImpl.URIMap}.
    */
   @Override
   public Map<URI, URI> map()

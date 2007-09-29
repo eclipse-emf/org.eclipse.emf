@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.9 2007/06/15 21:57:52 emerks Exp $
+ * $Id: URIConverter.java,v 1.10 2007/09/29 16:41:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,7 +32,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 
 
 /**
@@ -44,12 +47,38 @@ import org.eclipse.emf.common.util.URI;
  * a resource is considered a match if {@link Resource#getURI it's URI}, 
  * and the URI being looked up, 
  * {@link #normalize normalize} to {@link URI#equals(Object) equal} URIs.
- * Clients must extend the default {@link org.eclipse.emf.ecore.resource.impl.URIConverterImpl implementation},
+ * Clients must extend the default {@link org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl implementation},
  * since methods can and will be added to this API.
  * </p>
+ * @see ResourceSet#getURIConverter()
+ * @see URIHandler
+ * @see ContentHandler
  */
 public interface URIConverter
 {
+  /**
+   * An option used to pass the calling URIConverter to the {@link URIHandler}s.
+   * @since 2.4
+   */
+  String OPTION_URI_CONVERTER = "URI_CONVERTER";
+
+  /**
+   * An option to pass a {@link Map Map&lt;Object, Object>} to any of the URI converter's methods 
+   * in order to yield results in addition to the returned value of the method.
+   * @since 2.4
+   */
+  String OPTION_RESPONSE = "RESPONSE";
+
+  /**
+   * A property of the {@link #OPTION_RESPONSE response option} 
+   * used to yield the {@link #timeStamp(URI, Map) time stamp} associated
+   * with the creation of an {@link #createInputStream(URI, Map) input} or an {@link #createOutputStream(URI, Map) output} stream.
+   * This is typically used by resource {@link Resource#load(Map) load} and {@link Resource#save(Map) save} 
+   * in order to set the {@link Resource#getTimeStamp()}.
+   * @since 2.4
+   */
+  String RESPONSE_TIME_STAMP_PROPERTY = "TIME_STAMP";
+
   /**
    * Returns the normalized form of the URI.
    * <p>
@@ -125,20 +154,56 @@ public interface URIConverter
   Map<URI, URI> URI_MAP = org.eclipse.emf.ecore.resource.impl.URIMappingRegistryImpl.INSTANCE.map();
 
   /**
-   * Creates an input stream for the URI and returns it.
-   * <p>
-   * It {@link #normalize normalizes} the URI and uses that as the basis for further processing.
-   * Special requirements, such as an Eclipse file refresh, 
-   * are handled by the {@link org.eclipse.emf.ecore.resource.impl.URIConverterImpl default implementation}.
-   * </p>
+   * Returns the list of {@link URIHandler}s.
+   * @return the list of {@link URIHandler}s.
+   * @since 2.4
+   */
+  EList<URIHandler> getURIHandlers();
+
+  /**
+   * Returns the first URI handler in the {@link #getURIHandler(URI) list} of URI handlers which {@link URIHandler#canHandle(URI) can handle} the given URI.
+   * @param uri the URI for which to find a handler.
+   * @return the first URI handler in the list of URI handlers which can handle the given URI.
+   * @throws RuntimeException if no matching handler is found.
+   * @since 2.4 
+   */
+  URIHandler getURIHandler(URI uri);
+
+  /**
+   * Returns the list of {@link ContentHandler}s.
+   * @return the list of {@link ContentHandler}s.
+   * @since 2.4
+   */
+  EList<ContentHandler> getContentHandlers();
+
+  /**
+   * Creates an input stream for the URI and returns it;
+   * it has the same effect as calling {@link #createInputStream(URI, Map) createInputStream(uri, null)}.
+   * @param uri the URI for which to create the input stream.
    * @return an open input stream.
    * @exception IOException if there is a problem obtaining an open input stream.
+   * @see #createInputStream(URI, Map)
    */
   InputStream createInputStream(URI uri) throws IOException;
 
   /**
+   * Creates an input stream for the URI and returns it.
+   * <p>
+   * It {@link #normalize normalizes} the URI and uses that as the basis for further processing.
+   * Special requirements, such as an Eclipse file refresh, 
+   * are handled by the {@link org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl default implementation}.
+   * </p>
+   * @param uri the URI for which to create the input stream.
+   * @param options a map of options to influence the kind of stream that is returned; unrecognized options are ignored and <code>null</code> is permitted.
+   * @return an open input stream.
+   * @exception IOException if there is a problem obtaining an open input stream.
+   * @since 2.4
+   */
+  InputStream createInputStream(URI uri, Map<?, ?> options) throws IOException;
+
+  /**
    * An interface that is optionally implemented by the input streams returned from 
-   * {@link URIConverter#createInputStream(URI)}.
+   * {@link URIConverter#createInputStream(URI)} and {@link URIConverter#createInputStream(URI, Map)}.
    * @see ReadableInputStream
    */
   interface Readable
@@ -159,7 +224,7 @@ public interface URIConverter
   /**
    * A wrapper around a reader that implements an input stream but can be unwrapped to access the reader directly.
    */
-  public class ReadableInputStream extends InputStream implements Readable
+  class ReadableInputStream extends InputStream implements Readable
   {
     private static final Pattern XML_HEADER = Pattern.compile("<\\?xml\\s+(?:version\\s*=\\s*\"[^\"]*\"\\s+)encoding\\s*=\\s*\"\\s*([^\\s\"]*)\"\\s*\\?>");
     
@@ -171,7 +236,47 @@ public interface URIConverter
           matcher.group(1) :
           null;
     }
-    
+
+    /**
+     * @since 2.4
+     */
+    public static String getEncoding(Reader xmlReader)
+    {
+      try
+      {
+        xmlReader.mark(100);
+        char [] buffer = new char[100];
+        int length = xmlReader.read(buffer);
+        if (length > -1)
+        {
+          Matcher matcher = XML_HEADER.matcher(new String(buffer, 0, length));
+          return
+            matcher.lookingAt() ?
+              matcher.group(1) :
+              null;
+        }
+        else
+        {
+          return null;
+        }
+      }
+      catch (IOException exception)
+      {
+        return null;
+      }
+      finally
+      {
+        try
+        {
+          xmlReader.reset();
+        }
+        catch (IOException exception)
+        {
+          // Ignore.
+        }
+      }
+    }
+
     protected String encoding;
     protected Reader reader;
     protected Buffer buffer;
@@ -181,6 +286,16 @@ public interface URIConverter
       super();
       this.reader = reader;
       this.encoding = encoding;
+    }
+
+    /**
+     * @since 2.4
+     */
+    public ReadableInputStream(Reader xmlReader)
+    {
+      super();
+      this.reader = xmlReader.markSupported() ? xmlReader : new BufferedReader(xmlReader);
+      this.encoding = getEncoding(this.reader);
     }
     
     public ReadableInputStream(String string, String encoding)
@@ -267,22 +382,34 @@ public interface URIConverter
       }
     }
   }
+
+  /**
+   * Creates an output stream for the URI and returns it;
+   * it has the same effect as calling {@link #createOutputStream(URI, Map) createOutputStream(uri, null)}.
+   * @return an open output stream.
+   * @exception IOException if there is a problem obtaining an open output stream.
+   * @see #createOutputStream(URI, Map)
+   */
+  OutputStream createOutputStream(URI uri) throws IOException;
   
   /**
    * Creates an output stream for the URI and returns it.
    * <p>
    * It {@link #normalize normalizes} the URI and uses that as the basis for further processing.
-   * Special requirements, such as an Eclipse file refresh and automatic subdirectory creation, 
-   * are handled by the {@link org.eclipse.emf.ecore.resource.impl.URIConverterImpl default implementation}.
+   * Special requirements, such as an Eclipse file refresh, 
+   * are handled by the {@link org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl default implementation}.
    * </p>
+   * @param uri the URI for which to create the output stream.
+   * @param options a map of options to influence the kind of stream that is returned; unrecognized options are ignored and <code>null</code> is permitted.
    * @return an open output stream.
    * @exception IOException if there is a problem obtaining an open output stream.
+   * @since 2.4
    */
-  OutputStream createOutputStream(URI uri) throws IOException;
-  
+  OutputStream createOutputStream(URI uri, Map<?, ?> options) throws IOException;
+
   /**
    * An interface that is optionally implemented by the output streams returned from 
-   * {@link URIConverter#createOutputStream(URI)}.
+   * {@link URIConverter#createOutputStream(URI)} and {@link URIConverter#createOutputStream(URI, Map)}.
    * @see WriteableOutputStream
    */
   interface Writeable
@@ -303,7 +430,7 @@ public interface URIConverter
   /**
    * A wrapper around a writer that implements an output stream but can be unwrapped to access the writer directly.
    */
-  public static class WriteableOutputStream extends OutputStream implements Writeable
+  static class WriteableOutputStream extends OutputStream implements Writeable
   {
     protected String encoding;
     protected Writer writer;
@@ -435,4 +562,72 @@ public interface URIConverter
      */
     void finish(InputStream inputStream) throws Exception;
   }
+
+  /**
+   * Deletes the contents of the given URI. 
+   * @param uri the URI to consider.
+   * @param options options to influence how the contents are deleted, or <code>null</code> if there are no options.
+   * @throws IOException if there is a problem deleting the contents.
+   * @since 2.4
+   */
+  void delete(URI uri, Map<?, ?> options) throws IOException;
+
+  /**
+   * Returns a map from String properties to their corresponding values representing a description the given URI's contents.
+   * See the {@link ContentHandler#contentDescription(URI, InputStream, Map, Map) content handler} for more details.
+   * @param uri the URI to consider.
+   * @param options options to influence how the content description is determined, or <code>null</code> if there are no options.
+   * @return a map from String properties to their corresponding values representing a description the given URI's contents.
+   * @throws IOException if there is a problem accessing the contents.
+   * @see ContentHandler#contentDescription(URI, InputStream, Map, Map)
+   * @since 2.4
+   */
+  Map<String, ?> contentDescription(URI uri, Map<?, ?> options) throws IOException;
+
+  /**
+   * Returns whether the given URI has contents.
+   * If the URI {@link #exists(URI, Map) exists}
+   * it will be possible to {@link #createOutputStream(URI, Map) create} an input stream.
+   * @param uri the URI to consider.
+   * @param options options to influence how the existence determined, or <code>null</code> if there are no options.
+   * @return whether the given URI has contents.
+   * @since 2.4
+   */
+  boolean exists(URI uri, Map<?, ?> options);
+
+  /**
+   * Returns whether the contents of the given URI can be modified.
+   * If the URI's contents {@link #exists(URI, Map) exist} and it is read only, 
+   * it will not be possible to {@link #createOutputStream(URI, Map) create} an output stream.
+   * @param uri the URI to consider.
+   * @param options options to influence how the read only state is determined, or <code>null</code> if there are no options.
+   * @return whether the contents of the given URI can be modified.
+   * @since 2.4
+   */
+  boolean isReadOnly(URI uri, Map<?, ?> options);
+
+  /**
+   * A {@link #timeStamp(URI, Map) time stamp} value that indicates no time stamp is available.
+   * @since 2.4
+   */
+  long NULL_TIME_STAMP = -1;
+
+  /**
+   * Returns the time stamp representing the last time the contents of the given URI was modified.
+   * The value is represented as the number of milliseconds 
+   * since the epoch 00:00:00 GMT, January 1, 1970.
+   * @param uri the URI to consider.
+   * @param options options to influence how the time stamp is determined, or <code>null</code> if there are no options.
+   * @return the time stamp representing the last time the contents of the given URI was modified.
+   * @since 2.4
+   */
+  long timeStamp(URI uri, Map<?, ?> options);
+
+  /**
+   * The global static URI converter instance.
+   * It's generally not a good idea to modify any aspect of this instance.
+   * Instead, use a resource set's {@link ResourceSet#getURIConverter() local} instance.
+   * @since 2.4
+   */
+  URIConverter INSTANCE = new ExtensibleURIConverterImpl();
 }

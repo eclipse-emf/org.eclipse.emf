@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.emf.ecore">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.ecore" id="generated_package" name="URI Converter Mapping Registry"/>
+         <meta.schema plugin="org.eclipse.emf.ecore" id="uri_mapping" name="URI Converter Mapping Registry"/>
       </appInfo>
       <documentation>
          This extension point is used to define mappings to be applied by the default URI converter in normalizing URIs.

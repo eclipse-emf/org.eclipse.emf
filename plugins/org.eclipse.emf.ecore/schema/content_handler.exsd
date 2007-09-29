@@ -3,17 +3,18 @@
 <schema targetNamespace="org.eclipse.emf.ecore">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.ecore" id="extension_parser" name="URI Extension Parser Registry"/>
+         <meta.schema plugin="org.eclipse.emf.ecore" id="content_handler" name="Content Handler Registry"/>
       </appInfo>
       <documentation>
-         This extension point is used to define the resource factory that handles a specific file (or URI) extension. The global EMF resource factory registry, &lt;samp&gt;Resource.Factory.Registry.INSTANCE&lt;/samp&gt;, is used to record the registration.
+         This extension point is used to define a content handler that describes content types. 
+The global EMF content handler registry, &lt;samp&gt;ContentHandler.Registry.INSTANCE&lt;/samp&gt;, is used to record the registration.
       </documentation>
    </annotation>
 
    <element name="extension">
       <complexType>
          <sequence>
-            <element ref="parser" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="contentHandler" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -39,20 +40,16 @@
       </complexType>
    </element>
 
-   <element name="parser">
+   <element name="contentHandler">
       <annotation>
          <appInfo>
-            <meta.element labelAttribute="type"/>
+            <meta.element labelAttribute="class"/>
          </appInfo>
       </annotation>
       <complexType>
-         <attribute name="type" type="string" use="required">
-            <annotation>
-               <documentation>
-                  A file extension (without the leading .) that identifies the filenames and URIs to be handled by a resource factory.
-               </documentation>
-            </annotation>
-         </attribute>
+         <sequence minOccurs="0" maxOccurs="unbounded">
+            <element ref="parameter"/>
+         </sequence>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
@@ -64,6 +61,37 @@
                </appInfo>
             </annotation>
          </attribute>
+         <attribute name="priority" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="parameter">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="name"/>
+         </appInfo>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="value" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
@@ -72,7 +100,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         1.0.0
+         2.4.0
       </documentation>
    </annotation>
 
@@ -81,10 +109,13 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         Following is an example of how a URI extension can be registered: 
+         Following is an example of how a URI content handler can be registered: 
 &lt;pre&gt;
-  &lt;extension point=&quot;org.eclipse.emf.ecore.extension_parser&quot;&gt;
-    &lt;parser type=&quot;xsd&quot; class=&quot;org.eclipse.xsd.util.XSDResourceFactoryImpl&quot;/&gt; 
+  &lt;extension point=&quot;org.eclipse.emf.ecore.content_handler&quot; &gt;
+     &lt;contentHandler
+           class=&quot;org.eclipse.emf.ecore.resource.impl.PlatformContentHandlerImpl&quot;
+           priority=&quot;2000&quot;&gt;
+     &lt;/contentHandler&gt;
   &lt;/extension&gt;
 &lt;/pre&gt;
       </documentation>
@@ -96,12 +127,15 @@
       </appInfo>
       <documentation>
          The value of the class attribute must represent a class 
-that implements &lt;samp&gt;org.eclipse.emf.ecore.resource.Resource.Factory&lt;/samp&gt;.
+that implements &lt;samp&gt;org.eclipse.emf.ecore.resource.ContentHandler&lt;/samp&gt;.
+It must either have a no argument contructor 
+or if there are parameters in the body of the configuration element,
+a constructor taking a &lt;samp&gt;Map&amp;lt;String, String&gt;&lt;/samp&gt; argument representing those parameters.
 &lt;p&gt;
-A URI extension can be also registered from the source code with the &lt;samp&gt;Resource.Factory.Registry.INSTANCE&lt;/samp&gt; as follows:
+A content handler can be also registered from the source code with the &lt;samp&gt;ContentHandler.Registry.INSTANCE&lt;/samp&gt; as follows:
 &lt;/p&gt;
 &lt;pre&gt;
-  Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(&quot;library&quot;, new XMIResourceFactoryImpl());
+  ContentHandler.Registry.INSTANCE.getContentTypeToFactoryMap().put(2000, new PlatformContentHandlerImpl());
 &lt;/pre&gt;
       </documentation>
    </annotation>
@@ -111,7 +145,7 @@ A URI extension can be also registered from the source code with the &lt;samp&gt
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         The &lt;samp&gt;org.eclipse.emf.ecore.xmi&lt;/samp&gt; plug-in extends this extension point to make the default EMF registrations: &quot;ecore&quot; is handled by &lt;samp&gt;EcoreResourceFactoryImpl&lt;/samp&gt;, &quot;emof&quot; by &lt;samp&gt;EMOFResourceFactoryImpl&lt;/samp&gt;, and &lt;samp&gt;XMIResourceFactoryImpl&lt;/samp&gt; is the default.
+         
       </documentation>
    </annotation>
 
@@ -120,7 +154,7 @@ A URI extension can be also registered from the source code with the &lt;samp&gt
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         Copyright (c) 2002, 2004 IBM Corporation and others.&lt;br&gt;
+         Copyright (c) 2007 IBM Corporation and others.&lt;br&gt;
 All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at &lt;a 
 href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;
       </documentation>

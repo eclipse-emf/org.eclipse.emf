@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.12 2007/06/14 18:32:46 emerks Exp $
+ * $Id: Resource.java,v 1.13 2007/09/29 16:41:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceFactoryRegistryImpl;
  * A persistent document.
  * <p>
  * A resource of an appropriate type is {@link Factory#createResource created} by a resource factory;
- * a resource set indirectly {@link ResourceSet#createResource creates} a resource using such a factory.
+ * a resource set indirectly {@link ResourceSet#createResource(URI) creates} a resource using such a factory.
  * A resource is typically {@link #getResourceSet contained} by a resource set,
  * along with related resources.
  * It has a {@link #getURI URI} representing it's identity
@@ -59,6 +59,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceFactoryRegistryImpl;
  * <ul>
  *   <li>{@link #getResourceSet}</li>
  *   <li>{@link #getURI}</li>
+ *   <li>{@link #getTimeStamp()}</li>
  *   <li>{@link #getContents}</li>
  *   <li>{@link #isModified}</li>
  *   <li>{@link #isLoaded}</li>
@@ -114,6 +115,13 @@ public interface Resource extends Notifier
    * The {@link #getWarnings} feature {@link org.eclipse.emf.common.notify.Notification#getFeatureID ID}.
    */
   int RESOURCE__WARNINGS = 7;
+
+  /**
+   * The {@link #getTimeStamp()} feature {@link org.eclipse.emf.common.notify.Notification#getFeatureID ID}.
+   * @since 2.4
+   */
+  int RESOURCE__TIME_STAMP = 8;
+  
   
   /**
    * Specify a {@link URIConverter.Cipher} to encrypt and decrypt the resource content.
@@ -182,6 +190,32 @@ public interface Resource extends Notifier
    * @see #getURI
    */
   void setURI(URI uri);
+
+  /**
+   * Returns the cached value of the {@link URIConverter#timeStamp(URI, Map) time stamp}
+   * when this resource was last {@link #load(Map) loaded} or {@link #save(Map) saved},
+   * or {@link URIConverter#NULL_TIME_STAMP NULL_TIME_STAMP} 
+   * if the resource is not {@link #isLoaded() loaded} 
+   * and the time stamp has not been {@link #setTimeStamp(long) set}.
+   * The return value is represented as the number of milliseconds 
+   * since the epoch (00:00:00 GMT, January 1, 1970).
+   * The returned value may not be the same as the {@link URIConverter#timeStamp(URI, Map) actual time stamp}
+   * if the resource has been modified via external means since the last load or save.
+   * @since 2.4
+   * @see #setTimeStamp(long)
+   */
+  long getTimeStamp();
+
+  /**
+   * Sets the value of the {@link #getTimeStamp() time stamp}.
+   * The time stamp is typically set indirectly via other operations on the resource 
+   * such as {@link #load(Map) loading} and {@link #save(Map) saving}.
+   * @param timeStamp the new value of the time stamp.
+   * @since 2.4
+   * @see #getTimeStamp()
+   * @see #RESOURCE__TIME_STAMP
+   */
+  void setTimeStamp(long timeStamp);
 
   /**
    * Returns the list of the direct content objects;
@@ -254,7 +288,7 @@ public interface Resource extends Notifier
    * <p>
    * An implementation typically uses the {@link ResourceSet#getURIConverter URI converter}
    * of the {@link #getResourceSet containing} resource set
-   * to {@link URIConverter#createOutputStream create} an output stream,
+   * to {@link URIConverter#createOutputStream(URI, Map) create} an output stream,
    * and then delegates to {@link #save(OutputStream, Map) save(OutputStream, Map)}.
    * </p>
    * @param options the save options.
@@ -272,7 +306,7 @@ public interface Resource extends Notifier
    * <p>
    * An implementation typically uses the {@link ResourceSet#getURIConverter URI converter}
    * of the {@link #getResourceSet containing} resource set
-   * to {@link URIConverter#createInputStream create} an input stream,
+   * to {@link URIConverter#createInputStream(URI, Map) create} an input stream,
    * and then delegates to {@link #load(InputStream, Map) load(InputStream, Map)}.
    * </p>
    * <p>
@@ -358,7 +392,7 @@ public interface Resource extends Notifier
   /**
    * Returns whether the resource is loaded.
    * <p>
-   * This will be <code>false</code> when the resource is first {@link ResourceSet#createResource created}
+   * This will be <code>false</code> when the resource is first {@link ResourceSet#createResource(URI) created}
    * and will be set to <code>false</code>, when the resource is {@link #unload unloaded}.
    * It will be set to <code>true</code> when the resource is {@link #load(Map) loaded}
    * and when {@link #getContents contents} are first added to a resource that isn't loaded.
@@ -384,6 +418,23 @@ public interface Resource extends Notifier
    * </p>
    */
   void unload();
+
+  /**
+   * {@link URIConverter#delete(URI, Map) deletes} the resource using the specified options,
+   * {@link #unload() unloads} it,
+   * and then removes it from the {@link #getResourceSet() containing} resource set.
+   * <p>
+   * Options are handled generically as feature-to-setting entries;
+   * the resource will ignore options it doesn't recognize.
+   * The options could even include things like an Eclipse progress monitor...
+   * </p>
+   * <p>
+   * An implementation typically uses the {@link ResourceSet#getURIConverter URI converter}
+   * of the {@link #getResourceSet containing} resource set
+   * to {@link URIConverter#delete(URI, Map)}  the resource's {@link #getURI() URI}.
+   * </p>
+   */
+  void delete(Map<?, ?> options) throws IOException;
 
   /**
    * Returns a list of the errors in the resource;
@@ -454,7 +505,7 @@ public interface Resource extends Notifier
      * Creates a resource with the given URI and returns it.
      * <p>
      * Clients will typically not call this directly themselves;
-     * it's called by the resource set to {@link ResourceSet#createResource create} a resource.
+     * it's called by the resource set to {@link ResourceSet#createResource(URI) create} a resource.
      * </p>
      * @param uri the URI.
      * @return a new resource.
@@ -465,7 +516,7 @@ public interface Resource extends Notifier
     /**
      * A descriptor used by a resource factory registry to defer factory creation.
      * <p>
-     * The creation is deferred until the factory is {@link Resource.Factory.Registry#getFactory fetched} for the first time.
+     * The creation is deferred until the factory is {@link Resource.Factory.Registry#getFactory(URI) fetched} for the first time.
      * </p>
      * @see Resource.Factory.Registry#getFactory(URI)
      */
@@ -511,7 +562,8 @@ public interface Resource extends Notifier
        * <p>
        * An implementation will (typically) use
        * the URI's {@link URI#scheme scheme} to search the {@link #getProtocolToFactoryMap protocol} map
-       * and the URI's {@link URI#fileExtension file extension} to search {@link #getExtensionToFactoryMap extension} map.
+       * the URI's {@link URI#fileExtension file extension} to search {@link #getExtensionToFactoryMap extension} map,
+       * and the URI's {@link URIConverter#contentDescription(URI, Map) content type identifier} to search the {@link #getContentTypeToFactoryMap() content type} map.
        * It will {@link org.eclipse.emf.ecore.resource.Resource.Factory.Descriptor#createFactory convert}
        * a resulting descriptor into a factory.
        * It may choose to provide additional mechanisms and algorithms to determine a factory appropriate for the given URI.
@@ -521,6 +573,26 @@ public interface Resource extends Notifier
        * @see ResourceSet#createResource(URI)
        */
       Factory getFactory(URI uri);
+
+      /**
+       * Returns the resource factory appropriate for the given URI
+       * with the given {@link URIConverter#contentDescription(URI, Map) content type} identifier.
+       * <p>
+       * An implementation will (typically) use
+       * the URI's {@link URI#scheme scheme} to search the {@link #getProtocolToFactoryMap protocol} map
+       * the URI's {@link URI#fileExtension file extension} to search {@link #getExtensionToFactoryMap extension} map,
+       * and the given content type identifier to search the {@link #getContentTypeToFactoryMap() content type} map.
+       * It will {@link org.eclipse.emf.ecore.resource.Resource.Factory.Descriptor#createFactory convert}
+       * a resulting descriptor into a factory.
+       * It may choose to provide additional mechanisms and algorithms to determine a factory appropriate for the given URI.
+       * </p>
+       * @param uri the URI.
+       * @param contentType the content type of the URI or <code>null</code> if a content type should not be used during lookup.
+       * @return the resource factory appropriate for the given URI with the content content type, or <code>null</code> if there isn't one.
+       * @see ResourceSet#createResource(URI)
+       * @since 2.4
+       */
+      Factory getFactory(URI uri, String contentType);
 
       /**
        * Returns a map from {@link URI#scheme protocol} to
@@ -553,9 +625,31 @@ public interface Resource extends Notifier
       Map<String, Object> getExtensionToFactoryMap();
 
       /**
+       * The content type identifier <code>"*"</code> that matches any content type identifier.
+       * @see #getContentTypeToFactoryMap()
+       */
+      String DEFAULT_CONTENT_TYPE_IDENTIFIER = "*";
+
+      /**
+       * Returns a map from content type identifier to
+       * {@link org.eclipse.emf.ecore.resource.Resource.Factory}
+       * or {@link org.eclipse.emf.ecore.resource.Resource.Factory.Descriptor}.
+       * <p>
+       * The {@link #DEFAULT_CONTENT_TYPE_IDENTIFIER default} content type identifier <code>"*"</code> 
+       * can be registered as a default that matches any content type identifier.
+       * This is typically reserved for a default factory that supports XMI serialization;
+       * clients are strongly discouraged from using this feature in the global registry,
+       * particularly those that must function effectively within an Eclipse environment.
+       * </p>
+       * @return the content type identifier map.
+       * @see #DEFAULT_CONTENT_TYPE_IDENTIFIER
+       */
+      Map<String, Object> getContentTypeToFactoryMap();
+
+      /**
        * The global static resource factory registry.
        * Registrations made in this instance will (typically) be available
-       * for {@link ResourceSet#createResource use} by any resource set.
+       * for {@link ResourceSet#createResource(URI) use} by any resource set.
        * @see ResourceSet#createResource(URI)
        * @see ResourceSet#getResourceFactoryRegistry()
        */
@@ -583,6 +677,17 @@ public interface Resource extends Notifier
     {
       super(exception.getLocalizedMessage());
       initCause(exception);
+    }
+
+    /**
+     * Creates an instance which wraps the given exception.
+     * @param throwable the exception to wrap.
+     * @since 2.4
+     */
+    public IOWrappedException(Throwable throwable)
+    {
+      super(throwable.getLocalizedMessage());
+      initCause(throwable);
     }
 
     /**

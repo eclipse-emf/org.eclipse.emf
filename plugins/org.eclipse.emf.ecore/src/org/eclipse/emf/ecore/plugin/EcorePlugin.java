@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.19 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.20 2007/09/29 16:41:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -556,7 +556,9 @@ public class EcorePlugin  extends EMFPlugin
       new FactoryOverrideRegistryReader().readRegistry();
       new ExtensionParserRegistryReader().readRegistry();
       new ProtocolParserRegistryReader().readRegistry();
+      new ContentParserRegistryReader().readRegistry();
       new URIMappingRegistryReader().readRegistry();
+      new ContentHandlerRegistryReader().readRegistry();
     }
   }
 
@@ -607,6 +609,8 @@ public class EcorePlugin  extends EMFPlugin
   public static final String FACTORY_OVERRIDE_PPID = "factory_override";
   public static final String EXTENSION_PARSER_PPID = "extension_parser";
   public static final String PROTOCOL_PARSER_PPID = "protocol_parser";
+  public static final String CONTENT_PARSER_PPID = "content_parser";
+  public static final String CONTENT_HANDLER_PPID = "content_handler";
   public static final String SCHEME_PARSER_PPID = "scheme_parser";
   public static final String URI_MAPPING_PPID = "uri_mapping";
   public static final String PACKAGE_REGISTRY_IMPLEMENTATION_PPID = "package_registry_implementation";

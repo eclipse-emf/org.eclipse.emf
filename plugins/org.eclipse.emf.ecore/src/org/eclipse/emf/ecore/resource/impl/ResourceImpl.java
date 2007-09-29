@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.22 2007/06/14 18:32:46 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.23 2007/09/29 16:41:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -112,14 +112,14 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   {
     if (defaultURIConverter == null)
     {
-      defaultURIConverter = new URIConverterImpl();
+      defaultURIConverter = new ExtensibleURIConverterImpl();
     }
     return defaultURIConverter;
   }
-  
+
   /**
    * Merges 2 maps, without changing any of them.  If map2 and map1
-   * have the same key for an entry, map1's value will be the one in 
+   * have the same key for an entry, map1's value will be the one in
    * the merged map.
    */
   protected static Map<?, ?> mergeMaps(Map<?, ?> map1, Map<?, ?> map2)
@@ -151,6 +151,11 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   protected Map<Object, Object> defaultLoadOptions;
 
   /**
+   * The storage for the default delete options.
+   */
+  protected Map<Object, Object> defaultDeleteOptions;
+
+  /**
    * The containing resource set.
    * @see #getResourceSet
    */
@@ -161,6 +166,12 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * @see #getURI
    */
   protected URI uri;
+
+  /**
+   * The time stamp.
+   * @see #getTimeStamp
+   */
+  protected long timeStamp;
 
   /**
    * The contents.
@@ -197,7 +208,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * @see #isLoading
    */
   protected boolean isLoading;
-  
+
   /**
    * A copy of the {@link #contents contents} list while the contents are being {@link #unload() unloaded}.
    * I.e., if this is not <code>null</code>, then the resource is in the process of unloading.
@@ -323,6 +334,36 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     }
   }
 
+  public long getTimeStamp()
+  {
+    return timeStamp;
+  }
+
+  public void setTimeStamp(long timeStamp)
+  {
+    long oldTimeStamp = this.timeStamp;
+    this.timeStamp = timeStamp;
+    if (eNotificationRequired())
+    {
+      Notification notification =
+        new NotificationImpl(Notification.SET, oldTimeStamp, timeStamp)
+        {
+          @Override
+          public Object getNotifier()
+          {
+            return ResourceImpl.this;
+          }
+
+          @Override
+          public int getFeatureID(Class<?> expectedClass)
+          {
+            return RESOURCE__TIME_STAMP;
+          }
+        };
+      eNotify(notification);
+    }
+  }
+
   /**
    * A notifying list implementation for supporting {@link Resource#getContents}.
    */
@@ -397,7 +438,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     {
       return super.basicListIterator();
     }
-  
+
     @Override
     public ListIterator<E> basicListIterator(int index)
     {
@@ -504,7 +545,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         }
       };
   }
-  
+
   protected TreeIterator<EObject> getAllProperContents(EObject eObject)
   {
     return EcoreUtil.getAllProperContents(eObject, false);
@@ -512,7 +553,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
 
   protected TreeIterator<EObject> getAllProperContents(List<EObject> contents)
   {
-    return  
+    return
       new ContentTreeIterator<EObject>(contents, false)
       {
         private static final long serialVersionUID = 1L;
@@ -521,9 +562,9 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         @Override
         public Iterator<EObject> getChildren(Object object)
         {
-          return 
-            object == this.object ? 
-              ((List<EObject>)object).iterator() : 
+          return
+            object == this.object ?
+              ((List<EObject>)object).iterator() :
               new ProperContentIterator<EObject>(((EObject)object));
         }
       };
@@ -659,7 +700,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
             break;
           }
         }
-        
+
         if (!isContained)
         {
           return "/-1";
@@ -667,7 +708,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
 
         StringBuffer result = new StringBuffer("/");
         result.append(getURIFragmentRootSegment(internalEObject));
-  
+
         for (int i = uriFragmentPath.size() - 1; i >= 0; --i)
         {
           result.append('/');
@@ -742,7 +783,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         }
       }
     }
-    
+
     return getEObjectByID(uriFragment);
   }
 
@@ -762,7 +803,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   }
 
   /**
-   * Returns the map used to cache the EObject that is identified by the {@link #getEObjectByID(String) value} 
+   * Returns the map used to cache the EObject that is identified by the {@link #getEObjectByID(String) value}
    * of its ID feature.
    * @return the map used to cache the EObject that is identified by the value of its ID feature.
    * @see #setIntrinsicIDToEObjectMap
@@ -774,9 +815,9 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
 
   /**
    * Sets the map used to cache the EObject identified by the value of its ID feature.
-   * This cache is only activated if the map is not <code>null</code>.  
+   * This cache is only activated if the map is not <code>null</code>.
    * The map will be lazily loaded by the {@link #getEObjectByID(String) getEObjectByID} method.
-   * It is up to the client to clear the cache when it becomes invalid, 
+   * It is up to the client to clear the cache when it becomes invalid,
    * e.g., when the ID of a previously mapped EObject is changed.
    * @param intrinsicIDToEObjectMap the new map or <code>null</code>.
    * @see #getIntrinsicIDToEObjectMap
@@ -785,7 +826,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   {
     this.intrinsicIDToEObjectMap = intrinsicIDToEObjectMap;
   }
-  
+
 
   /**
    * Returns the object based on the fragment as an ID.
@@ -801,7 +842,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         return eObject;
       }
     }
-    
+
     EObject result = null;
     for (TreeIterator<EObject> i = getAllProperContents(getContents()); i.hasNext(); )
     {
@@ -813,7 +854,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         {
           map.put(eObjectId, eObject);
         }
-          
+
         if (eObjectId.equals(id))
         {
           result = eObject;
@@ -829,7 +870,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   }
 
   public void attached(EObject eObject)
-  {   
+  {
     if (isAttachedDetachedHelperRequired())
     {
       attachedHelper(eObject);
@@ -839,7 +880,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       }
     }
   }
-  
+
   protected boolean isAttachedDetachedHelperRequired()
   {
     return isTrackingModification() || getIntrinsicIDToEObjectMap() != null;
@@ -851,7 +892,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     {
       eObject.eAdapters().add(modificationTrackingAdapter);
     }
-    
+
     Map<String, EObject> map = getIntrinsicIDToEObjectMap();
     if (map != null)
     {
@@ -860,15 +901,15 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         map.put(id, eObject);
       }
-    }    
+    }
   }
-  
+
 
   /**
    * Adds modification tracking adapters to the object and it's content tree.
    * @param eObject the object.
    * @see #attached(EObject)
-   * @deprecated since 2.1.0.  This method is not invoked anymore.  See 
+   * @deprecated since 2.1.0.  This method is not invoked anymore.  See
    * {@link #attachedHelper(EObject)}.
    */
   @Deprecated
@@ -888,7 +929,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       }
     }
   }
-  
+
   protected void detachedHelper(EObject eObject)
   {
     Map<String, EObject> map = getIntrinsicIDToEObjectMap();
@@ -905,13 +946,13 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     {
       eObject.eAdapters().remove(modificationTrackingAdapter);
     }
-  }  
+  }
 
   /**
    * Removes modification tracking adapters to the object and it's content tree.
    * @param eObject the object.
    * @see #detached(EObject)
-   * @deprecated since 2.1.0.  This method is not invoked anymore.  See 
+   * @deprecated since 2.1.0.  This method is not invoked anymore.  See
    * {@link #attachedHelper(EObject)}.
    */
   @Deprecated
@@ -941,8 +982,8 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   public void save(Map<?, ?> options) throws IOException
   {
-    Object saveOnlyIfChanged = 
-      options != null && options.containsKey(OPTION_SAVE_ONLY_IF_CHANGED) ? 
+    Object saveOnlyIfChanged =
+      options != null && options.containsKey(OPTION_SAVE_ONLY_IF_CHANGED) ?
         options.get(OPTION_SAVE_ONLY_IF_CHANGED) :
         defaultSaveOptions != null ?
           defaultSaveOptions.get(OPTION_SAVE_ONLY_IF_CHANGED) :
@@ -957,8 +998,13 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     }
     else
     {
+      Map<?, ?> response = options == null ? null : (Map<?, ?>)options.get(URIConverter.OPTION_RESPONSE);
+      if (response == null)
+      {
+        response = new HashMap<Object, Object>();
+      }
       URIConverter uriConverter = getURIConverter();
-      OutputStream outputStream = uriConverter.createOutputStream(getURI());
+      OutputStream outputStream = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
       try
       {
         save(outputStream, options);
@@ -966,6 +1012,11 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       finally
       {
         outputStream.close();
+        Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
+        if (timeStamp != null)
+        {
+          setTimeStamp(timeStamp);
+        }
       }
     }
   }
@@ -977,7 +1028,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     {
       URI temporaryFileURI = URI.createFileURI(temporaryFile.getPath());
       URIConverter uriConverter = getURIConverter();
-      OutputStream temporaryFileOutputStream = uriConverter.createOutputStream(temporaryFileURI);
+      OutputStream temporaryFileOutputStream = uriConverter.createOutputStream(temporaryFileURI, null);
       try
       {
         save(temporaryFileOutputStream, options);
@@ -986,12 +1037,12 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         temporaryFileOutputStream.close();
       }
-      
+
       boolean equal = true;
       InputStream oldContents = null;
       try
       {
-        oldContents = uriConverter.createInputStream(getURI());
+        oldContents = uriConverter.createInputStream(getURI(), defaultLoadOptions);
       }
       catch (IOException exception)
       {
@@ -1002,13 +1053,13 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         try
         {
-          InputStream newContents = uriConverter.createInputStream(temporaryFileURI);
+          InputStream newContents = uriConverter.createInputStream(temporaryFileURI, null);
           try
           {
             byte [] oldContentBuffer = new byte [4000];
             LOOP:
-            for (int oldLength = oldContents.read(oldContentBuffer), newLength = newContents.read(newContentBuffer); 
-                 (equal = oldLength == newLength) &&  oldLength > 0; 
+            for (int oldLength = oldContents.read(oldContentBuffer), newLength = newContents.read(newContentBuffer);
+                 (equal = oldLength == newLength) &&  oldLength > 0;
                  oldLength = oldContents.read(oldContentBuffer), newLength = newContents.read(newContentBuffer))
             {
               for (int i = 0; i < oldLength; ++i)
@@ -1031,13 +1082,18 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
           oldContents.close();
         }
       }
-      
+
       if (!equal)
       {
-        OutputStream newContents = uriConverter.createOutputStream(getURI());
+        Map<?, ?> response = options == null ? null : (Map<?, ?>)options.get(URIConverter.OPTION_RESPONSE);
+        if (response == null)
+        {
+          response = new HashMap<Object, Object>();
+        }
+        OutputStream newContents = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
         try
         {
-          InputStream temporaryFileContents = uriConverter.createInputStream(temporaryFileURI);
+          InputStream temporaryFileContents = uriConverter.createInputStream(temporaryFileURI, null);
           try
           {
             for (int length = temporaryFileContents.read(newContentBuffer); length > 0; length = temporaryFileContents.read(newContentBuffer))
@@ -1053,6 +1109,11 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         finally
         {
           newContents.close();
+          Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
+          if (timeStamp != null)
+          {
+            setTimeStamp(timeStamp);
+          }
         }
       }
     }
@@ -1071,7 +1132,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         return buf;
       }
-      
+
       public int length()
       {
         return count;
@@ -1089,12 +1150,12 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
 
     byte [] newContentBuffer = memoryBuffer.buffer();
     int length = memoryBuffer.length();
-      
+
     boolean equal = true;
     InputStream oldContents = null;
     try
     {
-      oldContents = uriConverter.createInputStream(getURI());
+      oldContents = uriConverter.createInputStream(getURI(), defaultLoadOptions);
     }
     catch (IOException exception)
     {
@@ -1129,7 +1190,12 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
 
     if (!equal)
     {
-      OutputStream newContents = uriConverter.createOutputStream(getURI());
+      Map<?, ?> response = options == null ? null : (Map<?, ?>)options.get(URIConverter.OPTION_RESPONSE);
+      if (response == null)
+      {
+        response = new HashMap<Object, Object>();
+      }
+      OutputStream newContents = uriConverter.createOutputStream(getURI(), new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
       try
       {
         newContents.write(newContentBuffer, 0, length);
@@ -1137,6 +1203,11 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       finally
       {
         newContents.close();
+        Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
+        if (timeStamp != null)
+        {
+          setTimeStamp(timeStamp);
+        }
       }
     }
   }
@@ -1149,13 +1220,26 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     if (!isLoaded)
     {
       URIConverter uriConverter = getURIConverter();
-      InputStream inputStream = uriConverter.createInputStream(getURI());
+      Map<?, ?> response = options == null ? null : (Map<?, ?>)options.get(URIConverter.OPTION_RESPONSE);
+      if (response == null)
+      {
+        response = new HashMap<Object, Object>();
+      }
+      InputStream inputStream =
+        uriConverter.createInputStream
+          (getURI(),
+           new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
       try
       {
         load(inputStream, options);
       }
       finally
       {
+        Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
+        if (timeStamp != null)
+        {
+          setTimeStamp(timeStamp);
+        }
         inputStream.close();
       }
     }
@@ -1197,10 +1281,10 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     }
 
     options = mergeMaps(options, defaultSaveOptions);
-    URIConverter.Cipher cipher = options != null ? 
-      (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER) : 
+    URIConverter.Cipher cipher = options != null ?
+      (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER) :
       null;
-      
+
     if (cipher != null)
     {
       try
@@ -1216,7 +1300,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     ZipOutputStream zipOutputStream = null;
     if (useZip() || (options != null && Boolean.TRUE.equals(options.get(Resource.OPTION_ZIP))))
     {
-      zipOutputStream = 
+      zipOutputStream =
         new ZipOutputStream(outputStream)
         {
           @Override
@@ -1249,7 +1333,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       zipOutputStream.putNextEntry(newContentZipEntry());
       outputStream = zipOutputStream;
     }
-        
+
     doSave(outputStream, options);
 
     if (cipher != null)
@@ -1263,7 +1347,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         throw new IOWrappedException(e);
       }
     }
-    
+
     setModified(false);
 
     if (zipOutputStream != null)
@@ -1338,7 +1422,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         URIConverter.Cipher cipher = options != null ?
           (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER) :
           null;
-          
+
         if (cipher != null)
         {
           try
@@ -1350,9 +1434,9 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
             throw new IOWrappedException(e);
           }
         }
-        
+
         doLoad(inputStream, options);
-        
+
         if (cipher != null)
         {
           try
@@ -1363,7 +1447,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
           {
             throw new IOWrappedException(e);
           }
-        }        
+        }
       }
       finally
       {
@@ -1373,9 +1457,9 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         {
           eNotify(notification);
         }
-  
+
         setModified(false);
-      } 
+      }
     }
   }
 
@@ -1410,8 +1494,8 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
 
   /**
    * Called when the object is unloaded.
-   * This implementation 
-   * {@link InternalEObject#eSetProxyURI sets} the object to be a proxy 
+   * This implementation
+   * {@link InternalEObject#eSetProxyURI sets} the object to be a proxy
    * and clears the {@link #eAdapters adapters}.
    */
   protected void unloaded(InternalEObject internalEObject)
@@ -1500,7 +1584,19 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         {
           eNotify(notification);
         }
+        setTimeStamp(URIConverter.NULL_TIME_STAMP);
       }
+    }
+  }
+
+  public void delete(Map<?, ?> options) throws IOException
+  {
+    getURIConverter().delete(getURI(), mergeMaps(options, defaultDeleteOptions));
+    unload();
+    ResourceSet resourceSet = getResourceSet();
+    if (resourceSet != null)
+    {
+      resourceSet.getResources().remove(this);
     }
   }
 
@@ -1556,7 +1652,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       if (isTrackingModification)
       {
         modificationTrackingAdapter = createModificationTrackingAdapter();
-        
+
         for (TreeIterator<EObject> i = getAllProperContents(getContents()); i.hasNext(); )
         {
           EObject eObject = i.next();
@@ -1567,7 +1663,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         Adapter oldModificationTrackingAdapter = modificationTrackingAdapter;
         modificationTrackingAdapter = null;
-        
+
         for (TreeIterator<EObject> i = getAllProperContents(getContents()); i.hasNext(); )
         {
           EObject eObject = i.next();

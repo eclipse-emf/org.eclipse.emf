@@ -5,6 +5,8 @@
   <extension-point id="factory_override" name="%_UI_FactoryRegistry_extensionpoint" schema="schema/factory_override.exsd" />
   <extension-point id="extension_parser" name="%_UI_URIExtensionParserRegistry_extensionpoint" schema="schema/extension_parser.exsd" />
   <extension-point id="protocol_parser" name="%_UI_URIProtocolParserRegistry_extensionpoint" schema="schema/protocol_parser.exsd" />
+  <extension-point id="content_parser" name="%_UI_URIContentTypeParserRegistry_extensionpoint" schema="schema/content_parser.exsd" />
+  <extension-point id="content_handler" name="%_UI_ContentHandlerRegistry_extensionpoint" schema="schema/content_handler.exsd" />
   <extension-point id="uri_mapping" name="%_UI_URIMappingRegistry_extensionpoint" schema="schema/uri_mapping.exsd" />
   <extension-point id="package_registry_implementation" name="%_UI_PackageRegistryImplementation_extensionpoint" schema="schema/package_registry_implementation.exsd"/>
 
@@ -30,5 +32,12 @@
     <fileTypes extension="ecore" type="text" />
     <fileTypes extension="emof" type="text" />
     <fileTypes extension="xmi" type="text" />
+  </extension>
+  <extension
+        point="org.eclipse.emf.ecore.content_handler">
+     <contentHandler
+           class="org.eclipse.emf.ecore.resource.impl.PlatformContentHandlerImpl"
+           priority="2000">
+     </contentHandler>
   </extension>
 </plugin>

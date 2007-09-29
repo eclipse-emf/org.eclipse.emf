@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSet.java,v 1.6 2007/06/14 18:32:46 emerks Exp $
+ * $Id: ResourceSet.java,v 1.7 2007/09/29 16:41:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -39,7 +39,7 @@ import org.eclipse.emf.ecore.EPackage;
  * via registered adapter factory.
  * </p>
  * <p>
- * A resource can be {@link #createResource created} 
+ * A resource can be {@link #createResource(URI) created} 
  * or {@link #getResource(URI, boolean) demand loaded}
  * into the collection.
  * The {@link #getResourceFactoryRegistry registry} of resource factories can be configured
@@ -186,9 +186,9 @@ public interface ResourceSet extends Notifier
    * Creates a new resource, of the appropriate type, and returns it.
    * <p>
    * It delegates to the resource factory {@link #getResourceFactoryRegistry registry} 
-   * to determine the {@link Resource.Factory.Registry#getFactory correct} factory,
+   * to determine the {@link Resource.Factory.Registry#getFactory(URI) correct} factory,
    * and then it uses that factory to {@link Resource.Factory#createResource create} the resource
-   * and add it to the {@link #getResources contents}.
+   * and adds it to the {@link #getResources contents}.
    * If there is no registered factory, <code>null</code> will be returned;
    * when running within Eclipse,
    * a default XMI factory will be registered,
@@ -198,6 +198,26 @@ public interface ResourceSet extends Notifier
    * @return a new resource, or <code>null</code> if no factory is registered.
    */
   Resource createResource(URI uri);
+
+  /**
+   * Creates a new resource, of the appropriate type, and returns it.
+   * <p>
+   * It delegates to the resource factory {@link #getResourceFactoryRegistry registry} 
+   * to determine the {@link Resource.Factory.Registry#getFactory(URI, String) correct} factory,
+   * and then it uses that factory to {@link Resource.Factory#createResource create} the resource
+   * and adds it to the {@link #getResources contents}.
+   * If there is no registered factory, <code>null</code> will be returned;
+   * when running within Eclipse,
+   * a default XMI factory will be registered,
+   * and this will never return <code>null</code>.
+   * </p>
+   * @param uri the URI of the resource to create.
+   * @param contentType the {@link ContentHandler#CONTENT_TYPE_PROPERTY content type identifier} of the URI, 
+   * or <code>null</code> if no content type should be used during lookup.
+   * @return a new resource, or <code>null</code> if no factory is registered.
+   * @since 2.4
+   */
+  Resource createResource(URI uri, String contentType);
 
   /**
    * Returns the registry used for creating a resource of the appropriate type.

@@ -12,13 +12,11 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.14 2007/06/15 21:57:52 emerks Exp $
+ * $Id: URIConverterImpl.java,v 1.15 2007/09/29 16:41:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -31,20 +29,14 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.archive.ArchiveURLConnection;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.URIConverter;
 
 
 /**
@@ -58,124 +50,51 @@ import org.eclipse.emf.ecore.resource.URIConverter;
  * the implementation does <b>not</b> require them at runtime. 
  * Clients of this implementation must be cautious if they wish to maintain this platform neutral behaviour.
  * </p>
+ * @deprecated since 2.4; use {@link ExtensibleURIConverterImpl} instead.
  */
-public class URIConverterImpl implements URIConverter
+@Deprecated
+public class URIConverterImpl extends ExtensibleURIConverterImpl
 {
-  // ECLIPSE-DEPEND-BEGIN 
   /** 
    * An output stream that transfers its contents to an {@link IFile} upon closing.
+   * @deprecated @since 2.4; use {@link PlatformResourceURIHandlerImpl.PlatformResourceOutputStream} directly.
    */
-  public static class PlatformResourceOutputStream extends ByteArrayOutputStream
+  @Deprecated
+  public static class PlatformResourceOutputStream extends PlatformResourceURIHandlerImpl.PlatformResourceOutputStream
   {
-    protected IFile file;
-    protected boolean force;
-    protected boolean keepHistory;
-    protected IProgressMonitor progressMonitor;
-    protected boolean previouslyFlushed;
-
+    /**
+     * @deprecated since 2.4; use {@link PlatformResourceURIHandlerImpl.PlatformResourceOutputStream#PlatformResourceOutputStream(IFile, boolean, boolean, IProgressMonitor)} instead.
+     */
+    @Deprecated
     public PlatformResourceOutputStream(IFile file,  boolean force, boolean keepHistory, IProgressMonitor progressMonitor)
     {
-      this.file = file;
-      this.force = force;
-      this.keepHistory = keepHistory;
-      this.progressMonitor = progressMonitor;
-    }
-
-    protected void createContainer(IContainer container) throws IOException
-    {
-      if (!container.exists())
-      {
-        if (container.getType() == IResource.FOLDER)
-        {
-          createContainer(container.getParent());
-          try
-          {
-            ((IFolder)container).create(force, keepHistory, progressMonitor);
-          }
-          catch (CoreException exception)
-          {
-            throw new ResourceImpl.IOWrappedException(exception);
-          }
-        }
-      }
-    }
-
-    @Override
-    public void close() throws IOException 
-    {
-      flush();
-      super.close();
-    }
-
-    @Override
-    public void flush() throws IOException 
-    {
-      super.flush();
-
-      if (previouslyFlushed)
-      {
-        if (count == 0)
-        {
-          return;
-        }
-      }
-      else
-      {
-        createContainer(file.getParent());
-      }
-
-      byte[] contents = toByteArray();
-      InputStream inputStream = new ByteArrayInputStream(contents, 0, contents.length);
-  
-      try 
-      {
-        if (previouslyFlushed)
-        {
-          file.appendContents(inputStream, force, false, progressMonitor); 
-        }
-        else if (!file.exists())
-        {
-          file.create(inputStream, false, null);
-          previouslyFlushed = true;
-        }
-        else 
-        {
-          if (!file.isSynchronized(IResource.DEPTH_ONE))
-          {
-            file.refreshLocal(IResource.DEPTH_ONE, progressMonitor);
-          }
-          file.setContents(inputStream, force, keepHistory, progressMonitor); 
-          previouslyFlushed = true;
-        }
-        reset();
-      }
-      catch (CoreException exception) 
-      {
-        throw new Resource.IOWrappedException(exception);
-      }
+      super(file, force, keepHistory, progressMonitor);
     }
   }
 
   /**
    * Isolated Eclipse workbench utilities.
+   * @deprecated since 2.4; use {@link PlatformResourceURIHandlerImpl.WorkbenchHelper} directly.
    */
-  public static class WorkbenchHelper
+  @Deprecated
+  public static class WorkbenchHelper extends PlatformResourceURIHandlerImpl.WorkbenchHelper
   {
     /**
      * Creates an output stream for the given {@link IFile} path.
      * <p>
-     * This implementation uses a {@link URIConverterImpl.PlatformResourceOutputStream}.
+     * This implementation uses a {@link PlatformResourceURIHandlerImpl.PlatformResourceOutputStream}.
      * </p>
      * @return an open output stream.
      * @exception IOException if there is a problem obtaining an open output stream.
      * @see IWorkspaceRoot#getFile(org.eclipse.core.runtime.IPath)
-     * @see URIConverterImpl.PlatformResourceOutputStream
+     * @see PlatformResourceURIHandlerImpl.PlatformResourceOutputStream
      * @see IFile#setContents(InputStream, boolean, boolean, IProgressMonitor)
+     * @deprecated since 2.4; use {@link PlatformResourceURIHandlerImpl.WorkbenchHelper#createPlatformResourceOutputStream(String, Map)} directly.
      */
+    @Deprecated
     public static OutputStream createPlatformResourceOutputStream(String platformResourcePath) throws IOException
     {
-      IFile file = workspaceRoot.getFile(new Path(platformResourcePath));
-      return new PlatformResourceOutputStream(file, false, true, null);
+      return PlatformResourceURIHandlerImpl.WorkbenchHelper.createPlatformResourceOutputStream(platformResourcePath, null);
     }
 
     /**
@@ -187,28 +106,20 @@ public class URIConverterImpl implements URIConverter
      * @see IWorkspaceRoot#getFile(org.eclipse.core.runtime.IPath)
      * @see IFile#getContents()
      * @exception IOException if there is a problem obtaining an open input stream.
+     * @deprecated since 2.4; use {@link PlatformResourceURIHandlerImpl.WorkbenchHelper#createPlatformResourceInputStream(String, Map)} directly.
      */
+    @Deprecated
     public static InputStream createPlatformResourceInputStream(String platformResourcePath) throws IOException
     {
-      IFile file = workspaceRoot.getFile(new Path(platformResourcePath));
-      try
-      {
-        if (!file.isSynchronized(IResource.DEPTH_ONE))
-        {
-          file.refreshLocal(IResource.DEPTH_ONE, null);
-        }
-        return file.getContents();
-      }
-      catch (CoreException exception)
-      {
-        throw new Resource.IOWrappedException(exception);
-      }
+      return PlatformResourceURIHandlerImpl.WorkbenchHelper.createPlatformResourceInputStream(platformResourcePath, null);
     }
   }
 
   /**
    * The cached Eclipse workspace.
+   * @deprecated
    */
+  @Deprecated
   protected static IWorkspaceRoot workspaceRoot = EcorePlugin.getWorkspaceRoot();
 
   private static Map<String, Boolean> efsScheme;
@@ -240,44 +151,28 @@ public class URIConverterImpl implements URIConverter
     FILE_STORE_OPEN_INPUT_STREAM_METHOD = fileStoreOpenInputStreamMethod;
     FILE_STORE_OPEN_OUTPUT_STREAM_METHOD = fileStoreOpenOutputStreamMethod;
   }
-  // ECLIPSE-DEPEND-END
 
   /**
    * A map that remaps URIs.
+   * @deprecated since 2.4 use {@link ExtensibleURIConverterImpl.URIMap} instead.
    */
-  public interface URIMap extends Map<URI, URI>
+  @Deprecated
+  public interface URIMap extends ExtensibleURIConverterImpl.URIMap
   {
-    /**
-     * Returns the remapped URI, or the URI itself.
-     * @param uri the URI to remap.
-     * @return the remapped URI, or the URI itself.
-     */
-    URI getURI(URI uri);
+    // No methods added.
   }
-
-  /** 
-   * The URI map.
-   */
-  protected URIMap uriMap;
 
   /**
    * Creates an instance.
+   * @deprecated since 2.4; 
+   * use new {@link ExtensibleURIConverterImpl#ExtensibleURIConverterImpl() ExtensibleURIConverterImpl()} instead.
    */
+  @Deprecated
   public URIConverterImpl()
   {
-    // This is a way to test stand-alone platform:/resource support in what's really an headless environment.
-    //
-    // org.eclipse.core.resources.IProject [] projects = workspaceRoot.getProjects();
-    // for (int i = 0; i < projects.length; ++i)
-    // {
-    //   String rootContainerName = projects[i].getName();
-    //   URI rootContainerLocation = URI.createFileURI(projects[i].getLocation().toString() + "/");
-    //   platformResourceMap.put(rootContainerName, rootContainerLocation);
-    // }
-    //
-    // workspaceRoot = null;
+    super();
   }
-  
+
   /**
    * Returns whether the scheme is one that this implementation should treat as an archive.
    * This implementation returns <code>true</code> when the scheme is <code>"archive"</code>.
@@ -329,7 +224,7 @@ public class URIConverterImpl implements URIConverter
   /**
    * Creates an output stream for the URI and returns it.
    * <p>
-   * This implementation {@link #normalize normalizes} the URI and uses that as the basis for further processing.
+   * This implementation {@link #normalize(URI) normalizes} the URI and uses that as the basis for further processing.
    * A {@link URI#isFile() file-based} URI is {@link URI#toFileString converted} to a file path, e.g.,
    *<pre>
    *  file:///C:/directory/file
@@ -352,6 +247,7 @@ public class URIConverterImpl implements URIConverter
    * @return an open output stream.
    * @exception IOException if there is a problem obtaining an open output stream.
    */
+  @Override
   public OutputStream createOutputStream(URI uri) throws IOException
   {
     URI converted = normalize(uri);
@@ -380,6 +276,12 @@ public class URIConverterImpl implements URIConverter
         return createURLOutputStream(converted);
       }
     }
+  }
+
+  @Override
+  public OutputStream createOutputStream(URI uri, Map<?, ?> options) throws IOException
+  {
+    return createOutputStream(uri);
   }
 
   /**
@@ -421,7 +323,7 @@ public class URIConverterImpl implements URIConverter
    * {@link WorkbenchHelper#createPlatformResourceOutputStream WorkbenchHelper.createPlatformResourceOutputStream},
    * which gives the expected Eclipse behaviour.
    * Otherwise, the {@link EcorePlugin#resolvePlatformResourcePath resolved} URI 
-   * is delegated to {@link #createOutputStream createOutputStream}
+   * is delegated to {@link #createOutputStream(URI, Map) createOutputStream}
    * for recursive processing.
    * @return an open output stream.
    * @exception IOException if there is a problem obtaining an open output stream or a valid interpretation of the path.
@@ -495,7 +397,7 @@ public class URIConverterImpl implements URIConverter
   /**
    * Creates an input stream for the URI and returns it.
    * <p>
-   * This implementation {@link #normalize normalizes} the URI and uses that as the basis for further processing.
+   * This implementation {@link #normalize(URI) normalizes} the URI and uses that as the basis for further processing.
    * A {@link URI#isFile() file-based} URI is {@link URI#toFileString converted} to a file path, e.g.,
    *<pre>
    *  file:///C:/directory/file
@@ -518,6 +420,7 @@ public class URIConverterImpl implements URIConverter
    * @return an open input stream.
    * @exception IOException if there is a problem obtaining an open input stream.
    */
+  @Override
   public InputStream createInputStream(URI uri) throws IOException
   {
     URI converted = normalize(uri);
@@ -546,6 +449,12 @@ public class URIConverterImpl implements URIConverter
         return createURLInputStream(converted);
       }
     }
+  }
+  
+  @Override
+  public InputStream createInputStream(URI uri, Map<?, ?> options) throws IOException
+  {
+    return createInputStream(uri);
   }
 
   /**
@@ -623,7 +532,7 @@ public class URIConverterImpl implements URIConverter
    * {@link WorkbenchHelper#createPlatformResourceInputStream WorkbenchHelper.createPlatformResourceInputStream},
    * which gives the expected Eclipse behaviour.
    * Otherwise, the {@link EcorePlugin#resolvePlatformResourcePath resolved} URI 
-   * is delegated to {@link #createInputStream createInputStream}
+   * is delegated to {@link #createInputStream(URI, Map) createInputStream}
    * for recursive processing.
    * @return an open input stream.
    * @exception IOException if there is a problem obtaining an open input stream or a valid interpretation of the path.
@@ -694,96 +603,14 @@ public class URIConverterImpl implements URIConverter
   }
 
   /**
-   * Returns the normalized form of the URI.
-   * <p>
-   * This implementation does precisely and only the {@link URIConverter#normalize typical} thing.
-   * It calls itself recursively so that mapped chains are followed.
-   * </p>
-   * @param uri the URI to normalize.
-   * @return the normalized form.
-   * @see org.eclipse.emf.ecore.plugin.EcorePlugin#getPlatformResourceMap
-   */
-  public URI normalize(URI uri)
-  {
-    String fragment = uri.fragment();
-    URI result = 
-      fragment == null ? 
-        getInternalURIMap().getURI(uri) :
-        getInternalURIMap().getURI(uri.trimFragment()).appendFragment(fragment);
-    String scheme = result.scheme();
-    if (scheme == null)
-    {
-      // ECLIPSE-DEPEND-BEGIN
-      if (workspaceRoot != null)
-      {
-        if (result.hasAbsolutePath())
-        {
-          result = URI.createPlatformResourceURI(result.trimFragment().toString(), false);
-          if (fragment != null)
-          {
-            result = result.appendFragment(fragment);
-          }
-        }
-      }
-      else 
-      // ECLIPSE-DEPEND-END
-      {
-        if (result.hasAbsolutePath())
-        {
-          result = URI.createURI("file:" + result);
-        }
-        else
-        {
-          result = URI.createFileURI(new File(result.trimFragment().toString()).getAbsolutePath());
-          if (fragment != null)
-          {
-            result = result.appendFragment(fragment);
-          }
-        }
-      }
-    }
-
-    if (result.equals(uri))
-    {
-      return uri;
-    }
-    else
-    {
-      return normalize(result);
-    }
-  }
-
-  /*
-   * Javadoc copied from interface.
-   */
-  public Map<URI, URI> getURIMap()
-  {
-    return getInternalURIMap();
-  }
-
-  /**
    * Returns the internal version of the URI map.
    * @return the internal version of the URI map.
+   * @deprecated since 2.4; there should be no need to call this method directly so use {@link #getURIMap()} instead.
    */
+  @Override
+  @Deprecated
   protected URIMap getInternalURIMap()
   {
-    if (uriMap == null)
-    {
-      URIMappingRegistryImpl mappingRegistryImpl = 
-        new URIMappingRegistryImpl()
-        {
-          private static final long serialVersionUID = 1L;
-
-          @Override
-          protected URI delegatedGetURI(URI uri)
-          {
-            return URIMappingRegistryImpl.INSTANCE.getURI(uri);
-          }
-        };
-
-      uriMap = (URIMap)mappingRegistryImpl.map();
-    }
-
-    return uriMap;
+    return (URIMap)uriMap;
   }
 }
