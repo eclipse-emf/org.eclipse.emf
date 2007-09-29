@@ -40,7 +40,7 @@ import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 
 
@@ -115,8 +115,8 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
 
             PrintStream manifest = 
               new PrintStream
-                (new URIConverterImpl().createOutputStream
-                   (URI.createPlatformResourceURI("/" + genModelContainerPath.segment(0) + "/META-INF/MANIFEST.MF", true)));
+                (URIConverter.INSTANCE.createOutputStream
+                   (URI.createPlatformResourceURI("/" + genModelContainerPath.segment(0) + "/META-INF/MANIFEST.MF", true), null));
             manifest.println("Manifest-Version: 1.0");
             manifest.println("Bundle-ManifestVersion: 2");
             manifest.print("Bundle-Name: ");
