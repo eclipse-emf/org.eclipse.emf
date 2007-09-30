@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.26 2007/05/29 15:16:30 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.27 2007/09/30 13:32:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -86,7 +86,21 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    */
   public int getClassifierID()
   {
+    if (metaObjectID == -1)
+    {
+      metaObjectID = computeClassifierID();
+    }
     return metaObjectID;
+  }
+
+  private final int computeClassifierID()
+  {
+    EPackage ePackage = getEPackage();
+    return
+    
+      ePackage != null ?
+        ePackage.getEClassifiers().indexOf(this) : 
+        -1;
   }
 
   /**
