@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.19 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenEnumImpl.java,v 1.20 2007/09/30 12:27:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -351,7 +351,8 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   @Override
   public EDataType getEcoreDataType()
   {
-    return getEcoreEnum();
+    EDataType result = super.getEcoreDataType();
+    return result != null ? result : getEcoreEnum();
   }
 
   @Override
