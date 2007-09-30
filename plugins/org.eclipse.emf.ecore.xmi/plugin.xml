@@ -32,7 +32,7 @@
            base-type="org.eclipse.core.runtime.xml"
            file-extensions="ecore,xmi"
            id="org.eclipse.emf.ecore"
-           name="Ecore Model Content"
+           name="%_UI_Ecore_content_type"
            priority="normal">
         <describer
               class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
