@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnum.java,v 1.7 2007/06/12 15:07:28 emerks Exp $
+ * $Id: GenEnum.java,v 1.8 2007/09/30 12:25:45 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.ecore.EEnum;
  * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenEnum()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='NoEcoreDataType'"
  * @generated
  */
 public interface GenEnum extends GenDataType
