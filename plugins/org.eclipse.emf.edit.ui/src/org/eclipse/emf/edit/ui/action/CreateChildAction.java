@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateChildAction.java,v 1.4 2006/12/28 06:50:04 marcelop Exp $
+ * $Id: CreateChildAction.java,v 1.5 2007/09/30 10:31:29 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -41,7 +41,7 @@ public class CreateChildAction extends StaticSelectionCommandAction
   protected Object descriptor;
 
   /**
-   * This constructs an instance of an action that creates a child
+   * This constructs an instance of an action that uses the workbench part's editing domain to create a child
    * specified by <code>descriptor</code> for the single object in the
    * <code>selection</code>.
    * @since 2.1.0
@@ -61,6 +61,19 @@ public class CreateChildAction extends StaticSelectionCommandAction
   public CreateChildAction(IEditorPart editorPart, ISelection selection, Object descriptor)
   {
     this((IWorkbenchPart)editorPart, selection, descriptor);
+  }
+
+  /**
+   * This constructs an instance of an action that uses the given editing domain to create a child
+   * specified by <code>descriptor</code> for the single object in the
+   * <code>selection</code>.
+   * @since 2.4.0
+   */
+  public CreateChildAction(EditingDomain editingDomain, ISelection selection, Object descriptor)
+  {
+    super(editingDomain);
+    this.descriptor = descriptor;
+    configureAction(selection);
   }
 
   /**

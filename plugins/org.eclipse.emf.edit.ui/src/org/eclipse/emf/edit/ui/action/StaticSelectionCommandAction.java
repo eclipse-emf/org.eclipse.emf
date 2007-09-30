@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StaticSelectionCommandAction.java,v 1.6 2007/06/14 18:32:37 emerks Exp $
+ * $Id: StaticSelectionCommandAction.java,v 1.7 2007/09/30 10:31:30 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -92,6 +92,15 @@ public abstract class StaticSelectionCommandAction extends Action
   public StaticSelectionCommandAction(IEditorPart editorPart)
   {
     this((IWorkbenchPart)editorPart);
+  }
+
+  /**
+   * This constructs an instance for a command to be executed via the given editing domain.
+   * @since 2.4.0
+   */
+  public StaticSelectionCommandAction(EditingDomain editingDomain)
+  {
+    this.editingDomain = editingDomain;
   }
 
   /**
