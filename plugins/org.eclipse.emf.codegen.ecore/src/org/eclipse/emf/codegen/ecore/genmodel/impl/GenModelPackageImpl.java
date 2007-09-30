@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.46 2007/05/11 19:43:23 emerks Exp $
+ * $Id: GenModelPackageImpl.java,v 1.47 2007/09/30 12:26:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -39,12 +39,14 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement;
 
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelValidator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
@@ -256,6 +258,17 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
 
     // Initialize created meta-data
     theGenModelPackage.initializePackageContents();
+
+    // Register package validator
+    EValidator.Registry.INSTANCE.put
+      (theGenModelPackage, 
+       new EValidator.Descriptor()
+       {
+         public EValidator getEValidator()
+         {
+           return GenModelValidator.INSTANCE;
+         }
+       });
 
     // Mark meta-data to indicate it can't be changed
     theGenModelPackage.freeze();
@@ -2126,6 +2139,28 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
 
     // Create resource
     createResource(eNS_URI);
+
+    // Create annotations
+    // http://www.eclipse.org/emf/2002/Ecore
+    createEcoreAnnotations();
+  }
+
+  /**
+   * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void createEcoreAnnotations()
+  {
+    String source = "http://www.eclipse.org/emf/2002/Ecore";			
+    addAnnotation
+      (genEnumEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "NoEcoreDataType"
+       });
   }
 
 } //GenModelPackageImpl

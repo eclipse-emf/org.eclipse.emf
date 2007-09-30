@@ -189,6 +189,9 @@
         eType="#//GenAnnotation" containment="true" eOpposite="#//GenAnnotation/genBase"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenEnum" eSuperTypes="#//GenDataType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="NoEcoreDataType"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeSafeEnumCompatible"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreEnum" lowerBound="1"

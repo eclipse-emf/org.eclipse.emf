@@ -524,6 +524,11 @@
 		    uid        	0))
 	    abstract   	TRUE)
 	(object Class "GenEnum"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"constraints"
+		    value      	"NoEcoreDataType"))
 	    quid       	"3C1FAE9102F6"
 	    superclasses 	(list inheritance_relationship_list
 		(object Inheritance_Relationship
