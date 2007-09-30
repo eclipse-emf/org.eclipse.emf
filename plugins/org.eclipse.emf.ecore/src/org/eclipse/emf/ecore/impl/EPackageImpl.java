@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.33 2007/05/10 17:26:53 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.34 2007/09/30 13:32:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -93,12 +93,12 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * The Ecore factory.
    */
-  protected EcoreFactory ecoreFactory = null;
+  protected EcoreFactory ecoreFactory;
 
   /**
    * The Ecore factory.
    */
-  protected EcorePackage ecorePackage = null;
+  protected EcorePackage ecorePackage;
 
   /**
    * The map from name to 
