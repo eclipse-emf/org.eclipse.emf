@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.45 2007/07/20 15:06:26 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.46 2007/09/30 14:32:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1693,32 +1693,36 @@ public class XMLHelperImpl implements XMLHelper
   {
     if (uri != null)
     {
-      int lowerBound = 0;
-      int index = 1;
-      String newPrefix;
-      while (prefixesToURIs.containsKey(newPrefix = prefix + "_" + index))
+      List<String> existingPrefixes = urisToPrefixes.get(uri);
+      if (existingPrefixes == null)
       {
-        lowerBound = index;
-        index <<= 1;
-      }
-      if (lowerBound != 0)
-      {
-        int upperBound = index;
-        while (lowerBound + 1 < upperBound)
+        int lowerBound = 0;
+        int index = 1;
+        String newPrefix;
+        while (prefixesToURIs.containsKey(newPrefix = prefix + "_" + index))
         {
-          index = (lowerBound + upperBound) >> 1;
-          if (prefixesToURIs.containsKey(prefix + "_" + index))
-          {
-            lowerBound = index;
-          }
-          else
-          {
-            upperBound = index;
-          }
+          lowerBound = index;
+          index <<= 1;
         }
-        newPrefix = prefix + "_" + (lowerBound + 1);
+        if (lowerBound != 0)
+        {
+          int upperBound = index;
+          while (lowerBound + 1 < upperBound)
+          {
+            index = (lowerBound + upperBound) >> 1;
+            if (prefixesToURIs.containsKey(prefix + "_" + index))
+            {
+              lowerBound = index;
+            }
+            else
+            {
+              upperBound = index;
+            }
+          }
+          newPrefix = prefix + "_" + (lowerBound + 1);
+        }
+        prefixesToURIs.put(newPrefix, uri);
       }
-      prefixesToURIs.put(newPrefix, uri);
     }
   }
 
