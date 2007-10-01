@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.24 2007/03/23 17:36:57 marcelop Exp $
+ * $Id: XMLLoadImpl.java,v 1.25 2007/10/01 18:11:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -21,7 +21,9 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -429,6 +431,7 @@ public class XMLLoadImpl implements XMLLoad
   {   
     // temporary structure to hold node's attributes + namespaces in scope
     AttributesImpl attrs = new AttributesImpl();
+    Set<String> prefixes = new HashSet<String>();
     
     // record node's attributes
     if (element.hasAttributes())
@@ -442,28 +445,35 @@ public class XMLLoadImpl implements XMLLoad
         {
           namespaceURI = "";
         }
+        String nodeName = attr.getNodeName();
+        String localName = attr.getLocalName();
+        String nodeValue = attr.getNodeValue();
         if (ExtendedMetaData.XMLNS_URI.equals(namespaceURI))
         {
-          // add non-duplicate namespace declaration
-          if (attrs.getIndex(attr.getNodeName()) < 0)
+          // Include only non-duplicate namespace declarations.
+          //
+          if (namespaceAware)
           {
-            attrs.addAttribute("", "", attr.getNodeName(), "CDATA", attr.getNodeValue());
-            if (namespaceAware)
+            if (prefixes.add(localName))
             {
-              handler.startPrefixMapping(attr.getLocalName(), attr.getNodeValue());
+              handler.startPrefixMapping(localName, nodeValue);
             }
+          }
+          else if (attrs.getIndex(nodeName) < 0)
+          {
+            attrs.addAttribute(namespaceURI, localName, nodeName, "CDATA", nodeValue);
           }
         }
         else
         {
-          attrs.addAttribute(namespaceURI, attr.getLocalName(), attr.getNodeName(), "CDATA", attr.getNodeValue());
+          attrs.addAttribute(namespaceURI, localName, nodeName, "CDATA", nodeValue);
         }
       }
     }
     
-    Node parent = element.getParentNode(); 
     // record namespaces in scope
-    while (parent != null && parent.getNodeType() != Node.DOCUMENT_NODE)
+    //
+    for (Node parent = element.getParentNode();  parent != null && parent.getNodeType() != Node.DOCUMENT_NODE;  parent = parent.getParentNode())
     {
       if (parent.hasAttributes())
       {
@@ -471,18 +481,31 @@ public class XMLLoadImpl implements XMLLoad
         for (int i = 0; i < attributes.getLength(); i++)
         {
           Node attr = attributes.item(i);
-          // add non-duplicate namespace declaration
-          if (ExtendedMetaData.XMLNS_URI.equals(attr.getNamespaceURI()) && attrs.getIndex(attr.getNodeName()) < 0)
+          String namespaceURI = attr.getNamespaceURI();
+          if (ExtendedMetaData.XMLNS_URI.equals(namespaceURI))
           {          
-            attrs.addAttribute("", "", attr.getNodeName(), "CDATA", attr.getNodeValue());
+            // Include only non-duplicate namespace declarations.
+            //
+            String localName = attr.getLocalName();
+            String nodeValue = attr.getNodeValue();
             if (namespaceAware)
             {
-              handler.startPrefixMapping(attr.getLocalName(), attr.getNodeValue());
+              if (prefixes.add(localName))
+              {
+                handler.startPrefixMapping(localName, nodeValue);
+              }
+            }
+            else 
+            {
+              String nodeName = attr.getNodeName();
+              if (attrs.getIndex(nodeName) < 0)
+              {
+                attrs.addAttribute(namespaceURI, localName, nodeName, "CDATA", nodeValue);
+              }
             }
           }
         }
       }
-      parent = parent.getParentNode();
     }  
 
     // traverse element node
@@ -506,7 +529,6 @@ public class XMLLoadImpl implements XMLLoad
 
   protected void traverse(Node node, AttributesProxy attributesProxy, DefaultHandler handler, LexicalHandler lexicalHandler) throws SAXException
   {
-
     if (node == null)
     {
       return;
@@ -536,19 +558,45 @@ public class XMLLoadImpl implements XMLLoad
       }
       case Node.ELEMENT_NODE:
       {
-        attributesProxy.setAttributes(node.getAttributes());
+        AttributesImpl filteredAttributes = null;
+        NamedNodeMap attributes = node.getAttributes();
         if (namespaceAware)
         {
-          NamedNodeMap attributes = node.getAttributes();
-          for (int i = 0; i < attributes.getLength(); i++)
+          for (int i = 0, length = attributes.getLength(); i < length; i++)
           {
             Node attr = attributes.item(i);
             String namespaceURI = attr.getNamespaceURI();
             if (ExtendedMetaData.XMLNS_URI.equals(namespaceURI))
             {
               handler.startPrefixMapping(attr.getLocalName(), attr.getNodeValue());
+              if (filteredAttributes == null)
+              {
+                filteredAttributes = new AttributesImpl();
+                for (int j = 0; j < i; ++j)
+                {
+                  attr = attributes.item(j);
+                  namespaceURI = attr.getNamespaceURI();
+                  if (namespaceURI == null)
+                  {
+                    namespaceURI = "";
+                  }
+                  filteredAttributes.addAttribute(namespaceURI, attr.getLocalName(), attr.getNodeName(), "CDATA", attr.getNodeValue());
+                }
+              }
+            }
+            else if (filteredAttributes != null)
+            {
+              if (namespaceURI == null)
+              {
+                namespaceURI = "";
+              }
+              filteredAttributes.addAttribute(namespaceURI, attr.getLocalName(), attr.getNodeName(), "CDATA", attr.getNodeValue());
             }
           }
+        }
+        if (filteredAttributes == null)
+        {
+          attributesProxy.setAttributes(attributes);
         }
         String namespaceURI = node.getNamespaceURI();
         if (namespaceURI == null)
@@ -558,7 +606,7 @@ public class XMLLoadImpl implements XMLLoad
         String localName = node.getLocalName();
         String qname = node.getNodeName();   
         
-        handler.startElement(namespaceURI, localName, qname, attributesProxy);
+        handler.startElement(namespaceURI, localName, qname, filteredAttributes == null ? attributesProxy: filteredAttributes);
 
         Node child = node.getFirstChild();
         while (child != null)
