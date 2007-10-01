@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RootXMLContentHandlerImpl.java,v 1.1 2007/09/29 17:24:26 emerks Exp $
+ * $Id: RootXMLContentHandlerImpl.java,v 1.2 2007/10/01 16:37:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.ContentHandler;
+import org.eclipse.emf.ecore.resource.impl.ContentHandlerImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
@@ -238,7 +239,7 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
   /**
    * A describer that {@link #createContentHandler(Map) creates} a {@link RootXMLContentHandlerImpl} instance.
    */
-  public static class Describer extends XMLContentHandlerImpl.Describer
+  public static class Describer extends ContentHandlerImpl.Describer
   {
     /**
      * Creates a {@link RootXMLContentHandlerImpl} instance.
