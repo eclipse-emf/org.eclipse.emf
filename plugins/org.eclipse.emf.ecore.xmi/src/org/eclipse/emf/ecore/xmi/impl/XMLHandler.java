@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.80 2007/09/29 16:43:15 emerks Exp $
+ * $Id: XMLHandler.java,v 1.81 2007/10/01 18:11:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -326,6 +326,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected XMLResource.URIHandler uriHandler;
   protected EObject documentRoot;
   protected boolean usedNullNamespacePackage;
+  protected boolean isNamespaceAware;
 
   /**
    */
@@ -623,6 +624,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     uriHandler = null;
     documentRoot = null;
     usedNullNamespacePackage = false;
+    isNamespaceAware = false;
   }
 
   //
@@ -819,17 +821,16 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   protected void handleSchemaLocation()
   {
-    for (int i = 0, size = attribs.getLength(); i < size; ++i)
+    String xsiSchemLocation = attribs.getValue(ExtendedMetaData.XSI_URI, XMLResource.SCHEMA_LOCATION);
+    if (xsiSchemLocation != null)
     {
-      String attrib = attribs.getQName(i);
-      if (SCHEMA_LOCATION_ATTRIB.equals(attrib))
-      {
-        handleXSISchemaLocation(attribs.getValue(i));
-      }
-      else if (NO_NAMESPACE_SCHEMA_LOCATION_ATTRIB.equals(attrib))
-      {
-        handleXSINoNamespaceSchemaLocation(attribs.getValue(i));
-      }
+      handleXSISchemaLocation(xsiSchemLocation);
+    }
+
+    String xsiNoNamespaceSchemLocation = attribs.getValue(ExtendedMetaData.XSI_URI, XMLResource.NO_NAMESPACE_SCHEMA_LOCATION);
+    if (xsiNoNamespaceSchemLocation != null)
+    {
+      handleXSINoNamespaceSchemaLocation(xsiNoNamespaceSchemLocation);
     }
   }
 
@@ -838,7 +839,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    */
   protected boolean isNull()
   {
-    return attribs.getValue(NIL_ATTRIB) != null;
+    return (isNamespaceAware ? attribs.getValue(ExtendedMetaData.XSI_URI, XMLResource.NIL) : attribs.getValue(NIL_ATTRIB)) != null;
   }
 
   /**
@@ -1456,6 +1457,8 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   @Override
   public void startPrefixMapping(String prefix, String uri)
   {
+    isNamespaceAware = true;
+
     if (needsPushContext)
     {
       helper.pushContext();

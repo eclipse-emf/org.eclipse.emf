@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SAXXMLHandler.java,v 1.11 2007/09/30 13:15:04 emerks Exp $
+ * $Id: SAXXMLHandler.java,v 1.12 2007/10/01 18:11:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLResource.XMLInfo;
@@ -46,7 +47,7 @@ public class SAXXMLHandler extends XMLHandler
   @Override
   protected String getXSIType()
   {
-    return attribs.getValue(TYPE_ATTRIB);
+    return isNamespaceAware ? attribs.getValue(ExtendedMetaData.XSI_URI, XMLResource.TYPE) : attribs.getValue(TYPE_ATTRIB);
   }
 
   /**
@@ -68,6 +69,14 @@ public class SAXXMLHandler extends XMLHandler
         else if (name.equals(hrefAttribute) && (!recordUnknownFeature || types.peek() != UNKNOWN_FEATURE_TYPE || obj.eClass() != anyType))
         {
           handleProxy(internalEObject, attribs.getValue(i));
+        }
+        else if (isNamespaceAware)
+        {
+          String namespace = attribs.getURI(i);
+          if (!ExtendedMetaData.XSI_URI.equals(namespace))
+          {
+            setAttribValue(obj, name, attribs.getValue(i));
+          }
         }
         else if (!name.startsWith(XMLResource.XML_NS) && !notFeatures.contains(name))
         {

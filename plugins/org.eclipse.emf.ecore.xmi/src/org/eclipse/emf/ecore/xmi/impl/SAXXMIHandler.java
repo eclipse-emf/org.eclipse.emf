@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SAXXMIHandler.java,v 1.7 2007/09/30 13:15:04 emerks Exp $
+ * $Id: SAXXMIHandler.java,v 1.8 2007/10/01 18:11:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
@@ -41,7 +42,7 @@ public class SAXXMIHandler extends XMIHandler
   @Override
   protected String getXSIType()
   {
-    String xsiType = attribs.getValue(TYPE_ATTRIB);
+    String xsiType = isNamespaceAware ? attribs.getValue(ExtendedMetaData.XSI_URI, XMLResource.TYPE) : attribs.getValue(TYPE_ATTRIB);
 
     if (xsiType == null)
     {
@@ -70,6 +71,14 @@ public class SAXXMIHandler extends XMIHandler
         else if (name.equals(hrefAttribute) && (!recordUnknownFeature || types.peek() != UNKNOWN_FEATURE_TYPE || obj.eClass() != anyType))
         {
           handleProxy(internalEObject, attribs.getValue(i));
+        }
+        else if (isNamespaceAware)
+        {
+          String namespace = attribs.getURI(i);
+          if (!ExtendedMetaData.XSI_URI.equals(namespace) && !notFeatures.contains(name))
+          {
+            setAttribValue(obj, name, attribs.getValue(i));
+          }
         }
         else if (!name.startsWith(XMLResource.XML_NS) && !notFeatures.contains(name))
         {
