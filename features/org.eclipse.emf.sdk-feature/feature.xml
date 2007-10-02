@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.sdk"
       label="%featureName"
-      version="2.3.1.qualifier"
+      version="2.4.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
    <!-- do not increment version here; instead, use feature.xml.template -->
@@ -26,7 +26,7 @@ http://www.eclipse.org/legal/epl-v10.html
    <url>
       <update label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/updates/"/>
       <discovery label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/updates/"/>
-      <discovery label="%EMFTUpdateSiteName" url="http://download.eclipse.org/technology/emft/updates/"/>
+      <discovery label="%EMFTUpdateSiteName" url="http://download.eclipse.org/modeling/emft/updates/"/>
    </url>
 
    <requires>
