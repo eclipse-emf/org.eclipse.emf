@@ -1,25 +1,27 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: EAnnotationImpl.java,v 1.3.2.1 2007/10/02 13:50:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -156,7 +158,32 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
   {
     if (details == null)
     {
-      details = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, EcorePackage.EANNOTATION__DETAILS);
+      details = 
+        new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, EcorePackage.EANNOTATION__DETAILS)
+        {
+          protected void ensureEntryDataExists()
+          {
+            if (entryData == null)
+            {
+              // Ensure that this race condition is thread safe; it doesn't matter who wins the race.
+              //
+              BasicEList [] result = newEntryData(2 * size + 1);
+              for (Iterator i = delegateEList.iterator(); i.hasNext(); )
+              {
+                Entry entry = (Entry)i.next();
+                int hash = entry.getHash();
+                int index =  (hash & 0x7FFFFFFF) % result.length;
+                BasicEList eList = result[index];
+                if (eList == null)
+                {
+                  eList = result[index] = newList();
+                }
+                eList.add(entry);
+              }
+              entryData = result;
+            }
+          }
+        };
     }
     return details;
   }
@@ -287,12 +314,12 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
       switch (eContainerFeatureID)
       {
         case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
-          return ((InternalEObject)eContainer).eInverseRemove(this, EcorePackage.EMODEL_ELEMENT__EANNOTATIONS, EModelElement.class, msgs);
+          return eContainer.eInverseRemove(this, EcorePackage.EMODEL_ELEMENT__EANNOTATIONS, EModelElement.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
