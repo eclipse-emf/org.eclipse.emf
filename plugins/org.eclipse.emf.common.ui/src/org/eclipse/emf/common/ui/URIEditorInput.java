@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIEditorInput.java,v 1.5 2007/04/25 21:09:43 emerks Exp $
+ * $Id: URIEditorInput.java,v 1.6 2007/10/02 16:13:53 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -109,7 +109,15 @@ public class URIEditorInput implements IEditorInput, IPersistableElement
    */
   public String getName()
   {
-    return name == null ? getURI().toString() : name;
+    if (name == null)
+    {
+      URI uri = getURI();
+      return URI.decode(uri.isHierarchical() && uri.lastSegment() != null ? uri.lastSegment() : uri.toString());
+    }
+    else
+    {
+      return name;
+    }
   }
   
   public String getToolTipText()
