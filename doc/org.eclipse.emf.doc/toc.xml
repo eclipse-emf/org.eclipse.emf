@@ -18,7 +18,6 @@
 	<topic label="Online Docs">
 		<topic label="Release Notes">
 			<topic label="What&apos;s New in v2.4" href="http://www.eclipse.org/modeling/emf/news/relnotes.php?project=emf&amp;version=2.4.x" />
-			<topic label="Previous Releases"  href="http://www.eclipse.org/modeling/emf/news/relnotes.php?project=emf&amp;version=2.3.x" />
 		</topic>
 		<topic label="EMF FAQ" href="http://wiki.eclipse.org/EMF/FAQ" />
 	</topic>
