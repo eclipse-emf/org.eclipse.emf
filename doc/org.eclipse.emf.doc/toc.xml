@@ -18,11 +18,10 @@
 
 	<topic label="Online Docs">
 		<topic label="Release Notes">
-			<topic label="What's New in v2.0" href="http://www.eclipse.org/emf/news/release-notes.php?version=2.0" />
-			<topic label="What's New in v1.x" href="http://www.eclipse.org/emf/news/release-notes-1.x.php" />
+			<topic label="What&apos;s New in v2.0" href="http://www.eclipse.org/modeling/emf/emf/news/relnotes2.0.php" />
 		</topic>
 
-		<topic label="EMF FAQ" href="http://www.eclipse.org/emf/faq/faq.php?FAQ=EMF" />
+		<topic label="EMF FAQ" href="http://wiki.eclipse.org/EMF/FAQ" />
 	</topic>
 
 	<topic label="Javadoc" href="references/javadoc/index.html"/>
