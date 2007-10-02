@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.32 2007/09/29 19:03:54 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.33 2007/10/02 20:48:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2143,30 +2143,21 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       }
       if (result == null)
       {
-        Map<String, EClassifier> nameToClassifierMap = new HashMap<String, EClassifier>();
-        if (this.nameToClassifierMap != null)
-        {
-          nameToClassifierMap.putAll(this.nameToClassifierMap);
-        }
-
-        // For demand created created packages we allow the list of classifiers to grow 
-        // so this should handle those additional instances.
-        //
         List<EClassifier> eClassifiers = ePackage.getEClassifiers();
-        for (int i = nameToClassifierMap.size(), size = eClassifiers.size(); i < size; ++i)
+        int size = eClassifiers.size();
+        if (nameToClassifierMap == null || nameToClassifierMap.size() != size)
         {
-          EClassifier eClassifier = eClassifiers.get(i);
-          String eClassifierName = getName(eClassifier);
-          EClassifier conflictingEClassifier = nameToClassifierMap.put(eClassifierName, eClassifier);
-          if (conflictingEClassifier != null && conflictingEClassifier != eClassifier)
+          Map<String, EClassifier> nameToClassifierMap = new HashMap<String, EClassifier>();
+          if (this.nameToClassifierMap != null)
           {
-            nameToClassifierMap.put(eClassifierName, conflictingEClassifier);
+            nameToClassifierMap.putAll(this.nameToClassifierMap);
           }
-        }
-
-        if (nameToClassifierMap.size() != eClassifiers.size())
-        {
-          for (int i = 0, size = eClassifiers.size(); i < size; ++i)
+  
+          // For demand created created packages we allow the list of classifiers to grow 
+          // so this should handle those additional instances.
+          //
+          int originalMapSize = nameToClassifierMap.size();
+          for (int i = originalMapSize; i < size; ++i)
           {
             EClassifier eClassifier = eClassifiers.get(i);
             String eClassifierName = getName(eClassifier);
@@ -2176,9 +2167,23 @@ public class BasicExtendedMetaData implements ExtendedMetaData
               nameToClassifierMap.put(eClassifierName, conflictingEClassifier);
             }
           }
+  
+          if (nameToClassifierMap.size() != size)
+          {
+            for (int i = 0; i < originalMapSize; ++i)
+            {
+              EClassifier eClassifier = eClassifiers.get(i);
+              String eClassifierName = getName(eClassifier);
+              EClassifier conflictingEClassifier = nameToClassifierMap.put(eClassifierName, eClassifier);
+              if (conflictingEClassifier != null && conflictingEClassifier != eClassifier)
+              {
+                nameToClassifierMap.put(eClassifierName, conflictingEClassifier);
+              }
+            }
+          }
+          result = nameToClassifierMap.get(name);
+          this.nameToClassifierMap = nameToClassifierMap;
         }
-        result = nameToClassifierMap.get(name);
-        this.nameToClassifierMap = nameToClassifierMap;
       }
 
       return result;
