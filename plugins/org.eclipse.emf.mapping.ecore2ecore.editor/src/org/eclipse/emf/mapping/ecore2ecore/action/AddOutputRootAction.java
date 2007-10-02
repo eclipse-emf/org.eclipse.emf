@@ -12,24 +12,14 @@
  *
  * </copyright>
  *
- * $Id: AddOutputRootAction.java,v 1.7 2007/06/19 17:31:27 marcelop Exp $
+ * $Id: AddOutputRootAction.java,v 1.8 2007/10/02 17:55:39 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.action;
 
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
-
-import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.mapping.action.AddRootBottomAction;
-import org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditor;
-import org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorPlugin;
 
 
 /**
@@ -53,34 +43,6 @@ public class AddOutputRootAction extends AddRootBottomAction
   @Override
   protected Collection<?> getBottomsToAdd()
   {
-    Collection<Object> objects = new ArrayList<Object>();
-
-    ViewerFilter viewerFilter = new ViewerFilter()
-    {
-      @Override
-      public boolean select(Viewer viewer, Object parentElement, Object element)
-      {
-         return !(element instanceof IFile) || "ecore".equals(((IFile)element).getFileExtension());  //$NON-NLS-1$
-      }
-    };
-    final IFile[] files = WorkspaceResourceDialog.openFileSelection(
-      workbenchPart.getSite().getShell(), 
-      null, 
-      Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_SelectOutputEcoreModels_label"), //$NON-NLS-1$
-      true, 
-      null, 
-      Collections.singletonList(viewerFilter));
-        
-    if (files.length > 0)
-    {
-      for (int i = 0; i < files.length; i++)
-      {
-        objects.addAll(((Ecore2EcoreEditor)workbenchPart).getEditingDomain().getResourceSet().getResource(
-          URI.createPlatformResourceURI(files[i].getFullPath().toString(), true),
-          true).getContents());
-      }
-    }
-
-    return objects;
+    return AddInputRootAction.getRootsToAdd(workbenchPart, editingDomain);
   }
 }

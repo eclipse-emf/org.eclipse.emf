@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreEditor.java,v 1.4 2006/12/29 18:28:58 marcelop Exp $
+ * $Id: Ecore2EcoreEditor.java,v 1.5 2007/10/02 17:55:39 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.InitializeCopyCommand;
@@ -105,8 +106,10 @@ public class Ecore2EcoreEditor extends MappingEditor
         new Ecore2EcoreItemProviderAdapterFactory()
       });
     AdapterFactory ecoreAdapterFactory = new EcoreItemProviderAdapterFactory();
-
-    return new Ecore2EcoreMappingDomain(mappingAdapterFactory, ecoreAdapterFactory, ecoreAdapterFactory, new BasicCommandStack(), null);
+    
+    AdapterFactoryMappingDomain result = new Ecore2EcoreMappingDomain(mappingAdapterFactory, ecoreAdapterFactory, ecoreAdapterFactory, new BasicCommandStack(), null);
+    result.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+    return result;
   }
 
   @Override
