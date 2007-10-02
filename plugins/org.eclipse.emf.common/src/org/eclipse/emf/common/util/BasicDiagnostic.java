@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.13 2007/06/12 20:56:17 emerks Exp $
+ * $Id: BasicDiagnostic.java,v 1.13.2.1 2007/10/02 13:24:06 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -386,6 +386,19 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     {
       return diagnostic.toString();
     }
+
+    public static IStatus convert(Diagnostic diagnostic)
+    {
+      return 
+        diagnostic instanceof DiagnosticWrapper ?
+          ((DiagnosticWrapper)diagnostic).status :
+          new StatusWrapper(diagnostic);
+    }
+
+    public static IStatus create(DiagnosticException diagnosticException)
+    {
+      return new StatusWrapper(diagnosticException);
+    }
   }
 
   /**
@@ -393,17 +406,15 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
    */
   public static IStatus toIStatus(Diagnostic diagnostic)
   {
-    return diagnostic instanceof DiagnosticWrapper ?
-      ((DiagnosticWrapper)diagnostic).status :
-      new StatusWrapper(diagnostic);
+    return StatusWrapper.convert(diagnostic);
   }
-  
+
   /**
    * Returns the diagnostic exception viewed as an {@link IStatus}.
    */
   public static IStatus toIStatus(DiagnosticException diagnosticException)
   {
-    return new StatusWrapper(diagnosticException);
+    return StatusWrapper.create(diagnosticException);
   }
   
   private static class DiagnosticWrapper implements Diagnostic
@@ -489,13 +500,19 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
       }
       return data;
     }
+
+    public static Diagnostic convert(IStatus status)
+    {
+      return 
+        status instanceof StatusWrapper ?
+          ((StatusWrapper)status).diagnostic :
+          new DiagnosticWrapper(status);
+    }
   }
   
   public static Diagnostic toDiagnostic(IStatus status)
   {
-    return status instanceof StatusWrapper ?
-      ((StatusWrapper)status).diagnostic :
-      new DiagnosticWrapper(status);
+    return DiagnosticWrapper.convert(status);
   }
 
   /**
