@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,16 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.1.2.1 2005/06/08 18:27:43 nickb Exp $
+ * $Id: EAnnotationImpl.java,v 1.1.2.2 2007/10/02 13:50:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -156,7 +158,32 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
   {
     if (details == null)
     {
-      details = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, EcorePackage.EANNOTATION__DETAILS);
+      details = 
+        new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, EcorePackage.EANNOTATION__DETAILS)
+        {
+          protected void ensureEntryDataExists()
+          {
+            if (entryData == null)
+            {
+              // Ensure that this race condition is thread safe; it doesn't matter who wins the race.
+              //
+              BasicEList [] result = newEntryData(2 * size + 1);
+              for (Iterator i = delegateEList.iterator(); i.hasNext(); )
+              {
+                Entry entry = (Entry)i.next();
+                int hash = entry.getHash();
+                int index =  (hash & 0x7FFFFFFF) % result.length;
+                BasicEList eList = result[index];
+                if (eList == null)
+                {
+                  eList = result[index] = newList();
+                }
+                eList.add(entry);
+              }
+              entryData = result;
+            }
+          }
+        };
     }
     return details;
   }
