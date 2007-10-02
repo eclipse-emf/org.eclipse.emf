@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<!-- ====================================================================== -->
-<!-- Define the top level topics                                            -->
-<!-- ====================================================================== -->
-
 <toc label="EMF Programmer&apos;s Guide">
-	<topic label="EMF Framework Overview" href="references/overview/EMF.html"/>
-	<topic label="EMF.Edit Framework Overview" href="references/overview/EMF.Edit.html"/>
-	<topic label="EMF v1.0 User&apos;s Guide" href="references/UG/EMF_v1.0_Users_Guide.html"/>
-
+	<topic label="Overviews">
+		<topic label="EMF Framework Overview" href="references/overview/EMF.html" />
+		<topic label="EMF.Edit Framework Overview" href="references/overview/EMF.Edit.html" />
+		<topic label="EMF Validation Framework Overview" href="references/overview/EMF.Validation.html" />
+	</topic>
 	<topic label="Tutorials">
-		<link toc="tutorials.xml" />
+		<topic label="Generating an EMF Model" href="tutorials/clibmod/clibmod.html" />
+		<topic label="Generating an Extended EMF Model" href="tutorials/slibmod/slibmod.html" />
+		<topic label="Generating an EMF Model using XML Schema" href="tutorials/xlibmod/xlibmod.html" />
+		<topic label="JET Tutorial Part 1 (Introduction to JET)" href="tutorials/jet1/jet_tutorial1.html" />
+		<topic label="JET Tutorial Part 2 (Write Code that Writes Code)" href="tutorials/jet2/jet_tutorial2.html" />
+		<topic label="Specifying Package Information in Rose" href="tutorials/rosepkg/rosepkg.html" />
 	</topic>
-
-	<topic label="Release Notes">
-		<link toc="relnotes.xml" />
+	<topic label="Online Docs">
+		<topic label="Release Notes">
+			<topic label="What&apos;s New in v2.1" href="http://www.eclipse.org/modeling/emf/news/relnotes.php?project=emf&amp;version=2.1.x" />
+		</topic>
+		<topic label="EMF FAQ" href="http://wiki.eclipse.org/EMF/FAQ" />
 	</topic>
-
 	<topic label="Javadoc" href="references/javadoc/index.html"/>
 </toc>
