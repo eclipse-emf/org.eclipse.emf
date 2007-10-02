@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: PasteFromClipboardCommand.java,v 1.3 2006/12/28 06:48:54 marcelop Exp $
+ * $Id: PasteFromClipboardCommand.java,v 1.4 2007/10/02 19:24:58 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
@@ -29,6 +31,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 /**
  * This works exactly like an {@link AddCommand} but the things to be added are copied from the {@link EditingDomain} clipboard.
+ * If the copied clipboard instance is of the same type as the original clipboard instance, 
+ * the clipboard instance is replaced by the copied instance and the original instance is used for the add.
  */
 public class PasteFromClipboardCommand extends AbstractOverrideableCommand
 {
@@ -143,11 +147,66 @@ public class PasteFromClipboardCommand extends AbstractOverrideableCommand
     command.append
       (new CommandWrapper()
        {
+         protected Collection<Object> original;
+         protected Collection<Object> copy;
+
          @Override
-        protected Command createCommand()
+         protected Command createCommand()
          {
-           Command addCommand = AddCommand.create(domain, owner, feature, copyCommand.getResult(), index);
+           original = domain.getClipboard();
+           copy = new ArrayList<Object>(copyCommand.getResult());
+
+           // Use the original to do the add, but only if it's of the same type as the copy.
+           // This ensures that if there is conversion being done as part of the copy,
+           // as would be the case for a cross domain copy in the mapping framework,
+           // that we do actually use the converted instance.
+           //
+           if (original.size() == copy.size())
+           {
+             for (Iterator<Object> i = original.iterator(), j = copy.iterator(); i.hasNext(); )
+             {
+               Object originalObject = i.next();
+               Object copyObject = j.next();
+               if (originalObject.getClass() != copyObject.getClass())
+               {
+                 original = null;
+                 break;
+               }
+             }
+           }
+           
+           Command addCommand = AddCommand.create(domain, owner, feature, original == null ? copy : original, index);
            return addCommand;
+         }
+
+         @Override
+         public void execute()
+         {
+           if (original != null)
+           {
+             domain.setClipboard(copy);
+           }
+           super.execute();
+         }
+
+         @Override
+         public void undo()
+         {
+           super.undo();
+           if (original != null)
+           {
+             domain.setClipboard(original);
+           }
+         }
+
+         @Override
+         public void redo()
+         {
+           if (original != null)
+           {
+             domain.setClipboard(copy);
+           }
+           super.redo();
          }
        });
 
