@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LoadResourceAction.java,v 1.13 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: LoadResourceAction.java,v 1.14 2007/10/02 17:55:01 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -101,7 +101,7 @@ public class LoadResourceAction extends Action
 
   public static class LoadResourceDialog extends ResourceDialog
   {
-    EditingDomain domain;
+    protected EditingDomain domain;
 
     public LoadResourceDialog(Shell parent)
     {
