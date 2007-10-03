@@ -2,7 +2,7 @@
 <project name="org.eclipse.emf.doc" default="build.jars" basedir=".">
 	
 	<!-- Plug-in information.  This is a HACK.  Do not forget to update version numbers, etc.. -->
-	<property name="pluginVersion" value="2.3.1"/>
+	<property name="pluginVersion" value="2.3.2"/>
 	<property name="docPlugin" value="org.eclipse.emf.doc"/>
 	
 	<property name="filesToInclude" value="META-INF/**,about.*,modeling*.png,plugin.*,doc.zip,toc*.xml,topics_*.xml,index/**,images/**,tutorials/**,references/**,css/**"/>
