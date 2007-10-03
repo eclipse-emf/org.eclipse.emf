@@ -55,7 +55,7 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <includes
          id="org.eclipse.xsd.doc"
-         version="2.0.2"
+         version="2.0.3"
          match="compatible"/>
 
    <includes
@@ -70,7 +70,7 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <includes
          id="org.eclipse.emf.ecore.sdo.doc"
-         version="2.0.3"
+         version="2.0.5"
          match="compatible"/>
 
 </feature>
