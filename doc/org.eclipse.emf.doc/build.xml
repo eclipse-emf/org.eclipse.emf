@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="org.eclipse.emf.doc" default="build.jars" basedir=".">
 	
-	<property name="pluginVersion" value="2.2.2"/>
+	<property name="pluginVersion" value="2.2.3"/>
 	<property name="projectName" value="emf"/>
 	
 	<property name="basews" value="${ws}"/>
