@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.34 2007/09/30 13:32:51 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.35 2007/10/04 19:38:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1612,7 +1612,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     for (Iterator<EClassifier> i = getEClassifiers().iterator(); i.hasNext(); )
     {
       EClassifierImpl eClassifier = (EClassifierImpl)i.next();
-      if (eClassifier.getClassifierID() == -1 && eClassifier instanceof EEnum)
+      if (eClassifier.metaObjectID == -1 && eClassifier instanceof EEnum)
       {
         eClassifier.setClassifierID(id++);
         fixInstanceClass(eClassifier);
@@ -1623,7 +1623,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     for (Iterator<EClassifier> i = getEClassifiers().iterator(); i.hasNext(); )
     {
       EClassifierImpl eClassifier = (EClassifierImpl)i.next();
-      if (eClassifier.getClassifierID() == -1 && eClassifier instanceof EDataType)
+      if (eClassifier.metaObjectID == -1 && eClassifier instanceof EDataType)
       {
         eClassifier.setClassifierID(id++);
         if (eClassifier.getInstanceClassName() == "org.eclipse.emf.common.util.AbstractEnumerator")
