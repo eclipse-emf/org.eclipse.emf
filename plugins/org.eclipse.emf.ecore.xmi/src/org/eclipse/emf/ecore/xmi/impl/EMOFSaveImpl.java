@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFSaveImpl.java,v 1.10 2007/09/04 12:57:11 emerks Exp $
+ * $Id: EMOFSaveImpl.java,v 1.10.2.1 2007/10/06 11:57:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -194,7 +194,10 @@ public class EMOFSaveImpl extends XMISaveImpl
       super.saveContainedSingle(o, f);
       doc.endElement();
     }
-    super.saveContainedSingle(o, f);
+    else
+    {
+      super.saveContainedSingle(o, f);
+    }
   }
   
   @Override
