@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceFactoryRegistryImpl.java,v 1.5 2007/09/29 16:41:41 emerks Exp $
+ * $Id: ResourceFactoryRegistryImpl.java,v 1.6 2007/10/10 14:04:01 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -92,7 +92,7 @@ public class ResourceFactoryRegistryImpl implements Resource.Factory.Registry
     return convert(getFactory(uri, protocolToFactoryMap, extensionToFactoryMap, contentTypeIdentifierToFactoryMap, contentType, true));
   }
 
-  static Resource.Factory convert(Object resourceFactory)
+  public static Resource.Factory convert(Object resourceFactory)
   {
     return
       resourceFactory instanceof Resource.Factory.Descriptor ?
