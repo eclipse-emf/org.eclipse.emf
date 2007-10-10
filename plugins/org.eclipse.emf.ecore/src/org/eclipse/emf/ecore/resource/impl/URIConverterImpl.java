@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.15 2007/09/29 16:41:42 emerks Exp $
+ * $Id: URIConverterImpl.java,v 1.16 2007/10/10 14:15:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -611,6 +611,6 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
   @Deprecated
   protected URIMap getInternalURIMap()
   {
-    return (URIMap)uriMap;
+    return (URIMap)super.getInternalURIMap();
   }
 }
