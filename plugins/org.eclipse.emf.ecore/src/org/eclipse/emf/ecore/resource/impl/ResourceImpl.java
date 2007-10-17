@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.23 2007/09/29 16:41:42 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.24 2007/10/17 11:53:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -741,7 +741,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     }
 
     List<EObject> contents = getContents();
-    if (position < contents.size())
+    if (position < contents.size() && position >= 0)
     {
       return contents.get(position);
     }
