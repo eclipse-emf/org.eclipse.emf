@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.81 2007/10/01 18:11:24 emerks Exp $
+ * $Id: XMLHandler.java,v 1.82 2007/10/17 12:41:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -152,6 +152,13 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     public final EObject popEObject()
     {
       return size == 0 ?  null : eObjectData[--size];
+    }
+
+    @Override
+    public void clear()
+    {
+      eObjectData = null;
+      super.clear();
     }
   }
 
