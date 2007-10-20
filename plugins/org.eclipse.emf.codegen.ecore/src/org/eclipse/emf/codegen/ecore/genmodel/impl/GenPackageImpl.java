@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.74 2007/07/10 21:06:08 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.75 2007/10/20 15:24:16 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3791,7 +3791,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         {
           result = result.substring(0, index);
         }
-        return capName(result);
+        return capName(CodeGenUtil.validJavaIdentifier(result));
       }
     }
   }
