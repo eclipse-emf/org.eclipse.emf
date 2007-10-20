@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.83 2007/10/20 14:44:12 emerks Exp $
+ * $Id: XMLHandler.java,v 1.84 2007/10/20 15:22:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -846,7 +846,19 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    */
   protected boolean isNull()
   {
-    return (isNamespaceAware ? attribs.getValue(ExtendedMetaData.XSI_URI, XMLResource.NIL) : attribs.getValue(NIL_ATTRIB)) != null;
+    String value = isNamespaceAware ? attribs.getValue(ExtendedMetaData.XSI_URI, XMLResource.NIL) : attribs.getValue(NIL_ATTRIB);
+    if (value != null)
+    {
+      try
+      {
+        return XMLTypeFactory.eINSTANCE.createBoolean(value);
+      }
+      catch (RuntimeException exception)
+      {
+        error(new XMIException(exception));
+      }
+    }
+    return false;
   }
 
   /**
