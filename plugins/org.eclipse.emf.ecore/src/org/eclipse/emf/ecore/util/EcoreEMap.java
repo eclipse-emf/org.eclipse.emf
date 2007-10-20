@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.8 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EcoreEMap.java,v 1.9 2007/10/20 14:43:40 emerks Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
 
 import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -217,6 +218,48 @@ public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Un
     return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicListIterator(index);
   }
 
+  @SuppressWarnings("unchecked")
+  public boolean basicContains(Object object)
+  {
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicContains(object);
+  }
+
+  @SuppressWarnings("unchecked")
+  public boolean basicContainsAll(Collection<?> collection)
+  {
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicContainsAll(collection);
+  }
+
+  @SuppressWarnings("unchecked")
+  public int basicIndexOf(Object object)
+  {
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicIndexOf(object);
+  }
+
+  @SuppressWarnings("unchecked")
+  public int basicLastIndexOf(Object object)
+  {
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicLastIndexOf(object);
+  }
+
+  /**
+   * Returns the array with unresolved values.
+   */
+  @SuppressWarnings("unchecked")
+  public Object[] basicToArray()
+  {
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicToArray();
+  }
+
+  /**
+   * Returns the array with unresolved values.
+   */
+  @SuppressWarnings("unchecked")
+  public <T> T [] basicToArray(T [] array)
+  {
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicToArray(array);
+  }
+
   /**
    * Remove the object with without updating the inverse.
    */
@@ -250,6 +293,24 @@ public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Un
   public void addUnique(int index, Map.Entry<K, V> object)
   {
     ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).addUnique(index, object);
+  }
+
+  /**
+   * Add the objects without verifying uniqueness.
+   */
+  @SuppressWarnings("unchecked")
+  public boolean addAllUnique(Collection<? extends Map.Entry<K, V>> collection)
+  {
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).addAllUnique(collection);
+  }
+
+  /**
+   * Add the objects without verifying uniqueness.
+   */
+  @SuppressWarnings("unchecked")
+  public boolean addAllUnique(int index, Collection<? extends Map.Entry<K, V>> collection)
+  {
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).addAllUnique(collection);
   }
 
   /**

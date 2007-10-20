@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.24 2007/10/17 11:53:47 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.25 2007/10/20 14:43:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -53,6 +52,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.NotifyingInternalEListImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.ContentTreeIterator;
 import org.eclipse.emf.ecore.util.EcoreUtil.ProperContentIterator;
 
@@ -367,7 +367,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   /**
    * A notifying list implementation for supporting {@link Resource#getContents}.
    */
-  protected class ContentsEList<E extends Object & EObject> extends NotifyingListImpl<E> implements InternalEList<E>
+  protected class ContentsEList<E extends Object & EObject> extends NotifyingInternalEListImpl<E> implements InternalEList<E>
   {
     private static final long serialVersionUID = 1L;
 
@@ -425,30 +425,6 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         ResourceImpl.this.detached(eObject);
       }
       return eObject.eSetResource(null, notifications);
-    }
-
-    @Override
-    public Iterator<E> basicIterator()
-    {
-      return super.basicIterator();
-    }
-
-    @Override
-    public ListIterator<E> basicListIterator()
-    {
-      return super.basicListIterator();
-    }
-
-    @Override
-    public ListIterator<E> basicListIterator(int index)
-    {
-      return super.basicListIterator(index);
-    }
-
-    @Override
-    public List<E> basicList()
-    {
-      return super.basicList();
     }
 
     @Override

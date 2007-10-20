@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMap.java,v 1.6 2006/12/05 20:22:26 emerks Exp $
+ * $Id: FeatureMap.java,v 1.7 2007/10/20 14:43:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -111,6 +111,37 @@ public interface FeatureMap extends EList<FeatureMap.Entry>
     Iterator<Object> basicIterator(EStructuralFeature feature);
     ListIterator<Object> basicListIterator(EStructuralFeature feature);
     ListIterator<Object> basicListIterator(EStructuralFeature feature, int index);
+
+    /**
+     * @since 2.4
+     */
+    Object[] basicToArray(EStructuralFeature feature); 
+
+    /**
+     * @since 2.4
+     */
+    <T> T[] basicToArray(EStructuralFeature feature, T[] array); 
+    
+    /**
+     * @since 2.4
+     */
+    int basicIndexOf(EStructuralFeature feature, Object object);
+
+    /**
+     * @since 2.4
+     */
+    int basicLastIndexOf(EStructuralFeature feature, Object object);
+
+    /**
+     * @since 2.4
+     */
+    boolean basicContains(EStructuralFeature feature, Object object);
+
+    /**
+     * @since 2.4
+     */
+    boolean basicContainsAll(EStructuralFeature feature, Collection<?> collection);
+
     Object[] toArray(EStructuralFeature feature);
     <T> T[] toArray(EStructuralFeature feature, T [] array);
     void add(EStructuralFeature feature, int index, Object object);
@@ -120,6 +151,11 @@ public interface FeatureMap extends EList<FeatureMap.Entry>
     boolean addAllUnique(Collection<? extends Entry> collection);
     void addUnique(Entry.Internal entry);
     boolean addAllUnique(Entry.Internal [] entries, int start, int end);
+
+    /**
+     * @since 2.4
+     */
+    boolean addAllUnique(int index, Entry.Internal [] entries, int start, int end);
     NotificationChain basicAdd(EStructuralFeature feature, Object object, NotificationChain notifications);
     boolean remove(EStructuralFeature feature, Object object);
     Object remove(EStructuralFeature feature, int index);

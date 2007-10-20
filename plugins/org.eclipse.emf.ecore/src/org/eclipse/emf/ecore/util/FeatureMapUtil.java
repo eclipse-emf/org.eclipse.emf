@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2006 IBM Corporation and others.
+ * Copyright (c) 2003-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.34 2007/03/29 14:35:51 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.35 2007/10/20 14:43:40 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -714,6 +714,36 @@ public final class FeatureMapUtil
       return featureMap.toArray(getEStructuralFeature(), array);
     }
 
+    public boolean basicContains(Object object)
+    {
+      return featureMap.basicContains(getEStructuralFeature(), object);
+    }
+
+    public boolean basicContainsAll(Collection<?> collection)
+    {
+      return featureMap.basicContainsAll(getEStructuralFeature(), collection);
+    }
+
+    public int basicIndexOf(Object object)
+    {
+      return featureMap.basicIndexOf(getEStructuralFeature(), object);
+    }
+
+    public int basicLastIndexOf(Object object)
+    {
+      return featureMap.basicLastIndexOf(getEStructuralFeature(), object);
+    }
+
+    public Object[] basicToArray()
+    {
+      return featureMap.basicToArray(getEStructuralFeature());
+    }
+
+    public <T> T[] basicToArray(T[] array)
+    {
+      return featureMap.basicToArray(getEStructuralFeature(), array);
+    }
+
     @Override
     public boolean add(Object object)
     {
@@ -754,6 +784,13 @@ public final class FeatureMapUtil
       modCount = -1;
       return featureMap.addAllUnique((Collection<? extends Entry>)collection);
     }
+
+    @SuppressWarnings("unchecked")
+    public boolean addAllUnique(int index, Collection<? extends E> collection)
+    {
+      modCount = -1;
+      return featureMap.addAllUnique(index, (Collection<? extends Entry>)collection);
+    }
     
     public void addUnique(Entry.Internal entry)
     {
@@ -762,6 +799,11 @@ public final class FeatureMapUtil
     }
 
     public boolean addAllUnique(Entry.Internal [] entries, int start, int end)
+    {
+      return addAllUnique(size(), entries, start, end);
+    }
+
+    public boolean addAllUnique(int index, Entry.Internal [] entries, int start, int end)
     {
       modCount = -1;
       BasicEList<Entry.Internal> collection = new BasicEList<Entry.Internal>();
@@ -777,7 +819,7 @@ public final class FeatureMapUtil
           collection.add(entries[i]);
         }
       }
-      return featureMap.addAllUnique(collection);
+      return featureMap.addAllUnique(index, collection);
     }
 
     public NotificationChain basicAdd(E object, NotificationChain notifications)
@@ -1092,6 +1134,36 @@ public final class FeatureMapUtil
     public <T> T[] toArray(EStructuralFeature feature, T [] array)
     {
       return featureMap.toArray(feature, array);
+    }
+
+    public boolean basicContains(EStructuralFeature feature, Object object)
+    {
+      return featureMap.basicContains(feature, object);
+    }
+
+    public boolean basicContainsAll(EStructuralFeature feature, Collection<?> collection)
+    {
+      return featureMap.basicContainsAll(feature, collection);
+    }
+
+    public int basicIndexOf(EStructuralFeature feature, Object object)
+    {
+      return featureMap.basicIndexOf(feature, object);
+    }
+
+    public int basicLastIndexOf(EStructuralFeature feature, Object object)
+    {
+      return featureMap.basicLastIndexOf(feature, object);
+    }
+
+    public Object[] basicToArray(EStructuralFeature feature)
+    {
+      return featureMap.basicToArray(feature);
+    }
+
+    public <T> T[] basicToArray(EStructuralFeature feature, T[] array)
+    {
+      return featureMap.basicToArray(feature, array);
     }
 
 /*

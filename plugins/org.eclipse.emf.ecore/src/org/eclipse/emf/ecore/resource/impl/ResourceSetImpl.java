@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.11 2007/09/29 16:41:42 emerks Exp $
+ * $Id: ResourceSetImpl.java,v 1.12 2007/10/20 14:43:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -21,15 +21,12 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.NotifierImpl;
-import org.eclipse.emf.common.notify.impl.NotifyingListImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -44,6 +41,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.NotifyingInternalEListImpl;
 
 
 /**
@@ -526,7 +524,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
   /**
    * A notifying list implementation for supporting {@link ResourceSet#getResources}.
    */
-  protected class ResourcesEList<E extends Object & Resource> extends NotifyingListImpl<E> implements InternalEList<E>
+  protected class ResourcesEList<E extends Object & Resource> extends NotifyingInternalEListImpl<E> implements InternalEList<E>
   {
     private static final long serialVersionUID = 1L;
 
@@ -595,30 +593,6 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
         }
       }
       return resource.basicSetResourceSet(null, notifications);
-    }
-
-    @Override
-    public Iterator<E> basicIterator()
-    {
-      return super.basicIterator();
-    }
-
-    @Override
-    public ListIterator<E> basicListIterator()
-    {
-      return super.basicListIterator();
-    }
-
-    @Override
-    public ListIterator<E> basicListIterator(int index)
-    {
-      return super.basicListIterator(index);
-    }
-
-    @Override
-    public List<E> basicList()
-    {
-      return super.basicList();
     }
   }
 

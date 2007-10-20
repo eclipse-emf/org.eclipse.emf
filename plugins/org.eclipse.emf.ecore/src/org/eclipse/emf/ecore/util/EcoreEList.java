@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.14 2007/07/10 19:44:42 emerks Exp $
+ * $Id: EcoreEList.java,v 1.15 2007/10/20 14:43:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
 import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -25,7 +26,6 @@ import java.util.ListIterator;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
-import org.eclipse.emf.common.notify.impl.NotifyingListImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 
-public class EcoreEList<E> extends NotifyingListImpl<E> implements InternalEList.Unsettable<E>, EStructuralFeature.Setting
+public class EcoreEList<E> extends NotifyingInternalEListImpl<E> implements InternalEList.Unsettable<E>, EStructuralFeature.Setting
 {
   private static final long serialVersionUID = 1L;
 
@@ -250,12 +250,6 @@ public class EcoreEList<E> extends NotifyingListImpl<E> implements InternalEList
   }
 
   @Override
-  public List<E> basicList()
-  {
-    return super.basicList();
-  }
-
-  @Override
   protected boolean isNotificationRequired()
   {
     return owner.eNotificationRequired();
@@ -437,24 +431,6 @@ public class EcoreEList<E> extends NotifyingListImpl<E> implements InternalEList
     return result;
   }
 
-  @Override
-  public Iterator<E> basicIterator()
-  {
-    return super.basicIterator();
-  }
-
-  @Override
-  public ListIterator<E> basicListIterator()
-  {
-    return super.basicListIterator();
-  }
-
-  @Override
-  public ListIterator<E> basicListIterator(int index)
-  {
-    return super.basicListIterator(index);
-  }
-
   public EObject getEObject()
   {
     return owner;
@@ -537,6 +513,36 @@ public class EcoreEList<E> extends NotifyingListImpl<E> implements InternalEList
     public ListIterator<E> basicListIterator(int index)
     {
       return super.basicListIterator(index);
+    }
+
+    public boolean basicContains(Object object)
+    {
+      return super.contains(object);
+    }
+
+    public boolean basicContainsAll(Collection<?> collection)
+    {
+      return super.containsAll(collection);
+    }
+
+    public int basicIndexOf(Object object)
+    {
+      return super.indexOf(object);
+    }
+
+    public int basicLastIndexOf(Object object)
+    {
+      return super.lastIndexOf(object);
+    }
+
+    public Object[] basicToArray()
+    {
+      return super.toArray();
+    }
+
+    public <T> T [] basicToArray(T [] array)
+    {
+      return super.toArray(array);
     }
 
     public EObject getEObject()

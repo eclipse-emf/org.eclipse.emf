@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EContentsEList.java,v 1.10 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EContentsEList.java,v 1.11 2007/10/20 14:43:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
-import java.util.AbstractSequentialList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +24,6 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -33,7 +31,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EClassImpl;
 
 
-public class EContentsEList<E> extends AbstractSequentialList<E> implements EList<E>, InternalEList<E>
+public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implements EList<E>, InternalEList<E>
 {
   public static final EContentsEList<?> EMPTY_CONTENTS_ELIST = 
     new EContentsEList<Object>(null, (EStructuralFeature [])null)
@@ -234,21 +232,25 @@ public class EContentsEList<E> extends AbstractSequentialList<E> implements ELis
     return true;
   }
 
+  @Override
   public void move(int newPosition, Object o)
   {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public E move(int newPosition, int oldPosition)
   {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public E basicGet(int index)
   {
     return basicList().get(index);
   }
 
+  @Override
   public List<E> basicList()
   {
     return
@@ -262,6 +264,7 @@ public class EContentsEList<E> extends AbstractSequentialList<E> implements ELis
       };
   }
 
+  @Override
   public Iterator<E> basicIterator()
   {
     if (eStructuralFeatures == null)
@@ -272,6 +275,7 @@ public class EContentsEList<E> extends AbstractSequentialList<E> implements ELis
     return newNonResolvingListIterator();
   }
 
+  @Override
   public ListIterator<E> basicListIterator()
   {
     if (eStructuralFeatures == null)
@@ -282,6 +286,7 @@ public class EContentsEList<E> extends AbstractSequentialList<E> implements ELis
     return newNonResolvingListIterator();
   }
 
+  @Override
   public ListIterator<E> basicListIterator(int index)
   {
     if (eStructuralFeatures == null)
@@ -300,31 +305,6 @@ public class EContentsEList<E> extends AbstractSequentialList<E> implements ELis
       result.next();
     }
     return result;
-  }
-
-  public NotificationChain basicRemove(Object object, NotificationChain notifications)
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  public NotificationChain basicAdd(E object, NotificationChain notifications)
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  public void addUnique(Object object)
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  public void addUnique(int index, Object object)
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  public E setUnique(int index, E object)
-  {
-    throw new UnsupportedOperationException();
   }
 
   public interface FeatureIterator<E> extends Iterator<E>

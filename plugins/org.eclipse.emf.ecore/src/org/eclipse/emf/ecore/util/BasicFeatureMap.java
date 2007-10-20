@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.27 2007/06/14 18:32:46 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.28 2007/10/20 14:43:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -685,6 +685,16 @@ public class BasicFeatureMap
 
   public boolean contains(EStructuralFeature feature, Object object)
   {
+    return contains(feature, object, isResolveProxies(feature));
+  }
+
+  public boolean basicContains(EStructuralFeature feature, Object object)
+  {
+    return contains(feature, object, false);
+  }
+
+  protected boolean contains(EStructuralFeature feature, Object object, boolean resolve)
+  {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     Entry [] entries = (Entry[])data;
     if (FeatureMapUtil.isFeatureMap(feature))
@@ -706,6 +716,17 @@ public class BasicFeatureMap
         if (validator.isValid(entry.getEStructuralFeature()) && object.equals(entry.getValue()))
         {
           return true;
+        }
+      }
+      if (resolve)
+      {
+        for (int i = 0; i < size; ++i)
+        {
+          Entry entry = entries[i];
+          if (validator.isValid(entry.getEStructuralFeature()) && object == resolveProxy((EObject)entry.getValue()))
+          {
+            return true;
+          }
         }
       }
     }
@@ -737,7 +758,30 @@ public class BasicFeatureMap
     return true;
   }
 
+  public boolean basicContainsAll(EStructuralFeature feature, Collection<?> collection)
+  {
+    for (Iterator<?> i = collection.iterator(); i.hasNext(); )
+    {
+      if (!basicContains(feature, i.next()))
+      {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   public int indexOf(EStructuralFeature feature, Object object)
+  {
+    return indexOf(feature, object, isResolveProxies(feature));
+  }
+
+  public int basicIndexOf(EStructuralFeature feature, Object object)
+  {
+    return indexOf(feature, object, false);
+  }
+
+  protected int indexOf(EStructuralFeature feature, Object object, boolean resolve)
   {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     int result = 0;
@@ -771,6 +815,22 @@ public class BasicFeatureMap
           ++result;
         }
       }
+      if (resolve)
+      {
+        result = 0;
+        for (int i = 0; i < size; ++i)
+        {
+          Entry entry = entries[i];
+          if (validator.isValid(entry.getEStructuralFeature()))
+          {
+            if (object == resolveProxy((EObject)entry.getValue()))
+            {
+              return result;
+            }
+            ++result;
+          }
+        }
+      }
     }
     else
     {
@@ -792,6 +852,16 @@ public class BasicFeatureMap
   }
 
   public int lastIndexOf(EStructuralFeature feature, Object object)
+  {
+    return lastIndexOf(feature, object, isResolveProxies(feature));
+  }
+
+  public int basicLastIndexOf(EStructuralFeature feature, Object object)
+  {
+    return lastIndexOf(feature, object, false);
+  }
+
+  protected int lastIndexOf(EStructuralFeature feature, Object object, boolean resolve)
   {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     int result = -1;
@@ -824,6 +894,23 @@ public class BasicFeatureMap
             result = count;
           }
           ++count;
+        }
+      }
+      if (resolve)
+      {
+        result = -1;
+        count = 0;
+        for (int i = 0; i < size; ++i)
+        {
+          Entry entry = entries[i];
+          if (validator.isValid(entry.getEStructuralFeature()))
+          {
+            if (object == resolveProxy((EObject)entry.getValue()))
+            {
+              result = count;
+            }
+            ++count;
+          }
         }
       }
     }
@@ -983,35 +1070,15 @@ public class BasicFeatureMap
 
   public Object[] toArray(EStructuralFeature feature)
   {
-    List<Object> result = new BasicEList<Object>();
-    FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-    Entry [] entries = (Entry[])data;
-    if (FeatureMapUtil.isFeatureMap(feature))
-    {
-      for (int i = 0; i < size; ++i)
-      {
-        Entry entry = entries[i];
-        if (validator.isValid(entry.getEStructuralFeature()))
-        {
-          result.add(entry);
-        }
-      }
-    }
-    else
-    {
-      for (int i = 0; i < size; ++i)
-      {
-        Entry entry = entries[i];
-        if (validator.isValid(entry.getEStructuralFeature()))
-        {
-          result.add(entry.getValue());
-        }
-      }
-    }
-    return result.toArray();
+    return toArray(feature, isResolveProxies(feature));
   }
 
-  public <T> T[] toArray(EStructuralFeature feature, T [] array)
+  public Object[] basicToArray(EStructuralFeature feature)
+  {
+    return toArray(feature, false);
+  }
+
+  protected Object[] toArray(EStructuralFeature feature, boolean resolve)
   {
     List<Object> result = new BasicEList<Object>();
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
@@ -1034,7 +1101,49 @@ public class BasicFeatureMap
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          result.add(entry.getValue());
+          Object value = entry.getValue();
+          result.add(resolve ? resolveProxy(feature, i, result.size(), value) : value);
+        }
+      }
+    }
+    return result.toArray();
+  }
+
+  public <T> T[] toArray(EStructuralFeature feature, T [] array)
+  {
+    return toArray(feature, array, isResolveProxies(feature));
+  }
+
+  public <T> T[] basicToArray(EStructuralFeature feature, T [] array)
+  {
+    return toArray(feature, array, false);
+  }
+
+  protected <T> T[] toArray(EStructuralFeature feature, T [] array, boolean resolve)
+  {
+    List<Object> result = new BasicEList<Object>();
+    FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
+    Entry [] entries = (Entry[])data;
+    if (FeatureMapUtil.isFeatureMap(feature))
+    {
+      for (int i = 0; i < size; ++i)
+      {
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          result.add(entry);
+        }
+      }
+    }
+    else
+    {
+      for (int i = 0; i < size; ++i)
+      {
+        Entry entry = entries[i];
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          Object value = entry.getValue();
+          result.add(resolve ? resolveProxy(feature, i, result.size(), value) : value);
         }
       }
     }

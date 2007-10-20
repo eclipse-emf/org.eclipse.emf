@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicInternalEList.java,v 1.2 2006/12/05 20:22:26 emerks Exp $
+ * $Id: BasicInternalEList.java,v 1.3 2007/10/20 14:43:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -27,12 +27,15 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 
 
+/**
+ * A {@link BasicEList basic list} that implements {@link InternalEList}.
+ */
 public class BasicInternalEList<E> extends BasicEList<E> implements InternalEList<E>
 {
   private static final long serialVersionUID = 1L;
 
   protected final Class<? extends E> dataClass;
-  
+
   public BasicInternalEList(Class<? extends E> dataClass)
   {
     super();
@@ -65,12 +68,14 @@ public class BasicInternalEList<E> extends BasicEList<E> implements InternalELis
 
   public NotificationChain basicRemove(Object object, NotificationChain notifications)
   {
-    return null;
+    super.remove(object);
+    return notifications;
   }
 
   public NotificationChain basicAdd(E object, NotificationChain notifications)
   {
-    return null;
+    super.add(object);
+    return notifications;
   }
 
   @Override
@@ -95,5 +100,35 @@ public class BasicInternalEList<E> extends BasicEList<E> implements InternalELis
   public ListIterator<E> basicListIterator(int index)
   {
     return super.basicListIterator(index);
+  }
+
+  public boolean basicContains(Object object)
+  {
+    return super.contains(object);
+  }
+
+  public boolean basicContainsAll(Collection<?> collection)
+  {
+    return super.containsAll(collection);
+  }
+
+  public int basicIndexOf(Object object)
+  {
+    return super.indexOf(object);
+  }
+
+  public int basicLastIndexOf(Object object)
+  {
+    return super.lastIndexOf(object);
+  }
+
+  public Object[] basicToArray()
+  {
+    return super.toArray();
+  }
+
+  public <T> T[] basicToArray(T[] array)
+  {
+    return super.toArray(array);
   }
 }

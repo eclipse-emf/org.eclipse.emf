@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.27 2007/06/14 18:32:46 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.28 2007/10/20 14:43:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -690,6 +690,16 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
 
   public boolean contains(EStructuralFeature feature, Object object)
   {
+    return contains(feature, object, isResolveProxies(feature));
+  }
+
+  public boolean basicContains(EStructuralFeature feature, Object object)
+  {
+    return contains(feature, object, false);
+  }
+
+  protected boolean contains(EStructuralFeature feature, Object object, boolean resolve)
+  {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     if (FeatureMapUtil.isFeatureMap(feature))
     {
@@ -704,12 +714,24 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
     }
     else if (object != null)
     {
-      for (int i = 0, size = delegateSize(); i < size; ++i)
+      int size = delegateSize();
+      for (int i = 0; i < size; ++i)
       {
         Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()) && object.equals(entry.getValue()))
         {
           return true;
+        }
+      }
+      if (resolve)
+      {
+        for (int i = 0; i < size; ++i)
+        {
+          Entry entry = delegateGet(i);
+          if (validator.isValid(entry.getEStructuralFeature()) && object == resolveProxy((EObject)entry.getValue()))
+          {
+            return true;
+          }
         }
       }
     }
@@ -741,7 +763,30 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
     return true;
   }
 
+  public boolean basicContainsAll(EStructuralFeature feature, Collection<?> collection)
+  {
+    for (Object object : collection)
+    {
+      if (!basicContains(feature, object))
+      {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   public int indexOf(EStructuralFeature feature, Object object)
+  {
+    return indexOf(feature, object, isResolveProxies(feature));
+  }
+
+  public int basicIndexOf(EStructuralFeature feature, Object object)
+  {
+    return indexOf(feature, object, false);
+  }
+
+  protected int indexOf(EStructuralFeature feature, Object object, boolean resolve)
   {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     int result = 0;
@@ -762,7 +807,8 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
     }
     else if (object != null)
     {
-      for (int i = 0, size = delegateSize(); i < size; ++i)
+      int size = delegateSize();
+      for (int i = 0; i < size; ++i)
       {
         Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
@@ -772,6 +818,22 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
             return result;
           }
           ++result;
+        }
+      }
+      if (resolve)
+      {
+        result = 0;
+        for (int i = 0; i < size; ++i)
+        {
+          Entry entry = delegateGet(i);
+          if (validator.isValid(entry.getEStructuralFeature()))
+          {
+            if (object == resolveProxy((EObject)entry.getValue()))
+            {
+              return result;
+            }
+            ++result;
+          }
         }
       }
     }
@@ -796,6 +858,16 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
 
   public int lastIndexOf(EStructuralFeature feature, Object object)
   {
+    return lastIndexOf(feature, object, isResolveProxies(feature));
+  }
+
+  public int basicLastIndexOf(EStructuralFeature feature, Object object)
+  {
+    return lastIndexOf(feature, object, false);
+  }
+
+  protected int lastIndexOf(EStructuralFeature feature, Object object, boolean resolve)
+  {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     int result = -1;
     int count = 0;
@@ -816,7 +888,8 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
     }
     else if (object != null)
     {
-      for (int i = 0, size = delegateSize(); i < size; ++i)
+      int size = delegateSize();
+      for (int i = 0; i < size; ++i)
       {
         Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
@@ -826,6 +899,23 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
             result = count;
           }
           ++count;
+        }
+      }
+      if (resolve)
+      {
+        result = -1;
+        count = 0;
+        for (int i = 0; i < size; ++i)
+        {
+          Entry entry = delegateGet(i);
+          if (validator.isValid(entry.getEStructuralFeature()))
+          {
+            if (object == resolveProxy((EObject)entry.getValue()))
+            {
+              result = count;
+            }
+            ++count;
+          }
         }
       }
     }
@@ -985,34 +1075,15 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
 
   public Object[] toArray(EStructuralFeature feature)
   {
-    List<Object> result = new BasicEList<Object>();
-    FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-    if (FeatureMapUtil.isFeatureMap(feature))
-    {
-      for (int i = 0, size = delegateSize(); i < size; ++i)
-      {
-        Entry entry = delegateGet(i);
-        if (validator.isValid(entry.getEStructuralFeature()))
-        {
-          result.add(entry);
-        }
-      }
-    }
-    else
-    {
-      for (int i = 0, size = delegateSize(); i < size; ++i)
-      {
-        Entry entry = delegateGet(i);
-        if (validator.isValid(entry.getEStructuralFeature()))
-        {
-          result.add(entry.getValue());
-        }
-      }
-    }
-    return result.toArray();
+    return toArray(feature, isResolveProxies(feature));
   }
 
-  public <T> T[] toArray(EStructuralFeature feature, T [] array)
+  public Object[] basicToArray(EStructuralFeature feature)
+  {
+    return toArray(feature, false);
+  }
+
+  protected Object[] toArray(EStructuralFeature feature, boolean resolve)
   {
     List<Object> result = new BasicEList<Object>();
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
@@ -1034,7 +1105,48 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
         Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          result.add(entry.getValue());
+          Object value = entry.getValue();
+          result.add(resolve ? resolveProxy(feature, i, result.size(), value) : value);
+        }
+      }
+    }
+    return result.toArray();
+  }
+
+  public <T> T[] toArray(EStructuralFeature feature, T [] array)
+  {
+    return toArray(feature, array, isResolveProxies(feature));
+  }
+
+  public <T> T[] basicToArray(EStructuralFeature feature, T [] array)
+  {
+    return toArray(feature, array, false);
+  }
+
+  protected <T> T[] toArray(EStructuralFeature feature, T [] array, boolean resolve)
+  {
+    List<Object> result = new BasicEList<Object>();
+    FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
+    if (FeatureMapUtil.isFeatureMap(feature))
+    {
+      for (int i = 0, size = delegateSize(); i < size; ++i)
+      {
+        Entry entry = delegateGet(i);
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          result.add(entry);
+        }
+      }
+    }
+    else
+    {
+      for (int i = 0, size = delegateSize(); i < size; ++i)
+      {
+        Entry entry = delegateGet(i);
+        if (validator.isValid(entry.getEStructuralFeature()))
+        {
+          Object value = entry.getValue();
+          result.add(resolve ? resolveProxy(feature, i, result.size(), value) : value);
         }
       }
     }
@@ -1420,6 +1532,12 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
   {
     modCount = -1;
     return super.addAllUnique(size(), entries, start, end);
+  }
+
+  public boolean addAllUnique(int index, Entry.Internal [] entries, int start, int end)
+  {
+    modCount = -1;
+    return super.addAllUnique(index, entries, start, end);
   }
 
   public NotificationChain basicAdd(EStructuralFeature feature, Object object, NotificationChain notifications)
