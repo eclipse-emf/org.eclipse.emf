@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.25 2007/05/08 19:15:11 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.26 2007/10/20 16:20:20 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1432,13 +1432,13 @@ public class XSDElementDeclarationImpl
       }
       else
       {
-        for (XSDElementDeclaration oldSubstitutionGroupAffiliation = substitutionGroupAffiliation;
-             oldSubstitutionGroupAffiliation != null;
-             oldSubstitutionGroupAffiliation = oldSubstitutionGroupAffiliation.getSubstitutionGroupAffiliation())
+        for (XSDElementDeclaration newSubstitutionGroupAffiliation = substitutionGroupAffiliation;
+             newSubstitutionGroupAffiliation != null;
+             newSubstitutionGroupAffiliation = newSubstitutionGroupAffiliation.getSubstitutionGroupAffiliation())
         {
-          if (visited.add(oldSubstitutionGroupAffiliation))
+          if (visited.add(newSubstitutionGroupAffiliation))
           {
-            oldSubstitutionGroupAffiliation.getSubstitutionGroup().removeAll(substitutionGroup);
+            newSubstitutionGroupAffiliation.getSubstitutionGroup().addAll(substitutionGroup);
           }
           else
           {
