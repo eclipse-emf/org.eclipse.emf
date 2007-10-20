@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.82 2007/10/17 12:41:48 emerks Exp $
+ * $Id: XMLHandler.java,v 1.83 2007/10/20 14:44:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1041,13 +1041,12 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
               // So if the resolved object is also present...
               //
               InternalEList<?> holderContents = (InternalEList<?>)proxyHolder.eGet(oppositeEReference);
-              List<?> basicHolderContents = holderContents.basicList();
-              int resolvedEObjectIndex = basicHolderContents.indexOf(resolvedEObject);
+              int resolvedEObjectIndex = holderContents.basicIndexOf(resolvedEObject);
               if (resolvedEObjectIndex != -1)
               {
                 // Move the resolved object to the right place, remove the proxy, and we're done.
                 //
-                int proxyIndex = basicHolderContents.indexOf(proxy);
+                int proxyIndex = holderContents.basicIndexOf(proxy);
                 holderContents.move(proxyIndex, resolvedEObjectIndex);
                 holderContents.remove(proxyIndex > resolvedEObjectIndex ? proxyIndex  - 1 : proxyIndex + 1);
                 break LOOP;
@@ -1057,7 +1056,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
             // If the resolved object doesn't contain a reference to the proxy holder as it should.
             //
             if (eReference.isMany() ?
-                  !((InternalEList<?>)resolvedEObject.eGet(eReference)).basicList().contains(proxyHolder) :
+                  !((InternalEList<?>)resolvedEObject.eGet(eReference)).basicContains(proxyHolder) :
                   resolvedEObject.eGet(eReference) != proxyHolder)
             {
               // The proxy needs to be replaced in a way that updates both ends of the reference.
@@ -1065,7 +1064,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
               if (oppositeEReference.isMany())
               {
                 @SuppressWarnings("unchecked") InternalEList<EObject> proxyHolderList = (InternalEList<EObject>)proxyHolder.eGet(oppositeEReference);
-                proxyHolderList.setUnique(proxyHolderList.indexOf(proxy), resolvedEObject);
+                proxyHolderList.setUnique(proxyHolderList.basicIndexOf(proxy), resolvedEObject);
               }
               else
               {

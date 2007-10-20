@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.46 2007/09/30 14:32:48 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.47 2007/10/20 14:44:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1164,7 +1164,7 @@ public class XMLHelperImpl implements XMLHelper
         }
         else if (checkForDuplicates || object == value)
         {
-          int index = list.indexOf(value);
+          int index = list.basicIndexOf(value);
           if (index == -1)
           {
             list.addUnique(position, value);
@@ -1214,7 +1214,7 @@ public class XMLHelperImpl implements XMLHelper
           {
             if (checkForDuplicates || object == value)
             {
-              int index = list.indexOf(value);
+              int index = list.basicIndexOf(value);
               if (index == -1)
               {
                 list.addUnique(position, value);
@@ -1253,7 +1253,7 @@ public class XMLHelperImpl implements XMLHelper
         {
           try
           {
-            int sourcePosition = list.indexOf(value);
+            int sourcePosition = list.basicIndexOf(value);
             if (sourcePosition != -1)
             {
               list.move(positions[i], sourcePosition);
