@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.49 2007/09/08 10:25:56 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.50 2007/10/24 21:45:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -487,94 +487,90 @@ public class EcoreEditor
     {
       public void resourceChanged(IResourceChangeEvent event)
       {
-        // Only listening to these.
-        // if (event.getType() == IResourceDelta.POST_CHANGE)
+        IResourceDelta delta = event.getDelta();
+        try
         {
-          IResourceDelta delta = event.getDelta();
-          try
+          class ResourceDeltaVisitor implements IResourceDeltaVisitor
           {
-            class ResourceDeltaVisitor implements IResourceDeltaVisitor
-            {
-              protected ResourceSet resourceSet = editingDomain.getResourceSet();
-              protected Collection<Resource> changedResources = new ArrayList<Resource>();
-              protected Collection<Resource> removedResources = new ArrayList<Resource>();
+            protected ResourceSet resourceSet = editingDomain.getResourceSet();
+            protected Collection<Resource> changedResources = new ArrayList<Resource>();
+            protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
-              public boolean visit(IResourceDelta delta)
+            public boolean visit(IResourceDelta delta)
+            {
+              if (delta.getResource().getType() == IResource.FILE)
               {
-                if (delta.getFlags() != IResourceDelta.MARKERS &&
-                    delta.getResource().getType() == IResource.FILE)
+                if (delta.getKind() == IResourceDelta.REMOVED ||
+                    delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS)
                 {
-                  if ((delta.getKind() & (IResourceDelta.CHANGED | IResourceDelta.REMOVED)) != 0)
+                  Resource resource = resourceSet.getResource(URI.createURI(delta.getFullPath().toString()), false);
+                  if (resource != null)
                   {
-                    Resource resource = resourceSet.getResource(URI.createURI(delta.getFullPath().toString()), false);
-                    if (resource != null)
+                    if (delta.getKind() == IResourceDelta.REMOVED)
                     {
-                      if ((delta.getKind() & IResourceDelta.REMOVED) != 0)
-                      {
-                        removedResources.add(resource);
-                      }
-                      else if (!savedResources.remove(resource))
-                      {
-                        changedResources.add(resource);
-                      }
+                      removedResources.add(resource);
+                    }
+                    else if (!savedResources.remove(resource))
+                    {
+                      changedResources.add(resource);
                     }
                   }
                 }
-
-                return true;
               }
 
-              public Collection<Resource> getChangedResources()
-              {
-                return changedResources;
-              }
-
-              public Collection<Resource> getRemovedResources()
-              {
-                return removedResources;
-              }
+              return true;
             }
 
-            ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
-            delta.accept(visitor);
-
-            if (!visitor.getRemovedResources().isEmpty())
+            public Collection<Resource> getChangedResources()
             {
-              removedResources.addAll(visitor.getRemovedResources());
-              if (!isDirty())
-              {
-                getSite().getShell().getDisplay().asyncExec
-                  (new Runnable()
-                   {
-                     public void run()
-                     {
-                       getSite().getPage().closeEditor(EcoreEditor.this, false);
-                       EcoreEditor.this.dispose();
-                     }
-                   });
-              }
+              return changedResources;
             }
 
-            if (!visitor.getChangedResources().isEmpty())
+            public Collection<Resource> getRemovedResources()
             {
-              changedResources.addAll(visitor.getChangedResources());
-              if (getSite().getPage().getActiveEditor() == EcoreEditor.this)
-              {
-                getSite().getShell().getDisplay().asyncExec
-                  (new Runnable()
-                   {
-                     public void run()
-                     {
-                       handleActivate();
-                     }
-                   });
-              }
+              return removedResources;
             }
           }
-          catch (CoreException exception)
+
+          ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
+          delta.accept(visitor);
+
+          if (!visitor.getRemovedResources().isEmpty())
           {
-            EcoreEditorPlugin.INSTANCE.log(exception);
+            removedResources.addAll(visitor.getRemovedResources());
+            if (!isDirty())
+            {
+              getSite().getShell().getDisplay().asyncExec
+                (new Runnable()
+                 {
+                   public void run()
+                   {
+                     getSite().getPage().closeEditor(EcoreEditor.this, false);
+                     EcoreEditor.this.dispose();
+                   }
+                 });
+            }
           }
+
+          if (!visitor.getChangedResources().isEmpty())
+          {
+            changedResources.addAll(visitor.getChangedResources());
+            if (getSite().getPage().getActiveEditor() == EcoreEditor.this)
+            {
+              getSite().getShell().getDisplay().asyncExec
+                (new Runnable()
+                 {
+                   public void run()
+                   {
+                     handleActivate();
+                   }
+                 });
+            }
+          }
+        }
+        catch (CoreException exception)
+        {
+          EcoreEditorPlugin.INSTANCE.log(exception);
         }
       }
     };
