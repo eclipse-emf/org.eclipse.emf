@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.51 2007/06/12 15:07:28 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.52 2007/10/24 21:45:43 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -570,94 +570,90 @@ public class <%=genPackage.getEditorClassName()%>
 		{
 			public void resourceChanged(IResourceChangeEvent event)
 			{
-				// Only listening to these.
-				// if (event.getType() == IResourceDelta.POST_CHANGE)
+				IResourceDelta delta = event.getDelta();
+				try
 				{
-					IResourceDelta delta = event.getDelta();
-					try
+					class ResourceDeltaVisitor implements IResourceDeltaVisitor
 					{
-						class ResourceDeltaVisitor implements IResourceDeltaVisitor
-						{
-							protected ResourceSet resourceSet = editingDomain.getResourceSet();
-							protected <%=_CollectionOfResource%> changedResources = new <%=_ArrayListOfResource%>();
-							protected <%=_CollectionOfResource%> removedResources = new <%=_ArrayListOfResource%>();
+						protected ResourceSet resourceSet = editingDomain.getResourceSet();
+						protected <%=_CollectionOfResource%> changedResources = new <%=_ArrayListOfResource%>();
+						protected <%=_CollectionOfResource%> removedResources = new <%=_ArrayListOfResource%>();
 
-							public boolean visit(IResourceDelta delta)
+						public boolean visit(IResourceDelta delta)
+						{
+							if (delta.getResource().getType() == IResource.FILE)
 							{
-								if (delta.getFlags() != IResourceDelta.MARKERS &&
-								    delta.getResource().getType() == IResource.FILE)
+								if (delta.getKind() == IResourceDelta.REMOVED ||
+								    delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS)
 								{
-									if ((delta.getKind() & (IResourceDelta.CHANGED | IResourceDelta.REMOVED)) != 0)
+									Resource resource = resourceSet.getResource(URI.createURI(delta.getFullPath().toString()), false);
+									if (resource != null)
 									{
-										Resource resource = resourceSet.getResource(URI.createURI(delta.getFullPath().toString()), false);
-										if (resource != null)
+										if (delta.getKind() == IResourceDelta.REMOVED)
 										{
-											if ((delta.getKind() & IResourceDelta.REMOVED) != 0)
-											{
-												removedResources.add(resource);
-											}
-											else if (!savedResources.remove(resource))
-											{
-												changedResources.add(resource);
-											}
+											removedResources.add(resource);
+										}
+										else if (!savedResources.remove(resource))
+										{
+											changedResources.add(resource);
 										}
 									}
 								}
-
-								return true;
 							}
 
-							public <%=_CollectionOfResource%> getChangedResources()
-							{
-								return changedResources;
-							}
-
-							public <%=_CollectionOfResource%> getRemovedResources()
-							{
-								return removedResources;
-							}
+							return true;
 						}
 
-						ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
-						delta.accept(visitor);
-
-						if (!visitor.getRemovedResources().isEmpty())
+						public <%=_CollectionOfResource%> getChangedResources()
 						{
-							removedResources.addAll(visitor.getRemovedResources());
-							if (!isDirty())
-							{
-								getSite().getShell().getDisplay().asyncExec
-									(new Runnable()
-									 {
-										 public void run()
-										 {
-											 getSite().getPage().closeEditor(<%=genPackage.getEditorClassName()%>.this, false);
-											 <%=genPackage.getEditorClassName()%>.this.dispose();
-										 }
-									 });
-							}
+							return changedResources;
 						}
 
-						if (!visitor.getChangedResources().isEmpty())
+						public <%=_CollectionOfResource%> getRemovedResources()
 						{
-							changedResources.addAll(visitor.getChangedResources());
-							if (getSite().getPage().getActiveEditor() == <%=genPackage.getEditorClassName()%>.this)
-							{
-								getSite().getShell().getDisplay().asyncExec
-									(new Runnable()
-									 {
-										 public void run()
-										 {
-											 handleActivate();
-										 }
-									 });
-							}
+							return removedResources;
 						}
 					}
-					catch (CoreException exception)
+
+					ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
+					delta.accept(visitor);
+
+					if (!visitor.getRemovedResources().isEmpty())
 					{
-						<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
+						removedResources.addAll(visitor.getRemovedResources());
+						if (!isDirty())
+						{
+							getSite().getShell().getDisplay().asyncExec
+								(new Runnable()
+								 {
+									 public void run()
+									 {
+										 getSite().getPage().closeEditor(<%=genPackage.getEditorClassName()%>.this, false);
+										 <%=genPackage.getEditorClassName()%>.this.dispose();
+									 }
+								 });
+						}
 					}
+
+					if (!visitor.getChangedResources().isEmpty())
+					{
+						changedResources.addAll(visitor.getChangedResources());
+						if (getSite().getPage().getActiveEditor() == <%=genPackage.getEditorClassName()%>.this)
+						{
+							getSite().getShell().getDisplay().asyncExec
+								(new Runnable()
+								 {
+									 public void run()
+									 {
+										 handleActivate();
+									 }
+								 });
+						}
+					}
+				}
+				catch (CoreException exception)
+				{
+					<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
 				}
 			}
 		};

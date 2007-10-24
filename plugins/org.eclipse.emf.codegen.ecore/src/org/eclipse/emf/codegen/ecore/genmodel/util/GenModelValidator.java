@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelValidator.java,v 1.1 2007/09/30 12:26:35 emerks Exp $
+ * $Id: GenModelValidator.java,v 1.2 2007/10/24 21:45:43 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.common.util.DiagnosticChain;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+//import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
