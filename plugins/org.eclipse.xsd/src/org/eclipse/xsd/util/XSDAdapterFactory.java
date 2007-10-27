@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAdapterFactory.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDAdapterFactory.java,v 1.6 2007/10/27 10:28:58 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -81,7 +81,7 @@ public class XSDAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
