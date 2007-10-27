@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLAdapterFactory.java,v 1.3 2006/12/29 18:29:11 marcelop Exp $
+ * $Id: Ecore2XMLAdapterFactory.java,v 1.4 2007/10/27 10:28:59 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
@@ -83,7 +83,7 @@ public class Ecore2XMLAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
