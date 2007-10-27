@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreAdapterFactory.java,v 1.4 2006/12/29 18:29:16 marcelop Exp $
+ * $Id: Ecore2EcoreAdapterFactory.java,v 1.5 2007/10/27 10:28:55 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.util;
 
@@ -85,7 +85,7 @@ public class Ecore2EcoreAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
