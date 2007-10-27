@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="AdapterFactoryClass" version="$Id: AdapterFactoryClass.javajet,v 1.10 2007/04/26 20:54:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="AdapterFactoryClass" version="$Id: AdapterFactoryClass.javajet,v 1.11 2007/10/27 10:28:56 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -95,7 +95,7 @@ public class <%=genPackage.getAdapterFactoryClassName()%> extends AdapterFactory
 	}
 
 	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * The switch that delegates to the <code>createXXX</code> methods.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelAdapterFactory.java,v 1.8 2006/12/28 06:40:39 marcelop Exp $
+ * $Id: GenModelAdapterFactory.java,v 1.9 2007/10/27 10:28:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -80,7 +80,7 @@ public class GenModelAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
