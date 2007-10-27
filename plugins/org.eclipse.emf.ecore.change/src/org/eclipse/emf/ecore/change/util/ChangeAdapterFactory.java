@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeAdapterFactory.java,v 1.5 2006/12/29 18:21:50 marcelop Exp $
+ * $Id: ChangeAdapterFactory.java,v 1.6 2007/10/27 10:29:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -81,7 +81,7 @@ public class ChangeAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
