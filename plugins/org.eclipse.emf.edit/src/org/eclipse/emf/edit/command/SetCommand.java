@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.12 2007/06/14 18:32:42 emerks Exp $
+ * $Id: SetCommand.java,v 1.12.2.1 2007/10/27 10:34:30 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -25,6 +25,7 @@ import java.util.ListIterator;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.common.command.IdentityCommand;
 import org.eclipse.emf.common.command.StrictCompoundCommand;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -113,7 +114,7 @@ public class SetCommand extends AbstractOverrideableCommand
         // compound command so that the list is empty when the final set command tests for executability. 
         //
         CompoundCommand compound = null;
-        if (!oldValues.isEmpty() && values.isEmpty())
+        if (!oldValues.isEmpty() && values.isEmpty() && eReference.isUnsettable())
         {
           compound =
             new PessimisticStrictCompoundCommand(LABEL, DESCRIPTION)
@@ -198,9 +199,13 @@ public class SetCommand extends AbstractOverrideableCommand
         {
           compound.append(AddCommand.create(domain, owner, feature, values));
         }
-        else
+        else if (value == UNSET_VALUE && eReference.isUnsettable())
         {
           compound.append(domain.createCommand(SetCommand.class, new CommandParameter(owner, feature, value)));
+        }
+        else if (compound.getCommandList().isEmpty())
+        {
+          return IdentityCommand.INSTANCE;
         }
         return compound;
       } // end setting whole list
@@ -260,7 +265,7 @@ public class SetCommand extends AbstractOverrideableCommand
                 //
                 Command removeCommand = RemoveCommand.create(domain, oldValue, eOtherEnd, Collections.singleton(owner));
 
-                if (value != UNSET_VALUE)
+                if (value != UNSET_VALUE || !eReference.isUnsettable())
                 {
                   return removeCommand;
                 }
