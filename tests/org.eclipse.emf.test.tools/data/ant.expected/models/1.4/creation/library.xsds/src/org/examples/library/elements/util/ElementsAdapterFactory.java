@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: ElementsAdapterFactory.java,v 1.2 2007/04/26 20:57:13 emerks Exp $
+ * $Id: ElementsAdapterFactory.java,v 1.3 2007/10/27 10:29:03 emerks Exp $
  */
 package org.examples.library.elements.util;
 
@@ -68,7 +68,7 @@ public class ElementsAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

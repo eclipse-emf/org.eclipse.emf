@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: LibraryAdapterFactory.java,v 1.5 2007/06/11 21:12:18 emerks Exp $
+ * $Id: LibraryAdapterFactory.java,v 1.6 2007/10/27 10:29:03 emerks Exp $
  */
 package org.eclipse.example.library.util;
 
@@ -70,7 +70,7 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: HRAdapterFactory.java,v 1.2 2007/04/26 20:57:17 emerks Exp $
+ * $Id: HRAdapterFactory.java,v 1.3 2007/10/27 10:29:04 emerks Exp $
  */
 package org.examples.hr.util;
 
@@ -69,7 +69,7 @@ public class HRAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
