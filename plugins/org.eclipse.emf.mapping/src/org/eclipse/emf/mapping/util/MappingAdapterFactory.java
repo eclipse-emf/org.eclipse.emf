@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingAdapterFactory.java,v 1.4 2006/12/29 18:29:10 marcelop Exp $
+ * $Id: MappingAdapterFactory.java,v 1.5 2007/10/27 10:28:57 emerks Exp $
  */
 package org.eclipse.emf.mapping.util;
 
@@ -79,7 +79,7 @@ public class MappingAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
