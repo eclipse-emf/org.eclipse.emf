@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeAdapterFactory.java,v 1.4 2006/12/28 06:48:57 marcelop Exp $
+ * $Id: TreeAdapterFactory.java,v 1.5 2007/10/27 10:29:07 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.util;
 
@@ -80,7 +80,7 @@ public class TreeAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
