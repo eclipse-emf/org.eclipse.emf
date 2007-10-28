@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.15 2007/10/20 14:43:40 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.16 2007/10/28 12:00:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -37,10 +37,21 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 
+/**
+ * A {@link DelegatingNotifyingInternalEListImpl delegating notifying internal EList}
+ * that implements {@link InternalEList.Unsettable} and {@link EStructuralFeature.Setting}.
+ * At least one of {@link #getEStructuralFeature()} or {@link #getFeatureID()} must be specialized
+ * since each delegates to the other and without specialization this will lead to stack overflow.
+ */
 public abstract class DelegatingEcoreEList<E>
   extends DelegatingNotifyingInternalEListImpl<E>
   implements InternalEList.Unsettable<E>, EStructuralFeature.Setting
 {
+  /**
+   * A {@link DelegatingEcoreEList delegating Ecore EList} with an implementation for tracking the unset state.
+   * At least one of {@link #getEStructuralFeature()} or {@link #getFeatureID()} must be specialized
+   * since each delegates to the other and without specialization this will lead to stack overflow.
+   */
   public static abstract class Unsettable<E> extends DelegatingEcoreEList<E>
   {
     protected boolean isSet;
