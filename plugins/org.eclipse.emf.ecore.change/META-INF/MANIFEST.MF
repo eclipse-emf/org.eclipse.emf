@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.ecore.change; singleton:=true
-Bundle-Version: 2.3.0.qualifier
+Bundle-Version: 2.4.0.qualifier
 Bundle-ClassPath: ecore.change.jar
 Bundle-Activator: org.eclipse.emf.ecore.change.ChangePlugin$Implementation
 Bundle-Vendor: %providerName
