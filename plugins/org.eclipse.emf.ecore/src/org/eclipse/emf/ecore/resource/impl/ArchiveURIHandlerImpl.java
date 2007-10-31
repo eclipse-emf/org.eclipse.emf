@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ArchiveURIHandlerImpl.java,v 1.1 2007/09/29 16:41:41 emerks Exp $
+ * $Id: ArchiveURIHandlerImpl.java,v 1.2 2007/10/31 16:57:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -20,7 +20,10 @@ package org.eclipse.emf.ecore.resource.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 
 import org.eclipse.emf.common.archive.ArchiveURLConnection;
@@ -78,17 +81,24 @@ public class ArchiveURIHandlerImpl extends URIHandlerImpl
   }
 
   @Override
-  public boolean isReadOnly(URI uri, Map<?, ?> options)
+  public Map<String, ?> getAttributes(URI uri, Map<?, ?> options)
   {
-    return createArchive(uri, options).isReadOnly();
+    return createArchive(uri, options).getAttributes();
   }
-  
+
+  @Override
+  public void setAttributes(URI uri, Map<String, ?> attributes, Map<?, ?> options) throws IOException
+  {
+    createArchive(uri, options).setAttributes(attributes);
+  }
+
   /**
    * A specialized class for reading from an archive.
    */
   protected class Archive extends ArchiveURLConnection
   {
     protected Map<?, ?> options;
+    protected ZipEntry zipEntry;
 
     public Archive(URI uri, Map<?, ?> options)
     {
@@ -122,6 +132,7 @@ public class ArchiveURIHandlerImpl extends URIHandlerImpl
     @Override
     protected InputStream yield(ZipEntry zipEntry, InputStream inputStream) throws IOException
     {
+      this.zipEntry = zipEntry;
       Map<Object, Object> response = getResponse(options);
       if (response != null)
       {
@@ -133,6 +144,7 @@ public class ArchiveURIHandlerImpl extends URIHandlerImpl
     @Override
     protected OutputStream yield(ZipEntry zipEntry, OutputStream outputStream) throws IOException
     {
+      this.zipEntry = zipEntry;
       Map<Object, Object> response = getResponse(options);
       if (response != null)
       {
@@ -141,19 +153,66 @@ public class ArchiveURIHandlerImpl extends URIHandlerImpl
       return super.yield(zipEntry, outputStream);
     }
     
-    public boolean isReadOnly()
+    public Map<String, ?> getAttributes()
     {
+      Map<String, Object> result = new HashMap<String, Object>();
       try
       {
-        return getURIConverter(options).isReadOnly(URI.createURI(getNestedURL()), options);
+        Set<String> requestedAttributes = getRequestedAttributes(options);
+        if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_READ_ONLY))
+        {
+          Set<String> requestedSubAttributes = new HashSet<String>();
+          requestedSubAttributes.add(URIConverter.ATTRIBUTE_READ_ONLY);
+          Map<Object, Object> subOptions = new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_REQUESTED_ATTRIBUTES, requestedSubAttributes, options);
+          result.putAll(getURIConverter(subOptions).getAttributes(URI.createURI(getNestedURL()), subOptions));
+        }
+
+        InputStream inputStream = null;
+        if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_DIRECTORY))
+        {
+          if (inputStream == null)
+          {
+            inputStream = getInputStream();
+            inputStream.close();
+          }
+          result.put(URIConverter.ATTRIBUTE_DIRECTORY, zipEntry.isDirectory());
+        }
+        if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_LENGTH))
+        {
+          if (inputStream == null)
+          {
+            inputStream = getInputStream();
+            inputStream.close();
+          }
+          result.put(URIConverter.ATTRIBUTE_LENGTH, zipEntry.getSize());
+        }
+        if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_TIME_STAMP))
+        {
+          if (inputStream == null)
+          {
+            inputStream = getInputStream();
+            inputStream.close();
+          }
+          result.put(URIConverter.ATTRIBUTE_TIME_STAMP, zipEntry.getTime());
+        }
       }
-      catch (IOException e)
+      catch (IOException exception)
       {
-        return true;
+        // Ignore exceptions.
+      }
+      return result;
+    }
+
+    public void setAttributes(Map<String, ?> attributes) throws IOException
+    {
+      Long timeStamp = (Long)attributes.get(URIConverter.ATTRIBUTE_TIME_STAMP);
+      if (timeStamp != null)
+      {
+        setTimeStamp(timeStamp);
       }
     }
   }
-  
+
   protected Archive createArchive(URI uri, Map<?, ?> options)
   {
     return new Archive(uri, options);

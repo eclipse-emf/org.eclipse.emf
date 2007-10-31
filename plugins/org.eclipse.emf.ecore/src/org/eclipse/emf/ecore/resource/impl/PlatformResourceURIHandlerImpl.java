@@ -12,23 +12,28 @@
  *
  * </copyright>
  *
- * $Id: PlatformResourceURIHandlerImpl.java,v 1.1 2007/09/29 16:41:42 emerks Exp $
+ * $Id: PlatformResourceURIHandlerImpl.java,v 1.2 2007/10/31 16:57:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourceAttributes;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -229,20 +234,133 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
 
     public static boolean exists(String platformResourcePath, Map<?, ?> options)
     {
-      IFile file = workspaceRoot.getFile(new Path(platformResourcePath));
-      return file.exists();
+      IResource resource = workspaceRoot.findMember(new Path(platformResourcePath));
+      return resource != null;
     }
 
-    public static boolean isReadOnly(String platformResourcePath, Map<?, ?> options)
+    public static Map<String, ?> attributes(String platformResourcePath, Map<?, ?> options)
     {
-      IFile file = workspaceRoot.getFile(new Path(platformResourcePath));
-      return file.isReadOnly();
+      IResource resource = workspaceRoot.findMember(new Path(platformResourcePath));
+      Map<String, Object> result = new HashMap<String, Object>();
+      if (resource != null)
+      {
+        @SuppressWarnings("unchecked")
+        Set<String> requestedAttributes = options == null ? null : (Set<String>)options.get(URIConverter.OPTION_REQUESTED_ATTRIBUTES);
+
+        if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_TIME_STAMP))
+        {
+          result.put(URIConverter.ATTRIBUTE_TIME_STAMP,  resource.getLocalTimeStamp());
+        }
+        ResourceAttributes resourceAttributes = null;
+        if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_READ_ONLY))
+        {
+          if (resourceAttributes == null)
+          {
+            resourceAttributes = resource.getResourceAttributes();
+          }
+          result.put(URIConverter.ATTRIBUTE_READ_ONLY,  resourceAttributes.isReadOnly());
+        }
+        if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_ARCHIVE))
+        {
+          if (resourceAttributes == null)
+          {
+            resourceAttributes = resource.getResourceAttributes();
+          }
+          result.put(URIConverter.ATTRIBUTE_ARCHIVE,  resourceAttributes.isArchive());
+        }
+        if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_EXECUTABLE))
+        {
+          if (resourceAttributes == null)
+          {
+            resourceAttributes = resource.getResourceAttributes();
+          }
+          result.put(URIConverter.ATTRIBUTE_EXECUTABLE,  resourceAttributes.isExecutable());
+        }
+        if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_HIDDEN))
+        {
+          if (resourceAttributes == null)
+          {
+            resourceAttributes = resource.getResourceAttributes();
+          }
+          result.put(URIConverter.ATTRIBUTE_HIDDEN,  resourceAttributes.isHidden());
+        }
+        if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_DIRECTORY))
+        {
+          if (resourceAttributes == null)
+          {
+            resourceAttributes = resource.getResourceAttributes();
+          }
+          result.put(URIConverter.ATTRIBUTE_DIRECTORY, resource instanceof IContainer);
+        }
+      }
+      return result;
     }
 
-    public static long timeStamp(String platformResourcePath, Map<?, ?> options)
+    public static void updateAttributes(String platformResourcePath, Map<String, ?> attributes, Map<?, ?> options) throws IOException
     {
-      IFile file = workspaceRoot.getFile(new Path(platformResourcePath));
-      return file.getLocalTimeStamp();
+      IResource resource = workspaceRoot.findMember(new Path(platformResourcePath));
+      if (resource == null)
+      {
+        throw new FileNotFoundException("The resource " + platformResourcePath + " does not exist");
+      }
+      else
+      {
+        try
+        {
+          Long timeStamp = (Long)attributes.get(URIConverter.ATTRIBUTE_TIME_STAMP);
+          if (timeStamp != null)
+          {
+            resource.setLocalTimeStamp(timeStamp);
+          }
+
+          ResourceAttributes resourceAttributes = null;
+          Boolean readOnly = (Boolean)attributes.get(URIConverter.ATTRIBUTE_READ_ONLY);
+          if (readOnly != null)
+          {
+            if (resourceAttributes == null)
+            {
+              resourceAttributes = resource.getResourceAttributes();
+            }
+            resourceAttributes.setReadOnly(readOnly);
+          }
+          Boolean archive = (Boolean)attributes.get(URIConverter.ATTRIBUTE_ARCHIVE);
+          if (archive != null)
+          {
+            if (resourceAttributes == null)
+            {
+              resourceAttributes = resource.getResourceAttributes();
+            }
+            resourceAttributes.setArchive(archive);
+          }
+          Boolean executable =  (Boolean)attributes.get(URIConverter.ATTRIBUTE_EXECUTABLE);
+          if (executable != null)
+          {
+            if (resourceAttributes == null)
+            {
+              resourceAttributes = resource.getResourceAttributes();
+            }
+            resourceAttributes.setExecutable(executable);
+          }
+          Boolean hidden = (Boolean)attributes.get(URIConverter.ATTRIBUTE_HIDDEN);
+          if (hidden != null)
+          {
+            if (resourceAttributes == null)
+            {
+              resourceAttributes = resource.getResourceAttributes();
+            }
+            resourceAttributes.setHidden(hidden);
+          }
+
+          if (resourceAttributes != null)
+          {
+            resource.setResourceAttributes(resourceAttributes);
+          }
+        }
+        catch (CoreException exception)
+        {
+          throw new Resource.IOWrappedException(exception);
+        }
+      }
     }
 
     public static IContentDescription getContentDescription(String platformResourcePath, Map<?, ?> options) throws IOException
@@ -363,32 +481,39 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
   }
 
   @Override
-  public boolean isReadOnly(URI uri, Map<?, ?> options)
+  public Map<String, ?> getAttributes(URI uri, Map<?, ?> options)
   {
     String platformResourcePath = uri.toPlatformString(true);
     if (workspaceRoot != null)
     {
-      return WorkbenchHelper.isReadOnly(platformResourcePath, options);
+      return WorkbenchHelper.attributes(platformResourcePath, options);
     }
     else
     {
       URI resolvedLocation = EcorePlugin.resolvePlatformResourcePath(platformResourcePath);
-      return resolvedLocation != null && getURIConverter(options).isReadOnly(resolvedLocation, options);
+      return resolvedLocation == null ? Collections.<String, Object>emptyMap() : getURIConverter(options).getAttributes(resolvedLocation, options);
     }
   }
 
   @Override
-  public long timeStamp(URI uri, Map<?, ?> options)
+  public void setAttributes(URI uri, Map<String, ?> attributes, Map<?, ?> options) throws IOException
   {
     String platformResourcePath = uri.toPlatformString(true);
     if (workspaceRoot != null)
     {
-      return WorkbenchHelper.timeStamp(platformResourcePath, options);
+      WorkbenchHelper.updateAttributes(platformResourcePath, attributes, options);
     }
     else
     {
       URI resolvedLocation = EcorePlugin.resolvePlatformResourcePath(platformResourcePath);
-      return resolvedLocation == null ? URIConverter.NULL_TIME_STAMP : getURIConverter(options).timeStamp(resolvedLocation, options);
+      if (resolvedLocation != null)
+      {
+        getURIConverter(options).setAttributes(resolvedLocation, attributes, options);
+      }
+      else
+      {
+        throw new IOException("The platform resource path '" + platformResourcePath + "' does not resolve");
+      }
     }
   }
 }

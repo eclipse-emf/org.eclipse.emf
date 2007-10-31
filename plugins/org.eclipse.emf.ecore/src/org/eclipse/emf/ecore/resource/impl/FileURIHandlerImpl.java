@@ -12,18 +12,21 @@
  *
  * </copyright>
  *
- * $Id: FileURIHandlerImpl.java,v 1.1 2007/09/29 16:41:42 emerks Exp $
+ * $Id: FileURIHandlerImpl.java,v 1.2 2007/10/31 16:57:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -38,7 +41,7 @@ public class FileURIHandlerImpl extends URIHandlerImpl
   {
     super();
   }
-  
+
   @Override
   public boolean canHandle(URI uri)
   {
@@ -64,7 +67,7 @@ public class FileURIHandlerImpl extends URIHandlerImpl
       new File(parent).mkdirs();
     }
     final Map<Object, Object> response = getResponse(options);
-    OutputStream outputStream = 
+    OutputStream outputStream =
       new FileOutputStream(file)
       {
         @Override
@@ -107,7 +110,7 @@ public class FileURIHandlerImpl extends URIHandlerImpl
     }
     return inputStream;
   }
-  
+
   @Override
   public void delete(URI uri, Map<?, ?> options) throws IOException
   {
@@ -115,7 +118,7 @@ public class FileURIHandlerImpl extends URIHandlerImpl
     File file = new File(filePath);
     file.delete();
   }
-  
+
   @Override
   public boolean exists(URI uri, Map<?, ?> options)
   {
@@ -125,18 +128,59 @@ public class FileURIHandlerImpl extends URIHandlerImpl
   }
 
   @Override
-  public boolean isReadOnly(URI uri, Map<?, ?> options)
+  public Map<String, ?> getAttributes(URI uri, Map<?, ?> options)
   {
+    Map<String, Object> result = new HashMap<String, Object>();
     String filePath = uri.toFileString();
     File file = new File(filePath);
-    return !file.canWrite();
+    if (file.exists())
+    {
+      Set<String> requestedAttributes = getRequestedAttributes(options);
+      if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_TIME_STAMP))
+      {
+        result.put(URIConverter.ATTRIBUTE_TIME_STAMP, file.lastModified());
+      }
+      if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_LENGTH))
+      {
+        result.put(URIConverter.ATTRIBUTE_LENGTH, file.length());
+      }
+      if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_READ_ONLY))
+      {
+        result.put(URIConverter.ATTRIBUTE_READ_ONLY, !file.canWrite());
+      }
+      if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_HIDDEN))
+      {
+        result.put(URIConverter.ATTRIBUTE_HIDDEN, file.isHidden());
+      }
+      if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_DIRECTORY))
+      {
+        result.put(URIConverter.ATTRIBUTE_DIRECTORY, file.isDirectory());
+      }
+    }
+    return result;
   }
 
   @Override
-  public long timeStamp(URI uri, Map<?, ?> options)
+  public void setAttributes(URI uri, Map<String, ?> attributes, Map<?, ?> options) throws IOException
   {
     String filePath = uri.toFileString();
     File file = new File(filePath);
-    return file.lastModified();
+    if (file.exists())
+    {
+      Long timeStamp = (Long)attributes.get(URIConverter.ATTRIBUTE_TIME_STAMP);
+      if (timeStamp != null && !file.setLastModified(timeStamp))
+      {
+        throw new IOException("Could not set the timestamp for the file '" + file +"'");
+      }
+      Boolean isReadOnly = (Boolean)attributes.get(URIConverter.ATTRIBUTE_READ_ONLY);
+      if (Boolean.TRUE.equals(isReadOnly) && !file.setReadOnly())
+      {
+        throw new IOException("Could not set the file '" + file +"' to be read only");
+      }
+    }
+    else
+    {
+      throw new FileNotFoundException("The file '" + file + "' does not exist");
+    }
   }
 }

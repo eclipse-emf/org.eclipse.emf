@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIHandler.java,v 1.1 2007/09/29 16:41:42 emerks Exp $
+ * $Id: URIHandler.java,v 1.2 2007/10/31 16:57:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -121,24 +121,23 @@ public interface URIHandler
   boolean exists(URI uri, Map<?, ?> options);
 
   /**
-   * Returns whether the contents of the given URI can be modified.
-   * If the URI's contents {@link #exists(URI, Map) exist} and is read only, 
-   * it will not be possible to {@link #createOutputStream(URI, Map) create} an output stream.
+   * Returns a map from String attributes to their corresponding values representing information about various aspects of the URI's state.
+   * The {@link URIConverter#OPTION_REQUESTED_ATTRIBUTES requested attributes option} can be used to specify which properties to fetch;
+   * without that option, all supported attributes will be fetched.
+   * If the URI doesn't not support any particular attribute, an entry for that attribute will not be appear in the result.
    * @param uri the URI to consider.
-   * @param options options to influence how the read only state is determined, or <code>null</code> if there are no options.
-   * @return whether the contents of the given URI can be modified.
-   * @see URIConverter#isReadOnly(URI, Map)
+   * @param options options to influence how the attributes are determined, or <code>null</code> if there are no options.
+   * @return a map from String attributes to their corresponding values representing information about various aspects of the URI's state.
    */
-  boolean isReadOnly(URI uri, Map<?, ?> options);
+  Map<String, ?> getAttributes(URI uri, Map<?, ?> options);
 
   /**
-   * Returns the time stamp representing the last time the contents of the given URI was modified.
-   * The value is represented as the number of milliseconds 
-   * since the epoch 00:00:00 GMT, January 1, 1970.
+   * Updates the map from String attributes to their corresponding values representing information about various aspects of the URI's state.
+   * Unsupported or unchangeable attributes are ignored.
    * @param uri the URI to consider.
-   * @param options options to influence how the time stamp is determined, or <code>null</code> if there are no options.
-   * @return the time stamp representing the last time the contents of the given URI was modified.
-   * @see URIConverter#timeStamp(URI, Map)
+   * @param attributes the new values for the attributes.
+   * @param options options to influence how the attributes are updated, or <code>null</code> if there are no options.
+   * @throws IOException if there is a problem updating the attributes.
    */
-  long timeStamp(URI uri, Map<?, ?> options);
+  void setAttributes(URI uri, Map<String, ?> attributes, Map<?, ?> options) throws IOException;
 }

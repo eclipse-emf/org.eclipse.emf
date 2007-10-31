@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIHandlerImpl.java,v 1.1 2007/09/29 16:41:42 emerks Exp $
+ * $Id: URIHandlerImpl.java,v 1.2 2007/10/31 16:57:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -28,6 +28,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ContentHandler;
@@ -77,6 +78,17 @@ public class URIHandlerImpl implements URIHandler
   protected Map<Object, Object> getResponse(Map<?, ?> options)
   {
     return (Map<Object, Object>)options.get(URIConverter.OPTION_RESPONSE);
+  }
+
+  /**
+   * Returns the value of the {@link URIConverter#OPTION_REQUESTED_ATTRIBUTES requested attributes option}.
+   * @param options the options in which to look for the requested attributes option.
+   * @return the value of the requested attributes option.
+   */
+  @SuppressWarnings("unchecked")
+  protected Set<String> getRequestedAttributes(Map<?, ?> options)
+  {
+    return (Set<String>)options.get(URIConverter.OPTION_REQUESTED_ATTRIBUTES);
   }
 
   /**
@@ -300,6 +312,10 @@ public class URIHandlerImpl implements URIHandler
         HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
         httpURLConnection.setRequestMethod("HEAD");
         int responseCode = httpURLConnection.getResponseCode();
+        // TODO
+        // I'm concerned that folders will often return 401 or even 403.
+        // So should we consider something to exist even though access if unauthorized or forbidden?
+        //
         return responseCode == HttpURLConnection.HTTP_OK;
       }
       else
@@ -315,52 +331,80 @@ public class URIHandlerImpl implements URIHandler
     }
   }
 
-  /**
-   * This generally returns <code>true</code>, except for HTTP connections where it's possible to determine if HTTP PUT is supported.
-   */
-  public boolean isReadOnly(URI uri, Map<?, ?> options)
+  public Map<String, ?> getAttributes(URI uri, Map<?, ?> options)
   {
+    Map<String, Object> result = new HashMap<String, Object>();
+    Set<String> requestedAttributes = getRequestedAttributes(options);
     try
     {
       URL url = new URL(uri.toString());
-      URLConnection urlConnection = url.openConnection();
-      if (urlConnection instanceof HttpURLConnection)
+      URLConnection urlConnection = null;
+      if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_READ_ONLY))
       {
-        HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
-        httpURLConnection.setRequestMethod("OPTIONS");
-        int responseCode = httpURLConnection.getResponseCode();
-        return
-          responseCode != HttpURLConnection.HTTP_OK ||
-            !httpURLConnection.getHeaderFields().containsKey("Allow") ||
-            !httpURLConnection.getHeaderField("Allow").contains("PUT");
+        urlConnection = url.openConnection();
+        if (urlConnection instanceof HttpURLConnection)
+        {
+          HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
+          httpURLConnection.setRequestMethod("OPTIONS");
+          int responseCode = httpURLConnection.getResponseCode();
+          if (responseCode == HttpURLConnection.HTTP_OK)
+          {
+            String allow = httpURLConnection.getHeaderField("Allow");
+            result.put(URIConverter.ATTRIBUTE_READ_ONLY, allow == null || !allow.contains("PUT"));
+          }
+          urlConnection = null;
+        }
+        else
+        {
+          result.put(URIConverter.ATTRIBUTE_READ_ONLY, true);
+        }
       }
-      else
-      {
-        return true;
-      }
-    }
-    catch (Throwable exception)
-    {
-      return true;
-    }
-  }
 
-  public long timeStamp(URI uri, Map<?, ?> options)
-  {
-    try
-    {
-      URL url = new URL(uri.toString());
-      URLConnection urlConnection = url.openConnection();
-      if (urlConnection instanceof HttpURLConnection)
+      if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_TIME_STAMP))
       {
-        HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
-        httpURLConnection.setRequestMethod("HEAD");
+        if (urlConnection == null)
+        {
+          urlConnection = url.openConnection();
+          if (urlConnection instanceof HttpURLConnection)
+          {
+            HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
+            httpURLConnection.setRequestMethod("HEAD");
+            httpURLConnection.getResponseCode();
+          }
+        }
+        if (urlConnection.getHeaderField("last-modified") != null)
+        {
+          result.put(URIConverter.ATTRIBUTE_TIME_STAMP, urlConnection.getLastModified());
+        }
       }
-      return urlConnection.getLastModified();
+
+      if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_LENGTH))
+      {
+        if (urlConnection == null)
+        {
+          urlConnection = url.openConnection();
+          if (urlConnection instanceof HttpURLConnection)
+          {
+            HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
+            httpURLConnection.setRequestMethod("HEAD");
+            httpURLConnection.getResponseCode();
+          }
+        }
+        if (urlConnection.getHeaderField("content-length") != null)
+        {
+          result.put(URIConverter.ATTRIBUTE_LENGTH, urlConnection.getContentLength());
+        }
+      }
     }
     catch (IOException exception)
     {
-      return URIConverter.NULL_TIME_STAMP;
+      // Ignore exceptions.
     }
+    return result;
+  }
+
+  public void setAttributes(URI uri, Map<String, ?> attributes, Map<?, ?> options) throws IOException
+  {
+    // We can't update any properties via just a URL connection.
   }
 }

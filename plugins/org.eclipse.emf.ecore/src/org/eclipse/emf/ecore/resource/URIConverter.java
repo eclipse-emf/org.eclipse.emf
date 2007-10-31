@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.10 2007/09/29 16:41:42 emerks Exp $
+ * $Id: URIConverter.java,v 1.11 2007/10/31 16:57:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -29,6 +29,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,7 +72,7 @@ public interface URIConverter
 
   /**
    * A property of the {@link #OPTION_RESPONSE response option} 
-   * used to yield the {@link #timeStamp(URI, Map) time stamp} associated
+   * used to yield the {@link #ATTRIBUTE_TIME_STAMP time stamp} associated
    * with the creation of an {@link #createInputStream(URI, Map) input} or an {@link #createOutputStream(URI, Map) output} stream.
    * This is typically used by resource {@link Resource#load(Map) load} and {@link Resource#save(Map) save} 
    * in order to set the {@link Resource#getTimeStamp()}.
@@ -596,32 +597,88 @@ public interface URIConverter
   boolean exists(URI uri, Map<?, ?> options);
 
   /**
-   * Returns whether the contents of the given URI can be modified.
-   * If the URI's contents {@link #exists(URI, Map) exist} and it is read only, 
-   * it will not be possible to {@link #createOutputStream(URI, Map) create} an output stream.
-   * @param uri the URI to consider.
-   * @param options options to influence how the read only state is determined, or <code>null</code> if there are no options.
-   * @return whether the contents of the given URI can be modified.
+   * The time stamp {@link #getAttributes(URI, Map) attribute} representing the last time the contents of a URI were modified.
+   * The value is represented as Long that encodes the number of milliseconds 
+   * since the epoch 00:00:00 GMT, January 1, 1970.
    * @since 2.4
    */
-  boolean isReadOnly(URI uri, Map<?, ?> options);
+  String ATTRIBUTE_TIME_STAMP = "timeStamp";
 
   /**
-   * A {@link #timeStamp(URI, Map) time stamp} value that indicates no time stamp is available.
+   * A {@link #ATTRIBUTE_TIME_STAMP} value that indicates no time stamp is available.
    * @since 2.4
    */
   long NULL_TIME_STAMP = -1;
 
   /**
-   * Returns the time stamp representing the last time the contents of the given URI was modified.
-   * The value is represented as the number of milliseconds 
-   * since the epoch 00:00:00 GMT, January 1, 1970.
-   * @param uri the URI to consider.
-   * @param options options to influence how the time stamp is determined, or <code>null</code> if there are no options.
-   * @return the time stamp representing the last time the contents of the given URI was modified.
+   * The length {@link #getAttributes(URI, Map) attribute} representing the number of bytes in the contents of a URI.
+   * It is represented as a Long value.
    * @since 2.4
    */
-  long timeStamp(URI uri, Map<?, ?> options);
+  String ATTRIBUTE_LENGTH = "length";
+
+  /**
+   * The read only {@link #getAttributes(URI, Map) attribute} representing whether the contents of a URI can be modified.
+   * It is represented as a Boolean value.
+   * If the URI's contents {@link #exists(URI, Map) exist} and it is read only, 
+   * it will not be possible to {@link #createOutputStream(URI, Map) create} an output stream.
+   * @since 2.4
+   */
+  String ATTRIBUTE_READ_ONLY = "readOnly";
+
+  /**
+   * The execute {@link #getAttributes(URI, Map) attribute} representing whether the contents of a URI can be executed.
+   * It is represented as a Boolean value.
+   * @since 2.4
+   */
+  String ATTRIBUTE_EXECUTABLE = "executable";
+
+  /**
+   * The archive {@link #getAttributes(URI, Map) attribute} representing whether the contents of a URI are archived.
+   * It is represented as a Boolean value.
+   * @since 2.4
+   */
+  String ATTRIBUTE_ARCHIVE = "archive";
+
+  /**
+   * The hidden {@link #getAttributes(URI, Map) attribute} representing whether the URI is visible.
+   * It is represented as a Boolean value.
+   * @since 2.4
+   */
+  String ATTRIBUTE_HIDDEN = "hidden";
+
+  /**
+   * The directory {@link #getAttributes(URI, Map) attribute} representing whether the URI represents a directory rather than a file.
+   * It is represented as a Boolean value.
+   * @since 2.4
+   */
+  String ATTRIBUTE_DIRECTORY = "directory";
+
+  /**
+   * An option passed to a {@link Set Set<String>} to {@link #getAttributes(URI, Map)} to indicate the specific attributes to be fetched.
+   */
+  String OPTION_REQUESTED_ATTRIBUTES = "requestedAttributes";
+
+  /**
+   * Returns a map from String attributes to their corresponding values representing information about various aspects of the URI's state.
+   * The {@link #OPTION_REQUESTED_ATTRIBUTES requested attributes option} can be used to specify which properties to fetch;
+   * without that option, all supported attributes will be fetched.
+   * If the URI doesn't not support any particular attribute, an entry for that attribute will not be appear in the result.
+   * @param uri the URI to consider.
+   * @param options options to influence how the attributes are determined, or <code>null</code> if there are no options.
+   * @return a map from String attributes to their corresponding values representing information about various aspects of the URI's state.
+   */
+  Map<String, ?> getAttributes(URI uri, Map<?, ?> options);
+
+  /**
+   * Updates the map from String attributes to their corresponding values representing information about various aspects of the URI's state.
+   * Unsupported or unchangeable attributes are ignored.
+   * @param uri the URI to consider.
+   * @param attributes the new values for the attributes.
+   * @param options options to influence how the attributes are updated, or <code>null</code> if there are no options.
+   * @throws IOException if there is a problem updating the attributes.
+   */
+  void setAttributes(URI uri, Map<String, ?> attributes, Map<?, ?> options) throws IOException;
 
   /**
    * The global static URI converter instance.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFSURIHandlerImpl.java,v 1.1 2007/09/29 16:41:42 emerks Exp $
+ * $Id: EFSURIHandlerImpl.java,v 1.2 2007/10/31 16:57:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.CommonPlugin;
@@ -43,9 +44,14 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
   private static final Method FILE_STORE_OPEN_OUTPUT_STREAM_METHOD;
   private static final Method FILE_STORE_DELETE_METHOD;
   private static final Method FILE_STORE_FETCH_INFO_METHOD;
+  private static final Method FILE_STORE_PUT_INFO_METHOD;
   private static final Method FILE_INFO_EXISTS_METHOD;
+  private static final Method FILE_INFO_GET_LENGTH_METHOD;
+  private static final Method FILE_INFO_IS_DIRECOTRY_METHOD;
   private static final Method FILE_INFO_GET_ATTRIBUTE_METHOD;
+  private static final Method FILE_INFO_SET_ATTRIBUTE_METHOD;
   private static final Method FILE_INFO_GET_LAST_MODIFIED;
+  private static final Method FILE_INFO_SET_LAST_MODIFIED;
   static
   {
     Method efsGetStoreMethod = null;
@@ -54,9 +60,14 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
     Method fileStoreOpenOutputStreamMethod = null;
     Method fileStoreDeleteMethod = null;
     Method fileStoreFetchInfoMethod = null;
+    Method fileStorePutInfoMethod = null;
     Method fileInfoExistsMethod = null;
+    Method fileInfoIsDirectoryMethod = null;
+    Method fileInfoGetLengthMethod = null;
     Method fileInfoGetAttributeMethod = null;
+    Method fileInfoSetAttributeMethod = null;
     Method fileInfoGetLastModifiedMethod = null;
+    Method fileInfoSetLastModifiedMethod = null;
     try
     {
       Class <?> efsClass  = CommonPlugin.loadClass("org.eclipse.core.filesystem", "org.eclipse.core.filesystem.EFS");
@@ -68,9 +79,14 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
       fileStoreDeleteMethod = fileStoreClass.getMethod("delete", Integer.TYPE, IProgressMonitor.class);
       fileStoreFetchInfoMethod = fileStoreClass.getMethod("fetchInfo");
       Class <?> fileInfoClass = fileStoreFetchInfoMethod.getReturnType();
+      fileStorePutInfoMethod = fileStoreClass.getMethod("putInfo", fileInfoClass, Integer.TYPE, IProgressMonitor.class);
       fileInfoExistsMethod = fileInfoClass.getMethod("exists");
+      fileInfoIsDirectoryMethod = fileInfoClass.getMethod("isDirectory");
+      fileInfoGetLengthMethod = fileInfoClass.getMethod("getLength");
       fileInfoGetAttributeMethod = fileInfoClass.getMethod("getAttribute", Integer.TYPE);
+      fileInfoSetAttributeMethod = fileInfoClass.getMethod("setAttribute", Integer.TYPE, Boolean.TYPE);
       fileInfoGetLastModifiedMethod = fileInfoClass.getMethod("getLastModified");
+      fileInfoSetLastModifiedMethod = fileInfoClass.getMethod("setLastModified", Long.TYPE);
     }
     catch (Throwable exeption)
     {
@@ -82,9 +98,14 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
     FILE_STORE_OPEN_OUTPUT_STREAM_METHOD = fileStoreOpenOutputStreamMethod;
     FILE_STORE_DELETE_METHOD = fileStoreDeleteMethod;
     FILE_STORE_FETCH_INFO_METHOD = fileStoreFetchInfoMethod;
+    FILE_STORE_PUT_INFO_METHOD = fileStorePutInfoMethod;
     FILE_INFO_EXISTS_METHOD = fileInfoExistsMethod;
+    FILE_INFO_IS_DIRECOTRY_METHOD = fileInfoIsDirectoryMethod;
     FILE_INFO_GET_ATTRIBUTE_METHOD = fileInfoGetAttributeMethod;
+    FILE_INFO_SET_ATTRIBUTE_METHOD = fileInfoSetAttributeMethod;
+    FILE_INFO_GET_LENGTH_METHOD = fileInfoGetLengthMethod;
     FILE_INFO_GET_LAST_MODIFIED = fileInfoGetLastModifiedMethod;
+    FILE_INFO_SET_LAST_MODIFIED = fileInfoSetLastModifiedMethod;
   }
 
   /**
@@ -94,10 +115,10 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
   {
     super();
   }
-  
+
   /**
    * Returns whether the URI is one that this implementation should treat as a supported Eclipse File System scheme.
-   * This implementation uses Java reflection to check whether there is an Eclipse File System available 
+   * This implementation uses Java reflection to check whether there is an Eclipse File System available
    * and if so whether it supports this scheme.
    * @param uri the URI to consider.
    * @return whether the URI is one that this implementation treats as an Eclipse File System scheme.
@@ -135,7 +156,8 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
     }
   }
 
-  protected Object getStore(URI uri, Map<?, ?> options) throws IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, URISyntaxException
+  protected Object getStore(URI uri, Map<?, ?> options)
+    throws IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, URISyntaxException
   {
     if (EFS_GET_STORE_METHOD != null)
     {
@@ -148,11 +170,24 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
     throw new IOException("EFS unavailable");
   }
 
-  protected Object getInfo(URI uri, Map<?, ?> options) throws IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, URISyntaxException
+  protected Object getInfo(URI uri, Object store, Map<?, ?> options)
+    throws IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, URISyntaxException
   {
-    return FILE_STORE_FETCH_INFO_METHOD.invoke(getStore(uri, options));
+    return FILE_STORE_FETCH_INFO_METHOD.invoke(store);
   }
-  
+
+  protected Object getInfo(URI uri, Map<?, ?> options)
+    throws IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, URISyntaxException
+  {
+    return getInfo(uri, getStore(uri, options), options);
+  }
+
+  protected void setInfo(URI uri, Object store, Object info, int set, Map<?, ?> options)
+    throws IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, URISyntaxException
+  {
+    FILE_STORE_PUT_INFO_METHOD.invoke(store, info, set, null);
+  }
+
   /**
    * Creates an output stream for the URI, assuming it's a URI recognized by the Eclipse File System, and returns it.
    * @return an open output stream.
@@ -167,7 +202,7 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
       final Map<Object, Object> response = getResponse(options);
       if (response != null)
       {
-        result = 
+        result =
           new BufferedOutputStream(result)
           {
             @Override
@@ -179,7 +214,7 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
               }
               finally
               {
-                response.put(URIConverter.RESPONSE_TIME_STAMP_PROPERTY, timeStamp(uri, options));
+                response.put(URIConverter.RESPONSE_TIME_STAMP_PROPERTY, getAttributes(uri, options).get(URIConverter.ATTRIBUTE_TIME_STAMP));
               }
             }
           };
@@ -218,7 +253,7 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
       final Map<Object, Object> response = getResponse(options);
       if (response != null)
       {
-        response.put(URIConverter.RESPONSE_TIME_STAMP_PROPERTY, timeStamp(uri, options));
+        response.put(URIConverter.RESPONSE_TIME_STAMP_PROPERTY, getAttributes(uri, options).get(URIConverter.ATTRIBUTE_TIME_STAMP));
       }
       return result;
     }
@@ -279,30 +314,204 @@ public class EFSURIHandlerImpl extends URIHandlerImpl
   }
 
   private static final Integer ATTRIBUTE_READ_ONLY = 1 << 1;
+  private static final Integer ATTRIBUTE_EXECUTABLE = 1 << 2;
+  private static final Integer ATTRIBUTE_ARCHIVE = 1 << 3;
+  private static final Integer ATTRIBUTE_HIDDEN = 1 << 4;
+
+  private static final int SET_ATTRIBUTES = 1 << 10;
+  private static final int SET_LAST_MODIFIED = 1 << 11;
 
   @Override
-  public boolean isReadOnly(URI uri, Map<?, ?> options)
+  public Map<String, ?> getAttributes(URI uri, Map<?, ?> options)
   {
+    Map<String, Object> result = new HashMap<String, Object>();
+    Set<String> requestedAttributes = getRequestedAttributes(options);
+    Object info;
     try
     {
-      return Boolean.TRUE.equals(FILE_INFO_GET_ATTRIBUTE_METHOD.invoke(getInfo(uri, options), ATTRIBUTE_READ_ONLY));
+      info = getInfo(uri, options);
     }
     catch (Exception exception)
     {
-      return true;
+      return result;
     }
+    if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_TIME_STAMP))
+    {
+      try
+      {
+        Object timeStamp = FILE_INFO_GET_LAST_MODIFIED.invoke(info);
+        result.put(URIConverter.ATTRIBUTE_TIME_STAMP, timeStamp);
+      }
+      catch (Exception exception)
+      {
+        // Ignore.
+      }
+    }
+    if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_READ_ONLY))
+    {
+      try
+      {
+        Object isReadOnly = FILE_INFO_GET_ATTRIBUTE_METHOD.invoke(info, ATTRIBUTE_READ_ONLY);
+        result.put(URIConverter.ATTRIBUTE_READ_ONLY, isReadOnly);
+      }
+      catch (Exception exception)
+      {
+        // Ignore.
+      }
+    }
+    if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_ARCHIVE))
+    {
+      try
+      {
+        Object isArchive = FILE_INFO_GET_ATTRIBUTE_METHOD.invoke(info, ATTRIBUTE_ARCHIVE);
+        result.put(URIConverter.ATTRIBUTE_ARCHIVE, isArchive);
+      }
+      catch (Exception exception)
+      {
+        // Ignore.
+      }
+    }
+    if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_EXECUTABLE))
+    {
+      try
+      {
+        Object isExecutable = FILE_INFO_GET_ATTRIBUTE_METHOD.invoke(info, ATTRIBUTE_EXECUTABLE);
+        result.put(URIConverter.ATTRIBUTE_EXECUTABLE, isExecutable);
+      }
+      catch (Exception exception)
+      {
+        // Ignore.
+      }
+    }
+    if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_HIDDEN))
+    {
+      try
+      {
+        Object isHidden = FILE_INFO_GET_ATTRIBUTE_METHOD.invoke(info, ATTRIBUTE_HIDDEN);
+        result.put(URIConverter.ATTRIBUTE_HIDDEN, isHidden);
+      }
+      catch (Exception exception)
+      {
+        // Ignore.
+      }
+    }
+    if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_DIRECTORY))
+    {
+      try
+      {
+        Object isDirectory = FILE_INFO_IS_DIRECOTRY_METHOD.invoke(info);
+        result.put(URIConverter.ATTRIBUTE_DIRECTORY, isDirectory);
+      }
+      catch (Exception exception)
+      {
+        // Ignore.
+      }
+    }
+    if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_LENGTH))
+    {
+      try
+      {
+        Object length = FILE_INFO_GET_LENGTH_METHOD.invoke(info);
+        result.put(URIConverter.ATTRIBUTE_LENGTH, length);
+      }
+      catch (Exception exception)
+      {
+        // Ignore.
+      }
+    }
+    return result;
   }
 
   @Override
-  public long timeStamp(URI uri, Map<?, ?> options)
+  public void setAttributes(URI uri, Map<String, ?> attributes, Map<?, ?> options) throws IOException
   {
+    int set = 0;
+    Object store;
+    Object info;
     try
     {
-      return (Long)FILE_INFO_GET_LAST_MODIFIED.invoke(getInfo(uri, options));
+      store = getStore(uri, options);
+      info = getInfo(uri, store, options);
     }
     catch (Exception exception)
     {
-      return URIConverter.NULL_TIME_STAMP;
+      throw new Resource.IOWrappedException(exception);
+    }
+    Object timeStamp = attributes.get(URIConverter.ATTRIBUTE_TIME_STAMP);
+    if (timeStamp != null)
+    {
+      try
+      {
+        FILE_INFO_SET_LAST_MODIFIED.invoke(info, timeStamp);
+        set = SET_LAST_MODIFIED;
+      }
+      catch (Exception exception)
+      {
+        throw new Resource.IOWrappedException(exception);
+      }
+    }
+    Object isReadOnly = attributes.get(URIConverter.ATTRIBUTE_READ_ONLY);
+    if (isReadOnly != null)
+    {
+      try
+      {
+        FILE_INFO_SET_ATTRIBUTE_METHOD.invoke(info, ATTRIBUTE_READ_ONLY, isReadOnly);
+        set |= SET_ATTRIBUTES;
+      }
+      catch (Exception exception)
+      {
+        throw new Resource.IOWrappedException(exception);
+      }
+    }
+    Object isArchive = attributes.get(URIConverter.ATTRIBUTE_ARCHIVE);
+    if (isArchive != null)
+    {
+      try
+      {
+        FILE_INFO_SET_ATTRIBUTE_METHOD.invoke(info, ATTRIBUTE_ARCHIVE, isArchive);
+        set |= SET_ATTRIBUTES;
+      }
+      catch (Exception exception)
+      {
+        throw new Resource.IOWrappedException(exception);
+      }
+    }
+    Object isExecutable = attributes.get(URIConverter.ATTRIBUTE_ARCHIVE);
+    if (isExecutable != null)
+    {
+      try
+      {
+        FILE_INFO_SET_ATTRIBUTE_METHOD.invoke(info, ATTRIBUTE_EXECUTABLE, isExecutable);
+        set |= SET_ATTRIBUTES;
+      }
+      catch (Exception exception)
+      {
+        throw new Resource.IOWrappedException(exception);
+      }
+    }
+    Object isHidden = attributes.get(URIConverter.ATTRIBUTE_HIDDEN);
+    if (isHidden != null)
+    {
+      try
+      {
+        FILE_INFO_SET_ATTRIBUTE_METHOD.invoke(info, ATTRIBUTE_HIDDEN, isHidden);
+        set |= SET_ATTRIBUTES;
+      }
+      catch (Exception exception)
+      {
+        throw new Resource.IOWrappedException(exception);
+      }
+    }
+    if (set != 0)
+    {
+      try
+      {
+        setInfo(uri, store, info, set, options);
+      }
+      catch (Exception exception)
+      {
+        throw new Resource.IOWrappedException(exception);
+      }
     }
   }
 }
