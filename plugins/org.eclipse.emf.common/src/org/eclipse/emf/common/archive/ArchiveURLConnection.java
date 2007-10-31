@@ -236,12 +236,13 @@ public class ArchiveURLConnection extends URLConnection
       //
       final ZipFile zipFile = new ZipFile(nestedURL.substring(5));
       inputZipEntry = zipFile.getEntry(entry);
-      if (inputZipEntry == null)
+      InputStream zipEntryInputStream = inputZipEntry == null ? null : zipFile.getInputStream(inputZipEntry);
+      if (zipEntryInputStream == null)
       {
-        throw new IOException("archive entry not found " + entry);
+        throw new IOException("Archive entry not found " + urlString);
       }
       inputStream = 
-        new FilterInputStream(zipFile.getInputStream(inputZipEntry))
+        new FilterInputStream(zipEntryInputStream)
         {
           @Override
           public void close() throws IOException
@@ -292,7 +293,7 @@ public class ArchiveURLConnection extends URLConnection
       if (inputZipEntry == null)
       {
         zipInputStream.close();
-        throw new IOException("archive entry not found " + entry);
+        throw new IOException("Archive entry not found " + urlString);
       }
 
       // Unless we matched an entry, we're done.
@@ -325,15 +326,20 @@ public class ArchiveURLConnection extends URLConnection
   @Override
   public OutputStream getOutputStream() throws IOException
   {
-    return getOutputStream(false);
+    return getOutputStream(false, -1);
   }
 
   public void delete() throws IOException
   {
-    getOutputStream(true).close();
+    getOutputStream(true, -1).close();
   }
-
-  private OutputStream getOutputStream(boolean delete) throws IOException
+  
+  public void setTimeStamp(long timeStamp) throws IOException
+  {
+    getOutputStream(false, timeStamp).close();
+  }
+  
+  private OutputStream getOutputStream(boolean delete, long timeStamp) throws IOException
   {
     // Create the delegate URL
     //
@@ -383,6 +389,7 @@ public class ArchiveURLConnection extends URLConnection
       // We expect there to be at least one archive path.
       //
       ZipEntry outputZipEntry;
+      boolean found = false;
       for (;;)
       {
         // The name that will be used as the archive entry.
@@ -413,19 +420,31 @@ public class ArchiveURLConnection extends URLConnection
           {
             break;
           }
-          else if (!entry.equals(zipEntry.getName()))
+          else
           {
-            if (zipOutputStream == null)
+            boolean match = entry.equals(zipEntry.getName());
+            if (!found)
             {
-              zipOutputStream =  new ZipOutputStream(outputStream);
-              outputStream = zipOutputStream;
+              found = match && nextArchiveSeparator < 0;
             }
-            // Transfer the entry and its contents.
-            //
-            zipOutputStream.putNextEntry(zipEntry);
-            for (int size; (size = zipInputStream.read(bytes, 0, bytes.length)) > -1; )
+            if (timeStamp != -1 || !match)
             {
-              zipOutputStream.write(bytes, 0, size);
+              if (zipOutputStream == null)
+              {
+                zipOutputStream =  new ZipOutputStream(outputStream);
+                outputStream = zipOutputStream;
+              }
+              // Transfer the entry and its contents.
+              //
+              if (timeStamp != -1 && match && nextArchiveSeparator < 0)
+              {
+                zipEntry.setTime(timeStamp);
+              }
+              zipOutputStream.putNextEntry(zipEntry);
+              for (int size; (size = zipInputStream.read(bytes, 0, bytes.length)) > -1; )
+              {
+                zipOutputStream.write(bytes, 0, size);
+              }
             }
           }
         }
@@ -435,8 +454,12 @@ public class ArchiveURLConnection extends URLConnection
         archiveSeparator = nextArchiveSeparator;
         nextArchiveSeparator = urlString.indexOf("!/", archiveSeparator + 2);
 
-        if (delete && archiveSeparator < 0)
+        if ((delete || timeStamp != -1) && archiveSeparator < 0)
         {
+           if (!found)
+           {
+             throw new IOException("Archive entry not found " + urlString);
+           }
           // Create no entry since we are deleting and return immediately.
           //
           outputZipEntry = null;
@@ -563,6 +586,7 @@ public class ArchiveURLConnection extends URLConnection
   {
     return outputStream;
   }
+  
   
   /**
    * Creates an output stream for the nested URL by calling {@link URL#openConnection() opening} a stream on it.
