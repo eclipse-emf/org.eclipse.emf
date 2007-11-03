@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostician.java,v 1.7 2006/12/05 20:22:26 emerks Exp $
+ * $Id: Diagnostician.java,v 1.8 2007/11/03 13:15:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -124,6 +124,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
       }
     }
 
+    @SuppressWarnings("null")
     boolean result = ((EValidator)eValidator).validate(eClass, eObject, diagnostics, context);
     if (result || diagnostics != null)
     {

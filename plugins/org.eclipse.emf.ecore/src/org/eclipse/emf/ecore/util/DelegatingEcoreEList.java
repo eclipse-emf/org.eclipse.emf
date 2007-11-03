@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.16 2007/10/28 12:00:53 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.17 2007/11/03 13:15:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -47,6 +47,8 @@ public abstract class DelegatingEcoreEList<E>
   extends DelegatingNotifyingInternalEListImpl<E>
   implements InternalEList.Unsettable<E>, EStructuralFeature.Setting
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * A {@link DelegatingEcoreEList delegating Ecore EList} with an implementation for tracking the unset state.
    * At least one of {@link #getEStructuralFeature()} or {@link #getFeatureID()} must be specialized
@@ -54,6 +56,8 @@ public abstract class DelegatingEcoreEList<E>
    */
   public static abstract class Unsettable<E> extends DelegatingEcoreEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
     protected boolean isSet;
 
     public Unsettable(InternalEObject owner)
@@ -689,6 +693,8 @@ public abstract class DelegatingEcoreEList<E>
 
   public static abstract class Generic<E> extends DelegatingEcoreEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
     public static final int IS_SET = EcoreEList.Generic.IS_SET;
     public static final int IS_UNSETTABLE = EcoreEList.Generic.IS_UNSETTABLE;
     public static final int HAS_INSTANCE_CLASS = EcoreEList.Generic.HAS_INSTANCE_CLASS;
@@ -821,6 +827,8 @@ public abstract class DelegatingEcoreEList<E>
 
   public static abstract class Dynamic<E> extends Generic<E>
   {
+    private static final long serialVersionUID = 1L;
+
     protected EStructuralFeature eStructuralFeature;
 
     public Dynamic(InternalEObject owner, EStructuralFeature eStructuralFeature)

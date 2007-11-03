@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ArchiveURIHandlerImpl.java,v 1.2 2007/10/31 16:57:01 emerks Exp $
+ * $Id: ArchiveURIHandlerImpl.java,v 1.3 2007/11/03 13:15:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -170,11 +170,8 @@ public class ArchiveURIHandlerImpl extends URIHandlerImpl
         InputStream inputStream = null;
         if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_DIRECTORY))
         {
-          if (inputStream == null)
-          {
-            inputStream = getInputStream();
-            inputStream.close();
-          }
+          inputStream = getInputStream();
+          inputStream.close();
           result.put(URIConverter.ATTRIBUTE_DIRECTORY, zipEntry.isDirectory());
         }
         if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_LENGTH))

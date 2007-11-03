@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIHandlerImpl.java,v 1.2 2007/10/31 16:57:00 emerks Exp $
+ * $Id: URIHandlerImpl.java,v 1.3 2007/11/03 13:15:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -150,10 +150,7 @@ public class URIHandlerImpl implements URIHandler
                 }
                 finally
                 {
-                  if (response != null)
-                  {
-                    response.put(URIConverter.RESPONSE_TIME_STAMP_PROPERTY, urlConnection.getLastModified());
-                  }
+                  response.put(URIConverter.RESPONSE_TIME_STAMP_PROPERTY, urlConnection.getLastModified());
                 }
               }
             };

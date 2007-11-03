@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.28 2007/10/20 14:43:40 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.29 2007/11/03 13:15:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -39,6 +39,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureMap.Entry> implements FeatureMap.Internal, FeatureMap.Internal.Wrapper
 {
+  private static final long serialVersionUID = 1L;
+
   protected FeatureMap.Internal.Wrapper wrapper = this;
   protected final FeatureMapUtil.Validator featureMapValidator;
   protected final EStructuralFeature eStructuralFeature;

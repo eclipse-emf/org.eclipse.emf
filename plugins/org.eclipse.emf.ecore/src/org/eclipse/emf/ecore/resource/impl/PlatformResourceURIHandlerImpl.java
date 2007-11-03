@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PlatformResourceURIHandlerImpl.java,v 1.2 2007/10/31 16:57:00 emerks Exp $
+ * $Id: PlatformResourceURIHandlerImpl.java,v 1.3 2007/11/03 13:15:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -254,10 +254,7 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
         ResourceAttributes resourceAttributes = null;
         if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_READ_ONLY))
         {
-          if (resourceAttributes == null)
-          {
-            resourceAttributes = resource.getResourceAttributes();
-          }
+          resourceAttributes = resource.getResourceAttributes();
           result.put(URIConverter.ATTRIBUTE_READ_ONLY,  resourceAttributes.isReadOnly());
         }
         if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_ARCHIVE))
@@ -317,10 +314,7 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
           Boolean readOnly = (Boolean)attributes.get(URIConverter.ATTRIBUTE_READ_ONLY);
           if (readOnly != null)
           {
-            if (resourceAttributes == null)
-            {
-              resourceAttributes = resource.getResourceAttributes();
-            }
+            resourceAttributes = resource.getResourceAttributes();
             resourceAttributes.setReadOnly(readOnly);
           }
           Boolean archive = (Boolean)attributes.get(URIConverter.ATTRIBUTE_ARCHIVE);
