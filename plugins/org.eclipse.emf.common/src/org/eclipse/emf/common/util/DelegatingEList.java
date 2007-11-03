@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEList.java,v 1.10 2007/06/25 14:45:48 emerks Exp $
+ * $Id: DelegatingEList.java,v 1.11 2007/11/03 13:15:35 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -32,6 +32,8 @@ import java.util.NoSuchElementException;
  */
 public abstract class DelegatingEList<E> extends AbstractList<E> implements EList<E>, Cloneable, Serializable 
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * Creates an empty instance.
    */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.18 2007/06/12 20:56:17 emerks Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.19 2007/11/03 13:15:40 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -36,6 +36,8 @@ import org.eclipse.emf.common.util.DelegatingEList;
  */
 public abstract class DelegatingNotifyingListImpl<E> extends DelegatingEList<E> implements NotifyingList<E>
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * Creates an empty instance.
    */

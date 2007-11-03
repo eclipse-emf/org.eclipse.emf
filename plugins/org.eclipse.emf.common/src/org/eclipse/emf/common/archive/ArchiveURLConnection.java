@@ -290,15 +290,8 @@ public class ArchiveURLConnection extends URLConnection
         }
       }
 
-      if (inputZipEntry == null)
-      {
-        zipInputStream.close();
-        throw new IOException("Archive entry not found " + urlString);
-      }
-
-      // Unless we matched an entry, we're done.
-      //
-      break;
+      zipInputStream.close();
+      throw new IOException("Archive entry not found " + urlString);
     }
 
     return yield(inputZipEntry, inputStream);

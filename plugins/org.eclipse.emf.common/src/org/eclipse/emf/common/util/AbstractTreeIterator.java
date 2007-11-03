@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractTreeIterator.java,v 1.6 2007/06/12 20:56:17 emerks Exp $
+ * $Id: AbstractTreeIterator.java,v 1.7 2007/11/03 13:15:38 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -28,6 +28,8 @@ import java.util.Iterator;
  */
 public abstract class AbstractTreeIterator<E> extends BasicEList<Iterator<? extends E>> implements TreeIterator<E>
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * Whether the first call to next returns the initial root object 
    * or begins with the first child of the root object.
