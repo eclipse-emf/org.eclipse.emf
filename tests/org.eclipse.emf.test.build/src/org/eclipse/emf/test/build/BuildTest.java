@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.20 2007/09/07 04:03:11 nickb Exp $
+ * $Id: BuildTest.java,v 1.21 2007/11/03 13:15:24 emerks Exp $
  */
 package org.eclipse.emf.test.build;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -25,9 +24,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

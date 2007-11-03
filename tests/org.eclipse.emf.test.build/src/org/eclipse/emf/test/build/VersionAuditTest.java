@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: VersionAuditTest.java,v 1.3 2007/07/14 18:30:55 nickb Exp $
+ * $Id: VersionAuditTest.java,v 1.4 2007/11/03 13:15:23 emerks Exp $
  */
 package org.eclipse.emf.test.build;
 
 import java.io.File;
-import java.net.HttpURLConnection;
 import java.util.HashMap;
 
 import junit.framework.Test;
@@ -93,7 +92,7 @@ public class VersionAuditTest extends TestCase
   
   private void testVersion(final String URL, final String branch) throws Exception
   {
-    String data = TestUtil.slurpStream((HttpURLConnection)TestUtil.getConn(URL + branch, "GET", true, false, ""));
+    String data = TestUtil.slurpStream(TestUtil.getConn(URL + branch, "GET", true, false, ""));
     assertTrue("\n\n" + data,data.equals(branch + ": ok\n\n"));
   }
 
