@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaTest.java,v 1.5 2007/03/26 20:28:29 marcelop Exp $
+ * $Id: JavaTest.java,v 1.6 2007/11/03 13:15:27 emerks Exp $
  */
 package org.eclipse.emf.test.examples;
 
@@ -86,7 +86,6 @@ public class JavaTest extends TestCase
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
-      @SuppressWarnings("unchecked")
       Hashtable<Object, Object> map = JavaCore.getOptions();
       map.put(JavaCore.COMPILER_SOURCE, "1.5");
       JavaCore.setOptions(map);
