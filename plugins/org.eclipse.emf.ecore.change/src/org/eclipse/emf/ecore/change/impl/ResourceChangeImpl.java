@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceChangeImpl.java,v 1.9 2007/02/20 17:43:02 emerks Exp $
+ * $Id: ResourceChangeImpl.java,v 1.10 2007/11/03 13:16:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -243,7 +243,6 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
     return listChanges;
   }
 
-  @SuppressWarnings("unchecked")
   public void preApply(boolean reverse)
   {
     if (resource != null)

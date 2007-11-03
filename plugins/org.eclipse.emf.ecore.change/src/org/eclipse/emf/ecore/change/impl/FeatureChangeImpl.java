@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.31 2007/02/20 17:43:02 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.32 2007/11/03 13:16:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -521,7 +521,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
         {
           if (internalFeature.isFeatureMap())
           {
-            @SuppressWarnings("unchecked") FeatureMap.Internal result = (FeatureMap.Internal)originalObject.eGet(internalFeature);
+            FeatureMap.Internal result = (FeatureMap.Internal)originalObject.eGet(internalFeature);
             @SuppressWarnings("unchecked") EList<FeatureMap.Entry.Internal> prototype = (EList<FeatureMap.Entry.Internal>)getValue();
             EList<FeatureMap.Entry> featureMapEntryList = new BasicEList<FeatureMap.Entry>(prototype.size());
             for (FeatureMap.Entry.Internal entry : prototype)
