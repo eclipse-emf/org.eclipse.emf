@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launchConfiguration type="org.eclipse.pde.ui.JunitLaunchConfig">
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.emf.test.edit.AllSuites"/>
-<stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value=""/>
-<stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit3"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.emf.test.edit"/>
-<booleanAttribute key="automaticAdd" value="true"/>
-<stringAttribute key="location" value="${workspace_loc}/../junit-workspace"/>
+<stringAttribute key="application" value="org.eclipse.pde.junit.runtime.coretestapplication"/>
 <booleanAttribute key="askclear" value="false"/>
-<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
-<listEntry value="4"/>
-</listAttribute>
-<booleanAttribute key="clearConfig" value="true"/>
-<stringAttribute key="product" value="org.eclipse.platform.ide"/>
-<stringAttribute key="bootstrap" value=""/>
-<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<booleanAttribute key="clearws" value="true"/>
-<booleanAttribute key="includeOptional" value="true"/>
-<booleanAttribute key="useProduct" value="false"/>
-<stringAttribute key="checked" value="[NONE]"/>
-<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/org.eclipse.emf.test.edit"/>
-</listAttribute>
-<stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
+<booleanAttribute key="automaticAdd" value="true"/>
 <booleanAttribute key="automaticValidate" value="false"/>
+<stringAttribute key="bootstrap" value=""/>
+<stringAttribute key="checked" value="[NONE]"/>
+<booleanAttribute key="clearConfig" value="true"/>
+<booleanAttribute key="clearws" value="true"/>
+<booleanAttribute key="clearwslog" value="false"/>
+<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/pde-junit"/>
+<booleanAttribute key="default" value="true"/>
+<booleanAttribute key="includeOptional" value="true"/>
+<stringAttribute key="location" value="${workspace_loc}/../junit-workspace"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/org.eclipse.emf.test.edit/src/org/eclipse/emf/test/edit/AllSuites.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<booleanAttribute key="org.eclipse.debug.core.appendEnvironmentVariables" value="true"/>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
 </listAttribute>
-<booleanAttribute key="useDefaultConfig" value="true"/>
-<stringAttribute key="pde.version" value="3.3"/>
+<stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value=""/>
 <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
-<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/pde-junit"/>
+<stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
+<stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit3"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.emf.test.edit.AllSuites"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-consolelog"/>
-<stringAttribute key="application" value="org.eclipse.pde.junit.runtime.coretestapplication"/>
-<booleanAttribute key="useDefaultConfigArea" value="false"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.emf.test.edit"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
+<stringAttribute key="pde.version" value="3.3"/>
+<stringAttribute key="product" value="org.eclipse.platform.ide"/>
+<booleanAttribute key="show_selected_only" value="false"/>
 <booleanAttribute key="tracing" value="false"/>
-<booleanAttribute key="org.eclipse.debug.core.appendEnvironmentVariables" value="true"/>
-<booleanAttribute key="default" value="true"/>
+<booleanAttribute key="useDefaultConfig" value="true"/>
+<booleanAttribute key="useDefaultConfigArea" value="false"/>
+<booleanAttribute key="useNamedJRE" value="true"/>
+<booleanAttribute key="useProduct" value="false"/>
 </launchConfiguration>
