@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.22 2007/06/15 21:57:52 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.23 2007/11/03 17:33:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -701,30 +701,45 @@ public class EObjectValidator implements EValidator
         {
           digits.append("0");
         }
-        Object upperBound = EcoreUtil.createFromString(eDataType, digits.toString());
-        Object lowerBound = EcoreUtil.createFromString(eDataType, "-" + digits.toString());
-
-        @SuppressWarnings("unchecked") boolean lowerBounded = effectiveMin == null ||
-              (effectiveMinIsInclusive ?
-                 ((Comparable<Object>)effectiveMin).compareTo(lowerBound) <= 0:
-                 ((Comparable<Object>)effectiveMin).compareTo(lowerBound) < 0);
-        if (lowerBounded)
+        
+        try
         {
-          effectiveMinIsInclusive = false;
-          effectiveMin = lowerBound;
-          effectiveTotalDigitsMin = effectiveTotalDigits;
+          Object lowerBound = EcoreUtil.createFromString(eDataType, "-" + digits.toString());
+          @SuppressWarnings("unchecked") boolean lowerBounded = effectiveMin == null ||
+                (effectiveMinIsInclusive ?
+                   ((Comparable<Object>)effectiveMin).compareTo(lowerBound) <= 0:
+                   ((Comparable<Object>)effectiveMin).compareTo(lowerBound) < 0);
+          if (lowerBounded)
+          {
+            effectiveMinIsInclusive = false;
+            effectiveMin = lowerBound;
+            effectiveTotalDigitsMin = effectiveTotalDigits;
+          }
+        }
+        catch (NumberFormatException exception) 
+        {
+          // Ignore the bound if the value is too big.
         }
 
-        @SuppressWarnings("unchecked") boolean upperBounded = effectiveMax == null ||
-              (effectiveMaxIsInclusive ?
-                 ((Comparable<Object>)effectiveMax).compareTo(upperBound) >= 0:
-                 ((Comparable<Object>)effectiveMax).compareTo(upperBound) > 0);
-        if (upperBounded)
+        try
         {
-          effectiveMaxIsInclusive = false;
-          effectiveMax = upperBound;
-          effectiveTotalDigitsMax = effectiveTotalDigits;
+          Object upperBound = EcoreUtil.createFromString(eDataType, digits.toString());
+          @SuppressWarnings("unchecked") boolean upperBounded = effectiveMax == null ||
+                (effectiveMaxIsInclusive ?
+                   ((Comparable<Object>)effectiveMax).compareTo(upperBound) >= 0:
+                   ((Comparable<Object>)effectiveMax).compareTo(upperBound) > 0);
+          if (upperBounded)
+          {
+            effectiveMaxIsInclusive = false;
+            effectiveMax = upperBound;
+            effectiveTotalDigitsMax = effectiveTotalDigits;
+          }
         }
+        catch (NumberFormatException exception) 
+        {
+          // Ignore the bound if the value is too big.
+        }
+
         effectiveTotalDigits = -1;
       }
 
