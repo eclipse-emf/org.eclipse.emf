@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.16 2007/09/04 12:58:38 emerks Exp $
+ * $Id: EMOFHelperImpl.java,v 1.17 2007/11/03 13:15:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -244,7 +244,6 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
             return EcoreUtil.create(eClass);
           }
           @Override
-          @SuppressWarnings("unchecked")
           protected void copyContainment(EReference eReference, EObject eObject, EObject copyEObject)
           {
             // The eAnnotations and eGenericType are possible containment references. 
