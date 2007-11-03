@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.32 2007/09/28 19:54:34 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.33 2007/11/03 17:33:50 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -687,10 +687,41 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       int totalDigits = extendedMetaData.getTotalDigitsFacet(eDataType);
       if (totalDigits != -1)
       {
-        return totalDigits;
+        if (validTotalDigits(eDataType, totalDigits))
+        {
+          return totalDigits;
+        }
+        else
+        {
+          return -1;
+        }
       }
     }
     return -1;
+  }
+
+  protected boolean validTotalDigits(EDataType eDataType, int totalDigits)
+  {
+    if (totalDigits > 0)
+    {
+      if (eDataType.getInstanceClassName() == "java.math.BigDecimal")
+      {
+        return true;
+      }
+      else
+      {
+        StringBuilder literal = new StringBuilder("1"); 
+        for (int digitCount = totalDigits; digitCount > 0; --digitCount)
+        {
+          literal.append("0");
+        }
+        return !"".equals(getStaticValue(literal.toString())) && !"".equals(getStaticValue(literal.insert(0, "-").toString()));
+      }
+    }
+    else
+    {
+      return false;
+    }
   }
 
   public int getFractionDigits()
@@ -918,7 +949,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     {
       constraints.add("Pattern");
     }
-    if (extendedMetaData.getTotalDigitsFacet(eDataType) != -1)
+    if (validTotalDigits(eDataType, extendedMetaData.getTotalDigitsFacet(eDataType)))
     {
       constraints.add("TotalDigits");
     }
