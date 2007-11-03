@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.13 2007/09/29 16:41:42 emerks Exp $
+ * $Id: Resource.java,v 1.14 2007/11/03 13:33:16 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -192,14 +192,14 @@ public interface Resource extends Notifier
   void setURI(URI uri);
 
   /**
-   * Returns the cached value of the {@link URIConverter#timeStamp(URI, Map) time stamp}
+   * Returns the cached value of the {@link URIConverter#ATTRIBUTE_TIME_STAMP time stamp}
    * when this resource was last {@link #load(Map) loaded} or {@link #save(Map) saved},
    * or {@link URIConverter#NULL_TIME_STAMP NULL_TIME_STAMP} 
    * if the resource is not {@link #isLoaded() loaded} 
    * and the time stamp has not been {@link #setTimeStamp(long) set}.
    * The return value is represented as the number of milliseconds 
    * since the epoch (00:00:00 GMT, January 1, 1970).
-   * The returned value may not be the same as the {@link URIConverter#timeStamp(URI, Map) actual time stamp}
+   * The returned value may not be the same as the {@link URIConverter#ATTRIBUTE_TIME_STAMP actual time stamp}
    * if the resource has been modified via external means since the last load or save.
    * @since 2.4
    * @see #setTimeStamp(long)
