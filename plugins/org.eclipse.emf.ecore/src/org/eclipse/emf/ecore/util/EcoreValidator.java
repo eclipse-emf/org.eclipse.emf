@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.23 2007/09/29 19:03:54 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.24 2007/11/12 20:10:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3016,10 +3016,47 @@ public class EcoreValidator extends EObjectValidator
           //
           if (eBoundEClassifier instanceof EClass && eClassifier instanceof EClass)
           {
-            if (!((EClass)eBoundEClassifier).isSuperTypeOf((EClass)eClassifier))
+            EClass eClass = (EClass)eClassifier;
+
+            // Since we will do the processing recursively, we need to ensure we don't stack overflow if there is a circular super type.
+            //
+            if (INSTANCE.validateEClass_NoCircularSuperTypes(eClass, null, null))
             {
-              return false;
+              // Determine if there is a bounding generic super type.
+              //
+              for (EGenericType eGenericSuperType : eClass.getEGenericSuperTypes())
+              {
+                // Set up the substitutions of any type parameters this class has with respect to the type arguments for them.
+                //
+                Map<? extends ETypeParameter, ? extends EGenericType> localSubstitutions = substitutions;
+  
+                // Test if there are type parameters that might require substitution.
+                //
+                EList<ETypeParameter> eTypeParameters = eClass.getETypeParameters();
+                int size = eTypeParameters.size();
+                if (size > 0)
+                {
+                  EList<EGenericType> eTypeArguments = eGenericType.getETypeArguments();
+                  if (size == eTypeArguments.size())
+                  {
+                    HashMap<ETypeParameter, EGenericType> additionalLocalSubstitutions = new HashMap<ETypeParameter, EGenericType>(substitutions);
+                    for (int i = 0; i < size; ++i)
+                    {
+                      additionalLocalSubstitutions.put(eTypeParameters.get(i), eTypeArguments.get(i));
+                    }
+                    localSubstitutions = additionalLocalSubstitutions;
+                  }
+                }
+                if (isBounded(eGenericSuperType, eBound, localSubstitutions))
+                {
+                  return true;
+                }
+              }
             }
+            
+            // If none of the generic super types are bounded, then we've failed.
+            //
+            return false;
           }
           else
           {
@@ -3038,7 +3075,6 @@ public class EcoreValidator extends EObjectValidator
         }
 
         // If neither approach finds a contradiction, we must assume they are okay and then check all the arguments.
-        // TODO What about the fact that we should be matching its type argument structure?
         //
         return matchingTypeArguments(eGenericType.getETypeArguments(), eBound.getETypeArguments(), substitutions);
       }
