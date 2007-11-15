@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.82 2007/06/25 14:41:26 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.83 2007/11/15 15:39:24 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -808,6 +808,10 @@ public class XSDEcoreBuilder extends MapBuilder
           eClass.getESuperTypes().add(baseClass = (EClass)baseType);
         }
       }
+    }
+    else if (XSDConstants.isURType(baseTypeDefinition) && xsdComplexTypeDefinition.getDerivationMethod() == XSDDerivationMethod.EXTENSION_LITERAL)
+    {
+      eClass.getESuperTypes().add(baseClass = XMLTypePackage.Literals.ANY_TYPE);
     }
 
     boolean isRestriction =
