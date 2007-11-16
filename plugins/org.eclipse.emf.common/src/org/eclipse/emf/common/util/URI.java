@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.28 2007/06/12 20:56:17 emerks Exp $
+ * $Id: URI.java,v 1.28.2.1 2007/11/16 12:17:34 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -2972,33 +2972,110 @@ public final class URI
   }
 
   /**
-   * Decodes the given string, replacing each three-digit escape sequence by
-   * the character that it represents.  Incomplete escape sequences are
-   * ignored.
+   * Decodes the given string by interpretting three-digit escape sequences as the bytes of a UTF-8 encoded character
+   * and replacing them with the characters they represent.
+   * Incomplete escape sequences are ignored and invalid UTF-8 encoded bytes are treated as extended ASCII characters.
    */
   public static String decode(String value)
   {
     if (value == null) return null;
 
-    StringBuffer result = null;
-
-    for (int i = 0, len = value.length(); i < len; i++)
+    int i = value.indexOf('%');
+    if (i < 0)
     {
-      if (isEscaped(value, i)) 
-      {
-        if (result == null)
-        {
-          result = new StringBuffer(value.substring(0, i));
-        }
-        result.append(unescape(value.charAt(i + 1), value.charAt(i + 2)));
-        i += 2;
-      }
-      else if (result != null)
-      {
-        result.append(value.charAt(i));
-      }
+      return value;
     }
-    return result == null ? value : result.toString();
+    else
+    {
+      StringBuilder result = new StringBuilder(value.substring(0, i));
+      byte [] bytes = new byte[4];
+      int receivedBytes = 0;
+      int expectedBytes = 0;
+      for (int len = value.length(); i < len; i++)
+      {
+        if (isEscaped(value, i)) 
+        {
+          char character = unescape(value.charAt(i + 1), value.charAt(i + 2));
+          i += 2;
+          
+          if (expectedBytes > 0)
+          {
+            if ((character & 0xC0) == 0x80)
+            {
+              bytes[receivedBytes++] = (byte)character;
+            }
+            else
+            {
+              expectedBytes = 0;
+            }
+          }
+          else if (character >= 0x80)
+          {
+            if ((character & 0xE0) == 0xC0)
+            {
+              bytes[receivedBytes++] = (byte)character;
+              expectedBytes = 2;
+            }
+            else if ((character & 0xF0) == 0xE0)
+            {
+              bytes[receivedBytes++] = (byte)character;
+              expectedBytes = 3;
+            }
+            else if ((character & 0xF8) == 0xF0)
+            {
+              bytes[receivedBytes++] = (byte)character;
+              expectedBytes = 4;
+            }
+          }
+
+          if (expectedBytes > 0)
+          {
+            if (receivedBytes == expectedBytes)
+            {
+              switch (receivedBytes)
+              {
+                case 2:
+                {
+                  result.append((char)((bytes[0] & 0x1F) << 6 | bytes[1] & 0x3F));
+                  break;
+                }
+                case 3:
+                {
+                  result.append((char)((bytes[0] & 0xF) << 12 | (bytes[1] & 0X3F) << 6 | bytes[2] & 0x3F));
+                  break;
+                }
+                case 4:
+                {
+                  result.appendCodePoint(((bytes[0] & 0x7) << 18 | (bytes[1] & 0X3F) << 12 | (bytes[2] & 0X3F) << 6 | bytes[3] & 0x3F));
+                  break;
+                }
+              }
+              receivedBytes = 0;
+              expectedBytes = 0;
+            }
+          }
+          else
+          {
+            for (int j = 0; j < receivedBytes; ++j)
+            {
+              result.append((char)bytes[j]);
+            }
+            receivedBytes = 0;
+            result.append(character);
+          }
+        }
+        else
+        {
+          for (int j = 0; j < receivedBytes; ++j)
+          {
+            result.append((char)bytes[j]);
+          }
+          receivedBytes = 0;
+          result.append(value.charAt(i));
+        }
+      }
+      return result.toString();
+    }
   }
 
   // Returns the character encoded by % followed by the two given hex digits,
