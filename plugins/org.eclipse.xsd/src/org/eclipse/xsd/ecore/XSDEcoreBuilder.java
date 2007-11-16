@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.83 2007/11/15 15:39:24 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.84 2007/11/16 12:42:47 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2233,7 +2233,8 @@ public class XSDEcoreBuilder extends MapBuilder
 
     // If there is no default value but the type has enumeration facets and the value is a primitive...
     //
-    if (eAttribute.getDefaultValueLiteral() == null &&
+    if (!eAttribute.isMany() &&
+          eAttribute.getDefaultValueLiteral() == null &&
           xsdSimpleTypeDefinition != null &&
           xsdSimpleTypeDefinition.getEffectiveEnumerationFacet() != null &&
           eAttribute.getEType().getDefaultValue() != null)
