@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.84 2007/10/20 15:22:54 emerks Exp $
+ * $Id: XMLHandler.java,v 1.85 2007/11/16 12:35:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -978,6 +978,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     if (isRoot)
     {
       isRoot = false;
+      recordHeaderInformation();
     }
     if (isError())
     {
@@ -1168,8 +1169,6 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   @Override
   public void endDocument()
   {
-    recordHeaderInformation();
-
     if (deferredExtent != null)
     {
       extent.addAll(deferredExtent);
