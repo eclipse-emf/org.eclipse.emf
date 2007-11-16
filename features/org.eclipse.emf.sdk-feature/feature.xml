@@ -49,6 +49,7 @@ http://www.eclipse.org/legal/epl-v10.html
 	<plugin id="org.eclipse.emf.doc" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.ant" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+	<plugin id="org.eclipse.emf.binding" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.codegen" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.codegen.ecore" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.codegen.ecore.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
@@ -56,6 +57,7 @@ http://www.eclipse.org/legal/epl-v10.html
 	<plugin id="org.eclipse.emf.common" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.common.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.converter" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+	<plugin id="org.eclipse.emf.databinding.edit" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.ecore" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.ecore.change" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.ecore.change.edit" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
