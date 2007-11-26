@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.16 2007/11/26 12:20:58 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.17 2007/11/26 16:16:59 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -280,7 +280,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value 'xsd2:string' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#QName'",
       "XSD: The value 'Notation:Bad:' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#NOTATION'",
       "XSD: The value 'Notation:Bad' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#NOTATION'",
-      "XSD: The location 'Other.xsd' has not been resolved",
+      "XSD: The location 'Other.xsd' has not been resolved because the import is unused",
       "XSD: The attribute 'name' is required",
       "XSD: The value 'bad:name' of attribute 'name' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The attribute 'ref' is not permitted",
@@ -368,11 +368,11 @@ public class XSDValidateTest extends TestCase
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#bad' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#annotation_._type'; expecting appinfo | documentation | nothing",
       "XSD: The value 'http://www.example.com/Bad##' of attribute 'namespace' must be of type 'http://www.w3.org/2001/XMLSchema#anyURI'",
       "XSD: The namespace 'http://www.example.com/Bad##' conflicts with that of the importing schema",
-      "XSD: The location '' has not been resolved",
+      "XSD: The location '' has not been resolved because the import is unused",
       "XSD: The location 'Other.xsd' has not been resolved",
-      "XSD: The location '' has not been resolved",
+      "XSD: The location '' has not been resolved because the import is unused",
       "XSD: There is no xmlns declaration for namespace 'http://www.example.com/NotUsed'",
-      "XSD: The location '' has not been resolved",
+      "XSD: The location '' has not been resolved because the import is unused",
       "XSD: The attribute 'schemaLocation' is required",
       "XSD: The location '' has not been resolved",
       "XSD: The value 'id:include' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
@@ -400,7 +400,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The pattern facet is not permitted in a type based on 'http://www.example.com/Bad###ST'",
       "XSD: Type reference 'http://www.example.com/Bad###ST' is unresolved",
       "XSD: The location 'Okay.xsd' must resolve for the redefinitions to be meaningful",
-      "XSD: The location 'Other.xsd' has not been resolved",
+      "XSD: The location 'Other.xsd' has not been resolved because the import is unused",
       "XSD: Type reference 'http://www.example.com/NotOther#Type' is unresolved",
       "XSD: The attribute 'bad' is not permitted",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#import' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#schema_._type'; expecting attributeGroup | notation | attribute | annotation | complexType | simpleType | element | group | nothing",
