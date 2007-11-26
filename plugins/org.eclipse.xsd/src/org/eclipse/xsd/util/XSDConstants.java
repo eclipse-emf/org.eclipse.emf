@@ -12,10 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDConstants.java,v 1.9 2007/11/26 12:20:55 emerks Exp $
+ * $Id: XSDConstants.java,v 1.10 2007/11/26 12:58:21 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -1549,29 +1552,67 @@ public class XSDConstants
   }
 
   /**
-   * Returns whether the simple type definition is the 
-   * <a href="http://www.w3.org/TR/xmlschema-2/#dt-ID">ID</a>.
-   * @param xsdSimpleTypeDefinition a simple type definition.
-   * @return whether the simple type definition is 
+   * Returns whether the type definition has the given namespace and name 
+   * or is derived from a type with that namespace and name.
+   * @param xsdTypeDefinition a type definition.
+   * @return  whether the type definition has the given namespace and name or is derived from a type with that namespace and name.
+   * @since 2.4
    */
-  public static boolean isOrIsDerivedFromID(XSDSimpleTypeDefinition xsdSimpleTypeDefinition)
+  public static boolean isOrIsDerivedFrom(XSDTypeDefinition xsdTypeDefinition, String name, String namespace)
   {
-    while (xsdSimpleTypeDefinition != null)
+    Set<XSDTypeDefinition> visited = new HashSet<XSDTypeDefinition>();
+    while (xsdTypeDefinition != null)
     {
-      if (isURType(xsdSimpleTypeDefinition))
-      {
-        return false;
-      }
-
-      if (isSchemaForSchemaNamespace(xsdSimpleTypeDefinition.getTargetNamespace()) &&
-           "ID".equals(xsdSimpleTypeDefinition.getName()))
+      if (xsdTypeDefinition.hasNameAndTargetNamespace(name, namespace))
       {
         return true;
       }
 
-      xsdSimpleTypeDefinition = xsdSimpleTypeDefinition.getBaseTypeDefinition();
+      if (!visited.add(xsdTypeDefinition = xsdTypeDefinition.getBaseType()))
+      {
+        return false;
+      }
     }
 
     return false;
+  }
+
+  /**
+   * Returns whether the type definition is a built-in type with the given name 
+   * or is derived from a built-in type with that name.
+   * @param xsdSimpleTypeDefinition a type definition.
+   * @return whether the type definition is a built-in type with the given name 
+   * or is derived from a built-in type with that name.
+   * @since 2.4
+   */
+  public static boolean isOrIsDerivedFrom(XSDSimpleTypeDefinition xsdSimpleTypeDefinition, String name)
+  {
+    Set<XSDTypeDefinition> visited = new HashSet<XSDTypeDefinition>();
+    while (xsdSimpleTypeDefinition != null)
+    {
+      if (isSchemaForSchemaNamespace(xsdSimpleTypeDefinition.getTargetNamespace()) &&
+            name.equals(xsdSimpleTypeDefinition.getName()))
+      {
+        return true;
+      }
+
+      if (!visited.add(xsdSimpleTypeDefinition = xsdSimpleTypeDefinition.getBaseTypeDefinition()))
+      {
+        return false;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Returns whether the simple type definition is
+   * <a href="http://www.w3.org/TR/xmlschema-2/#dt-ID">ID</a> or a type derived from it.
+   * @param xsdSimpleTypeDefinition a simple type definition.
+   * @return whether the simple type definition is ID or a type derived from it.
+   */
+  public static boolean isOrIsDerivedFromID(XSDSimpleTypeDefinition xsdSimpleTypeDefinition)
+  {
+    return isOrIsDerivedFrom(xsdSimpleTypeDefinition, "ID");
   }
 }

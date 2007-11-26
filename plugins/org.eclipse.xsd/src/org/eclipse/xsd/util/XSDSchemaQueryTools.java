@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XSDSchemaQueryTools.java,v 1.5 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDSchemaQueryTools.java,v 1.6 2007/11/26 12:58:21 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -114,7 +114,9 @@ public abstract class XSDSchemaQueryTools
    * @param namespace for the type derived from
    * @param localName for the type derived from
    * @return true if it is; false otherwise
+   * @deprecated Use {@link XSDConstants#isOrIsDerivedFrom(XSDTypeDefinition, String, String)} instead.
    */
+  @Deprecated
   public static boolean isTypeDerivedFrom(XSDTypeDefinition typedef, String namespace, String localName)
   {
     // Walk the baseTypes from this typedef seeing if any 
