@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConstants.java,v 1.10 2007/11/26 12:58:21 emerks Exp $
+ * $Id: XSDConstants.java,v 1.11 2007/11/26 19:24:39 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -1429,10 +1429,16 @@ public class XSDConstants
       return "xml";
     }
 
-    for (; node instanceof Element; node = node.getParentNode())
+    Element leaf = null;
+    for (; node.getNodeType() == Node.ELEMENT_NODE; node = node.getParentNode())
     {
       Element elementNode = (Element)node;
+      if (leaf == null)
+      {
+        leaf = elementNode;
+      }
       NamedNodeMap attributes = elementNode.getAttributes();
+      LOOP:
       for (int i = 0, size = attributes.getLength(); i < size; ++i)
       {
         Attr attr = (Attr)attributes.item(i);
@@ -1445,14 +1451,17 @@ public class XSDConstants
                 candidateNamespaceURI.equals(namespaceURI))
           {
             int index = name.indexOf(':');
-            if (index == -1)
+            String result = index == -1 ? "" : name.substring(index + 1);
+            // Verify that there isn't another prefix declaration hiding the one we've found.
+            //
+            for (Element element = leaf; element != elementNode; element = (Element)element.getParentNode())
             {
-              return "";
+              if (element.hasAttribute(name))
+              {
+                continue LOOP;
+              }
             }
-            else
-            {
-              return name.substring(index + 1);
-            }
+            return result;
           }
         }
       }
