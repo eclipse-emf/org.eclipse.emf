@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.84 2007/11/16 12:42:47 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.85 2007/11/26 14:03:29 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -311,6 +311,8 @@ public class XSDEcoreBuilder extends MapBuilder
     {
       EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
       setAnnotations(eDataType, xsdSimpleTypeDefinition);
+      // Do this early to prevent recursive loop.
+      xsdComponentToEModelElementMap.put(xsdSimpleTypeDefinition, eDataType);
 
       String aliasName = getEcoreAttribute(xsdSimpleTypeDefinition, "name");
       if (aliasName == null)
@@ -356,6 +358,8 @@ public class XSDEcoreBuilder extends MapBuilder
         {
           EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
           setAnnotations(eDataType, xsdSimpleTypeDefinition);
+          // Do this early to prevent recursive loop.
+          xsdComponentToEModelElementMap.put(xsdSimpleTypeDefinition, eDataType);
 
           String name = getEcoreAttribute(xsdSimpleTypeDefinition, "name");
           if (name == null)
@@ -406,12 +410,25 @@ public class XSDEcoreBuilder extends MapBuilder
           else
           {
             EDataType baseEDataType = getEDataType(baseTypeDefinition);
-            extendedMetaData.setBaseType(eDataType, baseEDataType);
             String instanceClassName = getInstanceClassName(xsdSimpleTypeDefinition, baseEDataType);
-            eDataType.setInstanceTypeName
-              (instanceClassName == null ?
-                 "org.eclipse.emf.common.util.Enumerator" :
-                 instanceClassName);
+
+            // Don't set up circular inheritance.
+            //
+            if (XSDConstants.isOrIsDerivedFrom(baseTypeDefinition, xsdSimpleTypeDefinition.getName(), xsdSimpleTypeDefinition.getTargetNamespace()))
+            {
+              eDataType.setInstanceTypeName
+                (instanceClassName == null ?
+                   "java.lang.String" :
+                   instanceClassName);
+            }
+            else
+            {
+              extendedMetaData.setBaseType(eDataType, baseEDataType);
+              eDataType.setInstanceTypeName
+                (instanceClassName == null ?
+                   "org.eclipse.emf.common.util.Enumerator" :
+                   instanceClassName);
+            }
           }
 
           checkForPrimitive(xsdSimpleTypeDefinition, eDataType);
