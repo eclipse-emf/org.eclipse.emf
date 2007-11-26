@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDExporter.java,v 1.8 2007/11/21 23:54:15 emerks Exp $
+ * $Id: XSDExporter.java,v 1.9 2007/11/26 15:38:59 emerks Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
@@ -104,18 +104,21 @@ public class XSDExporter extends ModelExporter
         {
           XSDImport xsdImport = (XSDImport)content;
           EPackage referencedEPackage = genModel.getExtendedMetaData().getPackage(xsdImport.getNamespace());
-          GenPackage referencedGenPackage = genModel.findGenPackage(referencedEPackage);
-          URI artifactURI = getReferencedGenPackageArtifactURI(exportData, referencedGenPackage);
-          URI importLocationURI = URI.createURI(computeSchemaLocation(xsdImport, artifactURI));
-          if (!schemaLocationURI.isRelative() &&
-                schemaLocationURI.isHierarchical() && 
-                !importLocationURI.isRelative() &&
-                schemaLocationURI.isPlatformResource() == importLocationURI.isPlatformResource() &&
-                schemaLocationURI.isPlatformPlugin() == importLocationURI.isPlatformPlugin())
+          if (referencedEPackage != null)
           {
-            importLocationURI = importLocationURI.deresolve(schemaLocationURI, true, true, false);
+            GenPackage referencedGenPackage = genModel.findGenPackage(referencedEPackage);
+            URI artifactURI = getReferencedGenPackageArtifactURI(exportData, referencedGenPackage);
+            URI importLocationURI = URI.createURI(computeSchemaLocation(xsdImport, artifactURI));
+            if (!schemaLocationURI.isRelative() &&
+                  schemaLocationURI.isHierarchical() && 
+                  !importLocationURI.isRelative() &&
+                  schemaLocationURI.isPlatformResource() == importLocationURI.isPlatformResource() &&
+                  schemaLocationURI.isPlatformPlugin() == importLocationURI.isPlatformPlugin())
+            {
+              importLocationURI = importLocationURI.deresolve(schemaLocationURI, true, true, false);
+            }
+            xsdImport.setSchemaLocation(importLocationURI.toString());
           }
-          xsdImport.setSchemaLocation(importLocationURI.toString());
         }
         else if (!(content instanceof XSDAnnotation))
         {
