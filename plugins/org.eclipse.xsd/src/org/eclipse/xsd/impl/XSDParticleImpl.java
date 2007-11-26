@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.18 2007/02/20 17:42:21 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.19 2007/11/26 12:20:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2096,7 +2096,7 @@ public class XSDParticleImpl
                   superXSDElementDeclaration.getLexicalValue() != null &&
                   (subXSDElementDeclaration.getConstraint() != XSDConstraint.FIXED_LITERAL || 
                     !((XSDSimpleTypeDefinition)superXSDElementDeclaration.getTypeDefinition()).equalLiterals
-                       (superXSDElementDeclaration.getLexicalValue(), subXSDElementDeclaration.getLexicalValue())))
+                       (superXSDElementDeclaration.getElement(), superXSDElementDeclaration.getLexicalValue(), subXSDElementDeclaration.getElement(), subXSDElementDeclaration.getLexicalValue())))
             {
               result = false;
               if (diagnose)

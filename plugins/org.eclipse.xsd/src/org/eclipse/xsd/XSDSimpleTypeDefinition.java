@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinition.java,v 1.9 2007/06/12 15:06:42 emerks Exp $
+ * $Id: XSDSimpleTypeDefinition.java,v 1.10 2007/11/26 12:20:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
 
 import java.util.Collection;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import org.eclipse.emf.common.util.EList;
@@ -879,16 +880,32 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
   /**
    * Returns an assessment of the node.
    * @return an assessment of the node.
-   * @see #assess(java.lang.String)
+   * @see #assess(Element, Node)
    */
-  public Assessment assess(Node node);
+  Assessment assess(Node node);
+
+  /**
+   * Returns an assessment of the node.
+   * @return an assessment of the node.
+   * @see #assess(Element, String)
+   * @since 2.4
+   */
+  Assessment assess(Element context, Node node);
 
   /**
    * Returns an assessment of the literal.
    * @return an assessment of the literal.
-   * @see #assess(org.w3c.dom.Node)
+   * @see #assess(Element, String)
    */
-  public Assessment assess(String literal);
+  Assessment assess(String literal);
+
+  /**
+   * Returns an assessment of the literal.
+   * @return an assessment of the literal.
+   * @see #assess(Element, Node)
+   * @since 2.4
+   */
+  Assessment assess(Element context, String literal);
 
   /**
    * Information gathered during the assessment a literal 
@@ -909,6 +926,13 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
      * @return the type definition against which the literal is assessed.
      */
     XSDSimpleTypeDefinition getTypeDefinition();
+
+    /**
+     * Returns the element used as the context for this assessment; this is significant only for interpretting the prefix of QNames.
+     * @return the element used as the context for this assessment.
+     * @since 2.4
+     */
+    Element getContext();
 
     /**
      * Returns the node whose literal value is assessed.
@@ -978,8 +1002,28 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * This involves {@link #assess(java.lang.String) assess}ing that the literal has no diagnostics.
    * @param literal a literal.
    * @return whether the literal is valid.
+   * @see #isValidLiteral(Element, String)
    */
   boolean isValidLiteral(String literal);
+
+  /**
+   * Returns whether the literal is valid with respect to this simple type definition.
+   * This involves {@link #assess(java.lang.String) assess}ing that the literal has no diagnostics.
+   * @param context the context in which to resolve prefixed of QNames.
+   * @param literal a literal.
+   * @return whether the literal is valid.
+   * @since 2.4
+   */
+  boolean isValidLiteral(Element context, String literal);
+
+  /**
+   * Returns the <b>value</b> of the literal in the 
+   * <a href="http://www.w3.org/TR/xmlschema-2/#value-space">value space</a> of this simple type definition.
+   * @param literal a literal.
+   * @return the <b>value</b> of the literal.
+   * @see #getValue(Element, String)
+   */
+  Object getValue(String literal);
 
   /**
    * Returns the <b>value</b> of the literal in the 
@@ -1080,10 +1124,12 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * <p>
    * All time-based values are represented as in Xerces.
    * </p>
+   * @param the context in which to resolve prefixes of QNames.
    * @param literal a literal.
    * @return the <b>value</b> of the literal.
+   * @since 2.4
    */
-  Object getValue(String literal);
+  Object getValue(Element context, String literal);
 
   /**
    * Returns the 
@@ -1109,8 +1155,21 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @param literal1 a literal.
    * @param literal2 another literal.
    * @return <code>-1</code>, <code>0</code>, or <code>1</code>, depending on the order of the value of each of the given literals.
+   * @see #compareLiterals(Element, String, Element, String)
    */
   int compareLiterals(String literal1, String literal2);
+
+  /**
+   * Returns <code>-1</code>, <code>0</code>, or <code>1</code>, 
+   * depending on the {@link #getOrderedFacet order} of the {@link #getValue value} of each of the given literals.
+   * @param context1 the context in which to interpret prefixes of QNames in literal1.
+   * @param literal1 a literal.
+   * @param context2 the context in which to interpret prefixes of QNames in literal2.
+   * @param literal2 another literal.
+   * @return <code>-1</code>, <code>0</code>, or <code>1</code>, depending on the order of the value of each of the given literals.
+   * @since 2.4
+   */
+  int compareLiterals(Element context1, String literal1, Element context2, String literal2);
 
   /**
    * Returns <code>-1</code>, <code>0</code>, or <code>1</code>, 
@@ -1126,8 +1185,20 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @param literal1 a literal.
    * @param literal2 another literal.
    * @return whether the {@link #getValue value} of each of the given literals are equal.
+   * @see #equalLiterals(Element, String, Element, String)
    */
   boolean equalLiterals(String literal1, String literal2);
+
+  /**
+   * Returns whether the {@link #getValue value} of each of the given literals are equal.
+   * @param context1 the context in which to interpret prefixes of QNames in literal1.
+   * @param literal1 a literal.
+   * @param context2 the context in which to interpret prefixes of QNames in literal2.
+   * @param literal2 another literal.
+   * @return whether the {@link #getValue value} of each of the given literals are equal.
+   * @since 2.4
+   */
+  boolean equalLiterals(Element context1, String literal1, Element context2, String literal2);
 
   /**
    * Returns whether the {@link #getValue value}s are equal.

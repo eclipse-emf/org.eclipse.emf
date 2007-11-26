@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinFacetImpl.java,v 1.11 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDMinFacetImpl.java,v 1.12 2007/11/26 12:20:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -35,6 +35,7 @@ import org.eclipse.xsd.XSDMinInclusiveFacet;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.util.XSDConstants;
+import org.w3c.dom.Element;
 
 
 /**
@@ -309,14 +310,15 @@ public abstract class XSDMinFacetImpl
     XSDSimpleTypeDefinition baseTypeDefinition = xsdSimpleTypeDefinition.getBaseTypeDefinition();
     if (baseTypeDefinition != null)
     {
+      Element theElement = getElement();
       if (getLexicalValue() == null)
       {
-        createRequiredAttributeDiagnostic(XSDConstants.PART2, "element-" + getFacetName(), getElement(), XSDConstants.VALUE_ATTRIBUTE);
+        createRequiredAttributeDiagnostic(XSDConstants.PART2, "element-" + getFacetName(), theElement, XSDConstants.VALUE_ATTRIBUTE);
       }
       else
       {
         XSDSimpleTypeDefinitionImpl.AssessmentImpl assessment =
-          (XSDSimpleTypeDefinitionImpl.AssessmentImpl)baseTypeDefinition.assess(getLexicalValue());
+          (XSDSimpleTypeDefinitionImpl.AssessmentImpl)baseTypeDefinition.assess(theElement, getLexicalValue());
 
         Collection<XSDDiagnostic> allDiagnostics = assessment.getDiagnostics();
         if (!allDiagnostics.isEmpty())
@@ -331,14 +333,14 @@ public abstract class XSDMinFacetImpl
               XSDConcreteComponent primaryComponent = xsdDiagnostic.getPrimaryComponent();
               if (primaryComponent instanceof XSDMinExclusiveFacet && 
                    baseTypeDefinition.equalLiterals
-                     (getLexicalValue(), ((XSDMinExclusiveFacet)primaryComponent).getLexicalValue()))
+                     (theElement, getLexicalValue(), theElement, ((XSDMinExclusiveFacet)primaryComponent).getLexicalValue()))
               {
                 i.remove();
               }
             }
           }
 
-          assessment.assignDiagnostics(this, getElement(), XSDConstants.VALUE_ATTRIBUTE);
+          assessment.assignDiagnostics(this, theElement, XSDConstants.VALUE_ATTRIBUTE);
           getDiagnostics().addAll(allDiagnostics);
         }
       }

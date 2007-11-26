@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEnumerationFacetImpl.java,v 1.14 2007/02/20 17:42:21 emerks Exp $
+ * $Id: XSDEnumerationFacetImpl.java,v 1.15 2007/11/26 12:20:54 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -211,7 +211,7 @@ public class XSDEnumerationFacetImpl
     if (baseTypeDefinition != null)
     {
       XSDSimpleTypeDefinitionImpl.AssessmentImpl assessment = 
-        (XSDSimpleTypeDefinitionImpl.AssessmentImpl)baseTypeDefinition.assess(getLexicalValue());
+        (XSDSimpleTypeDefinitionImpl.AssessmentImpl)baseTypeDefinition.assess(getElement(), getLexicalValue());
       if (!assessment.getDiagnostics().isEmpty())
       {
         assessment.assignDiagnostics(this, getElement(), XSDConstants.VALUE_ATTRIBUTE);
@@ -237,7 +237,7 @@ public class XSDEnumerationFacetImpl
       {
         try
         {
-          newValue = xsdSimpleTypeDefinition.getValue(theLexicalValue);
+          newValue = xsdSimpleTypeDefinition.getValue(getElement(), theLexicalValue);
         }
         catch (RuntimeException exception)
         {

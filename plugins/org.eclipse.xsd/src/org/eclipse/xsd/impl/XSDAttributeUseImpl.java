@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseImpl.java,v 1.12 2007/03/23 17:37:14 marcelop Exp $
+ * $Id: XSDAttributeUseImpl.java,v 1.13 2007/11/26 12:20:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -739,7 +739,7 @@ public class XSDAttributeUseImpl
       {
         try
         {
-          newValue = xsdSimpleTypeDefinition.getValue(theLexicalValue);
+          newValue = xsdSimpleTypeDefinition.getValue(getElement(), theLexicalValue);
         }
         catch (RuntimeException exception)
         {
@@ -763,7 +763,9 @@ public class XSDAttributeUseImpl
 
     if (getLexicalValue() != null)
     {
-      XSDSimpleTypeDefinition theTypeDefinition = getAttributeDeclaration().getTypeDefinition();
+      XSDAttributeDeclaration theAttributeDeclaration = getAttributeDeclaration();
+      XSDSimpleTypeDefinition theTypeDefinition = theAttributeDeclaration.getTypeDefinition();
+      Element theElement = getElement();
       if (theTypeDefinition != null)
       {
         if (XSDConstants.isOrIsDerivedFromID(theTypeDefinition))
@@ -777,19 +779,19 @@ public class XSDAttributeUseImpl
              getLexicalValue(),
              XSDConstants.PART1,
              "element-attribute",
-             getElement(),
+             theElement,
              getConstraint() == XSDConstraint.FIXED_LITERAL ? XSDConstants.FIXED_ATTRIBUTE : XSDConstants.DEFAULT_ATTRIBUTE,
              false);
         }
       }
 
-      if (getAttributeDeclaration().getConstraint() == XSDConstraint.FIXED_LITERAL &&
-            getAttributeDeclaration().getLexicalValue() != null &&
+      if (theAttributeDeclaration.getConstraint() == XSDConstraint.FIXED_LITERAL &&
+            theAttributeDeclaration.getLexicalValue() != null &&
             (getConstraint() != XSDConstraint.FIXED_LITERAL || 
-               theTypeDefinition != null && !theTypeDefinition.equalLiterals(getAttributeDeclaration().getLexicalValue(), getLexicalValue())))
+               theTypeDefinition != null && !theTypeDefinition.equalLiterals(theAttributeDeclaration.getElement(), theAttributeDeclaration.getLexicalValue(), theElement, getLexicalValue())))
       {
         createDiagnostic
-          (XSDDiagnosticSeverity.ERROR_LITERAL, "coss-attruse.2", getLexicalValue(), getAttributeDeclaration().getLexicalValue());
+          (XSDDiagnosticSeverity.ERROR_LITERAL, "coss-attruse.2", getLexicalValue(), theAttributeDeclaration.getLexicalValue());
       }
 
       if (getConstraint() == XSDConstraint.DEFAULT_LITERAL && 

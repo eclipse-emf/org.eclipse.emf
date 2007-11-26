@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.28 2007/03/23 17:37:14 marcelop Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.29 2007/11/26 12:20:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -26,10 +26,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.StringTokenizer;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -3454,6 +3452,11 @@ public class XSDSimpleTypeDefinitionImpl
     public XSDAnySimpleType xsdAnySimpleType;
 
     /**
+     * This is the context in which the prefix of QNames are resolved.
+     */
+    public Element context;
+
+    /**
      * This is the node whose literal is being assessed.
      */
     public Node node;
@@ -3512,6 +3515,16 @@ public class XSDSimpleTypeDefinitionImpl
     }
 
     /**
+     * This creates an instance to assess the given node and to yield the specified results.
+     */
+    public AssessmentImpl(Element context, Node node, int yield)
+    {
+      this.context = context;
+      this.yield = yield;
+      this.node = node;
+    }
+
+    /**
      * This creates an instance to assess the given literal and to yield the specified results.
      */
     public AssessmentImpl(String literal, int yield)
@@ -3520,9 +3533,24 @@ public class XSDSimpleTypeDefinitionImpl
       this.literal = literal;
     }
 
+    /**
+     * This creates an instance to assess the given literal and to yield the specified results.
+     */
+    public AssessmentImpl(Element context, String literal, int yield)
+    {
+      this.context = context;
+      this.yield = yield;
+      this.literal = literal;
+    }
+
     public XSDSimpleTypeDefinition getTypeDefinition()
     {
       return xsdSimpleTypeDefinition;
+    }
+
+    public Element getContext()
+    {
+      return context;
     }
 
     public Node getNode()
@@ -3760,13 +3788,23 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDSimpleTypeDefinition.Assessment assess(Node node)
   {
-    AssessmentImpl assessment = new AssessmentImpl(node, 0);
+    return assess(null, node);
+  }
+
+  public XSDSimpleTypeDefinition.Assessment assess(Element context, Node node)
+  {
+    AssessmentImpl assessment = new AssessmentImpl(context, node, 0);
     return assess(assessment);
   }
 
   public XSDSimpleTypeDefinition.Assessment assess(String literal)
   {
-    AssessmentImpl assessment = new AssessmentImpl(literal, 0);
+    return assess(null, literal);
+  }
+
+  public XSDSimpleTypeDefinition.Assessment assess(Element context, String literal)
+  {
+    AssessmentImpl assessment = new AssessmentImpl(context, literal, 0);
     return assess(assessment);
   }
 
@@ -3787,25 +3825,32 @@ public class XSDSimpleTypeDefinitionImpl
       {
         case Node.ATTRIBUTE_NODE:
         {
-          assessment.literal = ((Attr)assessment.node).getValue();
+          assessment.literal = assessment.node.getNodeValue();
           break;
         }
         case Node.ELEMENT_NODE:
         {
           Element element = (Element)assessment.node;
+          StringBuffer text = new StringBuffer();
           for (Node child = element.getFirstChild(); child != null; child = child.getNextSibling())
           {
-            if (child.getNodeType() == Node.TEXT_NODE)
+            switch (child.getNodeType())
             {
-              assessment.literal = ((Text)child).getData();
-              break;
+              case Node.TEXT_NODE:
+              case Node.CDATA_SECTION_NODE:
+              {
+                text.append(child.getNodeValue());
+                break;
+              }
             }
           }
+          assessment.literal = text.toString();
           break;
         }
         case Node.TEXT_NODE:
+        case Node.CDATA_SECTION_NODE:
         {
-          assessment.literal = ((Text)assessment.node).getData();
+          assessment.literal = assessment.node.getNodeValue();
           break;
         }
       }
@@ -3862,7 +3907,7 @@ public class XSDSimpleTypeDefinitionImpl
           boolean good = false;
           for (XSDSimpleTypeDefinition memberTypeDefinition : getMemberTypeDefinitions())
           {
-            AssessmentImpl nestedAssessment = new AssessmentImpl(assessment.node, assessment.yield);
+            AssessmentImpl nestedAssessment = new AssessmentImpl(assessment.context, assessment.node, assessment.yield);
             nestedAssessment.literal = nestedAssessment.normalizedLiteral = assessment.normalizedLiteral;
 
             ((XSDSimpleTypeDefinitionImpl)memberTypeDefinition).assess(nestedAssessment);
@@ -3899,7 +3944,7 @@ public class XSDSimpleTypeDefinitionImpl
                  tokens.hasMoreTokens(); 
                  ++length)
             {
-              AssessmentImpl nestedAssessment = new AssessmentImpl(assessment.node, assessment.yield);
+              AssessmentImpl nestedAssessment = new AssessmentImpl(assessment.context, assessment.node, assessment.yield);
               nestedAssessment.literal = nestedAssessment.normalizedLiteral = tokens.nextToken();
               ((XSDSimpleTypeDefinitionImpl)getItemTypeDefinition()).assess(nestedAssessment, validate);
               if (nestedAssessment.value != null)
@@ -3935,21 +3980,32 @@ public class XSDSimpleTypeDefinitionImpl
 
   public boolean isValidLiteral(String literal)
   {
-    AssessmentImpl assessment = new AssessmentImpl(literal, 0);
+    return isValidLiteral(null, literal);
+  }
+
+  public boolean isValidLiteral(Element context, String literal)
+  {
+    AssessmentImpl assessment = new AssessmentImpl(context, literal, 0);
     assess(assessment);
     return assessment.diagnostics == null;
   }
 
   public Object getValue(String literal)
   {
-    AssessmentImpl assessment = new AssessmentImpl(literal, 0);
+    return getValue(null, literal);
+    
+  }
+
+  public Object getValue(Element context, String literal)
+  {
+    AssessmentImpl assessment = new AssessmentImpl(context, literal, 0);
     assess(assessment, false);
     return assessment.value;
   }
 
   public String getCanonicalLiteral(String literal)
   {
-    AssessmentImpl assessment = new AssessmentImpl(literal, 0);
+    AssessmentImpl assessment = new AssessmentImpl(null, literal, 0);
     assess(assessment, false);
     return assessment.normalizedLiteral;
   }
@@ -3972,7 +4028,12 @@ public class XSDSimpleTypeDefinitionImpl
 
   public boolean equalLiterals(String literal1, String literal2)
   {
-    return equalValues(getValue(literal1), getValue(literal2));
+    return equalLiterals(null, literal1, null, literal2);
+  }
+
+  public boolean equalLiterals(Element context1, String literal1, Element context2, String literal2)
+  {
+    return equalValues(getValue(context1, literal1), getValue(context2, literal2));
   }
 
   public int compareValues(Object value1, Object value2)
@@ -3999,7 +4060,12 @@ public class XSDSimpleTypeDefinitionImpl
 
   public int compareLiterals(String literal1, String literal2)
   {
-    return compareValues(getValue(literal1), getValue(literal2));
+    return compareLiterals(null, literal1, null, literal2);
+  }
+
+  public int compareLiterals(Element context1, String literal1, Element context2, String literal2)
+  {
+    return compareValues(getValue(context1, literal1), getValue(context2, literal2));
   }
 
   @Override

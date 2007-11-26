@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.23 2007/04/30 15:30:29 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.24 2007/11/26 12:20:54 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -806,7 +806,7 @@ public abstract class XSDConcreteComponentImpl
     }
     else
     {
-      XSDSimpleTypeDefinition.Assessment assessment = xsdTypeDefinition.assess(value);
+      XSDSimpleTypeDefinition.Assessment assessment = xsdTypeDefinition.assess(element, value);
       Collection<XSDDiagnostic> allDiagnostics = assessment.getDiagnostics();
       if (!allDiagnostics.isEmpty())
       {

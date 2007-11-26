@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinInclusiveFacetImpl.java,v 1.9 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDMinInclusiveFacetImpl.java,v 1.10 2007/11/26 12:20:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -99,7 +99,7 @@ public class XSDMinInclusiveFacetImpl
       {
         try
         {
-          newValue = xsdSimpleTypeDefinition.getValue(theLexicalValue);
+          newValue = xsdSimpleTypeDefinition.getValue(getElement(), theLexicalValue);
         }
         catch (RuntimeException exception)
         {

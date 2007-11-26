@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConstants.java,v 1.8 2007/03/23 17:37:14 marcelop Exp $
+ * $Id: XSDConstants.java,v 1.9 2007/11/26 12:20:55 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -1381,7 +1381,7 @@ public class XSDConstants
   {
     // Some DOM implementations return a null here.
     //
-    int index = qName == null ? -1 : qName.lastIndexOf(":");
+    int index = qName == null ? -1 : qName.lastIndexOf(':');
     String namespaceAttribute = "xmlns";
     if (index != -1)
     {
@@ -1441,7 +1441,7 @@ public class XSDConstants
                 namespaceURI == null || namespaceURI.length() == 0 :
                 candidateNamespaceURI.equals(namespaceURI))
           {
-            int index = name.indexOf(":");
+            int index = name.indexOf(':');
             if (index == -1)
             {
               return "";

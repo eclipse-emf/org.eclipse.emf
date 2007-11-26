@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFeatureImpl.java,v 1.13 2007/03/23 17:37:14 marcelop Exp $
+ * $Id: XSDFeatureImpl.java,v 1.14 2007/11/26 12:20:54 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -374,7 +374,7 @@ public abstract class XSDFeatureImpl
         {
           try
           {
-            newValue = xsdSimpleTypeDefinition.getValue(theLexicalValue);
+            newValue = xsdSimpleTypeDefinition.getValue(getElement(), theLexicalValue);
           }
           catch (RuntimeException exception)
           {

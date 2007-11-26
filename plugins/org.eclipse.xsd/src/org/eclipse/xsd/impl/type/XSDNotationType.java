@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,24 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationType.java,v 1.6 2006/12/29 18:16:23 marcelop Exp $
+ * $Id: XSDNotationType.java,v 1.7 2007/11/26 12:20:55 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
-import org.eclipse.emf.ecore.xml.type.internal.QName;
-
-public class XSDNotationType extends XSDAnySimpleType
+public class XSDNotationType extends XSDQNameType
 {
-  @Override
-  public Object getValue (String literal)
-  {
-    try
-    {
-      return new QName(literal);
-    }
-    catch (RuntimeException exception)
-    {
-      return null;
-    }
-  }
+  // It's implemented exactly the same as XSDQName.
 }
