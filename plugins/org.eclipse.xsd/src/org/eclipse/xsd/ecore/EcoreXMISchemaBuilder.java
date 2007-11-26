@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreXMISchemaBuilder.java,v 1.5 2006/12/29 18:16:23 marcelop Exp $
+ * $Id: EcoreXMISchemaBuilder.java,v 1.6 2007/11/26 15:38:57 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeGroupContent;
@@ -673,7 +674,7 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     {
       XSDImport xmiImport = XSDFactory.eINSTANCE.createXSDImport();
       xmiImport.setNamespace(XMI_URI);
-      xmiImport.setSchemaLocation(XMI_SCHEMA_LOCATION);
+      xmiImport.setSchemaLocation(EcorePackage.eNS_URI.equals(xsdSchema.getTargetNamespace()) ? XMI_SCHEMA_LOCATION : "platform:/plugin/org.eclipse.emf.ecore/model/" + XMI_SCHEMA_LOCATION);
       this.xsdSchema.getContents().add(0, xmiImport);
     }
   }

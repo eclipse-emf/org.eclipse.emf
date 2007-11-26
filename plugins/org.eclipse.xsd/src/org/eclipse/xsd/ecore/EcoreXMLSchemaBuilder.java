@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreXMLSchemaBuilder.java,v 1.12 2006/12/29 18:16:23 marcelop Exp $
+ * $Id: EcoreXMLSchemaBuilder.java,v 1.13 2007/11/26 15:38:57 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -838,9 +838,9 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
           }
           xsdParser.parseString("<documentation>" + documentation + "</documentation>");
           Document document = xsdParser.getDocument();
+          Document xsdDocument = userInformation.getOwnerDocument();
           if (xsdParser.getDiagnostics().isEmpty() && document.getDocumentElement().getFirstChild() != null)
           {
-            Document xsdDocument = xsdSchema.getDocument();
             for (Node node = document.getDocumentElement().getFirstChild(); node != null; node = node.getNextSibling())
             {
               userInformation.appendChild(xsdDocument.importNode(node, true));
@@ -848,7 +848,7 @@ public class EcoreXMLSchemaBuilder extends MapBuilder
           }
           else
           {
-            userInformation.appendChild(xsdSchema.getDocument().createTextNode(documentation));
+            userInformation.appendChild(xsdDocument.createTextNode(documentation));
           }
 
           xsdAnnotation.getElement().appendChild(userInformation);
