@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImportImpl.java,v 1.11 2007/02/20 17:42:21 emerks Exp $
+ * $Id: XSDImportImpl.java,v 1.12 2007/11/26 16:16:57 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -375,7 +375,7 @@ public class XSDImportImpl
     {
       createDiagnostic
         (XSDDiagnosticSeverity.WARNING_LITERAL,
-         "src-import.0",
+         resolved ? "src-import.0" : "src-import.0.2",
          getSchemaLocation() == null ? "" : getSchemaLocation());
     }
     else
