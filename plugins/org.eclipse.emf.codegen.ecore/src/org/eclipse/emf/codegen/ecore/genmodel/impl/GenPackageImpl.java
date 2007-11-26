@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.74 2007/07/10 21:06:08 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.74.2.1 2007/11/26 19:46:43 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2040,6 +2040,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
             if (reverseGenFeature != null)
             {
               initializationDependencies.add(reverseGenFeature.getGenPackage());
+            }
+            for (GenFeature keyFeature : genFeature.getKeys())
+            {
+              initializationDependencies.add(keyFeature.getGenPackage());
             }
           }
 
