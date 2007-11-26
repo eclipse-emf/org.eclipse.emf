@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XSDSchemaQueryTools.java,v 1.6 2007/11/26 12:58:21 emerks Exp $
+ * $Id: XSDSchemaQueryTools.java,v 1.7 2007/11/26 13:00:58 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -105,7 +105,7 @@ public abstract class XSDSchemaQueryTools
    * Recursive worker method to find typeDefinitions that derive 
    * from a named type. 
    *
-   * <p>This is not a terribly time-efficient algorithim, but 
+   * <p>This is not a terribly time-efficient algorithm, but 
    * it does show usage of library methods. This works for 
    * simpleTypes; complexType support needs to be added.</p>
    *
@@ -119,31 +119,7 @@ public abstract class XSDSchemaQueryTools
   @Deprecated
   public static boolean isTypeDerivedFrom(XSDTypeDefinition typedef, String namespace, String localName)
   {
-    // Walk the baseTypes from this typedef seeing if any 
-    // of them match the requested one
-    XSDTypeDefinition baseType = typedef.getBaseType();
-
-    // As this convenience method if our parameters match
-    if (baseType.hasNameAndTargetNamespace(localName, namespace))
-    {
-      return true;
-    }
-    
-    // If not, check to see if we've run up to the top
-    // Performance note: this is horribly inefficient, 
-    // re-calling this same method every time; but it 
-    // serves as a good example
-    XSDTypeDefinition rootType = typedef.getRootType();
-    if (rootType == baseType)
-    {
-      // If we've hit the root, we aren't derived from it
-      return false;
-    }
-    else
-    {
-      // Otherwise continue to traverse upwards
-      return isTypeDerivedFrom(baseType, namespace, localName);
-    }
+    return XSDConstants.isOrIsDerivedFrom(typedef, localName, namespace);
   }
 
   /**
@@ -223,7 +199,7 @@ public abstract class XSDSchemaQueryTools
    * @param schema object to search for imports/includes/redefines
    * @return HashMap where keys are the URI's of any other schemas 
    * found, and values are one of 'import', 'include', 'redefine';
-   * null if none found or an error occoured
+   * null if none found or an error occurred
    */
   public static HashMap<String, String> hasImpInclRedef(XSDSchema schema)
   {
@@ -256,7 +232,7 @@ public abstract class XSDSchemaQueryTools
    * @param schema object to search for imports/includes/redefines
    * @return HashMap where keys are the URI's of any other schemas 
    * found, and values are one of 'import', 'include', 'redefine';
-   * null if none found or an error occoured
+   * null if none found or an error occurred
    */
   public static HashMap<String, String> hasImpInclRedef2(XSDSchema schema)
   {
