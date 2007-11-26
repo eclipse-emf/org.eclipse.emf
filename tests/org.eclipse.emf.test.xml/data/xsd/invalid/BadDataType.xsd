@@ -4,10 +4,10 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BadDataType.xsd,v 1.2 2006/04/13 18:49:50 emerks Exp $
+ * $Id: BadDataType.xsd,v 1.3 2007/11/26 12:20:57 emerks Exp $
  */
 -->
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:this="http://www.example.com/Bad" targetNamespace="http://www.example.com/Bad">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:this="http://www.example.com/Bad" xmlns:xsd1="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.com/Bad">
 
     <xsd:simpleType name="badBoolean">
         <xsd:annotation>
@@ -201,7 +201,14 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:QName">
             <xsd:enumeration value="xsd::string"/>
+            <xsd:enumeration value="xsd2:string"/>
             <xsd:enumeration value="xsd:string"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="okayQName">
+        <xsd:restriction base="this:badQName">
+            <xsd:enumeration value="xsd1:string"/>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -212,6 +219,7 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:NOTATION">
             <xsd:enumeration value="Notation:Bad:"/>
+            <xsd:enumeration value="Notation:Bad"/>
             <xsd:enumeration value="NotationGood"/>
         </xsd:restriction>
     </xsd:simpleType>

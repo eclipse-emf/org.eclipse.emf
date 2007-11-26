@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.15 2007/07/10 14:33:37 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.16 2007/11/26 12:20:58 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -277,7 +277,9 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '--10-32' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonthDay'",
       "XSD: The value ':##:' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#anyURI'",
       "XSD: The value 'xsd::string' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#QName'",
+      "XSD: The value 'xsd2:string' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#QName'",
       "XSD: The value 'Notation:Bad:' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#NOTATION'",
+      "XSD: The value 'Notation:Bad' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#NOTATION'",
       "XSD: The location 'Other.xsd' has not been resolved",
       "XSD: The attribute 'name' is required",
       "XSD: The value 'bad:name' of attribute 'name' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
