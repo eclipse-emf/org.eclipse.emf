@@ -190,7 +190,7 @@ if (genModel.useGenerics())
     stringBuffer.append(TEXT_29);
     stringBuffer.append(genPackage.getClassifierID(genClass));
     stringBuffer.append(TEXT_30);
-    if (genClass.isUncheckedCast() || genClass.getInterfaceWildTypeArguments().length() > 0) {
+    if (genClass.isUncheckedCast() || genClass.isMapEntry() && genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {
     stringBuffer.append(TEXT_31);
     }
     stringBuffer.append(genClass.getImportedInterfaceName());

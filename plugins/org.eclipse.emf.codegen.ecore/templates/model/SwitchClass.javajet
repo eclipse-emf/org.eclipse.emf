@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.20 2007/06/12 20:54:30 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.21 2007/11/26 21:09:07 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -149,7 +149,7 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%>
 <%if (!genClass.isExternalInterface() && !genClass.isEObject() || genClass.isMapEntry()) { String result = "result".equals(genClass.getSafeUncapName()) ? "theResult" : "result"; %>
 			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genPackage.getClassifierID(genClass)%>:
 			{
-				<%if (genClass.isUncheckedCast() || genClass.getInterfaceWildTypeArguments().length() > 0) {%>@SuppressWarnings("unchecked") <%}%><%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)theEObject;
+				<%if (genClass.isUncheckedCast() || genClass.isMapEntry() && genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%>@SuppressWarnings("unchecked") <%}%><%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)theEObject;
 				<%=returnType%> <%=result%> = case<%=genPackage.getClassUniqueName(genClass)%>(<%=genClass.getSafeUncapName()%>);
 <%for (GenClass baseGenClass : genClass.getSwitchGenClasses()) {%>
 				if (<%=result%> == null) <%=result%> = case<%=genPackage.getClassUniqueName(baseGenClass)%>(<%if (genClass.isMapEntry()) {%>(<%=baseGenClass.getImportedInterfaceName()%><%=baseGenClass.getInterfaceTypeArguments()%>)<%}%><%=genClass.getSafeUncapName()%>);
