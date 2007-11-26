@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.eclipse.org/emf/2002/Ecore">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xmi="http://www.omg.org/XMI" targetNamespace="http://www.eclipse.org/emf/2002/Ecore">
   <xsd:import namespace="http://www.omg.org/XMI" schemaLocation="XMI.xsd"/>
   <xsd:complexType name="EAttribute">
     <xsd:complexContent>
@@ -30,6 +30,7 @@
           <xsd:element name="eSuperTypes" type="ecore:EClass"/>
           <xsd:element name="eOperations" type="ecore:EOperation"/>
           <xsd:element name="eStructuralFeatures" type="ecore:EStructuralFeature"/>
+          <xsd:element name="eGenericSuperTypes" type="ecore:EGenericType"/>
         </xsd:choice>
         <xsd:attribute name="abstract" type="xsd:boolean"/>
         <xsd:attribute name="interface" type="xsd:boolean"/>
@@ -41,7 +42,11 @@
   <xsd:complexType abstract="true" name="EClassifier">
     <xsd:complexContent>
       <xsd:extension base="ecore:ENamedElement">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+          <xsd:element name="eTypeParameters" type="ecore:ETypeParameter"/>
+        </xsd:choice>
         <xsd:attribute name="instanceClassName" type="xsd:string"/>
+        <xsd:attribute name="instanceTypeName" type="xsd:string"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -109,8 +114,10 @@
     <xsd:complexContent>
       <xsd:extension base="ecore:ETypedElement">
         <xsd:choice maxOccurs="unbounded" minOccurs="0">
+          <xsd:element name="eTypeParameters" type="ecore:ETypeParameter"/>
           <xsd:element name="eParameters" type="ecore:EParameter"/>
           <xsd:element name="eExceptions" type="ecore:EClassifier"/>
+          <xsd:element name="eGenericExceptions" type="ecore:EGenericType"/>
         </xsd:choice>
         <xsd:attribute name="eExceptions" type="xsd:string"/>
       </xsd:extension>
@@ -141,10 +148,12 @@
       <xsd:extension base="ecore:EStructuralFeature">
         <xsd:choice maxOccurs="unbounded" minOccurs="0">
           <xsd:element name="eOpposite" type="ecore:EReference"/>
+          <xsd:element name="eKeys" type="ecore:EAttribute"/>
         </xsd:choice>
         <xsd:attribute name="containment" type="xsd:boolean"/>
         <xsd:attribute name="resolveProxies" type="xsd:boolean"/>
         <xsd:attribute name="eOpposite" type="xsd:string"/>
+        <xsd:attribute name="eKeys" type="xsd:string"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -166,7 +175,8 @@
     <xsd:complexContent>
       <xsd:extension base="ecore:ENamedElement">
         <xsd:choice maxOccurs="unbounded" minOccurs="0">
-          <xsd:element name="eType" type="ecore:EClassifier"/>
+          <xsd:element name="eType" nillable="true" type="ecore:EClassifier"/>
+          <xsd:element name="eGenericType" nillable="true" type="ecore:EGenericType"/>
         </xsd:choice>
         <xsd:attribute name="ordered" type="xsd:boolean"/>
         <xsd:attribute name="unique" type="xsd:boolean"/>
@@ -187,4 +197,30 @@
     <xsd:attribute name="value" type="xsd:string"/>
   </xsd:complexType>
   <xsd:element name="EStringToStringMapEntry" type="ecore:EStringToStringMapEntry"/>
+  <xsd:complexType name="EGenericType">
+    <xsd:complexContent>
+      <xsd:extension base="ecore:EObject">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+          <xsd:element name="eUpperBound" type="ecore:EGenericType"/>
+          <xsd:element name="eTypeArguments" type="ecore:EGenericType"/>
+          <xsd:element name="eLowerBound" type="ecore:EGenericType"/>
+          <xsd:element name="eTypeParameter" type="ecore:ETypeParameter"/>
+          <xsd:element name="eClassifier" type="ecore:EClassifier"/>
+        </xsd:choice>
+        <xsd:attribute name="eTypeParameter" type="xsd:string"/>
+        <xsd:attribute name="eClassifier" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="EGenericType" type="ecore:EGenericType"/>
+  <xsd:complexType name="ETypeParameter">
+    <xsd:complexContent>
+      <xsd:extension base="ecore:ENamedElement">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+          <xsd:element name="eBounds" type="ecore:EGenericType"/>
+        </xsd:choice>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ETypeParameter" type="ecore:ETypeParameter"/>
 </xsd:schema>
