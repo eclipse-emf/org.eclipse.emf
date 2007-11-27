@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.45 2007/07/20 15:06:26 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.45.2.1 2007/11/27 20:01:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -715,7 +715,7 @@ public class XMLHelperImpl implements XMLHelper
     else
     {
       String result = containingResource.getURIFragment(object);
-      if (result.charAt(0) != '/')
+      if (result.length() > 0 && result.charAt(0) != '/')
       {
         String query = getURIFragmentQuery(containingResource, object);
         if (query != null)
