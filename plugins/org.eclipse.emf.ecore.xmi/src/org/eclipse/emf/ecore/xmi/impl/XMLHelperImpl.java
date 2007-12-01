@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.48 2007/11/27 20:04:07 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.49 2007/12/01 19:16:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1671,19 +1671,22 @@ public class XMLHelperImpl implements XMLHelper
         qName.setPrefix("");
         return qName.getLocalPart();
       }
+      String prefix = qName.getPrefix();
       EPackage ePackage = extendedMetaData.getPackage(namespace);
       if (ePackage == null)
       {
         ePackage = extendedMetaData.demandPackage(namespace);
+        if (prefix.length() != 0)
+        {
+          ePackage.setNsPrefix(prefix);
+        }
       }
-
-      String prefix = getPrefix(ePackage, true);
-      if (!packages.containsKey(ePackage))
+      if (!namespace.equals(getNamespaceURI(prefix)))
       {
-        packages.put(ePackage, prefix);
+        prefix = getPrefix(ePackage, true);
       }
       qName.setPrefix(prefix);
-      return list ? null : prefix + ':' + qName.getLocalPart();
+      return list ? null : prefix.length() == 0 ? qName.getLocalPart() : prefix + ':' + qName.getLocalPart();
     }
 
     return list ? null: factory.convertToString(dataType, value);
