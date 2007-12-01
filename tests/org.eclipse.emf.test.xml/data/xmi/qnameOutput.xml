@@ -3,5 +3,5 @@
   <unionvalue>10</unionvalue>
   <qnamelist>_1:r2 p_1:r1</qnamelist>
   <intvalue>1</intvalue>
-  <anyE>z:qname</anyE>
+  <anyE>qname</anyE>
 </resource>

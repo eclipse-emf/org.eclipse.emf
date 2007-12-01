@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameTest.java,v 1.6 2007/01/18 15:53:17 marcelop Exp $
+ * $Id: QNameTest.java,v 1.7 2007/12/01 19:16:55 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -21,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -34,8 +35,12 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.emf.test.models.qname.DocumentRoot;
+import org.eclipse.emf.test.models.qname.QNameFactory;
 import org.eclipse.emf.test.models.qname.QNamePackage;
 import org.eclipse.emf.test.xml.AllSuites;
 
@@ -106,7 +111,25 @@ public class QNameTest extends TestCase
     resource.save(outputstream, options);
 
     CompareXML.compareFiles(builder, expectedXML, new ByteArrayInputStream(outputstream.toByteArray()));
+  }
 
+  public void testNullPrefixQname() throws Exception
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new GenericXMLResourceFactoryImpl());
+    Resource resource = resourceSet.createResource(URI.createURI("dummy.xml"));
+    DocumentRoot documentRoot = QNameFactory.eINSTANCE.createDocumentRoot();
+    documentRoot.getXMLNSPrefixMap().put("", "namespace");
+    documentRoot.setAnyE(XMLTypeFactory.eINSTANCE.createQName("namespace", "qname", ""));
+    resource.getContents().add(documentRoot);
+    ByteArrayOutputStream outputstream = new ByteArrayOutputStream(2064);
+    resource.save(outputstream, options);
+    ByteArrayInputStream in = new ByteArrayInputStream(outputstream.toByteArray());
+    Resource resource2 = resourceSet.createResource(URI.createURI("dummy2.xml"));
+    resource2.load(in, options);
+    DocumentRoot documentRoot2 = (DocumentRoot)resource2.getContents().get(0);
+    QName qname = documentRoot2.getAnyE();
+    assertEquals(qname.getPrefix(), "");
   }
 
 }
