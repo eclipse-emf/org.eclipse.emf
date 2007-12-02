@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.49 2007/12/01 19:16:55 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.50 2007/12/02 14:07:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1675,8 +1675,9 @@ public class XMLHelperImpl implements XMLHelper
       EPackage ePackage = extendedMetaData.getPackage(namespace);
       if (ePackage == null)
       {
+        int size = extendedMetaData.demandedPackages().size();
         ePackage = extendedMetaData.demandPackage(namespace);
-        if (prefix.length() != 0)
+        if (prefix.length() != 0 && extendedMetaData.demandedPackages().size() > size)
         {
           ePackage.setNsPrefix(prefix);
         }
