@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.85 2007/11/16 12:35:53 emerks Exp $
+ * $Id: XMLHandler.java,v 1.86 2007/12/04 16:47:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -36,6 +36,7 @@ import java.util.StringTokenizer;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EFactory;
@@ -48,7 +49,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
- import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
+import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -69,6 +70,7 @@ import org.eclipse.emf.ecore.xmi.XMLOptions;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.util.DefaultEcoreBuilder;
 import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
@@ -334,6 +336,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected EObject documentRoot;
   protected boolean usedNullNamespacePackage;
   protected boolean isNamespaceAware;
+  protected boolean suppressDocumentRoot;
 
   /**
    */
@@ -481,6 +484,11 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         uriHandler = (XMLResource.URIHandler)resourceEntityHandler;
         uriHandler.setBaseURI(resourceURI);
       }
+    }
+
+    if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_SUPPRESS_DOCUMENT_ROOT)))
+    {
+      suppressDocumentRoot = true;
     }
   }
 
@@ -1340,8 +1348,80 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         validateCreateObjectFromFactory(eFactory, typeName, newObject);
         if (top)
         {
-          processTopObject(newObject);
-          handleFeature(prefix, name);
+          if (suppressDocumentRoot)
+          {
+            // Set up a deferred extent so the document root we create definitely will not be added to the resource.
+            //
+            List<EObject> oldDeferredExtent = deferredExtent;
+            try
+            {
+              deferredExtent = new ArrayList<EObject>();
+              processTopObject(newObject);
+            }
+            finally
+            {
+              deferredExtent = oldDeferredExtent;
+            }
+            handleFeature(prefix, name);
+
+            // Remove the document root's information from the top of the stacks.
+            //
+            objects.remove(0);
+            mixedTargets.remove(0);
+            types.remove(0);
+
+            // Process the new root object if any.
+            //
+            EObject peekObject = objects.peek();
+            if (peekObject == null)
+            {
+              // There's an EObject on the stack already.
+              //
+              if (objects.size() > 1)
+              {
+                // Excise the new root from the document root.
+                //
+                EcoreUtil.remove(peekObject = objects.get(0));
+              }
+              else
+              {
+                // If there is no root object, we're dealing with an EAttribute feature instead of an EReference feature.
+                // So create an instance of simple any type and prepare it to handle the text content.
+                //
+                SimpleAnyType simpleAnyType = (SimpleAnyType)EcoreUtil.create(anySimpleType);
+                simpleAnyType.setInstanceType(((EAttribute)types.peek()).getEAttributeType());
+                objects.set(0, simpleAnyType);
+                types.set(0, XMLTypePackage.Literals.SIMPLE_ANY_TYPE__RAW_VALUE);
+                mixedTargets.set(0, simpleAnyType.getMixed());
+                peekObject = simpleAnyType;
+              }
+            }
+            else
+            {
+              // Excise the new root from the document root.
+              //
+              EcoreUtil.remove(peekObject);
+            }
+            // Do the extent processing that should have been done for the root but was actualljy done for the document root.
+            //
+            if (deferredExtent != null)
+            {
+              deferredExtent.add(peekObject);
+            }
+            else
+            {
+              extent.addUnique(peekObject);
+            }
+
+            // The new root object is the actual new object since all sign of the document root will now have disappeared.
+            //
+            newObject = peekObject;
+          }
+          else
+          {
+            processTopObject(newObject);
+            handleFeature(prefix, name);
+          }
         }
         return newObject;
       }
