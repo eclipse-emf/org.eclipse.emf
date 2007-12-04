@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.41 2007/06/15 21:57:58 emerks Exp $
+ * $Id: XMLResource.java,v 1.42 2007/12/04 16:46:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -463,6 +463,48 @@ public interface XMLResource extends Resource
      */
     URI deresolve(URI uri);
   }
+
+  /**
+   * This option is used to specify an {@link ElementHandler} for deducing the feature used to serialize a specific type of value.
+   * @see ElementHandler
+   */
+  String OPTION_ELEMENT_HANDLER = "ELEMENT_HANDLER";
+
+  /**
+   * An interface for an element handle that is used to deduce an appropriate feature when serializing a value of a specific type.
+   * The {@link #getRoot(EClassifier) getRoot} method is used to determine an appropriate feature to serialize a value of the given type.
+   * The {@link #getSubstitutionGroup(EStructuralFeature, EClassifier) getSubstitutionGroup} method 
+   * is used to determine a feature 
+   * related by {@link ExtendedMetaData#getAffiliation(EStructuralFeature) substitution group affiliation} to the given feature
+   * for serializing a value of the given type.
+   */
+  interface ElementHandler
+  {
+    /**
+     * Returns an appropriate feature for serializing a value of the give type.
+     * @param extendedMetaData the extended meta data in which to look up type information.
+     * @param eClassifier the type of value to serialize.
+     * @return an appropriate feature for serializing a value of the give type or <code>null</code>.
+     */
+    EStructuralFeature getRoot(ExtendedMetaData extendedMetaData, EClassifier eClassifier);
+
+    /**
+     * Returns an feature, related by {@link ExtendedMetaData#getAffiliation(EStructuralFeature) substitution group affiliation} to the given feature, 
+     * for serializing a value of the give type.
+     * @param extendedMetaData the extended meta data in which to look up type information.
+     * @param eStructuralFeature the feature that will be used if this method returns null.
+     * @param eClassifier the type of value to serialize.
+     * @return an appropriate feature for serializing a value of the give type or <code>null</code>.
+     */
+    EStructuralFeature getSubstitutionGroup(ExtendedMetaData extendedMetaData, EStructuralFeature eStructuralFeature, EClassifier eClassifier);
+  }
+
+  /**
+   * When {@link #OPTION_EXTENDED_META_DATA} is used, 
+   * this load option set to Boolean.TRUE will direct the deserializer to suppress creating a document root instance.
+   * This option is typically used in combination with {@LInk
+   */
+  String OPTION_SUPPRESS_DOCUMENT_ROOT = "OPTION_SUPPRESS_DOCUMENT_ROOT";
 
   String HREF = "href";
   String NIL = "nil";
