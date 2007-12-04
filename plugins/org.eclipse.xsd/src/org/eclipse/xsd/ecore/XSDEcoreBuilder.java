@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.85 2007/11/26 14:03:29 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.86 2007/12/04 16:42:36 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1051,8 +1051,9 @@ public class XSDEcoreBuilder extends MapBuilder
 
               if (!"".equals(groupName) &&
                    (groupName != null  ||
-                      xsdElementDeclaration.isAbstract() ||
-                      xsdElementDeclaration.getSubstitutionGroup().size() > 1))
+                      (xsdElementDeclaration.isAbstract() ||
+                       xsdElementDeclaration.getSubstitutionGroup().size() > 1) &&
+                         !"true".equals(getEcoreAttribute(xsdParticle.getSchema().getElement(), "ignoreSubstitutionGroups"))))
               {
                 if (groupName == null)
                 {
