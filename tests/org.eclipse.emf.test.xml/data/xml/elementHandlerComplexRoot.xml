@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ASCII"?>
+<x:x
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:x="http://www.example.com/X" 
+    xmlns:y="http://www.example.com/Y"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xsi:type="y:Y"
+    xsi:schemaLocation="http://www.example.com/X x.xsd http://www.example.com/Y y.xsd">
+</x:x>

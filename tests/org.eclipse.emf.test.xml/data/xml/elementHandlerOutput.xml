@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<x:root 
+    xmlns:x="http://www.example.com/X" 
+    xmlns:y="http://www.example.com/Y">
+  <x:x/>
+  <y:y/>
+  <x:intValue>42</x:intValue>
+</x:root>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ASCII"?>
+<x:value
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:x="http://www.example.com/X" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xsi:type="xsd:int"
+    xsi:schemaLocation="http://www.example.com/X x.xsd">
+42
+</x:value>

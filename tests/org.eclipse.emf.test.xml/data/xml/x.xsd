@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" 
+    xmlns:x="http://www.example.com/X" 
+    ecore:documentRoot="XDocumentRoot" 
+    ecore:nsPrefix="x" 
+    ecore:package="com.example.x" 
+    ecore:ignoreSubstitutionGroups="true"
+    targetNamespace="http://www.example.com/X">
+
+  <xsd:element name="root" type="x:Root"/>
+  <xsd:complexType name="Root">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" ref="x:base"/>
+      <xsd:element maxOccurs="unbounded" ref="x:value"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:element name="value"/>
+  <xsd:element name="intValue" type="xsd:int" substitutionGroup="x:value"/>
+  <xsd:element name="floatValue" type="xsd:float" substitutionGroup="x:value"/>
+
+  <xsd:element name="base" type="x:Base" abstract="true"/>
+  <xsd:complexType name="Base" abstract="true"/>
+
+  <xsd:element name="x" substitutionGroup="x:base" type="x:X"/>
+  <xsd:complexType name="X">
+    <xsd:complexContent>
+      <xsd:extension base="x:Base">
+        <xsd:sequence>
+          <xsd:element name="a" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

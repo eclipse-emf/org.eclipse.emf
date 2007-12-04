@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<x:root 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:x="http://www.example.com/X" 
+    xmlns:y="http://www.example.com/Y"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xsi:schemaLocation="http://www.example.com/X x.xsd http://www.example.com/Y y.xsd">
+  <x:base xsi:type="x:X"/>
+  <x:base xsi:type="y:Y"/>
+  <x:value xsi:type="xsd:int">42</x:value>
+</x:root>

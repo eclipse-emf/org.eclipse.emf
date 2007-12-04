@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.19 2007/04/03 12:11:53 emerks Exp $
+ * $Id: AllSuites.java,v 1.20 2007/12/04 16:49:48 emerks Exp $
  */
 package org.eclipse.emf.test.xml;
 
@@ -26,7 +26,8 @@ public class AllSuites extends TestSuite
   public static final String PLUGIN_ID = "org.eclipse.emf.test.xml";
   
   private static Test[] suites = new Test []{ 
-    org.eclipse.emf.test.xml.xmi.NullNamespaceTest.suite()
+    org.eclipse.emf.test.xml.xmi.ElementHandlerTest.suite()
+    ,org.eclipse.emf.test.xml.xmi.NullNamespaceTest.suite()
     ,org.eclipse.emf.test.xml.xmi.NamespaceTest.suite()
     ,org.eclipse.emf.test.xml.xmi.OrderTest.suite()
     ,org.eclipse.emf.test.xml.xmi.QNameTest.suite()

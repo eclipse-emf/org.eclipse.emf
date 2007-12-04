@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:x="http://www.example.com/X" xmlns:y="http://www.example.com/Y" ecore:documentRoot="YDocumentRoot" ecore:nsPrefix="y" ecore:package="com.example.y" targetNamespace="http://www.example.com/Y">
+  <xsd:import namespace="http://www.example.com/X" schemaLocation="x.xsd"/>
+  <xsd:element name="y" substitutionGroup="x:x" type="y:Y"/>
+  <xsd:complexType name="Y">
+    <xsd:complexContent>
+      <xsd:extension base="x:X">
+        <xsd:sequence>
+          <xsd:element name="b" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>
