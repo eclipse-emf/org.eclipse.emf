@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.50 2007/12/02 14:07:04 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.51 2007/12/04 16:48:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1090,6 +1090,18 @@ public class XMLHelperImpl implements XMLHelper
         }
         else
         {
+          // If we are substituting an EAttribute for an EReference...
+          //
+          EClassifier eType = feature.getEType();
+          if (eType instanceof EDataType && targetFeature instanceof EReference)
+          {
+            // Create an simple any type wrapper for the attribute value and use that with the EReference.
+            //
+            SimpleAnyType simpleAnyType = (SimpleAnyType)EcoreUtil.create(anySimpleType);
+            simpleAnyType.setInstanceType((EDataType)eType);
+            simpleAnyType.setRawValue((String)value);
+            value = simpleAnyType;
+          }
           feature = targetFeature;
         }
       }
