@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.24 2007/07/24 19:38:44 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.25 2007/12/04 16:43:50 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -281,6 +281,19 @@ public class EcoreSchemaBuilder extends MapBuilder
   {
     XSDElementDeclaration xsdElementDeclaration = XSDFactory.eINSTANCE.createXSDElementDeclaration();
     xsdElementDeclaration.setName(extendedMetaData.getName(eStructuralFeature));
+
+    if (!eStructuralFeature.isChangeable())
+    {
+      xsdElementDeclaration.setAbstract(true);
+    }
+
+    EStructuralFeature affiliation = extendedMetaData.getAffiliation(eStructuralFeature);
+    if (affiliation != null)
+    {
+      XSDElementDeclaration xsdAffiliation = xsdSchema.resolveElementDeclarationURI(getURI(affiliation));
+      handleImport(xsdSchema, xsdAffiliation);
+      xsdElementDeclaration.setSubstitutionGroupAffiliation(xsdAffiliation);
+    }
 
     EClassifier eType = eStructuralFeature.getEType();
     XSDTypeDefinition xsdTypeDefinition = xsdSchema.resolveTypeDefinitionURI(getURI(eType));
@@ -1573,6 +1586,21 @@ public class EcoreSchemaBuilder extends MapBuilder
     else if (name.endsWith(":Object"))
     {
       name = name.substring(0, name.length() - 7);
+    }
+    String result =
+      namespace == null ?
+        name :
+        namespace + "#" + name;
+    return result;
+  }
+
+  protected String getURI(EStructuralFeature eStructuralFeature)
+  {
+    String namespace = extendedMetaData.getNamespace(eStructuralFeature);
+    String name = extendedMetaData.getName(eStructuralFeature);
+    if (XMLTypePackage.eNS_URI.equals(namespace))
+    {
+      namespace = defaultXMLSchemaNamespace;
     }
     String result =
       namespace == null ?
