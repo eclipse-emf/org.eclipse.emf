@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.76 2007/06/14 18:32:40 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.77 2007/12/04 16:48:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -25,6 +25,7 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -42,6 +43,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -117,6 +119,7 @@ public class XMLSaveImpl implements XMLSave
   protected EObject root;
   protected XMLResource xmlResource;
   protected List<? extends EObject> roots;
+  protected XMLResource.ElementHandler elementHandler;
   
   protected static final int SKIP = 0;
   protected static final int SAME_DOC = 1;
@@ -539,13 +542,15 @@ public class XMLSaveImpl implements XMLSave
       }
     }
     
+    elementHandler = (XMLResource.ElementHandler)options.get(XMLResource.OPTION_ELEMENT_HANDLER);
+
     @SuppressWarnings("unchecked") List<Object> lookup = (List<Object>)options.get(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE);
     if (lookup != null)
     {
       // caching turned on by the user
       if (lookup.isEmpty())
       {
-        featureTable = new Lookup(map, extendedMetaData); 
+        featureTable = new Lookup(map, extendedMetaData, elementHandler); 
         lookup.add(featureTable);
       }
       else
@@ -556,7 +561,7 @@ public class XMLSaveImpl implements XMLSave
     else
     {
       //no caching
-      featureTable = new Lookup(map, extendedMetaData);
+      featureTable = new Lookup(map, extendedMetaData, elementHandler);
     }
     
     helper.setOptions(options);
@@ -643,10 +648,21 @@ public class XMLSaveImpl implements XMLSave
     {
       if (extendedMetaData == null || featureTable.getDocumentRoot(eClass.getEPackage()) != eClass)
       {
+        EStructuralFeature rootFeature = null;
+        if (elementHandler != null)
+        {
+          EClassifier eClassifier =
+            eClass == anySimpleType ?
+              ((SimpleAnyType)top).getInstanceType() :
+              eClass;
+          rootFeature = featureTable.getRoot(eClassifier);
+        }
         String name = 
-          extendedMetaData != null && roots != null && top.eContainmentFeature() != null ?
-            helper.getQName(top.eContainmentFeature()) :
-            helper.getQName(eClass);
+          rootFeature != null ?
+            helper.getQName(rootFeature) :
+            extendedMetaData != null && roots != null && top.eContainmentFeature() != null ?
+              helper.getQName(top.eContainmentFeature()) :
+              helper.getQName(eClass);
         doc.startElement(name);
         Object mark = doc.mark();
         root = top;
@@ -663,9 +679,22 @@ public class XMLSaveImpl implements XMLSave
     }
     else
     {
-      if (extendedMetaData == null || extendedMetaData.getDocumentRoot(eClass.getEPackage()) != eClass)
+      if (extendedMetaData == null || featureTable.getDocumentRoot(eClass.getEPackage()) != eClass)
       {
-        if (extendedMetaData != null && roots != null && top.eContainmentFeature() != null)
+        EStructuralFeature rootFeature = null;
+        if (elementHandler != null)
+        {
+          EClassifier eClassifier =
+            eClass == anySimpleType ?
+              ((SimpleAnyType)top).getInstanceType() :
+              eClass;
+          rootFeature = featureTable.getRoot(eClassifier);
+        }
+        if (rootFeature != null)
+        {
+          helper.populateNameInfo(nameInfo, rootFeature);
+        }
+        else if (extendedMetaData != null && roots != null && top.eContainmentFeature() != null)
         {
           helper.populateNameInfo(nameInfo, top.eContainmentFeature());
         }
@@ -1062,6 +1091,32 @@ public class XMLSaveImpl implements XMLSave
         }
       }
     }
+    boolean shouldSaveType = 
+      saveTypeInfo ? 
+        xmlTypeInfo.shouldSaveType(eClass, eType, f) : 
+        eClass != eType && 
+         (eClass != anyType || 
+            extendedMetaData == null || 
+            eType != EcorePackage.Literals.EOBJECT || 
+            extendedMetaData.getFeatureKind(f) == ExtendedMetaData.UNSPECIFIED_FEATURE);
+    EDataType eDataType = null;
+    if (shouldSaveType)
+    {
+      EClassifier eClassifier =
+        eClass == anySimpleType ?
+          eDataType = ((SimpleAnyType)o).getInstanceType() :
+          eClass;
+      if (elementHandler != null)
+      {
+        EStructuralFeature substitutionGroup = featureTable.getSubstitutionGroup(f, eClassifier);
+        if (substitutionGroup != null)
+        {
+          f = substitutionGroup;
+          shouldSaveType = substitutionGroup.getEType() != eClassifier;
+        }
+      }
+    }
+
     if (!toDOM)
     {
       String featureName = helper.getQName(f);
@@ -1083,18 +1138,12 @@ public class XMLSaveImpl implements XMLSave
         handler.recordValues(currentNode, o.eContainer(), f, o);
       }
     }
-    
-    if (saveTypeInfo ? 
-          xmlTypeInfo.shouldSaveType(eClass, eType, f) : 
-          eClass != eType && 
-           (eClass != anyType || 
-              extendedMetaData == null || 
-              eType != EcorePackage.Literals.EOBJECT || 
-              extendedMetaData.getFeatureKind(f) == ExtendedMetaData.UNSPECIFIED_FEATURE))
+
+    if (shouldSaveType)
     {
-      if (eClass == anySimpleType)
+      if (eDataType != null)
       {
-        saveTypeAttribute(((SimpleAnyType)o).getInstanceType());
+        saveTypeAttribute(eDataType);
       }
       else
       {
@@ -1979,6 +2028,21 @@ public class XMLSaveImpl implements XMLSave
     if (href != null)
     {
       href = convertURI(href);
+      EClass eClass = remote.eClass();
+      EClass expectedType = (EClass)f.getEType();
+      boolean shouldSaveType = 
+        saveTypeInfo ? 
+          xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : 
+          eClass != expectedType && (expectedType.isAbstract() || f.getEGenericType().getETypeParameter() != null);
+      if (elementHandler != null && shouldSaveType)
+      {
+        EStructuralFeature substitutionGroup = featureTable.getSubstitutionGroup(f, eClass);
+        if (substitutionGroup != null)
+        {
+          f = substitutionGroup;
+          shouldSaveType = substitutionGroup.getEType() != eClass;
+        }
+      }
       if (!toDOM)
       {
         doc.startElement(helper.getQName(f));        
@@ -1993,9 +2057,7 @@ public class XMLSaveImpl implements XMLSave
         handler.recordValues(elem, remote.eContainer(), f, remote);
         handler.recordValues(text, remote.eContainer(), f, remote);
       }
-      EClass eClass = remote.eClass();
-      EClass expectedType = (EClass)f.getEType();
-      if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && (expectedType.isAbstract() || f.getEGenericType().getETypeParameter() != null))
+      if (shouldSaveType)
       {
         saveTypeAttribute(eClass);
       }
@@ -2199,6 +2261,21 @@ public class XMLSaveImpl implements XMLSave
     if (href != null)
     {
       href = convertURI(href);
+      EClass eClass = remote.eClass();
+      EClass expectedType = (EClass) f.getEType();
+      boolean shouldSaveType = 
+        saveTypeInfo ? 
+          xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : 
+          eClass != expectedType && (expectedType.isAbstract() || f.getEGenericType().getETypeParameter() != null);
+      if (elementHandler != null)
+      {
+        EStructuralFeature substitutionGroup = featureTable.getSubstitutionGroup(f, eClass);
+        if (substitutionGroup != null)
+        {
+          f = substitutionGroup;
+          shouldSaveType = substitutionGroup.getEType() != eClass;
+        }
+      }
       if (!toDOM)
       {
         String name = helper.getQName(f);
@@ -2211,9 +2288,7 @@ public class XMLSaveImpl implements XMLSave
         currentNode = currentNode.appendChild(elem);
         handler.recordValues(elem, remote.eContainer(), f, remote);
       }
-      EClass eClass = remote.eClass();
-      EClass expectedType = (EClass) f.getEType();
-      if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && (expectedType.isAbstract() || f.getEGenericType().getETypeParameter() != null))
+      if (shouldSaveType)
       {
         saveTypeAttribute(eClass);
       }
@@ -2602,19 +2677,64 @@ public class XMLSaveImpl implements XMLSave
     protected XMLResource.XMLMap map;
     protected ExtendedMetaData extendedMetaData;
     protected ArrayList<EObject> docRoots = new ArrayList<EObject>();
+    protected XMLResource.ElementHandler elementHandler;
+
+    protected static final class FeatureClassifierPair
+    {
+      EStructuralFeature eStructuralFeature;
+      EClassifier eClassifier;
+      
+      @Override
+      public boolean equals(Object o)
+      {
+        if (o == this)
+        {
+          return true;
+        }
+        else if (o instanceof FeatureClassifierPair)
+        {
+          FeatureClassifierPair featureClassifierPair = (FeatureClassifierPair)o;
+          return eStructuralFeature == featureClassifierPair.eStructuralFeature && eClassifier == featureClassifierPair.eClassifier;
+        }
+        else
+        {
+          return false;
+        }
+      }
+
+      @Override
+      public int hashCode()
+      {
+        return eStructuralFeature.hashCode() ^ eClassifier.hashCode();
+      }
+    }
+    protected FeatureClassifierPair featureClassifierPair;
+    protected Map<FeatureClassifierPair, EStructuralFeature> substitutionGroupMap;
+    protected static final EStructuralFeature NULL_FEATURE = EcoreFactory.eINSTANCE.createEAttribute();
 
     public Lookup(XMLResource.XMLMap map)
     {
-      this(map, null);
+      this(map, null, null);
     }
 
     public Lookup(XMLResource.XMLMap map, ExtendedMetaData extendedMetaData)
     {
+      this(map, extendedMetaData, null);
+    }
+
+    public Lookup(XMLResource.XMLMap map, ExtendedMetaData extendedMetaData, XMLResource.ElementHandler elementHandler)
+    {
       this.map = map;
       this.extendedMetaData = extendedMetaData;
+      this.elementHandler = elementHandler;
       classes = new EClass[SIZE];
       features = new EStructuralFeature[SIZE][];
       featureKinds = new int[SIZE][];
+      if (elementHandler != null)
+      {
+        featureClassifierPair = new FeatureClassifierPair();
+        substitutionGroupMap = new HashMap<FeatureClassifierPair, EStructuralFeature>();
+      }
     }
     
     public EClass getDocumentRoot(EPackage epackage)
@@ -2671,7 +2791,57 @@ public class XMLSaveImpl implements XMLSave
       }
       return kindsList;
     }
-    
+
+    public EStructuralFeature getSubstitutionGroup(EStructuralFeature eStructuralFeature, EClassifier eClassifier)
+    {
+      if (elementHandler == null)
+      {
+        return null;
+      }
+      else
+      {
+        featureClassifierPair.eStructuralFeature = eStructuralFeature;
+        featureClassifierPair.eClassifier = eClassifier;
+        EStructuralFeature result = substitutionGroupMap.get(featureClassifierPair);
+        if (result == NULL_FEATURE)
+        {
+          result = null;
+        }
+        else
+        {
+          result = elementHandler.getSubstitutionGroup(extendedMetaData, eStructuralFeature, eClassifier);
+          substitutionGroupMap.put(featureClassifierPair, result == null ? NULL_FEATURE : result);
+          featureClassifierPair = new FeatureClassifierPair();
+        }
+        return result;
+      }
+    }
+
+    public EStructuralFeature getRoot(EClassifier eClassifier)
+    {
+      if (elementHandler == null)
+      {
+        return null;
+      }
+      else
+      {
+        featureClassifierPair.eStructuralFeature = NULL_FEATURE;
+        featureClassifierPair.eClassifier = eClassifier;
+        EStructuralFeature result = substitutionGroupMap.get(featureClassifierPair);
+        if (result == NULL_FEATURE)
+        {
+          result = null;
+        }
+        else
+        {
+          result = elementHandler.getRoot(extendedMetaData, eClassifier);
+          substitutionGroupMap.put(featureClassifierPair, result == null ? NULL_FEATURE : result);
+          featureClassifierPair = new FeatureClassifierPair();
+        }
+        return result;
+      }
+    }
+
     protected int getIndex(EClass cls)
     {
       String name = cls.getInstanceClassName();
