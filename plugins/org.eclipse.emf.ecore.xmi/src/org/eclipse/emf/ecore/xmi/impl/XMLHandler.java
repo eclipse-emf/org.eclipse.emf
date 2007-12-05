@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.79.2.1 2007/10/17 12:41:02 emerks Exp $
+ * $Id: XMLHandler.java,v 1.79.2.2 2007/12/05 13:29:16 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -409,6 +409,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         if (ecoreBuilder == null)
         {
           ecoreBuilder = createEcoreBuilder(options, extendedMetaData);
+        }
+        else
+        {
+          ecoreBuilder.setExtendedMetaData(extendedMetaData);
         }
       }
       processAnyXML = xmlOptions.isProcessAnyXML();
