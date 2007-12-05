@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.87 2007/12/05 13:30:48 emerks Exp $
+ * $Id: XMLHandler.java,v 1.88 2007/12/05 19:37:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -337,6 +337,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected boolean usedNullNamespacePackage;
   protected boolean isNamespaceAware;
   protected boolean suppressDocumentRoot;
+  protected boolean laxWildcardProcessing;
 
   /**
    */
@@ -493,6 +494,11 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_SUPPRESS_DOCUMENT_ROOT)))
     {
       suppressDocumentRoot = true;
+    }
+
+    if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_LAX_WILDCARD_PROCESSING)))
+    {
+      laxWildcardProcessing = true;
     }
   }
 
@@ -2249,7 +2255,8 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
               extendedMetaData.getElementWildcardAffiliation((objects.peekEObject()).eClass(), namespace, name);
             if (wildcardFeature != null)
             {
-              switch (extendedMetaData.getProcessingKind(wildcardFeature))
+              int processingKind = laxWildcardProcessing ? ExtendedMetaData.LAX_PROCESSING : extendedMetaData.getProcessingKind(wildcardFeature);
+              switch (processingKind)
               {
                 case ExtendedMetaData.LAX_PROCESSING:
                 case ExtendedMetaData.SKIP_PROCESSING:
@@ -2305,7 +2312,8 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
           extendedMetaData.getElementWildcardAffiliation((objects.peekEObject()).eClass(), namespace, name);
         if (wildcardFeature != null)
         {
-          switch (extendedMetaData.getProcessingKind(wildcardFeature))
+          int processingKind = laxWildcardProcessing ? ExtendedMetaData.LAX_PROCESSING : extendedMetaData.getProcessingKind(wildcardFeature);
+          switch (processingKind)
           {
             case ExtendedMetaData.LAX_PROCESSING:
             case ExtendedMetaData.SKIP_PROCESSING:
@@ -2588,7 +2596,8 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
           extendedMetaData.getElementWildcardAffiliation((objects.peekEObject()).eClass(), namespace, name);
         if (wildcardFeature != null)
         {
-          switch (extendedMetaData.getProcessingKind(wildcardFeature))
+          int processingKind = laxWildcardProcessing ? ExtendedMetaData.LAX_PROCESSING : extendedMetaData.getProcessingKind(wildcardFeature);
+          switch (processingKind)
           {
             case ExtendedMetaData.LAX_PROCESSING:
             case ExtendedMetaData.SKIP_PROCESSING:
@@ -2948,7 +2957,8 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
               extendedMetaData.getAttributeWildcardAffiliation(eClass, uri, name);
           if (wildcardFeature != null)
           {
-            switch (extendedMetaData.getProcessingKind(wildcardFeature))
+            int processingKind = laxWildcardProcessing ? ExtendedMetaData.LAX_PROCESSING : extendedMetaData.getProcessingKind(wildcardFeature);
+            switch (processingKind)
             {
               case ExtendedMetaData.LAX_PROCESSING:
               case ExtendedMetaData.SKIP_PROCESSING:

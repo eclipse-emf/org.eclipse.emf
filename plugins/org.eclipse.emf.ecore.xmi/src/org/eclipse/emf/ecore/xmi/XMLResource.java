@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.42 2007/12/04 16:46:54 emerks Exp $
+ * $Id: XMLResource.java,v 1.43 2007/12/05 19:37:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -295,8 +295,14 @@ public interface XMLResource extends Resource
    * The default is <code>Boolean.FALSE</code> unless set to <code>Boolean.TRUE</code> explicitly.
    */
   String OPTION_LAX_FEATURE_PROCESSING = "LAX_FEATURE_PROCESSING";
-  
-  
+
+  /**
+   * This load option set to <code>Boolean.TRUE</code> will cause all wildcards to handled
+   * as if they explicitly specified {@link ExtendedMetaData#LAX_PROCESSING lax processing}.
+   * The default is <code>Boolean.FALSE</code>.
+   */
+  String OPTION_LAX_WILDCARD_PROCESSING = "LAX_WILDCARD_PROCESSING";
+
   /**
    * Allows the user to specify XML options 
    * {@link XMLOptions} and default implementation you can use {@link org.eclipse.emf.ecore.xmi.impl.XMLOptionsImpl}
