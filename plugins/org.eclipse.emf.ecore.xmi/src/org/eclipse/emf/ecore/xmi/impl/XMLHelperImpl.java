@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.51 2007/12/04 16:48:24 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.52 2007/12/07 20:42:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+
+import javax.xml.namespace.QName;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.BasicEMap;
@@ -53,7 +55,6 @@ import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-import org.eclipse.emf.ecore.xml.type.internal.QName;
 
 
 /**
@@ -1639,9 +1640,13 @@ public class XMLHelperImpl implements XMLHelper
     if (value instanceof QName)
     {
       QName qName = (QName)value;
+      if (qName.getNamespaceURI().length() != 0)
+      {
+        throw new IllegalArgumentException("Curly brace notation is not a syntactically valid serialized representation for the QName '" + qName.toString() + "'");
+      }
       String prefix = qName.getPrefix();
       String namespace = getURI(prefix);
-      qName = new QName(namespace, qName.getLocalPart(), prefix);
+      qName = new org.eclipse.emf.ecore.xml.type.internal.QName(namespace, qName.getLocalPart(), prefix);
       if (qName.getPrefix().length() > 0 && namespace == null)
       {
         throw new IllegalArgumentException("The prefix '" + prefix + "' is not declared for the QName '" + qName.toString() + "'");
@@ -1678,10 +1683,18 @@ public class XMLHelperImpl implements XMLHelper
     {
       QName qName = (QName)value;
       String namespace = qName.getNamespaceURI();
+      String localPart = qName.getLocalPart();
       if (namespace.length() == 0)
       {       
-        qName.setPrefix("");
-        return qName.getLocalPart();
+        if (value instanceof org.eclipse.emf.ecore.xml.type.internal.QName)
+        {
+          ((org.eclipse.emf.ecore.xml.type.internal.QName)qName).setPrefix("");
+        }
+        else if (qName.getPrefix().length() != 0)
+        {
+          throw new IllegalStateException("The null namespace cannot be bound to a non-null prefix '" + qName + "'");
+        }
+        return localPart;
       }
       String prefix = qName.getPrefix();
       EPackage ePackage = extendedMetaData.getPackage(namespace);
@@ -1697,9 +1710,12 @@ public class XMLHelperImpl implements XMLHelper
       if (!namespace.equals(getNamespaceURI(prefix)))
       {
         prefix = getPrefix(ePackage, true);
+        if (value instanceof org.eclipse.emf.ecore.xml.type.internal.QName)
+        {
+          ((org.eclipse.emf.ecore.xml.type.internal.QName)qName).setPrefix(prefix);
+        }
       }
-      qName.setPrefix(prefix);
-      return list ? null : prefix.length() == 0 ? qName.getLocalPart() : prefix + ':' + qName.getLocalPart();
+      return list ? null : prefix.length() == 0 ? localPart : prefix + ':' + localPart;
     }
 
     return list ? null: factory.convertToString(dataType, value);
