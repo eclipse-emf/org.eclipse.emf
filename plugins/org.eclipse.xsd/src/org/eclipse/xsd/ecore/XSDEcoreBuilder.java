@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.86 2007/12/04 16:42:36 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.87 2007/12/07 20:41:04 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.StringTokenizer;
+
+import javax.xml.namespace.QName;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -567,7 +569,41 @@ public class XSDEcoreBuilder extends MapBuilder
           @Override
           public Object caseXSDEnumerationFacet(XSDEnumerationFacet xsdEnumerationFacet)
           {
-            enumeration.add(xsdEnumerationFacet.getLexicalValue());
+            List<?> values = xsdEnumerationFacet.getValue();
+            if (!values.isEmpty())
+            {
+              String lexicalValue= xsdEnumerationFacet.getLexicalValue();
+              Object value = values.get(0);
+              if (value instanceof List)
+              {
+                List<?> valueItems = (List<?>)value;
+                String[] lexicalItems = lexicalValue.split("[ \t\n\r]");
+                StringBuilder composedValue = new StringBuilder();
+                for (int i = 0, size = Math.min(valueItems.size(), lexicalItems.length); i < size; ++i)
+                {
+                  Object item = valueItems.get(i);
+                  String lexicalItem = lexicalItems[i];
+                  if (item instanceof QName)
+                  {
+                    lexicalItem = item.toString();
+                  }
+                  if (i > 0)
+                  {
+                    composedValue.append(' ');
+                  }
+                  composedValue.append(lexicalItem);
+                }
+                enumeration.add(composedValue.toString());
+              }
+              else 
+              {
+                if (value instanceof QName)
+                {
+                  lexicalValue = value.toString();
+                }
+                enumeration.add(lexicalValue);
+              }
+            }
             return this;
           }
 
@@ -682,6 +718,24 @@ public class XSDEcoreBuilder extends MapBuilder
     //
     if (!xsdSimpleTypeDefinition.getEnumerationFacets().isEmpty() && !"false".equals(getEcoreAttribute(xsdSimpleTypeDefinition, "enum")))
     {
+      for (Object enumerator : xsdSimpleTypeDefinition.getEffectiveEnumerationFacet().getValue())
+      {
+        if (enumerator instanceof QName)
+        {
+          return null;
+        }
+        else if (enumerator instanceof List)
+        {
+          for (Object item : (List<?>)enumerator)
+          {
+            if (item instanceof QName)
+            {
+              return null;
+            }
+          }
+        }
+      }
+
       EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
       setAnnotations(eEnum, xsdSimpleTypeDefinition);
 
