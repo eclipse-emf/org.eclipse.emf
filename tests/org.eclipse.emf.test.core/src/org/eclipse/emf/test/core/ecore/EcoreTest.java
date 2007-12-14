@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreTest.java,v 1.2 2007/01/15 21:37:27 marcelop Exp $
+ * $Id: EcoreTest.java,v 1.3 2007/12/14 23:04:58 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -58,6 +58,8 @@ public class EcoreTest extends TestCase
     TestSuite ts = new TestSuite("EcoreTest");
     ts.addTest(new EcoreTest("testCreateAnnotationOnInitialization"));
     ts.addTest(new EcoreTest("testESuperTypeNotificationCount"));
+    ts.addTest(new EcoreTest("testESuperTypeLastIndexOf"));
+    ts.addTest(new EcoreTest("testEExceptionNotificationCount"));
     ts.addTest(new EcoreTest("testEExceptionNotificationCount"));
     return ts;
   }
@@ -91,6 +93,21 @@ public class EcoreTest extends TestCase
     eClass2.getESuperTypes().add(eClass1);
     
     assertEquals(2, notificationCollector.getNotifications().size());
+  }
+
+  /**
+   * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=212903">212903</a>
+   */
+  public void testESuperTypeLastIndexOf() throws Exception
+  {
+    EClass eClass1 = EcoreFactory.eINSTANCE.createEClass();
+    eClass1.setName("Class1");
+    EClass eClass2 = EcoreFactory.eINSTANCE.createEClass();
+    eClass2.setName("Class2");
+    
+    eClass2.getESuperTypes().add(eClass1);
+    
+    assertEquals(0, eClass2.getESuperTypes().lastIndexOf(eClass1));
   }
   
   /*
