@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.19 2007/07/10 16:41:55 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.20 2007/12/14 23:04:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -338,9 +338,9 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
           protected int delegateLastIndexOf(Object object)
           {
             EList<EGenericType> eGenericExceptions = getEGenericExceptions();
-            for (int i = eGenericExceptions.size(); i > 0; --i)
+            for (int i = eGenericExceptions.size() - 1; i >= 0; --i)
             {
-              if (eGenericExceptions.get(i) == object)
+              if (unwrap(eGenericExceptions.get(i)) == object)
               {
                 return i;
               }

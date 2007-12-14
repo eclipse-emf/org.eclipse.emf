@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.42 2007/10/24 21:45:44 emerks Exp $
+ * $Id: EClassImpl.java,v 1.43 2007/12/14 23:04:55 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -1658,9 +1658,9 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           protected int delegateLastIndexOf(Object object)
           {
             EList<EGenericType> eGenericSuperTypes = getEGenericSuperTypes();
-            for (int i = eGenericSuperTypes.size(); i > 0; --i)
+            for (int i = eGenericSuperTypes.size() - 1; i >= 0; --i)
             {
-              if (eGenericSuperTypes.get(i) == object)
+              if (unwrap(eGenericSuperTypes.get(i)) == object)
               {
                 return i;
               }
