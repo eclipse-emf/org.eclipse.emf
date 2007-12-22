@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ContentHandlerImpl.java,v 1.1 2007/09/29 16:41:41 emerks Exp $
+ * $Id: ContentHandlerImpl.java,v 1.2 2007/12/22 19:39:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -241,7 +241,7 @@ public class ContentHandlerImpl implements ContentHandler
       }
       else
       {
-        options.put(ContentHandler.OPTION_REQUESTED_PROPERTIES, Collections.emptyMap());
+        options.put(ContentHandler.OPTION_REQUESTED_PROPERTIES, Collections.emptySet());
         result = contentHandler.contentDescription(URI.createURI("*"), inputStream, options, new HashMap<Object, Object>());
       }
       return ((ContentHandler.Validity)result.get(ContentHandler.VALIDITY_PROPERTY)).ordinal();
