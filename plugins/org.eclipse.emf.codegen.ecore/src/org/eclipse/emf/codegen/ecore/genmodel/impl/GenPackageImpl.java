@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.76 2007/11/26 19:45:10 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.77 2007/12/22 19:53:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2460,6 +2460,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public void initialize(EPackage ePackage)
   {
+    if (getPrefixGen() == null && ePackage.getName() != null)
+    {
+      setPrefix(capName(ePackage.getName()));
+    }
+
     boolean isDifferentPackage = ePackage != getEcorePackage();
     if (isDifferentPackage)
     {
