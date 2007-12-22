@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.33 2007/11/03 17:33:50 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.34 2007/12/22 20:02:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1123,6 +1123,12 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public String getStaticValue(String literal)
   {
+    return getStaticValue(literal, true);
+    
+  }
+
+  public String getStaticValue(String literal, boolean includeCast)
+  {
     EDataType eDataType = getEcoreDataType();
     if (eDataType instanceof EEnum)
     {
@@ -1171,7 +1177,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
     // If the type isn't Object, we need to cast. If it's a primitive, we need to unbox.
     //
-    if (!isObjectType())
+    if (includeCast ? !isObjectType() : isPrimitiveType())
     {
       StringBuilder cast = new StringBuilder();
       if (isPrimitiveType())
@@ -1187,7 +1193,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       else
       {
         cast.append('(');
-        cast.append(getImportedInstanceClassName());
+        cast.append(getImportedParameterizedInstanceClassName());
         cast.append(')');
         cast.append(result);
       }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataType.java,v 1.9 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenDataType.java,v 1.10 2007/12/22 20:02:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -116,6 +116,11 @@ public interface GenDataType extends GenClassifier
   boolean isXMLDuration();
 
   String getStaticValue(String literal);
+
+  /**
+   * @since 2.4
+   */
+  String getStaticValue(String literal, boolean includeCast);
 
   void initialize(EDataType eDataType);
 
