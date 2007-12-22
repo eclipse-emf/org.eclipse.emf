@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.27 2007/06/08 12:27:11 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.28 2007/12/22 20:04:40 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -22,6 +22,7 @@ package <%=genPackage.getUtilitiesPackageName()%>;
 
 <%genModel.addImport("java.util.Map");%>
 <%final String _Map = genModel.useGenerics() ? "Map<" + genModel.getImportedName("java.lang.Object") + ", " + genModel.getImportedName("java.lang.Object") + ">" : "Map";%>
+<%final String objectArgument = genModel.useGenerics() ? "<" + genModel.getImportedName("java.lang.Object") + ">" : "";%>
 <%genModel.addImport("org.eclipse.emf.common.util.DiagnosticChain");%>
 <%genModel.addImport("org.eclipse.emf.ecore.EPackage");%>
 <%if (!genPackage.hasJavaLangConflict() && !genPackage.getUtilitiesPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");%>
@@ -265,12 +266,15 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	 * @generated
 	 * @see #validate<%=genDataType.getName()%>_<%=constraint%>
 	 */
-	public static final <%=genModel.getImportedName("java.util.Collection")%> <%=constant%>__VALUES =
+  <%if (genDataType.isUncheckedCast()) {%>
+	@SuppressWarnings("unchecked")
+  <%}%>
+	public static final <%=genModel.getImportedName("java.util.Collection")%><%=objectArgument%> <%=constant%>__VALUES =
 		wrapEnumerationValues
 			(new Object[] 
 			 {
 <%for (Iterator<String> k = genDataType.getEnumerationLiterals().iterator(); k.hasNext(); ) { String literal = k.next();%>
-				 <%if (genDataType.isPrimitiveType()) {%>new <%=genDataType.getObjectInstanceClassName()%>(<%}%><%=genDataType.getStaticValue(literal)%><%if (genDataType.isPrimitiveType()) {%>)<%}%><%=k.hasNext() ? "," : ""%>
+				 <%if (genDataType.isPrimitiveType()) {%>new <%=genDataType.getObjectInstanceClassName()%>(<%}%><%=genDataType.getStaticValue(literal, false)%><%if (genDataType.isPrimitiveType()) {%>)<%}%><%=k.hasNext() ? "," : ""%>
 <%}%>
 			 });
 
