@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.40 2007/04/10 20:17:06 marcelop Exp $
+ * $Id: AllSuites.java,v 1.41 2007/12/23 18:29:24 emerks Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -38,6 +38,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.core.ecore.ListTest.suite()
     ,org.eclipse.emf.test.core.ecore.ResourceCacheMechanismTest.suite()
     ,org.eclipse.emf.test.core.ecore.PersistenceTest.suite()
+    ,org.eclipse.emf.test.core.ecore.ResourceAttachmentTest.suite()
     ,org.eclipse.emf.test.core.ecore.FeatureMapTest.suite()
     ,org.eclipse.emf.test.core.ecore.ValidationTest.suite()
     ,org.eclipse.emf.test.core.ecore.KeyTest.suite()
