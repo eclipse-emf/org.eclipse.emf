@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,17 @@
  *
  * </copyright>
  *
- * $Id: JavaImporter.java,v 1.5 2006/12/18 21:32:13 marcelop Exp $
+ * $Id: JavaImporter.java,v 1.6 2007/12/23 19:34:40 emerks Exp $
  */
 package org.eclipse.emf.importer.java;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.JavaCore;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -49,7 +52,22 @@ public class JavaImporter extends ModelImporter
       IProject project = genModelFile.getProject();
       try
       {
-        return project.hasNature(JavaCore.NATURE_ID);
+        if (project.hasNature(JavaCore.NATURE_ID))
+        {
+          return true;
+        }
+        else if (originalGenModel != null)
+        {
+          String modelDirectory = originalGenModel.getModelDirectory();
+          if (modelDirectory != null)
+          {
+            IFolder folder = ResourcesPlugin.getWorkspace().getRoot().getFolder(new Path(modelDirectory));
+            if (folder.exists() && folder.getProject().hasNature(JavaCore.NATURE_ID))
+            {
+              return true;
+            }
+          }
+        }
       }
       catch (CoreException e)
       {
