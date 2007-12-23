@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.34 2007/07/30 17:44:00 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.35 2007/12/23 18:29:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -944,10 +944,17 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public NotificationChain eSetResource(Resource.Internal resource, NotificationChain notifications)
   {
-    Resource oldResource = eDirectResource();
+    Resource.Internal oldResource = eDirectResource();
     if (oldResource != null)
     {
       notifications = ((InternalEList<?>)oldResource.getContents()).basicRemove(this, notifications);
+
+      // When setting the resource to null we assume that detach has already been called in the resource implementation
+      //
+      if (resource != null)
+      {
+        oldResource.detached(this);
+      }
     }
     InternalEObject oldContainer = eInternalContainer();
     if (oldContainer != null)
@@ -957,11 +964,14 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
         Resource.Internal oldContainerResource = oldContainer.eInternalResource();
         if (oldContainerResource != null)
         {
+          // If we're not setting a new resource, attach it to the old container's resource.
           if (resource == null)
           {
             oldContainerResource.attached(this);
           }
-          else
+          // If we didn't detach it from an old resource already, detach it from the old container's resource.
+          //
+          else if (oldResource == null)
           {
             oldContainerResource.detached(this);
           }
@@ -1289,7 +1299,10 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
         eSetDirectResource(null);
         newResource = newContainer.eInternalResource();
       }
-      oldResource = null;
+      else
+      {
+        oldResource = null;
+      }
     }
     else 
     {
