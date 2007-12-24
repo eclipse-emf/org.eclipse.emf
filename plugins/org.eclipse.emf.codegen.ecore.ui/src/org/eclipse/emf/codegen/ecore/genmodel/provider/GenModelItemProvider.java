@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.36 2007/05/11 19:43:08 emerks Exp $
+ * $Id: GenModelItemProvider.java,v 1.37 2007/12/24 19:33:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -129,6 +129,12 @@ public class GenModelItemProvider
       addPublicConstructorsPropertyDescriptor(object);
       addTemplatePluginVariablesPropertyDescriptor(object);
       addProviderRootExtendsClassPropertyDescriptor(object);
+      addEditPluginIDPropertyDescriptor(object);
+      addEditPluginVariablesPropertyDescriptor(object);
+      addEditorPluginIDPropertyDescriptor(object);
+      addEditorPluginVariablesPropertyDescriptor(object);
+      addTestsPluginIDPropertyDescriptor(object);
+      addTestsPluginVariablesPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1399,6 +1405,144 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Edit Plugin ID feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addEditPluginIDPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_editPluginID_feature"),
+         getString("_UI_GenModel_editPluginID_description"),
+         GenModelPackage.Literals.GEN_MODEL__EDIT_PLUGIN_ID,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Edit Plugin Variables feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addEditPluginVariablesPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_editPluginVariables_feature"),
+         getString("_UI_GenModel_editPluginVariables_description"),
+         GenModelPackage.Literals.GEN_MODEL__EDIT_PLUGIN_VARIABLES,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Editor Plugin ID feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addEditorPluginIDPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_editorPluginID_feature"),
+         getString("_UI_GenModel_editorPluginID_description"),
+         GenModelPackage.Literals.GEN_MODEL__EDITOR_PLUGIN_ID,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Editor Plugin Variables feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addEditorPluginVariablesPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_editorPluginVariables_feature"),
+         getString("_UI_GenModel_editorPluginVariables_description"),
+         GenModelPackage.Literals.GEN_MODEL__EDITOR_PLUGIN_VARIABLES,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Tests Plugin ID feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addTestsPluginIDPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_testsPluginID_feature"),
+         getString("_UI_GenModel_testsPluginID_description"),
+         GenModelPackage.Literals.GEN_MODEL__TESTS_PLUGIN_ID,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_TestsPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Tests Plugin Variables feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addTestsPluginVariablesPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_testsPluginVariables_feature"),
+         getString("_UI_GenModel_testsPluginVariables_description"),
+         GenModelPackage.Literals.GEN_MODEL__TESTS_PLUGIN_VARIABLES,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_TestsPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1523,6 +1667,12 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
       case GenModelPackage.GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES:
       case GenModelPackage.GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS:
+      case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_ID:
+      case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_VARIABLES:
+      case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_ID:
+      case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_VARIABLES:
+      case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_ID:
+      case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
