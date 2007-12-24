@@ -154,6 +154,18 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/templatePluginVariables"/>
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="The base from which implementations of item providers for classes with no supertypes extend"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/providerRootExtendsClass"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="The unique string that identifies the edit plug-in to Eclipse"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editPluginID"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Plug-ins to be included in the edit plug-in's classpath, optionally specifying classpath variable names (as VARIABLE=plugin.id)"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editPluginVariables"/>
+      <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="The unique string that identifies the editor plug-in to Eclipse"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editorPluginID"/>
+      <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Plug-ins to be included in the editor plug-in's classpath, optionally specifying classpath variable names (as VARIABLE=plugin.id)"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editorPluginVariables"/>
+      <genFeatures createChild="false" propertyCategory="Tests" propertyDescription="The unique string that identifies the tests plug-in to Eclipse"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/testsPluginID"/>
+      <genFeatures createChild="false" propertyCategory="Tests" propertyDescription="Plug-ins to be included in the tests plug-in's classpath, optionally specifying classpath variable names (as VARIABLE=plugin.id)"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/testsPluginVariables"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>

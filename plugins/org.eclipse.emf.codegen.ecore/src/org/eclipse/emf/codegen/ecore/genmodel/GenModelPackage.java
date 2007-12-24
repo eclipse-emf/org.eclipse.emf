@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.43 2007/05/11 19:43:23 emerks Exp $
+ * $Id: GenModelPackage.java,v 1.44 2007/12/24 19:33:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -655,13 +655,67 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS = GEN_BASE_FEATURE_COUNT + 58;
 
   /**
+   * The feature id for the '<em><b>Edit Plugin ID</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__EDIT_PLUGIN_ID = GEN_BASE_FEATURE_COUNT + 59;
+
+  /**
+   * The feature id for the '<em><b>Edit Plugin Variables</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__EDIT_PLUGIN_VARIABLES = GEN_BASE_FEATURE_COUNT + 60;
+
+  /**
+   * The feature id for the '<em><b>Editor Plugin ID</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__EDITOR_PLUGIN_ID = GEN_BASE_FEATURE_COUNT + 61;
+
+  /**
+   * The feature id for the '<em><b>Editor Plugin Variables</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__EDITOR_PLUGIN_VARIABLES = GEN_BASE_FEATURE_COUNT + 62;
+
+  /**
+   * The feature id for the '<em><b>Tests Plugin ID</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__TESTS_PLUGIN_ID = GEN_BASE_FEATURE_COUNT + 63;
+
+  /**
+   * The feature id for the '<em><b>Tests Plugin Variables</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__TESTS_PLUGIN_VARIABLES = GEN_BASE_FEATURE_COUNT + 64;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 59;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 65;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -670,7 +724,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 60;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 66;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -679,7 +733,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 61;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 67;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2362,6 +2416,72 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_ProviderRootExtendsClass();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditPluginID <em>Edit Plugin ID</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Edit Plugin ID</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditPluginID()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_EditPluginID();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditPluginVariables <em>Edit Plugin Variables</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Edit Plugin Variables</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditPluginVariables()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_EditPluginVariables();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorPluginID <em>Editor Plugin ID</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Editor Plugin ID</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorPluginID()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_EditorPluginID();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorPluginVariables <em>Editor Plugin Variables</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Editor Plugin Variables</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorPluginVariables()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_EditorPluginVariables();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsPluginID <em>Tests Plugin ID</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Tests Plugin ID</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsPluginID()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_TestsPluginID();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsPluginVariables <em>Tests Plugin Variables</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Tests Plugin Variables</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsPluginVariables()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_TestsPluginVariables();
+
+  /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3771,6 +3891,54 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS = eINSTANCE.getGenModel_ProviderRootExtendsClass();
+
+    /**
+     * The meta object literal for the '<em><b>Edit Plugin ID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__EDIT_PLUGIN_ID = eINSTANCE.getGenModel_EditPluginID();
+
+    /**
+     * The meta object literal for the '<em><b>Edit Plugin Variables</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__EDIT_PLUGIN_VARIABLES = eINSTANCE.getGenModel_EditPluginVariables();
+
+    /**
+     * The meta object literal for the '<em><b>Editor Plugin ID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__EDITOR_PLUGIN_ID = eINSTANCE.getGenModel_EditorPluginID();
+
+    /**
+     * The meta object literal for the '<em><b>Editor Plugin Variables</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__EDITOR_PLUGIN_VARIABLES = eINSTANCE.getGenModel_EditorPluginVariables();
+
+    /**
+     * The meta object literal for the '<em><b>Tests Plugin ID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__TESTS_PLUGIN_ID = eINSTANCE.getGenModel_TestsPluginID();
+
+    /**
+     * The meta object literal for the '<em><b>Tests Plugin Variables</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__TESTS_PLUGIN_VARIABLES = eINSTANCE.getGenModel_TestsPluginVariables();
 
     /**
      * The meta object literal for the '<em><b>Gen Packages</b></em>' containment reference list feature.

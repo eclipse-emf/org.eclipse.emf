@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.51 2007/06/12 20:56:34 emerks Exp $
+ * $Id: GenModel.java,v 1.52 2007/12/24 19:33:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -103,6 +103,12 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPublicConstructors <em>Public Constructors</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTemplatePluginVariables <em>Template Plugin Variables</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getProviderRootExtendsClass <em>Provider Root Extends Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditPluginID <em>Edit Plugin ID</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditPluginVariables <em>Edit Plugin Variables</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorPluginID <em>Editor Plugin ID</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorPluginVariables <em>Editor Plugin Variables</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsPluginID <em>Tests Plugin ID</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsPluginVariables <em>Tests Plugin Variables</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1773,6 +1779,118 @@ public interface GenModel extends GenBase
   void setProviderRootExtendsClass(String value);
 
   /**
+   * Returns the value of the '<em><b>Edit Plugin ID</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Edit Plugin ID</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Edit Plugin ID</em>' attribute.
+   * @see #setEditPluginID(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditPluginID()
+   * @model
+   * @generated
+   */
+  String getEditPluginID();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditPluginID <em>Edit Plugin ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Edit Plugin ID</em>' attribute.
+   * @see #getEditPluginID()
+   * @generated
+   */
+  void setEditPluginID(String value);
+
+  /**
+   * Returns the value of the '<em><b>Edit Plugin Variables</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Edit Plugin Variables</em>' attribute list.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditPluginVariables()
+   * @model
+   * @generated
+   */
+  EList<String> getEditPluginVariables();
+
+  /**
+   * Returns the value of the '<em><b>Editor Plugin ID</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Editor Plugin ID</em>' attribute.
+   * @see #setEditorPluginID(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditorPluginID()
+   * @model
+   * @generated
+   */
+  String getEditorPluginID();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorPluginID <em>Editor Plugin ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Editor Plugin ID</em>' attribute.
+   * @see #getEditorPluginID()
+   * @generated
+   */
+  void setEditorPluginID(String value);
+
+  /**
+   * Returns the value of the '<em><b>Editor Plugin Variables</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Editor Plugin Variables</em>' attribute list.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_EditorPluginVariables()
+   * @model
+   * @generated
+   */
+  EList<String> getEditorPluginVariables();
+
+  /**
+   * Returns the value of the '<em><b>Tests Plugin ID</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Tests Plugin ID</em>' attribute.
+   * @see #setTestsPluginID(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TestsPluginID()
+   * @model
+   * @generated
+   */
+  String getTestsPluginID();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsPluginID <em>Tests Plugin ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Tests Plugin ID</em>' attribute.
+   * @see #getTestsPluginID()
+   * @generated
+   */
+  void setTestsPluginID(String value);
+
+  /**
+   * Returns the value of the '<em><b>Tests Plugin Variables</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Tests Plugin Variables</em>' attribute list.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TestsPluginVariables()
+   * @model
+   * @generated
+   */
+  EList<String> getTestsPluginVariables();
+
+  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -2228,10 +2346,6 @@ public interface GenModel extends GenBase
   String getTestSuitePackageName();
   String getQualifiedTestSuiteClassName();
   
-  String getEditPluginID();
-  String getEditorPluginID();
-  String getTestsPluginID();
-
   List<String> getModelQualifiedPackageNames();
   List<String> getModelRequiredPlugins();
   List<String> getEditQualifiedPackageNames();

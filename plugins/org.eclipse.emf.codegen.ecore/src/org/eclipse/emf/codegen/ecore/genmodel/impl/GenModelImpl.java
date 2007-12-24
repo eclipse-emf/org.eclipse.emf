@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.88 2007/07/10 16:22:11 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.89 2007/12/24 19:33:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -165,6 +165,12 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isPublicConstructors <em>Public Constructors</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTemplatePluginVariables <em>Template Plugin Variables</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getProviderRootExtendsClass <em>Provider Root Extends Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEditPluginID <em>Edit Plugin ID</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEditPluginVariables <em>Edit Plugin Variables</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEditorPluginID <em>Editor Plugin ID</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEditorPluginVariables <em>Editor Plugin Variables</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestsPluginID <em>Tests Plugin ID</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestsPluginVariables <em>Tests Plugin Variables</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1358,6 +1364,96 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected String providerRootExtendsClass = PROVIDER_ROOT_EXTENDS_CLASS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getEditPluginID() <em>Edit Plugin ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEditPluginID()
+   * @generated
+   * @ordered
+   */
+  protected static final String EDIT_PLUGIN_ID_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getEditPluginID() <em>Edit Plugin ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEditPluginID()
+   * @generated
+   * @ordered
+   */
+  protected String editPluginID = EDIT_PLUGIN_ID_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getEditPluginVariables() <em>Edit Plugin Variables</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEditPluginVariables()
+   * @generated
+   * @ordered
+   */
+  protected EList<String> editPluginVariables;
+
+  /**
+   * The default value of the '{@link #getEditorPluginID() <em>Editor Plugin ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEditorPluginID()
+   * @generated
+   * @ordered
+   */
+  protected static final String EDITOR_PLUGIN_ID_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getEditorPluginID() <em>Editor Plugin ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEditorPluginID()
+   * @generated
+   * @ordered
+   */
+  protected String editorPluginID = EDITOR_PLUGIN_ID_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getEditorPluginVariables() <em>Editor Plugin Variables</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEditorPluginVariables()
+   * @generated
+   * @ordered
+   */
+  protected EList<String> editorPluginVariables;
+
+  /**
+   * The default value of the '{@link #getTestsPluginID() <em>Tests Plugin ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTestsPluginID()
+   * @generated
+   * @ordered
+   */
+  protected static final String TESTS_PLUGIN_ID_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getTestsPluginID() <em>Tests Plugin ID</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTestsPluginID()
+   * @generated
+   * @ordered
+   */
+  protected String testsPluginID = TESTS_PLUGIN_ID_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getTestsPluginVariables() <em>Tests Plugin Variables</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTestsPluginVariables()
+   * @generated
+   * @ordered
+   */
+  protected EList<String> testsPluginVariables;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -4775,9 +4871,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return getModelPluginVariables();
   }
 
-  public List<String> getEffectiveModelPluginIDs()
+  protected static List<String> getEffectivePluginIDs(List<String> pluginVariables)
   {
-    List<String> result = new ArrayList<String>(getModelPluginVariables());
+    List<String> result = new ArrayList<String>(pluginVariables);
     for (ListIterator<String> i = result.listIterator(); i.hasNext(); )
     {
       String variable = i.next();
@@ -4788,6 +4884,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
     }
     return result;
+  }
+
+  public List<String> getEffectiveModelPluginIDs()
+  {
+    return getEffectivePluginIDs(getModelPluginVariables());
+  }
+
+  public List<String> getEffectiveEditPluginIDs()
+  {
+    return getEffectivePluginIDs(getEditPluginVariables());
+  }
+
+  public List<String> getEffectiveEditorPluginIDs()
+  {
+    return getEffectivePluginIDs(getEditorPluginVariables());
+  }
+
+  public List<String> getEffectiveTestsPluginIDs()
+  {
+    return getEffectivePluginIDs(getTestsPluginVariables());
   }
 
   /**
@@ -5830,6 +5946,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getTemplatePluginVariables();
       case GenModelPackage.GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS:
         return getProviderRootExtendsClass();
+      case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_ID:
+        return getEditPluginID();
+      case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_VARIABLES:
+        return getEditPluginVariables();
+      case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_ID:
+        return getEditorPluginID();
+      case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_VARIABLES:
+        return getEditorPluginVariables();
+      case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_ID:
+        return getTestsPluginID();
+      case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES:
+        return getTestsPluginVariables();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6030,6 +6158,27 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS:
         setProviderRootExtendsClass((String)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_ID:
+        setEditPluginID((String)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_VARIABLES:
+        getEditPluginVariables().clear();
+        getEditPluginVariables().addAll((Collection<? extends String>)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_ID:
+        setEditorPluginID((String)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_VARIABLES:
+        getEditorPluginVariables().clear();
+        getEditorPluginVariables().addAll((Collection<? extends String>)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_ID:
+        setTestsPluginID((String)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES:
+        getTestsPluginVariables().clear();
+        getTestsPluginVariables().addAll((Collection<? extends String>)newValue);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         getGenPackages().addAll((Collection<? extends GenPackage>)newValue);
@@ -6229,6 +6378,24 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS:
         setProviderRootExtendsClass(PROVIDER_ROOT_EXTENDS_CLASS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_ID:
+        setEditPluginID(EDIT_PLUGIN_ID_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_VARIABLES:
+        getEditPluginVariables().clear();
+        return;
+      case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_ID:
+        setEditorPluginID(EDITOR_PLUGIN_ID_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_VARIABLES:
+        getEditorPluginVariables().clear();
+        return;
+      case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_ID:
+        setTestsPluginID(TESTS_PLUGIN_ID_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES:
+        getTestsPluginVariables().clear();
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6367,6 +6534,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return templatePluginVariables != null && !templatePluginVariables.isEmpty();
       case GenModelPackage.GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS:
         return PROVIDER_ROOT_EXTENDS_CLASS_EDEFAULT == null ? providerRootExtendsClass != null : !PROVIDER_ROOT_EXTENDS_CLASS_EDEFAULT.equals(providerRootExtendsClass);
+      case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_ID:
+        return EDIT_PLUGIN_ID_EDEFAULT == null ? editPluginID != null : !EDIT_PLUGIN_ID_EDEFAULT.equals(editPluginID);
+      case GenModelPackage.GEN_MODEL__EDIT_PLUGIN_VARIABLES:
+        return editPluginVariables != null && !editPluginVariables.isEmpty();
+      case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_ID:
+        return EDITOR_PLUGIN_ID_EDEFAULT == null ? editorPluginID != null : !EDITOR_PLUGIN_ID_EDEFAULT.equals(editorPluginID);
+      case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_VARIABLES:
+        return editorPluginVariables != null && !editorPluginVariables.isEmpty();
+      case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_ID:
+        return TESTS_PLUGIN_ID_EDEFAULT == null ? testsPluginID != null : !TESTS_PLUGIN_ID_EDEFAULT.equals(testsPluginID);
+      case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES:
+        return testsPluginVariables != null && !testsPluginVariables.isEmpty();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6502,6 +6681,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(templatePluginVariables);
     result.append(", providerRootExtendsClass: ");
     result.append(providerRootExtendsClass);
+    result.append(", editPluginID: ");
+    result.append(editPluginID);
+    result.append(", editPluginVariables: ");
+    result.append(editPluginVariables);
+    result.append(", editorPluginID: ");
+    result.append(editorPluginID);
+    result.append(", editorPluginVariables: ");
+    result.append(editorPluginVariables);
+    result.append(", testsPluginID: ");
+    result.append(testsPluginID);
+    result.append(", testsPluginVariables: ");
+    result.append(testsPluginVariables);
     result.append(')');
     return result.toString();
   }
@@ -6572,16 +6763,67 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return getEditorProjectDirectory() + "/icons";
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getEditPluginIDGen()
+  {
+    return editPluginID;
+  }
+
   public String getEditPluginID()
   {
     if (sameModelEditProject())
     {
       return getModelPluginID();
     }
+    else if (!isBlank(getEditPluginIDGen()))
+    {
+      return getEditPluginIDGen();
+    }
     else
     {
       return getModelPluginID() + ".edit";
     }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setEditPluginID(String newEditPluginID)
+  {
+    String oldEditPluginID = editPluginID;
+    editPluginID = newEditPluginID;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__EDIT_PLUGIN_ID, oldEditPluginID, editPluginID));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<String> getEditPluginVariables()
+  {
+    if (editPluginVariables == null)
+    {
+      editPluginVariables = new EDataTypeUniqueEList<String>(String.class, this, GenModelPackage.GEN_MODEL__EDIT_PLUGIN_VARIABLES);
+    }
+    return editPluginVariables;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getEditorPluginIDGen()
+  {
+    return editorPluginID;
   }
 
   public String getEditorPluginID()
@@ -6590,10 +6832,51 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       return getEditPluginID();
     }
+    else if (!isBlank(getEditorPluginIDGen()))
+    {
+      return getEditorPluginIDGen();
+    }
     else
     {
       return getModelPluginID() + ".editor";
     }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setEditorPluginID(String newEditorPluginID)
+  {
+    String oldEditorPluginID = editorPluginID;
+    editorPluginID = newEditorPluginID;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_ID, oldEditorPluginID, editorPluginID));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<String> getEditorPluginVariables()
+  {
+    if (editorPluginVariables == null)
+    {
+      editorPluginVariables = new EDataTypeUniqueEList<String>(String.class, this, GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_VARIABLES);
+    }
+    return editorPluginVariables;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getTestsPluginIDGen()
+  {
+    return testsPluginID;
   }
 
   public String getTestsPluginID()
@@ -6602,10 +6885,41 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       return getModelPluginID();
     }
+    else if (!isBlank(getTestsPluginIDGen()))
+    {
+      return getTestsPluginIDGen();
+    }
     else
     {
       return getModelPluginID() + ".tests";
     }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setTestsPluginID(String newTestsPluginID)
+  {
+    String oldTestsPluginID = testsPluginID;
+    testsPluginID = newTestsPluginID;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__TESTS_PLUGIN_ID, oldTestsPluginID, testsPluginID));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<String> getTestsPluginVariables()
+  {
+    if (testsPluginVariables == null)
+    {
+      testsPluginVariables = new EDataTypeUniqueEList<String>(String.class, this, GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES);
+    }
+    return testsPluginVariables;
   }
 
   public boolean hasModelPluginClass()
@@ -7013,6 +7327,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     List<String> result = new UniqueEList<String>();
     result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
+    result.addAll(getEffectiveEditPluginIDs());
 
     if (!sameModelEditProject())
     {
@@ -7092,6 +7407,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       result.add("org.eclipse.core.resources");
     }
+    result.addAll(getEffectiveEditorPluginIDs());
     
     if (!sameEditEditorProject())
     {
@@ -7171,6 +7487,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     List<String> result = new UniqueEList<String>();
     result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
+    result.addAll(getEffectiveTestsPluginIDs());
 
     result.add(getModelPluginID());
     for (GenPackage genPackage : getUsedGenPackages())
@@ -7336,6 +7653,23 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setPublicConstructors(oldGenModelVersion.isPublicConstructors());
 
     getTemplatePluginVariables().addAll(oldGenModelVersion.getTemplatePluginVariables());
+
+    if (oldGenModelVersion.eIsSet(GenModelPackage.Literals.GEN_MODEL__EDIT_PLUGIN_ID))
+    {
+      setEditPluginID(oldGenModelVersion.getEditPluginID());
+    }
+    if (oldGenModelVersion.eIsSet(GenModelPackage.Literals.GEN_MODEL__EDITOR_PLUGIN_ID))
+    {
+      setEditorPluginID(oldGenModelVersion.getEditorPluginID());
+    }
+    if (oldGenModelVersion.eIsSet(GenModelPackage.Literals.GEN_MODEL__TESTS_PLUGIN_ID))
+    {
+      setTestsPluginID(oldGenModelVersion.getTestsPluginID());
+    }
+
+    getEditPluginVariables().addAll(oldGenModelVersion.getEditPluginVariables());
+    getEditorPluginVariables().addAll(oldGenModelVersion.getEditorPluginVariables());
+    getTestsPluginVariables().addAll(oldGenModelVersion.getTestsPluginVariables());
 
     setProviderRootExtendsClass(oldGenModelVersion.getProviderRootExtendsClass());
   }

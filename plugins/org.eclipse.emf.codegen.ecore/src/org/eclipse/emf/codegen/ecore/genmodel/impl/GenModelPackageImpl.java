@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.47 2007/09/30 12:26:04 emerks Exp $
+ * $Id: GenModelPackageImpl.java,v 1.48 2007/12/24 19:33:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -881,9 +881,69 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenModel_EditPluginID()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(59);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getGenModel_EditPluginVariables()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(60);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getGenModel_EditorPluginID()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(61);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getGenModel_EditorPluginVariables()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(62);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getGenModel_TestsPluginID()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(63);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getGenModel_TestsPluginVariables()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(64);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getGenModel_GenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(59);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(65);
   }
 
   /**
@@ -893,7 +953,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    */
   public EReference getGenModel_UsedGenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(60);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(66);
   }
 
   /**
@@ -1806,6 +1866,12 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__PUBLIC_CONSTRUCTORS);
     createEAttribute(genModelEClass, GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES);
     createEAttribute(genModelEClass, GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS);
+    createEAttribute(genModelEClass, GEN_MODEL__EDIT_PLUGIN_ID);
+    createEAttribute(genModelEClass, GEN_MODEL__EDIT_PLUGIN_VARIABLES);
+    createEAttribute(genModelEClass, GEN_MODEL__EDITOR_PLUGIN_ID);
+    createEAttribute(genModelEClass, GEN_MODEL__EDITOR_PLUGIN_VARIABLES);
+    createEAttribute(genModelEClass, GEN_MODEL__TESTS_PLUGIN_ID);
+    createEAttribute(genModelEClass, GEN_MODEL__TESTS_PLUGIN_VARIABLES);
     createEReference(genModelEClass, GEN_MODEL__GEN_PACKAGES);
     createEReference(genModelEClass, GEN_MODEL__USED_GEN_PACKAGES);
 
@@ -2014,6 +2080,12 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_PublicConstructors(), ecorePackage.getEBoolean(), "publicConstructors", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_TemplatePluginVariables(), ecorePackage.getEString(), "templatePluginVariables", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_ProviderRootExtendsClass(), ecorePackage.getEString(), "providerRootExtendsClass", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_EditPluginID(), ecorePackage.getEString(), "editPluginID", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_EditPluginVariables(), ecorePackage.getEString(), "editPluginVariables", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_EditorPluginID(), ecorePackage.getEString(), "editorPluginID", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_EditorPluginVariables(), ecorePackage.getEString(), "editorPluginVariables", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_TestsPluginID(), ecorePackage.getEString(), "testsPluginID", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_TestsPluginVariables(), ecorePackage.getEString(), "testsPluginVariables", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_GenPackages(), this.getGenPackage(), this.getGenPackage_GenModel(), "genPackages", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_UsedGenPackages(), this.getGenPackage(), null, "usedGenPackages", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
