@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.43 2007/12/23 19:34:40 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.44 2007/12/24 19:32:05 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -530,11 +530,11 @@ public class JavaEcoreBuilder
   public void computeEPackages(Monitor monitor, ModelImporter modelImporter) throws Exception
   {
     IProject project = genModelFile.getProject();
+    project.open(BasicMonitor.toIProgressMonitor(monitor));
     if (!project.hasNature(JavaCore.NATURE_ID) && oldGenModelVersion.getModelDirectory() != null)
     {
       project = project.getWorkspace().getRoot().getFolder(new Path(oldGenModelVersion.getModelDirectory())).getProject();
     }
-    project.open(BasicMonitor.toIProgressMonitor(monitor));
 
     Collection<IFile> allGenModelFiles = new ArrayList<IFile>();
     Collection<IProject> allReferencedProjects = new ArrayList<IProject>();
