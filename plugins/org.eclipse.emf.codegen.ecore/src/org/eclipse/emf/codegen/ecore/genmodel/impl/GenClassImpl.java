@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.83 2008/01/05 13:58:52 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.84 2008/01/05 19:53:41 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1224,12 +1224,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List<GenOperation> getDeclaredGenOperations()
   {
-    return
-      collectGenOperations
-        (this,
-         null,
-         getGenOperations(),
-         new CollidingGenOperationFilter(getGenFeatures()));
+    return getGenOperations();
   }
 
   public List<GenFeature> getFlagGenFeatures()
@@ -2875,7 +2870,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public class CollidingGenOperationFilter implements GenOperationFilter
   {
-    protected List<GenFeature> allGenFeatures;
+    protected List<GenFeature> allGenFeatures = getAllGenFeatures();
     protected List<GenOperation> extendsGenClassOperations;
     
     public CollidingGenOperationFilter()
@@ -2889,12 +2884,6 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       {
         extendsGenClassOperations = Collections.emptyList();
       }
-      allGenFeatures = getAllGenFeatures();
-    }
-
-    public CollidingGenOperationFilter(List<GenFeature> genFeatures)
-    {
-      allGenFeatures = genFeatures;
     }
 
     public boolean accept(GenOperation genOperation)
