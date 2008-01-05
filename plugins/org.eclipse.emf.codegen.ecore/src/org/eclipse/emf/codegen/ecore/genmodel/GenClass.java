@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.27 2007/06/12 15:07:28 emerks Exp $
+ * $Id: GenClass.java,v 1.28 2008/01/05 13:58:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -450,4 +450,9 @@ public interface GenClass extends GenClassifier
    * @since 2.3
    */
   String getOffsetCorrectionField(GenFeature genFeature);
+
+  /**
+   * @since 2.4
+   */
+  boolean needsHasChildrenMethodOverride();
 }

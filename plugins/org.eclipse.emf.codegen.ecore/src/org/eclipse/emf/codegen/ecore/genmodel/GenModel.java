@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.52 2007/12/24 19:33:31 emerks Exp $
+ * $Id: GenModel.java,v 1.53 2008/01/05 13:58:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -109,6 +109,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getEditorPluginVariables <em>Editor Plugin Variables</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsPluginID <em>Tests Plugin ID</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsPluginVariables <em>Tests Plugin Variables</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOptimizedHasChildren <em>Optimized Has Children</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1889,6 +1890,30 @@ public interface GenModel extends GenBase
    * @generated
    */
   EList<String> getTestsPluginVariables();
+
+  /**
+   * Returns the value of the '<em><b>Optimized Has Children</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+  * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Optimized Has Children</em>' attribute.
+   * @see #setOptimizedHasChildren(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_OptimizedHasChildren()
+   * @model
+   * @generated
+   */
+  boolean isOptimizedHasChildren();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOptimizedHasChildren <em>Optimized Has Children</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Optimized Has Children</em>' attribute.
+   * @see #isOptimizedHasChildren()
+   * @generated
+   */
+  void setOptimizedHasChildren(boolean value);
 
   /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.

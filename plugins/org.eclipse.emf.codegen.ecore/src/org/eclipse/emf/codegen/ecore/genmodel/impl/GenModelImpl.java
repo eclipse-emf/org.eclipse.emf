@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.89 2007/12/24 19:33:31 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.90 2008/01/05 13:58:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -171,6 +171,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getEditorPluginVariables <em>Editor Plugin Variables</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestsPluginID <em>Tests Plugin ID</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestsPluginVariables <em>Tests Plugin Variables</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isOptimizedHasChildren <em>Optimized Has Children</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1454,6 +1455,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected EList<String> testsPluginVariables;
+
+  /**
+   * The default value of the '{@link #isOptimizedHasChildren() <em>Optimized Has Children</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isOptimizedHasChildren()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean OPTIMIZED_HAS_CHILDREN_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isOptimizedHasChildren() <em>Optimized Has Children</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isOptimizedHasChildren()
+   * @generated
+   * @ordered
+   */
+  protected boolean optimizedHasChildren = OPTIMIZED_HAS_CHILDREN_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -5958,6 +5979,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getTestsPluginID();
       case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES:
         return getTestsPluginVariables();
+      case GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN:
+        return isOptimizedHasChildren() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6179,6 +6202,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         getTestsPluginVariables().clear();
         getTestsPluginVariables().addAll((Collection<? extends String>)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN:
+        setOptimizedHasChildren(((Boolean)newValue).booleanValue());
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         getGenPackages().addAll((Collection<? extends GenPackage>)newValue);
@@ -6396,6 +6422,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES:
         getTestsPluginVariables().clear();
         return;
+      case GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN:
+        setOptimizedHasChildren(OPTIMIZED_HAS_CHILDREN_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6546,6 +6575,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return TESTS_PLUGIN_ID_EDEFAULT == null ? testsPluginID != null : !TESTS_PLUGIN_ID_EDEFAULT.equals(testsPluginID);
       case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES:
         return testsPluginVariables != null && !testsPluginVariables.isEmpty();
+      case GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN:
+        return optimizedHasChildren != OPTIMIZED_HAS_CHILDREN_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6693,6 +6724,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(testsPluginID);
     result.append(", testsPluginVariables: ");
     result.append(testsPluginVariables);
+    result.append(", optimizedHasChildren: ");
+    result.append(optimizedHasChildren);
     result.append(')');
     return result.toString();
   }
@@ -6920,6 +6953,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       testsPluginVariables = new EDataTypeUniqueEList<String>(String.class, this, GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES);
     }
     return testsPluginVariables;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isOptimizedHasChildren()
+  {
+    return optimizedHasChildren;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOptimizedHasChildren(boolean newOptimizedHasChildren)
+  {
+    boolean oldOptimizedHasChildren = optimizedHasChildren;
+    optimizedHasChildren = newOptimizedHasChildren;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN, oldOptimizedHasChildren, optimizedHasChildren));
   }
 
   public boolean hasModelPluginClass()
@@ -7672,6 +7728,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     getTestsPluginVariables().addAll(oldGenModelVersion.getTestsPluginVariables());
 
     setProviderRootExtendsClass(oldGenModelVersion.getProviderRootExtendsClass());
+
+    setOptimizedHasChildren(oldGenModelVersion.isOptimizedHasChildren());
   }
 
   public boolean reconcile()

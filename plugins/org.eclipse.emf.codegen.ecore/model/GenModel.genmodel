@@ -166,6 +166,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/testsPluginID"/>
       <genFeatures createChild="false" propertyCategory="Tests" propertyDescription="Plug-ins to be included in the tests plug-in's classpath, optionally specifying classpath variable names (as VARIABLE=plugin.id)"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/testsPluginVariables"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether item providers should use an optimized hasChildren() implementation that does not access children values where possible"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/optimizedHasChildren"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.82 2008/01/05 13:47:26 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.83 2008/01/05 13:58:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1224,7 +1224,12 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List<GenOperation> getDeclaredGenOperations()
   {
-    return getGenOperations();
+    return
+      collectGenOperations
+        (this,
+         null,
+         getGenOperations(),
+         new CollidingGenOperationFilter(getGenFeatures()));
   }
 
   public List<GenFeature> getFlagGenFeatures()
@@ -2870,7 +2875,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public class CollidingGenOperationFilter implements GenOperationFilter
   {
-    protected List<GenFeature> allGenFeatures = getAllGenFeatures();
+    protected List<GenFeature> allGenFeatures;
     protected List<GenOperation> extendsGenClassOperations;
     
     public CollidingGenOperationFilter()
@@ -2884,6 +2889,12 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       {
         extendsGenClassOperations = Collections.emptyList();
       }
+      allGenFeatures = getAllGenFeatures();
+    }
+
+    public CollidingGenOperationFilter(List<GenFeature> genFeatures)
+    {
+      allGenFeatures = genFeatures;
     }
 
     public boolean accept(GenOperation genOperation)
@@ -3074,5 +3085,13 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       genFeature == null ?
         "EOFFSET_CORRECTION" :
         "EOFFSET_CORRECTION_" + genFeature.getUpperName() + "_OPPOSITE";
+  }
+
+  public boolean needsHasChildrenMethodOverride()
+  {
+    boolean optimized = getGenModel().isOptimizedHasChildren();
+    GenClass providerExtendsGenClass = getProviderExtendsGenClass();
+    boolean optimizedBase =  providerExtendsGenClass != null && providerExtendsGenClass.getGenModel().isOptimizedHasChildren();
+    return optimized != optimizedBase;
   }
 }

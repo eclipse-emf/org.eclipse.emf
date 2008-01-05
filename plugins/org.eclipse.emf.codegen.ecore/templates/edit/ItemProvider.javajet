@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.37 2007/04/26 20:54:04 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.38 2008/01/05 13:58:52 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -175,6 +175,21 @@ public class <%=genClass.getProviderClassName()%>
 	}
 
 <%}%>
+<%}%>
+<%if (genClass.needsHasChildrenMethodOverride()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
+	public boolean hasChildren(Object object)
+	{
+		return hasChildren(object, <%=genModel.isOptimizedHasChildren()%>);
+	}
+
 <%}%>
 <%if (genClass.isImage()) {%>
 	/**

@@ -358,6 +358,10 @@
 		    quid       	"476FF1E401C5"
 		    stereotype 	"0..*"
 		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "optimizedHasChildren"
+		    quid       	"477CFB0F0169"
+		    type       	"boolean"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -3193,7 +3197,7 @@
 	    max_height 	28350
 	    max_width  	21600
 	    origin_x   	0
-	    origin_y   	1061
+	    origin_y   	0
 	    items      	(list diagram_item_list
 		(object ClassView "Class" "Logical View::genmodel::GenBase" @170
 		    ShowCompartmentStereotypes 	TRUE
@@ -3516,10 +3520,10 @@
 		    location   	(2352, 1920)
 		    label      	(object ItemLabel
 			Parent_View 	@182
-			location   	(1862, 1489)
+			location   	(1861, 1489)
 			fill_color 	13434879
 			nlines     	1
-			max_width  	980
+			max_width  	982
 			justify    	0
 			label      	"GenPackage")
 		    icon_style 	"Icon"
@@ -3528,12 +3532,12 @@
 		    quidu      	"3C17589A01D3"
 		    compartment 	(object Compartment
 			Parent_View 	@182
-			location   	(1862, 1549)
+			location   	(1861, 1549)
 			icon_style 	"Icon"
 			fill_color 	16777215
 			anchor     	2
 			nlines     	16
-			max_width  	987
+			max_width  	979
 			compartmentItems 	(list Compartment
 			    "+ prefix : String"
 			    "+ basePackage : String"
@@ -3564,7 +3568,7 @@
 			    "+ generateExampleClass : boolean = true"
 			    "+ literalsInterface : boolean = true"
 			    "+ dataTypeConverters : boolean"))
-		    width      	998
+		    width      	1000
 		    height     	886
 		    annotation 	8
 		    autoResize 	TRUE)
@@ -3984,7 +3988,7 @@
 		    location   	(448, 512)
 		    label      	(object ItemLabel
 			Parent_View 	@205
-			location   	(72, 131)
+			location   	(72, 106)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	752
@@ -3996,11 +4000,11 @@
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
 			Parent_View 	@205
-			location   	(72, 191)
+			location   	(72, 166)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	14
+			nlines     	15
 			max_width  	750
 			compartmentItems 	(list Compartment
 			    "+ creationCommands : boolean = true"
@@ -4015,9 +4019,10 @@
 			    "+ editPluginID : String"
 			    "<<0..*>> + editPluginVariables : String"
 			    "+ editorPluginID : String"
-			    "<<0..*>> + editorPluginVariables : String"))
+			    "<<0..*>> + editorPluginVariables : String"
+			    "+ optimizedHasChildren : boolean"))
 		    width      	770
-		    height     	786
+		    height     	836
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenFeature" @206
@@ -4148,7 +4153,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	3
-			max_width  	718
+			max_width  	709
 			compartmentItems 	(list Compartment
 			    "+ disposableProviderFactory : boolean"
 			    "+ multipleEditorPages : boolean = true"))
