@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.32 2007/06/15 21:57:41 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.33 2008/01/05 13:58:55 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -369,16 +369,50 @@ public class ItemProviderAdapter
     }
     return store != null ? store.getChildren() : result;
   }
-        
+
   /**
    * This implements {@link ITreeItemContentProvider#hasChildren ITreeItemContentProvider.hasChildren} 
    * by simply testing whether {@link #getChildren getChildren} returns any children.
    * This implementation will always be right, however, for efficiency you may want to override it to return false 
-   * or to compute the result in some other efficient way.
+   * or use the optimized approach offered by {@link #hasChildren(Object, boolean)} (i.e. by passing <code>true</code>
+   * as the second argument).
+   * @see #hasChildren(Object, boolean)
    */
   public boolean hasChildren(Object object)
   {
-    return !getChildren(object).isEmpty();
+    return hasChildren(object, false);
+  }
+
+  /**
+   * This implements {@link ITreeItemContentProvider#hasChildren ITreeItemContentProvider.hasChildren}. The approach
+   * taken depends on the value of <code>optimized</code>. The traditional, non-optimized approach simply tests whether 
+   * whether {@link #getChildren getChildren} returns any children. The new, optimized approach actually iterates
+   * through and tests the {@link #getChildrenFeatures children features} directly, avoiding accessing the children
+   * objects themselves, wherever possible.
+   * @since 2.4
+   */
+  protected boolean hasChildren(Object object, boolean optimized)
+  {
+    if (!optimized) return !getChildren(object).isEmpty();
+
+    EObject eObject = (EObject)object;
+    for (EStructuralFeature feature : getAnyChildrenFeatures(object))
+    {
+      if (feature.isMany())
+      {
+        List<?> children = (List<?>)eObject.eGet(feature);
+        if (!children.isEmpty())
+        {
+          return true;
+        }
+      }
+      else if (eObject.eGet(feature, false) != null)
+      {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**
