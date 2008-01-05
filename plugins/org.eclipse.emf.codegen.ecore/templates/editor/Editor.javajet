@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.52 2007/10/24 21:45:43 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.53 2008/01/05 19:56:39 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -739,6 +739,12 @@ public class <%=genPackage.getEditorClassName()%>
 					}
 				}
 			}
+
+			if (AdapterFactoryEditingDomain.isStale(editorSelection))
+			{
+				setSelection(StructuredSelection.EMPTY);
+			}
+
 			updateProblemIndication = true;
 			updateProblemIndication();
 		}
