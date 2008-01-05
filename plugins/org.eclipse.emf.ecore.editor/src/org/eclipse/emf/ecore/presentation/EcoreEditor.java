@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.50 2007/10/24 21:45:45 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.51 2008/01/05 19:57:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -648,6 +648,12 @@ public class EcoreEditor
           }
         }
       }
+
+      if (AdapterFactoryEditingDomain.isStale(editorSelection))
+      {
+        setSelection(StructuredSelection.EMPTY);
+      }
+
       updateProblemIndication = true;
       updateProblemIndication();
     }
