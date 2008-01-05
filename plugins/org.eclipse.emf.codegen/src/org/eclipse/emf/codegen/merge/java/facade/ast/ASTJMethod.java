@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJMethod.java,v 1.5 2006/12/31 02:32:47 marcelop Exp $
+ * $Id: ASTJMethod.java,v 1.6 2008/01/05 14:30:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -188,6 +188,39 @@ public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
     for (SingleVariableDeclaration parameter : parameters)
     {
       String type = ASTFacadeHelper.getTypeErasure(parameter.getType());
+      // append extra dimensions if any
+      for (int i = 0; i < parameter.getExtraDimensions(); i++)
+      {
+        type += "[]";
+      }
+      
+      // append [] if it is variable arity parameter (@see JLS3 8.4.1, http://java.sun.com/docs/books/jls/third_edition/html/classes.html#300870)
+      if (parameter.isVarargs())
+      {
+        type += "[]";
+      }
+      ret[j++] = type;
+    }
+    return ret;
+  }
+
+  /**
+   * Returns all the types of formal parameters of the original method declaration.
+   * Note that this implementation does not expand types into fully qualified names, nor
+   * does it replace type parameters defined for a class or a method.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#getFullParameterTypes()
+   */
+  public String[] getFullParameterTypes()
+  {
+    @SuppressWarnings("unchecked")
+    List<SingleVariableDeclaration> parameters = getASTNode().parameters();
+    
+    String[] ret = new String[parameters.size()];
+    int j = 0;
+    for (SingleVariableDeclaration parameter : parameters)
+    {
+      String type = getFacadeHelper().toString(parameter.getType());
       // append extra dimensions if any
       for (int i = 0; i < parameter.getExtraDimensions(); i++)
       {

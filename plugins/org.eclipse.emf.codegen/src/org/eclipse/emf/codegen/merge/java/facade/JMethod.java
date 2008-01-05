@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethod.java,v 1.3 2006/12/06 03:49:11 marcelop Exp $
+ * $Id: JMethod.java,v 1.4 2008/01/05 14:30:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -96,6 +96,20 @@ public interface JMethod extends JMember
    * parameters are declared
    */
   String[] getParameterTypes();
+
+  /**
+   * Returns the full types for the parameters of this method in the order 
+   * they are declared, or an empty array if no parameters are declared.
+   * The syntax for type names is defined by Formal Parameters (JLS2 8.4.1). 
+   * Type names must be specified as they would appear in source code. For
+   * example: <code>"File"</code>, <code>"java.io.File"</code>, or 
+   * <code>"int[]"</code>.
+   *
+   * @return the list of the full types of the parameters, or an empty array if no 
+   * parameters are declared
+   * @since 2.4
+   */
+  String[] getFullParameterTypes();
   
   /**
    * Sets the names of parameters in this method in the order they are

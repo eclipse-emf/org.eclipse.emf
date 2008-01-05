@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2007 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJMethod.java,v 1.4 2006/12/06 03:48:07 marcelop Exp $
+ * $Id: JDOMJMethod.java,v 1.5 2008/01/05 14:30:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -80,6 +80,11 @@ public class JDOMJMethod extends JDOMJMember implements JMethod
   {
     String[] ret = getWrappedObject().getParameterTypes(); 
     return ret == null ? EMPTY_STRING_ARRAY : ret;
+  }
+
+  public String[] getFullParameterTypes()
+  {
+    return getParameterTypes();
   }
 
   public String[] getTypeParameters()
