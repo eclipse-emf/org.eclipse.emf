@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.22 2007/06/14 18:32:42 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.23 2008/01/05 19:55:18 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.edit.domain;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,6 +40,7 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -91,6 +93,71 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     public boolean isAdapterForType(Object type)
     {
       return type == IEditingDomainProvider.class;
+    }
+  }
+
+  /**
+   * Returns whether the object is, contains, or wraps something that likely represents 
+   * a stale {@link Resource#unload() unloaded} {@link EObject#eIsProxy() object}.
+   * It's best to stop using unloaded objects entirely because they ought to be garbage collected
+   * and should be replaced by their {@link AdapterFactoryEditingDomain#resolve(Collection) resolved} result.
+   */
+  static public boolean isStale(Object object)
+  {
+    if (object instanceof IWrapperItemProvider)
+    {
+      IWrapperItemProvider wrapper = (IWrapperItemProvider)object;
+      return isStale(wrapper.getValue()) || isStale(wrapper.getOwner());
+    }
+    else if (object instanceof Collection)
+    {
+      for (Object item : (Collection<?>)object)
+      {
+        if (isStale(item))
+        {
+          return true;
+        }
+      }
+      return false;
+    }
+    else if (object instanceof Object[])
+    {
+      for (Object item : (Object[])object)
+      {
+        if (isStale(item))
+        {
+          return true;
+        }
+      }
+      return false;
+    }
+    else if (object instanceof EObject)
+    {
+      EObject eObject = (EObject)object;
+      return eObject.eIsProxy() && eObject.eAdapters().isEmpty();
+    }
+    else if (object instanceof FeatureMap.Entry)
+    {
+      return isStale(((FeatureMap.Entry)object).getValue());
+    }
+    else if (object == null)
+    {
+      return false;
+    }
+    else
+    {
+      // This handles IStructuredSelection.
+      //
+      Class<?> objectClass = object.getClass();
+      try
+      {
+        Method method = objectClass.getMethod("toArray");
+        return isStale(method.invoke(object));
+      }
+      catch (Exception exception)
+      {
+        return false;
+      }
     }
   }
 
@@ -564,6 +631,38 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     for (Object parent = getParent(object); parent != null; parent = getParent(parent))
     {
       result = parent;
+    }
+    return result;
+  }
+
+  /**
+   * Each {@link #isStale(Object)} in the list is unwrapped,
+   * {@link EcoreUtil#resolve(EObject, ResourceSet) resolved}, 
+   * and rewrapped before it's added to the result;
+   * Other objects are passed through unchecked.
+   * 
+   */
+  public List<?> resolve(Collection<?> objects)
+  {
+    List<Object> result = new UniqueEList<Object>();
+    for (Object object : objects)
+    {
+      if (isStale(object))
+      {
+        Object unwrappedObject = unwrap(object);
+        if (unwrappedObject instanceof EObject)
+        {
+          EObject resolvedEObject = EcoreUtil.resolve((EObject)unwrappedObject, resourceSet);
+          if (resolvedEObject != unwrappedObject)
+          {
+            result.add(object instanceof IWrapperItemProvider ? getWrapper(resolvedEObject) : resolvedEObject);
+          }
+        }
+      }
+      else
+      {
+        result.add(object);
+      }
     }
     return result;
   }
