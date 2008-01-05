@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryContentProvider.java,v 1.10 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: AdapterFactoryContentProvider.java,v 1.11 2008/01/05 19:56:07 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -22,7 +22,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -32,6 +36,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
@@ -132,7 +138,7 @@ public class AdapterFactoryContentProvider
   /**
    * This implements {@link org.eclipse.jface.viewers.IStructuredContentProvider}.getElements to 
    * forward the call to an object that implements 
-   * (@link org.eclipse.emf.edit.provider.IStructuredItemContentProvider#getElements IStructuredItemContentProvider.getElements}.
+   * {@link org.eclipse.emf.edit.provider.IStructuredItemContentProvider#getElements IStructuredItemContentProvider.getElements}.
    */
   public Object [] getElements(Object object)
   {
@@ -469,6 +475,13 @@ public class AdapterFactoryContentProvider
       {
         StructuredViewer structuredViewer = (StructuredViewer)viewer;
 
+        ISelection selection = structuredViewer.getSelection();
+        boolean isStaleSelection = AdapterFactoryEditingDomain.isStale(selection);
+        if (isStaleSelection)
+        {
+          viewer.setSelection(StructuredSelection.EMPTY);
+        }
+
         if (element != null)
         {
           if (notification.isContentRefresh())
@@ -483,6 +496,28 @@ public class AdapterFactoryContentProvider
         else
         {
           structuredViewer.refresh(notification.isLabelUpdate());
+        }
+
+        if (isStaleSelection)
+        {
+          Object object = structuredViewer.getInput();
+          EditingDomain editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(object);
+          if (editingDomain == null)
+          {
+            for (Object child : ((IStructuredContentProvider)structuredViewer.getContentProvider()).getElements(object))
+            {
+              editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(child);
+              if (editingDomain != null)
+              {
+                break;
+              }
+            }
+          }
+          if (editingDomain instanceof AdapterFactoryEditingDomain)
+          {
+            structuredViewer.setSelection
+              (new StructuredSelection(((AdapterFactoryEditingDomain)editingDomain).resolve(((IStructuredSelection)selection).toList())), true);
+          }
         }
       }
       else
