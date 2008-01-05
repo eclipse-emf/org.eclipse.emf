@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.81 2007/06/12 20:56:34 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.82 2008/01/05 13:47:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2902,9 +2902,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       else if ((genOperation.getName().startsWith("get") || genOperation.getName().startsWith("is"))
         && genOperation.getGenParameters().isEmpty())
       {
+        String operationType = genOperation.getType(GenClassImpl.this);
         for (GenFeature genFeature : allGenFeatures)
         {
-          if (genFeature.getGetAccessor().equals(genOperation.getName()))
+          if (genFeature.getGetAccessor().equals(genOperation.getName()) &&
+                genFeature.getType(GenClassImpl.this).equals(operationType))
           {
             return false;
           }
@@ -2936,11 +2938,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
       if (!genOperation.hasBody())
       {
+        String operationType = genOperation.getType(GenClassImpl.this);
         for (GenOperation baseOperation : extendsGenClassOperations)
         {
           if (baseOperation.isOverrideOf(GenClassImpl.this, genOperation))
           {
-            return false;
+            String baseOperationType = baseOperation.getType(GenClassImpl.this);
+            if (operationType== null ? baseOperationType == null : operationType.equals(baseOperationType))
+            {
+              return false;
+            }
           }
         }
       }
