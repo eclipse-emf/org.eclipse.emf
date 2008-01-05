@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.48 2007/10/24 21:45:42 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.49 2008/01/05 14:12:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1840,7 +1840,13 @@ public class GenModelEditor
     GenModel genModel = (GenModel)mainResource.getContents().get(0);
     genModel.setValidateModel(true);
     Diagnostic diagnostic = genModel.diagnose();
-    if (diagnostic.getSeverity() != Diagnostic.OK)
+    if (diagnostic.getSeverity() == Diagnostic.OK)
+    {
+      resourceToDiagnosticMap.remove(mainResource);
+      MarkerHelper markerHelper = new ValidateAction.EclipseResourcesUtil();
+      markerHelper.deleteMarkers(editingDomain.getResourceSet());
+    }
+    else
     {
       // TODO
       markerHelper = new ValidateAction.EclipseResourcesUtil();
