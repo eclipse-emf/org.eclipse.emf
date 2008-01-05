@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.18 2007/06/11 21:09:49 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.19 2008/01/05 13:58:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -25,6 +25,8 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.util.Diagnostic;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -36,6 +38,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
@@ -477,6 +480,11 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   
   public boolean isUncheckedCast()
   {
+    return isUncheckedCast(getContext());
+  }
+
+  public boolean isUncheckedCast(GenClass context)
+  {
     GenClassifier type = getTypeGenClassifier();
     if (type != null && type.isUncheckedCast())
     {
@@ -486,7 +494,10 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     {
       return true;
     }
-    EGenericType eGenericType = getEcoreTypedElement().getEGenericType();
+    EGenericType actualEGenericType = getEcoreTypedElement().getEGenericType();
+    String substitutedType = getTypeArgument(context, actualEGenericType, false, false);
+    Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(substitutedType);
+    EGenericType eGenericType = (EGenericType)diagnostic.getData().get(0);
     if (eGenericType != null)
     {
       // Type parameter casts can't be checked.
@@ -497,16 +508,33 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
       }
       else
       {
-        // If there are any arguments and they are not unbounded wildcards, casts can't be checked.
-        //
-        for (EGenericType eTypeArgument : eGenericType.getETypeArguments())
+        EClassifier eClassifier = eGenericType.getEClassifier();
+        if (eClassifier != null)
         {
-          if (eTypeArgument.getETypeParameter() != null ||
-                eTypeArgument.getEClassifier() != null ||
-                eTypeArgument.getEUpperBound() != null ||
-                eTypeArgument.getELowerBound() != null)
+          String instanceTypeName = eClassifier.getInstanceTypeName();
+          if (instanceTypeName != null)
           {
-            return true;
+            int index = instanceTypeName.indexOf('[');
+            if (index != -1)
+            {
+              instanceTypeName = instanceTypeName.substring(0, index);
+            }
+            if (instanceTypeName.indexOf('.') == -1 && !CodeGenUtil.isJavaPrimitiveType(instanceTypeName))
+            {
+              return true;
+            }
+          }
+          // If there are any arguments and they are not unbounded wildcards, casts can't be checked.
+          //
+          for (EGenericType eTypeArgument : eGenericType.getETypeArguments())
+          {
+            if (eTypeArgument.getETypeParameter() != null ||
+                  eTypeArgument.getEClassifier() != null ||
+                  eTypeArgument.getEUpperBound() != null ||
+                  eTypeArgument.getELowerBound() != null)
+            {
+              return true;
+            }
           }
         }
       }
