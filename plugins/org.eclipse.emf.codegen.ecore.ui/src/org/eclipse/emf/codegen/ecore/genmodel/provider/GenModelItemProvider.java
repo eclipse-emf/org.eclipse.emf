@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.37 2007/12/24 19:33:18 emerks Exp $
+ * $Id: GenModelItemProvider.java,v 1.38 2008/01/05 14:10:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -135,6 +135,7 @@ public class GenModelItemProvider
       addEditorPluginVariablesPropertyDescriptor(object);
       addTestsPluginIDPropertyDescriptor(object);
       addTestsPluginVariablesPropertyDescriptor(object);
+      addOptimizedHasChildrenPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1543,6 +1544,29 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Optimized Has Children feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addOptimizedHasChildrenPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_optimizedHasChildren_feature"),
+         getString("_UI_GenModel_optimizedHasChildren_description"),
+         GenModelPackage.Literals.GEN_MODEL__OPTIMIZED_HAS_CHILDREN,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1673,6 +1697,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_VARIABLES:
       case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_ID:
       case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES:
+      case GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
