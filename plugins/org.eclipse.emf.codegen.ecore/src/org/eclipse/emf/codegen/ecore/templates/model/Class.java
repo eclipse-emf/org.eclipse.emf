@@ -2115,7 +2115,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_271);
     } else {
-    if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType() && !genModel.isReflectiveDelegation() && genFeature.isUncheckedCast() || genFeature.isListType() && (genModel.isReflectiveDelegation() || genModel.isVirtualDelegation()) || genFeature.isListDataType() && genFeature.hasDelegateFeature())) {
+    if (genModel.useGenerics() && ((genFeature.isContainer() || genFeature.isResolveProxies()) && !genFeature.isListType() && !genModel.isReflectiveDelegation() && genFeature.isUncheckedCast(genClass) || genFeature.isListType() && (genModel.isReflectiveDelegation() || genModel.isVirtualDelegation()) || genFeature.isListDataType() && genFeature.hasDelegateFeature())) {
     stringBuffer.append(TEXT_272);
     }
     stringBuffer.append(TEXT_273);
@@ -3874,7 +3874,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_1027);
     if (genModel.useGenerics()) {
     for (GenFeature genFeature : genClass.getEInverseAddGenFeatures()) {
-    if (genFeature.isUncheckedCast()) {
+    if (genFeature.isUncheckedCast(genClass)) {
     stringBuffer.append(TEXT_1028);
     break; }
     }
@@ -4174,7 +4174,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_1159);
     if (genModel.useGenerics()) {
     for (GenFeature genFeature : genClass.getESetGenFeatures()) {
-    if (genFeature.isUncheckedCast() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) {
+    if (genFeature.isUncheckedCast(genClass) && !genFeature.isFeatureMapType() && !genFeature.isMapType()) {
     stringBuffer.append(TEXT_1160);
     break; }
     }

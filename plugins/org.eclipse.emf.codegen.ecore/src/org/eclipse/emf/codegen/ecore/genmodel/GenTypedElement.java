@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElement.java,v 1.9 2007/05/10 13:52:56 emerks Exp $
+ * $Id: GenTypedElement.java,v 1.10 2008/01/05 14:18:30 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -237,6 +237,11 @@ public interface GenTypedElement extends GenBase
    * @since 2.3
    */
   boolean isUncheckedCast();
+
+  /**
+   * @since 2.4
+   */
+  boolean isUncheckedCast(GenClass context);
 
   /**
    * This returns either "(EObject)", "(org.eclipse.emf.ecore.EObject)", or "" as needed for the reference type.
