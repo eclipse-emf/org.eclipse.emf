@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.20 2007/11/26 20:08:04 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.21 2008/01/05 19:58:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -423,7 +423,7 @@ public class ETypedElementItemProvider
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE:
-        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, true));
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
         return;
     }
     super.notifyChanged(notification);
