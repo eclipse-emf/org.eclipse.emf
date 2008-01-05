@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.44 2007/12/24 19:32:05 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.45 2008/01/05 14:31:53 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1372,7 +1372,7 @@ public class JavaEcoreBuilder
       String methodName = method.getName();
       String returnType = method.getReturnType();
       String[] parameterNames = method.getParameterNames();
-      String[] parameterTypes = method.getParameterTypes();
+      String[] parameterTypes = method.getFullParameterTypes();
       String[] exceptionTypes = method.getExceptions();
       String[] typeParameters = method.getTypeParameters();
 
@@ -1705,13 +1705,25 @@ public class JavaEcoreBuilder
   protected boolean isListType(String type)
   {
     type = stripTypeArguments(type);
-    return "EList".equals(type) || "org.eclipse.emf.common.util.EList".equals(type)|| "List".equals(type) || "java.util.List".equals(type);
+    return "EList".equals(type) || "org.eclipse.emf.common.util.EList".equals(type) || "List".equals(type) || "java.util.List".equals(type);
+  }
+
+  protected boolean isEListType(String type)
+  {
+    type = stripTypeArguments(type);
+    return "EList".equals(type) || "org.eclipse.emf.common.util.EList".equals(type);
   }
 
   protected boolean isMapType(String type)
   {
     type = stripTypeArguments(type);
-    return "EMap".equals(type) || "org.eclipse.emf.common.util.EMap".equals(type)|| "Map".equals(type) || "java.util.Map".equals(type);
+    return "EMap".equals(type) || "org.eclipse.emf.common.util.EMap".equals(type) || "Map".equals(type) || "java.util.Map".equals(type);
+  }
+
+  protected boolean isEMapType(String type)
+  {
+    type = stripTypeArguments(type);
+    return "EMap".equals(type) || "org.eclipse.emf.common.util.EMap".equals(type);
   }
 
   protected void handleETypedElement(ETypedElement eTypedElement, String name, String type, String modelAnnotation, String identifierName)
@@ -1728,7 +1740,7 @@ public class JavaEcoreBuilder
 
     // For lists, maps, and feature maps, the default is many-valued, which can be overridden by an upper-bound declaration.
     //
-    if (isListType(type) && (dataType == null || modelType != null && !isListType(modelType)))
+    if ((eTypedElement instanceof EStructuralFeature ? isListType(type) : isEListType(type)) && (dataType == null || modelType != null && !isListType(modelType)))
     {
       eTypedElement.setUpperBound(-1);
       Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(type);
@@ -1843,7 +1855,7 @@ public class JavaEcoreBuilder
         }
         if (ecoreEGenericType.getERawType().getEPackage() == null)
         {
-          if (keyType == null || valueType == null && isMapType(type))
+          if (keyType == null || valueType == null && (eTypedElement instanceof EStructuralFeature ? isMapType(type) : isEMapType(type)))
           {
             diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(type);
             if (diagnostic.getSeverity() == Diagnostic.OK)
