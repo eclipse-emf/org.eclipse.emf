@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.51 2007/06/15 21:17:21 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.52 2008/01/08 19:40:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1060,7 +1060,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   @Override
   public boolean isMapType()
   {
-    return !isContainer() && super.isMapType();
+    return isContains() && super.isMapType();
   }
 
   public boolean isFlag()
