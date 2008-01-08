@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.24 2007/11/12 20:10:25 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.25 2008/01/08 12:21:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -20,8 +20,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -318,12 +320,17 @@ public class EcoreValidator extends EObjectValidator
   public static final int WELL_FORMED_SOURCE_URI = 47;
 
   /**
+   * @see #validateEClass_DisjointFeatureAndOperationSignatures(EClass, DiagnosticChain, Map)
+   */
+  public static final int DISJOINT_FEATURE_AND_OPERATION_SIGNATURES = 48;
+
+  /**
    * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected static final int DIAGNOSTIC_CODE_COUNT = WELL_FORMED_SOURCE_URI;
+  protected static final int DIAGNOSTIC_CODE_COUNT = DISJOINT_FEATURE_AND_OPERATION_SIGNATURES;
 
   /**
    * The cached base package validator.
@@ -636,6 +643,7 @@ public class EcoreValidator extends EObjectValidator
     if (result || diagnostics != null) result &= validateEClass_NoCircularSuperTypes(eClass, diagnostics, context);
     if (result || diagnostics != null) result &= validateEClass_WellFormedMapEntryClass(eClass, diagnostics, context);
     if (result || diagnostics != null) result &= validateEClass_ConsistentSuperTypes(eClass, diagnostics, context);
+    if (result || diagnostics != null) result &= validateEClass_DisjointFeatureAndOperationSignatures(eClass, diagnostics, context);
     return result;
   }
 
@@ -821,17 +829,31 @@ public class EcoreValidator extends EObjectValidator
    * No two operations defined in the same class may have matching signatures.
    * The signature is determined by the name of the operation and the types of its parameters.
    * If the name is the same and the types match, the signatures match.
-   * Types match if they are same classifier, or both classifiers have instance class names that are the same.
+   * Types match if they are the same classifier, or both classifiers have instance class names that are the same.
    * <!-- end-user-doc -->
    * @generated NOT
    */
   public boolean validateEClass_UniqueOperationSignatures(EClass eClass, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    boolean result = true;
-    EList<EOperation> eOperatons = eClass.getEOperations();
-    if (!eOperatons.isEmpty())
+    return UNIQUE_OPERATION_SIGNATURES_VALIDATOR.validateEOperationSignatures(eClass, eClass.getEOperations(), eClass.getEOperations(), diagnostics, context);
+  }
+
+  private static class EOperationSignatureValidator
+  {
+    protected String messageKey;
+    protected int messageCode;
+
+    public EOperationSignatureValidator(String messageKey, int messageCode)
     {
-      for (EOperation eOperation : eOperatons)
+      this.messageKey = messageKey;
+      this.messageCode = messageCode;
+    }
+
+    public final boolean validateEOperationSignatures
+      (EClass eClass, EList<EOperation> eOperations, Collection<EOperation> otherEOperations, DiagnosticChain diagnostics, Map<Object, Object> context)
+    {
+      boolean result = true;
+      for (EOperation eOperation : eOperations)
       {
         String name = eOperation.getName();
         if (name != null)
@@ -839,7 +861,7 @@ public class EcoreValidator extends EObjectValidator
           EList<EParameter> eParameters = eOperation.getEParameters();
           int eParameterSize = eParameters.size();
           LOOP:
-          for (EOperation otherEOperation : eOperatons)
+          for (EOperation otherEOperation : otherEOperations)
           {
             // Match against every other operation but this one.
             //
@@ -894,26 +916,15 @@ public class EcoreValidator extends EObjectValidator
                   {
                     result = false;
 
-                    // We do not want to diagnose any error that have already been diagnosed by a super type.
-                    //
-                    for (EClass eSuperType : eClass.getEAllSuperTypes())
-                    {
-                      EList<EOperation> superTypeEAllOperations = eSuperType.getEAllOperations();
-                      if (superTypeEAllOperations.contains(eOperation) && superTypeEAllOperations.contains(otherEOperation))
-                      {
-                        continue LOOP;
-                      }
-                    }
-
                     diagnostics.add
                       (new BasicDiagnostic
                         (Diagnostic.ERROR,
                          DIAGNOSTIC_SOURCE,
-                         UNIQUE_OPERATION_SIGNATURES,
+                         messageCode,
                          EcorePlugin.INSTANCE.getString
-                           ("_UI_EClassUniqueEOperationSignatures_diagnostic",
-                            new Object[] { getObjectLabel(eOperation, context), getObjectLabel(otherEOperation, context) }),
-                         new Object[] { eClass, eOperation, otherEOperation }));
+                           (messageKey,
+                            new Object[] { getObjectLabel(eOperation, context), getObjectLabel(getTarget(otherEOperation), context) }),
+                         new Object[] { eClass, eOperation, getTarget(otherEOperation) }));
                   }
                 }
               }
@@ -921,9 +932,17 @@ public class EcoreValidator extends EObjectValidator
           }
         }
       }
+      return result;
     }
-    return result;
+      
+    protected EModelElement getTarget(EOperation targetEOperation)
+    {
+      return targetEOperation;
+    }
   }
+  
+  private static final EOperationSignatureValidator UNIQUE_OPERATION_SIGNATURES_VALIDATOR =
+    new EOperationSignatureValidator("_UI_EClassUniqueEOperationSignatures_diagnostic",UNIQUE_OPERATION_SIGNATURES);
 
   /**
    * There are other constraints we should check such as consistency of the return type, 
@@ -1141,7 +1160,7 @@ public class EcoreValidator extends EObjectValidator
   {
     boolean result = true;
 
-    // Maintain a list of classifiers for looking up conficts.
+    // Maintain a list of classifiers for looking up conflicts.
     //
     ArrayList<EClassifier> superTypes = new ArrayList<EClassifier>();
 
@@ -1217,6 +1236,90 @@ public class EcoreValidator extends EObjectValidator
     return result;
   }
 
+  /**
+   * Validates the DisjointFeatureAndOperationSignatures constraint of '<em>EClass</em>'.
+   * <!-- begin-user-doc -->
+   * Each feature defined in the class is 
+   * interpreted as implicitly defining the operations 
+   * with the signatures corresponding to the generated accessors for that feature
+   * hence the same type of constraint as {@link #validateEClass_UniqueOperationSignatures(EClass, DiagnosticChain, Map)} applies.
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean validateEClass_DisjointFeatureAndOperationSignatures(EClass eClass, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = true;
+    EList<EOperation> eOperations = eClass.getEOperations();
+    final Map<EOperation, EStructuralFeature> implicitEOperationToEStructuralFeatureMap = new LinkedHashMap<EOperation, EStructuralFeature>();
+    if (!eOperations.isEmpty())
+    {
+      for (EStructuralFeature eStructuralFeature : eClass.getEStructuralFeatures())
+      {
+        String featureName = eStructuralFeature.getName();
+        EClassifier eType = eStructuralFeature.getEType();
+        if (featureName != null && featureName.length() != 0 && eType != null)
+        {
+          featureName = featureName.substring(0,1).toUpperCase() + featureName.substring(1);
+          if (!EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.GET))
+          {
+            String getAccessor = (eStructuralFeature.isMany() || !"boolean".equals(eType.getInstanceClassName()) ? "get" : "is") + featureName;
+            if ("getClass".equals(getAccessor))
+            {
+              getAccessor = "getClass_";
+            }
+            EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
+            eOperation.setName(getAccessor);
+            eOperation.setUpperBound(eStructuralFeature.getUpperBound());
+            eOperation.setOrdered(eStructuralFeature.isOrdered());
+            eOperation.setUnique(eStructuralFeature.isUnique());
+            eOperation.setEType(eType);
+            implicitEOperationToEStructuralFeatureMap.put(eOperation, eStructuralFeature);
+          }
+          if (!eStructuralFeature.isMany() && eStructuralFeature.isChangeable() && !EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.SET))
+          {
+            String setAccessor = "set" + featureName;
+            EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
+            eOperation.setName(setAccessor);
+            EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
+            eParameter.setName(featureName);
+            eParameter.setEType(eType);
+            eOperation.getEParameters().add(eParameter);
+            implicitEOperationToEStructuralFeatureMap.put(eOperation, eStructuralFeature);
+          }
+          if (eStructuralFeature.isUnsettable())
+          {
+            if (!EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET))
+            {
+              String isSetAccessor =  "isSet" + featureName;
+              EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
+              eOperation.setName(isSetAccessor);
+              eOperation.setEType(EcorePackage.Literals.EBOOLEAN);
+              implicitEOperationToEStructuralFeatureMap.put(eOperation, eStructuralFeature);
+            }
+            if (!EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET))
+            {
+              String unsetAccessor =  "unset" + featureName;
+              EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
+              eOperation.setName(unsetAccessor);
+              implicitEOperationToEStructuralFeatureMap.put(eOperation, eStructuralFeature);
+            }
+          }
+        }
+      }
+
+      result =
+        new EOperationSignatureValidator("_UI_EClassDisjointFeatureAndOperationSignatures_diagnostic", DISJOINT_FEATURE_AND_OPERATION_SIGNATURES)
+        {
+          @Override
+          protected EModelElement getTarget(EOperation otherEOperation)
+          {
+            return implicitEOperationToEStructuralFeatureMap.get(otherEOperation);
+          }
+        }.validateEOperationSignatures(eClass, eOperations, implicitEOperationToEStructuralFeatureMap.keySet(), diagnostics, context);
+    }
+    return result;
+  }
+ 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

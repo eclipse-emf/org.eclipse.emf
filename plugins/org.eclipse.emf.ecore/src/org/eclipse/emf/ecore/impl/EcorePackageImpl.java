@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.24 2007/06/02 19:28:44 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.25 2008/01/08 12:21:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2420,7 +2420,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        source, 
        new String[] 
        {
-       "constraints", "InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes"
+       "constraints", "InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes DisjointFeatureAndOperationSignatures"
        });				
     addAnnotation
       (eClassifierEClass, 

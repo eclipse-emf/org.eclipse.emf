@@ -92,7 +92,7 @@
 		(object Attribute
 		    tool       	"Ecore"
 		    name       	"constraints"
-		    value      	"InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes"))
+		    value      	"InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes DisjointFeatureAndOperationSignatures"))
 	    quid       	"3903D5BF000A"
 	    superclasses 	(list inheritance_relationship_list
 		(object Inheritance_Relationship
@@ -661,7 +661,11 @@
 		(object Attribute
 		    tool       	"IDL"
 		    name       	"uuid"
-		    value      	(value Text "DCE:9c16b890-8398-11e1-0000-0060973f945c:1")))
+		    value      	(value Text "DCE:9c16b890-8398-11e1-0000-0060973f945c:1"))
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"constraints"
+		    value      	"ValidDefaultValueLiteral"))
 	    quid       	"3903D59D0230"
 	    superclasses 	(list inheritance_relationship_list
 		(object Inheritance_Relationship
@@ -6681,7 +6685,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	2
-			max_width  	550
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ instanceTypeName : String"))
 		    width      	612
