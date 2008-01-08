@@ -1,6 +1,7 @@
 package org.eclipse.emf.codegen.ecore.templates.model;
 
 import org.eclipse.emf.codegen.ecore.genmodel.*;
+import java.util.*;
 
 public class BuildProperties
 {
@@ -24,9 +25,10 @@ public class BuildProperties
   protected final String TEXT_8 = NL + "               META-INF/,\\";
   protected final String TEXT_9 = NL + "               plugin.xml,\\" + NL + "               plugin.properties" + NL + "jars.compile.order = ";
   protected final String TEXT_10 = NL + "source.";
-  protected final String TEXT_11 = " = src/" + NL + "output.";
-  protected final String TEXT_12 = " = bin/";
-  protected final String TEXT_13 = NL;
+  protected final String TEXT_11 = " = ";
+  protected final String TEXT_12 = NL + "output.";
+  protected final String TEXT_13 = " = bin/";
+  protected final String TEXT_14 = NL;
 
   public String generate(Object argument)
   {
@@ -35,7 +37,7 @@ public class BuildProperties
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -49,6 +51,7 @@ public class BuildProperties
 
     GenModel genModel = (GenModel)argument;
     String pluginClassesLocation = genModel.isRuntimeJar() ? genModel.getModelPluginID()+".jar" : ".";
+    List<String> sourceFolders = genModel.getModelSourceFolders();
     {GenBase copyrightHolder = argument instanceof GenBase ? (GenBase)argument : argument instanceof Object[] && ((Object[])argument)[0] instanceof GenBase ? (GenBase)((Object[])argument)[0] : null;
     if (copyrightHolder != null && copyrightHolder.hasCopyright()) {
     stringBuffer.append(TEXT_1);
@@ -71,12 +74,18 @@ public class BuildProperties
     }
     stringBuffer.append(TEXT_9);
     stringBuffer.append(pluginClassesLocation);
+     boolean first=true; for (Iterator<String> i = sourceFolders.iterator(); i.hasNext();) { String sourceFolder = i.next(); if (i.hasNext()){sourceFolder +=",\\";} if (first) {
     stringBuffer.append(TEXT_10);
     stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_11);
-    stringBuffer.append(pluginClassesLocation);
+    stringBuffer.append(sourceFolder);
+    first=false;} else {
+    stringBuffer.append(sourceFolder);
+    }}
     stringBuffer.append(TEXT_12);
+    stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_13);
+    stringBuffer.append(TEXT_14);
     return stringBuffer.toString();
   }
 }

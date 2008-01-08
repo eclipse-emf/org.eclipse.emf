@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.34 2007/08/24 20:32:27 marcelop Exp $
+ * $Id: Generator.java,v 1.35 2008/01/08 17:09:53 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -786,17 +786,21 @@ public class Generator extends CodeGen
           IContainer sourceContainer = project;
           if (javaSource.segmentCount() > 1)
           {
-            sourceContainer = project.getFolder(javaSource.removeFirstSegments(1).makeAbsolute());
-            if (!sourceContainer.exists())
-            {
-              ((IFolder)sourceContainer).create(false, true, new SubProgressMonitor(progressMonitor, 1));
+        	IPath sourceContainerPath = javaSource.removeFirstSegments(1).makeAbsolute();
+        	sourceContainer = project.getFolder(sourceContainerPath);
+        	if (!sourceContainer.exists())
+        	{
+        	  for (int i = sourceContainerPath.segmentCount() - 1; i >= 0; i--)
+        	  {
+	            sourceContainer = project.getFolder(sourceContainerPath.removeLastSegments(i));
+	            if (!sourceContainer.exists())
+	            {
+	              ((IFolder)sourceContainer).create(false, true, new SubProgressMonitor(progressMonitor, 1));  
+	            }
+	          }
             }
-          }
-  
-          if (isInitiallyEmpty)
-          {
-            IClasspathEntry sourceClasspathEntry = 
-              JavaCore.newSourceEntry(javaSource);
+
+            IClasspathEntry sourceClasspathEntry = JavaCore.newSourceEntry(javaSource);
             for (Iterator<IClasspathEntry> i = classpathEntries.iterator(); i.hasNext(); )
             {
               IClasspathEntry classpathEntry = i.next();
@@ -806,7 +810,10 @@ public class Generator extends CodeGen
               }
             }
             classpathEntries.add(0, sourceClasspathEntry);
+          }
   
+          if (isInitiallyEmpty)
+          {
             IClasspathEntry jreClasspathEntry =
               JavaCore.newVariableEntry
                 (new Path(JavaRuntime.JRELIB_VARIABLE), new Path(JavaRuntime.JRESRC_VARIABLE), new Path(JavaRuntime.JRESRCROOT_VARIABLE));

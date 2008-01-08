@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.90 2008/01/05 13:58:52 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.91 2008/01/08 17:09:53 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -6786,6 +6786,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return getTestsDirectory() == null ? false : getModelProjectDirectory().equals(getTestsProjectDirectory());
   }
 
+  public boolean sameEditTestsProject()
+  {
+    return getTestsDirectory() == null ? false : getEditProjectDirectory().equals(getTestsProjectDirectory());
+  }
+
+  public boolean sameEditorTestsProject()
+  {
+    return getTestsDirectory() == null ? false : getEditorProjectDirectory().equals(getTestsProjectDirectory());
+  }
+
   public String getEditIconsDirectory()
   {
     return getEditProjectDirectory() + "/icons";
@@ -6815,6 +6825,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     else if (!isBlank(getEditPluginIDGen()))
     {
       return getEditPluginIDGen();
+    }
+    else if (sameEditTestsProject())
+    {
+      return getModelPluginID();
+    }
+    else if (sameEditorTestsProject())
+    {
+      return getModelPluginID();
     }
     else
     {
@@ -7339,7 +7357,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     EList<String> packageNames = sameModelEditProject() ? 
       (EList<String>)getModelQualifiedPackageNames() :
-      new UniqueEList<String>();
+        sameEditTestsProject() ? 
+          (EList<String>)getTestsQualifiedPackageNames() :
+          new UniqueEList<String>();
 
     TreeIterator<GenPackage> genPackagesIterator = 
       new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
@@ -7399,6 +7419,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     
     result.add("org.eclipse.emf.edit");
     
+    if (sameEditTestsProject())
+    {
+      result.add("org.junit");
+    }
+
     for (GenPackage genPackage : getUsedGenPackages())
     {
       GenModel genModel = genPackage.getGenModel();
@@ -7415,7 +7440,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     EList<String> packageNames = sameModelEditorProject() || sameEditEditorProject() ? 
       (EList<String>)getEditQualifiedPackageNames() :
-      new UniqueEList<String>();
+        sameEditorTestsProject() ? 
+          (EList<String>)getTestsQualifiedPackageNames() :
+          new UniqueEList<String>();
 
     TreeIterator<GenPackage> genPackagesIterator = 
       new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
@@ -7486,6 +7513,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       result.add("org.eclipse.ui.ide");
     }
+
+    if (sameEditorTestsProject())
+    {
+      result.add("org.junit");
+    }
+
     for (GenPackage genPackage : getUsedGenPackages())
     {
       GenModel genModel = genPackage.getGenModel();
@@ -8145,6 +8178,138 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       return "null";
     }
+  }
+
+  public List<String> getModelSourceFolders()
+  {
+    List<String> sourceFolders = new UniqueEList<String>(2);
+
+    {
+      String sourceFolder = getSourceFolder(getModelDirectory());
+      if (sourceFolder != null)
+      {
+        sourceFolders.add(sourceFolder);
+      }
+    }
+
+    if (sameModelTestsProject())
+    {
+      String sourceFolder = getSourceFolder(getTestsDirectory());
+      if (sourceFolder != null)
+      {
+        sourceFolders.add(sourceFolder);
+      }
+    }
+
+    return sourceFolders;
+  }
+
+  public List<String> getEditSourceFolders()
+  {
+    List<String> sourceFolders = new UniqueEList<String>(3);
+
+    if (sameModelEditProject())
+    {
+      String sourceFolder = getSourceFolder(getModelDirectory());
+      if (sourceFolder != null)
+      {
+        sourceFolders.add(sourceFolder);
+      }
+    }
+
+    {
+      String sourceFolder = getSourceFolder(getEditDirectory());
+      if (sourceFolder != null)
+      {
+        sourceFolders.add(sourceFolder);
+      }
+    }
+    
+    if (sameEditTestsProject())
+    {
+      String sourceFolder = getSourceFolder(getTestsDirectory());
+      if (sourceFolder != null)
+      {
+        sourceFolders.add(sourceFolder);
+      }
+    }    
+        
+    return sourceFolders;
+  }
+  
+  public List<String> getEditorSourceFolders()
+  {
+    List<String> sourceFolders = new UniqueEList<String>(4);
+
+    if (sameModelEditorProject())
+    {
+      String sourceFolder = getSourceFolder(getModelDirectory());
+      if (sourceFolder != null)
+      {
+        sourceFolders.add(sourceFolder);
+      }
+    }
+
+    if (sameEditEditorProject())
+    {
+      String sourceFolder = getSourceFolder(getEditDirectory());
+      if (sourceFolder != null)
+      {
+        sourceFolders.add(sourceFolder);
+      }
+    }
+    
+    {
+      String sourceFolder = getSourceFolder(getEditorDirectory());
+      if (sourceFolder != null)
+      {
+        sourceFolders.add(sourceFolder);
+      }
+    }
+
+    if (sameEditorTestsProject())
+    {
+      String sourceFolder = getSourceFolder(getTestsDirectory());
+      if (sourceFolder != null)
+      {
+        sourceFolders.add(sourceFolder);
+      }
+    }
+
+    return sourceFolders;
+  }
+
+  public List<String> getTestsSourceFolders()
+  {
+    List<String> sourceFolders = new UniqueEList<String>(1);
+
+    String sourceFolder = getSourceFolder(getTestsDirectory());
+    if (sourceFolder != null)
+    {
+      sourceFolders.add(sourceFolder);
+    }
+
+    return sourceFolders;
+  }
+
+  protected String getSourceFolder(String projectDirectory)
+  {
+    if (!isBlank(projectDirectory))
+    {
+      URI uri = URI.createURI(projectDirectory);
+      int segmentCount = uri.segmentCount();
+      if (segmentCount > 1)
+      {
+        StringBuilder result = new StringBuilder();
+        for (int i = 1; i < segmentCount; ++i)
+        {
+          result.append(uri.segment(i));
+          result.append('/');
+        }
+        return result.toString();
+      }
+    }
+    return null;
   }
 
 } //GenModelImpl

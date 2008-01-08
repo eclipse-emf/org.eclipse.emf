@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.53 2008/01/05 13:58:52 emerks Exp $
+ * $Id: GenModel.java,v 1.54 2008/01/08 17:09:53 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -2488,4 +2488,36 @@ public interface GenModel extends GenBase
    * @since 2.3
    */
   String getCopyrightFieldLiteral();
+
+  /**
+   * Returns the source folders for the model project. The returned 
+   * list doesn't contain duplicated elements.
+   * @return List<String>
+   * @since 2.4
+   */
+  List<String> getModelSourceFolders();
+
+  /**
+   * Returns the source folders for the edit project. The returned 
+   * list doesn't contain duplicated elements.
+   * @return List<String>
+   * @since 2.4
+   */
+  List<String> getEditSourceFolders();
+
+  /**
+   * Returns the source folders for the editor project. The returned 
+   * list doesn't contain duplicated elements.
+   * @return List<String>
+   * @since 2.4
+   */
+  List<String> getEditorSourceFolders();
+
+  /**
+   * Returns the source folders for the tests project. The returned 
+   * list doesn't contain duplicated elements.
+   * @return List<String>
+   * @since 2.4
+   */
+  List<String> getTestsSourceFolders();
 }

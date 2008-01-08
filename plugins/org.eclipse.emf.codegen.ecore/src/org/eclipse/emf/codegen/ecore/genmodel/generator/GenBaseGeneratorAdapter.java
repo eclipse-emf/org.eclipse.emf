@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.11 2007/06/12 20:56:34 emerks Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.12 2008/01/08 17:09:53 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -407,10 +407,9 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
             {
               IProject testsProject = workspace.getRoot().getProject(genModel.getTestsProjectDirectory());
 
+              javaSource = new Path(genModel.getTestsDirectory());
               if (!genModel.sameModelTestsProject()) 
               {
-                javaSource = new Path(genModel.getTestsDirectory());
-  
                 if (testsProject.exists())
                 {
                   projectLocation = getLocationURI(testsProject);
@@ -424,9 +423,9 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
             {
               IProject editProject = workspace.getRoot().getProject(genModel.getEditProjectDirectory());
 
+              javaSource = new Path(genModel.getEditDirectory());
               if (!genModel.sameModelEditProject())
               {
-                javaSource = new Path(genModel.getEditDirectory());
                 if (editProject.exists())
                 {
                   projectLocation = getLocationURI(editProject);
