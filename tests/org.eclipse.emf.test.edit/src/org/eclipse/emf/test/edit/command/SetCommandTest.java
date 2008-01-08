@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommandTest.java,v 1.4 2006/12/30 03:43:26 marcelop Exp $
+ * $Id: SetCommandTest.java,v 1.5 2008/01/08 15:50:57 emerks Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
@@ -289,7 +289,12 @@ public class SetCommandTest extends TestCase
     assertEquals(1, e1.getD().size());
     assertEquals(d1, e1.getD().get(0));
     assertEquals(e1, d1.getE().get(0));
-    assertFalse(stack.canUndo());
+    
+    assertTrue(stack.canUndo());
+    stack.undo();
+    assertEquals(e1, d0.getE().get(1));
+    assertEquals(d0, e1.getD().get(0));
+    assertTrue(e3.getD().isEmpty());
   }
 
   public void testOneToManyStayNull()
