@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.25 2008/01/08 12:21:48 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.26 2008/01/08 19:42:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -325,12 +325,17 @@ public class EcoreValidator extends EObjectValidator
   public static final int DISJOINT_FEATURE_AND_OPERATION_SIGNATURES = 48;
 
   /**
+   * @see #validateEClass_WellFormedMapEntryClass(EClass, DiagnosticChain, Map)
+   */
+  public static final int WELL_FORMED_MAP_ENTRY_NO_INSTANCE_CLASS_NAME = 49;
+
+  /**
    * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected static final int DIAGNOSTIC_CODE_COUNT = DISJOINT_FEATURE_AND_OPERATION_SIGNATURES;
+  protected static final int DIAGNOSTIC_CODE_COUNT = WELL_FORMED_MAP_ENTRY_NO_INSTANCE_CLASS_NAME;
 
   /**
    * The cached base package validator.
@@ -1141,6 +1146,32 @@ public class EcoreValidator extends EObjectValidator
                WELL_FORMED_MAP_ENTRY_CLASS,
                EcorePlugin.INSTANCE.getString("_UI_EClassNotWellFormedMapEntry_diagnostic", new Object[] { "value" }),
                new Object[] { eClass }));
+        }
+      }
+    }
+    else
+    {
+      for (EClass eSuperType : eClass.getEAllSuperTypes())
+      {
+        if (eSuperType.getInstanceClassName() == "java.util.Map$Entry")
+        {
+          if (diagnostics == null)
+          {
+            return false;
+          }
+          else
+          {
+            result = false;
+            diagnostics.add
+              (new BasicDiagnostic
+                (Diagnostic.ERROR,
+                 DIAGNOSTIC_SOURCE,
+                 WELL_FORMED_MAP_ENTRY_NO_INSTANCE_CLASS_NAME,
+                 EcorePlugin.INSTANCE.getString
+                   ("_UI_EClassNotWellFormedMapEntryNoInstanceClassName_diagnostic",
+                    new Object [] { getObjectLabel(eClass, context) }),
+                 new Object[] { eClass }));
+          }
         }
       }
     }
