@@ -89,6 +89,55 @@
     <eClassifiers xsi:type="ecore:EClass" name="CircularB" eSuperTypes="#//class/CircularA"/>
     <eClassifiers xsi:type="ecore:EClass" name="MapEntryWithoutKeyOrValueFeature"
         instanceClassName="java.util.Map$Entry"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ClassWithCollidingFeatureAndOperationSignatures">
+      <eOperations name="isA" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eOperations name="isSetA" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eOperations name="setA">
+        <eParameters name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </eOperations>
+      <eOperations name="unsetA"/>
+      <eOperations name="getB" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="isSetB" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="setB">
+        <eParameters name="b" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eOperations name="unsetB"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          unsettable="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          unsettable="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OkayClassWithSuppressedFeatureAccessorsThatWouldOtherwiseCollideWithOperationSignatures">
+      <eOperations name="isA" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eOperations name="isSetA" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eOperations name="setA">
+        <eParameters name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </eOperations>
+      <eOperations name="unsetA"/>
+      <eOperations name="getB" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="isSetB" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eOperations name="setB">
+        <eParameters name="b" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+      <eOperations name="unsetB"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          unsettable="true">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="suppressedGetVisibility" value="true"/>
+          <details key="suppressedIsSetVisibility" value="true"/>
+          <details key="suppressedSetVisibility" value="true"/>
+          <details key="suppressedUnsetVisibility" value="true"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          unsettable="true">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="suppressedGetVisibility" value="true"/>
+          <details key="suppressedIsSetVisibility" value="true"/>
+          <details key="suppressedUnsetVisibility" value="true"/>
+        </eAnnotations>
+      </eStructuralFeatures>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="enum" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//enum"
       nsPrefix="bad.enum">
