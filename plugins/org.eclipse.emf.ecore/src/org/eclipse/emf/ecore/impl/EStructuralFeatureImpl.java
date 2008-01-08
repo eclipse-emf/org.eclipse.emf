@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.30 2007/06/14 14:17:28 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.31 2008/01/08 19:48:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -869,13 +869,13 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
                 {
                   settingDelegate = 
                     new InternalSettingDelegateMany
-                      (InternalSettingDelegateMany.CONTAINMENT_DYNAMIC, this);
+                      (InternalSettingDelegateMany.CONTAINMENT_DYNAMIC_RESOLVE, this);
                 }
                 else
                 {
                   settingDelegate = 
                     new InternalSettingDelegateMany
-                      (InternalSettingDelegateMany.CONTAINMENT_DYNAMIC_RESOLVE, this);
+                      (InternalSettingDelegateMany.CONTAINMENT_DYNAMIC, this);
                 }
               }
               else if (dataClass == Map.Entry.class)
@@ -886,9 +886,19 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
               }
               else
               {
-                settingDelegate = 
-                  new InternalSettingDelegateMany
-                    (InternalSettingDelegateMany.CONTAINMENT, dataClass, this);
+                if (isResolveProxies())
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT_RESOLVE, dataClass, this);
+                }
+                else
+                {
+                  settingDelegate = 
+                    new InternalSettingDelegateMany
+                      (InternalSettingDelegateMany.CONTAINMENT, dataClass, this);
+                  
+                }
               }
             }
           }
