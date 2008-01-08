@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.12 2007/06/14 18:32:42 emerks Exp $
+ * $Id: SetCommand.java,v 1.13 2008/01/08 15:50:57 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -25,10 +25,10 @@ import java.util.ListIterator;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.common.command.IdentityCommand;
 import org.eclipse.emf.common.command.StrictCompoundCommand;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -109,34 +109,16 @@ public class SetCommand extends AbstractOverrideableCommand
         List<?> values = value == UNSET_VALUE ? Collections.EMPTY_LIST : (List<?>)value;
         List<?> oldValues = (List<?>)((EObject)owner).eGet(eReference);
 
-        // If we're unsetting the list or setting to be empty, and it is currently not empty, we'll need a strict
-        // compound command so that the list is empty when the final set command tests for executability. 
-        //
         CompoundCommand compound = null;
-        if (!oldValues.isEmpty() && values.isEmpty())
-        {
-          compound =
-            new PessimisticStrictCompoundCommand(LABEL, DESCRIPTION)
+        compound = 
+          new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL, LABEL, DESCRIPTION)
+          {
+            @Override
+            public Collection<?> getAffectedObjects()
             {
-              @Override
-              public Collection<?> getAffectedObjects()
-              {
-                return Collections.singleton(owner);
-              }         
-            };
-        }
-        else
-        {
-          compound = 
-            new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL, LABEL, DESCRIPTION)
-            {
-              @Override
-              public Collection<?> getAffectedObjects()
-              {
-                return Collections.singleton(owner);
-              }
-            };
-        }
+              return Collections.singleton(owner);
+            }
+          };
 
         if (!oldValues.isEmpty())
         {
@@ -198,9 +180,13 @@ public class SetCommand extends AbstractOverrideableCommand
         {
           compound.append(AddCommand.create(domain, owner, feature, values));
         }
-        else
+        else if (value == UNSET_VALUE && eReference.isUnsettable())
         {
           compound.append(domain.createCommand(SetCommand.class, new CommandParameter(owner, feature, value)));
+        }
+        else if (compound.getCommandList().isEmpty())
+        {
+          return IdentityCommand.INSTANCE;
         }
         return compound;
       } // end setting whole list
@@ -260,13 +246,13 @@ public class SetCommand extends AbstractOverrideableCommand
                 //
                 Command removeCommand = RemoveCommand.create(domain, oldValue, eOtherEnd, Collections.singleton(owner));
 
-                if (value != UNSET_VALUE)
+                if (value != UNSET_VALUE || !eReference.isUnsettable())
                 {
                   return removeCommand;
                 }
                 else
                 {
-                  CompoundCommand compound = new PessimisticStrictCompoundCommand(LABEL, DESCRIPTION);
+                  CompoundCommand compound = new CompoundCommand(LABEL, DESCRIPTION);
                   compound.append(removeCommand);
                   compound.append(domain.createCommand(SetCommand.class, new CommandParameter(owner, eReference, value)));
                   return compound;
@@ -411,6 +397,11 @@ public class SetCommand extends AbstractOverrideableCommand
   protected boolean canUndo = true;
 
   /**
+   * This is any remove commands needed to clear this many valued list or to update the opposite properly.
+   */
+  protected Command removeCommand;
+
+  /**
    * This constructs a primitive command to set the owner's feature to the specified value.
    */
   public SetCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value)  
@@ -515,12 +506,11 @@ public class SetCommand extends AbstractOverrideableCommand
 
       // Is the feature an attribute of the owner...
       //
-      if (eMetaObject.getEAllAttributes().contains(feature)) 
+      if (eMetaObject.getEAllStructuralFeatures().contains(feature)) 
       {
         // If must be of this type then.
         //
-        EAttribute eAttribute = (EAttribute)feature;
-        EClassifier eType = eAttribute.getEType();
+        EClassifier eType = feature.getEType();
 
         if (ownerList != null)
         {
@@ -528,19 +518,20 @@ public class SetCommand extends AbstractOverrideableCommand
           // unique feature. Record the old value.
           //
           if (index >= 0 && index < ownerList.size() && eType.isInstance(value) &&
-              (!eAttribute.isUnique() || !ownerList.contains(value)))
+              (!feature.isUnique() || !ownerList.contains(value)))
           {
             oldValue = ownerList.get(index);
             result = true;
           }
         }
-        else if (eAttribute.isMany())
+        else if (feature.isMany())
         {
           // If the attribute is set, record it's old value.
           //
-          if (owner.eIsSet(eAttribute))
+          if (owner.eIsSet(feature))
           {
             oldValue = new BasicEList<Object>((EList<?>)owner.eGet(feature));
+            // oldValue = owner.eGet(feature);
           }
           else
           {
@@ -569,7 +560,7 @@ public class SetCommand extends AbstractOverrideableCommand
         {
           // If the attribute is set, record it's old value.
           //
-          if (owner.eIsSet(eAttribute))
+          if (owner.eIsSet(feature))
           {
             oldValue = owner.eGet(feature);
           }
@@ -580,65 +571,10 @@ public class SetCommand extends AbstractOverrideableCommand
 
           result = value == null || value == UNSET_VALUE || eType.isInstance(value);
         }
-      }
-      // Is the feature an reference of the owner...
-      //
-      else if (eMetaObject.getEAllReferences().contains(feature)) 
-      {
-        // It must be of this type.
-        //
-        EReference eReference = (EReference)feature;
-
-        // Make sure we're only setting a single value -- either a value at a specified index in a multi-valued
-        // reference or just a single-valued reference is allowed.  Setting a whole multi-valued feature is not. 
-        //
-        if (ownerList != null)
-        {
-          if (index >= 0 && index < ownerList.size() && eReference.getEType().isInstance(value) &&
-              (!eReference.isUnique() || !ownerList.contains(value)))
-          {
-            oldValue = ownerList.get(index);
-            result = true;
-          }
-        }
-        else if (eReference.isMany())
-        {
-          // If the list is unset or set to empty, and we can set it to empty or unset it.
-          //
-          if (value == UNSET_VALUE || (value instanceof Collection && ((List<?>)value).isEmpty()))
-          {
-            if (!owner.eIsSet(eReference))
-            {
-              result = true;
-              oldValue = UNSET_VALUE;
-            }
-            else if (((EList<?>)owner.eGet(feature)).isEmpty())
-            {
-              result = true;
-              oldValue = Collections.EMPTY_LIST;
-            }
-          }
-        }
-        else
-        {
-          if (owner.eIsSet(feature))
-          {
-            oldValue = owner.eGet(feature);
-          }
-          else
-          {
-            oldValue = UNSET_VALUE; 
-          }
-
-          if (value == null || value == UNSET_VALUE || eReference.getEType().isInstance(value))
-          {
-            result = true;
-          }
-        }
 
         // Make sure the container is not being put into a contained object.
         //
-        if (result && eReference.isContainment())
+        if (result && feature instanceof EReference && ((EReference)feature).isContainment())
         {
           for (EObject container = owner; container != null; container = container.eContainer())
           {
@@ -649,33 +585,6 @@ public class SetCommand extends AbstractOverrideableCommand
             }
           }
         }
-
-        // Check whether the command is undoable.
-        //
-        if (result && eReference.getEOpposite() != null && oldValue instanceof EObject)
-        {
-          EReference eOtherEnd = eReference.getEOpposite();
-          if (eOtherEnd.isMany())
-          {
-            // If there is an existing value, the opposite reference is multi-valued, and the owner is not last in that
-            // opposite reference, then executing the set will remove the owner from its position in the list, and
-            // undoing would add it back at the end, failing to preserve the order.
-            //
-            if (oldValue != null)
-            {
-              EList<?> oppositeList = (EList<?>)((EObject)oldValue).eGet(eOtherEnd);
-              canUndo = oppositeList.get(oppositeList.size() - 1) == owner;
-            }
-          }
-          else
-          {
-            // If the new value is non-null and the opposite reference is single-valued, then the set will clear that
-            // opposite reference, and undoing would not restore it.
-            //
-            canUndo = (value == null || value == UNSET_VALUE || ((EObject)value).eGet(eOtherEnd) == null);
-          }
-
-        }
       }
     }
 
@@ -685,11 +594,98 @@ public class SetCommand extends AbstractOverrideableCommand
   @Override
   public void doExecute() 
   {
+    if (feature instanceof EReference)
+    {
+      EReference eReference = (EReference)feature;
+
+      // Check whether there is an opposite that needs attention.
+      //
+      if (eReference.getEOpposite() != null)
+      {
+        // Because of the old factoring approach in the create method, 
+        // it might be the case that the state of the old value has changed by the time we get here,
+        // and in that case, we don't want to duplicate the removals in this code.
+        //
+        if (oldValue instanceof Collection)
+        {
+          oldValue = new BasicEList<Object>((Collection<?>)owner.eGet(feature));
+        }
+        else if (oldValue != UNSET_VALUE && index == CommandParameter.NO_INDEX)
+        {
+          oldValue = owner.eGet(feature);
+        }
+        EReference eOtherEnd = eReference.getEOpposite();
+        if (eOtherEnd.isMany())
+        {
+          // If the other end is a many, then we should remove the owner from the old value's opposite feature so that undo will put it back.
+          //
+          if (oldValue instanceof Collection)
+          {
+            @SuppressWarnings("unchecked")
+            Collection<EObject> oldValues = (Collection<EObject>)oldValue;
+            if (!oldValues.isEmpty())
+            {
+              CompoundCommand compoundCommand = new CompoundCommand();
+              for (EObject oldValueObject : oldValues)
+              {
+                compoundCommand.appendIfCanExecute(new RemoveCommand(domain, oldValueObject, eOtherEnd, owner));
+              }
+              removeCommand = compoundCommand;
+            }
+          }
+          else if (oldValue instanceof EObject)
+          {
+            removeCommand = new RemoveCommand(domain, (EObject)oldValue, eOtherEnd, owner);
+          }
+        }
+        else
+        {
+          // If the other end is single, then we should unset the owner from the old value's opposite feature so that undo will put it back.
+          //
+          if (value instanceof Collection)
+          {
+            @SuppressWarnings("unchecked")
+            Collection<EObject> newValues = (Collection<EObject>)value;
+            if (!newValues.isEmpty())
+            {
+              CompoundCommand compoundCommand = new CompoundCommand();
+              for (EObject newValueObject : newValues)
+              {
+                compoundCommand.appendIfCanExecute(new SetCommand(domain, newValueObject, eOtherEnd, UNSET_VALUE));
+              }
+              removeCommand = compoundCommand;
+            }
+          }
+          else if (value instanceof EObject)
+          {
+            removeCommand = new SetCommand(domain, (EObject)value, eOtherEnd, UNSET_VALUE);
+          }
+        }
+        if (removeCommand != null)
+        {
+          if (removeCommand.canExecute())
+          {
+            removeCommand.execute();
+          }
+          else
+          {
+            removeCommand = null;
+          }
+        }
+      }
+    }
     // Either set or unset the feature.
     //
     if (ownerList != null)
     {
-      ownerList.set(index, value);
+      if (removeCommand == null || ownerList.size() > index && ownerList.get(index) == oldValue)
+      {
+        ownerList.set(index, value);
+      }
+      else
+      {
+        ownerList.add(index, value);
+      }
     }
     else if (value == UNSET_VALUE)
     {
@@ -710,11 +706,24 @@ public class SetCommand extends AbstractOverrideableCommand
   @Override
   public void doUndo() 
   {
+    if (removeCommand != null)
+    {
+      removeCommand.undo();
+    }
+
     // Either set or unset the old value.
     //
     if (ownerList != null)
     {
-      ownerList.set(index, oldValue);
+      if (removeCommand == null || !ownerList.contains(oldValue))
+      {
+        ownerList.set(index, oldValue);
+      }
+      else
+      {
+        ownerList.remove(value);
+        ownerList.move(index, oldValue);
+      }
     }
     else if (oldValue == UNSET_VALUE)
     {
@@ -729,11 +738,23 @@ public class SetCommand extends AbstractOverrideableCommand
   @Override
   public void doRedo() 
   {
+    if (removeCommand != null)
+    {
+      removeCommand.redo();
+    }
+
     // Either set or unset the feature.
     //
     if (ownerList != null)
     {
-      ownerList.set(index, value);
+      if (removeCommand == null || ownerList.size() > index && ownerList.get(index) == oldValue)
+      {
+        ownerList.set(index, value);
+      }
+      else
+      {
+        ownerList.add(index, value);
+      }
     }
     else if (value == UNSET_VALUE)
     {
