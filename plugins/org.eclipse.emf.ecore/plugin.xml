@@ -2,6 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
   <extension-point id="generated_package" name="%_UI_PackageRegistry_extensionpoint" schema="schema/generated_package.exsd" />
+  <extension-point id="dynamic_package" name="%_UI_DynamicPackageRegistry_extensionpoint" schema="schema/dynamic_package.exsd" />
   <extension-point id="factory_override" name="%_UI_FactoryRegistry_extensionpoint" schema="schema/factory_override.exsd" />
   <extension-point id="extension_parser" name="%_UI_URIExtensionParserRegistry_extensionpoint" schema="schema/extension_parser.exsd" />
   <extension-point id="protocol_parser" name="%_UI_URIProtocolParserRegistry_extensionpoint" schema="schema/protocol_parser.exsd" />

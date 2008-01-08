@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegistryReader.java,v 1.8 2007/05/10 19:16:06 emerks Exp $
+ * $Id: RegistryReader.java,v 1.9 2008/01/08 12:03:16 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -29,10 +29,13 @@ import org.eclipse.core.runtime.IRegistryChangeEvent;
 import org.eclipse.core.runtime.IRegistryChangeListener;
 import org.eclipse.core.runtime.Platform;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 
 public abstract class RegistryReader
@@ -194,6 +197,48 @@ public abstract class RegistryReader
 
   static class EPackageDescriptor extends PluginClassDescriptor implements EPackage.Descriptor
   {
+    static class Dynamic extends EPackageDescriptor
+    {
+      protected static ResourceSet resourceSet = new ResourceSetImpl();
+
+      public Dynamic(IConfigurationElement element, String attributeName)
+      {
+        super(element, attributeName);
+      }
+
+      @Override
+      public EPackage getEPackage()
+      {
+        // First try to see if this class has an eInstance 
+        //
+        try
+        {
+          String location = element.getAttribute(attributeName);
+          if (location != null)
+          {
+            URI locationURI = URI.createURI(location);
+            if (locationURI.isRelative())
+            {
+              locationURI = URI.createPlatformPluginURI(element.getDeclaringExtension().getContributor().getName() + "/" + location, true);
+            }
+            if (!locationURI.hasFragment())
+            {
+              locationURI = locationURI.appendFragment("/");
+            }
+            return (EPackage)resourceSet.getEObject(locationURI, true);
+          }
+          else
+          {
+            throw new RuntimeException("No location attribute was specified.");
+          }
+        }
+        catch (Exception e)
+        {
+          throw new WrappedException(e);
+        }
+      }
+    }
+
     public EPackageDescriptor(IConfigurationElement element, String attributeName)
     {
       super(element, attributeName);
