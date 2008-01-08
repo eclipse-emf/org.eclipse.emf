@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.38 2008/01/05 13:58:52 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.39 2008/01/08 12:35:15 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -95,6 +95,8 @@ public class <%=genClass.getProviderClassName()%>
 	 */
 	protected void add<%=genFeature.getCapName()%>PropertyDescriptor(Object object)
 	{
+<%@ include file="ItemProvider/addPropertyDescriptor.override.javajetinc" fail="alternative" %>
+<%@ start %>
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((<%=genModel.getImportedName("org.eclipse.emf.edit.provider.ComposeableAdapterFactory")%>)adapterFactory).getRootAdapterFactory(),
@@ -130,6 +132,7 @@ public class <%=genClass.getProviderClassName()%>
     <%}%>
 				 }));
   <%}%>
+<%@ end %><%//ItemProvider/addPropertyDescriptor.override.javajetinc%>
 	}
 
 <%}%>
@@ -218,6 +221,8 @@ public class <%=genClass.getProviderClassName()%>
 <%}%>
 	public String getText(Object object)
 	{
+<%@ include file="ItemProvider/getText.override.javajetinc" fail="alternative" %>
+<%@ start %>
 <%if (genClass.isMapEntry()) {%>
 		<%=genClass.getImportedInterfaceName()%><%if (genModel.useGenerics()) {%><?, ?><%}%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%><%if (genModel.useGenerics()) {%><?, ?><%}%>)object;
   <%if (!genClass.getMapEntryKeyFeature().isPropertyMultiLine() && !genClass.getMapEntryValueFeature().isPropertyMultiLine()) {%>
@@ -261,6 +266,7 @@ public class <%=genClass.getProviderClassName()%>
 <%} else {%>
 		return getString("_UI_<%=genClass.getName()%>_type");<%=genModel.getNonNLS()%>
 <%}%>
+<%@ end %><%//ItemProvider/getText.override.javajetinc%>
 	}
 
 	/**
