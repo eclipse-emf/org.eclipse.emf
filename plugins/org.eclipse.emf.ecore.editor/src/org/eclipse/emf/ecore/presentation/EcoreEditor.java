@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.51 2008/01/05 19:57:29 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.52 2008/01/08 12:27:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -627,6 +627,10 @@ public class EcoreEditor
   {
     if (!changedResources.isEmpty() && (!isDirty() || handleDirtyConflict()))
     {
+      if (isDirty())
+      {
+        changedResources.addAll(editingDomain.getResourceSet().getResources());
+      }
       editingDomain.getCommandStack().flush();
 
       updateProblemIndication = false;
