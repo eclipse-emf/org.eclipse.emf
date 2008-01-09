@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.26 2008/01/08 19:42:01 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.27 2008/01/09 01:15:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1167,9 +1167,7 @@ public class EcoreValidator extends EObjectValidator
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  WELL_FORMED_MAP_ENTRY_NO_INSTANCE_CLASS_NAME,
-                 EcorePlugin.INSTANCE.getString
-                   ("_UI_EClassNotWellFormedMapEntryNoInstanceClassName_diagnostic",
-                    new Object [] { getObjectLabel(eClass, context) }),
+                 EcorePlugin.INSTANCE.getString("_UI_EClassNotWellFormedMapEntryNoInstanceClassName_diagnostic"),
                  new Object[] { eClass }));
           }
         }
