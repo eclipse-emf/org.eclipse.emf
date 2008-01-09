@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeItemProvider.java,v 1.5 2007/05/31 13:38:02 davidms Exp $
+ * $Id: EGenericTypeItemProvider.java,v 1.6 2008/01/09 15:34:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -116,14 +116,16 @@ public class EGenericTypeItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EGenericType_eRawType_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EGenericType_eRawType_feature", "_UI_EGenericType_type"),
+         getString("_UI_EGenericType_eRawType_description"),
          EcorePackage.Literals.EGENERIC_TYPE__ERAW_TYPE,
          false,
          false,
          true,
          null,
          null,
-         null));
+         new String[] {
+          "org.eclipse.ui.views.properties.expert"
+         }));
   }
 
   /**
@@ -139,7 +141,7 @@ public class EGenericTypeItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EGenericType_eTypeParameter_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EGenericType_eTypeParameter_feature", "_UI_EGenericType_type"),
+         getString("_UI_EGenericType_eTypeParameter_description"),
          EcorePackage.Literals.EGENERIC_TYPE__ETYPE_PARAMETER,
          true,
          false,
@@ -222,7 +224,7 @@ public class EGenericTypeItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EGenericType_eClassifier_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EGenericType_eClassifier_feature", "_UI_EGenericType_type"),
+         getString("_UI_EGenericType_eClassifier_description"),
          EcorePackage.Literals.EGENERIC_TYPE__ECLASSIFIER,
          true,
          false,

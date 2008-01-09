@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.17 2007/03/22 01:58:36 davidms Exp $
+ * $Id: EClassItemProvider.java,v 1.18 2008/01/09 15:34:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -100,7 +100,7 @@ public class EClassItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClass_abstract_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EClass_abstract_feature", "_UI_EClass_type"),
+         getString("_UI_EClass_abstract_description"),
          EcorePackage.Literals.ECLASS__ABSTRACT,
          true,
          false,
@@ -123,7 +123,7 @@ public class EClassItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClass_interface_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EClass_interface_feature", "_UI_EClass_type"),
+         getString("_UI_EClass_interface_description"),
          EcorePackage.Literals.ECLASS__INTERFACE,
          true,
          false,
@@ -146,7 +146,7 @@ public class EClassItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClass_eSuperTypes_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EClass_eSuperTypes_feature", "_UI_EClass_type"),
+         getString("_UI_EClass_eSuperTypes_description"),
          EcorePackage.Literals.ECLASS__ESUPER_TYPES,
          true,
          false,

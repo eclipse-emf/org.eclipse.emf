@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralItemProvider.java,v 1.13 2007/03/22 01:58:36 davidms Exp $
+ * $Id: EEnumLiteralItemProvider.java,v 1.14 2008/01/09 15:34:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -73,7 +73,6 @@ public class EEnumLiteralItemProvider
       super.getPropertyDescriptors(object);
 
       addValuePropertyDescriptor(object);
-      addInstancePropertyDescriptor(object);
       addLiteralPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -92,35 +91,12 @@ public class EEnumLiteralItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EEnumLiteral_value_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EEnumLiteral_value_feature", "_UI_EEnumLiteral_type"),
+         getString("_UI_EEnumLiteral_value_description"),
          EcorePackage.Literals.EENUM_LITERAL__VALUE,
          true,
          false,
          false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-         null,
-         null));
-  }
-
-  /**
-   * This adds a property descriptor for the Instance feature.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected void addInstancePropertyDescriptor(Object object)
-  {
-    itemPropertyDescriptors.add
-      (createItemPropertyDescriptor
-        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getResourceLocator(),
-         getString("_UI_EEnumLiteral_instance_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EEnumLiteral_instance_feature", "_UI_EEnumLiteral_type"),
-         EcorePackage.Literals.EENUM_LITERAL__INSTANCE,
-         true,
-         false,
-         false,
-         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
   }
@@ -138,7 +114,7 @@ public class EEnumLiteralItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EEnumLiteral_literal_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EEnumLiteral_literal_feature", "_UI_EEnumLiteral_type"),
+         getString("_UI_EEnumLiteral_literal_description"),
          EcorePackage.Literals.EENUM_LITERAL__LITERAL,
          true,
          false,

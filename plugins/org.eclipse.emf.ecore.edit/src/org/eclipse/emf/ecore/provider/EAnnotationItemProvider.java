@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.17 2007/03/22 01:59:29 davidms Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.18 2008/01/09 15:34:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -92,7 +92,7 @@ public class EAnnotationItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EAnnotation_source_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EAnnotation_source_feature", "_UI_EAnnotation_type"),
+         getString("_UI_EAnnotation_source_description"),
          EcorePackage.Literals.EANNOTATION__SOURCE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
@@ -120,7 +120,7 @@ public class EAnnotationItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EAnnotation_references_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EAnnotation_references_feature", "_UI_EAnnotation_type"),
+         getString("_UI_EAnnotation_references_description"),
          EcorePackage.Literals.EANNOTATION__REFERENCES,
          true,
          false,

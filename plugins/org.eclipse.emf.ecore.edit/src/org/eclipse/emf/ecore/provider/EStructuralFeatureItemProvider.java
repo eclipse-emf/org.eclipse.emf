@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureItemProvider.java,v 1.15 2007/03/22 01:58:36 davidms Exp $
+ * $Id: EStructuralFeatureItemProvider.java,v 1.16 2008/01/09 15:34:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -100,7 +100,7 @@ public class EStructuralFeatureItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_changeable_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_changeable_feature", "_UI_EStructuralFeature_type"),
+         getString("_UI_EStructuralFeature_changeable_description"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__CHANGEABLE,
          true,
          false,
@@ -123,7 +123,7 @@ public class EStructuralFeatureItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_volatile_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_volatile_feature", "_UI_EStructuralFeature_type"),
+         getString("_UI_EStructuralFeature_volatile_description"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE,
          true,
          false,
@@ -146,7 +146,7 @@ public class EStructuralFeatureItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_transient_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_transient_feature", "_UI_EStructuralFeature_type"),
+         getString("_UI_EStructuralFeature_transient_description"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__TRANSIENT,
          true,
          false,
@@ -169,7 +169,7 @@ public class EStructuralFeatureItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_defaultValueLiteral_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_defaultValueLiteral_feature", "_UI_EStructuralFeature_type"),
+         getString("_UI_EStructuralFeature_defaultValueLiteral_description"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL,
          true,
          false,
@@ -199,14 +199,16 @@ public class EStructuralFeatureItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_defaultValue_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_defaultValue_feature", "_UI_EStructuralFeature_type"),
+         getString("_UI_EStructuralFeature_defaultValue_description"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__DEFAULT_VALUE,
          false,
          false,
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
-         null));
+         new String[] {
+          "org.eclipse.ui.views.properties.expert"
+         }));
   }
 
   /**
@@ -222,7 +224,7 @@ public class EStructuralFeatureItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_unsettable_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_unsettable_feature", "_UI_EStructuralFeature_type"),
+         getString("_UI_EStructuralFeature_unsettable_description"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE,
          true,
          false,
@@ -245,7 +247,7 @@ public class EStructuralFeatureItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_derived_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_derived_feature", "_UI_EStructuralFeature_type"),
+         getString("_UI_EStructuralFeature_derived_description"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__DERIVED,
          true,
          false,
@@ -268,14 +270,16 @@ public class EStructuralFeatureItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_eContainingClass_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_eContainingClass_feature", "_UI_EStructuralFeature_type"),
+         getString("_UI_EStructuralFeature_eContainingClass_description"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS,
          false,
          false,
          false,
          null,
          null,
-         null));
+         new String[] {
+          "org.eclipse.ui.views.properties.expert"
+         }));
   }
 
   /**

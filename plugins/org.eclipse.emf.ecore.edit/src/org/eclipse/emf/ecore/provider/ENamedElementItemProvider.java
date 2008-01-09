@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ENamedElementItemProvider.java,v 1.13 2007/03/22 01:58:36 davidms Exp $
+ * $Id: ENamedElementItemProvider.java,v 1.14 2008/01/09 15:34:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -89,7 +89,7 @@ public class ENamedElementItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ENamedElement_name_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_ENamedElement_name_feature", "_UI_ENamedElement_type"),
+         getString("_UI_ENamedElement_name_description"),
          EcorePackage.Literals.ENAMED_ELEMENT__NAME,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,

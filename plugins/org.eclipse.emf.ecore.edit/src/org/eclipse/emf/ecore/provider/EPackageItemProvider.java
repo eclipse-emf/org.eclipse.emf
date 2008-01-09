@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageItemProvider.java,v 1.13 2007/03/22 01:58:36 davidms Exp $
+ * $Id: EPackageItemProvider.java,v 1.14 2008/01/09 15:34:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -94,7 +94,7 @@ public class EPackageItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EPackage_nsURI_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EPackage_nsURI_feature", "_UI_EPackage_type"),
+         getString("_UI_EPackage_nsURI_description"),
          EcorePackage.Literals.EPACKAGE__NS_URI,
          true,
          false,
@@ -117,7 +117,7 @@ public class EPackageItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EPackage_nsPrefix_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EPackage_nsPrefix_feature", "_UI_EPackage_type"),
+         getString("_UI_EPackage_nsPrefix_description"),
          EcorePackage.Literals.EPACKAGE__NS_PREFIX,
          true,
          false,
@@ -140,14 +140,16 @@ public class EPackageItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EPackage_eFactoryInstance_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EPackage_eFactoryInstance_feature", "_UI_EPackage_type"),
+         getString("_UI_EPackage_eFactoryInstance_description"),
          EcorePackage.Literals.EPACKAGE__EFACTORY_INSTANCE,
          false,
          false,
          false,
          null,
          null,
-         null));
+         new String[] {
+          "org.eclipse.ui.views.properties.expert"
+         }));
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierItemProvider.java,v 1.20 2007/05/29 17:30:51 emerks Exp $
+ * $Id: EClassifierItemProvider.java,v 1.21 2008/01/09 15:34:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -102,12 +102,15 @@ public class EClassifierItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClassifier_instanceClassName_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EClassifier_instanceClassName_feature", "_UI_EClassifier_type"),
+         getString("_UI_EClassifier_instanceClassName_description"),
          EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
-         null)
+         new String[] 
+         {
+           "org.eclipse.ui.views.properties.expert"
+         })
        {
          @Override
          public void setPropertyValue(Object object, Object value)
@@ -157,7 +160,7 @@ public class EClassifierItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClassifier_defaultValue_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EClassifier_defaultValue_feature", "_UI_EClassifier_type"),
+         getString("_UI_EClassifier_defaultValue_description"),
          EcorePackage.Literals.ECLASSIFIER__DEFAULT_VALUE,
          false,
          false,
@@ -180,7 +183,7 @@ public class EClassifierItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClassifier_instanceTypeName_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EClassifier_instanceTypeName_feature", "_UI_EClassifier_type"),
+         getString("_UI_EClassifier_instanceTypeName_description"),
          EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME,
          true,
          false,

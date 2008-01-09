@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.17 2007/03/22 01:58:36 davidms Exp $
+ * $Id: EReferenceItemProvider.java,v 1.18 2008/01/09 15:34:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -106,7 +106,7 @@ public class EReferenceItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EReference_containment_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EReference_containment_feature", "_UI_EReference_type"),
+         getString("_UI_EReference_containment_description"),
          EcorePackage.Literals.EREFERENCE__CONTAINMENT,
          true,
          false,
@@ -129,7 +129,7 @@ public class EReferenceItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EReference_container_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EReference_container_feature", "_UI_EReference_type"),
+         getString("_UI_EReference_container_description"),
          EcorePackage.Literals.EREFERENCE__CONTAINER,
          false,
          false,
@@ -152,7 +152,7 @@ public class EReferenceItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EReference_resolveProxies_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EReference_resolveProxies_feature", "_UI_EReference_type"),
+         getString("_UI_EReference_resolveProxies_description"),
          EcorePackage.Literals.EREFERENCE__RESOLVE_PROXIES,
          true,
          false,
@@ -175,7 +175,7 @@ public class EReferenceItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EReference_eOpposite_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EReference_eOpposite_feature", "_UI_EReference_type"),
+         getString("_UI_EReference_eOpposite_description"),
          EcorePackage.eINSTANCE.getEReference_EOpposite(),
          true,
          false,
@@ -287,14 +287,16 @@ public class EReferenceItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EReference_eReferenceType_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EReference_eReferenceType_feature", "_UI_EReference_type"),
+         getString("_UI_EReference_eReferenceType_description"),
          EcorePackage.Literals.EREFERENCE__EREFERENCE_TYPE,
          false,
          false,
          false,
          null,
          null,
-         null));
+         new String[] {
+          "org.eclipse.ui.views.properties.expert"
+         }));
   }
 
   /**
@@ -310,7 +312,7 @@ public class EReferenceItemProvider
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EReference_eKeys_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EReference_eKeys_feature", "_UI_EReference_type"),
+         getString("_UI_EReference_eKeys_description"),
          EcorePackage.Literals.EREFERENCE__EKEYS,
          true,
          false,
