@@ -12,27 +12,36 @@
  *
  * </copyright>
  *
- * $Id: EModelElementItemProvider.java,v 1.11 2007/03/22 01:58:36 davidms Exp $
+ * $Id: EModelElementItemProvider.java,v 1.12 2008/01/10 21:59:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
@@ -190,4 +199,83 @@ public class EModelElementItemProvider
     return value;
   }
 
+  protected static class ItemPropertyDescriptorWithUniqueChoiceOfValueLabels extends ItemPropertyDescriptor
+  {
+    public ItemPropertyDescriptorWithUniqueChoiceOfValueLabels
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      boolean multiLine,
+      boolean sortChoices,
+      Object staticImage,
+      String category,
+      String [] filterFlags)
+    {
+      super(adapterFactory, resourceLocator, displayName, description, feature,  isSettable, multiLine, sortChoices, staticImage, category, filterFlags);
+    }
+
+    protected Map<Object, String> uniqueNameMap;
+
+    @Override
+    public IItemLabelProvider getLabelProvider(Object object)
+    {
+      if (uniqueNameMap != null)
+      {
+        final Map<Object, String> uniqueNameMap = this.uniqueNameMap;
+        this.uniqueNameMap = null;
+        return
+          new ItemDelegator(adapterFactory, resourceLocator)
+          {
+            @Override
+            public String getText(Object object)
+            {
+              String result = uniqueNameMap.get(object);
+              return result != null ? result : super.getText(object);
+            }
+          };
+      }
+      else
+      {
+        return super.getLabelProvider(object);
+      }
+    }
+
+    protected Map<Object, String> computeUniqueLabels(Object object, Collection<?> items)
+    {
+      Resource resource = ((EObject)object).eResource();
+      URI base = resource == null ? URI.createURI("") : resource.getURI();
+      Set<String> conflictingLabels = new HashSet<String>();
+      Map<String, Object> labelToObjectMap = new HashMap<String, Object>();
+      IItemLabelProvider labelProvider = getLabelProvider(object);
+      for (Object item : items)
+      {
+        String label = labelProvider.getText(item);
+        if (conflictingLabels.contains(label))
+        {
+          labelToObjectMap.put(label + " - " + EcoreUtil.getURI((EObject)item).deresolve(base), item);
+        }
+        else
+        {
+          Object collision = labelToObjectMap.put(label, item);
+          if (collision != null)
+          {
+            conflictingLabels.add(label);
+            labelToObjectMap.remove(label);
+            labelToObjectMap.put(label + " - " + EcoreUtil.getURI((EObject)item).deresolve(base), item);
+            labelToObjectMap.put(label + " - " + EcoreUtil.getURI((EObject)collision).deresolve(base), collision);
+          }
+        }
+      }
+
+      Map<Object, String> result = new HashMap<Object, String>();
+      for (Map.Entry<String, Object> entry : labelToObjectMap.entrySet())
+      {
+        result.put(entry.getValue(), entry.getKey());
+      }
+      return result;
+    }
+  }
 }

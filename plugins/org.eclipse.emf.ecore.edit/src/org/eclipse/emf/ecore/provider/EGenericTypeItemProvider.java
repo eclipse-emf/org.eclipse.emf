@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeItemProvider.java,v 1.6 2008/01/09 15:34:43 emerks Exp $
+ * $Id: EGenericTypeItemProvider.java,v 1.7 2008/01/10 21:59:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -54,7 +54,6 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
@@ -137,7 +136,7 @@ public class EGenericTypeItemProvider
   protected void addETypeParameterPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new EModelElementItemProvider.ItemPropertyDescriptorWithUniqueChoiceOfValueLabels
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EGenericType_eTypeParameter_feature"),
@@ -173,6 +172,8 @@ public class EGenericTypeItemProvider
              }
              result.remove(eObject);
            }
+           uniqueNameMap = computeUniqueLabels(object, result);
+
            return result;
          }
          
@@ -220,7 +221,7 @@ public class EGenericTypeItemProvider
   protected void addEClassifierPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new EModelElementItemProvider.ItemPropertyDescriptorWithUniqueChoiceOfValueLabels
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EGenericType_eClassifier_feature"),
@@ -313,6 +314,8 @@ public class EGenericTypeItemProvider
              }
            }
            
+           uniqueNameMap = computeUniqueLabels(object, result);
+
            return result;
          }
 

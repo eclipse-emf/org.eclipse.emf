@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.22 2008/01/09 15:34:42 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.23 2008/01/10 21:59:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -249,7 +249,7 @@ public class ETypedElementItemProvider
   protected void addETypePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new ItemPropertyDescriptorWithUniqueChoiceOfValueLabels
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ETypedElement_eType_feature"),
@@ -263,7 +263,7 @@ public class ETypedElementItemProvider
          null)
        {
          @Override
-        public Collection<?> getChoiceOfValues(Object object)
+         public Collection<?> getChoiceOfValues(Object object)
          {
            // Filter out types that aren't permitted.
            //
@@ -316,6 +316,8 @@ public class ETypedElementItemProvider
                result.addAll(((EOperation)eObject).getETypeParameters());
              }
            }
+
+           uniqueNameMap = computeUniqueLabels(object, result);
 
            return result;
          }

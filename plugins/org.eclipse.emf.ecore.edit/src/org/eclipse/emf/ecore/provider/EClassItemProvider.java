@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.18 2008/01/09 15:34:43 emerks Exp $
+ * $Id: EClassItemProvider.java,v 1.19 2008/01/10 21:59:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -142,7 +142,7 @@ public class EClassItemProvider
   protected void addESuperTypesPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (new ItemPropertyDescriptor
+      (new ItemPropertyDescriptorWithUniqueChoiceOfValueLabels
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EClass_eSuperTypes_feature"),
@@ -156,7 +156,7 @@ public class EClassItemProvider
          null)
        {
          @Override
-        public Collection<?> getChoiceOfValues(Object object)
+         public Collection<?> getChoiceOfValues(Object object)
          {
            EClass eClass = (EClass)object;
            
@@ -172,6 +172,9 @@ public class EClassItemProvider
                i.remove();
              }
            }
+
+           uniqueNameMap = computeUniqueLabels(object, result);
+
            return result;
          }
          
