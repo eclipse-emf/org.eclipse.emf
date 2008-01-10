@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.16 2007/09/13 15:05:01 emerks Exp $
+ * $Id: PropertyDescriptor.java,v 1.17 2008/01/10 21:53:48 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -442,14 +442,16 @@ public class PropertyDescriptor implements IPropertyDescriptor
 
           if (valid)
           {
-            result = new ExtendedDialogCellEditor(composite, getEditLabelProvider())
+            final ILabelProvider editLabelProvider = getEditLabelProvider();
+            result =
+              new ExtendedDialogCellEditor(composite, editLabelProvider)
               {
                 @Override
                 protected Object openDialogBox(Control cellEditorWindow)
                 {
                   FeatureEditorDialog dialog = new FeatureEditorDialog(
                     cellEditorWindow.getShell(),
-                    getEditLabelProvider(),
+                    editLabelProvider,
                     object,
                     feature.getEType(),
                     (List<?>)doGetValue(),
@@ -478,14 +480,16 @@ public class PropertyDescriptor implements IPropertyDescriptor
         {
           if (itemPropertyDescriptor.isMany(object))
           {
-            result = new ExtendedDialogCellEditor(composite, getEditLabelProvider())
+            final ILabelProvider editLabelProvider = getEditLabelProvider();
+            result = 
+              new ExtendedDialogCellEditor(composite, editLabelProvider)
               {
                 @Override
                 protected Object openDialogBox(Control cellEditorWindow)
                 {
                   FeatureEditorDialog dialog = new FeatureEditorDialog(
                     cellEditorWindow.getShell(),
-                    getEditLabelProvider(),
+                    editLabelProvider,
                     object,
                     feature.getEType(),
                     (List<?>)doGetValue(),
