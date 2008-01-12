@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.19 2008/01/05 13:58:52 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.20 2008/01/12 11:01:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -126,6 +126,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   {
     if (isFeatureMapType()) return getEffectiveFeatureMapWrapperInterface();
     if (isMapType()) return getEffectiveMapType();
+    if (isMapEntryType()) return getEffectiveMapType();
     if (isListType()) return getEffectiveListType();
     if (isEObjectType()) return getEffectiveEObjectType();
     return getType(getContext(), getEcoreTypedElement().getEType(), false, true);
@@ -135,6 +136,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   {
     if (isFeatureMapType()) return getEffectiveFeatureMapWrapperInterface();
     if (isMapType()) return getEffectiveMapType();
+    if (isMapEntryType()) return getEffectiveMapEntryType();
     if (isListType()) return getEffectiveListType();
     if (isEObjectType()) return getEffectiveEObjectType();
     return getType(getContext(), getBoundType(getEcoreTypedElement().getEGenericType()), false, true);
@@ -150,6 +152,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   {
     if (isFeatureMapType()) return getEffectiveFeatureMapWrapperInterface();
     if (isMapType()) return getEffectiveMapType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass());
+    if (isMapEntryType()) return getEffectiveMapEntryType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass());
     if (isListType()) return getEffectiveListType(context, getEcoreTypedElement().getEGenericType());
     if (isEObjectType()) return getEffectiveEObjectType();
     if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
@@ -163,6 +166,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   {
     if (isFeatureMapType()) return getGenModel().getImportedName(getEffectiveFeatureMapWrapperInterface());
     if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType());
+    if (isMapEntryType()) return getGenModel().getImportedName(getEffectiveMapEntryType());
     if (isListType()) return getGenModel().getImportedName(getEffectiveListType());
     if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
     return getImportedType(null, getEcoreTypedElement().getEType(), false);
@@ -172,6 +176,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   {
     if (isFeatureMapType()) return getGenModel().getImportedName(getEffectiveFeatureMapWrapperInterface());
     if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType());
+    if (isMapEntryType()) return getGenModel().getImportedName(getEffectiveMapEntryType());
     if (isListType()) return getGenModel().getImportedName(getEffectiveListType());
     if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
     return getImportedType(null, getBoundType(getEcoreTypedElement().getEGenericType()), false, true);
@@ -187,6 +192,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   {
     if (isFeatureMapType()) return getGenModel().getImportedName(getEffectiveFeatureMapWrapperInterface());
     if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass()));
+    if (isMapEntryType()) return getGenModel().getImportedName(getEffectiveMapEntryType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass()));
     if (isListType()) return getGenModel().getImportedName(getEffectiveListType(context, getEcoreTypedElement().getEGenericType()));
     if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
     if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
@@ -206,6 +212,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   {
     if (isFeatureMapType()) return getGenModel().getImportedName(getEffectiveFeatureMapWrapperInterface());
     if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass()));
+    if (isMapEntryType()) return getGenModel().getImportedName(getEffectiveMapEntryType(context, getEcoreTypedElement().getEGenericType(), getMapEntryTypeGenClass()));
     if (isListType()) return getGenModel().getImportedName(getEffectiveListType(context, getEcoreTypedElement().getEGenericType()));
     if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
     if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
@@ -229,6 +236,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
              getImportedEffectiveFeatureMapWrapperClass() :
              getImportedEffectiveFeatureMapWrapperInternalInterface();
     if (isMapType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EMap") + getImportedMapTemplateArguments(context); 
+    if (isMapEntryType()) return getGenModel().getImportedName("java.util.Map$Entry") + getImportedMapTemplateArguments(context); 
     if (isListType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EList") + getListTemplateArguments(context);
     if (isListDataType() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
@@ -347,6 +355,11 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   public boolean isMapType()
   {
     return isListType() && getMapGenClass() != null;
+  }
+
+  public boolean isMapEntryType()
+  {
+    return getMapEntryTypeGenClass() != null;
   }
 
   public GenClass getMapEntryTypeGenClass()
@@ -490,7 +503,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     {
       return true;
     }
-    if (isListType() || isListDataType())
+    if (isListType() || isListDataType() || isMapEntryType())
     {
       return true;
     }

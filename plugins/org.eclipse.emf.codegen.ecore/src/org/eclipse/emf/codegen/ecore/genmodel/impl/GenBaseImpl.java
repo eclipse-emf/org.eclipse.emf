@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.62 2007/06/11 21:09:49 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.63 2008/01/12 11:01:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -998,6 +998,39 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   protected String getEffectiveMapType()
   {
     return isEffectiveSuppressEMFTypes() ? "java.util.Map" : "org.eclipse.emf.common.util.EMap";
+  }
+
+  protected String getEffectiveMapEntryType(GenClass context, EGenericType eGenericType, GenClass genClass)
+  {
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50 && eGenericType.getETypeArguments().size() == 2)
+    {
+      String mapType = getEffectiveMapEntryType();  
+      String keyType = getTypeArgument(context, eGenericType.getETypeArguments().get(0), true, false);
+      String valueType = getTypeArgument(context, eGenericType.getETypeArguments().get(1), true, false);
+      mapType += "<" + keyType + ", " + valueType + ">";
+      return mapType;
+    }
+    else
+    {
+      return getEffectiveMapEntryType(context, genClass);
+    }
+  }
+
+  protected String getEffectiveMapEntryType(GenClass context, GenClass genClass)
+  {
+    String mapType = getEffectiveMapEntryType();  
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      String keyType = genClass.getMapEntryKeyFeature().getType(context);
+      String valueType = genClass.getMapEntryValueFeature().getType(context);
+      mapType += "<" + keyType + ", " + valueType + ">";
+    }
+    return mapType;
+  }
+
+  protected String getEffectiveMapEntryType()
+  {
+    return "java.util.Map$Entry";
   }
 
   protected String getEffectiveListType(GenClass context, EGenericType eGenericType)
