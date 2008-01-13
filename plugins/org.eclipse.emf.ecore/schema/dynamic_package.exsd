@@ -75,7 +75,7 @@
          Following is an example of how a dynamic package can be registered: 
 &lt;pre&gt;
   &lt;extension point=&quot;org.eclipse.emf.ecore.dynamic_package&quot; &gt;
-     &lt;resource uri=&quot;http://www.example.org/Example&quot; location=&quot;model/Example.ecore#//&quot;/&gt; 
+     &lt;resource uri=&quot;http://www.example.org/Example&quot; location=&quot;model/Example.ecore#/&quot;/&gt; 
   &lt;/extension&gt;
 &lt;/pre&gt;
       </documentation>
