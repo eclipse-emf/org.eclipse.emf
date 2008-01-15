@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProvider.java,v 1.7 2008/01/15 17:15:40 emerks Exp $
+ * $Id: ItemProvider.java,v 1.8 2008/01/15 22:02:28 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -304,8 +304,11 @@ public class ItemProvider
   /**
    * This class implements a Notification for an ItemProvider.
    */
-  public class ItemProviderNotification extends NotificationImpl
+  public class ItemProviderNotification extends NotificationImpl implements IViewerNotification
   {
+    protected boolean isContentRefresh;
+    protected boolean isLabelUpdate;
+
     public ItemProviderNotification(int eventType, Object oldValue, Object newValue, int position)
     {
       this(eventType, oldValue, newValue, position, false);
@@ -313,7 +316,21 @@ public class ItemProvider
 
     public ItemProviderNotification(int eventType, Object oldValue, Object newValue, int position, boolean wasSet)
     {
+      this(eventType, oldValue, newValue, position, wasSet, true, true);
+    }
+
+    public ItemProviderNotification
+      (int eventType, 
+       Object oldValue, 
+       Object newValue, 
+       int position, 
+       boolean wasSet, 
+       boolean isContentRefesh,
+       boolean isLabelUpdate)
+    {
       super(eventType, oldValue, newValue, position, wasSet);
+      this.isContentRefresh = isContentRefesh;
+      this.isLabelUpdate = isLabelUpdate;
     }
 
     @Override
@@ -335,6 +352,21 @@ public class ItemProvider
       {
         next.dispatch();
       }
+    }
+
+    public Object getElement()
+    {
+      return getNotifier();
+    }
+
+    public boolean isContentRefresh()
+    {
+      return isContentRefresh;
+    }
+
+    public boolean isLabelUpdate()
+    {
+      return isContentRefresh;
     }
   }
 
@@ -409,7 +441,7 @@ public class ItemProvider
     @Override
     protected NotificationImpl createNotification(int eventType, Object oldObject, Object newObject, int index, boolean wasSet)
     {
-      return new ItemProviderNotification(eventType, oldObject, newObject, index, wasSet);
+      return new ItemProviderNotification(eventType, oldObject, newObject, index, wasSet, true, false);
     }
     
     @Override
@@ -803,7 +835,7 @@ public class ItemProvider
   {
     this.image = image;
 
-    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, image, Notification.NO_INDEX));
+    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, image, Notification.NO_INDEX, false, false, true));
   }
 
   /**
@@ -848,7 +880,7 @@ public class ItemProvider
   {
     this.text = text;
 
-    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, text, Notification.NO_INDEX));
+    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, text, Notification.NO_INDEX, false, false, true));
   }
 
   /**
@@ -884,7 +916,7 @@ public class ItemProvider
   {
     this.font = font;
 
-    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, font, Notification.NO_INDEX));
+    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, font, Notification.NO_INDEX, false, false, true));
   }
 
   /**
@@ -920,7 +952,7 @@ public class ItemProvider
   {
     this.foreground = foreground;
 
-    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, foreground, Notification.NO_INDEX));
+    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, foreground, Notification.NO_INDEX, false, false, true));
   }
 
   /**
@@ -956,7 +988,7 @@ public class ItemProvider
   {
     this.background = background;
 
-    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, background, Notification.NO_INDEX));
+    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, background, Notification.NO_INDEX, false, false, true));
   }
 
   /**
