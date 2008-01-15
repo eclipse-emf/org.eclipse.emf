@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationItemProvider.java,v 1.17 2008/01/09 15:34:42 emerks Exp $
+ * $Id: EOperationItemProvider.java,v 1.18 2008/01/15 17:39:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -213,12 +213,12 @@ public class EOperationItemProvider
    * This returns EOperation.gif.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   @Override
   public Object getImage(Object object)
   {
-    return overlayImage(object, getResourceLocator().getImage("full/obj16/EOperation"));
+    return overlayImage(object, getComposedImage(object, getResourceLocator().getImage("full/obj16/EOperation")));
   }
 
   /**

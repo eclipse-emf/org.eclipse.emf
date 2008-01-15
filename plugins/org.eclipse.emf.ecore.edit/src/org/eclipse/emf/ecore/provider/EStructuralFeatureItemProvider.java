@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureItemProvider.java,v 1.16 2008/01/09 15:34:41 emerks Exp $
+ * $Id: EStructuralFeatureItemProvider.java,v 1.17 2008/01/15 17:39:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -296,88 +294,6 @@ public class EStructuralFeatureItemProvider
       getString("_UI_EStructuralFeature_type") :
       getString("_UI_EStructuralFeature_type") + " " + label;
   }
-
-  public Object getComposedImage(Object object, Object imageToCompose)
-  {
-    EStructuralFeature eStructuralFeature = (EStructuralFeature)object;
-    Collection<Object> images = new ArrayList<Object>();
-    images.add(imageToCompose);
-    String imageName = "full/obj16/EOccurrence";
-    int minOccurs = eStructuralFeature.getLowerBound();
-    int maxOccurs = eStructuralFeature.getUpperBound();
-    if (minOccurs >= 0 && (minOccurs <= maxOccurs || maxOccurs == -1))
-    {
-      switch (minOccurs)
-      {
-        case 0:
-        {
-          imageName += "Zero";
-          break;
-        }
-        case 1:
-        {
-          imageName += "One";
-          break;
-        }
-        default:
-        {
-          imageName += "N";
-          break;
-        }
-      }
-
-      if (minOccurs != maxOccurs)
-      {
-        switch (maxOccurs)
-        {
-          case -1:
-          {
-            imageName += "ToUnbounded";
-            break;
-          }
-          case 0:
-          {
-            break;
-          }
-          case 1:
-          {
-            imageName += "ToOne";
-            break;
-          }
-          default:
-          {
-            imageName += minOccurs <= 1 ? "ToN" : "ToM";
-            break;
-          }
-        }
-      }
-    }
-    else
-    {
-      imageName += "NToM";
-    }
-
-    if (!imageName.equals("full/obj16/EOccurrenceZeroToOne"))
-    {
-      images.add(EcoreEditPlugin.INSTANCE.getImage(imageName));
-    }
-
-    return 
-      new ComposedImage(images)
-      {
-        @Override
-        public List<ComposedImage.Point> getDrawPoints(Size size)
-        {
-          List<ComposedImage.Point> result = super.getDrawPoints(size);
-          if (result.size() > 1)
-          {
-            result.get(0).y = -2;
-          }
-          return result;
-        }
-      };
-  }
-
 
   /**
    * This handles model notifications by calling {@link #updateChildren} to update any cached

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterItemProvider.java,v 1.10 2007/03/22 01:58:36 davidms Exp $
+ * $Id: EParameterItemProvider.java,v 1.11 2008/01/15 17:39:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -78,12 +78,12 @@ public class EParameterItemProvider
    * This returns EParameter.gif.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   @Override
   public Object getImage(Object object)
   {
-    return overlayImage(object, getResourceLocator().getImage("full/obj16/EParameter"));
+    return overlayImage(object, getComposedImage(object, getResourceLocator().getImage("full/obj16/EParameter")));
   }
 
   /**

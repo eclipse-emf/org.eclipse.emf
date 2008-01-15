@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.23 2008/01/10 21:59:57 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.24 2008/01/15 17:39:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -403,6 +404,88 @@ public class ETypedElementItemProvider
     return label == null || label.length() == 0 ?
       getString("_UI_ETypedElement_type") :
       getString("_UI_ETypedElement_type") + " " + label;
+  }
+
+  public Object getComposedImage(Object object, Object imageToCompose)
+  {
+    ETypedElement eTypedElement = (ETypedElement)object;
+    Collection<Object> images = new ArrayList<Object>();
+    images.add(imageToCompose);
+    String imageName = "full/obj16/EOccurrence";
+    int minOccurs = eTypedElement.getLowerBound();
+    int maxOccurs = eTypedElement.getUpperBound();
+
+    if (minOccurs >= 0 && (minOccurs <= maxOccurs || maxOccurs == -1))
+    {
+      switch (minOccurs)
+      {
+        case 0:
+        {
+          imageName += "Zero";
+          break;
+        }
+        case 1:
+        {
+          imageName += "One";
+          break;
+        }
+        default:
+        {
+          imageName += "N";
+          break;
+        }
+      }
+  
+      if (minOccurs != maxOccurs)
+      {
+        switch (maxOccurs)
+        {
+          case -1:
+          {
+            imageName += "ToUnbounded";
+            break;
+          }
+          case 0:
+          {
+            break;
+          }
+          case 1:
+          {
+            imageName += "ToOne";
+            break;
+          }
+          default:
+          {
+            imageName += minOccurs <= 1 ? "ToN" : "ToM";
+            break;
+          }
+        }
+      }
+    }
+    else
+    {
+      imageName += "NToM";
+    }
+  
+    if (!imageName.equals("full/obj16/EOccurrenceZeroToOne"))
+    {
+      images.add(EcoreEditPlugin.INSTANCE.getImage(imageName));
+    }
+  
+    return 
+      new ComposedImage(images)
+      {
+        @Override
+        public List<ComposedImage.Point> getDrawPoints(Size size)
+        {
+          List<ComposedImage.Point> result = super.getDrawPoints(size);
+          if (result.size() > 1)
+          {
+            result.get(0).y = -2;
+          }
+          return result;
+        }
+      };
   }
 
   /**
