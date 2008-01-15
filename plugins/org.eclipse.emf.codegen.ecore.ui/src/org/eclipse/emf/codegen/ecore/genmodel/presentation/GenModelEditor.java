@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.50 2008/01/08 12:29:18 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.51 2008/01/15 16:51:08 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -684,7 +684,7 @@ public class GenModelEditor
       BasicDiagnostic diagnostic =
         new BasicDiagnostic
           (Diagnostic.OK,
-           "org.eclipse.emf.codegen.ecore.edit",
+           "org.eclipse.emf.codegen.ecore.ui",
            0,
            null,
            new Object [] { editingDomain.getResourceSet() });
@@ -1109,7 +1109,7 @@ public class GenModelEditor
       BasicDiagnostic basicDiagnostic =
         new BasicDiagnostic
           (Diagnostic.ERROR,
-           "org.eclipse.emf.codegen.ecore.edit",
+           "org.eclipse.emf.codegen.ecore.ui",
            0,
            getString("_UI_CreateModelError_message", resource.getURI()),
            new Object [] { exception == null ? (Object)resource : exception });
@@ -1121,7 +1121,7 @@ public class GenModelEditor
       return
         new BasicDiagnostic
           (Diagnostic.ERROR,
-           "org.eclipse.emf.codegen.ecore.edit",
+           "org.eclipse.emf.codegen.ecore.ui",
            0,
            getString("_UI_CreateModelError_message", resource.getURI()),
            new Object[] { exception });
