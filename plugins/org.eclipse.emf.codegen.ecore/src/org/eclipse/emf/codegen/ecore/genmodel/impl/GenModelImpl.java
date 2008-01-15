@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.91 2008/01/08 17:09:53 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.92 2008/01/15 16:48:51 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -172,6 +172,9 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestsPluginID <em>Tests Plugin ID</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getTestsPluginVariables <em>Tests Plugin Variables</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isOptimizedHasChildren <em>Optimized Has Children</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isTableProviders <em>Table Providers</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isColorProviders <em>Color Providers</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isFontProviders <em>Font Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1475,6 +1478,66 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean optimizedHasChildren = OPTIMIZED_HAS_CHILDREN_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isTableProviders() <em>Table Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isTableProviders()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean TABLE_PROVIDERS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isTableProviders() <em>Table Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isTableProviders()
+   * @generated
+   * @ordered
+   */
+  protected boolean tableProviders = TABLE_PROVIDERS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isColorProviders() <em>Color Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isColorProviders()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean COLOR_PROVIDERS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isColorProviders() <em>Color Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isColorProviders()
+   * @generated
+   * @ordered
+   */
+  protected boolean colorProviders = COLOR_PROVIDERS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isFontProviders() <em>Font Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isFontProviders()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean FONT_PROVIDERS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isFontProviders() <em>Font Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isFontProviders()
+   * @generated
+   * @ordered
+   */
+  protected boolean fontProviders = FONT_PROVIDERS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -5981,6 +6044,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getTestsPluginVariables();
       case GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN:
         return isOptimizedHasChildren() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__TABLE_PROVIDERS:
+        return isTableProviders() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__COLOR_PROVIDERS:
+        return isColorProviders() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
+        return isFontProviders() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6205,6 +6274,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN:
         setOptimizedHasChildren(((Boolean)newValue).booleanValue());
         return;
+      case GenModelPackage.GEN_MODEL__TABLE_PROVIDERS:
+        setTableProviders(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__COLOR_PROVIDERS:
+        setColorProviders(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
+        setFontProviders(((Boolean)newValue).booleanValue());
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         getGenPackages().addAll((Collection<? extends GenPackage>)newValue);
@@ -6425,6 +6503,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN:
         setOptimizedHasChildren(OPTIMIZED_HAS_CHILDREN_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__TABLE_PROVIDERS:
+        setTableProviders(TABLE_PROVIDERS_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__COLOR_PROVIDERS:
+        setColorProviders(COLOR_PROVIDERS_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
+        setFontProviders(FONT_PROVIDERS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6577,6 +6664,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return testsPluginVariables != null && !testsPluginVariables.isEmpty();
       case GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN:
         return optimizedHasChildren != OPTIMIZED_HAS_CHILDREN_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__TABLE_PROVIDERS:
+        return tableProviders != TABLE_PROVIDERS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__COLOR_PROVIDERS:
+        return colorProviders != COLOR_PROVIDERS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
+        return fontProviders != FONT_PROVIDERS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6726,6 +6819,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(testsPluginVariables);
     result.append(", optimizedHasChildren: ");
     result.append(optimizedHasChildren);
+    result.append(", tableProviders: ");
+    result.append(tableProviders);
+    result.append(", colorProviders: ");
+    result.append(colorProviders);
+    result.append(", fontProviders: ");
+    result.append(fontProviders);
     result.append(')');
     return result.toString();
   }
@@ -6994,6 +7093,75 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     optimizedHasChildren = newOptimizedHasChildren;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN, oldOptimizedHasChildren, optimizedHasChildren));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isTableProviders()
+  {
+    return tableProviders;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setTableProviders(boolean newTableProviders)
+  {
+    boolean oldTableProviders = tableProviders;
+    tableProviders = newTableProviders;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__TABLE_PROVIDERS, oldTableProviders, tableProviders));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isColorProviders()
+  {
+    return colorProviders;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setColorProviders(boolean newColorProviders)
+  {
+    boolean oldColorProviders = colorProviders;
+    colorProviders = newColorProviders;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__COLOR_PROVIDERS, oldColorProviders, colorProviders));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isFontProviders()
+  {
+    return fontProviders;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setFontProviders(boolean newFontProviders)
+  {
+    boolean oldFontProviders = fontProviders;
+    fontProviders = newFontProviders;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__FONT_PROVIDERS, oldFontProviders, fontProviders));
   }
 
   public boolean hasModelPluginClass()
@@ -7763,6 +7931,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setProviderRootExtendsClass(oldGenModelVersion.getProviderRootExtendsClass());
 
     setOptimizedHasChildren(oldGenModelVersion.isOptimizedHasChildren());
+    setTableProviders(oldGenModelVersion.isTableProviders());
+    setColorProviders(oldGenModelVersion.isColorProviders());
+    setFontProviders(oldGenModelVersion.isFontProviders());
   }
 
   public boolean reconcile()

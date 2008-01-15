@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.54 2008/01/08 17:09:53 emerks Exp $
+ * $Id: GenModel.java,v 1.55 2008/01/15 16:48:51 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -110,6 +110,9 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsPluginID <em>Tests Plugin ID</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getTestsPluginVariables <em>Tests Plugin Variables</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOptimizedHasChildren <em>Optimized Has Children</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isTableProviders <em>Table Providers</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isColorProviders <em>Color Providers</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isFontProviders <em>Font Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1914,6 +1917,82 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setOptimizedHasChildren(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Table Providers</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Table Providers</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Table Providers</em>' attribute.
+   * @see #setTableProviders(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_TableProviders()
+   * @model
+   * @generated
+   */
+  boolean isTableProviders();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isTableProviders <em>Table Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Table Providers</em>' attribute.
+   * @see #isTableProviders()
+   * @generated
+   */
+  void setTableProviders(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Color Providers</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.4
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Color Providers</em>' attribute.
+   * @see #setColorProviders(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ColorProviders()
+   * @model
+   * @generated
+   */
+  boolean isColorProviders();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isColorProviders <em>Color Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Color Providers</em>' attribute.
+   * @see #isColorProviders()
+   * @generated
+   */
+  void setColorProviders(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Font Providers</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.4
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Font Providers</em>' attribute.
+   * @see #setFontProviders(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_FontProviders()
+   * @model
+   * @generated
+   */
+  boolean isFontProviders();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isFontProviders <em>Font Providers</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Font Providers</em>' attribute.
+   * @see #isFontProviders()
+   * @generated
+   */
+  void setFontProviders(boolean value);
 
   /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.

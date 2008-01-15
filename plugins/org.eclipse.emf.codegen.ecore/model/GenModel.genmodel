@@ -6,7 +6,7 @@
     editorDirectory="/org.eclipse.emf.codegen.ecore.ui/src" modelPluginID="org.eclipse.emf.codegen.ecore"
     runtimeJar="true" modelName="GenModel" editPluginClass="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin"
     editorPluginClass="" updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
-    complianceLevel="5.0" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    complianceLevel="5.0" editPluginID="org.eclipse.emf.codegen.ecore.ui" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>GenModel.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
@@ -168,6 +168,12 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/testsPluginVariables"/>
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether item providers should use an optimized hasChildren() implementation that does not access children values where possible"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/optimizedHasChildren"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether item providers should provide support for specifying column labels"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/tableProviders"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether item providers should provide support for specifying label colors"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/colorProviders"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether item providers should provide support for specifying label fonts"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/fontProviders"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.45 2008/01/05 13:58:52 emerks Exp $
+ * $Id: GenModelPackage.java,v 1.46 2008/01/15 16:48:51 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -718,13 +718,40 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__OPTIMIZED_HAS_CHILDREN = GEN_BASE_FEATURE_COUNT + 65;
 
   /**
+   * The feature id for the '<em><b>Table Providers</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__TABLE_PROVIDERS = GEN_BASE_FEATURE_COUNT + 66;
+
+  /**
+   * The feature id for the '<em><b>Color Providers</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__COLOR_PROVIDERS = GEN_BASE_FEATURE_COUNT + 67;
+
+  /**
+   * The feature id for the '<em><b>Font Providers</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__FONT_PROVIDERS = GEN_BASE_FEATURE_COUNT + 68;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 66;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 69;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -733,7 +760,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 67;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 70;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -742,7 +769,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 68;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 71;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2502,6 +2529,39 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_OptimizedHasChildren();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isTableProviders <em>Table Providers</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Table Providers</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isTableProviders()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_TableProviders();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isColorProviders <em>Color Providers</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Color Providers</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isColorProviders()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_ColorProviders();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isFontProviders <em>Font Providers</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Font Providers</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isFontProviders()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_FontProviders();
+
+  /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3967,6 +4027,30 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__OPTIMIZED_HAS_CHILDREN = eINSTANCE.getGenModel_OptimizedHasChildren();
+
+    /**
+     * The meta object literal for the '<em><b>Table Providers</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__TABLE_PROVIDERS = eINSTANCE.getGenModel_TableProviders();
+
+    /**
+     * The meta object literal for the '<em><b>Color Providers</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__COLOR_PROVIDERS = eINSTANCE.getGenModel_ColorProviders();
+
+    /**
+     * The meta object literal for the '<em><b>Font Providers</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__FONT_PROVIDERS = eINSTANCE.getGenModel_FontProviders();
 
     /**
      * The meta object literal for the '<em><b>Gen Packages</b></em>' containment reference list feature.

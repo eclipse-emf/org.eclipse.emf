@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.54 2008/01/08 12:27:17 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.55 2008/01/15 16:48:51 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -31,6 +31,8 @@ String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute"
 <%String _LinkedHashMapOfResourceToDiagnostic = "LinkedHashMap" + (genModel.useGenerics() ? "<Resource, Diagnostic>" : "");%>
 <%String _CollectionOfAnything = "Collection" + (genModel.useGenerics() ? "<?>" : "");%>
 <%String _ListOfAnything = "List" + (genModel.useGenerics() ? "<?>" : "");%>
+<%boolean useExtendedLabelProvider = genModel.isFontProviders() || genModel.isColorProviders();%>
+<%String _AdapterFactoryLabelProvider = "AdapterFactoryLabelProvider" + (genModel.isFontProviders() && genModel.isColorProviders() ? ".FontAndColorProvider" : genModel.isFontProviders() ? ".FontProvider" : genModel.isColorProviders() ? ".ColorProvider" : "");%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getPresentationPackageName()%>;
 
@@ -1298,7 +1300,7 @@ public class <%=genPackage.getEditorClassName()%>
 				selectionViewer = (TreeViewer)viewerPane.getViewer();
 				selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 
-				selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+				selectionViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, selectionViewer<%}%>));
 				selectionViewer.setInput(editingDomain.getResourceSet());
 				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
 				viewerPane.setTitle(editingDomain.getResourceSet());
@@ -1339,7 +1341,7 @@ public class <%=genPackage.getEditorClassName()%>
 				parentViewer = (TreeViewer)viewerPane.getViewer();
 				parentViewer.setAutoExpandLevel(30);
 				parentViewer.setContentProvider(new ReverseAdapterFactoryContentProvider(adapterFactory));
-				parentViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+				parentViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, parentViewer<%}%>));
 
 				createContextMenuFor(parentViewer);
 				int pageIndex = addPage(viewerPane.getControl());
@@ -1371,7 +1373,7 @@ public class <%=genPackage.getEditorClassName()%>
 				viewerPane.createControl(getContainer());
 				listViewer = (ListViewer)viewerPane.getViewer();
 				listViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-				listViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+				listViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, listViewer<%}%>));
 
 				createContextMenuFor(listViewer);
 				int pageIndex = addPage(viewerPane.getControl());
@@ -1403,7 +1405,7 @@ public class <%=genPackage.getEditorClassName()%>
 				viewerPane.createControl(getContainer());
 				treeViewer = (TreeViewer)viewerPane.getViewer();
 				treeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-				treeViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+				treeViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, treeViewer<%}%>));
 
 				new AdapterFactoryTreeEditor(treeViewer.getTree(), adapterFactory);
 
@@ -1455,7 +1457,7 @@ public class <%=genPackage.getEditorClassName()%>
 
 				tableViewer.setColumnProperties(new String [] {"a", "b"});<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 				tableViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-				tableViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+				tableViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, tableViewer<%}%>));
 
 				createContextMenuFor(tableViewer);
 				int pageIndex = addPage(viewerPane.getControl());
@@ -1505,7 +1507,7 @@ public class <%=genPackage.getEditorClassName()%>
 
 				treeViewerWithColumns.setColumnProperties(new String [] {"a", "b"});<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 				treeViewerWithColumns.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-				treeViewerWithColumns.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+				treeViewerWithColumns.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, treeViewerWithColumns<%}%>));
 
 				createContextMenuFor(treeViewerWithColumns);
 				int pageIndex = addPage(viewerPane.getControl());
@@ -1517,7 +1519,7 @@ public class <%=genPackage.getEditorClassName()%>
 			setCurrentViewer(selectionViewer);
 
 			selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-			selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+			selectionViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, selectionViewer<%}%>));
 			selectionViewer.setInput(editingDomain.getResourceSet());
 			selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
 
@@ -1690,7 +1692,7 @@ public class <%=genPackage.getEditorClassName()%>
 					// Set up the tree viewer.
 					//
 					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-					contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+					contentOutlineViewer.setLabelProvider(new <%=_AdapterFactoryLabelProvider%>(adapterFactory<%if (useExtendedLabelProvider) {%>, contentOutlineViewer<%}%>));
 					contentOutlineViewer.setInput(editingDomain.getResourceSet());
 
 					// Make sure our popups work.

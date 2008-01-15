@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.78 2008/01/08 12:37:15 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.79 2008/01/15 16:48:51 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -4097,9 +4097,29 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.add("org.eclipse.emf.edit.provider.ITreeItemContentProvider");
     result.add("org.eclipse.emf.edit.provider.IItemLabelProvider");
     result.add("org.eclipse.emf.edit.provider.IItemPropertySource");
+    if (getGenModel().isTableProviders())
+    {
+      result.add("org.eclipse.emf.edit.provider.ITableItemLabelProvider");
+      if (getGenModel().isColorProviders())
+      {
+        result.add("org.eclipse.emf.edit.provider.ITableItemColorProvider");
+      }
+      if (getGenModel().isFontProviders())
+      {
+        result.add("org.eclipse.emf.edit.provider.ITableItemFontProvider");
+      }
+    }
+    if (getGenModel().isColorProviders())
+    {
+      result.add("org.eclipse.emf.edit.provider.IItemColorProvider");
+    }
+    if (getGenModel().isFontProviders())
+    {
+      result.add("org.eclipse.emf.edit.provider.IItemFontProvider");
+    }
     return result;
   }
-  
+
   public GenClass getRootClass()
   {
     GenFeature rootFeature = getRootFeature();
