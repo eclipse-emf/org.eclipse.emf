@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.55 2008/01/15 16:48:51 emerks Exp $
+ * $Id: GenModel.java,v 1.56 2008/01/15 16:50:28 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -1922,8 +1922,7 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Table Providers</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Table Providers</em>' attribute isn't clear,
-   * there really should be more of a description here...
+   * @since 2.4
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Table Providers</em>' attribute.
