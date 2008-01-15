@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedAdapterFactory.java,v 1.9 2007/06/15 21:57:41 emerks Exp $
+ * $Id: ComposedAdapterFactory.java,v 1.10 2008/01/15 13:45:57 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
 
 
 /**
@@ -192,17 +193,29 @@ public class ComposedAdapterFactory
     return getFactoryForTypes(Collections.singleton(type));
   }
 
+  private static final Object ANY_OBJECT = new Object();
+  private static final Object ANY_EOBJECT = EcoreFactory.eINSTANCE.createEObject();
+
   public AdapterFactory getFactoryForTypes(Collection<?> types)
   {
+    AdapterFactory result = null;
+
     FactoryLoop: 
     for (AdapterFactory factory : adapterFactories)
     {
       if (factory instanceof ComposedAdapterFactory)
       {
-        AdapterFactory result = ((ComposedAdapterFactory)factory).getFactoryForTypes(types);
-        if (result != null)
+        AdapterFactory candidate = ((ComposedAdapterFactory)factory).getFactoryForTypes(types);
+        if (candidate != null)
         {
-          return result;
+          if (!candidate.isFactoryForType(ANY_EOBJECT) && !candidate.isFactoryForType(ANY_OBJECT))
+          {
+            return candidate;
+          }
+          else if (result == null)
+          {
+            result = candidate;
+          }
         }
       }
       else 
@@ -214,22 +227,28 @@ public class ComposedAdapterFactory
             continue FactoryLoop;
           }
         }
-        return factory;
+        if (!factory.isFactoryForType(ANY_EOBJECT) && !factory.isFactoryForType(ANY_OBJECT))
+        {
+          return factory;
+        }
+        else if (result == null)
+        {
+          result = factory;
+        }
       }
     }
-    
+
     if (adapterFactoryDescriptorRegistry != null)
     {
       Descriptor descriptor = adapterFactoryDescriptorRegistry.getDescriptor(types);
       if (descriptor != null)
       {
-        AdapterFactory result = descriptor.createAdapterFactory();
+        result = descriptor.createAdapterFactory();
         addAdapterFactory(result);
-        return result;
       }
-    }   
+    }
     
-    return delegatedGetFactoryForTypes(types);
+    return result == null ? delegatedGetFactoryForTypes(types) : result;
   }
   
   protected AdapterFactory delegatedGetFactoryForTypes(Collection<?> types)
