@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedImageRegistry.java,v 1.5 2007/03/23 17:36:45 marcelop Exp $
+ * $Id: ExtendedImageRegistry.java,v 1.6 2008/01/15 17:15:43 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -89,13 +89,9 @@ public class ExtendedImageRegistry
       Image result = table.get(object);
       if (result == null)
       {
-        if (object instanceof Image)
+        if (object instanceof ImageDescriptor)
         {
-          result = (Image)object;
-        }
-        else if (object instanceof ImageDescriptor)
-        {
-          ImageDescriptor imageDescriptor= (ImageDescriptor)object;
+          ImageDescriptor imageDescriptor = (ImageDescriptor)object;
           result = imageDescriptor.createImage();
         }
         else if (object instanceof URL || object instanceof URI)
