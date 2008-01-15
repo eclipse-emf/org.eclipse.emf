@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderDecorator.java,v 1.4 2007/03/22 01:46:11 davidms Exp $
+ * $Id: ItemProviderDecorator.java,v 1.5 2008/01/15 17:15:41 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -31,6 +31,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * This implementation provides a convenient reusable base for item providers that will be used as decorators of other item providers.
  * Default implementations for the following interfaces are provided: 
  * {@link IEditingDomainItemProvider}, {@link IItemLabelProvider}, {@link IItemPropertySource}, {@link IStructuredItemContentProvider},  
+ * {@link IItemFontProvider}, {@link IItemColorProvider},
+ * {@link ITableItemFontProvider}, {@link ITableItemColorProvider},
  * {@link ITableItemLabelProvider}, and {@link ITreeItemContentProvider}, and {@link IUpdateableItemText#getUpdateableText}.
  */
 public class ItemProviderDecorator 
@@ -230,6 +232,60 @@ public class ItemProviderDecorator
   public String getText(Object object)
   {
     return ((IItemLabelProvider)decoratedItemProvider).getText(object);
+  }
+
+  /**
+   * This implements {@link IItemFontProvider#getFont IItemFontProvider.getFont} 
+   * by delegating to <code>(IItemFontProvider)</code>{@link #decoratedItemProvider}.
+   */
+  public Object getFont(Object object)
+  {
+    return ((IItemFontProvider)decoratedItemProvider).getFont(object);
+  }
+
+  /**
+   * This implements {@link ITableItemFontProvider#getFont ITableItemFontProvider.getFont} 
+   * by delegating to <code>(IItemFontProvider)</code>{@link #decoratedItemProvider}.
+   */
+  public Object getFont(Object object, int columnIndex)
+  {
+    return ((ITableItemFontProvider)decoratedItemProvider).getFont(object, columnIndex);
+  }
+
+  /**
+   * This implements {@link IItemColorProvider#getForeground IItemColorProvider.getForeground} 
+   * by delegating to <code>(IItemColorProvider)</code>{@link #decoratedItemProvider}.
+   */
+  public Object getForeground(Object object)
+  {
+    return ((IItemColorProvider)decoratedItemProvider).getForeground(object);
+  }
+
+  /**
+   * This implements {@link ITableItemColorProvider#getForeground ITableItemColorProvider.getForeground} 
+   * by delegating to <code>(ITableItemColorProvider)</code>{@link #decoratedItemProvider}.
+   */
+  public Object getForeground(Object object, int columnIndex)
+  {
+    return ((ITableItemColorProvider)decoratedItemProvider).getForeground(object, columnIndex);
+  }
+
+  /**
+   * This implements {@link IItemColorProvider#getBackground IItemColorProvider.getBackground} 
+   * by delegating to <code>(IItemColorProvider)</code>{@link #decoratedItemProvider}.
+   */
+  public Object getBackground(Object object)
+  {
+    return ((IItemColorProvider)decoratedItemProvider).getBackground(object);
+  }
+
+  /**
+   * This implements {@link ITableItemColorProvider#getBackground ITableItemColorProvider.getBackground} 
+   * by delegating to <code>(ITableItemColorProvider)</code>{@link #decoratedItemProvider}.
+   */
+  public Object getBackground(Object object, int columnIndex)
+  {
+    return ((ITableItemColorProvider)decoratedItemProvider).getBackground(object, columnIndex);
   }
 
   /**

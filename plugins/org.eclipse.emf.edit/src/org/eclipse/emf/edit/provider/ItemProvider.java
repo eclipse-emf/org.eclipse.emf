@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProvider.java,v 1.6 2007/06/14 18:32:42 emerks Exp $
+ * $Id: ItemProvider.java,v 1.7 2008/01/15 17:15:40 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -250,6 +250,8 @@ public class ItemProvider
     IChangeNotifier,
     IDisposable,
     IItemLabelProvider, 
+    IItemColorProvider,
+    IItemFontProvider,
     IStructuredItemContentProvider, 
     ITreeItemContentProvider, 
     IUpdateableItemParent
@@ -263,6 +265,21 @@ public class ItemProvider
    * This is the image returned by {@link IItemLabelProvider#getImage getImage(Object)}.
    */
   protected Object image;
+
+  /**
+   * This is the font returned by {@link IItemFontProvider#getFont getFont(Object)}.
+   */
+  protected Object font;
+
+  /**
+   * This is the color returned by {@link IItemColorProvider#getForeground getForeground(Object)}.
+   */
+  protected Object foreground;
+
+  /**
+   * This is the color returned by {@link IItemColorProvider#getBackground getBackground(Object)}.
+   */
+  protected Object background;
 
   /**
    * This is the parent returned by {@link ITreeItemContentProvider#getParent getParent(Object)}.
@@ -840,6 +857,114 @@ public class ItemProvider
   public void setText(String text)
   {
     setText(this, text);
+  }
+
+  /**
+   * This implements {@link IItemFontProvider#getFont IItemFontProvider.getFont} 
+   * by returning {@link #font}.
+   */
+  public Object getFont(Object object)
+  {
+    return font;
+  }
+
+  /**
+   * This delegates to {@link #getFont(Object) getFont(this)}.
+   */
+  public Object getFont()
+  {
+    return getFont(this);
+  }
+
+  /**
+   * This allows {@link #font} to be set.
+   * If there is a domain notifier, it fires the appropriate domain event.
+   */
+  public void setFont(Object object, Object font)
+  {
+    this.font = font;
+
+    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, font, Notification.NO_INDEX));
+  }
+
+  /**
+   * This delegates to {@link #setFont(Object, Object) setFont(this, font)}.
+   */
+  public void setFont(Object font)
+  {
+    setFont(this, font);
+  }
+
+  /**
+   * This implements {@link IItemColorProvider#getForeground IItemColorProvider.getForeground} 
+   * by returning {@link #foreground}.
+   */
+  public Object getForeground(Object object)
+  {
+    return foreground;
+  }
+
+  /**
+   * This delegates to {@link #getForeground(Object) getForeground(this)}.
+   */
+  public Object getForeground()
+  {
+    return getForeground(this);
+  }
+
+  /**
+   * This allows {@link #foreground} to be set.
+   * If there is a domain notifier, it fires the appropriate domain event.
+   */
+  public void setForeground(Object object, Object foreground)
+  {
+    this.foreground = foreground;
+
+    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, foreground, Notification.NO_INDEX));
+  }
+
+  /**
+   * This delegates to {@link #setForeground(Object, Object) setForeground(this, foreground)}.
+   */
+  public void setForeground(Object foreground)
+  {
+    setForeground(this, foreground);
+  }
+
+  /**
+   * This implements {@link IItemColorProvider#getBackground IItemColorProvider.getBackground} 
+   * by returning {@link #background}.
+   */
+  public Object getBackground(Object object)
+  {
+    return background;
+  }
+
+  /**
+   * This delegates to {@link #getBackground(Object) getBackground(this)}.
+   */
+  public Object getBackground()
+  {
+    return getBackground(this);
+  }
+
+  /**
+   * This allows {@link #background} to be set.
+   * If there is a domain notifier, it fires the appropriate domain event.
+   */
+  public void setBackground(Object object, Object background)
+  {
+    this.background = background;
+
+    fireNotifyChanged(new ItemProviderNotification(Notification.SET, null, background, Notification.NO_INDEX));
+  }
+
+  /**
+   * This delegates to {@link #setBackground(Object, Object) setBackground(this, background)}.
+   */
+  public void setBackground(Object background)
+  {
+    setBackground(this, background);
   }
 
   /**

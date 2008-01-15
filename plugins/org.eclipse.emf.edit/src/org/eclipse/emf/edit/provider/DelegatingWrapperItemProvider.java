@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingWrapperItemProvider.java,v 1.9 2007/06/14 18:32:42 emerks Exp $
+ * $Id: DelegatingWrapperItemProvider.java,v 1.10 2008/01/15 17:15:40 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -51,6 +51,11 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
     IStructuredItemContentProvider,
     ITreeItemContentProvider,
     IItemLabelProvider,
+    IItemFontProvider,
+    IItemColorProvider,
+    ITableItemLabelProvider,
+    ITableItemFontProvider,
+    ITableItemColorProvider,
     IItemPropertySource,
     IEditingDomainItemProvider,
     IChangeNotifier,
@@ -284,6 +289,97 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
     return delegateItemProvider instanceof IItemLabelProvider ?
       ((IItemLabelProvider)delegateItemProvider).getImage(getDelegateValue()) :
       null;
+  }
+
+  /**
+   * Uses the delegate item provider to return the delegate value's font.
+   */
+  @Override
+  public Object getFont(Object object)
+  {
+    return
+      delegateItemProvider instanceof IItemFontProvider ?
+        ((IItemFontProvider)delegateItemProvider).getFont(getDelegateValue()) :
+        null;
+  }
+
+  /**
+   * Uses the delegate item provider to return the delegate value's foreground color.
+   */
+  @Override
+  public Object getForeground(Object object)
+  {
+    return
+      delegateItemProvider instanceof IItemColorProvider ?
+        ((IItemColorProvider)delegateItemProvider).getForeground(getDelegateValue()) :
+        null;
+  }
+
+  /**
+   * Uses the delegate item provider to return the delegate value's background color.
+   */
+  @Override
+  public Object getBackground(Object object)
+  {
+    return
+      delegateItemProvider instanceof IItemColorProvider ?
+        ((IItemColorProvider)delegateItemProvider).getBackground(getDelegateValue()) :
+        null;
+  }
+
+  /**
+   * Uses the delegate item provider to return the delegate value's column text.
+   */
+  public String getColumnText(Object object, int columnIndex)
+  {
+    return 
+      delegateItemProvider instanceof ITableItemLabelProvider ?
+        ((ITableItemLabelProvider)delegateItemProvider).getColumnText(getDelegateValue(), columnIndex) :
+        getText(object);
+  }
+
+  /**
+   * Uses the delegate item provider to return the delegate value's column image.
+   */
+  public Object getColumnImage(Object object, int columnIndex)
+  {
+    return
+      delegateItemProvider instanceof ITableItemLabelProvider ?
+        ((ITableItemLabelProvider)delegateItemProvider).getColumnImage(getDelegateValue(), columnIndex) :
+        getImage(object);
+  }
+
+  /**
+   * Uses the delegate item provider to return the delegate value's font.
+   */
+  public Object getFont(Object object, int columnIndex)
+  {
+    return
+      delegateItemProvider instanceof ITableItemFontProvider ?
+        ((ITableItemFontProvider)delegateItemProvider).getFont(getDelegateValue(), columnIndex) :
+        getFont(object);
+  }
+
+  /**
+   * Uses the delegate item provider to return the delegate value's foreground color.
+   */
+  public Object getForeground(Object object, int columnIndex)
+  {
+    return 
+      delegateItemProvider instanceof ITableItemColorProvider ?
+        ((ITableItemColorProvider)delegateItemProvider).getForeground(getDelegateValue(), columnIndex) :
+        getFont(object);
+  }
+
+  /**
+   * Uses the delegate item provider to return the delegate value's background color.
+   */
+  public Object getBackground(Object object, int columnIndex)
+  {
+    return
+      delegateItemProvider instanceof ITableItemColorProvider ?
+        ((ITableItemColorProvider)delegateItemProvider).getBackground(getDelegateValue(), columnIndex) :
+        getFont(object);
   }
 
   /**

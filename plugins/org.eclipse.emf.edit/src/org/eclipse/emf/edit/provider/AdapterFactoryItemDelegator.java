@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryItemDelegator.java,v 1.4 2007/03/22 01:45:32 davidms Exp $
+ * $Id: AdapterFactoryItemDelegator.java,v 1.5 2008/01/15 17:15:40 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -35,9 +35,13 @@ public class AdapterFactoryItemDelegator
   implements 
     IEditingDomainItemProvider,
     IItemLabelProvider,
+    IItemFontProvider,
+    IItemColorProvider,
     IItemPropertySource,
     IStructuredItemContentProvider,
     ITableItemLabelProvider,
+    ITableItemColorProvider,
+    ITableItemFontProvider,
     ITreeItemContentProvider
 {
   /**
@@ -113,6 +117,85 @@ public class AdapterFactoryItemDelegator
       return
         itemLabelProvider != null ?
           itemLabelProvider.getImage(object) :
+          null;
+    }
+  }
+
+  /**
+   * This does the same thing as IFontProvider.getFont, 
+   * it fetches the font specific to this object instance.
+   */
+  public Object getFont(Object object)
+  {
+    if (object instanceof EList)
+    {
+      for (Object child : (EList<?>)object)
+      {
+        return getFont(child);
+      }
+
+      return null;
+    }
+    else
+    {
+      IItemFontProvider itemFontProvider = (IItemFontProvider)adapterFactory.adapt(object, IItemFontProvider.class);
+
+      return
+        itemFontProvider != null ?
+          itemFontProvider.getFont(object) :
+          null;
+    }
+  }
+
+  /**
+   * This does the same thing as IColorProvider.getForeground, 
+   * it fetches the foreground color specific to this object instance.
+   */
+  public Object getForeground(Object object)
+  {
+    if (object instanceof EList)
+    {
+      for (Object child : (EList<?>)object)
+      {
+        return getForeground(child);
+      }
+
+      return null;
+    }
+    else
+    {
+      //
+      IItemColorProvider itemFontProvider = (IItemColorProvider)adapterFactory.adapt(object, IItemColorProvider.class);
+  
+      return
+        itemFontProvider != null ?
+          itemFontProvider.getForeground(object) :
+          null;
+    }
+  }
+
+  /**
+   * This does the same thing as IColorProvider.getBackground, 
+   * it fetches the foreground color specific to this object instance.
+   */
+  public Object getBackground(Object object)
+  {
+    if (object instanceof EList)
+    {
+      for (Object child : (EList<?>)object)
+      {
+        return getBackground(child);
+      }
+
+      return null;
+    }
+    else
+    {
+      IItemColorProvider itemFontProvider = (IItemColorProvider)adapterFactory.adapt(object, IItemColorProvider.class);
+
+      return
+        itemFontProvider != null ?
+          itemFontProvider.getBackground(object) :
           null;
     }
   }
@@ -195,6 +278,116 @@ public class AdapterFactoryItemDelegator
     return result;
   }
 
+  /**
+   * This does the same thing as ITableFontProvider.getFont.
+   */
+  public Object getFont(Object object, int columnIndex)
+  {
+    // Get the adapter from the factory.
+    //
+    ITableItemFontProvider tableItemFontProvider = (ITableItemFontProvider)adapterFactory.adapt(object, ITableItemFontProvider.class);
+
+    // No font is a good default.
+    //
+    Object result = null;
+
+    // Now we could check that the adapter implements interface ITableItemFontProvider.
+    //
+    if (tableItemFontProvider  != null)
+    {
+      // And delegate the call.
+      //
+      result = tableItemFontProvider.getFont(object, columnIndex);
+    }
+    // Otherwise, we could check that the adapter implements interface IItemFontProvider.
+    //
+    else
+    {
+      IItemFontProvider itemFontProvider = (IItemFontProvider)adapterFactory.adapt(object, IItemFontProvider.class);
+      if (itemFontProvider != null)
+      {
+        // And delegate the call.
+        //
+        result = itemFontProvider.getFont(object);
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * This does the same thing as ITableColorProvider.getForeground.
+   */
+  public Object getForeground(Object object, int columnIndex)
+  {
+    // Get the adapter from the factory.
+    //
+    ITableItemColorProvider tableItemColorProvider = (ITableItemColorProvider)adapterFactory.adapt(object, ITableItemColorProvider.class);
+
+    // No color is a good default.
+    //
+    Object result = null;
+
+    // Now we could check that the adapter implements interface ITableItemColorProvider.
+    //
+    if (tableItemColorProvider  != null)
+    {
+      // And delegate the call.
+      //
+      result = tableItemColorProvider.getForeground(object, columnIndex);
+    }
+    // Otherwise, we could check that the adapter implements interface IItemColorProvider.
+    //
+    else
+    {
+      IItemColorProvider itemColorProvider = (IItemColorProvider)adapterFactory.adapt(object, IItemColorProvider.class);
+      if (itemColorProvider != null)
+      {
+        // And delegate the call.
+        //
+        result = itemColorProvider.getForeground(object);
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * This does the same thing as ITableColorProvider.getBackground.
+   */
+  public Object getBackground(Object object, int columnIndex)
+  {
+    // Get the adapter from the factory.
+    //
+    ITableItemColorProvider tableItemColorProvider = (ITableItemColorProvider)adapterFactory.adapt(object, ITableItemColorProvider.class);
+
+    // No color is a good default.
+    //
+    Object result = null;
+
+    // Now we could check that the adapter implements interface ITableItemColorProvider.
+    //
+    if (tableItemColorProvider  != null)
+    {
+      // And delegate the call.
+      //
+      result = tableItemColorProvider.getBackground(object, columnIndex);
+    }
+    // Otherwise, we could check that the adapter implements interface IItemColorProvider.
+    //
+    else
+    {
+      IItemColorProvider itemColorProvider = (IItemColorProvider)adapterFactory.adapt(object, IItemColorProvider.class);
+      if (itemColorProvider != null)
+      {
+        // And delegate the call.
+        //
+        result = itemColorProvider.getBackground(object);
+      }
+    }
+
+    return result;
+  }
 
   public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {

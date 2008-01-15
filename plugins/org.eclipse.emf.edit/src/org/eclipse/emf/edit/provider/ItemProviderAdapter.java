@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.33 2008/01/05 13:58:55 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.34 2008/01/15 17:15:41 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -69,7 +69,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  * This adapter implementation provides a convenient reusable base for
  * adapters that will be used as item providers.
  * Default implementations for the following interfaces are provided: 
- * {@link IItemLabelProvider}, {@link IItemPropertySource},
+ * {@link IItemLabelProvider}, {@link IItemColorProvider}, {@link IItemFontProvider}, {@link IItemPropertySource},
  * {@link IStructuredItemContentProvider},
  * {@link ITreeItemContentProvider}, and {@link IEditingDomainItemProvider}.  
  * Also, {@link IUpdateableItemText#getUpdateableText} is implemented to delegate to {@link #getText}; 
@@ -624,6 +624,14 @@ public class ItemProviderAdapter
   }
 
   /**
+   * This implements {@link ITableItemLabelProvider#getColumnImage ITableItemLabelProvider.getColumnImage} by returning null.
+   */
+  public Object getColumnImage(Object object, int columnIndex)
+  {
+    return null;
+  }
+
+  /**
    * This adds an overlay to the given image if the object is controlled.
    */
   protected Object overlayImage(Object object, Object image)
@@ -645,6 +653,62 @@ public class ItemProviderAdapter
   public String getText(Object object)
   {
     return object.toString();
+  }
+
+  /**
+   * This implements {@link ITableItemLabelProvider#getColumnText ITableItemLabelProvider.getColumnText} by returning <code>""</code>.
+   */
+  public String getColumnText(Object object, int columnIndex)
+  {
+    return "";
+  }
+
+  /**
+   * This implements {@link IItemFontProvider#getcolFont IItemFontProvider.getFont} by returning null;
+   */
+  public Object getFont(Object object)
+  {
+    return null;
+  }
+
+  /**
+   * This implements {@link ITableItemFontProvider#getFont ITableItemFontProvider.getFont} by returning null;
+   */
+  public Object getFont(Object object, int columnIndex)
+  {
+    return null;
+  }
+
+  /**
+   * This implements {@link IItemColorProvider#getForeground IItemColorProvider.getForeground} by returning null;
+   */
+  public Object getForeground(Object object)
+  {
+    return null;
+  }
+
+  /**
+   * This implements {@link ITableItemColorProvider#getForeground ITableItemColorProvider.getForeground} by returning null;
+   */
+  public Object getForeground(Object object, int columnIndex)
+  {
+    return null;
+  }
+
+  /**
+   * This implements {@link IItemColorProvider#getBackground IItemColorProvider.getBackground} by returning null;
+   */
+  public Object getBackground(Object object)
+  {
+    return null;
+  }
+
+  /**
+   * This implements {@link ITableItemColorProvider#getBackground ITableItemColorProvider.getBackground} by returning null;
+   */
+  public Object getBackground(Object object, int columnIndex)
+  {
+    return null;
   }
 
   /**

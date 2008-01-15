@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.13 2007/06/15 21:57:41 emerks Exp $
+ * $Id: WrapperItemProvider.java,v 1.14 2008/01/15 17:15:40 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -39,11 +39,13 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 /**
  * A basic implementation of <code>IWrapperProvider</code> from which others can extend. This class provides
- * all the methods required to implement the following item provider iterfaces:
+ * all the methods required to implement the following item provider interfaces:
  * <ul>
  * <li>{@link IStructuredItemContentProvider}
  * <li>{@link ITreeItemContentProvider}
  * <li>{@link IItemLabelProvider}
+ * <li>{@link IItemFontProvider}
+ * <li>{@link IItemColorProvider}
  * <li>{@link IItemPropertySource}
  * <li>{@link IEditingDomainItemProvider}
  * </ul>
@@ -194,6 +196,30 @@ public class WrapperItemProvider implements IWrapperItemProvider
   public Object getImage(Object object)
   {
     return EMFEditPlugin.INSTANCE.getImage("full/obj16/Item");
+  }
+
+  /**
+   * {@link org.eclipse.emf.edit.provider.IItemFontProvider#getFont IItemFontProvider.getFont} is implemented by returning null.
+   */
+  public Object getFont(Object object)
+  {
+    return null;
+  }
+
+  /**
+   * {@link org.eclipse.emf.edit.provider.IItemColorProvider#getForeground IItemColorProvider.getForeground} is implemented by returning null.
+   */
+  public Object getForeground(Object object)
+  {
+    return null;
+  }
+
+  /**
+   * {@link org.eclipse.emf.edit.provider.IItemColorProvider#getBackground IItemColorProvider.getBackground} is implemented by returning null.
+   */
+  public Object getBackground(Object object)
+  {
+    return null;
   }
 
   /**
