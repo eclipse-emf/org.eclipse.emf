@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.18 2007/09/29 09:48:49 emerks Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.19 2008/01/17 18:46:40 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -1880,7 +1880,9 @@ public class RoseEcoreBuilder implements RoseVisitor
             features.remove();
             break;
           }
-          else if (!eAttribute.getEAttributeType().isSerializable() && !eAttribute.isTransient())
+          else if (!eAttribute.getEAttributeType().isSerializable() &&
+                     !eAttribute.isTransient() && 
+                     !"org.eclipse.emf.ecore.util.FeatureMap$Entry".equals(eAttribute.getEAttributeType().getInstanceClassName()))
           {
             error(RoseImporterPlugin.INSTANCE.getString("_UI_TheAttributeShouldBeTransient_message", new Object []{
               eAttribute.getName(),
