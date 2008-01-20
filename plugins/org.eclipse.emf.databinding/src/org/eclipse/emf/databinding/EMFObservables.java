@@ -9,10 +9,11 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
+ *   Trevor S. Kaufman - Bug 215131 - added mapFactory
  *
  * </copyright>
  *
- * $Id: EMFObservables.java,v 1.1 2007/11/16 21:25:21 emerks Exp $
+ * $Id: EMFObservables.java,v 1.2 2008/01/20 16:33:48 emerks Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -172,4 +173,22 @@ public class EMFObservables
         }
       };
   }
+  
+  /**
+   * Returns a factory for creating observable maps
+   * tracking the value of the given feature of a particular {@link EObject object}.
+   * @param eStructuralFeature the feature for which to track the value.
+   * @return an observable factory.
+   */
+  public static IObservableFactory mapFactory(final EStructuralFeature eStructuralFeature)
+  {
+    return
+      new IObservableFactory()
+      {
+        public IObservable createObservable(Object target)
+        {
+          return observeMap((IObservableSet)target, eStructuralFeature);
+        }
+      };
+   }
 }
