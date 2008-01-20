@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFEditObservables.java,v 1.1 2007/11/16 20:58:05 emerks Exp $
+ * $Id: EMFEditObservables.java,v 1.2 2008/01/20 16:33:47 emerks Exp $
  */
 package org.eclipse.emf.databinding.edit;
 
@@ -181,4 +181,23 @@ public class EMFEditObservables
         }
       };
   }
+
+  /**
+   * Returns a factory for creating observable maps
+   * tracking the value of the given feature of a particular {@link EObject object}.
+   * @param domain the editing domain used for applying changes.
+   * @param eStructuralFeature the feature for which to track the value.
+   * @return an observable factory.
+   */
+  public static IObservableFactory mapFactory(final EditingDomain domain, final EStructuralFeature eStructuralFeature)
+  {
+    return
+      new IObservableFactory()
+      {
+        public IObservable createObservable(Object target)
+        {
+          return observeMap(domain, (IObservableSet)target, eStructuralFeature);
+        }
+      };
+   }
 }
