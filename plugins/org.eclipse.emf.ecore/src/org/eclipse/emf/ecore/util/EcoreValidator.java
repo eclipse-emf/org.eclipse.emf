@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.27 2008/01/09 01:15:53 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.28 2008/01/20 16:30:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -847,11 +847,19 @@ public class EcoreValidator extends EObjectValidator
   {
     protected String messageKey;
     protected int messageCode;
+    protected boolean ignoreOperationsWithSuppressedVisibility;
 
     public EOperationSignatureValidator(String messageKey, int messageCode)
     {
       this.messageKey = messageKey;
       this.messageCode = messageCode;
+    }
+    
+    public EOperationSignatureValidator(String messageKey, int messageCode, boolean ignoreOperationsWithSuppressedVisibility)
+    {
+      this.messageKey = messageKey;
+      this.messageCode = messageCode;
+      this.ignoreOperationsWithSuppressedVisibility = ignoreOperationsWithSuppressedVisibility;
     }
 
     public final boolean validateEOperationSignatures
@@ -860,76 +868,79 @@ public class EcoreValidator extends EObjectValidator
       boolean result = true;
       for (EOperation eOperation : eOperations)
       {
-        String name = eOperation.getName();
-        if (name != null)
+        if (!ignoreOperationsWithSuppressedVisibility || !EcoreUtil.isSuppressedVisibility(eOperation))
         {
-          EList<EParameter> eParameters = eOperation.getEParameters();
-          int eParameterSize = eParameters.size();
-          LOOP:
-          for (EOperation otherEOperation : otherEOperations)
+          String name = eOperation.getName();
+          if (name != null)
           {
-            // Match against every other operation but this one.
-            //
-            if (otherEOperation == eOperation)
+            EList<EParameter> eParameters = eOperation.getEParameters();
+            int eParameterSize = eParameters.size();
+            LOOP:
+            for (EOperation otherEOperation : otherEOperations)
             {
-              break;
-            }
-            else
-            {
-              String otherName = otherEOperation.getName();
-              if (name.equals(otherName))
+              // Match against every other operation but this one.
+              //
+              if (otherEOperation == eOperation)
               {
-                EList<EParameter> otherEParmeters = otherEOperation.getEParameters();
-                if (otherEParmeters.size() == eParameterSize)
+                break;
+              }
+              else
+              {
+                String otherName = otherEOperation.getName();
+                if (name.equals(otherName))
                 {
-                  for (int i = 0; i < eParameterSize; ++i)
+                  EList<EParameter> otherEParmeters = otherEOperation.getEParameters();
+                  if (otherEParmeters.size() == eParameterSize)
                   {
-                    EParameter eParameter = eParameters.get(i);
-                    EParameter otherEParameter = otherEParmeters.get(i);
-                    EClassifier eType = eParameter.getEType();
-                    EClassifier otherEType = otherEParameter.getEType();
-
-                    // There is no match if the types are different
-                    // and they don't each specify the same non-null instance class name.
-                    //
-                    if (eType != otherEType)
+                    for (int i = 0; i < eParameterSize; ++i)
                     {
-                      if (eType != null && otherEType != null)
+                      EParameter eParameter = eParameters.get(i);
+                      EParameter otherEParameter = otherEParmeters.get(i);
+                      EClassifier eType = eParameter.getEType();
+                      EClassifier otherEType = otherEParameter.getEType();
+  
+                      // There is no match if the types are different
+                      // and they don't each specify the same non-null instance class name.
+                      //
+                      if (eType != otherEType)
                       {
-                        String instanceClassName = eType.getInstanceClassName();
-                        String otherInstanceClassName = otherEType.getInstanceClassName();
-                        if (instanceClassName != otherInstanceClassName || instanceClassName == null || eParameter.isMany() != otherEParameter.isMany())
+                        if (eType != null && otherEType != null)
+                        {
+                          String instanceClassName = eType.getInstanceClassName();
+                          String otherInstanceClassName = otherEType.getInstanceClassName();
+                          if (instanceClassName != otherInstanceClassName || instanceClassName == null || eParameter.isMany() != otherEParameter.isMany())
+                          {
+                            continue LOOP;
+                          }
+                        }
+                        else
                         {
                           continue LOOP;
                         }
                       }
-                      else
+                      else if (eParameter.isMany() != otherEParameter.isMany())
                       {
                         continue LOOP;
                       }
                     }
-                    else if (eParameter.isMany() != otherEParameter.isMany())
+                    if (diagnostics == null)
                     {
-                      continue LOOP;
+                      return false;
                     }
-                  }
-                  if (diagnostics == null)
-                  {
-                    return false;
-                  }
-                  else
-                  {
-                    result = false;
-
-                    diagnostics.add
-                      (new BasicDiagnostic
-                        (Diagnostic.ERROR,
-                         DIAGNOSTIC_SOURCE,
-                         messageCode,
-                         EcorePlugin.INSTANCE.getString
-                           (messageKey,
-                            new Object[] { getObjectLabel(eOperation, context), getObjectLabel(getTarget(otherEOperation), context) }),
-                         new Object[] { eClass, eOperation, getTarget(otherEOperation) }));
+                    else
+                    {
+                      result = false;
+  
+                      diagnostics.add
+                        (new BasicDiagnostic
+                          (Diagnostic.ERROR,
+                           DIAGNOSTIC_SOURCE,
+                           messageCode,
+                           EcorePlugin.INSTANCE.getString
+                             (messageKey,
+                              new Object[] { getObjectLabel(eOperation, context), getObjectLabel(getTarget(otherEOperation), context) }),
+                           new Object[] { eClass, eOperation, getTarget(otherEOperation) }));
+                    }
                   }
                 }
               }
@@ -1337,7 +1348,7 @@ public class EcoreValidator extends EObjectValidator
       }
 
       result =
-        new EOperationSignatureValidator("_UI_EClassDisjointFeatureAndOperationSignatures_diagnostic", DISJOINT_FEATURE_AND_OPERATION_SIGNATURES)
+        new EOperationSignatureValidator("_UI_EClassDisjointFeatureAndOperationSignatures_diagnostic", DISJOINT_FEATURE_AND_OPERATION_SIGNATURES, true)
         {
           @Override
           protected EModelElement getTarget(EOperation otherEOperation)

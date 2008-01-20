@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.58 2007/09/29 09:30:57 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.59 2008/01/20 16:30:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -51,6 +51,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -3479,6 +3480,48 @@ public class EcoreUtil
         eStructuralFeature.getEAnnotations().add(eAnnotation);
       }
       eAnnotation.getDetails().put(ACCESSOR_KEYS[accessor], TRUE);
+    }
+  }
+
+  static final String OPERATION_VISIBILITY_KEY = "suppressedVisibility";
+
+  /**
+   * Tests whether the given operation has been annotated to prevent generation of a method declaration in its interface.
+   * @param eOperation the operation.
+   * @return whether the visibility is suppressed
+   * @since 2.4
+   */
+  public static boolean isSuppressedVisibility(EOperation eOperation)
+  {
+    EAnnotation eAnnotation = eOperation.getEAnnotation(GEN_MODEL_PACKAGE_NS_URI);
+    return eAnnotation == null ? false : TRUE.equalsIgnoreCase(eAnnotation.getDetails().get(OPERATION_VISIBILITY_KEY));
+  }
+
+  /**
+   * Sets or removes the annotation on the given operation to prevent generation of a method declaration in its interface.
+   * @param eOperation the operation.
+   * @param suppress whether the visibility should be suppressed
+   * @since 2.4
+   */
+  public static void setSuppressedVisibility(EOperation eOperation, boolean suppress)
+  {
+    EAnnotation eAnnotation = eOperation.getEAnnotation(GEN_MODEL_PACKAGE_NS_URI);
+    if (!suppress)
+    {
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().removeKey(OPERATION_VISIBILITY_KEY);
+      }
+    }
+    else
+    {
+      if (eAnnotation == null)
+      {
+        eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        eAnnotation.setSource(GEN_MODEL_PACKAGE_NS_URI);
+        eOperation.getEAnnotations().add(eAnnotation);
+      }
+      eAnnotation.getDetails().put(OPERATION_VISIBILITY_KEY, TRUE);
     }
   }
 
