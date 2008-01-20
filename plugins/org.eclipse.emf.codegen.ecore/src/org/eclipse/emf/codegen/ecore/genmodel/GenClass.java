@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.28 2008/01/05 13:58:52 emerks Exp $
+ * $Id: GenClass.java,v 1.29 2008/01/20 16:31:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -455,4 +455,44 @@ public interface GenClass extends GenClassifier
    * @since 2.4
    */
   boolean needsHasChildrenMethodOverride();
+
+  /**
+   * @since 2.4
+   */
+  GenOperation getGetAccessorOperation(GenFeature genFeature);
+
+  /**
+   * @since 2.4
+   */
+  GenOperation getIsSetAccessorOperation(GenFeature genFeature);
+  
+  /**
+   * @since 2.4
+   */
+  GenOperation getSetAccessorOperation(GenFeature genFeature);
+
+  /**
+   * @since 2.4
+   */
+  GenOperation getUnsetAccessorOperation(GenFeature genFeature);
+
+  /**
+   * @since 2.4
+   */
+  boolean hasCollidingGetAccessorOperation(GenFeature genFeature);
+
+  /**
+   * @since 2.4
+   */
+  boolean hasCollidingIsSetAccessorOperation(GenFeature genFeature);
+  
+  /**
+   * @since 2.4
+   */
+  boolean hasCollidingSetAccessorOperation(GenFeature genFeature);
+
+  /**
+   * @since 2.4
+   */
+  boolean hasCollidingUnsetAccessorOperation(GenFeature genFeature);
 }

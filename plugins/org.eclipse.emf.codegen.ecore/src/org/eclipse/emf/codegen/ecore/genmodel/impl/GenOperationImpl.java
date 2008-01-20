@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.33 2007/06/12 20:56:34 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.34 2008/01/20 16:31:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1084,5 +1084,10 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       }
     }
     return false;
+  }
+
+  public boolean isSuppressedVisibility()
+  {
+    return EcoreUtil.isSuppressedVisibility(getEcoreOperation());
   }
 }

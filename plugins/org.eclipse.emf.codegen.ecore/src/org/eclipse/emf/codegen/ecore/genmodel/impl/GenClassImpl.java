@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.84 2008/01/05 19:53:41 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.85 2008/01/20 16:31:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1224,7 +1224,18 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List<GenOperation> getDeclaredGenOperations()
   {
-    return getGenOperations();
+    return
+      collectGenOperations
+        (this,
+         Collections.<GenClass>singletonList(this),
+         null, 
+         new GenOperationFilter()
+         {
+           public boolean accept(GenOperation genOperation)
+           {
+             return !genOperation.isSuppressedVisibility();
+           }
+         });
   }
 
   public List<GenFeature> getFlagGenFeatures()
@@ -2872,6 +2883,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     protected List<GenFeature> allGenFeatures = getAllGenFeatures();
     protected List<GenOperation> extendsGenClassOperations;
+    protected List<GenFeature> extendsGenClassFeatures;
     
     public CollidingGenOperationFilter()
     {
@@ -2879,34 +2891,45 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       if (extendsClass != null)
       {
         extendsGenClassOperations = extendsClass.getAllGenOperations();
+        extendsGenClassFeatures = extendsClass.getAllGenFeatures();
       }
       else
       {
         extendsGenClassOperations = Collections.emptyList();
+        extendsGenClassFeatures = Collections.emptyList();
       }
     }
 
     public boolean accept(GenOperation genOperation)
     {
+      boolean hasBody = genOperation.hasBody();
+
       if (genOperation.getName().startsWith("isSet") && genOperation.getGenParameters().isEmpty())
       {
         for (GenFeature genFeature : allGenFeatures)
         {
-          if (genFeature.isChangeable() && genFeature.isUnsettable()
-            && genOperation.getName().equals("isSet" + genFeature.getAccessorName()))
+          if (genFeature.isChangeable() && 
+                genFeature.isUnsettable() && 
+                genOperation.getName().equals("isSet" + genFeature.getAccessorName()) &&
+                (!hasBody || genFeature.isVolatile() && !genFeature.hasDelegateFeature() && !extendsGenClassFeatures.contains(genFeature)))
           {
             return false;
           }
         }
       }
-      else if ((genOperation.getName().startsWith("get") || genOperation.getName().startsWith("is"))
-        && genOperation.getGenParameters().isEmpty())
+      else if ((genOperation.getName().startsWith("get") || genOperation.getName().startsWith("is")) && 
+                 genOperation.getGenParameters().isEmpty())
       {
         String operationType = genOperation.getType(GenClassImpl.this);
         for (GenFeature genFeature : allGenFeatures)
         {
           if (genFeature.getGetAccessor().equals(genOperation.getName()) &&
-                genFeature.getType(GenClassImpl.this).equals(operationType))
+                genFeature.getType(GenClassImpl.this).equals(operationType) &&
+                (!hasBody || 
+                    genFeature.isVolatile() && 
+                      (!genFeature.isResolveProxies() || genFeature.isListType()) && 
+                      !genFeature.hasDelegateFeature() && 
+                      !extendsGenClassFeatures.contains(genFeature)))
           {
             return false;
           }
@@ -2917,8 +2940,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         GenParameter genParameter = genOperation.getGenParameters().get(0);
         for (GenFeature genFeature : allGenFeatures)
         {
-          if (genFeature.isChangeable() && !genFeature.isListType() && genOperation.getName().equals("set" + genFeature.getAccessorName())
-            && genParameter.getType(GenClassImpl.this).equals(genFeature.getType(GenClassImpl.this)))
+          if (genFeature.isChangeable() && 
+                !genFeature.isListType() && 
+                genOperation.getName().equals("set" + genFeature.getAccessorName()) && 
+                genParameter.getType(GenClassImpl.this).equals(genFeature.getType(GenClassImpl.this)) &&
+                (!hasBody || genFeature.isVolatile() && !genFeature.hasDelegateFeature() && !extendsGenClassFeatures.contains(genFeature)))
           {
             return false;
           }
@@ -2928,15 +2954,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       {
         for (GenFeature genFeature : allGenFeatures)
         {
-          if (genFeature.isChangeable() && genFeature.isUnsettable()
-            && genOperation.getName().equals("unset" + genFeature.getAccessorName()))
+          if (genFeature.isChangeable() && genFeature.isUnsettable() && 
+                genOperation.getName().equals("unset" + genFeature.getAccessorName()) &&
+                (!hasBody || genFeature.isVolatile() && !genFeature.hasDelegateFeature() && !extendsGenClassFeatures.contains(genFeature)))
           {
             return false;
           }
         }
       }
 
-      if (!genOperation.hasBody())
+      if (!hasBody)
       {
         String operationType = genOperation.getType(GenClassImpl.this);
         for (GenOperation baseOperation : extendsGenClassOperations)
@@ -3082,5 +3109,99 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     GenClass providerExtendsGenClass = getProviderExtendsGenClass();
     boolean optimizedBase =  providerExtendsGenClass != null && providerExtendsGenClass.getGenModel().isOptimizedHasChildren();
     return optimized != optimizedBase;
+  }
+
+  protected GenOperation getAccesorOperation(final GenFeature genFeature, final String accessor)
+  {
+    if (genFeature.isVolatile() &&
+          (!accessor.startsWith("get") || !genFeature.isResolveProxies() || genFeature.isListType()) && 
+          !genFeature.hasDelegateFeature())
+    {
+      List<GenOperation> accessorOperations = 
+        collectGenOperations
+          (this,
+           getImplementedGenClasses(),
+           null,
+           new CollidingGenOperationFilter()
+           {
+             @Override
+             public boolean accept(GenOperation genOperation)
+             {
+               return accessor.equals(genOperation.getName()) && genOperation.hasBody() && !super.accept(genOperation);
+             }
+           });
+      return accessorOperations.isEmpty() ? null : accessorOperations.get(0);
+    }
+    else
+    {
+      return null;
+    }
+  }
+
+  public GenOperation getGetAccessorOperation(GenFeature genFeature)
+  {
+    return getAccesorOperation(genFeature, genFeature.getGetAccessor());
+  }
+
+  public GenOperation getSetAccessorOperation(GenFeature genFeature)
+  {
+    return getAccesorOperation(genFeature, "set" + genFeature.getAccessorName());
+  }
+
+  public GenOperation getIsSetAccessorOperation(GenFeature genFeature)
+  {
+    return getAccesorOperation(genFeature, "isSet" + genFeature.getAccessorName());
+  }
+
+  public GenOperation getUnsetAccessorOperation(GenFeature genFeature)
+  {
+    return getAccesorOperation(genFeature, "unset" + genFeature.getAccessorName());
+  }
+
+  protected boolean hasCollidingAccessorOperation(final GenFeature genFeature, final String accessor)
+  {
+    if (genFeature.isVolatile() &&
+          (!accessor.startsWith("get") || !genFeature.isResolveProxies() || genFeature.isListType()) && 
+          !genFeature.hasDelegateFeature())
+    {
+      return false;
+    }
+    else
+    {
+      for (GenOperation genOperation : getImplementedGenOperations())
+      {
+        if (accessor.equals(genOperation.getName()) && genOperation.hasBody())
+        {
+          EList<GenParameter> genParameters = genOperation.getGenParameters();
+          if (accessor.startsWith("set") ? 
+                genParameters.size() == 1 && genParameters.get(0).getType(this).equals(genFeature.getType(this)) : 
+                genParameters.isEmpty())
+          {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+  }
+
+  public boolean hasCollidingGetAccessorOperation(GenFeature genFeature)
+  {
+    return hasCollidingAccessorOperation(genFeature, genFeature.getGetAccessor());
+  }
+  
+  public boolean hasCollidingSetAccessorOperation(GenFeature genFeature)
+  {
+    return hasCollidingAccessorOperation(genFeature, "set" + genFeature.getAccessorName());
+  }
+  
+  public boolean hasCollidingIsSetAccessorOperation(GenFeature genFeature)
+  {
+    return hasCollidingAccessorOperation(genFeature, "isSet" + genFeature.getAccessorName());
+  }
+  
+  public boolean hasCollidingUnsetAccessorOperation(GenFeature genFeature)
+  {
+    return hasCollidingAccessorOperation(genFeature, "unset" + genFeature.getAccessorName());
   }
 }

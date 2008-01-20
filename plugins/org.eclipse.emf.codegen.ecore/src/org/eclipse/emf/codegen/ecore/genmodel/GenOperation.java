@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.16 2007/06/12 20:56:34 emerks Exp $
+ * $Id: GenOperation.java,v 1.17 2008/01/20 16:31:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -251,4 +251,9 @@ public interface GenOperation extends GenTypedElement
    * @since 2.3
    */
   boolean hasParameterDocumentation();
+
+  /**
+   * @since 2.4
+   */
+  boolean isSuppressedVisibility();
 }
