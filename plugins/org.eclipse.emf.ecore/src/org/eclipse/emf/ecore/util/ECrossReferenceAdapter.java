@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.23 2007/09/25 15:07:54 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.24 2008/01/22 11:29:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -389,24 +389,29 @@ public class ECrossReferenceAdapter implements Adapter.Internal
             EObject proxy = proxies.get(i);
             for (EStructuralFeature.Setting setting : getInverseReferences(proxy, false))
             {
-              Object value = setting.get(true);
-              if (setting.getEStructuralFeature().isMany())
-              {
-                InternalEList<?> list = (InternalEList<?>)value;
-                List<?> basicList = list.basicList();
-                int index =  basicList.indexOf(proxy);
-                if (index != -1)
-                {
-                  list.get(index);
-                }
-              }
+              resolveProxy(resource, eObject, proxy, setting);
             }
           }
         }
       }
     }
   }
-  
+
+  protected void resolveProxy(Resource resource, EObject eObject, EObject proxy, EStructuralFeature.Setting setting)
+  {
+    Object value = setting.get(true);
+    if (setting.getEStructuralFeature().isMany())
+    {
+      InternalEList<?> list = (InternalEList<?>)value;
+      List<?> basicList = list.basicList();
+      int index =  basicList.indexOf(proxy);
+      if (index != -1)
+      {
+        list.get(index);
+      }
+    }
+  }
+
   protected boolean isIncluded(EReference eReference)
   {
     return eReference.getEOpposite() == null && !eReference.isDerived();
