@@ -58,7 +58,6 @@
 
 	<target name="build.jars" depends="init" description="Build all the jars for the plug-in: ${docPlugin}.">
 	 	<macrodef name="echo-timestamp"><sequential><antcall target="-timestamp" inheritAll="false" /></sequential></macrodef>
-	
         <echo-timestamp />
 		<property name="eclipseDir" location="../.."/>
 		<chmod perm="754" file="build/antJavadoc.sh"/>
