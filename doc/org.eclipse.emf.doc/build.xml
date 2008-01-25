@@ -57,14 +57,15 @@
 	</target>
 
 	<target name="build.jars" depends="init" description="Build all the jars for the plug-in: ${docPlugin}.">
+	 	<macrodef name="echo-timestamp"><sequential><antcall target="-timestamp" inheritAll="false" /></sequential></macrodef>
+	
+        <echo-timestamp />
 		<property name="eclipseDir" location="../.."/>
-
 		<chmod perm="754" file="build/antJavadoc.sh"/>
-        <exec executable="bash" dir="build">
-                <arg line="./antJavadoc.sh ${eclipseDir}"/>
-        </exec>
-
+        <exec executable="bash" dir="build"><arg line="./antJavadoc.sh ${eclipseDir}"/></exec>
+	    <echo-timestamp />
 		<antcall target="build.index"/>
+	    <echo-timestamp />
 	</target>
 
 	<target name="build.index" depends="init" description="Builds search index for the plug-in" if="eclipse.running">
@@ -117,4 +118,7 @@
 		<delete dir="${temp.folder}"/>
 	</target>
 
+	<!-- echo timestamp into log: format can be "MM/dd/yyyy hh:mm:ss aa" or "hh:mm:ss" -->
+  	<target name="-timestamp"><tstamp><format property="-timestamp" pattern="hh:mm:ss"/></tstamp><echo>${-timestamp}</echo></target>
+  	
 </project>
