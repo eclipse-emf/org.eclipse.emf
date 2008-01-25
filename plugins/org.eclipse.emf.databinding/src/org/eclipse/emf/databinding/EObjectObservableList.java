@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectObservableList.java,v 1.1 2007/11/16 21:25:21 emerks Exp $
+ * $Id: EObjectObservableList.java,v 1.2 2008/01/25 18:02:22 emerks Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -60,17 +60,6 @@ public class EObjectObservableList extends ObservableList implements IObserving,
     listener =
       new AdapterImpl()
       {
-        protected ListDiff diff;
-        protected Runnable runnable =
-           new Runnable()
-           {
-             public void run()
-             {
-               fireListChange(diff);
-               diff = null;
-             }
-           };
-
         @Override
         public void notifyChanged(Notification notification)
         {
@@ -78,6 +67,7 @@ public class EObjectObservableList extends ObservableList implements IObserving,
           {
             if (EObjectObservableList.this.eStructuralFeature.equals(notification.getFeature()))
             {
+              final ListDiff diff;
               switch (notification.getEventType())
               {
                 case Notification.ADD:
@@ -138,14 +128,21 @@ public class EObjectObservableList extends ObservableList implements IObserving,
                 {
                   // This just represents going back to the unset state, but that doesn't affect the contents of the list.
                   //
-                  break;
+                  return;
                 }
                 default:
                 {
                   throw new RuntimeException("unhandled case");
                 }
               }
-              getRealm().exec(runnable);
+              getRealm().exec
+               (new Runnable()
+                {
+                  public void run()
+                  {
+                    fireListChange(diff);
+                  }
+                });
             }
           }
         }

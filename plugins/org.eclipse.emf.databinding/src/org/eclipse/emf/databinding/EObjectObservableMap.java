@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EObjectObservableMap.java,v 1.1 2007/11/16 21:25:21 emerks Exp $
+ * $Id: EObjectObservableMap.java,v 1.2 2008/01/25 18:02:22 emerks Exp $
  */
 package org.eclipse.emf.databinding;
 
 import org.eclipse.core.databinding.observable.Diffs;
 import org.eclipse.core.databinding.observable.map.ComputedObservableMap;
+import org.eclipse.core.databinding.observable.map.MapDiff;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -44,7 +45,15 @@ public class EObjectObservableMap extends ComputedObservableMap
           // TODO
           // This assumes we only get a SET notification, which isn't a good assumption.
           //
-          fireMapChange(Diffs.createMapDiffSingleChange(msg.getNotifier(), msg.getOldValue(), msg.getNewValue()));
+          final MapDiff diff = Diffs.createMapDiffSingleChange(msg.getNotifier(), msg.getOldValue(), msg.getNewValue());
+          getRealm().exec
+            (new Runnable()
+             {
+               public void run()
+               {
+                 fireMapChange(diff);
+               }
+             });
         }
       }
     };
