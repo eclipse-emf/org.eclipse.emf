@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectObservableValue.java,v 1.1 2007/11/16 21:25:21 emerks Exp $
+ * $Id: EObjectObservableValue.java,v 1.2 2008/01/26 21:01:07 emerks Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -74,22 +74,19 @@ public class EObjectObservableValue extends AbstractObservableValue implements I
       new AdapterImpl()
       {
         @Override
-        public void notifyChanged(final Notification msg)
+        public void notifyChanged(Notification notification)
         {
-          if (!msg.isTouch())
+          if (eStructuralFeature == notification.getFeature() && !notification.isTouch())
           {
-            if (eStructuralFeature.equals(msg.getFeature()))
-            {
-              final ValueDiff diff = Diffs.createValueDiff(msg.getOldValue(), msg.getNewValue());
-              getRealm().exec
-                (new Runnable()
+            final ValueDiff diff = Diffs.createValueDiff(notification.getOldValue(), notification.getNewValue());
+            getRealm().exec
+              (new Runnable()
+               {
+                 public void run()
                  {
-                   public void run()
-                   {
-                     fireValueChange(diff);
-                   }
-                 });
-            }
+                   fireValueChange(diff);
+                 }
+               });
           }
         }
       };

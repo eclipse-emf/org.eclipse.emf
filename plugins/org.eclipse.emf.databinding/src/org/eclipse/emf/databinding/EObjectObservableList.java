@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectObservableList.java,v 1.2 2008/01/25 18:02:22 emerks Exp $
+ * $Id: EObjectObservableList.java,v 1.3 2008/01/26 21:01:07 emerks Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -63,87 +63,84 @@ public class EObjectObservableList extends ObservableList implements IObserving,
         @Override
         public void notifyChanged(Notification notification)
         {
-          if (!notification.isTouch())
+          if (eStructuralFeature == notification.getFeature() && !notification.isTouch())
           {
-            if (EObjectObservableList.this.eStructuralFeature.equals(notification.getFeature()))
+            final ListDiff diff;
+            switch (notification.getEventType())
             {
-              final ListDiff diff;
-              switch (notification.getEventType())
+              case Notification.ADD:
               {
-                case Notification.ADD:
-                {
-                  diff = Diffs.createListDiff(Diffs.createListDiffEntry(notification.getPosition(), true, notification.getNewValue()));
-                  break;
-                }
-                case Notification.ADD_MANY:
-                {
-                  Collection<?> newValues = (Collection<?>)notification.getNewValue();
-                  ListDiffEntry [] listDiffEntries = new ListDiffEntry [newValues.size()];
-                  int position = notification.getPosition();
-                  int index = 0;
-                  for (Object newValue : newValues)
-                  {
-                    listDiffEntries[index++] = Diffs.createListDiffEntry(position++, true, newValue);
-                  }
-                  diff = Diffs.createListDiff(listDiffEntries);
-                  break;
-                }
-                case Notification.REMOVE:
-                {
-                  diff = Diffs.createListDiff(Diffs.createListDiffEntry(notification.getPosition(), false, notification.getOldValue()));
-                  break;
-                }
-                case Notification.REMOVE_MANY:
-                {
-                  Collection<?> oldValues = (Collection<?>)notification.getOldValue();
-                  ListDiffEntry [] listDiffEntries = new ListDiffEntry [oldValues.size()];
-                  int position = notification.getPosition();
-                  int index = 0;
-                  for (Object oldValue : oldValues)
-                  {
-                    listDiffEntries[index++] = Diffs.createListDiffEntry(position++, false, oldValue);
-                  }
-                  diff = Diffs.createListDiff(listDiffEntries);
-                  break;
-                }
-                case Notification.SET:
-                case Notification.RESOLVE:
-                {
-                  ListDiffEntry [] listDiffEntries = new ListDiffEntry [2];
-                  listDiffEntries[0] = Diffs.createListDiffEntry(notification.getPosition(), false, notification.getOldValue());
-                  listDiffEntries[1] = Diffs.createListDiffEntry(notification.getPosition(), true, notification.getNewValue());
-                  diff = Diffs.createListDiff(listDiffEntries);
-                  break;
-                }
-                case Notification.MOVE:
-                {
-                  Object movedValue = notification.getNewValue();
-                  ListDiffEntry [] listDiffEntries = new ListDiffEntry [2];
-                  listDiffEntries[0] = Diffs.createListDiffEntry((Integer)notification.getOldValue(), false, movedValue);
-                  listDiffEntries[1] = Diffs.createListDiffEntry(notification.getPosition(), true, movedValue);
-                  diff = Diffs.createListDiff(listDiffEntries);
-                  break;
-                }
-                case Notification.UNSET:
-                {
-                  // This just represents going back to the unset state, but that doesn't affect the contents of the list.
-                  //
-                  return;
-                }
-                default:
-                {
-                  throw new RuntimeException("unhandled case");
-                }
+                diff = Diffs.createListDiff(Diffs.createListDiffEntry(notification.getPosition(), true, notification.getNewValue()));
+                break;
               }
-              getRealm().exec
-               (new Runnable()
+              case Notification.ADD_MANY:
+              {
+                Collection<?> newValues = (Collection<?>)notification.getNewValue();
+                ListDiffEntry [] listDiffEntries = new ListDiffEntry [newValues.size()];
+                int position = notification.getPosition();
+                int index = 0;
+                for (Object newValue : newValues)
                 {
-                  public void run()
-                  {
-                    fireListChange(diff);
-                  }
-                });
+                  listDiffEntries[index++] = Diffs.createListDiffEntry(position++, true, newValue);
+                }
+                diff = Diffs.createListDiff(listDiffEntries);
+                break;
+              }
+              case Notification.REMOVE:
+              {
+                diff = Diffs.createListDiff(Diffs.createListDiffEntry(notification.getPosition(), false, notification.getOldValue()));
+                break;
+              }
+              case Notification.REMOVE_MANY:
+              {
+                Collection<?> oldValues = (Collection<?>)notification.getOldValue();
+                ListDiffEntry [] listDiffEntries = new ListDiffEntry [oldValues.size()];
+                int position = notification.getPosition();
+                int index = 0;
+                for (Object oldValue : oldValues)
+                {
+                  listDiffEntries[index++] = Diffs.createListDiffEntry(position++, false, oldValue);
+                }
+                diff = Diffs.createListDiff(listDiffEntries);
+                break;
+              }
+              case Notification.SET:
+              case Notification.RESOLVE:
+              {
+                ListDiffEntry [] listDiffEntries = new ListDiffEntry [2];
+                listDiffEntries[0] = Diffs.createListDiffEntry(notification.getPosition(), false, notification.getOldValue());
+                listDiffEntries[1] = Diffs.createListDiffEntry(notification.getPosition(), true, notification.getNewValue());
+                diff = Diffs.createListDiff(listDiffEntries);
+                break;
+              }
+              case Notification.MOVE:
+              {
+                Object movedValue = notification.getNewValue();
+                ListDiffEntry [] listDiffEntries = new ListDiffEntry [2];
+                listDiffEntries[0] = Diffs.createListDiffEntry((Integer)notification.getOldValue(), false, movedValue);
+                listDiffEntries[1] = Diffs.createListDiffEntry(notification.getPosition(), true, movedValue);
+                diff = Diffs.createListDiff(listDiffEntries);
+                break;
+              }
+              case Notification.UNSET:
+              {
+                // This just represents going back to the unset state, but that doesn't affect the contents of the list.
+                //
+                return;
+              }
+              default:
+              {
+                throw new RuntimeException("unhandled case");
+              }
             }
+            getRealm().exec
+             (new Runnable()
+              {
+                public void run()
+                {
+                  fireListChange(diff);
+                }
+              });
           }
         }
       };
