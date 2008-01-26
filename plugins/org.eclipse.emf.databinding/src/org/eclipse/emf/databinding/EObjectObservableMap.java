@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectObservableMap.java,v 1.2 2008/01/25 18:02:22 emerks Exp $
+ * $Id: EObjectObservableMap.java,v 1.3 2008/01/26 20:56:46 emerks Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -38,14 +38,14 @@ public class EObjectObservableMap extends ComputedObservableMap
     new AdapterImpl()
     {
       @Override
-      public void notifyChanged(Notification msg)
+      public void notifyChanged(Notification notification)
       {
-        if (!msg.isTouch())
+        if (eStructuralFeature == notification.getFeature() && !notification.isTouch())
         {
           // TODO
           // This assumes we only get a SET notification, which isn't a good assumption.
           //
-          final MapDiff diff = Diffs.createMapDiffSingleChange(msg.getNotifier(), msg.getOldValue(), msg.getNewValue());
+          final MapDiff diff = Diffs.createMapDiffSingleChange(notification.getNotifier(), notification.getOldValue(), notification.getNewValue());
           getRealm().exec
             (new Runnable()
              {
