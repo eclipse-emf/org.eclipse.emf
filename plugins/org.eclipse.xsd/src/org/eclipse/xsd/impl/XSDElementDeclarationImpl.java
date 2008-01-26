@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.27 2007/10/20 16:25:08 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.28 2008/01/26 19:28:05 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -570,7 +570,7 @@ public class XSDElementDeclarationImpl
         }
       }
 
-      if (!getSubstitutionGroup().contains(this))
+      if (!isAbstract() && !getSubstitutionGroup().contains(this))
       {
         getSubstitutionGroup().add(this);
       }
@@ -1296,6 +1296,46 @@ public class XSDElementDeclarationImpl
     super.changeAttribute(eAttribute);
     if (!isElementDeclarationReference())
     {
+      if (eAttribute == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__ABSTRACT)
+      {
+        EList<XSDElementDeclaration> substitutionGroup = getSubstitutionGroup();
+        Collection<XSDElementDeclaration> visited = new HashSet<XSDElementDeclaration>();
+        if (isAbstract())
+        {
+          substitutionGroup.remove(this);
+          for (XSDElementDeclaration oldSubstitutionGroupAffiliation = substitutionGroupAffiliation;
+               oldSubstitutionGroupAffiliation != null;
+               oldSubstitutionGroupAffiliation = oldSubstitutionGroupAffiliation.getSubstitutionGroupAffiliation())
+          {
+            if (visited.add(oldSubstitutionGroupAffiliation))
+            {
+              oldSubstitutionGroupAffiliation.getSubstitutionGroup().remove(this);
+            }
+            else
+            {
+              break;
+            }
+          }
+        }
+        else
+        {
+          substitutionGroup.add(this);
+          for (XSDElementDeclaration newSubstitutionGroupAffiliation = substitutionGroupAffiliation;
+               newSubstitutionGroupAffiliation != null;
+               newSubstitutionGroupAffiliation = newSubstitutionGroupAffiliation.getSubstitutionGroupAffiliation())
+          {
+            if (visited.add(newSubstitutionGroupAffiliation))
+            {
+              newSubstitutionGroupAffiliation.getSubstitutionGroup().add(this);
+            }
+            else
+            {
+              break;
+            }
+          }
+        }
+      }
+
       if (!isReconciling)
       {
         Element theElement = getElement();
@@ -1364,7 +1404,10 @@ public class XSDElementDeclarationImpl
         case Notification.UNSET:
         {
           Collection<XSDElementDeclaration> substitutionGroup = new ArrayList<XSDElementDeclaration>(getSubstitutionGroup());
-          substitutionGroup.add(this);
+          if (!isAbstract())
+          {
+            substitutionGroup.add(this);
+          }
 
           if (oldValue != null)
           {
