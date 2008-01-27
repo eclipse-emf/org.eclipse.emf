@@ -12,11 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.13 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.14 2008/01/27 10:27:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +41,11 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
 
   /**
    * Creates the {@link EPackage.Registry#INSTANCE instance} of the global registry.
+   * If a {@link System#getSecurityManager() security manager} is active,
+   * and <code>"classLoader"</code> {@link RuntimePermission permission} is not granted,
+   * a secure delegator instance is created,
+   * i.e., a private registry implementation that securely accesses class loaders 
+   * and keeps them private, will be used.
    */
   public static EPackage.Registry createGlobalRegistry()
   {
@@ -53,7 +60,19 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
         }
         else if (!EMFPlugin.IS_ECLIPSE_RUNNING)
         {
-          return new Delegator();
+          try
+          {
+            SecurityManager securityManager = System.getSecurityManager();
+            if (securityManager != null)
+            {
+              securityManager.checkPermission(new RuntimePermission("classLoader"));
+            }
+            return new Delegator();
+          }
+          catch (Throwable throwable)
+          {
+            return new SecureDelegator();
+          }
         }
         else
         {
@@ -237,7 +256,17 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
 
     protected EPackage.Registry delegateRegistry()
     {
-      return delegateRegistry(Thread.currentThread().getContextClassLoader());
+      return delegateRegistry(getContextClassLoader());
+    }
+
+    protected ClassLoader getContextClassLoader()
+    {
+      return Thread.currentThread().getContextClassLoader();
+    }
+
+    protected ClassLoader getParent(ClassLoader classLoader)
+    {
+      return classLoader == null ? null : classLoader.getParent();
     }
 
     public EPackage getEPackage(String key)
@@ -289,8 +318,8 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
 
         // Find the uppermost class loader in the hierarchy that can load the class.
         //
-        ClassLoader result = Thread.currentThread().getContextClassLoader();
-        for (ClassLoader classLoader = result.getParent(); classLoader != null; classLoader = classLoader.getParent())
+        ClassLoader result = getContextClassLoader();
+        for (ClassLoader classLoader = getParent(result); classLoader != null; classLoader = getParent(classLoader))
         {
           try 
           {
@@ -353,6 +382,82 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
     public Set<Entry<String, Object>> entrySet()
     {
       return delegateRegistry().entrySet();
+    }
+  }
+
+  private static class ParentClassLoaderGetter implements PrivilegedAction<ClassLoader>
+  {
+    private ClassLoader classLoader;
+    
+    public ClassLoader run()
+    {
+      if (classLoader != null)
+      {
+        classLoader = classLoader.getParent();
+      }
+      return null;
+    }
+ 
+    public ClassLoader getParent(ClassLoader classLoader)
+    {
+      this.classLoader = classLoader;
+      AccessController.doPrivileged(this);
+      return this.classLoader;
+    }
+  }
+
+  private static final ParentClassLoaderGetter PARENT_CLASS_LOADER_GETTER = new ParentClassLoaderGetter();
+
+  private static final PrivilegedAction<ClassLoader> CONTEXT_CLASS_LOADER_ACTION = 
+    new PrivilegedAction<ClassLoader>()
+    {
+      public ClassLoader run()
+      {
+        return Thread.currentThread().getContextClassLoader();
+      }
+    };
+
+  private static ClassLoader getContextClassLoaderSecurely()
+  {
+    return AccessController.doPrivileged(CONTEXT_CLASS_LOADER_ACTION);
+  }
+
+  private static final Map<ClassLoader, EPackage.Registry> secureClassLoaderToRegistryMap = new WeakHashMap<ClassLoader, EPackage.Registry>();
+
+  private static synchronized EPackage.Registry getRegistrySecurely(ClassLoader classLoader)
+  {
+    EPackage.Registry result = secureClassLoaderToRegistryMap.get(classLoader);
+    if (result == null)
+    {
+      if (classLoader != null)
+      {
+        result = new EPackageRegistryImpl(getRegistrySecurely(PARENT_CLASS_LOADER_GETTER.getParent(classLoader)));
+        secureClassLoaderToRegistryMap.put(classLoader, result);
+      }
+    }
+    return result;
+  }
+
+  private static final class SecureDelegator extends Delegator
+  {
+    private final ParentClassLoaderGetter parentClassLoaderGetter = new ParentClassLoaderGetter();
+    
+    @Override
+    protected EPackage.Registry delegateRegistry(ClassLoader classLoader)
+    {
+      return getRegistrySecurely(classLoader);
+    }
+
+    @Override
+    protected ClassLoader getContextClassLoader()
+    {
+      return getContextClassLoaderSecurely();
+    }
+
+    @Override
+    protected ClassLoader getParent(ClassLoader classLoader)
+    {
+      return parentClassLoaderGetter.getParent(classLoader);
     }
   }
 }
