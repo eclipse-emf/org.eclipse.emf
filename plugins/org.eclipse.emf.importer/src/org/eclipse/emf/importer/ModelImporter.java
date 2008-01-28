@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.37 2007/06/15 21:20:38 emerks Exp $
+ * $Id: ModelImporter.java,v 1.38 2008/01/28 19:28:54 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -264,7 +264,7 @@ public abstract class ModelImporter extends ModelConverter
         ImporterPlugin.INSTANCE.getString("_UI_EcoreModelFileNameCannotBeEmpty_message") :
         ImporterPlugin.INSTANCE.getString("_UI_EcoreModelFileNameForPackageCannotBeEmpty_message", new Object []{ packageName });
     }
-    else if (!fileName.endsWith(".ecore"))
+    else if (!fileName.endsWith(".ecore") && !fileName.endsWith(".emof"))
     {
       message = packageName == null ?
         ImporterPlugin.INSTANCE.getString("_UI_EcoreModelFileNameMustEndWithEcore_message") :
