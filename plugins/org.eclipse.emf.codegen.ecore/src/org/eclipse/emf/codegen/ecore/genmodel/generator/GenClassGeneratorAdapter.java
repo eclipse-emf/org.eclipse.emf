@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassGeneratorAdapter.java,v 1.8 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenClassGeneratorAdapter.java,v 1.9 2008/01/29 21:12:08 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -215,9 +215,13 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
   protected int countCreateChildIcons(GenClass genClass)
   {
     int result = 0;
-    for (GenFeature feature : genClass.getAllCreateChildFeaturesIncludingDelegation())
+    GenModel genModel = genClass.getGenModel();
+    if (genModel.isCreationCommands() && genModel.isCreationIcons())
     {
-      result += genClass.getChildrenClasses(feature).size();
+      for (GenFeature feature : genClass.getCreateChildFeaturesIncludingDelegation())
+      {
+        result += genClass.getChildrenClasses(feature).size();
+      }
     }
     return result;
   }
@@ -225,10 +229,9 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
   protected void generateCreateChildIcons(GenClass genClass, Monitor monitor)
   {
     GenModel genModel = genClass.getGenModel();
-
     if (genModel.isCreationCommands() && genModel.isCreationIcons())
     {
-      for (GenFeature feature : genClass.getAllCreateChildFeaturesIncludingDelegation())
+      for (GenFeature feature : genClass.getCreateChildFeaturesIncludingDelegation())
       {
         for (GenClass childClass : genClass.getChildrenClasses(feature))
         {
@@ -244,10 +247,6 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
              createMonitor(monitor, 1));
         }
       }
-    }
-    else
-    {
-      monitor.worked(countCreateChildIcons(genClass));
     }
   }
 

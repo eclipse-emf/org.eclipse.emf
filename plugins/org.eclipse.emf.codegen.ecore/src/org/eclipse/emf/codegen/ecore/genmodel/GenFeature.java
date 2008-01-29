@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.23 2007/06/12 15:07:28 emerks Exp $
+ * $Id: GenFeature.java,v 1.24 2008/01/29 21:12:07 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -420,6 +420,11 @@ public interface GenFeature extends GenTypedElement
   GenFeature getDelegateFeature();
 
   List<GenFeature> getDelegatedFeatures();
+
+  /**
+   * @since 2.4
+   */
+  List<GenFeature> getDelegatedFeatures(GenModel genModel);
 
   String getCreateChildValueLiteral();
 

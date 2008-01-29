@@ -42,18 +42,24 @@ public class PluginXML
   protected final String TEXT_25 = "\" " + NL + "       supportedTypes = ";
   protected final String TEXT_26 = NL + "         ";
   protected final String TEXT_27 = " />" + NL + "  </extension>";
-  protected final String TEXT_28 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.generated_package\">" + NL + "    <package" + NL + "       uri = \"";
-  protected final String TEXT_29 = "\"" + NL + "       class = \"";
-  protected final String TEXT_30 = "\"";
-  protected final String TEXT_31 = " />";
-  protected final String TEXT_32 = NL + "       genModel = \"";
-  protected final String TEXT_33 = "\" /> ";
-  protected final String TEXT_34 = NL + "  </extension>";
-  protected final String TEXT_35 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.extension_parser\">" + NL + "    <parser" + NL + "       type=\"";
-  protected final String TEXT_36 = "\"" + NL + "       class=\"";
-  protected final String TEXT_37 = "\" />" + NL + "  </extension>";
-  protected final String TEXT_38 = NL + NL + "</plugin>";
-  protected final String TEXT_39 = NL;
+  protected final String TEXT_28 = NL + NL + "  <extension point=\"org.eclipse.emf.edit.childCreationExtenders\">";
+  protected final String TEXT_29 = NL + "    <extender " + NL + "       uri = \"";
+  protected final String TEXT_30 = "\" " + NL + "       class = \"";
+  protected final String TEXT_31 = "$";
+  protected final String TEXT_32 = "\" />";
+  protected final String TEXT_33 = NL + "  </extension>";
+  protected final String TEXT_34 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.generated_package\">" + NL + "    <package" + NL + "       uri = \"";
+  protected final String TEXT_35 = "\"" + NL + "       class = \"";
+  protected final String TEXT_36 = "\"";
+  protected final String TEXT_37 = " />";
+  protected final String TEXT_38 = NL + "       genModel = \"";
+  protected final String TEXT_39 = "\" /> ";
+  protected final String TEXT_40 = NL + "  </extension>";
+  protected final String TEXT_41 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.extension_parser\">" + NL + "    <parser" + NL + "       type=\"";
+  protected final String TEXT_42 = "\"" + NL + "       class=\"";
+  protected final String TEXT_43 = "\" />" + NL + "  </extension>";
+  protected final String TEXT_44 = NL + NL + "</plugin>";
+  protected final String TEXT_45 = NL;
 
   public String generate(Object argument)
   {
@@ -130,34 +136,49 @@ public class PluginXML
     stringBuffer.append((j.hasPrevious()? " " : "\"") + j.next() + (j.hasNext() ? "" : "\""));
     }
     stringBuffer.append(TEXT_27);
+    if (!genPackage.isChildCreationExtenders()) { Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> extendedChildCreationData = genPackage.getExtendedChildCreationData();
+    if (!extendedChildCreationData.isEmpty()) {
+    stringBuffer.append(TEXT_28);
+    for (Map.Entry<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> entry : extendedChildCreationData.entrySet()) {
+    stringBuffer.append(TEXT_29);
+    stringBuffer.append(entry.getKey().getNSURI());
+    stringBuffer.append(TEXT_30);
+    stringBuffer.append(genPackage.getQualifiedItemProviderAdapterFactoryClassName());
+    stringBuffer.append(TEXT_31);
+    stringBuffer.append(genPackage.getChildCreationExtenderName(entry.getKey()));
+    stringBuffer.append(TEXT_32);
+    }
+    stringBuffer.append(TEXT_33);
+    }
+    }
     }
     }
     if (genModel.sameModelEditProject()) {
      for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
-    stringBuffer.append(TEXT_28);
-    stringBuffer.append(genPackage.getNSURI());
-    stringBuffer.append(TEXT_29);
-    stringBuffer.append(genPackage.getQualifiedPackageInterfaceName());
-    stringBuffer.append(TEXT_30);
-    if (!genModel.hasLocalGenModel()) {
-    stringBuffer.append(TEXT_31);
-    } else {
-    stringBuffer.append(TEXT_32);
-    stringBuffer.append(genModel.getRelativeGenModelLocation());
-    stringBuffer.append(TEXT_33);
-    }
     stringBuffer.append(TEXT_34);
-    if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {
+    stringBuffer.append(genPackage.getNSURI());
     stringBuffer.append(TEXT_35);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(genPackage.getQualifiedPackageInterfaceName());
     stringBuffer.append(TEXT_36);
-    stringBuffer.append(genPackage.getQualifiedResourceFactoryClassName());
+    if (!genModel.hasLocalGenModel()) {
     stringBuffer.append(TEXT_37);
-    }
-    }
-    }
+    } else {
     stringBuffer.append(TEXT_38);
+    stringBuffer.append(genModel.getRelativeGenModelLocation());
     stringBuffer.append(TEXT_39);
+    }
+    stringBuffer.append(TEXT_40);
+    if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {
+    stringBuffer.append(TEXT_41);
+    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(TEXT_42);
+    stringBuffer.append(genPackage.getQualifiedResourceFactoryClassName());
+    stringBuffer.append(TEXT_43);
+    }
+    }
+    }
+    stringBuffer.append(TEXT_44);
+    stringBuffer.append(TEXT_45);
     return stringBuffer.toString();
   }
 }

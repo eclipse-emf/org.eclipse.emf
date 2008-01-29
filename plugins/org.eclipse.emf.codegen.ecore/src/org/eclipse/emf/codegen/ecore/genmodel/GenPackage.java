@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.31 2007/06/12 15:07:28 emerks Exp $
+ * $Id: GenPackage.java,v 1.32 2008/01/29 21:12:07 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -50,6 +51,8 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDataTypeConverters <em>Data Type Converters</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isMultipleEditorPages <em>Multiple Editor Pages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isGenerateModelWizard <em>Generate Model Wizard</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isExtensibleProviderFactory <em>Extensible Provider Factory</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isChildCreationExtenders <em>Child Creation Extenders</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenEnums <em>Gen Enums</em>}</li>
@@ -550,6 +553,56 @@ public interface GenPackage extends GenBase
   void setGenerateModelWizard(boolean value);
 
   /**
+   * Returns the value of the '<em><b>Extensible Provider Factory</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.4
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Extensible Provider Factory</em>' attribute.
+   * @see #setExtensibleProviderFactory(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_ExtensibleProviderFactory()
+   * @model
+   * @generated
+   */
+  boolean isExtensibleProviderFactory();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isExtensibleProviderFactory <em>Extensible Provider Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Extensible Provider Factory</em>' attribute.
+   * @see #isExtensibleProviderFactory()
+   * @generated
+   */
+  void setExtensibleProviderFactory(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Child Creation Extenders</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.4
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Child Creation Extenders</em>' attribute.
+   * @see #setChildCreationExtenders(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_ChildCreationExtenders()
+   * @model
+   * @generated
+   */
+  boolean isChildCreationExtenders();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isChildCreationExtenders <em>Child Creation Extenders</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Child Creation Extenders</em>' attribute.
+   * @see #isChildCreationExtenders()
+   * @generated
+   */
+  void setChildCreationExtenders(boolean value);
+
+  /**
    * Returns the value of the '<em><b>Ecore Package</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
@@ -893,4 +946,17 @@ public interface GenPackage extends GenBase
   boolean hasConcreteClasses();
   
   boolean hasTests();
+
+  /**
+   * Returns a nested map structure describing the child creation extensions that this package provides to other packages.
+   * The result maps other packages to their classes that have child creation extension provided by this package.
+   * Each inner map maps from the class to the list of child creation data for these extensions.
+   * @since 2.4
+   */
+  Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> getExtendedChildCreationData();
+
+  /**
+   * @since 2.4
+   */
+  String getChildCreationExtenderName(GenPackage genPackage);
 }

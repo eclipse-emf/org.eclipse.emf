@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.52 2008/01/08 19:40:59 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.53 2008/01/29 21:12:08 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -1300,16 +1301,21 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   }
 
   /**
-   * It considers mixed types, model groups, subsitution groups and wildcards.
+   * It considers mixed types, model groups, substitution groups and wildcards.
    */
   public List<GenFeature> getDelegatedFeatures()
+  {
+    return getDelegatedFeatures(getGenModel());
+  }
+
+  public List<GenFeature> getDelegatedFeatures(GenModel genModel)
   {
     if (!isFeatureMapType()) return Collections.emptyList();
 
     GenClass genClass = getGenClass();
     List<GenFeature> delegated = new ArrayList<GenFeature>();
 
-    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    ExtendedMetaData extendedMetaData = genModel.getExtendedMetaData();
     if (genClass.getMixedGenFeature() == this)
     {
        delegated.add(findGenFeature(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT));
@@ -1354,11 +1360,11 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
             }
           }
           
-          for (GenPackage genPackage : getGenModel().getAllGenAndUsedGenPackagesWithClassifiers())
+          for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers())
           {
             if (genPackage.hasDocumentRoot())
             {
-              GenClass documentRoot = findGenClass(extendedMetaData.getDocumentRoot(genPackage.getEcorePackage()));
+              GenClass documentRoot = genPackage.getDocumentRoot();
               for (GenFeature otherFeature : documentRoot.getGenFeatures())
               {
                 if (otherFeature != this && 
@@ -1382,11 +1388,11 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         case ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE:
         case ExtendedMetaData.ELEMENT_WILDCARD_FEATURE:
         {
-          for (GenPackage genPackage : getGenModel().getAllGenAndUsedGenPackagesWithClassifiers())
+          for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers())
           {
             if (genPackage.hasDocumentRoot())
             {
-              GenClass documentRoot = findGenClass(extendedMetaData.getDocumentRoot(genPackage.getEcorePackage()));
+              GenClass documentRoot = genPackage.getDocumentRoot();
               for (GenFeature otherFeature : documentRoot.getGenFeatures())
               {
                 if (otherFeature != this && 
@@ -1423,7 +1429,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     {
       if (feature.isFeatureMapType())
       {
-        result.addAll(feature.getDelegatedFeatures());
+        result.addAll(feature.getDelegatedFeatures(genModel));
       }
       else
       {

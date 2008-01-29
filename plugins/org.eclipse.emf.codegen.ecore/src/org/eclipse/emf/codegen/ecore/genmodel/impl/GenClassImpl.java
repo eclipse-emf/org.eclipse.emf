@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.85 2008/01/20 16:31:04 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.86 2008/01/29 21:12:08 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -37,6 +37,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
@@ -1675,12 +1676,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getCreateChildIconFileName(GenFeature feature, GenClass childClass)
   {
+    return getCreateChildIconFileName(getGenModel(), feature, childClass);
+  }
+
+  public String getCreateChildIconFileName(GenModel genModel, GenFeature feature, GenClass childClass)
+  {
     GenClass parentClass = feature.getGenClass();
-    return getGenModel().getEditIconsDirectory() + "/full/ctool16/" + 
+    return genModel.getEditIconsDirectory() + "/full/ctool16/" + 
       "Create" + parentClass.getName() + "_" + feature.getName() + "_" + childClass.getName() + ".gif";
   }
 
-  protected GenClass getProviderExtendsGenClass()
+  public GenClass getProviderExtendsGenClass()
   {
     GenClass baseClass = getClassExtendsGenClass();
     while (baseClass != null && 
@@ -1866,7 +1872,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List<GenFeature> getAllCreateChildFeaturesIncludingDelegation()
   {
-    return collectGenFeatures(getAllBaseGenClasses(), getGenFeatures(),
+    return getCreateChildFeaturesIncludingDelegation(getAllBaseGenClasses());
+  }
+
+  public List<GenFeature> getCreateChildFeaturesIncludingDelegation()
+  {
+    return getCreateChildFeaturesIncludingDelegation(null);
+  }
+
+  private List<GenFeature> getCreateChildFeaturesIncludingDelegation(List<GenClass> genClasses)
+  {
+    return collectGenFeatures(genClasses, getGenFeatures(),
       new GenFeatureFilter()
       {
         public boolean accept(GenFeature genFeature)
@@ -1962,6 +1978,82 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public List<GenClass> getCrossPackageChildrenClasses(GenFeature genFeature)
   {
     return getTypeGenClasses(genFeature.getEcoreFeature().getEType(), getGenPackage(), getGenModel().getAllGenPackagesWithClassifiers(), -1);
+  }
+
+  public List<ChildCreationData> getChildCreationData()
+  {
+    return getChildCreationData(null);
+  }
+
+  public List<ChildCreationData> getChildCreationData(GenModel context)
+  {
+    UniqueEList<ChildCreationData> result = new UniqueEList<ChildCreationData>();
+    List<GenFeature> allCreateChildGenFeatures =
+      collectGenFeatures
+        (null,
+         getAllGenFeatures(),
+         new GenFeatureFilter()
+         {
+           public boolean accept(GenFeature genFeature) 
+           {
+             return genFeature.isCreateChild();
+           }
+         });
+
+    GenModel genModel = context == null ? getGenModel() : context;
+    List<GenPackage> allGenAndUsedGenPackagesWithClassifiers = genModel.getAllGenAndUsedGenPackagesWithClassifiers();
+    for (GenFeature createFeature : allCreateChildGenFeatures)
+    {
+      if (createFeature.isFeatureMapType())
+      {
+        for (GenFeature delegatedFeature : createFeature.getDelegatedFeatures(genModel))
+        {
+          if (delegatedFeature.isReferenceType())
+          {
+            EStructuralFeature eStructuralFeature = delegatedFeature.getEcoreFeature();
+            EClassifier eType = eStructuralFeature.getEType();
+            List<GenClass> genClasses = getTypeGenClasses(eType, getGenPackage(), allGenAndUsedGenPackagesWithClassifiers, -1);
+            if (eType == EcorePackage.Literals.EOBJECT && eStructuralFeature.getEAnnotation(ExtendedMetaData.ANNOTATION_URI) != null)
+            {
+              genClasses.add(findGenClass(XMLTypePackage.Literals.ANY_TYPE));
+            }
+            for (GenClass createClass : genClasses)
+            {
+              result.add(new ChildCreationData(createFeature, delegatedFeature, createClass));
+            }
+          }
+          else
+          {
+            result.add(new ChildCreationData(createFeature, delegatedFeature, delegatedFeature.getTypeGenClassifier()));
+          }
+        }
+      }
+      else if (createFeature.isReferenceType())
+      {
+        EStructuralFeature eStructuralFeature = createFeature.getEcoreFeature();
+        EClassifier eType = eStructuralFeature.getEType();
+        List<GenClass> genClasses = getTypeGenClasses(eType, getGenPackage(), allGenAndUsedGenPackagesWithClassifiers, -1);
+        if (eType == EcorePackage.Literals.EOBJECT && eStructuralFeature.getEAnnotation(ExtendedMetaData.ANNOTATION_URI) != null)
+        {
+          genClasses.add(findGenClass(XMLTypePackage.Literals.ANY_TYPE));
+        }
+        for (GenClass createClass : genClasses)
+        {
+          result.add(new ChildCreationData(createFeature, null, createClass));
+        }
+      }
+      else
+      {
+        result.add(new ChildCreationData(createFeature, null, createFeature.getTypeGenClassifier()));
+      }
+    }
+
+    GenClass baseClass = getProviderExtendsGenClass();
+    if (baseClass != null)
+    {
+      result.removeAll(baseClass.getChildCreationData(context));
+    }
+    return result;
   }
 
   /**

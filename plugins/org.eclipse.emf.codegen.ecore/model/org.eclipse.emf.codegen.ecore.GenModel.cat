@@ -480,6 +480,14 @@
 		    quid       	"452E9D63032C"
 		    type       	"boolean"
 		    initv      	"true"
+		    exportControl 	"Public")
+		(object ClassAttribute "extensibleProviderFactory"
+		    quid       	"4797804A018F"
+		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "childCreationExtenders"
+		    quid       	"479780600076"
+		    type       	"boolean"
 		    exportControl 	"Public")))
 	(object Class "GenClass"
 	    quid       	"3C1759410016"
@@ -1220,6 +1228,14 @@
 		    line_color 	8421504
 		    fill_color 	13227724
 		    quidu      	"3C176A0701D7"
+		    compartment 	(object Compartment
+			Parent_View 	@1
+			location   	(295, 2091)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	409)
 		    width      	420
 		    height     	186
 		    annotation 	8
@@ -2322,31 +2338,31 @@
 				height     	48
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$12" @94
-		    location   	(690, 280)
+		    location   	(690, 279)
 		    stereotype 	TRUE
 		    quidu      	"3C45AEB6027F"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$13" @95
 			    Parent_View 	@94
-			    location   	(-78, -264)
+			    location   	(-78, -265)
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"3C45AEB80047"
 			    client     	@94
 			    supplier   	@39
 			    vertices   	(list Points
-				(690, 280)
+				(690, 279)
 				(690, 137)
 				(779, 137))
 			    line_style 	3
-			    origin_attachment 	(690, 280)
+			    origin_attachment 	(690, 279)
 			    terminal_attachment 	(779, 137))
 			(object RoleView "usedGenPackages" @96
 			    Parent_View 	@94
-			    location   	(-78, -264)
+			    location   	(-78, -265)
 			    label      	(object SegLabel @97
 				Parent_View 	@96
-				location   	(494, 354)
+				location   	(494, 353)
 				anchor     	1
 				anchor_loc 	1
 				nlines     	1
@@ -2362,11 +2378,11 @@
 			    client     	@94
 			    supplier   	@81
 			    vertices   	(list Points
-				(690, 280)
+				(690, 279)
 				(690, 447)
 				(754, 447))
 			    line_style 	3
-			    origin_attachment 	(690, 280)
+			    origin_attachment 	(690, 279)
 			    terminal_attachment 	(754, 447)
 			    label      	(object SegLabel @98
 				Parent_View 	@96
@@ -3960,8 +3976,8 @@
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	17
-			max_width  	750
+			nlines     	18
+			max_width  	759
 			compartmentItems 	(list Compartment
 			    "+ creationCommands : boolean = true"
 			    "+ editDirectory : String"
@@ -4092,10 +4108,10 @@
 		(object ClassView "Class" "Logical View::genmodel::GenPackage" @213
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeOperation 	TRUE
-		    location   	(432, 1168)
+		    location   	(432, 1184)
 		    label      	(object ItemLabel
 			Parent_View 	@213
-			location   	(76, 1062)
+			location   	(76, 1028)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	712
@@ -4107,16 +4123,18 @@
 		    quidu      	"3C17589A01D3"
 		    compartment 	(object Compartment
 			Parent_View 	@213
-			location   	(76, 1122)
+			location   	(76, 1088)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	3
-			max_width  	718
+			nlines     	5
+			max_width  	709
 			compartmentItems 	(list Compartment
 			    "+ disposableProviderFactory : boolean"
-			    "+ multipleEditorPages : boolean = true"))
+			    "+ multipleEditorPages : boolean = true"
+			    "+ extensibleProviderFactory : boolean"
+			    "+ childCreationExtenders : boolean"))
 		    width      	730
-		    height     	236
+		    height     	336
 		    annotation 	8
 		    autoResize 	TRUE)))))

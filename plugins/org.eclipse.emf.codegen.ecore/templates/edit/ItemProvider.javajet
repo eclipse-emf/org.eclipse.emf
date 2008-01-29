@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.39 2008/01/08 12:35:15 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.40 2008/01/29 21:12:08 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -22,7 +22,6 @@ package <%=genPackage.getProviderPackageName()%>;
 
 <%genModel.addImport("org.eclipse.emf.common.notify.AdapterFactory");%>
 <%genModel.addImport("org.eclipse.emf.common.notify.Notification");%>
-<%genModel.addImport("org.eclipse.emf.common.util.ResourceLocator");%>
 <%genModel.addImport("org.eclipse.emf.edit.provider.IEditingDomainItemProvider");%>
 <%genModel.addImport("org.eclipse.emf.edit.provider.IItemLabelProvider");%>
 <%genModel.addImport("org.eclipse.emf.edit.provider.IItemPropertySource");%>
@@ -40,9 +39,9 @@ package <%=genPackage.getProviderPackageName()%>;
 public class <%=genClass.getProviderClassName()%>
 	extends <%=genClass.getProviderBaseClassName() != null ? genClass.getProviderBaseClassName() : genModel.getImportedName("org.eclipse.emf.edit.provider.ItemProviderAdapter")%>
 	implements
-<%for (Iterator<String> i = genPackage.getProviderSupportedTypes().iterator(); i.hasNext(); ) {%>	
+<%for (Iterator<String> i = genPackage.getProviderSupportedTypes().iterator(); i.hasNext(); ) {%>
 		<%=genModel.getImportedName(i.next())%><%if (i.hasNext()){%>,<%}%>
-<%}%>		
+<%}%>
 {
 <%if (genModel.hasCopyrightField()) {%>
 	/**
@@ -326,45 +325,25 @@ public class <%=genClass.getProviderClassName()%>
 	protected void collectNewChildDescriptors(<%=genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<java.lang.Object>" : "java.util.Collection")%> newChildDescriptors, Object object)
 	{
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-  <%for (GenFeature createFeature : genClass.getCrossPackageCreateChildFeatures()) { %>
-<%@ include file="ItemProvider/newChildDescriptorsCrossPackageFeature.override.javajetinc" fail="alternative"%>
-<%@ start %>
-    <%for (GenClass createClass : genClass.getCrossPackageChildrenClasses(createFeature)) { %>
-
-		newChildDescriptors.add
-			(createChildParameter
-				(<%=createFeature.getQualifiedFeatureAccessor()%>,
-      <%if (createClass.isMapEntry()) { %>
-				 <%=createClass.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.create(<%=createClass.getQualifiedClassifierAccessor()%>)));
-      <%} else {%>
-				 <%=createClass.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=createClass.getName()%>()));
-      <%}%>
-<%@ include file="ItemProvider/newChildDescriptorsCrossPackageFeature.insert.javajetinc" fail="silent"%>
-<%@ end %><%//ItemProvider/newChildDescriptorsCrossPackageFeature.override.javajetinc%>
-    <%}%>
-  <%}%>
-  <%for (GenFeature createFeature : genClass.getCreateChildFeatures()) { %>
-    <%if (createFeature.isFeatureMapType()) {%>
-      <%for (GenFeature delegatedFeature : createFeature.getDelegatedFeatures()) { %>
-        <%if (delegatedFeature.isReferenceType()) {%>
+    <%for (GenClass.ChildCreationData childCreationData : genClass.getChildCreationData()) { GenFeature createFeature = childCreationData.createFeature; GenFeature delegatedFeature = childCreationData.delegatedFeature; GenClassifier createClassifier = childCreationData.createClassifier;%>
+      <%if (createFeature.isFeatureMapType()) {%>
+        <%if (delegatedFeature.isReferenceType()) { GenClass createClass = (GenClass)createClassifier;%>
 <%@ include file="ItemProvider/newChildDescriptorsReferenceDelegatedFeature.override.javajetinc" fail="alternative"%>
 <%@ start %>
-          <%for (GenClass createClass : genClass.getChildrenClasses(delegatedFeature)) { %>
 
 		newChildDescriptors.add
 			(createChildParameter
 				(<%=createFeature.getQualifiedFeatureAccessor()%>,
 				 <%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMapUtil")%>.createEntry
 					(<%=delegatedFeature.getQualifiedFeatureAccessor()%>,
-            <%if (createClass.isMapEntry()) { %>
+          <%if (createClass.isMapEntry()) { %>
 					 <%=createClass.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.create(<%=createClass.getQualifiedClassifierAccessor()%>))));
-            <%} else {%>
+          <%} else {%>
 					 <%=createClass.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=createClass.getName()%>())));
-            <%}%>
           <%}%>
 <%@ include file="ItemProvider/newChildDescriptorsReferenceDelegatedFeature.insert.javajetinc" fail="silent"%>
 <%@ end %><%//ItemProvider/newChildDescriptorsReferenceDelegatedFeature.override.javajetinc%>
-        <%} else {%>
+        <%} else { GenDataType createDataType = (GenDataType)createClassifier;%>
 <%@ include file="ItemProvider/newChildDescriptorsAttributeDelegatedFeature.override.javajetinc" fail="alternative"%>
 <%@ start %>
 
@@ -377,17 +356,15 @@ public class <%=genClass.getProviderClassName()%>
 					 <%=delegatedFeature.getTypeGenEnum().getStaticValue(delegatedFeature.getEcoreFeature().getDefaultValueLiteral())%>)));
           <%} else if (delegatedFeature.isStringBasedType()) {%>
 					 <%=delegatedFeature.getCreateChildValueLiteral()%>)));<%=genModel.getNonNLS()%>
-          <%} else { String literal = delegatedFeature.getCreateChildValueLiteral(); GenDataType createDataType = delegatedFeature.getTypeGenDataType();%>
+          <%} else { String literal = delegatedFeature.getCreateChildValueLiteral();%>
 					 <%=createDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=createDataType.getQualifiedClassifierAccessor()%>, <%=literal%>))));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
           <%}%>
 <%@ include file="ItemProvider/newChildDescriptorsAttributeDelegatedFeature.insert.javajetinc" fail="silent"%>
 <%@ end %><%//ItemProvider/newChildDescriptorsAttributeDelegatedFeature.override.javajetinc%>
         <%}%>
-      <%}%>
-    <%} else if (createFeature.isReferenceType()) {%>
+      <%} else if (createFeature.isReferenceType()) { GenClass createClass = (GenClass)createClassifier;%>
 <%@ include file="ItemProvider/newChildDescriptorsReferenceFeature.override.javajetinc" fail="alternative"%>
 <%@ start %>
-      <%for (GenClass createClass : genClass.getChildrenClasses(createFeature)) { %>
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -397,27 +374,26 @@ public class <%=genClass.getProviderClassName()%>
         <%} else {%>
 				 <%=createClass.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=createClass.getName()%>()));
         <%}%>
-      <%}%>
 <%@ include file="ItemProvider/newChildDescriptorsReferenceFeature.insert.javajetinc" fail="silent"%>
 <%@ end %><%//ItemProvider/newChildDescriptorsReferenceFeature.override.javajetinc %>
-    <%} else {%>
+      <%} else { GenDataType createDataType = (GenDataType)createClassifier;%>
 <%@ include file="ItemProvider/newChildDescriptorsAttributeFeature.override.javajetinc" fail="alternative"%>
 <%@ start %>
 
 		newChildDescriptors.add
 			(createChildParameter
 				(<%=createFeature.getQualifiedFeatureAccessor()%>,
-      <%if (createFeature.isEnumBasedType()) {%>
+        <%if (createFeature.isEnumBasedType()) {%>
 				 <%=createFeature.getTypeGenEnum().getStaticValue(createFeature.getEcoreFeature().getDefaultValueLiteral())%>));
-      <%} else if (createFeature.isStringBasedType()) {%>
+        <%} else if (createFeature.isStringBasedType()) {%>
 				 <%=createFeature.getCreateChildValueLiteral()%>));<%=genModel.getNonNLS()%>
-      <%} else { String literal = createFeature.getCreateChildValueLiteral(); GenDataType createDataType = createFeature.getTypeGenDataType();%>
+        <%} else { String literal = createFeature.getCreateChildValueLiteral();%>
 				 <%=createDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=createDataType.getQualifiedClassifierAccessor()%>, <%=literal%>)));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
-      <%}%>
+        <%}%>
 <%@ include file="ItemProvider/newChildDescriptorsAttributeFeature.insert.javajetinc" fail="silent"%>
 <%@ end %><%//ItemProvider/newChildDescriptorsAttributeFeature.override.javajetinc%>
+      <%}%>
     <%}%>
-  <%}%>
 	}
 
   <%if (!genClass.getSharedClassCreateChildFeatures().isEmpty()) {%>
@@ -475,7 +451,7 @@ public class <%=genClass.getProviderClassName()%>
 		{
 			<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Entry entry = (<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Entry)child;
 			feature = entry.getEStructuralFeature();
-			child = entry.getValue();        
+			child = entry.getValue();
 		}
 
 		if (feature instanceof <%=genModel.getImportedName("org.eclipse.emf.ecore.EReference")%> && child instanceof <%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)
@@ -497,6 +473,7 @@ public class <%=genClass.getProviderClassName()%>
 
   <%}%>
 <%}%>
+<%if (genClass.getProviderExtendsGenClass() == null || genClass.getProviderExtendsGenClass().getGenPackage() != genPackage && (!genPackage.isExtensibleProviderFactory() || genClass.getProviderExtendsGenClass().getGenPackage().isExtensibleProviderFactory() != genPackage.isExtensibleProviderFactory())) {%>
 	/**
 	 * Return the resource locator for this item provider's resources.
 	 * <!-- begin-user-doc -->
@@ -506,11 +483,16 @@ public class <%=genClass.getProviderClassName()%>
 <%if (genModel.useClassOverrideAnnotation()) {%>
 	@Override
 <%}%>
-	public ResourceLocator getResourceLocator()
+	public <%=genModel.getImportedName("org.eclipse.emf.common.util.ResourceLocator")%> getResourceLocator()
 	{
+<%if (genPackage.isExtensibleProviderFactory()) {%>
+		return ((<%=genModel.getImportedName("org.eclipse.emf.edit.provider.IChildCreationExtender")%>)adapterFactory).getResourceLocator();
+<%} else {%>
 		return <%=genPackage.getImportedEditPluginClassName()%>.INSTANCE;
+<%}%>
 	}
 
+<%}%>
 <%@ include file="ItemProvider/insert.javajetinc" fail="silent" %>
 }
 <%genModel.emitSortedImports();%>

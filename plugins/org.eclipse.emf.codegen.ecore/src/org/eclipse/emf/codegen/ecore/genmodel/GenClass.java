@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.29 2008/01/20 16:31:04 emerks Exp $
+ * $Id: GenClass.java,v 1.30 2008/01/29 21:12:07 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -380,8 +380,16 @@ public interface GenClass extends GenClassifier
   boolean isProviderSingleton();
 
   String getItemIconFileName();
+  /**
+   * @since 2.4
+   */
+  String getCreateChildIconFileName(GenModel genModel, GenFeature feature, GenClass childClass);
   String getCreateChildIconFileName(GenFeature feature, GenClass childClass);
 
+  /**
+   * @since 2.4
+   */
+  GenClass getProviderExtendsGenClass();
   String getProviderBaseClassName();
   List<GenClass> getProviderImplementedGenClasses();
 
@@ -398,10 +406,67 @@ public interface GenClass extends GenClassifier
 
   List<GenFeature> getCreateChildFeatures();
   List<GenFeature> getAllCreateChildFeatures();
+  /**
+   * @since 2.4
+   */
+  List<GenFeature> getCreateChildFeaturesIncludingDelegation();
   List<GenFeature> getAllCreateChildFeaturesIncludingDelegation();
   List<GenFeature> getCrossPackageCreateChildFeatures();
   List<GenFeature> getSharedClassCreateChildFeatures();
   boolean hasFeatureMapCreateChildFeatures();
+
+  /**
+   * @since 2.4
+   */
+  public final class ChildCreationData
+  {
+    public final GenFeature createFeature;
+    public final GenFeature delegatedFeature;
+    public final GenClassifier createClassifier;
+    
+    public ChildCreationData(GenFeature createFeature, GenFeature delegateFeature,  GenClassifier createClassifier)
+    {
+      this.createFeature = createFeature;
+      this.delegatedFeature = delegateFeature;
+      this.createClassifier = createClassifier;
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+      if (object instanceof ChildCreationData)
+      {
+        ChildCreationData that = (ChildCreationData)object;
+        return 
+          createFeature == that.createFeature &&
+          delegatedFeature == that.delegatedFeature &&
+          createClassifier == that.createClassifier;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+    @Override
+    public int hashCode()
+    {
+      return 
+        (createFeature == null ? 0 : createFeature.hashCode()) ^
+          (delegatedFeature == null ? 0 : delegatedFeature.hashCode()) ^
+          (createClassifier == null ? 0 : createClassifier.hashCode());
+    }
+  }
+
+  /**
+   * @since 2.4
+   */
+  List<ChildCreationData> getChildCreationData(GenModel context);
+
+  /**
+   * @since 2.4
+   */
+  List<ChildCreationData> getChildCreationData();
 
   List<GenClass> getChildrenClasses(GenFeature genFeature);
   List<GenClass> getCrossPackageChildrenClasses(GenFeature genFeature);

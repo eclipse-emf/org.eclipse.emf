@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.13 2007/09/29 16:42:23 emerks Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.14 2008/01/29 21:12:08 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -28,6 +28,8 @@ import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
@@ -103,8 +105,9 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
   protected static final int MODEL_ICON_ID = 0;
   protected static final int MODEL_WIZARD_ICON_ID = 1;
+  protected static final int CREATE_CHILD_ICON_ID = 2;
 
-  private static final String[] INPUT_PATH_NAMES = { "editor/ModelFile.gif", "editor/NewModel.gif" };
+  private static final String[] INPUT_PATH_NAMES = { "editor/ModelFile.gif", "editor/NewModel.gif", "edit/CreateChild.gif" };
 
   /**
    * Returns the set of {@link org.eclipse.emf.codegen.util.GIFEmitter} input paths used by the adapter. The contents
@@ -588,9 +591,9 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
   @Override
   protected Diagnostic generateEdit(Object object, Monitor monitor)
   {
-    monitor.beginTask("", 2);
-
     GenPackage genPackage = (GenPackage)object;
+    monitor.beginTask("", 2 + countCreateChildIcons(genPackage));
+
     message = CodeGenEcorePlugin.INSTANCE.getString
       ("_UI_GeneratingItemProvidersForPackage_message", new Object[] { genPackage.getPackageInterfaceName() });
     monitor.subTask(message);
@@ -600,6 +603,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getEditDirectory(), genPackage, EDIT_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
 
     generateItemProviderAdapterFactory(genPackage, monitor);
+    generateCreateChildIcons(genPackage, monitor);
 
     return Diagnostic.OK_INSTANCE;
   }
@@ -622,6 +626,66 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     else
     {
       monitor.worked(1);
+    }
+  }
+
+  protected int countCreateChildIcons(GenPackage genPackage)
+  {
+    int result = 0;
+    GenModel genModel = genPackage.getGenModel();
+    if (genModel.isCreationCommands() && genModel.isCreationIcons() && genPackage.isChildCreationExtenders())
+    {
+      for (Map.Entry<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> packageEntry : genPackage.getExtendedChildCreationData().entrySet())
+      {
+        for (Map.Entry<GenClass, List<GenClass.ChildCreationData>> classEntry : packageEntry.getValue().entrySet())
+        {
+          for (GenClass.ChildCreationData childCreationData : classEntry.getValue())
+          {
+            if (childCreationData.createClassifier instanceof GenClass &&
+                  (childCreationData.delegatedFeature == null ||
+                     classEntry.getKey().getAllGenFeatures().contains(childCreationData.delegatedFeature)))
+            {
+              ++result;
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  protected void generateCreateChildIcons(GenPackage genPackage, Monitor monitor)
+  {
+    GenModel genModel = genPackage.getGenModel();
+    if (genModel.isCreationCommands() && genModel.isCreationIcons() && genPackage.isChildCreationExtenders())
+    {
+      for (Map.Entry<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> packageEntry : genPackage.getExtendedChildCreationData().entrySet())
+      {
+        for (Map.Entry<GenClass, List<GenClass.ChildCreationData>> classEntry : packageEntry.getValue().entrySet())
+        {
+          GenClass genClass = classEntry.getKey();
+          for (GenClass.ChildCreationData childCreationData : classEntry.getValue())
+          {
+            if (childCreationData.createClassifier instanceof GenClass &&
+                  (childCreationData.delegatedFeature == null ||
+                     classEntry.getKey().getAllGenFeatures().contains(childCreationData.delegatedFeature)))
+            {
+              GenClass childClass = (GenClass)childCreationData.createClassifier;
+              GenFeature feature = childCreationData.createFeature;
+              message = CodeGenEcorePlugin.INSTANCE.getString
+                ("_UI_GeneratingCreateChildIcon_message", new Object[] { classEntry.getKey().getCreateChildIconFileName(feature, childClass) });
+              monitor.subTask(message);
+              generateGIF
+                (genClass.getCreateChildIconFileName(genModel, feature, childClass),
+                 getGIFEmitter(getInputPathNames(), CREATE_CHILD_ICON_ID),
+                 genClass.getName(),
+                 childClass.getName(),
+                 false,
+                 createMonitor(monitor, 1));
+            }
+          }
+        }
+      }
     }
   }
 

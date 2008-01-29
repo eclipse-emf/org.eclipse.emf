@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.20 2006/12/28 06:40:38 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.21 2008/01/29 21:12:08 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -57,6 +57,18 @@
          <%=(j.hasPrevious()? " " : "\"") + j.next() + (j.hasNext() ? "" : "\"")%><%}%> />
   </extension>
   
+  <%}%>
+  <%if (!genPackage.isChildCreationExtenders()) { Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> extendedChildCreationData = genPackage.getExtendedChildCreationData();%>
+    <%if (!extendedChildCreationData.isEmpty()) {%>
+
+  <extension point="org.eclipse.emf.edit.childCreationExtenders">
+        <%for (Map.Entry<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> entry : extendedChildCreationData.entrySet()) {%>
+    <extender 
+       uri = "<%=entry.getKey().getNSURI()%>" 
+       class = "<%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>$<%=genPackage.getChildCreationExtenderName(entry.getKey())%>" />
+        <%}%>
+  </extension>
+      <%}%>
     <%}%>
   <%}%>
 <%}%>

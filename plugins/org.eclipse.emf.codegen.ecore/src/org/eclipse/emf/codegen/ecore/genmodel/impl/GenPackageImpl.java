@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.79 2008/01/15 16:48:51 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.80 2008/01/29 21:12:08 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +114,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isDataTypeConverters <em>Data Type Converters</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isMultipleEditorPages <em>Multiple Editor Pages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isGenerateModelWizard <em>Generate Model Wizard</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isExtensibleProviderFactory <em>Extensible Provider Factory</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isChildCreationExtenders <em>Child Creation Extenders</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenEnums <em>Gen Enums</em>}</li>
@@ -488,6 +491,46 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected boolean generateModelWizard = GENERATE_MODEL_WIZARD_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isExtensibleProviderFactory() <em>Extensible Provider Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isExtensibleProviderFactory()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean EXTENSIBLE_PROVIDER_FACTORY_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isExtensibleProviderFactory() <em>Extensible Provider Factory</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isExtensibleProviderFactory()
+   * @generated
+   * @ordered
+   */
+  protected boolean extensibleProviderFactory = EXTENSIBLE_PROVIDER_FACTORY_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isChildCreationExtenders() <em>Child Creation Extenders</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isChildCreationExtenders()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean CHILD_CREATION_EXTENDERS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isChildCreationExtenders() <em>Child Creation Extenders</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isChildCreationExtenders()
+   * @generated
+   * @ordered
+   */
+  protected boolean childCreationExtenders = CHILD_CREATION_EXTENDERS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getEcorePackage() <em>Ecore Package</em>}' reference.
@@ -996,6 +1039,52 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD, oldGenerateModelWizard, generateModelWizard));
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isExtensibleProviderFactory()
+  {
+    return extensibleProviderFactory;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setExtensibleProviderFactory(boolean newExtensibleProviderFactory)
+  {
+    boolean oldExtensibleProviderFactory = extensibleProviderFactory;
+    extensibleProviderFactory = newExtensibleProviderFactory;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__EXTENSIBLE_PROVIDER_FACTORY, oldExtensibleProviderFactory, extensibleProviderFactory));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isChildCreationExtenders()
+  {
+    return childCreationExtenders;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setChildCreationExtenders(boolean newChildCreationExtenders)
+  {
+    boolean oldChildCreationExtenders = childCreationExtenders;
+    childCreationExtenders = newChildCreationExtenders;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS, oldChildCreationExtenders, childCreationExtenders));
+  }
+
   @Override
   public  EModelElement getEcoreModelElement()
   {
@@ -1295,6 +1384,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return isMultipleEditorPages() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
         return isGenerateModelWizard() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_PACKAGE__EXTENSIBLE_PROVIDER_FACTORY:
+        return isExtensibleProviderFactory() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
+        return isChildCreationExtenders() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         if (resolve) return getEcorePackage();
         return basicGetEcorePackage();
@@ -1378,6 +1471,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return;
       case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
         setGenerateModelWizard(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_PACKAGE__EXTENSIBLE_PROVIDER_FACTORY:
+        setExtensibleProviderFactory(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
+        setChildCreationExtenders(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)newValue);
@@ -1469,6 +1568,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
         setGenerateModelWizard(GENERATE_MODEL_WIZARD_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__EXTENSIBLE_PROVIDER_FACTORY:
+        setExtensibleProviderFactory(EXTENSIBLE_PROVIDER_FACTORY_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
+        setChildCreationExtenders(CHILD_CREATION_EXTENDERS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)null);
         return;
@@ -1537,6 +1642,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return multipleEditorPages != MULTIPLE_EDITOR_PAGES_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
         return generateModelWizard != GENERATE_MODEL_WIZARD_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__EXTENSIBLE_PROVIDER_FACTORY:
+        return extensibleProviderFactory != EXTENSIBLE_PROVIDER_FACTORY_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
+        return childCreationExtenders != CHILD_CREATION_EXTENDERS_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         return ecorePackage != null;
       case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
@@ -1602,6 +1711,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(multipleEditorPages);
     result.append(", generateModelWizard: ");
     result.append(generateModelWizard);
+    result.append(", extensibleProviderFactory: ");
+    result.append(extensibleProviderFactory);
+    result.append(", childCreationExtenders: ");
+    result.append(childCreationExtenders);
     result.append(')');
     return result.toString();
   }
@@ -3689,6 +3802,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     setMultipleEditorPages(oldGenPackageVersion.isMultipleEditorPages());
     setGenerateModelWizard(oldGenPackageVersion.isGenerateModelWizard());
     
+    setExtensibleProviderFactory(oldGenPackageVersion.isExtensibleProviderFactory());
+    setChildCreationExtenders(oldGenPackageVersion.isChildCreationExtenders());
+
     reconcileGenAnnotations(oldGenPackageVersion);
   }
 
@@ -4169,4 +4285,62 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
     return false;
   }
+
+  public Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> getExtendedChildCreationData()
+  {
+    GenModel genModel = getGenModel();
+    Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> result = new LinkedHashMap<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>>();
+    List<GenPackage> allUsedGenPackagesWithClassifiers = getGenModel().getAllUsedGenPackagesWithClassifiers();
+    for (GenPackage genPackage : allUsedGenPackagesWithClassifiers)
+    {
+      for (GenClass genClass : genPackage.getGenClasses())
+      {
+        List<GenClass.ChildCreationData> allChildCreationData = genClass.getChildCreationData(genModel);
+        for (GenClass.ChildCreationData childCreationData : allChildCreationData)
+        {
+          // It belongs to this package if the delegate feature is from this package,
+          // or the class is from this package and either there is no delegate feature or the delegate feature is from some used package.
+          //
+          if (childCreationData.delegatedFeature != null && childCreationData.delegatedFeature.getGenPackage() == this ||
+                childCreationData.createClassifier.getGenPackage() == this && 
+                  (childCreationData.delegatedFeature == null || allUsedGenPackagesWithClassifiers.contains(childCreationData.delegatedFeature.getGenPackage())))
+          {
+            GenClass featureClass = childCreationData.createFeature.getGenClass();
+            GenPackage featureGenPackage = featureClass.getGenPackage();
+            Map<GenClass, List<GenClass.ChildCreationData>> map = result.get(featureGenPackage);
+            if (map == null)
+            {
+              result.put(featureGenPackage, map = new LinkedHashMap<GenClass, List<GenClass.ChildCreationData>>());
+            }
+            List<GenClass.ChildCreationData> data = map.get(featureClass);
+            if (data == null)
+            {
+              map.put(featureClass, data = new UniqueEList<GenClass.ChildCreationData>());
+            }
+            data.add(childCreationData);
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  public String getChildCreationExtenderName(GenPackage genPackage)
+  {
+    UniqueNameHelper uniqueNameHelper = 
+      new UniqueNameHelper()
+      {
+        @Override
+        protected String getName(Object o)
+        {
+          return ((GenPackageImpl)o).getPrefixedName("ChildCreationExtender");
+        }
+      };
+    for (GenPackage otherGenPackage : getGenModel().getAllUsedGenPackagesWithClassifiers())
+    {
+      uniqueNameHelper.add(otherGenPackage);
+    }
+    return uniqueNameHelper.getName(genPackage);
+  }
+
 } //GenPackageImpl

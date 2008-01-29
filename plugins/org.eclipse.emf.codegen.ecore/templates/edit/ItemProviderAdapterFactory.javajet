@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.10 2007/04/26 20:54:04 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.11 2008/01/29 21:12:08 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -32,8 +32,9 @@ package <%=genPackage.getProviderPackageName()%>;
 <%genModel.addImport("org.eclipse.emf.edit.provider.INotifyChangedListener");%>
 <%genModel.addImport("org.eclipse.emf.edit.provider.IStructuredItemContentProvider");%>
 <%genModel.addImport("org.eclipse.emf.edit.provider.ITreeItemContentProvider");%>
-<%String _ArrayList = genModel.getImportedName(genModel.useGenerics() ? "java.util.ArrayList<java.lang.Object>" : "java.util.ArrayList");%>
-<%String _Collection = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<java.lang.Object>" : "java.util.Collection");%>
+<%boolean useGenerics = genModel.useGenerics();%>
+<%String _ArrayList = genModel.getImportedName(useGenerics ? "java.util.ArrayList<java.lang.Object>" : "java.util.ArrayList");%>
+<%String _Collection = genModel.getImportedName(useGenerics ? "java.util.Collection<java.lang.Object>" : "java.util.Collection");%>
 <%genModel.markImportLocation(stringBuffer);%>
 
 /**
@@ -45,7 +46,7 @@ package <%=genPackage.getProviderPackageName()%>;
  * <!-- end-user-doc -->
  * @generated
  */
-public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%=genPackage.getImportedAdapterFactoryClassName()%> implements ComposeableAdapterFactory, IChangeNotifier<%if (genPackage.isDisposableProviderFactory()) {%>, <%=genModel.getImportedName("org.eclipse.emf.edit.provider.IDisposable")%><%}%>
+public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%=genPackage.getImportedAdapterFactoryClassName()%> implements ComposeableAdapterFactory, IChangeNotifier<%if (genPackage.isDisposableProviderFactory()) {%>, <%=genModel.getImportedName("org.eclipse.emf.edit.provider.IDisposable")%><%}%><%if (genPackage.isExtensibleProviderFactory()) {%>, <%=genModel.getImportedName("org.eclipse.emf.edit.provider.IChildCreationExtender")%><%}%>
 {
 <%if (genModel.hasCopyrightField()) {%>
 	/**
@@ -80,6 +81,16 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	 * @generated
 	 */
 	protected <%=genModel.getImportedName("org.eclipse.emf.edit.provider.Disposable")%> disposable = new Disposable();
+
+<%}%>
+<%if (genPackage.isExtensibleProviderFactory()) {%>
+	/**
+	 * This helps manage the child creation extenders.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected <%=genModel.getImportedName("org.eclipse.emf.edit.provider.ChildCreationExtenderManager")%> childCreationExtenderManager = new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.ChildCreationExtenderManager")%>(<%=genPackage.getImportedEditPluginClassName()%>.INSTANCE, <%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI);
 
 <%}%>
 	/**
@@ -286,6 +297,38 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	}
 
 <%}%>
+<%if (genPackage.isExtensibleProviderFactory()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genModel.getImportedName(useGenerics ? "java.util.List<org.eclipse.emf.edit.provider.IChildCreationExtender>" : "java.util.List")%> getChildCreationExtenders()
+	{
+		return childCreationExtenderManager.getChildCreationExtenders();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genModel.getImportedName(useGenerics ? "java.util.Collection<?>" : "java.util.Collection")%> getNewChildDescriptors(Object object, <%=genModel.getImportedName("org.eclipse.emf.edit.domain.EditingDomain")%> editingDomain)
+	{
+		return childCreationExtenderManager.getNewChildDescriptors(object, editingDomain);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genModel.getImportedName("org.eclipse.emf.common.util.ResourceLocator")%> getResourceLocator()
+	{
+		return childCreationExtenderManager;
+	}
+
+<%}%>
 	/**
 	 * This adds a listener.
 	 * <!-- begin-user-doc -->
@@ -344,6 +387,169 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 <%}%>
 	}
 
+<%}%>
+<%if (genPackage.isChildCreationExtenders()) {%>
+  <%for (Map.Entry<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> packageEntry : genPackage.getExtendedChildCreationData().entrySet()) {%>
+	/**
+	 * A child creation extender for the {@link <%=packageEntry.getKey().getImportedPackageInterfaceName()%>}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static class <%=genPackage.getChildCreationExtenderName(packageEntry.getKey())%> implements <%=genModel.getImportedName("org.eclipse.emf.edit.provider.IChildCreationExtender")%>
+	{
+		/**
+		 * The switch for creating child descriptors specific to each extended class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		protected static class CreationSwitch extends <%=genModel.getImportedName(packageEntry.getKey().getQualifiedSwitchClassName())%><%=useGenerics ? "<Object>" : ""%>
+		{
+			/**
+			 * The child descriptors being populated.
+			 * <!-- begin-user-doc -->
+			 * <!-- end-user-doc -->
+			 * @generated
+			 */
+			protected <%=genModel.getImportedName(useGenerics ? "java.util.List<Object>" : "java.util.List")%> newChildDescriptors;
+
+			/**
+			 * The domain in which to create the children.
+			 * <!-- begin-user-doc -->
+			 * <!-- end-user-doc -->
+			 * @generated
+			 */
+			protected <%=genModel.getImportedName("org.eclipse.emf.edit.domain.EditingDomain")%> editingDomain;
+
+			/**
+			 * Creates the a switch for populating child descriptors in the given domain.
+			 * <!-- begin-user-doc -->
+			 * <!-- end-user-doc -->
+			 * @generated
+			 */
+			CreationSwitch(<%=genModel.getImportedName(useGenerics ? "java.util.List<Object>" : "java.util.List")%> newChildDescriptors, <%=genModel.getImportedName("org.eclipse.emf.edit.domain.EditingDomain")%> editingDomain) 
+			{
+				this.newChildDescriptors = newChildDescriptors;
+				this.editingDomain = editingDomain;
+			}
+     <%for (Map.Entry<GenClass, List<GenClass.ChildCreationData>> classEntry : packageEntry.getValue().entrySet()) { GenClass genClass = classEntry.getKey();%>
+			/**
+			 * <!-- begin-user-doc -->
+			 * <!-- end-user-doc -->
+			 * @generated
+			 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+<%}%>
+			public <%=genClass.getTypeParameters()%>Object case<%=genPackage.getClassUniqueName(genClass)%>(<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceTypeArguments()%> object)
+			{
+     <%for (GenClass.ChildCreationData childCreationData : classEntry.getValue()) { GenFeature createFeature = childCreationData.createFeature; GenFeature delegatedFeature = childCreationData.delegatedFeature; GenClassifier createClassifier = childCreationData.createClassifier;%>
+      <%if (createFeature.isFeatureMapType()) {%>
+        <%if (delegatedFeature.isReferenceType()) { GenClass createClass = (GenClass)createClassifier;%>
+<%@ include file="ItemProvider/newChildDescriptorsReferenceDelegatedFeature.override.javajetinc" fail="alternative"%>
+<%@ start %>
+				newChildDescriptors.add
+					(createChildParameter
+						(<%=createFeature.getQualifiedFeatureAccessor()%>,
+						 <%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMapUtil")%>.createEntry
+							(<%=delegatedFeature.getQualifiedFeatureAccessor()%>,
+          <%if (createClass.isMapEntry()) { %>
+							 <%=createClass.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.create(<%=createClass.getQualifiedClassifierAccessor()%>))));
+          <%} else {%>
+							 <%=createClass.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=createClass.getName()%>())));
+          <%}%>
+<%@ include file="ItemProvider/newChildDescriptorsReferenceDelegatedFeature.insert.javajetinc" fail="silent"%>
+<%@ end %><%//ItemProvider/newChildDescriptorsReferenceDelegatedFeature.override.javajetinc%>
+        <%} else { GenDataType createDataType = (GenDataType)createClassifier;%>
+<%@ include file="ItemProvider/newChildDescriptorsAttributeDelegatedFeature.override.javajetinc" fail="alternative"%>
+<%@ start %>
+				newChildDescriptors.add
+					(createChildParameter
+						(<%=createFeature.getQualifiedFeatureAccessor()%>,
+						 <%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMapUtil")%>.createEntry
+							(<%=delegatedFeature.getQualifiedFeatureAccessor()%>,
+          <%if (delegatedFeature.isEnumBasedType()) {%>
+							 <%=delegatedFeature.getTypeGenEnum().getStaticValue(delegatedFeature.getEcoreFeature().getDefaultValueLiteral())%>)));
+          <%} else if (delegatedFeature.isStringBasedType()) {%>
+							 <%=delegatedFeature.getCreateChildValueLiteral()%>)));<%=genModel.getNonNLS()%>
+          <%} else { String literal = delegatedFeature.getCreateChildValueLiteral();%>
+							 <%=createDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=createDataType.getQualifiedClassifierAccessor()%>, <%=literal%>))));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
+          <%}%>
+<%@ include file="ItemProvider/newChildDescriptorsAttributeDelegatedFeature.insert.javajetinc" fail="silent"%>
+<%@ end %><%//ItemProvider/newChildDescriptorsAttributeDelegatedFeature.override.javajetinc%>
+        <%}%>
+      <%} else if (createFeature.isReferenceType()) { GenClass createClass = (GenClass)createClassifier;%>
+<%@ include file="ItemProvider/newChildDescriptorsReferenceFeature.override.javajetinc" fail="alternative"%>
+<%@ start %>
+				newChildDescriptors.add
+					(createChildParameter
+						(<%=createFeature.getQualifiedFeatureAccessor()%>,
+        <%if (createClass.isMapEntry()) { %>
+						 <%=createClass.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.create(<%=createClass.getQualifiedClassifierAccessor()%>)));
+        <%} else {%>
+						 <%=createClass.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=createClass.getName()%>()));
+        <%}%>
+<%@ include file="ItemProvider/newChildDescriptorsReferenceFeature.insert.javajetinc" fail="silent"%>
+<%@ end %><%//ItemProvider/newChildDescriptorsReferenceFeature.override.javajetinc %>
+      <%} else { GenDataType createDataType = (GenDataType)createClassifier;%>
+<%@ include file="ItemProvider/newChildDescriptorsAttributeFeature.override.javajetinc" fail="alternative"%>
+<%@ start %>
+				newChildDescriptors.add
+					(createChildParameter
+						(<%=createFeature.getQualifiedFeatureAccessor()%>,
+        <%if (createFeature.isEnumBasedType()) {%>
+						 <%=createFeature.getTypeGenEnum().getStaticValue(createFeature.getEcoreFeature().getDefaultValueLiteral())%>));
+        <%} else if (createFeature.isStringBasedType()) {%>
+						 <%=createFeature.getCreateChildValueLiteral()%>));<%=genModel.getNonNLS()%>
+        <%} else { String literal = createFeature.getCreateChildValueLiteral();%>
+						 <%=createDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=createDataType.getQualifiedClassifierAccessor()%>, <%=literal%>)));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
+        <%}%>
+<%@ include file="ItemProvider/newChildDescriptorsAttributeFeature.insert.javajetinc" fail="silent"%>
+<%@ end %><%//ItemProvider/newChildDescriptorsAttributeFeature.override.javajetinc%>
+      <%}%>
+
+     <%}%>
+				return null;
+			}
+ 
+     <%}%>
+			/**
+			 * <!-- begin-user-doc -->
+			 * <!-- end-user-doc -->
+			 * @generated
+			 */
+			protected <%=genModel.getImportedName("org.eclipse.emf.edit.command.CommandParameter")%> createChildParameter(Object feature, Object child)
+			{
+				return new <%=genModel.getImportedName("org.eclipse.emf.edit.command.CommandParameter")%>(null, feature, child);
+			}
+
+		}
+
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public <%=_Collection%> getNewChildDescriptors(Object object, <%=genModel.getImportedName("org.eclipse.emf.edit.domain.EditingDomain")%> editingDomain)
+		{
+			<%=_ArrayList%> result = new <%=_ArrayList%>();
+		   new CreationSwitch(result, editingDomain).doSwitch((<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)object);
+		   return result;
+		}
+
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public <%=genModel.getImportedName("org.eclipse.emf.common.util.ResourceLocator")%> getResourceLocator()
+		{
+			return <%=genPackage.getImportedEditPluginClassName()%>.INSTANCE;
+		}
+	}
+
+  <%}%>
 <%}%>
 }
 <%genModel.emitSortedImports();%>

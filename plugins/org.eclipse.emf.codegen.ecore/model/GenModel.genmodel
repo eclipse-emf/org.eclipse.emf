@@ -214,6 +214,10 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/multipleEditorPages"/>
       <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Whether the model new wizard should be generated"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/generateModelWizard"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether the generated item provider adapter factory should support extensible child creation"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/extensibleProviderFactory"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether the generated item provider adapter factory should include child creation extenders"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/childCreationExtenders"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this package" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/ecorePackage"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genModel"/>
