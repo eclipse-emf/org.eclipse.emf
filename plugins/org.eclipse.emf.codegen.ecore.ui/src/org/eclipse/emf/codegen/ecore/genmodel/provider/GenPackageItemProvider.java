@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.23 2006/12/28 16:49:46 marcelop Exp $
+ * $Id: GenPackageItemProvider.java,v 1.24 2008/01/29 21:11:50 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -92,6 +92,8 @@ public class GenPackageItemProvider
       addDataTypeConvertersPropertyDescriptor(object);
       addMultipleEditorPagesPropertyDescriptor(object);
       addGenerateModelWizardPropertyDescriptor(object);
+      addExtensibleProviderFactoryPropertyDescriptor(object);
+      addChildCreationExtendersPropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -512,6 +514,52 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Extensible Provider Factory feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addExtensibleProviderFactoryPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_extensibleProviderFactory_feature"),
+         getString("_UI_GenPackage_extensibleProviderFactory_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__EXTENSIBLE_PROVIDER_FACTORY,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Child Creation Extenders feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addChildCreationExtendersPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_childCreationExtenders_feature"),
+         getString("_UI_GenPackage_childCreationExtenders_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__CHILD_CREATION_EXTENDERS,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory"),
+         null));
+  }
+
+  /**
    * This adds a property descriptor for the Ecore Package feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -625,6 +673,8 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__DATA_TYPE_CONVERTERS:
       case GenModelPackage.GEN_PACKAGE__MULTIPLE_EDITOR_PAGES:
       case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
+      case GenModelPackage.GEN_PACKAGE__EXTENSIBLE_PROVIDER_FACTORY:
+      case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
