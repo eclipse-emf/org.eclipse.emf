@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.24 2007/11/26 12:20:54 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.25 2008/01/29 18:01:07 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -633,42 +633,79 @@ public abstract class XSDConcreteComponentImpl
      Element element)
   {
     XSDParticle complexType = xsdComplexTypeDefinition.getComplexType();
+    boolean mixed = xsdComplexTypeDefinition.isMixed();
     XSDParticle.DFA dfa = complexType.getDFA();
     XSDParticle.DFA.State state = dfa.getInitialState();
     for (Node child = element.getFirstChild(); child != null; child = child.getNextSibling())
     {
-      if (child.getNodeType() == Node.ELEMENT_NODE)
+      switch (child.getNodeType())
       {
-        XSDParticle.DFA.Transition transition = state.accept(child.getNamespaceURI(), child.getLocalName());
-        if (transition != null)
+        case Node.ELEMENT_NODE:
         {
-          state = transition.getState();
+          XSDParticle.DFA.Transition transition = state.accept(child.getNamespaceURI(), child.getLocalName());
+          if (transition != null)
+          {
+            state = transition.getState();
+          }
+          else
+          {
+            XSDDiagnostic xsdDiagnostic = getXSDFactory().createXSDDiagnostic();
+            xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
+            xsdDiagnostic.setMessage
+              (XSDPlugin.INSTANCE.getString
+                 ("_UI_XSDError_message", 
+                  new Object [] 
+                  {
+                    populateDiagnostic
+                      (xsdDiagnostic,
+                       "content-valid.1", 
+                       new Object [] { XSDConstants.uri(child), xsdComplexTypeDefinition.getURI(), getExpected(state) })
+                  }));
+            xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
+            xsdDiagnostic.setPrimaryComponent(this);
+            xsdDiagnostic.setNode(child);
+            getDiagnostics().add(xsdDiagnostic);
+  
+            return xsdDiagnostic;
+          }
+          break;
         }
-        else
+        case Node.TEXT_NODE:
+        case Node.CDATA_SECTION_NODE:
         {
-          XSDDiagnostic xsdDiagnostic = getXSDFactory().createXSDDiagnostic();
-          xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
-          xsdDiagnostic.setMessage
-            (XSDPlugin.INSTANCE.getString
-               ("_UI_XSDError_message", 
-                new Object [] 
+          if (!mixed)
+          {
+            String text = child.getTextContent();
+            if (text != null)
+            {
+              for (int i = 0, length = text.length(); i < length; ++i)
+              {
+                char character = text.charAt(i);
+                if (character != '\n' && character != '\r' && character != ' ' && character != '\t')
                 {
-                  populateDiagnostic
-                    (xsdDiagnostic,
-                     "content-valid.1", 
-                     new Object [] { XSDConstants.uri(child), xsdComplexTypeDefinition.getURI(), getExpected(state) })
-                }));
-          xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
-          xsdDiagnostic.setPrimaryComponent(this);
-          xsdDiagnostic.setNode(child);
-          getDiagnostics().add(xsdDiagnostic);
-
-          return xsdDiagnostic;
+                  XSDDiagnostic xsdDiagnostic = getXSDFactory().createXSDDiagnostic();
+                  xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
+                  xsdDiagnostic.setMessage
+                    (XSDPlugin.INSTANCE.getString
+                       ("_UI_XSDError_message", 
+                        new Object [] 
+                        {
+                          populateDiagnostic
+                            (xsdDiagnostic,
+                             "content-valid.3", 
+                             new Object [] { text.substring(i), xsdComplexTypeDefinition.getURI() })
+                        }));
+                  xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
+                  xsdDiagnostic.setPrimaryComponent(this);
+                  xsdDiagnostic.setNode(child);
+                  getDiagnostics().add(xsdDiagnostic);
+                  break;
+                }
+              }
+            }
+          }
+          break;
         }
-      }
-      else
-      {
-        // EATM should be whitespace
       }
     }
 

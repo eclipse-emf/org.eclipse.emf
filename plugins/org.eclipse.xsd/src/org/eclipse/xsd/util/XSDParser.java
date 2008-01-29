@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.13 2007/08/14 18:22:57 emerks Exp $
+ * $Id: XSDParser.java,v 1.14 2008/01/29 18:01:07 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -144,6 +144,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
   protected int column;
   protected String encoding;
   protected StringBuilder cdata;
+  protected CDATASection cdataSection;
 
   /**
    * @deprecated since 2.2
@@ -460,6 +461,48 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     }
     else
     {
+      int lineFeed = 0;
+      int carriageReturn = 0;
+      for (int i = 0; i < length; ++i)
+      {
+        char character = characters[start + i];
+        if (character == '\n')
+        {
+          ++lineFeed;
+          column = 1;
+        }
+        else if (character == '\r')
+        {
+          ++carriageReturn;
+          column = 1;
+        }
+        else if (character == ' ' && character == '\t')
+        {
+          ++column;
+        }
+        else
+        {
+          // Put the leading whitespace in its own text node.
+          if (i != 0)
+          {
+            Text textNode = document.createTextNode(new String(characters, start, i));
+            element.appendChild(textNode);
+          }
+          
+          // Create a next node that starts with the non-whitespace.
+          //
+          line += Math.max(lineFeed, carriageReturn);
+          Text textNode = document.createTextNode(new String(characters, start + i, length - i));
+          element.appendChild(textNode);
+          Map<Object, Object> extendedAttributes = getUserData(textNode);
+          extendedAttributes.put("startLine", new Integer(line));
+          extendedAttributes.put("startColumn", new Integer(column));
+          saveLocation();
+          extendedAttributes.put("endLine", new Integer(line));
+          extendedAttributes.put("endColumn", new Integer(column));
+          return;
+        }
+      }
       Text textNode = document.createTextNode(new String(characters, start, length));
       element.appendChild(textNode);
       saveLocation();
@@ -483,14 +526,21 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
   public void startCDATA() 
   {
     cdata = new StringBuilder();
+    cdataSection = document.createCDATASection("");
+    Map<Object, Object> extendedAttributes = getUserData(cdataSection);
+    extendedAttributes.put("startLine", new Integer(line));
+    extendedAttributes.put("startColumn", new Integer(column));
   }
 
   public void endCDATA() 
   {
-    CDATASection cdataSection = document.createCDATASection(cdata.toString());
+    cdataSection.setData(cdata.toString());
     element.appendChild(cdataSection);
+    Map<Object, Object> extendedAttributes = getUserData(cdataSection);
     cdata = null;
     saveLocation();
+    extendedAttributes.put("endLine", new Integer(line));
+    extendedAttributes.put("endColumn", new Integer(column));
   }
 
   public void startDTD(String name, String publicId, String systemId) 
