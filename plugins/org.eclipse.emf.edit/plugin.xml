@@ -6,6 +6,7 @@
   </extension>
 
   <extension-point id="itemProviderAdapterFactories" name="%_UI_ItemProviderAdapterFactory_extensionpoint" schema="schema/itemProviderAdapterFactories.exsd" />
+  <extension-point id="childCreationExtenders" name="%_UI_ChildCreationExtender_extensionpoint" schema="schema/childCreationExtenders.exsd" />
 
   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
     <factory uri="org.eclipse.emf.ecore.resource" class="org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory" supportedTypes="org.eclipse.emf.edit.provider.IEditingDomainItemProvider

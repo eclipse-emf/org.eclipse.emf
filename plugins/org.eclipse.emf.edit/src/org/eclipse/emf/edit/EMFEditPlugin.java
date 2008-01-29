@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPlugin.java,v 1.8 2007/06/14 18:32:42 emerks Exp $
+ * $Id: EMFEditPlugin.java,v 1.9 2008/01/29 21:13:13 emerks Exp $
  */
 package org.eclipse.emf.edit;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.plugin.RegistryReader;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.IChildCreationExtender;
 
 
 /**
@@ -130,7 +131,7 @@ public final class EMFEditPlugin extends EMFPlugin
            new RegistryReader(Platform.getExtensionRegistry(), INSTANCE.getSymbolicName(), "itemProviderAdapterFactories")
            {
              @Override
-            protected boolean readElement(IConfigurationElement element, boolean add)
+             protected boolean readElement(IConfigurationElement element, boolean add)
              {
                if (element.getName().equals("factory"))
                {
@@ -189,7 +190,104 @@ public final class EMFEditPlugin extends EMFPlugin
     }
     return composedAdapterFactoryDescriptorRegistry;
   }
+
+  /**
+   * The singleton instance of a {@link IChildCreationExtender.Descriptor.Registry child creation extender registry}.
+   */
+  private static IChildCreationExtender.Descriptor.Registry.Impl childCreationExtenderDescriptorRegistry;
+
+  /**
+   * Returns a populated instance of a {@link IChildCreationExtender.Descriptor.Registry child creation extender registry}.
+   * @return a populated instance of child creation extender registry.
+   */
+  public static IChildCreationExtender.Descriptor.Registry getChildCreationExtenderDescriptorRegistry()
+  {
+    if (childCreationExtenderDescriptorRegistry == null)
+    {
+      childCreationExtenderDescriptorRegistry = 
+        new IChildCreationExtender.Descriptor.Registry.Impl(null)
+        {
+          private static final long serialVersionUID = 1L;
   
+          @Override
+          public Collection<IChildCreationExtender.Descriptor> delegatedGetDescriptors(String namespace)
+          {
+            Collection<IChildCreationExtender.Descriptor> descriptors = get(namespace);
+            return descriptors != null ? descriptors : super.delegatedGetDescriptors(namespace);
+          }
+        };
+      if (INSTANCE.getPluginResourceLocator() instanceof EclipsePlugin)
+      {
+        RegistryReader registryReader = 
+           new RegistryReader(Platform.getExtensionRegistry(), INSTANCE.getSymbolicName(), "childCreationExtenders")
+           {
+             @Override
+             protected boolean readElement(IConfigurationElement element, boolean add)
+             {
+               if (element.getName().equals("extender"))
+               {
+                 String packageURI = element.getAttribute("uri");
+                 String className = element.getAttribute("class");
+                 if (packageURI == null)
+                 {
+                   logMissingAttribute(element, "uri");
+                 }
+                 else if (className == null)
+                 {
+                   logMissingAttribute(element, "class");
+                 }
+
+                 class PluginChildCreationExtenderDescriptor extends PluginClassDescriptor implements IChildCreationExtender.Descriptor
+                 {
+                   public PluginChildCreationExtenderDescriptor(IConfigurationElement element, String attributeName)
+                   {
+                     super(element, attributeName);
+                   }
+
+                   public IChildCreationExtender createChildCreationExtender()
+                   {
+                     return (IChildCreationExtender)createInstance();
+                   }
+
+                   public boolean matches(IConfigurationElement element)
+                   {
+                     return element.getContributor().equals(this.element.getContributor());
+                   }
+                 }
+
+                 Collection<IChildCreationExtender.Descriptor> collection = childCreationExtenderDescriptorRegistry.get(packageURI);
+                 if (add)
+                 {
+                   if (collection == null)
+                   {
+                     childCreationExtenderDescriptorRegistry.put(packageURI, collection = new ArrayList<IChildCreationExtender.Descriptor>());
+                   }
+
+                   collection.add(new PluginChildCreationExtenderDescriptor(element, "class"));
+                 }
+                 else if (collection != null)
+                 {
+                   for (IChildCreationExtender.Descriptor descriptor : collection)
+                   {
+                     if (descriptor instanceof PluginChildCreationExtenderDescriptor && ((PluginChildCreationExtenderDescriptor)descriptor).matches(element))
+                     {
+                       collection.remove(descriptor);
+                       break;
+                     }
+                   }
+                 }
+
+                 return true;
+               }
+               return false;
+             }
+           };
+        registryReader.readRegistry();
+      }
+    }
+    return childCreationExtenderDescriptorRegistry;
+  }
+
   /**
    * Returns the singleton instance of the Eclipse plugin.
    * @return the singleton instance.

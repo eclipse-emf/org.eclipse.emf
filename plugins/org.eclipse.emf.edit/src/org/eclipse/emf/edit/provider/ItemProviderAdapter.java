@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.34 2008/01/15 17:15:41 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.35 2008/01/29 21:13:13 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -762,6 +762,13 @@ public class ItemProviderAdapter
     //
     Collection<Object> newChildDescriptors = new ArrayList<Object>();
     collectNewChildDescriptors(newChildDescriptors, object);
+
+    // Add child descriptors contributed by extenders.
+    //
+    if (adapterFactory instanceof IChildCreationExtender)
+    {
+      newChildDescriptors.addAll(((IChildCreationExtender)adapterFactory).getNewChildDescriptors(object, editingDomain));
+    }
 
     // If a sibling has been specified, add the best index possible to each CommandParameter.
     //
