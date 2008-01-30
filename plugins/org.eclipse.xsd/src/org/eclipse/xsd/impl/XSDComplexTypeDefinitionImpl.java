@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.25 2007/07/10 14:33:34 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.26 2008/01/30 19:26:53 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1951,7 +1951,7 @@ public class XSDComplexTypeDefinitionImpl
         if (changedElement.hasAttributeNS(null, XSDConstants.ABSTRACT_ATTRIBUTE))
         {
           String newAbstract = changedElement.getAttributeNS(null, XSDConstants.ABSTRACT_ATTRIBUTE);
-          setAbstract("true".equals(newAbstract));
+          setAbstract(convertToBoolean(newAbstract));
         }
         else
         {
@@ -1979,7 +1979,7 @@ public class XSDComplexTypeDefinitionImpl
         if (changedElement.hasAttributeNS(null, XSDConstants.MIXED_ATTRIBUTE))
         {
           String newAbstract = changedElement.getAttributeNS(null, XSDConstants.MIXED_ATTRIBUTE);
-          setMixed("true".equals(newAbstract));
+          setMixed(convertToBoolean(newAbstract));
         }
         else
         {
@@ -1989,7 +1989,7 @@ public class XSDComplexTypeDefinitionImpl
                 contentElementPair[0].hasAttributeNS(null, XSDConstants.MIXED_ATTRIBUTE))
           {
             String newAbstract = contentElementPair[0].getAttributeNS(null, XSDConstants.MIXED_ATTRIBUTE);
-            setMixed("true".equals(newAbstract));
+            setMixed(convertToBoolean(newAbstract));
           }
           else
           {
@@ -2004,7 +2004,7 @@ public class XSDComplexTypeDefinitionImpl
         if (changedElement.hasAttributeNS(null, XSDConstants.MIXED_ATTRIBUTE))
         {
           String newMixed = changedElement.getAttributeNS(null, XSDConstants.MIXED_ATTRIBUTE);
-          setMixed("true".equals(newMixed));
+          setMixed(convertToBoolean(newMixed));
         }
         else
         {

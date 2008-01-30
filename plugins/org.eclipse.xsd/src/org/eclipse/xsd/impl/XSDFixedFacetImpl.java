@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFixedFacetImpl.java,v 1.12 2007/07/10 14:33:34 emerks Exp $
+ * $Id: XSDFixedFacetImpl.java,v 1.13 2008/01/30 19:26:53 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -412,7 +412,7 @@ public abstract class XSDFixedFacetImpl
     {
       if (changedElement.hasAttributeNS(null, XSDConstants.FIXED_ATTRIBUTE))
       {
-        boolean newFixed = "true".equals(changedElement.getAttributeNS(null, XSDConstants.FIXED_ATTRIBUTE));
+        boolean newFixed = convertToBoolean(changedElement.getAttributeNS(null, XSDConstants.FIXED_ATTRIBUTE));
         if (!isSetFixed() || newFixed != isFixed())
         {
           setFixed(newFixed);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.28 2008/01/26 19:28:05 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.29 2008/01/30 19:26:53 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1114,7 +1114,7 @@ public class XSDElementDeclarationImpl
         if (changedElement.hasAttributeNS(null, XSDConstants.NILLABLE_ATTRIBUTE))
         {
           String newNillable = changedElement.getAttributeNS(null, XSDConstants.NILLABLE_ATTRIBUTE);
-          setNillable("true".equals(newNillable));
+          setNillable(convertToBoolean(newNillable));
         }
         else 
         {
@@ -1124,7 +1124,7 @@ public class XSDElementDeclarationImpl
         if (changedElement.hasAttributeNS(null, XSDConstants.ABSTRACT_ATTRIBUTE))
         {
           String newAbstract = changedElement.getAttributeNS(null, XSDConstants.ABSTRACT_ATTRIBUTE);
-          setAbstract("true".equals(newAbstract));
+          setAbstract(convertToBoolean(newAbstract));
         }
         else 
         {

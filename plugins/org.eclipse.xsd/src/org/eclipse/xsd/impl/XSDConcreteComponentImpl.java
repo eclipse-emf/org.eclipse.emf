@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.25 2008/01/29 18:01:07 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.26 2008/01/30 19:26:53 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.util.EContentsEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDAttributeDeclaration;
@@ -2948,5 +2949,11 @@ public abstract class XSDConcreteComponentImpl
   public boolean eNotificationRequired()
   {
     return true;
+  }
+
+  protected boolean convertToBoolean(String value)
+  {
+    value = XMLTypeUtil.normalize(value, true);
+    return "true".equals(value) || "1".equals(value);
   }
 }
