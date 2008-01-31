@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationDeclarationImpl.java,v 1.11 2007/02/20 17:42:20 emerks Exp $
+ * $Id: XSDNotationDeclarationImpl.java,v 1.12 2008/01/31 15:41:41 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -401,7 +401,7 @@ public class XSDNotationDeclarationImpl
        true);
 
     checkBuiltInTypeConstraint
-      ("anyURI",
+      ("public",
        getPublicIdentifier(),
        XSDConstants.PART1,
        "element-notation",
