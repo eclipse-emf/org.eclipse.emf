@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.18 2008/01/31 15:42:10 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.19 2008/01/31 21:10:50 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -508,7 +508,6 @@ public class XSDValidateTest extends TestCase
       "XSD: The value 'xx:xx' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The type 'http://www.w3.org/2001/XMLSchema#anySimpleType' is not a valid base type outside the schema for schemas",
       "XSD: The type 'http://www.w3.org/2001/XMLSchema#anySimpleType' is not a valid item type ",
-      "XSD: The type 'http://www.w3.org/2001/XMLSchema#anySimpleType' is not a valid member type ",
       "XSD: The length facet is not permitted in a type based on 'http://www.w3.org/2001/XMLSchema#decimal'",
       "XSD: The length facet cannot be repeated",
       "XSD: The attribute 'bad' is not permitted",
