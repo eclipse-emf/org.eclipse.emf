@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.86 2008/01/29 21:12:08 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.87 2008/01/31 17:11:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1985,7 +1985,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getChildCreationData(null);
   }
 
-  public List<ChildCreationData> getChildCreationData(GenModel context)
+  public List<ChildCreationData> getAllChildCreationData(GenModel context)
   {
     UniqueEList<ChildCreationData> result = new UniqueEList<ChildCreationData>();
     List<GenFeature> allCreateChildGenFeatures =
@@ -2047,11 +2047,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         result.add(new ChildCreationData(createFeature, null, createFeature.getTypeGenClassifier()));
       }
     }
+    return result;
+  }
 
-    GenClass baseClass = getProviderExtendsGenClass();
+  public List<ChildCreationData> getChildCreationData(GenModel context)
+  {
+    UniqueEList<ChildCreationData> result = new UniqueEList<ChildCreationData>(getAllChildCreationData(context));
+
+    GenClassImpl baseClass = (GenClassImpl)getProviderExtendsGenClass();
     if (baseClass != null)
     {
-      result.removeAll(baseClass.getChildCreationData(context));
+      result.removeAll(baseClass.getAllChildCreationData(context));
     }
     return result;
   }
