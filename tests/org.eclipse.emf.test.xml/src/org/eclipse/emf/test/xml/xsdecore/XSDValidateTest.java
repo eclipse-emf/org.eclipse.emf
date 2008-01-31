@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.17 2007/11/26 16:16:59 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.18 2008/01/31 15:42:10 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -339,7 +339,6 @@ public class XSDValidateTest extends TestCase
       "XSD: The value 'id:id' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#bad' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#annotated'; expecting annotation | nothing",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#annotation' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#annotated'; expecting nothing",
-      "XSD: The value '##' of attribute 'public' must be of type 'http://www.w3.org/2001/XMLSchema#anyURI'",
       "XSD: The value '##' of attribute 'system' must be of type 'http://www.w3.org/2001/XMLSchema#anyURI'",
       "XSD: The notation may not have duplicate name and target namespace 'http://www.example.com/Bad#badAnnotation'",
       "XSD: The enumeration facet is not permitted in a type based on 'http://www.example.com/Bad#badFacetForType'",
@@ -407,7 +406,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value 'qalified' of attribute 'attributeFormDefault' must be one of qualified, unqualified as constrained by 'http://www.w3.org/2001/XMLSchema#formChoice'",
       "XSD: The value 'restiction' of attribute 'blockDefault' must be one of extension, restriction, substitution as constrained by 'http://www.w3.org/2001/XMLSchema#blockSet_._member_._1_._item'",
       "XSD: The value 'qalified' of attribute 'elementFormDefault' must be one of qualified, unqualified as constrained by 'http://www.w3.org/2001/XMLSchema#formChoice'",
-      "XSD: The value 'exention' of attribute 'finalDefault' must be one of extension, restriction as constrained by 'http://www.w3.org/2001/XMLSchema#reducedDerivationControl'",
+      "XSD: The value 'exention' of attribute 'finalDefault' must be one of extension, restriction, list, union as constrained by 'http://www.w3.org/2001/XMLSchema#typeDerivationControl'",
       "XSD: The value 'id:schema' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The value 'http://www.example.com/Bad##' of attribute 'targetNamespace' must be of type 'http://www.w3.org/2001/XMLSchema#anyURI'",
       "XSD: The attribute may not have duplicate name and target namespace 'http://www.example.com/Bad###a'",
@@ -481,7 +480,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value 'id:list' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The 'itemType' attribute or a contained item type must be present",
       "XSD: Type reference '#undefined' is unresolved",
-      "XSD: The value 'xtension' of attribute 'final' must be of one of the members types of 'http://www.w3.org/2001/XMLSchema#simpleDerivationSet'",
+      "XSD: The value 'xtension' of attribute 'final' must be one of list, union, restriction as constrained by 'http://www.w3.org/2001/XMLSchema#simpleDerivationSet_._member_._1_._item'",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#bad' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#list_._type'; expecting annotation | simpleType | nothing",
       "XSD: The 'itemType' attribute or a contained item type must be present",
       "XSD: Type reference '#undefined' is unresolved",
