@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.29 2007/11/26 12:20:55 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.30 2008/01/31 16:01:23 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1467,11 +1467,12 @@ public class XSDSimpleTypeDefinitionImpl
               {
                 createDiagnostic(XSDDiagnosticSeverity.ERROR_LITERAL, "cos-st-restricts.3.0", theBaseTypeDefinition.getURI());
               }
-              else if (!XSDConstants.isSchemaForSchemaNamespace(getTargetNamespace()) &&
-                        XSDConstants.isAnySimpleType(theMemberTypeDefinition))
-              {
-                createDiagnostic(XSDDiagnosticSeverity.ERROR_LITERAL, "cos-st-retricts.0.2", theMemberTypeDefinition.getURI());
-              }
+              // Apparently this is allowed now.
+              // else if (!XSDConstants.isSchemaForSchemaNamespace(getTargetNamespace()) &&
+              //           XSDConstants.isAnySimpleType(theMemberTypeDefinition))
+              // {
+              //   createDiagnostic(XSDDiagnosticSeverity.ERROR_LITERAL, "cos-st-retricts.0.2", theMemberTypeDefinition.getURI());
+              // }
             }
           }
           if (isCircular())
