@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelValidator.java,v 1.2 2007/10/24 21:45:43 emerks Exp $
+ * $Id: GenModelValidator.java,v 1.3 2008/02/01 17:47:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -153,6 +153,8 @@ public class GenModelValidator extends EObjectValidator
         return validateGenDelegationKind((GenDelegationKind)value, diagnostics, context);
       case GenModelPackage.GEN_JDK_LEVEL:
         return validateGenJDKLevel((GenJDKLevel)value, diagnostics, context);
+      case GenModelPackage.GEN_RUNTIME_VERSION:
+        return validateGenRuntimeVersion((GenRuntimeVersion)value, diagnostics, context);
       default: 
         return true;
     }
@@ -387,6 +389,16 @@ public class GenModelValidator extends EObjectValidator
    * @generated
    */
   public boolean validateGenJDKLevel(GenJDKLevel genJDKLevel, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return true;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateGenRuntimeVersion(GenRuntimeVersion genRuntimeVersion, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactoryImpl.java,v 1.10 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenModelFactoryImpl.java,v 1.11 2008/02/01 17:47:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -116,6 +116,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return createGenDelegationKindFromString(eDataType, initialValue);
       case GenModelPackage.GEN_JDK_LEVEL:
         return createGenJDKLevelFromString(eDataType, initialValue);
+      case GenModelPackage.GEN_RUNTIME_VERSION:
+        return createGenRuntimeVersionFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -141,6 +143,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return convertGenDelegationKindToString(eDataType, instanceValue);
       case GenModelPackage.GEN_JDK_LEVEL:
         return convertGenJDKLevelToString(eDataType, instanceValue);
+      case GenModelPackage.GEN_RUNTIME_VERSION:
+        return convertGenRuntimeVersionToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -373,6 +377,28 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * @generated
    */
   public String convertGenJDKLevelToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GenRuntimeVersion createGenRuntimeVersionFromString(EDataType eDataType, String initialValue)
+  {
+    GenRuntimeVersion result = GenRuntimeVersion.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertGenRuntimeVersionToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

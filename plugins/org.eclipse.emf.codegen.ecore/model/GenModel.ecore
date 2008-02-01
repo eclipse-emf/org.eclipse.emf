@@ -110,6 +110,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tableProviders" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="colorProviders" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fontProviders" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="runtimeVersion" eType="#//GenRuntimeVersion"
+        unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genPackages" upperBound="-1"
         eType="#//GenPackage" containment="true" eOpposite="#//GenPackage/genModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="usedGenPackages" upperBound="-1"
@@ -292,5 +294,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="GenTypeParameter" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreTypeParameter" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//ETypeParameter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GenRuntimeVersion">
+    <eLiterals name="EMF22" literal="2.2"/>
+    <eLiterals name="EMF23" value="1" literal="2.3"/>
+    <eLiterals name="EMF24" value="2" literal="2.4"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.47 2008/01/29 21:12:07 emerks Exp $
+ * $Id: GenModelPackage.java,v 1.48 2008/02/01 17:47:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -745,13 +745,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__FONT_PROVIDERS = GEN_BASE_FEATURE_COUNT + 68;
 
   /**
+   * The feature id for the '<em><b>Runtime Version</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__RUNTIME_VERSION = GEN_BASE_FEATURE_COUNT + 69;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 69;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 70;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -760,7 +769,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 70;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 71;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -769,7 +778,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 71;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 72;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -1811,6 +1820,17 @@ public interface GenModelPackage extends EPackage
 
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion <em>Gen Runtime Version</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenRuntimeVersion()
+   * @generated
+   */
+  int GEN_RUNTIME_VERSION = 19;
+
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel <em>Gen Model</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2578,6 +2598,17 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EAttribute getGenModel_FontProviders();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimeVersion <em>Runtime Version</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Runtime Version</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimeVersion()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_RuntimeVersion();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
@@ -3508,6 +3539,16 @@ public interface GenModelPackage extends EPackage
   EEnum getGenJDKLevel();
 
   /**
+   * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion <em>Gen Runtime Version</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Gen Runtime Version</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion
+   * @generated
+   */
+  EEnum getGenRuntimeVersion();
+
+  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4091,6 +4132,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__FONT_PROVIDERS = eINSTANCE.getGenModel_FontProviders();
+
+    /**
+     * The meta object literal for the '<em><b>Runtime Version</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__RUNTIME_VERSION = eINSTANCE.getGenModel_RuntimeVersion();
 
     /**
      * The meta object literal for the '<em><b>Gen Packages</b></em>' containment reference list feature.
@@ -4815,6 +4864,16 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EEnum GEN_JDK_LEVEL = eINSTANCE.getGenJDKLevel();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion <em>Gen Runtime Version</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenRuntimeVersion()
+     * @generated
+     */
+    EEnum GEN_RUNTIME_VERSION = eINSTANCE.getGenRuntimeVersion();
 
   }
 

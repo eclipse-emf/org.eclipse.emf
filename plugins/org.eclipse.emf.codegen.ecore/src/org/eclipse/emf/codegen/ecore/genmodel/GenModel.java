@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.56 2008/01/15 16:50:28 emerks Exp $
+ * $Id: GenModel.java,v 1.57 2008/02/01 17:47:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -113,6 +113,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isTableProviders <em>Table Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isColorProviders <em>Color Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isFontProviders <em>Font Providers</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimeVersion <em>Runtime Version</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1992,6 +1993,61 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setFontProviders(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Runtime Version</b></em>' attribute.
+   * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.4
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Runtime Version</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion
+   * @see #isSetRuntimeVersion()
+   * @see #unsetRuntimeVersion()
+   * @see #setRuntimeVersion(GenRuntimeVersion)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RuntimeVersion()
+   * @model unsettable="true"
+   * @generated
+   */
+  GenRuntimeVersion getRuntimeVersion();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimeVersion <em>Runtime Version</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Runtime Version</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion
+   * @see #isSetRuntimeVersion()
+   * @see #unsetRuntimeVersion()
+   * @see #getRuntimeVersion()
+   * @generated
+   */
+  void setRuntimeVersion(GenRuntimeVersion value);
+
+  /**
+   * Unsets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimeVersion <em>Runtime Version</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetRuntimeVersion()
+   * @see #getRuntimeVersion()
+   * @see #setRuntimeVersion(GenRuntimeVersion)
+   * @generated
+   */
+  void unsetRuntimeVersion();
+
+  /**
+   * Returns whether the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimeVersion <em>Runtime Version</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Runtime Version</em>' attribute is set.
+   * @see #unsetRuntimeVersion()
+   * @see #getRuntimeVersion()
+   * @see #setRuntimeVersion(GenRuntimeVersion)
+   * @generated
+   */
+  boolean isSetRuntimeVersion();
 
   /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.

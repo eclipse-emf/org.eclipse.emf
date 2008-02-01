@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.92 2008/01/15 16:48:51 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.93 2008/02/01 17:47:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -50,6 +50,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
@@ -175,6 +176,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isTableProviders <em>Table Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isColorProviders <em>Color Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isFontProviders <em>Font Providers</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getRuntimeVersion <em>Runtime Version</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1538,6 +1540,35 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean fontProviders = FONT_PROVIDERS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getRuntimeVersion() <em>Runtime Version</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRuntimeVersion()
+   * @generated NOT
+   * @ordered
+   */
+  protected static final GenRuntimeVersion RUNTIME_VERSION_EDEFAULT = GenRuntimeVersion.VALUES.get(GenRuntimeVersion.VALUES.size() - 1);
+
+  /**
+   * The cached value of the '{@link #getRuntimeVersion() <em>Runtime Version</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRuntimeVersion()
+   * @generated
+   * @ordered
+   */
+  protected GenRuntimeVersion runtimeVersion = RUNTIME_VERSION_EDEFAULT;
+
+  /**
+   * This is true if the Runtime Version attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean runtimeVersionESet;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -6050,6 +6081,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isColorProviders() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
         return isFontProviders() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
+        return getRuntimeVersion();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6283,6 +6316,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
         setFontProviders(((Boolean)newValue).booleanValue());
         return;
+      case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
+        setRuntimeVersion((GenRuntimeVersion)newValue);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         getGenPackages().addAll((Collection<? extends GenPackage>)newValue);
@@ -6512,6 +6548,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
         setFontProviders(FONT_PROVIDERS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
+        unsetRuntimeVersion();
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6670,6 +6709,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return colorProviders != COLOR_PROVIDERS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
         return fontProviders != FONT_PROVIDERS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
+        return isSetRuntimeVersion();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6825,6 +6866,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(colorProviders);
     result.append(", fontProviders: ");
     result.append(fontProviders);
+    result.append(", runtimeVersion: ");
+    if (runtimeVersionESet) result.append(runtimeVersion); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }
@@ -7162,6 +7205,64 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     fontProviders = newFontProviders;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__FONT_PROVIDERS, oldFontProviders, fontProviders));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GenRuntimeVersion getRuntimeVersionGen()
+  {
+    return runtimeVersion;
+  }
+
+  public GenRuntimeVersion getRuntimeVersion()
+  {
+    return 
+      runtimeVersionESet || !GenJDKLevel.JDK14_LITERAL.equals(getComplianceLevel()) ? 
+        getRuntimeVersionGen() :
+        GenRuntimeVersion.EMF22;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setRuntimeVersion(GenRuntimeVersion newRuntimeVersion)
+  {
+    GenRuntimeVersion oldRuntimeVersion = runtimeVersion;
+    runtimeVersion = newRuntimeVersion == null ? RUNTIME_VERSION_EDEFAULT : newRuntimeVersion;
+    boolean oldRuntimeVersionESet = runtimeVersionESet;
+    runtimeVersionESet = true;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__RUNTIME_VERSION, oldRuntimeVersion, runtimeVersion, !oldRuntimeVersionESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetRuntimeVersion()
+  {
+    GenRuntimeVersion oldRuntimeVersion = runtimeVersion;
+    boolean oldRuntimeVersionESet = runtimeVersionESet;
+    runtimeVersion = RUNTIME_VERSION_EDEFAULT;
+    runtimeVersionESet = false;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.UNSET, GenModelPackage.GEN_MODEL__RUNTIME_VERSION, oldRuntimeVersion, RUNTIME_VERSION_EDEFAULT, oldRuntimeVersionESet));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetRuntimeVersion()
+  {
+    return runtimeVersionESet;
   }
 
   public boolean hasModelPluginClass()
@@ -7934,6 +8035,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setTableProviders(oldGenModelVersion.isTableProviders());
     setColorProviders(oldGenModelVersion.isColorProviders());
     setFontProviders(oldGenModelVersion.isFontProviders());
+    
+    if (oldGenModelVersion.isSetRuntimeVersion())
+    {
+      setRuntimeVersion(oldGenModelVersion.getRuntimeVersion());
+    }
   }
 
   public boolean reconcile()

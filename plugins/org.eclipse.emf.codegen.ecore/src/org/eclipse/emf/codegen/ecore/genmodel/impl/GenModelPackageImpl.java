@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.51 2008/01/29 21:12:08 emerks Exp $
+ * $Id: GenModelPackageImpl.java,v 1.52 2008/02/01 17:47:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -36,6 +36,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement;
 
@@ -191,6 +192,13 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @generated
    */
   private EEnum genJDKLevelEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EEnum genRuntimeVersionEEnum = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -981,9 +989,19 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenModel_RuntimeVersion()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(69);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getGenModel_GenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(69);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(70);
   }
 
   /**
@@ -993,7 +1011,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    */
   public EReference getGenModel_UsedGenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(70);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(71);
   }
 
   /**
@@ -1841,6 +1859,16 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EEnum getGenRuntimeVersion()
+  {
+    return genRuntimeVersionEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public GenModelFactory getGenModelFactory()
   {
     return (GenModelFactory)getEFactoryInstance();
@@ -1936,6 +1964,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__TABLE_PROVIDERS);
     createEAttribute(genModelEClass, GEN_MODEL__COLOR_PROVIDERS);
     createEAttribute(genModelEClass, GEN_MODEL__FONT_PROVIDERS);
+    createEAttribute(genModelEClass, GEN_MODEL__RUNTIME_VERSION);
     createEReference(genModelEClass, GEN_MODEL__GEN_PACKAGES);
     createEReference(genModelEClass, GEN_MODEL__USED_GEN_PACKAGES);
 
@@ -2037,6 +2066,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     genResourceKindEEnum = createEEnum(GEN_RESOURCE_KIND);
     genDelegationKindEEnum = createEEnum(GEN_DELEGATION_KIND);
     genJDKLevelEEnum = createEEnum(GEN_JDK_LEVEL);
+    genRuntimeVersionEEnum = createEEnum(GEN_RUNTIME_VERSION);
   }
 
   /**
@@ -2156,6 +2186,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_TableProviders(), ecorePackage.getEBoolean(), "tableProviders", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_ColorProviders(), ecorePackage.getEBoolean(), "colorProviders", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_FontProviders(), ecorePackage.getEBoolean(), "fontProviders", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_RuntimeVersion(), this.getGenRuntimeVersion(), "runtimeVersion", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_GenPackages(), this.getGenPackage(), this.getGenPackage_GenModel(), "genPackages", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_UsedGenPackages(), this.getGenPackage(), null, "usedGenPackages", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2280,6 +2311,11 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK14_LITERAL);
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK50_LITERAL);
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK60_LITERAL);
+
+    initEEnum(genRuntimeVersionEEnum, GenRuntimeVersion.class, "GenRuntimeVersion");
+    addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF22);
+    addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF23);
+    addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF24);
 
     // Create resource
     createResource(eNS_URI);
