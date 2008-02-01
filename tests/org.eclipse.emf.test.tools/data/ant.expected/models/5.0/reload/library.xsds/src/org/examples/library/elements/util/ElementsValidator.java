@@ -1,13 +1,14 @@
 /**
  * This is my code.
  *
- * $Id: ElementsValidator.java,v 1.3 2007/06/06 03:35:14 marcelop Exp $
+ * $Id: ElementsValidator.java,v 1.4 2008/02/01 18:13:11 emerks Exp $
  */
 package org.examples.library.elements.util;
 
 import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.ResourceLocator;
 
 import org.eclipse.emf.ecore.EPackage;
 
@@ -113,7 +114,7 @@ public class ElementsValidator extends EObjectValidator
         return validateBookCategoryObject((BookCategory)value, diagnostics, context);
       case ElementsPackage.UUID:
         return validateUUID((byte[])value, diagnostics, context);
-      default: 
+      default:
         return true;
     }
   }
@@ -178,9 +179,9 @@ public class ElementsValidator extends EObjectValidator
    */
   public boolean validateUUID_MinLength(byte[] uuid, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    int length = uuid.length;  
+    int length = uuid.length;
     boolean result = length >= 16;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinLengthViolation(ElementsPackage.Literals.UUID, uuid, length, 16, diagnostics, context);
     return result;
   }
@@ -193,11 +194,25 @@ public class ElementsValidator extends EObjectValidator
    */
   public boolean validateUUID_MaxLength(byte[] uuid, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    int length = uuid.length;  
+    int length = uuid.length;
     boolean result = length <= 16;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxLengthViolation(ElementsPackage.Literals.UUID, uuid, length, 16, diagnostics, context);
     return result;
+  }
+
+  /**
+   * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ResourceLocator getResourceLocator()
+  {
+    // TODO
+    // Specialize this to return a resource locator for messages specific to this validator.
+    // Ensure that you remove @generated or mark it @generated NOT
+    return super.getResourceLocator();
   }
 
 } //ElementsValidator
