@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.39 2008/01/15 16:51:08 emerks Exp $
+ * $Id: GenModelItemProvider.java,v 1.40 2008/02/01 17:47:21 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -139,6 +139,7 @@ public class GenModelItemProvider
       addTableProvidersPropertyDescriptor(object);
       addColorProvidersPropertyDescriptor(object);
       addFontProvidersPropertyDescriptor(object);
+      addRuntimeVersionPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1639,6 +1640,29 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Runtime Version feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addRuntimeVersionPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_runtimeVersion_feature"),
+         getString("_UI_GenModel_runtimeVersion_description"),
+         GenModelPackage.Literals.GEN_MODEL__RUNTIME_VERSION,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_AllPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1773,6 +1797,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__TABLE_PROVIDERS:
       case GenModelPackage.GEN_MODEL__COLOR_PROVIDERS:
       case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
+      case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
