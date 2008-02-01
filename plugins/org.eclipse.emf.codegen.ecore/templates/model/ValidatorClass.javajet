@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.28 2007/12/22 20:04:40 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.29 2008/02/01 17:47:55 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -443,12 +443,23 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 			if (<%=diagnostics%> != null)
 			{
 				<%=diagnostics%>.add
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE) {%>
+					(createDiagnostic
+						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
+						 DIAGNOSTIC_SOURCE,
+						 0,
+						 "_UI_GenericConstraint_diagnostic",<%=genModel.getNonNLS()%>
+						 new Object[] { "<%=constraint%>", getValueLabel(<%=genDataType.getQualifiedClassifierAccessor()%>, <%=genClassifier.getSafeUncapName()%>, <%=context%>) },<%=genModel.getNonNLS()%>
+						 new Object[] { <%=genClassifier.getSafeUncapName()%> },
+						 context));
+<%} else {%>
 					(new <%=genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic")%>
 						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
 						 DIAGNOSTIC_SOURCE,
 						 0,
 						 <%=genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin")%>.INSTANCE.getString("_UI_GenericConstraint_diagnostic", new Object[] { "<%=constraint%>", getValueLabel(<%=genDataType.getQualifiedClassifierAccessor()%>, <%=genClassifier.getSafeUncapName()%>, <%=context%>) }),<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 						 new Object[] { <%=genClassifier.getSafeUncapName()%> }));
+<%}%>
 			}
 			return false;
 		}
@@ -463,12 +474,23 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 			if (<%=diagnostics%> != null)
 			{
 				<%=diagnostics%>.add
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE) {%>
+					(createDiagnostic
+						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
+						 DIAGNOSTIC_SOURCE,
+						 0,
+						 "_UI_GenericConstraint_diagnostic",<%=genModel.getNonNLS()%>
+						 new Object[] { "<%=constraint%>", getValueLabel(<%=genDataType.getQualifiedClassifierAccessor()%>, <%=genClassifier.getSafeUncapName()%>, <%=context%>) },<%=genModel.getNonNLS()%>
+						 new Object[] { <%=genClassifier.getSafeUncapName()%> },
+						 context));
+<%} else {%>
 					(new <%=genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic")%>
 						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
 						 DIAGNOSTIC_SOURCE,
 						 0,
 						 <%=genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin")%>.INSTANCE.getString("_UI_GenericConstraint_diagnostic", new Object[] { "<%=constraint%>", getValueLabel(<%=genDataType.getQualifiedClassifierAccessor()%>, <%=genClassifier.getSafeUncapName()%>, <%=context%>) }),<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 						 new Object[] { <%=genClassifier.getSafeUncapName()%> }));
+<%}%>
 			}
 			return false;
 		}
@@ -485,12 +507,23 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 			if (<%=diagnostics%> != null)
 			{
 				<%=diagnostics%>.add
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE) {%>
+					(createDiagnostic
+						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
+						 DIAGNOSTIC_SOURCE,
+						 0,
+						 "_UI_GenericConstraint_diagnostic",<%=genModel.getNonNLS()%>
+						 new Object[] { "<%=constraint%>", getObjectLabel(<%=genClassifier.getSafeUncapName()%>, <%=context%>) },<%=genModel.getNonNLS()%>
+						 new Object[] { <%=genClassifier.getSafeUncapName()%> },
+						 context));
+<%} else {%>
 					(new <%=genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic")%>
 						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
 						 DIAGNOSTIC_SOURCE,
 						 0,
 						 <%=genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin")%>.INSTANCE.getString("_UI_GenericConstraint_diagnostic", new Object[] { "<%=constraint%>", getObjectLabel(<%=genClassifier.getSafeUncapName()%>, <%=context%>) }),<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 						 new Object[] { <%=genClassifier.getSafeUncapName()%> }));
+<%}%>
 			}
 			return false;
 		}
@@ -507,12 +540,23 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 			if (<%=diagnostics%> != null)
 			{
 				<%=diagnostics%>.add
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE) {%>
+					(createDiagnostic
+						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
+						 DIAGNOSTIC_SOURCE,
+						 0,
+						 "_UI_GenericConstraint_diagnostic",<%=genModel.getNonNLS()%>
+						 new Object[] { "<%=constraint%>", getObjectLabel(<%=genClassifier.getSafeUncapName()%>, <%=context%>) },<%=genModel.getNonNLS()%>
+						 new Object[] { <%=genClassifier.getSafeUncapName()%> },
+						 context));
+<%} else {%>
 					(new <%=genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic")%>
 						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
 						 DIAGNOSTIC_SOURCE,
 						 0,
 						 <%=genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin")%>.INSTANCE.getString("_UI_GenericConstraint_diagnostic", new Object[] { "<%=constraint%>", getObjectLabel(<%=genClassifier.getSafeUncapName()%>, <%=context%>) }),<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 						 new Object[] { <%=genClassifier.getSafeUncapName()%> }));
+<%}%>
 			}
 			return false;
 		}
@@ -521,6 +565,26 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	}
 
 <%}%>
+<%}%>
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE) {%>
+	/**
+	 * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genModel.getImportedName("org.eclipse.emf.common.util.ResourceLocator")%> getResourceLocator()
+	{
+  <%if (genModel.hasModelPluginClass()) {%>
+		return <%=genModel.getImportedName(genModel.getQualifiedModelPluginClassName())%>.INSTANCE;
+  <%} else {%>
+		// TODO 
+		// Specialize this to return a resource locator for messages specific to this validator.
+		// Ensure that you remove @generated or mark it @generated NOT
+		return super.getResourceLocator();
+  <%}%>
+	}
+
 <%}%>
 } //<%=genPackage.getValidatorClassName()%>
 <%genModel.emitSortedImports();%>
