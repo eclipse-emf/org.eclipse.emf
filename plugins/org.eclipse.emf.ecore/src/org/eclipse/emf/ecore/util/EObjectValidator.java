@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.23 2007/11/03 17:33:34 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.24 2008/02/01 17:48:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -245,20 +245,20 @@ public class EObjectValidator implements EValidator
           if (diagnostics != null)
           {
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  EOBJECT__EVERY_MULTIPCITY_CONFORMS,
-                 getEcoreResourceLocator().getString
-                   ("_UI_FeatureHasTooFewValues_diagnostic",
-                    new Object []
-                      {
-                        getFeatureLabel(eStructuralFeature, context),
-                        getObjectLabel(eObject, context),
-                        new Integer(size),
-                        new Integer(lowerBound)
-                      }),
-                 new Object [] { eObject, eStructuralFeature }));
+                 "_UI_FeatureHasTooFewValues_diagnostic",
+                  new Object []
+                  {
+                    getFeatureLabel(eStructuralFeature, context),
+                    getObjectLabel(eObject, context),
+                    new Integer(size),
+                    new Integer(lowerBound)
+                  },
+                 new Object [] { eObject, eStructuralFeature },
+                 context));
           }
         }
         int upperBound = eStructuralFeature.getUpperBound();
@@ -268,20 +268,20 @@ public class EObjectValidator implements EValidator
           if (diagnostics != null)
           {
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  EOBJECT__EVERY_MULTIPCITY_CONFORMS,
-                 getEcoreResourceLocator().getString
-                   ("_UI_FeatureHasTooManyValues_diagnostic",
-                    new Object []
-                      {
-                        getFeatureLabel(eStructuralFeature, context),
-                        getObjectLabel(eObject, context),
-                        new Integer(size),
-                        new Integer(upperBound)
-                      }),
-                 new Object [] { eObject, eStructuralFeature }));
+                 "_UI_FeatureHasTooManyValues_diagnostic",
+                 new Object []
+                 {
+                   getFeatureLabel(eStructuralFeature, context),
+                   getObjectLabel(eObject, context),
+                   new Integer(size),
+                   new Integer(upperBound)
+                 },
+                 new Object [] { eObject, eStructuralFeature },
+                 context));
           }
         }
       }
@@ -297,20 +297,20 @@ public class EObjectValidator implements EValidator
             if (diagnostics != null)
             {
               diagnostics.add
-                (new BasicDiagnostic
+                (createDiagnostic
                   (Diagnostic.ERROR,
                    DIAGNOSTIC_SOURCE,
                    EOBJECT__EVERY_MULTIPCITY_CONFORMS,
-                   getEcoreResourceLocator().getString
-                     ("_UI_FeatureHasTooManyValues_diagnostic",
-                      new Object []
-                        {
-                          getFeatureLabel(eStructuralFeature, context),
-                          getObjectLabel(eObject, context),
-                          new Integer(size),
-                          new Integer(upperBound)
-                        }),
-                   new Object [] { eObject, eStructuralFeature }));
+                   "_UI_FeatureHasTooManyValues_diagnostic",
+                   new Object []
+                   {
+                     getFeatureLabel(eStructuralFeature, context),
+                     getObjectLabel(eObject, context),
+                     new Integer(size),
+                     new Integer(upperBound)
+                   },
+                   new Object [] { eObject, eStructuralFeature },
+                   context));
             }
           }
         }
@@ -324,14 +324,14 @@ public class EObjectValidator implements EValidator
         if (diagnostics != null)
         {
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                EOBJECT__EVERY_MULTIPCITY_CONFORMS,
-               getEcoreResourceLocator().getString
-                 ("_UI_RequiredFeatureMustBeSet_diagnostic",
-                  new Object [] { getFeatureLabel(eStructuralFeature, context), getObjectLabel(eObject, context) }),
-               new Object [] { eObject, eStructuralFeature }));
+               "_UI_RequiredFeatureMustBeSet_diagnostic",
+               new Object [] { getFeatureLabel(eStructuralFeature, context), getObjectLabel(eObject, context) },
+               new Object [] { eObject, eStructuralFeature },
+               context));
         }
       }
     }
@@ -351,19 +351,19 @@ public class EObjectValidator implements EValidator
         if (diagnostics != null)
         {
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                EOBJECT__EVERY_PROXY_RESOLVES,
-               getEcoreResourceLocator().getString
-                 ("_UI_UnresolvedProxy_diagnostic",
-                  new Object []
-                    {
-                      getFeatureLabel(i.feature(), context),
-                      getObjectLabel(eObject, context),
-                      getObjectLabel(eCrossReferenceObject, context)
-                    }),
-               new Object [] { eObject, i.feature(), eCrossReferenceObject }));
+               "_UI_UnresolvedProxy_diagnostic",
+               new Object []
+               {
+                 getFeatureLabel(i.feature(), context),
+                 getObjectLabel(eObject, context),
+                 getObjectLabel(eCrossReferenceObject, context)
+               },
+               new Object [] { eObject, i.feature(), eCrossReferenceObject },
+               context));
         }
         else
         {
@@ -388,19 +388,19 @@ public class EObjectValidator implements EValidator
           if (diagnostics != null)
           {
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  EOBJECT__EVERY_REFERENCE_IS_CONTAINED,
-                 getEcoreResourceLocator().getString
-                   ("_UI_DanglingReference_diagnostic",
-                    new Object []
-                      {
-                        getFeatureLabel(i.feature(), context),
-                        getObjectLabel(eObject, context),
-                        getObjectLabel(eCrossReferenceObject, context)
-                      }),
-                 new Object [] { eObject, i.feature(), eCrossReferenceObject }));
+                 "_UI_DanglingReference_diagnostic",
+                 new Object []
+                 {
+                   getFeatureLabel(i.feature(), context),
+                   getObjectLabel(eObject, context),
+                   getObjectLabel(eCrossReferenceObject, context)
+                 },
+                 new Object [] { eObject, i.feature(), eCrossReferenceObject },
+                 context));
           }
           else
           {
@@ -506,18 +506,18 @@ public class EObjectValidator implements EValidator
     (EObject eObject, EAttribute eAttribute, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     BasicDiagnostic diagnostic =
-      new BasicDiagnostic
+      createDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          EOBJECT__EVERY_DATA_VALUE_CONFORMS,
-         getEcoreResourceLocator().getString
-           ("_UI_BadDataValue_diagnostic",
-            new Object []
-              {
-                getFeatureLabel(eAttribute, context),
-                getObjectLabel(eObject, context)
-              }),
-         new Object [] { eObject, eAttribute });
+         "_UI_BadDataValue_diagnostic",
+         new Object []
+         {
+           getFeatureLabel(eAttribute, context),
+           getObjectLabel(eObject, context)
+         },
+         new Object [] { eObject, eAttribute },
+         context);
     diagnostics.add(diagnostic);
     return diagnostic;
   }
@@ -928,112 +928,112 @@ public class EObjectValidator implements EValidator
     (EDataType eDataType, Object value, Object bound, boolean isInclusive, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
-      (new BasicDiagnostic
+      (createDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__VALUE_IN_RANGE,
-         getEcoreResourceLocator().getString
-           (isInclusive ? "_UI_MinInclusiveConstraint_diagnostic" : "_UI_MinExclusiveConstraint_diagnostic",
-            new Object []
-              {
-                getValueLabel(eDataType, value, context),
-                isInclusive ? ">=" : ">",
-                getValueLabel(eDataType, bound, context)
-              }),
-         new Object [] { value, bound, isInclusive ? Boolean.TRUE : Boolean.FALSE }));
+         isInclusive ? "_UI_MinInclusiveConstraint_diagnostic" : "_UI_MinExclusiveConstraint_diagnostic",
+         new Object []
+         {
+           getValueLabel(eDataType, value, context),
+           isInclusive ? ">=" : ">",
+           getValueLabel(eDataType, bound, context)
+         },
+         new Object [] { value, bound, isInclusive ? Boolean.TRUE : Boolean.FALSE },
+         context));
   }
 
   protected void reportMaxViolation
     (EDataType eDataType, Object value, Object bound, boolean isInclusive, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
-      (new BasicDiagnostic
+      (createDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__VALUE_IN_RANGE,
-         getEcoreResourceLocator().getString
-           (isInclusive ? "_UI_MaxInclusiveConstraint_diagnostic" : "_UI_MaxExclusiveConstraint_diagnostic",
-            new Object []
-              {
-                getValueLabel(eDataType, value, context),
-                "<",
-                getValueLabel(eDataType, bound, context)
-              }),
-         new Object [] { value, bound, isInclusive ? Boolean.TRUE : Boolean.FALSE }));
+         isInclusive ? "_UI_MaxInclusiveConstraint_diagnostic" : "_UI_MaxExclusiveConstraint_diagnostic",
+         new Object []
+         {
+           getValueLabel(eDataType, value, context),
+           "<",
+           getValueLabel(eDataType, bound, context)
+         },
+         new Object [] { value, bound, isInclusive ? Boolean.TRUE : Boolean.FALSE },
+         context));
   }
 
   protected void reportMinLengthViolation
     (EDataType eDataType, Object value, int length, int bound, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
-      (new BasicDiagnostic
+      (createDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__LENGTH_IN_RANGE,
-         getEcoreResourceLocator().getString
-           ("_UI_MinLengthConstraint_diagnostic",
-            new Object []
-              {
-                getValueLabel(eDataType, value, context),
-                Integer.toString(length),
-                Integer.toString(bound)
-              }),
-         new Object [] { value, eDataType, new Integer(length), new Integer(bound) }));
+         "_UI_MinLengthConstraint_diagnostic",
+         new Object []
+         {
+           getValueLabel(eDataType, value, context),
+           Integer.toString(length),
+           Integer.toString(bound)
+         },
+         new Object [] { value, eDataType, new Integer(length), new Integer(bound) },
+         context));
   }
 
   protected void reportMaxLengthViolation
     (EDataType eDataType, Object value, int length, int bound, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
-      (new BasicDiagnostic
+      (createDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__LENGTH_IN_RANGE,
-         getEcoreResourceLocator().getString
-           ("_UI_MaxLengthConstraint_diagnostic",
-            new Object []
-              {
-                getValueLabel(eDataType, value, context),
-                Integer.toString(length),
-                Integer.toString(bound)
-              }),
-         new Object [] { value, eDataType, new Integer(length), new Integer(bound) }));
+         "_UI_MaxLengthConstraint_diagnostic",
+         new Object []
+         {
+           getValueLabel(eDataType, value, context),
+           Integer.toString(length),
+           Integer.toString(bound)
+         },
+         new Object [] { value, eDataType, new Integer(length), new Integer(bound) },
+         context));
   }
 
   protected void reportTotalDigitsViolation
     (EDataType eDataType, Object value, int totalDigits, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
-      (new BasicDiagnostic
+      (createDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__TOTAL_DIGITS_IN_RANGE,
-         getEcoreResourceLocator().getString
-           ("_UI_TotalDigitsConstraint_diagnostic",
-            new Object []
-              {
-                getValueLabel(eDataType, value, context),
-                new Integer(totalDigits)
-              }),
-         new Object [] { value, eDataType, new Integer(totalDigits) }));
+         "_UI_TotalDigitsConstraint_diagnostic",
+         new Object []
+         {
+           getValueLabel(eDataType, value, context),
+           new Integer(totalDigits)
+         },
+         new Object [] { value, eDataType, new Integer(totalDigits) },
+         context));
   }
 
   protected void reportFractionDigitsViolation
     (EDataType eDataType, Object value, int fractionDigits, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
-      (new BasicDiagnostic
+      (createDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__TOTAL_DIGITS_IN_RANGE,
-         getEcoreResourceLocator().getString
-           ("_UI_FractionDigitsConstraint_diagnostic",
-            new Object []
-              {
-                getValueLabel(eDataType, value, context),
-                new Integer(fractionDigits)
-              }),
-         new Object [] { value, eDataType, new Integer(fractionDigits) }));
+         "_UI_FractionDigitsConstraint_diagnostic",
+         new Object []
+         {
+           getValueLabel(eDataType, value, context),
+           new Integer(fractionDigits)
+         },
+         new Object [] { value, eDataType, new Integer(fractionDigits) },
+         context));
   }
 
   protected void reportEnumerationViolation
@@ -1054,18 +1054,18 @@ public class EObjectValidator implements EValidator
       }
     }
     diagnostics.add
-      (new BasicDiagnostic
+      (createDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__VALUE_IN_ENUMERATION,
-         getEcoreResourceLocator().getString
-           ("_UI_EnumerationConstraint_diagnostic",
-            new Object []
-              {
-                getValueLabel(eDataType, value, context),
-                valueLiterals
-              }),
-         new Object [] { value, eDataType, values }));
+         "_UI_EnumerationConstraint_diagnostic",
+         new Object []
+         {
+           getValueLabel(eDataType, value, context),
+           valueLiterals
+         },
+         new Object [] { value, eDataType, values },
+         context));
   }
 
   protected void reportDataValuePatternViolation
@@ -1082,37 +1082,37 @@ public class EObjectValidator implements EValidator
     }
 
     diagnostics.add
-      (new BasicDiagnostic
+      (createDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__MATCHES_PATTERN,
-         getEcoreResourceLocator().getString
-           ("_UI_PatternConstraint_diagnostic",
-            new Object []
-              {
-                getValueLabel(eDataType, value, context),
-                patternLiterals
-              }),
-         new Object [] { value, eDataType, patterns }));
+         "_UI_PatternConstraint_diagnostic",
+         new Object []
+         {
+           getValueLabel(eDataType, value, context),
+           patternLiterals
+         },
+         new Object [] { value, eDataType, patterns },
+         context));
   }
 
   protected void reportDataValueTypeViolation
     (EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
-      (new BasicDiagnostic
+      (createDiagnostic
         (Diagnostic.ERROR,
          DIAGNOSTIC_SOURCE,
          DATA_VALUE__TYPE_CORRECT,
-         getEcoreResourceLocator().getString
-           ("_UI_BadDataValueType_diagnostic",
-            new Object []
-              {
-                getValueLabel(eDataType, value, context),
-                value == null ? "<null>" : value.getClass().getName(),
-                eDataType.getInstanceClass().getName()
-              }),
-         new Object [] { value, eDataType }));
+         "_UI_BadDataValueType_diagnostic",
+         new Object []
+         {
+           getValueLabel(eDataType, value, context),
+           value == null ? "<null>" : value.getClass().getName(),
+           eDataType.getInstanceClass().getName()
+         },
+         new Object [] { value, eDataType },
+         context));
   }
 
   protected static Collection<Object> wrapEnumerationValues(Object [] values)
@@ -1137,19 +1137,19 @@ public class EObjectValidator implements EValidator
         {
           // ...
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                EOBJECT__UNIQUE_ID,
-               getEcoreResourceLocator().getString
-                 ("_UI_DuplicateID_diagnostic",
-                  new Object []
-                    {
-                      id,
-                      getObjectLabel(eObject, context),
-                      getObjectLabel(otherEObject, context)
-                    }),
-               new Object [] { eObject, otherEObject, id }));
+               "_UI_DuplicateID_diagnostic",
+               new Object []
+               {
+                 id,
+                 getObjectLabel(eObject, context),
+                 getObjectLabel(otherEObject, context)
+               },
+               new Object [] { eObject, otherEObject, id },
+               context));
         }
       }
     }
@@ -1234,20 +1234,20 @@ public class EObjectValidator implements EValidator
             uriFragmentSegment = uriFragmentSegment.substring(index);
           }
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                EOBJECT__EVERY_KEY_UNIQUE,
-               getEcoreResourceLocator().getString
-                 ("_UI_DuplicateKey_diagnostic",
-                  new Object []
-                    {
-                      getFeatureLabel(eReference, context),
-                      uriFragmentSegment,
-                      getObjectLabel(value, context),
-                      getObjectLabel(otherValue, context)
-                    }),
-               new Object [] { eObject, eReference, value, otherValue }));
+               "_UI_DuplicateKey_diagnostic",
+               new Object []
+               {
+                 getFeatureLabel(eReference, context),
+                 uriFragmentSegment,
+                 getObjectLabel(value, context),
+                 getObjectLabel(otherValue, context)
+               },
+               new Object [] { eObject, eReference, value, otherValue },
+               context));
         }
       }
     }
@@ -1313,19 +1313,19 @@ public class EObjectValidator implements EValidator
           else
           {
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  EOBJECT__EVERY_MAP_ENTRY_UNIQUE,
-                 getEcoreResourceLocator().getString
-                   ("_UI_DuplicateMapEntry_diagnostic",
-                    new Object []
-                      {
-                        getFeatureLabel(eReference, context),
-                        i,
-                        index
-                      }),
-                 new Object [] { eObject, eReference, entry, eMap.get(index) }));
+                 "_UI_DuplicateMapEntry_diagnostic",
+                 new Object []
+                 {
+                   getFeatureLabel(eReference, context),
+                   i,
+                   index
+                 },
+                 new Object [] { eObject, eReference, entry, eMap.get(index) },
+                 context));
           }
         }
       }
@@ -1335,10 +1335,81 @@ public class EObjectValidator implements EValidator
   }
 
   /**
+   * Creates a new {@link BasicDiagnostic#BasicDiagnostic(int, String, int, String, Object[]) basic diagnostic}.
+   * If the source is {@link #DIAGNOSTIC_SOURCE "org.eclipse.emf.ecore"}, 
+   * it calls {@link #getEcoreString(String, Object[])};
+   * otherwise it calls {@link #getString(String, Object[])}.
+   * @param severity an indicator of the severity of the problem.
+   * @param source the unique identifier of the source.
+   * @param code the source-specific identity code.
+   * @param messageKey the key of the message.
+   * @param messageSubstitutions the substitutions for the key; <code>null</code> if there are no substitutions.
+   * @param data the data associated with the diagnostic
+   * @param context a place to cache information, if it's <code>null</code>, no cache is supported.
+   * @return a new diagnostic.
+   * @see BasicDiagnostic#BasicDiagnostic(int, String, int, String, Object[])
+   * @since 2.4
+   */
+  protected BasicDiagnostic createDiagnostic
+    (int severity, String source, int code, String messageKey, Object[] messageSubstitutions, Object[] data, Map<Object, Object> context)
+  {
+    String message =
+      DIAGNOSTIC_SOURCE.equals(source) ?
+        getEcoreString(messageKey, messageSubstitutions) :
+        getString(messageKey, messageSubstitutions);
+    return new BasicDiagnostic(severity, source, code, message, data);
+  }
+
+  /**
+   * Returns a translated message with the given substitutions.
+   * The {@link #getEcoreResourceLocator() Ecore resource locator} is used.
+   * @param key the key for the message.
+   * @param substitutions the substitutions for the key; <code>null</code> if there are no substitutions.
+   * @return the message.
+   * @since 2.4
+   */
+  protected String getEcoreString(String key, Object [] substitutions)
+  {
+    return getString(getEcoreResourceLocator(), key, substitutions);
+  }
+
+  /**
+   * Returns the resource locator for {@link #getEcoreString(String, Object[]) fetching} Ecore-specific messages.
+   * @return the resource locator for fetching Ecore-specific messages.
    * @since 2.2
    */
   protected ResourceLocator getEcoreResourceLocator()
   {
     return EcorePlugin.INSTANCE;
+  }
+
+  /**
+   * Returns a translated message with the given substitutions.
+   * The {@link #getResourceLocator() resource locator} is used.
+   * @param key the key for the message.
+   * @param substitutions the substitutions for the key; <code>null</code> if there are no substitutions.
+   * @return the message.
+   * @since 2.4
+   */
+  protected String getString(String key, Object [] substitutions)
+  {
+    return getString("_UI_GenericConstraint_diagnostic".equals(key) ? getEcoreResourceLocator() : getResourceLocator(), key, substitutions);
+  }
+
+  /**
+   * Returns the resource locator for {@link #getString(String, Object[]) fetching} model-specific messages.
+   * This implementation returns the {@link #getEcoreResourceLocator() Ecore resource locator};
+   * derived validators <b>must</b> override this to return the resource locator for their model.
+   * @return the resource locator for fetching model-specific messages.
+   * @since 2.4
+   */
+  protected ResourceLocator getResourceLocator()
+  {
+    return getEcoreResourceLocator();
+  }
+
+  private String getString(ResourceLocator resourceLocator, String key, Object [] substitutions)
+  {
+    return substitutions == null ? resourceLocator.getString(key) : resourceLocator.getString(key, substitutions);
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.28 2008/01/20 16:30:52 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.29 2008/02/01 17:48:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Enumerator;
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -535,12 +536,14 @@ public class EcoreValidator extends EObjectValidator
         attributeName = eAttribute.getEContainingClass().getName() + "." + attributeName;
       }
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            CONSISTENT_TRANSIENT,
-           EcorePlugin.INSTANCE.getString("_UI_EAttributeConsistentTransient_diagnostic", new String[] {attributeName}),
-           new Object[] { eAttribute }));
+           "_UI_EAttributeConsistentTransient_diagnostic", 
+           new String[] {attributeName},
+           new Object[] { eAttribute },
+           context));
     }
     return result;
   }
@@ -590,14 +593,14 @@ public class EcoreValidator extends EObjectValidator
     if (!result && diagnostics != null)
     {
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            WELL_FORMED_SOURCE_URI,
-           EcorePlugin.INSTANCE.getString
-             ("_UI_EAnnotationSourceURINotWellFormed_diagnostic",
-              new Object[] { source }),
-           new Object[] { eAnnotation }));
+           "_UI_EAnnotationSourceURINotWellFormed_diagnostic",
+           new Object[] { source },
+           new Object[] { eAnnotation },
+           context));
     }
     return result;
   }
@@ -665,12 +668,14 @@ public class EcoreValidator extends EObjectValidator
     if (!result && diagnostics != null)
     {
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            INTERFACE_IS_ABSTRACT,
-           EcorePlugin.INSTANCE.getString("_UI_EClassInterfaceNotAbstract_diagnostic"),
-           new Object[] { eClass }));
+           "_UI_EClassInterfaceNotAbstract_diagnostic",
+           null,
+           new Object[] { eClass },
+           context));
     }
     return result;
   }
@@ -717,14 +722,14 @@ public class EcoreValidator extends EObjectValidator
               }
             }
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  AT_MOST_ONE_ID,
-                 EcorePlugin.INSTANCE.getString
-                   ("_UI_EClassAtMostOneID_diagnostic",
-                    new Object[] { getFeatureLabel(eIDAttribute, context), getFeatureLabel(eAttribute, context) }),
-                 new Object[] { eClass, eAttribute, eIDAttribute }));
+                 "_UI_EClassAtMostOneID_diagnostic",
+                 new Object[] { getFeatureLabel(eIDAttribute, context), getFeatureLabel(eAttribute, context) },
+                 new Object[] { eClass, eAttribute, eIDAttribute },
+                 context));
           }
         }
       }
@@ -810,14 +815,14 @@ public class EcoreValidator extends EObjectValidator
                 //
                 String otherName = otherEStructuralFeature.getName();
                 diagnostics.add
-                  (new BasicDiagnostic
+                  (createDiagnostic
                     (name.equals(otherName) ? Diagnostic.ERROR : Diagnostic.WARNING,
                      DIAGNOSTIC_SOURCE,
                      UNIQUE_FEATURE_NAMES,
-                     name.equals(otherName) ?
-                       EcorePlugin.INSTANCE.getString("_UI_EClassUniqueEStructuralFeatureName_diagnostic",  new Object[] { name }) :
-                       EcorePlugin.INSTANCE.getString("_UI_EClassDissimilarEStructuralFeatureName_diagnostic",  new Object[] { name, otherName }),
-                     new Object[] { eClass, eStructuralFeature, otherEStructuralFeature }));
+                     name.equals(otherName) ? "_UI_EClassUniqueEStructuralFeatureName_diagnostic" : "_UI_EClassDissimilarEStructuralFeatureName_diagnostic",
+                     name.equals(otherName) ?  new Object[] { name } :  new Object[] { name, otherName },
+                     new Object[] { eClass, eStructuralFeature, otherEStructuralFeature },
+                     context));
               }
             }
           }
@@ -840,10 +845,10 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEClass_UniqueOperationSignatures(EClass eClass, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    return UNIQUE_OPERATION_SIGNATURES_VALIDATOR.validateEOperationSignatures(eClass, eClass.getEOperations(), eClass.getEOperations(), diagnostics, context);
+    return uniqueOperationSignaturesValidator.validateEOperationSignatures(eClass, eClass.getEOperations(), eClass.getEOperations(), diagnostics, context);
   }
 
-  private static class EOperationSignatureValidator
+  private class EOperationSignatureValidator
   {
     protected String messageKey;
     protected int messageCode;
@@ -932,14 +937,14 @@ public class EcoreValidator extends EObjectValidator
                       result = false;
   
                       diagnostics.add
-                        (new BasicDiagnostic
+                        (createDiagnostic
                           (Diagnostic.ERROR,
                            DIAGNOSTIC_SOURCE,
                            messageCode,
-                           EcorePlugin.INSTANCE.getString
-                             (messageKey,
-                              new Object[] { getObjectLabel(eOperation, context), getObjectLabel(getTarget(otherEOperation), context) }),
-                           new Object[] { eClass, eOperation, getTarget(otherEOperation) }));
+                           messageKey,
+                           new Object[] { getObjectLabel(eOperation, context), getObjectLabel(getTarget(otherEOperation), context) },
+                           new Object[] { eClass, eOperation, getTarget(otherEOperation) },
+                           context));
                     }
                   }
                 }
@@ -957,7 +962,7 @@ public class EcoreValidator extends EObjectValidator
     }
   }
   
-  private static final EOperationSignatureValidator UNIQUE_OPERATION_SIGNATURES_VALIDATOR =
+  private final EOperationSignatureValidator uniqueOperationSignaturesValidator =
     new EOperationSignatureValidator("_UI_EClassUniqueEOperationSignatures_diagnostic",UNIQUE_OPERATION_SIGNATURES);
 
   /**
@@ -1055,14 +1060,14 @@ public class EcoreValidator extends EObjectValidator
                     }
 
                     diagnostics.add
-                      (new BasicDiagnostic
+                      (createDiagnostic
                         (Diagnostic.ERROR,
                          DIAGNOSTIC_SOURCE,
                          UNIQUE_OPERATION_SIGNATURES,
-                         EcorePlugin.INSTANCE.getString
-                           ("_UI_EClassUniqueEOperationSignatures_diagnostic",
-                            new Object[] { getObjectLabel(eOperation, context), getObjectLabel(otherEOperation, context) }),
-                         new Object[] { eClass, eOperation, otherEOperation }));
+                         "_UI_EClassUniqueEOperationSignatures_diagnostic",
+                         new Object[] { getObjectLabel(eOperation, context), getObjectLabel(otherEOperation, context) },
+                         new Object[] { eClass, eOperation, otherEOperation },
+                         context));
                   }
                 }
               }
@@ -1099,12 +1104,14 @@ public class EcoreValidator extends EObjectValidator
     if (!result && diagnostics != null)
     {
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            NO_CIRCULAR_SUPER_TYPES,
-           EcorePlugin.INSTANCE.getString("_UI_EClassNoCircularSuperTypes_diagnostic"),
-           new Object[] { eClass }));
+           "_UI_EClassNoCircularSuperTypes_diagnostic",
+           null,
+           new Object[] { eClass },
+           context));
     }
     return result;
   }
@@ -1132,12 +1139,14 @@ public class EcoreValidator extends EObjectValidator
         {
           result = false;
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                WELL_FORMED_MAP_ENTRY_CLASS,
-               EcorePlugin.INSTANCE.getString("_UI_EClassNotWellFormedMapEntry_diagnostic", new Object[] { "key" }),
-               new Object[] { eClass }));
+               "_UI_EClassNotWellFormedMapEntry_diagnostic",
+               new Object[] { "key" },
+               new Object[] { eClass },
+               context));
         }
       }
       EStructuralFeature valueFeature = eClass.getEStructuralFeature("value");
@@ -1151,12 +1160,14 @@ public class EcoreValidator extends EObjectValidator
         {
           result = false;
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                WELL_FORMED_MAP_ENTRY_CLASS,
-               EcorePlugin.INSTANCE.getString("_UI_EClassNotWellFormedMapEntry_diagnostic", new Object[] { "value" }),
-               new Object[] { eClass }));
+               "_UI_EClassNotWellFormedMapEntry_diagnostic", 
+               new Object[] { "value" },
+               new Object[] { eClass },
+               context));
         }
       }
     }
@@ -1174,12 +1185,14 @@ public class EcoreValidator extends EObjectValidator
           {
             result = false;
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  WELL_FORMED_MAP_ENTRY_NO_INSTANCE_CLASS_NAME,
-                 EcorePlugin.INSTANCE.getString("_UI_EClassNotWellFormedMapEntryNoInstanceClassName_diagnostic"),
-                 new Object[] { eClass }));
+                 "_UI_EClassNotWellFormedMapEntryNoInstanceClassName_diagnostic",
+                 null,
+                 new Object[] { eClass },
+                 context));
           }
         }
       }
@@ -1225,14 +1238,14 @@ public class EcoreValidator extends EObjectValidator
           {
             result = false;
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  CONSISTENT_SUPER_TYPES_DUPLICATE,
-                 EcorePlugin.INSTANCE.getString
-                   ("_UI_EClassNoDuplicateSuperTypes_diagnostic",
-                    new Object [] { eGenericSuperTypes.indexOf(eGenericSuperType), index }),
-                 new Object[] { eClass, eGenericSuperType,  eGenericSuperTypes.get(index) }));
+                 "_UI_EClassNoDuplicateSuperTypes_diagnostic",
+                 new Object [] { eGenericSuperTypes.indexOf(eGenericSuperType), index },
+                 new Object[] { eClass, eGenericSuperType,  eGenericSuperTypes.get(index) },
+                 context));
           }
         }
       }
@@ -1259,14 +1272,14 @@ public class EcoreValidator extends EObjectValidator
             {
               result = false;
               diagnostics.add
-                (new BasicDiagnostic
+                (createDiagnostic
                   (Diagnostic.ERROR,
                    DIAGNOSTIC_SOURCE,
                    CONSISTENT_SUPER_TYPES_CONFLICT,
-                   EcorePlugin.INSTANCE.getString
-                     ("_UI_EClassConsistentSuperTypes_diagnostic",
-                      new Object [] { getObjectLabel(eClassifier, context) }),
-                   new Object[] { eClass, eGenericSuperType,  eAllGenericSuperTypes.get(index) }));
+                   "_UI_EClassConsistentSuperTypes_diagnostic",
+                   new Object [] { getObjectLabel(eClassifier, context) },
+                   new Object[] { eClass, eGenericSuperType,  eAllGenericSuperTypes.get(index) },
+                   context));
             }
           }
         }
@@ -1388,10 +1401,38 @@ public class EcoreValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public boolean validateEClassifier_WellFormedInstanceTypeName(EClassifier eClassifier, DiagnosticChain diagnostics, Map<Object, Object> context)
+  public boolean validateEClassifier_WellFormedInstanceTypeName(EClassifier eClassifier, DiagnosticChain diagnostics, final Map<Object, Object> context)
   {
     String instanceTypeName = eClassifier.getInstanceTypeName();
-    Diagnostic typeBuilderDiagnostic = instanceTypeName == null ? null :  EGenericTypeBuilder.INSTANCE.parseInstanceTypeName(instanceTypeName);
+    Diagnostic typeBuilderDiagnostic = 
+      instanceTypeName == null ? 
+        null : 
+        new EGenericTypeBuilder()
+        {
+          @Override
+          protected BasicDiagnostic createDiagnostic(int severity, String source, int code, String messageKey, Object[] messageSubstitutions, Object[] data)
+          {
+            return EcoreValidator.this.createDiagnostic(severity, source, code, messageKey, messageSubstitutions, data, context);
+          }
+
+          @Override
+          protected ResourceLocator getResourceLocator()
+          {
+            return EcoreValidator.this.getResourceLocator();
+          }
+
+          @Override
+          protected String getString(String key, Object[] substitutions)
+          {
+            return EcoreValidator.this.getString(key, substitutions);
+          }
+
+          @Override
+          protected void report(DiagnosticChain diagnostics, String key, Object[] substitutions, int index)
+          {
+            EcoreValidator.this.report(diagnostics, key, substitutions, index, context);
+          }
+        }.parseInstanceTypeName(instanceTypeName);
     String formattedName = null;
     boolean result =
       instanceTypeName != null ?
@@ -1401,14 +1442,14 @@ public class EcoreValidator extends EObjectValidator
     if (!result && diagnostics != null)
     {
       BasicDiagnostic diagnosic =
-        new BasicDiagnostic
+        createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            WELL_FORMED_INSTANCE_TYPE_NAME,
-           EcorePlugin.INSTANCE.getString
-             ("_UI_EClassifierInstanceTypeNameNotWellFormed_diagnostic",
-              new Object[] { getValueLabel(EcorePackage.Literals.ESTRING, instanceTypeName, context) }),
-           new Object[] { eClassifier });
+           "_UI_EClassifierInstanceTypeNameNotWellFormed_diagnostic",
+           new Object[] { getValueLabel(EcorePackage.Literals.ESTRING, instanceTypeName, context) },
+           new Object[] { eClassifier },
+           context);
       if (typeBuilderDiagnostic != null)
       {
         if (!typeBuilderDiagnostic.getChildren().isEmpty())
@@ -1431,14 +1472,14 @@ public class EcoreValidator extends EObjectValidator
           }
           
           diagnosic.add
-           (new BasicDiagnostic
+           (createDiagnostic
              (Diagnostic.ERROR,
               DIAGNOSTIC_SOURCE,
               WELL_FORMED_INSTANCE_TYPE_NAME,
-              EcorePlugin.INSTANCE.getString
-                (instanceTypeName.codePointAt(i) == ' ' ? "_UI_EClassifierInstanceTypeNameUnexpectedSpace_diagnostic" : "_UI_EClassifierInstanceTypeNameExpectedSpace_diagnostic",
-                 new Object[] { i }),
-              new Object[] { i }));
+              instanceTypeName.codePointAt(i) == ' ' ? "_UI_EClassifierInstanceTypeNameUnexpectedSpace_diagnostic" : "_UI_EClassifierInstanceTypeNameExpectedSpace_diagnostic",
+              new Object[] { i },
+              new Object[] { i },
+              context));
         }
       }
       diagnostics.add(diagnosic);
@@ -1474,12 +1515,14 @@ public class EcoreValidator extends EObjectValidator
             result = false;
             ETypeParameter otherETypeParameter = eTypeParameters.get(index);
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  UNIQUE_TYPE_PARAMETER_NAMES,
-                 EcorePlugin.INSTANCE.getString("_UI_UniqueTypeParameterNames_diagnostic",  new Object[] { name }),
-                 new Object[] { eClassifier, eTypeParameter, otherETypeParameter }));
+                 "_UI_UniqueTypeParameterNames_diagnostic", 
+                 new Object[] { name },
+                 new Object[] { eClassifier, eTypeParameter, otherETypeParameter },
+                 context));
           }
         }
       }
@@ -1567,14 +1610,14 @@ public class EcoreValidator extends EObjectValidator
             EEnumLiteral otherEEnumLiteral = eLiterals.get(index);
             String otherName = otherEEnumLiteral.getName();
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (name.equals(otherName) ? Diagnostic.ERROR : Diagnostic.WARNING,
                  DIAGNOSTIC_SOURCE,
                  UNIQUE_ENUMERATOR_NAMES,
-                 name.equals(otherName) ?
-                   EcorePlugin.INSTANCE.getString("_UI_EEnumUniqueEnumeratorNames_diagnostic",  new Object[] { name }) :
-                   EcorePlugin.INSTANCE.getString("_UI_EEnumDissimilarEnumeratorNames_diagnostic",  new Object[] { name, otherName }),
-                 new Object[] { eEnum, eEnumLiteral, otherEEnumLiteral }));
+                 name.equals(otherName) ? "_UI_EEnumUniqueEnumeratorNames_diagnostic" : "_UI_EEnumDissimilarEnumeratorNames_diagnostic",
+                 name.equals(otherName) ? new Object[] { name } : new Object[] { name, otherName },
+                 new Object[] { eEnum, eEnumLiteral, otherEEnumLiteral },
+                 context));
           }
         }
         names.add(key);
@@ -1617,12 +1660,14 @@ public class EcoreValidator extends EObjectValidator
             if (name == null || !name.equals(literal) || !name.equals(otherEEnumLiteral.getName()))
             {
               diagnostics.add
-                (new BasicDiagnostic
+                (createDiagnostic
                   (Diagnostic.ERROR,
                    DIAGNOSTIC_SOURCE,
                    UNIQUE_ENUMERATOR_LITERALS,
-                   EcorePlugin.INSTANCE.getString("_UI_EEnumUniqueEnumeratorLiterals_diagnostic",  new Object[] { literal }),
-                   new Object[] { eEnum, eEnumLiteral, otherEEnumLiteral }));
+                   "_UI_EEnumUniqueEnumeratorLiterals_diagnostic", 
+                   new Object[] { literal },
+                   new Object[] { eEnum, eEnumLiteral, otherEEnumLiteral },
+                   context));
             }
           }
         }
@@ -1721,14 +1766,14 @@ public class EcoreValidator extends EObjectValidator
     if (!result && diagnostics != null)
     {
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            WELL_FORMED_NAME,
-           EcorePlugin.INSTANCE.getString
-             ("_UI_ENamedElementNameNotWellFormed_diagnostic",
-               new Object[] { getValueLabel(EcorePackage.Literals.ESTRING, name, context) }),
-           new Object[] { eNamedElement }));
+           "_UI_ENamedElementNameNotWellFormed_diagnostic",
+           new Object[] { getValueLabel(EcorePackage.Literals.ESTRING, name, context) },
+           new Object[] { eNamedElement },
+           context));
     }
 
     return result;
@@ -1798,12 +1843,14 @@ public class EcoreValidator extends EObjectValidator
             result = false;
             EParameter otherEParameter = eParameters.get(index);
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  UNIQUE_PARAMETER_NAMES,
-                 EcorePlugin.INSTANCE.getString("_UI_EOperationUniqueParameterNames_diagnostic",  new Object[] { name }),
-                 new Object[] { eOperation, eParameter, otherEParameter }));
+                 "_UI_EOperationUniqueParameterNames_diagnostic", 
+                 new Object[] { name },
+                 new Object[] { eOperation, eParameter, otherEParameter },
+                 context));
           }
         }
       }
@@ -1840,12 +1887,14 @@ public class EcoreValidator extends EObjectValidator
             result = false;
             ETypeParameter otherETypeParameter = eTypeParameters.get(index);
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  UNIQUE_TYPE_PARAMETER_NAMES,
-                 EcorePlugin.INSTANCE.getString("_UI_UniqueTypeParameterNames_diagnostic",  new Object[] { name }),
-                 new Object[] { eOperation, eTypeParameter, otherETypeParameter }));
+                 "_UI_UniqueTypeParameterNames_diagnostic", 
+                 new Object[] { name },
+                 new Object[] { eOperation, eTypeParameter, otherETypeParameter },
+                 context));
           }
         }
       }
@@ -1868,12 +1917,14 @@ public class EcoreValidator extends EObjectValidator
     if (!result && diagnostics != null)
     {
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            NO_REPEATING_VOID,
-           EcorePlugin.INSTANCE.getString("_UI_EOperationNoRepeatingVoid_diagnostic", new Object [] { upperBound }),
-           new Object[] { eOperation }));
+           "_UI_EOperationNoRepeatingVoid_diagnostic", 
+           new Object [] { upperBound },
+           new Object[] { eOperation },
+           context));
     }
     return result;
   }
@@ -1915,12 +1966,14 @@ public class EcoreValidator extends EObjectValidator
     if (!result && diagnostics != null)
     {
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            WELL_FORMED_NS_URI,
-           EcorePlugin.INSTANCE.getString("_UI_EPackageNsURINotWellFormed_diagnostic",  new Object[] { nsURI }),
-           new Object[] { ePackage }));
+           "_UI_EPackageNsURINotWellFormed_diagnostic",
+           new Object[] { nsURI },
+           new Object[] { ePackage },
+           context));
     }
     return result;
   }
@@ -1946,14 +1999,14 @@ public class EcoreValidator extends EObjectValidator
     if (!result && diagnostics != null)
     {
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            WELL_FORMED_NS_PREFIX,
-           EcorePlugin.INSTANCE.getString
-             ("_UI_EPackageNsPrefixNotWellFormed_diagnostic",
-              new Object[] { nsPrefix }),
-           new Object[] { ePackage }));
+           "_UI_EPackageNsPrefixNotWellFormed_diagnostic",
+           new Object[] { nsPrefix },
+           new Object[] { ePackage },
+           context));
     }
     return result;
   }
@@ -1987,12 +2040,14 @@ public class EcoreValidator extends EObjectValidator
             result = false;
             EPackage otherESubpackage = eSubpackages.get(index);
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  UNIQUE_SUBPACKAGE_NAMES,
-                 EcorePlugin.INSTANCE.getString("_UI_EPackageUniqueSubpackageNames_diagnostic",  new Object[] { name }),
-                 new Object[] { ePackage, eSubpackage, otherESubpackage }));
+                 "_UI_EPackageUniqueSubpackageNames_diagnostic", 
+                 new Object[] { name },
+                 new Object[] { ePackage, eSubpackage, otherESubpackage },
+                 context));
           }
         }
       }
@@ -2034,14 +2089,14 @@ public class EcoreValidator extends EObjectValidator
             EClassifier otherEClassifier = eClassifiers.get(index);
             String otherName = otherEClassifier.getName();
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (name.equals(otherName) ? Diagnostic.ERROR : Diagnostic.WARNING,
                  DIAGNOSTIC_SOURCE,
                  UNIQUE_CLASSIFIER_NAMES,
-                 name.equals(otherName) ?
-                   EcorePlugin.INSTANCE.getString("_UI_EPackageUniqueClassifierNames_diagnostic",  new Object[] { name }) :
-                   EcorePlugin.INSTANCE.getString("_UI_EPackageDissimilarClassifierNames_diagnostic",  new Object[] { name, otherName }),
-                 new Object[] { ePackage, eClassifier, otherEClassifier }));
+                 name.equals(otherName) ? "_UI_EPackageUniqueClassifierNames_diagnostic" : "_UI_EPackageDissimilarClassifierNames_diagnostic",
+                 name.equals(otherName) ? new Object[] { name } : new Object[] { name, otherName },
+                 new Object[] { ePackage, eClassifier, otherEClassifier },
+                 context));
           }
         }
         names.add(key);
@@ -2092,12 +2147,14 @@ public class EcoreValidator extends EObjectValidator
           {
             result = false;
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  UNIQUE_NS_URIS,
-                 EcorePlugin.INSTANCE.getString("_UI_EPackageUniqueNsURIs_diagnostic", new Object[] { nsURI }),
-                 new Object[] { ePackage, otherEPackage }));
+                 "_UI_EPackageUniqueNsURIs_diagnostic", 
+                 new Object[] { nsURI },
+                 new Object[] { ePackage, otherEPackage },
+                 context));
           }
         }
       }
@@ -2185,12 +2242,14 @@ public class EcoreValidator extends EObjectValidator
           {
             result = false;
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  CONSISTENT_OPPOSITE_NOT_MATCHING,
-                 EcorePlugin.INSTANCE.getString("_UI_EReferenceOppositeOfOppositeInconsistent_diagnostic"),
-                 new Object[] { eReference, eOpposite, oppositeEOpposite }));
+                 "_UI_EReferenceOppositeOfOppositeInconsistent_diagnostic",
+                 null,
+                 new Object[] { eReference, eOpposite, oppositeEOpposite },
+                 context));
           }
         }
         EClassifier eType = eReference.getEType();
@@ -2207,12 +2266,14 @@ public class EcoreValidator extends EObjectValidator
             {
               result = false;
               diagnostics.add
-                (new BasicDiagnostic
+                (createDiagnostic
                   (Diagnostic.ERROR,
                    DIAGNOSTIC_SOURCE,
                    CONSISTENT_OPPOSITE_NOT_FROM_TYPE,
-                   EcorePlugin.INSTANCE.getString("_UI_EReferenceOppositeNotFeatureOfType_diagnostic"),
-                   new Object[] { eReference, eOpposite, eType }));
+                   "_UI_EReferenceOppositeNotFeatureOfType_diagnostic",
+                   null,
+                   new Object[] { eReference, eOpposite, eType },
+                   context));
             }
           }
         }
@@ -2227,12 +2288,14 @@ public class EcoreValidator extends EObjectValidator
         if (diagnostics != null && !result)
         {
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                CONSISTENT_OPPOSITE_BAD_TRANSIENT,
-               EcorePlugin.INSTANCE.getString("_UI_EReferenceTransientOppositeNotTransient_diagnostic"),
-               new Object[] { eReference, eOpposite }));
+               "_UI_EReferenceTransientOppositeNotTransient_diagnostic",
+               null,
+               new Object[] { eReference, eOpposite },
+               context));
         }
       }
       if (result)
@@ -2241,12 +2304,14 @@ public class EcoreValidator extends EObjectValidator
         if (diagnostics != null && !result)
         {
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                CONSISTENT_OPPOSITE_BOTH_CONTAINMENT,
-               EcorePlugin.INSTANCE.getString("_UI_EReferenceOppositeBothContainment_diagnostic"),
-               new Object[] { eReference, eOpposite }));
+               "_UI_EReferenceOppositeBothContainment_diagnostic",
+               null,
+               new Object[] { eReference, eOpposite },
+               context));
         }
       }
     }
@@ -2266,14 +2331,14 @@ public class EcoreValidator extends EObjectValidator
     if (diagnostics != null && !result)
     {
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            SINGLE_CONTAINER,
-           EcorePlugin.INSTANCE.getString
-             ("_UI_EReferenceSingleContainer_diagnostic",
-               new Object[] { eReference.getUpperBound() }),
-           new Object[] { eReference }));
+           "_UI_EReferenceSingleContainer_diagnostic",
+           new Object[] { eReference.getUpperBound() },
+           new Object[] { eReference },
+           context));
     }
     return result;
   }
@@ -2307,14 +2372,14 @@ public class EcoreValidator extends EObjectValidator
             {
               result = false;
               diagnostics.add
-                (new BasicDiagnostic
+                (createDiagnostic
                   (Diagnostic.ERROR,
                    DIAGNOSTIC_SOURCE,
                    CONSISTENT_KEYS,
-                   EcorePlugin.INSTANCE.getString
-                     ("_UI_EReferenceConsistentKeys_diagnostic",
-                      new Object[] { getObjectLabel(eAttribute, context) }),
-                   new Object[] { eReference, eAttribute }));
+                   "_UI_EReferenceConsistentKeys_diagnostic",
+                   new Object[] { getObjectLabel(eAttribute, context) },
+                   new Object[] { eReference, eAttribute },
+                   context));
             }
           }
         }
@@ -2385,12 +2450,14 @@ public class EcoreValidator extends EObjectValidator
     if (diagnostics != null && !result)
     {
       BasicDiagnostic diagnostic =
-        new BasicDiagnostic
+        createDiagnostic
          (Diagnostic.ERROR,
           DIAGNOSTIC_SOURCE,
           VALID_LOWER_BOUND,
-          EcorePlugin.INSTANCE.getString("_UI_EStructuralFeatureValidDefaultValueLiteral_diagnostic", new Object[] { defaultValueLiteral }),
-          new Object[] { eStructuralFeature });
+          "_UI_EStructuralFeatureValidDefaultValueLiteral_diagnostic",
+          new Object[] { defaultValueLiteral },
+          new Object[] { eStructuralFeature },
+          context);
       if (defaultValue != null)
       {
         getRootEValidator(context).validate(eDataType, defaultValue, diagnostic, context);
@@ -2472,12 +2539,14 @@ public class EcoreValidator extends EObjectValidator
     if (diagnostics != null && !result)
     {
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            VALID_LOWER_BOUND,
-           EcorePlugin.INSTANCE.getString("_UI_ETypedElementValidLowerBound_diagnostic", new Object[] { lowerBound } ),
-           new Object[] { eTypedElement }));
+           "_UI_ETypedElementValidLowerBound_diagnostic",
+           new Object[] { lowerBound },
+           new Object[] { eTypedElement },
+           context));
     }
     return result;
   }
@@ -2502,12 +2571,14 @@ public class EcoreValidator extends EObjectValidator
     if (diagnostics != null && !result)
     {
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            VALID_UPPER_BOUND,
-           EcorePlugin.INSTANCE.getString("_UI_ETypedElementValidUpperBound_diagnostic", new Object[] { upperBound } ),
-           new Object[] { eTypedElement }));
+           "_UI_ETypedElementValidUpperBound_diagnostic",
+           new Object[] { upperBound },
+           new Object[] { eTypedElement },
+           context));
     }
     return result;
   }
@@ -2529,12 +2600,14 @@ public class EcoreValidator extends EObjectValidator
     if (diagnostics != null && !result)
     {
       diagnostics.add
-        (new BasicDiagnostic
+        (createDiagnostic
           (Diagnostic.ERROR,
            DIAGNOSTIC_SOURCE,
            CONSISTENT_BOUNDS,
-           EcorePlugin.INSTANCE.getString("_UI_ETypedElementConsistentBounds_diagnostic", new Object[] { lowerBound, upperBound } ),
-           new Object[] { eTypedElement }));
+           "_UI_ETypedElementConsistentBounds_diagnostic", 
+           new Object[] { lowerBound, upperBound },
+           new Object[] { eTypedElement },
+           context));
     }
     return result;
   }
@@ -2556,12 +2629,14 @@ public class EcoreValidator extends EObjectValidator
       if (diagnostics != null)
       {
         diagnostics.add
-          (new BasicDiagnostic
+          (createDiagnostic
             (Diagnostic.ERROR,
              DIAGNOSTIC_SOURCE,
              VALID_TYPE,
-             EcorePlugin.INSTANCE.getString("_UI_ETypedElementNoType_diagnostic"),
-             new Object[] { eTypedElement }));
+             "_UI_ETypedElementNoType_diagnostic",
+             null,
+             new Object[] { eTypedElement },
+             context));
       }
     }
     return result;
@@ -2638,12 +2713,14 @@ public class EcoreValidator extends EObjectValidator
         {
           result = false;
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
                (Diagnostic.ERROR,
                 DIAGNOSTIC_SOURCE,
                 CONSISTENT_TYPE_NO_TYPE_PARAMETER_AND_CLASSIFIER,
-                EcorePlugin.INSTANCE.getString("_UI_EGenericTypeNoTypeParameterAndClassifier_diagnostic"),
-                new Object[] { eGenericType }));
+                "_UI_EGenericTypeNoTypeParameterAndClassifier_diagnostic",
+                null,
+                new Object[] { eGenericType },
+                context));
         }
       }
       
@@ -2682,12 +2759,14 @@ public class EcoreValidator extends EObjectValidator
         {
           result = false;
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
                (Diagnostic.ERROR,
                 DIAGNOSTIC_SOURCE,
                 CONSISTENT_TYPE_TYPE_PARAMETER_NOT_IN_SCOPE,
-                EcorePlugin.INSTANCE.getString("_UI_EGenericTypeOutOfScopeTypeParameter_diagnostic"),
-                new Object[] { eGenericType }));
+                "_UI_EGenericTypeOutOfScopeTypeParameter_diagnostic",
+                null,
+                new Object[] { eGenericType },
+                context));
         }
       }
     }
@@ -2707,12 +2786,14 @@ public class EcoreValidator extends EObjectValidator
         {
           result = false;
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                CONSISTENT_TYPE_CLASS_REQUIRED,
-               EcorePlugin.INSTANCE.getString("_UI_EGenericTypeNoClass_diagnostic"),
-               new Object[] { eGenericType }));
+               "_UI_EGenericTypeNoClass_diagnostic",
+               null,
+               new Object[] { eGenericType },
+               context));
         }
       }
     }
@@ -2732,12 +2813,14 @@ public class EcoreValidator extends EObjectValidator
           {
             result = false;
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  CONSISTENT_TYPE_WILDCARD_NOT_PERMITTED,
-                 EcorePlugin.INSTANCE.getString("_UI_EGenericTypeNoTypeParameterOrClassifier_diagnostic"),
-                 new Object[] { eGenericType }));
+                 "_UI_EGenericTypeNoTypeParameterOrClassifier_diagnostic",
+                 null,
+                 new Object[] { eGenericType },
+                 context));
           }
         }
       }
@@ -2756,12 +2839,14 @@ public class EcoreValidator extends EObjectValidator
         {
           result = false;
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                CONSISTENT_TYPE_WILDCARD_NOT_PERMITTED,
-               EcorePlugin.INSTANCE.getString("_UI_EGenericTypeNoTypeParameterOrClassifier_diagnostic"),
-               new Object[] { eGenericType }));
+               "_UI_EGenericTypeNoTypeParameterOrClassifier_diagnostic",
+               null,
+               new Object[] { eGenericType },
+               context));
         }
       }
       else if (eClassifier != null)
@@ -2783,12 +2868,14 @@ public class EcoreValidator extends EObjectValidator
               {
                 result = false;
                 diagnostics.add
-                  (new BasicDiagnostic
+                  (createDiagnostic
                     (Diagnostic.ERROR,
                      DIAGNOSTIC_SOURCE,
                      CONSISTENT_TYPE_CLASS_NOT_PERMITTED,
-                     EcorePlugin.INSTANCE.getString("_UI_EAttributeNoDataType_diagnostic"),
-                     new Object[] { eGenericType }));
+                     "_UI_EAttributeNoDataType_diagnostic",
+                     null,
+                     new Object[] { eGenericType },
+                     context));
               }
             }
           }
@@ -2806,12 +2893,14 @@ public class EcoreValidator extends EObjectValidator
               {
                 result = false;
                 diagnostics.add
-                  (new BasicDiagnostic
+                  (createDiagnostic
                     (Diagnostic.ERROR,
                      DIAGNOSTIC_SOURCE,
                      CONSISTENT_TYPE_DATA_TYPE_NOT_PERMITTED,
-                     EcorePlugin.INSTANCE.getString("_UI_EReferenceNoClass_diagnostic"),
-                     new Object[] { eGenericType }));
+                     "_UI_EReferenceNoClass_diagnostic",
+                     null,
+                     new Object[] { eGenericType },
+                     context));
               }
             }
           }
@@ -2841,12 +2930,14 @@ public class EcoreValidator extends EObjectValidator
         {
           result = false;
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                CONSISTENT_TYPE_PRIMITIVE_TYPE_NOT_PERMITTED,
-               EcorePlugin.INSTANCE.getString("_UI_EGenericTypeInvalidPrimitiveType_diagnostic", new Object[] { instanceClassName }),
-               new Object[] { eGenericType }));
+               "_UI_EGenericTypeInvalidPrimitiveType_diagnostic",
+               new Object[] { instanceClassName },
+               new Object[] { eGenericType },
+               context));
         }
       }
     }
@@ -2886,12 +2977,14 @@ public class EcoreValidator extends EObjectValidator
           {
             result = false;
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  CONSISTENT_BOUNDS_NO_LOWER_AND_UPPER,
-                 EcorePlugin.INSTANCE.getString("_UI_EGenericTypeNoUpperAndLowerBound_diagnostic"),
-                 new Object[] { eGenericType }));
+                 "_UI_EGenericTypeNoUpperAndLowerBound_diagnostic",
+                 null,
+                 new Object[] { eGenericType },
+                 context));
           }
         }
 
@@ -2907,12 +3000,14 @@ public class EcoreValidator extends EObjectValidator
           {
             result = false;
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  CONSISTENT_BOUNDS_NO_BOUNDS_WITH_TYPE_PARAMETER_OR_CLASSIFIER,
-                 EcorePlugin.INSTANCE.getString("_UI_EGenericTypeNoTypeParameterOrClassifierAndBound_diagnostic"),
-                 new Object[] { eGenericType }));
+                 "_UI_EGenericTypeNoTypeParameterOrClassifierAndBound_diagnostic",
+                 null,
+                 new Object[] { eGenericType },
+                 context));
           }
         }
       }
@@ -2928,12 +3023,14 @@ public class EcoreValidator extends EObjectValidator
         {
           result = false;
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                CONSISTENT_BOUNDS_NOT_ALLOWED,
-               EcorePlugin.INSTANCE.getString("_UI_EGenericTypeBoundsOnlyForTypeArgument_diagnostic"),
-               new Object[] { eGenericType }));
+               "_UI_EGenericTypeBoundsOnlyForTypeArgument_diagnostic",
+               null,
+               new Object[] { eGenericType },
+               context));
         }
       }
     }
@@ -2970,13 +3067,14 @@ public class EcoreValidator extends EObjectValidator
         {
           result = false;
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                CONSISTENT_ARGUMENTS_NONE_ALLOWED,
-               EcorePlugin.INSTANCE.getString("_UI_EGenericTypeNoArguments_diagnostic"),
-               new Object[] { eGenericType }));
-
+               "_UI_EGenericTypeNoArguments_diagnostic",
+               null,
+               new Object[] { eGenericType },
+               context));
         }
       }
     }
@@ -2998,12 +3096,14 @@ public class EcoreValidator extends EObjectValidator
           {
             result = false;
             diagnostics.add
-              (new BasicDiagnostic
+              (createDiagnostic
                 (Diagnostic.WARNING,
                  DIAGNOSTIC_SOURCE,
                  CONSISTENT_ARGUMENTS_NONE,
-                 EcorePlugin.INSTANCE.getString("_UI_EGenericTypeArgumentsNeeded_diagnostic", new Object [] { eClassifier.getName(), eTypeParameterSize }),
-                 new Object[] { eGenericType }));
+                 "_UI_EGenericTypeArgumentsNeeded_diagnostic",
+                 new Object [] { eClassifier.getName(), eTypeParameterSize },
+                 new Object[] { eGenericType },
+                 context));
 
           }
         }
@@ -3020,13 +3120,14 @@ public class EcoreValidator extends EObjectValidator
         {
           result = false;
           diagnostics.add
-            (new BasicDiagnostic
+            (createDiagnostic
               (Diagnostic.ERROR,
                DIAGNOSTIC_SOURCE,
                CONSISTENT_ARGUMENTS_INCORRECT_NUMBER,
-               EcorePlugin.INSTANCE.getString
-                 ("_UI_EGenericTypeIncorrectArguments_diagnostic", new Object [] { eClassifier.getName(), eTypeArgumentSize, eTypeParameterSize }),
-               new Object[] { eGenericType }));
+               "_UI_EGenericTypeIncorrectArguments_diagnostic", 
+               new Object [] { eClassifier.getName(), eTypeArgumentSize, eTypeParameterSize },
+               new Object[] { eGenericType },
+               context));
 
         }
       }
@@ -3051,18 +3152,18 @@ public class EcoreValidator extends EObjectValidator
             {
               result = false;
               diagnostics.add
-                (new BasicDiagnostic
+                (createDiagnostic
                   (Diagnostic.ERROR,
                    DIAGNOSTIC_SOURCE,
                    CONSISTENT_ARGUMENTS_INVALID_SUBSTITUTION,
-                   EcorePlugin.INSTANCE.getString
-                     ("_UI_EGenericTypeArgumentInvalidSubstitution_diagnostic", 
-                       new Object [] 
-                       { 
-                         getObjectLabel(eTypeArgument, context), 
-                         getObjectLabel(eTypeParameter, context) 
-                       }),
-                   new Object[] { eGenericType, eTypeArgument, eTypeParameter }));
+                   "_UI_EGenericTypeArgumentInvalidSubstitution_diagnostic", 
+                    new Object [] 
+                    { 
+                      getObjectLabel(eTypeArgument, context), 
+                      getObjectLabel(eTypeParameter, context) 
+                    },
+                   new Object[] { eGenericType, eTypeArgument, eTypeParameter },
+                   context));
     
             }
           }
@@ -3945,18 +4046,19 @@ public class EcoreValidator extends EObjectValidator
      */
     public Diagnostic parseInstanceTypeName(final String instanceTypeName)
     {
-      return
-        new BasicDiagnostic()
-        {
-          {
-            source = DIAGNOSTIC_SOURCE;
-            code = WELL_FORMED_INSTANCE_TYPE_NAME;
-            message = EcorePlugin.INSTANCE.getString("_UI_EClassifierInstanceTypeNameAnalysisResult_diagnostic", new Object [] { instanceTypeName });
-            char [] instanceTypeNameCharacterArray = instanceTypeName.toCharArray();
-            EGenericType eGenericType = handleInstanceTypeName(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, this);
-            data = dataAsList(new Object [] { eGenericType, instanceTypeName });
-          }
-        };
+      BasicDiagnostic placeholder = new BasicDiagnostic();
+      char [] instanceTypeNameCharacterArray = instanceTypeName.toCharArray();
+      EGenericType eGenericType = handleInstanceTypeName(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, placeholder);
+      BasicDiagnostic result =
+        createDiagnostic
+          (placeholder.getSeverity(),
+           DIAGNOSTIC_SOURCE, 
+           WELL_FORMED_INSTANCE_TYPE_NAME,
+           "_UI_EClassifierInstanceTypeNameAnalysisResult_diagnostic", 
+           new Object [] { instanceTypeName },
+           new Object [] { eGenericType, instanceTypeName });
+      result.addAll(placeholder);
+      return result;
     }
 
     /**
@@ -3967,18 +4069,19 @@ public class EcoreValidator extends EObjectValidator
      */
     public Diagnostic parseTypeParameterList(final String typeParameterList)
     {
-      return
-        new BasicDiagnostic()
-        {
-          {
-            source = DIAGNOSTIC_SOURCE;
-            code = WELL_FORMED_INSTANCE_TYPE_NAME;
-            message = EcorePlugin.INSTANCE.getString("_UI_EClassifierInstanceTypeNameAnalysisResult_diagnostic", new Object [] { typeParameterList });
-            char [] instanceTypeNameCharacterArray = typeParameterList.toCharArray();
-            List<ETypeParameter> eTypeParameters = handleTypeParameters(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, this);
-            data = dataAsList(new Object [] { eTypeParameters, typeParameterList });
-          }
-        };
+      BasicDiagnostic placeholder = new BasicDiagnostic();
+      char [] instanceTypeNameCharacterArray = typeParameterList.toCharArray();
+      List<ETypeParameter> eTypeParameters = handleTypeParameters(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, placeholder);
+      BasicDiagnostic result =
+        createDiagnostic
+          (placeholder.getSeverity(),
+           DIAGNOSTIC_SOURCE,
+           WELL_FORMED_INSTANCE_TYPE_NAME,
+           "_UI_EClassifierInstanceTypeNameAnalysisResult_diagnostic",
+           new Object [] { typeParameterList },
+           new Object [] { eTypeParameters, typeParameterList });
+      result.addAll(placeholder);
+      return result;
     }
 
     /**
@@ -3989,18 +4092,19 @@ public class EcoreValidator extends EObjectValidator
      */
     public Diagnostic parseTypeParameter(final String typeParameter)
     {
-      return
-        new BasicDiagnostic()
-        {
-          {
-            source = DIAGNOSTIC_SOURCE;
-            code = WELL_FORMED_INSTANCE_TYPE_NAME;
-            message = EcorePlugin.INSTANCE.getString("_UI_EClassifierInstanceTypeNameAnalysisResult_diagnostic", new Object [] { typeParameter });
-            char [] instanceTypeNameCharacterArray = typeParameter.toCharArray();
-            ETypeParameter eTypeParameter = handleTypeParameter(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, this);
-            data = dataAsList(new Object [] { eTypeParameter, typeParameter });
-          }
-        };
+      BasicDiagnostic placeholder = new BasicDiagnostic();
+      char [] instanceTypeNameCharacterArray = typeParameter.toCharArray();
+      ETypeParameter eTypeParameter = handleTypeParameter(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, placeholder);
+      BasicDiagnostic result =
+        createDiagnostic
+          (placeholder.getSeverity(),
+           DIAGNOSTIC_SOURCE,
+           WELL_FORMED_INSTANCE_TYPE_NAME,
+           "_UI_EClassifierInstanceTypeNameAnalysisResult_diagnostic",
+           new Object [] { typeParameter },
+           new Object [] { eTypeParameter, typeParameter });
+      result.addAll(placeholder);
+      return result;
     }
 
     /**
@@ -4014,7 +4118,19 @@ public class EcoreValidator extends EObjectValidator
       eDataType.setInstanceTypeName(instanceTypeName);
       return eDataType;
     }
-    
+
+    /**
+     * Creates a new diagnostic for a problem at the given index.
+     * @param diagnostics the target for the new diagnostic.
+     * @param key the key for the message.
+     * @param substitutions the substitutions for the key; <code>null</code> if there are no substitutions.
+     * @param index the index at which the problem occurred.
+     */
+    protected void report(DiagnosticChain diagnostics, String key, Object [] substitutions, int index)
+    {
+      report(diagnostics, getString(key, substitutions), index);
+    }
+
     /**
      * Creates a new diagnostic for a problem at the given index.
      * @param diagnostics the target for the new diagnostic.
@@ -4069,9 +4185,8 @@ public class EcoreValidator extends EObjectValidator
           {
             report
               (diagnostics, 
-               EcorePlugin.INSTANCE.getString
-                 ("_UI_EClassifierInstanceTypeNameBracketWithoutPrecedingIdentifier_diagnostic", 
-                  new Object [] { i }), 
+               "_UI_EClassifierInstanceTypeNameBracketWithoutPrecedingIdentifier_diagnostic", 
+               new Object [] { i }, 
                i);
             return eGenericType;
           }
@@ -4090,18 +4205,16 @@ public class EcoreValidator extends EObjectValidator
               {
                 report
                   (diagnostics, 
-                   EcorePlugin.INSTANCE.getString
-                     ("_UI_EClassifierInstanceTypeNameNoClosingBracket2_diagnostic", 
-                      new Object [] { j, new String(Character.toChars(codePoint))}), 
+                   "_UI_EClassifierInstanceTypeNameNoClosingBracket2_diagnostic", 
+                   new Object [] { j, new String(Character.toChars(codePoint))}, 
                    j);
                 return eGenericType;
               }
             }
             report
               (diagnostics, 
-               EcorePlugin.INSTANCE.getString
-                 ("_UI_EClassifierInstanceTypeNameNoClosingBracket_diagnostic", 
-                  new Object [] { end }), 
+               "_UI_EClassifierInstanceTypeNameNoClosingBracket_diagnostic", 
+               new Object [] { end }, 
                end);
             return eGenericType;
           }
@@ -4112,9 +4225,8 @@ public class EcoreValidator extends EObjectValidator
           {
             report
               (diagnostics, 
-               EcorePlugin.INSTANCE.getString
-                 ("_UI_EClassifierInstanceTypeNameBracketExpected_diagnostic", 
-                  new Object [] { i, new String(Character.toChars(codePoint))}), 
+               "_UI_EClassifierInstanceTypeNameBracketExpected_diagnostic", 
+               new Object [] { i, new String(Character.toChars(codePoint))}, 
                i);
             return eGenericType;
           }
@@ -4127,9 +4239,8 @@ public class EcoreValidator extends EObjectValidator
             {
               report
                 (diagnostics, 
-                 EcorePlugin.INSTANCE.getString
-                   ("_UI_EClassifierInstanceTypeNameDotWithoutPrecedingIdentifier_diagnostic", 
-                    new Object [] { i }), 
+                 "_UI_EClassifierInstanceTypeNameDotWithoutPrecedingIdentifier_diagnostic", 
+                 new Object [] { i }, 
                  i);
               return eGenericType;
             }
@@ -4154,9 +4265,8 @@ public class EcoreValidator extends EObjectValidator
             {
               report
                 (diagnostics, 
-                 EcorePlugin.INSTANCE.getString
-                   ("_UI_EClassifierInstanceTypeNameDotExpectedBeforeIdentifier_diagnostic", 
-                    new Object [] { i }), 
+                 "_UI_EClassifierInstanceTypeNameDotExpectedBeforeIdentifier_diagnostic", 
+                 new Object [] { i }, 
                  i);
               return eGenericType;
             }
@@ -4187,9 +4297,8 @@ public class EcoreValidator extends EObjectValidator
           {
             report
               (diagnostics, 
-               EcorePlugin.INSTANCE.getString
-                 ("_UI_EClassifierInstanceTypeNameAngleBracketWithoutPrecedingIdentifier_diagnostic", 
-                  new Object [] { i }), 
+               "_UI_EClassifierInstanceTypeNameAngleBracketWithoutPrecedingIdentifier_diagnostic", 
+               new Object [] { i }, 
                i);
             return eGenericType;
           }
@@ -4204,9 +4313,8 @@ public class EcoreValidator extends EObjectValidator
           }
           report
             (diagnostics, 
-             EcorePlugin.INSTANCE.getString
-               ("_UI_EClassifierInstanceTypeNameUnterminatedAngleBracket_diagnostic", 
-                new Object [] { i }), 
+             "_UI_EClassifierInstanceTypeNameUnterminatedAngleBracket_diagnostic", 
+             new Object [] { i }, 
              i);
           return eGenericType;
         }
@@ -4214,9 +4322,8 @@ public class EcoreValidator extends EObjectValidator
         {
           report
             (diagnostics, 
-             EcorePlugin.INSTANCE.getString
-               ("_UI_EClassifierInstanceTypeNameUnexpectedCharacter_diagnostic", 
-                new Object [] { i, new String(Character.toChars(codePoint)) }), 
+             "_UI_EClassifierInstanceTypeNameUnexpectedCharacter_diagnostic", 
+             new Object [] { i, new String(Character.toChars(codePoint)) }, 
              i);
           return eGenericType;
         }
@@ -4226,10 +4333,9 @@ public class EcoreValidator extends EObjectValidator
       {
         report
           (diagnostics, 
-           EcorePlugin.INSTANCE.getString
-             ("_UI_EClassifierInstanceTypeNameExpectingIdentifier_diagnostic", 
-              new Object [] { end }), 
-             end);
+           "_UI_EClassifierInstanceTypeNameExpectingIdentifier_diagnostic", 
+           new Object [] { end }, 
+           end);
       }
       else
       {
@@ -4359,10 +4465,9 @@ public class EcoreValidator extends EObjectValidator
             {
               report
                 (diagnostics, 
-                 EcorePlugin.INSTANCE.getString
-                   ("_UI_EClassifierInstanceTypeNameTooManyQuestionMarks_diagnostic", 
-                    new Object [] { i }), 
-                   i);
+                 "_UI_EClassifierInstanceTypeNameTooManyQuestionMarks_diagnostic", 
+                 new Object [] { i }, 
+                 i);
               break LOOP;
             }
           }
@@ -4388,10 +4493,9 @@ public class EcoreValidator extends EObjectValidator
               {
                 report
                   (diagnostics, 
-                   EcorePlugin.INSTANCE.getString
-                     ("_UI_EClassifierInstanceTypeNameExpectingExtends_diagnostic", 
-                      new Object [] { i }), 
-                     i);
+                   "_UI_EClassifierInstanceTypeNameExpectingExtends_diagnostic", 
+                   new Object [] { i }, 
+                   i);
               }
             }
             else
@@ -4420,10 +4524,9 @@ public class EcoreValidator extends EObjectValidator
               {
                 report
                   (diagnostics, 
-                   EcorePlugin.INSTANCE.getString
-                     ("_UI_EClassifierInstanceTypeNameExpectingSuper_diagnostic", 
-                      new Object [] { i }), 
-                     i);
+                   "_UI_EClassifierInstanceTypeNameExpectingSuper_diagnostic", 
+                   new Object [] { i },
+                   i);
               }
             }
             else
@@ -4442,10 +4545,9 @@ public class EcoreValidator extends EObjectValidator
             {
               report
                 (diagnostics, 
-                 EcorePlugin.INSTANCE.getString
-                   ("_UI_EClassifierInstanceTypeNameExpectingExtendsOrSuper_diagnostic", 
-                    new Object [] { i }), 
-                   i);
+                 "_UI_EClassifierInstanceTypeNameExpectingExtendsOrSuper_diagnostic", 
+                 new Object [] { i }, 
+                 i);
               break LOOP;
             }
             else
@@ -4462,10 +4564,9 @@ public class EcoreValidator extends EObjectValidator
         eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
         report
           (diagnostics, 
-           EcorePlugin.INSTANCE.getString
-             ("_UI_EClassifierInstanceTypeNameTypeArgumentExpected_diagnostic", 
-              new Object [] { firstNonWhiteSpaceIndex }), 
-             firstNonWhiteSpaceIndex);
+           "_UI_EClassifierInstanceTypeNameTypeArgumentExpected_diagnostic", 
+           new Object [] { firstNonWhiteSpaceIndex }, 
+           firstNonWhiteSpaceIndex);
       }
       return eGenericType;
     }
@@ -4526,10 +4627,9 @@ public class EcoreValidator extends EObjectValidator
       {
         report
           (diagnostics, 
-           EcorePlugin.INSTANCE.getString
-             ("_UI_EClassifierInstanceTypeNameUnterminatedAngleBracket_diagnostic", 
-              new Object [] { start }), 
-              start);
+           "_UI_EClassifierInstanceTypeNameUnterminatedAngleBracket_diagnostic", 
+           new Object [] { start }, 
+           start);
       }
       return result;
     }
@@ -4596,10 +4696,9 @@ public class EcoreValidator extends EObjectValidator
           {
             report
               (diagnostics, 
-               EcorePlugin.INSTANCE.getString
-                 ("_UI_EClassifierInstanceTypeNameExpectingExtends_diagnostic", 
-                  new Object [] { i }), 
-                  i);
+               "_UI_EClassifierInstanceTypeNameExpectingExtends_diagnostic", 
+               new Object [] { i }, 
+               i);
           }
           break LOOP;
         }
@@ -4615,9 +4714,8 @@ public class EcoreValidator extends EObjectValidator
         {
           report
             (diagnostics, 
-             EcorePlugin.INSTANCE.getString
-               ("_UI_EClassifierInstanceTypeNameUnexpectedCharacter_diagnostic", 
-                new Object [] { i, new String(Character.toChars(codePoint)) }), 
+             "_UI_EClassifierInstanceTypeNameUnexpectedCharacter_diagnostic", 
+             new Object [] { i, new String(Character.toChars(codePoint)) }, 
              i);
           break LOOP;
         }
@@ -4627,16 +4725,82 @@ public class EcoreValidator extends EObjectValidator
       {
         report
           (diagnostics, 
-           EcorePlugin.INSTANCE.getString
-             ("_UI_EClassifierInstanceTypeNameExpectingIdentifier_diagnostic", 
-              new Object [] { end }), 
-              end);
+            "_UI_EClassifierInstanceTypeNameExpectingIdentifier_diagnostic", 
+            new Object [] { end }, 
+            end);
       }
       else
       {
         eTypeParameter.setName(new String(typeParameters, identifierStart, identifierLast - identifierStart + 1));
       }
       return eTypeParameter;
+    }
+
+    /**
+     * Creates a new {@link BasicDiagnostic#BasicDiagnostic(int, String, int, String, Object[]) basic diagnostic}.
+     * It calls {@link #getString(String, Object[])} for the message substitution.
+     * @param severity an indicator of the severity of the problem.
+     * @param source the unique identifier of the source.
+     * @param code the source-specific identity code.
+     * @param messageKey the key of the message.
+     * @param messageSubstitutions the substitutions for the key; <code>null</code> if there are no substitutions.
+     * @param data the data associated with the diagnostic
+     * @return a new diagnostic.
+     * @see BasicDiagnostic#BasicDiagnostic(int, String, int, String, Object[])
+     * @since 2.4
+     */
+    protected BasicDiagnostic createDiagnostic
+      (int severity, String source, int code, String messageKey, Object[] messageSubstitutions, Object[] data)
+    {
+      String message = getString(messageKey, messageSubstitutions);
+      return new BasicDiagnostic(severity, source, code, message, data);
+    }
+
+    /**
+     * Returns a translated message with the given substitutions.
+     * The {@link #getResourceLocator() resource locator} is used.
+     * @param key the key for the message.
+     * @param substitutions the substitutions for the key; <code>null</code> if there are no substitutions.
+     * @return the message.
+     * @since 2.4
+     */
+    protected String getString(String key, Object [] substitutions)
+    {
+      ResourceLocator resourceLocator = getResourceLocator();
+      return substitutions == null ? resourceLocator.getString(key) : resourceLocator.getString(key, substitutions);
+    }
+
+    /**
+     * Returns the resource locator for {@link #getString(String, Object[]) fetching} messages.
+     * @return the resource locator for fetching messages.
+     * @since 2.4
+     */
+    protected ResourceLocator getResourceLocator()
+    {
+      return EcorePlugin.INSTANCE;
+    }
+  }
+
+  /**
+   * Creates a new diagnostic for a problem at the given index.
+   * @param diagnostics the target for the new diagnostic.
+   * @param key the key for the message.
+   * @param substitutions the substitutions for the key; <code>null</code> if there are no substitutions.
+   * @param index the index at which the problem occurred.
+   * @see EGenericTypeBuilder#report(DiagnosticChain, String, Object[], int)
+   * @since 2.4
+   */
+  protected void report(DiagnosticChain diagnostics, String key, Object[] substitutions, int index, Map<Object, Object> context)
+  {
+    if (diagnostics != null)
+    {
+      diagnostics.add
+        (new BasicDiagnostic
+           (Diagnostic.ERROR,
+            DIAGNOSTIC_SOURCE,
+            WELL_FORMED_INSTANCE_TYPE_NAME,
+            getString(key, substitutions),
+            new Object [] { index }));
     }
   }
 
