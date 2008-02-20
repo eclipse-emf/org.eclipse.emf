@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2008 IBM Corporation, Embarcadero Technologies, and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,10 +9,11 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Kenn Hussey (Embarcadero Technologies) - 218759
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.88 2007/12/05 19:37:56 emerks Exp $
+ * $Id: XMLHandler.java,v 1.89 2008/02/20 20:28:44 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1045,7 +1046,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         // And find the one that holds this proxy.
         //
         EReference oppositeEReference = eReference.getEOpposite();
-        if (oppositeEReference != null && proxy.eIsSet(eReference))
+        if (oppositeEReference != null && oppositeEReference.isChangeable() && proxy.eIsSet(eReference))
         {
           // Try to resolve the proxy locally.
           //
