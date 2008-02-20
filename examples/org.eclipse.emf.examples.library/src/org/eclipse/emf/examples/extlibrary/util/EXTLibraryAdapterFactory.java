@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryAdapterFactory.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: EXTLibraryAdapterFactory.java,v 1.4 2008/02/20 22:12:51 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.util;
 
@@ -82,7 +82,7 @@ public class EXTLibraryAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

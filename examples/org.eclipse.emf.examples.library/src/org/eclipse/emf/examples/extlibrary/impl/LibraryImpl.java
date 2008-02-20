@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.6 2007/02/20 17:41:55 emerks Exp $
+ * $Id: LibraryImpl.java,v 1.7 2008/02/20 22:12:51 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -347,7 +347,7 @@ public class LibraryImpl extends EObjectImpl implements Library
   {
     if (branches == null)
     {
-      branches = new EObjectContainmentWithInverseEList<Library>(Library.class, this, EXTLibraryPackage.LIBRARY__BRANCHES, EXTLibraryPackage.LIBRARY__PARENT_BRANCH);
+      branches = new EObjectContainmentWithInverseEList.Resolving<Library>(Library.class, this, EXTLibraryPackage.LIBRARY__BRANCHES, EXTLibraryPackage.LIBRARY__PARENT_BRANCH);
     }
     return branches;
   }
@@ -361,6 +361,17 @@ public class LibraryImpl extends EObjectImpl implements Library
   {
     if (eContainerFeatureID != EXTLibraryPackage.LIBRARY__PARENT_BRANCH) return null;
     return (Library)eContainer();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Library basicGetParentBranch()
+  {
+    if (eContainerFeatureID != EXTLibraryPackage.LIBRARY__PARENT_BRANCH) return null;
+    return (Library)eInternalContainer();
   }
 
   /**
@@ -503,7 +514,8 @@ public class LibraryImpl extends EObjectImpl implements Library
       case EXTLibraryPackage.LIBRARY__BRANCHES:
         return getBranches();
       case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
-        return getParentBranch();
+        if (resolve) return getParentBranch();
+        return basicGetParentBranch();
       case EXTLibraryPackage.LIBRARY__PEOPLE:
         if (coreType) return getPeople();
         return ((FeatureMap.Internal)getPeople()).getWrapper();
@@ -633,7 +645,7 @@ public class LibraryImpl extends EObjectImpl implements Library
       case EXTLibraryPackage.LIBRARY__BRANCHES:
         return branches != null && !branches.isEmpty();
       case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
-        return getParentBranch() != null;
+        return basicGetParentBranch() != null;
       case EXTLibraryPackage.LIBRARY__PEOPLE:
         return people != null && !people.isEmpty();
     }

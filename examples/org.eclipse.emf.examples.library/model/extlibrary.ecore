@@ -15,25 +15,25 @@
   <eClassifiers xsi:type="ecore:EClass" name="Library" eSuperTypes="#//Addressable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="writers" upperBound="-1"
-        eType="#//Writer" volatile="true" transient="true" derived="true" containment="true">
+        eType="#//Writer" volatile="true" transient="true" derived="true" resolveProxies="false" containment="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="group" value="#people"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="employees" upperBound="-1"
-        eType="#//Employee" volatile="true" transient="true" derived="true" containment="true">
+        eType="#//Employee" volatile="true" transient="true" derived="true" resolveProxies="false" containment="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="group" value="#people"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="borrowers" upperBound="-1"
-        eType="#//Borrower" volatile="true" transient="true" derived="true" containment="true">
+        eType="#//Borrower" volatile="true" transient="true" derived="true" resolveProxies="false" containment="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="group" value="#people"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stock" ordered="false"
-        upperBound="-1" eType="#//Item" containment="true"/>
+        upperBound="-1" eType="#//Item" resolveProxies="false" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="books" ordered="false"
         upperBound="-1" eType="#//Book" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="branches" upperBound="-1"

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Library.java,v 1.5 2007/06/15 21:22:20 emerks Exp $
+ * $Id: Library.java,v 1.6 2008/02/20 22:12:51 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -170,7 +170,7 @@ public interface Library extends Addressable
    * @return the value of the '<em>Branches</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Branches()
    * @see org.eclipse.emf.examples.extlibrary.Library#getParentBranch
-   * @model opposite="parentBranch" containment="true"
+   * @model opposite="parentBranch" containment="true" resolveProxies="true"
    * @generated
    */
   EList<Library> getBranches();
