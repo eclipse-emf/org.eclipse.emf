@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PeriodicalItemProvider.java,v 1.5 2007/03/22 02:02:43 davidms Exp $
+ * $Id: PeriodicalItemProvider.java,v 1.6 2008/02/20 22:12:53 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -22,8 +22,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.util.ResourceLocator;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -177,18 +175,6 @@ public class PeriodicalItemProvider
   protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return EXTLibraryEditPlugin.INSTANCE;
   }
 
 }

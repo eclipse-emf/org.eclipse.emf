@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AudioVisualItemItemProvider.java,v 1.4 2007/03/22 02:02:42 davidms Exp $
+ * $Id: AudioVisualItemItemProvider.java,v 1.5 2008/02/20 22:12:53 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -22,8 +22,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.util.ResourceLocator;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -202,18 +200,6 @@ public class AudioVisualItemItemProvider
   protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return EXTLibraryEditPlugin.INSTANCE;
   }
 
 }
