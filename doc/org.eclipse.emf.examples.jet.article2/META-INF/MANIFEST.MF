@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.examples.jet.article2; singleton:=true
-Bundle-Version: 2.3.0.qualifier
+Bundle-Version: 2.4.0.qualifier
 Bundle-ClassPath: typesafe_enum.jar
 Bundle-Activator: org.eclipse.emf.examples.jet.article2.TypesafeEnumPlugin
 Bundle-Vendor: %providerName
@@ -23,3 +23,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.codegen;visibility:=reexport,
  org.eclipse.emf.common.ui
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
