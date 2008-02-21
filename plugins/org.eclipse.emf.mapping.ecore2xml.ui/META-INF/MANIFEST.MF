@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.mapping.ecore2xml.ui; singleton:=true
-Bundle-Version: 2.3.0.qualifier
+Bundle-Version: 2.4.0.qualifier
 Bundle-ClassPath: mapping.ecore2xml.ui.jar
 Bundle-Activator: org.eclipse.emf.mapping.ecore2xml.ui.Ecore2XMLUIPlugin$Implementation
 Bundle-Vendor: %providerName
@@ -23,3 +23,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide;visibility:=reexport,
  org.eclipse.emf.mapping.ecore2ecore;visibility:=reexport
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
