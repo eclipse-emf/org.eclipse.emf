@@ -19,3 +19,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xsd;visibility:=reexport,
  org.eclipse.xsd.edit;visibility:=reexport
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
