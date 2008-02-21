@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.test.performance
-Bundle-Version: 2.3.0.qualifier
+Bundle-SymbolicName: org.eclipse.emf.test.performance;singleton:=true
+Bundle-Version: 2.4.0.qualifier
 Bundle-ClassPath: test.performance.jar
 Bundle-Activator: org.eclipse.emf.test.performance.EMFTestPerformancePlugin
 Bundle-Vendor: %providerName
@@ -37,3 +37,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.test.performance,
  org.apache.derby;resolution:=optional
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
