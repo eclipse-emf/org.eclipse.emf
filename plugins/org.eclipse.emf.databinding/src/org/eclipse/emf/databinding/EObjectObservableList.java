@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectObservableList.java,v 1.3 2008/01/26 21:01:07 emerks Exp $
+ * $Id: EObjectObservableList.java,v 1.4 2008/02/21 15:26:16 emerks Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -252,6 +252,7 @@ public class EObjectObservableList extends ObservableList implements IObserving,
     wrappedList.clear();
   }
 
+  @Override
   public Object move(int newPosition, int oldPosition)
   {
     checkRealm();
