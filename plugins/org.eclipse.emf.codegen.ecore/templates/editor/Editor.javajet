@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.55 2008/01/15 16:48:51 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.56 2008/02/21 19:24:16 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -1267,8 +1267,7 @@ public class <%=genPackage.getEditorClassName()%>
 
 		// Only creates the other pages if there is something that can be edited
 		//
-		if (!getEditingDomain().getResourceSet().getResources().isEmpty() &&
-		    !(<%if (!genModel.useGenerics()){%>(Resource)<%}%>getEditingDomain().getResourceSet().getResources().get(0)).getContents().isEmpty())
+		if (!getEditingDomain().getResourceSet().getResources().isEmpty())
 		{
 			// Create a page for the selection tree view.
 			//
