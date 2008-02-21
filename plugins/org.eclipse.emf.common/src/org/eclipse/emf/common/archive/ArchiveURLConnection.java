@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -31,6 +31,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
+import org.eclipse.emf.common.util.URI;
 
 /**
  * A connection that can access an entry in an archive, and then recursively an entry in that archive, and so on.
@@ -221,9 +223,9 @@ public class ArchiveURLConnection extends URLConnection
       // The name to be used for the entry.
       //
       String entry = 
-         nextArchiveSeparator < 0 ?
-           urlString.substring(archiveSeparator + 2) :
-           urlString.substring(archiveSeparator + 2, nextArchiveSeparator);
+        URI.decode(nextArchiveSeparator < 0 ?
+                     urlString.substring(archiveSeparator + 2) :
+                     urlString.substring(archiveSeparator + 2, nextArchiveSeparator));
                  
       // Skip over this archive path to the next one, since we are handling this one special.
       //
@@ -234,7 +236,7 @@ public class ArchiveURLConnection extends URLConnection
       // get the stream, 
       // and wrap it so that closing it closes the zip file.
       //
-      final ZipFile zipFile = new ZipFile(nestedURL.substring(5));
+      final ZipFile zipFile = new ZipFile(URI.decode(nestedURL.substring(5)));
       inputZipEntry = zipFile.getEntry(entry);
       InputStream zipEntryInputStream = inputZipEntry == null ? null : zipFile.getInputStream(inputZipEntry);
       if (zipEntryInputStream == null)
@@ -263,9 +265,9 @@ public class ArchiveURLConnection extends URLConnection
       // The entry name to be matched.
       //
       String entry = 
-         nextArchiveSeparator < 0 ?
-           urlString.substring(archiveSeparator + 2) :
-           urlString.substring(archiveSeparator + 2, nextArchiveSeparator);
+        URI.decode(nextArchiveSeparator < 0 ?
+                     urlString.substring(archiveSeparator + 2) :
+                     urlString.substring(archiveSeparator + 2, nextArchiveSeparator));
             
       // Wrap the input stream as a zip stream to scan it's contents for a match.
       //
@@ -388,9 +390,9 @@ public class ArchiveURLConnection extends URLConnection
         // The name that will be used as the archive entry.
         //
         String entry = 
-           nextArchiveSeparator < 0 ?
-             urlString.substring(archiveSeparator + 2) :
-             urlString.substring(archiveSeparator + 2, nextArchiveSeparator);
+          URI.decode(nextArchiveSeparator < 0 ?
+                       urlString.substring(archiveSeparator + 2) :
+                       urlString.substring(archiveSeparator + 2, nextArchiveSeparator));
              
         // Wrap the current result as a zip stream, and record it for loop-based recursion.
         //
@@ -512,7 +514,7 @@ public class ArchiveURLConnection extends URLConnection
               //
               if (useRenameTo)
               {
-                File targetFile = new File(nestedURL.substring(5));
+                File targetFile = new File(URI.decode(nestedURL.substring(5)));
                 if (deleteRequired && !targetFile.delete())
                 {
                   throw new IOException("cannot delete " + targetFile.getPath());
