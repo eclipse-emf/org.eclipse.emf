@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.common
+Bundle-SymbolicName: org.eclipse.emf.common;singleton:=true
 Bundle-Version: 2.4.0.qualifier
 Bundle-ClassPath: common.jar
 Bundle-Activator: org.eclipse.emf.common.CommonPlugin$Implementation
@@ -16,3 +16,4 @@ Export-Package: org.eclipse.emf.common,
  org.eclipse.emf.common.util
 Require-Bundle: org.eclipse.core.runtime
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
