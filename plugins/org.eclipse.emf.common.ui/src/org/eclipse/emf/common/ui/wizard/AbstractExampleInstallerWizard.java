@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractExampleInstallerWizard.java,v 1.5 2007/01/26 06:08:59 marcelop Exp $
+ * $Id: AbstractExampleInstallerWizard.java,v 1.6 2008/02/21 15:25:11 emerks Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 
@@ -38,6 +38,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -89,7 +90,7 @@ import org.eclipse.emf.common.util.URI;
  * 
  * @since 2.2.0
  */
-public abstract class AbstractExampleInstallerWizard extends Wizard implements INewWizard
+public abstract class AbstractExampleInstallerWizard extends Wizard implements INewWizard, IShellProvider
 {
   public static class ProjectDescriptor
   {
@@ -379,7 +380,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     {
       if (!existingProjects.isEmpty())
       {
-        DeleteResourceAction deleteResourceAction = new DeleteResourceAction(getShell());
+        DeleteResourceAction deleteResourceAction = new DeleteResourceAction(AbstractExampleInstallerWizard.this);
         deleteResourceAction.selectionChanged(new StructuredSelection(existingProjects));
         deleteResourceAction.run();
 
@@ -436,7 +437,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       ProjectDescriptor projectDescriptor = getSelectedProjectDescriptor();
       if (projectDescriptor.getProject().exists())
       {
-        RenameResourceAction renameResourceAction = new RenameResourceAction(getShell());
+        RenameResourceAction renameResourceAction = new RenameResourceAction(AbstractExampleInstallerWizard.this);
         renameResourceAction.selectionChanged(new StructuredSelection(projectDescriptor.getProject()));
         renameResourceAction.run();
         projectDescriptor.project = null;
