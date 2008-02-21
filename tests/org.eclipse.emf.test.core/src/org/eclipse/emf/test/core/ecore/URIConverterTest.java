@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2007 IBM Corporation and others.
+ * Copyright (c) 2006-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: URIConverterTest.java,v 1.8 2007/10/23 23:45:03 nickb Exp $
+ * $Id: URIConverterTest.java,v 1.9 2008/02/21 18:18:06 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -69,21 +71,35 @@ public class URIConverterTest extends TestCase
     URI uri = URI.createFileURI(pluginDirectory + "/data/file.txt");
     String contentsFromUncompressedFile = readFile(uriConverter.createInputStream(uri));
     
-    uri = URI.createURI("jar:file:" + pluginDirectory + "/data/data.jar!/file.txt");    
+    uri = URI.createURI("jar:file:" + pluginDirectory + "/%64ata/data.jar!/%66ile.txt");    
     String contents = readFile(uriConverter.createInputStream(uri));    
     assertEquals(contentsFromUncompressedFile, contents);
 
-    uri = URI.createURI("archive:file:" + pluginDirectory + "/data/data.jar!/file.txt");    
+    uri = URI.createURI("archive:file:" + pluginDirectory + "/%64ata/data.jar!/%66ile.txt");    
     contents = readFile(uriConverter.createInputStream(uri)); 
     assertEquals(contentsFromUncompressedFile, contents);    
+
+    uri = URI.createURI("archive:file:" + pluginDirectory + "/%661/data.jar!/%66ile.txt");    
+    new File(URI.createURI(uri.authority().replaceAll("!", "")).toFileString()).delete();
+    writeFile(uriConverter.createOutputStream(uri), contents);    
+    contents = readFile(uriConverter.createInputStream(uri));    
+    assertEquals(contentsFromUncompressedFile, contents);
+    new File(URI.createURI(uri.authority().replaceAll("!", "")).toFileString()).delete();
     
-    uri = URI.createURI("archive:file:" + pluginDirectory + "/data/data.zip!/file.txt");    
+    uri = URI.createURI("archive:file:" + pluginDirectory + "/%64ata/data.zip!/%66ile.txt");    
     contents = readFile(uriConverter.createInputStream(uri)); 
     assertEquals(contentsFromUncompressedFile, contents);
+
+    uri = URI.createURI("archive:file:" + pluginDirectory + "/%661/data.zip!/%66ile.txt");    
+    new File(URI.createURI(uri.authority().replaceAll("!", "")).toFileString()).delete();
+    writeFile(uriConverter.createOutputStream(uri), contents);    
+    contents = readFile(uriConverter.createInputStream(uri));    
+    assertEquals(contentsFromUncompressedFile, contents);
+    new File(URI.createURI(uri.authority().replaceAll("!", "")).toFileString()).delete();
     
     //Reads the data.zip file from our CVS repository using http
     //
-    uri = URI.createURI("archive:http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.emf/org.eclipse.emf/tests/org.eclipse.emf.test.core/data/data.zip?root=Modeling_Project&amp;view=co!/file.txt");    
+    uri = URI.createURI("archive:http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.emf/org.eclipse.emf/tests/org.eclipse.emf.test.core/%64ata/data.zip?root=Modeling_Project&amp;view=co!/%66ile.txt");    
     contents = readFile(uriConverter.createInputStream(uri)); 
     assertEquals(contentsFromUncompressedFile, contents);
   }
@@ -109,6 +125,18 @@ public class URIConverterTest extends TestCase
     finally
     {
       inputStream.close();
+    }
+  }
+
+  protected void writeFile(OutputStream outputStream, String contents) throws IOException
+  {
+    try
+    {
+      outputStream.write(contents.getBytes());
+    }
+    finally
+    {
+      outputStream.close();
     }
   }
 }
