@@ -16,4 +16,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.codegen.ecore.ui;resolution:=optional,
  org.eclipse.core.resources;resolution:=optional
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 
