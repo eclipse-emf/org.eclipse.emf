@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.importer.ecore; singleton:=true
-Bundle-Version: 2.3.1.qualifier
+Bundle-Version: 2.4.0.qualifier
 Bundle-ClassPath: importer.ecore.jar
 Bundle-Activator: org.eclipse.emf.importer.ecore.EcoreImporterPlugin$Implementation
 Bundle-Vendor: %providerName
@@ -18,3 +18,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.ant;resolution:=optional,
  org.eclipse.emf.ant;resolution:=optional
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
