@@ -27,3 +27,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.text
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
