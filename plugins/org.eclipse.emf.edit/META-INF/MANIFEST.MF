@@ -22,3 +22,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.change;resolution:=optional;visibility:=reexport
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
