@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.52 2008/01/08 12:27:31 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.53 2008/02/21 19:24:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1155,8 +1155,7 @@ public class EcoreEditor
 
     // Only creates the other pages if there is something that can be edited
     //
-    if (!getEditingDomain().getResourceSet().getResources().isEmpty() &&
-        !(getEditingDomain().getResourceSet().getResources().get(0)).getContents().isEmpty())
+    if (!getEditingDomain().getResourceSet().getResources().isEmpty())
     {
       // Create a page for the selection tree view.
       //
