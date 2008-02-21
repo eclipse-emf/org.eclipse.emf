@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.common;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Bundle-ClassPath: test.common.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -79,3 +79,4 @@ Export-Package: org.eclipse.emf.test.common,
  org.eclipse.emf.test.models.types,
  org.eclipse.emf.test.models.types.impl,
  org.eclipse.emf.test.models.types.util
+Bundle-ActivationPolicy: lazy
