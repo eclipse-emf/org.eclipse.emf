@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.xsd.edit; singleton:=true
-Bundle-Version: 2.3.0.qualifier
+Bundle-Version: 2.4.0.qualifier
 Bundle-ClassPath: xsd.edit.jar
 Bundle-Activator: org.eclipse.xsd.provider.XSDEditPlugin$Implementation
 Bundle-Vendor: %providerName
@@ -13,3 +13,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.edit;visibility:=reexport,
  org.eclipse.xsd;visibility:=reexport
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
