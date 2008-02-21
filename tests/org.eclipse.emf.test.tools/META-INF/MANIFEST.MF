@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.test.tools
+Bundle-SymbolicName: org.eclipse.emf.test.tools;singleton:=true
 Bundle-Version: 2.4.0.qualifier
 Bundle-ClassPath: test.tools.jar
 Bundle-Vendor: %providerName
@@ -23,3 +23,4 @@ Require-Bundle: org.apache.ant,
  org.eclipse.text,
  org.eclipse.emf.test.common
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
