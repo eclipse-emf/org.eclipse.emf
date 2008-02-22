@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.15 2008/01/29 21:12:08 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.16 2008/02/22 21:03:11 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -55,7 +55,7 @@
   <%for (ListIterator<?> j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {%>
          <%=(j.hasPrevious()? " " : "\"") + j.next() + (j.hasNext() ? "" : "\"")%><%}%> />
   </extension>
-  <%if (!genPackage.isChildCreationExtenders()) { Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> extendedChildCreationData = genPackage.getExtendedChildCreationData();%>
+  <%if (genPackage.isChildCreationExtenders()) { Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> extendedChildCreationData = genPackage.getExtendedChildCreationData();%>
     <%if (!extendedChildCreationData.isEmpty()) {%>
 
   <extension point="org.eclipse.emf.edit.childCreationExtenders">
