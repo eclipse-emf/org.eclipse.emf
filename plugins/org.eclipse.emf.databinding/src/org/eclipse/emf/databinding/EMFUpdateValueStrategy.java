@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFUpdateValueStrategy.java,v 1.1 2007/11/16 21:25:21 emerks Exp $
+ * $Id: EMFUpdateValueStrategy.java,v 1.2 2008/02/22 12:10:18 emerks Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -62,13 +62,16 @@ public class EMFUpdateValueStrategy extends UpdateValueStrategy
           {
             public Object convert(Object fromObject)
             {
-              String value = fromObject.toString();
+              String value = fromObject == null ? null : fromObject.toString();
               if (eAttribute.isMany())
               {
                 List<Object> result = new ArrayList<Object>();
-                for (String element : value.split(" "))
+                if (value != null)
                 {
-                  result.add(eFactory.createFromString(eDataType, element));
+                  for (String element : value.split(" "))
+                  {
+                    result.add(eFactory.createFromString(eDataType, element));
+                  }
                 }
                 return result;
               }
