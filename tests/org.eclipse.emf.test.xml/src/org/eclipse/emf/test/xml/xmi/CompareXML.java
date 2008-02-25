@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CompareXML.java,v 1.2 2005/06/08 06:20:41 nickb Exp $
+ * $Id: CompareXML.java,v 1.3 2008/02/25 15:09:13 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -37,7 +37,11 @@ public class CompareXML extends TestCase
     Document doc = builder.parse(currentOutput);
     Document doc2 = builder.parse(expectedOutput);
     compareNodes(expectedOutput, doc2.getDocumentElement(), doc.getDocumentElement());
-       
+  }
+
+  public static void compareDocuments(String uri, Document expected, Document document) throws Exception
+  {
+    compareNodes(uri, expected.getDocumentElement(), document.getDocumentElement());
   }
 
   protected static void compareNodes(String uri, Node node1, Node node2)

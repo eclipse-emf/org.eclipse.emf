@@ -12,18 +12,18 @@
  *
  * </copyright>
  *
- * $Id: URIHandlerTest.java,v 1.5 2007/01/18 15:53:17 marcelop Exp $
+ * $Id: URIHandlerTest.java,v 1.6 2008/02/25 15:09:13 emerks Exp $
  */
 
 package org.eclipse.emf.test.xml.xmi;
 
 
-import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
-import java.net.MalformedURLException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -33,6 +33,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -104,7 +105,7 @@ public class URIHandlerTest extends TestCase
     resourceSet = null;
   }
 
-  public void testEntityHandler() throws MalformedURLException, IOException, TransformerException
+  public void testEntityHandler() throws Exception
   {
     Resource firstLibraryResource = resourceSet.createResource(URI.createFileURI(BASE_XML_URI + "first.library"));
     Library firstLibrary = LibraryFactory.eINSTANCE.createLibrary();
@@ -167,13 +168,21 @@ public class URIHandlerTest extends TestCase
     Transformer transformer = transformerFactory.newTransformer();
     mainWriter = new StringWriter();
     transformer.transform(new DOMSource(document), new StreamResult(mainWriter));
-    assertEquals
-      ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-         "<org.eclipse.emf.test.models.library:Library xmlns:org.eclipse.emf.test.models.library=\"http:///org.eclipse.emf.test.models/Library\" name=\"main\">" +
-         "<writers books=\"../first.library#//@books.0\" name=\"First Author\"/>" +
-         "<writers books=\"../second.library#//@books.0\" name=\"Second Author\"/>" +
-         "</org.eclipse.emf.test.models.library:Library>",
-        mainWriter.toString());
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    factory.setNamespaceAware(true);
+    DocumentBuilder builder = factory.newDocumentBuilder();
+    StringReader stringReader = 
+      new StringReader
+        ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+           "<org.eclipse.emf.test.models.library:Library xmlns:org.eclipse.emf.test.models.library=\"http:///org.eclipse.emf.test.models/Library\" name=\"main\">" +
+           "<writers books=\"../first.library#//@books.0\" name=\"First Author\"/>" +
+           "<writers books=\"../second.library#//@books.0\" name=\"Second Author\"/>" +
+           "</org.eclipse.emf.test.models.library:Library>");
+    Document document2 = builder.parse(new InputSource(stringReader));
+    CompareXML.compareDocuments
+      ("",
+       document2,
+       document);
     
     Resource reloadedMainLibraryResource = resourceSet.createResource(URI.createFileURI(BASE_XML_URI + "/vault/main2.library"));
     reloadedMainLibraryResource.load(new URIConverter.ReadableInputStream(mainWriter.toString()), null);
