@@ -4,7 +4,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BadMinInclusiveFacet.xsd,v 1.2 2007/04/04 20:07:28 emerks Exp $
+ * $Id: BadMinInclusiveFacet.xsd,v 1.3 2008/02/25 15:40:37 emerks Exp $
  */
 -->
 <xsd:schema
@@ -232,10 +232,10 @@
         <xsd:restriction>
             <xsd:simpleType>
                 <xsd:restriction base="xsd:gMonth">
-                    <xsd:minInclusive value="--12--"/>
+                    <xsd:minInclusive value="--12"/>
                 </xsd:restriction>
             </xsd:simpleType>
-            <xsd:enumeration value="--11--"/>
+            <xsd:enumeration value="--11"/>
         </xsd:restriction>
     </xsd:simpleType>
 

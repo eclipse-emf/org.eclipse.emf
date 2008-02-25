@@ -4,7 +4,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BadDataType.xsd,v 1.3 2007/11/26 12:20:57 emerks Exp $
+ * $Id: BadDataType.xsd,v 1.4 2008/02/25 15:40:37 emerks Exp $
  */
 -->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:this="http://www.example.com/Bad" xmlns:xsd1="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.com/Bad">
@@ -145,8 +145,8 @@
             </xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:gMonth">
-            <xsd:enumeration value="--13--"/>
-            <xsd:enumeration value="--12--"/>
+            <xsd:enumeration value="--13"/>
+            <xsd:enumeration value="--12"/>
         </xsd:restriction>
     </xsd:simpleType>
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.19 2008/01/31 21:10:50 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.20 2008/02/25 15:40:37 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -85,7 +85,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '13:20:00-05:00' of attribute 'value' must be less than '13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToTime_._base'",
       "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be less than '1999-05-31T13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToDateTime_._base'",
       "XSD: The value '1999' of attribute 'value' must be less than '1999' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGYear_._base'",
-      "XSD: The value '--12--' of attribute 'value' must be less than '--12--' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'",
+      "XSD: The value '--12' of attribute 'value' must be less than '--12' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'",
       "XSD: The value '1999-12' of attribute 'value' must be less than '1999-12' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGYearMonth_._base'",
       "XSD: The value '---31' of attribute 'value' must be less than '---31' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGDay_._base'",
       "XSD: The value '--10-31' of attribute 'value' must be less than '--10-31' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonthDay_._base'",
@@ -96,7 +96,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '13:20:00-05:00' of attribute 'value' must be greater than '13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToTime_._base'",
       "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be greater than '1999-05-31T13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToDateTime_._base'",
       "XSD: The value '1999' of attribute 'value' must be greater than '1999' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGYear_._base'",
-      "XSD: The value '--12--' of attribute 'value' must be greater than '--12--' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'",
+      "XSD: The value '--12' of attribute 'value' must be greater than '--12' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'",
       "XSD: The value '1999-12' of attribute 'value' must be greater than '1999-12' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGYearMonth_._base'",
       "XSD: The value '---31' of attribute 'value' must be greater than '---31' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGDay_._base'",
       "XSD: The value '--10-31' of attribute 'value' must be greater than '--10-31' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonthDay_._base'",
@@ -156,7 +156,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '13:20:00-04:59' of attribute 'value' must be greater than or equal to '13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToTime_._base'",
       "XSD: The value '1999-05-31T13:20:00-04:59' of attribute 'value' must be greater than or equal to '1999-05-31T13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToDateTime_._base'",
       "XSD: The value '1998' of attribute 'value' must be greater than or equal to '1999' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGYear_._base'",
-      "XSD: The value '--11--' of attribute 'value' must be greater than or equal to '--12--' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGMonth_._base'",
+      "XSD: The value '--11' of attribute 'value' must be greater than or equal to '--12' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGMonth_._base'",
       "XSD: The value '1999-11' of attribute 'value' must be greater than or equal to '1999-12' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGYearMonth_._base'",
       "XSD: The value '---30' of attribute 'value' must be greater than or equal to '---31' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGDay_._base'",
       "XSD: The value '--10-30' of attribute 'value' must be greater than or equal to '--10-31' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGMonthDay_._base'",
@@ -271,7 +271,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '13:20:00-25:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#time'",
       "XSD: The value '1999-05-31T13:20:00-25:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#dateTime'",
       "XSD: The value '199x' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gYear'",
-      "XSD: The value '--13--' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'",
+      "XSD: The value '--13' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'",
       "XSD: The value '1999-13' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gYearMonth'",
       "XSD: The value '---32' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gDay'",
       "XSD: The value '--10-32' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonthDay'",
@@ -551,7 +551,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '13:20:00-05:00' of attribute 'value' must be less than '13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToTime_._base'",
       "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be less than '1999-05-31T13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToDateTime_._base'",
       "XSD: The value '1999' of attribute 'value' must be less than '1999' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGYear_._base'",
-      "XSD: The value '--12--' of attribute 'value' must be less than '--12--' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGMonth_._base'",
+      "XSD: The value '--12' of attribute 'value' must be less than '--12' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGMonth_._base'",
       "XSD: The value '1999-12' of attribute 'value' must be less than '1999-12' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGYearMonth_._base'",
       "XSD: The value '---31' of attribute 'value' must be less than '---31' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGDay_._base'",
       "XSD: The value '--10-31' of attribute 'value' must be less than '--10-31' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGMonthDay_._base'",
@@ -583,7 +583,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '13:20:00-05:01' of attribute 'value' must be less than or equal to '13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToTime_._base'",
       "XSD: The value '1999-05-31T13:20:00-05:01' of attribute 'value' must be less than or equal to '1999-05-31T13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToDateTime_._base'",
       "XSD: The value '1999' of attribute 'value' must be less than or equal to '1998' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGYear_._base'",
-      "XSD: The value '--12--' of attribute 'value' must be less than or equal to '--11--' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGMonth_._base'",
+      "XSD: The value '--12' of attribute 'value' must be less than or equal to '--11' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGMonth_._base'",
       "XSD: The value '1999-12' of attribute 'value' must be less than or equal to '1999-11' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGYearMonth_._base'",
       "XSD: The value '---31' of attribute 'value' must be less than or equal to '---30' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGDay_._base'",
       "XSD: The value '--10-31' of attribute 'value' must be less than or equal to '--10-30' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGMonthDay_._base'",

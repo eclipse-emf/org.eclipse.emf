@@ -4,7 +4,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BadMinExclusiveFacet.xsd,v 1.1 2004/11/04 05:52:46 marcelop Exp $
+ * $Id: BadMinExclusiveFacet.xsd,v 1.2 2008/02/25 15:40:37 emerks Exp $
  */
 -->
 <xsd:schema
@@ -279,10 +279,10 @@
         <xsd:restriction>
             <xsd:simpleType>
                 <xsd:restriction base="xsd:gMonth">
-                    <xsd:maxExclusive value="--12--"/>
+                    <xsd:maxExclusive value="--12"/>
                 </xsd:restriction>
             </xsd:simpleType>
-            <xsd:enumeration value="--12--"/>
+            <xsd:enumeration value="--12"/>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -444,10 +444,10 @@
         <xsd:restriction>
             <xsd:simpleType>
                 <xsd:restriction base="xsd:gMonth">
-                    <xsd:minExclusive value="--12--"/>
+                    <xsd:minExclusive value="--12"/>
                 </xsd:restriction>
             </xsd:simpleType>
-            <xsd:enumeration value="--12--"/>
+            <xsd:enumeration value="--12"/>
         </xsd:restriction>
     </xsd:simpleType>
 
