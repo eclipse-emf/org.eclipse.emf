@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.40 2007/06/25 14:59:29 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.41 2008/02/28 21:03:37 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -3102,15 +3102,16 @@ public class XSDSchemaImpl
               redefiningSchema.getTargetNamespace() == null :
               incorporatedVersion.getTargetNamespace().equals(redefiningSchema.getTargetNamespace()))
         {
-          for (Iterator<?> i = incorporatedVersion.getReferencingDirectives().iterator(); i.hasNext(); )
+          for (ListIterator<XSDSchemaDirective> i = incorporatedVersion.getReferencingDirectives().listIterator(); i.hasNext(); )
           {
-            i.next();
+            XSDSchemaDirective xsdSchemaDirective = i.next();
             // This was commented out to fix 72109, i.e., to prevent stack overflow.
             // There really does need to be some kind of guard here in the general case.
             // But it's very challenging to fix this, so it's better to not overflow 
             // and to have some other unreported corner case be wrong.
-            // XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)i.next();
-            // if (xsdRedefine.getSchema().getOriginalVersion() == xsdSchemaDirective.getSchema())
+            // Returning a previous results in the same thing being redefined multiple times, which is also no good.
+            // I'll add a guard to avoid overflow.
+            if (xsdRedefine.getSchema() == xsdSchemaDirective.getSchema() || getIncorporatedVersions().size() > 10)
             {
               ((XSDSchemaImpl)incorporatedVersion).incorporate(xsdRedefine);
               return incorporatedVersion;

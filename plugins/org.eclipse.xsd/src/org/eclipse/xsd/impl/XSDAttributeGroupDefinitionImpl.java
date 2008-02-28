@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.17 2007/05/08 19:15:11 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.18 2008/02/28 21:03:37 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.w3c.dom.Element;
@@ -32,6 +33,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -45,6 +47,7 @@ import org.eclipse.xsd.XSDAttributeGroupContent;
 import org.eclipse.xsd.XSDAttributeGroupDefinition;
 import org.eclipse.xsd.XSDAttributeUse;
 import org.eclipse.xsd.XSDAttributeUseCategory;
+import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDDiagnosticSeverity;
 import org.eclipse.xsd.XSDFactory;
@@ -558,17 +561,23 @@ public class XSDAttributeGroupDefinitionImpl
 
   protected void handleNewResolvedAttributeGroupDefinition(XSDAttributeGroupDefinition newResolvedAttributeGroupDefinition)
   {
-    if (newResolvedAttributeGroupDefinition == getContainer() &&
-          newResolvedAttributeGroupDefinition.getContainer() instanceof XSDRedefine)
+    if (eContainer != null)
     {
-      XSDSchema redefinedSchema = ((XSDRedefine)newResolvedAttributeGroupDefinition.getContainer()).getIncorporatedSchema();
-      if (redefinedSchema != null)
+      EObject parent = eContainer.eContainer();
+      if (parent instanceof XSDRedefine)
       {
-        XSDAttributeGroupDefinition redefinedAttributeGroupDefinition =
-          (XSDAttributeGroupDefinition)((XSDSchemaImpl)redefinedSchema).getRedefinitionMap().get(newResolvedAttributeGroupDefinition);
-        if (redefinedAttributeGroupDefinition != null)
+        XSDSchema redefinedSchema = ((XSDRedefine)parent).getIncorporatedSchema();
+        if (redefinedSchema != null)
         {
-          newResolvedAttributeGroupDefinition = redefinedAttributeGroupDefinition;
+          Map<XSDComponent, XSDComponent> redefinitionMap = ((XSDSchemaImpl)redefinedSchema).getRedefinitionMap();
+          if (redefinitionMap.containsKey(newResolvedAttributeGroupDefinition))
+          {
+            XSDComponent replacement = redefinitionMap.get(newResolvedAttributeGroupDefinition);
+            if (replacement != null)
+            {
+              newResolvedAttributeGroupDefinition = (XSDAttributeGroupDefinition)replacement;
+            }
+          }
         }
       }
     }

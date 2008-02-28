@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.16 2007/05/08 19:15:11 emerks Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.17 2008/02/28 21:03:37 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,10 +26,12 @@ import org.w3c.dom.Node;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.xsd.XSDAnnotation;
+import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDDiagnosticSeverity;
 import org.eclipse.xsd.XSDFactory;
@@ -362,17 +365,31 @@ public class XSDModelGroupDefinitionImpl
 
   protected void handleNewResolvedModelGroupDefinition(XSDModelGroupDefinition newResolvedModelGroupDefinition)
   {
-    if (newResolvedModelGroupDefinition.getContainer() instanceof XSDRedefine &&
-          newResolvedModelGroupDefinition.contains(this))
+    if (eContainer != null)
     {
-      XSDSchema redefinedSchema = ((XSDRedefine)newResolvedModelGroupDefinition.getContainer()).getIncorporatedSchema();
-      if (redefinedSchema != null)
+      EObject parent = eContainer.eContainer();
+      if (parent != null)
       {
-        XSDModelGroupDefinition redefinedModelGroupDefinition =
-          (XSDModelGroupDefinition)((XSDSchemaImpl)redefinedSchema).getRedefinitionMap().get(newResolvedModelGroupDefinition);
-        if (redefinedModelGroupDefinition != null)
+        parent = parent.eContainer();
+        if (parent != null)
         {
-          newResolvedModelGroupDefinition = redefinedModelGroupDefinition;
+          parent = parent.eContainer();
+          if (parent instanceof XSDRedefine)
+          {
+            XSDSchema redefinedSchema = ((XSDRedefine)parent).getIncorporatedSchema();
+            if (redefinedSchema != null)
+            {
+              Map<XSDComponent, XSDComponent> redefinitionMap = ((XSDSchemaImpl)redefinedSchema).getRedefinitionMap();
+              if (redefinitionMap.containsKey(newResolvedModelGroupDefinition))
+              {
+                XSDComponent replacement = redefinitionMap.get(newResolvedModelGroupDefinition);
+                if (replacement != null)
+                {
+                  newResolvedModelGroupDefinition = (XSDModelGroupDefinition)replacement;
+                }
+              }
+            }
+          }
         }
       }
     }

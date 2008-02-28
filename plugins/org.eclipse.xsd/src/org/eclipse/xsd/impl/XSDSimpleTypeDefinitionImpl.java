@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.30 2008/01/31 16:01:23 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.31 2008/02/28 21:03:37 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.w3c.dom.Element;
@@ -49,6 +50,7 @@ import org.eclipse.xsd.XSDBoundedFacet;
 import org.eclipse.xsd.XSDCardinality;
 import org.eclipse.xsd.XSDCardinalityFacet;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDConstrainingFacet;
 import org.eclipse.xsd.XSDDerivationMethod;
@@ -1654,16 +1656,19 @@ public class XSDSimpleTypeDefinitionImpl
       }
     }
 
-    if (newBaseTypeDefinition == this && getContainer() instanceof XSDRedefine)
+    if (eContainer instanceof XSDRedefine)
     {
-      XSDSchema redefinedSchema = ((XSDRedefine)getContainer()).getIncorporatedSchema();
+      XSDSchema redefinedSchema = ((XSDRedefine)eContainer).getIncorporatedSchema();
       if (redefinedSchema != null)
       {
-        XSDSimpleTypeDefinition redefinedTypeDefinition = 
-          (XSDSimpleTypeDefinition)((XSDSchemaImpl)redefinedSchema).getRedefinitionMap().get(this);
-        if (redefinedTypeDefinition != null)
+        Map<XSDComponent, XSDComponent> redefinitionMap = ((XSDSchemaImpl)redefinedSchema).getRedefinitionMap();
+        if (redefinitionMap.containsKey(newBaseTypeDefinition))
         {
-          newBaseTypeDefinition = redefinedTypeDefinition;
+          XSDComponent replacement = redefinitionMap.get(this);
+          if (replacement != null)
+          {
+            newBaseTypeDefinition = (XSDSimpleTypeDefinition)replacement;
+          }
         }
       }
     }

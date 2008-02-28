@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.26 2008/01/30 19:26:53 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.27 2008/02/28 21:03:37 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -53,6 +53,7 @@ import org.eclipse.xsd.XSDAttributeUseCategory;
 import org.eclipse.xsd.XSDComplexFinal;
 import org.eclipse.xsd.XSDComplexTypeContent;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDCompositor;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDContentTypeCategory;
@@ -2056,16 +2057,19 @@ public class XSDComplexTypeDefinitionImpl
       }
     }
 
-    if (newBaseTypeDefinition == this && getContainer() instanceof XSDRedefine)
+    if (eContainer instanceof XSDRedefine)
     {
-      XSDSchema redefinedSchema = ((XSDRedefine)getContainer()).getIncorporatedSchema();
+      XSDSchema redefinedSchema = ((XSDRedefine)eContainer).getIncorporatedSchema();
       if (redefinedSchema != null)
       {
-        XSDTypeDefinition redefinedTypeDefinition =
-          (XSDTypeDefinition)((XSDSchemaImpl)redefinedSchema).getRedefinitionMap().get(this);
-        if (redefinedTypeDefinition != null)
+        Map<XSDComponent, XSDComponent> redefinitionMap = ((XSDSchemaImpl)redefinedSchema).getRedefinitionMap();
+        if (redefinitionMap.containsKey(newBaseTypeDefinition))
         {
-          newBaseTypeDefinition = redefinedTypeDefinition;
+          XSDComponent replacement = redefinitionMap.get(this);
+          if (replacement != null)
+          {
+            newBaseTypeDefinition = (XSDTypeDefinition)replacement;
+          }
         }
       }
     }
