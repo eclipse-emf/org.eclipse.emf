@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LoadResourceAction.java,v 1.14 2007/10/02 17:55:01 emerks Exp $
+ * $Id: LoadResourceAction.java,v 1.15 2008/02/29 20:49:08 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -26,6 +26,7 @@ import org.eclipse.ui.PlatformUI;
 
 import org.eclipse.emf.common.ui.dialogs.ResourceDialog;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
@@ -123,7 +124,10 @@ public class LoadResourceAction extends Action
         {
           try
           {
-            domain.getResourceSet().getResource(uri, true);
+            if (!processResource(domain.getResourceSet().getResource(uri, true)))
+            {
+              return false;
+            }
           }
           catch (RuntimeException exception)
           {
@@ -131,6 +135,11 @@ public class LoadResourceAction extends Action
           }
         }
       }
+      return true;
+    }
+
+    protected boolean processResource(Resource resource)
+    {
       return true;
     }
   }
