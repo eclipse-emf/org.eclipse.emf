@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryItemProvider.java,v 1.15 2008/01/09 15:34:42 emerks Exp $
+ * $Id: EStringToStringMapEntryItemProvider.java,v 1.16 2008/02/29 20:50:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -198,7 +198,7 @@ public class EStringToStringMapEntryItemProvider
   protected Command createSetCommand(EditingDomain domain, final EObject owner, EStructuralFeature feature, Object value, int index) 
   {
     Command result = super.createSetCommand(domain, owner, feature, value, index);
-    if (feature == EcorePackage.eINSTANCE.getEStringToStringMapEntry_Key())
+    if (feature == EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY__KEY)
     {
       result = new
         CommandWrapper(result)

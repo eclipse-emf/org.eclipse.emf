@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeItemProvider.java,v 1.7 2008/01/10 21:59:57 emerks Exp $
+ * $Id: EGenericTypeItemProvider.java,v 1.8 2008/02/29 20:50:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -242,18 +242,26 @@ public class EGenericTypeItemProvider
            //
            Collection<Object> result = new ArrayList<Object>(super.getChoiceOfValues(object));
 
-           for (EClassifier classifier : EcorePackage.eINSTANCE.getEClassifiers())
+           if (eGenericType.eResource() == null ||
+                 eGenericType.eResource().getResourceSet() == null ||
+                 !eGenericType.eResource().getResourceSet().getPackageRegistry().containsKey(EcorePackage.eNS_URI))
            {
-             if (classifier instanceof EClass)
+             for (EClassifier classifier : EcorePackage.eINSTANCE.getEClassifiers())
              {
-               result.remove(classifier);
-             }
-             else if (!result.contains(classifier))
-             {
-               result.add(classifier);
+               if (classifier instanceof EClass)
+               {
+                 result.remove(classifier);
+               }
+               else if (!result.contains(classifier))
+               {
+                 result.add(classifier);
+               }
              }
            }
-           result.add(EcorePackage.Literals.EOBJECT);
+           if (!result.contains(EcorePackage.Literals.EOBJECT))
+           {
+             result.add(EcorePackage.Literals.EOBJECT);
+           }
 
            EObject container = eGenericType.eContainer();
            if (container instanceof EAttribute)

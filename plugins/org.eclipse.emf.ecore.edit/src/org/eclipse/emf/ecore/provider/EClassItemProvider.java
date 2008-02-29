@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.19 2008/01/10 21:59:58 emerks Exp $
+ * $Id: EClassItemProvider.java,v 1.20 2008/02/29 20:50:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -163,7 +163,12 @@ public class EClassItemProvider
            // Filter out classes that aren't permitted.
            //
            Collection<?> result = super.getChoiceOfValues(object);
-           result.removeAll(EcorePackage.eINSTANCE.getEClassifiers());
+           if (eClass.eResource() == null ||
+                 eClass.eResource().getResourceSet() == null ||
+                 !eClass.eResource().getResourceSet().getPackageRegistry().containsKey(EcorePackage.eNS_URI))
+           {
+             result.removeAll(EcorePackage.eINSTANCE.getEClassifiers());
+           }
            for (Iterator<?> i = result.iterator(); i.hasNext(); )
            {
              EClass otherEClass = (EClass)i.next();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementItemProvider.java,v 1.12 2008/01/10 21:59:57 emerks Exp $
+ * $Id: EModelElementItemProvider.java,v 1.13 2008/02/29 20:50:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.ecore.provider;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,10 +31,13 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -253,7 +257,14 @@ public class EModelElementItemProvider
       for (Object item : items)
       {
         String label = labelProvider.getText(item);
-        if (conflictingLabels.contains(label))
+        if ("".equals(label))
+        {
+          if (item != null)
+          {
+            labelToObjectMap.put("- " + EcoreUtil.getURI((EObject)item).deresolve(base), item);
+          }
+        }
+        else if (conflictingLabels.contains(label))
         {
           labelToObjectMap.put(label + " - " + EcoreUtil.getURI((EObject)item).deresolve(base), item);
         }
@@ -274,6 +285,33 @@ public class EModelElementItemProvider
       for (Map.Entry<String, Object> entry : labelToObjectMap.entrySet())
       {
         result.put(entry.getValue(), entry.getKey());
+      }
+      return result;
+    }
+
+    @Override
+    public Collection<?> getChoiceOfValues(Object object)
+    {
+      Collection<?> result = super.getChoiceOfValues(object);
+      if (feature instanceof EReference && object instanceof EObject)
+      {
+        @SuppressWarnings("unchecked")
+        List<EObject> eObjects = (List<EObject>)(List<?>)new LinkedList<Object>(result);
+        Resource resource = ((EObject)object).eResource();
+        if (resource != null)
+        {
+          ResourceSet resourceSet = resource.getResourceSet();
+          if (resourceSet != null)
+          {
+            Collection<EObject> visited = new HashSet<EObject>(eObjects);
+            Registry packageRegistry = resourceSet.getPackageRegistry();
+            for (String nsURI : packageRegistry.keySet())
+            {
+              collectReachableObjectsOfType(visited, eObjects, packageRegistry.getEPackage(nsURI), feature.getEType());
+            }
+          }
+        }
+        result = eObjects;
       }
       return result;
     }

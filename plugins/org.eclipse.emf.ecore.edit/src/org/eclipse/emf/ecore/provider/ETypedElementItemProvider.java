@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.25 2008/02/29 13:41:15 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.26 2008/02/29 20:50:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -266,22 +266,31 @@ public class ETypedElementItemProvider
          @Override
          public Collection<?> getChoiceOfValues(Object object)
          {
+           ETypedElement eTypedElement = (ETypedElement)object;
            // Filter out types that aren't permitted.
            //
            Collection<Object> result = new ArrayList<Object>(super.getChoiceOfValues(object));
 
-           for (Object classifier :  EcorePackage.eINSTANCE.getEClassifiers())
+           if (eTypedElement.eResource() == null ||
+                 eTypedElement.eResource().getResourceSet() == null ||
+                 !eTypedElement.eResource().getResourceSet().getPackageRegistry().containsKey(EcorePackage.eNS_URI))
            {
-             if (classifier instanceof EClass)
+             for (Object classifier :  EcorePackage.eINSTANCE.getEClassifiers())
              {
-               result.remove(classifier);
-             }
-             else if (!result.contains(classifier))
-             {
-               result.add(classifier);
+               if (classifier instanceof EClass)
+               {
+                 result.remove(classifier);
+               }
+               else if (!result.contains(classifier))
+               {
+                 result.add(classifier);
+               }
              }
            }
-           result.add(EcorePackage.Literals.EOBJECT);
+           if (!result.contains(EcorePackage.Literals.EOBJECT))
+           {
+             result.add(EcorePackage.Literals.EOBJECT);
+           }
 
            if (object instanceof EAttribute)
            {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.18 2008/01/09 15:34:42 emerks Exp $
+ * $Id: EReferenceItemProvider.java,v 1.19 2008/02/29 20:50:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -176,7 +176,7 @@ public class EReferenceItemProvider
          getResourceLocator(),
          getString("_UI_EReference_eOpposite_feature"),
          getString("_UI_EReference_eOpposite_description"),
-         EcorePackage.eINSTANCE.getEReference_EOpposite(),
+         EcorePackage.Literals.EREFERENCE__EOPPOSITE,
          true,
          false,
          true,

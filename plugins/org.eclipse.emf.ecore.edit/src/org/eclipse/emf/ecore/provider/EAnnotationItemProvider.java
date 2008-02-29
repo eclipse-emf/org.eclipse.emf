@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.18 2008/01/09 15:34:41 emerks Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.19 2008/02/29 20:50:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -241,8 +241,8 @@ public class EAnnotationItemProvider
 
     newChildDescriptors.add
     (createChildParameter
-      (EcorePackage.eINSTANCE.getEAnnotation_Details(),
-       EcoreFactory.eINSTANCE.create(EcorePackage.eINSTANCE.getEStringToStringMapEntry())));
+      (EcorePackage.Literals.EANNOTATION__DETAILS,
+       EcoreFactory.eINSTANCE.create(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY)));
   }
 
   /**
