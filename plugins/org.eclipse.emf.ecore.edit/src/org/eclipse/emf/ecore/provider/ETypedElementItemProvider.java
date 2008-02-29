@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.24 2008/01/15 17:39:51 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.25 2008/02/29 13:41:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -415,7 +415,7 @@ public class ETypedElementItemProvider
     int minOccurs = eTypedElement.getLowerBound();
     int maxOccurs = eTypedElement.getUpperBound();
 
-    if (minOccurs >= 0 && (minOccurs <= maxOccurs || maxOccurs == -1))
+    if (minOccurs >= 0 && (minOccurs <= maxOccurs || maxOccurs == ETypedElement.UNBOUNDED_MULTIPLICITY || maxOccurs == ETypedElement.UNSPECIFIED_MULTIPLICITY))
     {
       switch (minOccurs)
       {
@@ -440,7 +440,12 @@ public class ETypedElementItemProvider
       {
         switch (maxOccurs)
         {
-          case -1:
+          case ETypedElement.UNSPECIFIED_MULTIPLICITY:
+          {
+            imageName += "ToUnspecified";
+            break;
+          }
+          case ETypedElement.UNBOUNDED_MULTIPLICITY:
           {
             imageName += "ToUnbounded";
             break;
@@ -472,6 +477,11 @@ public class ETypedElementItemProvider
       images.add(EcoreEditPlugin.INSTANCE.getImage(imageName));
     }
   
+    final int offset =
+      !imageName.endsWith("Unspecified") && object instanceof EStructuralFeature ?
+        -2 : 
+        -3;
+
     return 
       new ComposedImage(images)
       {
@@ -481,7 +491,7 @@ public class ETypedElementItemProvider
           List<ComposedImage.Point> result = super.getDrawPoints(size);
           if (result.size() > 1)
           {
-            result.get(0).y = -2;
+            result.get(0).y = offset;
           }
           return result;
         }
