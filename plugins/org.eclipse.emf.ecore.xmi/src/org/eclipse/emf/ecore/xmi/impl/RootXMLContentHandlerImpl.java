@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RootXMLContentHandlerImpl.java,v 1.3 2007/12/22 21:04:43 emerks Exp $
+ * $Id: RootXMLContentHandlerImpl.java,v 1.4 2008/03/04 18:29:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -90,6 +90,12 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
    * @see #namespace
    */
   public static final String NAMESPACE = "namespace";
+
+  /**
+   * A namespace value that matches any namespace.
+   * @see #namespace
+   */
+  public static final String ANY_NAMESPACE = "##any";
 
   /**
    * The key in the {@link #RootXMLContentHandlerImpl(Map) constructor}'s parameter map representing the root element names
@@ -207,7 +213,7 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
           }
         }
 
-        if (rootElementName != null && (namespace == null ? rootElementNamespace == null : namespace.equals(rootElementNamespace)))
+        if (rootElementName != null && (ANY_NAMESPACE.equals(namespace) || (namespace == null ? rootElementNamespace == null : namespace.equals(rootElementNamespace))))
         {
           boolean elementNameMatched = false;
           if (elementNames == null || elementNames.length == 0)
@@ -228,7 +234,7 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
           if (elementNameMatched)
           {
             result.put(VALIDITY_PROPERTY, ContentHandler.Validity.VALID);
-            result.put(CONTENT_TYPE_PROPERTY, contentTypeID);
+            result.put(CONTENT_TYPE_PROPERTY, contentTypeID == null ? rootElementNamespace == null ? "" : rootElementNamespace : contentTypeID);
             return result;
           }
         }
