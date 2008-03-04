@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2007 IBM Corporation and others.
+ * Copyright (c) 2007-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ContentHandlerImpl.java,v 1.2 2007/12/22 19:39:58 emerks Exp $
+ * $Id: ContentHandlerImpl.java,v 1.3 2008/03/04 18:26:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -20,21 +20,15 @@ package org.eclipse.emf.ecore.resource.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
-import org.eclipse.core.runtime.IExtensionDelta;
-import org.eclipse.core.runtime.IRegistryChangeEvent;
-import org.eclipse.core.runtime.IRegistryChangeListener;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.content.IContentDescriber;
 import org.eclipse.core.runtime.content.IContentDescription;
@@ -252,60 +246,10 @@ public class ContentHandlerImpl implements ContentHandler
       return describe(new URIConverter.ReadableInputStream(reader), description);
     }
 
-    /**
-     * The cache in which to store content handler contributions.
-     */
-    private static final Map<String, List<ContentHandler>> CONTRIBUTION_MAP = new HashMap<String, List<ContentHandler>>();
-
-    static
-    {
-      // Set up a listener to remove content handler contributions that originate from any removed contributors.
-      //
-      Platform.getExtensionRegistry().addRegistryChangeListener
-       (new IRegistryChangeListener()
-        {
-          public void registryChanged(IRegistryChangeEvent event)
-          {
-            IExtensionDelta[] deltas = event.getExtensionDeltas();
-            for (int i = 0; i < deltas.length; ++i)
-            {
-              IExtensionDelta delta = deltas[i];
-              if (delta.getKind() == IExtensionDelta.REMOVED)
-              {
-                String contributorName = delta.getExtension().getContributor().getName();
-                List<ContentHandler> contributions = CONTRIBUTION_MAP.get(contributorName);
-                if (contributions != null)
-                {
-                  for (List<ContentHandler> values : ContentHandler.Registry.INSTANCE.values())
-                  {
-                    values.removeAll(contributions);
-                  }
-                }
-                CONTRIBUTION_MAP.remove(contributorName);
-              }
-            }
-          }
-        });
-    }
-
     public void setInitializationData(IConfigurationElement configurationElement, String propertyName, Object data) throws CoreException
     {
       Map<String, String> parameters = getParameters(configurationElement, propertyName, data);
       contentHandler = createContentHandler(parameters);
-
-      String priority = configurationElement.getAttribute("priority");
-      ContentHandler.Registry.INSTANCE.put
-        ("high".equals(priority) ? ContentHandler.Registry.HIGH_PRIORITY : "low".equals(priority) ? ContentHandler.Registry.LOW_PRIORITY : 0, contentHandler);
-      String contributorName = configurationElement.getContributor().getName();
-
-      // Arrange for this to be removed when the contributor is uninstalled.
-      //
-      List<ContentHandler> contributions = CONTRIBUTION_MAP.get(contributorName);
-      if (contributions == null)
-      {
-        CONTRIBUTION_MAP.put(contributorName, contributions = new ArrayList<ContentHandler>());
-      }
-      contributions.add(contentHandler);
     }
 
     /**
