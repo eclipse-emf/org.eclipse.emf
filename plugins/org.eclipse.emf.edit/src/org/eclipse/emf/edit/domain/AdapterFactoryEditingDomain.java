@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.23 2008/01/05 19:55:18 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.24 2008/03/09 17:19:36 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -532,7 +532,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
         Object obj = commandParameter.getValue();
         Object parent = (obj == null) ? null : getParent(obj);
         if (parent == null) parent = obj;
-        return createCommand(ReplaceCommand.class, new CommandParameter(parent, null, commandParameter.getCollection()));
+        return createCommand(ReplaceCommand.class, new CommandParameter(parent, null, obj, commandParameter.getCollection()));
       }
       else if (commandClass == CreateChildCommand.class)
       {
