@@ -5,7 +5,7 @@
     editorDirectory="" modelPluginID="org.eclipse.emf.mapping.xsd2ecore" runtimeJar="true"
     modelName="XSD2Ecore" editPluginClass="org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePlugin"
     updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
-    complianceLevel="5.0" usedGenPackages="../../org.eclipse.emf.mapping/model/Mapping.genmodel#//mapping ../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    complianceLevel="5.0" language="en" usedGenPackages="../../org.eclipse.emf.mapping/model/Mapping.genmodel#//mapping ../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>XSD2Ecore.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
