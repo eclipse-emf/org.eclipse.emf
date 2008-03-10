@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIHandlerImpl.java,v 1.3 2007/11/03 13:15:45 emerks Exp $
+ * $Id: URIHandlerImpl.java,v 1.4 2008/03/10 19:17:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -277,6 +277,10 @@ public class URIHandlerImpl implements URIHandler
               {
                 result = contentDescription;
               }
+              break;
+            }
+            case INVALID:
+            {
               break;
             }
           }
