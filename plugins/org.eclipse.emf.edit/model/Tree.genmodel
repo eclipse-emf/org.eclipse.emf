@@ -4,7 +4,8 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.edit/src"
     editDirectory="/org.eclipse.emf.edit/src" editorDirectory="" modelPluginID="org.eclipse.emf.edit"
     modelName="Tree" editPluginClass="" updateClasspath="false" testsDirectory=""
-    importerID="org.eclipse.emf.importer.rose" complianceLevel="5.0" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    importerID="org.eclipse.emf.importer.rose" complianceLevel="5.0" language="en"
+    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>Tree.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
