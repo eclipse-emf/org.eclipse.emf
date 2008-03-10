@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -390,23 +391,41 @@ public class CodeGenUtil
     return result.length() == 0 ? "_" : result.toString();
   }
   
+  /**
+   * @since 2.4
+   */
+  public static String capName(String name, Locale locale)
+  {
+    if (name.length() == 0)
+      return name;
+    else
+      return name.substring(0,1).toUpperCase(locale) + name.substring(1);
+  }
+
   public static String capName(String name)
   {
-    if (name.length() == 0)
-      return name;
-    else
-      return name.substring(0,1).toUpperCase() + name.substring(1);
+    return capName(name, Locale.getDefault());
   }
 
-  public static String uncapName(String name)
+  /*
+   * @since 2.4
+   */
+  public static String uncapName(String name, Locale locale)
   {
     if (name.length() == 0)
       return name;
     else
-      return name.substring(0,1).toLowerCase() + name.substring(1);
+      return name.substring(0,1).toLowerCase(locale) + name.substring(1);
+  }
+  public static String uncapName(String name)
+  {
+    return uncapName(name, Locale.getDefault());
   }
 
-  public static String uncapPrefixedName(String name, boolean forceDifferent)
+  /**
+   * @since 2.4
+   */
+  public static String uncapPrefixedName(String name, boolean forceDifferent, Locale locale)
   {
     // lower all except the last upper case character if there are
     // more than one upper case characters in the beginning.
@@ -420,7 +439,7 @@ public class CodeGenUtil
     }
     else 
     {
-      String lowerName = name.toLowerCase();
+      String lowerName = name.toLowerCase(locale);
       int i;
       for (i = 0; i < name.length(); i++) 
       {
@@ -434,13 +453,18 @@ public class CodeGenUtil
         --i;
       }
       String prefix = name.substring(0, i);
-      String lowerCasePrefix = prefix.toLowerCase();
+      String lowerCasePrefix = prefix.toLowerCase(locale);
       if (forceDifferent && lowerCasePrefix.equals(prefix))
       {
         lowerCasePrefix = "_" + lowerCasePrefix;
       }
       return lowerCasePrefix + name.substring(i);
     }
+  }
+
+  public static String uncapPrefixedName(String name, boolean forceDifferent)
+  {
+    return uncapPrefixedName(name, forceDifferent, Locale.getDefault());
   }
 
   public static String safeName(String name)
