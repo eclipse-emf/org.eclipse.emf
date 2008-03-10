@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.ecore/src"
     editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.ecore" modelName="XML Types for XML Schema"
     updateClasspath="false" testsDirectory="" importerID="org.eclipse.xsd.ecore.importer"
-    minimalReflectiveMethods="false" complianceLevel="5.0">
+    minimalReflectiveMethods="false" complianceLevel="5.0" language="en">
   <foreignModel>XMLType.xsd</foreignModel>
   <genPackages prefix="XMLType" basePackage="org.eclipse.emf.ecore.xml" resource="Basic"
       disposableProviderFactory="true" adapterFactory="false" dataTypeConverters="true"
