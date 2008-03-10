@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.20 2008/02/25 15:40:37 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.21 2008/03/10 14:22:48 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -268,13 +268,21 @@ public class XSDValidateTest extends TestCase
       "XSD: The value 'ha' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#hexBinary'",
       "XSD: The value 'P-1347M' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#duration'",
       "XSD: The value '1999-10-32' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#date'",
+      "XSD: The value '1999' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#date'",
       "XSD: The value '13:20:00-25:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#time'",
+      "XSD: The value '1999' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#time'",
       "XSD: The value '1999-05-31T13:20:00-25:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#dateTime'",
+      "XSD: The value '1999' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#dateTime'",
       "XSD: The value '199x' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gYear'",
+      "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gYear'",
       "XSD: The value '--13' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'",
+      "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'",
       "XSD: The value '1999-13' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gYearMonth'",
+      "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gYearMonth'",
       "XSD: The value '---32' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gDay'",
+      "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gDay'",
       "XSD: The value '--10-32' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonthDay'",
+      "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonthDay'",
       "XSD: The value ':##:' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#anyURI'",
       "XSD: The value 'xsd::string' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#QName'",
       "XSD: The value 'xsd2:string' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#QName'",

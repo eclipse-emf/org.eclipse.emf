@@ -4,7 +4,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BadDataType.xsd,v 1.4 2008/02/25 15:40:37 emerks Exp $
+ * $Id: BadDataType.xsd,v 1.5 2008/03/10 14:22:48 emerks Exp $
  */
 -->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:this="http://www.example.com/Bad" xmlns:xsd1="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.com/Bad">
@@ -102,6 +102,7 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:date">
             <xsd:enumeration value="1999-10-32"/>
+            <xsd:enumeration value="1999"/>
             <xsd:enumeration value="1999-10-26"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -113,6 +114,7 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:time">
             <xsd:enumeration value="13:20:00-25:00"/>
+            <xsd:enumeration value="1999"/>
             <xsd:enumeration value="13:20:00-05:00"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -124,6 +126,7 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:dateTime">
             <xsd:enumeration value="1999-05-31T13:20:00-25:00"/>
+            <xsd:enumeration value="1999"/>
             <xsd:enumeration value="1999-05-31T13:20:00-05:00"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -135,6 +138,7 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:gYear">
             <xsd:enumeration value="199x"/>
+            <xsd:enumeration value="1999-05-31T13:20:00-05:00"/>
             <xsd:enumeration value="1999"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -146,6 +150,7 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:gMonth">
             <xsd:enumeration value="--13"/>
+            <xsd:enumeration value="1999-05-31T13:20:00-05:00"/>
             <xsd:enumeration value="--12"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -157,6 +162,7 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:gYearMonth">
             <xsd:enumeration value="1999-13"/>
+            <xsd:enumeration value="1999-05-31T13:20:00-05:00"/>
             <xsd:enumeration value="1999-12"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -168,6 +174,7 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:gDay">
             <xsd:enumeration value="---32"/>
+            <xsd:enumeration value="1999-05-31T13:20:00-05:00"/>
             <xsd:enumeration value="---31"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -179,6 +186,7 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:gMonthDay">
             <xsd:enumeration value="--10-32"/>
+            <xsd:enumeration value="1999-05-31T13:20:00-05:00"/>
             <xsd:enumeration value="--10-31"/>
         </xsd:restriction>
     </xsd:simpleType>
