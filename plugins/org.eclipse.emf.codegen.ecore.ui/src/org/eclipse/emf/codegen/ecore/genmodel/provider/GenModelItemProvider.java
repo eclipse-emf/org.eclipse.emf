@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.40 2008/02/01 17:47:21 emerks Exp $
+ * $Id: GenModelItemProvider.java,v 1.41 2008/03/10 19:10:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -24,7 +24,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
@@ -140,6 +139,7 @@ public class GenModelItemProvider
       addColorProvidersPropertyDescriptor(object);
       addFontProvidersPropertyDescriptor(object);
       addRuntimeVersionPropertyDescriptor(object);
+      addLanguagePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1663,6 +1663,29 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Language feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addLanguagePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_language_feature"),
+         getString("_UI_GenModel_language_description"),
+         GenModelPackage.Literals.GEN_MODEL__LANGUAGE,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_AllPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1798,6 +1821,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__COLOR_PROVIDERS:
       case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
       case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
+      case GenModelPackage.GEN_MODEL__LANGUAGE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
@@ -1806,18 +1830,6 @@ public class GenModelItemProvider
         return;
     }
     super.notifyChanged(notification);
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return GenModelEditPlugin.INSTANCE;
   }
 
 }

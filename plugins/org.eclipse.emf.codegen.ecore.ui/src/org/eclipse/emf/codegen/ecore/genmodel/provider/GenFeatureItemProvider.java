@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureItemProvider.java,v 1.14 2006/12/28 16:49:46 marcelop Exp $
+ * $Id: GenFeatureItemProvider.java,v 1.15 2008/03/10 19:10:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -23,7 +23,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
@@ -440,18 +439,6 @@ public class GenFeatureItemProvider
         return;
     }
     super.notifyChanged(notification);
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return GenModelEditPlugin.INSTANCE;
   }
 
 }
