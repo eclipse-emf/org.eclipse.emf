@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ManifestMF" version="$Id: manifest.mfjet,v 1.5 2007/01/17 15:24:52 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ManifestMF" version="$Id: manifest.mfjet,v 1.6 2008/03/10 19:14:06 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -38,4 +38,7 @@ Export-Package: <%=pack%><%while(packagesIterator.hasNext()) { pack = packagesIt
 Require-Bundle: <%=pluginID%><%if (!pluginID.startsWith("org.eclipse.core.runtime")){%>;visibility:=reexport<%} while(requiredPluginIterator.hasNext()) { pluginID = requiredPluginIterator.next();%>,
  <%=pluginID%><%if (!pluginID.startsWith("org.eclipse.core.runtime")){%>;visibility:=reexport<%}}%>
 <%}%>
+<%if (genModel.getRuntimeVersion() == GenRuntimeVersion.EMF22 || genModel.getRuntimeVersion() == GenRuntimeVersion.EMF23) {%>
 Eclipse-LazyStart: true
+<%}%>
+Bundle-ActivationPolicy: lazy

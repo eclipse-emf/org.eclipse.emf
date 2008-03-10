@@ -31,7 +31,8 @@ public class ManifestMF
   protected final String TEXT_14 = NL + " ";
   protected final String TEXT_15 = ";visibility:=reexport";
   protected final String TEXT_16 = NL + "Eclipse-LazyStart: true";
-  protected final String TEXT_17 = NL;
+  protected final String TEXT_17 = NL + "Bundle-ActivationPolicy: lazy";
+  protected final String TEXT_18 = NL;
 
   public String generate(Object argument)
   {
@@ -90,8 +91,11 @@ public class ManifestMF
     stringBuffer.append(TEXT_15);
     }}
     }
+    if (genModel.getRuntimeVersion() == GenRuntimeVersion.EMF22 || genModel.getRuntimeVersion() == GenRuntimeVersion.EMF23) {
     stringBuffer.append(TEXT_16);
+    }
     stringBuffer.append(TEXT_17);
+    stringBuffer.append(TEXT_18);
     return stringBuffer.toString();
   }
 }
