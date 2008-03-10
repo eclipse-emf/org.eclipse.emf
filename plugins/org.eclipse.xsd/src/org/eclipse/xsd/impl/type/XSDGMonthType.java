@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGMonthType.java,v 1.5 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDGMonthType.java,v 1.6 2008/03/10 14:22:26 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -26,7 +26,8 @@ public class XSDGMonthType extends XSDAnySimpleType
   {
     try
     {
-      return new XMLCalendar(normalizedLiteral, XMLCalendar.GMONTH);
+      XMLCalendar calendar = new XMLCalendar(normalizedLiteral, XMLCalendar.GMONTH);
+      return calendar.isValid() && "gMonth".equals(calendar.getXMLSchemaType().getLocalPart()) ? calendar : null;
     }
     catch (RuntimeException exception)
     {

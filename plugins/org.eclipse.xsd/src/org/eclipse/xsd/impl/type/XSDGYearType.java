@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGYearType.java,v 1.5 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDGYearType.java,v 1.6 2008/03/10 14:22:25 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -26,7 +26,8 @@ public class XSDGYearType extends XSDAnySimpleType
   {
     try
     {
-      return new XMLCalendar(normalizedLiteral, XMLCalendar.GYEAR);
+      XMLCalendar calendar = new XMLCalendar(normalizedLiteral, XMLCalendar.GYEAR);
+      return calendar.isValid() && "gYear".equals(calendar.getXMLSchemaType().getLocalPart()) ? calendar : null;
     }
     catch (RuntimeException exception)
     {

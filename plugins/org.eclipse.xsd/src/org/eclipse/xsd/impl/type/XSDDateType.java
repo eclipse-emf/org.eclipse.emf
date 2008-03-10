@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDateType.java,v 1.5 2006/12/29 18:16:23 marcelop Exp $
+ * $Id: XSDDateType.java,v 1.6 2008/03/10 14:22:25 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -26,8 +26,8 @@ public class XSDDateType extends XSDAnySimpleType
   {
     try
     {
-      return new XMLCalendar(normalizedLiteral, XMLCalendar.DATE);
-
+      XMLCalendar calendar = new XMLCalendar(normalizedLiteral, XMLCalendar.DATE);
+      return calendar.isValid() && "date".equals(calendar.getXMLSchemaType().getLocalPart()) ? calendar : null;
     }
     catch (RuntimeException exception)
     {
