@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.17 2008/02/29 20:49:36 emerks Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.18 2008/03/10 19:17:15 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -38,7 +38,6 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.SubContributionItem;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -46,6 +45,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -127,7 +127,7 @@ public class EcoreActionBarContributor
         new ExtendedLoadResourceDialog
           (shell, domain);
     
-      if (loadResourceDialog.open() == Dialog.OK && !loadResourceDialog.getRegisteredPackages().isEmpty())
+      if (loadResourceDialog.open() == Window.OK && !loadResourceDialog.getRegisteredPackages().isEmpty())
       {
         String source = EcoreEditorPlugin.INSTANCE.getSymbolicName();
         BasicDiagnostic diagnosic = 
