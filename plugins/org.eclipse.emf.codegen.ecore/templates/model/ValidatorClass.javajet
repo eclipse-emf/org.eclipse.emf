@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.30 2008/02/01 18:12:38 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.31 2008/03/10 19:10:26 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -199,7 +199,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 
 <%for (String constraint : genClassifier.getGenConstraints())
 {GenClassifier constraintDelegate = genClassifier.getConstraintDelegate(constraint);
-  String constant = genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase();
+  String constant = genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase(genClassifier.getGenModel().getLocale());
   String delegate = constraintDelegate == null || constraintDelegate.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(constraintDelegate.getGenPackage()) + "Validator.";
   String cast = constraintDelegate == null && genClassifier instanceof GenClass && !((GenClass)genClassifier).isEObjectExtension() ? "(" + genModel.getImportedName("org.eclipse.emf.ecore.EObject") + ")" : "";
   String accessor = constraintDelegate != null && genClassifier instanceof GenDataType && !((GenDataType)genClassifier).isPrimitiveType() && ((GenDataType)constraintDelegate).isPrimitiveType() ? "." + ((GenDataType)constraintDelegate).getPrimitiveValueFunction() + "()" : "";%>
@@ -573,6 +573,9 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+  <%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+  <%}%>
 	public <%=genModel.getImportedName("org.eclipse.emf.common.util.ResourceLocator")%> getResourceLocator()
 	{
   <%if (genModel.hasModelPluginClass()) {%>

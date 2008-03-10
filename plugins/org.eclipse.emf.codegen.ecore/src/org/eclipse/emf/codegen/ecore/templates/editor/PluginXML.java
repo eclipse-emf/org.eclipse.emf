@@ -213,7 +213,7 @@ public class PluginXML
     stringBuffer.append(TEXT_41);
     if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {
     stringBuffer.append(TEXT_42);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(genPackage.getPrefix().toLowerCase(genModel.getLocale()));
     stringBuffer.append(TEXT_43);
     stringBuffer.append(genPackage.getQualifiedResourceFactoryClassName());
     stringBuffer.append(TEXT_44);
@@ -296,7 +296,7 @@ public class PluginXML
     stringBuffer.append(TEXT_79);
     stringBuffer.append(genPackage.getPrefix());
     stringBuffer.append(TEXT_80);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(genPackage.getPrefix().toLowerCase(genModel.getLocale()));
     stringBuffer.append(TEXT_81);
     stringBuffer.append(genPackage.getQualifiedEditorClassName());
     stringBuffer.append(TEXT_82);

@@ -528,7 +528,7 @@ public class ModelWizard
     stringBuffer.append(TEXT_123);
     }
     stringBuffer.append(TEXT_124);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(genPackage.getPrefix().toLowerCase(genModel.getLocale()));
     stringBuffer.append(TEXT_125);
     stringBuffer.append(genPackage.getImportedEditorPluginClassName());
     stringBuffer.append(TEXT_126);

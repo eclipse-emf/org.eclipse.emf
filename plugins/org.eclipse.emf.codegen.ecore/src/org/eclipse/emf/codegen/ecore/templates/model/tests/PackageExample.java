@@ -181,7 +181,7 @@ String _ResourceSetImpl = genModel.getImportedName("org.eclipse.emf.ecore.resour
     stringBuffer.append(TEXT_24);
     stringBuffer.append(_URI);
     stringBuffer.append(TEXT_25);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(genPackage.getPrefix().toLowerCase(genModel.getLocale()));
     stringBuffer.append(TEXT_26);
     stringBuffer.append(genModel.getNonNLS());
     if (genPackage.getRootFeature() != null) { GenFeature rootFeature = genPackage.getRootFeature(); GenClass documentRoot = rootFeature.getGenClass();

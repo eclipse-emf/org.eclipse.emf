@@ -88,7 +88,7 @@ public class <%=genPackage.getExampleClassName()%>
 			System.out.println("Enter a list of file paths or URIs that have content like this:");<%=genModel.getNonNLS()%>
 			try
 			{
-				<%=_Resource%> resource = resourceSet.createResource(<%=_URI%>.createURI("http:///My.<%=genPackage.getPrefix().toLowerCase()%>"));<%=genModel.getNonNLS()%>
+				<%=_Resource%> resource = resourceSet.createResource(<%=_URI%>.createURI("http:///My.<%=genPackage.getPrefix().toLowerCase(genModel.getLocale())%>"));<%=genModel.getNonNLS()%>
   <%if (genPackage.getRootFeature() != null) { GenFeature rootFeature = genPackage.getRootFeature(); GenClass documentRoot = rootFeature.getGenClass();%>
 				<%=documentRoot.getImportedInterfaceName()%> documentRoot = <%=genPackage.getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=documentRoot.getName()%>();
 				<%=rootClass.getImportedInterfaceName()%> root = <%=rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=rootClass.getName()%>();

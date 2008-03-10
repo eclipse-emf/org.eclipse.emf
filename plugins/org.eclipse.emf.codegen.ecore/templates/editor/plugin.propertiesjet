@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.17 2007/05/29 20:26:36 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.18 2008/03/10 19:10:25 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -76,7 +76,7 @@ _UI_<%=genPackage.getModelWizardClassName()%>_description = Create a new <%=genP
 _UI_<%=genPackage.getEditorClassName()%>_label = <%=genPackage.getPrefix()%> Model Editor
 
 _UI_<%=genPackage.getEditorClassName()%>FilenameDefaultBase = My
-_UI_<%=genPackage.getEditorClassName()%>FilenameExtension = <%=genPackage.getPrefix().toLowerCase()%>
+_UI_<%=genPackage.getEditorClassName()%>FilenameExtension = <%=genPackage.getPrefix().toLowerCase(genModel.getLocale())%>
 
 <%}%>
 _UI_Wizard_label = New

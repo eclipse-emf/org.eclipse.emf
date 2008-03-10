@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.87 2008/01/31 17:11:32 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.88 2008/03/10 19:10:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -884,7 +885,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getFeatureID(GenFeature genFeature)
   {
-    return getClassifierID() + "__" + format(genFeature.getName(), '_', null, false, false).toUpperCase();
+    return getClassifierID() + "__" + format(genFeature.getName(), '_', null, false, false).toUpperCase(getGenModel().getLocale());
   }
 
   public String getQualifiedFeatureID(GenFeature genFeature)
@@ -894,7 +895,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getOperationID(GenOperation genOperation)
   {
-    return getClassifierID() + "__" + format(genOperation.getName(), '_', null, false, false).toUpperCase();
+    return getClassifierID() + "__" + format(genOperation.getName(), '_', null, false, false).toUpperCase(getGenModel().getLocale());
   }
 
   public String getFeatureValue(GenFeature genFeature)
@@ -2088,6 +2089,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     if (labelFeature != null)
       return labelFeature;
     
+    Locale locale = getGenModel().getLocale();
     //FB TBD can we come up with a better algorithm for choosing the default label feature?
     for (GenFeature feature : getLabelFeatureCandidates())
     {
@@ -2102,23 +2104,23 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           }
           else if (featureName.equalsIgnoreCase("id")) 
           {
-            if (labelFeature == null || !labelFeature.getName().toLowerCase().endsWith("name"))
+            if (labelFeature == null || !labelFeature.getName().toLowerCase(locale).endsWith("name"))
             {
               labelFeature = feature;
             }
           }
-          else if (featureName.toLowerCase().endsWith("name")) 
+          else if (featureName.toLowerCase(locale).endsWith("name")) 
           {
             if (labelFeature == null || 
-                 !labelFeature.getName().toLowerCase().endsWith("name") && !labelFeature.getName().equalsIgnoreCase("id"))
+                 !labelFeature.getName().toLowerCase(locale).endsWith("name") && !labelFeature.getName().equalsIgnoreCase("id"))
             {
               labelFeature = feature;
             }
           }
-          else if (featureName.toLowerCase().indexOf("name") != -1)
+          else if (featureName.toLowerCase(locale).indexOf("name") != -1)
           {
             if (labelFeature == null || 
-                  labelFeature.getName().toLowerCase().indexOf("name") == -1 && !labelFeature.getName().equalsIgnoreCase("id"))
+                  labelFeature.getName().toLowerCase(locale).indexOf("name") == -1 && !labelFeature.getName().equalsIgnoreCase("id"))
             {
               labelFeature = feature;
             }

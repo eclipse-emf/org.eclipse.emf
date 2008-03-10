@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.13 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenClassifierImpl.java,v 1.14 2008/03/10 19:10:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -258,7 +258,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
   {
     String name = getName();
     String prefix = getGenPackage().getPrefix();
-    return format(name, '_', prefix, true, true).toUpperCase();
+    return format(name, '_', prefix, true, true).toUpperCase(getGenModel().getLocale());
   }
 
   public List<String> getGenConstraints()

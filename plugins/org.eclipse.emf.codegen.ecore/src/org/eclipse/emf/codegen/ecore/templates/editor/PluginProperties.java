@@ -130,7 +130,7 @@ public class PluginProperties
     stringBuffer.append(TEXT_23);
     stringBuffer.append(genPackage.getEditorClassName());
     stringBuffer.append(TEXT_24);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(genPackage.getPrefix().toLowerCase(genModel.getLocale()));
     stringBuffer.append(TEXT_25);
     }
     stringBuffer.append(TEXT_26);

@@ -538,14 +538,16 @@ public class ValidatorClass
   protected final String TEXT_520 = " }));";
   protected final String TEXT_521 = NL + "\t\t\t}" + NL + "\t\t\treturn false;" + NL + "\t\t}" + NL + "\t\treturn true;";
   protected final String TEXT_522 = NL + "\t}" + NL;
-  protected final String TEXT_523 = NL + "\t/**" + NL + "\t * Returns the resource locator that will be used to fetch messages for this validator's diagnostics." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
-  protected final String TEXT_524 = " getResourceLocator()" + NL + "\t{";
-  protected final String TEXT_525 = NL + "\t\treturn ";
-  protected final String TEXT_526 = ".INSTANCE;";
-  protected final String TEXT_527 = NL + "\t\t// TODO" + NL + "\t\t// Specialize this to return a resource locator for messages specific to this validator." + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\treturn super.getResourceLocator();";
-  protected final String TEXT_528 = NL + "\t}" + NL;
-  protected final String TEXT_529 = NL + "} //";
-  protected final String TEXT_530 = NL;
+  protected final String TEXT_523 = NL + "\t/**" + NL + "\t * Returns the resource locator that will be used to fetch messages for this validator's diagnostics." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_524 = NL + "\t@Override";
+  protected final String TEXT_525 = NL + "\tpublic ";
+  protected final String TEXT_526 = " getResourceLocator()" + NL + "\t{";
+  protected final String TEXT_527 = NL + "\t\treturn ";
+  protected final String TEXT_528 = ".INSTANCE;";
+  protected final String TEXT_529 = NL + "\t\t// TODO" + NL + "\t\t// Specialize this to return a resource locator for messages specific to this validator." + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\treturn super.getResourceLocator();";
+  protected final String TEXT_530 = NL + "\t}" + NL;
+  protected final String TEXT_531 = NL + "} //";
+  protected final String TEXT_532 = NL;
 
   public String generate(Object argument)
   {
@@ -786,7 +788,7 @@ public class ValidatorClass
     stringBuffer.append(TEXT_94);
     for (String constraint : genClassifier.getGenConstraints())
 {GenClassifier constraintDelegate = genClassifier.getConstraintDelegate(constraint);
-  String constant = genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase();
+  String constant = genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase(genClassifier.getGenModel().getLocale());
   String delegate = constraintDelegate == null || constraintDelegate.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(constraintDelegate.getGenPackage()) + "Validator.";
   String cast = constraintDelegate == null && genClassifier instanceof GenClass && !((GenClass)genClassifier).isEObjectExtension() ? "(" + genModel.getImportedName("org.eclipse.emf.ecore.EObject") + ")" : "";
   String accessor = constraintDelegate != null && genClassifier instanceof GenDataType && !((GenDataType)genClassifier).isPrimitiveType() && ((GenDataType)constraintDelegate).isPrimitiveType() ? "." + ((GenDataType)constraintDelegate).getPrimitiveValueFunction() + "()" : "";
@@ -1700,21 +1702,25 @@ public class ValidatorClass
     }
     if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE) {
     stringBuffer.append(TEXT_523);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.ResourceLocator"));
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_524);
-    if (genModel.hasModelPluginClass()) {
+    }
     stringBuffer.append(TEXT_525);
-    stringBuffer.append(genModel.getImportedName(genModel.getQualifiedModelPluginClassName()));
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.ResourceLocator"));
     stringBuffer.append(TEXT_526);
-    } else {
+    if (genModel.hasModelPluginClass()) {
     stringBuffer.append(TEXT_527);
-    }
+    stringBuffer.append(genModel.getImportedName(genModel.getQualifiedModelPluginClassName()));
     stringBuffer.append(TEXT_528);
-    }
+    } else {
     stringBuffer.append(TEXT_529);
+    }
+    stringBuffer.append(TEXT_530);
+    }
+    stringBuffer.append(TEXT_531);
     stringBuffer.append(genPackage.getValidatorClassName());
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_530);
+    stringBuffer.append(TEXT_532);
     return stringBuffer.toString();
   }
 }

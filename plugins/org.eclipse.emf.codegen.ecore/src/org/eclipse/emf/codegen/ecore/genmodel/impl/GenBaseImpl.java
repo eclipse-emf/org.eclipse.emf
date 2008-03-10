@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.63 2008/01/12 11:01:59 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.64 2008/03/10 19:10:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -314,23 +314,22 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   public String capName(String name)
   {
-    return CodeGenUtil.capName(name);
+    return CodeGenUtil.capName(name, getGenModel().getLocale());
   }
 
   public String uncapName(String name)
   {
-    return CodeGenUtil.uncapName(name);
+    return CodeGenUtil.uncapName(name, getGenModel().getLocale());
   }
 
   public String uncapPrefixedName(String name)
   {
-    return CodeGenUtil.uncapPrefixedName(name, false);
-    
+    return CodeGenUtil.uncapPrefixedName(name, false, getGenModel().getLocale());
   }
   
   public String uncapPrefixedName(String name, boolean forceDifferent)
   {
-    return CodeGenUtil.uncapPrefixedName(name, forceDifferent);
+    return CodeGenUtil.uncapPrefixedName(name, forceDifferent, getGenModel().getLocale());
   }
 
   public String safeName(String name)

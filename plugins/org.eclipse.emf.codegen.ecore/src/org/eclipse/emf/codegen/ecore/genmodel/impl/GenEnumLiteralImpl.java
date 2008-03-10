@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.17 2007/06/25 14:49:34 emerks Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.18 2008/03/10 19:10:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -328,7 +328,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
 
   public String getEnumLiteralID()
   {
-    return format(getName(), '_', null, false, true).toUpperCase();
+    return format(getName(), '_', null, false, true).toUpperCase(getGenModel().getLocale());
   }
   
   public String getEnumLiteralInstanceConstantName()

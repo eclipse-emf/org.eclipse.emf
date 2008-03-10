@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelValidator.java,v 1.3 2008/02/01 17:47:18 emerks Exp $
+ * $Id: GenModelValidator.java,v 1.4 2008/03/10 19:10:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -21,10 +21,10 @@ import java.util.Map;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.*;
 
-import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 //import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -155,7 +155,7 @@ public class GenModelValidator extends EObjectValidator
         return validateGenJDKLevel((GenJDKLevel)value, diagnostics, context);
       case GenModelPackage.GEN_RUNTIME_VERSION:
         return validateGenRuntimeVersion((GenRuntimeVersion)value, diagnostics, context);
-      default: 
+      default:
         return true;
     }
   }
@@ -241,14 +241,14 @@ public class GenModelValidator extends EObjectValidator
       if (diagnostics != null)
       {
         diagnostics.add
-          (new BasicDiagnostic
+          (createDiagnostic
             (Diagnostic.ERROR,
              DIAGNOSTIC_SOURCE,
              NO_ECORE_DATA_TYPE,
-             CodeGenEcorePlugin.INSTANCE.getString
-               ("_UI_GenEnumNoEcoreDataType_diagnostic",
-                new Object[] { getObjectLabel(genEnum.getEcoreDataType(), context) }),
-             new Object[] { genEnum, genEnum.getEcoreDataType() }));
+             "_UI_GenEnumNoEcoreDataType_diagnostic",
+             new String[] { getObjectLabel(genEnum.getEcoreDataType(), context) },
+             new Object[] { genEnum, genEnum.getEcoreDataType() },
+             context));
       }
       return false;
     }
@@ -401,6 +401,18 @@ public class GenModelValidator extends EObjectValidator
   public boolean validateGenRuntimeVersion(GenRuntimeVersion genRuntimeVersion, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
+  }
+
+  /**
+   * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  @Override
+  public ResourceLocator getResourceLocator()
+  {
+    return CodeGenEcorePlugin.INSTANCE;
   }
 
 } //GenModelValidator

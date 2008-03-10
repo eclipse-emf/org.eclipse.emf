@@ -170,7 +170,7 @@ public class PluginXML
     stringBuffer.append(TEXT_40);
     if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {
     stringBuffer.append(TEXT_41);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(genPackage.getPrefix().toLowerCase(genModel.getLocale()));
     stringBuffer.append(TEXT_42);
     stringBuffer.append(genPackage.getQualifiedResourceFactoryClassName());
     stringBuffer.append(TEXT_43);

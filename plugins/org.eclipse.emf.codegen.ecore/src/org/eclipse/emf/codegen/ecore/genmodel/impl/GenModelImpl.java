@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.93 2008/02/01 17:47:18 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.94 2008/03/10 19:10:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -177,6 +178,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isColorProviders <em>Color Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isFontProviders <em>Font Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getRuntimeVersion <em>Runtime Version</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getLanguage <em>Language</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1571,6 +1573,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected boolean runtimeVersionESet;
 
   /**
+   * The default value of the '{@link #getLanguage() <em>Language</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getLanguage()
+   * @generated
+   * @ordered
+   */
+  protected static final String LANGUAGE_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getLanguage() <em>Language</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getLanguage()
+   * @generated
+   * @ordered
+   */
+  protected String language = LANGUAGE_EDEFAULT;
+
+  /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1637,6 +1659,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         GenModel ecoreGenModel = getGenModel().createGenModel();
         ecoreGenModel.initialize(Collections.singleton(EcorePackage.eINSTANCE));
         ecoreGenModel.setImportManager(getImportManager());
+        ecoreGenModel.setLanguage("en");
         ecoreGenPackage = ecoreGenModel.getGenPackages().get(0);
         ecoreGenPackage.setPrefix("Ecore");
         ecoreGenPackage.setBasePackage("org.eclipse.emf");
@@ -1650,6 +1673,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         GenModel xmlTypeGenModel = getGenModel().createGenModel();
         xmlTypeGenModel.initialize(Collections.singleton(XMLTypePackage.eINSTANCE));
         xmlTypeGenModel.setImportManager(getImportManager());
+        xmlTypeGenModel.setLanguage("en");
         xmlTypeGenPackage = xmlTypeGenModel.getGenPackages().get(0);
         xmlTypeGenPackage.setPrefix("XMLType");
         xmlTypeGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
@@ -1664,6 +1688,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         GenModel xmlNamespaceGenModel = getGenModel().createGenModel();
         xmlNamespaceGenModel.initialize(Collections.singleton(XMLNamespacePackage.eINSTANCE));
         xmlNamespaceGenModel.setImportManager(getImportManager());
+        xmlNamespaceGenModel.setLanguage("en");
         xmlNamespaceGenPackage = xmlNamespaceGenModel.getGenPackages().get(0);
         xmlNamespaceGenPackage.setPrefix("XMLNamespace");
         xmlNamespaceGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
@@ -6083,6 +6108,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isFontProviders() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
         return getRuntimeVersion();
+      case GenModelPackage.GEN_MODEL__LANGUAGE:
+        return getLanguage();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6319,6 +6346,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
         setRuntimeVersion((GenRuntimeVersion)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__LANGUAGE:
+        setLanguage((String)newValue);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         getGenPackages().addAll((Collection<? extends GenPackage>)newValue);
@@ -6551,6 +6581,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
         unsetRuntimeVersion();
         return;
+      case GenModelPackage.GEN_MODEL__LANGUAGE:
+        setLanguage(LANGUAGE_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6711,6 +6744,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return fontProviders != FONT_PROVIDERS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
         return isSetRuntimeVersion();
+      case GenModelPackage.GEN_MODEL__LANGUAGE:
+        return LANGUAGE_EDEFAULT == null ? language != null : !LANGUAGE_EDEFAULT.equals(language);
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6868,6 +6903,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(fontProviders);
     result.append(", runtimeVersion: ");
     if (runtimeVersionESet) result.append(runtimeVersion); else result.append("<unset>");
+    result.append(", language: ");
+    result.append(language);
     result.append(')');
     return result.toString();
   }
@@ -7265,6 +7302,35 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return runtimeVersionESet;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLanguage()
+  {
+    return language;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setLanguageGen(String newLanguage)
+  {
+    String oldLanguage = language;
+    language = newLanguage;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__LANGUAGE, oldLanguage, language));
+  }
+
+  public void setLanguage(String newLanguage)
+  {
+    setLanguageGen(newLanguage);
+    locale = null;
+  }
+
   public boolean hasModelPluginClass()
   {
     return !sameModelEditProject() && !sameModelEditorProject() &&
@@ -7402,7 +7468,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   protected String createPackageName(String text)
   {
-    return text != null ? text.toLowerCase() : "";
+    return text != null ? text.toLowerCase(getLocale()) : "";
   }
 
   public String getModelPluginPackageName()
@@ -8040,6 +8106,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       setRuntimeVersion(oldGenModelVersion.getRuntimeVersion());
     }
+    
+    setLanguage(oldGenModelVersion.getLanguage());
   }
 
   public boolean reconcile()
@@ -8587,6 +8655,24 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
     }
     return null;
+  }
+  
+  protected Locale locale;
+
+  public Locale getLocale()
+  {
+    if (locale == null)
+    {
+      if (getLanguage() == null)
+      {
+        return Locale.getDefault();
+      }
+      else
+      {
+        locale = new Locale(getLanguage());
+      }
+    }
+    return locale;
   }
 
 } //GenModelImpl

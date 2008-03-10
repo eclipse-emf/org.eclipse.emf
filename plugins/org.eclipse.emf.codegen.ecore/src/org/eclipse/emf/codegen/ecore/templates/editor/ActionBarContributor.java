@@ -447,13 +447,13 @@ if (genModel.isCreationCommands())
     stringBuffer.append(TEXT_68);
     stringBuffer.append(genModel.getImportedName("org.eclipse.jface.action.Separator"));
     stringBuffer.append(TEXT_69);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(genPackage.getPrefix().toLowerCase(genModel.getLocale()));
     stringBuffer.append(TEXT_70);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_71);
     stringBuffer.append(genModel.getImportedName("org.eclipse.jface.action.Separator"));
     stringBuffer.append(TEXT_72);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase());
+    stringBuffer.append(genPackage.getPrefix().toLowerCase(genModel.getLocale()));
     stringBuffer.append(TEXT_73);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_74);

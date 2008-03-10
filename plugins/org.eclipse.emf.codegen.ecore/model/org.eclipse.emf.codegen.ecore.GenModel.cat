@@ -383,6 +383,10 @@
 			    value      	TRUE))
 		    quid       	"47A0D13302FD"
 		    type       	"GenRuntimeVersion"
+		    exportControl 	"Public")
+		(object ClassAttribute "language"
+		    quid       	"47C82FCE012F"
+		    type       	"String"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -1265,6 +1269,14 @@
 		    line_color 	8421504
 		    fill_color 	13227724
 		    quidu      	"3C176A0701D7"
+		    compartment 	(object Compartment
+			Parent_View 	@1
+			location   	(295, 2091)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	409)
 		    width      	420
 		    height     	186
 		    annotation 	8
@@ -3246,7 +3258,7 @@
 	    max_height 	28350
 	    max_width  	21600
 	    origin_x   	0
-	    origin_y   	0
+	    origin_y   	2962
 	    items      	(list diagram_item_list
 		(object ClassView "Class" "Logical View::genmodel::GenBase" @170
 		    ShowCompartmentStereotypes 	TRUE
@@ -3485,10 +3497,10 @@
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeOperation 	TRUE
 		    ShowOperationSignature 	TRUE
-		    location   	(912, 1712)
+		    location   	(928, 1744)
 		    label      	(object ItemLabel
 			Parent_View 	@181
-			location   	(29, 331)
+			location   	(45, 338)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	1766
@@ -3500,11 +3512,11 @@
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
 			Parent_View 	@181
-			location   	(29, 391)
+			location   	(45, 398)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	54
+			nlines     	55
 			max_width  	1764
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
@@ -3559,9 +3571,10 @@
 			    "<<0..*>> + templatePluginVariables : String"
 			    "+ testsPluginID : String"
 			    "<<0..*>> + testsPluginVariables : String"
-			    "+ runtimeVersion : GenRuntimeVersion"))
+			    "+ runtimeVersion : GenRuntimeVersion"
+			    "+ language : String"))
 		    width      	1784
-		    height     	2786
+		    height     	2836
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenPackage" @182
@@ -3823,7 +3836,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	4
-			max_width  	106)
+			max_width  	115)
 		    width      	344
 		    height     	342
 		    annotation 	8
@@ -3943,8 +3956,8 @@
 		    client     	@181
 		    supplier   	@170
 		    line_style 	3
-		    origin_attachment 	(378, 319)
-		    terminal_attachment 	(378, 300)
+		    origin_attachment 	(384, 326)
+		    terminal_attachment 	(384, 300)
 		    drawSupplier 	@179)
 		(object ClassView "Class" "Logical View::genmodel::GenRuntimeVersion" @203
 		    ShowCompartmentStereotypes 	TRUE
@@ -3979,7 +3992,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	4
-			max_width  	106)
+			max_width  	115)
 		    width      	418
 		    height     	342
 		    annotation 	8

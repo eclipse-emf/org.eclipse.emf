@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.57 2008/02/01 17:47:18 emerks Exp $
+ * $Id: GenModel.java,v 1.58 2008/03/10 19:10:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -114,6 +115,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isColorProviders <em>Color Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isFontProviders <em>Font Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimeVersion <em>Runtime Version</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getLanguage <em>Language</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -2050,6 +2052,31 @@ public interface GenModel extends GenBase
   boolean isSetRuntimeVersion();
 
   /**
+   * Returns the value of the '<em><b>Language</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.4
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Language</em>' attribute.
+   * @see #setLanguage(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_Language()
+   * @model
+   * @generated
+   */
+  String getLanguage();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getLanguage <em>Language</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Language</em>' attribute.
+   * @see #getLanguage()
+   * @generated
+   */
+  void setLanguage(String value);
+
+  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -2654,4 +2681,9 @@ public interface GenModel extends GenBase
    * @since 2.4
    */
   List<String> getTestsSourceFolders();
+  
+  /**
+   * @since 2.4
+   */
+  Locale getLocale();
 }

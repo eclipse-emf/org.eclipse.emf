@@ -181,6 +181,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/fontProviders"/>
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The version of the EMF runtime against which to target the generated code"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/runtimeVersion"/>
+      <genFeatures createChild="false" propertyCategory="All" propertyDescription="The two letter code for the language to use, instead of the system default, in computing upper and lower case strings"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/language"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>
