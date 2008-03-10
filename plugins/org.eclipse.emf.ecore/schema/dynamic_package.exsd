@@ -87,6 +87,7 @@
       </appInfo>
       <documentation>
          The value of the location attribute must represent an Ecore Resource.
+&lt;p&gt;
 An EMF package can also be registered from the source code with the &lt;samp&gt;EPackage.Registry.INSTANCE&lt;/samp&gt; as follows:
 &lt;/p&gt;
 &lt;pre&gt;
