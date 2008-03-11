@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: ElementsValidator.java,v 1.4 2008/02/01 18:13:11 emerks Exp $
+ * $Id: ElementsValidator.java,v 1.5 2008/03/11 18:12:16 emerks Exp $
  */
 package org.examples.library.elements.util;
 
@@ -207,6 +207,7 @@ public class ElementsValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     // TODO
