@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.47 2008/03/14 15:13:56 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.48 2008/03/14 21:46:10 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -2531,6 +2531,12 @@ public class JavaEcoreBuilder
     String baseName = typeName;
     String packageName = "";
     int index = baseName.lastIndexOf(".");
+
+    // For arrays, consider the element type.
+    //
+    int i = baseName.indexOf('[');
+    String elementTypeName = i == -1 ? baseName : baseName.substring(0, i);
+
     if (index == -1)
     {
       // Look through the imports of the containing compilation unit.
@@ -2544,7 +2550,7 @@ public class JavaEcoreBuilder
         for (JImport jImport : facadeHelper.getChildren(compilationUnit, JImport.class))
         {
           String importName = jImport.getName();
-          if (importName.endsWith("." + baseName))
+          if (importName.endsWith("." + elementTypeName))
           {
             int importIndex = importName.lastIndexOf(".");
             packageName = importName.substring(0, importIndex);
@@ -2587,6 +2593,11 @@ public class JavaEcoreBuilder
         {
           eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
           eGenericType.setEClassifier(eClassifier);
+        }
+        else if (i != -1 && CodeGenUtil.isJavaLangType(elementTypeName))
+        {
+          packageName = "java.lang";
+          typeName = packageName + "." + baseName;
         }
       }
     }
@@ -2704,11 +2715,6 @@ public class JavaEcoreBuilder
       String instanceTypeName = typeName;
       if (packageName.length() == 0)
       {
-        // For arrays, consider the element type.
-        //
-        int i = baseName.indexOf('[');
-        String elementTypeName = i == -1 ? baseName : baseName.substring(0, i);
-
         if (CodeGenUtil.isJavaPrimitiveType(elementTypeName))
         {
           primitive = true;
