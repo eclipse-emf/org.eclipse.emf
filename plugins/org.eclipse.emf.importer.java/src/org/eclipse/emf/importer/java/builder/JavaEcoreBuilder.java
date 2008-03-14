@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.46 2008/01/08 11:47:49 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.47 2008/03/14 15:13:56 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -2074,7 +2074,7 @@ public class JavaEcoreBuilder
       //
       String name = getModelAnnotationAttribute(modelAnnotation, "name");
 
-      if (fieldName.endsWith("_VALUE") && !name.toLowerCase().endsWith("value"))
+      if (fieldName.endsWith("_VALUE") && (name == null || !name.toLowerCase().endsWith("value")))
       {
         fieldName = fieldName.substring(0, fieldName.length()-"_VALUE".length());
       }
