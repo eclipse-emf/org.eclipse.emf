@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: VersionAuditTest.java,v 1.4 2007/11/03 13:15:23 emerks Exp $
+ * $Id: VersionAuditTest.java,v 1.5 2008/03/26 03:50:56 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 public class VersionAuditTest extends TestCase
 {
 
-  private static File buildConfigFile = new File(TestUtil.getPluginDirectory() + "/../../../../../../../build.cfg");
+  private static File buildConfigFile = new File(TestUtil.getPluginDirectory() + "/../../../../../../../../../build.cfg");
   
   private static String[] URLs = {
     "http://build.eclipse.org/modeling/emf/emf/versionaudit.php?branch=",
