@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.88 2008/03/10 19:10:25 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.89 2008/03/28 16:50:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2477,7 +2477,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   @Override
   public boolean canGenerateTests()
   {
-    return getGenModel().canGenerateTests() && !isExternalInterface();
+    return getGenModel().canGenerateTests();
   }
 
   /**
