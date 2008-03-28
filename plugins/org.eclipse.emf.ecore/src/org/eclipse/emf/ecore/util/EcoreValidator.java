@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.29 2008/02/01 17:48:36 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.30 2008/03/28 15:48:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -65,6 +65,17 @@ public class EcoreValidator extends EObjectValidator
    * @generated
    */
   public static final EcoreValidator INSTANCE = new EcoreValidator();
+
+  /**
+   * A key to be used in <code>context</code> maps to indicate that stricter validation should be performed 
+   * to ensure that the name of each named element is a well formed Java identifier. 
+   * The value of the entry must be a {@link Boolean}.
+   * The default value is <code>Boolean.TRUE</code>.
+   * @see EValidator#validate(EObject, DiagnosticChain, Map)
+   * @see #validateENamedElement_WellFormedName(ENamedElement, DiagnosticChain, Map)
+   * @since 2.4
+   */
+  public static final String STRICT_NAMED_ELEMENT_NAMES = "org.eclipse.emf.ecore.model.ENamedElement_WellFormedName";
 
   /**
    * A constant for the {@link org.eclipse.emf.common.util.Diagnostic#getSource() source} of diagnostic {@link org.eclipse.emf.common.util.Diagnostic#getCode() codes} from this package.
@@ -1739,11 +1750,17 @@ public class EcoreValidator extends EObjectValidator
    * The name must be a valid Java identifier.
    * I.e., it must start with a {@link Character#isJavaIdentifierStart(int) Java identifier start character},
    * that is followed by zero or more {@link Character#isJavaIdentifierPart(int) Java identifier part characters}.
+   * This constraint is only enforced in a {@link #STRICT_NAMED_ELEMENT_NAMES} context.
    * <!-- end-user-doc -->
    * @generated NOT
    */
   public boolean validateENamedElement_WellFormedName(ENamedElement eNamedElement, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (context != null && Boolean.FALSE.equals(context.get(STRICT_NAMED_ELEMENT_NAMES)))
+    {
+      return true;
+    }
+
     boolean result = false;
     String name = eNamedElement.getName();
     if (name != null)
@@ -1775,7 +1792,6 @@ public class EcoreValidator extends EObjectValidator
            new Object[] { eNamedElement },
            context));
     }
-
     return result;
   }
 

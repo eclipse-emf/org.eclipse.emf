@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostician.java,v 1.8 2007/11/03 13:15:50 emerks Exp $
+ * $Id: Diagnostician.java,v 1.9 2008/03/28 15:48:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -71,21 +71,60 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
     return EcoreUtil.convertToString(eDataType, value);
   }
 
-  public Diagnostic validate(EObject eObject)
+  /**
+   * @since 2.4
+   */
+  public Map<Object, Object> createDefaultContext()
   {
     Map<Object, Object> context = new HashMap<Object, Object>();
     context.put(EValidator.SubstitutionLabelProvider.class, this);
     context.put(EValidator.class, this);
-    BasicDiagnostic diagnostics = 
+    return context;
+  }
+
+  /**
+   * @since 2.4
+   */
+  public BasicDiagnostic createDefaultDiagnostic(EObject eObject)
+  {
+    return
       new BasicDiagnostic
         (EObjectValidator.DIAGNOSTIC_SOURCE,
          0,
-         EcorePlugin.INSTANCE.getString
-           ("_UI_DiagnosticRoot_diagnostic", 
-            new Object [] { getObjectLabel(eObject) }),
-         new Object [] { eObject });
-    validate(eObject, diagnostics, context);
+         EcorePlugin.INSTANCE.getString("_UI_DiagnosticRoot_diagnostic", new Object[] { getObjectLabel(eObject) }),
+         new Object [] { eObject });    
+  }
+
+  /**
+   * @since 2.4
+   */
+  public BasicDiagnostic createDefaultDiagnostic(EDataType eDataType, Object value)
+  {
+    return
+      new BasicDiagnostic
+        (EObjectValidator.DIAGNOSTIC_SOURCE,
+         0,
+         EcorePlugin.INSTANCE.getString("_UI_DiagnosticRoot_diagnostic", new Object [] { getValueLabel(eDataType, value) }),
+         new Object [] { value, eDataType });    
+  }
+
+  public Diagnostic validate(EObject eObject)
+  {
+    BasicDiagnostic diagnostics = createDefaultDiagnostic(eObject);
+    validate(eObject, diagnostics, createDefaultContext());
     return diagnostics;
+  }
+
+  /**
+   * @since 2.4
+   */
+  public Diagnostic validate(EObject eObject, Map<?, ?> contextEntries)
+  {
+    BasicDiagnostic diagnostics = createDefaultDiagnostic(eObject);
+    Map<Object, Object> context = createDefaultContext();
+    context.putAll(contextEntries);
+    validate(eObject, diagnostics, context);
+    return diagnostics;    
   }
 
   /**
@@ -96,10 +135,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
    */
   public boolean validate(EObject eObject, DiagnosticChain diagnostics)
   {
-    Map<Object, Object> context = new HashMap<Object, Object>();
-    context.put(EValidator.SubstitutionLabelProvider.class, this);
-    context.put(EValidator.class, this);
-    return validate(eObject, diagnostics, context);
+    return validate(eObject, diagnostics, createDefaultContext());
   }
 
   public boolean validate(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
@@ -156,18 +192,8 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
 
   public Diagnostic validate(EDataType eDataType, Object value)
   {
-    Map<Object, Object> context = new HashMap<Object, Object>();
-    context.put(EValidator.SubstitutionLabelProvider.class, this);
-    context.put(EValidator.class, this);
-    BasicDiagnostic diagnostics = 
-      new BasicDiagnostic
-        (EObjectValidator.DIAGNOSTIC_SOURCE,
-         0,
-         EcorePlugin.INSTANCE.getString
-           ("_UI_DiagnosticRoot_diagnostic", 
-            new Object [] { getValueLabel(eDataType, value) }),
-         new Object [] { value, eDataType });
-    validate(eDataType, value, diagnostics, context);
+    BasicDiagnostic diagnostics = createDefaultDiagnostic(eDataType, value);
+    validate(eDataType, value, diagnostics, createDefaultContext());
     return diagnostics;
   }
 
