@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.21 2007/11/03 13:15:24 emerks Exp $
+ * $Id: BuildTest.java,v 1.22 2008/03/28 18:42:29 emerks Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -36,7 +36,7 @@ public class BuildTest extends TestCase
   protected final static String[] REQUIRED_FEATURE_FILES = 
    {"eclipse_update_120.jpg", "epl-v10.html", "feature.properties", "feature.xml", "license.html"};
   protected final static String[] REQUIRED_REGULAR_PLUGIN_FILES = 
-   {"about.html", "plugin.properties", "plugin.xml", "META-INF/MANIFEST.MF"};
+   {"about.html", "plugin.properties", "META-INF/MANIFEST.MF"};
   protected final static String[] REQUIRED_DOC_PLUGIN_FILES = 
    {"toc.xml", "topics_Reference.xml"};  
   protected final static String[] REQUIRED_BRANDING_PLUGIN_FILES = 
