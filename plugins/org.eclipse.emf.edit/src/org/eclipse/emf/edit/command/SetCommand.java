@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.13 2008/01/08 15:50:57 emerks Exp $
+ * $Id: SetCommand.java,v 1.14 2008/03/28 19:08:12 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -317,32 +317,41 @@ public class SetCommand extends AbstractOverrideableCommand
           // something, we need a compound command that first explicitly removes that reference, so that it will be
           // restored in the undo.
           //
-          if (value instanceof EObject && ((EObject)value).eGet(eOtherEnd) != null)
+          if (value instanceof EObject)
           {
-            CompoundCommand compound = 
-              new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL)
-              {
-                @Override
-                public boolean canUndo()
+            EObject otherEObject = (EObject)((EObject)value).eGet(eOtherEnd);
+            if (otherEObject != null)
+            {
+              CompoundCommand compound = 
+                new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL)
                 {
-                  return true;
-                }
-              };
-            if (eReference.isMany())
-            {
-              // For a many-to-1, we use SetCommand.create() to create the command to remove the opposite reference;
-              // a RemoveCommand on its opposite will actually result.
-              //
-              compound.append(SetCommand.create(domain, value, eOtherEnd, null));
+                  @Override
+                  public boolean canUndo()
+                  {
+                    return true;
+                  }
+                };
+              if (eReference.isMany())
+              {
+                // For a many-to-1, we use SetCommand.create() to create the command to remove the opposite reference;
+                // a RemoveCommand on its opposite will actually result.
+                //
+                compound.append(SetCommand.create(domain, value, eOtherEnd, null));
+              }
+              else
+              {
+                // For a 1-to-1, we can directly create a SetCommand.
+                //
+                compound.append
+                  (domain.createCommand
+                     (SetCommand.class, 
+                      eOtherEnd.isChangeable() ? 
+                        new CommandParameter(value, eOtherEnd, null) :
+                        new CommandParameter(otherEObject, eReference, null)));
+              }
+              compound.append(domain.createCommand(SetCommand.class, new CommandParameter(owner, eReference, value, index)));
+              return compound;
             }
-            else
-            {
-              // For a 1-to-1, we can directly create a SetCommand.
-              //
-              compound.append(domain.createCommand(SetCommand.class, new CommandParameter(value, eOtherEnd, null)));
-            }
-            compound.append(domain.createCommand(SetCommand.class, new CommandParameter(owner, eReference, value, index)));
-            return compound;
           }
         }
       }
@@ -652,13 +661,29 @@ public class SetCommand extends AbstractOverrideableCommand
               for (EObject newValueObject : newValues)
               {
                 compoundCommand.appendIfCanExecute(new SetCommand(domain, newValueObject, eOtherEnd, UNSET_VALUE));
+                EObject otherEObject = (EObject)newValueObject.eGet(eOtherEnd);
+                if (otherEObject != null)
+                {
+                  compoundCommand.appendIfCanExecute
+                    (eOtherEnd.isChangeable() ? 
+                       new SetCommand(domain, newValueObject, eOtherEnd, UNSET_VALUE) :
+                       new RemoveCommand(domain, otherEObject, eReference, newValueObject));
+                }
               }
               removeCommand = compoundCommand;
             }
           }
           else if (value instanceof EObject)
           {
-            removeCommand = new SetCommand(domain, (EObject)value, eOtherEnd, UNSET_VALUE);
+            EObject eObject = (EObject)value;
+            EObject otherEObject = (EObject)eObject.eGet(eOtherEnd);
+            if (otherEObject != null)
+            {
+              removeCommand = 
+                eOtherEnd.isChangeable() ? 
+                  new SetCommand(domain, eObject, eOtherEnd, UNSET_VALUE) :
+                  new SetCommand(domain, otherEObject, eReference, UNSET_VALUE);
+            }
           }
         }
         if (removeCommand != null)
