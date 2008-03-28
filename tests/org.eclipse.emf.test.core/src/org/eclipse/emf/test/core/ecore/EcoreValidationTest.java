@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidationTest.java,v 1.6 2007/06/15 20:42:09 emerks Exp $
+ * $Id: EcoreValidationTest.java,v 1.7 2008/03/28 15:48:51 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -133,7 +134,7 @@ public class EcoreValidationTest extends TestCase
          diagnostic.getChildren().get(0));
     }
 
-    // A named element without a name is not valid.
+    // A named element without a name is invalid, unless strict element names are disabled.
     //
     {
       EClass eClass = EcoreFactory.eINSTANCE.createEClass();
@@ -145,6 +146,9 @@ public class EcoreValidationTest extends TestCase
          EcoreValidator.DIAGNOSTIC_SOURCE,
          new Object [] { eClass },
          diagnostic.getChildren().get(0));
+
+      diagnostic = Diagnostician.INSTANCE.validate(eClass, Collections.singletonMap(EcoreValidator.STRICT_NAMED_ELEMENT_NAMES, Boolean.FALSE));
+      assertEquals(Diagnostic.OK, diagnostic.getSeverity());
     }
 
     // An instance type name with type arguments is valid.
