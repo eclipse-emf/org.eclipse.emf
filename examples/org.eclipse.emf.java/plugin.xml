@@ -12,4 +12,9 @@
     <parser type="packages" class="org.eclipse.emf.java.util.JavaPackageResourceFactoryImpl"/>
   </extension>
   -->
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package uri="http://www.eclipse.org/emf/2002/Java" class="org.eclipse.emf.java.JavaPackage" genModel="model/Java.genmodel" />
+  </extension>
+
 </plugin>
