@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.12 2008/01/08 17:09:53 emerks Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.13 2008/03/28 16:51:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -118,7 +118,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   }
 
   /**
-   * Delegates to the GenMoel element's {@link GenBase#canGenerate() canGenerate()} method.
+   * Delegates to the GenModel element's {@link GenBase#canGenerate() canGenerate()} method.
    */
   public boolean canGenerateModel(Object object)
   {
@@ -126,7 +126,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   }
 
   /**
-   * Delegates to the GenMoel element's {@link GenBase#canGenerateEdit() canGenerateEdit()} method.
+   * Delegates to the GenModel element's {@link GenBase#canGenerateEdit() canGenerateEdit()} method.
    */
   public boolean canGenerateEdit(Object object)
   {
@@ -134,7 +134,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   }
 
   /**
-   * Delegates to the GenMoel element's {@link GenBase#canGenerateEditor() canGenerateEditor()} method.
+   * Delegates to the GenModel element's {@link GenBase#canGenerateEditor() canGenerateEditor()} method.
    */
   public boolean canGenerateEditor(Object object)
   {
@@ -142,7 +142,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   }
 
   /**
-   * Delegates to the GenMoel element's {@link GenBase#canGenerateTests() canGenerateTests()} method.
+   * Delegates to the GenModel element's {@link GenBase#canGenerateTests() canGenerateTests()} method.
    */
   public boolean canGenerateTests(Object object)
   {
