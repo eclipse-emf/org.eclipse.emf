@@ -12,16 +12,18 @@
  *
  * </copyright>
  *
- * $Id: EMOFSaveImpl.java,v 1.11 2007/10/06 12:03:01 emerks Exp $
+ * $Id: EMOFSaveImpl.java,v 1.12 2008/03/29 12:49:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -42,6 +44,14 @@ public class EMOFSaveImpl extends XMISaveImpl
   }
 
   private static final Integer ONE = 1;
+
+  @Override
+  protected void init(XMLResource resource, Map<?, ?> options)
+  {
+    super.init(resource, options);
+    xmlTypeInfo = new EMOFXMLTypeInfoImpl(xmlTypeInfo);
+    saveTypeInfo = true;
+  }
 
   @Override
   protected boolean shouldSaveFeature(EObject o, EStructuralFeature f)
@@ -66,15 +76,6 @@ public class EMOFSaveImpl extends XMISaveImpl
     else
     {
       return super.shouldSaveFeature(o, f);
-    }
-  }
-
-  @Override
-  protected void saveTypeAttribute(EClass eClass)
-  {
-    if (eClass != EcorePackage.Literals.EATTRIBUTE && eClass != EcorePackage.Literals.EREFERENCE)
-    {
-      super.saveTypeAttribute(eClass);
     }
   }
 
@@ -296,5 +297,42 @@ public class EMOFSaveImpl extends XMISaveImpl
 
     doc.endElement();
     return mark;
+  }
+
+  /**
+   * Forces type information (xsi:type/xmi:type) to be serialized for references 
+   * in cases where the object's type is different from the feature's type,
+   * except for the case of the eStructuralFeatures of an EClass,
+   * because for that case, an EMOF Property instance will be serialized 
+   * and no xsi:type is needed for EMOF for that.
+   */
+  protected class EMOFXMLTypeInfoImpl extends XMLTypeInfoImpl
+  {
+    protected XMLTypeInfo xmlTypeInfo;
+
+    public EMOFXMLTypeInfoImpl(XMLTypeInfo xmlTypeInfo)
+    {
+      this.xmlTypeInfo = xmlTypeInfo;
+    }
+
+    @Override
+    public boolean shouldSaveType(EClass objectType, EClassifier featureType, EStructuralFeature feature)
+    {
+      return 
+        feature != EcorePackage.Literals.ECLASS__ESTRUCTURAL_FEATURES &&
+          (xmlTypeInfo == null ?  
+            super.shouldSaveType(objectType, featureType, feature) : 
+            xmlTypeInfo.shouldSaveType(objectType, featureType, feature));
+    }
+
+    @Override
+    public boolean shouldSaveType(EClass objectType, EClass featureType, EStructuralFeature feature)
+    {
+      return 
+        feature != EcorePackage.Literals.ECLASS__ESTRUCTURAL_FEATURES &&
+          (xmlTypeInfo == null ?  
+            super.shouldSaveType(objectType, featureType, feature) : 
+            xmlTypeInfo.shouldSaveType(objectType, featureType, feature));
+    }
   }
 }
