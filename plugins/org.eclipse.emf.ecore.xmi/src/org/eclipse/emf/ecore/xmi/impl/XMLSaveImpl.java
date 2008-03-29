@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.77 2007/12/04 16:48:51 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.78 2008/03/29 14:35:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -477,6 +477,8 @@ public class XMLSaveImpl implements XMLSave
         {
           escape.setAllowControlCharacters(true);
         }
+
+        escape.setUseCDATA(Boolean.TRUE.equals(options.get(XMLResource.OPTION_ESCAPE_USING_CDATA)));
       }
 
       resourceEntityHandler = (XMLResource.ResourceEntityHandler)options.get(XMLResource.OPTION_RESOURCE_ENTITY_HANDLER);
@@ -3118,7 +3120,8 @@ public class XMLSaveImpl implements XMLSave
   {
     protected char[] value;
     protected int mappableLimit;
-    boolean allowControlCharacters;
+    protected boolean allowControlCharacters;
+    protected boolean useCDATA;
 
     protected final char[] NUL = { '&', '#', 'x', '0', ';' };
     protected final char[] SOH = { '&', '#', 'x', '1', ';' };
@@ -3209,6 +3212,11 @@ public class XMLSaveImpl implements XMLSave
     public void setAllowControlCharacters(boolean allowControlCharacters)
     {
       this.allowControlCharacters = allowControlCharacters;
+    }
+
+    public void setUseCDATA(boolean useCDATA)
+    {
+      this.useCDATA = useCDATA;
     }
 
     /*
@@ -3379,6 +3387,7 @@ public class XMLSaveImpl implements XMLSave
     public String convertText(String input)
     {
       boolean changed = false;
+      boolean cdataCloseBracket = false;
       int inputLength = input.length();
       grow(inputLength);
       int outputPos = 0;
@@ -3464,6 +3473,7 @@ public class XMLSaveImpl implements XMLSave
             if (inputPos >= 3 && input.charAt(inputPos - 2) == ']' && input.charAt(inputPos - 3) == ']')
             {
               outputPos = replaceChars(outputPos, GREATER, inputLength);
+              cdataCloseBracket = true;
               changed = true;
               break;
             }
@@ -3526,7 +3536,7 @@ public class XMLSaveImpl implements XMLSave
           }
         }
       }
-      return changed ? new String(value, 0, outputPos) : input;
+      return changed ? !useCDATA || cdataCloseBracket ? new String(value, 0, outputPos) : "<![CDATA[" + input + "]]>" : input;
     }
 
     /*

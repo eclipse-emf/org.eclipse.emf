@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.43 2007/12/05 19:37:56 emerks Exp $
+ * $Id: XMLResource.java,v 1.44 2008/03/29 14:35:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -473,6 +473,7 @@ public interface XMLResource extends Resource
   /**
    * This option is used to specify an {@link ElementHandler} for deducing the feature used to serialize a specific type of value.
    * @see ElementHandler
+   * @since 2.4
    */
   String OPTION_ELEMENT_HANDLER = "ELEMENT_HANDLER";
 
@@ -483,6 +484,7 @@ public interface XMLResource extends Resource
    * is used to determine a feature 
    * related by {@link ExtendedMetaData#getAffiliation(EStructuralFeature) substitution group affiliation} to the given feature
    * for serializing a value of the given type.
+   * @since 2.4
    */
   interface ElementHandler
   {
@@ -508,9 +510,18 @@ public interface XMLResource extends Resource
   /**
    * When {@link #OPTION_EXTENDED_META_DATA} is used, 
    * this load option set to Boolean.TRUE will direct the deserializer to suppress creating a document root instance.
-   * This option is typically used in combination with {@LInk
+   * This option is typically used in combination with {@link #OPTION_ELEMENT_HANDLER}.
+   * @since 2.4
    */
-  String OPTION_SUPPRESS_DOCUMENT_ROOT = "OPTION_SUPPRESS_DOCUMENT_ROOT";
+  String OPTION_SUPPRESS_DOCUMENT_ROOT = "SUPPRESS_DOCUMENT_ROOT";
+  
+  /**
+   * Serialized element content that needs escaping and doesn't contain <code>"]]>"</code>, will be escaped using CDATA.
+   * The default value is false.
+   * @since {@link #OPTION_SKIP_ESCAPE}
+   * @since 2.4
+   */
+  String OPTION_ESCAPE_USING_CDATA = "ESCAPE_USING_CDATA";
 
   String HREF = "href";
   String NIL = "nil";
