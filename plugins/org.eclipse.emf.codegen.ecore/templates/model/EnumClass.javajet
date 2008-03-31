@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.14 2007/06/08 14:38:47 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.15 2008/03/31 15:54:34 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -48,7 +48,11 @@ package <%=genPackage.getInterfacePackageName()%>;
 public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> <%if (isEnum) {%>implements<%} else {%>extends<%}%> <%=genModel.isSuppressEMFMetaData() && !genModel.isSuppressInterfaces() ? "Internal" + genEnum.getName() : genModel.getImportedName(isEnum ? "org.eclipse.emf.common.util.Enumerator" : "org.eclipse.emf.common.util.AbstractEnumerator")%>
 {
 <%if (isEnum) {%>
-  <%for (Iterator<GenEnumLiteral> l = genEnum.getGenEnumLiterals().iterator(); l.hasNext(); ) { GenEnumLiteral genEnumLiteral = l.next(); %>
+  <%if (genEnum.getGenEnumLiterals().isEmpty()) {%>
+	;
+
+  <%}else {%>
+    <%for (Iterator<GenEnumLiteral> l = genEnum.getGenEnumLiterals().iterator(); l.hasNext(); ) { GenEnumLiteral genEnumLiteral = l.next(); %>
 	/**
 	 * The '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal object.
 	 * <!-- begin-user-doc -->
@@ -59,6 +63,7 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 */
 	<%=genEnumLiteral.getEnumLiteralInstanceConstantName()%>(<%=genEnumLiteral.getValue()%>, "<%=genEnumLiteral.getName()%>", "<%=genEnumLiteral.getLiteral()%>")<%if (l.hasNext()) {%>,<%} else {%>;<%}%><%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 
+    <%}%>
   <%}%>
 <%}%>
 <%if (genModel.hasCopyrightField()) {%>
