@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.33 2007/10/02 20:48:07 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.34 2008/03/31 12:27:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1457,10 +1457,9 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       wildcard == null ?
         namespace == null :
         wildcard.startsWith("!##") ?
-           namespace == null ? 
-             wildcard.length() != 3 : 
+           namespace != null &&
              (!wildcard.endsWith(namespace) || wildcard.length() != namespace.length() + 3) && 
-               !XMLTypePackage.eNS_URI.equals(namespace) :
+             !XMLTypePackage.eNS_URI.equals(namespace) :
            wildcard.equals("##any") && !XMLTypePackage.eNS_URI.equals(namespace) || wildcard.equals(namespace);
   }
 
