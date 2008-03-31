@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.35 2008/01/08 17:09:53 emerks Exp $
+ * $Id: Generator.java,v 1.36 2008/03/31 15:14:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -686,13 +686,18 @@ public class Generator extends CodeGen
             projectDescription.setLocationURI(new java.net.URI(projectLocationURI.toString()));
           }
           project.create(projectDescription, new SubProgressMonitor(progressMonitor, 1));
+          project.open(new SubProgressMonitor(progressMonitor, 1));
         }
         else 
         {
           projectDescription = project.getDescription();
-          classpathEntries.addAll(Arrays.asList(javaProject.getRawClasspath()));
+          project.open(new SubProgressMonitor(progressMonitor, 1));
+          if (project.hasNature(JavaCore.NATURE_ID))
+          {
+            classpathEntries.addAll(Arrays.asList(javaProject.getRawClasspath()));
+          }
         }
-  
+
         boolean isInitiallyEmpty = classpathEntries.isEmpty();
   
         {
@@ -710,31 +715,18 @@ public class Generator extends CodeGen
           String [] natureIds = projectDescription.getNatureIds();
           if (natureIds == null)
           {
-            natureIds = new String [] { JavaCore.NATURE_ID };
+            natureIds = new String [] { JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature" };
           }
           else
           {
-            boolean hasJavaNature = false;
-            boolean hasPDENature = false;
-            for (int i = 0; i < natureIds.length; ++i)
-            {
-              if (JavaCore.NATURE_ID.equals(natureIds[i]))
-              {
-                hasJavaNature = true;
-              }
-              if ("org.eclipse.pde.PluginNature".equals(natureIds[i]))
-              {
-                hasPDENature = true;
-              }
-            }
-            if (!hasJavaNature)
+            if (!project.hasNature(JavaCore.NATURE_ID))
             {
               String [] oldNatureIds = natureIds;
               natureIds = new String [oldNatureIds.length + 1];
               System.arraycopy(oldNatureIds, 0, natureIds, 0, oldNatureIds.length);
               natureIds[oldNatureIds.length] = JavaCore.NATURE_ID;
             }
-            if (!hasPDENature)
+            if (!project.hasNature("org.eclipse.pde.PluginNature"))
             {
               String [] oldNatureIds = natureIds;
               natureIds = new String [oldNatureIds.length + 1];
@@ -780,7 +772,6 @@ public class Generator extends CodeGen
           }
           projectDescription.setBuildSpec(builders);
   
-          project.open(new SubProgressMonitor(progressMonitor, 1));
           project.setDescription(projectDescription, new SubProgressMonitor(progressMonitor, 1));
   
           IContainer sourceContainer = project;
