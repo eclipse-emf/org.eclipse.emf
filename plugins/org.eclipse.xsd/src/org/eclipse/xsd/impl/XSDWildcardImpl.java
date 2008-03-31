@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.17 2007/08/14 18:27:36 emerks Exp $
+ * $Id: XSDWildcardImpl.java,v 1.18 2008/03/31 12:15:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1100,7 +1100,7 @@ public class XSDWildcardImpl
     {
       //  Clause 3 minus
       //
-      if (getNamespaceConstraint().containsAll(otherWildcard.getNamespaceConstraint()))
+      if (getNamespaceConstraint().containsAll(otherWildcard.getNamespaceConstraint()) || getNamespaceConstraint().contains(null))
       {
         XSDWildcard result = getXSDFactory().createXSDWildcard();
         if (isSetProcessContents())
@@ -1110,6 +1110,7 @@ public class XSDWildcardImpl
         result.setNamespaceConstraintCategory(XSDNamespaceConstraintCategory.SET_LITERAL);
         List<String> newNamespaceConstraint = new ArrayList<String>(getNamespaceConstraint());
         newNamespaceConstraint.remove(otherWildcard.getNamespaceConstraint());
+        newNamespaceConstraint.remove(null);
         result.getNamespaceConstraint().addAll(newNamespaceConstraint);
         return result;
       }
@@ -1127,7 +1128,7 @@ public class XSDWildcardImpl
     {
       //  Clause 3 with minus
       //
-      if (otherWildcard.getNamespaceConstraint().containsAll(getNamespaceConstraint()))
+      if (otherWildcard.getNamespaceConstraint().containsAll(getNamespaceConstraint()) || otherWildcard.getNamespaceConstraint().contains(null))
       {
         XSDWildcard result = getXSDFactory().createXSDWildcard();
         if (isSetProcessContents())
@@ -1137,6 +1138,7 @@ public class XSDWildcardImpl
         result.setNamespaceConstraintCategory(XSDNamespaceConstraintCategory.SET_LITERAL);
         List<String> newNamespaceConstraint = new ArrayList<String>(otherWildcard.getNamespaceConstraint());
         newNamespaceConstraint.remove(getNamespaceConstraint());
+        newNamespaceConstraint.remove(null);
         result.getNamespaceConstraint().addAll(newNamespaceConstraint);
         return result;
       }
