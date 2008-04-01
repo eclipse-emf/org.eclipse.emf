@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.29 2007/12/07 20:42:43 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.30 2008/04/01 16:43:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 import javax.xml.datatype.DatatypeConstants;
@@ -3013,7 +3014,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
 
     public SafeSimpleDateFormat(String pattern)
     {
-      super(pattern);
+      super(pattern, Locale.ENGLISH);
     }
 
     @Override

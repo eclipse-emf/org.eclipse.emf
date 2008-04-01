@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.25 2007/05/11 15:54:08 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.26 2008/04/01 16:43:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -708,7 +709,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
 
     public SafeSimpleDateFormat(String pattern)
     {
-      super(pattern);
+      super(pattern, Locale.ENGLISH);
     }
     
     @Override

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.15 2007/09/15 11:58:07 emerks Exp $
+ * $Id: XMLCalendar.java,v 1.16 2008/04/01 16:43:34 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -296,7 +296,7 @@ public final class XMLCalendar extends XMLGregorianCalendar
 
     public SafeSimpleDateFormat(String pattern)
     {
-      super(pattern);
+      super(pattern, Locale.ENGLISH);
     }
 
     @Override
