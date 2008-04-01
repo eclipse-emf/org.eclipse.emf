@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.53 2008/02/21 19:24:13 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.54 2008/04/01 14:23:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1554,6 +1554,8 @@ public class EcoreEditor
   public void doSaveAs()
   {
     SaveAsDialog saveAsDialog= new SaveAsDialog(getSite().getShell());
+    saveAsDialog.create();
+    saveAsDialog.setMessage(EcoreEditorPlugin.INSTANCE.getString("_UI_SaveAs_message"));
     saveAsDialog.open();
     IPath path= saveAsDialog.getResult();
     if (path != null)
