@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterManager.java,v 1.3 2006/12/28 06:43:30 marcelop Exp $
+ * $Id: ModelConverterManager.java,v 1.4 2008/04/02 19:00:28 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution;
 
@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.osgi.framework.Bundle;
-
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
@@ -34,6 +32,8 @@ import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardNode;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+
+import org.eclipse.emf.common.util.URI;
 
 
 /**
@@ -96,7 +96,7 @@ public abstract class ModelConverterManager<D extends ModelConverterDescriptor>
       {
         try
         {
-          return configurationElement.createExecutableExtension("wizard");
+          return configurationElement.createExecutableExtension(attribute);
         }
         catch (Exception e)
         {
@@ -287,16 +287,19 @@ public abstract class ModelConverterManager<D extends ModelConverterDescriptor>
         descriptorImpl.setDescription(configurationElement.getAttribute("description"));
         descriptorImpl.configurationElement = configurationElement;
 
-        String imageKey = configurationElement.getAttribute("icon");
-        if (imageKey != null)
+        String iconValue = configurationElement.getAttribute("icon");
+        if (iconValue != null)
         {
-          Bundle pluginBundle = Platform.getBundle(configurationElement.getDeclaringExtension().getContributor().getName());
-          URL path = pluginBundle.getEntry("/");
-          URL fullPathString = null;
+          URI iconURI = URI.createURI(iconValue);
+          if (iconURI.isRelative())
+          {
+            URI pluginURI = URI.createPlatformPluginURI(configurationElement.getContributor().getName() + "/", true);
+            iconURI = iconURI.resolve(pluginURI);
+          }
+          
           try
           {
-            fullPathString = new URL(path, imageKey);
-            ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL(fullPathString);
+            ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL(new URL(iconURI.toString()));
             descriptorImpl.setIcon(imageDescriptor.createImage());
           }
           catch (Exception e)
