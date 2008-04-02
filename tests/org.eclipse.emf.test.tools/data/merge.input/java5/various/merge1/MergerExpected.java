@@ -81,5 +81,22 @@ public class SchoollibraryEditor
     {
       // source nested class method
     }
+
+    /**
+     * Source comment
+     * <!-- begin-user-doc -->
+     * Target user comment Gen
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected Object [] getElements2Gen(Object object)
+    {
+      // source nested class method
+    }
+    
+    private Object [] getElements2Gen(Object object)
+    {
+      // Target nested class method
+    }
   }
 }

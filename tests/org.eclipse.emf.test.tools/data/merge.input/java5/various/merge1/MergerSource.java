@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MergerSource.java,v 1.1 2006/12/31 02:22:13 marcelop Exp $
+ * $Id: MergerSource.java,v 1.2 2008/04/02 19:38:04 marcelop Exp $
  */
 package org.eclipse.example.schoollibrary.presentation;
 
@@ -80,6 +80,19 @@ public class SchoollibraryEditor
      */
     @Override
     public Object [] getElements(Object object)
+    {
+      // source nested class method
+    }
+
+    /**
+     * Source comment
+     * <!-- begin-user-doc -->
+     * Source user comment
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Object [] getElements2(Object object)
     {
       // source nested class method
     }

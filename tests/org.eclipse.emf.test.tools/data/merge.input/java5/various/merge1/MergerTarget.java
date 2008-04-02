@@ -78,5 +78,22 @@ protected class SchoollibraryEditor
     {
       // Target nested class method
     }
+
+    /**
+     * Target comment Gen
+     * <!-- begin-user-doc -->
+     * Target user comment Gen
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected Object [] getElements2Gen(Object object)
+    {
+      // Target nested class method Gen
+    }
+    
+    private Object [] getElements2Gen(Object object)
+    {
+      // Target nested class method
+    }
   }
 }
