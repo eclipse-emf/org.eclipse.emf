@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2007 IBM Corporation and others.
+ * Copyright (c) 2006-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.22 2007/06/12 20:56:05 emerks Exp $
+ * $Id: JMerger.java,v 1.23 2008/04/02 19:35:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -777,8 +777,19 @@ public class JMerger
               {
                 JMethod sourceMethod = (JMethod)sourceNode;
                 JMethod targetMethod = (JMethod)targetNode;
-                String[] sourceParameterNames = sourceMethod.getParameterNames();
-                targetMethod.setParameterNames(sourceParameterNames);
+
+                String[] sourceParameterTypes = sourceMethod.getParameterTypes();
+                String[] targetParameterTypes = targetMethod.getParameterTypes();
+                if (Arrays.equals(sourceParameterTypes, targetParameterTypes))
+                {
+                  targetMethod.setParameterNames(sourceMethod.getParameterNames());
+                }
+                else
+                {
+                  // The methods were matched by a process that doesn't consider the
+                  // parameters
+                  targetMethod.setParameters(sourceMethod.getParameters());
+                }
               }
             }
           }
