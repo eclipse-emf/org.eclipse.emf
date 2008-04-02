@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2007 IBM Corporation and others.
+ * Copyright (c) 2006-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJMethod.java,v 1.5 2008/01/05 14:30:58 emerks Exp $
+ * $Id: JDOMJMethod.java,v 1.6 2008/04/02 19:36:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -127,20 +127,21 @@ public class JDOMJMethod extends JDOMJMember implements JMethod
   
   public String[] getParameters()
   {
-    String[] parameters = getParameterTypes();
-    String[] parameterNames = getParameterNames();
-    for (int i = 0; i < parameters.length && i < parameterNames.length; i++)
+    String[] types = getParameterTypes().clone();
+    String[] names = getParameterNames();
+    for (int i = 0; i < types.length && i < names.length; i++)
     {
-      parameters[i] += " ";
-      String parameterName = parameterNames[i];
-      if (parameterName != null)
+      String name = names[i].replaceAll(" ", "");
+      if (name != null)
       {
-        parameterName = parameterName.trim();
-        parameterName = parameterName.replaceAll(" ", "");
-        parameters[i] += parameterName;
+        name = name.replaceAll(" ", "");
+        if (!types[i].matches(name + ",?\\s?\\["))
+        {
+          types[i] += " " + name;
+        }
       }
     }
-    return parameters;
+    return types;
   }
   
   public void setParameters(String[] parameters)
