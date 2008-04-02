@@ -206,7 +206,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="genre" lowerBound="1" eType="#//GenreTypes"
-        defaultValueLiteral="NewRelease" unsettable="true">
+        unsettable="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="genre"/>
