@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeHelper.java,v 1.10 2007/06/12 20:56:05 emerks Exp $
+ * $Id: FacadeHelper.java,v 1.11 2008/04/02 19:07:28 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -42,6 +42,16 @@ public abstract class FacadeHelper
       }
       objectToNodeMap.clear();
     }   
+  }
+  
+  /**
+   * @return whether this facade helper can be used on a merge operation. Typically
+   * subclasses would return <code>false</code> depending on some environment requirement.
+   * @since 2.4
+   */
+  public boolean canMerge()
+  {
+    return true;
   }
   
   protected Map<Object, JNode> getObjectToNodeMap()

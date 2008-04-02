@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2007 IBM Corporation and others.
+ * Copyright (c) 2006-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.12 2007/06/12 20:56:05 emerks Exp $
+ * $Id: JControlModel.java,v 1.13 2008/04/02 19:07:28 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -338,7 +338,7 @@ public class JControlModel extends PrefixHandler
     public void setTargetParentMarkup(Pattern targetParentMarkup)
     {
       this.targetParentMarkup = targetParentMarkup;
-    }    
+    }
   }
 
   /**
@@ -948,7 +948,8 @@ public class JControlModel extends PrefixHandler
 
   public boolean canMerge()
   {
-    return getFacadeHelper() != null;
+    FacadeHelper facadeHelper = getFacadeHelper();
+    return facadeHelper != null && facadeHelper.canMerge();
   }
   
   public void initialize(FacadeHelper facadeHelper, String uri)

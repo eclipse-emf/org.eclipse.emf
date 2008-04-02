@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMFacadeHelper.java,v 1.8 2006/12/29 20:53:19 marcelop Exp $
+ * $Id: JDOMFacadeHelper.java,v 1.9 2008/04/02 19:07:28 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -40,6 +40,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.emf.codegen.merge.java.facade.JPackage;
 import org.eclipse.emf.codegen.merge.java.facade.JType;
+import org.eclipse.emf.common.EMFPlugin;
 
 @SuppressWarnings({"deprecation", "unchecked"})
 public class JDOMFacadeHelper extends FacadeHelper
@@ -62,6 +63,12 @@ public class JDOMFacadeHelper extends FacadeHelper
   {
     jdomFactory = null;
     super.reset();
+  }
+  
+  @Override
+  public boolean canMerge()
+  {
+    return EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE;
   }
   
   protected DOMFactory getJDOMFactory()
