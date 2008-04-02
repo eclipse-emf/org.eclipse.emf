@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: Book.java,v 1.3 2007/06/15 21:22:34 emerks Exp $
+ * $Id: Book.java,v 1.4 2008/04/02 16:41:50 davidms Exp $
  */
 package org.examples.library;
 
@@ -111,7 +111,6 @@ public interface Book extends EObject
 
   /**
    * Returns the value of the '<em><b>Category</b></em>' attribute.
-   * The default value is <code>"Mystery"</code>.
    * The literals are from the enumeration {@link org.examples.library.BookCategory}.
    * <!-- begin-user-doc -->
    * <p>
@@ -125,7 +124,7 @@ public interface Book extends EObject
    * @see #unsetCategory()
    * @see #setCategory(BookCategory)
    * @see org.examples.library.LibraryPackage#getBook_Category()
-   * @model default="Mystery" unsettable="true" required="true"
+   * @model unsettable="true" required="true"
    *        extendedMetaData="kind='element' name='category'"
    * @generated
    */
