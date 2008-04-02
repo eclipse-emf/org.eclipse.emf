@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.87 2007/12/07 20:41:04 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.88 2008/04/02 16:40:53 davidms Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2309,7 +2309,8 @@ public class XSDEcoreBuilder extends MapBuilder
           eAttribute.getDefaultValueLiteral() == null &&
           xsdSimpleTypeDefinition != null &&
           xsdSimpleTypeDefinition.getEffectiveEnumerationFacet() != null &&
-          eAttribute.getEType().getDefaultValue() != null)
+          eAttribute.getEType().getDefaultValue() != null &&
+          !(eAttribute.getEType() instanceof EEnum))
     {
       // Set the default to the first enumeration's value.
       //
