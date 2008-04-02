@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options 
+  indent="  "  
+  braceStyle="matching"  
+  xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+ 
+ <!-- 
+  keep in mind that 'source' corresponds to the new version while 
+  'target' is the existing file, probably modified by the developer.
+  -->
+
+  <merge:dictionaryPattern
+    name="generatedMember" 
+    select="Member/getComment" 
+    match="\s*@\s*(gen)erated\s*\n"/>
+
+  <!-- Match methods with the same name -->
+  <merge:match
+   get="Method/getName"/>
+   
+  <merge:pull 
+    sourceGet="Method/getParameters"
+    targetMarkup="^gen$"
+    targetPut="Method/setParameters"/>
+  <merge:pull 
+    sourceGet="Method/getBody"
+    targetMarkup="^gen$"
+    targetPut="Method/setBody"/>
+
+</merge:options>
