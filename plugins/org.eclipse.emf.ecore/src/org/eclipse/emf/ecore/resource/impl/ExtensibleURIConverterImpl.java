@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtensibleURIConverterImpl.java,v 1.2 2007/10/31 16:57:00 emerks Exp $
+ * $Id: ExtensibleURIConverterImpl.java,v 1.3 2008/04/03 19:53:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -160,8 +160,10 @@ public class ExtensibleURIConverterImpl implements URIConverter
     int size = uriHandlers.size();
     if (size > 0)
     {
-      for (URIHandler uriHandler : uriHandlers.data())
+      URIHandler[] data = uriHandlers.data();
+      for (int i = 0; i < size; ++i)
       {
+        URIHandler uriHandler = data[i];
         if (uriHandler.canHandle(uri))
         {
           return uriHandler;
