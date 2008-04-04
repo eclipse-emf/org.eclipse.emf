@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2007 IBM Corporation and others.
+ * Copyright (c) 2005-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.16 2007/06/15 21:57:55 emerks Exp $
+ * $Id: ModelExporter.java,v 1.17 2008/04/04 17:44:38 marcelop Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -286,15 +286,12 @@ public abstract class ModelExporter extends ModelConverter
     this.genModel = genModel;
     genModel = getGenModel();
     
+    Diagnostic diagnostic = null;
     if (genModel != null)
     {
       genModel.reconcile();
       genModel.setValidateModel(true);
-      Diagnostic diagnostic = genModel.diagnose();
-      if (diagnostic.getSeverity() != Diagnostic.OK)
-      {
-        throw new DiagnosticException(diagnostic);
-      }
+      diagnostic = genModel.diagnose();
       
       if (getDirectoryURI() == null)
       {
@@ -352,8 +349,13 @@ public abstract class ModelExporter extends ModelConverter
     }
     
     adjustGenModel();
+
+    if (diagnostic != null && diagnostic.getSeverity() != Diagnostic.OK)
+    {
+      throw new DiagnosticException(diagnostic);
+    }
   }
-  
+
   protected void adjustGenModel()
   {
     boolean defaultLocationSet = false;

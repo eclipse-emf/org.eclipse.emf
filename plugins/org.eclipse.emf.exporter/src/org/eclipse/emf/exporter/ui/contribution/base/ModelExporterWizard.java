@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2007 IBM Corporation and others.
+ * Copyright (c) 2005-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporterWizard.java,v 1.5 2007/01/26 06:14:09 marcelop Exp $
+ * $Id: ModelExporterWizard.java,v 1.6 2008/04/04 17:44:38 marcelop Exp $
  */
 package org.eclipse.emf.exporter.ui.contribution.base;
 
@@ -64,18 +64,6 @@ public abstract class ModelExporterWizard extends ModelConverterWizard
       {
         getModelExporter().setGenModel((GenModel)object);
       }
-   
-      readPreferencesSettings();
-      
-      if (getModelExporter().getDirectoryURI() == null)
-      {
-        GenModel genModel = getModelExporter().getGenModel();
-        if (genModel != null && genModel.eResource() != null)
-        {
-          URI uri = genModel.eResource().getURI().trimSegments(1);
-          getModelExporter().setDirectoryURI(uri.toString() + "/");
-        }
-      }      
     }
     catch (DiagnosticException exception)
     {
@@ -86,8 +74,20 @@ public abstract class ModelExporterWizard extends ModelConverterWizard
          ExporterPlugin.INSTANCE.getString("_UI_InvalidModel_message"),
          diagnostic);
     }    
+
+    readPreferencesSettings();
+
+    if (getModelExporter().getDirectoryURI() == null)
+    {
+      GenModel genModel = getModelExporter().getGenModel();
+      if (genModel != null && genModel.eResource() != null)
+      {
+        URI uri = genModel.eResource().getURI().trimSegments(1);
+        getModelExporter().setDirectoryURI(uri.toString() + "/");
+      }
+    }
   }
-  
+
   protected void readPreferencesSettings()
   {
     Preferences preferences = ExporterPlugin.getPlugin().getPluginPreferences();
