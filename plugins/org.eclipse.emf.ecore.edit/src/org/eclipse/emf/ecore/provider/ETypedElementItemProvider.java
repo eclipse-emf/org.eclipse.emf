@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.26 2008/02/29 20:50:33 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.27 2008/04/05 12:19:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -273,7 +273,7 @@ public class ETypedElementItemProvider
 
            if (eTypedElement.eResource() == null ||
                  eTypedElement.eResource().getResourceSet() == null ||
-                 !eTypedElement.eResource().getResourceSet().getPackageRegistry().containsKey(EcorePackage.eNS_URI))
+                 eTypedElement.eResource().getResourceSet().getPackageRegistry().getEPackage(EcorePackage.eNS_URI) == EcorePackage.eINSTANCE)
            {
              for (Object classifier :  EcorePackage.eINSTANCE.getEClassifiers())
              {
