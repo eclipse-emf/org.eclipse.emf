@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.13 2007/06/12 15:07:48 emerks Exp $
+ * $Id: XMLTypeValidator.java,v 1.14 2008/04/08 14:05:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -27,13 +27,14 @@ import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 
-import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
@@ -242,7 +243,7 @@ public class XMLTypeValidator extends EObjectValidator
         return validateUnsignedShort(((Integer)value).intValue(), diagnostics, context);
       case XMLTypePackage.UNSIGNED_SHORT_OBJECT:
         return validateUnsignedShortObject((Integer)value, diagnostics, context);
-      default: 
+      default:
         return true;
     }
   }
@@ -465,9 +466,9 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateENTITIES_MinLength(List<?> entities, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    int length = entities.size();  
+    int length = entities.size();
     boolean result = length >= 1;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinLengthViolation(XMLTypePackage.Literals.ENTITIES, entities, length, 1, diagnostics, context);
     return result;
   }
@@ -696,9 +697,9 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateIDREFS_MinLength(List<?> idrefs, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    int length = idrefs.size();  
+    int length = idrefs.size();
     boolean result = length >= 1;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinLengthViolation(XMLTypePackage.Literals.IDREFS, idrefs, length, 1, diagnostics, context);
     return result;
   }
@@ -787,9 +788,9 @@ public class XMLTypeValidator extends EObjectValidator
    * @see #validateLanguage_Pattern
    */
   public static final  PatternMatcher [][] LANGUAGE__PATTERN__VALUES =
-    new PatternMatcher [][] 
+    new PatternMatcher [][]
     {
-      new PatternMatcher [] 
+      new PatternMatcher []
       {
         XMLTypeUtil.createPatternMatcher("[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*")
       }
@@ -844,9 +845,9 @@ public class XMLTypeValidator extends EObjectValidator
    * @see #validateName_Pattern
    */
   public static final  PatternMatcher [][] NAME__PATTERN__VALUES =
-    new PatternMatcher [][] 
+    new PatternMatcher [][]
     {
-      new PatternMatcher [] 
+      new PatternMatcher []
       {
         XMLTypeUtil.createPatternMatcher("\\i\\c*")
       }
@@ -881,13 +882,13 @@ public class XMLTypeValidator extends EObjectValidator
    * @see #validateNCName_Pattern
    */
   public static final  PatternMatcher [][] NC_NAME__PATTERN__VALUES =
-    new PatternMatcher [][] 
+    new PatternMatcher [][]
     {
-      new PatternMatcher [] 
+      new PatternMatcher []
       {
         XMLTypeUtil.createPatternMatcher("[\\i-[:]][\\c-[:]]*")
       },
-      new PatternMatcher [] 
+      new PatternMatcher []
       {
         XMLTypeUtil.createPatternMatcher("\\i\\c*")
       }
@@ -932,9 +933,9 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateNegativeInteger_Max(BigInteger negativeInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = negativeInteger.compareTo(NEGATIVE_INTEGER__MAX__VALUE) <= 0;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxViolation(XMLTypePackage.Literals.NEGATIVE_INTEGER, negativeInteger, NEGATIVE_INTEGER__MAX__VALUE, true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -955,9 +956,9 @@ public class XMLTypeValidator extends EObjectValidator
    * @see #validateNMTOKEN_Pattern
    */
   public static final  PatternMatcher [][] NMTOKEN__PATTERN__VALUES =
-    new PatternMatcher [][] 
+    new PatternMatcher [][]
     {
-      new PatternMatcher [] 
+      new PatternMatcher []
       {
         XMLTypeUtil.createPatternMatcher("\\c+")
       }
@@ -994,9 +995,9 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateNMTOKENS_MinLength(List<?> nmtokens, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    int length = nmtokens.size();  
+    int length = nmtokens.size();
     boolean result = length >= 1;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinLengthViolation(XMLTypePackage.Literals.NMTOKENS, nmtokens, length, 1, diagnostics, context);
     return result;
   }
@@ -1065,9 +1066,9 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateNonNegativeInteger_Min(BigInteger nonNegativeInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = nonNegativeInteger.compareTo(NON_NEGATIVE_INTEGER__MIN__VALUE) >= 0;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinViolation(XMLTypePackage.Literals.NON_NEGATIVE_INTEGER, nonNegativeInteger, NON_NEGATIVE_INTEGER__MIN__VALUE, true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -1098,9 +1099,9 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateNonPositiveInteger_Max(BigInteger nonPositiveInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = nonPositiveInteger.compareTo(NON_POSITIVE_INTEGER__MAX__VALUE) <= 0;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxViolation(XMLTypePackage.Literals.NON_POSITIVE_INTEGER, nonPositiveInteger, NON_POSITIVE_INTEGER__MAX__VALUE, true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -1157,9 +1158,9 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validatePositiveInteger_Min(BigInteger positiveInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = positiveInteger.compareTo(POSITIVE_INTEGER__MIN__VALUE) >= 0;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinViolation(XMLTypePackage.Literals.POSITIVE_INTEGER, positiveInteger, POSITIVE_INTEGER__MIN__VALUE, true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -1268,7 +1269,7 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateUnsignedByte_Min(short unsignedByte, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedByte >= UNSIGNED_BYTE__MIN__VALUE;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinViolation(XMLTypePackage.Literals.UNSIGNED_BYTE, new Short(unsignedByte), new Short(UNSIGNED_BYTE__MIN__VALUE), true, diagnostics, context);
     return result;
   }
@@ -1290,9 +1291,9 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateUnsignedByte_Max(short unsignedByte, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedByte <= UNSIGNED_BYTE__MAX__VALUE;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxViolation(XMLTypePackage.Literals.UNSIGNED_BYTE, new Short(unsignedByte), new Short(UNSIGNED_BYTE__MAX__VALUE), true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -1336,7 +1337,7 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateUnsignedInt_Min(long unsignedInt, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedInt >= UNSIGNED_INT__MIN__VALUE;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinViolation(XMLTypePackage.Literals.UNSIGNED_INT, new Long(unsignedInt), new Long(UNSIGNED_INT__MIN__VALUE), true, diagnostics, context);
     return result;
   }
@@ -1358,9 +1359,9 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateUnsignedInt_Max(long unsignedInt, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedInt <= UNSIGNED_INT__MAX__VALUE;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxViolation(XMLTypePackage.Literals.UNSIGNED_INT, new Long(unsignedInt), new Long(UNSIGNED_INT__MAX__VALUE), true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -1404,9 +1405,9 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateUnsignedLong_Min(BigInteger unsignedLong, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedLong.compareTo(UNSIGNED_LONG__MIN__VALUE) >= 0;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinViolation(XMLTypePackage.Literals.UNSIGNED_LONG, unsignedLong, UNSIGNED_LONG__MIN__VALUE, true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -1426,9 +1427,9 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateUnsignedLong_Max(BigInteger unsignedLong, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedLong.compareTo(UNSIGNED_LONG__MAX__VALUE) <= 0;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxViolation(XMLTypePackage.Literals.UNSIGNED_LONG, unsignedLong, UNSIGNED_LONG__MAX__VALUE, true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -1460,7 +1461,7 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateUnsignedShort_Min(int unsignedShort, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedShort >= UNSIGNED_SHORT__MIN__VALUE;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinViolation(XMLTypePackage.Literals.UNSIGNED_SHORT, new Integer(unsignedShort), new Integer(UNSIGNED_SHORT__MIN__VALUE), true, diagnostics, context);
     return result;
   }
@@ -1482,9 +1483,9 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateUnsignedShort_Max(int unsignedShort, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedShort <= UNSIGNED_SHORT__MAX__VALUE;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxViolation(XMLTypePackage.Literals.UNSIGNED_SHORT, new Integer(unsignedShort), new Integer(UNSIGNED_SHORT__MAX__VALUE), true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -1499,22 +1500,33 @@ public class XMLTypeValidator extends EObjectValidator
     return result;
   }
   
+  /**
+   * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  @Override
+  public ResourceLocator getResourceLocator()
+  {
+    return EcorePlugin.INSTANCE;
+  }
+
   protected void reportXMLGregorianCalendarViolation
     (EDataType eDataType, XMLGregorianCalendar value, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    diagnostics.add
-      (new BasicDiagnostic
-        (Diagnostic.ERROR,
-         DIAGNOSTIC_SOURCE,
-         WELL_FORMED_XML_GREGORIAN_CALENDAR,
-         getEcoreResourceLocator().getString
-           ("_UI_BadXMLGregorianCalendar_diagnostic",
-            new Object []
-              {
-                getValueLabel(eDataType, value, context),
-                ExtendedMetaData.INSTANCE.getName(eDataType)
-              }),
-         new Object [] { value }));
+    createDiagnostic
+      (Diagnostic.ERROR,
+       DIAGNOSTIC_SOURCE,
+       WELL_FORMED_XML_GREGORIAN_CALENDAR,
+       "_UI_BadXMLGregorianCalendar_diagnostic",
+       new Object []
+       {
+         getValueLabel(eDataType, value, context),
+         ExtendedMetaData.INSTANCE.getName(eDataType)
+       },
+       new Object [] { value },
+       context);
   }
 
 } //XMLTypeValidator
