@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.28 2007/10/20 14:43:40 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.29 2008/04/08 13:58:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -1165,9 +1166,40 @@ public class BasicFeatureMap
       for (int i = 0; i < size; ++i)
       {
         Entry entry = entries[i];
-        if (validator.isValid(entry.getEStructuralFeature()))
+        EStructuralFeature entryFeature = entry.getEStructuralFeature();
+        if (validator.isValid(entryFeature))
         {
-          if (shouldUnset(feature, object))
+          if (entryFeature == XMLTypeFeatures.TEXT || entryFeature == XMLTypeFeatures.CDATA)
+          {
+            boolean shouldUnset = shouldUnset(feature, object);
+            int index = i;
+            if (shouldUnset)
+            {
+              remove(i);
+            }
+            else
+            {
+              ++i;
+            }
+            while (i < size)
+            {
+              entry = entries[i];
+              entryFeature = entry.getEStructuralFeature();
+              if (entryFeature == XMLTypeFeatures.TEXT || entryFeature == XMLTypeFeatures.CDATA)
+              {
+                remove(i);
+              }
+              else
+              {
+                ++i;
+              }
+            }
+            if (!shouldUnset)
+            {
+              doSet(index, createEntry(feature, object));
+            }
+          }
+          else if (shouldUnset(feature, object))
           {
             remove(i);
           }
@@ -2022,11 +2054,26 @@ public class BasicFeatureMap
       for (int i = 0; i < size; ++i)
       {
         Entry entry = entries[i];
-        if (validator.isValid(entry.getEStructuralFeature()))
+        EStructuralFeature entryFeature = entry.getEStructuralFeature();
+        if (validator.isValid(entryFeature))
         {
           if (FeatureMapUtil.isFeatureMap(feature))
           {
             return entry;
+          }
+          else if (entryFeature == XMLTypeFeatures.TEXT || entryFeature == XMLTypeFeatures.CDATA)
+          {
+            StringBuilder result = new StringBuilder(entry.getValue().toString());
+            while (++i < size)
+            {
+              entry = entries[i];
+              entryFeature = entry.getEStructuralFeature();
+              if (entryFeature == XMLTypeFeatures.TEXT || entryFeature == XMLTypeFeatures.CDATA)
+              {
+                result.append(entry.getValue().toString());
+              }
+            }
+            return EcoreUtil.createFromString((EDataType)feature.getEType(), result.toString());
           }
           else
           {

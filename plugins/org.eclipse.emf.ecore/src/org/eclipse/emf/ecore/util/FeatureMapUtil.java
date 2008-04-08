@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.35 2007/10/20 14:43:40 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.36 2008/04/08 13:58:09 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -20,6 +20,7 @@ package org.eclipse.emf.ecore.util;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
@@ -1543,6 +1544,7 @@ public final class FeatureMapUtil
       this.eStructuralFeature = eStructuralFeature;
 
       wildcards = ExtendedMetaData.INSTANCE.getWildcards(eStructuralFeature);
+      EStructuralFeature mixedFeature;
       if (!wildcards.isEmpty())
       {
         isElement = ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature) == ExtendedMetaData.ELEMENT_WILDCARD_FEATURE;
@@ -1551,7 +1553,7 @@ public final class FeatureMapUtil
           wildcards = ANY_WILDCARD;
         }
       }
-      else if (ExtendedMetaData.INSTANCE.getMixedFeature(containingClass) == eStructuralFeature)
+      else if ((mixedFeature = ExtendedMetaData.INSTANCE.getMixedFeature(containingClass)) == eStructuralFeature)
       {
         isElement = true;
         groupMembers = new ArrayList<EStructuralFeature>();
@@ -1597,7 +1599,13 @@ public final class FeatureMapUtil
           }
         }
       }
-      else 
+      else if (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature) == ExtendedMetaData.SIMPLE_FEATURE &&
+                 mixedFeature != null)
+      {
+        wildcards = null;
+        groupMembers = XMLTypeFeatures.TEXTUAL_FEATURES;
+      }
+      else
       {
         wildcards = null;
         isElement = true;
@@ -1764,5 +1772,7 @@ final class XMLTypeFeatures
   public static final FeatureMap.Entry.Internal CDATA_PROTOTYPE = ((EStructuralFeature.Internal)CDATA).getFeatureMapEntryPrototype();
   public static final FeatureMap.Entry.Internal COMMENT_PROTOTYPE = ((EStructuralFeature.Internal)COMMENT).getFeatureMapEntryPrototype();
   public static final FeatureMap.Entry.Internal PROCESSING_INSTRUCTION_PROTOTYPE = ((EStructuralFeature.Internal)PROCESSING_INSTRUCTION).getFeatureMapEntryPrototype();
+
+  public static final List<EStructuralFeature> TEXTUAL_FEATURES = Arrays.asList(new EStructuralFeature [] {TEXT, CDATA});
 }
 

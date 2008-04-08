@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.31 2008/01/08 19:48:40 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.32 2008/04/08 13:58:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -53,6 +53,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 /**
@@ -3003,6 +3004,54 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     }
   }
 
+  public final static class SimpleContentFeatureMapEntry extends BasicFeatureMapEntry
+  {
+    protected EFactory eFactory;
+    protected EDataType eDataType;
+
+    public SimpleContentFeatureMapEntry(EStructuralFeature.Internal eStructuralFeature)
+    {
+      super(eStructuralFeature);
+      eDataType = (EDataType)eStructuralFeature.getEType();
+      eFactory = eDataType.getEPackage().getEFactoryInstance();
+    }
+
+    public final Object getValue()
+    {
+      return null;
+    }
+
+    @Override
+    public Internal createEntry(Object value)
+    {
+      return 
+        new SimpleFeatureMapEntry
+          ((EStructuralFeature.Internal)XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT,
+           eFactory.convertToString(eDataType, value));
+    }
+
+    public final NotificationChain inverseAdd(InternalEObject owner, int featureID, NotificationChain notifications)
+    {
+      return notifications;
+    }
+
+    public final NotificationChain inverseRemove(InternalEObject owner, int featureID, NotificationChain notifications)
+    {
+      return notifications;
+    }
+
+    public final NotificationChain inverseAdd(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
+    {
+      return notifications;
+    }
+
+    public final NotificationChain inverseRemove(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
+    {
+      return notifications;
+    }
+  }
+
+
   public final class InverseUpdatingFeatureMapEntry extends BasicFeatureMapEntry
   {
     protected final InternalEObject value;
@@ -3163,6 +3212,10 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       {
         // create containment one.
         prototypeFeatureMapEntry = new ContainmentUpdatingFeatureMapEntry(this, null);
+      }
+      else if (ExtendedMetaData.INSTANCE.getFeatureKind(this) == ExtendedMetaData.SIMPLE_FEATURE)
+      {
+        prototypeFeatureMapEntry = new SimpleContentFeatureMapEntry(this);
       }
       else
       {

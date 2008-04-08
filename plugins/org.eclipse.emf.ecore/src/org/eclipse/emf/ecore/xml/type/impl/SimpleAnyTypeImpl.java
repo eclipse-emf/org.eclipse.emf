@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleAnyTypeImpl.java,v 1.9 2007/02/20 17:40:50 emerks Exp $
+ * $Id: SimpleAnyTypeImpl.java,v 1.10 2008/04/08 13:58:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -93,36 +93,25 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
     return XMLTypePackage.Literals.SIMPLE_ANY_TYPE;
   }
 
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   public String getRawValue()
   {
-    StringBuffer value = new StringBuffer();
-    for (FeatureMap.Entry entry : getMixed())
-    {
-      if (entry.getEStructuralFeature() == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT)
-      {
-        value.append(entry.getValue());
-      }
-    }
-    return value.toString();
+    return (String)getMixed().get(XMLTypePackage.Literals.SIMPLE_ANY_TYPE__RAW_VALUE, true);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   public void setRawValue(String newRawValue)
   {
-    getMixed().clear();
-    if (newRawValue != null)
-    {
-      getMixed().add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT, newRawValue);
-    }
+    ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.Literals.SIMPLE_ANY_TYPE__RAW_VALUE, newRawValue);
   }
 
   /**
