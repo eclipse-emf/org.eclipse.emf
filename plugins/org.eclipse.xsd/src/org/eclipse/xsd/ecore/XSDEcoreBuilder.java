@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.88 2008/04/02 16:40:53 davidms Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.89 2008/04/08 13:54:02 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1343,24 +1343,29 @@ public class XSDEcoreBuilder extends MapBuilder
       if (baseContentKind == ExtendedMetaData.MIXED_CONTENT &&
             xsdComplexTypeDefinition.getContentTypeCategory() == XSDContentTypeCategory.SIMPLE_LITERAL)
       {
+        XSDSimpleTypeDefinition contentType = xsdComplexTypeDefinition.getSimpleType();
         extendedMetaData.setContentKind(eClass, ExtendedMetaData.SIMPLE_CONTENT);
+        if ("SimpleAnyType".equals(eClass.getName()) && XMLTypePackage.eNS_URI.equals(eClass.getEPackage().getNsURI()))
+        {
+          EStructuralFeature eStructuralFeature =
+            createFeature
+              (eClass,
+               "rawValue",
+               getBuiltInEClassifier(xsdComplexTypeDefinition.getSchema().getSchemaForSchemaNamespace(), "string"),
+               null,
+               0,
+               1);
+          eStructuralFeature.setDerived(true);
+          eStructuralFeature.setTransient(true);
+          eStructuralFeature.setVolatile(true);
+        }
+
+        XSDSimpleTypeDefinition baseSimpleContentType = contentType.getBaseTypeDefinition();
         EStructuralFeature eStructuralFeature =
           createFeature
             (eClass,
-             "rawValue",
-             getBuiltInEClassifier(xsdComplexTypeDefinition.getSchema().getSchemaForSchemaNamespace(), "string"),
-             null,
-             0,
-             1);
-        eStructuralFeature.setDerived(true);
-        eStructuralFeature.setTransient(true);
-        eStructuralFeature.setVolatile(true);
-
-        eStructuralFeature =
-          createFeature
-            (eClass,
              "value",
-             getBuiltInEClassifier(xsdComplexTypeDefinition.getSchema().getSchemaForSchemaNamespace(), "anySimpleType"),
+             getEClassifier(baseSimpleContentType),
              null,
              0,
              1);
