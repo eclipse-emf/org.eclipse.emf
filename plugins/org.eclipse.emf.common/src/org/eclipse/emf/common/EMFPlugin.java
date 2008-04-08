@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.20 2008/01/29 21:13:31 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.21 2008/04/08 15:00:50 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -330,7 +330,7 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
      */
     public Object getImage(String key) throws IOException
     {
-      URL url = new URL(getBaseURL() + "icons/" + key + ".gif");
+      URL url = new URL(getBaseURL() + "icons/" + key + extensionFor(key));
       InputStream inputStream = url.openStream(); 
       inputStream.close();
       return url;

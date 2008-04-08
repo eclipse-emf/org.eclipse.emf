@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingResourceLocator.java,v 1.1 2008/01/29 21:13:31 emerks Exp $
+ * $Id: DelegatingResourceLocator.java,v 1.2 2008/04/08 15:00:50 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -276,10 +276,36 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
    */
   protected Object doGetImage(String key) throws IOException
   {
-    URL url = new URL(getBaseURL() + "icons/" + key + ".gif");
+    URL url = new URL(getBaseURL() + "icons/" + key + extensionFor(key));
     InputStream inputStream = url.openStream();
     inputStream.close();
     return url;
+  }
+
+  /**
+   * Computes the file extension to be used with the key to specify an image resource.
+   * @param key the key for the imagine.
+   * @return the file extension to be used with the key to specify an image resource.
+   */
+  protected static String extensionFor(String key)
+  {    String result = ".gif";
+    int index = key.lastIndexOf('.');
+    if (index != -1)
+    {
+      String extension = key.substring(index + 1);
+      if ("png".equalsIgnoreCase(extension) || 
+            "gif".equalsIgnoreCase(extension) ||
+            "bmp".equalsIgnoreCase(extension) ||
+            "ico".equalsIgnoreCase(extension) ||
+            "jpg".equalsIgnoreCase(extension) ||
+            "jpeg".equalsIgnoreCase(extension) ||
+            "tif".equalsIgnoreCase(extension) ||
+            "tiff".equalsIgnoreCase(extension))
+      {
+        result = "";
+      }
+    }
+    return result;
   }
 
   /**
