@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.54 2008/03/10 19:10:25 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.55 2008/04/08 13:56:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1277,8 +1277,26 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     EClass ecoreClass = ecoreFeature.getEContainingClass();
     EStructuralFeature mixedFeature = getExtendedMetaData().getMixedFeature(ecoreClass);
     return 
-      (mixedFeature != null && mixedFeature != ecoreFeature && getExtendedMetaData().getFeatureKind(ecoreFeature) >= ExtendedMetaData.ELEMENT_FEATURE) ||
+      (mixedFeature != null && mixedFeature != ecoreFeature && isPotentialDelegatingFeatureKind(getExtendedMetaData().getFeatureKind(ecoreFeature))) ||
       getExtendedMetaData().getGroup(ecoreFeature) != null;
+  }
+  
+  private boolean isPotentialDelegatingFeatureKind(int featureKind)
+  {
+    switch (featureKind)
+    {
+      case ExtendedMetaData.SIMPLE_FEATURE:
+      case ExtendedMetaData.ELEMENT_FEATURE:
+      case ExtendedMetaData.ELEMENT_WILDCARD_FEATURE:
+      case ExtendedMetaData.GROUP_FEATURE:
+      {
+        return true;
+      }
+      default:
+      {
+        return false;
+      }
+    }
   }
 
   public GenFeature getDelegateFeature()
@@ -1286,7 +1304,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     EStructuralFeature ecoreFeature = getEcoreFeature();
     EClass ecoreClass = ecoreFeature.getEContainingClass();
     EStructuralFeature eStructuralFeature = getExtendedMetaData().getGroup(ecoreFeature);
-    if (eStructuralFeature == null && getExtendedMetaData().getFeatureKind(ecoreFeature) >= ExtendedMetaData.ELEMENT_FEATURE)
+    if (eStructuralFeature == null && isPotentialDelegatingFeatureKind(getExtendedMetaData().getFeatureKind(ecoreFeature)))
     {
       eStructuralFeature = getExtendedMetaData().getMixedFeature(ecoreClass);
     }
