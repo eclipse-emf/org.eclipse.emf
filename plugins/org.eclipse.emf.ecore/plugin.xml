@@ -29,11 +29,6 @@
     <attribute name="uri" />
   </extension>
   
-  <extension point="org.eclipse.team.core.fileTypes">
-    <fileTypes extension="ecore" type="text" />
-    <fileTypes extension="emof" type="text" />
-    <fileTypes extension="xmi" type="text" />
-  </extension>
   <extension
         point="org.eclipse.emf.ecore.content_handler">
      <contentHandler
