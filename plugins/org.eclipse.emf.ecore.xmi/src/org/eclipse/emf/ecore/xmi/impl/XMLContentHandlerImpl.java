@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLContentHandlerImpl.java,v 1.1 2007/09/29 17:24:26 emerks Exp $
+ * $Id: XMLContentHandlerImpl.java,v 1.2 2008/04/11 20:42:39 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -22,18 +22,24 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.ContentHandler;
 import org.eclipse.emf.ecore.resource.impl.ContentHandlerImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLDefaultHandler;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLOptions;
 import org.eclipse.emf.ecore.xmi.XMLParserPool;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -213,5 +219,63 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
       result.put(ContentHandler.CHARSET_PROPERTY, getCharset(uri, inputStream, options, context));
     }
     return result;
+  }
+  
+  public static class XMI extends XMLContentHandlerImpl
+  {
+    /**
+     * Returns a valid content description if the XML content of the input stream has an XMI version attribute.
+     */
+    @Override
+    public Map<String, Object> contentDescription(URI uri, InputStream inputStream, Map<?, ?> options, Map<Object, Object> context) throws IOException
+    {
+      Map<String, Object> result = super.contentDescription(uri, inputStream, options, context);
+
+      XMLResource xmlResource = load(uri, inputStream, options, context);
+      EList<EObject> contents = xmlResource.getContents();
+      if (!contents.isEmpty())
+      {
+        EObject eObject = contents.get(0);
+        if (eObject instanceof XMLTypeDocumentRoot)
+        {
+          XMLTypeDocumentRoot documentRoot = (XMLTypeDocumentRoot)eObject;
+          EList<EObject> rootContents = documentRoot.eContents();
+          if (!rootContents.isEmpty())
+          {
+            EObject root = rootContents.get(0);
+            if (root instanceof AnyType)
+            {
+              for (FeatureMap.Entry entry : ((AnyType)root).getAnyAttribute())
+              {
+                EStructuralFeature attributeFeature = entry.getEStructuralFeature();
+                if ("version".equals(ExtendedMetaData.INSTANCE.getName(attributeFeature)) &&
+                      isXMINamespace(ExtendedMetaData.INSTANCE.getNamespace(attributeFeature)))
+                {
+                  result.put(VALIDITY_PROPERTY, ContentHandler.Validity.VALID);
+                  result.put(CONTENT_TYPE_PROPERTY, "org.eclipse.emf.ecore.xmi");
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+      return result;
+    }
+
+    /**
+     * A describer that {@link #createContentHandler(Map) creates} an {@link XMI} instance.
+     */
+    public static class Describer extends ContentHandlerImpl.Describer
+    {
+      /**
+       * Creates a {@link RootXMLContentHandlerImpl} instance.
+       */
+      @Override
+      protected ContentHandler createContentHandler(Map<String, String> parameters)
+      {
+        return new XMI();
+      }
+    }
   }
 }
