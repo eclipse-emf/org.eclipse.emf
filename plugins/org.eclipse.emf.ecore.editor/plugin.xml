@@ -11,14 +11,14 @@
   </extension>
 
   <extension point="org.eclipse.ui.editors">
-    <editor id="org.eclipse.emf.ecore.presentation.EcoreEditorID" name="%_UI_EcoreEditor_label" icon="icons/full/obj16/EcoreModelFile.gif" extensions="ecore,emof" class="org.eclipse.emf.ecore.presentation.EcoreEditor" contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor">
-      <contentTypeBinding contentTypeId="org.eclipse.emf.ecore">
-      </contentTypeBinding>
+    <editor id="org.eclipse.emf.ecore.presentation.EcoreEditorID" name="%_UI_EcoreEditor_label" icon="icons/full/obj16/EcoreModelFile.gif" extensions="emof" class="org.eclipse.emf.ecore.presentation.EcoreEditor" contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor">
+      <contentTypeBinding contentTypeId="org.eclipse.emf.ecore"/>
     </editor>
   </extension>
 
   <extension point="org.eclipse.ui.editors">
-    <editor id="org.eclipse.emf.ecore.presentation.ReflectiveEditorID" name="%_UI_ReflectiveEcoreEditor_label" icon="platform:/plugin/org.eclipse.emf.edit/icons/full/obj16/ModelFile.gif" extensions="xmi" class="org.eclipse.emf.ecore.presentation.EcoreEditor" contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor$Reflective">
+    <editor id="org.eclipse.emf.ecore.presentation.ReflectiveEditorID" name="%_UI_ReflectiveEcoreEditor_label" icon="platform:/plugin/org.eclipse.emf.edit/icons/full/obj16/ModelFile.gif" class="org.eclipse.emf.ecore.presentation.EcoreEditor" contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor$Reflective">
+      <contentTypeBinding contentTypeId="org.eclipse.emf.ecore.xmi"/>
     </editor>
   </extension>
 
