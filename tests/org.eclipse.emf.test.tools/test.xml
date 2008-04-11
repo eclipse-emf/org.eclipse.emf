@@ -36,7 +36,7 @@
 	<!-- delete temporary files that have been created. -->
 	<target name="cleanup">
 		<mkdir dir="${results}/consolelogs" />
-		<copy failonerror="false" file="${eclipse-home}/results/${classname}.txt" tofile="${results}/logs/${classname}_${platform}.metadata.log.txt" />
+		<copy failonerror="false" file="${eclipse-home}/results/${classname}.txt" tofile="${results}/consolelogs/${classname}_${platform}.metadata.log.txt" />
 	</target>
 
 	<!-- This target runs the test suite. Any actions that need to happen -->
