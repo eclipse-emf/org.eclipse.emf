@@ -13,6 +13,7 @@
 	<!-- all tests that are to be run. Initialization for individual tests -->
 	<!-- should be done within the body of the suite target. -->
 	<target name="init">
+		<property name="classname" value="org.eclipse.emf.test.xml.AllSuites" />
 		<tstamp />
 		<delete>
 			<fileset dir="${eclipse-home}" includes="org*.xml" />
@@ -26,7 +27,7 @@
 		<ant target="core-test" antfile="${library-file}" dir="${eclipse-home}">
 			<property name="data-dir" value="${emf-folder}" />
 			<property name="plugin-name" value="${plugin-name}" />
-			<property name="classname" value="org.eclipse.emf.test.xml.AllSuites" />
+			<property name="classname" value="${classname}" />
 		</ant>
 	</target>
 
