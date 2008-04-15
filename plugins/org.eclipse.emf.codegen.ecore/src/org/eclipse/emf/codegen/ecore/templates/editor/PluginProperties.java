@@ -38,9 +38,9 @@ public class PluginProperties
   protected final String TEXT_21 = "_label = ";
   protected final String TEXT_22 = " Model Editor" + NL + "" + NL + "_UI_";
   protected final String TEXT_23 = "FilenameDefaultBase = My" + NL + "_UI_";
-  protected final String TEXT_24 = "FilenameExtension = ";
+  protected final String TEXT_24 = "FilenameExtensions = ";
   protected final String TEXT_25 = NL;
-  protected final String TEXT_26 = NL + "_UI_Wizard_label = New" + NL + "" + NL + "_WARN_FilenameExtension = The file name must end in \".{0}\"" + NL + "" + NL + "_UI_ModelObject = &Model Object" + NL + "_UI_XMLEncoding = &XML Encoding" + NL + "_UI_XMLEncodingChoices = ";
+  protected final String TEXT_26 = NL + "_UI_Wizard_label = New" + NL + "" + NL + "_WARN_FilenameExtension = The file name must end in ''.{0}''" + NL + "_WARN_FilenameExtensions = The file name must have one of the following extensions: {0}" + NL + "" + NL + "_UI_ModelObject = &Model Object" + NL + "_UI_XMLEncoding = &XML Encoding" + NL + "_UI_XMLEncodingChoices = ";
   protected final String TEXT_27 = NL + "_UI_Wizard_initial_object_description = Specify a file name and select a model object to create";
   protected final String TEXT_28 = NL + "_UI_Wizard_initial_object_description = Select a model object to create";
   protected final String TEXT_29 = NL + NL + "_UI_FileConflict_label = File Conflict" + NL + "_WARN_FileConflict = There are unsaved changes that conflict with changes made outside the editor.  Do you wish to discard this editor's changes?" + NL;
@@ -130,7 +130,7 @@ public class PluginProperties
     stringBuffer.append(TEXT_23);
     stringBuffer.append(genPackage.getEditorClassName());
     stringBuffer.append(TEXT_24);
-    stringBuffer.append(genPackage.getPrefix().toLowerCase(genModel.getLocale()));
+    stringBuffer.append(genPackage.isMultipleFileExtensions() ? genPackage.getFileExtensions() : genPackage.getFileExtension());
     stringBuffer.append(TEXT_25);
     }
     stringBuffer.append(TEXT_26);
