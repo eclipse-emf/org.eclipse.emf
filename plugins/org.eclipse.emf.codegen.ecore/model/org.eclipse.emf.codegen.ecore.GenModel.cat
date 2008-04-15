@@ -501,6 +501,14 @@
 		(object ClassAttribute "childCreationExtenders"
 		    quid       	"479780600076"
 		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "contentTypeIdentifier"
+		    quid       	"47F7830E0364"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "fileExtensions"
+		    quid       	"47FA91BE033C"
+		    type       	"String"
 		    exportControl 	"Public")))
 	(object Class "GenClass"
 	    quid       	"3C1759410016"
@@ -1322,7 +1330,7 @@
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$34" @4
 		    location   	(903, 2112)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"438CCDE201A3"
 		    roleview_list 	(list RoleViews
 			(object RoleView "genBase" @5
@@ -1340,7 +1348,7 @@
 				pctDist    	0.395939
 				height     	71
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"438CCDE3003E"
 			    client     	@4
@@ -1361,7 +1369,7 @@
 				pctDist    	0.141414
 				height     	38
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"438CCDE30046"
 			    client     	@4
@@ -1381,7 +1389,7 @@
 				orientation 	0))))
 		(object AssociationViewNew "$UNNAMED$37" @10
 		    location   	(1726, 2143)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"438CCF1A0163"
 		    roleview_list 	(list RoleViews
 			(object RoleView "contents" @11
@@ -1399,7 +1407,7 @@
 				pctDist    	0.612637
 				height     	103
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"438CCF1F0006"
 			    client     	@10
@@ -1422,7 +1430,7 @@
 			(object RoleView "$UNNAMED$38" @14
 			    Parent_View 	@10
 			    location   	(-98, 271)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"438CCF1F000D"
 			    client     	@10
@@ -1432,7 +1440,7 @@
 			    terminal_attachment 	(1426, 2143))))
 		(object AssociationViewNew "$UNNAMED$35" @15
 		    location   	(1726, 2068)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"438CCEA20048"
 		    roleview_list 	(list RoleViews
 			(object RoleView "references" @16
@@ -1450,7 +1458,7 @@
 				pctDist    	0.540000
 				height     	47
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"438CCEA50007"
 			    client     	@15
@@ -1473,7 +1481,7 @@
 			(object RoleView "$UNNAMED$36" @19
 			    Parent_View 	@15
 			    location   	(-98, 196)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"438CCEA5000F"
 			    client     	@15
@@ -1584,7 +1592,7 @@
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$27" @25
 		    location   	(1891, 832)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3D2C553900BC"
 		    roleview_list 	(list RoleViews
 			(object RoleView "ecoreEnumLiteral" @26
@@ -1602,7 +1610,7 @@
 				pctDist    	-0.058824
 				height     	45
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2C5539036F"
 			    client     	@25
@@ -1623,7 +1631,7 @@
 			(object RoleView "$UNNAMED$28" @29
 			    Parent_View 	@25
 			    location   	(355, 0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2C55390370"
 			    client     	@25
@@ -1670,7 +1678,7 @@
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$6" @32
 		    location   	(600, 1520)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3C175A1A0159"
 		    roleview_list 	(list RoleViews
 			(object RoleView "ecoreFeature" @33
@@ -1688,7 +1696,7 @@
 				pctDist    	0.030864
 				height     	44
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C175A1B0327"
 			    client     	@32
@@ -1709,7 +1717,7 @@
 			(object RoleView "$UNNAMED$7" @36
 			    Parent_View 	@32
 			    location   	(-152, 32)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C175A1B0331"
 			    client     	@32
@@ -1798,7 +1806,7 @@
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$16" @41
 		    location   	(1881, 144)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3C599730003C"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$17" @42
@@ -1817,7 +1825,7 @@
 				pctDist    	0.800000
 				height     	42
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C5997310001"
 			    client     	@41
@@ -1838,7 +1846,7 @@
 				pctDist    	0.060000
 				height     	39
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C59973003DF"
 			    client     	@41
@@ -1878,7 +1886,7 @@
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$8" @48
 		    location   	(1864, 496)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3C1FAEA90045"
 		    roleview_list 	(list RoleViews
 			(object RoleView "ecoreEnum" @49
@@ -1896,7 +1904,7 @@
 				pctDist    	0.272300
 				height     	35
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C1FAEAA0032"
 			    client     	@48
@@ -1917,7 +1925,7 @@
 			(object RoleView "$UNNAMED$9" @52
 			    Parent_View 	@48
 			    location   	(872, -304)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C1FAEAA003D"
 			    client     	@48
@@ -1932,7 +1940,7 @@
 		    line_style 	0)
 		(object AssociationViewNew "$UNNAMED$23" @54
 		    location   	(1538, 664)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3D2B1FE200F1"
 		    roleview_list 	(list RoleViews
 			(object RoleView "genEnum" @55
@@ -1950,7 +1958,7 @@
 				pctDist    	0.657143
 				height     	137
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2B1FE20349"
 			    client     	@54
@@ -1985,7 +1993,7 @@
 				pctDist    	0.657143
 				height     	199
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2B1FE2034A"
 			    client     	@54
@@ -2027,7 +2035,7 @@
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$3" @62
 		    location   	(606, 1168)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3C1759B102AC"
 		    roleview_list 	(list RoleViews
 			(object RoleView "ecoreClass" @63
@@ -2045,7 +2053,7 @@
 				pctDist    	0.260116
 				height     	45
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C1759B3007E"
 			    client     	@62
@@ -2066,7 +2074,7 @@
 			(object RoleView "$UNNAMED$4" @66
 			    Parent_View 	@62
 			    location   	(-146, 64)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C1759B30088"
 			    client     	@62
@@ -2074,7 +2082,7 @@
 			    line_style 	0)))
 		(object AssociationViewNew "$UNNAMED$5" @67
 		    location   	(896, 1343)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3C1759D902C4"
 		    roleview_list 	(list RoleViews
 			(object RoleView "genClass" @68
@@ -2092,7 +2100,7 @@
 				pctDist    	0.630631
 				height     	123
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C1759DA02ED"
 			    client     	@67
@@ -2125,7 +2133,7 @@
 				pctDist    	0.633929
 				height     	142
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C1759DA02EE"
 			    client     	@67
@@ -2166,7 +2174,7 @@
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$32" @75
 		    location   	(1889, 1520)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3D2C6FE800F3"
 		    roleview_list 	(list RoleViews
 			(object RoleView "ecoreParameter" @76
@@ -2184,7 +2192,7 @@
 				pctDist    	-0.015000
 				height     	42
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2C6FE9007C"
 			    client     	@75
@@ -2205,7 +2213,7 @@
 			(object RoleView "$UNNAMED$33" @79
 			    Parent_View 	@75
 			    location   	(353, 0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2C6FE90086"
 			    client     	@75
@@ -2254,7 +2262,7 @@
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$0" @82
 		    location   	(590, 511)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3C1758BB00D4"
 		    roleview_list 	(list RoleViews
 			(object RoleView "ecorePackage" @83
@@ -2272,7 +2280,7 @@
 				pctDist    	0.000000
 				height     	34
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C1758BD020D"
 			    client     	@82
@@ -2295,7 +2303,7 @@
 			(object RoleView "$UNNAMED$1" @86
 			    Parent_View 	@82
 			    location   	(-162, -177)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C1758BD0217"
 			    client     	@82
@@ -2305,7 +2313,7 @@
 			    terminal_attachment 	(754, 511))))
 		(object AssociationViewNew "$UNNAMED$2" @87
 		    location   	(909, 312)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3C1759160112"
 		    roleview_list 	(list RoleViews
 			(object RoleView "genModel" @88
@@ -2323,7 +2331,7 @@
 				pctDist    	0.522124
 				height     	121
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C175917018C"
 			    client     	@87
@@ -2358,7 +2366,7 @@
 				pctDist    	0.655738
 				height     	155
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C175917018D"
 			    client     	@87
@@ -2379,31 +2387,31 @@
 				height     	48
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$12" @94
-		    location   	(690, 280)
-		    stereotype 	TRUE
+		    location   	(690, 279)
+		    stereotype 	FALSE
 		    quidu      	"3C45AEB6027F"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$13" @95
 			    Parent_View 	@94
-			    location   	(-78, -264)
-			    stereotype 	TRUE
+			    location   	(-78, -265)
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C45AEB80047"
 			    client     	@94
 			    supplier   	@39
 			    vertices   	(list Points
-				(690, 280)
+				(690, 279)
 				(690, 137)
 				(779, 137))
 			    line_style 	3
-			    origin_attachment 	(690, 280)
+			    origin_attachment 	(690, 279)
 			    terminal_attachment 	(779, 137))
 			(object RoleView "usedGenPackages" @96
 			    Parent_View 	@94
-			    location   	(-78, -264)
+			    location   	(-78, -265)
 			    label      	(object SegLabel @97
 				Parent_View 	@96
-				location   	(494, 354)
+				location   	(494, 353)
 				anchor     	1
 				anchor_loc 	1
 				nlines     	1
@@ -2413,17 +2421,17 @@
 				pctDist    	0.322115
 				height     	197
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C45AEB80048"
 			    client     	@94
 			    supplier   	@81
 			    vertices   	(list Points
-				(690, 280)
+				(690, 279)
 				(690, 447)
 				(754, 447))
 			    line_style 	3
-			    origin_attachment 	(690, 280)
+			    origin_attachment 	(690, 279)
 			    terminal_attachment 	(754, 447)
 			    label      	(object SegLabel @98
 				Parent_View 	@96
@@ -2439,13 +2447,13 @@
 				orientation 	0))))
 		(object AssociationViewNew "$UNNAMED$20" @99
 		    location   	(575, 642)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3C8E6209005A"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$21" @100
 			    Parent_View 	@99
 			    location   	(-193, 66)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C8E620D038A"
 			    client     	@99
@@ -2472,7 +2480,7 @@
 				pctDist    	1.583333
 				height     	24
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C8E620D0394"
 			    client     	@99
@@ -2499,7 +2507,7 @@
 				orientation 	0))))
 		(object AssociationViewNew "$UNNAMED$14" @104
 		    location   	(1259, 337)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3C5995E301C4"
 		    roleview_list 	(list RoleViews
 			(object RoleView "genDataTypes" @105
@@ -2517,7 +2525,7 @@
 				pctDist    	1.181416
 				height     	39
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C5995E402C0"
 			    client     	@104
@@ -2557,7 +2565,7 @@
 				pctDist    	0.363344
 				height     	37
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C5995E402BF"
 			    client     	@104
@@ -2586,7 +2594,7 @@
 			pctDist    	0.500000
 			height     	60
 			orientation 	0)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3C1FAED40365"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$11" @112
@@ -2605,7 +2613,7 @@
 				pctDist    	0.488722
 				height     	29
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C1FAED60000"
 			    client     	@110
@@ -2628,7 +2636,7 @@
 				pctDist    	0.313830
 				height     	45
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C1FAED60001"
 			    client     	@110
@@ -2650,7 +2658,7 @@
 				orientation 	0))))
 		(object AssociationViewNew "$UNNAMED$18" @117
 		    location   	(800, 832)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3C7C149801C5"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$19" @118
@@ -2669,7 +2677,7 @@
 				pctDist    	0.800000
 				height     	42
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C7C149903BB"
 			    client     	@117
@@ -2692,7 +2700,7 @@
 				pctDist    	0.721612
 				height     	130
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3C7C149903BC"
 			    client     	@117
@@ -2735,7 +2743,7 @@
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$22" @124
 		    location   	(1259, 1023)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3D2B1F2F02F3"
 		    roleview_list 	(list RoleViews
 			(object RoleView "genClass" @125
@@ -2753,7 +2761,7 @@
 				pctDist    	0.720339
 				height     	26
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2B1F300196"
 			    client     	@124
@@ -2792,7 +2800,7 @@
 				pctDist    	0.345609
 				height     	34
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2B1F3001AA"
 			    client     	@124
@@ -2818,7 +2826,7 @@
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$31" @131
 		    location   	(1536, 1343)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3D2C590600C8"
 		    roleview_list 	(list RoleViews
 			(object RoleView "genOperation" @132
@@ -2836,7 +2844,7 @@
 				pctDist    	0.526786
 				height     	167
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2C59060371"
 			    client     	@131
@@ -2869,7 +2877,7 @@
 				pctDist    	0.637168
 				height     	184
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2C59060372"
 			    client     	@131
@@ -2889,7 +2897,7 @@
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$29" @138
 		    location   	(1884, 1168)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3D2C560302AD"
 		    roleview_list 	(list RoleViews
 			(object RoleView "ecoreOperation" @139
@@ -2907,7 +2915,7 @@
 				pctDist    	0.050761
 				height     	40
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2C56040131"
 			    client     	@138
@@ -2928,7 +2936,7 @@
 			(object RoleView "$UNNAMED$30" @142
 			    Parent_View 	@138
 			    location   	(348, 0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2C56040132"
 			    client     	@138
@@ -2994,7 +3002,7 @@
 		    terminal_attachment 	(1177, 833))
 		(object AssociationViewNew "$UNNAMED$24" @146
 		    location   	(909, 664)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    line_color 	16744448
 		    quidu      	"3D2B26B40229"
 		    roleview_list 	(list RoleViews
@@ -3013,7 +3021,7 @@
 				pctDist    	0.600000
 				height     	138
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2B26B500D6"
 			    client     	@146
@@ -3048,7 +3056,7 @@
 				pctDist    	0.669811
 				height     	181
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2B26B500E0"
 			    client     	@146
@@ -3091,13 +3099,13 @@
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$41" @154
 		    location   	(1300, 1398)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"4565EB2301AF"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$42" @155
 			    Parent_View 	@154
 			    location   	(116, -378)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"4565EB2403A3"
 			    client     	@154
@@ -3124,7 +3132,7 @@
 				pctDist    	0.796825
 				height     	213
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"4565EB2403A4"
 			    client     	@154
@@ -3146,13 +3154,13 @@
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$43" @159
 		    location   	(1685, 1776)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"4565EBCF02E9"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$44" @160
 			    Parent_View 	@159
 			    location   	(-475, 0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"4565EBD002D9"
 			    client     	@159
@@ -3173,7 +3181,7 @@
 				pctDist    	0.220000
 				height     	42
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"4565EBD002DA"
 			    client     	@159
@@ -3193,13 +3201,13 @@
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$39" @164
 		    location   	(1106, 1304)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"4565EADB00DA"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$40" @165
 			    Parent_View 	@164
 			    location   	(-78, -472)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"4565EADE000F"
 			    client     	@164
@@ -3222,7 +3230,7 @@
 				pctDist    	0.788644
 				height     	215
 				orientation 	1)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"4565EADE0010"
 			    client     	@164
@@ -3258,7 +3266,7 @@
 	    max_height 	28350
 	    max_width  	21600
 	    origin_x   	0
-	    origin_y   	2962
+	    origin_y   	872
 	    items      	(list diagram_item_list
 		(object ClassView "Class" "Logical View::genmodel::GenBase" @170
 		    ShowCompartmentStereotypes 	TRUE
@@ -3517,7 +3525,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	55
-			max_width  	1764
+			max_width  	1778
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
 			    "+ modelDirectory : String"
@@ -3580,10 +3588,10 @@
 		(object ClassView "Class" "Logical View::genmodel::GenPackage" @182
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeOperation 	TRUE
-		    location   	(2352, 1920)
+		    location   	(2352, 1904)
 		    label      	(object ItemLabel
 			Parent_View 	@182
-			location   	(1861, 1489)
+			location   	(1861, 1423)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	982
@@ -3595,12 +3603,12 @@
 		    quidu      	"3C17589A01D3"
 		    compartment 	(object Compartment
 			Parent_View 	@182
-			location   	(1861, 1549)
+			location   	(1861, 1483)
 			icon_style 	"Icon"
 			fill_color 	16777215
 			anchor     	2
-			nlines     	16
-			max_width  	987
+			nlines     	18
+			max_width  	978
 			compartmentItems 	(list Compartment
 			    "+ prefix : String"
 			    "+ basePackage : String"
@@ -3630,9 +3638,11 @@
 			    
 			    "+ generateExampleClass : boolean = true"
 			    "+ literalsInterface : boolean = true"
-			    "+ dataTypeConverters : boolean"))
+			    "+ dataTypeConverters : boolean"
+			    "+ contentTypeIdentifier : String"
+			    "+ fileExtensions : String"))
 		    width      	1000
-		    height     	886
+		    height     	986
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenTypedElement" @183
@@ -3663,10 +3673,10 @@
 		    SuppressOperation 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
-		    location   	(2048, 2560)
+		    location   	(2064, 2592)
 		    label      	(object ItemLabel
 			Parent_View 	@184
-			location   	(1857, 2476)
+			location   	(1873, 2508)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	382
@@ -3674,7 +3684,7 @@
 			label      	"GenDelegationKind")
 		    stereotype 	(object ItemLabel
 			Parent_View 	@184
-			location   	(1857, 2426)
+			location   	(1873, 2458)
 			fill_color 	13434879
 			anchor     	10
 			nlines     	1
@@ -3687,7 +3697,7 @@
 		    quidu      	"4373999700A7"
 		    compartment 	(object Compartment
 			Parent_View 	@184
-			location   	(1857, 2536)
+			location   	(1873, 2568)
 			icon_style 	"Icon"
 			fill_color 	16777215
 			anchor     	2
@@ -3701,10 +3711,10 @@
 		    SuppressOperation 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
-		    location   	(3056, 1744)
+		    location   	(3088, 1760)
 		    label      	(object ItemLabel
 			Parent_View 	@185
-			location   	(2875, 1635)
+			location   	(2907, 1651)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	362
@@ -3712,7 +3722,7 @@
 			label      	"GenResourceKind")
 		    stereotype 	(object ItemLabel
 			Parent_View 	@185
-			location   	(2875, 1585)
+			location   	(2907, 1601)
 			fill_color 	13434879
 			anchor     	10
 			nlines     	1
@@ -3725,7 +3735,7 @@
 		    quidu      	"3D9D6E110209"
 		    compartment 	(object Compartment
 			Parent_View 	@185
-			location   	(2875, 1695)
+			location   	(2907, 1711)
 			icon_style 	"Icon"
 			fill_color 	16777215
 			anchor     	2
@@ -3807,10 +3817,10 @@
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
-		    location   	(2512, 2912)
+		    location   	(2528, 2944)
 		    label      	(object ItemLabel
 			Parent_View 	@191
-			location   	(2349, 2803)
+			location   	(2365, 2835)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	326
@@ -3818,7 +3828,7 @@
 			label      	"GenJDKLevel")
 		    stereotype 	(object ItemLabel
 			Parent_View 	@191
-			location   	(2349, 2753)
+			location   	(2365, 2785)
 			fill_color 	13434879
 			anchor     	10
 			nlines     	1
@@ -3831,7 +3841,7 @@
 		    quidu      	"4554B25101F8"
 		    compartment 	(object Compartment
 			Parent_View 	@191
-			location   	(2349, 2863)
+			location   	(2365, 2895)
 			icon_style 	"Icon"
 			fill_color 	16777215
 			anchor     	2
@@ -3946,8 +3956,8 @@
 		    client     	@182
 		    supplier   	@170
 		    line_style 	3
-		    origin_attachment 	(1872, 1477)
-		    terminal_attachment 	(1872, 300)
+		    origin_attachment 	(1866, 1411)
+		    terminal_attachment 	(1866, 300)
 		    drawSupplier 	@179)
 		(object InheritView "" @202
 		    stereotype 	TRUE
@@ -3963,10 +3973,10 @@
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
-		    location   	(2064, 2928)
+		    location   	(2080, 2960)
 		    label      	(object ItemLabel
 			Parent_View 	@203
-			location   	(1864, 2819)
+			location   	(1880, 2851)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	400
@@ -3974,7 +3984,7 @@
 			label      	"GenRuntimeVersion")
 		    stereotype 	(object ItemLabel
 			Parent_View 	@203
-			location   	(1864, 2769)
+			location   	(1880, 2801)
 			fill_color 	13434879
 			anchor     	10
 			nlines     	1
@@ -3987,7 +3997,7 @@
 		    quidu      	"47A0D0CD0177"
 		    compartment 	(object Compartment
 			Parent_View 	@203
-			location   	(1864, 2879)
+			location   	(1880, 2911)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
@@ -4157,7 +4167,7 @@
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$25" @209
 		    location   	(1248, 400)
-		    stereotype 	TRUE
+		    stereotype 	FALSE
 		    quidu      	"3D2C53A600A6"
 		    roleview_list 	(list RoleViews
 			(object RoleView "labelFeature" @210
@@ -4175,7 +4185,7 @@
 				pctDist    	0.528302
 				height     	168
 				orientation 	0)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2C53A602D7"
 			    client     	@209
@@ -4196,7 +4206,7 @@
 			(object RoleView "$UNNAMED$26" @213
 			    Parent_View 	@209
 			    location   	(912, 224)
-			    stereotype 	TRUE
+			    stereotype 	FALSE
 			    line_color 	3342489
 			    quidu      	"3D2C53A602E1"
 			    client     	@209

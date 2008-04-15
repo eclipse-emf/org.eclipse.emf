@@ -228,6 +228,10 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/extensibleProviderFactory"/>
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether the generated item provider adapter factory should include child creation extenders"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/childCreationExtenders"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="A content type identifier against which to register this model's resource factory"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/contentTypeIdentifier"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The file extension against which to register the model's resource factory, or multiple, comma-separated file extensions for its content type"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/fileExtensions"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this package" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/ecorePackage"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genModel"/>
