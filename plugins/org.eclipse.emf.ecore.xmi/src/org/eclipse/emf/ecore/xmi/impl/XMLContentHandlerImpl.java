@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLContentHandlerImpl.java,v 1.2 2008/04/11 20:42:39 davidms Exp $
+ * $Id: XMLContentHandlerImpl.java,v 1.3 2008/04/15 15:25:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -125,14 +125,13 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
                 return
                   new SAXXMLHandler(resource, helper, options)
                   {
-                    protected int count = 0;
-
                     @Override
                     public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException
                     {
                       super.startElement(uri, localName, name, attributes);
-                      ++count;
-                      if (!isXMINameAndNamespace(localName, uri) || count >= 2)
+                      int depth = elements.size();
+                      if (depth == 1 && !isXMINameAndNamespace(localName, uri) ||
+                            depth == 2 && !isXMINamespace(uri))
                       {
                         throw new RuntimeException();
                       }

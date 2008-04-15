@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RootXMLContentHandlerImpl.java,v 1.4 2008/03/04 18:29:31 emerks Exp $
+ * $Id: RootXMLContentHandlerImpl.java,v 1.5 2008/04/15 15:25:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -202,13 +202,17 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
           rootElementNamespace = ExtendedMetaData.INSTANCE.getNamespace(eContainmentFeature);
           if (XMI_KIND.equals(kind) && isXMINameAndNamespace(rootElementName, rootElementNamespace))
           {
-            rootContents = root.eContents();
-            if (!rootContents.isEmpty())
+            // Look for the first non-XMI element.
+            //
+            for (EObject candidate : root.eContents())
             {
-              root = rootContents.get(0);
-              eContainmentFeature = root.eContainmentFeature();
-              rootElementName = eContainmentFeature.getName();
+              eContainmentFeature = candidate.eContainmentFeature();
               rootElementNamespace = ExtendedMetaData.INSTANCE.getNamespace(eContainmentFeature);
+              if (!isXMINamespace(rootElementNamespace))
+              {
+                rootElementName = eContainmentFeature.getName();
+                break;
+              }
             }
           }
         }
