@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.13 2008/03/10 19:10:26 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.14 2008/04/15 03:12:55 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -51,18 +51,43 @@
 <%for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package 
-       uri = "<%=genPackage.getNSURI()%>" 
-       class = "<%=genPackage.getQualifiedPackageInterfaceName()%>"<%if (!genModel.hasLocalGenModel()) {%> /><%} else {%>
-       genModel = "<%=genModel.getRelativeGenModelLocation()%>" /> 
-       <%}%>
+    <package
+        uri="<%=genPackage.getNSURI()%>"
+        class="<%=genPackage.getQualifiedPackageInterfaceName()%>"<%if (!genModel.hasLocalGenModel()) {%>/><%} else {%>
+        genModel="<%=genModel.getRelativeGenModelLocation()%>"/>
+  <%}%>
   </extension>
-  <%if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {%>
+  <%if (genPackage.isContentType()) {%>
+
+  <extension point="org.eclipse.emf.ecore.content_parser">
+    <parser
+        contentTypeIdentifier="<%=genPackage.getContentTypeIdentifier()%>"
+        class="<%=genPackage.getQualifiedEffectiveResourceFactoryClassName()%>"/>
+  </extension>
+
+  <extension point="org.eclipse.core.runtime.contentTypes">
+    <content-type
+        base-type="<%=genPackage.isXMIResource() ? "org.eclipse.emf.ecore.xmi" : "org.eclipse.core.runtime.xml"%>"
+        file-extensions="<%=genPackage.getFileExtensions()%>"
+        id="<%=genPackage.getContentTypeIdentifier()%>"
+        name="%_UI_<%=genPackage.getPrefix()%>_content_type"
+        priority="normal">
+      <describer class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
+    <%if (genPackage.hasTargetNamespace()) {%>
+        <parameter name="namespace" value="<%=genPackage.getNSURI()%>"/>
+    <%}%>
+    <%if (genPackage.isXMIResource()) {%>
+        <parameter name="kind" value="xmi"/>
+    <%}%>
+      </describer>
+    </content-type>
+  </extension>
+  <%} else if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {%>
 
   <extension point="org.eclipse.emf.ecore.extension_parser">
-    <parser 
-       type="<%=genPackage.getPrefix().toLowerCase(genModel.getLocale())%>" 
-       class="<%=genPackage.getQualifiedResourceFactoryClassName()%>" />
+    <parser
+        type="<%=genPackage.getFileExtension()%>"
+        class="<%=genPackage.getQualifiedResourceFactoryClassName()%>"/>
   </extension>
   <%}%>
 <%}%>
