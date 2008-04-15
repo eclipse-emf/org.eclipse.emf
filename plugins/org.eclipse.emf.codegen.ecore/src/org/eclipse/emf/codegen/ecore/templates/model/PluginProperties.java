@@ -21,6 +21,10 @@ public class PluginProperties
   protected final String TEXT_5 = NL + NL + "# ====================================================================" + NL + "# To code developer:" + NL + "#   Do NOT change the properties between this line and the" + NL + "#   \"%%% END OF TRANSLATED PROPERTIES %%%\" line." + NL + "#   Make a new property name, append to the end of the file and change" + NL + "#   the code to use the new property." + NL + "# ====================================================================" + NL + "" + NL + "# ====================================================================" + NL + "# %%% END OF TRANSLATED PROPERTIES %%%" + NL + "# ====================================================================" + NL + "" + NL + "pluginName = ";
   protected final String TEXT_6 = " Model" + NL + "providerName = www.example.org";
   protected final String TEXT_7 = NL;
+  protected final String TEXT_8 = NL + "_UI_";
+  protected final String TEXT_9 = "_content_type = ";
+  protected final String TEXT_10 = " File";
+  protected final String TEXT_11 = NL;
 
   public String generate(Object argument)
   {
@@ -56,7 +60,19 @@ public class PluginProperties
     stringBuffer.append(TEXT_5);
     stringBuffer.append(genModel.getModelName());
     stringBuffer.append(TEXT_6);
+    boolean first = true; for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
+    if (genPackage.isContentType()) {
+    if (first) { first = false;
     stringBuffer.append(TEXT_7);
+    }
+    stringBuffer.append(TEXT_8);
+    stringBuffer.append(genPackage.getPrefix());
+    stringBuffer.append(TEXT_9);
+    stringBuffer.append(genPackage.getPrefix());
+    stringBuffer.append(TEXT_10);
+    }
+    }
+    stringBuffer.append(TEXT_11);
     return stringBuffer.toString();
   }
 }
