@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.25 2008/03/10 19:10:32 emerks Exp $
+ * $Id: GenPackageItemProvider.java,v 1.26 2008/04/15 03:18:31 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -93,6 +93,8 @@ public class GenPackageItemProvider
       addGenerateModelWizardPropertyDescriptor(object);
       addExtensibleProviderFactoryPropertyDescriptor(object);
       addChildCreationExtendersPropertyDescriptor(object);
+      addContentTypeIdentifierPropertyDescriptor(object);
+      addFileExtensionsPropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -559,6 +561,52 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Content Type Identifier feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addContentTypeIdentifierPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_contentTypeIdentifier_feature"),
+         getString("_UI_GenPackage_contentTypeIdentifier_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the File Extensions feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addFileExtensionsPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_fileExtensions_feature"),
+         getString("_UI_GenPackage_fileExtensions_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__FILE_EXTENSIONS,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * This adds a property descriptor for the Ecore Package feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -674,6 +722,8 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
       case GenModelPackage.GEN_PACKAGE__EXTENSIBLE_PROVIDER_FACTORY:
       case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
+      case GenModelPackage.GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER:
+      case GenModelPackage.GEN_PACKAGE__FILE_EXTENSIONS:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
