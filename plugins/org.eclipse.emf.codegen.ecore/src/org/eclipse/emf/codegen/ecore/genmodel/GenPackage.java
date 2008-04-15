@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.32 2008/01/29 21:12:07 emerks Exp $
+ * $Id: GenPackage.java,v 1.33 2008/04/15 03:11:56 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -53,6 +53,8 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isGenerateModelWizard <em>Generate Model Wizard</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isExtensibleProviderFactory <em>Extensible Provider Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isChildCreationExtenders <em>Child Creation Extenders</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getContentTypeIdentifier <em>Content Type Identifier</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getFileExtensions <em>File Extensions</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenEnums <em>Gen Enums</em>}</li>
@@ -603,6 +605,61 @@ public interface GenPackage extends GenBase
   void setChildCreationExtenders(boolean value);
 
   /**
+   * Returns the value of the '<em><b>Content Type Identifier</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * A content type identifier against which to register the resource factory for this package.
+   * @since 2.4
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Content Type Identifier</em>' attribute.
+   * @see #setContentTypeIdentifier(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_ContentTypeIdentifier()
+   * @model
+   * @generated
+   */
+  String getContentTypeIdentifier();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getContentTypeIdentifier <em>Content Type Identifier</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Content Type Identifier</em>' attribute.
+   * @see #getContentTypeIdentifier()
+   * @generated
+   */
+  void setContentTypeIdentifier(String value);
+
+  /**
+   * Returns the value of the '<em><b>File Extensions</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * The file extensions against which to register the resource factory for this package. Multiple extensions can be
+   * specified as a comma-separated list, but only if this package defines a {@link #isContentType content type}.
+   * This will always return a non-null string. The default (returned after the attribute is set to null) is based on
+   * the {@link #getPrefix}. 
+   * @since 2.4
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>File Extensions</em>' attribute.
+   * @see #setFileExtensions(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_FileExtensions()
+   * @model
+   * @generated
+   */
+  String getFileExtensions();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getFileExtensions <em>File Extensions</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>File Extensions</em>' attribute.
+   * @see #getFileExtensions()
+   * @generated
+   */
+  void setFileExtensions(String value);
+
+  /**
    * Returns the value of the '<em><b>Ecore Package</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
@@ -959,4 +1016,42 @@ public interface GenPackage extends GenBase
    * @since 2.4
    */
   String getChildCreationExtenderName(GenPackage genPackage);
+
+  /**
+   * Returns whether the package should define a content type.
+   * @see #getContentTypeIdentifier
+   * @since 2.4
+   */
+  boolean isContentType();
+
+  /**
+   * Returns whether the package's {@link #getResource() resource} produces an XMI serialization.
+   * @see #getResource
+   * @since 2.4
+   */
+  boolean isXMIResource();
+
+  /**
+   * Returns the package's {@link #getQualifiedResourceFactoryClassName() resource factory class name}, or the framework's
+   * default XMI resource factory class name if no {@link #getResource() resource} will be generated for the package.
+   * @see #getQualifiedResourceFactoryClassName
+   * @see #getResource 
+   * @since 2.4
+   */
+  String getQualifiedEffectiveResourceFactoryClassName();
+
+  /**
+   * Returns whether the model supports multiple file extensions, based both on the specified
+   * {@link #getFileExtensions() extensions} and the use of a {@link #isContentType() content type}.
+   * @see #getFileExtensions
+   * @see #isContentType
+   */
+  boolean isMultipleFileExtensions();
+
+  /**
+   * Returns the first {@link #getFileExtensions() file extension} in the comma-separated list.
+   * @see #getFileExtensions
+   * @since 2.4
+   */
+  String getFileExtension(); // getFirstFileExtension?
 }

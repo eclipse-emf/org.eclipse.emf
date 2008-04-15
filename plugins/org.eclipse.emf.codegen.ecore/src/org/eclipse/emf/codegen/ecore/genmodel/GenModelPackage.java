@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.49 2008/03/10 19:10:26 emerks Exp $
+ * $Id: GenModelPackage.java,v 1.50 2008/04/15 03:11:56 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -989,13 +989,31 @@ public interface GenModelPackage extends EPackage
   int GEN_PACKAGE__CHILD_CREATION_EXTENDERS = GEN_BASE_FEATURE_COUNT + 19;
 
   /**
+   * The feature id for the '<em><b>Content Type Identifier</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER = GEN_BASE_FEATURE_COUNT + 20;
+
+  /**
+   * The feature id for the '<em><b>File Extensions</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__FILE_EXTENSIONS = GEN_BASE_FEATURE_COUNT + 21;
+
+  /**
    * The feature id for the '<em><b>Ecore Package</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__ECORE_PACKAGE = GEN_BASE_FEATURE_COUNT + 20;
+  int GEN_PACKAGE__ECORE_PACKAGE = GEN_BASE_FEATURE_COUNT + 22;
 
   /**
    * The feature id for the '<em><b>Gen Model</b></em>' container reference.
@@ -1004,7 +1022,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_MODEL = GEN_BASE_FEATURE_COUNT + 21;
+  int GEN_PACKAGE__GEN_MODEL = GEN_BASE_FEATURE_COUNT + 23;
 
   /**
    * The feature id for the '<em><b>Gen Enums</b></em>' containment reference list.
@@ -1013,7 +1031,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_ENUMS = GEN_BASE_FEATURE_COUNT + 22;
+  int GEN_PACKAGE__GEN_ENUMS = GEN_BASE_FEATURE_COUNT + 24;
 
   /**
    * The feature id for the '<em><b>Gen Data Types</b></em>' containment reference list.
@@ -1022,7 +1040,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_DATA_TYPES = GEN_BASE_FEATURE_COUNT + 23;
+  int GEN_PACKAGE__GEN_DATA_TYPES = GEN_BASE_FEATURE_COUNT + 25;
 
   /**
    * The feature id for the '<em><b>Gen Classes</b></em>' containment reference list.
@@ -1031,7 +1049,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_CLASSES = GEN_BASE_FEATURE_COUNT + 24;
+  int GEN_PACKAGE__GEN_CLASSES = GEN_BASE_FEATURE_COUNT + 26;
 
   /**
    * The feature id for the '<em><b>Nested Gen Packages</b></em>' containment reference list.
@@ -1040,7 +1058,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__NESTED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 25;
+  int GEN_PACKAGE__NESTED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 27;
 
   /**
    * The feature id for the '<em><b>Gen Classifiers</b></em>' reference list.
@@ -1049,7 +1067,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_CLASSIFIERS = GEN_BASE_FEATURE_COUNT + 26;
+  int GEN_PACKAGE__GEN_CLASSIFIERS = GEN_BASE_FEATURE_COUNT + 28;
 
   /**
    * The number of structural features of the '<em>Gen Package</em>' class.
@@ -1058,7 +1076,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 27;
+  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 29;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl <em>Gen Classifier</em>}' class.
@@ -2883,6 +2901,28 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenPackage_ChildCreationExtenders();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getContentTypeIdentifier <em>Content Type Identifier</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Content Type Identifier</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getContentTypeIdentifier()
+   * @see #getGenPackage()
+   * @generated
+   */
+  EAttribute getGenPackage_ContentTypeIdentifier();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getFileExtensions <em>File Extensions</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>File Extensions</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getFileExtensions()
+   * @see #getGenPackage()
+   * @generated
+   */
+  EAttribute getGenPackage_FileExtensions();
+
+  /**
    * Returns the meta object for the reference '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4354,6 +4394,22 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_PACKAGE__CHILD_CREATION_EXTENDERS = eINSTANCE.getGenPackage_ChildCreationExtenders();
+
+    /**
+     * The meta object literal for the '<em><b>Content Type Identifier</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER = eINSTANCE.getGenPackage_ContentTypeIdentifier();
+
+    /**
+     * The meta object literal for the '<em><b>File Extensions</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__FILE_EXTENSIONS = eINSTANCE.getGenPackage_FileExtensions();
 
     /**
      * The meta object literal for the '<em><b>Ecore Package</b></em>' reference feature.

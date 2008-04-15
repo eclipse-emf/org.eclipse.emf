@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.80 2008/01/29 21:12:08 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.81 2008/04/15 03:11:56 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.osgi.framework.Bundle;
 
@@ -51,6 +52,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -116,6 +118,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isGenerateModelWizard <em>Generate Model Wizard</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isExtensibleProviderFactory <em>Extensible Provider Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isChildCreationExtenders <em>Child Creation Extenders</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getContentTypeIdentifier <em>Content Type Identifier</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getFileExtensions <em>File Extensions</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenEnums <em>Gen Enums</em>}</li>
@@ -531,6 +535,46 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected boolean childCreationExtenders = CHILD_CREATION_EXTENDERS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getContentTypeIdentifier() <em>Content Type Identifier</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getContentTypeIdentifier()
+   * @generated
+   * @ordered
+   */
+  protected static final String CONTENT_TYPE_IDENTIFIER_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getContentTypeIdentifier() <em>Content Type Identifier</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getContentTypeIdentifier()
+   * @generated
+   * @ordered
+   */
+  protected String contentTypeIdentifier = CONTENT_TYPE_IDENTIFIER_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getFileExtensions() <em>File Extensions</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFileExtensions()
+   * @generated
+   * @ordered
+   */
+  protected static final String FILE_EXTENSIONS_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getFileExtensions() <em>File Extensions</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFileExtensions()
+   * @generated
+   * @ordered
+   */
+  protected String fileExtensions = FILE_EXTENSIONS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getEcorePackage() <em>Ecore Package</em>}' reference.
@@ -1085,6 +1129,64 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS, oldChildCreationExtenders, childCreationExtenders));
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getContentTypeIdentifier()
+  {
+    return contentTypeIdentifier;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setContentTypeIdentifier(String newContentTypeIdentifier)
+  {
+    String oldContentTypeIdentifier = contentTypeIdentifier;
+    contentTypeIdentifier = newContentTypeIdentifier;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER, oldContentTypeIdentifier, contentTypeIdentifier));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getFileExtensionsGen()
+  {
+    return fileExtensions;
+  }
+
+  private static final Pattern COMMA_SEPARATOR_PATTERN = Pattern.compile("\\s*,\\s*");
+
+  public String getFileExtensions()
+  {
+    if (fileExtensions == null)
+    {
+      String result = getPrefix().toLowerCase(getGenModel().getLocale());
+      return isContentType() && isXMIResource() ? result + ",xmi" : result;
+    }
+    return COMMA_SEPARATOR_PATTERN.matcher(fileExtensions).replaceAll(",");
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setFileExtensions(String newFileExtensions)
+  {
+    String oldFileExtensions = fileExtensions;
+    fileExtensions = newFileExtensions;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__FILE_EXTENSIONS, oldFileExtensions, fileExtensions));
+  }
+
   @Override
   public  EModelElement getEcoreModelElement()
   {
@@ -1388,6 +1490,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return isExtensibleProviderFactory() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
         return isChildCreationExtenders() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER:
+        return getContentTypeIdentifier();
+      case GenModelPackage.GEN_PACKAGE__FILE_EXTENSIONS:
+        return getFileExtensions();
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         if (resolve) return getEcorePackage();
         return basicGetEcorePackage();
@@ -1477,6 +1583,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return;
       case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
         setChildCreationExtenders(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER:
+        setContentTypeIdentifier((String)newValue);
+        return;
+      case GenModelPackage.GEN_PACKAGE__FILE_EXTENSIONS:
+        setFileExtensions((String)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)newValue);
@@ -1574,6 +1686,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
         setChildCreationExtenders(CHILD_CREATION_EXTENDERS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER:
+        setContentTypeIdentifier(CONTENT_TYPE_IDENTIFIER_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_PACKAGE__FILE_EXTENSIONS:
+        setFileExtensions(FILE_EXTENSIONS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)null);
         return;
@@ -1646,6 +1764,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return extensibleProviderFactory != EXTENSIBLE_PROVIDER_FACTORY_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
         return childCreationExtenders != CHILD_CREATION_EXTENDERS_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER:
+        return CONTENT_TYPE_IDENTIFIER_EDEFAULT == null ? contentTypeIdentifier != null : !CONTENT_TYPE_IDENTIFIER_EDEFAULT.equals(contentTypeIdentifier);
+      case GenModelPackage.GEN_PACKAGE__FILE_EXTENSIONS:
+        return FILE_EXTENSIONS_EDEFAULT == null ? fileExtensions != null : !FILE_EXTENSIONS_EDEFAULT.equals(fileExtensions);
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         return ecorePackage != null;
       case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
@@ -1715,6 +1837,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(extensibleProviderFactory);
     result.append(", childCreationExtenders: ");
     result.append(childCreationExtenders);
+    result.append(", contentTypeIdentifier: ");
+    result.append(contentTypeIdentifier);
+    result.append(", fileExtensions: ");
+    result.append(fileExtensions);
     result.append(')');
     return result.toString();
   }
@@ -3804,6 +3930,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     
     setExtensibleProviderFactory(oldGenPackageVersion.isExtensibleProviderFactory());
     setChildCreationExtenders(oldGenPackageVersion.isChildCreationExtenders());
+    
+    setContentTypeIdentifier(oldGenPackageVersion.getContentTypeIdentifier());
+
+    if (oldGenPackageVersion.eIsSet(GenModelPackage.Literals.GEN_PACKAGE__FILE_EXTENSIONS))
+    {
+      setFileExtensions(oldGenPackageVersion.getFileExtensions());
+    }
 
     reconcileGenAnnotations(oldGenPackageVersion);
   }
@@ -4343,4 +4476,31 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return uniqueNameHelper.getName(genPackage);
   }
 
+  public boolean isContentType()
+  {
+    return getGenModel().getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE && !isBlank(getContentTypeIdentifier());
+  }
+
+  public boolean isXMIResource()
+  {
+    return getResource() == GenResourceKind.NONE_LITERAL || getResource() == GenResourceKind.XMI_LITERAL;
+  }
+
+  public String getQualifiedEffectiveResourceFactoryClassName()
+  {
+    return getResource() == GenResourceKind.NONE_LITERAL ?
+      "org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl" : getQualifiedResourceFactoryClassName();
+  }
+
+  public boolean isMultipleFileExtensions()
+  {
+    return isContentType() && getFileExtensions().indexOf(',') != -1;
+  }
+
+  public String getFileExtension()
+  {
+    String extensions = getFileExtensions();
+    int i = extensions.indexOf(',');
+    return i == -1 ? extensions : extensions.substring(0, i);
+  }
 } //GenPackageImpl
