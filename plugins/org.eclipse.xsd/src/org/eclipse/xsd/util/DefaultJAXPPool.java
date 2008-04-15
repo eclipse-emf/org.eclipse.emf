@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,11 +24,15 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.ext.LexicalHandler;
 
 
@@ -38,7 +42,6 @@ import org.xml.sax.ext.LexicalHandler;
  */
 public class DefaultJAXPPool implements JAXPPool
 {
-
   private final List<DocumentBuilder> documentBuilderCache = new ArrayList<DocumentBuilder>();
 
   private final List<Transformer> transformerCache = new ArrayList<Transformer>();
@@ -48,7 +51,7 @@ public class DefaultJAXPPool implements JAXPPool
   private final JAXPConfiguration configuration;
 
   /**
-   * Creates JAXPPool using DefaultJAXPConfiguration implementation
+   * Creates an instance using {@link DefaultJAXPConfiguration}.
    */
   public DefaultJAXPPool()
   {
@@ -56,8 +59,11 @@ public class DefaultJAXPPool implements JAXPPool
   }
 
   /**
-   * Creates JAXP pool using specified JAXPConfiguration.
-   * @param configuration - specify JAXPConfiguration (null is not a valid value)
+   * Creates an instance using the specified JAXPConfiguration.
+   * @param configuration the non-null configuration used to create new 
+   * {@link #getDocumentBuilder(ErrorHandler) builders}, 
+   * {@link #getSAXParser(LexicalHandler) parsers}, 
+   * and {@link #getTransformer(String) transformers}.
    */
   public DefaultJAXPPool(JAXPConfiguration configuration)
   {
@@ -69,7 +75,9 @@ public class DefaultJAXPPool implements JAXPPool
     int size = documentBuilderCache.size();
     if (size > 0)
     {
-      return documentBuilderCache.remove(size - 1);
+      DocumentBuilder documentBuilder = documentBuilderCache.remove(size - 1);
+      documentBuilder.setErrorHandler(errorHandler);
+      return documentBuilder;
     }
     else
     {
@@ -81,6 +89,24 @@ public class DefaultJAXPPool implements JAXPPool
   {
     if (documentBuilder != null)
     {
+      documentBuilder.setErrorHandler
+        (new ErrorHandler()
+         {
+           public void error(SAXParseException exception) throws SAXException
+           {
+             // Ignore.
+           }
+
+           public void fatalError(SAXParseException exception) throws SAXException
+           {
+             // Ignore.
+           }
+
+           public void warning(SAXParseException exception) throws SAXException
+           {
+             // Ignore.
+           }
+         });
       documentBuilderCache.add(documentBuilder);
     }
   }
@@ -90,7 +116,9 @@ public class DefaultJAXPPool implements JAXPPool
     int size = saxParserCache.size();
     if (size > 0)
     {
-      return saxParserCache.remove(size - 1);
+      SAXParser saxParser = saxParserCache.remove(size - 1);
+      saxParser.setProperty("http://xml.org/sax/properties/lexical-handler", lexicalHandler);
+      return saxParser;
     }
     else
     {
@@ -102,6 +130,56 @@ public class DefaultJAXPPool implements JAXPPool
   {
     if (parser != null)
     {
+      try
+      {
+        parser.setProperty
+          ("http://xml.org/sax/properties/lexical-handler",
+            new LexicalHandler()
+            {
+              public void comment(char[] comment, int start, int length) throws SAXException
+              {
+                // Ignore.
+              }
+
+              public void endCDATA() throws SAXException
+              {
+                // Ignore.
+              }
+
+              public void endDTD() throws SAXException
+              {
+                // Ignore.
+              }
+
+              public void endEntity(String name) throws SAXException
+              {
+                // Ignore.
+              }
+
+              public void startCDATA() throws SAXException
+              {
+                // Ignore.
+              }
+
+              public void startDTD(String name, String publicId, String systemId) throws SAXException
+              {
+                // Ignore.
+              }
+
+              public void startEntity(String name) throws SAXException
+              {
+                // Ignore.
+              }
+            });
+      }
+      catch (SAXNotRecognizedException exception)
+      {
+        // Ignore.
+      }
+      catch (SAXNotSupportedException exception)
+      {
+        // Ignore.
+      }
       saxParserCache.add(parser);
     }
   }
@@ -111,7 +189,12 @@ public class DefaultJAXPPool implements JAXPPool
     int size = transformerCache.size();
     if (size > 0)
     {
-      return transformerCache.remove(size - 1);
+      Transformer transformer = transformerCache.remove(size - 1);
+      if (encoding != null)
+      {
+        transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
+      }
+      return transformer;
     }
     else
     {
@@ -126,5 +209,4 @@ public class DefaultJAXPPool implements JAXPPool
       transformerCache.add(transformer);
     }
   }
-
 }
