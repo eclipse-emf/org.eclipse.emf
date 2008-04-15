@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.6 2006/11/02 16:21:57 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.7 2008/04/15 03:13:13 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -32,3 +32,11 @@
 
 pluginName = <%=genModel.getModelName()%> Model
 providerName = www.example.org
+<%boolean first = true; for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
+  <%if (genPackage.isContentType()) {%>
+    <%if (first) { first = false;%>
+
+    <%}%>
+_UI_<%=genPackage.getPrefix()%>_content_type = <%=genPackage.getPrefix()%> File
+  <%}%>
+<%}%>
