@@ -4,15 +4,15 @@
 <!--
  This is my code.
 
- $Id: plugin.xml,v 1.2 2007/04/26 20:57:17 emerks Exp $
+ $Id: plugin.xml,v 1.3 2008/04/15 03:20:25 davidms Exp $
 -->
 
 <plugin>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
-    <package 
-       uri = "library.xmi" 
-       class = "org.examples.library.LibraryPackage" />
+    <package
+        uri="library.xmi"
+        class="org.examples.library.LibraryPackage"/>
   </extension>
 
 </plugin>
