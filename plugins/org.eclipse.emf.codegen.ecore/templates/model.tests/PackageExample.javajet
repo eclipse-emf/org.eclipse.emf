@@ -68,11 +68,24 @@ public class <%=genPackage.getExampleClassName()%>
 		//
 		<%=_ResourceSet%> resourceSet = new <%=_ResourceSetImpl%>();
 		
+<%if (genPackage.isContentType()) {%>
+		// Register the appropriate resource factory to handle the content type.
+		//
+		resourceSet.getResourceFactoryRegistry().getContentTypeToFactoryMap().put
+			(<%=genPackage.getImportedPackageInterfaceName()%>.eCONTENT_TYPE,
+			 new <%=genModel.getImportedName(genPackage.getQualifiedEffectiveResourceFactoryClassName())%>());
+		
+		// Register the appropriate content handler for all file extensions and any element from the package's namespace.
+		//
+		resourceSet.getURIConverter().getContentHandlers().add
+			(new <%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl")%>(<%=genPackage.getImportedPackageInterfaceName()%>.eCONTENT_TYPE, null, null, <%if (genPackage.hasTargetNamespace()) {%><%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI<%} else {%>null<%}%>, null));
+<%} else {%>
 		// Register the appropriate resource factory to handle all file extensions.
 		//
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
 			(Resource.Factory.Registry.DEFAULT_EXTENSION, 
-			 new <%=genPackage.getResource() == GenResourceKind.NONE_LITERAL ? genModel.getImportedName("org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl") : genPackage.getImportedResourceFactoryClassName()%>());
+			 new <%=genModel.getImportedName(genPackage.getQualifiedEffectiveResourceFactoryClassName())%>());
+<%}%>
 
 		// Register the package to ensure it is available during loading.
 		//
@@ -88,7 +101,11 @@ public class <%=genPackage.getExampleClassName()%>
 			System.out.println("Enter a list of file paths or URIs that have content like this:");<%=genModel.getNonNLS()%>
 			try
 			{
-				<%=_Resource%> resource = resourceSet.createResource(<%=_URI%>.createURI("http:///My.<%=genPackage.getPrefix().toLowerCase(genModel.getLocale())%>"));<%=genModel.getNonNLS()%>
+  <%if (genPackage.isContentType()) {%>
+				<%=_Resource%> resource = resourceSet.createResource(<%=_URI%>.createURI("http:///My.<%=genPackage.getFileExtension()%>"), <%=genPackage.getImportedPackageInterfaceName()%>.eCONTENT_TYPE);<%=genModel.getNonNLS()%>
+  <%} else {%>
+				<%=_Resource%> resource = resourceSet.createResource(<%=_URI%>.createURI("http:///My.<%=genPackage.getFileExtension()%>"));<%=genModel.getNonNLS()%>
+  <%}%>
   <%if (genPackage.getRootFeature() != null) { GenFeature rootFeature = genPackage.getRootFeature(); GenClass documentRoot = rootFeature.getGenClass();%>
 				<%=documentRoot.getImportedInterfaceName()%> documentRoot = <%=genPackage.getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=documentRoot.getName()%>();
 				<%=rootClass.getImportedInterfaceName()%> root = <%=rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=rootClass.getName()%>();
