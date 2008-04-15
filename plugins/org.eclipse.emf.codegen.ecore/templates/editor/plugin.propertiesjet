@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.18 2008/03/10 19:10:25 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.19 2008/04/15 03:16:58 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -68,20 +68,21 @@ _UI_Wizard_category = Example EMF Model Creation Wizards
 _UI_CreateModelError_message = Problems encountered in file "{0}"
 
 <%for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
-<%if (genPackage.isGenerateModelWizard()) {%>
+  <%if (genPackage.isGenerateModelWizard()) {%>
 _UI_<%=genPackage.getModelWizardClassName()%>_label = <%=genPackage.getPrefix()%> Model
 _UI_<%=genPackage.getModelWizardClassName()%>_description = Create a new <%=genPackage.getPrefix()%> model
 
-<%}%>
+  <%}%>
 _UI_<%=genPackage.getEditorClassName()%>_label = <%=genPackage.getPrefix()%> Model Editor
 
 _UI_<%=genPackage.getEditorClassName()%>FilenameDefaultBase = My
-_UI_<%=genPackage.getEditorClassName()%>FilenameExtension = <%=genPackage.getPrefix().toLowerCase(genModel.getLocale())%>
+_UI_<%=genPackage.getEditorClassName()%>FilenameExtensions = <%=genPackage.isMultipleFileExtensions() ? genPackage.getFileExtensions() : genPackage.getFileExtension()%>
 
 <%}%>
 _UI_Wizard_label = New
 
-_WARN_FilenameExtension = The file name must end in ".{0}"
+_WARN_FilenameExtension = The file name must end in ''.{0}''
+_WARN_FilenameExtensions = The file name must have one of the following extensions: {0}
 
 _UI_ModelObject = &Model Object
 _UI_XMLEncoding = &XML Encoding

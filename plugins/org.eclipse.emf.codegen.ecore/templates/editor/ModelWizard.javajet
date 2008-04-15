@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.22 2008/03/10 19:10:25 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.23 2008/04/15 03:16:58 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -450,30 +450,22 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		 * @generated
 		 */
 <%if (genModel.useClassOverrideAnnotation()) {%>
-	@Override
+		@Override
 <%}%>
 		protected boolean validatePage()
 		{
 			if (super.validatePage())
 			{
-				// Make sure the file ends in ".<%=genPackage.getPrefix().toLowerCase(genModel.getLocale())%>".
-				//
-				String requiredExt = <%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension");<%=genModel.getNonNLS()%>
-				String enteredExt = new <%=genModel.getImportedName("org.eclipse.core.runtime.Path")%>(getFileName()).getFileExtension();
-				if (enteredExt == null || !enteredExt.equals(requiredExt))
+				String extension = new <%=genModel.getImportedName("org.eclipse.core.runtime.Path")%>(getFileName()).getFileExtension();
+				if (extension == null || !<%=genPackage.getImportedEditorClassName()%>.FILE_EXTENSIONS.contains(extension))
 				{
-					setErrorMessage(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_WARN_FilenameExtension", new Object [] { requiredExt }));<%=genModel.getNonNLS()%>
+					String key = <%=genPackage.getImportedEditorClassName()%>.FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension";<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+					setErrorMessage(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString(key, new Object [] { <%=genPackage.getImportedEditorClassName()%>.FORMATTED_FILE_EXTENSIONS }));
 					return false;
 				}
-				else
-				{
-					return true;
-				}
+				return true;
 			}
-			else
-			{
-				return false;
-			}
+			return false;
 		}
 
 		/**
@@ -604,15 +596,11 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 <%}%>
 					 public void widgetSelected(<%=genModel.getImportedName("org.eclipse.swt.events.SelectionEvent")%> event)
 					 {
-						 String fileExtension = <%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("<%="_UI_" + genPackage.getEditorClassName() + "FilenameExtension"%>");<%=genModel.getNonNLS()%>
-						 String filePath = <%=genModel.getImportedName(genModel.getQualifiedEditorAdvisorClassName())%>.openFilePathDialog(getShell(), "*." + fileExtension, <%=genModel.getImportedName("org.eclipse.swt.SWT")%>.OPEN);<%=genModel.getNonNLS()%>
-						 if (filePath != null)
+						 String[] filters = <%if (!genModel.useGenerics()) {%>(String[])<%}%><%=genPackage.getImportedEditorClassName()%>.FILE_EXTENSION_FILTERS.toArray(new String[<%=genPackage.getImportedEditorClassName()%>.FILE_EXTENSION_FILTERS.size()]);
+						 String[] files = <%=genModel.getImportedName(genModel.getQualifiedEditorAdvisorClassName())%>.openFilePathDialog(getShell(), <%=genModel.getImportedName("org.eclipse.swt.SWT")%>.SAVE, filters);
+						 if (files.length > 0)
 						 {
-							 if (!filePath.endsWith("." + fileExtension))<%=genModel.getNonNLS()%>
-							 {
-								 filePath = filePath + "." + fileExtension;<%=genModel.getNonNLS()%>
-							 }
-							 fileField.setText(filePath);
+							 fileField.setText(files[0]);
 						 }
 					 }
 				 });
@@ -716,11 +704,11 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 				return false;
 			}
 
-			String requiredExt = <%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension");<%=genModel.getNonNLS()%>
-			String enteredExt = fileURI.fileExtension();
-			if (enteredExt == null || !enteredExt.equals(requiredExt))
+			String extension = fileURI.fileExtension();
+			if (extension == null || !<%=genPackage.getImportedEditorClassName()%>.FILE_EXTENSIONS.contains(extension))
 			{
-				setErrorMessage(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_WARN_FilenameExtension", new Object [] { requiredExt }));<%=genModel.getNonNLS()%>
+				String key = <%=genPackage.getImportedEditorClassName()%>.FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension";<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+				setErrorMessage(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString(key, new Object [] { <%=genPackage.getImportedEditorClassName()%>.FORMATTED_FILE_EXTENSIONS }));
 				return false;
 			}
 
@@ -887,7 +875,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		newFileCreationPage = new <%=genPackage.getModelWizardClassName()%>NewFileCreationPage("Whatever", selection);<%=genModel.getNonNLS()%>
 		newFileCreationPage.setTitle(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getModelWizardClassName()%>_label"));<%=genModel.getNonNLS()%>
 		newFileCreationPage.setDescription(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getModelWizardClassName()%>_description"));<%=genModel.getNonNLS()%>
-		newFileCreationPage.setFileName(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameDefaultBase") + "." + <%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension"));<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%>
+		newFileCreationPage.setFileName(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameDefaultBase") + "." + <%if (!genModel.useGenerics()) {%>(String)<%}%><%=genPackage.getImportedEditorClassName()%>.FILE_EXTENSIONS.get(0));<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 		addPage(newFileCreationPage);
 
 		// Try and get the resource selection to determine a current directory for the file dialog.
@@ -918,7 +906,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 					// Make up a unique new name here.
 					//
 					String defaultModelBaseFilename = <%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameDefaultBase");<%=genModel.getNonNLS()%>
-					String defaultModelFilenameExtension = <%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension");<%=genModel.getNonNLS()%>
+					String defaultModelFilenameExtension = <%if (!genModel.useGenerics()) {%>(String)<%}%><%=genPackage.getImportedEditorClassName()%>.FILE_EXTENSIONS.get(0);
 					String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension;<%=genModel.getNonNLS()%>
 					for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i)
 					{

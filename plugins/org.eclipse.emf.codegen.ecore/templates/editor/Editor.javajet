@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.56 2008/02/21 19:24:16 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.57 2008/04/15 03:16:58 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -33,6 +33,8 @@ String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute"
 <%String _ListOfAnything = "List" + (genModel.useGenerics() ? "<?>" : "");%>
 <%boolean useExtendedLabelProvider = genModel.isFontProviders() || genModel.isColorProviders();%>
 <%String _AdapterFactoryLabelProvider = "AdapterFactoryLabelProvider" + (genModel.isFontProviders() && genModel.isColorProviders() ? ".FontAndColorProvider" : genModel.isFontProviders() ? ".FontProvider" : genModel.isColorProviders() ? ".ColorProvider" : "");%>
+<%String _ArrayListOfString = "ArrayList" + (genModel.useGenerics() ? "<String>" : "");%>
+<%String _ListOfString = "List" + (genModel.useGenerics() ? "<String>" : "");%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getPresentationPackageName()%>;
 
@@ -41,6 +43,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
@@ -246,6 +249,56 @@ public class <%=genPackage.getEditorClassName()%>
 	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = <%=genModel.getCopyrightFieldLiteral()%>;<%=genModel.getNonNLS()%>
 
 <%}%>
+	/**
+	 * The file extensions supported by this editor.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final <%=_ListOfString%> FILE_EXTENSIONS =
+		Collections.unmodifiableList(Arrays.asList(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtensions").split("\\s*,\\s*")));<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+
+<%if (genModel.isRichClientPlatform()) {%>
+	/**
+	 * The filters for supported file extensions.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final <%=_ListOfString%> FILE_EXTENSION_FILTERS = prefixExtensions(FILE_EXTENSIONS, "*.");
+
+	/**
+	 * Returns a new unmodifiable list containing prefixed versions of the extensions in the given list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private static <%=_ListOfString%> prefixExtensions(<%=_ListOfString%> extensions, String prefix)
+	{
+		<%=_ListOfString%> result = new <%=_ArrayListOfString%>();
+  <%if (genModel.useGenerics()) {%>
+		for (String extension : extensions)
+		{
+			result.add(prefix + extension);
+  <%} else {%>
+		for (Iterator iterator = extensions.iterator() ; iterator.hasNext(); )
+		{
+			result.add(prefix + (String)iterator.next());
+  <%}%>
+		}
+		return Collections.unmodifiableList(result);
+	}
+
+<%}%>
+	/**
+	 * A formatted list of supported file extensions, suitable for display.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final String FORMATTED_FILE_EXTENSIONS =
+		<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtensions").replaceAll("\\s*,\\s*", ", ");
+
 	/**
 	 * This keeps track of the editing domain that is used to track all changes to the model.
 	 * <!-- begin-user-doc -->
@@ -1989,15 +2042,11 @@ public class <%=genPackage.getEditorClassName()%>
 	public void doSaveAs()
 	{
 <%if (genModel.isRichClientPlatform()) {%>
-		String fileExtension = getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension");<%=genModel.getNonNLS()%>
-		String file = <%=genModel.getImportedName(genModel.getQualifiedEditorAdvisorClassName())%>.openFilePathDialog(getSite().getShell(), "*." + fileExtension, <%=genModel.getImportedName("org.eclipse.swt.SWT")%>.SAVE);<%=genModel.getNonNLS()%>
-		if (file != null)
+		String[] filters = <%if (!genModel.useGenerics()) {%>(String[])<%}%>FILE_EXTENSION_FILTERS.toArray(new String[FILE_EXTENSION_FILTERS.size()]);
+		String[] files = <%=genModel.getImportedName(genModel.getQualifiedEditorAdvisorClassName())%>.openFilePathDialog(getSite().getShell(), <%=genModel.getImportedName("org.eclipse.swt.SWT")%>.SAVE, filters);
+		if (files.length > 0)
 		{
-			if (!file.endsWith("." + fileExtension))<%=genModel.getNonNLS()%>
-			{
-				file = file + "." + fileExtension;<%=genModel.getNonNLS()%>
-			}
-			URI uri = URI.createFileURI(file);
+			URI uri = URI.createFileURI(files[0]);
 			doSaveAs(uri, new <%=genModel.getImportedName("org.eclipse.emf.common.ui.URIEditorInput")%>(uri));
 		}
 <%} else {%>

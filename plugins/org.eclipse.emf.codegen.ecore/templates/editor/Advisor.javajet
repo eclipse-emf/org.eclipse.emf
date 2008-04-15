@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.List java.util.Iterator org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.8 2007/04/26 20:54:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.9 2008/04/15 03:16:58 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -16,12 +16,19 @@
  */
 %>
 <%GenModel genModel = (GenModel)argument;%>
+<%String _ListOfString = "List" + (genModel.useGenerics() ? "<String>" : "");%>
+<%String _UniqueEListOfString = "UniqueEList" + (genModel.useGenerics() ? "<String>" : "");%>
+<%String _StringBuilder = genModel.getImportedName(genModel.useGenerics() ? "java.lang.StringBuilder" : "java.lang.StringBuffer");%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genModel.getEditorPluginPackageName()%>;
 
 import java.io.File;
+import java.util.Arrays;
 <%if (!genModel.useGenerics()) {%>
 import java.util.Iterator;
+<%}%>
+<%if (genModel.getAllGenPackagesWithClassifiers().size() > 1) {%>
+import java.util.List;
 <%}%>
 
 import org.eclipse.equinox.app.IApplication;
@@ -32,8 +39,8 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
@@ -61,7 +68,11 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.ui.action.WorkbenchWindowActionDelegate;
 import org.eclipse.emf.common.util.URI;
+<%if (genModel.getAllGenPackagesWithClassifiers().size() > 1) {%>
+import org.eclipse.emf.common.util.UniqueEList;
+<%}%>
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
 
 import <%=genModel.getQualifiedEditorPluginClassName()%>;
 <%genModel.markImportLocation(stringBuffer);%>
@@ -84,6 +95,33 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	public static final String copyright = <%=genModel.getCopyrightFieldLiteral()%>;<%=genModel.getNonNLS()%>
 
 <%}%>
+	/**
+	 * The default file extension filters for use in dialogs.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+<%if (genModel.getAllGenPackagesWithClassifiers().size() == 1) {%>
+	private static final String[] FILE_EXTENSION_FILTERS = <%if (!genModel.useGenerics()) {%>(String[])<%}%><%=genModel.getAllGenPackagesWithClassifiers().get(0).getImportedEditorClassName()%>.FILE_EXTENSION_FILTERS.toArray(new String[0]);
+<%} else {%>
+	private static final String[] FILE_EXTENSION_FILTERS = getFileExtensionFilters();
+
+	/**
+	 * Returns the default file extension filters. This method should only be used to initialize {@link #FILE_EXTENSION_FILTERS}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private static String[] getFileExtensionFilters()
+	{
+		<%=_ListOfString%> result = new <%=_UniqueEListOfString%>();
+  <%for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
+		result.addAll(<%=genPackage.getImportedEditorClassName()%>.FILE_EXTENSION_FILTERS);
+  <%}%>
+		return <%if (!genModel.useGenerics()) {%>(String[])<%}%>result.toArray(new String[0]);
+	}
+<%}%> 
+
 	/**
 	 * This looks up a string in the plugin's plugin.properties file.
 	 * <!-- begin-user-doc -->
@@ -291,7 +329,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 			IWorkbenchActionConstants.M_FILE);    
 			menu.add(new GroupMarker(IWorkbenchActionConstants.FILE_START));
 	
-			IMenuManager newMenu = new MenuManager(getString("_UI_Menu_New_label"), "new");<%=genModel.getNonNLS()%> <%=genModel.getNonNLS(2)%>
+			IMenuManager newMenu = new MenuManager(getString("_UI_Menu_New_label"), "new");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 			newMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 	
 			menu.add(newMenu);
@@ -431,10 +469,10 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		 */
 		public void run(IAction action)
 		{
-			String filePath = openFilePathDialog(getWindow().getShell(), null, SWT.OPEN);
-			if (filePath != null)
+			String[] filePaths = openFilePathDialog(getWindow().getShell(), SWT.OPEN, null);
+			if (filePaths.length > 0)
 			{
-				openEditor(getWindow().getWorkbench(), URI.createFileURI(filePath));
+				openEditor(getWindow().getWorkbench(), URI.createFileURI(filePaths[0]));
 			}
 		}
 	}
@@ -456,7 +494,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		public void run(IAction action)
 		{
 			LoadResourceAction.LoadResourceDialog loadResourceDialog = new LoadResourceAction.LoadResourceDialog(getWindow().getShell());
-			if (Dialog.OK == loadResourceDialog.open())
+			if (Window.OK == loadResourceDialog.open())
 			{
 <%if (genModel.useGenerics()) {%>
 				for (URI uri : loadResourceDialog.getURIs())
@@ -478,29 +516,104 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static String openFilePathDialog(Shell shell, String fileExtensionFilter, int style)
+	public static String[] openFilePathDialog(Shell shell, int style, String[] fileExtensionFilters)
+	{
+		return openFilePathDialog(shell, style, fileExtensionFilters, (style & SWT.OPEN) != 0, (style & SWT.OPEN) != 0, (style & SWT.SAVE) != 0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static String[] openFilePathDialog(Shell shell, int style, String[] fileExtensionFilters, boolean includeGroupFilter, boolean includeAllFilter, boolean addExtension)
 	{
 		FileDialog fileDialog = new FileDialog(shell, style);
-<% List<GenPackage> genPackages = genModel.getAllGenPackagesWithClassifiers(); if (!genPackages.isEmpty()) {%>
-		if (fileExtensionFilter == null)
+		if (fileExtensionFilters == null)
 		{
-			fileExtensionFilter =
-  <%for (Iterator<GenPackage> i = genPackages.iterator(); i.hasNext(); ) { GenPackage genPackage = i.next();%>
-				"*." + getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension")<%if (i.hasNext()) {%> + ";" +<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%><%} else {%>;<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%}%>
-  <%}%>
+			fileExtensionFilters = FILE_EXTENSION_FILTERS;
 		}
-		fileDialog.setFilterExtensions(new String[]{fileExtensionFilter});
-<%}%>
-	
-		fileDialog.open();
-		if (fileDialog.getFileName() != null && fileDialog.getFileName().length() > 0)
+		
+		// If requested, augment the file extension filters by adding a group of all the other filters (*.ext1;*.ext2;...)
+		// at the beginning and/or an all files wildcard (*.*) at the end.
+		//
+		includeGroupFilter &= fileExtensionFilters.length > 1;
+		int offset = includeGroupFilter ? 1 : 0;
+		
+		if (includeGroupFilter || includeAllFilter)
 		{
-			return fileDialog.getFilterPath() + File.separator + fileDialog.getFileName();
+			int size = fileExtensionFilters.length + offset + (includeAllFilter ? 1 : 0);
+			String[] allFilters = new String[size];
+			<%=_StringBuilder%> group = includeGroupFilter ? new <%=_StringBuilder%>() : null;
+			
+			for (int i = 0; i < fileExtensionFilters.length; i++)
+			{
+				if (includeGroupFilter)
+				{
+					if (i != 0)
+					{
+						group.append(';');
+					}
+					group.append(fileExtensionFilters[i]);
+				}
+				allFilters[i + offset] = fileExtensionFilters[i];
+			}
+			
+			if (includeGroupFilter)
+			{
+				allFilters[0] = group.toString();
+			}
+			if (includeAllFilter)
+			{
+				allFilters[allFilters.length - 1] = "*.*";
+			}
+			
+			fileDialog.setFilterExtensions(allFilters);
 		}
 		else
 		{
-			return null;
+			fileDialog.setFilterExtensions(fileExtensionFilters);
 		}
+		fileDialog.open();
+		
+		String[] filenames = fileDialog.getFileNames();
+		String[] result = new String[filenames.length];
+		String path = fileDialog.getFilterPath() + File.separator;
+		String extension = null;
+		
+		// If extension adding requested, get the dotted extension corresponding to the selected filter.
+		//
+		if (addExtension)
+		{
+			int i = fileDialog.getFilterIndex();
+			if (i != -1 && (!includeAllFilter || i != fileExtensionFilters.length))
+			{
+				i = includeGroupFilter && i == 0 ? 0 : i - offset;
+				String filter = fileExtensionFilters[i];
+				int dot = filter.lastIndexOf('.');
+				if (dot == 1 && filter.charAt(0) == '*')
+				{
+					extension = filter.substring(dot);
+				}
+			}
+		}
+		
+		// Build the result by adding the selected path and, if needed, auto-appending the extension.
+		//
+		for (int i = 0; i < filenames.length; i++)
+		{
+			String filename = path + filenames[i];
+			if (extension != null)
+			{
+				int dot = filename.lastIndexOf('.');
+				if (dot == -1 || !Arrays.asList(fileExtensionFilters).contains("*" + filename.substring(dot)))
+				{
+					filename += extension;
+				}
+			}
+			result[i] = filename;
+		}
+		return result;
 	}
 	
 	/**
@@ -508,36 +621,35 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static boolean openEditor(IWorkbench workbench, URI fileURI)
+	public static boolean openEditor(IWorkbench workbench, URI uri)
 	{
 		IWorkbenchWindow workbenchWindow = workbench.getActiveWorkbenchWindow();
 		IWorkbenchPage page = workbenchWindow.getActivePage();
-	
-		IEditorDescriptor editorDescriptor = workbench.getEditorRegistry().getDefaultEditor(fileURI.toFileString());
+		
+		IEditorDescriptor editorDescriptor = EditUIUtil.getDefaultEditor(uri, null);
 		if (editorDescriptor == null)
 		{
 			MessageDialog.openError(
-			workbenchWindow.getShell(),
-			getString("_UI_Error_title"), <%=genModel.getNonNLS()%>
-			getString("_WARN_No_Editor", fileURI.toFileString())); <%=genModel.getNonNLS()%>
+				workbenchWindow.getShell(),
+				getString("_UI_Error_title"),<%=genModel.getNonNLS()%>
+				getString("_WARN_No_Editor", uri.lastSegment()));<%=genModel.getNonNLS()%>
 			return false;
 		}
 		else
 		{
 			try
 			{
-				page.openEditor(new URIEditorInput(fileURI), editorDescriptor.getId());
+				page.openEditor(new URIEditorInput(uri), editorDescriptor.getId());
 			}
 			catch (PartInitException exception)
 			{
 				MessageDialog.openError(
-				workbenchWindow.getShell(),
-				getString("_UI_OpenEditorError_label"), <%=genModel.getNonNLS()%>
-				exception.getMessage());
+					workbenchWindow.getShell(),
+					getString("_UI_OpenEditorError_label"),<%=genModel.getNonNLS()%>
+					exception.getMessage());
 				return false;
 			}
 		}
-	
 		return true;
 	}
 	
