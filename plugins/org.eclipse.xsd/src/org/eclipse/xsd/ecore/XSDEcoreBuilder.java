@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.89 2008/04/08 13:54:02 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.90 2008/04/15 18:51:48 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -31,6 +30,10 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.xml.namespace.QName;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -42,7 +45,6 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -76,6 +78,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 import org.eclipse.xsd.*;
+import org.eclipse.xsd.util.DefaultJAXPConfiguration;
 import org.eclipse.xsd.util.XSDConstants;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.eclipse.xsd.util.XSDResourceImpl;
@@ -3296,6 +3299,34 @@ public class XSDEcoreBuilder extends MapBuilder
     return false;
   }
 
+  protected Transformer transformer;
+
+  protected String serialize(Element element)
+  {
+    if (transformer == null)
+    {
+      try
+      {
+        transformer = new DefaultJAXPConfiguration().createTransformer("UTF-8");
+      }
+      catch (TransformerException exeption)
+      {
+        throw new RuntimeException(exeption);
+      }
+    }
+    
+    StringWriter writer = new StringWriter();
+    try
+    {
+      transformer.transform(new DOMSource(element), new StreamResult(writer));
+    }
+    catch (TransformerException exception)
+    {
+      throw new RuntimeException(exception);
+    }
+    return writer.toString();
+  }
+
   protected void setAnnotations(EModelElement eModelElement, XSDConcreteComponent xsdComponent)
   {
     List<XSDAnnotation> xsdAnnotations = new ArrayList<XSDAnnotation>();
@@ -3379,30 +3410,21 @@ public class XSDEcoreBuilder extends MapBuilder
         {
           if (!"true".equals(getEcoreAttribute(element, "ignore")) && !ignore(element))
           {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            XSDResourceImpl.serialize(byteArrayOutputStream, element, "UTF-8");
-            try
+            String documentation = serialize(element);
+            int start = documentation.indexOf("?>");
+            start = documentation.indexOf(">", start + 2);
+            int end = documentation.lastIndexOf("</");
+            String documentationBody = end == -1 ? null : documentation.substring(start + 1, end);
+            String existingDocumentation =  EcoreUtil.getDocumentation(eModelElement);
+            if (existingDocumentation != null)
             {
-              String documentation = byteArrayOutputStream.toString("UTF8");
-              int start = documentation.indexOf("?>");
-              start = documentation.indexOf(">", start + 2);
-              int end = documentation.lastIndexOf("</");
-              String documentationBody = end == -1 ? null : documentation.substring(start + 1, end);
-              String existingDocumentation =  EcoreUtil.getDocumentation(eModelElement);
-              if (existingDocumentation != null)
+              if (!first && !append)
               {
-                if (!first && !append)
-                {
-                  continue;
-                }
-                documentationBody = existingDocumentation + System.getProperty("line.separator") + documentationBody;
+                continue;
               }
-              EcoreUtil.setDocumentation(eModelElement, documentationBody);
+              documentationBody = existingDocumentation + System.getProperty("line.separator") + documentationBody;
             }
-            catch (UnsupportedEncodingException exception)
-            {
-              throw new WrappedException(exception);
-            }
+            EcoreUtil.setDocumentation(eModelElement, documentationBody);
           }
         }
 
@@ -3411,50 +3433,41 @@ public class XSDEcoreBuilder extends MapBuilder
           if (!"true".equals(getEcoreAttribute(element, "ignore")) && !ignore(element))
           {
             String sourceURI = element.hasAttributeNS(null, "source") ? element.getAttributeNS(null, "source") : null;
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            XSDResourceImpl.serialize(byteArrayOutputStream, element, "UTF-8");
-            try
+            String applicationInformation = serialize(element);
+            int start = applicationInformation.indexOf("?>");
+            start = applicationInformation.indexOf(">", start + 2);
+            int end = applicationInformation.lastIndexOf("</");
+            String applicationInformationBody = end == -1 ? null : applicationInformation.substring(start + 1, end);
+
+            String key = getEcoreAttribute(element, "key");
+            if (key == null)
             {
-              String applicationInformation = byteArrayOutputStream.toString("UTF8");
-              int start = applicationInformation.indexOf("?>");
-              start = applicationInformation.indexOf(">", start + 2);
-              int end = applicationInformation.lastIndexOf("</");
-              String applicationInformationBody = end == -1 ? null : applicationInformation.substring(start + 1, end);
-
-              String key = getEcoreAttribute(element, "key");
-              if (key == null)
-              {
-                key = "appinfo";
-              }
-              EAnnotation eAnnotation = eModelElement.getEAnnotation(sourceURI);
-              String existingApplicationInformation =
-                eAnnotation == null ?
-                  null :
-                  (String)eAnnotation.getDetails().get(key);
-
-              if (existingApplicationInformation != null)
-              {
-                if (!first && !append)
-                {
-                  continue;
-                }
-                applicationInformationBody =
-                  existingApplicationInformation + System.getProperty("line.separator") + applicationInformationBody;
-              }
-
-              if (eAnnotation == null)
-              {
-                eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-                eAnnotation.setSource(sourceURI);
-                eModelElement.getEAnnotations().add(eAnnotation);
-              }
-
-              eAnnotation.getDetails().put(key, applicationInformationBody);
+              key = "appinfo";
             }
-            catch (UnsupportedEncodingException exception)
+            EAnnotation eAnnotation = eModelElement.getEAnnotation(sourceURI);
+            String existingApplicationInformation =
+              eAnnotation == null ?
+                null :
+                (String)eAnnotation.getDetails().get(key);
+
+            if (existingApplicationInformation != null)
             {
-              throw new WrappedException(exception);
+              if (!first && !append)
+              {
+                continue;
+              }
+              applicationInformationBody =
+                existingApplicationInformation + System.getProperty("line.separator") + applicationInformationBody;
             }
+
+            if (eAnnotation == null)
+            {
+              eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+              eAnnotation.setSource(sourceURI);
+              eModelElement.getEAnnotations().add(eAnnotation);
+            }
+
+            eAnnotation.getDetails().put(key, applicationInformationBody);
           }
         }
       }
