@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.21 2008/01/08 12:03:16 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.22 2008/04/16 20:22:16 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -558,8 +558,8 @@ public class EcorePlugin  extends EMFPlugin
       new ExtensionParserRegistryReader().readRegistry();
       new ProtocolParserRegistryReader().readRegistry();
       new ContentParserRegistryReader().readRegistry();
-      new URIMappingRegistryReader().readRegistry();
       new ContentHandlerRegistryReader().readRegistry();
+      new URIMappingRegistryReader().readRegistry();
     }
   }
 
