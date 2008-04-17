@@ -184,6 +184,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/runtimeVersion"/>
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The two letter code for the language to use, instead of the system default, in computing upper and lower case strings"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/language"/>
+      <genFeatures createChild="false" propertyCategory="ModelFeature" propertyDescription="Whether the values of enum attributes should be packed in the boolean flags bit field"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/packedEnums"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>
