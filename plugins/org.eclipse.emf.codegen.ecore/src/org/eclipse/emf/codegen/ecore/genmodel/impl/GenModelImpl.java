@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.95 2008/04/15 03:11:16 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.96 2008/04/17 20:33:08 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -179,6 +179,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isFontProviders <em>Font Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getRuntimeVersion <em>Runtime Version</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getLanguage <em>Language</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isPackedEnums <em>Packed Enums</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1591,6 +1592,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected String language = LANGUAGE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isPackedEnums() <em>Packed Enums</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isPackedEnums()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean PACKED_ENUMS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isPackedEnums() <em>Packed Enums</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isPackedEnums()
+   * @generated
+   * @ordered
+   */
+  protected boolean packedEnums = PACKED_ENUMS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -6110,6 +6131,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getRuntimeVersion();
       case GenModelPackage.GEN_MODEL__LANGUAGE:
         return getLanguage();
+      case GenModelPackage.GEN_MODEL__PACKED_ENUMS:
+        return isPackedEnums() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6349,6 +6372,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__LANGUAGE:
         setLanguage((String)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__PACKED_ENUMS:
+        setPackedEnums(((Boolean)newValue).booleanValue());
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         getGenPackages().addAll((Collection<? extends GenPackage>)newValue);
@@ -6584,6 +6610,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__LANGUAGE:
         setLanguage(LANGUAGE_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__PACKED_ENUMS:
+        setPackedEnums(PACKED_ENUMS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -6746,6 +6775,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isSetRuntimeVersion();
       case GenModelPackage.GEN_MODEL__LANGUAGE:
         return LANGUAGE_EDEFAULT == null ? language != null : !LANGUAGE_EDEFAULT.equals(language);
+      case GenModelPackage.GEN_MODEL__PACKED_ENUMS:
+        return packedEnums != PACKED_ENUMS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6905,6 +6936,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (runtimeVersionESet) result.append(runtimeVersion); else result.append("<unset>");
     result.append(", language: ");
     result.append(language);
+    result.append(", packedEnums: ");
+    result.append(packedEnums);
     result.append(')');
     return result.toString();
   }
@@ -7329,6 +7362,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     setLanguageGen(newLanguage);
     locale = null;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isPackedEnums()
+  {
+    return packedEnums;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setPackedEnums(boolean newPackedEnums)
+  {
+    boolean oldPackedEnums = packedEnums;
+    packedEnums = newPackedEnums;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__PACKED_ENUMS, oldPackedEnums, packedEnums));
   }
 
   public boolean hasModelPluginClass()
@@ -8108,6 +8164,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     
     setLanguage(oldGenModelVersion.getLanguage());
+    setPackedEnums(oldGenModelVersion.isPackedEnums());
   }
 
   public boolean reconcile()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.50 2008/04/15 03:11:56 davidms Exp $
+ * $Id: GenModelPackage.java,v 1.51 2008/04/17 20:33:08 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -763,13 +763,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__LANGUAGE = GEN_BASE_FEATURE_COUNT + 70;
 
   /**
+   * The feature id for the '<em><b>Packed Enums</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__PACKED_ENUMS = GEN_BASE_FEATURE_COUNT + 71;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 71;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 72;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -778,7 +787,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 72;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 73;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -787,7 +796,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 73;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 74;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2649,6 +2658,17 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_Language();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPackedEnums <em>Packed Enums</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Packed Enums</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPackedEnums()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_PackedEnums();
+
+  /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4208,6 +4228,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__LANGUAGE = eINSTANCE.getGenModel_Language();
+
+    /**
+     * The meta object literal for the '<em><b>Packed Enums</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__PACKED_ENUMS = eINSTANCE.getGenModel_PackedEnums();
 
     /**
      * The meta object literal for the '<em><b>Gen Packages</b></em>' containment reference list feature.

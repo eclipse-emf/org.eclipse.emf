@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.58 2008/03/10 19:10:26 emerks Exp $
+ * $Id: GenModel.java,v 1.59 2008/04/17 20:33:08 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -116,6 +116,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isFontProviders <em>Font Providers</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimeVersion <em>Runtime Version</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getLanguage <em>Language</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPackedEnums <em>Packed Enums</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -2075,6 +2076,32 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setLanguage(String value);
+
+  /**
+   * Returns the value of the '<em><b>Packed Enums</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * Whether the values of enum attributes should be packed in the {@link #getBooleanFlagsField() boolean flags field}.
+   * </p>
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Packed Enums</em>' attribute.
+   * @see #setPackedEnums(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_PackedEnums()
+   * @model
+   * @generated
+   */
+  boolean isPackedEnums();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPackedEnums <em>Packed Enums</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Packed Enums</em>' attribute.
+   * @see #isPackedEnums()
+   * @generated
+   */
+  void setPackedEnums(boolean value);
 
   /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
