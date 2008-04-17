@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.89 2008/03/28 16:50:59 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.90 2008/04/17 20:35:55 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -51,6 +51,7 @@ import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
@@ -949,16 +950,26 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     if (isFlag(genFeature))
     {
       int reservedBooleanFlags = getImplementingGenModel(genFeature).getBooleanFlagsReservedBits();
-	    int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
+      int index = reservedBooleanFlags > 0 ? reservedBooleanFlags : 0;
 
       for (GenFeature otherGenFeature : getAllGenFeatures())
       {
         if (isFlag(otherGenFeature))
         {
-          index++;
+          // If the flag will straddle two fields, bump it to the next one.
+          //
+          int flagSize = getFlagSize(otherGenFeature);
+          if (index / 32 != (index + flagSize - 1) / 32)
+          {
+            index = ((index / 32) + 1) * 32;
+          }
 
           if (otherGenFeature.getEcoreFeature() == genFeature.getEcoreFeature())
+          {
             return index;
+          }
+
+          index += flagSize;
         }
         if (isESetFlag(otherGenFeature))
         {
@@ -967,6 +978,47 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
     }
     return -1;
+  }
+
+  public int getFlagSize(GenFeature genFeature)
+  {
+    if (isFlag(genFeature))
+    {
+      if (genFeature.isBooleanType())
+      {
+        return 1;
+      }
+      else if (genFeature.isEnumType())
+      {
+        int choices = genFeature.getTypeGenEnum().getEcoreEnum().getELiterals().size();
+        switch (choices)
+        {
+          case 0:
+          case 1:
+            return choices;
+          default:
+            int size = 0;
+            for (choices--; choices >= 1; choices >>= 1)
+            {
+              size++;
+            }
+            return size;
+        }
+      }
+    }
+    return 0;
+  }
+
+  public String getFlagMask(GenFeature genFeature)
+  {
+    int size = getFlagSize(genFeature);
+    if (size == 0)
+    {
+      return "0";
+    }
+
+    int mask = (1 << size) - 1;
+    return mask == 1 ? "1" : "0x" + Integer.toHexString(mask);
   }
 
   public String getESetFlagsField(GenFeature genFeature)
@@ -992,20 +1044,28 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     if (isESetFlag(genFeature))
     {
       int reservedBooleanFlags = getImplementingGenModel(genFeature).getBooleanFlagsReservedBits();
-      int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
+      int index = reservedBooleanFlags > 0 ? reservedBooleanFlags : 0;
 
       for (GenFeature otherGenFeature : getAllGenFeatures())
       {
         if (isFlag(otherGenFeature))
         {
-          index++;
+          // If the flag will straddle two fields, bump it to the next one.
+          //
+          int flagSize = getFlagSize(otherGenFeature);
+          if (index / 32 != (index + flagSize - 1) / 32)
+          {
+            index = ((index / 32) + 1) * 32;
+          }
+          index += flagSize;
         }
         if (isESetFlag(otherGenFeature))
         {
-          index++;
-
           if (otherGenFeature.getEcoreFeature() == genFeature.getEcoreFeature())
+          {
             return index;
+          }
+          index++;
         }
       }
     }
@@ -1258,6 +1318,29 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         public boolean accept(GenFeature genFeature)
         {
           return staticDefaultValue.equalsIgnoreCase(genFeature.getStaticDefaultValue());
+        }
+      });
+  }
+
+  public List<GenFeature> getFlagGenFeaturesWithDefault()
+  {
+    return collectGenFeatures(null, getFlagGenFeatures(), new GenFeatureFilter()
+      {
+        public boolean accept(GenFeature genFeature)
+        {
+          if (genFeature.hasEDefault())
+          {
+            if (genFeature.isBooleanType())
+            {
+              return "true".equals(genFeature.getStaticDefaultValue());
+            }
+            else if (genFeature.isEnumType())
+            {
+              EEnum eEnum = genFeature.getTypeGenEnum().getEcoreEnum();
+              return eEnum.getELiterals().indexOf(eEnum.getEEnumLiteralByLiteral(genFeature.getEcoreFeature().getDefaultValueLiteral())) > 0;
+            }
+          }
+          return false;
         }
       });
   }
@@ -2958,7 +3041,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public boolean isFlag(GenFeature genFeature)
   {
-    return getImplementingGenModel(genFeature).isBooleanFlagsEnabled() && genFeature.isFlag();
+    GenModel genModel = getImplementingGenModel(genFeature);
+    return genModel.isBooleanFlagsEnabled() && !genFeature.isVolatile() &&
+      (genFeature.isBooleanType() || genModel.isPackedEnums() && genFeature.isEnumType());
   }
 
   public boolean isESetFlag(GenFeature genFeature)
