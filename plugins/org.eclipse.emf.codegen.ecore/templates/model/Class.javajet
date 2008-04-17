@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.72 2008/01/20 16:31:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.73 2008/04/17 20:37:32 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -208,8 +208,8 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 
       <%}%>
       <%if (genClass.isField(genFeature)) {%>
-        <%if (genClass.isFlag(genFeature)) {%>
-          <%if (genClass.getFlagIndex(genFeature) > 31 && genClass.getFlagIndex(genFeature) % 32 == 0) {%>
+        <%if (genClass.isFlag(genFeature)) { int flagIndex = genClass.getFlagIndex(genFeature);%>
+          <%if (flagIndex > 31 && flagIndex % 32 == 0) {%>
 	/**
 	 * An additional set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
 	 * <!-- begin-user-doc -->
@@ -220,15 +220,44 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	protected int <%=genClass.getFlagsField(genFeature)%> = 0;
 
           <%}%>
+          <%if (genFeature.isEnumType()) {%>
 	/**
-	 * The flag representing the value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * The offset of the flags representing the value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int <%=genFeature.getUpperName()%>_EFLAG_OFFSET = <%=flagIndex % 32%>;
+
+	/**
+	 * The flags representing the default value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int <%=genFeature.getUpperName()%>_EFLAG_DEFAULT = <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%><%=genFeature.getEDefault()%>.ordinal()<%} else {%><%=genFeature.getImportedType(genClass)%>.VALUES.indexOf(<%=genFeature.getEDefault()%>)<%}%> << <%=genFeature.getUpperName()%>_EFLAG_OFFSET;
+
+	/**
+	 * The array of enumeration values for '{@link <%=genFeature.getImportedType(genClass)%> <%=genFeature.getTypeGenClassifier().getFormattedName()%>}'
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	private static final <%=genFeature.getImportedType(genClass)%>[] <%=genFeature.getUpperName()%>_EFLAG_VALUES = <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%><%=genFeature.getImportedType(genClass)%>.values()<%} else {%>(<%=genFeature.getImportedType(genClass)%>[])<%=genFeature.getImportedType(genClass)%>.VALUES.toArray(new <%=genFeature.getImportedType(genClass)%>[<%=genFeature.getImportedType(genClass)%>.VALUES.size()])<%}%>;
+
+          <%}%>
+	/**
+	 * The flag<%=genClass.getFlagSize(genFeature) > 1 ? "s" : ""%> representing the value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #<%=genFeature.getGetAccessor()%>()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int <%=genFeature.getUpperName()%>_EFLAG = 1 <%="<< " + genClass.getFlagIndex(genFeature) % 32 %>;
+	protected static final int <%=genFeature.getUpperName()%>_EFLAG = <%=genClass.getFlagMask(genFeature)%> << <%if (genFeature.isEnumType()) {%><%=genFeature.getUpperName()%>_EFLAG_OFFSET<%} else {%><%=flagIndex % 32%><%}%>;
 
         <%} else {%>
 	/**
@@ -245,8 +274,8 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
       <%}%>
     <%}%>
     <%if (genClass.isESetField(genFeature)) {%>
-      <%if (genClass.isESetFlag(genFeature)) {%>
-        <%if (genClass.getESetFlagIndex(genFeature) > 31 && genClass.getESetFlagIndex(genFeature) % 32 == 0) {%>
+      <%if (genClass.isESetFlag(genFeature)) { int flagIndex = genClass.getESetFlagIndex(genFeature);%>
+        <%if (flagIndex > 31 && flagIndex % 32 == 0) {%>
 	/**
 	 * An additional set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
 	 * <!-- begin-user-doc -->
@@ -264,7 +293,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int <%=genFeature.getUpperName()%>_ESETFLAG = 1 <%="<< " + genClass.getESetFlagIndex(genFeature) % 32 %>;
+	protected static final int <%=genFeature.getUpperName()%>_ESETFLAG = 1 << <%=flagIndex % 32 %>;
 
       <%} else {%>
 	/**
@@ -313,8 +342,8 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	<%if (genModel.isPublicConstructors()) {%>public<%} else {%>protected<%}%> <%=genClass.getClassName()%>()
 	{
 		super();
-  <%for (GenFeature genFeature : genClass.getFlagGenFeatures("true")) {%>
-		<%=genClass.getFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_EFLAG;
+  <%for (GenFeature genFeature : genClass.getFlagGenFeaturesWithDefault()) {%>
+		<%=genClass.getFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_EFLAG<%if (!genFeature.isBooleanType()) {%>_DEFAULT<%}%>;
   <%}%>
 	}
 
@@ -601,7 +630,11 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
         <%if (!genFeature.isResolveProxies() && genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
 		return (<%=genFeature.getImportedType(genClass)%>)eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%><%if (genFeature.hasEDefault()) {%>, <%=genFeature.getEDefault()%><%}%>);
         <%} else if (genClass.isFlag(genFeature)) {%>
+          <%if (genFeature.isBooleanType()) {%>
 		return (<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0;
+          <%} else {%>
+		return <%=genFeature.getUpperName()%>_EFLAG_VALUES[(<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) >>> <%=genFeature.getUpperName()%>_EFLAG_OFFSET];
+          <%}%>
         <%} else {%>
 		return <%=genFeature.getSafeName()%>;
         <%}%>
@@ -721,12 +754,18 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
       <%}%>
       <%if (genFeature.isUnsettable()) {%>
         <%if (genModel.isVirtualDelegation()) {%>
+          <%if (!genModel.isSuppressNotification()) {%>
 		boolean isSetChange = old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE;
+          <%}%>
         <%} else if (genClass.isESetFlag(genFeature)) {%>
 		boolean old<%=genFeature.getCapName()%>ESet = (<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0;
+          <%if (!genModel.isSuppressNotification()) {%>
 		<%=genClass.getESetFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_ESETFLAG;
+          <%}%>
         <%} else {%>
+          <%if (!genModel.isSuppressNotification()) {%>
 		boolean old<%=genFeature.getCapName()%>ESet = <%=genFeature.getUncapName()%>ESet;
+          <%}%>
 		<%=genFeature.getUncapName()%>ESet = true;
         <%}%>
       <%}%>
@@ -878,9 +917,18 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
       <%} else {%>
         <%if (genClass.isFlag(genFeature)) {%>
           <%if (!genModel.isSuppressNotification()) {%>
+            <%if (genFeature.isBooleanType()) {%>
 		<%=genFeature.getImportedType(genClass)%> old<%=genFeature.getCapName()%> = (<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0;
+            <%} else {%>
+		<%=genFeature.getImportedType(genClass)%> old<%=genFeature.getCapName()%> = <%=genFeature.getUpperName()%>_EFLAG_VALUES[(<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) >>> <%=genFeature.getUpperName()%>_EFLAG_OFFSET];
+            <%}%>
           <%}%>
+          <%if (genFeature.isBooleanType()) {%>
 		if (new<%=genFeature.getCapName()%>) <%=genClass.getFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_EFLAG; else <%=genClass.getFlagsField(genFeature)%> &= ~<%=genFeature.getUpperName()%>_EFLAG;
+          <%} else {%>
+		if (new<%=genFeature.getCapName()%> == null) new<%=genFeature.getCapName()%> = <%=genFeature.getUpperName()%>_EDEFAULT;
+		<%=genClass.getFlagsField(genFeature)%> = <%=genClass.getFlagsField(genFeature)%> & ~<%=genFeature.getUpperName()%>_EFLAG | <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%>new<%=genFeature.getCapName()%>.ordinal()<%} else {%><%=genFeature.getImportedType(genClass)%>.VALUES.indexOf(new<%=genFeature.getCapName()%>)<%}%> << <%=genFeature.getUpperName()%>_EFLAG_OFFSET;
+          <%}%>
         <%} else {%>
           <%if (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) {%>
             <%if (!genModel.isSuppressNotification()) {%>
@@ -966,18 +1014,26 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	{
     <%if (!genFeature.isVolatile()) {%>
       <%if (genModel.isVirtualDelegation()) {%>
-		Object old<%=genFeature.getCapName()%> = eVirtualUnset(<%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%>);
+        <%if (!genModel.isSuppressNotification()) {%>Object old<%=genFeature.getCapName()%> = <%}%>eVirtualUnset(<%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%>);
       <%} else {%>
+        <%if (!genModel.isSuppressNotification()) {%>
 		<%=genFeature.getImportedType(genClass)%> old<%=genFeature.getCapName()%> = <%=genFeature.getSafeName()%>;
+        <%}%>
 		<%=genFeature.getSafeName()%> = null;
       <%}%>
       <%if (genModel.isVirtualDelegation()) {%>
+        <%if (!genModel.isSuppressNotification()) {%>
 		boolean isSetChange = old<%=genFeature.getCapName()%> != EVIRTUAL_NO_VALUE;
+        <%}%>
       <%} else if (genClass.isESetFlag(genFeature)) {%>
+        <%if (!genModel.isSuppressNotification()) {%>
 		boolean old<%=genFeature.getCapName()%>ESet = (<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0;
+        <%}%>
 		<%=genClass.getESetFlagsField(genFeature)%> &= ~<%=genFeature.getUpperName()%>_ESETFLAG;
       <%} else {%>
+        <%if (!genModel.isSuppressNotification()) {%>
 		boolean old<%=genFeature.getCapName()%>ESet = <%=genFeature.getUncapName()%>ESet;
+        <%}%>
 		<%=genFeature.getUncapName()%>ESet = false;
       <%}%>
         <%if (!genModel.isSuppressNotification()) {%>
@@ -1086,7 +1142,11 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
       <%} else {%>
         <%if (genClass.isFlag(genFeature)) {%>
           <%if (!genModel.isSuppressNotification()) {%>
+            <%if (genFeature.isBooleanType()) {%>
 		<%=genFeature.getImportedType(genClass)%> old<%=genFeature.getCapName()%> = (<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0;
+            <%} else {%>
+		<%=genFeature.getImportedType(genClass)%> old<%=genFeature.getCapName()%> = <%=genFeature.getUpperName()%>_EFLAG_VALUES[(<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) >>> <%=genFeature.getUpperName()%>_EFLAG_OFFSET];
+            <%}%>
           <%}%>
         <%} else if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
 		Object old<%=genFeature.getCapName()%> = eVirtualUnset(<%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%>);
@@ -1095,12 +1155,12 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 		<%=genFeature.getImportedType(genClass)%> old<%=genFeature.getCapName()%> = <%=genFeature.getSafeName()%>;
           <%}%>
         <%}%>
+       <%if (!genModel.isSuppressNotification()) {%>
         <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
 		boolean isSetChange = old<%=genFeature.getCapName()%> != EVIRTUAL_NO_VALUE;
-        <%} else if (genClass.isESetFlag(genFeature)) {%>
+          <%} else if (genClass.isESetFlag(genFeature)) {%>
 		boolean old<%=genFeature.getCapName()%>ESet = (<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0;
-        <%} else {%>
-          <%if (!genModel.isSuppressNotification()) {%>
+          <%} else {%>
 		boolean old<%=genFeature.getCapName()%>ESet = <%=genFeature.getUncapName()%>ESet;
           <%}%>
         <%}%>
@@ -1119,7 +1179,11 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
           <%}%>
         <%} else {%>
           <%if (genClass.isFlag(genFeature)) {%>
+            <%if (genFeature.isBooleanType()) {%>
 		if (<%=genFeature.getEDefault()%>) <%=genClass.getFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_EFLAG; else <%=genClass.getFlagsField(genFeature)%> &= ~<%=genFeature.getUpperName()%>_EFLAG;
+            <%} else {%>
+		<%=genClass.getFlagsField(genFeature)%> = <%=genClass.getFlagsField(genFeature)%> & ~<%=genFeature.getUpperName()%>_EFLAG | <%=genFeature.getUpperName()%>_EFLAG_DEFAULT;
+            <%}%>
           <%} else if (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) {%>
 		<%=genFeature.getSafeName()%> = <%=genFeature.getEDefault()%>;
           <%}%>
@@ -1667,7 +1731,11 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
   <%} else if (genFeature.isPrimitiveType() || genFeature.isEnumType()) {%>
     <%if (genClass.isField(genFeature)) {%>
       <%if (genClass.isFlag(genFeature)) {%>
+        <%if (genFeature.isBooleanType()) {%>
 				return ((<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0) != <%=genFeature.getEDefault()%>;
+        <%} else {%>
+				return (<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != <%=genFeature.getUpperName()%>_EFLAG_DEFAULT;
+        <%}%>
       <%} else {%>
 				return <%=genFeature.getSafeName()%> != <%=genFeature.getEDefault()%>;
       <%}%>
@@ -1870,7 +1938,11 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 		if (eVirtualIsSet(<%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%>)) result.append(eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%>)); else result.append("<unset>");<%=genModel.getNonNLS()%>
         <%} else {%>
           <%if (genClass.isFlag(genFeature)) {%>
+            <%if (genFeature.isBooleanType()) {%>
 		if (<%if (genClass.isESetFlag(genFeature)) {%>(<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0<%} else {%><%=genFeature.getUncapName()%>ESet<%}%>) result.append((<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0); else result.append("<unset>");<%=genModel.getNonNLS()%>
+            <%} else {%>
+		if (<%if (genClass.isESetFlag(genFeature)) {%>(<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0<%} else {%><%=genFeature.getUncapName()%>ESet<%}%>) result.append(<%=genFeature.getUpperName()%>_EFLAG_VALUES[(<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) >>> <%=genFeature.getUpperName()%>_EFLAG_OFFSET]); else result.append("<unset>");<%=genModel.getNonNLS()%>
+            <%}%>
           <%} else {%>
 		if (<%if (genClass.isESetFlag(genFeature)) {%>(<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0<%} else {%><%=genFeature.getUncapName()%>ESet<%}%>) result.append(<%=genFeature.getSafeName()%>); else result.append("<unset>");<%=genModel.getNonNLS()%>
           <%}%>
@@ -1880,7 +1952,11 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 		result.append(eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%><%if (!genFeature.isListType() && !genFeature.isReferenceType()){%>, <%=genFeature.getEDefault()%><%}%>));
         <%} else {%>
           <%if (genClass.isFlag(genFeature)) {%>
+          <%if (genFeature.isBooleanType()) {%>
 		result.append((<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0);
+          <%} else {%>
+		result.append(<%=genFeature.getUpperName()%>_EFLAG_VALUES[(<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) >>> <%=genFeature.getUpperName()%>_EFLAG_OFFSET]);
+          <%}%>
           <%} else {%>
 		result.append(<%=genFeature.getSafeName()%>);
           <%}%>
