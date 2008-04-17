@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.24 2008/01/29 21:12:07 emerks Exp $
+ * $Id: GenFeature.java,v 1.25 2008/04/17 20:33:52 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -383,7 +383,14 @@ public interface GenFeature extends GenTypedElement
   String getImportedMetaType();
   String getFeatureKind(); // this returns either "attribute", "attribute list", "reference", or "reference list"
   boolean isReferenceType();
-  boolean isFlag();
+
+  /**
+   * This method isn't terribly useful now that an enum attribute could be considered a flag, but should only be
+   * generated as such if {@link GenModel#isPackedEnums packed enums} is enabled for the model. This method still
+   * returns false in that case.
+   * @deprecated use {@link GenClass#isFlag} to correctly determine whether a feature is a flag
+   */
+  @Deprecated boolean isFlag();
   boolean isESetFlag();
 
   boolean isSetDefaultValue();
