@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: RootXMLContentHandlerImpl.java,v 1.5 2008/04/15 15:25:27 emerks Exp $
+ * $Id: RootXMLContentHandlerImpl.java,v 1.6 2008/04/18 20:05:05 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -54,6 +55,11 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
    * The namespace of the root element or the first non-XMI element.
    */
   protected String namespace;
+
+  /**
+   * The namespace pattern of the root element or the first non-XMI element.
+   */
+  protected Pattern namespacePattern;
 
   /**
    * The expected name of the root element or the first non-XMI element.
@@ -92,10 +98,10 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
   public static final String NAMESPACE = "namespace";
 
   /**
-   * A namespace value that matches any namespace.
-   * @see #namespace
+   * The key in the {@link #RootXMLContentHandlerImpl(Map) constructor}'s parameter map representing the namespace pattern.
+   * @see #namespacePattern
    */
-  public static final String ANY_NAMESPACE = "##any";
+  public static final String NAMESPACE_PATTERN = "namespacePattern";
 
   /**
    * The key in the {@link #RootXMLContentHandlerImpl(Map) constructor}'s parameter map representing the root element names
@@ -121,6 +127,7 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
        parameters.containsKey(EXTENSIONS) ? parameters.get(EXTENSIONS).split(" ") : new String [0],
        parameters.get(KIND),
        parameters.get(NAMESPACE),
+       parameters.get(NAMESPACE_PATTERN) != null ? Pattern.compile(parameters.get(NAMESPACE_PATTERN)) : null,
        parameters.containsKey(ELEMENT_NAMES) ? parameters.get(ELEMENT_NAMES).split(" ") : new String [0]);
   }
 
@@ -141,10 +148,44 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
      String namespace,
      String [] elementNames)
   {
+    this(contentTypeID, extensions, kind, namespace, null, elementNames);
+  }
+
+  /**
+   * Creates an instance initialized with the given arguments.
+   * @param contentTypeID the content type identifier for content recognized this this handler.
+   * @param extensions the {@link URI#fileExtension() extensions} handled by this instance;
+   * <code>null</code> or an empty array specifies that this handler applies for all URIs.
+   * @param kind the kind of content that's expected; {@link #XMI_KIND} supports special handling.
+   * @param namespacePattern a pattern that will match the expected namespace of the root element or first non-XMI element.
+   * @param elementNames the expected element names of the root element or the first non-XMI element;
+   * <code>null</code> or an empty array specifies that any root element name is allowed.
+   */
+  public RootXMLContentHandlerImpl
+    (String contentTypeID,
+     String [] extensions,
+     String kind,
+     Pattern namespacePattern,
+     String [] elementNames)
+  {
+    this(contentTypeID, extensions, kind, null, namespacePattern, elementNames);
+  }
+
+  private RootXMLContentHandlerImpl
+    (String contentTypeID,
+     String [] extensions,
+     String kind,
+     String namespace,
+     Pattern namespacePattern,
+     String [] elementNames)
+  {
+    assert namespacePattern != null || namespace == null;
+
     this.contentTypeID = contentTypeID;
     this.extensions = extensions;
     this.kind = kind;
     this.namespace = namespace;
+    this.namespacePattern = namespacePattern;
     this.elementNames = elementNames;
   }
 
@@ -217,7 +258,7 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
           }
         }
 
-        if (rootElementName != null && (ANY_NAMESPACE.equals(namespace) || (namespace == null ? rootElementNamespace == null : namespace.equals(rootElementNamespace))))
+        if (rootElementName != null && isMatchingNamespace(rootElementNamespace))
         {
           boolean elementNameMatched = false;
           if (elementNames == null || elementNames.length == 0)
@@ -245,6 +286,21 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
       }
     }
     return result;
+  }
+
+  /**
+   * Returns whether the given root element's namespace matches the namespace expected for the content type.
+   */
+  protected boolean isMatchingNamespace(String rootElementNamespace)
+  {
+    if (namespacePattern != null)
+    {
+      return namespacePattern.matcher(rootElementNamespace == null ? "" : rootElementNamespace).matches();
+    }
+    else
+    {
+      return namespace == null ? rootElementNamespace == null : namespace.equals(rootElementNamespace);
+    }
   }
 
   /**
