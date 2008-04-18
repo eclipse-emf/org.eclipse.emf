@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupImpl.java,v 1.12 2007/09/11 18:26:18 emerks Exp $
+ * $Id: XSDModelGroupImpl.java,v 1.13 2008/04/18 15:44:12 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -81,14 +81,41 @@ public class XSDModelGroupImpl
   protected static final XSDCompositor COMPOSITOR_EDEFAULT = XSDCompositor.ALL_LITERAL;
 
   /**
-   * The cached value of the '{@link #getCompositor() <em>Compositor</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getCompositor() <em>Compositor</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int COMPOSITOR_EFLAG_OFFSET = 8;
+
+  /**
+   * The flags representing the default value of the '{@link #getCompositor() <em>Compositor</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int COMPOSITOR_EFLAG_DEFAULT = COMPOSITOR_EDEFAULT.ordinal() << COMPOSITOR_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDCompositor Compositor}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDCompositor[] COMPOSITOR_EFLAG_VALUES = XSDCompositor.values();
+
+  /**
+   * The flags representing the value of the '{@link #getCompositor() <em>Compositor</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getCompositor()
    * @generated
    * @ordered
    */
-  protected XSDCompositor compositor = COMPOSITOR_EDEFAULT;
+  protected static final int COMPOSITOR_EFLAG = 0x3 << COMPOSITOR_EFLAG_OFFSET;
 
   /**
    * The cached value of the '{@link #getAnnotation() <em>Annotation</em>}' containment reference.
@@ -178,7 +205,7 @@ public class XSDModelGroupImpl
    */
   public XSDCompositor getCompositor()
   {
-    return compositor;
+    return COMPOSITOR_EFLAG_VALUES[(eFlags & COMPOSITOR_EFLAG) >>> COMPOSITOR_EFLAG_OFFSET];
   }
 
   /**
@@ -188,10 +215,11 @@ public class XSDModelGroupImpl
    */
   public void setCompositor(XSDCompositor newCompositor)
   {
-    XSDCompositor oldCompositor = compositor;
-    compositor = newCompositor == null ? COMPOSITOR_EDEFAULT : newCompositor;
+    XSDCompositor oldCompositor = COMPOSITOR_EFLAG_VALUES[(eFlags & COMPOSITOR_EFLAG) >>> COMPOSITOR_EFLAG_OFFSET];
+    if (newCompositor == null) newCompositor = COMPOSITOR_EDEFAULT;
+    eFlags = eFlags & ~COMPOSITOR_EFLAG | newCompositor.ordinal() << COMPOSITOR_EFLAG_OFFSET;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_MODEL_GROUP__COMPOSITOR, oldCompositor, compositor));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_MODEL_GROUP__COMPOSITOR, oldCompositor, newCompositor));
   }
 
   /**
@@ -376,7 +404,7 @@ public class XSDModelGroupImpl
     switch (featureID)
     {
       case XSDPackage.XSD_MODEL_GROUP__COMPOSITOR:
-        return compositor != COMPOSITOR_EDEFAULT;
+        return (eFlags & COMPOSITOR_EFLAG) != COMPOSITOR_EFLAG_DEFAULT;
       case XSDPackage.XSD_MODEL_GROUP__ANNOTATION:
         return annotation != null;
       case XSDPackage.XSD_MODEL_GROUP__CONTENTS:
@@ -399,7 +427,7 @@ public class XSDModelGroupImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (compositor: ");
-    result.append(compositor);
+    result.append(COMPOSITOR_EFLAG_VALUES[(eFlags & COMPOSITOR_EFLAG) >>> COMPOSITOR_EFLAG_OFFSET]);
     result.append(')');
     return result.toString();
   }

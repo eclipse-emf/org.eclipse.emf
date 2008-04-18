@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.27 2008/02/28 21:03:37 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.28 2008/04/18 15:44:12 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -122,14 +122,41 @@ public class XSDComplexTypeDefinitionImpl
   protected static final XSDDerivationMethod DERIVATION_METHOD_EDEFAULT = XSDDerivationMethod.RESTRICTION_LITERAL;
 
   /**
-   * The cached value of the '{@link #getDerivationMethod() <em>Derivation Method</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getDerivationMethod() <em>Derivation Method</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int DERIVATION_METHOD_EFLAG_OFFSET = 8;
+
+  /**
+   * The flags representing the default value of the '{@link #getDerivationMethod() <em>Derivation Method</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int DERIVATION_METHOD_EFLAG_DEFAULT = DERIVATION_METHOD_EDEFAULT.ordinal() << DERIVATION_METHOD_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDDerivationMethod Derivation Method}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDDerivationMethod[] DERIVATION_METHOD_EFLAG_VALUES = XSDDerivationMethod.values();
+
+  /**
+   * The flag representing the value of the '{@link #getDerivationMethod() <em>Derivation Method</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getDerivationMethod()
    * @generated
    * @ordered
    */
-  protected XSDDerivationMethod derivationMethod = DERIVATION_METHOD_EDEFAULT;
+  protected static final int DERIVATION_METHOD_EFLAG = 1 << DERIVATION_METHOD_EFLAG_OFFSET;
 
   /**
    * The flag representing whether the Derivation Method attribute has been set.
@@ -138,7 +165,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected static final int DERIVATION_METHOD_ESETFLAG = 1 << 8;
+  protected static final int DERIVATION_METHOD_ESETFLAG = 1 << 9;
 
   /**
    * The cached value of the '{@link #getFinal() <em>Final</em>}' attribute list.
@@ -168,7 +195,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected static final int ABSTRACT_EFLAG = 1 << 9;
+  protected static final int ABSTRACT_EFLAG = 1 << 10;
 
   /**
    * The flag representing whether the Abstract attribute has been set.
@@ -177,7 +204,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected static final int ABSTRACT_ESETFLAG = 1 << 10;
+  protected static final int ABSTRACT_ESETFLAG = 1 << 11;
 
   /**
    * The default value of the '{@link #getContentTypeCategory() <em>Content Type Category</em>}' attribute.
@@ -190,14 +217,41 @@ public class XSDComplexTypeDefinitionImpl
   protected static final XSDContentTypeCategory CONTENT_TYPE_CATEGORY_EDEFAULT = XSDContentTypeCategory.EMPTY_LITERAL;
 
   /**
-   * The cached value of the '{@link #getContentTypeCategory() <em>Content Type Category</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getContentTypeCategory() <em>Content Type Category</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int CONTENT_TYPE_CATEGORY_EFLAG_OFFSET = 12;
+
+  /**
+   * The flags representing the default value of the '{@link #getContentTypeCategory() <em>Content Type Category</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int CONTENT_TYPE_CATEGORY_EFLAG_DEFAULT = CONTENT_TYPE_CATEGORY_EDEFAULT.ordinal() << CONTENT_TYPE_CATEGORY_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDContentTypeCategory Content Type Category}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDContentTypeCategory[] CONTENT_TYPE_CATEGORY_EFLAG_VALUES = XSDContentTypeCategory.values();
+
+  /**
+   * The flags representing the value of the '{@link #getContentTypeCategory() <em>Content Type Category</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getContentTypeCategory()
    * @generated
    * @ordered
    */
-  protected XSDContentTypeCategory contentTypeCategory = CONTENT_TYPE_CATEGORY_EDEFAULT;
+  protected static final int CONTENT_TYPE_CATEGORY_EFLAG = 0x3 << CONTENT_TYPE_CATEGORY_EFLAG_OFFSET;
 
   /**
    * The cached value of the '{@link #getProhibitedSubstitutions() <em>Prohibited Substitutions</em>}' attribute list.
@@ -247,7 +301,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected static final int MIXED_EFLAG = 1 << 11;
+  protected static final int MIXED_EFLAG = 1 << 14;
 
   /**
    * The flag representing whether the Mixed attribute has been set.
@@ -256,7 +310,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected static final int MIXED_ESETFLAG = 1 << 12;
+  protected static final int MIXED_ESETFLAG = 1 << 15;
 
   /**
    * The cached value of the '{@link #getContentAnnotation() <em>Content Annotation</em>}' containment reference.
@@ -378,6 +432,7 @@ public class XSDComplexTypeDefinitionImpl
   protected XSDComplexTypeDefinitionImpl()
   {
     super();
+    eFlags |= DERIVATION_METHOD_EFLAG_DEFAULT;
   }
 
   /**
@@ -398,7 +453,7 @@ public class XSDComplexTypeDefinitionImpl
    */
   public XSDDerivationMethod getDerivationMethod()
   {
-    return derivationMethod;
+    return DERIVATION_METHOD_EFLAG_VALUES[(eFlags & DERIVATION_METHOD_EFLAG) >>> DERIVATION_METHOD_EFLAG_OFFSET];
   }
 
   /**
@@ -408,12 +463,13 @@ public class XSDComplexTypeDefinitionImpl
    */
   public void setDerivationMethod(XSDDerivationMethod newDerivationMethod)
   {
-    XSDDerivationMethod oldDerivationMethod = derivationMethod;
-    derivationMethod = newDerivationMethod == null ? DERIVATION_METHOD_EDEFAULT : newDerivationMethod;
+    XSDDerivationMethod oldDerivationMethod = DERIVATION_METHOD_EFLAG_VALUES[(eFlags & DERIVATION_METHOD_EFLAG) >>> DERIVATION_METHOD_EFLAG_OFFSET];
+    if (newDerivationMethod == null) newDerivationMethod = DERIVATION_METHOD_EDEFAULT;
+    eFlags = eFlags & ~DERIVATION_METHOD_EFLAG | newDerivationMethod.ordinal() << DERIVATION_METHOD_EFLAG_OFFSET;
     boolean oldDerivationMethodESet = (eFlags & DERIVATION_METHOD_ESETFLAG) != 0;
     eFlags |= DERIVATION_METHOD_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__DERIVATION_METHOD, oldDerivationMethod, derivationMethod, !oldDerivationMethodESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__DERIVATION_METHOD, oldDerivationMethod, newDerivationMethod, !oldDerivationMethodESet));
   }
 
   /**
@@ -423,9 +479,9 @@ public class XSDComplexTypeDefinitionImpl
    */
   public void unsetDerivationMethod()
   {
-    XSDDerivationMethod oldDerivationMethod = derivationMethod;
+    XSDDerivationMethod oldDerivationMethod = DERIVATION_METHOD_EFLAG_VALUES[(eFlags & DERIVATION_METHOD_EFLAG) >>> DERIVATION_METHOD_EFLAG_OFFSET];
     boolean oldDerivationMethodESet = (eFlags & DERIVATION_METHOD_ESETFLAG) != 0;
-    derivationMethod = DERIVATION_METHOD_EDEFAULT;
+    eFlags = eFlags & ~DERIVATION_METHOD_EFLAG | DERIVATION_METHOD_EFLAG_DEFAULT;
     eFlags &= ~DERIVATION_METHOD_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__DERIVATION_METHOD, oldDerivationMethod, DERIVATION_METHOD_EDEFAULT, oldDerivationMethodESet));
@@ -512,7 +568,7 @@ public class XSDComplexTypeDefinitionImpl
    */
   public XSDContentTypeCategory getContentTypeCategory()
   {
-    return contentTypeCategory;
+    return CONTENT_TYPE_CATEGORY_EFLAG_VALUES[(eFlags & CONTENT_TYPE_CATEGORY_EFLAG) >>> CONTENT_TYPE_CATEGORY_EFLAG_OFFSET];
   }
 
   /**
@@ -522,10 +578,11 @@ public class XSDComplexTypeDefinitionImpl
    */
   public void setContentTypeCategory(XSDContentTypeCategory newContentTypeCategory)
   {
-    XSDContentTypeCategory oldContentTypeCategory = contentTypeCategory;
-    contentTypeCategory = newContentTypeCategory == null ? CONTENT_TYPE_CATEGORY_EDEFAULT : newContentTypeCategory;
+    XSDContentTypeCategory oldContentTypeCategory = CONTENT_TYPE_CATEGORY_EFLAG_VALUES[(eFlags & CONTENT_TYPE_CATEGORY_EFLAG) >>> CONTENT_TYPE_CATEGORY_EFLAG_OFFSET];
+    if (newContentTypeCategory == null) newContentTypeCategory = CONTENT_TYPE_CATEGORY_EDEFAULT;
+    eFlags = eFlags & ~CONTENT_TYPE_CATEGORY_EFLAG | newContentTypeCategory.ordinal() << CONTENT_TYPE_CATEGORY_EFLAG_OFFSET;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_TYPE_CATEGORY, oldContentTypeCategory, contentTypeCategory));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_TYPE_CATEGORY, oldContentTypeCategory, newContentTypeCategory));
   }
 
   /**
@@ -3120,7 +3177,7 @@ public class XSDComplexTypeDefinitionImpl
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ABSTRACT:
         return isSetAbstract();
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_TYPE_CATEGORY:
-        return contentTypeCategory != CONTENT_TYPE_CATEGORY_EDEFAULT;
+        return (eFlags & CONTENT_TYPE_CATEGORY_EFLAG) != CONTENT_TYPE_CATEGORY_EFLAG_DEFAULT;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__PROHIBITED_SUBSTITUTIONS:
         return prohibitedSubstitutions != null && !prohibitedSubstitutions.isEmpty();
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__LEXICAL_FINAL:
@@ -3167,13 +3224,13 @@ public class XSDComplexTypeDefinitionImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (derivationMethod: ");
-    if ((eFlags & DERIVATION_METHOD_ESETFLAG) != 0) result.append(derivationMethod); else result.append("<unset>");
+    if ((eFlags & DERIVATION_METHOD_ESETFLAG) != 0) result.append(DERIVATION_METHOD_EFLAG_VALUES[(eFlags & DERIVATION_METHOD_EFLAG) >>> DERIVATION_METHOD_EFLAG_OFFSET]); else result.append("<unset>");
     result.append(", final: ");
     result.append(final_);
     result.append(", abstract: ");
     if ((eFlags & ABSTRACT_ESETFLAG) != 0) result.append((eFlags & ABSTRACT_EFLAG) != 0); else result.append("<unset>");
     result.append(", contentTypeCategory: ");
-    result.append(contentTypeCategory);
+    result.append(CONTENT_TYPE_CATEGORY_EFLAG_VALUES[(eFlags & CONTENT_TYPE_CATEGORY_EFLAG) >>> CONTENT_TYPE_CATEGORY_EFLAG_OFFSET]);
     result.append(", prohibitedSubstitutions: ");
     result.append(prohibitedSubstitutions);
     result.append(", lexicalFinal: ");

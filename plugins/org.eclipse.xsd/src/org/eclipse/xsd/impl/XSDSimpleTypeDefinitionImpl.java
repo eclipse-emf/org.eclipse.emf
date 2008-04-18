@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.31 2008/02/28 21:03:37 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.32 2008/04/18 15:44:13 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -161,14 +161,41 @@ public class XSDSimpleTypeDefinitionImpl
   protected static final XSDVariety VARIETY_EDEFAULT = XSDVariety.ATOMIC_LITERAL;
 
   /**
-   * The cached value of the '{@link #getVariety() <em>Variety</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getVariety() <em>Variety</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int VARIETY_EFLAG_OFFSET = 8;
+
+  /**
+   * The flags representing the default value of the '{@link #getVariety() <em>Variety</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int VARIETY_EFLAG_DEFAULT = VARIETY_EDEFAULT.ordinal() << VARIETY_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDVariety Variety}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDVariety[] VARIETY_EFLAG_VALUES = XSDVariety.values();
+
+  /**
+   * The flags representing the value of the '{@link #getVariety() <em>Variety</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getVariety()
    * @generated
    * @ordered
    */
-  protected XSDVariety variety = VARIETY_EDEFAULT;
+  protected static final int VARIETY_EFLAG = 0x3 << VARIETY_EFLAG_OFFSET;
 
   /**
    * The flag representing whether the Variety attribute has been set.
@@ -177,7 +204,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected static final int VARIETY_ESETFLAG = 1 << 8;
+  protected static final int VARIETY_ESETFLAG = 1 << 10;
 
   /**
    * The cached value of the '{@link #getFinal() <em>Final</em>}' attribute list.
@@ -343,7 +370,7 @@ public class XSDSimpleTypeDefinitionImpl
    */
   public XSDVariety getVariety()
   {
-    return variety;
+    return VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET];
   }
 
   /**
@@ -353,12 +380,13 @@ public class XSDSimpleTypeDefinitionImpl
    */
   public void setVariety(XSDVariety newVariety)
   {
-    XSDVariety oldVariety = variety;
-    variety = newVariety == null ? VARIETY_EDEFAULT : newVariety;
+    XSDVariety oldVariety = VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET];
+    if (newVariety == null) newVariety = VARIETY_EDEFAULT;
+    eFlags = eFlags & ~VARIETY_EFLAG | newVariety.ordinal() << VARIETY_EFLAG_OFFSET;
     boolean oldVarietyESet = (eFlags & VARIETY_ESETFLAG) != 0;
     eFlags |= VARIETY_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__VARIETY, oldVariety, variety, !oldVarietyESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__VARIETY, oldVariety, newVariety, !oldVarietyESet));
   }
 
   /**
@@ -368,9 +396,9 @@ public class XSDSimpleTypeDefinitionImpl
    */
   public void unsetVariety()
   {
-    XSDVariety oldVariety = variety;
+    XSDVariety oldVariety = VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET];
     boolean oldVarietyESet = (eFlags & VARIETY_ESETFLAG) != 0;
-    variety = VARIETY_EDEFAULT;
+    eFlags = eFlags & ~VARIETY_EFLAG | VARIETY_EFLAG_DEFAULT;
     eFlags &= ~VARIETY_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__VARIETY, oldVariety, VARIETY_EDEFAULT, oldVarietyESet));
@@ -2816,7 +2844,7 @@ public class XSDSimpleTypeDefinitionImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (variety: ");
-    if ((eFlags & VARIETY_ESETFLAG) != 0) result.append(variety); else result.append("<unset>");
+    if ((eFlags & VARIETY_ESETFLAG) != 0) result.append(VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET]); else result.append("<unset>");
     result.append(", final: ");
     result.append(final_);
     result.append(", lexicalFinal: ");

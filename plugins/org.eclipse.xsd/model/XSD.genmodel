@@ -5,7 +5,7 @@
     editDirectory="" editorDirectory="" modelPluginID="org.eclipse.xsd" runtimeJar="true"
     modelName="XSD" updateClasspath="false" featureMapWrapperClass="" testsDirectory=""
     booleanFlagsField="eFlags" booleanFlagsReservedBits="8" importerID="org.eclipse.emf.importer.rose"
-    complianceLevel="5.0" language="en">
+    complianceLevel="5.0" language="en" packedEnums="true">
   <foreignModel>XSD.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>

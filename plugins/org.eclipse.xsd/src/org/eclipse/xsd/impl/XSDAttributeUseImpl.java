@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseImpl.java,v 1.13 2007/11/26 12:20:55 emerks Exp $
+ * $Id: XSDAttributeUseImpl.java,v 1.14 2008/04/18 15:44:13 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -120,14 +120,41 @@ public class XSDAttributeUseImpl
   protected static final XSDConstraint CONSTRAINT_EDEFAULT = XSDConstraint.DEFAULT_LITERAL;
 
   /**
-   * The cached value of the '{@link #getConstraint() <em>Constraint</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getConstraint() <em>Constraint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int CONSTRAINT_EFLAG_OFFSET = 9;
+
+  /**
+   * The flags representing the default value of the '{@link #getConstraint() <em>Constraint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int CONSTRAINT_EFLAG_DEFAULT = CONSTRAINT_EDEFAULT.ordinal() << CONSTRAINT_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDConstraint Constraint}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDConstraint[] CONSTRAINT_EFLAG_VALUES = XSDConstraint.values();
+
+  /**
+   * The flag representing the value of the '{@link #getConstraint() <em>Constraint</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getConstraint()
    * @generated
    * @ordered
    */
-  protected XSDConstraint constraint = CONSTRAINT_EDEFAULT;
+  protected static final int CONSTRAINT_EFLAG = 1 << CONSTRAINT_EFLAG_OFFSET;
 
   /**
    * The flag representing whether the Constraint attribute has been set.
@@ -136,7 +163,7 @@ public class XSDAttributeUseImpl
    * @generated
    * @ordered
    */
-  protected static final int CONSTRAINT_ESETFLAG = 1 << 9;
+  protected static final int CONSTRAINT_ESETFLAG = 1 << 10;
 
   /**
    * The default value of the '{@link #getUse() <em>Use</em>}' attribute.
@@ -149,14 +176,41 @@ public class XSDAttributeUseImpl
   protected static final XSDAttributeUseCategory USE_EDEFAULT = XSDAttributeUseCategory.OPTIONAL_LITERAL;
 
   /**
-   * The cached value of the '{@link #getUse() <em>Use</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getUse() <em>Use</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int USE_EFLAG_OFFSET = 11;
+
+  /**
+   * The flags representing the default value of the '{@link #getUse() <em>Use</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int USE_EFLAG_DEFAULT = USE_EDEFAULT.ordinal() << USE_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDAttributeUseCategory Attribute Use Category}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDAttributeUseCategory[] USE_EFLAG_VALUES = XSDAttributeUseCategory.values();
+
+  /**
+   * The flags representing the value of the '{@link #getUse() <em>Use</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getUse()
    * @generated
    * @ordered
    */
-  protected XSDAttributeUseCategory use = USE_EDEFAULT;
+  protected static final int USE_EFLAG = 0x3 << USE_EFLAG_OFFSET;
 
   /**
    * The flag representing whether the Use attribute has been set.
@@ -165,7 +219,7 @@ public class XSDAttributeUseImpl
    * @generated
    * @ordered
    */
-  protected static final int USE_ESETFLAG = 1 << 10;
+  protected static final int USE_ESETFLAG = 1 << 13;
 
   /**
    * The default value of the '{@link #getLexicalValue() <em>Lexical Value</em>}' attribute.
@@ -338,7 +392,7 @@ public class XSDAttributeUseImpl
    */
   public XSDConstraint getConstraint()
   {
-    return constraint;
+    return CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
   }
 
   /**
@@ -348,12 +402,13 @@ public class XSDAttributeUseImpl
    */
   public void setConstraint(XSDConstraint newConstraint)
   {
-    XSDConstraint oldConstraint = constraint;
-    constraint = newConstraint == null ? CONSTRAINT_EDEFAULT : newConstraint;
+    XSDConstraint oldConstraint = CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
+    if (newConstraint == null) newConstraint = CONSTRAINT_EDEFAULT;
+    eFlags = eFlags & ~CONSTRAINT_EFLAG | newConstraint.ordinal() << CONSTRAINT_EFLAG_OFFSET;
     boolean oldConstraintESet = (eFlags & CONSTRAINT_ESETFLAG) != 0;
     eFlags |= CONSTRAINT_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ATTRIBUTE_USE__CONSTRAINT, oldConstraint, constraint, !oldConstraintESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ATTRIBUTE_USE__CONSTRAINT, oldConstraint, newConstraint, !oldConstraintESet));
   }
 
   /**
@@ -363,9 +418,9 @@ public class XSDAttributeUseImpl
    */
   public void unsetConstraint()
   {
-    XSDConstraint oldConstraint = constraint;
+    XSDConstraint oldConstraint = CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
     boolean oldConstraintESet = (eFlags & CONSTRAINT_ESETFLAG) != 0;
-    constraint = CONSTRAINT_EDEFAULT;
+    eFlags = eFlags & ~CONSTRAINT_EFLAG | CONSTRAINT_EFLAG_DEFAULT;
     eFlags &= ~CONSTRAINT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_ATTRIBUTE_USE__CONSTRAINT, oldConstraint, CONSTRAINT_EDEFAULT, oldConstraintESet));
@@ -388,7 +443,7 @@ public class XSDAttributeUseImpl
    */
   public XSDAttributeUseCategory getUse()
   {
-    return use;
+    return USE_EFLAG_VALUES[(eFlags & USE_EFLAG) >>> USE_EFLAG_OFFSET];
   }
 
   /**
@@ -398,12 +453,13 @@ public class XSDAttributeUseImpl
    */
   public void setUse(XSDAttributeUseCategory newUse)
   {
-    XSDAttributeUseCategory oldUse = use;
-    use = newUse == null ? USE_EDEFAULT : newUse;
+    XSDAttributeUseCategory oldUse = USE_EFLAG_VALUES[(eFlags & USE_EFLAG) >>> USE_EFLAG_OFFSET];
+    if (newUse == null) newUse = USE_EDEFAULT;
+    eFlags = eFlags & ~USE_EFLAG | newUse.ordinal() << USE_EFLAG_OFFSET;
     boolean oldUseESet = (eFlags & USE_ESETFLAG) != 0;
     eFlags |= USE_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ATTRIBUTE_USE__USE, oldUse, use, !oldUseESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ATTRIBUTE_USE__USE, oldUse, newUse, !oldUseESet));
   }
 
   /**
@@ -413,9 +469,9 @@ public class XSDAttributeUseImpl
    */
   public void unsetUse()
   {
-    XSDAttributeUseCategory oldUse = use;
+    XSDAttributeUseCategory oldUse = USE_EFLAG_VALUES[(eFlags & USE_EFLAG) >>> USE_EFLAG_OFFSET];
     boolean oldUseESet = (eFlags & USE_ESETFLAG) != 0;
-    use = USE_EDEFAULT;
+    eFlags = eFlags & ~USE_EFLAG | USE_EFLAG_DEFAULT;
     eFlags &= ~USE_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_ATTRIBUTE_USE__USE, oldUse, USE_EDEFAULT, oldUseESet));
@@ -683,9 +739,9 @@ public class XSDAttributeUseImpl
     result.append(", value: ");
     result.append(value);
     result.append(", constraint: ");
-    if ((eFlags & CONSTRAINT_ESETFLAG) != 0) result.append(constraint); else result.append("<unset>");
+    if ((eFlags & CONSTRAINT_ESETFLAG) != 0) result.append(CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET]); else result.append("<unset>");
     result.append(", use: ");
-    if ((eFlags & USE_ESETFLAG) != 0) result.append(use); else result.append("<unset>");
+    if ((eFlags & USE_ESETFLAG) != 0) result.append(USE_EFLAG_VALUES[(eFlags & USE_EFLAG) >>> USE_EFLAG_OFFSET]); else result.append("<unset>");
     result.append(", lexicalValue: ");
     result.append(lexicalValue);
     result.append(')');

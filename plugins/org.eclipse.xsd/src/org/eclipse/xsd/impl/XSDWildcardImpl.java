@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.18 2008/03/31 12:15:48 emerks Exp $
+ * $Id: XSDWildcardImpl.java,v 1.19 2008/04/18 15:44:12 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -82,14 +82,41 @@ public class XSDWildcardImpl
   protected static final XSDNamespaceConstraintCategory NAMESPACE_CONSTRAINT_CATEGORY_EDEFAULT = XSDNamespaceConstraintCategory.ANY_LITERAL;
 
   /**
-   * The cached value of the '{@link #getNamespaceConstraintCategory() <em>Namespace Constraint Category</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getNamespaceConstraintCategory() <em>Namespace Constraint Category</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_OFFSET = 8;
+
+  /**
+   * The flags representing the default value of the '{@link #getNamespaceConstraintCategory() <em>Namespace Constraint Category</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_DEFAULT = NAMESPACE_CONSTRAINT_CATEGORY_EDEFAULT.ordinal() << NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDNamespaceConstraintCategory Namespace Constraint Category}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDNamespaceConstraintCategory[] NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_VALUES = XSDNamespaceConstraintCategory.values();
+
+  /**
+   * The flags representing the value of the '{@link #getNamespaceConstraintCategory() <em>Namespace Constraint Category</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getNamespaceConstraintCategory()
    * @generated
    * @ordered
    */
-  protected XSDNamespaceConstraintCategory namespaceConstraintCategory = NAMESPACE_CONSTRAINT_CATEGORY_EDEFAULT;
+  protected static final int NAMESPACE_CONSTRAINT_CATEGORY_EFLAG = 0x3 << NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_OFFSET;
 
   /**
    * The cached value of the '{@link #getNamespaceConstraint() <em>Namespace Constraint</em>}' attribute list.
@@ -112,14 +139,41 @@ public class XSDWildcardImpl
   protected static final XSDProcessContents PROCESS_CONTENTS_EDEFAULT = XSDProcessContents.STRICT_LITERAL;
 
   /**
-   * The cached value of the '{@link #getProcessContents() <em>Process Contents</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getProcessContents() <em>Process Contents</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int PROCESS_CONTENTS_EFLAG_OFFSET = 10;
+
+  /**
+   * The flags representing the default value of the '{@link #getProcessContents() <em>Process Contents</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int PROCESS_CONTENTS_EFLAG_DEFAULT = PROCESS_CONTENTS_EDEFAULT.ordinal() << PROCESS_CONTENTS_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDProcessContents Process Contents}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDProcessContents[] PROCESS_CONTENTS_EFLAG_VALUES = XSDProcessContents.values();
+
+  /**
+   * The flags representing the value of the '{@link #getProcessContents() <em>Process Contents</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getProcessContents()
    * @generated
    * @ordered
    */
-  protected XSDProcessContents processContents = PROCESS_CONTENTS_EDEFAULT;
+  protected static final int PROCESS_CONTENTS_EFLAG = 0x3 << PROCESS_CONTENTS_EFLAG_OFFSET;
 
   /**
    * The flag representing whether the Process Contents attribute has been set.
@@ -128,7 +182,7 @@ public class XSDWildcardImpl
    * @generated
    * @ordered
    */
-  protected static final int PROCESS_CONTENTS_ESETFLAG = 1 << 8;
+  protected static final int PROCESS_CONTENTS_ESETFLAG = 1 << 12;
 
   /**
    * The cached value of the '{@link #getLexicalNamespaceConstraint() <em>Lexical Namespace Constraint</em>}' attribute list.
@@ -204,7 +258,7 @@ public class XSDWildcardImpl
    */
   public XSDNamespaceConstraintCategory getNamespaceConstraintCategory()
   {
-    return namespaceConstraintCategory;
+    return NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & NAMESPACE_CONSTRAINT_CATEGORY_EFLAG) >>> NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_OFFSET];
   }
 
   /**
@@ -214,10 +268,11 @@ public class XSDWildcardImpl
    */
   public void setNamespaceConstraintCategory(XSDNamespaceConstraintCategory newNamespaceConstraintCategory)
   {
-    XSDNamespaceConstraintCategory oldNamespaceConstraintCategory = namespaceConstraintCategory;
-    namespaceConstraintCategory = newNamespaceConstraintCategory == null ? NAMESPACE_CONSTRAINT_CATEGORY_EDEFAULT : newNamespaceConstraintCategory;
+    XSDNamespaceConstraintCategory oldNamespaceConstraintCategory = NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & NAMESPACE_CONSTRAINT_CATEGORY_EFLAG) >>> NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_OFFSET];
+    if (newNamespaceConstraintCategory == null) newNamespaceConstraintCategory = NAMESPACE_CONSTRAINT_CATEGORY_EDEFAULT;
+    eFlags = eFlags & ~NAMESPACE_CONSTRAINT_CATEGORY_EFLAG | newNamespaceConstraintCategory.ordinal() << NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_OFFSET;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT_CATEGORY, oldNamespaceConstraintCategory, namespaceConstraintCategory));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT_CATEGORY, oldNamespaceConstraintCategory, newNamespaceConstraintCategory));
   }
 
   /**
@@ -241,7 +296,7 @@ public class XSDWildcardImpl
    */
   public XSDProcessContents getProcessContents()
   {
-    return processContents;
+    return PROCESS_CONTENTS_EFLAG_VALUES[(eFlags & PROCESS_CONTENTS_EFLAG) >>> PROCESS_CONTENTS_EFLAG_OFFSET];
   }
 
   /**
@@ -251,12 +306,13 @@ public class XSDWildcardImpl
    */
   public void setProcessContents(XSDProcessContents newProcessContents)
   {
-    XSDProcessContents oldProcessContents = processContents;
-    processContents = newProcessContents == null ? PROCESS_CONTENTS_EDEFAULT : newProcessContents;
+    XSDProcessContents oldProcessContents = PROCESS_CONTENTS_EFLAG_VALUES[(eFlags & PROCESS_CONTENTS_EFLAG) >>> PROCESS_CONTENTS_EFLAG_OFFSET];
+    if (newProcessContents == null) newProcessContents = PROCESS_CONTENTS_EDEFAULT;
+    eFlags = eFlags & ~PROCESS_CONTENTS_EFLAG | newProcessContents.ordinal() << PROCESS_CONTENTS_EFLAG_OFFSET;
     boolean oldProcessContentsESet = (eFlags & PROCESS_CONTENTS_ESETFLAG) != 0;
     eFlags |= PROCESS_CONTENTS_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_WILDCARD__PROCESS_CONTENTS, oldProcessContents, processContents, !oldProcessContentsESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_WILDCARD__PROCESS_CONTENTS, oldProcessContents, newProcessContents, !oldProcessContentsESet));
   }
 
   /**
@@ -266,9 +322,9 @@ public class XSDWildcardImpl
    */
   public void unsetProcessContents()
   {
-    XSDProcessContents oldProcessContents = processContents;
+    XSDProcessContents oldProcessContents = PROCESS_CONTENTS_EFLAG_VALUES[(eFlags & PROCESS_CONTENTS_EFLAG) >>> PROCESS_CONTENTS_EFLAG_OFFSET];
     boolean oldProcessContentsESet = (eFlags & PROCESS_CONTENTS_ESETFLAG) != 0;
-    processContents = PROCESS_CONTENTS_EDEFAULT;
+    eFlags = eFlags & ~PROCESS_CONTENTS_EFLAG | PROCESS_CONTENTS_EFLAG_DEFAULT;
     eFlags &= ~PROCESS_CONTENTS_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_WILDCARD__PROCESS_CONTENTS, oldProcessContents, PROCESS_CONTENTS_EDEFAULT, oldProcessContentsESet));
@@ -501,7 +557,7 @@ public class XSDWildcardImpl
     switch (featureID)
     {
       case XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT_CATEGORY:
-        return namespaceConstraintCategory != NAMESPACE_CONSTRAINT_CATEGORY_EDEFAULT;
+        return (eFlags & NAMESPACE_CONSTRAINT_CATEGORY_EFLAG) != NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_DEFAULT;
       case XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT:
         return namespaceConstraint != null && !namespaceConstraint.isEmpty();
       case XSDPackage.XSD_WILDCARD__PROCESS_CONTENTS:
@@ -528,11 +584,11 @@ public class XSDWildcardImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (namespaceConstraintCategory: ");
-    result.append(namespaceConstraintCategory);
+    result.append(NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & NAMESPACE_CONSTRAINT_CATEGORY_EFLAG) >>> NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_OFFSET]);
     result.append(", namespaceConstraint: ");
     result.append(namespaceConstraint);
     result.append(", processContents: ");
-    if ((eFlags & PROCESS_CONTENTS_ESETFLAG) != 0) result.append(processContents); else result.append("<unset>");
+    if ((eFlags & PROCESS_CONTENTS_ESETFLAG) != 0) result.append(PROCESS_CONTENTS_EFLAG_VALUES[(eFlags & PROCESS_CONTENTS_EFLAG) >>> PROCESS_CONTENTS_EFLAG_OFFSET]); else result.append("<unset>");
     result.append(", lexicalNamespaceConstraint: ");
     result.append(lexicalNamespaceConstraint);
     result.append(')');

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFeatureImpl.java,v 1.14 2007/11/26 12:20:54 emerks Exp $
+ * $Id: XSDFeatureImpl.java,v 1.15 2008/04/18 15:44:12 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -95,14 +95,41 @@ public abstract class XSDFeatureImpl
   protected static final XSDConstraint CONSTRAINT_EDEFAULT = XSDConstraint.DEFAULT_LITERAL;
 
   /**
-   * The cached value of the '{@link #getConstraint() <em>Constraint</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getConstraint() <em>Constraint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int CONSTRAINT_EFLAG_OFFSET = 8;
+
+  /**
+   * The flags representing the default value of the '{@link #getConstraint() <em>Constraint</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int CONSTRAINT_EFLAG_DEFAULT = CONSTRAINT_EDEFAULT.ordinal() << CONSTRAINT_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDConstraint Constraint}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDConstraint[] CONSTRAINT_EFLAG_VALUES = XSDConstraint.values();
+
+  /**
+   * The flag representing the value of the '{@link #getConstraint() <em>Constraint</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getConstraint()
    * @generated
    * @ordered
    */
-  protected XSDConstraint constraint = CONSTRAINT_EDEFAULT;
+  protected static final int CONSTRAINT_EFLAG = 1 << CONSTRAINT_EFLAG_OFFSET;
 
   /**
    * The flag representing whether the Constraint attribute has been set.
@@ -111,7 +138,7 @@ public abstract class XSDFeatureImpl
    * @generated
    * @ordered
    */
-  protected static final int CONSTRAINT_ESETFLAG = 1 << 8;
+  protected static final int CONSTRAINT_ESETFLAG = 1 << 9;
 
   /**
    * The default value of the '{@link #getForm() <em>Form</em>}' attribute.
@@ -124,14 +151,41 @@ public abstract class XSDFeatureImpl
   protected static final XSDForm FORM_EDEFAULT = XSDForm.QUALIFIED_LITERAL;
 
   /**
-   * The cached value of the '{@link #getForm() <em>Form</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getForm() <em>Form</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int FORM_EFLAG_OFFSET = 10;
+
+  /**
+   * The flags representing the default value of the '{@link #getForm() <em>Form</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int FORM_EFLAG_DEFAULT = FORM_EDEFAULT.ordinal() << FORM_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDForm Form}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDForm[] FORM_EFLAG_VALUES = XSDForm.values();
+
+  /**
+   * The flag representing the value of the '{@link #getForm() <em>Form</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getForm()
    * @generated
    * @ordered
    */
-  protected XSDForm form = FORM_EDEFAULT;
+  protected static final int FORM_EFLAG = 1 << FORM_EFLAG_OFFSET;
 
   /**
    * The flag representing whether the Form attribute has been set.
@@ -140,7 +194,7 @@ public abstract class XSDFeatureImpl
    * @generated
    * @ordered
    */
-  protected static final int FORM_ESETFLAG = 1 << 9;
+  protected static final int FORM_ESETFLAG = 1 << 11;
 
   /**
    * The default value of the '{@link #getLexicalValue() <em>Lexical Value</em>}' attribute.
@@ -233,7 +287,7 @@ public abstract class XSDFeatureImpl
    */
   public XSDConstraint getConstraint()
   {
-    return constraint;
+    return CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
   }
 
   /**
@@ -243,12 +297,13 @@ public abstract class XSDFeatureImpl
    */
   public void setConstraint(XSDConstraint newConstraint)
   {
-    XSDConstraint oldConstraint = constraint;
-    constraint = newConstraint == null ? CONSTRAINT_EDEFAULT : newConstraint;
+    XSDConstraint oldConstraint = CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
+    if (newConstraint == null) newConstraint = CONSTRAINT_EDEFAULT;
+    eFlags = eFlags & ~CONSTRAINT_EFLAG | newConstraint.ordinal() << CONSTRAINT_EFLAG_OFFSET;
     boolean oldConstraintESet = (eFlags & CONSTRAINT_ESETFLAG) != 0;
     eFlags |= CONSTRAINT_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_FEATURE__CONSTRAINT, oldConstraint, constraint, !oldConstraintESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_FEATURE__CONSTRAINT, oldConstraint, newConstraint, !oldConstraintESet));
   }
 
   /**
@@ -258,9 +313,9 @@ public abstract class XSDFeatureImpl
    */
   public void unsetConstraint()
   {
-    XSDConstraint oldConstraint = constraint;
+    XSDConstraint oldConstraint = CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
     boolean oldConstraintESet = (eFlags & CONSTRAINT_ESETFLAG) != 0;
-    constraint = CONSTRAINT_EDEFAULT;
+    eFlags = eFlags & ~CONSTRAINT_EFLAG | CONSTRAINT_EFLAG_DEFAULT;
     eFlags &= ~CONSTRAINT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_FEATURE__CONSTRAINT, oldConstraint, CONSTRAINT_EDEFAULT, oldConstraintESet));
@@ -283,7 +338,7 @@ public abstract class XSDFeatureImpl
    */
   public XSDForm getForm()
   {
-    return form;
+    return FORM_EFLAG_VALUES[(eFlags & FORM_EFLAG) >>> FORM_EFLAG_OFFSET];
   }
 
   /**
@@ -293,12 +348,13 @@ public abstract class XSDFeatureImpl
    */
   public void setForm(XSDForm newForm)
   {
-    XSDForm oldForm = form;
-    form = newForm == null ? FORM_EDEFAULT : newForm;
+    XSDForm oldForm = FORM_EFLAG_VALUES[(eFlags & FORM_EFLAG) >>> FORM_EFLAG_OFFSET];
+    if (newForm == null) newForm = FORM_EDEFAULT;
+    eFlags = eFlags & ~FORM_EFLAG | newForm.ordinal() << FORM_EFLAG_OFFSET;
     boolean oldFormESet = (eFlags & FORM_ESETFLAG) != 0;
     eFlags |= FORM_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_FEATURE__FORM, oldForm, form, !oldFormESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_FEATURE__FORM, oldForm, newForm, !oldFormESet));
   }
 
   /**
@@ -308,9 +364,9 @@ public abstract class XSDFeatureImpl
    */
   public void unsetForm()
   {
-    XSDForm oldForm = form;
+    XSDForm oldForm = FORM_EFLAG_VALUES[(eFlags & FORM_EFLAG) >>> FORM_EFLAG_OFFSET];
     boolean oldFormESet = (eFlags & FORM_ESETFLAG) != 0;
-    form = FORM_EDEFAULT;
+    eFlags = eFlags & ~FORM_EFLAG | FORM_EFLAG_DEFAULT;
     eFlags &= ~FORM_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_FEATURE__FORM, oldForm, FORM_EDEFAULT, oldFormESet));
@@ -539,9 +595,9 @@ public abstract class XSDFeatureImpl
     result.append(" (value: ");
     result.append(value);
     result.append(", constraint: ");
-    if ((eFlags & CONSTRAINT_ESETFLAG) != 0) result.append(constraint); else result.append("<unset>");
+    if ((eFlags & CONSTRAINT_ESETFLAG) != 0) result.append(CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET]); else result.append("<unset>");
     result.append(", form: ");
-    if ((eFlags & FORM_ESETFLAG) != 0) result.append(form); else result.append("<unset>");
+    if ((eFlags & FORM_ESETFLAG) != 0) result.append(FORM_EFLAG_VALUES[(eFlags & FORM_EFLAG) >>> FORM_EFLAG_OFFSET]); else result.append("<unset>");
     result.append(", lexicalValue: ");
     result.append(lexicalValue);
     result.append(')');

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWhiteSpaceFacetImpl.java,v 1.11 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDWhiteSpaceFacetImpl.java,v 1.12 2008/04/18 15:44:12 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -67,14 +67,41 @@ public class XSDWhiteSpaceFacetImpl
   protected static final XSDWhiteSpace VALUE_EDEFAULT = XSDWhiteSpace.PRESERVE_LITERAL;
 
   /**
-   * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getValue() <em>Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int VALUE_EFLAG_OFFSET = 10;
+
+  /**
+   * The flags representing the default value of the '{@link #getValue() <em>Value</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int VALUE_EFLAG_DEFAULT = VALUE_EDEFAULT.ordinal() << VALUE_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDWhiteSpace White Space}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDWhiteSpace[] VALUE_EFLAG_VALUES = XSDWhiteSpace.values();
+
+  /**
+   * The flags representing the value of the '{@link #getValue() <em>Value</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getValue()
    * @generated
    * @ordered
    */
-  protected XSDWhiteSpace value = VALUE_EDEFAULT;
+  protected static final int VALUE_EFLAG = 0x3 << VALUE_EFLAG_OFFSET;
 
   public static XSDWhiteSpaceFacet createWhiteSpaceFacet(Node node)
   {
@@ -116,7 +143,7 @@ public class XSDWhiteSpaceFacetImpl
    */
   public XSDWhiteSpace getValue()
   {
-    return value;
+    return VALUE_EFLAG_VALUES[(eFlags & VALUE_EFLAG) >>> VALUE_EFLAG_OFFSET];
   }
 
   /**
@@ -126,10 +153,11 @@ public class XSDWhiteSpaceFacetImpl
    */
   public void setValue(XSDWhiteSpace newValue)
   {
-    XSDWhiteSpace oldValue = value;
-    value = newValue == null ? VALUE_EDEFAULT : newValue;
+    XSDWhiteSpace oldValue = VALUE_EFLAG_VALUES[(eFlags & VALUE_EFLAG) >>> VALUE_EFLAG_OFFSET];
+    if (newValue == null) newValue = VALUE_EDEFAULT;
+    eFlags = eFlags & ~VALUE_EFLAG | newValue.ordinal() << VALUE_EFLAG_OFFSET;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_WHITE_SPACE_FACET__VALUE, oldValue, value));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_WHITE_SPACE_FACET__VALUE, oldValue, newValue));
   }
 
   /**
@@ -193,7 +221,7 @@ public class XSDWhiteSpaceFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_WHITE_SPACE_FACET__VALUE:
-        return value != VALUE_EDEFAULT;
+        return (eFlags & VALUE_EFLAG) != VALUE_EFLAG_DEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -210,7 +238,7 @@ public class XSDWhiteSpaceFacetImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (value: ");
-    result.append(value);
+    result.append(VALUE_EFLAG_VALUES[(eFlags & VALUE_EFLAG) >>> VALUE_EFLAG_OFFSET]);
     result.append(')');
     return result.toString();
   }

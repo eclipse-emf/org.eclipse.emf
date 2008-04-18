@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDXPathDefinitionImpl.java,v 1.10 2007/02/20 17:42:20 emerks Exp $
+ * $Id: XSDXPathDefinitionImpl.java,v 1.11 2008/04/18 15:44:13 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -66,14 +66,41 @@ public class XSDXPathDefinitionImpl
   protected static final XSDXPathVariety VARIETY_EDEFAULT = XSDXPathVariety.SELECTOR_LITERAL;
 
   /**
-   * The cached value of the '{@link #getVariety() <em>Variety</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getVariety() <em>Variety</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int VARIETY_EFLAG_OFFSET = 8;
+
+  /**
+   * The flags representing the default value of the '{@link #getVariety() <em>Variety</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int VARIETY_EFLAG_DEFAULT = VARIETY_EDEFAULT.ordinal() << VARIETY_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDXPathVariety XPath Variety}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDXPathVariety[] VARIETY_EFLAG_VALUES = XSDXPathVariety.values();
+
+  /**
+   * The flag representing the value of the '{@link #getVariety() <em>Variety</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getVariety()
    * @generated
    * @ordered
    */
-  protected XSDXPathVariety variety = VARIETY_EDEFAULT;
+  protected static final int VARIETY_EFLAG = 1 << VARIETY_EFLAG_OFFSET;
 
   /**
    * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -149,7 +176,7 @@ public class XSDXPathDefinitionImpl
    */
   public XSDXPathVariety getVariety()
   {
-    return variety;
+    return VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET];
   }
 
   /**
@@ -159,10 +186,11 @@ public class XSDXPathDefinitionImpl
    */
   public void setVariety(XSDXPathVariety newVariety)
   {
-    XSDXPathVariety oldVariety = variety;
-    variety = newVariety == null ? VARIETY_EDEFAULT : newVariety;
+    XSDXPathVariety oldVariety = VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET];
+    if (newVariety == null) newVariety = VARIETY_EDEFAULT;
+    eFlags = eFlags & ~VARIETY_EFLAG | newVariety.ordinal() << VARIETY_EFLAG_OFFSET;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_XPATH_DEFINITION__VARIETY, oldVariety, variety));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_XPATH_DEFINITION__VARIETY, oldVariety, newVariety));
   }
 
   /**
@@ -329,7 +357,7 @@ public class XSDXPathDefinitionImpl
     switch (featureID)
     {
       case XSDPackage.XSD_XPATH_DEFINITION__VARIETY:
-        return variety != VARIETY_EDEFAULT;
+        return (eFlags & VARIETY_EFLAG) != VARIETY_EFLAG_DEFAULT;
       case XSDPackage.XSD_XPATH_DEFINITION__VALUE:
         return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
       case XSDPackage.XSD_XPATH_DEFINITION__ANNOTATION:
@@ -350,7 +378,7 @@ public class XSDXPathDefinitionImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (variety: ");
-    result.append(variety);
+    result.append(VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET]);
     result.append(", value: ");
     result.append(value);
     result.append(')');

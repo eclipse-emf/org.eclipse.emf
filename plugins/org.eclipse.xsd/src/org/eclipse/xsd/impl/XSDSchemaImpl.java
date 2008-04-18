@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.41 2008/02/28 21:03:37 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.42 2008/04/18 15:44:13 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -203,14 +203,41 @@ public class XSDSchemaImpl
   protected static final XSDForm ATTRIBUTE_FORM_DEFAULT_EDEFAULT = XSDForm.UNQUALIFIED_LITERAL;
 
   /**
-   * The cached value of the '{@link #getAttributeFormDefault() <em>Attribute Form Default</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getAttributeFormDefault() <em>Attribute Form Default</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int ATTRIBUTE_FORM_DEFAULT_EFLAG_OFFSET = 8;
+
+  /**
+   * The flags representing the default value of the '{@link #getAttributeFormDefault() <em>Attribute Form Default</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int ATTRIBUTE_FORM_DEFAULT_EFLAG_DEFAULT = ATTRIBUTE_FORM_DEFAULT_EDEFAULT.ordinal() << ATTRIBUTE_FORM_DEFAULT_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDForm Form}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDForm[] ATTRIBUTE_FORM_DEFAULT_EFLAG_VALUES = XSDForm.values();
+
+  /**
+   * The flag representing the value of the '{@link #getAttributeFormDefault() <em>Attribute Form Default</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getAttributeFormDefault()
    * @generated
    * @ordered
    */
-  protected XSDForm attributeFormDefault = ATTRIBUTE_FORM_DEFAULT_EDEFAULT;
+  protected static final int ATTRIBUTE_FORM_DEFAULT_EFLAG = 1 << ATTRIBUTE_FORM_DEFAULT_EFLAG_OFFSET;
 
   /**
    * The flag representing whether the Attribute Form Default attribute has been set.
@@ -219,7 +246,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected static final int ATTRIBUTE_FORM_DEFAULT_ESETFLAG = 1 << 8;
+  protected static final int ATTRIBUTE_FORM_DEFAULT_ESETFLAG = 1 << 9;
 
   /**
    * The default value of the '{@link #getElementFormDefault() <em>Element Form Default</em>}' attribute.
@@ -232,14 +259,41 @@ public class XSDSchemaImpl
   protected static final XSDForm ELEMENT_FORM_DEFAULT_EDEFAULT = XSDForm.UNQUALIFIED_LITERAL;
 
   /**
-   * The cached value of the '{@link #getElementFormDefault() <em>Element Form Default</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getElementFormDefault() <em>Element Form Default</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int ELEMENT_FORM_DEFAULT_EFLAG_OFFSET = 10;
+
+  /**
+   * The flags representing the default value of the '{@link #getElementFormDefault() <em>Element Form Default</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int ELEMENT_FORM_DEFAULT_EFLAG_DEFAULT = ELEMENT_FORM_DEFAULT_EDEFAULT.ordinal() << ELEMENT_FORM_DEFAULT_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDForm Form}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDForm[] ELEMENT_FORM_DEFAULT_EFLAG_VALUES = XSDForm.values();
+
+  /**
+   * The flag representing the value of the '{@link #getElementFormDefault() <em>Element Form Default</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getElementFormDefault()
    * @generated
    * @ordered
    */
-  protected XSDForm elementFormDefault = ELEMENT_FORM_DEFAULT_EDEFAULT;
+  protected static final int ELEMENT_FORM_DEFAULT_EFLAG = 1 << ELEMENT_FORM_DEFAULT_EFLAG_OFFSET;
 
   /**
    * The flag representing whether the Element Form Default attribute has been set.
@@ -248,7 +302,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected static final int ELEMENT_FORM_DEFAULT_ESETFLAG = 1 << 9;
+  protected static final int ELEMENT_FORM_DEFAULT_ESETFLAG = 1 << 11;
 
   /**
    * The cached value of the '{@link #getFinalDefault() <em>Final Default</em>}' attribute list.
@@ -778,6 +832,8 @@ public class XSDSchemaImpl
   protected XSDSchemaImpl()
   {
     super();
+    eFlags |= ATTRIBUTE_FORM_DEFAULT_EFLAG_DEFAULT;
+    eFlags |= ELEMENT_FORM_DEFAULT_EFLAG_DEFAULT;
   }
 
   /**
@@ -867,7 +923,7 @@ public class XSDSchemaImpl
    */
   public XSDForm getAttributeFormDefault()
   {
-    return attributeFormDefault;
+    return ATTRIBUTE_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ATTRIBUTE_FORM_DEFAULT_EFLAG) >>> ATTRIBUTE_FORM_DEFAULT_EFLAG_OFFSET];
   }
 
   /**
@@ -877,12 +933,13 @@ public class XSDSchemaImpl
    */
   public void setAttributeFormDefault(XSDForm newAttributeFormDefault)
   {
-    XSDForm oldAttributeFormDefault = attributeFormDefault;
-    attributeFormDefault = newAttributeFormDefault == null ? ATTRIBUTE_FORM_DEFAULT_EDEFAULT : newAttributeFormDefault;
+    XSDForm oldAttributeFormDefault = ATTRIBUTE_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ATTRIBUTE_FORM_DEFAULT_EFLAG) >>> ATTRIBUTE_FORM_DEFAULT_EFLAG_OFFSET];
+    if (newAttributeFormDefault == null) newAttributeFormDefault = ATTRIBUTE_FORM_DEFAULT_EDEFAULT;
+    eFlags = eFlags & ~ATTRIBUTE_FORM_DEFAULT_EFLAG | newAttributeFormDefault.ordinal() << ATTRIBUTE_FORM_DEFAULT_EFLAG_OFFSET;
     boolean oldAttributeFormDefaultESet = (eFlags & ATTRIBUTE_FORM_DEFAULT_ESETFLAG) != 0;
     eFlags |= ATTRIBUTE_FORM_DEFAULT_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_SCHEMA__ATTRIBUTE_FORM_DEFAULT, oldAttributeFormDefault, attributeFormDefault, !oldAttributeFormDefaultESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_SCHEMA__ATTRIBUTE_FORM_DEFAULT, oldAttributeFormDefault, newAttributeFormDefault, !oldAttributeFormDefaultESet));
   }
 
   /**
@@ -892,9 +949,9 @@ public class XSDSchemaImpl
    */
   public void unsetAttributeFormDefault()
   {
-    XSDForm oldAttributeFormDefault = attributeFormDefault;
+    XSDForm oldAttributeFormDefault = ATTRIBUTE_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ATTRIBUTE_FORM_DEFAULT_EFLAG) >>> ATTRIBUTE_FORM_DEFAULT_EFLAG_OFFSET];
     boolean oldAttributeFormDefaultESet = (eFlags & ATTRIBUTE_FORM_DEFAULT_ESETFLAG) != 0;
-    attributeFormDefault = ATTRIBUTE_FORM_DEFAULT_EDEFAULT;
+    eFlags = eFlags & ~ATTRIBUTE_FORM_DEFAULT_EFLAG | ATTRIBUTE_FORM_DEFAULT_EFLAG_DEFAULT;
     eFlags &= ~ATTRIBUTE_FORM_DEFAULT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_SCHEMA__ATTRIBUTE_FORM_DEFAULT, oldAttributeFormDefault, ATTRIBUTE_FORM_DEFAULT_EDEFAULT, oldAttributeFormDefaultESet));
@@ -917,7 +974,7 @@ public class XSDSchemaImpl
    */
   public XSDForm getElementFormDefault()
   {
-    return elementFormDefault;
+    return ELEMENT_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ELEMENT_FORM_DEFAULT_EFLAG) >>> ELEMENT_FORM_DEFAULT_EFLAG_OFFSET];
   }
 
   /**
@@ -927,12 +984,13 @@ public class XSDSchemaImpl
    */
   public void setElementFormDefault(XSDForm newElementFormDefault)
   {
-    XSDForm oldElementFormDefault = elementFormDefault;
-    elementFormDefault = newElementFormDefault == null ? ELEMENT_FORM_DEFAULT_EDEFAULT : newElementFormDefault;
+    XSDForm oldElementFormDefault = ELEMENT_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ELEMENT_FORM_DEFAULT_EFLAG) >>> ELEMENT_FORM_DEFAULT_EFLAG_OFFSET];
+    if (newElementFormDefault == null) newElementFormDefault = ELEMENT_FORM_DEFAULT_EDEFAULT;
+    eFlags = eFlags & ~ELEMENT_FORM_DEFAULT_EFLAG | newElementFormDefault.ordinal() << ELEMENT_FORM_DEFAULT_EFLAG_OFFSET;
     boolean oldElementFormDefaultESet = (eFlags & ELEMENT_FORM_DEFAULT_ESETFLAG) != 0;
     eFlags |= ELEMENT_FORM_DEFAULT_ESETFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_SCHEMA__ELEMENT_FORM_DEFAULT, oldElementFormDefault, elementFormDefault, !oldElementFormDefaultESet));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_SCHEMA__ELEMENT_FORM_DEFAULT, oldElementFormDefault, newElementFormDefault, !oldElementFormDefaultESet));
   }
 
   /**
@@ -942,9 +1000,9 @@ public class XSDSchemaImpl
    */
   public void unsetElementFormDefault()
   {
-    XSDForm oldElementFormDefault = elementFormDefault;
+    XSDForm oldElementFormDefault = ELEMENT_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ELEMENT_FORM_DEFAULT_EFLAG) >>> ELEMENT_FORM_DEFAULT_EFLAG_OFFSET];
     boolean oldElementFormDefaultESet = (eFlags & ELEMENT_FORM_DEFAULT_ESETFLAG) != 0;
-    elementFormDefault = ELEMENT_FORM_DEFAULT_EDEFAULT;
+    eFlags = eFlags & ~ELEMENT_FORM_DEFAULT_EFLAG | ELEMENT_FORM_DEFAULT_EFLAG_DEFAULT;
     eFlags &= ~ELEMENT_FORM_DEFAULT_ESETFLAG;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.UNSET, XSDPackage.XSD_SCHEMA__ELEMENT_FORM_DEFAULT, oldElementFormDefault, ELEMENT_FORM_DEFAULT_EDEFAULT, oldElementFormDefaultESet));
@@ -2875,9 +2933,9 @@ public class XSDSchemaImpl
     result.append(", targetNamespace: ");
     result.append(targetNamespace);
     result.append(", attributeFormDefault: ");
-    if ((eFlags & ATTRIBUTE_FORM_DEFAULT_ESETFLAG) != 0) result.append(attributeFormDefault); else result.append("<unset>");
+    if ((eFlags & ATTRIBUTE_FORM_DEFAULT_ESETFLAG) != 0) result.append(ATTRIBUTE_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ATTRIBUTE_FORM_DEFAULT_EFLAG) >>> ATTRIBUTE_FORM_DEFAULT_EFLAG_OFFSET]); else result.append("<unset>");
     result.append(", elementFormDefault: ");
-    if ((eFlags & ELEMENT_FORM_DEFAULT_ESETFLAG) != 0) result.append(elementFormDefault); else result.append("<unset>");
+    if ((eFlags & ELEMENT_FORM_DEFAULT_ESETFLAG) != 0) result.append(ELEMENT_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ELEMENT_FORM_DEFAULT_EFLAG) >>> ELEMENT_FORM_DEFAULT_EFLAG_OFFSET]); else result.append("<unset>");
     result.append(", finalDefault: ");
     result.append(finalDefault);
     result.append(", blockDefault: ");

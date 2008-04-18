@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.14 2007/07/10 14:33:34 emerks Exp $
+ * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.15 2008/04/18 15:44:12 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -80,14 +80,41 @@ public class XSDIdentityConstraintDefinitionImpl
   protected static final XSDIdentityConstraintCategory IDENTITY_CONSTRAINT_CATEGORY_EDEFAULT = XSDIdentityConstraintCategory.KEY_LITERAL;
 
   /**
-   * The cached value of the '{@link #getIdentityConstraintCategory() <em>Identity Constraint Category</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getIdentityConstraintCategory() <em>Identity Constraint Category</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int IDENTITY_CONSTRAINT_CATEGORY_EFLAG_OFFSET = 8;
+
+  /**
+   * The flags representing the default value of the '{@link #getIdentityConstraintCategory() <em>Identity Constraint Category</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int IDENTITY_CONSTRAINT_CATEGORY_EFLAG_DEFAULT = IDENTITY_CONSTRAINT_CATEGORY_EDEFAULT.ordinal() << IDENTITY_CONSTRAINT_CATEGORY_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDIdentityConstraintCategory Identity Constraint Category}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDIdentityConstraintCategory[] IDENTITY_CONSTRAINT_CATEGORY_EFLAG_VALUES = XSDIdentityConstraintCategory.values();
+
+  /**
+   * The flags representing the value of the '{@link #getIdentityConstraintCategory() <em>Identity Constraint Category</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getIdentityConstraintCategory()
    * @generated
    * @ordered
    */
-  protected XSDIdentityConstraintCategory identityConstraintCategory = IDENTITY_CONSTRAINT_CATEGORY_EDEFAULT;
+  protected static final int IDENTITY_CONSTRAINT_CATEGORY_EFLAG = 0x3 << IDENTITY_CONSTRAINT_CATEGORY_EFLAG_OFFSET;
 
   /**
    * The cached value of the '{@link #getAnnotation() <em>Annotation</em>}' containment reference.
@@ -175,7 +202,7 @@ public class XSDIdentityConstraintDefinitionImpl
    */
   public XSDIdentityConstraintCategory getIdentityConstraintCategory()
   {
-    return identityConstraintCategory;
+    return IDENTITY_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & IDENTITY_CONSTRAINT_CATEGORY_EFLAG) >>> IDENTITY_CONSTRAINT_CATEGORY_EFLAG_OFFSET];
   }
 
   /**
@@ -185,10 +212,11 @@ public class XSDIdentityConstraintDefinitionImpl
    */
   public void setIdentityConstraintCategory(XSDIdentityConstraintCategory newIdentityConstraintCategory)
   {
-    XSDIdentityConstraintCategory oldIdentityConstraintCategory = identityConstraintCategory;
-    identityConstraintCategory = newIdentityConstraintCategory == null ? IDENTITY_CONSTRAINT_CATEGORY_EDEFAULT : newIdentityConstraintCategory;
+    XSDIdentityConstraintCategory oldIdentityConstraintCategory = IDENTITY_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & IDENTITY_CONSTRAINT_CATEGORY_EFLAG) >>> IDENTITY_CONSTRAINT_CATEGORY_EFLAG_OFFSET];
+    if (newIdentityConstraintCategory == null) newIdentityConstraintCategory = IDENTITY_CONSTRAINT_CATEGORY_EDEFAULT;
+    eFlags = eFlags & ~IDENTITY_CONSTRAINT_CATEGORY_EFLAG | newIdentityConstraintCategory.ordinal() << IDENTITY_CONSTRAINT_CATEGORY_EFLAG_OFFSET;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__IDENTITY_CONSTRAINT_CATEGORY, oldIdentityConstraintCategory, identityConstraintCategory));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__IDENTITY_CONSTRAINT_CATEGORY, oldIdentityConstraintCategory, newIdentityConstraintCategory));
   }
 
   /**
@@ -439,7 +467,7 @@ public class XSDIdentityConstraintDefinitionImpl
     switch (featureID)
     {
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__IDENTITY_CONSTRAINT_CATEGORY:
-        return identityConstraintCategory != IDENTITY_CONSTRAINT_CATEGORY_EDEFAULT;
+        return (eFlags & IDENTITY_CONSTRAINT_CATEGORY_EFLAG) != IDENTITY_CONSTRAINT_CATEGORY_EFLAG_DEFAULT;
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ANNOTATION:
         return annotation != null;
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__REFERENCED_KEY:
@@ -464,7 +492,7 @@ public class XSDIdentityConstraintDefinitionImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (identityConstraintCategory: ");
-    result.append(identityConstraintCategory);
+    result.append(IDENTITY_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & IDENTITY_CONSTRAINT_CATEGORY_EFLAG) >>> IDENTITY_CONSTRAINT_CATEGORY_EFLAG_OFFSET]);
     result.append(')');
     return result.toString();
   }

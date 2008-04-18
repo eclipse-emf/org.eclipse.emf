@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticImpl.java,v 1.13 2007/02/20 17:42:21 emerks Exp $
+ * $Id: XSDDiagnosticImpl.java,v 1.14 2008/04/18 15:44:13 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -76,14 +76,41 @@ public class XSDDiagnosticImpl
   protected static final XSDDiagnosticSeverity SEVERITY_EDEFAULT = XSDDiagnosticSeverity.FATAL_LITERAL;
 
   /**
-   * The cached value of the '{@link #getSeverity() <em>Severity</em>}' attribute.
+   * The offset of the flags representing the value of the '{@link #getSeverity() <em>Severity</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int SEVERITY_EFLAG_OFFSET = 8;
+
+  /**
+   * The flags representing the default value of the '{@link #getSeverity() <em>Severity</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected static final int SEVERITY_EFLAG_DEFAULT = SEVERITY_EDEFAULT.ordinal() << SEVERITY_EFLAG_OFFSET;
+
+  /**
+   * The array of enumeration values for '{@link XSDDiagnosticSeverity Diagnostic Severity}'
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  private static final XSDDiagnosticSeverity[] SEVERITY_EFLAG_VALUES = XSDDiagnosticSeverity.values();
+
+  /**
+   * The flags representing the value of the '{@link #getSeverity() <em>Severity</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getSeverity()
    * @generated
    * @ordered
    */
-  protected XSDDiagnosticSeverity severity = SEVERITY_EDEFAULT;
+  protected static final int SEVERITY_EFLAG = 0x3 << SEVERITY_EFLAG_OFFSET;
 
   /**
    * The default value of the '{@link #getMessage() <em>Message</em>}' attribute.
@@ -273,7 +300,7 @@ public class XSDDiagnosticImpl
    */
   public XSDDiagnosticSeverity getSeverity()
   {
-    return severity;
+    return SEVERITY_EFLAG_VALUES[(eFlags & SEVERITY_EFLAG) >>> SEVERITY_EFLAG_OFFSET];
   }
 
   /**
@@ -283,10 +310,11 @@ public class XSDDiagnosticImpl
    */
   public void setSeverity(XSDDiagnosticSeverity newSeverity)
   {
-    XSDDiagnosticSeverity oldSeverity = severity;
-    severity = newSeverity == null ? SEVERITY_EDEFAULT : newSeverity;
+    XSDDiagnosticSeverity oldSeverity = SEVERITY_EFLAG_VALUES[(eFlags & SEVERITY_EFLAG) >>> SEVERITY_EFLAG_OFFSET];
+    if (newSeverity == null) newSeverity = SEVERITY_EDEFAULT;
+    eFlags = eFlags & ~SEVERITY_EFLAG | newSeverity.ordinal() << SEVERITY_EFLAG_OFFSET;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_DIAGNOSTIC__SEVERITY, oldSeverity, severity));
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_DIAGNOSTIC__SEVERITY, oldSeverity, newSeverity));
   }
 
   /**
@@ -710,7 +738,7 @@ public class XSDDiagnosticImpl
     switch (featureID)
     {
       case XSDPackage.XSD_DIAGNOSTIC__SEVERITY:
-        return severity != SEVERITY_EDEFAULT;
+        return (eFlags & SEVERITY_EFLAG) != SEVERITY_EFLAG_DEFAULT;
       case XSDPackage.XSD_DIAGNOSTIC__MESSAGE:
         return MESSAGE_EDEFAULT == null ? message != null : !MESSAGE_EDEFAULT.equals(message);
       case XSDPackage.XSD_DIAGNOSTIC__LOCATION_URI:
@@ -769,7 +797,7 @@ public class XSDDiagnosticImpl
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (severity: ");
-    result.append(severity);
+    result.append(SEVERITY_EFLAG_VALUES[(eFlags & SEVERITY_EFLAG) >>> SEVERITY_EFLAG_OFFSET]);
     result.append(", message: ");
     result.append(message);
     result.append(", locationURI: ");

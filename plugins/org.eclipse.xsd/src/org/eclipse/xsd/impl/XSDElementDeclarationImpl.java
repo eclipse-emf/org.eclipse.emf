@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.29 2008/01/30 19:26:53 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.30 2008/04/18 15:44:12 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -113,7 +113,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected static final int NILLABLE_EFLAG = 1 << 10;
+  protected static final int NILLABLE_EFLAG = 1 << 12;
 
   /**
    * The flag representing whether the Nillable attribute has been set.
@@ -122,7 +122,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected static final int NILLABLE_ESETFLAG = 1 << 11;
+  protected static final int NILLABLE_ESETFLAG = 1 << 13;
 
   /**
    * The cached value of the '{@link #getDisallowedSubstitutions() <em>Disallowed Substitutions</em>}' attribute list.
@@ -162,7 +162,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected static final int ABSTRACT_EFLAG = 1 << 12;
+  protected static final int ABSTRACT_EFLAG = 1 << 14;
 
   /**
    * The flag representing whether the Abstract attribute has been set.
@@ -171,7 +171,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected static final int ABSTRACT_ESETFLAG = 1 << 13;
+  protected static final int ABSTRACT_ESETFLAG = 1 << 15;
 
   /**
    * The cached value of the '{@link #getLexicalFinal() <em>Lexical Final</em>}' attribute list.
