@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.90 2008/04/17 20:35:55 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.91 2008/04/18 11:48:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3109,7 +3109,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         for (GenFeature genFeature : allGenFeatures)
         {
           if (genFeature.getGetAccessor().equals(genOperation.getName()) &&
-                genFeature.getType(GenClassImpl.this).equals(operationType) &&
+                (genFeature.getType(GenClassImpl.this).equals(operationType) || !extendsGenClassFeatures.contains(genFeature)) &&
                 (!hasBody || 
                     genFeature.isVolatile() && 
                       (!genFeature.isResolveProxies() || genFeature.isListType()) && 
