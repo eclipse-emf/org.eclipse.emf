@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapter.java,v 1.6 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenModelGeneratorAdapter.java,v 1.7 2008/04/18 04:33:56 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -455,7 +455,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
   @Override
   protected Diagnostic generateTests(Object object, Monitor monitor)
   {
-    monitor.beginTask("", 6);
+    monitor.beginTask("", 5);
 
     GenModel genModel = (GenModel)object;
     message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPackages_message");
@@ -497,7 +497,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
   {
     if (!genModel.sameModelTestsProject())
     {
-      if (genModel.isBundleManifest() && !exists(toURI(genModel.getTestsProjectDirectory()).appendSegment("plugin.xml")))
+      if (genModel.isBundleManifest())
       {
         message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsManifestMF_message");
         monitor.subTask(message);
@@ -511,22 +511,20 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       }
       else
       {
-        monitor.worked(1);
+        message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPluginXML_message");
+        monitor.subTask(message);
+        generateText
+          (genModel.getTestsProjectDirectory() + "/plugin.xml",
+           getJETEmitter(getJETEmitterDescriptors(), TESTS_PLUGIN_XML_ID),
+           null,
+           false,
+           MANIFEST_ENCODING,
+           createMonitor(monitor, 1));
       }
-
-      message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsPluginXML_message");
-      monitor.subTask(message);
-      generateText
-        (genModel.getTestsProjectDirectory() + "/plugin.xml",
-         getJETEmitter(getJETEmitterDescriptors(), TESTS_PLUGIN_XML_ID),
-         null,
-         false,
-         MANIFEST_ENCODING,
-         createMonitor(monitor, 1));
     }
     else
     {
-      monitor.worked(2);
+      monitor.worked(1);
     }
   }
 
