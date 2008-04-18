@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model.tests" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ManifestMF" version="$Id: manifest.mfjet,v 1.6 2008/03/10 19:14:06 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model.tests" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ManifestMF" version="$Id: manifest.mfjet,v 1.7 2008/04/18 04:01:30 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -19,7 +19,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: <%=genModel.getTestsPluginID()%>; singleton:=true
+Bundle-SymbolicName: <%=genModel.getTestsPluginID()%>;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-ClassPath: <%if (genModel.isRuntimeJar()) {%><%=genModel.getTestsPluginID()%>.jar<%}else{%>.<%}%>
 Bundle-Vendor: %providerName
