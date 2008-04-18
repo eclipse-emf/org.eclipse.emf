@@ -21,26 +21,30 @@
 
 <%@ include file="../Header.xmljetinc"%>
 
-<plugin<%if (genModel.isBundleManifest()) {%>><%} else {%>
-    name = "%pluginName"
-    id = "<%=genModel.getTestsPluginID()%>"
-    version = "1.0.0"
-    provider-name = "%providerName">
-
-  <requires>
-<%for (String pluginID : genModel.getTestsRequiredPlugins()) {%>
-    <import plugin="<%=pluginID%>" <%if (!pluginID.startsWith("org.eclipse.core.runtime")) {%>export="true"<%}%>/>
-<%}%>
-  </requires>
-
-  <runtime>
-<%if (genModel.isRuntimeJar()) {%>
-    <library name="<%=genModel.getTestsPluginID()%>.jar">
+<%if (genModel.isBundleManifest()) {%>
+<plugin>
 <%} else {%>
-    <library name=".">
-<%}%>
-      <export name="*"/>
-    </library>
-  </runtime>
+<plugin
+      name="%pluginName"
+      id="<%=genModel.getTestsPluginID()%>"
+      version="1.0.0"
+      provider-name="%providerName">
+
+   <requires>
+  <%for (String pluginID : genModel.getTestsRequiredPlugins()) {%>
+      <import plugin="<%=pluginID%>"<%if (!pluginID.startsWith("org.eclipse.core.runtime")) {%> export="true"<%}%>/>
+  <%}%>
+   </requires>
+
+   <runtime>
+  <%if (genModel.isRuntimeJar()) {%>
+      <library name="<%=genModel.getTestsPluginID()%>.jar">
+  <%} else {%>
+      <library name=".">
+  <%}%>
+         <export name="*"/>
+      </library>
+   </runtime>
+
 <%}%>
 </plugin>

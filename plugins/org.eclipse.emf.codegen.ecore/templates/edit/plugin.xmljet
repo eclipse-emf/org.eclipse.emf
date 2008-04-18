@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.18 2008/04/15 03:12:55 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.19 2008/04/18 04:02:05 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -21,50 +21,54 @@
 
 <%@ include file="../Header.xmljetinc"%>
 
-<plugin<%if (genModel.isBundleManifest()) {%>><%} else {%>
-    name = "%pluginName"
-    id = "<%=genModel.getEditPluginID()%>"
-    version = "1.0.0"
-    provider-name = "%providerName"
-    class = "<%=genModel.getQualifiedEditPluginClassName()%>$Implementation">
-
-  <requires>
-<%for (String pluginID : genModel.getEditRequiredPlugins()) {%>
-    <import plugin="<%=pluginID%>" <%if (!pluginID.startsWith("org.eclipse.core.runtime")) {%>export="true"<%}%>/>
-<%}%>
-  </requires>
-
-  <runtime>
-<%if (genModel.isRuntimeJar()) {%>
-    <library name="<%=genModel.getEditPluginID()%>.jar">
+<%if (genModel.isBundleManifest()) {%>
+<plugin>
 <%} else {%>
-    <library name=".">
-<%}%>
-      <export name="*"/>
-    </library>
-  </runtime>
-<%}%>
-<% for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
-  <%if (!genPackage.getGenClasses().isEmpty()) {%>
-    
-  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-    <factory 
-       uri = "<%=genPackage.getNSURI()%>" 
-       class = "<%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>" 
-       supportedTypes = 
-  <%for (ListIterator<?> j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {%>
-         <%=(j.hasPrevious()? " " : "\"") + j.next() + (j.hasNext() ? "" : "\"")%><%}%> />
-  </extension>
-  <%if (genPackage.isChildCreationExtenders()) { Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> extendedChildCreationData = genPackage.getExtendedChildCreationData();%>
-    <%if (!extendedChildCreationData.isEmpty()) {%>
+<plugin
+      name="%pluginName"
+      id="<%=genModel.getEditPluginID()%>"
+      version="1.0.0"
+      provider-name="%providerName"
+      class="<%=genModel.getQualifiedEditPluginClassName()%>$Implementation">
 
-  <extension point="org.eclipse.emf.edit.childCreationExtenders">
+   <requires>
+  <%for (String pluginID : genModel.getEditRequiredPlugins()) {%>
+      <import plugin="<%=pluginID%>"<%if (!pluginID.startsWith("org.eclipse.core.runtime")) {%> export="true"<%}%>/>
+  <%}%>
+   </requires>
+
+   <runtime>
+  <%if (genModel.isRuntimeJar()) {%>
+      <library name="<%=genModel.getEditPluginID()%>.jar">
+  <%} else {%>
+      <library name=".">
+  <%}%>
+         <export name="*"/>
+      </library>
+   </runtime>
+<%}%>
+<%for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
+  <%if (!genPackage.getGenClasses().isEmpty()) {%>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <factory
+            uri="<%=genPackage.getNSURI()%>"
+            class="<%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>"
+            supportedTypes=
+    <%for (ListIterator<?> j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {%>
+              <%=j.hasPrevious() ? " " : "\""%><%=j.next()%><%if (!j.hasNext()) {%>"/><%}%>
+    <%}%>
+   </extension>
+    <%if (genPackage.isChildCreationExtenders()) { Map<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> extendedChildCreationData = genPackage.getExtendedChildCreationData();%>
+      <%if (!extendedChildCreationData.isEmpty()) {%>
+
+   <extension point="org.eclipse.emf.edit.childCreationExtenders">
         <%for (Map.Entry<GenPackage, Map<GenClass, List<GenClass.ChildCreationData>>> entry : extendedChildCreationData.entrySet()) {%>
-    <extender 
-       uri = "<%=entry.getKey().getNSURI()%>" 
-       class = "<%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>$<%=genPackage.getChildCreationExtenderName(entry.getKey())%>" />
+      <extender
+            uri="<%=entry.getKey().getNSURI()%>"
+            class="<%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>$<%=genPackage.getChildCreationExtenderName(entry.getKey())%>"/>
         <%}%>
-  </extension>
+   </extension>
       <%}%>
     <%}%>
   <%}%>
@@ -72,45 +76,48 @@
 <%if (genModel.sameModelEditProject()) {%>
   <%for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
 
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package
-        uri="<%=genPackage.getNSURI()%>"
-        class="<%=genPackage.getQualifiedPackageInterfaceName()%>"<%if (!genModel.hasLocalGenModel()) {%>/><%} else {%>
-        genModel="<%=genModel.getRelativeGenModelLocation()%>"/>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="<%=genPackage.getNSURI()%>"
+    <%if (genModel.hasLocalGenModel()) {%>
+            class="<%=genPackage.getQualifiedPackageInterfaceName()%>"
+            genModel="<%=genModel.getRelativeGenModelLocation()%>"/>
+    <%} else {%>
+            class="<%=genPackage.getQualifiedPackageInterfaceName()%>"/>
     <%}%>
-  </extension>
+   </extension>
     <%if (genPackage.isContentType()) {%>
 
-  <extension point="org.eclipse.emf.ecore.content_parser">
-    <parser
-        contentTypeIdentifier="<%=genPackage.getContentTypeIdentifier()%>"
-        class="<%=genPackage.getQualifiedEffectiveResourceFactoryClassName()%>"/>
-  </extension>
+   <extension point="org.eclipse.emf.ecore.content_parser">
+      <parser
+            contentTypeIdentifier="<%=genPackage.getContentTypeIdentifier()%>"
+            class="<%=genPackage.getQualifiedEffectiveResourceFactoryClassName()%>"/>
+   </extension>
 
-  <extension point="org.eclipse.core.runtime.contentTypes">
-    <content-type
-        base-type="<%=genPackage.isXMIResource() ? "org.eclipse.emf.ecore.xmi" : "org.eclipse.core.runtime.xml"%>"
-        file-extensions="<%=genPackage.getFileExtensions()%>"
-        id="<%=genPackage.getContentTypeIdentifier()%>"
-        name="%_UI_<%=genPackage.getPrefix()%>_content_type"
-        priority="normal">
-      <describer class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
+   <extension point="org.eclipse.core.runtime.contentTypes">
+      <content-type
+            base-type="<%=genPackage.isXMIResource() ? "org.eclipse.emf.ecore.xmi" : "org.eclipse.core.runtime.xml"%>"
+            file-extensions="<%=genPackage.getFileExtensions()%>"
+            id="<%=genPackage.getContentTypeIdentifier()%>"
+            name="%_UI_<%=genPackage.getPrefix()%>_content_type"
+            priority="normal">
+         <describer class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
       <%if (genPackage.hasTargetNamespace()) {%>
-        <parameter name="namespace" value="<%=genPackage.getNSURI()%>"/>
+            <parameter name="namespace" value="<%=genPackage.getNSURI()%>"/>
       <%}%>
       <%if (genPackage.isXMIResource()) {%>
-        <parameter name="kind" value="xmi"/>
+            <parameter name="kind" value="xmi"/>
       <%}%>
-      </describer>
-    </content-type>
-  </extension>
+         </describer>
+      </content-type>
+   </extension>
     <%} else if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {%>
 
-  <extension point="org.eclipse.emf.ecore.extension_parser">
-    <parser
-        type="<%=genPackage.getFileExtension()%>"
-        class="<%=genPackage.getQualifiedResourceFactoryClassName()%>"/>
-  </extension>
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="<%=genPackage.getFileExtension()%>"
+            class="<%=genPackage.getQualifiedResourceFactoryClassName()%>"/>
+   </extension>
     <%}%>
   <%}%>
 <%}%>
