@@ -23,46 +23,47 @@ public class PluginXML
   protected final String TEXT_6 = NL;
   protected final String TEXT_7 = NL + " ";
   protected final String TEXT_8 = "Id";
-  protected final String TEXT_9 = NL + "-->" + NL + "" + NL + "<plugin";
-  protected final String TEXT_10 = ">";
-  protected final String TEXT_11 = NL + "    name = \"%pluginName\"" + NL + "    id = \"";
-  protected final String TEXT_12 = "\"" + NL + "    version = \"1.0.0\"";
-  protected final String TEXT_13 = NL + "    provider-name = \"%providerName\"" + NL + "    class = \"";
+  protected final String TEXT_9 = NL + "-->" + NL;
+  protected final String TEXT_10 = NL + "<plugin>";
+  protected final String TEXT_11 = NL + "<plugin" + NL + "      name=\"%pluginName\"" + NL + "      id=\"";
+  protected final String TEXT_12 = "\"" + NL + "      version=\"1.0.0\"";
+  protected final String TEXT_13 = NL + "      provider-name=\"%providerName\"" + NL + "      class=\"";
   protected final String TEXT_14 = "$Implementation\">";
-  protected final String TEXT_15 = NL + "    provider-name = \"%providerName\">";
-  protected final String TEXT_16 = NL + NL + "  <requires>";
-  protected final String TEXT_17 = NL + "    <import plugin=\"";
-  protected final String TEXT_18 = "\" ";
-  protected final String TEXT_19 = "export=\"true\"";
+  protected final String TEXT_15 = NL + "      provider-name=\"%providerName\">";
+  protected final String TEXT_16 = NL + NL + "   <requires>";
+  protected final String TEXT_17 = NL + "      <import plugin=\"";
+  protected final String TEXT_18 = "\"";
+  protected final String TEXT_19 = " export=\"true\"";
   protected final String TEXT_20 = "/>";
-  protected final String TEXT_21 = NL + "  </requires>" + NL + "" + NL + "  <runtime>";
-  protected final String TEXT_22 = NL + "    <library name=\"";
+  protected final String TEXT_21 = NL + "   </requires>" + NL + "" + NL + "   <runtime>";
+  protected final String TEXT_22 = NL + "      <library name=\"";
   protected final String TEXT_23 = ".jar\">";
-  protected final String TEXT_24 = NL + "    <library name=\".\">";
-  protected final String TEXT_25 = NL + "      <export name=\"*\"/>" + NL + "    </library>" + NL + "  </runtime>";
-  protected final String TEXT_26 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.generated_package\">" + NL + "    <package" + NL + "        uri=\"";
-  protected final String TEXT_27 = "\"" + NL + "        class=\"";
-  protected final String TEXT_28 = "\"";
-  protected final String TEXT_29 = "/>";
-  protected final String TEXT_30 = NL + "        genModel=\"";
-  protected final String TEXT_31 = "\"/>";
-  protected final String TEXT_32 = NL + "  </extension>";
-  protected final String TEXT_33 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.content_parser\">" + NL + "    <parser" + NL + "        contentTypeIdentifier=\"";
-  protected final String TEXT_34 = "\"" + NL + "        class=\"";
-  protected final String TEXT_35 = "\"/>" + NL + "  </extension>" + NL + "" + NL + "  <extension point=\"org.eclipse.core.runtime.contentTypes\">" + NL + "    <content-type" + NL + "        base-type=\"";
-  protected final String TEXT_36 = "\"" + NL + "        file-extensions=\"";
-  protected final String TEXT_37 = "\"" + NL + "        id=\"";
-  protected final String TEXT_38 = "\"" + NL + "        name=\"%_UI_";
-  protected final String TEXT_39 = "_content_type\"" + NL + "        priority=\"normal\">" + NL + "      <describer class=\"org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer\">";
-  protected final String TEXT_40 = NL + "        <parameter name=\"namespace\" value=\"";
-  protected final String TEXT_41 = "\"/>";
-  protected final String TEXT_42 = NL + "        <parameter name=\"kind\" value=\"xmi\"/>";
-  protected final String TEXT_43 = NL + "      </describer>" + NL + "    </content-type>" + NL + "  </extension>";
-  protected final String TEXT_44 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.extension_parser\">" + NL + "    <parser" + NL + "        type=\"";
-  protected final String TEXT_45 = "\"" + NL + "        class=\"";
-  protected final String TEXT_46 = "\"/>" + NL + "  </extension>";
-  protected final String TEXT_47 = NL + NL + "</plugin>";
-  protected final String TEXT_48 = NL;
+  protected final String TEXT_24 = NL + "      <library name=\".\">";
+  protected final String TEXT_25 = NL + "         <export name=\"*\"/>" + NL + "      </library>" + NL + "   </runtime>";
+  protected final String TEXT_26 = NL + NL + "   <extension point=\"org.eclipse.emf.ecore.generated_package\">" + NL + "      <package" + NL + "            uri=\"";
+  protected final String TEXT_27 = "\"";
+  protected final String TEXT_28 = NL + "            class=\"";
+  protected final String TEXT_29 = "\"" + NL + "            genModel=\"";
+  protected final String TEXT_30 = "\"/>";
+  protected final String TEXT_31 = NL + "            class=\"";
+  protected final String TEXT_32 = "\"/>";
+  protected final String TEXT_33 = NL + "   </extension>";
+  protected final String TEXT_34 = NL + NL + "   <extension point=\"org.eclipse.emf.ecore.content_parser\">" + NL + "      <parser" + NL + "            contentTypeIdentifier=\"";
+  protected final String TEXT_35 = "\"" + NL + "            class=\"";
+  protected final String TEXT_36 = "\"/>" + NL + "   </extension>" + NL + "" + NL + "   <extension point=\"org.eclipse.core.runtime.contentTypes\">" + NL + "      <content-type" + NL + "            base-type=\"";
+  protected final String TEXT_37 = "\"" + NL + "            file-extensions=\"";
+  protected final String TEXT_38 = "\"" + NL + "            id=\"";
+  protected final String TEXT_39 = "\"" + NL + "            name=\"%_UI_";
+  protected final String TEXT_40 = "_content_type\"" + NL + "            priority=\"normal\">" + NL + "         <describer class=\"org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer\">";
+  protected final String TEXT_41 = NL + "            <parameter name=\"namespace\" value=\"";
+  protected final String TEXT_42 = "\"/>";
+  protected final String TEXT_43 = NL + "            <parameter name=\"kind\" value=\"xmi\"/>";
+  protected final String TEXT_44 = NL + "         </describer>" + NL + "      </content-type>" + NL + "   </extension>";
+  protected final String TEXT_45 = NL + NL + "   <extension point=\"org.eclipse.emf.ecore.extension_parser\">" + NL + "      <parser" + NL + "            type=\"";
+  protected final String TEXT_46 = "\"" + NL + "            class=\"";
+  protected final String TEXT_47 = "\"/>" + NL + "   </extension>";
+  protected final String TEXT_48 = NL + NL + "</plugin>";
+  protected final String TEXT_49 = NL;
 
   public String generate(Object argument)
   {
@@ -137,49 +138,51 @@ public class PluginXML
     stringBuffer.append(TEXT_26);
     stringBuffer.append(genPackage.getNSURI());
     stringBuffer.append(TEXT_27);
-    stringBuffer.append(genPackage.getQualifiedPackageInterfaceName());
+    if (genModel.hasLocalGenModel()) {
     stringBuffer.append(TEXT_28);
-    if (!genModel.hasLocalGenModel()) {
+    stringBuffer.append(genPackage.getQualifiedPackageInterfaceName());
     stringBuffer.append(TEXT_29);
-    } else {
-    stringBuffer.append(TEXT_30);
     stringBuffer.append(genModel.getRelativeGenModelLocation());
+    stringBuffer.append(TEXT_30);
+    } else {
     stringBuffer.append(TEXT_31);
-    }
+    stringBuffer.append(genPackage.getQualifiedPackageInterfaceName());
     stringBuffer.append(TEXT_32);
-    if (genPackage.isContentType()) {
-    stringBuffer.append(TEXT_33);
-    stringBuffer.append(genPackage.getContentTypeIdentifier());
-    stringBuffer.append(TEXT_34);
-    stringBuffer.append(genPackage.getQualifiedEffectiveResourceFactoryClassName());
-    stringBuffer.append(TEXT_35);
-    stringBuffer.append(genPackage.isXMIResource() ? "org.eclipse.emf.ecore.xmi" : "org.eclipse.core.runtime.xml");
-    stringBuffer.append(TEXT_36);
-    stringBuffer.append(genPackage.getFileExtensions());
-    stringBuffer.append(TEXT_37);
-    stringBuffer.append(genPackage.getContentTypeIdentifier());
-    stringBuffer.append(TEXT_38);
-    stringBuffer.append(genPackage.getPrefix());
-    stringBuffer.append(TEXT_39);
-    if (genPackage.hasTargetNamespace()) {
-    stringBuffer.append(TEXT_40);
-    stringBuffer.append(genPackage.getNSURI());
-    stringBuffer.append(TEXT_41);
     }
-    if (genPackage.isXMIResource()) {
+    stringBuffer.append(TEXT_33);
+    if (genPackage.isContentType()) {
+    stringBuffer.append(TEXT_34);
+    stringBuffer.append(genPackage.getContentTypeIdentifier());
+    stringBuffer.append(TEXT_35);
+    stringBuffer.append(genPackage.getQualifiedEffectiveResourceFactoryClassName());
+    stringBuffer.append(TEXT_36);
+    stringBuffer.append(genPackage.isXMIResource() ? "org.eclipse.emf.ecore.xmi" : "org.eclipse.core.runtime.xml");
+    stringBuffer.append(TEXT_37);
+    stringBuffer.append(genPackage.getFileExtensions());
+    stringBuffer.append(TEXT_38);
+    stringBuffer.append(genPackage.getContentTypeIdentifier());
+    stringBuffer.append(TEXT_39);
+    stringBuffer.append(genPackage.getPrefix());
+    stringBuffer.append(TEXT_40);
+    if (genPackage.hasTargetNamespace()) {
+    stringBuffer.append(TEXT_41);
+    stringBuffer.append(genPackage.getNSURI());
     stringBuffer.append(TEXT_42);
     }
+    if (genPackage.isXMIResource()) {
     stringBuffer.append(TEXT_43);
-    } else if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {
+    }
     stringBuffer.append(TEXT_44);
-    stringBuffer.append(genPackage.getFileExtension());
+    } else if (genPackage.getResource() != GenResourceKind.NONE_LITERAL) {
     stringBuffer.append(TEXT_45);
-    stringBuffer.append(genPackage.getQualifiedResourceFactoryClassName());
+    stringBuffer.append(genPackage.getFileExtension());
     stringBuffer.append(TEXT_46);
-    }
-    }
+    stringBuffer.append(genPackage.getQualifiedResourceFactoryClassName());
     stringBuffer.append(TEXT_47);
+    }
+    }
     stringBuffer.append(TEXT_48);
+    stringBuffer.append(TEXT_49);
     return stringBuffer.toString();
   }
 }
