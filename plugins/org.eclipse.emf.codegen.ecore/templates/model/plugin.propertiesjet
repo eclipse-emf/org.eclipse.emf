@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.7 2008/04/15 03:13:13 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.8 2008/04/18 04:01:50 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -17,18 +17,6 @@
 %>
 <%GenModel genModel = (GenModel)argument;%>
 <%@ include file="../Header.propertiesjetinc"%>
-
-# ====================================================================
-# To code developer:
-#   Do NOT change the properties between this line and the
-#   "%%% END OF TRANSLATED PROPERTIES %%%" line.
-#   Make a new property name, append to the end of the file and change
-#   the code to use the new property.
-# ====================================================================
-
-# ====================================================================
-# %%% END OF TRANSLATED PROPERTIES %%%
-# ====================================================================
 
 pluginName = <%=genModel.getModelName()%> Model
 providerName = www.example.org
