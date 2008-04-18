@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFExtendedMetaData.java,v 1.6 2006/12/05 20:23:28 emerks Exp $
+ * $Id: EMOFExtendedMetaData.java,v 1.7 2008/04/18 20:05:59 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -32,6 +32,11 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 public class EMOFExtendedMetaData extends BasicExtendedMetaData
 {
   public static final String EMOF_PACKAGE_NS_PREFIX = "emof";
+  /**
+   * See <a href="http://www.omg.org/docs/html/06-01-01/Output/apndx_a.html#77093">OMG Issue 77093</a> but note that it has a typo and that "orb" should be "org".
+   * @since 2.4
+   */
+  public static final String EMOF_PACKAGE_NS_URI_2_0 = "http://schema.omg.org/spec/MOF/2.0/emof.xml";
   public static final String EMOF_PACKAGE_NS_URI = "http://schema.omg.org/spec/mof/2.0/emof.xmi";
 
   public static final String EXTENSION = "Extension";
@@ -42,6 +47,10 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
   public static final String ECORE_EDATATYPE_HREF_PREFIX = EcorePackage.eNS_URI + "#//";
   public static final String UNMAPPED_EMOF_EDATATYPE_HREF_PREFIX = EcorePackage.eNS_URI + ".emof#ecore.";
   public static final String MAPPED_EMOF_EDATATYPE_HREF_PREFIX = EMOF_PACKAGE_NS_URI + "#";
+  /**
+   * @since 2.4
+   */
+  public static final String MAPPED_EMOF_EDATATYPE_HREF_PREFIX_2_0 = EMOF_PACKAGE_NS_URI_2_0 + "#";
 
   public static final String[] MAPPED_ECORE_EDATATYPES = { "EString", "EBoolean", "EInt", "EBigInteger" };
   public static final String[] MAPPED_EMOF_EDATATYPES = { "String", "Boolean", "Integer", "UnlimitedNatural" };
@@ -66,13 +75,13 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
   @Override
   public String getNamespace(EPackage ePackage)
   {
-    return ePackage == EcorePackage.eINSTANCE ? EMOF_PACKAGE_NS_URI : super.getNamespace(ePackage);
+    return ePackage == EcorePackage.eINSTANCE ? EMOF_PACKAGE_NS_URI_2_0 : super.getNamespace(ePackage);
   }
 
   @Override
   public EPackage getPackage(String namespace)
   {
-    return EMOF_PACKAGE_NS_URI.equals(namespace) ? EcorePackage.eINSTANCE : super.getPackage(namespace);
+    return EMOF_PACKAGE_NS_URI.equals(namespace) ||  EMOF_PACKAGE_NS_URI_2_0.equals(namespace) ? EcorePackage.eINSTANCE : super.getPackage(namespace);
   }
 
   @Override

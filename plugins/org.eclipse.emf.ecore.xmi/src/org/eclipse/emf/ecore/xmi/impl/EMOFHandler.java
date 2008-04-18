@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHandler.java,v 1.4 2006/12/05 20:23:28 emerks Exp $
+ * $Id: EMOFHandler.java,v 1.5 2008/04/18 20:05:59 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -41,9 +41,9 @@ public class EMOFHandler extends SAXXMIHandler
   @Override
   protected void handleProxy(InternalEObject proxy, String uriLiteral)
   {
-    if (uriLiteral.startsWith(EMOFExtendedMetaData.MAPPED_EMOF_EDATATYPE_HREF_PREFIX))
+    if (uriLiteral.startsWith(EMOFExtendedMetaData.MAPPED_EMOF_EDATATYPE_HREF_PREFIX) || uriLiteral.startsWith(EMOFExtendedMetaData.MAPPED_EMOF_EDATATYPE_HREF_PREFIX_2_0))
     {
-      String dataType = uriLiteral.substring(EMOFExtendedMetaData.MAPPED_EMOF_EDATATYPE_HREF_PREFIX.length());
+      String dataType = uriLiteral.substring(uriLiteral.indexOf("#") + 1);
       for (int i = 0; i < EMOFExtendedMetaData.MAPPED_EMOF_EDATATYPES.length; i++)
       {
         if (dataType.equals(EMOFExtendedMetaData.MAPPED_EMOF_EDATATYPES[i]))
@@ -115,7 +115,8 @@ public class EMOFHandler extends SAXXMIHandler
     if (object instanceof EAnnotation)
     {
       EAnnotation annotation = (EAnnotation)object;
-      if (EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI.equals(annotation.getSource()))
+      String source = annotation.getSource();
+      if (EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI.equals(source) || EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI_2_0.equals(source))
       {
         if (EMOFExtendedMetaData.EMOF_TAG_NAME.equals(name) || EMOFExtendedMetaData.EMOF_TAG_VALUE.equals(name))
         {

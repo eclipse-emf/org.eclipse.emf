@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.18 2008/03/29 12:49:51 emerks Exp $
+ * $Id: EMOFHelperImpl.java,v 1.19 2008/04/18 20:05:59 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -126,7 +126,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
       {
         if (dataType.equals(EMOFExtendedMetaData.MAPPED_ECORE_EDATATYPES[i]))
         {
-          return EMOFExtendedMetaData.MAPPED_EMOF_EDATATYPE_HREF_PREFIX + EMOFExtendedMetaData.MAPPED_EMOF_EDATATYPES[i];
+          return EMOFExtendedMetaData.MAPPED_EMOF_EDATATYPE_HREF_PREFIX_2_0 + EMOFExtendedMetaData.MAPPED_EMOF_EDATATYPES[i];
         }
       }
       return EMOFExtendedMetaData.UNMAPPED_EMOF_EDATATYPE_HREF_PREFIX + dataType;
@@ -205,7 +205,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     else if (EcorePackage.Literals.EANNOTATION == type)
     {
       EAnnotation annotation = EcoreFactory.eINSTANCE.createEAnnotation();
-      annotation.setSource(EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI);
+      annotation.setSource(EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI_2_0);
       return annotation;
     }
     else if (EcorePackage.Literals.EOPERATION == type)

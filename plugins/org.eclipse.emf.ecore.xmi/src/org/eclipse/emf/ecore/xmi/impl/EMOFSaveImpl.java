@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFSaveImpl.java,v 1.12 2008/03/29 12:49:51 emerks Exp $
+ * $Id: EMOFSaveImpl.java,v 1.13 2008/04/18 20:05:59 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -234,7 +234,8 @@ public class EMOFSaveImpl extends XMISaveImpl
       if (eClass == EcorePackage.Literals.EANNOTATION)
       {
         EAnnotation annotation = (EAnnotation)top;
-        if (!annotation.getSource().equals(EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI)) continue;
+        String source = annotation.getSource();
+        if (!EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI.equals(source) && !EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI_2_0.equals(source)) continue;
 
         doc.startElement(EMOFExtendedMetaData.EMOF_TAG);
         doc.addAttribute(idAttributeName, helper.getID(annotation));
