@@ -19,7 +19,7 @@ public class PluginProperties
   protected final String TEXT_2 = NL + "# <copyright>" + NL + "# </copyright>";
   protected final String TEXT_3 = NL + "#" + NL + "# ";
   protected final String TEXT_4 = "Id";
-  protected final String TEXT_5 = NL + NL + "# ====================================================================" + NL + "# To code developer:" + NL + "#   Do NOT change the properties between this line and the" + NL + "#   \"%%% END OF TRANSLATED PROPERTIES %%%\" line." + NL + "#   Make a new property name, append to the end of the file and change" + NL + "#   the code to use the new property." + NL + "# ====================================================================" + NL + "" + NL + "# ====================================================================" + NL + "# %%% END OF TRANSLATED PROPERTIES %%%" + NL + "# ====================================================================" + NL + "" + NL + "pluginName = ";
+  protected final String TEXT_5 = NL + NL + "pluginName = ";
   protected final String TEXT_6 = " Editor" + NL + "providerName = www.example.org" + NL;
   protected final String TEXT_7 = NL + "_UI_";
   protected final String TEXT_8 = "_menu = &";
