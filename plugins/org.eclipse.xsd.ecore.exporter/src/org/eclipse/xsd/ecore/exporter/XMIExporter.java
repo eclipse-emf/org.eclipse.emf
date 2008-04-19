@@ -12,19 +12,24 @@
  *
  * </copyright>
  *
- * $Id: XMIExporter.java,v 1.6 2006/12/29 18:18:32 marcelop Exp $
+ * $Id: XMIExporter.java,v 1.7 2008/04/19 19:03:14 emerks Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeValidator;
 
 import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSchemaDirective;
 import org.eclipse.xsd.ecore.EcoreXMISchemaBuilder;
+import org.eclipse.xsd.ecore.EcoreXMLSchemaBuilder;
 
 /**
  * @since 2.2.0
@@ -50,9 +55,36 @@ public class XMIExporter extends XSDExporter
     {
       mapBuilder = new EcoreXMISchemaBuilder();
     }
-    return (XSDSchema)((EcoreXMISchemaBuilder)mapBuilder).generate(ePackage).iterator().next();
+    return 
+      (XSDSchema)((EcoreXMISchemaBuilder)mapBuilder).generate
+        (ePackage, 
+         new EcoreXMLSchemaBuilder.QNameMap()
+         {
+           ExtendedMetaData extendedMetaData = genModel.getExtendedMetaData();
+
+           public String getName(ENamedElement element)
+           {
+             if (element instanceof EStructuralFeature)
+             {
+               String name = extendedMetaData.getName((EStructuralFeature)element);
+               if (XMLTypeValidator.INSTANCE.validateNCName(name, null, null))
+               {
+                 return name;
+               }
+             }
+             else if (element instanceof EClassifier)
+             {
+               String name = extendedMetaData.getName((EClassifier)element);
+               if (XMLTypeValidator.INSTANCE.validateNCName(name, null, null))
+               {
+                 return name;
+               }
+             }
+             return element.getName();
+           }
+         }).iterator().next();
   }
-  
+
   @Override
   protected String computeSchemaLocation(XSDSchemaDirective xsdSchemaDirective, URI artifactURI)
   {
