@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.14 2008/01/29 18:01:07 emerks Exp $
+ * $Id: XSDParser.java,v 1.15 2008/04/19 19:12:46 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -21,12 +21,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.lang.reflect.Method;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 import java.util.WeakHashMap;
 
@@ -69,6 +71,167 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 {
   protected static final Map<Node, Map<Object, Object>> userDataMap = Collections.synchronizedMap(new WeakHashMap<Node, Map<Object, Object>>());
 
+  private static final class LocationMap extends AbstractMap<Object,Object>
+  {
+    protected static final int UNSET = Integer.MAX_VALUE;
+    protected Map<Object, Object> delegateMap;
+    private int startLine = UNSET;
+    private int startColumn = UNSET;
+    private int endLine = UNSET;
+    private int endColumn = UNSET;
+
+    @Override
+    public Set<java.util.Map.Entry<Object, Object>> entrySet()
+    {
+      return getDelegateMap().entrySet();
+    }
+
+    protected Map<Object, Object> getDelegateMap()
+    {
+      if (delegateMap == null)
+      {
+        delegateMap = new HashMap<Object, Object>();
+        if (startLine != UNSET)
+        {
+          delegateMap.put("startLine", startLine);
+        }
+        if (startColumn != UNSET)
+        {
+          delegateMap.put("startColumn", startColumn);
+        }
+        if (endLine != UNSET)
+        {
+          delegateMap.put("endLine", endLine);
+        }
+        if (endColumn != UNSET)
+        {
+          delegateMap.put("endColumn", endColumn);
+        }
+      }
+      return delegateMap;
+    }
+
+    protected int objectToInt(Object value)
+    {
+      return value == null ? UNSET : ((Integer)value).intValue();
+    }
+
+    protected Object intToObject(int value)
+    {
+      return value == UNSET ? null : value;
+    }
+
+    @Override
+    public Object put(Object key, Object value)
+    {
+      Object result;
+      if (delegateMap == null)
+      {
+        if ("startLine".equals(key))
+        {
+          result = intToObject(startLine);
+          startLine  = objectToInt(value);
+        }
+        else if ("endLine".equals(key))
+        {
+          result = intToObject(endLine);
+          endLine  = objectToInt(value);
+        }
+        else if ("startColumn".equals(key))
+        {
+          result = intToObject(startColumn);
+          startColumn  = objectToInt(value);
+        }
+        else if ("endColumn".equals(key))
+        {
+          result = intToObject(endColumn);
+          endColumn  = objectToInt(value);
+          if (delegateMap != null)
+          {
+            delegateMap.put("endColumn", value);
+          }
+        }
+        else
+        {
+          result = getDelegateMap().put(key, value);
+        }
+      }
+      else
+      {
+        result = getDelegateMap().put(key, value);
+      }
+      return result;
+    }
+
+    public int getStartLine()
+    {
+      return delegateMap == null ? startLine : objectToInt(delegateMap.get("startLine"));
+    }
+
+    public void setStartLine(int startLine)
+    {
+      if (delegateMap == null)
+      {
+        this.startLine = startLine;
+      }
+      else
+      {
+        delegateMap.put("startLine", startLine);
+      }
+    }
+
+    public int getStartColumn()
+    {
+      return delegateMap == null ? startColumn : objectToInt(delegateMap.get("startColumn"));
+    }
+
+    public void setStartColumn(int startColumn)
+    {
+      if (delegateMap == null)
+      {
+        this.startColumn = startColumn;
+      }
+      else
+      {
+        delegateMap.put("startColumn", startColumn);
+      }
+    }
+
+    public int getEndLine()
+    {
+      return delegateMap == null ? endLine : objectToInt(delegateMap.get("endLine"));
+    }
+
+    public void setEndLine(int endLine)
+    {
+      if (delegateMap == null)
+      {
+        this.endLine = endLine;
+      }
+      else
+      {
+        delegateMap.put("endLine", endLine);
+      }
+    }
+
+    public int getEndColumn()
+    {
+      return delegateMap == null ? endColumn : objectToInt(delegateMap.get("endColumn"));
+    }
+
+    public void setEndColumn(int endColumn)
+    {
+      if (delegateMap == null)
+      {
+        this.endColumn = endColumn;
+      }
+      else
+      {
+        delegateMap.put("endColumn", endColumn);
+      }
+    }
+  }
+
   /**
    * Returns the user data associated with the node.
    * If the node has no user data, a new empty map is created.
@@ -77,10 +240,15 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
    */
   public static Map<Object, Object> getUserData(Node node)
   {
-    Map<Object, Object> result = userDataMap.get(node);
+    return getLocationMap(node);
+  }
+
+  private static LocationMap getLocationMap(Node node)
+  {
+    LocationMap result = (LocationMap)userDataMap.get(node);
     if (result == null)
     {
-      result = new HashMap<Object, Object>();
+      result = new LocationMap();
       userDataMap.put(node, result);
     }
     return result;
@@ -93,8 +261,18 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
    */
   public static int getStartLine(Node node)
   {
-    Integer result = (Integer)getUserData(node).get("startLine");
-    return result == null ? 1 : result.intValue();
+    int result = getLocationMap(node).getStartLine();
+    return result == LocationMap.UNSET ? 1 : result;
+  }
+
+  /**
+   * Sets the line at which the given node starts.
+   * @param node the node to set.
+   * @param value the line at which the given node starts.
+   */
+  public static void setStartLine(Node node, int value)
+  {
+    getLocationMap(node).setStartLine(value);
   }
 
   /**
@@ -104,8 +282,18 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
    */
   public static int getStartColumn(Node node)
   {
-    Integer result = (Integer)getUserData(node).get("startColumn");
-    return result == null ? 1 : result.intValue();
+    int result = getLocationMap(node).getStartColumn();
+    return result == LocationMap.UNSET ? 1 : result;
+  }
+
+  /**
+   * Sets the column at which the given node starts.
+   * @param node the node to set.
+   * @param value the column at which the given node starts.
+   */
+  public static void setStartColumn(Node node, int value)
+  {
+    getLocationMap(node).setStartColumn(value);
   }
 
   /**
@@ -115,8 +303,18 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
    */
   public static int getEndLine(Node node)
   {
-    Integer result = (Integer)getUserData(node).get("endLine");
-    return result == null ? 1 : result.intValue();
+    int result = getLocationMap(node).getEndLine();
+    return result == LocationMap.UNSET ? 1 : result;
+  }
+
+  /**
+   * Sets the line at which the given node ends.
+   * @param node the node to set.
+   * @param value the line at which the given node ends.
+   */
+  public static void setEndLine(Node node, int value)
+  {
+    getLocationMap(node).setEndLine(value);
   }
 
   /**
@@ -126,10 +324,19 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
    */
   public static int getEndColumn(Node node)
   {
-    Integer result = (Integer)getUserData(node).get("endColumn");
-    return result == null ? 1 : result.intValue();
+    int result = getLocationMap(node).getEndColumn();
+    return result == LocationMap.UNSET ? 1 : result;
   }
 
+  /**
+   * Sets the column at which the given node ends.
+   * @param node the node to set.
+   * @param value the column at which the given node ends.
+   */
+  public static void setEndColumn(Node node, int value)
+  {
+    getLocationMap(node).setEndColumn(value);
+  }
 
   protected XSDFactory xsdFactory = XSDFactory.eINSTANCE;
   protected XSDSchema xsdSchema;
@@ -390,9 +597,9 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     stack.push(element);
     element = newElement;
 
-    Map<Object, Object> extendedAttributes = getUserData(element);
-    extendedAttributes.put("startLine", new Integer(line));
-    extendedAttributes.put("startColumn", new Integer(column));
+    LocationMap extendedAttributes = getLocationMap(element);
+    extendedAttributes.setStartLine(line);
+    extendedAttributes.setStartColumn(column);
 
     saveLocation();
   }
@@ -402,9 +609,9 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
   {
     saveLocation();
 
-    Map<Object, Object> extendedAttributes = getUserData(element);
-    extendedAttributes.put("endLine", new Integer(line));
-    extendedAttributes.put("endColumn", new Integer(column));
+    LocationMap extendedAttributes = getLocationMap(element);
+    extendedAttributes.setEndLine(line);
+    extendedAttributes.setEndColumn(column);
 
     element = stack.pop();
   }
@@ -494,12 +701,12 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
           line += Math.max(lineFeed, carriageReturn);
           Text textNode = document.createTextNode(new String(characters, start + i, length - i));
           element.appendChild(textNode);
-          Map<Object, Object> extendedAttributes = getUserData(textNode);
-          extendedAttributes.put("startLine", new Integer(line));
-          extendedAttributes.put("startColumn", new Integer(column));
+          LocationMap extendedAttributes = getLocationMap(textNode);
+          extendedAttributes.setStartLine(line);
+          extendedAttributes.setStartColumn(column);
           saveLocation();
-          extendedAttributes.put("endLine", new Integer(line));
-          extendedAttributes.put("endColumn", new Integer(column));
+          extendedAttributes.setEndLine(line);
+          extendedAttributes.setEndColumn(column);
           return;
         }
       }
@@ -527,20 +734,20 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
   {
     cdata = new StringBuilder();
     cdataSection = document.createCDATASection("");
-    Map<Object, Object> extendedAttributes = getUserData(cdataSection);
-    extendedAttributes.put("startLine", new Integer(line));
-    extendedAttributes.put("startColumn", new Integer(column));
+    LocationMap extendedAttributes = getLocationMap(cdataSection);
+    extendedAttributes.setStartLine(line);
+    extendedAttributes.setStartColumn(column);
   }
 
   public void endCDATA() 
   {
     cdataSection.setData(cdata.toString());
     element.appendChild(cdataSection);
-    Map<Object, Object> extendedAttributes = getUserData(cdataSection);
+    LocationMap extendedAttributes = getLocationMap(cdataSection);
     cdata = null;
     saveLocation();
-    extendedAttributes.put("endLine", new Integer(line));
-    extendedAttributes.put("endColumn", new Integer(column));
+    extendedAttributes.setEndLine(line);
+    extendedAttributes.setEndColumn(column);
   }
 
   public void startDTD(String name, String publicId, String systemId) 
