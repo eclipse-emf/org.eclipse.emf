@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.23 2008/04/02 19:35:15 marcelop Exp $
+ * $Id: JMerger.java,v 1.24 2008/04/21 20:13:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeVisitor;
 import org.eclipse.emf.codegen.merge.java.facade.JAbstractType;
+import org.eclipse.emf.codegen.merge.java.facade.JAnnotation;
 import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 import org.eclipse.emf.codegen.merge.java.facade.JImport;
 import org.eclipse.emf.codegen.merge.java.facade.JMember;
@@ -1092,9 +1093,22 @@ public class JMerger
    */
   protected boolean isPushMarkedUp(JNode node)
   {
-    JNode targetParent = sourceToTargetMap.get(node.getParent());
+    JNode sourceParent = node.getParent();
+    JNode targetParent = sourceToTargetMap.get(sourceParent);
     assert targetParent != null; // if the parent is not in target, there is no point on checking the child
     
+    // Don't push method annotations into redirected methods.
+    //
+    if (node instanceof JAnnotation && 
+          sourceParent instanceof JMethod &&
+          targetParent instanceof JMethod &&
+          getControlModel().getRedirect() != null &&
+          ((JMethod)targetParent).getName().endsWith(getControlModel().getRedirect()) &&
+          !((JMethod)sourceParent).getName().endsWith(getControlModel().getRedirect()))
+    {
+      return false;
+    }
+
     // by default nodes are marked up
     boolean markedUp = true;
     for (JControlModel.PushRule rule : getControlModel().getPushRules())
