@@ -47,7 +47,7 @@ import org.eclipse.emf.examples.jet.article2.model.TypesafeEnum;
  * the typesafe enumeration class.
  * 
  * @author Remko Popma
- * @version $Revision: 1.3 $ ($Date: 2006/12/29 18:36:19 $)
+ * @version $Revision: 1.4 $ ($Date: 2008/04/22 13:35:56 $)
  */
 public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
 {
@@ -317,7 +317,7 @@ public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
   }
 
   /**
-   * @param container
+   * @param parent
    */
   private void createButtonsPanel(Composite parent)
   {

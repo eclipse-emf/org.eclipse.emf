@@ -39,7 +39,7 @@ import org.eclipse.emf.examples.jet.article2.TypesafeEnumPlugin;
  * templates.
  * 
  * @author Remko Popma
- * @version $Revision: 1.5 $ ($Date: 2007/01/26 06:12:57 $)
+ * @version $Revision: 1.6 $ ($Date: 2008/04/22 13:35:56 $)
  */
 public class EmitAction implements IActionDelegate
 {
@@ -169,8 +169,7 @@ public class EmitAction implements IActionDelegate
   /**
    * Logs the exception and shows an error dialog.
    * 
-   * @param e
-   *          the exception to handle
+   * @param t the exception to handle
    */
   private void handleException(Throwable t)
   {

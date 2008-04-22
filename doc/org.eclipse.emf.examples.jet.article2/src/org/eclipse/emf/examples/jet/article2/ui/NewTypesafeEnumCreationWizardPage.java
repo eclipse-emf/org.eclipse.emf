@@ -7,6 +7,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -25,7 +26,7 @@ import org.eclipse.emf.examples.jet.article2.model.TypesafeEnum;
  * to create.
  * 
  * @author Remko Popma
- * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
+ * @version $Revision: 1.3 $ ($Date: 2008/04/22 13:35:56 $)
  */
 public class NewTypesafeEnumCreationWizardPage extends NewTypeWizardPage
 {
@@ -39,8 +40,6 @@ public class NewTypesafeEnumCreationWizardPage extends NewTypeWizardPage
   private Text mTextVersion = null;
 
   /**
-   * @param isClass
-   * @param pageName
    */
   public NewTypesafeEnumCreationWizardPage()
   {
@@ -172,7 +171,7 @@ public class NewTypesafeEnumCreationWizardPage extends NewTypeWizardPage
   }
 
   /**
-   * @param composite
+   * @param parent
    * @param nColumns
    */
   private void createAuthorVersionControls(Composite parent, int nColumns)

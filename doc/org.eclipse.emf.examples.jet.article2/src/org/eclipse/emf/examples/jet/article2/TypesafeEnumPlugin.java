@@ -20,7 +20,7 @@ import org.eclipse.emf.common.util.Diagnostic;
  * The plug-in runtime class for the TypesafeEnum plug-in.
  * 
  * @author Remko Popma
- * @version $Revision: 1.2 $ ($Date: 2007/01/26 06:12:03 $)
+ * @version $Revision: 1.3 $ ($Date: 2008/04/22 13:35:56 $)
  */
 public class TypesafeEnumPlugin extends AbstractUIPlugin
 {
@@ -31,7 +31,6 @@ public class TypesafeEnumPlugin extends AbstractUIPlugin
   private static TypesafeEnumPlugin sPlugin = null;
 
   /**
-   * @param descriptor
    */
   public TypesafeEnumPlugin()
   {

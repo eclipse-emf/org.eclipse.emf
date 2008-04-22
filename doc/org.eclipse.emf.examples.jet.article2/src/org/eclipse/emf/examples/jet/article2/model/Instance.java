@@ -11,7 +11,7 @@ import java.util.Properties;
  * of the enumeration.
  * 
  * @author Remko Popma
- * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
+ * @version $Revision: 1.3 $ ($Date: 2008/04/22 13:35:56 $)
  */
 public class Instance
 {
@@ -235,9 +235,6 @@ public class Instance
    * Sets whether this instance is the default instance of the parent
    * <code>TypesafeEnum</code>.
    * 
-   * @param isDefault
-   *          whether this instance is the default instance of the parent
-   *          <code>TypesafeEnum</code>
    * @throws IllegalStateException
    *           if this instance has not been added to a type
    */

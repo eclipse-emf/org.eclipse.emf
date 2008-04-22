@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.Platform;
  * Meta-data for code generation.
  * 
  * @author Remko Popma
- * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
+ * @version $Revision: 1.3 $ ($Date: 2008/04/22 13:35:56 $)
  */
 public class Config
 {
@@ -52,8 +52,7 @@ public class Config
   /**
    * Sets the model object to pass to the JET template.
    * 
-   * @param the
-   *          model object to pass to the JET template
+   * @param object the model object to pass to the JET template
    */
   public void setModel(Object object)
   {
@@ -189,10 +188,7 @@ public class Config
   }
 
   /**
-   * Returns whether existing read-only files should be overwritten. This method
-   * returns <code>true</code> by default.
-   * 
-   * @return whether existing read-only files should be overwritten
+   * Sets whether existing read-only files should be overwritten. 
    */
   public void setForceOverwrite(boolean force)
   {
