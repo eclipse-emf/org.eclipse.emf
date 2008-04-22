@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditPlugin.java,v 1.7 2006/12/29 18:32:33 marcelop Exp $
+ * $Id: XSDEditPlugin.java,v 1.8 2008/04/22 13:35:59 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -30,7 +30,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
  * which can redirect the service as appopriate to the runtime.
  * During stand-alone invocation no plugin initialization takes place.
  * In this case you will need the resources jar on the class path.
- * @see #getBaseURL
+ * @see #getBaseURL()
  */
 public final class XSDEditPlugin extends EMFPlugin 
 {
