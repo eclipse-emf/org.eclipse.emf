@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.44 2008/03/29 14:35:51 emerks Exp $
+ * $Id: XMLResource.java,v 1.45 2008/04/22 13:35:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -479,8 +479,8 @@ public interface XMLResource extends Resource
 
   /**
    * An interface for an element handle that is used to deduce an appropriate feature when serializing a value of a specific type.
-   * The {@link #getRoot(EClassifier) getRoot} method is used to determine an appropriate feature to serialize a value of the given type.
-   * The {@link #getSubstitutionGroup(EStructuralFeature, EClassifier) getSubstitutionGroup} method 
+   * The {@link #getRoot(ExtendedMetaData, EClassifier) getRoot} method is used to determine an appropriate feature to serialize a value of the given type.
+   * The {@link #getSubstitutionGroup(ExtendedMetaData, EStructuralFeature, EClassifier) getSubstitutionGroup} method 
    * is used to determine a feature 
    * related by {@link ExtendedMetaData#getAffiliation(EStructuralFeature) substitution group affiliation} to the given feature
    * for serializing a value of the given type.

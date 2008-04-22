@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ElementHandlerImpl.java,v 1.1 2007/12/04 16:47:13 emerks Exp $
+ * $Id: ElementHandlerImpl.java,v 1.2 2008/04/22 13:35:44 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.xmi.impl;
@@ -43,7 +43,7 @@ public class ElementHandlerImpl implements XMLResource.ElementHandler
 
   /**
    * Creates a default instances.
-   * @param considerSubtypes whether to consider {@link ExtendedMetaData#getBaseType(EDataType)base types} or {@link EClass#getESuperTypes() super types}
+   * @param considerSubtypes whether to consider {@link ExtendedMetaData#getBaseType(EDataType) base types} or {@link EClass#getESuperTypes() super types}
    * when finding a substitution group.
    */
   public ElementHandlerImpl(boolean considerSubtypes)
@@ -53,7 +53,7 @@ public class ElementHandlerImpl implements XMLResource.ElementHandler
 
   /**
    * Creates an instance that will search the given packages for candidate features.
-   * @param considerSubtypes whether to consider {@link ExtendedMetaData#getBaseType(EDataType)base types} or {@link EClass#getESuperTypes() super types}
+   * @param considerSubtypes whether to consider {@link ExtendedMetaData#getBaseType(EDataType) base types} or {@link EClass#getESuperTypes() super types}
    * when finding a substitution group.
    * @param ePackages the packages to search for candidates.
    */
@@ -115,11 +115,11 @@ public class ElementHandlerImpl implements XMLResource.ElementHandler
   }
 
   /**
-   * Returns the {@link ExtendedMetaData#getBaseType(EDataType)base type} or first {@link EClass#getESuperTypes() super type} of the classifier,
+   * Returns the {@link ExtendedMetaData#getBaseType(EDataType) base type} or first {@link EClass#getESuperTypes() super type} of the classifier,
    * depending on there it is a {@link EDataType data type} or a {@link EClass class}.
    * @param extendedMetaData the extended meta data in which to look up type information.
    * @param eClassifier the classifier in question.
-   * @return the {@link ExtendedMetaData#getBaseType(EDataType)base type}, the first {@link EClass#getESuperTypes() super type} of the classifier, or <code>null</code>.
+   * @return the {@link ExtendedMetaData#getBaseType(EDataType) base type}, the first {@link EClass#getESuperTypes() super type} of the classifier, or <code>null</code>.
    */
   protected EClassifier getSuperType(ExtendedMetaData extendedMetaData, EClassifier eClassifier)
   {
