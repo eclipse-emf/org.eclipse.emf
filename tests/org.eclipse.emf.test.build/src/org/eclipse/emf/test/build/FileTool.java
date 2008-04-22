@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FileTool.java,v 1.4 2007/03/23 17:36:54 marcelop Exp $
+ * $Id: FileTool.java,v 1.5 2008/04/22 13:35:54 emerks Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -42,7 +42,7 @@ public class FileTool
    * A zip filter which is used to filter out unwanted entries while
    * extracting a zip file.
    * 
-   * @see FileTool#unzip(IZipFilter, ZipFile, File, Log)
+   * @see FileTool#unzip(IZipFilter, ZipFile, File, File, int)
    */
   public interface IZipFilter
   {
