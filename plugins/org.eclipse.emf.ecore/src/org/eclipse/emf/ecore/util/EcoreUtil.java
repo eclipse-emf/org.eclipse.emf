@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.59 2008/01/20 16:30:53 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.60 2008/04/22 13:36:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3392,32 +3392,40 @@ public class EcoreUtil
 
   /**
    * Identifier for the get accessor.
-   * @see #isSuppressedVisibility
-   * @see #setSuppressedVisibility
+   * @see #isSuppressedVisibility(EOperation)
+   * @see #isSuppressedVisibility(EStructuralFeature, int)
+   * @see #setSuppressedVisibility(EOperation, boolean)
+   * @see #setSuppressedVisibility(EStructuralFeature, int, boolean)
    * @since 2.1
    */
   public static final int GET = 0;
 
   /**
    * Identifier for the set accessor.
-   * @see #isSuppressedVisibility
-   * @see #setSuppressedVisibility
+   * @see #isSuppressedVisibility(EOperation)
+   * @see #isSuppressedVisibility(EStructuralFeature, int)
+   * @see #setSuppressedVisibility(EOperation, boolean)
+   * @see #setSuppressedVisibility(EStructuralFeature, int, boolean)
    * @since 2.1
    */
   public static final int SET = 1;
 
   /**
    * Identifier for the isSet accessor.
-   * @see #isSuppressedVisibility
-   * @see #setSuppressedVisibility
+   * @see #isSuppressedVisibility(EOperation)
+   * @see #isSuppressedVisibility(EStructuralFeature, int)
+   * @see #setSuppressedVisibility(EOperation, boolean)
+   * @see #setSuppressedVisibility(EStructuralFeature, int, boolean)
    * @since 2.1
    */
   public static final int IS_SET = 2;
 
   /**
    * Identifier for the unset accessor.
-   * @see #isSuppressedVisibility
-   * @see #setSuppressedVisibility
+   * @see #isSuppressedVisibility(EOperation)
+   * @see #isSuppressedVisibility(EStructuralFeature, int)
+   * @see #setSuppressedVisibility(EOperation, boolean)
+   * @see #setSuppressedVisibility(EStructuralFeature, int, boolean)
    * @since 2.1
    */
   public static final int UNSET = 3;
