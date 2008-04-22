@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommandTest.java,v 1.5 2008/01/08 15:50:57 emerks Exp $
+ * $Id: SetCommandTest.java,v 1.6 2008/04/22 13:35:57 emerks Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
@@ -40,7 +40,8 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Tests for SetCommand.  This exercises the cases in {@link SetCommand#create SetCommand.create} for which different
+ * Tests for SetCommand.
+ * This exercises the cases in {@link SetCommand#create(EditingDomain, Object, Object, Object, int) SetCommand.create} for which different
  * command may be returned.  In each case, the model is built, the command is created, executed, undone, and redone.
  * The state of the model and the executability/undoability/redoability of the command are tested between each step.
  */
