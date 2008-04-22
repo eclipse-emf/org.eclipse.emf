@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLSwitch.java,v 1.5 2007/06/12 21:15:35 emerks Exp $
+ * $Id: Ecore2XMLSwitch.java,v 1.6 2008/04/22 13:35:40 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
@@ -27,7 +27,7 @@ import org.eclipse.emf.mapping.ecore2xml.*;
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.
- * It supports the call {@link #doSwitch doSwitch(object)}
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)}
  * to invoke the <code>caseXXX</code> method for each class of the model,
  * starting with the actual class of the object
  * and proceeding up the inheritance hierarchy
