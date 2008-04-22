@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.9 2007/10/20 14:43:40 emerks Exp $
+ * $Id: EcoreEMap.java,v 1.10 2008/04/22 19:46:13 emerks Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
@@ -132,6 +132,10 @@ public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Un
     protected void didSet(int index, E newObject, E oldObject)
     {
       didRemove(index, oldObject);
+      if (oldObject == newObject)
+      {
+        oldObject.setHash(hashOf(newObject.getKey()));
+      }
       didAdd(index, newObject);
     }
 
