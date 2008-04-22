@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddCommand.java,v 1.11 2007/06/14 18:32:42 emerks Exp $
+ * $Id: AddCommand.java,v 1.12 2008/04/22 19:46:16 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -406,7 +406,11 @@ public class AddCommand extends AbstractOverrideableCommand
     {
       ownerList.addAll(index, collection);
     }
-  
+
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
+
     // We'd like the collection of things added to be selected after this command completes.
     //
     affectedObjects = collection;
@@ -420,6 +424,10 @@ public class AddCommand extends AbstractOverrideableCommand
     int i = index != CommandParameter.NO_INDEX ? index : ownerList.size() - collection.size();
     ownerList.subList(i, i + collection.size()).clear();    
   
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
+
     // We'd like the owner selected after this undo completes.
     //
     affectedObjects = owner == null ? Collections.EMPTY_SET : Collections.singleton(owner);
@@ -438,6 +446,10 @@ public class AddCommand extends AbstractOverrideableCommand
     {
       ownerList.addAll(index, collection);
     }
+
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
 
     // We'd like the collection of things added to be selected after this command completes.
     //

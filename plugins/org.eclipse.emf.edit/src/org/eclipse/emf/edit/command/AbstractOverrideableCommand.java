@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: AbstractOverrideableCommand.java,v 1.3 2006/12/28 06:48:54 marcelop Exp $
+ * $Id: AbstractOverrideableCommand.java,v 1.4 2008/04/22 19:46:16 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
@@ -273,6 +275,32 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
       owner.eClass().getEAllStructuralFeatures().contains(feature) && feature.isMany() ?
         (EList<Object>)owner.eGet(feature) :
         null;
+  }
+
+  /**
+   * If the owner and the feature aren't null, 
+   * the feature is the key of a map entry class,
+   * and the owner is contained in a EMap,
+   * then the map is updated to properly reflect the change to the key's hash code.
+   * @param owner the owner of the feature.
+   * @param feature the feature that's been updated.
+   */
+  protected void updateEMap(EObject owner, EStructuralFeature feature)
+  {
+    if (owner != null &&
+          feature != null &&
+          "key".equals(feature.getName()) &&
+          feature.getEContainingClass().getInstanceClass() == Map.Entry.class)
+    {
+      EObject container = owner.eContainer();
+      if (container != null)
+      {
+        EStructuralFeature containmentFeature = owner.eContainmentFeature();
+        @SuppressWarnings("unchecked")
+        List<Object> list = (List<Object>)container.eGet(containmentFeature);
+        list.set(list.indexOf(owner), owner);
+      }
+    }
   }
 
   /**

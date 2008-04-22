@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.14 2008/03/28 19:08:12 emerks Exp $
+ * $Id: SetCommand.java,v 1.15 2008/04/22 19:46:16 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -720,6 +720,10 @@ public class SetCommand extends AbstractOverrideableCommand
     {
       owner.eSet(feature, value);
     }
+
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
   }
 
   @Override
@@ -758,6 +762,10 @@ public class SetCommand extends AbstractOverrideableCommand
     {
       owner.eSet(feature, oldValue);
     }
+
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
   }
 
   @Override
@@ -789,6 +797,10 @@ public class SetCommand extends AbstractOverrideableCommand
     {
       owner.eSet(feature, value);
     }
+
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
   }
 
   @Override

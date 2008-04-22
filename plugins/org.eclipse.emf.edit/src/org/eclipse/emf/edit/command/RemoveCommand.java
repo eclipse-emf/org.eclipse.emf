@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RemoveCommand.java,v 1.8 2007/06/14 18:32:42 emerks Exp $
+ * $Id: RemoveCommand.java,v 1.9 2008/04/22 19:46:15 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -326,6 +326,10 @@ public class RemoveCommand extends AbstractOverrideableCommand
       ownerList.remove(indices[i]);
     }
 
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
+
     // We'd like the owner selected after this remove completes.
     //
     affectedObjects = owner == null ? Collections.EMPTY_SET : Collections.singleton(owner);
@@ -466,6 +470,10 @@ public class RemoveCommand extends AbstractOverrideableCommand
       ownerList.add(indices[i++], object);
     }
   
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
+
     // We'd like the collection of things added to be selected after this command completes.
     //
     affectedObjects = collection;
@@ -480,6 +488,10 @@ public class RemoveCommand extends AbstractOverrideableCommand
     {
       ownerList.remove(indices[i]);
     }
+
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
 
     // We'd like the owner selected after this remove completes.
     //

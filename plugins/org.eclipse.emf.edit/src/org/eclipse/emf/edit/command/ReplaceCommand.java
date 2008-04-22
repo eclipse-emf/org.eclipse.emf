@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReplaceCommand.java,v 1.6 2007/06/14 18:32:42 emerks Exp $
+ * $Id: ReplaceCommand.java,v 1.7 2008/04/22 19:46:15 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -277,6 +277,10 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     //
     ownerList.addAll(index, collection);
   
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
+
     // We'd like the collection of replacements selected after this replace completes.
     //
     affectedObjects = collection;
@@ -292,6 +296,10 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     // Add the value back in the right place.
     //
     ownerList.add(index, value);
+
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
 
     // We'd like the replaced selected after this undo replace completes.
     //
@@ -309,6 +317,10 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     //
     ownerList.addAll(index, collection);
   
+    // Update the containing map, if necessary.
+    //
+    updateEMap(owner, feature);
+
     // We'd like the collection of replacements selected after this replace completes.
     //
     affectedObjects = collection;
