@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.60 2008/04/22 13:36:02 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.61 2008/04/22 19:27:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3392,9 +3392,7 @@ public class EcoreUtil
 
   /**
    * Identifier for the get accessor.
-   * @see #isSuppressedVisibility(EOperation)
    * @see #isSuppressedVisibility(EStructuralFeature, int)
-   * @see #setSuppressedVisibility(EOperation, boolean)
    * @see #setSuppressedVisibility(EStructuralFeature, int, boolean)
    * @since 2.1
    */
@@ -3402,9 +3400,7 @@ public class EcoreUtil
 
   /**
    * Identifier for the set accessor.
-   * @see #isSuppressedVisibility(EOperation)
    * @see #isSuppressedVisibility(EStructuralFeature, int)
-   * @see #setSuppressedVisibility(EOperation, boolean)
    * @see #setSuppressedVisibility(EStructuralFeature, int, boolean)
    * @since 2.1
    */
@@ -3412,9 +3408,7 @@ public class EcoreUtil
 
   /**
    * Identifier for the isSet accessor.
-   * @see #isSuppressedVisibility(EOperation)
    * @see #isSuppressedVisibility(EStructuralFeature, int)
-   * @see #setSuppressedVisibility(EOperation, boolean)
    * @see #setSuppressedVisibility(EStructuralFeature, int, boolean)
    * @since 2.1
    */
