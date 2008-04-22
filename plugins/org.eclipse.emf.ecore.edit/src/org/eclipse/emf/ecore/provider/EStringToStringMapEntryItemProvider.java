@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryItemProvider.java,v 1.16 2008/02/29 20:50:33 emerks Exp $
+ * $Id: EStringToStringMapEntryItemProvider.java,v 1.17 2008/04/22 19:46:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -21,15 +21,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -189,55 +184,6 @@ public class EStringToStringMapEntryItemProvider
   protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-  }
-
-  /**
-   * When setting the key attribute, use a command wrapper that reindexes the attribute's details map.
-   */
-  @Override
-  protected Command createSetCommand(EditingDomain domain, final EObject owner, EStructuralFeature feature, Object value, int index) 
-  {
-    Command result = super.createSetCommand(domain, owner, feature, value, index);
-    if (feature == EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY__KEY)
-    {
-      result = new
-        CommandWrapper(result)
-        {
-          @Override
-          public void execute() 
-          {
-            super.execute();
-            reindex();
-          }
-  
-          @Override
-          public void undo() 
-          {
-            super.undo();
-            reindex();
-          }
-  
-          @Override
-          public void redo() 
-          {
-            super.redo();
-            reindex();
-          }
-  
-          private void reindex()
-          {
-            EObject parent = owner.eContainer();
-            if (parent != null)
-            {
-              EStructuralFeature feature = owner.eContainmentFeature();
-              @SuppressWarnings("unchecked")
-              List<Object> list = (List<Object>)parent.eGet(feature);
-              list.set(list.indexOf(owner), owner);
-            }
-          }
-        };
-    }
-    return result;
   }
 
   /**
