@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EMFObservables.java,v 1.2 2008/01/20 16:33:48 emerks Exp $
+ * $Id: EMFObservables.java,v 1.3 2008/04/22 13:36:00 emerks Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -150,9 +150,9 @@ public class EMFObservables
    * @return an observable value that tracks the current value of the named property for the current value of the master observable value
    * @see MasterDetailObservables#detailList(IObservableValue, IObservableFactory, Object)
    */
-  public static IObservableList observeDetailList(Realm realm, IObservableValue master, EStructuralFeature eStructuralFeature)
+  public static IObservableList observeDetailList(Realm realm, IObservableValue value, EStructuralFeature eStructuralFeature)
   {
-    return MasterDetailObservables.detailList(master, listFactory(realm, eStructuralFeature), eStructuralFeature);
+    return MasterDetailObservables.detailList(value, listFactory(realm, eStructuralFeature), eStructuralFeature);
   }
 
   /**
