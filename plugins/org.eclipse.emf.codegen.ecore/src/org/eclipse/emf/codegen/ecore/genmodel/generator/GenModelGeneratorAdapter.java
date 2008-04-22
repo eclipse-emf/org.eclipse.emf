@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapter.java,v 1.7 2008/04/18 04:33:56 davidms Exp $
+ * $Id: GenModelGeneratorAdapter.java,v 1.8 2008/04/22 17:31:20 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -169,10 +169,14 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
   {
     if (genModel.hasPluginSupport() && !genModel.sameModelEditProject() && !genModel.sameModelEditorProject())
     {
-      if (genModel.isBundleManifest() && !exists(toURI(genModel.getModelProjectDirectory()).appendSegment("plugin.xml")))
+      if (genModel.isBundleManifest())
       {
         message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelManifestMF_message");
         monitor.subTask(message);
+
+        // Do allow an existing MANIFEST.MF to be overwritten, since it may have been created as part of an empty EMF project.
+        // Use the existence of a plugin.xml as a guard against overwriting in a project that has already been generated.
+        //
         generateText
           (genModel.getModelProjectDirectory() + "/META-INF/MANIFEST.MF",
            getJETEmitter(getJETEmitterDescriptors(), MODEL_MANIFEST_MF_ID),
@@ -226,6 +230,10 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     {
       monitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingModelBuildProperties_message"));
       monitor.subTask(message);
+
+      // Do allow an existing build.properties to be overwritten, since it may have been created as part of an empty EMF project.
+      // Use the existence of a plugin.xml as a guard against overwriting in a project that has already been generated.
+      //
       generateText
         (genModel.getModelProjectDirectory() + "/build.properties",
          getJETEmitter(getJETEmitterDescriptors(), MODEL_BUILD_PROPERTIES_ID),
@@ -284,11 +292,15 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
   protected void generateEditManifest(GenModel genModel, Monitor monitor)
   {
     if (!genModel.sameEditEditorProject())
-    {    
-      if (genModel.isBundleManifest() && !exists(toURI(genModel.getEditProjectDirectory()).appendSegment("plugin.xml")))
+    {
+      if (genModel.isBundleManifest())
       {
         message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditManifestMF_message");
         monitor.subTask(message);
+
+        // Do allow an existing MANIFEST.MF to be overwritten, since it may have been created as part of an empty EMF project.
+        // Use the existence of a plugin.xml as a guard against overwriting in a project that has already been generated.
+        //
         generateText
           (genModel.getEditProjectDirectory() + "/META-INF/MANIFEST.MF",
            getJETEmitter(getJETEmitterDescriptors(), EDIT_MANIFEST_MF_ID),
@@ -333,6 +345,10 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
   {
     message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditBuildProperties_message");
     monitor.subTask(message);
+
+    // Do allow an existing build.properties to be overwritten, since it may have been created as part of an empty EMF project.
+    // Use the existence of a plugin.xml as a guard against overwriting in a project that has already been generated.
+    //
     generateText
       (genModel.getEditProjectDirectory() + "/build.properties",
        getJETEmitter(getJETEmitterDescriptors(), EDIT_BUILD_PROPERTIES_ID),
@@ -379,10 +395,14 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
 
   protected void generateEditorManifest(GenModel genModel, Monitor monitor)
   {
-    if (genModel.isBundleManifest() && !exists(toURI(genModel.getEditorProjectDirectory()).appendSegment("plugin.xml")))
+    if (genModel.isBundleManifest())
     {
       message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorManifestMF_message");
       monitor.subTask(message);
+
+      // Do allow an existing MANIFEST.MF to be overwritten, since it may have been created as part of an empty EMF project.
+      // Use the existence of a plugin.xml as a guard against overwriting in a project that has already been generated.
+      //
       generateText
         (genModel.getEditorProjectDirectory() + "/META-INF/MANIFEST.MF",
          getJETEmitter(getJETEmitterDescriptors(), EDITOR_MANIFEST_MF_ID),
@@ -422,6 +442,10 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
   {
     message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorBuildProperties_message");
     monitor.subTask(message);
+
+    // Do allow an existing build.properties to be overwritten, since it may have been created as part of an empty EMF project.
+    // Use the existence of a plugin.xml as a guard against overwriting in a project that has already been generated.
+    //
     generateText
       (genModel.getEditorProjectDirectory() + "/build.properties",
        getJETEmitter(getJETEmitterDescriptors(), EDITOR_BUILD_PROPERTIES_ID),
@@ -501,11 +525,14 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       {
         message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsManifestMF_message");
         monitor.subTask(message);
+
+        // Do not allow an existing MANIFEST.MF to be overwritten, as the tests project is originally generated from scratch.
+        //
         generateText
           (genModel.getTestsProjectDirectory() + "/META-INF/MANIFEST.MF",
            getJETEmitter(getJETEmitterDescriptors(), TESTS_MANIFEST_MF_ID),
            null,
-           genModel.isUpdateClasspath() && !exists(toURI(genModel.getTestsProjectDirectory()).appendSegment("plugin.xml")),
+           false,
            MANIFEST_ENCODING,
            createMonitor(monitor, 1));
       }
@@ -552,11 +579,14 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     {
       message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestsBuildProperties_message");
       monitor.subTask(message);
+
+      // Do not allow an existing build.properties to be overwritten, as the tests project is originally generated from scratch.
+      //
       generateText
         (genModel.getTestsProjectDirectory() + "/build.properties",
          getJETEmitter(getJETEmitterDescriptors(), TESTS_BUILD_PROPERTIES_ID),
          null,
-         genModel.isUpdateClasspath() && !exists(toURI(genModel.getTestsProjectDirectory()).appendSegment("plugin.xml")),
+         false,
          PROPERTIES_ENCODING,
          createMonitor(monitor, 1));
     }
