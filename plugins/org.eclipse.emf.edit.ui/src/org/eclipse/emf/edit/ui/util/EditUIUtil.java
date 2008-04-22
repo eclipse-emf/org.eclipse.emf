@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditUIUtil.java,v 1.6 2008/04/15 03:19:28 davidms Exp $
+ * $Id: EditUIUtil.java,v 1.7 2008/04/22 13:36:04 emerks Exp $
  */
 
 package org.eclipse.emf.edit.ui.util;
@@ -180,7 +180,7 @@ public class EditUIUtil
    * {@link URIConverter#INSTANCE instance} is used.
    *
    * @param uri a URI
-   * @param a URI converter from which to obtain an input stream, or <code>null</code>
+   * @param uriConverter URI converter from which to obtain an input stream, or <code>null</code>
    * @return the descriptor of the default editor, or <code>null</code> if not found
    * @since 2.4
    */ 
@@ -296,7 +296,7 @@ public class EditUIUtil
    * {@link URIConverter#INSTANCE instance} is used.
    *
    * @param uri a URI
-   * @param a URI converter from which to obtain an input stream, or <code>null</code>
+   * @param uriConverter a URI converter from which to obtain an input stream, or <code>null</code>
    * @param defaultsOnly if <code>true</code>, only the default editor for each content type will be included in the result 
    * @return the descriptors of the editors
    * @since 2.4
