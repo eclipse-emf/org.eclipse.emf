@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingResourceLocator.java,v 1.2 2008/04/08 15:00:50 emerks Exp $
+ * $Id: DelegatingResourceLocator.java,v 1.3 2008/04/22 13:35:46 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -313,7 +313,7 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
    * when the image resource is not available locally.
    * @param key the key of the image to fetch.
    * @exception MissingResourceException if the image resource doesn't exist anywhere.
-   * @see #delegateResourceLocators
+   * @see #getDelegateResourceLocators()
    */
   protected Object delegatedGetImage(String key) throws MissingResourceException
   {
@@ -465,7 +465,7 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
    * when the string resource is not available locally.
    * @param key the key of the string to fetch.
    * @exception MissingResourceException if the string resource doesn't exist anywhere.
-   * @see #delegateResourceLocators
+   * @see #getDelegateResourceLocators()
    */
   protected String delegatedGetString(String key, boolean translate)
   {
