@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.35 2008/01/29 21:13:13 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.36 2008/04/22 13:35:43 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -664,7 +664,7 @@ public class ItemProviderAdapter
   }
 
   /**
-   * This implements {@link IItemFontProvider#getcolFont IItemFontProvider.getFont} by returning null;
+   * This implements {@link IItemFontProvider#getFont IItemFontProvider.getFont} by returning null;
    */
   public Object getFont(Object object)
   {
