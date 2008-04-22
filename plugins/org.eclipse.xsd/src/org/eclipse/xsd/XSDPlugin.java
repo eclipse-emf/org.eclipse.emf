@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPlugin.java,v 1.7 2007/05/28 19:13:02 emerks Exp $
+ * $Id: XSDPlugin.java,v 1.8 2008/04/22 13:36:03 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -34,7 +34,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
  * which can redirect the service as appopriate to the runtime.
  * During stand-alone invocation no plugin initialization takes place.
  * In this case you will need the resources jar on the class path.
- * @see #getBaseURL
+ * @see #getBaseURL()
  */
 public final class XSDPlugin extends EMFPlugin 
 {
