@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTestSuite.java,v 1.5 2007/03/21 14:55:47 marcelop Exp $
+ * $Id: JMergerTestSuite.java,v 1.6 2008/04/22 13:35:39 emerks Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -156,8 +156,7 @@ public class JMergerTestSuite extends TestSuite
   /**
    * Creates and returns test suite for a single input directory.
    * 
-   * @param subDirectoryName
-   * @param dataDirsDirectory directory containing directory with subDirectoryName
+   * @param dataDirectory directory containing directory with subDirectoryName
    * @return
    */
   protected TestSuite createSingleInputTestSuite(File dataDirectory)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerASTTest.java,v 1.7 2006/11/21 19:35:50 marcelop Exp $
+ * $Id: JMergerASTTest.java,v 1.8 2008/04/22 13:35:39 emerks Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -91,7 +91,7 @@ public class JMergerASTTest extends JMergerTest
    * Method to be used in tests created based on data directories.
    * 
    * @throws Exception
-   * @see addItself(TestSuite)
+   * @see #addItself(TestSuite)
    * @see JMergerTestSuite
    */
   public void mergeAST() throws Exception

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.15 2007/01/18 15:53:01 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.16 2008/04/22 13:35:39 emerks Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -91,7 +91,7 @@ public class DeprecatedJMergerTest extends TestCase
   /**
    * This test case was based on the excellent article written by Adrian Powell 
    * Model with the Eclipse Modeling Framework, Part 3 
-   * @see http://www-106.ibm.com/developerworks/library/os-ecemf3/.
+   * @see <a href="http://www.ibm.com/developerworks/library/os-ecemf3/">JMerge</a>
    */  
   public void merge1() throws Exception
   {

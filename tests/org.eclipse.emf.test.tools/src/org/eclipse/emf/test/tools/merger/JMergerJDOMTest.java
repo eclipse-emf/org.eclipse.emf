@@ -93,7 +93,7 @@ public class JMergerJDOMTest extends JMergerTest
   /**
    * Method to be used in tests created based on data directories.
    * @throws Exception
-   * @see {@link #addItself(TestSuite)}
+   * @see #addItself(TestSuite)
    * @see JMergerTestSuite
    */
   public void mergeJDOM() throws Exception
@@ -121,7 +121,7 @@ public class JMergerJDOMTest extends JMergerTest
   }
 
   /**
-   * Adds itself only if java version is 1.4 based on directory ({@link #determineJavaVersion()}
+   * Adds itself only if java version is 1.4 based on directory ({@link #computeExpectedOutputFile()}
    * and if possible by {@link JMergerTest#addItself(TestSuite)}.
    * 
    * @see org.eclipse.emf.test.tools.merger.JMergerTest#addItself(junit.framework.TestSuite)

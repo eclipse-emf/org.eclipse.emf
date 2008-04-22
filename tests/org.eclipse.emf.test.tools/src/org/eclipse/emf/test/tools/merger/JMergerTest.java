@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.20 2007/01/18 15:53:01 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.21 2008/04/22 13:35:39 emerks Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -356,7 +356,7 @@ public abstract class JMergerTest extends TestCase
    * Before performing merge, java compiler source version is set based on data directory.
    * 
    * @throws Exception 
-   * @see {@link #adjustSourceCompatibility()}
+   * @see #adjustSourceCompatibility()
    */
   protected void merge() throws Exception
   {
