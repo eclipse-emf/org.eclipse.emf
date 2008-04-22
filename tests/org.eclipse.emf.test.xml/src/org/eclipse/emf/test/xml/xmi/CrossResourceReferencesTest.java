@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CrossResourceReferencesTest.java,v 1.6 2007/01/18 15:53:17 marcelop Exp $
+ * $Id: CrossResourceReferencesTest.java,v 1.7 2008/04/22 13:35:45 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -37,8 +37,8 @@ import org.eclipse.emf.test.models.library.Writer;
 
 /**
  * XMI tests: loading and serializing library model with cross resource references
- * @see data/library.mdl
- * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=77423
+ * @see <a href="data/library.mdl">data/library.mdl</a>
+ * @see <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=77423">Bugzilla 77423</a>
  */
 public class CrossResourceReferencesTest extends TestCase
 {
