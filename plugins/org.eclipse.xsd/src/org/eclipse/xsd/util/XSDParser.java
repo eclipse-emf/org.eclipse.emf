@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.15 2008/04/19 19:12:46 emerks Exp $
+ * $Id: XSDParser.java,v 1.16 2008/04/23 19:02:54 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -146,10 +146,6 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
         {
           result = intToObject(endColumn);
           endColumn  = objectToInt(value);
-          if (delegateMap != null)
-          {
-            delegateMap.put("endColumn", value);
-          }
         }
         else
         {
