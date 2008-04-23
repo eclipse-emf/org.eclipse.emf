@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.89 2008/02/20 20:28:44 khussey Exp $
+ * $Id: XMLHandler.java,v 1.90 2008/04/23 19:30:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -798,7 +798,16 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   {
     try
     {
-      InputStream inputStream = getURIConverter().createInputStream(URI.createURI(systemId), null);
+      Map<Object, Object> options = new HashMap<Object, Object>();
+      options.put("publicId", publicId);
+      options.put("systemId", systemId);
+      options.put("baseLocation", resourceURI == null ? null : resourceURI.toString());
+      URI uri = URI.createURI(systemId);
+      if (resolve && uri.isRelative() && uri.hasRelativePath())
+      {
+        uri = helper.resolve(uri, resourceURI);
+      }
+      InputStream inputStream = getURIConverter().createInputStream(uri, options);
       InputSource result = new InputSource(inputStream);
       result.setPublicId(publicId);
       result.setSystemId(systemId);
