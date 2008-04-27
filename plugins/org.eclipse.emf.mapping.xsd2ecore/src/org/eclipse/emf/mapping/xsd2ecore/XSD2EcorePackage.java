@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePackage.java,v 1.5 2005/11/23 18:09:45 emerks Exp $
+ * $Id: XSD2EcorePackage.java,v 1.6 2008/04/27 20:56:19 davidms Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore;
 
@@ -61,6 +61,15 @@ public interface XSD2EcorePackage extends EPackage{
    * @generated
    */
   String eNS_PREFIX = "xsd2ecore";
+
+  /**
+   * The package content type ID.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  String eCONTENT_TYPE = "org.eclipse.emf.mapping.xsd2ecore";
 
   /**
    * The singleton instance of the package.
