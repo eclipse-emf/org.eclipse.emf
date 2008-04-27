@@ -1,21 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package uri="http://www.eclipse.org/xsd/2002/XSD" class="org.eclipse.xsd.XSDPackage" genModel="model/XSD.genmodel" />
-  </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.eclipse.org/xsd/2002/XSD"
+            class="org.eclipse.xsd.XSDPackage"
+            genModel="model/XSD.genmodel"/>
+   </extension>
 
-  <extension point="org.eclipse.emf.ecore.extension_parser">
-    <parser type="xsd" class="org.eclipse.xsd.util.XSDResourceFactoryImpl" />
-  </extension>
+   <extension
+         point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="xsd"
+            class="org.eclipse.xsd.util.XSDResourceFactoryImpl"/>
+   </extension>
 
-  <extension point="org.eclipse.team.core.fileTypes">
-    <fileTypes extension="xsd" type="text" />
-  </extension>
+   <extension point="org.eclipse.emf.ecore.content_parser">
+      <parser
+            contentTypeIdentifier="org.eclipse.xsd"
+            class="org.eclipse.xsd.util.XSDResourceFactoryImpl"/>
+   </extension>
 
-  <extension id="diagnostic" name="%_UI_XMLSchemaDiagnostic_marker" point="org.eclipse.core.resources.markers">
-    <super type="org.eclipse.core.resources.problemmarker" />
-    <persistent value="true" />
-    <attribute name="diagnostic" />
-  </extension>
+   <extension point="org.eclipse.core.runtime.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.xml"
+            file-extensions="xsd"
+            id="org.eclipse.xsd"
+            name="%_UI_XSD_content_type"
+            priority="normal">
+         <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
+            <parameter name="element" value="{http://www.w3.org/2001/XMLSchema}schema"/>
+         </describer>
+      </content-type>
+   </extension>
+
+   <extension point="org.eclipse.team.core.fileTypes">
+      <fileTypes
+            extension="xsd"
+            type="text"/>
+   </extension>
+
+   <extension
+         id="diagnostic"
+         name="%_UI_XMLSchemaDiagnostic_marker"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="true"/>
+      <attribute name="diagnostic"/>
+    </extension>
 </plugin>
