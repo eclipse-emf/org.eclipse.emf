@@ -1,54 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-  <extension point="org.eclipse.ui.editors">
-    <editor id="org.eclipse.xsd.presentation.XSDEditorID" name="%sampleEditor" icon="icons/full/obj16/XSDModelFile.gif" extensions="xsd" class="org.eclipse.xsd.presentation.XSDEditor" contributorClass="org.eclipse.xsd.presentation.XSDEditor$ActionBarContributor" />
-  </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.xsd.presentation.XSDEditorID"
+            name="%sampleEditor"
+            icon="icons/full/obj16/XSDModelFile.gif"
+            class="org.eclipse.xsd.presentation.XSDEditor"
+            contributorClass="org.eclipse.xsd.presentation.XSDEditor$ActionBarContributor">
+         <contentTypeBinding contentTypeId="org.eclipse.xsd"/>
+      </editor>
+   </extension>
 
-  <extension point="org.eclipse.ui.editorActions">
-    <editorContribution id="org.eclipse.xsd.action.xsdContributionID" targetID="org.eclipse.xsd.presentation.XSDEditorID">
-      <menu id="org.eclipse.xsdMenuID" label="%_UI_XSDEditor_menu" path="additions">
-        <separator name="settings" />
-        <separator name="actions" />
-        <separator name="additions" />
-        <separator name="additions-end" />
-      </menu>
-    </editorContribution>
-  </extension>
+   <extension point="org.eclipse.ui.editorActions">
+      <editorContribution
+            id="org.eclipse.xsd.action.xsdContributionID"
+            targetID="org.eclipse.xsd.presentation.XSDEditorID">
+         <menu
+               id="org.eclipse.xsdMenuID"
+               label="%_UI_XSDEditor_menu"
+               path="additions">
+            <separator name="settings"/>
+            <separator name="actions"/>
+            <separator name="additions"/>
+            <separator name="additions-end"/>
+         </menu>
+      </editorContribution>
+   </extension>
 
-  <extension point="org.eclipse.ui.newWizards">
-    <category id="org.eclipse.emf.ecore.Wizard.category.ID" name="%_UI_Wizard_category" />
-    <wizard id="org.eclipse.xsd.presentation.XSDModelWizardID" name="%_UI_XSDModelWizard_label" class="org.eclipse.xsd.presentation.XSDModelWizard" category="org.eclipse.emf.ecore.Wizard.category.ID" icon="icons/full/ctool16/NewXSD.gif">
-      <description>%_UI_XSDModelWizard_description</description>
-      <selection class="org.eclipse.core.resources.IResource" />
-    </wizard>
-  </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.eclipse.xsd.presentation.XSDModelWizardID"
+            name="%_UI_XSDModelWizard_label"
+            class="org.eclipse.xsd.presentation.XSDModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/ctool16/NewXSD.gif">
+         <description>%_UI_XSDModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
 
-  <!--
-  <extension point = "org.eclipse.ui.popupMenus">
-    <objectContribution id="org.eclipse.xsd.editor.GenericXMLLoad"
-         objectClass="org.eclipse.core.resources.IFile"
-         nameFilter="*.xml">
+   <!--
+   <extension point = "org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.eclipse.xsd.editor.GenericXMLLoad"
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="*.xml">
+         <action
+               id="org.eclipse.xsd.editor.GenericXMLLoadAction"
+               label="Test Load and Save as XML..."
+               menubarPath="additions"
+               class="org.eclipse.xsd.presentation.XSDEditor$GenericXMLLoadAction"
+               enablesFor="1"/>
+      </objectContribution>
+   </extension>
 
-      <action id="org.eclipse.xsd.editor.GenericXMLLoadAction"
-          label="Test Load and Save as XML..."
-          menubarPath="additions"
-          class="org.eclipse.xsd.presentation.XSDEditor$GenericXMLLoadAction"
-          enablesFor="1">
-      </action>
-    </objectContribution>
-  </extension>
-
-  <extension point = "org.eclipse.ui.popupMenus">
-    <objectContribution id="org.eclipse.xsd.editor.GenericXMLLoad"
-         objectClass="org.eclipse.core.resources.IContainer">
-
-      <action id="org.eclipse.xsd.editor.GenericXMLLoadAction"
-          label="Test Load and Save as XML..."
-          menubarPath="additions"
-          class="org.eclipse.xsd.presentation.XSDEditor$GenericXMLLoadAction">
-      </action>
-    </objectContribution>
-  </extension>
--->
+   <extension point = "org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.eclipse.xsd.editor.GenericXMLLoad"
+            objectClass="org.eclipse.core.resources.IContainer">
+         <action
+               id="org.eclipse.xsd.editor.GenericXMLLoadAction"
+               label="Test Load and Save as XML..."
+               menubarPath="additions"
+               class="org.eclipse.xsd.presentation.XSDEditor$GenericXMLLoadAction"/>
+      </objectContribution>
+   </extension>
+   -->
 </plugin>
