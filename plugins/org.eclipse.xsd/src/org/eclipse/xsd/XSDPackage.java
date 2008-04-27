@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackage.java,v 1.7 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDPackage.java,v 1.8 2008/04/27 21:00:01 davidms Exp $
  */
 package org.eclipse.xsd;
 
@@ -59,6 +59,15 @@ public interface XSDPackage extends EPackage
    * @generated
    */
   String eNS_PREFIX = "xsd";
+
+  /**
+   * The package content type ID.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  String eCONTENT_TYPE = "org.eclipse.xsd";
 
   /**
    * The singleton instance of the package.

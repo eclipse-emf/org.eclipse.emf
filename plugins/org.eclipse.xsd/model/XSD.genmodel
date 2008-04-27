@@ -10,7 +10,7 @@
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
   <genPackages prefix="XSD" basePackage="org.eclipse" disposableProviderFactory="true"
-      ecorePackage="XSD.ecore#/">
+      contentTypeIdentifier="org.eclipse.xsd" ecorePackage="XSD.ecore#/">
     <genEnums ecoreEnum="XSD.ecore#//XSDAttributeUseCategory">
       <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDAttributeUseCategory/optional"/>
       <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDAttributeUseCategory/prohibited"/>
