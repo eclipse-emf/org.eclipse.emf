@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFExtendedMetaData.java,v 1.7 2008/04/18 20:05:59 davidms Exp $
+ * $Id: EMOFExtendedMetaData.java,v 1.8 2008/04/27 20:39:25 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -62,6 +62,12 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
   public static final String EMOF_TAG_ELEMENT = "element";
 
   public static final String EMOF_PROPERTY_CLASS_NAME = "Property";
+
+  /**
+   * The content type ID for EMOF.
+   * @since 2.4
+   */
+  public static final String CONTENT_TYPE = "org.eclipse.emf.emof";
 
   protected XMLResource.XMLMap xmlMap;
 
