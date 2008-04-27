@@ -12,15 +12,13 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcorePackageImpl.java,v 1.10 2006/12/29 18:29:16 marcelop Exp $
+ * $Id: Ecore2EcorePackageImpl.java,v 1.11 2008/04/27 20:53:00 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
-import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
@@ -106,7 +104,6 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
 
     // Initialize simple dependencies
     MappingPackage.eINSTANCE.eClass();
-    EcorePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theEcore2EcorePackage.createPackageContents();
