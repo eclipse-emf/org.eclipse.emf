@@ -11,7 +11,8 @@
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
   <genPackages prefix="Ecore2XML" basePackage="org.eclipse.emf.mapping" resource="XMI"
-      disposableProviderFactory="true" ecorePackage="Ecore2XML.ecore#/">
+      disposableProviderFactory="true" contentTypeIdentifier="org.eclipse.emf.mapping.ecore2xml"
+      ecorePackage="Ecore2XML.ecore#/">
     <genClasses ecoreClass="Ecore2XML.ecore#//XMLInfo">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore2XML.ecore#//XMLInfo/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore2XML.ecore#//XMLInfo/targetNamespace"/>

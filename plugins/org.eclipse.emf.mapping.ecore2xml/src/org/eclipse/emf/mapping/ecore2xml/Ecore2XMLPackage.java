@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLPackage.java,v 1.6 2005/11/23 18:09:44 emerks Exp $
+ * $Id: Ecore2XMLPackage.java,v 1.7 2008/04/27 20:55:19 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -61,6 +61,15 @@ public interface Ecore2XMLPackage extends EPackage{
    * @generated
    */
   String eNS_PREFIX = "ecore2xml"; //$NON-NLS-1$
+
+  /**
+   * The package content type ID.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  String eCONTENT_TYPE = "org.eclipse.emf.mapping.ecore2xml"; //$NON-NLS-1$
 
   /**
    * The singleton instance of the package.
