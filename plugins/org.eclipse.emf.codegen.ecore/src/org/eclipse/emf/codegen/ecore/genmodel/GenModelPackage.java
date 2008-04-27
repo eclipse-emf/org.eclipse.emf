@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.51 2008/04/17 20:33:08 davidms Exp $
+ * $Id: GenModelPackage.java,v 1.52 2008/04/27 19:15:47 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -67,6 +67,15 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   String eNS_PREFIX = "genmodel";
+
+  /**
+   * The package content type ID.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  String eCONTENT_TYPE = "org.eclipse.emf.codegen.genmodel";
 
   /**
    * The singleton instance of the package.
