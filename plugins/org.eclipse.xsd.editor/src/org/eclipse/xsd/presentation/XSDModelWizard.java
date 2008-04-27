@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: XSDModelWizard.java,v 1.7 2007/05/28 19:13:03 emerks Exp $
+ * $Id: XSDModelWizard.java,v 1.8 2008/04/27 20:59:52 davidms Exp $
  */
 package org.eclipse.xsd.presentation;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +83,27 @@ import org.eclipse.xsd.util.XSDResourceImpl;
 public class XSDModelWizard extends Wizard implements INewWizard
 {
   /**
-   * This caches an instance of the model package.
+   *    * The file extensions supported by this editor.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final List<String> FILE_EXTENSIONS =
+    Collections.unmodifiableList(Arrays.asList(XSDEditorPlugin.INSTANCE.getString("_UI_XSDEditorFilenameExtensions").split("\\s*,\\s*")));
+
+  /**
+   * A formatted list of supported file extensions, suitable for display.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String FORMATTED_FILE_EXTENSIONS =
+    XSDEditorPlugin.INSTANCE.getString("_UI_XSDEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
+
+  /**
+This caches an instance of the model package.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -192,7 +214,7 @@ public class XSDModelWizard extends Wizard implements INewWizard
 
               // Create a resource for this file.
               //
-              Resource resource = resourceSet.createResource(fileURI);
+              Resource resource = resourceSet.createResource(fileURI, XSDPackage.eCONTENT_TYPE);
 
               // Add the initial model object to the contents.
               //
@@ -300,24 +322,16 @@ public class XSDModelWizard extends Wizard implements INewWizard
     {
       if (super.validatePage())
       {
-        // Make sure the file ends in ".xsd".
-        //
-        String requiredExt = XSDEditorPlugin.INSTANCE.getString("_UI_XSDEditorFilenameExtension");
-        String enteredExt = new Path(getFileName()).getFileExtension();
-        if (enteredExt == null || !enteredExt.equals(requiredExt))
+        String extension = new Path(getFileName()).getFileExtension();
+        if (extension == null || !FILE_EXTENSIONS.contains(extension))
         {
-          setErrorMessage(XSDEditorPlugin.INSTANCE.getString("_WARN_FilenameExtension", new Object [] { requiredExt }));
+          String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension";
+          setErrorMessage(XSDEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
           return false;
         }
-        else
-        {
-          return true;
-        }
+        return true;
       }
-      else
-      {
-        return false;
-      }
+      return false;
     }
 
     /**
@@ -576,7 +590,7 @@ public class XSDModelWizard extends Wizard implements INewWizard
     newFileCreationPage = new XSDModelWizardNewFileCreationPage("Whatever", selection);
     newFileCreationPage.setTitle(XSDEditorPlugin.INSTANCE.getString("_UI_XSDModelWizard_label"));
     newFileCreationPage.setDescription(XSDEditorPlugin.INSTANCE.getString("_UI_XSDModelWizard_description"));
-    newFileCreationPage.setFileName(XSDEditorPlugin.INSTANCE.getString("_UI_XSDEditorFilenameDefaultBase") + "." + XSDEditorPlugin.INSTANCE.getString("_UI_XSDEditorFilenameExtension"));
+    newFileCreationPage.setFileName(XSDEditorPlugin.INSTANCE.getString("_UI_XSDEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0));
     addPage(newFileCreationPage);
 
     // Try and get the resource selection to determine a current directory for the file dialog.
@@ -607,7 +621,7 @@ public class XSDModelWizard extends Wizard implements INewWizard
           // Make up a unique new name here.
           //
           String defaultModelBaseFilename = XSDEditorPlugin.INSTANCE.getString("_UI_XSDEditorFilenameDefaultBase");
-          String defaultModelFilenameExtension = XSDEditorPlugin.INSTANCE.getString("_UI_XSDEditorFilenameExtension");
+          String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
           String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension;
           for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i)
           {
