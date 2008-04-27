@@ -12,14 +12,15 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLModelWizard.java,v 1.8 2007/06/02 19:35:05 emerks Exp $
+ * $Id: Ecore2XMLModelWizard.java,v 1.9 2008/04/27 20:55:17 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-//import java.util.Collections;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +107,26 @@ import org.eclipse.ui.PartInitException;
  */
 public class Ecore2XMLModelWizard extends Wizard implements INewWizard
 {
+  /**
+   * The supported extensions for created files.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final List<String> FILE_EXTENSIONS =
+    Collections.unmodifiableList(Arrays.asList(Ecore2XMLUIPlugin.INSTANCE.getString("_UI_Ecore2XMLEditorFilenameExtensions").split("\\s*,\\s*"))); //$NON-NLS-1$ //$NON-NLS-2$
+
+  /**
+   * A formatted list of supported file extensions, suitable for display.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String FORMATTED_FILE_EXTENSIONS =
+    Ecore2XMLUIPlugin.INSTANCE.getString("_UI_Ecore2XMLEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
+
   /**
    * This caches an instance of the model package.
    * <!-- begin-user-doc -->
@@ -240,7 +261,7 @@ public class Ecore2XMLModelWizard extends Wizard implements INewWizard
 
               // Create a resource for this file.
               //
-              Resource resource = resourceSet.createResource(fileURI);
+              Resource resource = resourceSet.createResource(fileURI, Ecore2XMLPackage.eCONTENT_TYPE);
 
               // Add the initial model object to the contents.
               //
@@ -340,24 +361,16 @@ public class Ecore2XMLModelWizard extends Wizard implements INewWizard
     {
       if (super.validatePage())
       {
-        // Make sure the file ends in ".ecore2xml".
-        //
-        String requiredExt = Ecore2XMLUIPlugin.INSTANCE.getString("_UI_Ecore2XMLEditorFilenameExtension"); //$NON-NLS-1$
-        String enteredExt = new Path(getFileName()).getFileExtension();
-        if (enteredExt == null || !enteredExt.equals(requiredExt))
+        String extension = new Path(getFileName()).getFileExtension();
+        if (extension == null || !FILE_EXTENSIONS.contains(extension))
         {
-          setErrorMessage(Ecore2XMLUIPlugin.INSTANCE.getString("_WARN_FilenameExtension", new Object [] { requiredExt })); //$NON-NLS-1$
+          String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension"; //$NON-NLS-1$ //$NON-NLS-2$
+          setErrorMessage(Ecore2XMLUIPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
           return false;
         }
-        else
-        {
-          return true;
-        }
+        return true;
       }
-      else
-      {
-        return false;
-      }
+      return false;
     }
 
     /**
@@ -617,7 +630,7 @@ public class Ecore2XMLModelWizard extends Wizard implements INewWizard
     newFileCreationPage = new Ecore2XMLModelWizardNewFileCreationPage("Whatever", selection); //$NON-NLS-1$
     newFileCreationPage.setTitle(Ecore2XMLUIPlugin.INSTANCE.getString("_UI_Ecore2XMLModelWizard_label")); //$NON-NLS-1$
     newFileCreationPage.setDescription(Ecore2XMLUIPlugin.INSTANCE.getString("_UI_Ecore2XMLModelWizard_description")); //$NON-NLS-1$
-    newFileCreationPage.setFileName(Ecore2XMLUIPlugin.INSTANCE.getString("_UI_Ecore2XMLEditorFilenameDefaultBase") + "." + Ecore2XMLUIPlugin.INSTANCE.getString("_UI_Ecore2XMLEditorFilenameExtension")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    newFileCreationPage.setFileName(Ecore2XMLUIPlugin.INSTANCE.getString("_UI_Ecore2XMLEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0)); //$NON-NLS-1$ //$NON-NLS-2$
     addPage(newFileCreationPage);
 
     // Try and get the resource selection to determine a current directory for the file dialog.
@@ -648,7 +661,7 @@ public class Ecore2XMLModelWizard extends Wizard implements INewWizard
           // Make up a unique new name here.
           //
           String defaultModelBaseFilename = Ecore2XMLUIPlugin.INSTANCE.getString("_UI_Ecore2XMLEditorFilenameDefaultBase"); //$NON-NLS-1$
-          String defaultModelFilenameExtension = Ecore2XMLUIPlugin.INSTANCE.getString("_UI_Ecore2XMLEditorFilenameExtension"); //$NON-NLS-1$
+          String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
           String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension; //$NON-NLS-1$
           for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i)
           {
