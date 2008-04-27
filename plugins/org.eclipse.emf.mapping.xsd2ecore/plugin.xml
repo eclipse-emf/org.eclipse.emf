@@ -1,23 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package uri="http://www.eclipse.org/emf/2002/XSD2Ecore" class="org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePackage" genModel="model/XSD2Ecore.genmodel" />
-  </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.eclipse.org/emf/2002/XSD2Ecore"
+            class="org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePackage"
+            genModel="model/XSD2Ecore.genmodel"/>
+   </extension>
 
-  <extension point="org.eclipse.emf.ecore.extension_parser">
-    <parser type="xsd2ecore" class="org.eclipse.emf.mapping.xsd2ecore.util.XSD2EcoreResourceFactoryImpl" />
-  </extension>
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="xsd2ecore"
+            class="org.eclipse.emf.mapping.xsd2ecore.util.XSD2EcoreResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.content_parser">
+      <parser
+            contentTypeIdentifier="org.eclipse.emf.mapping.xsd2ecore"
+            class="org.eclipse.emf.mapping.xsd2ecore.util.XSD2EcoreResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.core.runtime.contentTypes">
+      <content-type
+            base-type="org.eclipse.emf.ecore.xmi"
+            file-extensions="xsd2ecore"
+            id="org.eclipse.emf.mapping.xsd2ecore"
+            name="%_UI_XSD2Ecore_content_type"
+            priority="normal">
+         <describer class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
+            <parameter name="namespace" value="http://www.eclipse.org/emf/2002/XSD2Ecore"/>
+            <parameter name="kind" value="xmi"/>
+         </describer>
+      </content-type>
+   </extension>
 
   <extension point="org.eclipse.team.core.fileTypes">
-    <fileTypes extension="xsd2ecore" type="text" />
+    <fileTypes extension="xsd2ecore" type="text"/>
   </extension>
 
   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-    <factory uri="http://www.eclipse.org/emf/2002/XSD2Ecore" class="org.eclipse.emf.mapping.xsd2ecore.provider.XSD2EcoreItemProviderAdapterFactory" supportedTypes="org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-          org.eclipse.emf.edit.provider.ITreeItemContentProvider
-          org.eclipse.emf.edit.provider.IItemLabelProvider
-          org.eclipse.emf.edit.provider.IItemPropertySource" />
+     <factory
+           uri="http://www.eclipse.org/emf/2002/XSD2Ecore"
+           class="org.eclipse.emf.mapping.xsd2ecore.provider.XSD2EcoreItemProviderAdapterFactory"
+           supportedTypes=
+             "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+              org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+              org.eclipse.emf.edit.provider.ITreeItemContentProvider
+              org.eclipse.emf.edit.provider.IItemLabelProvider
+              org.eclipse.emf.edit.provider.IItemPropertySource"/>
   </extension>
 </plugin>
