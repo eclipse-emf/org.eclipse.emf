@@ -51,7 +51,7 @@
         point="org.eclipse.core.runtime.contentTypes">
      <content-type
            base-type="org.eclipse.emf.ecore.xmi"
-           file-extensions="ecore,xmi"
+           file-extensions="ecore"
            id="org.eclipse.emf.ecore"
            name="%_UI_Ecore_content_type"
            priority="normal">
@@ -90,6 +90,5 @@
         </describer>
      </content-type>
   </extension>
-  
 
 </plugin>
