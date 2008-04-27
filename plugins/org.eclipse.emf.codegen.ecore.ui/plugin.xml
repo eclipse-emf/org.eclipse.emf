@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-  <extension point="org.eclipse.ui.editors">
-    <editor id="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditorID" name="%_UI_GenModel_Editor" icon="icons/full/obj16/GenModelModelFile.gif" extensions="genmodel" class="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditor" contributorClass="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelActionBarContributor">
-    </editor>
-  </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditorID"
+            name="%_UI_GenModel_Editor"
+            icon="icons/full/obj16/GenModelModelFile.gif"
+            class="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditor"
+            contributorClass="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelActionBarContributor">
+         <contentTypeBinding contentTypeId="org.eclipse.emf.codegen.genmodel"/>
+      </editor>
+   </extension>
 
-  <extension point="org.eclipse.ui.newWizards">
-    <category id="org.eclipse.emf.codegen.ecore.ui.wizardCategory" name="%_UI_Wizard_Category">
-    </category>
-    <wizard id="org.eclipse.emf.codegen.ecore.ui.EmptyProjectWizard" name="%_UI_EmptyProject_title" class="org.eclipse.emf.codegen.ecore.ui.EmptyProjectWizard" category="org.eclipse.emf.codegen.ecore.ui.wizardCategory" project="true" icon="icons/full/ctool16/NewEmptyEMFProject.gif">
-      <description>%_UI_EmptyProject_description</description>
-      <selection class="org.eclipse.core.resources.IResource" />
-    </wizard>
-  </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.codegen.ecore.ui.wizardCategory"
+            name="%_UI_Wizard_Category"/>
+      <wizard
+            id="org.eclipse.emf.codegen.ecore.ui.EmptyProjectWizard"
+            name="%_UI_EmptyProject_title"
+            class="org.eclipse.emf.codegen.ecore.ui.EmptyProjectWizard"
+            category="org.eclipse.emf.codegen.ecore.ui.wizardCategory"
+            project="true"
+            icon="icons/full/ctool16/NewEmptyEMFProject.gif">
+         <description>%_UI_EmptyProject_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
 
-  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-    <factory uri="http://www.eclipse.org/emf/2002/GenModel" class="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelItemProviderAdapterFactory" supportedTypes="org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-      org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-      org.eclipse.emf.edit.provider.ITreeItemContentProvider
-      org.eclipse.emf.edit.provider.IItemLabelProvider
-      org.eclipse.emf.edit.provider.IItemPropertySource" />
-  </extension>
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <factory
+            uri="http://www.eclipse.org/emf/2002/GenModel"
+            class="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
 </plugin>
