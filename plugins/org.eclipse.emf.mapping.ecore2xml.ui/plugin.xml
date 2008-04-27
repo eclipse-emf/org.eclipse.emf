@@ -1,29 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-  <extension point="org.eclipse.ui.newWizards">
-    <category id="org.eclipse.emf.ecore.Wizard.category.ID" name="%_UI_Wizard_category" />
-    <wizard id="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLModelWizardID" name="%_UI_Ecore2XMLModelWizard_label" class="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLModelWizard" category="org.eclipse.emf.ecore.Wizard.category.ID" icon="icons/full/ctool16/NewEcore2XML.gif">
-      <description>%_UI_Ecore2XMLModelWizard_description</description>
-      <selection class="org.eclipse.core.resources.IResource" />
-    </wizard>
-  </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLModelWizardID"
+            name="%_UI_Ecore2XMLModelWizard_label"
+            class="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/ctool16/NewEcore2XML.gif">
+         <description>%_UI_Ecore2XMLModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
 
-  <extension point="org.eclipse.ui.editors">
-    <editor id="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLEditorID" name="%_UI_Ecore2XMLEditor_label" icon="icons/full/obj16/Ecore2XMLModelFile.gif" extensions="ecore2xml" class="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLEditor" contributorClass="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLActionBarContributor" />
-  </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLEditorID"
+            name="%_UI_Ecore2XMLEditor_label"
+            icon="icons/full/obj16/Ecore2XMLModelFile.gif"
+            class="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLEditor"
+            contributorClass="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLActionBarContributor">
+         <contentTypeBinding contentTypeId="org.eclipse.emf.mapping.ecore2xml"/>
+      </editor>
+   </extension>
 
-  <extension point="org.eclipse.ui.popupMenus">
-    <objectContribution objectClass="org.eclipse.core.resources.IFile" nameFilter="*.ecore2ecore" id="org.eclipse.emf.mapping.ecore2xml.ui.GenerateEcore2XMLObjectContributionID">
-      <action label="%_UI_GenerateEcore2XML_label" class="org.eclipse.emf.mapping.ecore2xml.action.GenerateEcore2XMLActionDelegate" menubarPath="additions" enablesFor="1" id="org.eclipse.emf.mapping.ecore2xml.ui.GenerateEcore2XMLActionID" />
-    </objectContribution>
-  </extension>
+   <extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="*.ecore2ecore"
+            id="org.eclipse.emf.mapping.ecore2xml.ui.GenerateEcore2XMLObjectContributionID">
+         <action
+               label="%_UI_GenerateEcore2XML_label"
+               class="org.eclipse.emf.mapping.ecore2xml.action.GenerateEcore2XMLActionDelegate"
+               menubarPath="additions"
+               enablesFor="1"
+               id="org.eclipse.emf.mapping.ecore2xml.ui.GenerateEcore2XMLActionID"/>
+      </objectContribution>
+   </extension>
 
-  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-    <factory uri="http://www.eclipse.org/emf/2005/Ecore2XML" class="org.eclipse.emf.mapping.ecore2xml.provider.Ecore2XMLItemProviderAdapterFactory" supportedTypes="org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-          org.eclipse.emf.edit.provider.ITreeItemContentProvider
-          org.eclipse.emf.edit.provider.IItemLabelProvider
-          org.eclipse.emf.edit.provider.IItemPropertySource" />
-  </extension>
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <factory
+            uri="http://www.eclipse.org/emf/2005/Ecore2XML"
+            class="org.eclipse.emf.mapping.ecore2xml.provider.Ecore2XMLItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
 </plugin>
