@@ -1,53 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-  <extension point="org.eclipse.ui.newWizards">
-    <category id="org.eclipse.emf.ecore.Wizard.category.ID" name="%_UI_Wizard_category">
-    </category>
-    <wizard id="org.eclipse.emf.ecore.presentation.EcoreModelWizardID" name="%_UI_EcoreModelWizard_label" class="org.eclipse.emf.ecore.presentation.EcoreModelWizard" category="org.eclipse.emf.ecore.Wizard.category.ID" icon="icons/full/ctool16/NewEcore.gif">
-      <description>%_UI_EcoreModelWizard_description</description>
-      <selection class="org.eclipse.core.resources.IResource" />
-    </wizard>
-  </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.eclipse.emf.ecore.presentation.EcoreModelWizardID"
+            name="%_UI_EcoreModelWizard_label"
+            class="org.eclipse.emf.ecore.presentation.EcoreModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/ctool16/NewEcore.gif">
+         <description>%_UI_EcoreModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
 
-  <extension point="org.eclipse.ui.editors">
-    <editor id="org.eclipse.emf.ecore.presentation.EcoreEditorID" name="%_UI_EcoreEditor_label" icon="icons/full/obj16/EcoreModelFile.gif" class="org.eclipse.emf.ecore.presentation.EcoreEditor" contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor">
-      <contentTypeBinding contentTypeId="org.eclipse.emf.ecore"/>
-      <contentTypeBinding contentTypeId="org.eclipse.emf.emof"/>
-    </editor>
-  </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.emf.ecore.presentation.EcoreEditorID"
+            name="%_UI_EcoreEditor_label"
+            icon="icons/full/obj16/EcoreModelFile.gif"
+            class="org.eclipse.emf.ecore.presentation.EcoreEditor"
+            contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor">
+         <contentTypeBinding contentTypeId="org.eclipse.emf.ecore"/>
+         <contentTypeBinding contentTypeId="org.eclipse.emf.emof"/>
+      </editor>
+   </extension>
 
-  <extension point="org.eclipse.ui.editors">
-    <editor id="org.eclipse.emf.ecore.presentation.ReflectiveEditorID" name="%_UI_ReflectiveEcoreEditor_label" icon="platform:/plugin/org.eclipse.emf.edit/icons/full/obj16/ModelFile.gif" class="org.eclipse.emf.ecore.presentation.EcoreEditor" contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor$Reflective">
-      <contentTypeBinding contentTypeId="org.eclipse.emf.ecore.xmi"/>
-    </editor>
-  </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.emf.ecore.presentation.ReflectiveEditorID"
+            name="%_UI_ReflectiveEcoreEditor_label"
+            icon="platform:/plugin/org.eclipse.emf.edit/icons/full/obj16/ModelFile.gif"
+            class="org.eclipse.emf.ecore.presentation.EcoreEditor"
+            contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor$Reflective">
+         <contentTypeBinding contentTypeId="org.eclipse.emf.ecore.xmi"/>
+      </editor>
+   </extension>
 
-  <extension point="org.eclipse.ui.editors">
-    <editor id="org.eclipse.emf.ecore.presentation.XMLReflectiveEditorID" name="%_UI_ReflectiveEcoreEditor_label" icon="platform:/plugin/org.eclipse.emf.edit/icons/full/obj16/ModelFile.gif" class="org.eclipse.emf.ecore.presentation.EcoreEditor$XML" contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor$Reflective">
-    </editor>
-  </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.emf.ecore.presentation.XMLReflectiveEditorID"
+            name="%_UI_ReflectiveEcoreEditor_label"
+            icon="platform:/plugin/org.eclipse.emf.edit/icons/full/obj16/ModelFile.gif"
+            class="org.eclipse.emf.ecore.presentation.EcoreEditor$XML"
+            contributorClass="org.eclipse.emf.ecore.presentation.EcoreActionBarContributor$Reflective"/>
+   </extension>
 
-  <extension point="org.eclipse.ui.popupMenus">
-    <objectContribution id="org.eclipse.emf.ecore.editor.Open" objectClass="org.eclipse.core.resources.IFile">
-      <visibility>
-        <systemProperty name="org.eclipse.emf.ecore.editor.Open" value="true"/>
-      </visibility>
-
-      <menu id="org.eclipse.emf.ecore.editor.Open" label="%_UI_OpenAs_menu_item" path="org.eclipse.ui.OpenWithSubMenu">
-        <separator name="additions" />
-      </menu>
-
-      <action id="org.eclipse.emf.ecore.editor.OpenXMLReflectiveEditorAction" label="%_UI_EMFXML_menu_item" menubarPath="org.eclipse.emf.ecore.editor.Open/additions" class="org.eclipse.emf.ecore.action.OpenEditorAction" enablesFor="1">
-      </action>
-
-      <action id="org.eclipse.emf.ecore.editor.OpenReflectiveEditorAction" label="%_UI_EMFXMI_menu_item" menubarPath="org.eclipse.emf.ecore.editor.Open/additions" class="org.eclipse.emf.ecore.action.OpenEditorAction" enablesFor="1">
-      </action>
-    </objectContribution>
-
-    <objectContribution id="org.eclipse.emf.ecore.editor.CreateDynamicInstance" objectClass="org.eclipse.emf.ecore.EClass">
-      <action id="org.eclipse.emf.ecore.editor.CreateDynamicInstanceAction" label="%_UI_CreateDynamicInstance_menu_item" menubarPath="additions" class="org.eclipse.emf.ecore.action.CreateDynamicInstanceAction" enablesFor="1">
-      </action>
-    </objectContribution>
-  </extension>
+   <extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.eclipse.emf.ecore.editor.Open"
+            objectClass="org.eclipse.core.resources.IFile">
+         <visibility>
+            <systemProperty name="org.eclipse.emf.ecore.editor.Open" value="true"/>
+         </visibility>
+         <menu
+               id="org.eclipse.emf.ecore.editor.Open"
+               label="%_UI_OpenAs_menu_item"
+               path="org.eclipse.ui.OpenWithSubMenu">
+            <separator name="additions"/>
+         </menu>
+         <action
+               id="org.eclipse.emf.ecore.editor.OpenXMLReflectiveEditorAction"
+               label="%_UI_EMFXML_menu_item"
+               menubarPath="org.eclipse.emf.ecore.editor.Open/additions"
+               class="org.eclipse.emf.ecore.action.OpenEditorAction"
+               enablesFor="1"/>
+         <action
+               id="org.eclipse.emf.ecore.editor.OpenReflectiveEditorAction"
+               label="%_UI_EMFXMI_menu_item"
+               menubarPath="org.eclipse.emf.ecore.editor.Open/additions"
+               class="org.eclipse.emf.ecore.action.OpenEditorAction"
+               enablesFor="1"/>
+      </objectContribution>
+      <objectContribution
+            id="org.eclipse.emf.ecore.editor.CreateDynamicInstance"
+            objectClass="org.eclipse.emf.ecore.EClass">
+         <action
+               id="org.eclipse.emf.ecore.editor.CreateDynamicInstanceAction"
+               label="%_UI_CreateDynamicInstance_menu_item"
+               menubarPath="additions"
+               class="org.eclipse.emf.ecore.action.CreateDynamicInstanceAction"
+               enablesFor="1"/>
+      </objectContribution>
+   </extension>
 </plugin>
