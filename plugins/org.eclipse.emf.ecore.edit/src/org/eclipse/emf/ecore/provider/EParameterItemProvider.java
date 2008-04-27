@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterItemProvider.java,v 1.11 2008/01/15 17:39:50 emerks Exp $
+ * $Id: EParameterItemProvider.java,v 1.12 2008/04/27 20:27:57 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -147,18 +146,6 @@ public class EParameterItemProvider
   protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return EcoreEditPlugin.INSTANCE;
   }
 
 }

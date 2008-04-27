@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationItemProvider.java,v 1.18 2008/01/15 17:39:51 emerks Exp $
+ * $Id: EOperationItemProvider.java,v 1.19 2008/04/27 20:27:57 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
@@ -353,18 +352,6 @@ public class EOperationItemProvider
         feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS ?
           getString("_UI_EGenericExceptionType_label") :
           super.getCreateChildText(owner, feature, child, selection);
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return EcoreEditPlugin.INSTANCE;
   }
 
 }

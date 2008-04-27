@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypeParameterItemProvider.java,v 1.4 2007/03/25 14:42:38 emerks Exp $
+ * $Id: ETypeParameterItemProvider.java,v 1.5 2008/04/27 20:27:57 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -23,8 +23,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.util.ResourceLocator;
 
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
@@ -217,18 +215,6 @@ public class ETypeParameterItemProvider
       (createChildParameter
         (EcorePackage.Literals.ETYPE_PARAMETER__EBOUNDS,
          EcoreFactory.eINSTANCE.createEGenericType()));
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return EcoreEditPlugin.INSTANCE;
   }
 
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.20 2008/02/29 20:50:33 emerks Exp $
+ * $Id: EClassItemProvider.java,v 1.21 2008/04/27 20:27:57 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -394,18 +393,6 @@ public class EClassItemProvider
       (createChildParameter
         (EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES,
          EcoreFactory.eINSTANCE.createEGenericType()));
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return EcoreEditPlugin.INSTANCE;
   }
 
 }

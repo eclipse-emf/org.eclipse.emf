@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierItemProvider.java,v 1.21 2008/01/09 15:34:41 emerks Exp $
+ * $Id: EClassifierItemProvider.java,v 1.22 2008/04/27 20:27:57 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -23,7 +23,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -296,18 +295,6 @@ public class EClassifierItemProvider
           (EcorePackage.Literals.ECLASSIFIER__ETYPE_PARAMETERS,
            EcoreFactory.eINSTANCE.createETypeParameter()));
     }
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return EcoreEditPlugin.INSTANCE;
   }
 
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumItemProvider.java,v 1.9 2007/03/22 01:58:36 davidms Exp $
+ * $Id: EEnumItemProvider.java,v 1.10 2008/04/27 20:27:57 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -173,18 +172,6 @@ public class EEnumItemProvider
       (createChildParameter
         (EcorePackage.Literals.EENUM__ELITERALS,
          EcoreFactory.eINSTANCE.createEEnumLiteral()));
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return EcoreEditPlugin.INSTANCE;
   }
 
 }

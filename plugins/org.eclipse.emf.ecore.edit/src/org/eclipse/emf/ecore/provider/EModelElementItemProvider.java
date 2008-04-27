@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementItemProvider.java,v 1.13 2008/02/29 20:50:33 emerks Exp $
+ * $Id: EModelElementItemProvider.java,v 1.14 2008/04/27 20:27:57 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -170,18 +170,6 @@ public class EModelElementItemProvider
       (createChildParameter
         (EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS,
          EcoreFactory.eINSTANCE.createEAnnotation()));
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return EcoreEditPlugin.INSTANCE;
   }
 
   /** 
