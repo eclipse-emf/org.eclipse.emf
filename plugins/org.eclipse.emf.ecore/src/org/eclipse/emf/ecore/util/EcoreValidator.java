@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.30 2008/03/28 15:48:55 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.31 2008/04/27 20:26:01 davidms Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -496,7 +496,7 @@ public class EcoreValidator extends EObjectValidator
         return validateEString((String)value, diagnostics, context);
       case EcorePackage.ETREE_ITERATOR:
         return validateETreeIterator((TreeIterator<?>)value, diagnostics, context);
-      default: 
+      default:
         return true;
     }
   }
@@ -4041,6 +4041,21 @@ public class EcoreValidator extends EObjectValidator
   public boolean validateETreeIterator(TreeIterator<?> eTreeIterator, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
+  }
+
+  /**
+   * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ResourceLocator getResourceLocator()
+  {
+    // TODO
+    // Specialize this to return a resource locator for messages specific to this validator.
+    // Ensure that you remove @generated or mark it @generated NOT
+    return super.getResourceLocator();
   }
 
   /**
