@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.81 2008/04/15 03:11:56 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.82 2008/04/27 19:11:30 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1168,8 +1168,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   {
     if (fileExtensions == null)
     {
-      String result = getPrefix().toLowerCase(getGenModel().getLocale());
-      return isContentType() && isXMIResource() ? result + ",xmi" : result;
+      return getPrefix().toLowerCase(getGenModel().getLocale());
     }
     return COMMA_SEPARATOR_PATTERN.matcher(fileExtensions).replaceAll(",");
   }
