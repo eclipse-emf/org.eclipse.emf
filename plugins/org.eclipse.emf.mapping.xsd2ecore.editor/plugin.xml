@@ -1,33 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-  <extension point="org.eclipse.ui.newWizards">
-    <category name="%_UI_EMFModelCreationWizard_label" id="org.eclipse.emf.ecore.Wizard.category.ID" />
-    <wizard name="%_UI_XSD2EcoreModelWizard_label" icon="icons/full/ctool16/NewXSD2Ecore.gif" category="org.eclipse.emf.ecore.Wizard.category.ID" class="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreModelWizard" id="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreModelWizardID">
-      <description>%_UI_XSD2EcoreModelWizard_description</description>
-      <selection class="org.eclipse.core.resources.IResource" />
-    </wizard>
-  </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_EMFModelCreationWizard_label"/>
+      <wizard
+            id="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreModelWizardID"
+            name="%_UI_XSD2EcoreModelWizard_label"
+            class="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/ctool16/NewXSD2Ecore.gif">
+         <description>%_UI_XSD2EcoreModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
 
-  <extension point="org.eclipse.ui.editors">
-    <editor name="%_UI_XSDToEcoreModelEditor_label" icon="icons/full/obj16/XSD2EcoreModelFile.gif" extensions="xsd2ecore" contributorClass="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreActionBarContributor" class="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreEditor" id="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreEditorID" />
-  </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreEditorID"
+            name="%_UI_XSDToEcoreModelEditor_label"
+            icon="icons/full/obj16/XSD2EcoreModelFile.gif"
+            class="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreEditor"
+            contributorClass="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreActionBarContributor">
+         <contentTypeBinding contentTypeId="org.eclipse.emf.mapping.xsd2ecore"/>
+      </editor>
+   </extension>
 
-  <extension point="org.eclipse.ui.editorActions">
-    <editorContribution id="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreContributionID" targetID="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreEditorID">
-      <menu id="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID" label="%_UI_XSDToEcoreModelEditor_menuitem" path="additions">
-        <separator name="settings" />
-        <separator name="actions" />
-        <separator name="global-actions" />
-        <separator name="additions" />
-        <separator name="additions-end" />
-      </menu>
-
-      <action id="org.eclipse.emf.mapping.action.TypeMatchMappingActionID" label="%_UI_MatchMappingByType_menu_item" menubarPath="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateNoneToOneMapping.gif" tooltip="%_UI_MatchMappingByType_tooltip" class="org.eclipse.emf.mapping.action.TypeMatchMappingAction" />
-      <action id="org.eclipse.emf.mapping.action.NameMatchMappingActionID" label="%_UI_MatchMappingByName_menu_item" menubarPath="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateNoneToOneMapping.gif" tooltip="%_UI_MatchMappingByName_tooltip" class="org.eclipse.emf.mapping.action.NameMatchMappingAction" />
-      <action id="org.eclipse.emf.mapping.action.CreateOneSidedMappingActionID" label="%_UI_CreateOneSideMapping_menu_item" menubarPath="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateNoneToOneMapping.gif" tooltip="%_UI_CreateOneSideMapping_tooltip" class="org.eclipse.emf.mapping.action.CreateOneSidedMappingAction" />
-      <action id="org.eclipse.emf.mapping.action.CreateMappingActionID" label="%_UI_CreateMapping_menu_item" menubarPath="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateNoneToOneMapping.gif" tooltip="%_UI_CreateMapping_tooltip" class="org.eclipse.emf.mapping.action.CreateMappingAction" />
-      <action id="org.eclipse.emf.mapping.action.RemoveMappingActionID" label="%_UI_RemoveMapping_menu_item" menubarPath="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID/actions" toolbarPath="Normal/mapping-additions" icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/RemoveOneToOneMapping.gif" tooltip="%_UI_RemoveMapping_tooltip" class="org.eclipse.emf.mapping.action.RemoveMappingAction" />
-    </editorContribution>
-  </extension>
+   <extension point="org.eclipse.ui.editorActions">
+      <editorContribution
+            id="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreContributionID"
+            targetID="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreEditorID">
+         <menu
+               id="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID"
+               label="%_UI_XSDToEcoreModelEditor_menuitem"
+               path="additions">
+            <separator name="settings"/>
+            <separator name="actions"/>
+            <separator name="global-actions"/>
+            <separator name="additions"/>
+            <separator name="additions-end"/>
+         </menu>
+         <action
+               id="org.eclipse.emf.mapping.action.TypeMatchMappingActionID"
+               label="%_UI_MatchMappingByType_menu_item"
+               menubarPath="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID/actions"
+               toolbarPath="Normal/mapping-additions"
+               icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateNoneToOneMapping.gif"
+               tooltip="%_UI_MatchMappingByType_tooltip"
+               class="org.eclipse.emf.mapping.action.TypeMatchMappingAction"/>
+         <action
+               id="org.eclipse.emf.mapping.action.NameMatchMappingActionID"
+               label="%_UI_MatchMappingByName_menu_item"
+               menubarPath="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID/actions"
+               toolbarPath="Normal/mapping-additions"
+               icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateNoneToOneMapping.gif"
+               tooltip="%_UI_MatchMappingByName_tooltip"
+               class="org.eclipse.emf.mapping.action.NameMatchMappingAction"/>
+         <action
+               id="org.eclipse.emf.mapping.action.CreateOneSidedMappingActionID"
+               label="%_UI_CreateOneSideMapping_menu_item"
+               menubarPath="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID/actions"
+               toolbarPath="Normal/mapping-additions"
+               icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateNoneToOneMapping.gif"
+               tooltip="%_UI_CreateOneSideMapping_tooltip"
+               class="org.eclipse.emf.mapping.action.CreateOneSidedMappingAction"/>
+         <action
+               id="org.eclipse.emf.mapping.action.CreateMappingActionID"
+               label="%_UI_CreateMapping_menu_item"
+               menubarPath="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID/actions"
+               toolbarPath="Normal/mapping-additions"
+               icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/CreateNoneToOneMapping.gif"
+               tooltip="%_UI_CreateMapping_tooltip"
+               class="org.eclipse.emf.mapping.action.CreateMappingAction"/>
+         <action
+               id="org.eclipse.emf.mapping.action.RemoveMappingActionID"
+               label="%_UI_RemoveMapping_menu_item"
+               menubarPath="org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreMenuID/actions"
+               toolbarPath="Normal/mapping-additions"
+               icon="platform:/plugin/org.eclipse.emf.mapping/icons/full/ctool16/RemoveOneToOneMapping.gif"
+               tooltip="%_UI_RemoveMapping_tooltip"
+               class="org.eclipse.emf.mapping.action.RemoveMappingAction"/>
+      </editorContribution>
+   </extension>
 </plugin>
