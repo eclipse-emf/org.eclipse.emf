@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.16 2007/05/28 19:13:01 emerks Exp $
+ * $Id: EcoreModelWizard.java,v 1.17 2008/04/27 20:30:36 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -65,6 +66,7 @@ import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -87,6 +89,26 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
  */
 public class EcoreModelWizard extends Wizard implements INewWizard
 {
+  /**
+   * The supported extensions for created files.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final List<String> FILE_EXTENSIONS =
+    Collections.unmodifiableList(Arrays.asList(EcoreEditorPlugin.INSTANCE.getString("_UI_EcoreEditorFilenameExtensions").split("\\s*,\\s*")));
+
+  /**
+   * A formatted list of supported file extensions, suitable for display.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String FORMATTED_FILE_EXTENSIONS =
+    EcoreEditorPlugin.INSTANCE.getString("_UI_EcoreEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
+
   /**
    * This caches an instance of the model package.
    * <!-- begin-user-doc -->
@@ -188,12 +210,19 @@ public class EcoreModelWizard extends Wizard implements INewWizard
    * Create a new model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected EObject createInitialModel()
   {
     EClass eClass = (EClass)ecorePackage.getEClassifier(initialObjectCreationPage.getInitialObjectName());
     EObject rootObject = ecoreFactory.create(eClass);
+
+    // We can't have a null name, in case we're using EMOF serialization.
+    //
+    if (rootObject instanceof ENamedElement)
+    {
+      ((ENamedElement)rootObject).setName("");
+    }
     return rootObject;
   }
 
@@ -231,7 +260,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
               //
               URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString(), true);
 
-              // Create a resource for this file.
+              // Create a resource for this file. Don't specify a content type, as it could be Ecore or EMOF.
               //
               Resource resource = resourceSet.createResource(fileURI);
 
@@ -335,24 +364,16 @@ public class EcoreModelWizard extends Wizard implements INewWizard
     {
       if (super.validatePage())
       {
-        // Make sure the file ends in ".ecore".
-        //
-        String requiredExt = EcoreEditorPlugin.INSTANCE.getString("_UI_EcoreEditorFilenameExtension");
-        String enteredExt = new Path(getFileName()).getFileExtension();
-        if (enteredExt == null || !enteredExt.equals(requiredExt))
+        String extension = new Path(getFileName()).getFileExtension();
+        if (extension == null || !FILE_EXTENSIONS.contains(extension))
         {
-          setErrorMessage(EcoreEditorPlugin.INSTANCE.getString("_WARN_FilenameExtension", new Object [] { requiredExt }));
+          String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension";
+          setErrorMessage(EcoreEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
           return false;
         }
-        else
-        {
-          return true;
-        }
+        return true;
       }
-      else
-      {
-        return false;
-      }
+      return false;
     }
 
     /**
@@ -618,7 +639,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
     newFileCreationPage = new EcoreModelWizardNewFileCreationPage("Whatever", selection);
     newFileCreationPage.setTitle(EcoreEditorPlugin.INSTANCE.getString("_UI_EcoreModelWizard_label"));
     newFileCreationPage.setDescription(EcoreEditorPlugin.INSTANCE.getString("_UI_EcoreModelWizard_description"));
-    newFileCreationPage.setFileName(EcoreEditorPlugin.INSTANCE.getString("_UI_EcoreEditorFilenameDefaultBase") + "." + EcoreEditorPlugin.INSTANCE.getString("_UI_EcoreEditorFilenameExtension"));
+    newFileCreationPage.setFileName(EcoreEditorPlugin.INSTANCE.getString("_UI_EcoreEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0));
     addPage(newFileCreationPage);
 
     // Try and get the resource selection to determine a current directory for the file dialog.
@@ -649,7 +670,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
           // Make up a unique new name here.
           //
           String defaultModelBaseFilename = EcoreEditorPlugin.INSTANCE.getString("_UI_EcoreEditorFilenameDefaultBase");
-          String defaultModelFilenameExtension = EcoreEditorPlugin.INSTANCE.getString("_UI_EcoreEditorFilenameExtension");
+          String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
           String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension;
           for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i)
           {
