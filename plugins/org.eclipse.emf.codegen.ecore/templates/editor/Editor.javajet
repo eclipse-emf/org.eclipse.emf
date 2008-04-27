@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.57 2008/04/15 03:16:58 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.58 2008/04/27 19:13:31 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -43,7 +43,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
@@ -249,23 +248,14 @@ public class <%=genPackage.getEditorClassName()%>
 	public static final <%=genModel.getImportedName("java.lang.String")%> copyright = <%=genModel.getCopyrightFieldLiteral()%>;<%=genModel.getNonNLS()%>
 
 <%}%>
-	/**
-	 * The file extensions supported by this editor.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final <%=_ListOfString%> FILE_EXTENSIONS =
-		Collections.unmodifiableList(Arrays.asList(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtensions").split("\\s*,\\s*")));<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
-
 <%if (genModel.isRichClientPlatform()) {%>
 	/**
-	 * The filters for supported file extensions.
+	 * The filters for file extensions supported by the editor.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final <%=_ListOfString%> FILE_EXTENSION_FILTERS = prefixExtensions(FILE_EXTENSIONS, "*.");
+	public static final <%=_ListOfString%> FILE_EXTENSION_FILTERS = prefixExtensions(<%=genPackage.getImportedModelWizardClassName()%>.FILE_EXTENSIONS, "*.");
 
 	/**
 	 * Returns a new unmodifiable list containing prefixed versions of the extensions in the given list.
@@ -290,15 +280,6 @@ public class <%=genPackage.getEditorClassName()%>
 	}
 
 <%}%>
-	/**
-	 * A formatted list of supported file extensions, suitable for display.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final String FORMATTED_FILE_EXTENSIONS =
-		<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtensions").replaceAll("\\s*,\\s*", ", ");
-
 	/**
 	 * This keeps track of the editing domain that is used to track all changes to the model.
 	 * <!-- begin-user-doc -->
