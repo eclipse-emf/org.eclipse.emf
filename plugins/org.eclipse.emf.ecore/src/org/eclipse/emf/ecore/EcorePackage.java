@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.15 2007/06/12 15:07:48 emerks Exp $
+ * $Id: EcorePackage.java,v 1.16 2008/04/27 20:26:15 davidms Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -55,6 +55,15 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   String eNS_PREFIX = "ecore";
+
+  /**
+   * The package content type ID.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  String eCONTENT_TYPE = "org.eclipse.emf.ecore";
 
   /**
    * The singleton instance of the package.

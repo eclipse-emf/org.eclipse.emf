@@ -22,7 +22,7 @@
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
   <genPackages prefix="Ecore" basePackage="org.eclipse.emf" disposableProviderFactory="true"
-      multipleEditorPages="false" ecorePackage="Ecore.ecore#/">
+      multipleEditorPages="false" contentTypeIdentifier="org.eclipse.emf.ecore" ecorePackage="Ecore.ecore#/">
     <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
       <genAnnotations source="Ecore.xsd"/>
     </genAnnotations>
