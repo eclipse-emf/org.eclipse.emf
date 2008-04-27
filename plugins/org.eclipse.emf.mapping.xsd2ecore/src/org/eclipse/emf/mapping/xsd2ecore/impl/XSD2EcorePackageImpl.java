@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePackageImpl.java,v 1.9 2006/12/29 18:29:00 marcelop Exp $
+ * $Id: XSD2EcorePackageImpl.java,v 1.10 2008/04/27 20:56:00 davidms Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.mapping.MappingPackage;
@@ -103,7 +102,6 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
 
     // Initialize simple dependencies
     MappingPackage.eINSTANCE.eClass();
-    EcorePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theXSD2EcorePackage.createPackageContents();
