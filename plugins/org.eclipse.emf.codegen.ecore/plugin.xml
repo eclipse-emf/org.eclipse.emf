@@ -1,27 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-  <extension-point id="generatorAdapters" name="%_UI_GeneratorAdapters_extensionpoint" schema="schema/generatorAdapters.exsd" />
+   <extension-point id="generatorAdapters" name="%_UI_GeneratorAdapters_extensionpoint" schema="schema/generatorAdapters.exsd"/>
 
-  <extension point="org.eclipse.emf.codegen.ecore.generatorAdapters">
-     <adapterFactory class="org.eclipse.emf.codegen.ecore.genmodel.generator.GenModelGeneratorAdapterFactory"/>
-  </extension>
+   <extension point="org.eclipse.emf.codegen.ecore.generatorAdapters">
+      <adapterFactory class="org.eclipse.emf.codegen.ecore.genmodel.generator.GenModelGeneratorAdapterFactory"/>
+   </extension>
 
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package uri="http://www.eclipse.org/emf/2002/GenModel" class="org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage" genModel="model/GenModel.genmodel" />
-  </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.eclipse.org/emf/2002/GenModel"
+            class="org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage" genModel="model/GenModel.genmodel"/>
+   </extension>
 
-  <extension id="Generator" point="org.eclipse.core.runtime.applications">
-    <application>
-      <run class="org.eclipse.emf.codegen.ecore.Generator$PlatformRunnable" />
-    </application>
-  </extension>
+   <extension id="Generator" point="org.eclipse.core.runtime.applications">
+      <application>
+         <run class="org.eclipse.emf.codegen.ecore.Generator$PlatformRunnable"/>
+      </application>
+   </extension>
 
-  <extension point="org.eclipse.emf.ecore.extension_parser">
-    <parser type="genmodel" class="org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl" />
-  </extension>
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="genmodel"
+            class="org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl"/>
+   </extension>
 
-  <extension point="org.eclipse.team.core.fileTypes">
-    <fileTypes extension="genmodel" type="text" />
-  </extension>
+   <extension point="org.eclipse.emf.ecore.content_parser">
+      <parser
+            contentTypeIdentifier="org.eclipse.emf.codegen.genmodel"
+            class="org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.core.runtime.contentTypes">
+      <content-type
+            base-type="org.eclipse.emf.ecore.xmi"
+            file-extensions="genmodel"
+            id="org.eclipse.emf.codegen.genmodel"
+            name="%_UI_GenModel_content_type"
+            priority="normal">
+         <describer class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
+            <parameter name="namespace" value="http://www.eclipse.org/emf/2002/GenModel"/>
+            <parameter name="kind" value="xmi"/>
+         </describer>
+      </content-type>
+   </extension>
+
+   <extension point="org.eclipse.team.core.fileTypes">
+      <fileTypes extension="genmodel" type="text"/>
+   </extension>
 </plugin>
