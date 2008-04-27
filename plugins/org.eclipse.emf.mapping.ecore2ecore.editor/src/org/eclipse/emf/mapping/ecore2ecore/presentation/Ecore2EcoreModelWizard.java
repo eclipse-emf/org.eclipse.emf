@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreModelWizard.java,v 1.13 2007/05/28 19:12:59 emerks Exp $
+ * $Id: Ecore2EcoreModelWizard.java,v 1.14 2008/04/27 20:53:46 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -104,6 +105,26 @@ import org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePlugin;
  */
 public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
 {
+  /**
+   * The supported extensions for created files.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final List<String> FILE_EXTENSIONS =
+    Collections.unmodifiableList(Arrays.asList(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameExtensions").split("\\s*,\\s*")));
+
+  /**
+   * A formatted list of supported file extensions, suitable for display.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String FORMATTED_FILE_EXTENSIONS =
+    Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
+
   /**
    * This caches an instance of the model package.
    * <!-- begin-user-doc -->
@@ -261,7 +282,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
 
               // Create a resource for this file.
               //
-              Resource resource = resourceSet.createResource(fileURI);
+              Resource resource = resourceSet.createResource(fileURI, Ecore2EcorePackage.eCONTENT_TYPE);
 
               // Add the initial model object to the contents.
               //
@@ -361,24 +382,16 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
     {
       if (super.validatePage())
       {
-        // Make sure the file ends in ".ecore2ecore".
-        //
-        String requiredExt = Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameExtension");
-        String enteredExt = new Path(getFileName()).getFileExtension();
-        if (enteredExt == null || !enteredExt.equals(requiredExt))
+        String extension = new Path(getFileName()).getFileExtension();
+        if (extension == null || !FILE_EXTENSIONS.contains(extension))
         {
-          setErrorMessage(Ecore2EcoreEditorPlugin.INSTANCE.getString("_WARN_FilenameExtension", new Object [] { requiredExt }));
+          String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension";
+          setErrorMessage(Ecore2EcoreEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
           return false;
         }
-        else
-        {
-          return true;
-        }
+        return true;
       }
-      else
-      {
-        return false;
-      }
+      return false;
     }
 
     /**
@@ -638,7 +651,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
     newFileCreationPage = new Ecore2EcoreModelWizardNewFileCreationPage("Whatever", selection);
     newFileCreationPage.setTitle(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreModelWizard_label"));
     newFileCreationPage.setDescription(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreModelWizard_description"));
-    newFileCreationPage.setFileName(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameDefaultBase") + "." + Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameExtension"));
+    newFileCreationPage.setFileName(Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0));
     addPage(newFileCreationPage);
 
     // Try and get the resource selection to determine a current directory for the file dialog.
@@ -669,7 +682,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
           // Make up a unique new name here.
           //
           String defaultModelBaseFilename = Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameDefaultBase");
-          String defaultModelFilenameExtension = Ecore2EcoreEditorPlugin.INSTANCE.getString("_UI_Ecore2EcoreEditorFilenameExtension");
+          String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
           String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension;
           for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i)
           {
