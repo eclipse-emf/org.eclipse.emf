@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.16 2007/09/29 16:42:23 emerks Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.17 2008/04/28 18:49:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -1606,7 +1606,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     public static boolean validateEdit(String workspacePath, Monitor monitor)
     {
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath));
-      return file.getWorkspace().validateEdit(new IFile [] { file }, monitor).isOK();
+      return file.getWorkspace().validateEdit(new IFile [] { file }, IWorkspace.VALIDATE_PROMPT).isOK();
     }
 
     public static InputStream createInputStream(String workspacePath) throws Exception
