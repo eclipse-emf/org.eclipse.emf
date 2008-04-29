@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.mapping; singleton:=true
 Bundle-Version: 2.4.0.qualifier
-Bundle-ClassPath: mapping.jar
+Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.mapping.MappingPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
