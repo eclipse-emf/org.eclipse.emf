@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.databinding.edit;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: databinding.edit.jar
+Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.databinding.edit.DataBindingEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
