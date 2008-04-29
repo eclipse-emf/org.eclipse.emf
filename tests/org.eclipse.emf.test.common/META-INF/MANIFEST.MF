@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.common;singleton:=true
 Bundle-Version: 1.1.0.qualifier
-Bundle-ClassPath: .
+Bundle-ClassPath: test.common.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
