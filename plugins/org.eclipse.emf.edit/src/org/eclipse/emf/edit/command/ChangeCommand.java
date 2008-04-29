@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeCommand.java,v 1.2 2006/12/28 06:48:54 marcelop Exp $
+ * $Id: ChangeCommand.java,v 1.3 2008/04/29 22:27:35 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -29,8 +29,6 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
  * <p>This command uses the Change Model facilities to enable a group of modifications
  * to be executed as one single command.  The undo operation reverts all the 
  * modifications made when the command was executed</p>
- * <p>All the modifications on resources or objects must happen in a {@link Runnable}, 
- * which is used to construct this command.</p>
  * <p>In order to use this class, the <tt>org.eclipse.emf.ecore.change</tt> plugin has to
  * be available in your Eclipse configuration.</p>
  * 
@@ -150,6 +148,11 @@ abstract public class ChangeCommand extends AbstractCommand
     }    
   }
   
+  /**
+   * Subclasses should override this to perform modifications to resources and objects.
+   * If no modification occurs, an {@link org.eclipse.emf.common.command.AbortExecutionException}
+   * may be thrown to avoid placing the command on the command stack.
+   */
   abstract protected void doExecute();
   
   /**
