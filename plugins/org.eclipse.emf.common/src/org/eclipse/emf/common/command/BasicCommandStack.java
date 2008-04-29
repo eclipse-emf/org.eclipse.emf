@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicCommandStack.java,v 1.12 2007/10/06 12:14:25 emerks Exp $
+ * $Id: BasicCommandStack.java,v 1.13 2008/04/29 22:26:49 davidms Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -79,41 +79,47 @@ public class BasicCommandStack implements CommandStack
     {
       if (command.canExecute())
       {
-        // Clear the list past the top.
-        //
-        for (Iterator<Command> commands = commandList.listIterator(top + 1); commands.hasNext(); commands.remove())
-        {
-          Command otherCommand = commands.next();
-          otherCommand.dispose();
-        }
-  
         try
         {
           command.execute();
+
+          // Clear the list past the top.
+          //
+          for (Iterator<Command> commands = commandList.listIterator(top + 1); commands.hasNext(); commands.remove())
+          {
+            Command otherCommand = commands.next();
+            otherCommand.dispose();
+          }
+
+          // Record the successfully executed command.
+          //
           mostRecentCommand = command;
           commandList.add(command);
           ++top;
+
+          // This is kind of tricky.
+          // If the saveIndex was in the redo part of the command list which has now been wiped out,
+          // then we can never reach a point where a save is not necessary, not even if we undo all the way back to the beginning.
+          //
+          if (saveIndex >= top)
+          {
+            // This forces isSaveNeded to always be true.
+            //
+            saveIndex = -2;
+          }
+          notifyListeners();
+        }
+        catch (AbortExecutionException exception)
+        {
+          command.dispose();
         }
         catch (RuntimeException exception)
         {
-          handleError(exception);
-  
+          handleError(exception);  
           mostRecentCommand = null;
           command.dispose();
+          notifyListeners();
         }
-  
-        // This is kind of tricky.
-        // If the saveIndex was in the redo part of the command list which has now been wiped out,
-        // then we can never reach a point where a save is not necessary, not even if we undo all the way back to the beginning.
-        //
-        if (saveIndex >= top)
-        {
-          // This forces isSaveNeded to always be true.
-          //
-          saveIndex = -2;
-        }
-  
-        notifyListeners();
       }
       else
       {
