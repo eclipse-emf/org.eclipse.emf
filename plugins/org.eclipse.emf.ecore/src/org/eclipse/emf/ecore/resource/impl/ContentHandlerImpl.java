@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ContentHandlerImpl.java,v 1.3 2008/03/04 18:26:05 emerks Exp $
+ * $Id: ContentHandlerImpl.java,v 1.4 2008/04/29 18:09:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -283,13 +283,18 @@ public class ContentHandlerImpl implements ContentHandler
      */
     protected Map<String, String> getParameters(IConfigurationElement configurationElement, String propertyName, Object data)
     {
-      @SuppressWarnings("unchecked")
-      Map<String, String> parameters = new HashMap<String, String>((Map<String,String>)data);
-      parameters.put(CONTENT_TYPE_ID, configurationElement.getAttribute("id"));
-      String fileExtensions = configurationElement.getAttribute("file-extensions");
-      if (fileExtensions != null)
+      Map<String, String> parameters = new HashMap<String, String>();
+      if (data != null)
       {
-        parameters.put(EXTENSIONS, fileExtensions.replace(',', ' '));
+        @SuppressWarnings("unchecked")
+        Map<String,String> dataMap = (Map<String,String>)data;
+        parameters.putAll(dataMap);
+        parameters.put(CONTENT_TYPE_ID, configurationElement.getAttribute("id"));
+        String fileExtensions = configurationElement.getAttribute("file-extensions");
+        if (fileExtensions != null)
+        {
+          parameters.put(EXTENSIONS, fileExtensions.replace(',', ' '));
+        }
       }
       return parameters;
     }
