@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryPackage.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
+ * $Id: EXTLibraryPackage.java,v 1.3 2008/05/01 18:31:58 davidms Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -64,6 +64,15 @@ public interface EXTLibraryPackage extends EPackage
    * @generated
    */
   String eNS_PREFIX = "extlib"; //$NON-NLS-1$
+
+  /**
+   * The package content type ID.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  String eCONTENT_TYPE = "extendedLibrary"; //$NON-NLS-1$
 
   /**
    * The singleton instance of the package.

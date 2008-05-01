@@ -11,7 +11,7 @@
     language="en">
   <foreignModel>extlibrary.ecore</foreignModel>
   <genPackages prefix="EXTLibrary" basePackage="org.eclipse.emf.examples" disposableProviderFactory="true"
-      ecorePackage="extlibrary.ecore#/">
+      contentTypeIdentifier="extendedLibrary" ecorePackage="extlibrary.ecore#/">
     <genEnums ecoreEnum="extlibrary.ecore#//BookCategory">
       <genEnumLiterals ecoreEnumLiteral="extlibrary.ecore#//BookCategory/Mystery"/>
       <genEnumLiterals ecoreEnumLiteral="extlibrary.ecore#//BookCategory/ScienceFiction"/>
