@@ -2,22 +2,31 @@
 <?eclipse version="3.0"?>
 
 <plugin>
-  <extension point="org.eclipse.emf.ecore.generated_package">
-    <package 
-       uri = "http:///org/eclipse/emf/examples/library/extlibrary.ecore/1.0.0" 
-       class = "org.eclipse.emf.examples.extlibrary.EXTLibraryPackage"
-       genModel = "model/extlibrary.genmodel" /> 
-  </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///org/eclipse/emf/examples/library/extlibrary.ecore/1.0.0"
+            class="org.eclipse.emf.examples.extlibrary.EXTLibraryPackage"
+            genModel="model/extlibrary.genmodel"/>
+   </extension>
 
-  <extension
-    point="org.eclipse.core.runtime.contentTypes">
-    <content-type
-      base-type="org.eclipse.core.runtime.xml"
-      default-charset="UTF-8"
-      file-extensions="extlibrary"
-      id="extendedLibrary"
-      name="%extendedLibrary"
-      priority="high"/>
-  </extension>
+   <extension point="org.eclipse.emf.ecore.content_parser">
+      <parser
+            contentTypeIdentifier="extendedLibrary"
+            class="org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.core.runtime.contentTypes">
+      <content-type
+            base-type="org.eclipse.emf.ecore.xmi"
+            file-extensions="extlibrary"
+            id="extendedLibrary"
+            name="%_UI_EXTLibrary_content_type"
+            priority="normal">
+         <describer class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
+            <parameter name="namespace" value="http:///org/eclipse/emf/examples/library/extlibrary.ecore/1.0.0"/>
+            <parameter name="kind" value="xmi"/>
+         </describer>
+      </content-type>
+   </extension>
 </plugin>
-
