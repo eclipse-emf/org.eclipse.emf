@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RootXMLContentHandlerImpl.java,v 1.6 2008/04/18 20:05:05 davidms Exp $
+ * $Id: RootXMLContentHandlerImpl.java,v 1.7 2008/05/01 18:30:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -179,7 +179,7 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
      Pattern namespacePattern,
      String [] elementNames)
   {
-    assert namespacePattern != null || namespace == null;
+    assert namespacePattern == null || namespace == null;
 
     this.contentTypeID = contentTypeID;
     this.extensions = extensions;
