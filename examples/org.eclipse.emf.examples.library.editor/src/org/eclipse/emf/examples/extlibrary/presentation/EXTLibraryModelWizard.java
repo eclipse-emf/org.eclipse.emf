@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryModelWizard.java,v 1.5 2007/05/28 19:13:01 emerks Exp $
+ * $Id: EXTLibraryModelWizard.java,v 1.6 2008/05/01 18:34:07 davidms Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -105,6 +106,26 @@ import org.eclipse.ui.PartInitException;
  */
 public class EXTLibraryModelWizard extends Wizard implements INewWizard
 {
+  /**
+   * The supported extensions for created files.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final List<String> FILE_EXTENSIONS =
+    Collections.unmodifiableList(Arrays.asList(EXTLibraryEditorPlugin.INSTANCE.getString("_UI_EXTLibraryEditorFilenameExtensions").split("\\s*,\\s*"))); //$NON-NLS-1$ //$NON-NLS-2$
+
+  /**
+   * A formatted list of supported file extensions, suitable for display.
+   * <!-- begin-user-doc -->
+   * @since 2.4
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String FORMATTED_FILE_EXTENSIONS =
+    EXTLibraryEditorPlugin.INSTANCE.getString("_UI_EXTLibraryEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
+
   /**
    * This caches an instance of the model package.
    * <!-- begin-user-doc -->
@@ -250,7 +271,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
 
               // Create a resource for this file.
               //
-              Resource resource = resourceSet.createResource(fileURI);
+              Resource resource = resourceSet.createResource(fileURI, EXTLibraryPackage.eCONTENT_TYPE);
 
               // Add the initial model object to the contents.
               //
@@ -350,24 +371,16 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
     {
       if (super.validatePage())
       {
-        // Make sure the file ends in ".extlibrary".
-        //
-        String requiredExt = EXTLibraryEditorPlugin.INSTANCE.getString("_UI_EXTLibraryEditorFilenameExtension"); //$NON-NLS-1$
-        String enteredExt = new Path(getFileName()).getFileExtension();
-        if (enteredExt == null || !enteredExt.equals(requiredExt))
+        String extension = new Path(getFileName()).getFileExtension();
+        if (extension == null || !FILE_EXTENSIONS.contains(extension))
         {
-          setErrorMessage(EXTLibraryEditorPlugin.INSTANCE.getString("_WARN_FilenameExtension", new Object [] { requiredExt })); //$NON-NLS-1$
+          String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension"; //$NON-NLS-1$ //$NON-NLS-2$
+          setErrorMessage(EXTLibraryEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
           return false;
         }
-        else
-        {
-          return true;
-        }
+        return true;
       }
-      else
-      {
-        return false;
-      }
+      return false;
     }
 
     /**
@@ -627,7 +640,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
     newFileCreationPage = new EXTLibraryModelWizardNewFileCreationPage("Whatever", selection); //$NON-NLS-1$
     newFileCreationPage.setTitle(EXTLibraryEditorPlugin.INSTANCE.getString("_UI_EXTLibraryModelWizard_label")); //$NON-NLS-1$
     newFileCreationPage.setDescription(EXTLibraryEditorPlugin.INSTANCE.getString("_UI_EXTLibraryModelWizard_description")); //$NON-NLS-1$
-    newFileCreationPage.setFileName(EXTLibraryEditorPlugin.INSTANCE.getString("_UI_EXTLibraryEditorFilenameDefaultBase") + "." + EXTLibraryEditorPlugin.INSTANCE.getString("_UI_EXTLibraryEditorFilenameExtension")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    newFileCreationPage.setFileName(EXTLibraryEditorPlugin.INSTANCE.getString("_UI_EXTLibraryEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0)); //$NON-NLS-1$ //$NON-NLS-2$
     addPage(newFileCreationPage);
 
     // Try and get the resource selection to determine a current directory for the file dialog.
@@ -658,7 +671,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
           // Make up a unique new name here.
           //
           String defaultModelBaseFilename = EXTLibraryEditorPlugin.INSTANCE.getString("_UI_EXTLibraryEditorFilenameDefaultBase"); //$NON-NLS-1$
-          String defaultModelFilenameExtension = EXTLibraryEditorPlugin.INSTANCE.getString("_UI_EXTLibraryEditorFilenameExtension"); //$NON-NLS-1$
+          String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
           String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension; //$NON-NLS-1$
           for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i)
           {
