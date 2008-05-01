@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2007 IBM Corporation and others.
+ * Copyright (c) 2005-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WorkspaceResourceDialog.java,v 1.4 2007/08/27 18:15:07 marcelop Exp $
+ * $Id: WorkspaceResourceDialog.java,v 1.5 2008/05/01 19:52:01 marcelop Exp $
  */
 
 package org.eclipse.emf.common.ui.dialogs;
@@ -133,7 +133,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
     Shell parent, 
     String title, 
     String message, 
-    IPath suggestedFile, 
+    IPath suggestedPath, 
     List<ViewerFilter> viewerFilters)
   {
     WorkspaceResourceDialog dialog = new WorkspaceResourceDialog(parent, new WorkbenchLabelProvider(), new WorkbenchContentProvider());
@@ -152,21 +152,53 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
       }
     }
 
-    if (suggestedFile != null)
+    if (suggestedPath != null)
     {
       IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-      IResource resource = root.getFile(suggestedFile);
-      IResource accessibleResource = resource;
-      while (accessibleResource != null && !accessibleResource.isAccessible())
+      IResource resource = root.findMember(suggestedPath);
+      if (resource != null && resource.isAccessible())
       {
-        accessibleResource = accessibleResource.getParent();
+        if (resource instanceof IContainer)
+        {
+          dialog.setInitialSelection(resource);
+        }
+        else
+        {
+          dialog.setInitialSelection(resource.getParent());
+          dialog.setFileText(resource.getName());
+        }
       }
-      if (accessibleResource != null)
+      else
       {
-        dialog.setInitialSelection(accessibleResource);
-        suggestedFile = suggestedFile.removeFirstSegments(accessibleResource.getFullPath().segmentCount());
+        if (suggestedPath.segmentCount() > 1)
+        {
+          if (resource == null)
+          {
+            resource = root.getFile(suggestedPath);
+          }
+          
+          if (resource.getProject().isAccessible())
+          {
+            IContainer container = resource.getParent();
+            for (; !container.isAccessible() && container != resource.getProject(); container = container.getParent())
+            {
+              // Do nothing
+            }
+            dialog.setInitialSelection(container);
+            suggestedPath = suggestedPath.removeFirstSegments(container.getFullPath().segmentCount());
+            dialog.setFileText(suggestedPath.toString());
+            suggestedPath = null;
+          }
+        }
+        
+        if (suggestedPath != null)
+        {
+          String fileText = suggestedPath.isAbsolute() ?
+            suggestedPath.removeFirstSegments(1).toString() :
+            suggestedPath.toString();
+          dialog.setFileText(fileText);
+        }
       }
-      dialog.setFileText(suggestedFile.toString());
     }
 
     dialog.loadContents();
