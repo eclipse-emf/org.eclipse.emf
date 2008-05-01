@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.26 2007/09/13 15:06:58 emerks Exp $
+ * $Id: JETEmitter.java,v 1.27 2008/05/01 18:27:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -30,8 +30,10 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -91,6 +93,7 @@ public class JETEmitter
   protected ClassLoader classLoader;
   protected String encoding;
   protected List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();
+  protected Map<String, String> javaOptions = new HashMap<String, String>();
 
   /**
    * Creates an instance with the specified template URI.
@@ -186,6 +189,15 @@ public class JETEmitter
   public List<IClasspathEntry> getClasspathEntries()
   {
     return classpathEntries;
+  }
+
+  /**
+   * Returns options that will be {@link IJavaProject#setOption(String, String) applied} to the Java project the first time it's created.
+   * @return the Java options.
+   */
+  public Map<String, String> getJavaOptions()
+  {
+    return javaOptions;
   }
 
   /**
@@ -650,6 +662,12 @@ public class JETEmitter
           description.setLocation(null);
           project.open(new SubProgressMonitor(progressMonitor, 1));
           project.setDescription(description, new SubProgressMonitor(progressMonitor, 1));
+          javaProject = JavaCore.create(project);
+
+          for (Map.Entry<String, String> option : jetEmitter.getJavaOptions().entrySet())
+          {
+            javaProject.setOption(option.getKey(), option.getValue());
+          }
         }
         else
         {
@@ -657,10 +675,9 @@ public class JETEmitter
           IProjectDescription description = project.getDescription();
           description.setNatureIds(new String [] { JavaCore.NATURE_ID });
           project.setDescription(description, new SubProgressMonitor(progressMonitor, 1));
+          javaProject = JavaCore.create(project);
         }
-  
-        javaProject = JavaCore.create(project);
-  
+
         // Get the existing classpath and remove the project root if necessary.
         // Any new non-duplicate entries will be added to this.
         //
