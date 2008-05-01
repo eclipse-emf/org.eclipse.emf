@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.12 2008/02/20 22:12:48 emerks Exp $
+ * $Id: EXTLibraryEditor.java,v 1.13 2008/05/01 18:33:33 davidms Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -1135,8 +1135,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
 
     // Only creates the other pages if there is something that can be edited
     //
-    if (!getEditingDomain().getResourceSet().getResources().isEmpty() &&
-        !(getEditingDomain().getResourceSet().getResources().get(0)).getContents().isEmpty())
+    if (!getEditingDomain().getResourceSet().getResources().isEmpty())
     {
       // Create a page for the selection tree view.
       //
