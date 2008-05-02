@@ -30,6 +30,8 @@
             priority="normal">
          <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
             <parameter name="element" value="{http://www.w3.org/2001/XMLSchema}schema"/>
+            <parameter name="element" value="{http://www.w3.org/2000/10/XMLSchema}schema"/>
+            <parameter name="element" value="{http://www.w3.org/1999/XMLSchema}schema"/>
          </describer>
       </content-type>
    </extension>
