@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.14 2008/01/15 17:15:40 emerks Exp $
+ * $Id: WrapperItemProvider.java,v 1.15 2008/05/02 11:27:39 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -243,13 +243,15 @@ public class WrapperItemProvider implements IWrapperItemProvider
   /**
    * {@link IItemPropertySource#getPropertyDescriptor IItemPropertySource.getPropertyDescriptor} is implemented by
    * iterating over the descriptors returned by {@link #getPropertyDescriptors getPropertyDescriptors}, and returning
-   * the first descriptor whose ID matches the specified ID, or null if none match.
+   * the first descriptor whose {@link IItemPropertyDescriptor#getId(Object) ID} 
+   * or {@link IItemPropertyDescriptor#getFeature(Object) feature} matches the specified ID,
+   * or <code>null</code> if none match.
    */
   public IItemPropertyDescriptor getPropertyDescriptor(Object object, Object propertyId)
   {
     for (IItemPropertyDescriptor descriptor : getPropertyDescriptors(object))
     {
-      if (propertyId.equals(descriptor.getId(object)))
+      if (propertyId.equals(descriptor.getId(object)) || propertyId.equals(descriptor.getFeature(object)))
       {
         return descriptor;
       }

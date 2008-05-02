@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.36 2008/04/22 13:35:43 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.37 2008/05/02 11:27:39 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -248,13 +248,14 @@ public class ItemProviderAdapter
   }
 
   /**
-   * This convenience method finds a particular descriptor given its property name.
+   * This convenience method finds a particular descriptor 
+   * given its {@link IItemPropertyDescriptor#getId(Object) ID} or {@link IItemPropertyDescriptor#getFeature(Object) feature}.
    */
   public IItemPropertyDescriptor getPropertyDescriptor(Object object, Object propertyId)
   {
     for (IItemPropertyDescriptor itemPropertyDescriptor : getPropertyDescriptors(object))
     {
-      if (propertyId.equals(itemPropertyDescriptor.getId(object)))
+      if (propertyId.equals(itemPropertyDescriptor.getId(object)) || propertyId.equals(itemPropertyDescriptor.getFeature(object)))
       {
         return itemPropertyDescriptor;
       }

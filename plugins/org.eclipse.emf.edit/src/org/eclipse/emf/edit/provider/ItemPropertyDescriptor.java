@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.28 2007/06/14 18:32:42 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.29 2008/05/02 11:27:38 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -63,6 +63,16 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor.OverrideableCommand
  */
 public class ItemPropertyDescriptor implements IItemPropertyDescriptor, OverrideableCommandOwner
 {
+  /**
+   * Returns the feature's default {@link #getId(Object) identifier}.
+   * @param eStructuralFeature the feature to lookup.
+   * @return the feature's default identifier.
+   */
+  public static String getDefaultId(EStructuralFeature eStructuralFeature)
+  {
+    return eStructuralFeature.getName();
+  }
+
   public static final Object BOOLEAN_VALUE_IMAGE = EMFEditPlugin.INSTANCE.getImage("full/obj16/BooleanValue");
   public static final Object GENERIC_VALUE_IMAGE = EMFEditPlugin.INSTANCE.getImage("full/obj16/GenericValue");
   public static final Object INTEGRAL_VALUE_IMAGE = EMFEditPlugin.INSTANCE.getImage("full/obj16/IntegralValue");
@@ -736,15 +746,32 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   }
 
   /**
-   * This returns the interface name of this property.
-   * This is the key that is passed around and must uniquely identifiy this descriptor.
+   * This returns the {@link #getDefaultId(EStructuralFeature) default identifier} of the {@link #feature feature}
+   * if it's present,
+   * or dash-separated concatenation of the default identifier of each {@link #parentReferences parent reference}.
+   * This key that must uniquely identify this descriptor 
+   * among the other descriptors from the same {@link IItemPropertySource#getPropertyDescriptor(Object, Object) property source}.
    */
   public String getId(Object object) 
   {
-    // System.out.println("getName " + feature.eClass().getEID());
-    // return feature.eClass().getEID().toString();
-
-    return displayName;
+    if (feature != null)
+    {
+      return getDefaultId(feature);
+    }
+    else if (parentReferences != null && parentReferences.length != 0)
+    {
+      StringBuffer result = new StringBuffer(getDefaultId(parentReferences[0]));
+      for (int i = 1; i < parentReferences.length; ++i)
+      {
+        result.append('-');
+        result.append(getDefaultId(parentReferences[i]));
+      }
+      return result.toString();
+    }
+    else
+    {
+      return displayName;
+    }
   }
 
   public Object getHelpContextIds(Object object)
