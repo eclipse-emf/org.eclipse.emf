@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProvider.java,v 1.10 2006/12/29 18:29:10 marcelop Exp $
+ * $Id: MappingItemProvider.java,v 1.11 2008/05/02 11:27:40 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -195,7 +195,14 @@ public class MappingItemProvider
                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
                 count + ". " + MappingPlugin.getPlugin().getString("_UI_Type_mapping_label") + " ",
                 MappingPlugin.getPlugin().getString("_UI_Type_mapping_helpers_description"),
-                ePackage.getMapping_TypeMapping());
+                ePackage.getMapping_TypeMapping())
+            {
+              @Override
+              public String getId(Object object)
+              {
+                return displayName;
+              }
+            };
 
           itemPropertyDescriptors.add
             (new ItemPropertyDescriptorDecorator(childMapping, childMappingItemPropertyDescriptor)
