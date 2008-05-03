@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.19 2008/04/18 20:05:59 davidms Exp $
+ * $Id: EMOFHelperImpl.java,v 1.20 2008/05/03 22:35:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -141,6 +141,10 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     if (eClass == EcorePackage.eINSTANCE.getEAnnotation() && EMOFExtendedMetaData.EMOF_TAG_ELEMENT.equals(name))
     {
       return EcorePackage.eINSTANCE.getEAnnotation_References();
+    }
+    else if (EcorePackage.eINSTANCE.getEModelElement().isSuperTypeOf(eClass) && EMOFExtendedMetaData.EMOF_OWNED_COMMENT.equals(name))
+    {
+      return EcorePackage.eINSTANCE.getEModelElement_EAnnotations();
     }
 
     for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)

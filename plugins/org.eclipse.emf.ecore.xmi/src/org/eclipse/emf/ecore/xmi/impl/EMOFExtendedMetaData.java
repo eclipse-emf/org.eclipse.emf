@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFExtendedMetaData.java,v 1.8 2008/04/27 20:39:25 davidms Exp $
+ * $Id: EMOFExtendedMetaData.java,v 1.9 2008/05/03 22:35:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -61,7 +61,12 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
   public static final String EMOF_TAG_VALUE = "value";
   public static final String EMOF_TAG_ELEMENT = "element";
 
+  public static final String EMOF_OWNED_COMMENT = "ownedComment";
+  public static final String EMOF_COMMENT_BODY = "body";
+  public static final String EMOF_COMMENT_ANNOTATION_SOURCE = EMOF_PACKAGE_NS_URI_2_0 + "#Comment";
+
   public static final String EMOF_PROPERTY_CLASS_NAME = "Property";
+  public static final String EMOF_PROPERTY_OPPOSITE_ROLE_NAME_ANNOTATION_SOURCE = EMOF_PACKAGE_NS_URI_2_0 + "#Property.oppositeRoleName";
 
   /**
    * The content type ID for EMOF.

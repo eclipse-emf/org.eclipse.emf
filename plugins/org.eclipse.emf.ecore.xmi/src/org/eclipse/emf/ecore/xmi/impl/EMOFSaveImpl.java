@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFSaveImpl.java,v 1.13 2008/04/18 20:05:59 davidms Exp $
+ * $Id: EMOFSaveImpl.java,v 1.14 2008/05/03 22:35:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -204,9 +205,57 @@ public class EMOFSaveImpl extends XMISaveImpl
   @Override
   protected void saveContainedMany(EObject o, EStructuralFeature f)
   {
-    if (f == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ||
+    // EAnnotations denoting specific EMOF elements are serialized as their EMOF elements. 
+    // Other EAnnotations are serialized as xmi:Extensions.
+    //
+    if (f == EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS) 
+    {
+      @SuppressWarnings("unchecked")
+      List<EAnnotation> eAnnotations = ((InternalEList<EAnnotation>)helper.getValue(o, f)).basicList();
+      boolean saveExtension = false;
+      int size = eAnnotations.size();
+      for (int i = 0; i < size; i++)
+      {
+        EAnnotation eAnnotation = eAnnotations.get(i);
+        String source = eAnnotation.getSource();
+        if (EMOFExtendedMetaData.EMOF_COMMENT_ANNOTATION_SOURCE.equals(source))
+        {
+          doc.startElement(EMOFExtendedMetaData.EMOF_OWNED_COMMENT);
+          doc.addAttribute(EMOFExtendedMetaData.EMOF_COMMENT_BODY, eAnnotation.getDetails().get(EMOFExtendedMetaData.EMOF_COMMENT_BODY));
+          doc.endElement();
+        }
+        else if (source.startsWith(EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI_2_0))
+        {
+          doc.startElement(EMOFExtendedMetaData.EMOF_OWNED_COMMENT);
+          doc.addAttribute(EMOFExtendedMetaData.EMOF_COMMENT_BODY, eAnnotation.getDetails().get(EMOFExtendedMetaData.EMOF_COMMENT_BODY));
+          doc.startElement(EMOFExtendedMetaData.EMOF_OWNED_COMMENT);
+          doc.addAttribute(EMOFExtendedMetaData.EMOF_COMMENT_BODY, source);
+          doc.endElement();
+          doc.endElement();
+        }
+        else
+        {
+          saveExtension = true;
+        }
+      }
+      if (saveExtension) 
+      {
+        doc.startElement(EMOFExtendedMetaData.XMI_EXTENSION_ELEMENT);
+        doc.addAttribute(EMOFExtendedMetaData.XMI_EXTENDER_ATTRIBUTE, EcorePackage.eNS_URI);
+        for (int i = 0; i < size; i++)
+        {
+          EAnnotation eAnnotation = eAnnotations.get(i);
+          String source = eAnnotation.getSource();
+          if (!source.startsWith(EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI_2_0))
+          {
+            saveElement((InternalEObject)eAnnotation, f);
+          }
+        }
+        doc.endElement();
+      }
+    }
+    else if (f == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ||
           f == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS ||
-          f == EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS ||
           f == EcorePackage.Literals.ECLASSIFIER__ETYPE_PARAMETERS ||
           f == EcorePackage.Literals.EOPERATION__ETYPE_PARAMETERS)
     {

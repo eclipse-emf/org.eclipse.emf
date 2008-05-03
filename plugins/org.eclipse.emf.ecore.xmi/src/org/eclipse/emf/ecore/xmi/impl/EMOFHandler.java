@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHandler.java,v 1.5 2008/04/18 20:05:59 davidms Exp $
+ * $Id: EMOFHandler.java,v 1.6 2008/05/03 22:35:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -123,9 +123,40 @@ public class EMOFHandler extends SAXXMIHandler
           annotation.getDetails().put(name, value);
           return;
         }
+        else if (EMOFExtendedMetaData.EMOF_COMMENT_BODY.equals(name))
+        {
+          annotation.setSource(EMOFExtendedMetaData.EMOF_COMMENT_ANNOTATION_SOURCE);
+          annotation.getDetails().put(name, value);
+          return;
+        }
+      }
+      else if (source.startsWith(EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI_2_0) && EMOFExtendedMetaData.EMOF_COMMENT_BODY.equals(name))
+      {
+        annotation.getDetails().put(name, value);
+        return;
       }
     }
     super.setAttribValue(object, name, value);
+  }
+
+  @Override
+  protected void handleFeature(String prefix, String name)
+  {
+    super.handleFeature(prefix, name);
+
+    //  Interpret the body of a nested ownedComment as a comment-type and assign it as the EAnnotation.source of the parent.
+    //
+    if (EMOFExtendedMetaData.EMOF_OWNED_COMMENT.equals(name) && objects.peekEObject() instanceof EAnnotation) 
+    {
+      EAnnotation annotation = (EAnnotation)objects.peekEObject();
+      EObject container = annotation.eContainer();
+      if (container instanceof EAnnotation)
+      {
+        EAnnotation parentAnnotation = (EAnnotation)container;
+        parentAnnotation.setSource(annotation.getDetails().get(EMOFExtendedMetaData.EMOF_COMMENT_BODY));
+        parentAnnotation.getEAnnotations().remove(annotation);
+      }
+    }
   }
 
   public static interface Helper extends XMLHelper
