@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLProcessor.java,v 1.9 2007/06/14 18:32:40 emerks Exp $
+ * $Id: XMLProcessor.java,v 1.10 2008/05/04 10:58:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -137,7 +137,7 @@ public class XMLProcessor
     {
       for (Resource resource : ecoreBuilder.generate(schemaURIs))
       {
-        for (EPackage ePackage : EcoreUtil.<EPackage>getObjectsByType(resource.getContents(), EcorePackage.eINSTANCE.getEPackage()))
+        for (EPackage ePackage : EcoreUtil.<EPackage>getObjectsByType(resource.getContents(), EcorePackage.Literals.EPACKAGE))
         {
           EcoreUtil.freeze(ePackage);
         }

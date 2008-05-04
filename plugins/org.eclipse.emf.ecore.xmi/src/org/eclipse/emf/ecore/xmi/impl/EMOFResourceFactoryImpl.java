@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFResourceFactoryImpl.java,v 1.5 2007/06/18 17:26:49 emerks Exp $
+ * $Id: EMOFResourceFactoryImpl.java,v 1.6 2008/05/04 10:58:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -35,61 +35,61 @@ public class EMOFResourceFactoryImpl extends ResourceFactoryImpl
 
     XMLResource.XMLMap xmlMap = new XMLMapImpl();
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEFactory(), createXMLInfo("Factory"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEPackage(), createXMLInfo("Package"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEAttribute(), createXMLInfo("Property"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEReference(), createXMLInfo("Property"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEParameter(), createXMLInfo("Parameter"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEOperation(), createXMLInfo("Operation"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEEnumLiteral(), createXMLInfo("EnumerationLiteral"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEDataType(), createXMLInfo("PrimitiveType"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEEnum(), createXMLInfo("Enumeration"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEClass(), createXMLInfo("Class"));
+    xmlMap.add(EcorePackage.Literals.EFACTORY, createXMLInfo("Factory"));
+    xmlMap.add(EcorePackage.Literals.EPACKAGE, createXMLInfo("Package"));
+    xmlMap.add(EcorePackage.Literals.EATTRIBUTE, createXMLInfo("Property"));
+    xmlMap.add(EcorePackage.Literals.EREFERENCE, createXMLInfo("Property"));
+    xmlMap.add(EcorePackage.Literals.EPARAMETER, createXMLInfo("Parameter"));
+    xmlMap.add(EcorePackage.Literals.EOPERATION, createXMLInfo("Operation"));
+    xmlMap.add(EcorePackage.Literals.EENUM_LITERAL, createXMLInfo("EnumerationLiteral"));
+    xmlMap.add(EcorePackage.Literals.EDATA_TYPE, createXMLInfo("PrimitiveType"));
+    xmlMap.add(EcorePackage.Literals.EENUM, createXMLInfo("Enumeration"));
+    xmlMap.add(EcorePackage.Literals.ECLASS, createXMLInfo("Class"));
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEFactory_EPackage(), createXMLInfo("package"));
+    xmlMap.add(EcorePackage.Literals.EFACTORY__EPACKAGE, createXMLInfo("package"));
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEPackage_NsURI(), createXMLInfo("uri"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEPackage_ESubpackages(), createXMLInfo("nestedPackage"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEPackage_ESuperPackage(), createXMLInfo("nestingPackage"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEPackage_EClassifiers(), createXMLInfo("ownedType"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEPackage_NsPrefix(), createXMLInfo()); // no property
+    xmlMap.add(EcorePackage.Literals.EPACKAGE__NS_URI, createXMLInfo("uri"));
+    xmlMap.add(EcorePackage.Literals.EPACKAGE__ESUBPACKAGES, createXMLInfo("nestedPackage"));
+    xmlMap.add(EcorePackage.Literals.EPACKAGE__ESUPER_PACKAGE, createXMLInfo("nestingPackage"));
+    xmlMap.add(EcorePackage.Literals.EPACKAGE__ECLASSIFIERS, createXMLInfo("ownedType"));
+    xmlMap.add(EcorePackage.Literals.EPACKAGE__NS_PREFIX, createXMLInfo()); // no property
 
-    xmlMap.add(EcorePackage.eINSTANCE.getETypedElement_EType(), createXMLInfo("type"));
-    xmlMap.add(EcorePackage.eINSTANCE.getETypedElement_Ordered(), createXMLInfo("isOrdered"));
-    xmlMap.add(EcorePackage.eINSTANCE.getETypedElement_Unique(), createXMLInfo("isUnique"));
-    xmlMap.add(EcorePackage.eINSTANCE.getETypedElement_LowerBound(), createXMLInfo("lower"));
-    xmlMap.add(EcorePackage.eINSTANCE.getETypedElement_UpperBound(), createXMLInfo("upper"));
+    xmlMap.add(EcorePackage.Literals.ETYPED_ELEMENT__ETYPE, createXMLInfo("type"));
+    xmlMap.add(EcorePackage.Literals.ETYPED_ELEMENT__ORDERED, createXMLInfo("isOrdered"));
+    xmlMap.add(EcorePackage.Literals.ETYPED_ELEMENT__UNIQUE, createXMLInfo("isUnique"));
+    xmlMap.add(EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND, createXMLInfo("lower"));
+    xmlMap.add(EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND, createXMLInfo("upper"));
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEStructuralFeature_Changeable(), createXMLInfo("isReadOnly")); // boolean not
-    xmlMap.add(EcorePackage.eINSTANCE.getEStructuralFeature_DefaultValueLiteral(), createXMLInfo("default"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEStructuralFeature_Volatile(), createXMLInfo()); // no property
-    xmlMap.add(EcorePackage.eINSTANCE.getEStructuralFeature_Unsettable(), createXMLInfo()); // no property
-    xmlMap.add(EcorePackage.eINSTANCE.getEStructuralFeature_Transient(), createXMLInfo()); // no property
-    xmlMap.add(EcorePackage.eINSTANCE.getEStructuralFeature_Derived(), createXMLInfo("isDerived"));
+    xmlMap.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__CHANGEABLE, createXMLInfo("isReadOnly")); // boolean not
+    xmlMap.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL, createXMLInfo("default"));
+    xmlMap.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE, createXMLInfo()); // no property
+    xmlMap.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE, createXMLInfo()); // no property
+    xmlMap.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__TRANSIENT, createXMLInfo()); // no property
+    xmlMap.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__DERIVED, createXMLInfo("isDerived"));
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEAttribute_ID(), createXMLInfo("isID"));
+    xmlMap.add(EcorePackage.Literals.EATTRIBUTE__ID, createXMLInfo("isID"));
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEReference_Containment(), createXMLInfo("isComposite"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEReference_EOpposite(), createXMLInfo("opposite"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEReference_ResolveProxies(), createXMLInfo()); // no property
+    xmlMap.add(EcorePackage.Literals.EREFERENCE__CONTAINMENT, createXMLInfo("isComposite"));
+    xmlMap.add(EcorePackage.Literals.EREFERENCE__EOPPOSITE, createXMLInfo("opposite"));
+    xmlMap.add(EcorePackage.Literals.EREFERENCE__RESOLVE_PROXIES, createXMLInfo()); // no property
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEEnumLiteral_Value(), createXMLInfo()); // no property
+    xmlMap.add(EcorePackage.Literals.EENUM_LITERAL__VALUE, createXMLInfo()); // no property
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEOperation_EParameters(), createXMLInfo("ownedParameter"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEOperation_EExceptions(), createXMLInfo("raisedException"));
+    xmlMap.add(EcorePackage.Literals.EOPERATION__EPARAMETERS, createXMLInfo("ownedParameter"));
+    xmlMap.add(EcorePackage.Literals.EOPERATION__EEXCEPTIONS, createXMLInfo("raisedException"));
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEClassifier_InstanceClassName(), createXMLInfo()); // no property
-    xmlMap.add(EcorePackage.eINSTANCE.getEClassifier_InstanceTypeName(), createXMLInfo()); // no property
+    xmlMap.add(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME, createXMLInfo()); // no property
+    xmlMap.add(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME, createXMLInfo()); // no property
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEDataType_Serializable(), createXMLInfo()); // no property
+    xmlMap.add(EcorePackage.Literals.EDATA_TYPE__SERIALIZABLE, createXMLInfo()); // no property
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEEnum_ELiterals(), createXMLInfo("ownedLiteral"));
+    xmlMap.add(EcorePackage.Literals.EENUM__ELITERALS, createXMLInfo("ownedLiteral"));
 
-    xmlMap.add(EcorePackage.eINSTANCE.getEClass_Abstract(), createXMLInfo("isAbstract"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEClass_EStructuralFeatures(), createXMLInfo("ownedAttribute")); // ownedProperty???
-    xmlMap.add(EcorePackage.eINSTANCE.getEClass_EOperations(), createXMLInfo("ownedOperation"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEClass_ESuperTypes(), createXMLInfo("superClass"));
-    xmlMap.add(EcorePackage.eINSTANCE.getEClass_Interface(), createXMLInfo()); // no property
+    xmlMap.add(EcorePackage.Literals.ECLASS__ABSTRACT, createXMLInfo("isAbstract"));
+    xmlMap.add(EcorePackage.Literals.ECLASS__ESTRUCTURAL_FEATURES, createXMLInfo("ownedAttribute")); // ownedProperty???
+    xmlMap.add(EcorePackage.Literals.ECLASS__EOPERATIONS, createXMLInfo("ownedOperation"));
+    xmlMap.add(EcorePackage.Literals.ECLASS__ESUPER_TYPES, createXMLInfo("superClass"));
+    xmlMap.add(EcorePackage.Literals.ECLASS__INTERFACE, createXMLInfo()); // no property
 
     extendedMetaData = new EMOFExtendedMetaData(xmlMap);
   }

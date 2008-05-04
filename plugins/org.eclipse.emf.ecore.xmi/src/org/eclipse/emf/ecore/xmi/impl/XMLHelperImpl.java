@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.52 2007/12/07 20:42:06 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.53 2008/05/04 10:58:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1076,7 +1076,7 @@ public class XMLHelperImpl implements XMLHelper
         {
           targetFeature = group;
         }
-        if (targetFeature.getEType() == EcorePackage.eINSTANCE.getEFeatureMapEntry())
+        if (targetFeature.getEType() == EcorePackage.Literals.EFEATURE_MAP_ENTRY)
         {
           FeatureMap featureMap = (FeatureMap)object.eGet(targetFeature);
           EClassifier eClassifier = feature.getEType();

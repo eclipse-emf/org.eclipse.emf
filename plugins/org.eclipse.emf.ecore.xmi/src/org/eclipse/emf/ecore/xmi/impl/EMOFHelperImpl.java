@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.20 2008/05/03 22:35:32 emerks Exp $
+ * $Id: EMOFHelperImpl.java,v 1.21 2008/05/04 10:58:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -60,7 +60,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
   @Override
   public Object getValue(EObject object, EStructuralFeature feature)
   {
-    if (feature == EcorePackage.eINSTANCE.getEStructuralFeature_Changeable())
+    if (feature == EcorePackage.Literals.ESTRUCTURAL_FEATURE__CHANGEABLE)
     {
       return ((EStructuralFeature)object).isChangeable() ? Boolean.FALSE : Boolean.TRUE; // EMOF.isReadOnly = !Ecore.changeable
     }
@@ -73,11 +73,11 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
   @Override
   public void setValue(EObject object, EStructuralFeature feature, Object value, int position)
   {
-    if (feature == EcorePackage.eINSTANCE.getEStructuralFeature_Changeable())
+    if (feature == EcorePackage.Literals.ESTRUCTURAL_FEATURE__CHANGEABLE)
     {
       ((EStructuralFeature)object).setChangeable(Boolean.FALSE.toString().equals(value)); // Ecore.changeable = !EMOF.isReadOnly
     }
-    else if (feature == EcorePackage.eINSTANCE.getETypedElement_UpperBound() && "*".equals(value))
+    else if (feature == EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND && "*".equals(value))
     {
       ((ETypedElement)object).setUpperBound(-1);
     }
@@ -138,13 +138,13 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
   @Override
   public EStructuralFeature getFeature(EClass eClass, String namespaceURI, String name, boolean isElement)
   {
-    if (eClass == EcorePackage.eINSTANCE.getEAnnotation() && EMOFExtendedMetaData.EMOF_TAG_ELEMENT.equals(name))
+    if (eClass == EcorePackage.Literals.EANNOTATION && EMOFExtendedMetaData.EMOF_TAG_ELEMENT.equals(name))
     {
-      return EcorePackage.eINSTANCE.getEAnnotation_References();
+      return EcorePackage.Literals.EANNOTATION__REFERENCES;
     }
-    else if (EcorePackage.eINSTANCE.getEModelElement().isSuperTypeOf(eClass) && EMOFExtendedMetaData.EMOF_OWNED_COMMENT.equals(name))
+    else if (EcorePackage.Literals.EMODEL_ELEMENT.isSuperTypeOf(eClass) && EMOFExtendedMetaData.EMOF_OWNED_COMMENT.equals(name))
     {
-      return EcorePackage.eINSTANCE.getEModelElement_EAnnotations();
+      return EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS;
     }
 
     for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
@@ -187,7 +187,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
       }
       else if (EMOFExtendedMetaData.TAG.equals(typeName))
       {
-        return EcorePackage.eINSTANCE.getEAnnotation();
+        return EcorePackage.Literals.EANNOTATION;
       }
     }
     return super.getType(eFactory, typeName);
@@ -242,9 +242,9 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
           protected EObject createCopy(EObject eObject)
           {
             EClass eClass = 
-              ((EStructuralFeature)eObject).getEType() instanceof EDataType
-                ? EcorePackage.eINSTANCE.getEAttribute()
-                : EcorePackage.eINSTANCE.getEReference();
+              ((EStructuralFeature)eObject).getEType() instanceof EDataType ?
+                  EcorePackage.Literals.EATTRIBUTE :
+                  EcorePackage.Literals.EREFERENCE;
             return EcoreUtil.create(eClass);
           }
           @Override

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFResourceImpl.java,v 1.3 2006/12/05 20:23:28 emerks Exp $
+ * $Id: EMOFResourceImpl.java,v 1.4 2008/05/04 10:58:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -72,8 +72,8 @@ public class EMOFResourceImpl extends XMIResourceImpl implements XMIResource
     if (id == null)
     {
       EClass eClass = eObject.eClass();
-      if ((eClass != EcorePackage.eINSTANCE.getEAnnotation() || eObject.eContainer() == null) &&
-          eClass != EcorePackage.eINSTANCE.getEStringToStringMapEntry())
+      if ((eClass != EcorePackage.Literals.EANNOTATION || eObject.eContainer() == null) &&
+          eClass != EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY)
       {
         id = makeID(eObject);
         getEObjectToIDMap().put(eObject, id);
