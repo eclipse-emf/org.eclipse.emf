@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BookOnTape.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
+ * $Id: BookOnTape.java,v 1.3 2008/05/04 17:03:17 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -39,10 +39,6 @@ public interface BookOnTape extends AudioVisualItem
   /**
    * Returns the value of the '<em><b>Reader</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Reader</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Reader</em>' reference.
    * @see #setReader(Person)
@@ -65,10 +61,6 @@ public interface BookOnTape extends AudioVisualItem
   /**
    * Returns the value of the '<em><b>Author</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Author</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Author</em>' reference.
    * @see #setAuthor(Writer)

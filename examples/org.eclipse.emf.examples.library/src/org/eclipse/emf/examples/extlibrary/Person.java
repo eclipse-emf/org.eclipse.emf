@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Person.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: Person.java,v 1.2 2008/05/04 17:03:18 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -39,10 +39,6 @@ public interface Person extends Addressable
   /**
    * Returns the value of the '<em><b>First Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>First Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>First Name</em>' attribute.
    * @see #setFirstName(String)
@@ -65,10 +61,6 @@ public interface Person extends Addressable
   /**
    * Returns the value of the '<em><b>Last Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Last Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Last Name</em>' attribute.
    * @see #setLastName(String)

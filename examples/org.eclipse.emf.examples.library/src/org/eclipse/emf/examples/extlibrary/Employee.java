@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Employee.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: Employee.java,v 1.2 2008/05/04 17:03:17 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -38,10 +38,6 @@ public interface Employee extends Person
   /**
    * Returns the value of the '<em><b>Manager</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Manager</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Manager</em>' reference.
    * @see #setManager(Employee)

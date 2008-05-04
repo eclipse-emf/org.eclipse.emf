@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: VideoCassette.java,v 1.4 2007/06/12 15:07:54 emerks Exp $
+ * $Id: VideoCassette.java,v 1.5 2008/05/04 17:03:17 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -42,10 +42,6 @@ public interface VideoCassette extends AudioVisualItem
    * Returns the value of the '<em><b>Cast</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.examples.extlibrary.Person}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Cast</em>' reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Cast</em>' reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getVideoCassette_Cast()

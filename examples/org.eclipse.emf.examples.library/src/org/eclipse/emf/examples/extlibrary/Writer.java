@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Writer.java,v 1.3 2007/06/12 15:07:54 emerks Exp $
+ * $Id: Writer.java,v 1.4 2008/05/04 17:03:17 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -42,10 +42,6 @@ public interface Writer extends Person
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
@@ -70,10 +66,6 @@ public interface Writer extends Person
    * The list contents are of type {@link org.eclipse.emf.examples.extlibrary.Book}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.examples.extlibrary.Book#getAuthor <em>Author</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Books</em>' reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getWriter_Books()

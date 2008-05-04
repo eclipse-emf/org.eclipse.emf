@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Book.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: Book.java,v 1.2 2008/05/04 17:03:18 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -41,10 +41,6 @@ public interface Book extends CirculatingItem
   /**
    * Returns the value of the '<em><b>Title</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Title</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Title</em>' attribute.
    * @see #setTitle(String)
@@ -68,10 +64,6 @@ public interface Book extends CirculatingItem
    * Returns the value of the '<em><b>Pages</b></em>' attribute.
    * The default value is <code>"100"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Pages</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Pages</em>' attribute.
    * @see #setPages(int)
@@ -95,10 +87,6 @@ public interface Book extends CirculatingItem
    * Returns the value of the '<em><b>Category</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.examples.extlibrary.BookCategory}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Category</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Category</em>' attribute.
    * @see org.eclipse.emf.examples.extlibrary.BookCategory
@@ -151,10 +139,6 @@ public interface Book extends CirculatingItem
    * Returns the value of the '<em><b>Author</b></em>' reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.examples.extlibrary.Writer#getBooks <em>Books</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Author</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Author</em>' reference.
    * @see #setAuthor(Writer)

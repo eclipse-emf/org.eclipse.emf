@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Lendable.java,v 1.3 2007/06/12 15:07:54 emerks Exp $
+ * $Id: Lendable.java,v 1.4 2008/05/04 17:03:18 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -44,10 +44,6 @@ public interface Lendable extends EObject
   /**
    * Returns the value of the '<em><b>Copies</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Copies</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Copies</em>' attribute.
    * @see #setCopies(int)
@@ -72,10 +68,6 @@ public interface Lendable extends EObject
    * The list contents are of type {@link org.eclipse.emf.examples.extlibrary.Borrower}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.examples.extlibrary.Borrower#getBorrowed <em>Borrowed</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Borrowers</em>' reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Borrowers</em>' reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLendable_Borrowers()

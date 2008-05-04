@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Periodical.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: Periodical.java,v 1.2 2008/05/04 17:03:18 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -39,10 +39,6 @@ public interface Periodical extends Item
   /**
    * Returns the value of the '<em><b>Title</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Title</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Title</em>' attribute.
    * @see #setTitle(String)
@@ -65,10 +61,6 @@ public interface Periodical extends Item
   /**
    * Returns the value of the '<em><b>Issues Per Year</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Issues Per Year</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Issues Per Year</em>' attribute.
    * @see #setIssuesPerYear(int)

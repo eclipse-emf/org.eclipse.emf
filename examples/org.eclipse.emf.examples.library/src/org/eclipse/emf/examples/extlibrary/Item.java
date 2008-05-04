@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Item.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: Item.java,v 1.2 2008/05/04 17:03:17 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -43,10 +43,6 @@ public interface Item extends EObject
   /**
    * Returns the value of the '<em><b>Publication Date</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Publication Date</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Publication Date</em>' attribute.
    * @see #setPublicationDate(Date)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Library.java,v 1.6 2008/02/20 22:12:51 emerks Exp $
+ * $Id: Library.java,v 1.7 2008/05/04 17:03:17 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -51,10 +51,6 @@ public interface Library extends Addressable
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
@@ -78,10 +74,6 @@ public interface Library extends Addressable
    * Returns the value of the '<em><b>Writers</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.examples.extlibrary.Writer}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Writers</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Writers</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Writers()
@@ -95,10 +87,6 @@ public interface Library extends Addressable
    * Returns the value of the '<em><b>Employees</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.examples.extlibrary.Employee}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Employees</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Employees</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Employees()
@@ -112,10 +100,6 @@ public interface Library extends Addressable
    * Returns the value of the '<em><b>Borrowers</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.examples.extlibrary.Borrower}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Borrowers</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Borrowers</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Borrowers()
@@ -129,10 +113,6 @@ public interface Library extends Addressable
    * Returns the value of the '<em><b>Stock</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.examples.extlibrary.Item}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Stock</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Stock</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Stock()
@@ -145,10 +125,6 @@ public interface Library extends Addressable
    * Returns the value of the '<em><b>Books</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.examples.extlibrary.Book}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Books</em>' reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Books()
@@ -162,10 +138,6 @@ public interface Library extends Addressable
    * The list contents are of type {@link org.eclipse.emf.examples.extlibrary.Library}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.examples.extlibrary.Library#getParentBranch <em>Parent Branch</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Branches</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Branches</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Branches()
@@ -179,10 +151,6 @@ public interface Library extends Addressable
    * Returns the value of the '<em><b>Parent Branch</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.examples.extlibrary.Library#getBranches <em>Branches</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Parent Branch</em>' container reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Parent Branch</em>' container reference.
    * @see #setParentBranch(Library)
@@ -207,10 +175,6 @@ public interface Library extends Addressable
    * Returns the value of the '<em><b>People</b></em>' attribute list.
    * The list contents are of type {@link org.eclipse.emf.ecore.util.FeatureMap.Entry}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>People</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>People</em>' attribute list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_People()

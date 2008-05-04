@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AudioVisualItem.java,v 1.1 2005/12/05 12:36:02 emerks Exp $
+ * $Id: AudioVisualItem.java,v 1.2 2008/05/04 17:03:18 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -40,10 +40,6 @@ public interface AudioVisualItem extends CirculatingItem
   /**
    * Returns the value of the '<em><b>Title</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Title</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Title</em>' attribute.
    * @see #setTitle(String)
@@ -66,10 +62,6 @@ public interface AudioVisualItem extends CirculatingItem
   /**
    * Returns the value of the '<em><b>Minutes Length</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Minutes Length</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Minutes Length</em>' attribute.
    * @see #setMinutesLength(int)
@@ -92,10 +84,6 @@ public interface AudioVisualItem extends CirculatingItem
   /**
    * Returns the value of the '<em><b>Damaged</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Damaged</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Damaged</em>' attribute.
    * @see #setDamaged(boolean)

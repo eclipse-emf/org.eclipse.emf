@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BookCategory.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: BookCategory.java,v 1.4 2008/05/04 17:03:18 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -65,10 +65,6 @@ public enum BookCategory implements Enumerator
   /**
    * The '<em><b>Mystery</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Mystery</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #MYSTERY_LITERAL
    * @model name="Mystery"
@@ -80,10 +76,6 @@ public enum BookCategory implements Enumerator
   /**
    * The '<em><b>Science Fiction</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Science Fiction</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #SCIENCE_FICTION_LITERAL
    * @model name="ScienceFiction"
@@ -95,10 +87,6 @@ public enum BookCategory implements Enumerator
   /**
    * The '<em><b>Biography</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Biography</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #BIOGRAPHY_LITERAL
    * @model name="Biography"
