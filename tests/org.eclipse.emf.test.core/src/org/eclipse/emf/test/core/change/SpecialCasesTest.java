@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.25 2007/03/23 17:37:03 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.26 2008/05/04 10:59:07 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -385,7 +385,7 @@ public class SpecialCasesTest  extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
     
     EObject john = pack.getEFactoryInstance().create(person);
@@ -456,11 +456,11 @@ public class SpecialCasesTest  extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
     EAttribute id = EcoreFactory.eINSTANCE.createEAttribute();
     id.setName("id");
-    id.setEType(EcorePackage.eINSTANCE.getEString());
+    id.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(id);
     
     EReference friendsReference = EcoreFactory.eINSTANCE.createEReference();
@@ -534,11 +534,11 @@ public class SpecialCasesTest  extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
     EAttribute id = EcoreFactory.eINSTANCE.createEAttribute();
     id.setName("id");
-    id.setEType(EcorePackage.eINSTANCE.getEString());
+    id.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(id);
     
     EReference friendsReference = EcoreFactory.eINSTANCE.createEReference();
@@ -645,11 +645,11 @@ public class SpecialCasesTest  extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
     EAttribute id = EcoreFactory.eINSTANCE.createEAttribute();
     id.setName("id");
-    id.setEType(EcorePackage.eINSTANCE.getEString());
+    id.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(id);
     
     EReference friendsReference = EcoreFactory.eINSTANCE.createEReference();
@@ -715,11 +715,11 @@ public class SpecialCasesTest  extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
     EAttribute id = EcoreFactory.eINSTANCE.createEAttribute();
     id.setName("id");
-    id.setEType(EcorePackage.eINSTANCE.getEString());
+    id.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(id);
     
     EReference friendsReference = EcoreFactory.eINSTANCE.createEReference();
@@ -825,7 +825,7 @@ public class SpecialCasesTest  extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
     
     EReference spouse1 = EcoreFactory.eINSTANCE.createEReference();
@@ -953,7 +953,7 @@ public class SpecialCasesTest  extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
 
     //Attribute enumeration
@@ -1095,7 +1095,7 @@ public class SpecialCasesTest  extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
     
     EReference father = EcoreFactory.eINSTANCE.createEReference();

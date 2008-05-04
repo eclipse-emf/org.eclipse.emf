@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.16 2007/03/29 18:46:10 marcelop Exp $
+ * $Id: PersistenceTest.java,v 1.17 2008/05/04 10:59:07 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -124,7 +124,7 @@ public class PersistenceTest extends TestCase
     name = EcoreFactory.eINSTANCE.createEAttribute();
     person.getEStructuralFeatures().add(name);
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     
     children = EcoreFactory.eINSTANCE.createEReference();
     person.getEStructuralFeatures().add(children);
@@ -147,7 +147,7 @@ public class PersistenceTest extends TestCase
     brand = EcoreFactory.eINSTANCE.createEAttribute();
     car.getEStructuralFeatures().add(brand);
     brand.setName("brand");
-    brand.setEType(EcorePackage.eINSTANCE.getEString());
+    brand.setEType(EcorePackage.Literals.ESTRING);
 
     cars = EcoreFactory.eINSTANCE.createEReference();
     person.getEStructuralFeatures().add(cars);
@@ -388,7 +388,7 @@ public class PersistenceTest extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
     
     EReference children = EcoreFactory.eINSTANCE.createEReference();
@@ -476,7 +476,7 @@ public class PersistenceTest extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
     
     EReference children = EcoreFactory.eINSTANCE.createEReference();
@@ -500,7 +500,7 @@ public class PersistenceTest extends TestCase
     
     EAttribute postalCode = EcoreFactory.eINSTANCE.createEAttribute();
     postalCode.setName("postalCode");
-    postalCode.setEType(EcorePackage.eINSTANCE.getEString());
+    postalCode.setEType(EcorePackage.Literals.ESTRING);
     house.getEStructuralFeatures().add(postalCode);
 
     EReference home = EcoreFactory.eINSTANCE.createEReference();

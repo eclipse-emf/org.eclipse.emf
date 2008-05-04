@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.17 2007/05/28 18:50:34 emerks Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.18 2008/05/04 10:59:07 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -424,7 +424,7 @@ public class ChangeDescriptionTest extends TestCase
     pack.getEClassifiers().add(anEClass);
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     anEClass.getEStructuralFeatures().add(name);
     EReference ref1 = EcoreFactory.eINSTANCE.createEReference();
     ref1.setName("Ref1");

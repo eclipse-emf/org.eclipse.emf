@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.18 2007/02/23 22:19:23 emerks Exp $
+ * $Id: ChangeRecordTest.java,v 1.19 2008/05/04 10:59:07 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -171,7 +171,7 @@ extends TestCase
     assertEquals(1, eList.size());
     
     FeatureChange featureChange = eList.iterator().next();
-    assertEquals(EcorePackage.eINSTANCE.getEAnnotation_Contents(), featureChange.getFeature());
+    assertEquals(EcorePackage.Literals.EANNOTATION__CONTENTS, featureChange.getFeature());
     assertEquals(2, featureChange.getListChanges().size());
     
     int checker = 0;
@@ -608,11 +608,11 @@ extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
     EAttribute id = EcoreFactory.eINSTANCE.createEAttribute();
     id.setName("id");
-    id.setEType(EcorePackage.eINSTANCE.getEString());
+    id.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(id);
     
     EReference friendsReference = EcoreFactory.eINSTANCE.createEReference();
@@ -813,11 +813,11 @@ extends TestCase
 
     EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(name);
     EAttribute id = EcoreFactory.eINSTANCE.createEAttribute();
     id.setName("id");
-    id.setEType(EcorePackage.eINSTANCE.getEString());
+    id.setEType(EcorePackage.Literals.ESTRING);
     person.getEStructuralFeatures().add(id);
     
     EReference friendsReference = EcoreFactory.eINSTANCE.createEReference();

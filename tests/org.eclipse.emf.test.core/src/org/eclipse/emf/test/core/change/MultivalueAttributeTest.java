@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MultivalueAttributeTest.java,v 1.11 2007/01/18 15:53:10 marcelop Exp $
+ * $Id: MultivalueAttributeTest.java,v 1.12 2008/05/04 10:59:07 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -83,13 +83,13 @@ public class MultivalueAttributeTest extends TestCase
     
     manyInt = EcoreFactory.eINSTANCE.createEAttribute();
     manyInt.setName("manyInt");
-    manyInt.setEType(EcorePackage.eINSTANCE.getEInt());
+    manyInt.setEType(EcorePackage.Literals.EINT);
     manyInt.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     thingEClass.getEStructuralFeatures().add(manyInt);
 
     manyString = EcoreFactory.eINSTANCE.createEAttribute();
     manyString.setName("manyString");
-    manyString.setEType(EcorePackage.eINSTANCE.getEString());
+    manyString.setEType(EcorePackage.Literals.ESTRING);
     manyString.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
     thingEClass.getEStructuralFeatures().add(manyString);
     

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.13 2007/01/18 15:53:11 marcelop Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.14 2008/05/04 10:59:07 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -126,13 +126,13 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     EAttribute singleAtt = EcoreFactory.eINSTANCE.createEAttribute();
     aClass.getEStructuralFeatures().add(singleAtt);
     singleAtt.setName("SingleAtt");
-    singleAtt.setEType(EcorePackage.eINSTANCE.getEString());
+    singleAtt.setEType(EcorePackage.Literals.ESTRING);
 
     EAttribute multiAtt = EcoreFactory.eINSTANCE.createEAttribute();
     aClass.getEStructuralFeatures().add(multiAtt);
     multiAtt.setName("MultiAtt");
     multiAtt.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
-    multiAtt.setEType(EcorePackage.eINSTANCE.getEString());
+    multiAtt.setEType(EcorePackage.Literals.ESTRING);
 
     EReference singleRef = EcoreFactory.eINSTANCE.createEReference();
     aClass.getEStructuralFeatures().add(singleRef);

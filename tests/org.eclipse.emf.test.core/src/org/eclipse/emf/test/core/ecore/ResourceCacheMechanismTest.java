@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceCacheMechanismTest.java,v 1.5 2006/12/29 21:49:52 marcelop Exp $
+ * $Id: ResourceCacheMechanismTest.java,v 1.6 2008/05/04 10:59:07 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -78,12 +78,12 @@ public class ResourceCacheMechanismTest extends TestCase
     id = EcoreFactory.eINSTANCE.createEAttribute();
     id.setName("id");
     id.setID(true);
-    id.setEType(EcorePackage.eINSTANCE.getEString());
+    id.setEType(EcorePackage.Literals.ESTRING);
     employee.getEStructuralFeatures().add(id);
 
     name = EcoreFactory.eINSTANCE.createEAttribute();
     name.setName("name");
-    name.setEType(EcorePackage.eINSTANCE.getEString());
+    name.setEType(EcorePackage.Literals.ESTRING);
     employee.getEStructuralFeatures().add(name);
     
     john = pack.getEFactoryInstance().create(employee);

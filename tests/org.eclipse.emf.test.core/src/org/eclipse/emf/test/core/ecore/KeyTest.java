@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: KeyTest.java,v 1.3 2007/01/13 19:08:16 marcelop Exp $
+ * $Id: KeyTest.java,v 1.4 2008/05/04 10:59:07 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -146,7 +146,7 @@ public class KeyTest  extends TestCase
     EAttribute att0 = EcoreFactory.eINSTANCE.createEAttribute();
     class1.getEStructuralFeatures().add(att0);
     att0.setName("att0");
-    att0.setEType(EcorePackage.eINSTANCE.getEString());
+    att0.setEType(EcorePackage.Literals.ESTRING);
     
     EClass class2 = EcoreFactory.eINSTANCE.createEClass();
     pack.getEClassifiers().add(class2);
@@ -155,12 +155,12 @@ public class KeyTest  extends TestCase
     EAttribute att1 = EcoreFactory.eINSTANCE.createEAttribute();
     class2.getEStructuralFeatures().add(att1);
     att1.setName("att1");
-    att1.setEType(EcorePackage.eINSTANCE.getEString());
+    att1.setEType(EcorePackage.Literals.ESTRING);
     
     EAttribute att2 = EcoreFactory.eINSTANCE.createEAttribute();
     class2.getEStructuralFeatures().add(att2);
     att2.setName("att2");
-    att2.setEType(EcorePackage.eINSTANCE.getEString());
+    att2.setEType(EcorePackage.Literals.ESTRING);
     
     EClass class3 = EcoreFactory.eINSTANCE.createEClass();
     pack.getEClassifiers().add(class3);
@@ -171,7 +171,7 @@ public class KeyTest  extends TestCase
     class3.getEStructuralFeatures().add(att3ID);
     att3ID.setName("att3");
     att3ID.setID(true);
-    att3ID.setEType(EcorePackage.eINSTANCE.getEString());
+    att3ID.setEType(EcorePackage.Literals.ESTRING);
     
     EReference singleReference = EcoreFactory.eINSTANCE.createEReference();
     class1.getEStructuralFeatures().add(singleReference);
