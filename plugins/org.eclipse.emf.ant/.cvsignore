@@ -6,3 +6,4 @@ build.xml
 dev.properties
 *.jar
 *.args
+@dot
