@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MapToEcoreActionDelegate.java,v 1.7 2007/06/19 17:31:46 marcelop Exp $
+ * $Id: MapToEcoreActionDelegate.java,v 1.8 2008/05/04 10:59:02 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.action;
 
@@ -79,9 +79,10 @@ public class MapToEcoreActionDelegate extends ActionDelegate
 
       if (FILE_EXTENSIONS.contains(file.getFullPath().getFileExtension()))
       {
-        return (EPackage)EcoreUtil.getObjectByType(new ResourceSetImpl().getResource(
-          URI.createPlatformResourceURI(file.getFullPath().toString(), true),
-          true).getContents(), EcorePackage.eINSTANCE.getEPackage());
+        return 
+          (EPackage)EcoreUtil.getObjectByType
+            (new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true).getContents(),
+             EcorePackage.Literals.EPACKAGE);
       }
     }
 
@@ -161,9 +162,7 @@ public class MapToEcoreActionDelegate extends ActionDelegate
                   Resource outputResource = inputResource.getResourceSet().getResource(
                     URI.createPlatformResourceURI(files[i].getFullPath().toString(), true),
                     true);
-                  EPackage outputEPackage = (EPackage)EcoreUtil.getObjectByType(
-                    outputResource.getContents(),
-                    EcorePackage.eINSTANCE.getEPackage());
+                  EPackage outputEPackage = (EPackage)EcoreUtil.getObjectByType(outputResource.getContents(), EcorePackage.Literals.EPACKAGE);
 
                   String base = inputResource.getURI().trimFileExtension().lastSegment() + "_2_" +
                     outputResource.getURI().trimFileExtension().lastSegment();
