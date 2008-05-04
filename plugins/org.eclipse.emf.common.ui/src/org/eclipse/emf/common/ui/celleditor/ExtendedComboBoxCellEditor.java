@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedComboBoxCellEditor.java,v 1.6 2007/05/28 19:13:01 emerks Exp $
+ * $Id: ExtendedComboBoxCellEditor.java,v 1.7 2008/05/04 17:03:35 emerks Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -138,7 +138,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
         // Create a new array.
         //
         result = new String [unsortedList.size()];
-        // Fill in the result array with labels and repopulate the origina list in order.
+        // Fill in the result array with labels and re-populate the original list in order.
         //
         for (int i = 0, size = unsortedList.size(); i < size; ++i)
         {

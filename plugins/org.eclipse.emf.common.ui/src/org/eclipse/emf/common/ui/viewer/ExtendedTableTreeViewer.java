@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedTableTreeViewer.java,v 1.4 2007/06/14 18:32:41 emerks Exp $
+ * $Id: ExtendedTableTreeViewer.java,v 1.5 2008/05/04 17:03:35 emerks Exp $
  */
 package org.eclipse.emf.common.ui.viewer;
 
@@ -394,7 +394,7 @@ public class ExtendedTableTreeViewer extends TableTreeViewer
   }
 
   /**
-   * Scales the Rectangle, mainting its aspect, such that it fits within the
+   * Scales the Rectangle, maintaining its aspect, such that it fits within the
    * given height.  The given Rectangle is changed and returned.
    */
   protected static Rectangle scale(Rectangle bounds, int maxHeight)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonUIPlugin.java,v 1.6 2006/12/28 06:42:02 marcelop Exp $
+ * $Id: CommonUIPlugin.java,v 1.7 2008/05/04 17:03:35 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
  * within a headless Eclipse workspace,
  * or just stand-alone as part of some other application.
  * To support this, all resource access should be directed to the resource locator,
- * which can redirect the service as appopriate to the runtime.
+ * which can redirect the service as appropriate to the runtime.
  * During stand-alone invocation no plugin initialization takes place.
  * In this case, common.resources.jar must be on the CLASSPATH.
  * @see #INSTANCE
