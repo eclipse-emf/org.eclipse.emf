@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JField.java,v 1.3 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JField.java,v 1.4 2008/05/04 17:03:37 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -46,10 +46,6 @@ public interface JField extends JMember
   /**
    * Returns the value of the '<em><b>Final</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Final</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Final</em>' attribute.
    * @see #setFinal(boolean)
@@ -72,10 +68,6 @@ public interface JField extends JMember
   /**
    * Returns the value of the '<em><b>Transient</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Transient</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Transient</em>' attribute.
    * @see #setTransient(boolean)
@@ -98,10 +90,6 @@ public interface JField extends JMember
   /**
    * Returns the value of the '<em><b>Volatile</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Volatile</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Volatile</em>' attribute.
    * @see #setVolatile(boolean)
@@ -124,10 +112,6 @@ public interface JField extends JMember
   /**
    * Returns the value of the '<em><b>Java Field</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Java Field</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Java Field</em>' attribute.
    * @see #setJavaField(Field)
@@ -150,10 +134,6 @@ public interface JField extends JMember
   /**
    * Returns the value of the '<em><b>Initializer</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Initializer</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Initializer</em>' attribute.
    * @see #setInitializer(String)
@@ -176,10 +156,6 @@ public interface JField extends JMember
   /**
    * Returns the value of the '<em><b>Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Type</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Type</em>' reference.
    * @see #setType(JClass)

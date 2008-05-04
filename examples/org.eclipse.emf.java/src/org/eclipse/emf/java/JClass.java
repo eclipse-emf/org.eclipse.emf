@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClass.java,v 1.6 2007/06/12 15:06:50 emerks Exp $
+ * $Id: JClass.java,v 1.7 2008/05/04 17:03:37 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -58,10 +58,6 @@ public interface JClass extends JMember
   /**
    * Returns the value of the '<em><b>Abstract</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Abstract</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Abstract</em>' attribute.
    * @see #setAbstract(boolean)
@@ -84,10 +80,6 @@ public interface JClass extends JMember
   /**
    * Returns the value of the '<em><b>Final</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Final</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Final</em>' attribute.
    * @see #setFinal(boolean)
@@ -110,10 +102,6 @@ public interface JClass extends JMember
   /**
    * Returns the value of the '<em><b>Interface</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Interface</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Interface</em>' attribute.
    * @see #setInterface(boolean)
@@ -136,10 +124,6 @@ public interface JClass extends JMember
   /**
    * Returns the value of the '<em><b>Throwable</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Throwable</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Throwable</em>' attribute.
    * @see #setThrowable(boolean)
@@ -162,10 +146,6 @@ public interface JClass extends JMember
   /**
    * Returns the value of the '<em><b>Java Class</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Java Class</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Java Class</em>' attribute.
    * @see #setJavaClass(Class)
@@ -189,10 +169,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>Fields</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.java.JField}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Fields</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Fields</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Fields()
@@ -205,10 +181,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>Methods</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.java.JMethod}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Methods</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Methods</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Methods()
@@ -221,10 +193,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>Super Types</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.java.JClass}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Super Types</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Super Types</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_SuperTypes()
@@ -237,10 +205,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>All Super Types</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.java.JClass}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>All Super Types</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>All Super Types</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_AllSuperTypes()
@@ -254,10 +218,6 @@ public interface JClass extends JMember
    * The list contents are of type {@link org.eclipse.emf.java.JMember}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.java.JMember#getContainingType <em>Containing Type</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Members</em>' containment reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Members</em>' containment reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Members()
@@ -271,10 +231,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>Component Type</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.java.JClass#getArrayType <em>Array Type</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Component Type</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Component Type</em>' container reference.
    * @see #setComponentType(JClass)
@@ -299,10 +255,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>Array Type</b></em>' containment reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.java.JClass#getComponentType <em>Component Type</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Array Type</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Array Type</em>' containment reference.
    * @see #setArrayType(JClass)
@@ -327,10 +279,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>Unit</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.java.JCompilationUnit#getTypes <em>Types</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Unit</em>' container reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Unit</em>' container reference.
    * @see #setUnit(JCompilationUnit)
@@ -355,10 +303,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>All Methods</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.java.JMethod}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>All Methods</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>All Methods</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_AllMethods()
@@ -371,10 +315,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>All Fields</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.java.JField}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>All Fields</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>All Fields</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_AllFields()
@@ -387,10 +327,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>Package</b></em>' reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.java.JPackage#getTypes <em>Types</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Package</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Package</em>' reference.
    * @see #setPackage(JPackage)
@@ -415,10 +351,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>Types</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.java.JClass}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Types</em>' reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Types</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_Types()
@@ -431,10 +363,6 @@ public interface JClass extends JMember
    * Returns the value of the '<em><b>All Types</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.java.JClass}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>All Types</em>' reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>All Types</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJClass_AllTypes()

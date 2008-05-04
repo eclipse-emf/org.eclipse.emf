@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnit.java,v 1.5 2007/06/12 15:06:50 emerks Exp $
+ * $Id: JCompilationUnit.java,v 1.6 2008/05/04 17:03:37 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -46,10 +46,6 @@ public interface JCompilationUnit extends JModelElement
   /**
    * Returns the value of the '<em><b>Package</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Package</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Package</em>' reference.
    * @see #setPackage(JPackage)
@@ -73,10 +69,6 @@ public interface JCompilationUnit extends JModelElement
    * Returns the value of the '<em><b>Imports</b></em>' attribute list.
    * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Imports</em>' attribute list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Imports</em>' attribute list.
    * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit_Imports()
@@ -88,10 +80,6 @@ public interface JCompilationUnit extends JModelElement
   /**
    * Returns the value of the '<em><b>Comment</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Comment</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Comment</em>' attribute.
    * @see #setComment(String)
@@ -116,10 +104,6 @@ public interface JCompilationUnit extends JModelElement
    * The list contents are of type {@link org.eclipse.emf.java.JClass}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.java.JClass#getUnit <em>Unit</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Types</em>' containment reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Types</em>' containment reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit_Types()
@@ -133,10 +117,6 @@ public interface JCompilationUnit extends JModelElement
    * Returns the value of the '<em><b>Imported Packages</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.java.JPackage}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Imported Packages</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Imported Packages</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit_ImportedPackages()
@@ -149,10 +129,6 @@ public interface JCompilationUnit extends JModelElement
    * Returns the value of the '<em><b>Imported Types</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.java.JClass}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Imported Types</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Imported Types</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJCompilationUnit_ImportedTypes()

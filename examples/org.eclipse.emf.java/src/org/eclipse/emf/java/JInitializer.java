@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializer.java,v 1.3 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JInitializer.java,v 1.4 2008/05/04 17:03:37 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -39,10 +39,6 @@ public interface JInitializer extends JMember
   /**
    * Returns the value of the '<em><b>Body</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Body</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Body</em>' attribute.
    * @see #setBody(String)

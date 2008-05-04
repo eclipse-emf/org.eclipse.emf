@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMember.java,v 1.3 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JMember.java,v 1.4 2008/05/04 17:03:37 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -42,10 +42,6 @@ public interface JMember extends JModelElement
   /**
    * Returns the value of the '<em><b>Static</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Static</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Static</em>' attribute.
    * @see #setStatic(boolean)
@@ -69,10 +65,6 @@ public interface JMember extends JModelElement
    * Returns the value of the '<em><b>Visibility</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.java.JVisibility}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Visibility</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Visibility</em>' attribute.
    * @see org.eclipse.emf.java.JVisibility
@@ -97,10 +89,6 @@ public interface JMember extends JModelElement
   /**
    * Returns the value of the '<em><b>Comment</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Comment</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Comment</em>' attribute.
    * @see #setComment(String)
@@ -124,10 +112,6 @@ public interface JMember extends JModelElement
    * Returns the value of the '<em><b>Containing Type</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.java.JClass#getMembers <em>Members</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Containing Type</em>' container reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Containing Type</em>' container reference.
    * @see #setContainingType(JClass)

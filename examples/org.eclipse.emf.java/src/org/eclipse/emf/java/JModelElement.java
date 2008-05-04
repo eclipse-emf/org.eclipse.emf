@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JModelElement.java,v 1.3 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JModelElement.java,v 1.4 2008/05/04 17:03:37 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -42,10 +42,6 @@ public interface JModelElement extends EObject
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
@@ -68,10 +64,6 @@ public interface JModelElement extends EObject
   /**
    * Returns the value of the '<em><b>JNode</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>JNode</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>JNode</em>' attribute.
    * @see #setJNode(Object)

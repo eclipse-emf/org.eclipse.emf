@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethod.java,v 1.6 2007/06/12 15:06:50 emerks Exp $
+ * $Id: JMethod.java,v 1.7 2008/05/04 17:03:37 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -54,10 +54,6 @@ public interface JMethod extends JMember
   /**
    * Returns the value of the '<em><b>Abstract</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Abstract</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Abstract</em>' attribute.
    * @see #setAbstract(boolean)
@@ -80,10 +76,6 @@ public interface JMethod extends JMember
   /**
    * Returns the value of the '<em><b>Final</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Final</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Final</em>' attribute.
    * @see #setFinal(boolean)
@@ -106,10 +98,6 @@ public interface JMethod extends JMember
   /**
    * Returns the value of the '<em><b>Native</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Native</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Native</em>' attribute.
    * @see #setNative(boolean)
@@ -132,10 +120,6 @@ public interface JMethod extends JMember
   /**
    * Returns the value of the '<em><b>Synchronized</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Synchronized</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Synchronized</em>' attribute.
    * @see #setSynchronized(boolean)
@@ -158,10 +142,6 @@ public interface JMethod extends JMember
   /**
    * Returns the value of the '<em><b>Java Method</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Java Method</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Java Method</em>' attribute.
    * @see #setJavaMethod(Method)
@@ -184,10 +164,6 @@ public interface JMethod extends JMember
   /**
    * Returns the value of the '<em><b>Constructor</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Constructor</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Constructor</em>' attribute.
    * @see #setConstructor(boolean)
@@ -210,10 +186,6 @@ public interface JMethod extends JMember
   /**
    * Returns the value of the '<em><b>Java Constructor</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Java Constructor</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Java Constructor</em>' attribute.
    * @see #setJavaConstructor(Constructor)
@@ -236,10 +208,6 @@ public interface JMethod extends JMember
   /**
    * Returns the value of the '<em><b>Body</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Body</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Body</em>' attribute.
    * @see #setBody(String)
@@ -264,10 +232,6 @@ public interface JMethod extends JMember
    * The list contents are of type {@link org.eclipse.emf.java.JParameter}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.java.JParameter#getMethod <em>Method</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Parameters</em>' containment reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Parameters</em>' containment reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_Parameters()
@@ -281,10 +245,6 @@ public interface JMethod extends JMember
    * Returns the value of the '<em><b>Exceptions</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.java.JClass}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Exceptions</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Exceptions</em>' reference list.
    * @see org.eclipse.emf.java.JavaPackage#getJMethod_Exceptions()
@@ -296,10 +256,6 @@ public interface JMethod extends JMember
   /**
    * Returns the value of the '<em><b>Return Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Return Type</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Return Type</em>' reference.
    * @see #setReturnType(JClass)

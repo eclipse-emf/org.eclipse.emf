@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JVisibility.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JVisibility.java,v 1.5 2008/05/04 17:03:37 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -38,10 +38,6 @@ public enum JVisibility implements Enumerator
   /**
    * The '<em><b>Public</b></em>' literal object.
    * <!-- begin-user-doc --> 
-   * <p>
-   * If the meaning of '<em><b>Public</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc --> 
    * @see #PUBLIC
    * @generated
@@ -51,10 +47,6 @@ public enum JVisibility implements Enumerator
   /**
    * The '<em><b>Protected</b></em>' literal object.
    * <!-- begin-user-doc --> 
-   * <p>
-   * If the meaning of '<em><b>Protected</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc --> 
    * @see #PROTECTED
    * @generated
@@ -64,10 +56,6 @@ public enum JVisibility implements Enumerator
   /**
    * The '<em><b>Private</b></em>' literal object.
    * <!-- begin-user-doc --> 
-   * <p>
-   * If the meaning of '<em><b>Private</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc --> 
    * @see #PRIVATE
    * @generated
@@ -77,10 +65,6 @@ public enum JVisibility implements Enumerator
   /**
    * The '<em><b>Package</b></em>' literal object.
    * <!-- begin-user-doc --> 
-   * <p>
-   * If the meaning of '<em><b>Package</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc --> 
    * @see #PACKAGE
    * @generated

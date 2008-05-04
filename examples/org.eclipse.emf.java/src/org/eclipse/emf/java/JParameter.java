@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameter.java,v 1.3 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JParameter.java,v 1.4 2008/05/04 17:03:37 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -41,10 +41,6 @@ public interface JParameter extends JModelElement
   /**
    * Returns the value of the '<em><b>Final</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Final</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Final</em>' attribute.
    * @see #setFinal(boolean)
@@ -68,10 +64,6 @@ public interface JParameter extends JModelElement
    * Returns the value of the '<em><b>Method</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.java.JMethod#getParameters <em>Parameters</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Method</em>' container reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Method</em>' container reference.
    * @see #setMethod(JMethod)
@@ -95,10 +87,6 @@ public interface JParameter extends JModelElement
   /**
    * Returns the value of the '<em><b>Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Type</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Type</em>' reference.
    * @see #setType(JClass)
