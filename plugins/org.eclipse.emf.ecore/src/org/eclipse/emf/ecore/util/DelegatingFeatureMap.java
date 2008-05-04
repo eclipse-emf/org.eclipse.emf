@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.29 2007/11/03 13:15:52 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.30 2008/05/04 10:59:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -119,7 +119,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
   @Override
   protected EClassifier getFeatureType()
   {
-    return org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getEJavaObject();
+    return org.eclipse.emf.ecore.EcorePackage.Literals.EJAVA_OBJECT;
   }
 
   @Override

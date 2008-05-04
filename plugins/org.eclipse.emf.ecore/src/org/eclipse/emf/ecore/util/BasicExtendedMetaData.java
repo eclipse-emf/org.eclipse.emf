@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.34 2008/03/31 12:27:51 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.35 2008/05/04 10:59:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2034,7 +2034,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
           eReference.setContainment(true);
           eReference.setResolveProxies(false);
         }
-        eReference.setEType(EcorePackage.eINSTANCE.getEObject());
+        eReference.setEType(EcorePackage.Literals.EOBJECT);
         eReference.setName(name);
         eReference.setDerived(true);
         eReference.setTransient(true);
