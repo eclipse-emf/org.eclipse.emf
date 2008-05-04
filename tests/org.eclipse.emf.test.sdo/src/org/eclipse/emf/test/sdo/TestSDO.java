@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestSDO.java,v 1.8 2007/01/18 15:53:25 marcelop Exp $
+ * $Id: TestSDO.java,v 1.9 2008/05/04 10:58:55 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -75,7 +75,7 @@ public class TestSDO extends TestCase
   @Override
   protected void setUp() throws Exception
   {
-    EcorePackage.eINSTANCE.getEFactoryInstance();
+    EcorePackage.eINSTANCE.eClass();
 
     eDataGraph = SDOFactory.eINSTANCE.createEDataGraph();
     resourceSet = eDataGraph.getResourceSet();

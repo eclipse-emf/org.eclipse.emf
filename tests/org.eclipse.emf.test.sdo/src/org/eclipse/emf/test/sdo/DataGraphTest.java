@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.8 2007/05/28 18:50:33 emerks Exp $
+ * $Id: DataGraphTest.java,v 1.9 2008/05/04 10:58:55 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -110,7 +110,7 @@ public class DataGraphTest extends TestCase
     eClass.setName("testClass");
     EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
     eAttribute.setName("name");
-    eAttribute.setEType(EcorePackage.eINSTANCE.getEString());
+    eAttribute.setEType(EcorePackage.Literals.ESTRING);
     eClass.getEStructuralFeatures().add(eAttribute);
     EReference eReference = EcoreFactory.eINSTANCE.createEReference();
     eReference.setName("child");

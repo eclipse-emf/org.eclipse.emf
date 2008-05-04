@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeSummaryTest.java,v 1.11 2007/02/03 13:29:12 emerks Exp $
+ * $Id: ChangeSummaryTest.java,v 1.12 2008/05/04 10:58:55 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -673,7 +673,7 @@ public class ChangeSummaryTest extends TestCase
 
     EAttribute attr = fac.createEAttribute();
     attr.setName("MyName");
-    attr.setEType(EcorePackage.eINSTANCE.getEString());
+    attr.setEType(EcorePackage.Literals.ESTRING);
     attr.setLowerBound(1);
     attr.setUpperBound(1);
     phoneClass.getEStructuralFeatures().add(attr);
@@ -683,7 +683,7 @@ public class ChangeSummaryTest extends TestCase
 
     attr = fac.createEAttribute();
     attr.setName("number");
-    attr.setEType(EcorePackage.eINSTANCE.getEString());
+    attr.setEType(EcorePackage.Literals.ESTRING);
     attr.setLowerBound(1);
     attr.setUpperBound(1);
     detailClass.getEStructuralFeatures().add(attr);
@@ -737,7 +737,7 @@ public class ChangeSummaryTest extends TestCase
     // name
     EAttribute employeeNameFeature = EcoreFactory.eINSTANCE.createEAttribute();
     employeeNameFeature.setName("name");
-    employeeNameFeature.setEType(EcorePackage.eINSTANCE.getEString());
+    employeeNameFeature.setEType(EcorePackage.Literals.ESTRING);
     employeeClass.getEStructuralFeatures().add(employeeNameFeature);
 
     // employees (that the employee manages)
