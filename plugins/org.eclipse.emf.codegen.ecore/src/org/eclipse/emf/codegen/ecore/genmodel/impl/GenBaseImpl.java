@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.64 2008/03/10 19:10:25 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.65 2008/05/04 10:58:53 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1414,7 +1414,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
     for (GenPackage genPackage : orderedGenPackages)
     {
-      if (baseClass == EcorePackage.eINSTANCE.getEObject())
+      if (baseClass == EcorePackage.Literals.EOBJECT)
       {
         for (GenClass genClass : genPackage.getOrderedGenClasses())
         {
