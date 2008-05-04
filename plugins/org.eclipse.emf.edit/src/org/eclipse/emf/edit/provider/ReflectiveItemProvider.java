@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.20 2007/05/15 17:11:27 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.21 2008/05/04 10:58:45 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -256,7 +256,7 @@ public class ReflectiveItemProvider
   protected List<EClass> getAllConcreteSubclasses(EClass eClass)
   {
     List<EClass> result = new ArrayList<EClass>();
-    if (eClass == EcorePackage.eINSTANCE.getEObject())
+    if (eClass == EcorePackage.Literals.EOBJECT)
     {
       for (EClass otherEClass : getAllEClasses(eClass))
       {
