@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelper.java,v 1.6 2007/06/12 15:07:33 emerks Exp $
+ * $Id: MappingHelper.java,v 1.7 2008/05/04 17:03:16 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -46,10 +46,6 @@ public interface MappingHelper extends EObject
    * Returns the value of the '<em><b>Mapper</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.mapping.Mapping#getHelper <em>Helper</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Mapper</em>' container reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Mapper</em>' container reference.
    * @see #setMapper(Mapping)
@@ -73,10 +69,6 @@ public interface MappingHelper extends EObject
   /**
    * Returns the value of the '<em><b>Helped Object</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Helped Object</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Helped Object</em>' reference.
    * @see #setHelpedObject(EObject)
@@ -100,10 +92,6 @@ public interface MappingHelper extends EObject
    * Returns the value of the '<em><b>Nested In</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.mapping.MappingHelper#getNested <em>Nested</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Nested In</em>' container reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Nested In</em>' container reference.
    * @see #setNestedIn(MappingHelper)
@@ -129,10 +117,6 @@ public interface MappingHelper extends EObject
    * The list contents are of type {@link org.eclipse.emf.mapping.MappingHelper}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.mapping.MappingHelper#getNestedIn <em>Nested In</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Nested</em>' containment reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Nested</em>' containment reference list.
    * @see org.eclipse.emf.mapping.MappingPackage#getMappingHelper_Nested()

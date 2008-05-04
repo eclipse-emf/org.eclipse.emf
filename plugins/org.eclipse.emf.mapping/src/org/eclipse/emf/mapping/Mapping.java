@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Mapping.java,v 1.5 2007/06/12 15:07:33 emerks Exp $
+ * $Id: Mapping.java,v 1.6 2008/05/04 17:03:16 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -51,10 +51,6 @@ public interface Mapping extends EObject
    * Returns the value of the '<em><b>Helper</b></em>' containment reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.mapping.MappingHelper#getMapper <em>Mapper</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Helper</em>' containment reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Helper</em>' containment reference.
    * @see #setHelper(MappingHelper)
@@ -80,10 +76,6 @@ public interface Mapping extends EObject
    * The list contents are of type {@link org.eclipse.emf.mapping.Mapping}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.mapping.Mapping#getNestedIn <em>Nested In</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Nested</em>' containment reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Nested</em>' containment reference list.
    * @see org.eclipse.emf.mapping.MappingPackage#getMapping_Nested()
@@ -97,10 +89,6 @@ public interface Mapping extends EObject
    * Returns the value of the '<em><b>Nested In</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.mapping.Mapping#getNested <em>Nested</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Nested In</em>' container reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Nested In</em>' container reference.
    * @see #setNestedIn(Mapping)
@@ -125,10 +113,6 @@ public interface Mapping extends EObject
    * Returns the value of the '<em><b>Inputs</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Inputs</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Inputs</em>' reference list.
    * @see org.eclipse.emf.mapping.MappingPackage#getMapping_Inputs()
@@ -141,10 +125,6 @@ public interface Mapping extends EObject
    * Returns the value of the '<em><b>Outputs</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Outputs</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Outputs</em>' reference list.
    * @see org.eclipse.emf.mapping.MappingPackage#getMapping_Outputs()
@@ -156,10 +136,6 @@ public interface Mapping extends EObject
   /**
    * Returns the value of the '<em><b>Type Mapping</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Type Mapping</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Type Mapping</em>' reference.
    * @see #setTypeMapping(Mapping)

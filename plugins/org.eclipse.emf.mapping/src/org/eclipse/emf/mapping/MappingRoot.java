@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRoot.java,v 1.4 2006/12/29 18:29:09 marcelop Exp $
+ * $Id: MappingRoot.java,v 1.5 2008/05/04 17:03:16 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -45,10 +45,6 @@ public interface MappingRoot extends Mapping
   /**
    * Returns the value of the '<em><b>Output Read Only</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Output Read Only</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Output Read Only</em>' attribute.
    * @see #setOutputReadOnly(boolean)
@@ -71,10 +67,6 @@ public interface MappingRoot extends Mapping
   /**
    * Returns the value of the '<em><b>Top To Bottom</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Top To Bottom</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Top To Bottom</em>' attribute.
    * @see #setTopToBottom(boolean)
@@ -97,10 +89,6 @@ public interface MappingRoot extends Mapping
   /**
    * Returns the value of the '<em><b>Command Stack</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Command Stack</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Command Stack</em>' attribute.
    * @see #setCommandStack(String)
