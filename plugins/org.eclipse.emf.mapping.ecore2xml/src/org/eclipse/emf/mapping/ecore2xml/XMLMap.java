@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMap.java,v 1.4 2007/06/12 15:07:51 emerks Exp $
+ * $Id: XMLMap.java,v 1.5 2008/05/04 17:03:34 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -48,10 +48,6 @@ public interface XMLMap extends EObject, XMLResource.XMLMap{
   /**
    * Returns the value of the '<em><b>ID Attribute Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>ID Attribute Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>ID Attribute Name</em>' attribute.
    * @see #setIDAttributeName(String)
@@ -76,10 +72,6 @@ public interface XMLMap extends EObject, XMLResource.XMLMap{
    * The key is of type {@link org.eclipse.emf.ecore.ENamedElement},
    * and the value is of type {@link org.eclipse.emf.mapping.ecore2xml.XMLInfo},
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Ecore To XML Info</em>' map isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ecore To XML Info</em>' map.
    * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#getXMLMap_EcoreToXMLInfo()
@@ -91,10 +83,6 @@ public interface XMLMap extends EObject, XMLResource.XMLMap{
   /**
    * Returns the value of the '<em><b>No Namespace Package</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>No Namespace Package</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>No Namespace Package</em>' reference.
    * @see #setNoNamespacePackage(EPackage)

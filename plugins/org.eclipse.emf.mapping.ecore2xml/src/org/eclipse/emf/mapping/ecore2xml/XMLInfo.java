@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfo.java,v 1.3 2006/12/29 18:29:12 marcelop Exp $
+ * $Id: XMLInfo.java,v 1.4 2008/05/04 17:03:34 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -43,10 +43,6 @@ public interface XMLInfo extends EObject, XMLResource.XMLInfo
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
    * @see #setName(String)
@@ -69,10 +65,6 @@ public interface XMLInfo extends EObject, XMLResource.XMLInfo
   /**
    * Returns the value of the '<em><b>Target Namespace</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Target Namespace</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Target Namespace</em>' attribute.
    * @see #setTargetNamespace(String)
@@ -96,10 +88,6 @@ public interface XMLInfo extends EObject, XMLResource.XMLInfo
    * Returns the value of the '<em><b>XML Representation</b></em>' attribute.
    * The default value is <code>"-1"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>XML Representation</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>XML Representation</em>' attribute.
    * @see #setXMLRepresentation(int)
