@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListDifferenceAnalyzer.java,v 1.1 2007/01/31 16:28:21 marcelop Exp $
+ * $Id: ListDifferenceAnalyzer.java,v 1.2 2008/05/04 17:03:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -158,7 +158,7 @@ public class ListDifferenceAnalyzer
    }  
 
   /**
-   * Creates a ListChange, initialzes the main attributes, and adds it to the specified listChanges.   
+   * Creates a ListChange, initializes the main attributes, and adds it to the specified listChanges.   
    * @param listChanges
    * @param kind
    * @param index

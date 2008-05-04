@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicChangeRecorder.java,v 1.2 2007/05/28 18:50:06 emerks Exp $
+ * $Id: BasicChangeRecorder.java,v 1.3 2008/05/04 17:03:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -77,7 +77,7 @@ public class BasicChangeRecorder extends ListDifferenceAnalyzer
   }
 
   /**
-   * <p>Summarizes the changes made to the analysed objects on the {@link ChangeDescription change description}
+   * <p>Summarizes the changes made to the analyzed objects on the {@link ChangeDescription change description}
    * returned by the {@link #endRecording()} without ending the recording.</p>
 
    * <p>This method doesn't do anything if this ChangeRecorder is not recording.</p>

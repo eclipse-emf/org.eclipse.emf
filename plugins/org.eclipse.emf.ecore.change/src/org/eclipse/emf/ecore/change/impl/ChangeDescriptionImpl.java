@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.20 2007/02/20 17:43:02 emerks Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.21 2008/05/04 17:03:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -447,7 +447,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
 
   protected void preApply(boolean reverse)
   {
-    // Make sure the changed values of bi-directional reference lists are cached before we
+    // Make sure the changed values of bidirectional reference lists are cached before we
     //  start to apply the change.
     //
     for (Map.Entry<EObject, EList<FeatureChange>> entry : getObjectChanges())

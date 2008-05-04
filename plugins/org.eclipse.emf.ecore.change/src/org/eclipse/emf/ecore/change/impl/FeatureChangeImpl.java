@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.32 2007/11/03 13:16:00 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.33 2008/05/04 17:03:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -547,7 +547,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
           }
           else if (internalFeature.isFeatureMap() || internalFeature.getEOpposite() != null || internalFeature.isContainment())
           {
-            // Bi-directional references need to use this less efficient approach because some
+            // Bidirectional references need to use this less efficient approach because some
             //  or all of the changes may already have been made from the other end.
             //
             @SuppressWarnings("unchecked") EList<Object> result = (EList<Object>)originalObject.eGet(internalFeature);

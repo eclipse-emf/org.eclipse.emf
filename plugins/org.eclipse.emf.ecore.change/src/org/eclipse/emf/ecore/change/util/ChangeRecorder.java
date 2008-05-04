@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.46 2007/04/08 16:35:07 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.47 2008/05/04 17:03:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -110,8 +110,8 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
   }
 
   /**
-   * Begins recording any changes made to the elements of the specifed collection.
-   * @param rootObjects A collecion of instances of {@link Notifier}
+   * Begins recording any changes made to the elements of the specified collection.
+   * @param rootObjects A collection of instances of {@link Notifier}
    */
   public void beginRecording(Collection<?> rootObjects)
   {
@@ -119,7 +119,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
   }
 
   /**
-   * Begins recording any changes made to the elements of the specifed collection,  
+   * Begins recording any changes made to the elements of the specified collection,  
    * adding the changes to and existing {@link ChangeDescription}. 
    * This allows clients to resume a previous recording.
    * <p>
@@ -128,7 +128,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
    * </p>
    * @param changeDescription A change description with changes made during a previous
    * recording or <tt>null</tt> if a new change description should be instantiated.
-   * @param rootObjects A collecion of instances of {@link Notifier}
+   * @param rootObjects A collection of instances of {@link Notifier}
    * @since 2.1.0
    */
   public void beginRecording(ChangeDescription changeDescription, Collection<?> rootObjects)
@@ -166,7 +166,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
   
   /**
    * Prepares this ChangeRecorder's {@link #changeDescription} for the scenarios where the user
-   * is resumming a previous recording.
+   * is resuming a previous recording.
    * @see #beginRecording(ChangeDescription, Collection)
    * @since 2.1.0
    */
