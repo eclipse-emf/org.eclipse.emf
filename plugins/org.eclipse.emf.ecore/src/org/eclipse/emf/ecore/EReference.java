@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReference.java,v 1.9 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EReference.java,v 1.10 2008/05/04 17:03:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -150,8 +150,7 @@ public interface EReference extends EStructuralFeature
    * The list contents are of type {@link org.eclipse.emf.ecore.EAttribute}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>EKeys</em>' reference list isn't clear,
-   * there really should be more of a description here...
+   * This represents a subset of the attributes on the referenced type that uniquely identify an instance within this reference.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>EKeys</em>' reference list.

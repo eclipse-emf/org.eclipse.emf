@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AESCipherImpl.java,v 1.2 2007/06/14 18:32:46 emerks Exp $
+ * $Id: AESCipherImpl.java,v 1.3 2008/05/04 17:03:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -131,10 +131,9 @@ public class AESCipherImpl implements URIConverter.Cipher
   }
   
   /**
-   * <p>Sets the keysize to be used when creating the AES key. Using anything 
+   * <p>Sets the key size to be used when creating the AES key. Using anything 
    * larger than 128 may make the data file non-portable.</p>
-   * <p>The keysize cannot be changed after this Cipher is used.</p>
-   * @param keysize
+   * <p>The key size cannot be changed after this Cipher is used.</p>
    */
   public void setKeysize(int keysize)
   {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InternalEList.java,v 1.5 2007/10/20 14:43:40 emerks Exp $
+ * $Id: InternalEList.java,v 1.6 2008/05/04 17:03:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.ETypedElement;
 /**
  * An interface that the {@link EObject#eGet(EStructuralFeature) value} of {@link ETypedElement#isMany() multi-valued} {@link EStructuralFeature feature} 
  * is expected to implement.
- * Clients should generally extend one of the the existing lists that implement this API to better accomodate the addition of methods,
+ * Clients should generally extend one of the the existing lists that implement this API to better accommodate the addition of methods,
  * e.g.,
  * {@link AbstractSequentialInternalEList},
  * {@link BasicInternalEList},

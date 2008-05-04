@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.13 2007/08/14 18:14:57 emerks Exp $
+ * $Id: RegEx.java,v 1.14 2008/05/04 17:03:48 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -618,7 +618,7 @@ public final class RegEx
             if (ch == '\t' || ch == '\n' || ch == '\f' || ch == '\r' || ch == ' ')
                 continue;
 
-            if (ch == '#') {                    // Skips chracters between '#' and a line end.
+            if (ch == '#') {                    // Skips characters between '#' and a line end.
                 while (offset < len) {
                     ch = regex.charAt(offset++);
                     if (ch == '\r' || ch == '\n')
@@ -866,8 +866,8 @@ public final class RegEx
    *
    *   <dt><a name="X_OPTION"><code>"X"</code></a>
    *   <dd class="REGEX">
-   *       By this option, the engine confoms to <a href="http://www.w3.org/TR/2000/WD-xmlschema-2-20000407/#regexs">XML Schema: Regular Expression</a>.
-   *       The <code>match()</code> method does not do subsring matching
+   *       By this option, the engine conforms to <a href="http://www.w3.org/TR/2000/WD-xmlschema-2-20000407/#regexs">XML Schema: Regular Expression</a>.
+   *       The <code>match()</code> method does not do substring matching
    *       but entire string matching.
    *
    * </dl>
@@ -1265,7 +1265,7 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.13 2007/08/14 18:14:57 emerks Exp $
+   * @version $Id: RegEx.java,v 1.14 2008/05/04 17:03:48 emerks Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       private static final long serialVersionUID = 1L;
@@ -7467,7 +7467,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.13 2007/08/14 18:14:57 emerks Exp $
+   * @version $Id: RegEx.java,v 1.14 2008/05/04 17:03:48 emerks Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {

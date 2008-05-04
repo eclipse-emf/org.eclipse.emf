@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericType.java,v 1.6 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EGenericType.java,v 1.7 2008/05/04 17:03:48 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -50,8 +50,7 @@ public interface EGenericType extends EObject
    * Returns the value of the '<em><b>EUpper Bound</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>EUpper Bound</em>' containment reference isn't clear,
-   * there really should be more of a description here...
+   * A generic type with an upper bound T, is equivalent to "? extends T" in Java.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>EUpper Bound</em>' containment reference.
@@ -77,8 +76,7 @@ public interface EGenericType extends EObject
    * The list contents are of type {@link org.eclipse.emf.ecore.EGenericType}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>EType Arguments</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
+   * These represent the template arguments applied to a classifier with type parameters, e.g., Map<T>.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>EType Arguments</em>' containment reference list.
@@ -92,8 +90,7 @@ public interface EGenericType extends EObject
    * Returns the value of the '<em><b>ERaw Type</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>ERaw Type</em>' reference isn't clear,
-   * there really should be more of a description here...
+   * This represents the erased or raw type of the generic type.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>ERaw Type</em>' reference.
@@ -107,8 +104,7 @@ public interface EGenericType extends EObject
    * Returns the value of the '<em><b>ELower Bound</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>ELower Bound</em>' containment reference isn't clear,
-   * there really should be more of a description here...
+   * A generic type with a lower bound T, is equivalent to "? super T" in Java.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>ELower Bound</em>' containment reference.
@@ -133,8 +129,7 @@ public interface EGenericType extends EObject
    * Returns the value of the '<em><b>EType Parameter</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>EType Parameter</em>' reference isn't clear,
-   * there really should be more of a description here...
+   * The represents a reference to a type parameter.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>EType Parameter</em>' reference.
@@ -159,8 +154,7 @@ public interface EGenericType extends EObject
    * Returns the value of the '<em><b>EClassifier</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>EClassifier</em>' reference isn't clear,
-   * there really should be more of a description here...
+   * The represents a reference to a classifier.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>EClassifier</em>' reference.

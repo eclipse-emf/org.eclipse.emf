@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegistryReader.java,v 1.9 2008/01/08 12:03:16 emerks Exp $
+ * $Id: RegistryReader.java,v 1.10 2008/05/04 17:03:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -58,7 +58,7 @@ public abstract class RegistryReader
 
   /**
    * Implement this method to read element attributes. 
-   * If this element has subelements, the reader will recursively cycle through them 
+   * If this element has child elements, the reader will recursively cycle through them 
    * and will call this method, so don't do it here.
    * If you want to support removing entries, override {@link #readElement(IConfigurationElement, boolean)} instead.
    */
@@ -69,7 +69,7 @@ public abstract class RegistryReader
 
   /**
    * Implement this method to read element attributes for the purpose of adding or removing their registrations. 
-   * If this element has subelements, the reader will recursively cycle through them 
+   * If this element has child elements, the reader will recursively cycle through them 
    * and will call this method, so don't do it here.
    */
   protected boolean readElement(IConfigurationElement element, boolean add)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.14 2007/11/15 15:35:10 emerks Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.15 2008/05/04 17:03:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -929,14 +929,6 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
 
     public Object set(InternalEObject eObject, EStructuralFeature feature, int index, Object value)
     {
-      // if (feature instanceof EReference && ((EReference)feature).isContainment())
-      // {
-        // Entry containingFeatureEntry = new Entry(value, CONTAINING_FEATURE);
-        // map.put(containingFeatureEntry, feature);
-        // Entry containerEntry = new Entry(value, CONTAINER);
-        // map.put(containerEntry, feature);
-      // }
-
       Entry entry = new Entry(eObject, feature);
       if (index == NO_INDEX)
       {
@@ -951,13 +943,6 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
 
     public void add(InternalEObject eObject, EStructuralFeature feature, int index, Object value)
     {
-      // if (feature instanceof EReference && ((EReference)feature).isContainment())
-      // {
-        // Entry containingFeatureEntry = new Entry(value, CONTAINING_FEATURE);
-        // map.put(containingFeatureEntry, feature);
-        // Entry containerEntry = new Entry(value, CONTAINER);
-        // map.put(containerEntry, feature);
-      // }
       Entry entry = new Entry(eObject, feature);
       getList(entry).add(index, value);
     }
