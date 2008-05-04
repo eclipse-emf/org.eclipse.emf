@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: UnicodeEncodingTest.java,v 1.5 2006/12/30 03:43:44 marcelop Exp $
+ * $Id: UnicodeEncodingTest.java,v 1.6 2008/05/04 10:58:57 emerks Exp $
  */
 
 package org.eclipse.emf.test.xml.encoding;
@@ -29,6 +29,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
@@ -91,7 +92,7 @@ public class UnicodeEncodingTest extends TestCase
   {
     URI fileURI = URI.createFileURI(tempFile.toString());
     String sourceValue = testString + " represented as XML in " + encodingName;
-    EAnnotation eObject = (EAnnotation)EcorePackage.eINSTANCE.getEFactoryInstance().create(EcorePackage.eINSTANCE.getEAnnotation());
+    EAnnotation eObject = EcoreFactory.eINSTANCE.createEAnnotation();
 
     eObject.setSource(sourceValue); // Including international characters 
 
