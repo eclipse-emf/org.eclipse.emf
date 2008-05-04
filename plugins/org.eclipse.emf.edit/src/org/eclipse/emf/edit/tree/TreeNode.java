@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNode.java,v 1.5 2007/06/12 15:07:32 emerks Exp $
+ * $Id: TreeNode.java,v 1.6 2008/05/04 17:03:22 emerks Exp $
  */
 package org.eclipse.emf.edit.tree;
 
@@ -45,10 +45,6 @@ public interface TreeNode extends EObject
    * Returns the value of the '<em><b>Parent</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.edit.tree.TreeNode#getChildren <em>Children</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Parent</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Parent</em>' container reference.
    * @see #setParent(TreeNode)
@@ -74,10 +70,6 @@ public interface TreeNode extends EObject
    * The list contents are of type {@link org.eclipse.emf.edit.tree.TreeNode}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.edit.tree.TreeNode#getParent <em>Parent</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Children</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Children</em>' containment reference list.
    * @see org.eclipse.emf.edit.tree.TreePackage#getTreeNode_Children()
@@ -90,10 +82,6 @@ public interface TreeNode extends EObject
   /**
    * Returns the value of the '<em><b>Data</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Data</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Data</em>' reference.
    * @see #setData(EObject)
