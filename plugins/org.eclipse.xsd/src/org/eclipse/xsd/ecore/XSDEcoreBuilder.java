@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.90 2008/04/15 18:51:48 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.91 2008/05/04 10:58:51 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -268,7 +268,7 @@ public class XSDEcoreBuilder extends MapBuilder
   {
     return
       "anyType".equals(name) ?
-        EcorePackage.eINSTANCE.getEObject() :
+        EcorePackage.Literals.EOBJECT :
         extendedMetaData.getType(XMLTypePackage.eINSTANCE, name);
   }
 
@@ -868,7 +868,7 @@ public class XSDEcoreBuilder extends MapBuilder
     if (!baseTypeDefinition.isCircular())
     {
       EClassifier baseType = getEClassifier(baseTypeDefinition);
-      if (baseType instanceof EClass && baseType != EcorePackage.eINSTANCE.getEObject())
+      if (baseType instanceof EClass && baseType != EcorePackage.Literals.EOBJECT)
       {
         EGenericType genericSuperType =
           getGenericType(xsdComplexTypeDefinition, xsdComplexTypeDefinition.getElement(), eClass, getEcoreAttribute(xsdComplexTypeDefinition, "extends"));
@@ -962,7 +962,7 @@ public class XSDEcoreBuilder extends MapBuilder
             createFeature
               (eClass,
                featureMapName,
-               EcorePackage.eINSTANCE.getEFeatureMapEntry(),
+               EcorePackage.Literals.EFEATURE_MAP_ENTRY,
                null,
                0,
                -1);
@@ -978,7 +978,7 @@ public class XSDEcoreBuilder extends MapBuilder
             createFeature
               (eClass,
                featureMapName,
-               EcorePackage.eINSTANCE.getEFeatureMapEntry(),
+               EcorePackage.Literals.EFEATURE_MAP_ENTRY,
                null,
                0,
                -1);
@@ -1038,7 +1038,7 @@ public class XSDEcoreBuilder extends MapBuilder
                 createFeature
                   (eClass,
                    name,
-                   EcorePackage.eINSTANCE.getEFeatureMapEntry(),
+                   EcorePackage.Literals.EFEATURE_MAP_ENTRY,
                    xsdParticle,
                    0,
                    -1);
@@ -1062,7 +1062,7 @@ public class XSDEcoreBuilder extends MapBuilder
                 createFeature
                   (eClass,
                    name,
-                   EcorePackage.eINSTANCE.getEFeatureMapEntry(),
+                   EcorePackage.Literals.EFEATURE_MAP_ENTRY,
                    xsdParticle,
                    effectiveOccurrence.minOccurs,
                    effectiveOccurrence.maxOccurs);
@@ -1120,7 +1120,7 @@ public class XSDEcoreBuilder extends MapBuilder
                   createFeature
                     (eClass,
                      groupName,
-                     EcorePackage.eINSTANCE.getEFeatureMapEntry(),
+                    EcorePackage.Literals.EFEATURE_MAP_ENTRY,
                      xsdParticle,
                      effectiveOccurrence.minOccurs,
                      effectiveOccurrence.maxOccurs);
@@ -1320,7 +1320,7 @@ public class XSDEcoreBuilder extends MapBuilder
         createFeature
           (eClass,
            name,
-           EcorePackage.eINSTANCE.getEFeatureMapEntry(),
+           EcorePackage.Literals.EFEATURE_MAP_ENTRY,
            xsdWildcard,
            0,
            -1);
@@ -1382,7 +1382,7 @@ public class XSDEcoreBuilder extends MapBuilder
             createFeature
               (eClass,
                "instanceType",
-               EcorePackage.eINSTANCE.getEDataType(),
+               EcorePackage.Literals.EDATA_TYPE,
                null,
                1,
                1);
@@ -1625,7 +1625,7 @@ public class XSDEcoreBuilder extends MapBuilder
     }
     else if (extendedMetaData.getContentKind(eClass) == ExtendedMetaData.MIXED_CONTENT)
     {
-      if (type == EcorePackage.eINSTANCE.getEFeatureMapEntry())
+      if (type == EcorePackage.Literals.EFEATURE_MAP_ENTRY)
       {
         EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
         setAnnotations(eAttribute, xsdComponent);
@@ -1647,7 +1647,7 @@ public class XSDEcoreBuilder extends MapBuilder
         EReference eReference = EcoreFactory.eINSTANCE.createEReference();
         setAnnotations(eReference, xsdComponent);
         eReference.setName(name);
-        eReference.setEType(EcorePackage.eINSTANCE.getEStringToStringMapEntry());
+        eReference.setEType(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY);
         eReference.setLowerBound(0);
         eReference.setUpperBound(-1);
         eReference.setContainment(true);
@@ -2730,7 +2730,7 @@ public class XSDEcoreBuilder extends MapBuilder
         createFeature
           (documentEClass,
            "mixed",
-           EcorePackage.eINSTANCE.getEFeatureMapEntry(),
+           EcorePackage.Literals.EFEATURE_MAP_ENTRY,
            null,
            0,
            -1);
@@ -2739,7 +2739,7 @@ public class XSDEcoreBuilder extends MapBuilder
           createFeature
             (documentEClass,
              "xMLNSPrefixMap",
-             EcorePackage.eINSTANCE.getEStringToStringMapEntry(),
+             EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
              null,
              0,
              -1);
@@ -2749,7 +2749,7 @@ public class XSDEcoreBuilder extends MapBuilder
           createFeature
             (documentEClass,
              "xSISchemaLocation",
-             EcorePackage.eINSTANCE.getEStringToStringMapEntry(),
+             EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
              null,
              0,
              -1);
