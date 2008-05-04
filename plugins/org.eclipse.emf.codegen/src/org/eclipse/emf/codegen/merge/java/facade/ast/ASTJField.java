@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJField.java,v 1.9 2007/06/12 20:56:05 emerks Exp $
+ * $Id: ASTJField.java,v 1.10 2008/05/04 17:03:21 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -282,8 +282,8 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
   }
 
   /**
-   * Returns original type of {@link FieldDeclaration}.  Thet dimensions 
-   * declared after variable name are appended to the type.
+   * Returns original type of {@link FieldDeclaration}.
+   * The dimensions declared after variable name are appended to the type.
    * @see org.eclipse.emf.codegen.merge.java.facade.JField#getType()
    */
   public String getType()

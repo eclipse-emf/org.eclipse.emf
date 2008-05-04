@@ -69,7 +69,7 @@ import org.eclipse.emf.common.util.Monitor;
  * This class contains convenient static methods for EMF code generation.
  * Methods in the {@link CodeGenUtil.EclipseHelper EclipseHelper} inner class may only be used running under Eclipse.
  * The same applies to those that are deprecated and replaced by methods in the inner class, too.
- * All other methods can be used in a standalone scenario, too.
+ * All other methods can be used in a stand-alone scenario, too.
  * <p>
  * This class, like much of the code in this plug-in, is currently undergoing change and should not be considered API.
  */
@@ -430,7 +430,7 @@ public class CodeGenUtil
     // lower all except the last upper case character if there are
     // more than one upper case characters in the beginning.
     // e.g. XSDElementContent -> xsdElementContent
-    // However if the whole string is uppercase, the whole string
+    // However if the whole string is upper case, the whole string
     // is turned into lower case.
     // e.g. CPU -> cpu
     if (name.length() == 0)
@@ -663,7 +663,7 @@ public class CodeGenUtil
   }
 
   /**
-   * Returns the package name for a qualified class name, ie, a substring
+   * Returns the package name for a qualified class name, i.e., a substring
    * from the first char until the last &quot;.&quot;.  If the argument is 
    * <tt>null</tt> or a non-qualified name, this method returns <tt>null</tt>. 
    * @param qualifiedClassName
@@ -683,7 +683,7 @@ public class CodeGenUtil
   }
 
   /**
-   * Returns the simple class name for a qualified class name, ie, a substring
+   * Returns the simple class name for a qualified class name, i.e., a substring
    * from starting after the last &quot;.&quot;.  If the argument is 
    * a non-qualified name, this method returns the argument. 
    * @param qualifiedClassName

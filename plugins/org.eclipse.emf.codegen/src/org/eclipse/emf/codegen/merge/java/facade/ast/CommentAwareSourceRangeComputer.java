@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommentAwareSourceRangeComputer.java,v 1.7 2007/06/12 20:56:05 emerks Exp $
+ * $Id: CommentAwareSourceRangeComputer.java,v 1.8 2008/05/04 17:03:21 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -158,7 +158,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
   }
 
   /**
-   * Finds the furthest trailing comment of <code>node</code> before the next node. 
+   * Finds the farthest trailing comment of <code>node</code> before the next node. 
    * If <code>includeHangingCommentsOnly</code> is
    * set to true, only comments up to the extended range of the next node will be considered.
    * If <code>includeHangingCommentsOnly</code> is
@@ -193,7 +193,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
   }
 
   /**
-   * Finds the furthest leading comment of <code>node</code> after the previous node. 
+   * Finds the farthest leading comment of <code>node</code> after the previous node. 
    * <p>
    * If <code>includeHangingCommentsOnly</code> is
    * set to true, only comments up to the extended range of the previous node will be considered.
@@ -374,7 +374,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     
     if (nodeStartPosition >= 0)
     {
-      // find start position of furthest preceding comment
+      // find start position of farthest preceding comment
       ASTNode prevNode = getPreviousNode(node);
       int minStartPosition = prevNode == null ? 0 : compilationUnit.getExtendedStartPosition(prevNode) + compilationUnit.getExtendedLength(prevNode);
       int commentIndex = findLastCommentInRangeIndex(minStartPosition, nodeStartPosition);
@@ -413,7 +413,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     
     if (nodeEndPosition >= 0)
     {
-      // find start position of furthest preceding comment
+      // find start position of farthest preceding comment
       ASTNode nextNode = getNextNode(node);
       int maxEndPosition = nextNode == null ? source.length() : compilationUnit.getExtendedStartPosition(nextNode);
       int commentIndex = findFirstCommentInRangeIndex(nodeEndPosition, maxEndPosition);
@@ -517,7 +517,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
   }
 
   /**
-   * Un-mark the node as the node for removal.
+   * Unmark the node as the node for removal.
    * @param node
    * 
    * @see #markNodeForRemoval(ASTNode)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.24 2008/04/21 20:13:01 emerks Exp $
+ * $Id: JMerger.java,v 1.25 2008/05/04 17:03:21 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -184,9 +184,7 @@ public class JMerger
   public class PushSourceVisitor extends FacadeVisitor
   {
     /**
-     * Returns whether the children should be visited (ie, when the source 
-     * is not in the target).
-     * @param sourceNode
+     * Returns whether the children should be visited (i.e., when the source is not in the target).
      */
     protected boolean doPush(JNode sourceNode)
     {
