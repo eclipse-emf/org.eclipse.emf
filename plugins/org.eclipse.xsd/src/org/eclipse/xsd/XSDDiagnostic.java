@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnostic.java,v 1.7 2007/06/12 15:06:43 emerks Exp $
+ * $Id: XSDDiagnostic.java,v 1.8 2008/05/04 17:03:23 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -245,8 +245,7 @@ public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
    * Returns the value of the '<em><b>Key</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Key</em>' attribute isn't clear,
-   * there really should be more of a description here...
+   * This represents a unique key used to load the message.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Key</em>' attribute.
@@ -272,8 +271,7 @@ public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
    * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Substitutions</em>' attribute list isn't clear,
-   * there really should be more of a description here...
+   * This represents the substitutions within the message.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Substitutions</em>' attribute list.
