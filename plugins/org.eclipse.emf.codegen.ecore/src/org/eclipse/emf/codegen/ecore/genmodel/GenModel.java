@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.59 2008/04/17 20:33:08 davidms Exp $
+ * $Id: GenModel.java,v 1.60 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -131,10 +131,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Copyright Text</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Copyright Text</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Copyright Text</em>' attribute.
    * @see #setCopyrightText(String)
@@ -206,10 +202,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Creation Icons</b></em>' attribute.
    * The default value is <code>"true"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Creation Icons</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Creation Icons</em>' attribute.
    * @see #setCreationIcons(boolean)
@@ -284,10 +276,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Creation Submenus</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Creation Submenus</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Creation Submenus</em>' attribute.
    * @see #setCreationSubmenus(boolean)
@@ -388,10 +376,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Template Directory</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Template Directory</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Template Directory</em>' attribute.
    * @see #setTemplateDirectory(String)
@@ -437,10 +421,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Foreign Model</b></em>' attribute list.
    * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Foreign Model</em>' attribute list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Foreign Model</em>' attribute list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ForeignModel()
@@ -474,10 +454,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Redirection</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Redirection</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Redirection</em>' attribute.
    * @see #setRedirection(String)
@@ -553,10 +529,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Model Name</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Model Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Model Name</em>' attribute.
    * @see #setModelName(String)
@@ -579,10 +551,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Model Plugin Class</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Model Plugin Class</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Model Plugin Class</em>' attribute.
    * @see #setModelPluginClass(String)
@@ -712,10 +680,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Update Classpath</b></em>' attribute.
    * The default value is <code>"true"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Update Classpath</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Update Classpath</em>' attribute.
    * @see #setUpdateClasspath(boolean)
@@ -738,10 +702,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Generate Schema</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Generate Schema</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Generate Schema</em>' attribute.
    * @see #setGenerateSchema(boolean)
@@ -791,10 +751,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Static Packages</b></em>' attribute list.
    * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Static Packages</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Static Packages</em>' attribute list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_StaticPackages()
@@ -807,10 +763,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Model Plugin Variables</b></em>' attribute list.
    * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Model Plugin Variables</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Model Plugin Variables</em>' attribute list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ModelPluginVariables()
@@ -823,10 +775,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Root Extends Interface</b></em>' attribute.
    * The default value is <code>"org.eclipse.emf.ecore.EObject"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Root Extends Interface</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Root Extends Interface</em>' attribute.
    * @see #setRootExtendsInterface(String)
@@ -850,10 +798,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Root Extends Class</b></em>' attribute.
    * The default value is <code>"org.eclipse.emf.ecore.impl.EObjectImpl"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Root Extends Class</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Root Extends Class</em>' attribute.
    * @see #setRootExtendsClass(String)
@@ -876,10 +820,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Root Implements Interface</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Root Implements Interface</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Root Implements Interface</em>' attribute.
    * @see #setRootImplementsInterface(String)
@@ -905,10 +845,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Suppress EMF Types</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Suppress EMF Types</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Suppress EMF Types</em>' attribute.
    * @see #setSuppressEMFTypes(boolean)
@@ -931,10 +867,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Suppress EMF Meta Data</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Suppress EMF Meta Data</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Suppress EMF Meta Data</em>' attribute.
    * @see #setSuppressEMFMetaData(boolean)
@@ -957,10 +889,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Suppress EMF Model Tags</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Suppress EMF Model Tags</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Suppress EMF Model Tags</em>' attribute.
    * @see #setSuppressEMFModelTags(boolean)
@@ -983,10 +911,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Suppress Interfaces</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Suppress Interfaces</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Suppress Interfaces</em>' attribute.
    * @see #setSuppressInterfaces(boolean)
@@ -1009,10 +933,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Feature Map Wrapper Interface</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Feature Map Wrapper Interface</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Feature Map Wrapper Interface</em>' attribute.
    * @see #setFeatureMapWrapperInterface(String)
@@ -1035,10 +955,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Feature Map Wrapper Internal Interface</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Feature Map Wrapper Internal Interface</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Feature Map Wrapper Internal Interface</em>' attribute.
    * @see #setFeatureMapWrapperInternalInterface(String)
@@ -1061,10 +977,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Feature Map Wrapper Class</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Feature Map Wrapper Class</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Feature Map Wrapper Class</em>' attribute.
    * @see #setFeatureMapWrapperClass(String)
@@ -1087,10 +999,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Runtime Compatibility</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Runtime Compatibility</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Runtime Compatibility</em>' attribute.
    * @see #setRuntimeCompatibility(boolean)
@@ -1113,10 +1021,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Rich Client Platform</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Rich Client Platform</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Rich Client Platform</em>' attribute.
    * @see #setRichClientPlatform(boolean)
@@ -1139,10 +1043,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Reflective Delegation</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Reflective Delegation</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Reflective Delegation</em>' attribute.
    * @see #setReflectiveDelegation(boolean)
@@ -1167,10 +1067,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Code Formatting</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Code Formatting</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Code Formatting</em>' attribute.
    * @see #setCodeFormatting(boolean)
@@ -1299,10 +1195,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Boolean Flags Field</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Boolean Flags Field</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Boolean Flags Field</em>' attribute.
    * @see #setBooleanFlagsField(String)
@@ -1326,10 +1218,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Boolean Flags Reserved Bits</b></em>' attribute.
    * The default value is <code>"-1"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Boolean Flags Reserved Bits</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Boolean Flags Reserved Bits</em>' attribute.
    * @see #setBooleanFlagsReservedBits(int)
@@ -1352,10 +1240,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Importer ID</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Importer ID</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Importer ID</em>' attribute.
    * @see #setImporterID(String)
@@ -1379,10 +1263,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Bundle Manifest</b></em>' attribute.
    * The default value is <code>"true"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Bundle Manifest</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Bundle Manifest</em>' attribute.
    * @see #setBundleManifest(boolean)
@@ -1406,10 +1286,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Feature Delegation</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Feature Delegation</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Feature Delegation</em>' attribute.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind
@@ -1434,10 +1310,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Containment Proxies</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Containment Proxies</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Containment Proxies</em>' attribute.
    * @see #setContainmentProxies(boolean)
@@ -1461,10 +1333,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Minimal Reflective Methods</b></em>' attribute.
    * The default value is <code>"true"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Minimal Reflective Methods</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Minimal Reflective Methods</em>' attribute.
    * @see #setMinimalReflectiveMethods(boolean)
@@ -1487,10 +1355,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Suppress Containment</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Suppress Containment</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Suppress Containment</em>' attribute.
    * @see #setSuppressContainment(boolean)
@@ -1513,10 +1377,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Suppress Notification</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Suppress Notification</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Suppress Notification</em>' attribute.
    * @see #setSuppressNotification(boolean)
@@ -1539,10 +1399,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Array Accessors</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Array Accessors</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Array Accessors</em>' attribute.
    * @see #setArrayAccessors(boolean)
@@ -1565,10 +1421,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Suppress Unsettable</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Suppress Unsettable</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Suppress Unsettable</em>' attribute.
    * @see #setSuppressUnsettable(boolean)
@@ -1592,10 +1444,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Facade Helper Class</b></em>' attribute.
    * The default value is <code>"org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Facade Helper Class</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * <!-- begin-model-doc -->
    * The default value must be always equals to JMerger.DEFAULT_FACADE_HELPER_CLASS.
@@ -1789,10 +1637,6 @@ public interface GenModel extends GenBase
   /**
    * Returns the value of the '<em><b>Edit Plugin ID</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Edit Plugin ID</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Edit Plugin ID</em>' attribute.
    * @see #setEditPluginID(String)
@@ -2108,10 +1952,6 @@ public interface GenModel extends GenBase
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Gen Packages</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Packages</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_GenPackages()
@@ -2125,10 +1965,6 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Used Gen Packages</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Used Gen Packages</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Used Gen Packages</em>' reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_UsedGenPackages()

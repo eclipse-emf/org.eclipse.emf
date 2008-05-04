@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenDelegationKind.java,v 1.2 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenDelegationKind.java,v 1.3 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -53,10 +53,6 @@ public enum GenDelegationKind implements Enumerator
   /**
    * The '<em><b>None</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #NONE_LITERAL
    * @model name="None"
@@ -68,10 +64,6 @@ public enum GenDelegationKind implements Enumerator
   /**
    * The '<em><b>Reflective</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Reflective</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #REFLECTIVE_LITERAL
    * @model name="Reflective"
@@ -83,10 +75,6 @@ public enum GenDelegationKind implements Enumerator
   /**
    * The '<em><b>Virtual</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Virtual</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #VIRTUAL_LITERAL
    * @model name="Virtual"

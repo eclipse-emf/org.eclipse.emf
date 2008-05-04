@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenPropertyKind.java,v 1.3 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenPropertyKind.java,v 1.4 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -26,10 +26,6 @@ public enum GenPropertyKind implements Enumerator
   /**
    * The '<em><b>Editable</b></em>' literal object.
    * <!-- begin-user-doc --> 
-   * <p>
-   * If the meaning of '<em><b>EDITABLE</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc --> 
    * @see #EDITABLE
    * @generated
@@ -39,10 +35,6 @@ public enum GenPropertyKind implements Enumerator
   /**
    * The '<em><b>Readonly</b></em>' literal object.
    * <!-- begin-user-doc --> 
-   * <p>
-   * If the meaning of '<em><b>READONLY</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc --> 
    * @see #READONLY
    * @generated
@@ -52,10 +44,6 @@ public enum GenPropertyKind implements Enumerator
   /**
    * The '<em><b>None</b></em>' literal object.
    * <!-- begin-user-doc --> 
-   * <p>
-   * If the meaning of '<em><b>NONE</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc --> 
    * @see #NONE
    * @generated

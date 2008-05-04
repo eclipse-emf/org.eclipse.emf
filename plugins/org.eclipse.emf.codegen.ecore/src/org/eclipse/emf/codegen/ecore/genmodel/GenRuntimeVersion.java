@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenRuntimeVersion.java,v 1.1 2008/02/01 17:47:18 emerks Exp $
+ * $Id: GenRuntimeVersion.java,v 1.2 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -63,10 +63,6 @@ public enum GenRuntimeVersion implements Enumerator
   /**
    * The '<em><b>EMF22</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>EMF22</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #EMF22
    * @model literal="2.2"
@@ -78,10 +74,6 @@ public enum GenRuntimeVersion implements Enumerator
   /**
    * The '<em><b>EMF23</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>EMF23</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #EMF23
    * @model literal="2.3"
@@ -93,10 +85,6 @@ public enum GenRuntimeVersion implements Enumerator
   /**
    * The '<em><b>EMF24</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>EMF24</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #EMF24
    * @model literal="2.4"

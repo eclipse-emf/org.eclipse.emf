@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenAnnotation.java,v 1.3 2007/06/12 15:07:28 emerks Exp $
+ * $Id: GenAnnotation.java,v 1.4 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -35,10 +35,6 @@ public interface GenAnnotation extends GenBase
   /**
    * Returns the value of the '<em><b>Source</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Source</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Source</em>' attribute.
    * @see #setSource(String)
@@ -63,10 +59,6 @@ public interface GenAnnotation extends GenBase
    * The key is of type {@link java.lang.String},
    * and the value is of type {@link java.lang.String},
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Details</em>' map isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Details</em>' map.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenAnnotation_Details()
@@ -79,10 +71,6 @@ public interface GenAnnotation extends GenBase
    * Returns the value of the '<em><b>Gen Base</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenBase#getGenAnnotations <em>Gen Annotations</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Gen Base</em>' container reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Base</em>' container reference.
    * @see #setGenBase(GenBase)
@@ -107,10 +95,6 @@ public interface GenAnnotation extends GenBase
    * Returns the value of the '<em><b>References</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>References</em>' reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>References</em>' reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenAnnotation_References()
@@ -123,10 +107,6 @@ public interface GenAnnotation extends GenBase
    * Returns the value of the '<em><b>Contents</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Contents</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Contents</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenAnnotation_Contents()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenJDKLevel.java,v 1.2 2006/12/28 06:40:37 marcelop Exp $
+ * $Id: GenJDKLevel.java,v 1.3 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -64,10 +64,6 @@ public enum GenJDKLevel implements Enumerator
   /**
    * The '<em><b>JDK14</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>JDK14</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #JDK14_LITERAL
    * @model literal="1.4"
@@ -79,10 +75,6 @@ public enum GenJDKLevel implements Enumerator
   /**
    * The '<em><b>JDK50</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>JDK50</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #JDK50_LITERAL
    * @model literal="5.0"
@@ -94,10 +86,6 @@ public enum GenJDKLevel implements Enumerator
   /**
    * The '<em><b>JDK60</b></em>' literal value.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>JDK60</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #JDK60_LITERAL
    * @model literal="6.0"

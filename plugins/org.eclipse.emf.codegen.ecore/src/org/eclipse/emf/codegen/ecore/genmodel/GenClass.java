@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.31 2008/04/17 20:35:10 davidms Exp $
+ * $Id: GenClass.java,v 1.32 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -52,10 +52,6 @@ public interface GenClass extends GenClassifier
    * Returns the value of the '<em><b>Provider</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Provider</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Provider</em>' attribute.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind
@@ -81,10 +77,6 @@ public interface GenClass extends GenClassifier
    * Returns the value of the '<em><b>Image</b></em>' attribute.
    * The default value is <code>"true"</code>.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Image</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Image</em>' attribute.
    * @see #setImage(boolean)
@@ -107,10 +99,6 @@ public interface GenClass extends GenClassifier
   /**
    * Returns the value of the '<em><b>Dynamic</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Dynamic</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Dynamic</em>' attribute.
    * @see #setDynamic(boolean)
@@ -133,10 +121,6 @@ public interface GenClass extends GenClassifier
   /**
    * Returns the value of the '<em><b>Ecore Class</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Ecore Class</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ecore Class</em>' reference.
    * @see #setEcoreClass(EClass)
@@ -161,10 +145,6 @@ public interface GenClass extends GenClassifier
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getGenClass <em>Gen Class</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Gen Features</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Features</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClass_GenFeatures()
@@ -179,10 +159,6 @@ public interface GenClass extends GenClassifier
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getGenClass <em>Gen Class</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Gen Operations</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Operations</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClass_GenOperations()
@@ -195,10 +171,6 @@ public interface GenClass extends GenClassifier
   /**
    * Returns the value of the '<em><b>Label Feature</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Label Feature</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Label Feature</em>' reference.
    * @see #setLabelFeature(GenFeature)

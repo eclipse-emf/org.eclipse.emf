@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameter.java,v 1.6 2007/06/12 20:56:34 emerks Exp $
+ * $Id: GenParameter.java,v 1.7 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -43,10 +43,6 @@ public interface GenParameter extends GenTypedElement
    * Returns the value of the '<em><b>Gen Operation</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getGenParameters <em>Gen Parameters</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Gen Operation</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Operation</em>' container reference.
    * @see #setGenOperation(GenOperation)
@@ -70,10 +66,6 @@ public interface GenParameter extends GenTypedElement
   /**
    * Returns the value of the '<em><b>Ecore Parameter</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Ecore Parameter</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ecore Parameter</em>' reference.
    * @see #setEcoreParameter(EParameter)

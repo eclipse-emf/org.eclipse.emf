@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.17 2008/01/20 16:31:04 emerks Exp $
+ * $Id: GenOperation.java,v 1.18 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -48,10 +48,6 @@ public interface GenOperation extends GenTypedElement
    * Returns the value of the '<em><b>Gen Class</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getGenOperations <em>Gen Operations</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Gen Class</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Class</em>' container reference.
    * @see #setGenClass(GenClass)
@@ -75,10 +71,6 @@ public interface GenOperation extends GenTypedElement
   /**
    * Returns the value of the '<em><b>Ecore Operation</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Ecore Operation</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ecore Operation</em>' reference.
    * @see #setEcoreOperation(EOperation)
@@ -103,10 +95,6 @@ public interface GenOperation extends GenTypedElement
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenParameter}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenParameter#getGenOperation <em>Gen Operation</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Gen Parameters</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Parameters</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenOperation_GenParameters()

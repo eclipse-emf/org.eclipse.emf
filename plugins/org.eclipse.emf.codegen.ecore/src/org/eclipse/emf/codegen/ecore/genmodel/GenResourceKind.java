@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenResourceKind.java,v 1.6 2006/12/29 18:06:38 marcelop Exp $
+ * $Id: GenResourceKind.java,v 1.7 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -36,10 +36,6 @@ public enum GenResourceKind implements Enumerator
   /**
    * The '<em><b>None</b></em>' literal object.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #NONE
    * @generated
@@ -49,10 +45,6 @@ public enum GenResourceKind implements Enumerator
   /**
    * The '<em><b>Basic</b></em>' literal object.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Basic</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #BASIC
    * @generated
@@ -62,10 +54,6 @@ public enum GenResourceKind implements Enumerator
   /**
    * The '<em><b>XMI</b></em>' literal object.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>XMI</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #XMI
    * @generated
@@ -75,10 +63,6 @@ public enum GenResourceKind implements Enumerator
   /**
    * The '<em><b>XML</b></em>' literal object.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>XML</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @see #XML
    * @generated

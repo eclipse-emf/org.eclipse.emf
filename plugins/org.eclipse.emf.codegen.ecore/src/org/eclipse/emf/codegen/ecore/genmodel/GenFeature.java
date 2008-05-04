@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.25 2008/04/17 20:33:52 davidms Exp $
+ * $Id: GenFeature.java,v 1.26 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -55,10 +55,6 @@ public interface GenFeature extends GenTypedElement
    * Returns the value of the '<em><b>Property</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Property</em>' attribute isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Property</em>' attribute.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind
@@ -191,10 +187,6 @@ public interface GenFeature extends GenTypedElement
   /**
    * Returns the value of the '<em><b>Property Category</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Property Category</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Property Category</em>' attribute.
    * @see #setPropertyCategory(String)
@@ -218,10 +210,6 @@ public interface GenFeature extends GenTypedElement
    * Returns the value of the '<em><b>Property Filter Flags</b></em>' attribute list.
    * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Property Filter Flags</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Property Filter Flags</em>' attribute list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature_PropertyFilterFlags()
@@ -233,10 +221,6 @@ public interface GenFeature extends GenTypedElement
   /**
    * Returns the value of the '<em><b>Property Description</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Property Description</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Property Description</em>' attribute.
    * @see #setPropertyDescription(String)
@@ -259,10 +243,6 @@ public interface GenFeature extends GenTypedElement
   /**
    * Returns the value of the '<em><b>Property Multi Line</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Property Multi Line</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Property Multi Line</em>' attribute.
    * @see #setPropertyMultiLine(boolean)
@@ -285,10 +265,6 @@ public interface GenFeature extends GenTypedElement
   /**
    * Returns the value of the '<em><b>Property Sort Choices</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Property Sort Choices</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Property Sort Choices</em>' attribute.
    * @see #setPropertySortChoices(boolean)
@@ -312,10 +288,6 @@ public interface GenFeature extends GenTypedElement
    * Returns the value of the '<em><b>Gen Class</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getGenFeatures <em>Gen Features</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Gen Class</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Class</em>' container reference.
    * @see #setGenClass(GenClass)
@@ -339,10 +311,6 @@ public interface GenFeature extends GenTypedElement
   /**
    * Returns the value of the '<em><b>Ecore Feature</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Ecore Feature</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ecore Feature</em>' reference.
    * @see #setEcoreFeature(EStructuralFeature)

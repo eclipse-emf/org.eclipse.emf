@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataType.java,v 1.10 2007/12/22 20:02:02 emerks Exp $
+ * $Id: GenDataType.java,v 1.11 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -43,10 +43,6 @@ public interface GenDataType extends GenClassifier
   /**
    * Returns the value of the '<em><b>Ecore Data Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Ecore Data Type</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ecore Data Type</em>' reference.
    * @see #setEcoreDataType(EDataType)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypeParameter.java,v 1.4 2007/06/11 21:09:49 emerks Exp $
+ * $Id: GenTypeParameter.java,v 1.5 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -39,10 +39,6 @@ public interface GenTypeParameter extends GenBase
   /**
    * Returns the value of the '<em><b>Ecore Type Parameter</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Ecore Type Parameter</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ecore Type Parameter</em>' reference.
    * @see #setEcoreTypeParameter(ETypeParameter)

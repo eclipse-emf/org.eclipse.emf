@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnum.java,v 1.8 2007/09/30 12:25:45 emerks Exp $
+ * $Id: GenEnum.java,v 1.9 2008/05/04 17:03:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -72,10 +72,6 @@ public interface GenEnum extends GenDataType
   /**
    * Returns the value of the '<em><b>Ecore Enum</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Ecore Enum</em>' reference isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ecore Enum</em>' reference.
    * @see #setEcoreEnum(EEnum)
@@ -100,10 +96,6 @@ public interface GenEnum extends GenDataType
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral#getGenEnum <em>Gen Enum</em>}'.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Gen Enum Literals</em>' reference list isn't clear, 
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Gen Enum Literals</em>' containment reference list.
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenEnum_GenEnumLiterals()
