@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.28 2008/04/27 20:27:57 davidms Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.29 2008/05/04 10:58:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -254,7 +254,7 @@ public class ETypedElementItemProvider
          getResourceLocator(),
          getString("_UI_ETypedElement_eType_feature"),
          getString("_UI_ETypedElement_eType_description"),
-         EcorePackage.eINSTANCE.getETypedElement_EType(),
+         EcorePackage.Literals.ETYPED_ELEMENT__ETYPE,
          true,
          false,
          true,
