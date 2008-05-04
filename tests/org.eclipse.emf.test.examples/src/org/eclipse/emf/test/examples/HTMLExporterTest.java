@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporterTest.java,v 1.2 2007/01/18 15:52:58 marcelop Exp $
+ * $Id: HTMLExporterTest.java,v 1.3 2008/05/04 10:58:46 emerks Exp $
  */
 package org.eclipse.emf.test.examples;
 
@@ -118,8 +118,8 @@ public class HTMLExporterTest extends TestCase
   
   protected ModelExporter createModelExporter(File workingDir, File genModelFile) throws Exception
   {
-    EcorePackage.eINSTANCE.getClass();
-    GenModelPackage.eINSTANCE.getClass();
+    EcorePackage.eINSTANCE.eClass();
+    GenModelPackage.eINSTANCE.eClass();
     
     Resource.Factory resourceFactory = new EcoreResourceFactoryImpl();
     Map<String, Object> extensionRegistry = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
