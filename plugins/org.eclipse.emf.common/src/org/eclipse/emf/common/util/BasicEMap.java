@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEMap.java,v 1.8 2007/06/12 20:56:17 emerks Exp $
+ * $Id: BasicEMap.java,v 1.9 2008/05/04 17:03:33 emerks Exp $
  */
 package  org.eclipse.emf.common.util;
 
@@ -1459,7 +1459,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
 
   /**
    * Grows the capacity of the map
-   * to ensure that no additional growth is needed until the size exceeds the specified minimun capacity.
+   * to ensure that no additional growth is needed until the size exceeds the specified minimum capacity.
    */
   protected boolean grow(int minimumCapacity) 
   {

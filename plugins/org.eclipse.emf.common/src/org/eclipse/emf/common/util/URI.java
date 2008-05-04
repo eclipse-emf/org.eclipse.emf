@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.29 2007/11/16 12:34:21 emerks Exp $
+ * $Id: URI.java,v 1.30 2008/05/04 17:03:33 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -1171,7 +1171,7 @@ public final class URI
   }
 
   /**
-   * Tests whether the specificed <code>value</code> would be valid as the
+   * Tests whether the specified <code>value</code> would be valid as the
    * authority component of an <a href="#archive_explanation">archive
    * URI</a>. This method has been replaced by {@link #validArchiveAuthority
    * validArchiveAuthority} since the same form of URI is now supported
@@ -1200,15 +1200,6 @@ public final class URI
     int len = value.length();
     return len > 0 && value.charAt(len - 1) == DEVICE_IDENTIFIER &&
       !contains(value, SEGMENT_END_HI, SEGMENT_END_LO);
-
-  // <p>A valid device may be null or non-empty, containing any allowed URI
-  // characters except for the following: <code>/ ?</code>  In addition, its
-  // last character must be <code>:</code>
-
-    //if (value == null) return true;
-    //int len = value.length();
-    //return len > 0 && validate(value, SEGMENT_CHAR_HI, SEGMENT_CHAR_LO, true, true) &&
-    //  value.charAt(len - 1) == DEVICE_IDENTIFIER;
   }
 
   /**
@@ -1346,7 +1337,7 @@ public final class URI
   }
 
   /**
-   * Returns <code>true</code> if this is a hierarcical URI with an authority
+   * Returns <code>true</code> if this is a hierarchical URI with an authority
    * component; <code>false</code> otherwise. 
    */
   public boolean hasAuthority()
@@ -2972,7 +2963,7 @@ public final class URI
   }
 
   /**
-   * Decodes the given string by interpretting three-digit escape sequences as the bytes of a UTF-8 encoded character
+   * Decodes the given string by interpreting three-digit escape sequences as the bytes of a UTF-8 encoded character
    * and replacing them with the characters they represent.
    * Incomplete escape sequences are ignored and invalid UTF-8 encoded bytes are treated as extended ASCII characters.
    */

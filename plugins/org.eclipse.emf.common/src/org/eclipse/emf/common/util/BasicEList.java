@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.15 2007/06/12 20:56:17 emerks Exp $
+ * $Id: BasicEList.java,v 1.16 2008/05/04 17:03:33 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -1076,7 +1076,7 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
 
   /**
    * Grows the capacity of the list 
-   * to ensure that no additional growth is needed until the size exceeds the specified minimun capacity.
+   * to ensure that no additional growth is needed until the size exceeds the specified minimum capacity.
    * @see #shrink
    */
   public void grow(int minimumCapacity) 
