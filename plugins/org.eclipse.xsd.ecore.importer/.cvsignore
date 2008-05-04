@@ -4,3 +4,5 @@ build.xml
 ant_tasks
 temp.folder
 *.jar
+@dot
+*.args
