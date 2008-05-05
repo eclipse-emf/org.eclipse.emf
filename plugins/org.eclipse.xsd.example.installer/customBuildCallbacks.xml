@@ -37,4 +37,6 @@
 
 		<delete dir="${build.result.folder}/examples/org.eclipse.mdt" />
 	</target>
+
+	<target name="post.build.jars" />
 </project>
