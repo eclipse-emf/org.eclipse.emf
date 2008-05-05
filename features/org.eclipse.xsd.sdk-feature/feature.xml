@@ -45,7 +45,7 @@ http://www.eclipse.org/legal/epl-v10.html
 <!-- TemplateEntriesBegin -->
    <!-- 
 		NOTE: this file is a template. At build-time, use 
-		org.eclipse.emf.releng*/scripts/genPluginAll.sh 
+		org.eclipse.emf.releng/scripts/genFeatureSDK.sh 
 		to get plugins and merge XML into this file.
 		Any XML below the INCLUDE line below will be lost. 
    -->  
