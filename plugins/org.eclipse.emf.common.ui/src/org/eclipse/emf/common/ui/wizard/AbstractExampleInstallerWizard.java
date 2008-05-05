@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2007 IBM Corporation and others.
+ * Copyright (c) 2006-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractExampleInstallerWizard.java,v 1.6 2008/02/21 15:25:11 emerks Exp $
+ * $Id: AbstractExampleInstallerWizard.java,v 1.7 2008/05/05 17:29:03 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 
@@ -21,12 +21,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.jar.JarFile;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -34,6 +34,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -42,7 +43,6 @@ import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -50,17 +50,16 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorRegistry;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.actions.DeleteResourceAction;
 import org.eclipse.ui.actions.RenameResourceAction;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.IOverwriteQuery;
+import org.eclipse.ui.ide.undo.DeleteResourcesOperation;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.wizards.datatransfer.FileSystemStructureProvider;
 import org.eclipse.ui.wizards.datatransfer.ImportOperation;
@@ -70,6 +69,8 @@ import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.ui.CommonUIPlugin;
 import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.URI;
 
 
@@ -181,8 +182,6 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
   {
     protected org.eclipse.swt.widgets.List projectList;
     protected Text descriptionText;
-    protected Button deleteButton;
-    protected Button deleteAllButton;
     protected Button renameButton;
 
     public ProjectPage(String pageName, String title, ImageDescriptor titleImage)
@@ -195,6 +194,18 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
       sashForm.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL));
 
+      projectList = new org.eclipse.swt.widgets.List(sashForm, SWT.SINGLE | SWT.BORDER);
+      projectList.setLayoutData(new GridData(GridData.FILL_BOTH));
+      projectList.addSelectionListener(new SelectionAdapter()
+        {
+          @Override
+          public void widgetSelected(SelectionEvent e)
+          {
+            itemSelected();
+          }
+        });
+      projectList.setFocus();
+      
       Composite composite = new Composite(sashForm, SWT.NONE);
       {
         GridLayout layout = new GridLayout(2, false);
@@ -209,17 +220,13 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
         composite.setLayout(layout);
       }
 
-      projectList = new org.eclipse.swt.widgets.List(composite, SWT.SINGLE | SWT.BORDER);
-      projectList.setLayoutData(new GridData(GridData.FILL_BOTH));
-      projectList.addSelectionListener(new SelectionAdapter()
-        {
-          @Override
-          public void widgetSelected(SelectionEvent e)
-          {
-            itemSelected();
-          }
-        });
-      projectList.setFocus();
+      descriptionText = new Text(composite, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
+      {
+        GridData gridData = new GridData(GridData.FILL_BOTH);
+        gridData.heightHint = convertHeightInCharsToPixels(2);
+        gridData.grabExcessVerticalSpace = true;
+        descriptionText.setLayoutData(gridData);
+      }
 
       Composite buttonComposite = new Composite(composite, SWT.NONE);
       buttonComposite.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_END));
@@ -250,47 +257,6 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
         });
       renameButton.setEnabled(false);
 
-      deleteButton = new Button(buttonComposite, SWT.PUSH);
-      deleteButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.FILL_HORIZONTAL));
-      deleteButton.setText(CommonUIPlugin.INSTANCE.getString("_UI_Delete_label"));
-      deleteButton.addSelectionListener(new SelectionAdapter()
-        {
-          @Override
-          public void widgetSelected(SelectionEvent e)
-          {
-            deleteExistingProject();
-          }
-        });
-      deleteButton.setEnabled(false);
-
-      Label label = new Label(buttonComposite, SWT.NONE);
-      {
-        GridData gridData = new GridData(GridData.FILL_BOTH);
-        gridData.heightHint = 3;
-        label.setLayoutData(gridData);
-      }
-
-      deleteAllButton = new Button(buttonComposite, SWT.PUSH);
-      deleteAllButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.FILL_HORIZONTAL));
-      deleteAllButton.setText(CommonUIPlugin.INSTANCE.getString("_UI_DeleteAll_label"));
-      deleteAllButton.addSelectionListener(new SelectionAdapter()
-        {
-          @Override
-          public void widgetSelected(SelectionEvent e)
-          {
-            deleteAllExistingProjects();
-          }
-        });
-      deleteAllButton.setEnabled(false);
-
-      descriptionText = new Text(sashForm, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
-      {
-        GridData gridData = new GridData(GridData.FILL_BOTH);
-        gridData.heightHint = convertHeightInCharsToPixels(2);
-        gridData.grabExcessVerticalSpace = true;
-        descriptionText.setLayoutData(gridData);
-      }
-
       refresh();
       sashForm.setWeights(new int []{ 70, 30 });
       setControl(sashForm);
@@ -305,137 +271,93 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       }
       else
       {
+        setErrorMessage(null);
+        
         int selectionIndex = projectList.getSelectionIndex();
         if (selectionIndex < 0)
         {
           selectionIndex = 0;
         }
 
-        boolean atLeastOneExists = false;
         projectList.removeAll();
         for (ProjectDescriptor projectDescriptor : getProjectDescriptors())
         {
           String name = projectDescriptor.getName();
           boolean exists = projectDescriptor.getProject().exists();
-          atLeastOneExists |= exists;
           String item = exists
             ? CommonUIPlugin.INSTANCE.getString("_UI_ExistingProjectName_message", new String []{ name })
-            : CommonUIPlugin.INSTANCE.getString("_UI_ProjectName_message", new String []{ name });
+            : name;
           projectList.add(item);
 
           projectList.setData(item, projectDescriptor);
         }
 
-        setErrorMessage(null);
-        projectList.setSelection(selectionIndex);
-        itemSelected();
-
-        deleteAllButton.setEnabled(atLeastOneExists);
-        setPageComplete(!atLeastOneExists);
+        if (getControl() != null)
+        {
+          projectList.setSelection(selectionIndex);
+          itemSelected();
+        }
+        
+        setPageComplete(true);
       }
     }
-
+    
+    @Override
+    public void setVisible(boolean visible)
+    {
+      if (visible && 
+          projectList.getItemCount() > 0 &&
+          projectList != null && 
+          projectList.getSelectionCount() == 0)
+      {
+        int index = 0;
+        int count = 0;
+        for (ProjectDescriptor projectDescriptor : getProjectDescriptors())
+        {
+          if (projectDescriptor.getProject().exists())
+          {
+            index = count;
+            break;
+          }
+          count++;
+        }        
+        projectList.select(index);
+        refresh();
+      }
+      super.setVisible(visible);
+    }
+    
     protected ProjectDescriptor getSelectedProjectDescriptor()
     {
-      return (ProjectDescriptor)projectList.getData(projectList.getSelection()[0]);
+      return projectList.getSelectionCount() == 0 ?
+        null :
+        (ProjectDescriptor)projectList.getData(projectList.getSelection()[0]);
     }
 
     protected void itemSelected()
     {
       ProjectDescriptor projectDescriptor = getSelectedProjectDescriptor();
-
-      boolean exists = projectDescriptor.getProject().exists();
-      deleteButton.setEnabled(exists);
-      renameButton.setEnabled(exists);
-
-      descriptionText.setText(projectDescriptor.getDescription() != null ? projectDescriptor.getDescription() : "");
-    }
-
-    protected void deleteAllExistingProjects()
-    {
-      List<IProject> projects = new ArrayList<IProject>();
-      for (ProjectDescriptor projectDescriptor : getProjectDescriptors())
+      if (projectDescriptor != null)
       {
-        if (projectDescriptor.getProject().exists())
+        boolean exists = projectDescriptor.getProject().exists();
+        renameButton.setEnabled(exists);
+  
+        String description = projectDescriptor.getDescription() != null ? projectDescriptor.getDescription() : "";
+        if (exists)
         {
-          projects.add(projectDescriptor.getProject());
+          String renameMessage = CommonUIPlugin.INSTANCE.getString("_UI_ProjectRename_message");
+          description = description == "" ?
+            renameMessage :
+            CommonUIPlugin.INSTANCE.getString("_UI_ProjectDescriptionAndRename_message", new String[] {description, renameMessage});
         }
+        descriptionText.setText(description);
       }
-      
-      deleteExistingProjects(projects);
-    }
-
-    protected void deleteExistingProject()
-    {
-      ProjectDescriptor projectDescriptor = getSelectedProjectDescriptor();
-      if (projectDescriptor.getProject().exists())
-      {
-        List<IProject> projects = new ArrayList<IProject>();
-        projects.add(projectDescriptor.getProject());
-        deleteExistingProjects(projects);
-      }
-    }
-    
-    protected void deleteExistingProjects(List<IProject> existingProjects)
-    {
-      if (!existingProjects.isEmpty())
-      {
-        DeleteResourceAction deleteResourceAction = new DeleteResourceAction(AbstractExampleInstallerWizard.this);
-        deleteResourceAction.selectionChanged(new StructuredSelection(existingProjects));
-        deleteResourceAction.run();
-
-        waitForDeleteJob(existingProjects);
-        refresh();
-      }
-    }
-
-    protected void waitForDeleteJob(final List<IProject> existingProjects)
-    {
-      // If the no project is deleted in the first 3s, this code
-      // assumes that the user has canceled the delete job.
-      BusyIndicator.showWhile(getShell().getDisplay(), new Runnable()
-        {
-          public void run()
-          {
-            int counter = 0;
-            int initialSize = existingProjects.size();
-            int size = initialSize;
-            while (size > 0 && counter < 30)
-            {
-              for (Iterator<IProject> i = existingProjects.iterator(); i.hasNext();)
-              {
-                IProject project = i.next();
-                if (!project.exists())
-                {
-                  i.remove();
-                }
-              }
-              size = existingProjects.size();
-              if (size > 0)
-              {
-                if (initialSize == size)
-                {
-                  counter++;
-                }
-                
-                try
-                {
-                  Thread.sleep(100);
-                }
-                catch (InterruptedException e)
-                {
-                  // Ignore
-                }
-              }
-            }
-          }
-        });
     }
 
     protected void renameExistingProject()
     {
       ProjectDescriptor projectDescriptor = getSelectedProjectDescriptor();
-      if (projectDescriptor.getProject().exists())
+      if (projectDescriptor != null && projectDescriptor.getProject().exists())
       {
         RenameResourceAction renameResourceAction = new RenameResourceAction(AbstractExampleInstallerWizard.this);
         renameResourceAction.selectionChanged(new StructuredSelection(projectDescriptor.getProject()));
@@ -469,6 +391,12 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     this.structuredSelection = selection;
   }
 
+  /**
+   * Returns the project descriptors to be used by this wizard.  This method is
+   * called multiple times, so subclasses are expected to cache this information 
+   * if necessary.
+   * @return a list of ProjectDescriptors
+   */
   protected abstract List<ProjectDescriptor> getProjectDescriptors();
   protected abstract List<FileToOpen> getFilesToOpen();
 
@@ -500,13 +428,20 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
         {
           public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
           {
-            monitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_InstallingExample_message"), 2);
+            monitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_InstallingExample_message"), 3);
 
             WorkspaceModifyOperation op = new WorkspaceModifyOperation()
               {
                 @Override
                 protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException
                 {
+                  Diagnostic diagnostic = deleteExistingProjects(new SubProgressMonitor(monitor, 1));
+                  if (diagnostic.getSeverity() != Diagnostic.OK)
+                  {
+                    exceptionWrapper.initCause(new DiagnosticException(diagnostic));
+                    throw new InterruptedException();
+                  }
+                  
                   try
                   {
                     installExample(monitor);
@@ -544,6 +479,58 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       projectPage.refresh();
     }
     return false;
+  }
+  
+  protected Diagnostic deleteExistingProjects(IProgressMonitor monitor)
+  {
+    StringBuilder projectNames = new StringBuilder();
+    List<IProject> projects = new ArrayList<IProject>();
+    for (ProjectDescriptor projectDescriptor : getProjectDescriptors())
+    {
+      IProject project = projectDescriptor.getProject();
+      if (project.exists())
+      {
+        projectNames.append(", '").append(project.getName()).append("'");
+        projects.add(project);
+      }
+    }
+    
+    if (!projects.isEmpty())
+    {
+      projectNames.delete(0, ", ".length());
+            
+      String title = null;
+      String message = null;
+      if (projects.size() == 1)
+      {
+        title = CommonUIPlugin.INSTANCE.getString("_UI_ConfirmSingleDeletion_title");
+        message = CommonUIPlugin.INSTANCE.getString("_UI_ConfirmSingleDeletion_message", new String[]{projectNames.toString()});
+      }
+      else
+      {
+        title = CommonUIPlugin.INSTANCE.getString("_UI_ConfirmMultipleDeletion_title");
+        message = CommonUIPlugin.INSTANCE.getString("_UI_ConfirmMultipleDeletion_message", new String[]{projectNames.toString()});
+      }
+      
+      if (MessageDialog.openConfirm(getShell(), title, message))
+      {
+        DeleteResourcesOperation op = 
+          new DeleteResourcesOperation(projects.toArray(new IProject[projects.size()]), "deleteprojects", true);
+        try
+        {
+          return BasicDiagnostic.toDiagnostic(op.execute(new SubProgressMonitor(monitor, 1), null));
+        }
+        catch (ExecutionException e)
+        {
+          return BasicDiagnostic.toDiagnostic(e);
+        }
+      }
+      else
+      {
+        return Diagnostic.CANCEL_INSTANCE;
+      }
+    }
+    return Diagnostic.OK_INSTANCE;
   }
   
   protected void installExample(IProgressMonitor progressMonitor) throws Exception
