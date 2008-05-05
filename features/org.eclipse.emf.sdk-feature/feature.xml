@@ -66,6 +66,7 @@ http://www.eclipse.org/legal/epl-v10.html
 	<plugin id="org.eclipse.emf.ecore.xmi" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.edit" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.edit.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+	<plugin id="org.eclipse.emf.example.installer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.exporter" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.importer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 	<plugin id="org.eclipse.emf.importer.ecore" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
