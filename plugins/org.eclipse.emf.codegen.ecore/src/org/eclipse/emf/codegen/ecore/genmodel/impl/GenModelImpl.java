@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.96 2008/04/17 20:33:08 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.97 2008/05/05 21:40:14 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -8169,7 +8169,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public boolean reconcile()
   {
-    for (Iterator<GenPackage> i = getGenPackages().iterator(); i.hasNext(); )
+    EList<GenPackage> genPackages = getGenPackages();
+    for (Iterator<GenPackage> i = genPackages.iterator(); i.hasNext(); )
     {
       GenPackage genPackage = i.next();
       if (!genPackage.reconcile())
@@ -8177,7 +8178,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         i.remove();
       }
     }
-    for (Iterator<GenPackage> i = getUsedGenPackages().iterator(); i.hasNext(); )
+    EList<GenPackage> usedGenPackages = getUsedGenPackages();
+    for (Iterator<GenPackage> i = usedGenPackages.iterator(); i.hasNext(); )
     {
       GenPackage genPackage = i.next();
       if (!genPackage.reconcile())
@@ -8185,14 +8187,31 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         i.remove();
       }
     }
-    getUsedGenPackages().addAll(computeMissingUsedGenPackages());
+    List<EPackage> missingEPackages = new UniqueEList<EPackage>(getMissingPackages());
+    usedGenPackages.addAll(computeMissingUsedGenPackages(missingEPackages));
     
-    return !getGenPackages().isEmpty();
+    for (EPackage ePackage : missingEPackages)
+    {
+      GenPackage genPackage = createGenPackage();
+      genPackage.setEcorePackage(ePackage);
+      genPackages.add(genPackage);
+      if (!genPackage.reconcile())
+      {
+        genPackages.remove(genPackage);
+      }
+    }
+
+    return !genPackages.isEmpty();
   }
-  
+
   public List<GenPackage> computeMissingUsedGenPackages()
   {
-    List<EPackage> missingEPackages = getMissingPackages();
+    List<EPackage> missingEPackages = new UniqueEList<EPackage>(getMissingPackages());
+    return computeMissingUsedGenPackages(missingEPackages);
+  }
+
+  protected List<GenPackage> computeMissingUsedGenPackages(List<EPackage> missingEPackages)
+  {
     if (!missingEPackages.isEmpty())
     {
       List<GenModel> allGenModels = new UniqueEList.FastCompare<GenModel>();
@@ -8222,6 +8241,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           {
             usedGenPackages.add(genPackage);
             getMissingPackagesHelper(missingEPackages, Collections.singletonList(genPackage));
+            missingEPackages.remove(i--);
             break;
           }
         }
