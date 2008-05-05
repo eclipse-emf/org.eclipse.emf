@@ -10,35 +10,31 @@
 	<target name="noDefault">
 		<echo message="This file must be called with explicit targets" />
 	</target>
-	
+
 	<!-- ===================================================================== -->
 	<!-- Steps to do before the target build.jars                              -->
 	<!-- Available parameters :                                                -->
 	<!--   build.result.folder - folder to contain the build results           -->
 	<!-- ===================================================================== -->
-	
-	<property name="exampleCVSTag" value="HEAD" /> 
-	
+
 	<target name="pre.build.jars">
-		<echo message="exampleCVSTag=${exampleCVSTag}}"/>
-		<echo message="build.result.folder=${build.result.folder}}"/>
-			
-		<cvs 
-			failonerror="true" 
-			dest="${build.result.folder}/examples"
-			cvsroot=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling">
+		<!-- ${build.result.folder} = /home/www-data/build/emf/downloads/drops/2.4.0/N200805051552/eclipse/plugins/org.eclipse.emf.example.installer -->
+		<property file="${build.result.folder}/../../../build.cfg" />
+		<property name="exampleCVSTag" value="build_${buildTimestamp}" />
+
+		<cvs failonerror="true" dest="${build.result.folder}/examples" cvsroot=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling">
 			<commandline>
-				<argument line="export -r ${exampleCVSTag} org.eclipse.mdt/org.eclipse.xsd/examples"/>
+				<argument line="export -r ${exampleCVSTag} org.eclipse.mdt/org.eclipse.xsd/examples" />
 			</commandline>
 		</cvs>
-		
+
 		<move todir="${build.result.folder}/examples/" includeemptydirs="true">
-	    <fileset dir="${build.result.folder}/examples/org.eclipse.mdt/org.eclipse.xsd/examples/">
-	      <exclude name="**/.cvsignore"/>
-	    	<exclude name="**/build/**"/>
-	    </fileset>
+			<fileset dir="${build.result.folder}/examples/org.eclipse.mdt/org.eclipse.xsd/examples/">
+				<exclude name="**/.cvsignore" />
+				<exclude name="**/build/**" />
+			</fileset>
 		</move>
-		
-		<delete dir="${build.result.folder}/examples/org.eclipse.mdt"/>
+
+		<delete dir="${build.result.folder}/examples/org.eclipse.mdt" />
 	</target>
 </project>
