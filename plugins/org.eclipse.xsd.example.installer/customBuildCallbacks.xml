@@ -1,0 +1,44 @@
+<!-- ===================================================================== -->
+<!-- Custom targets called from a project's generated build.xml            -->
+<!-- Set customBuildCallbacks=<path/to/this/file> in your build.properties.-->
+<!-- ===================================================================== -->
+<project name="Build specific targets and properties" default="noDefault">
+
+	<!-- ===================================================================== -->
+	<!-- Default target                                                        -->
+	<!-- ===================================================================== -->
+	<target name="noDefault">
+		<echo message="This file must be called with explicit targets" />
+	</target>
+	
+	<!-- ===================================================================== -->
+	<!-- Steps to do before the target build.jars                              -->
+	<!-- Available parameters :                                                -->
+	<!--   build.result.folder - folder to contain the build results           -->
+	<!-- ===================================================================== -->
+	
+	<property name="exampleCVSTag" value="HEAD" /> 
+	
+	<target name="pre.build.jars">
+		<echo message="exampleCVSTag=${exampleCVSTag}}"/>
+		<echo message="build.result.folder=${build.result.folder}}"/>
+			
+		<cvs 
+			failonerror="true" 
+			dest="${build.result.folder}/examples"
+			cvsroot=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling">
+			<commandline>
+				<argument line="export -r ${exampleCVSTag} org.eclipse.mdt/org.eclipse.xsd/examples"/>
+			</commandline>
+		</cvs>
+		
+		<move todir="${build.result.folder}/examples/" includeemptydirs="true">
+	    <fileset dir="${build.result.folder}/examples/org.eclipse.mdt/org.eclipse.xsd/examples/">
+	      <exclude name="**/.cvsignore"/>
+	    	<exclude name="**/build/**"/>
+	    </fileset>
+		</move>
+		
+		<delete dir="${build.result.folder}/examples/org.eclipse.mdt"/>
+	</target>
+</project>
