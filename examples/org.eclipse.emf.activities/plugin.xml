@@ -27,6 +27,17 @@
     <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.exporter/.*" />
   </extension>
 
+  <!-- org.eclipse.emf.examples -->
+  <!-- Example Wizards -->
+  <extension point="org.eclipse.ui.activities">
+    <activity id="org.eclipse.emf.activities.Example" description="%_UI_Activity_Example_description" name="%_UI_Activity_Example_name" />
+    <categoryActivityBinding activityId="org.eclipse.emf.activities.Example" categoryId="org.eclipse.emf.categories.modelingCategory" />
+    <activityPatternBinding activityId="org.eclipse.emf.activities.Example" pattern="org\.eclipse\.emf\.example\.installer/.*" />
+    <activityPatternBinding activityId="org.eclipse.emf.activities.Example" pattern="org\.eclipse\.xsd\.example\.installer/.*" />
+    <activityPatternBinding activityId="org.eclipse.emf.activities.Example" pattern="org\.eclipse\.emf\.examples\.library\.editor/.*" />
+    <defaultEnablement id="org.eclipse.emf.activities.Example" />
+  </extension>
+
   <!-- org.eclipse.emf.codegen.ui -->
   <!-- Convert to JET Project wizard -->
   <extension point="org.eclipse.ui.activities">
