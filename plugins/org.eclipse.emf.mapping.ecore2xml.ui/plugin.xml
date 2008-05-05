@@ -3,13 +3,14 @@
 <plugin>
    <extension point="org.eclipse.ui.newWizards">
       <category
-            id="org.eclipse.emf.ecore.Wizard.category.ID"
-            name="%_UI_Wizard_category"/>
+            id="org.eclipse.emf.codegen.ecore.ui.mappingWizardCategory"
+            name="%_UI_Wizard_category"
+            parentCategory="org.eclipse.emf.codegen.ecore.ui.wizardCategory"/>
       <wizard
             id="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLModelWizardID"
             name="%_UI_Ecore2XMLModelWizard_label"
             class="org.eclipse.emf.mapping.ecore2xml.presentation.Ecore2XMLModelWizard"
-            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            category="org.eclipse.emf.codegen.ecore.ui.wizardCategory/org.eclipse.emf.codegen.ecore.ui.mappingWizardCategory"
             icon="icons/full/ctool16/NewEcore2XML.gif">
          <description>%_UI_Ecore2XMLModelWizard_description</description>
          <selection class="org.eclipse.core.resources.IResource"/>
