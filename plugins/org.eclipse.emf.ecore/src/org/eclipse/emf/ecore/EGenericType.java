@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericType.java,v 1.7 2008/05/04 17:03:48 emerks Exp $
+ * $Id: EGenericType.java,v 1.8 2008/05/05 16:28:07 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -76,7 +76,7 @@ public interface EGenericType extends EObject
    * The list contents are of type {@link org.eclipse.emf.ecore.EGenericType}.
    * <!-- begin-user-doc -->
    * <p>
-   * These represent the template arguments applied to a classifier with type parameters, e.g., Map<T>.
+   * These represent the template arguments applied to a classifier with type parameters, e.g., Map&lt;T>.
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>EType Arguments</em>' containment reference list.
