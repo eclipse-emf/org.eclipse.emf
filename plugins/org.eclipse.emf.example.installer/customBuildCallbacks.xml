@@ -38,4 +38,6 @@
 		<delete dir="${build.result.folder}/examples/org.eclipse.emf.examples" />
 		<delete dir="${build.result.folder}/examples/org.eclipse.emf.examples-feature" />
 	</target>
+	
+	<target name="post.build.jars"/>
 </project>
