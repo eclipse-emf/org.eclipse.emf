@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.xsd.examples.XSD"
+            name="%_UI_XSDExampleCategory_name"
+            parentCategory="org.eclipse.ui.Examples">
+      </category>
+      <wizard
+            id="org.eclipse.xsd.examples.XSDWizard"
+            name="%_UI_XSDWizard_name"
+            class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard"
+            category="org.eclipse.ui.Examples/org.eclipse.xsd.examples.XSD"
+            project="true"
+            icon="icons/full/ctool16/NewXSDExample.gif">
+         <description>%_UI_XSDWizard_desc</description>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.emf.common.ui.examples">
+      <example
+            id="org.eclipse.xsd.examples.XSD"
+            wizardID="org.eclipse.xsd.examples.XSDWizard"
+            pageImage="icons/full/wizban/NewXSDExample.gif">
+         <projectDescriptor
+               name="org.eclipse.xsd.example"
+               contentURI="examples/org.eclipse.xsd.example/"
+               description="%_UI_XSDProject_desc"/>
+      </example>
+    </extension>
+</plugin>
