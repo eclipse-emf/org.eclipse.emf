@@ -20,8 +20,10 @@
 	<target name="pre.build.jars">
 		<!-- ${build.result.folder} = /home/www-data/build/emf/downloads/drops/2.4.0/N200805051552/eclipse/plugins/org.eclipse.emf.example.installer -->
 		<property file="${build.result.folder}/../../../build.cfg" />
-		<property name="exampleCVSTag" value="build_${buildTimestamp}" />
-
+		<condition property="exampleCVSTag" value="build_${buildTimestamp}" else="${branch}">
+			<istrue value="${tagBuild}"/>
+		</condition>
+		<echo message="Checking out org.eclipse.emf/org.eclipse.emf/examples from ${exampleCVSTag} ..."/> 
 		<cvs failonerror="true" dest="${build.result.folder}/examples" cvsroot=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling">
 			<commandline>
 				<argument line="export -r ${exampleCVSTag} org.eclipse.emf/org.eclipse.emf/examples" />
