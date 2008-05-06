@@ -20,6 +20,7 @@
 	<target name="pre.build.jars">
 		<!-- ${build.result.folder} = /home/www-data/build/emf/downloads/drops/2.4.0/N200805051552/eclipse/plugins/org.eclipse.emf.example.installer -->
 		<property file="${build.result.folder}/../../../build.cfg" />
+		<property name="branch" value="HEAD" />
 		<condition property="exampleCVSTag" value="build_${buildTimestamp}" else="${branch}">
 			<istrue value="${tagBuild}"/>
 		</condition>
