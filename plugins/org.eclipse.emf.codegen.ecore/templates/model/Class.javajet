@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.73 2008/04/17 20:37:32 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.74 2008/05/06 16:21:04 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -307,9 +307,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 
       <%}%>
     <%}%>
-  <%}%>
 <%@ include file="Class/declaredFieldGenFeature.insert.javajetinc" fail="silent" %>
 <%@ end %><%//Class/declaredFieldGenFeature.override.javajetinc%>
+  <%}%>
 <%}%>
 <%if (isImplementation && genClass.hasOffsetCorrection() && !genClass.getImplementedGenFeatures().isEmpty()) {%>
 	/**

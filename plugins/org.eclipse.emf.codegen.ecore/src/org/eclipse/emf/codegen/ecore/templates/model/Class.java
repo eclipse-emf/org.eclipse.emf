@@ -1925,8 +1925,8 @@ public class Class
     stringBuffer.append(TEXT_149);
     }
     }
-    }
     //Class/declaredFieldGenFeature.override.javajetinc
+    }
     }
     if (isImplementation && genClass.hasOffsetCorrection() && !genClass.getImplementedGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_150);
