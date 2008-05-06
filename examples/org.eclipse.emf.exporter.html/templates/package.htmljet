@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.exporter.html" imports="java.util.* org.eclipse.emf.common.util.URI org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.GenPackage" class="PackageHTML" version="$Id: package.htmljet,v 1.4 2007/01/06 22:51:11 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.exporter.html" imports="java.util.* org.eclipse.emf.common.util.URI org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.GenPackage" class="PackageHTML" version="$Id: package.htmljet,v 1.5 2008/05/06 00:13:45 nickb Exp $" %>
 <%
 /**
  * <copyright>
@@ -25,13 +25,13 @@
 		<title><%=genPackage.getQualifiedPackageName()%></title>
 		
 		<style>
-			body {font-family: arial, helvetica, geneva; font-size: 10pt; clip:   rect(   ); margin-top: 5mm; margin-left: 3mm}
-			h1 {font-family: arial, helvetica, geneva; font-size: 22px; font-weight: bold; color:white; background-color:#595791}
-			h2 {font-family: arial, helvetica, geneva; font-size: 16pt; font-weight: bold ; line-height: 20px; background-color:#FFFFCF}
-			h3 {font-family: arial; font-size: 12pt}
-			p, table, td, th {font-family: arial, helvetica, geneva; font-size: 10pt}
-			code {font-family: "Courier New", Courier, mono; font-size: 10pt}
-			li {font-family: arial, helvetica, geneva; font-size: 10pt; line-height: 20px}
+			body {font-size: 10pt; clip:   rect(   ); margin-top: 5mm; margin-left: 3mm}
+			h1 {font-size: 22px; font-weight: bold; color:white; background-color:#595791}
+			h2 {font-size: 16pt; font-weight: bold ; line-height: 20px; background-color:#FFFFCF}
+			h3 {font-size: 12pt}
+			p, table, td, th {font-size: 10pt}
+			code {font-size: 10pt}
+			li {font-size: 10pt; line-height: 20px}
 		</style>		
 	</head>
 
