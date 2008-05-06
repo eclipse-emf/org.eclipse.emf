@@ -1,0 +1,11 @@
+#Organize Import Order
+#Tue Feb 22 01:11:02 EST 2005
+8=com.ibm
+7=com
+6=org.eclipse.xsd
+5=org.eclipse.emf.ecore.sdo
+4=org.eclipse.emf
+3=org.eclipse
+2=org
+1=javax
+0=java
