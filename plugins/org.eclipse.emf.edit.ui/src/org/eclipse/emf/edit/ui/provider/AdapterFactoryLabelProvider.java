@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryLabelProvider.java,v 1.5 2008/01/15 17:15:43 emerks Exp $
+ * $Id: AdapterFactoryLabelProvider.java,v 1.6 2008/05/07 19:08:40 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -187,6 +187,9 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
 
   /**
    *  Construct an instance that wraps the given factory.
+   * If the adapter factory is an {@link IChangeNotifier},
+   * a listener is added to it,
+   * so it's important to call {@link #dispose()}.
    *  @param adapterFactory an adapter factory that yield adapters that implement the various item label provider interfaces.
    */
   public AdapterFactoryLabelProvider(AdapterFactory adapterFactory)
@@ -210,6 +213,9 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
 
   /**
    * Set the wrapped AdapterFactory.
+   * If the adapter factory is an {@link IChangeNotifier},
+   * a listener is added to it,
+   * so it's important to call {@link #dispose()}.
    */
   public void setAdapterFactory(AdapterFactory adapterFactory)
   {

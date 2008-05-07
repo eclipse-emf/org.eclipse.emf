@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyChangedToViewerRefresh.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: NotifyChangedToViewerRefresh.java,v 1.5 2008/05/07 19:08:40 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EReference;
 
 
 /**
- * This class calls optimized refresh apis for all the standard Viewer subclasses.
+ * This class calls optimized refresh APIs for all the standard Viewer subclasses.
  */
 public class NotifyChangedToViewerRefresh
 {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InputDialog.java,v 1.3 2007/06/14 18:32:37 emerks Exp $
+ * $Id: InputDialog.java,v 1.4 2008/05/07 19:08:40 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -64,7 +64,7 @@ class InputDialog extends Dialog {
     private IInputValidator validator;
 
     /**
-     * Ok button widget.
+     * OK button widget.
      */
     private Button okButton;
 
@@ -154,7 +154,7 @@ class InputDialog extends Dialog {
                 IDialogConstants.OK_LABEL, true);
         createButton(parent, IDialogConstants.CANCEL_ID,
                 IDialogConstants.CANCEL_LABEL, false);
-        //do this here because setting the text will set enablement on the ok
+        //do this here because setting the text will set enablement on the OK
         // button
         text.setFocus();
         if (value != null) {
@@ -229,9 +229,9 @@ class InputDialog extends Dialog {
     }
 
     /**
-     * Returns the ok button.
+     * Returns the OK button.
      * 
-     * @return the ok button
+     * @return the OK button
      */
     protected Button getOkButton() {
         return okButton;
@@ -296,7 +296,7 @@ class InputDialog extends Dialog {
     	if (errorMessageText != null && !errorMessageText.isDisposed()) {
     		errorMessageText.setText(errorMessage == null ? "" : errorMessage); //$NON-NLS-1$
     		errorMessageText.getParent().update();
-    		// Access the ok button by id, in case clients have overridden button creation.
+    		// Access the OK button by id, in case clients have overridden button creation.
     		// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=113643
     		Control button = getButton(IDialogConstants.OK_ID);
     		if (button != null) {

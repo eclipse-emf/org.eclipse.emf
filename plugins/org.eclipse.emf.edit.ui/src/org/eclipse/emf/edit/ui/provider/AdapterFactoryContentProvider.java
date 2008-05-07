@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryContentProvider.java,v 1.11 2008/01/05 19:56:07 emerks Exp $
+ * $Id: AdapterFactoryContentProvider.java,v 1.12 2008/05/07 19:08:40 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -88,6 +88,9 @@ public class AdapterFactoryContentProvider
   /**
    * This constructs an instance that wraps this factory.
    * The factory should yield adapters that implement the various IItemContentProvider interfaces.
+   * If the adapter factory is an {@link IChangeNotifier},
+   * a listener is added to it,
+   * so it's important to call {@link #dispose()}.
    */
   public AdapterFactoryContentProvider(AdapterFactory adapterFactory)
   {
@@ -101,6 +104,9 @@ public class AdapterFactoryContentProvider
 
   /**
    * This sets the wrapped factory.
+   * If the adapter factory is an {@link IChangeNotifier},
+   * a listener is added to it,
+   * so it's important to call {@link #dispose()}.
    */
   public void setAdapterFactory(AdapterFactory adapterFactory)
   {

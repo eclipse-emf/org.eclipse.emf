@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainViewerDropAdapter.java,v 1.8 2007/06/14 18:32:37 emerks Exp $
+ * $Id: EditingDomainViewerDropAdapter.java,v 1.9 2008/05/07 19:08:40 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -360,14 +360,14 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
     LocalTransfer localTransfer = LocalTransfer.getInstance();
     if (!localTransfer.isSupportedType(event.currentDataType))
     {
-      // Iterate over the data types to see if there is a datatype that supports a local transfer.
+      // Iterate over the data types to see if there is a data type that supports a local transfer.
       //
       TransferData [] dataTypes = event.dataTypes;
       for (int i = 0; i < dataTypes.length; ++i)
       {
         TransferData transferData = dataTypes[i];
 
-        // If the local tansfer supports this datatype, switch to that data type
+        // If the local transfer supports this data type, switch to that data type
         //
         if (localTransfer.isSupportedType(transferData))
         {

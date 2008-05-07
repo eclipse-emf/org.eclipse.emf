@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditUIMarkerHelper.java,v 1.11 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: EditUIMarkerHelper.java,v 1.12 2008/05/07 19:08:40 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.util;
 
@@ -34,7 +34,7 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 /**
- * Extension of {@link MarkerHelper} that provides extra functionalities usefull when
+ * Extension of {@link MarkerHelper} that provides extra functionalities useful when
  * using EMF classes such as {@link Resource}.
  *   
  * @since 2.2.0

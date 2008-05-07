@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommandActionHandler.java,v 1.5 2007/06/14 18:32:37 emerks Exp $
+ * $Id: CommandActionHandler.java,v 1.6 2008/05/07 19:08:40 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -93,7 +93,7 @@ public class CommandActionHandler extends BaseSelectionListenerAction
   }
 
   /**
-   * When the selection changes, this will call {@link #createCommand} with the appopriate collection of selected objects.
+   * When the selection changes, this will call {@link #createCommand} with the appropriate collection of selected objects.
    */
   @Override
   public boolean updateSelection(IStructuredSelection selection)

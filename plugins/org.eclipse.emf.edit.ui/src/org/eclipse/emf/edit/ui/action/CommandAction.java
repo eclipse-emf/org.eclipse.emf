@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommandAction.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: CommandAction.java,v 1.5 2008/05/07 19:08:40 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -53,7 +53,7 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
  *
  * <p>
  * This class can also be used to implement actions not based on a selection, 
- * in that case the method {@link #selectionChanged selectionChanged} should be overriden to do nothing.
+ * in that case the method {@link #selectionChanged selectionChanged} should be overridden to do nothing.
  */
 public class CommandAction implements IEditorActionDelegate, IViewActionDelegate, IActionDelegate2
 {
@@ -192,7 +192,7 @@ public class CommandAction implements IEditorActionDelegate, IViewActionDelegate
 
   /**
    * Because we implement {@link IActionDelegate2}, this is called instead of the old {@link #run(IAction) run}.
-   * This simply calls that method, which must be invokved since a subclass may have overridden it.
+   * This simply calls that method, which must be invoked since a subclass may have overridden it.
    * @since 2.1.0
    */
   public void runWithEvent(IAction action, Event event)
