@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: UnicodeEncodingTest.java,v 1.6 2008/05/04 10:58:57 emerks Exp $
+ * $Id: UnicodeEncodingTest.java,v 1.7 2008/05/07 23:09:09 davidms Exp $
  */
 
 package org.eclipse.emf.test.xml.encoding;
@@ -30,7 +30,6 @@ import junit.framework.TestSuite;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
