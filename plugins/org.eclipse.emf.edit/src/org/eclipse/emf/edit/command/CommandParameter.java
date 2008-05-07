@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommandParameter.java,v 1.3 2006/12/28 06:48:57 marcelop Exp $
+ * $Id: CommandParameter.java,v 1.4 2008/05/07 19:08:46 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -61,7 +61,7 @@ public class CommandParameter
   public Object value;
 
   /**
-   * This the index (ususally the position indicator) of the command.
+   * This the index (usually the position indicator) of the command.
    */
   public int index;
 

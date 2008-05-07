@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeItemProvider.java,v 1.7 2007/06/14 18:32:42 emerks Exp $
+ * $Id: TreeNodeItemProvider.java,v 1.8 2008/05/07 19:08:46 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.provider;
 
@@ -44,7 +44,7 @@ import org.eclipse.emf.edit.tree.TreePackage;
 
 
 /**
- * This is the item provider adpater for a {@link org.eclipse.emf.edit.tree.TreeNode} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.edit.tree.TreeNode} object.
  *
  * @generated modifiable
  */

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractOverrideableCommand.java,v 1.4 2008/04/22 19:46:16 emerks Exp $
+ * $Id: AbstractOverrideableCommand.java,v 1.5 2008/05/07 19:08:46 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -39,7 +39,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 public abstract class AbstractOverrideableCommand extends AbstractCommand implements OverrideableCommand
 {
   /**
-   * This is the editing doman in which this command operates.
+   * This is the editing domain in which this command operates.
    */
   protected EditingDomain domain;
 

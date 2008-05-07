@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CutToClipboardCommand.java,v 1.3 2006/12/28 06:48:54 marcelop Exp $
+ * $Id: CutToClipboardCommand.java,v 1.4 2008/05/07 19:08:46 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -108,7 +108,7 @@ public class CutToClipboardCommand extends CommandWrapper
   protected static final String DESCRIPTION = EMFEditPlugin.INSTANCE.getString("_UI_CutToClipboardCommand_description");
 
   /**
-   * This is the editing doman in which this command operates.
+   * This is the editing domain in which this command operates.
    */
   protected EditingDomain domain;
 
@@ -118,7 +118,7 @@ public class CutToClipboardCommand extends CommandWrapper
   protected Collection<Object> oldClipboard;
 
   /**
-   * This constructs an instance that ields the result of the given command as its clipboard.
+   * This constructs an instance that yields the result of the given command as its clipboard.
    */
   public CutToClipboardCommand(EditingDomain domain, Command command)
   {

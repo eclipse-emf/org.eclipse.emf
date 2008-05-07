@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MoveCommand.java,v 1.5 2007/06/14 18:32:42 emerks Exp $
+ * $Id: MoveCommand.java,v 1.6 2008/05/07 19:08:46 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -109,7 +109,7 @@ public class MoveCommand extends AbstractOverrideableCommand
   protected int index;
 
   /**
-   * This is the orginal position to which the object will be moved upon undo.
+   * This is the original position to which the object will be moved upon undo.
    */
   protected int oldIndex;
 

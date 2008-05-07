@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CopyCommand.java,v 1.6 2006/12/28 06:48:54 marcelop Exp $
+ * $Id: CopyCommand.java,v 1.7 2008/05/07 19:08:46 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  *
  * <p>
  * The copy implementation is, at each level, delegated to {@link CreateCopyCommand} and 
- * {@link InitializeCopyCommand} which can be overriden to control the copy's object creation
+ * {@link InitializeCopyCommand} which can be overridden to control the copy's object creation
  * and initialization respectively.
  */
 public class CopyCommand extends StrictCompoundCommand

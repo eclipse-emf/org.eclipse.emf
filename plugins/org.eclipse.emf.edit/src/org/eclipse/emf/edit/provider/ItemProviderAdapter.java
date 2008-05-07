@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.37 2008/05/02 11:27:39 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.38 2008/05/07 19:08:46 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1579,7 +1579,7 @@ public class ItemProviderAdapter
 
   /**
    * This will remove this adapter from all its the targets and dispose any
-   * remainging children wrappers in the children store.
+   * remaining children wrappers in the children store.
    */
   public void dispose()
   {
@@ -1643,7 +1643,7 @@ public class ItemProviderAdapter
 
     // The try/catch provides backwards compatibility with the old resource
     // key, "_UI_CreateChild_label", and should be removed at the next
-    // release, when we can expect users to do a regen.
+    // release, when we can expect users to regenerate.
     //
     try
     {

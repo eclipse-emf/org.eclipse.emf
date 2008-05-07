@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptorDecorator.java,v 1.6 2007/06/14 18:32:42 emerks Exp $
+ * $Id: ItemPropertyDescriptorDecorator.java,v 1.7 2008/05/07 19:08:46 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -36,7 +36,7 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor
   }
 
   /**
-   * This returns the group of propertiesk into which this one should be placed.
+   * This returns the group of properties into which this one should be placed.
    */
   public String getCategory(Object thisObject) 
   {
@@ -69,7 +69,7 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor
 
   /**
    * This returns the interface name of this property.
-   * This is the key that is passed around and must uniquely identifiy this descriptor.
+   * This is the key that is passed around and must uniquely identify this descriptor.
    */
   public String getId(Object thisObject) 
   {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReplaceCommand.java,v 1.7 2008/04/22 19:46:15 emerks Exp $
+ * $Id: ReplaceCommand.java,v 1.8 2008/05/07 19:08:46 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -218,7 +218,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
   }
 
   /**
-   * This returns the index at which to reinsert the replace objecs during an undo so as to achieve the original list order.
+   * This returns the index at which to reinsert the replace objects during an undo so as to achieve the original list order.
    */ 
   public int getIndex()
   {
@@ -265,7 +265,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
   @Override
   public void doExecute() 
   {
-    // Record the position of the value in the onwer list.
+    // Record the position of the value in the owner list.
     //
     index = ownerList.indexOf(value);
   

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingWrapperItemProvider.java,v 1.10 2008/01/15 17:15:40 emerks Exp $
+ * $Id: DelegatingWrapperItemProvider.java,v 1.11 2008/05/07 19:08:46 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -90,6 +90,9 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
    * Creates an instance for the given value. A decorator for the object's item provider is created, and
    * set up to repeat notifications, decorating them, so that they will update this wrapper, rather than the model
    * object they originate from.
+   * If the adapter factory is an {@link IChangeNotifier},
+   * a listener is added to it,
+   * so it's important to call {@link #dispose()}.
    * 
    * @exception IllegalArgumentException If the specified value is null.
    */
@@ -188,7 +191,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
 
   /**
    * Uses the delegate item provider to get the delegate value's children, assigning the collection to {@link
-   * #delegateChildren}, and to update the {@link #childrenMap}. New chidren are wrapped by calling {@link
+   * #delegateChildren}, and to update the {@link #childrenMap}. New children are wrapped by calling {@link
    * #createWrapper createWrapper} and added to the map; Wrappers for children that have been removed are disposed. 
    */
   protected void updateChildren()
@@ -259,7 +262,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   }
 
   /**
-   * Uses the delegate item provider to test whether the delegate vlaue has children.
+   * Uses the delegate item provider to test whether the delegate value has children.
    */
   @Override
   public boolean hasChildren(Object object)

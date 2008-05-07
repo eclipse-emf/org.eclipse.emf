@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateChildCommand.java,v 1.9 2007/06/14 18:32:42 emerks Exp $
+ * $Id: CreateChildCommand.java,v 1.10 2008/05/07 19:08:46 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -78,7 +78,7 @@ public class CreateChildCommand extends CommandWrapper
   protected static final int NO_INDEX = CommandParameter.NO_INDEX;
 
   /**
-   * This is the editing doman in which this command operates.
+   * This is the editing domain in which this command operates.
    */
   protected EditingDomain domain;
 
