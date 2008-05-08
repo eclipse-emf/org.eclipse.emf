@@ -5,14 +5,13 @@
       version="2.4.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
-   <!-- do not increment version here; instead, use feature.xml.template -->
 
    <description>
       %description
    </description>
 
    <copyright url="http://www.eclipse.org/legal/epl-v10.html">
-      Copyright (c) 2002-2007 IBM Corporation and others.
+      Copyright (c) 2002-2008 IBM Corporation and others.
 All rights reserved.   This program and the accompanying materials
 are made available under the terms of the Eclipse Public License v1.0
 which accompanies this distribution, and is available at
@@ -25,7 +24,6 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <url>
       <update label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/updates/"/>
-      <discovery label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/updates/"/>
       <discovery label="%EMFTUpdateSiteName" url="http://download.eclipse.org/modeling/emft/updates/"/>
    </url>
 
@@ -37,48 +35,6 @@ http://www.eclipse.org/legal/epl-v10.html
    <includes id="org.eclipse.emf.source" version="0.0.0"/>
    <includes id="org.eclipse.emf.doc" version="0.0.0"/>
 
-<!-- TemplateEntriesBegin -->
-   <!-- 
-		NOTE: this file is a template. At build-time, use 
-		org.eclipse.emf.releng/scripts/genFeatureSDK.sh 
-		to get plugins and merge XML into this file.
-		Any XML below the INCLUDE line below will be lost. 
-   -->  
+   <plugin id="org.eclipse.emf.example.installer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 
-   <!-- generated plugins -->
-	<plugin id="org.eclipse.emf.doc" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.ant" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.codegen" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.codegen.ecore" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.codegen.ecore.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.codegen.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.common" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.common.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.converter" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.databinding" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.databinding.edit" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.ecore" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.ecore.change" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.ecore.change.edit" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.ecore.edit" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.ecore.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.ecore.xmi" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.edit" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.edit.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.example.installer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.exporter" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.importer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.importer.ecore" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.importer.java" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.importer.rose" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.mapping" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.mapping.ecore" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.mapping.ecore2ecore" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.mapping.ecore2ecore.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.mapping.ecore2xml" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.mapping.ecore2xml.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.mapping.ecore.editor" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-	<plugin id="org.eclipse.emf.mapping.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-<!-- TemplateEntriesEnd -->
 </feature>
