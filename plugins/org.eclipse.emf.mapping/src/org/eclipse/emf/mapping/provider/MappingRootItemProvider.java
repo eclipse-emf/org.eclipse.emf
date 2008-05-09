@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootItemProvider.java,v 1.6 2006/12/29 18:29:10 marcelop Exp $
+ * $Id: MappingRootItemProvider.java,v 1.7 2008/05/09 20:10:22 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -23,7 +23,6 @@ import java.util.List;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -196,18 +195,6 @@ public class MappingRootItemProvider
   protected Command createRestoreInitialStateCommand(MappingDomain domain)
   {
     return new RestoreInitialStateCommand(domain);
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return MappingPlugin.INSTANCE;
   }
 
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComplexTypeConverterItemProvider.java,v 1.5 2006/12/29 18:29:10 marcelop Exp $
+ * $Id: ComplexTypeConverterItemProvider.java,v 1.6 2008/05/09 20:10:22 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -21,8 +21,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -123,18 +121,6 @@ public class ComplexTypeConverterItemProvider
       return;
     }
     super.notifyChanged(msg);
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return MappingPlugin.INSTANCE;
   }
 
 }
