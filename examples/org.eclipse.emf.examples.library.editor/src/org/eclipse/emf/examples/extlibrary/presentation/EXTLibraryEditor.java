@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.13 2008/05/01 18:33:33 davidms Exp $
+ * $Id: EXTLibraryEditor.java,v 1.14 2008/05/09 20:10:25 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -1679,8 +1679,12 @@ public class EXTLibraryEditor extends MultiPageEditorPart
             {
               try
               {
-                savedResources.add(resource);
+                long timeStamp = resource.getTimeStamp();
                 resource.save(saveOptions);
+                if (resource.getTimeStamp() != timeStamp)
+                {
+                  savedResources.add(resource);
+                }
               }
               catch (Exception exception)
               {
