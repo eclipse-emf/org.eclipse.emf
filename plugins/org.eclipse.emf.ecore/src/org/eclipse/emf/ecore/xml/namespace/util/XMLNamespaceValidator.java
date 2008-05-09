@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceValidator.java,v 1.5 2007/06/12 15:07:48 emerks Exp $
+ * $Id: XMLNamespaceValidator.java,v 1.6 2008/05/09 20:10:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.util;
 
@@ -22,8 +22,10 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 
 import org.eclipse.emf.ecore.xml.namespace.*;
@@ -128,7 +130,7 @@ public class XMLNamespaceValidator extends EObjectValidator
         return validateLangTypeNull((String)value, diagnostics, context);
       case XMLNamespacePackage.SPACE_TYPE_OBJECT:
         return validateSpaceTypeObject((SpaceType)value, diagnostics, context);
-      default: 
+      default:
         return true;
     }
   }
@@ -220,6 +222,18 @@ public class XMLNamespaceValidator extends EObjectValidator
   public boolean validateSpaceTypeObject(SpaceType spaceTypeObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
+  }
+
+  /**
+   * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  @Override
+  public ResourceLocator getResourceLocator()
+  {
+    return EcorePlugin.INSTANCE;
   }
 
 } //XMLNamespaceValidator
