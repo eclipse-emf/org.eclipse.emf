@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.51 2008/01/15 16:51:08 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.52 2008/05/09 20:10:21 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1467,8 +1467,12 @@ public class GenModelEditor
             {
               try
               {
-                savedResources.add(resource);
+                long timeStamp = resource.getTimeStamp();
                 resource.save(saveOptions);
+                if (resource.getTimeStamp() != timeStamp)
+                {
+                  savedResources.add(resource);
+                }
               }
               catch (Exception exception)
               {
