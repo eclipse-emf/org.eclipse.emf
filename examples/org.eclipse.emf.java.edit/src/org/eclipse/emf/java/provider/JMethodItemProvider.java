@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodItemProvider.java,v 1.9 2007/01/08 00:03:44 marcelop Exp $
+ * $Id: JMethodItemProvider.java,v 1.10 2008/05/09 20:10:38 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -455,18 +454,6 @@ public class JMethodItemProvider
         return;
     }
     super.notifyChanged(notification);
-  }
-
-  /**
-   * Return the resource locator for this item provider's resources.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public ResourceLocator getResourceLocator()
-  {
-    return JavaEditPlugin.INSTANCE;
   }
 
 }
