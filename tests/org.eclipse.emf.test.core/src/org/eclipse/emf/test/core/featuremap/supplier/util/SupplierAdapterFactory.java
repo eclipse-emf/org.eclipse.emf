@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SupplierAdapterFactory.java,v 1.2 2006/12/29 21:49:52 marcelop Exp $
+ * $Id: SupplierAdapterFactory.java,v 1.3 2008/05/09 20:10:23 emerks Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier.util;
 
@@ -70,7 +70,7 @@ public class SupplierAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
