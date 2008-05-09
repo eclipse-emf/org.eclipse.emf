@@ -5,13 +5,14 @@
       version="2.4.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
+   <!-- do not increment version here; instead, use feature.xml.template -->
    
    <description>
       %description
    </description>
 
    <copyright url="http://www.eclipse.org/legal/epl-v10.html">
-      Copyright (c) 2002-2008 IBM Corporation and others.
+      Copyright (c) 2002-2007 IBM Corporation and others.
 All rights reserved.   This program and the accompanying materials
 are made available under the terms of the Eclipse Public License v1.0
 which accompanies this distribution, and is available at
@@ -24,6 +25,7 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <url>
       <update label="%XSDUpdateSiteName" url="http://download.eclipse.org/modeling/emf/updates/"/>
+      <discovery label="%XSDUpdateSiteName" url="http://download.eclipse.org/modeling/emf/updates/"/>
       <discovery label="%MDTUpdateSiteName" url="http://download.eclipse.org/modeling/mdt/updates/"/>
    </url>
 
@@ -42,4 +44,14 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin id="org.eclipse.xsd.example.installer" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 
+<!-- TemplateEntriesBegin -->
+   <!-- 
+		NOTE: this file is a template. At build-time, use 
+		org.eclipse.emf.releng/scripts/genFeatureSDK.sh 
+		to get plugins and merge XML into this file.
+		Any XML below the INCLUDE line below will be lost. 
+   -->  
+
+   <!-- %%INCLUDE%% -->
+<!-- TemplateEntriesEnd -->
 </feature>
