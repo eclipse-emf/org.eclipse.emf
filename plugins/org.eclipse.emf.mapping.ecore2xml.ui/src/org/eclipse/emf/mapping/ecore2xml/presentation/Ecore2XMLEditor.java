@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.15 2008/04/27 20:54:53 davidms Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.16 2008/05/09 20:10:35 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -1682,8 +1682,12 @@ public class Ecore2XMLEditor
             {
               try
               {
-                savedResources.add(resource);
+                long timeStamp = resource.getTimeStamp();
                 resource.save(saveOptions);
+                if (resource.getTimeStamp() != timeStamp)
+                {
+                  savedResources.add(resource);
+                }
               }
               catch (Exception exception)
               {
