@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.54 2008/04/01 14:23:36 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.55 2008/05/09 20:10:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1468,8 +1468,12 @@ public class EcoreEditor
             {
               try
               {
-                savedResources.add(resource);
+                long timeStamp = resource.getTimeStamp();
                 resource.save(saveOptions);
+                if (resource.getTimeStamp() != timeStamp)
+                {
+                  savedResources.add(resource);
+                }
               }
               catch (Exception exception)
               {
