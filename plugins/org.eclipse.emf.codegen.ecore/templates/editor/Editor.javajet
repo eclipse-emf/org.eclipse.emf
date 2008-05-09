@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.58 2008/04/27 19:13:31 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.59 2008/05/09 19:59:38 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -1936,8 +1936,12 @@ public class <%=genPackage.getEditorClassName()%>
 						{
 							try
 							{
-								savedResources.add(resource);
+								long timeStamp = resource.getTimeStamp();
 								resource.save(saveOptions);
+								if (resource.getTimeStamp() != timeStamp)
+								{
+									savedResources.add(resource);
+								}
 							}
 							catch (Exception exception)
 							{
