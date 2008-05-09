@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBPriceAdapterFactory.java,v 1.2 2007/01/18 22:06:42 marcelop Exp $
+ * $Id: DBPriceAdapterFactory.java,v 1.3 2008/05/09 20:10:33 emerks Exp $
  */
 package org.eclipse.emf.test.models.dbprice.util;
 
@@ -80,7 +80,7 @@ public class DBPriceAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MovieType.java,v 1.6 2007/06/15 21:22:17 emerks Exp $
+ * $Id: MovieType.java,v 1.7 2008/05/09 20:10:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db;
 
@@ -136,7 +136,6 @@ public interface MovieType extends EObject
 
   /**
    * Returns the value of the '<em><b>Genre</b></em>' attribute.
-   * The default value is <code>"NewRelease"</code>.
    * The literals are from the enumeration {@link org.eclipse.emf.test.models.movie.db.GenreTypes}.
    * <!-- begin-user-doc -->
    * <p>
@@ -150,7 +149,7 @@ public interface MovieType extends EObject
    * @see #unsetGenre()
    * @see #setGenre(GenreTypes)
    * @see org.eclipse.emf.test.models.movie.db.DBPackage#getMovieType_Genre()
-   * @model default="NewRelease" unsettable="true" required="true"
+   * @model unsettable="true" required="true"
    *        extendedMetaData="kind='element' name='genre'"
    * @generated
    */

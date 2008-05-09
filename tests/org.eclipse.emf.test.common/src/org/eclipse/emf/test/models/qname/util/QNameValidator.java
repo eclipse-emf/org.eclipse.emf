@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameValidator.java,v 1.5 2007/06/12 15:08:10 emerks Exp $
+ * $Id: QNameValidator.java,v 1.6 2008/05/09 20:10:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname.util;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -133,7 +134,7 @@ public class QNameValidator extends EObjectValidator
         return validateQnameList((List<?>)value, diagnostics, context);
       case QNamePackage.UNION:
         return validateUnion(value, diagnostics, context);
-      default: 
+      default:
         return true;
     }
   }
@@ -326,6 +327,18 @@ public class QNameValidator extends EObjectValidator
       }
     }
     return false;
+  }
+
+  /**
+   * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  @Override
+  public ResourceLocator getResourceLocator()
+  {
+    return super.getResourceLocator();
   }
 
 } //QNameValidator

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomerValidator.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
+ * $Id: CustomerValidator.java,v 1.4 2008/05/09 20:10:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.util;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -140,7 +141,7 @@ public class CustomerValidator extends EObjectValidator
         return validateZipCodes((BigInteger)value, diagnostics, context);
       case CustomerPackage.ZIP_UNION:
         return validateZipUnion(value, diagnostics, context);
-      default: 
+      default:
         return true;
     }
   }
@@ -264,9 +265,9 @@ public class CustomerValidator extends EObjectValidator
   public boolean validateZipCodes_Min(BigInteger zipCodes, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = zipCodes.compareTo(ZIP_CODES__MIN__VALUE) >= 0;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinViolation(CustomerPackage.Literals.ZIP_CODES, zipCodes, ZIP_CODES__MIN__VALUE, true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -286,9 +287,9 @@ public class CustomerValidator extends EObjectValidator
   public boolean validateZipCodes_Max(BigInteger zipCodes, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = zipCodes.compareTo(ZIP_CODES__MAX__VALUE) <= 0;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxViolation(CustomerPackage.Literals.ZIP_CODES, zipCodes, ZIP_CODES__MAX__VALUE, true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -338,6 +339,18 @@ public class CustomerValidator extends EObjectValidator
       }
     }
     return false;
+  }
+
+  /**
+   * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  @Override
+  public ResourceLocator getResourceLocator()
+  {
+    return super.getResourceLocator();
   }
 
 } //CustomerValidator

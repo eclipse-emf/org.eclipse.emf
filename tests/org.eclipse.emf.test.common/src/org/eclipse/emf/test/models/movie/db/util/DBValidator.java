@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBValidator.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
+ * $Id: DBValidator.java,v 1.4 2008/05/09 20:10:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.util;
 
@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -142,7 +143,7 @@ public class DBValidator extends EObjectValidator
         return validateRatingValues(((Integer)value).intValue(), diagnostics, context);
       case DBPackage.RATING_VALUES_OBJECT:
         return validateRatingValuesObject((Integer)value, diagnostics, context);
-      default: 
+      default:
         return true;
     }
   }
@@ -282,7 +283,7 @@ public class DBValidator extends EObjectValidator
   public boolean validateRatingType_Min(int ratingType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = ratingType >= RATING_TYPE__MIN__VALUE;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinViolation(DBPackage.Literals.RATING_TYPE, new Integer(ratingType), new Integer(RATING_TYPE__MIN__VALUE), true, diagnostics, context);
     return result;
   }
@@ -304,9 +305,9 @@ public class DBValidator extends EObjectValidator
   public boolean validateRatingType_Max(int ratingType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = ratingType <= RATING_TYPE__MAX__VALUE;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxViolation(DBPackage.Literals.RATING_TYPE, new Integer(ratingType), new Integer(RATING_TYPE__MAX__VALUE), true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -350,7 +351,7 @@ public class DBValidator extends EObjectValidator
   public boolean validateRatingValues_Min(int ratingValues, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = ratingValues >= RATING_VALUES__MIN__VALUE;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinViolation(DBPackage.Literals.RATING_VALUES, new Integer(ratingValues), new Integer(RATING_VALUES__MIN__VALUE), true, diagnostics, context);
     return result;
   }
@@ -372,9 +373,9 @@ public class DBValidator extends EObjectValidator
   public boolean validateRatingValues_Max(int ratingValues, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = ratingValues <= RATING_VALUES__MAX__VALUE;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxViolation(DBPackage.Literals.RATING_VALUES, new Integer(ratingValues), new Integer(RATING_VALUES__MAX__VALUE), true, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -387,6 +388,18 @@ public class DBValidator extends EObjectValidator
     boolean result = validateRatingValues_Min(ratingValuesObject.intValue(), diagnostics, context);
     if (result || diagnostics != null) result &= validateRatingValues_Max(ratingValuesObject.intValue(), diagnostics, context);
     return result;
+  }
+
+  /**
+   * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  @Override
+  public ResourceLocator getResourceLocator()
+  {
+    return super.getResourceLocator();
   }
 
 } //DBValidator

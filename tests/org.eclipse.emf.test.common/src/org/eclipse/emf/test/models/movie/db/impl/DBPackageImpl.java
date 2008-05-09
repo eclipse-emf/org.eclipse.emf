@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBPackageImpl.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
+ * $Id: DBPackageImpl.java,v 1.4 2008/05/09 20:10:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -743,7 +743,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
     initEAttribute(getMovieType_Title(), theXMLTypePackage.getString(), "title", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMovieType_Actors(), this.getActorsList(), "actors", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMovieType_Director(), theXMLTypePackage.getString(), "director", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getMovieType_Genre(), this.getGenreTypes(), "genre", "NewRelease", 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getMovieType_Genre(), this.getGenreTypes(), "genre", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMovieType_Summary(), theXMLTypePackage.getString(), "summary", null, 1, 1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getMovieType_CriticsReviewGroup(), ecorePackage.getEFeatureMapEntry(), "criticsReviewGroup", null, 0, -1, MovieType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMovieType_CriticsReview(), this.getCriticsReviewType(), null, "criticsReview", null, 0, -1, MovieType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);

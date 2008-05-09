@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PPOValidator.java,v 1.3 2007/06/12 15:08:11 emerks Exp $
+ * $Id: PPOValidator.java,v 1.4 2008/05/09 20:10:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.ppo.util;
 
@@ -23,6 +23,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -126,7 +127,7 @@ public class PPOValidator extends EObjectValidator
         return validateSKU((String)value, diagnostics, context);
       case PPOPackage.DATE:
         return validateDate((Date)value, diagnostics, context);
-      default: 
+      default:
         return true;
     }
   }
@@ -263,6 +264,18 @@ public class PPOValidator extends EObjectValidator
   public boolean validateDate(Date date, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
+  }
+
+  /**
+   * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  @Override
+  public ResourceLocator getResourceLocator()
+  {
+    return super.getResourceLocator();
   }
 
 } //PPOValidator

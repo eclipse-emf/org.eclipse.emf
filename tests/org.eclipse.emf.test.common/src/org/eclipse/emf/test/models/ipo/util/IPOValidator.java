@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IPOValidator.java,v 1.3 2007/06/12 15:08:10 emerks Exp $
+ * $Id: IPOValidator.java,v 1.4 2008/05/09 20:10:32 emerks Exp $
  */
 package org.eclipse.emf.test.models.ipo.util;
 
@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -146,7 +147,7 @@ public class IPOValidator extends EObjectValidator
         return validateUKPostcode((String)value, diagnostics, context);
       case IPOPackageImpl.US_STATE_OBJECT:
         return validateUSStateObject((USState)value, diagnostics, context);
-      default: 
+      default:
         return true;
     }
   }
@@ -251,9 +252,9 @@ public class IPOValidator extends EObjectValidator
    */
   public boolean validatePostcode_MinLength(String postcode, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    int length = postcode.length();  
+    int length = postcode.length();
     boolean result = length >= 7;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMinLengthViolation(IPOPackageImpl.Literals.POSTCODE, postcode, length, 7, diagnostics, context);
     return result;
   }
@@ -266,9 +267,9 @@ public class IPOValidator extends EObjectValidator
    */
   public boolean validatePostcode_MaxLength(String postcode, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    int length = postcode.length();  
+    int length = postcode.length();
     boolean result = length <= 7;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxLengthViolation(IPOPackageImpl.Literals.POSTCODE, postcode, length, 7, diagnostics, context);
     return result;
   }
@@ -302,9 +303,9 @@ public class IPOValidator extends EObjectValidator
   public boolean validateQuantityType_Max(BigInteger quantityType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = quantityType.compareTo(QUANTITY_TYPE__MAX__VALUE) < 0;
-    if (!result && diagnostics != null) 
+    if (!result && diagnostics != null)
       reportMaxViolation(IPOPackageImpl.Literals.QUANTITY_TYPE, quantityType, QUANTITY_TYPE__MAX__VALUE, false, diagnostics, context);
-    return result; 
+    return result;
   }
 
   /**
@@ -325,9 +326,9 @@ public class IPOValidator extends EObjectValidator
    * @see #validateSKU_Pattern
    */
   public static final  PatternMatcher [][] SKU__PATTERN__VALUES =
-    new PatternMatcher [][] 
+    new PatternMatcher [][]
     {
-      new PatternMatcher [] 
+      new PatternMatcher []
       {
         XMLTypeUtil.createPatternMatcher("\\d{3}-[A-Z]{2}")
       }
@@ -364,9 +365,9 @@ public class IPOValidator extends EObjectValidator
    * @see #validateUKPostcode_Pattern
    */
   public static final  PatternMatcher [][] UK_POSTCODE__PATTERN__VALUES =
-    new PatternMatcher [][] 
+    new PatternMatcher [][]
     {
-      new PatternMatcher [] 
+      new PatternMatcher []
       {
         XMLTypeUtil.createPatternMatcher("[A-Z]{2}\\d\\s\\d[A-Z]{2}")
       }
@@ -391,6 +392,18 @@ public class IPOValidator extends EObjectValidator
   public boolean validateUSStateObject(USState usStateObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
+  }
+
+  /**
+   * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  @Override
+  public ResourceLocator getResourceLocator()
+  {
+    return super.getResourceLocator();
   }
 
 } //IPOValidator
