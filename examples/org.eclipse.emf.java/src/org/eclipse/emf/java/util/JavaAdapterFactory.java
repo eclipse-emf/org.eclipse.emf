@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaAdapterFactory.java,v 1.4 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JavaAdapterFactory.java,v 1.5 2008/05/09 20:10:23 emerks Exp $
  */
 package org.eclipse.emf.java.util;
 
@@ -80,7 +80,7 @@ public class JavaAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * The switch the delegates to the <code>createXXX</code> methods.
+   * The switch that delegates to the <code>createXXX</code> methods.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
