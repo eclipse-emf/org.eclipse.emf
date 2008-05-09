@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.23 2007/06/12 15:07:14 emerks Exp $
+ * $Id: JavaEditor.java,v 1.24 2008/05/09 20:10:26 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -481,94 +481,90 @@ public class JavaEditor
     {
       public void resourceChanged(IResourceChangeEvent event)
       {
-        // Only listening to these.
-        // if (event.getType() == IResourceDelta.POST_CHANGE)
+        IResourceDelta delta = event.getDelta();
+        try
         {
-          IResourceDelta delta = event.getDelta();
-          try
+          class ResourceDeltaVisitor implements IResourceDeltaVisitor
           {
-            class ResourceDeltaVisitor implements IResourceDeltaVisitor
-            {
-              protected ResourceSet resourceSet = editingDomain.getResourceSet();
-              protected Collection<Resource> changedResources = new ArrayList<Resource>();
-              protected Collection<Resource> removedResources = new ArrayList<Resource>();
+            protected ResourceSet resourceSet = editingDomain.getResourceSet();
+            protected Collection<Resource> changedResources = new ArrayList<Resource>();
+            protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
-              public boolean visit(IResourceDelta delta)
+            public boolean visit(IResourceDelta delta)
+            {
+              if (delta.getResource().getType() == IResource.FILE)
               {
-                if (delta.getFlags() != IResourceDelta.MARKERS &&
-                    delta.getResource().getType() == IResource.FILE)
+                if (delta.getKind() == IResourceDelta.REMOVED ||
+                    delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS)
                 {
-                  if ((delta.getKind() & (IResourceDelta.CHANGED | IResourceDelta.REMOVED)) != 0)
+                  Resource resource = resourceSet.getResource(URI.createURI(delta.getFullPath().toString()), false);
+                  if (resource != null)
                   {
-                    Resource resource = resourceSet.getResource(URI.createURI(delta.getFullPath().toString()), false);
-                    if (resource != null)
+                    if (delta.getKind() == IResourceDelta.REMOVED)
                     {
-                      if ((delta.getKind() & IResourceDelta.REMOVED) != 0)
-                      {
-                        removedResources.add(resource);
-                      }
-                      else if (!savedResources.remove(resource))
-                      {
-                        changedResources.add(resource);
-                      }
+                      removedResources.add(resource);
+                    }
+                    else if (!savedResources.remove(resource))
+                    {
+                      changedResources.add(resource);
                     }
                   }
                 }
-
-                return true;
               }
 
-              public Collection<Resource> getChangedResources()
-              {
-                return changedResources;
-              }
-
-              public Collection<Resource> getRemovedResources()
-              {
-                return removedResources;
-              }
+              return true;
             }
 
-            ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
-            delta.accept(visitor);
-
-            if (!visitor.getRemovedResources().isEmpty())
+            public Collection<Resource> getChangedResources()
             {
-              removedResources.addAll(visitor.getRemovedResources());
-              if (!isDirty())
-              {
-                getSite().getShell().getDisplay().asyncExec
-                  (new Runnable()
-                   {
-                     public void run()
-                     {
-                       getSite().getPage().closeEditor(JavaEditor.this, false);
-                       JavaEditor.this.dispose();
-                     }
-                   });
-              }
+              return changedResources;
             }
 
-            if (!visitor.getChangedResources().isEmpty())
+            public Collection<Resource> getRemovedResources()
             {
-              changedResources.addAll(visitor.getChangedResources());
-              if (getSite().getPage().getActiveEditor() == JavaEditor.this)
-              {
-                getSite().getShell().getDisplay().asyncExec
-                  (new Runnable()
-                   {
-                     public void run()
-                     {
-                       handleActivate();
-                     }
-                   });
-              }
+              return removedResources;
             }
           }
-          catch (CoreException exception)
+
+          ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
+          delta.accept(visitor);
+
+          if (!visitor.getRemovedResources().isEmpty())
           {
-            JavaEditorPlugin.INSTANCE.log(exception);
+            removedResources.addAll(visitor.getRemovedResources());
+            if (!isDirty())
+            {
+              getSite().getShell().getDisplay().asyncExec
+                (new Runnable()
+                 {
+                   public void run()
+                   {
+                     getSite().getPage().closeEditor(JavaEditor.this, false);
+                     JavaEditor.this.dispose();
+                   }
+                 });
+            }
           }
+
+          if (!visitor.getChangedResources().isEmpty())
+          {
+            changedResources.addAll(visitor.getChangedResources());
+            if (getSite().getPage().getActiveEditor() == JavaEditor.this)
+            {
+              getSite().getShell().getDisplay().asyncExec
+                (new Runnable()
+                 {
+                   public void run()
+                   {
+                     handleActivate();
+                   }
+                 });
+            }
+          }
+        }
+        catch (CoreException exception)
+        {
+          JavaEditorPlugin.INSTANCE.log(exception);
         }
       }
     };
@@ -622,6 +618,10 @@ public class JavaEditor
   {
     if (!changedResources.isEmpty() && (!isDirty() || handleDirtyConflict()))
     {
+      if (isDirty())
+      {
+        changedResources.addAll(editingDomain.getResourceSet().getResources());
+      }
       editingDomain.getCommandStack().flush();
 
       updateProblemIndication = false;
@@ -643,6 +643,12 @@ public class JavaEditor
           }
         }
       }
+
+      if (AdapterFactoryEditingDomain.isStale(editorSelection))
+      {
+        setSelection(StructuredSelection.EMPTY);
+      }
+
       updateProblemIndication = true;
       updateProblemIndication();
     }
@@ -1746,8 +1752,12 @@ public class JavaEditor
             {
               try
               {
-                savedResources.add(resource);
+                long timeStamp = resource.getTimeStamp();
                 resource.save(saveOptions);
+                if (resource.getTimeStamp() != timeStamp)
+                {
+                  savedResources.add(resource);
+                }
               }
               catch (Exception exception)
               {
