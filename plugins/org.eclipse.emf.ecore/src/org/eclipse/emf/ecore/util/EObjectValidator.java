@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.24 2008/02/01 17:48:36 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.25 2008/05/12 20:14:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -815,9 +816,9 @@ public class EObjectValidator implements EValidator
         int length =
           value instanceof String ?
             ((String)value).length() :
-             value instanceof Object[] ?
-               ((Object[])value).length :
-               ((Collection<?>)value).size();
+             value instanceof Collection ?
+               ((Collection<?>)value).size() :
+               Array.getLength(value);
         if (length < effectiveMinLength)
         {
           if (diagnostics != null) reportMinLengthViolation(eDataType, value, length, effectiveMinLength, diagnostics, context);
@@ -830,9 +831,9 @@ public class EObjectValidator implements EValidator
         int length =
           value instanceof String ?
             ((String)value).length() :
-             value instanceof Object[] ?
-               ((Object[])value).length :
-               ((Collection<?>)value).size();
+             value instanceof Collection ?
+               ((Collection<?>)value).size() :
+               Array.getLength(value);
         if (length > effectiveMaxLength)
         {
           if (diagnostics != null) reportMaxLengthViolation(eDataType, value, length, effectiveMaxLength, diagnostics, context);
