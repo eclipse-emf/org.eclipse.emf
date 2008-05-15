@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RootXMLContentHandlerImpl.java,v 1.7 2008/05/01 18:30:24 emerks Exp $
+ * $Id: RootXMLContentHandlerImpl.java,v 1.8 2008/05/15 14:28:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -279,12 +279,14 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
           if (elementNameMatched)
           {
             result.put(VALIDITY_PROPERTY, ContentHandler.Validity.VALID);
-            result.put(CONTENT_TYPE_PROPERTY, contentTypeID == null ? rootElementNamespace == null ? "" : rootElementNamespace : contentTypeID);
-            return result;
           }
         }
+
+        result.put(CONTENT_TYPE_PROPERTY, contentTypeID == null ? rootElementNamespace == null ? "" : rootElementNamespace : contentTypeID);
+        return result;
       }
     }
+    result.put(CONTENT_TYPE_PROPERTY, contentTypeID == null ? "" : contentTypeID);
     return result;
   }
 
