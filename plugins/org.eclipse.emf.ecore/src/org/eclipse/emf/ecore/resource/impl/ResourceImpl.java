@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.25 2007/10/20 14:43:40 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.26 2008/05/16 23:33:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1201,22 +1201,52 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         response = new HashMap<Object, Object>();
       }
-      InputStream inputStream =
-        uriConverter.createInputStream
-          (getURI(),
-           new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
+
+      // If an input stream can't be created, ensure that the resource is still considered loaded after the failure,
+      // and do all the same processing we'd do if we actually were able to create a valid input stream.
+      //
+      InputStream inputStream = null;
+      try
+      {
+        inputStream =
+          uriConverter.createInputStream
+            (getURI(),
+             new ExtensibleURIConverterImpl.OptionsMap(URIConverter.OPTION_RESPONSE, response, options));
+      }
+      catch (IOException exception)
+      {
+        Notification notification = setLoaded(true);
+        isLoading = true;
+        if (errors != null)
+        {
+          errors.clear();
+        }
+        if (warnings != null)
+        {
+          warnings.clear();
+        }
+        isLoading = false;
+        if (notification != null)
+        {
+          eNotify(notification);
+        }
+        setModified(false);
+
+        throw exception;
+      }
+
       try
       {
         load(inputStream, options);
       }
       finally
       {
+        inputStream.close();
         Long timeStamp = (Long)response.get(URIConverter.RESPONSE_TIME_STAMP_PROPERTY);
         if (timeStamp != null)
         {
           setTimeStamp(timeStamp);
         }
-        inputStream.close();
       }
     }
   }
