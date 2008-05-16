@@ -75,68 +75,75 @@ public class TestCase
   protected final String TEXT_58 = NL + "\t}";
   protected final String TEXT_59 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see junit.framework.TestCase#setUp()" + NL + "\t * @generated" + NL + "\t */";
   protected final String TEXT_60 = NL + "\t@Override";
-  protected final String TEXT_61 = NL + "\tprotected void setUp() throws Exception" + NL + "\t{" + NL + "\t\tsetFixture(";
-  protected final String TEXT_62 = ".create";
-  protected final String TEXT_63 = "());" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see junit.framework.TestCase#tearDown()" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_64 = NL + "\t@Override";
-  protected final String TEXT_65 = NL + "\tprotected void tearDown() throws Exception" + NL + "\t{" + NL + "\t\tsetFixture(null);" + NL + "\t}";
-  protected final String TEXT_66 = NL + NL + "\t/**" + NL + "\t * Tests the '{@link ";
-  protected final String TEXT_67 = "#";
-  protected final String TEXT_68 = "() <em>";
-  protected final String TEXT_69 = "</em>}' feature getter." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see ";
-  protected final String TEXT_70 = "#";
-  protected final String TEXT_71 = "()" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_72 = NL + "\tpublic void test";
-  protected final String TEXT_73 = "()" + NL + "\t{";
-  protected final String TEXT_74 = NL + "\t\t// TODO: implement this feature getter test method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tfail();";
-  protected final String TEXT_75 = NL + "\t}";
-  protected final String TEXT_76 = NL + NL + "\t/**" + NL + "\t * Tests the '{@link ";
-  protected final String TEXT_77 = "#set";
-  protected final String TEXT_78 = "(";
-  protected final String TEXT_79 = ") <em>";
-  protected final String TEXT_80 = "</em>}' feature setter." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see ";
-  protected final String TEXT_81 = "#set";
-  protected final String TEXT_82 = "(";
-  protected final String TEXT_83 = ")" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_84 = NL + "\tpublic void testSet";
-  protected final String TEXT_85 = "()" + NL + "\t{";
-  protected final String TEXT_86 = NL + "\t\t// TODO: implement this feature setter test method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tfail();";
-  protected final String TEXT_87 = NL + "\t}";
-  protected final String TEXT_88 = NL + NL + "\t/**" + NL + "\t * Tests the '{@link ";
-  protected final String TEXT_89 = "#unset";
-  protected final String TEXT_90 = "() <em>unset";
-  protected final String TEXT_91 = "()</em>}' method." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see ";
-  protected final String TEXT_92 = "#unset";
-  protected final String TEXT_93 = "()" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_94 = NL + "\tpublic void testUnset";
-  protected final String TEXT_95 = "()" + NL + "\t{";
-  protected final String TEXT_96 = NL + "\t\t// TODO: implement this test method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tfail();";
-  protected final String TEXT_97 = NL + "\t}";
-  protected final String TEXT_98 = NL + NL + "\t/**" + NL + "\t * Tests the '{@link ";
-  protected final String TEXT_99 = "#isSet";
-  protected final String TEXT_100 = "() <em>isSet";
-  protected final String TEXT_101 = "()</em>}' method." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see ";
-  protected final String TEXT_102 = "#isSet";
-  protected final String TEXT_103 = "()" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_104 = NL + "\tpublic void testIsSet";
-  protected final String TEXT_105 = "()" + NL + "\t{";
-  protected final String TEXT_106 = NL + "\t\t// TODO: implement this test method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tfail();";
-  protected final String TEXT_107 = NL + "\t}";
-  protected final String TEXT_108 = NL + NL + "\t/**" + NL + "\t * Tests the '{@link ";
-  protected final String TEXT_109 = "#";
-  protected final String TEXT_110 = "(";
-  protected final String TEXT_111 = ") <em>";
-  protected final String TEXT_112 = "</em>}' operation." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see ";
-  protected final String TEXT_113 = "#";
-  protected final String TEXT_114 = "(";
-  protected final String TEXT_115 = ")" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_116 = NL + "\tpublic void test";
-  protected final String TEXT_117 = "()" + NL + "\t{";
-  protected final String TEXT_118 = NL + "\t\t// TODO: implement this operation test method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tfail();";
-  protected final String TEXT_119 = NL + "\t}";
-  protected final String TEXT_120 = NL;
-  protected final String TEXT_121 = NL + "} //";
-  protected final String TEXT_122 = NL;
+  protected final String TEXT_61 = NL + "\t@SuppressWarnings(\"unchecked\")";
+  protected final String TEXT_62 = NL + "\tprotected void setUp() throws Exception" + NL + "\t{";
+  protected final String TEXT_63 = NL + "\t\tsetFixture((";
+  protected final String TEXT_64 = ")";
+  protected final String TEXT_65 = ".create(";
+  protected final String TEXT_66 = "));";
+  protected final String TEXT_67 = NL + "\t\tsetFixture(";
+  protected final String TEXT_68 = ".create";
+  protected final String TEXT_69 = "());";
+  protected final String TEXT_70 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see junit.framework.TestCase#tearDown()" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_71 = NL + "\t@Override";
+  protected final String TEXT_72 = NL + "\tprotected void tearDown() throws Exception" + NL + "\t{" + NL + "\t\tsetFixture(null);" + NL + "\t}";
+  protected final String TEXT_73 = NL + NL + "\t/**" + NL + "\t * Tests the '{@link ";
+  protected final String TEXT_74 = "#";
+  protected final String TEXT_75 = "() <em>";
+  protected final String TEXT_76 = "</em>}' feature getter." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see ";
+  protected final String TEXT_77 = "#";
+  protected final String TEXT_78 = "()" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_79 = NL + "\tpublic void test";
+  protected final String TEXT_80 = "()" + NL + "\t{";
+  protected final String TEXT_81 = NL + "\t\t// TODO: implement this feature getter test method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tfail();";
+  protected final String TEXT_82 = NL + "\t}";
+  protected final String TEXT_83 = NL + NL + "\t/**" + NL + "\t * Tests the '{@link ";
+  protected final String TEXT_84 = "#set";
+  protected final String TEXT_85 = "(";
+  protected final String TEXT_86 = ") <em>";
+  protected final String TEXT_87 = "</em>}' feature setter." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see ";
+  protected final String TEXT_88 = "#set";
+  protected final String TEXT_89 = "(";
+  protected final String TEXT_90 = ")" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_91 = NL + "\tpublic void testSet";
+  protected final String TEXT_92 = "()" + NL + "\t{";
+  protected final String TEXT_93 = NL + "\t\t// TODO: implement this feature setter test method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tfail();";
+  protected final String TEXT_94 = NL + "\t}";
+  protected final String TEXT_95 = NL + NL + "\t/**" + NL + "\t * Tests the '{@link ";
+  protected final String TEXT_96 = "#unset";
+  protected final String TEXT_97 = "() <em>unset";
+  protected final String TEXT_98 = "()</em>}' method." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see ";
+  protected final String TEXT_99 = "#unset";
+  protected final String TEXT_100 = "()" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_101 = NL + "\tpublic void testUnset";
+  protected final String TEXT_102 = "()" + NL + "\t{";
+  protected final String TEXT_103 = NL + "\t\t// TODO: implement this test method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tfail();";
+  protected final String TEXT_104 = NL + "\t}";
+  protected final String TEXT_105 = NL + NL + "\t/**" + NL + "\t * Tests the '{@link ";
+  protected final String TEXT_106 = "#isSet";
+  protected final String TEXT_107 = "() <em>isSet";
+  protected final String TEXT_108 = "()</em>}' method." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see ";
+  protected final String TEXT_109 = "#isSet";
+  protected final String TEXT_110 = "()" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_111 = NL + "\tpublic void testIsSet";
+  protected final String TEXT_112 = "()" + NL + "\t{";
+  protected final String TEXT_113 = NL + "\t\t// TODO: implement this test method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tfail();";
+  protected final String TEXT_114 = NL + "\t}";
+  protected final String TEXT_115 = NL + NL + "\t/**" + NL + "\t * Tests the '{@link ";
+  protected final String TEXT_116 = "#";
+  protected final String TEXT_117 = "(";
+  protected final String TEXT_118 = ") <em>";
+  protected final String TEXT_119 = "</em>}' operation." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see ";
+  protected final String TEXT_120 = "#";
+  protected final String TEXT_121 = "(";
+  protected final String TEXT_122 = ")" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_123 = NL + "\tpublic void test";
+  protected final String TEXT_124 = "()" + NL + "\t{";
+  protected final String TEXT_125 = NL + "\t\t// TODO: implement this operation test method" + NL + "\t\t// Ensure that you remove @generated or mark it @generated NOT" + NL + "\t\tfail();";
+  protected final String TEXT_126 = NL + "\t}";
+  protected final String TEXT_127 = NL;
+  protected final String TEXT_128 = NL + "} //";
+  protected final String TEXT_129 = NL;
 
   public String generate(Object argument)
   {
@@ -299,145 +306,161 @@ public class TestCase
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_60);
     }
+    if (genModel.useGenerics() && genClass.isMapEntry()) {
     stringBuffer.append(TEXT_61);
-    stringBuffer.append(genPackage.getQualifiedEFactoryInternalInstanceAccessor());
-    stringBuffer.append(TEXT_62);
-    stringBuffer.append(genClass.getName());
-    stringBuffer.append(TEXT_63);
-    if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_64);
     }
+    stringBuffer.append(TEXT_62);
+    if (genClass.isMapEntry()) {
+    stringBuffer.append(TEXT_63);
+    stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getInterfaceWildTypeArguments());
+    stringBuffer.append(TEXT_64);
+    stringBuffer.append(genPackage.getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_65);
+    stringBuffer.append(genClass.getQualifiedClassifierAccessor());
+    stringBuffer.append(TEXT_66);
+    } else {
+    stringBuffer.append(TEXT_67);
+    stringBuffer.append(genPackage.getQualifiedEFactoryInternalInstanceAccessor());
+    stringBuffer.append(TEXT_68);
+    stringBuffer.append(genClass.getName());
+    stringBuffer.append(TEXT_69);
+    }
+    stringBuffer.append(TEXT_70);
+    if (genModel.useClassOverrideAnnotation()) {
+    stringBuffer.append(TEXT_71);
+    }
+    stringBuffer.append(TEXT_72);
     }
     for (GenFeature genFeature : genClass.getImplementedGenFeatures()) {
     if (genFeature.isTested()) {
     if (genFeature.isGet() && !genFeature.isSuppressedGetVisibility()) {
-    stringBuffer.append(TEXT_66);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_67);
-    stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_68);
-    stringBuffer.append(genFeature.getFormattedName());
-    stringBuffer.append(TEXT_69);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_70);
-    stringBuffer.append(genFeature.getGetAccessor());
-    stringBuffer.append(TEXT_71);
-    if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/getGenFeature.annotations.insert.javajetinc
-    }
-    stringBuffer.append(TEXT_72);
-    stringBuffer.append(genModel.capName(genFeature.getGetAccessor()));
     stringBuffer.append(TEXT_73);
+    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
     stringBuffer.append(TEXT_74);
-    //TestCase/getGenFeature.todo.override.javajetinc
+    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_75);
-    //TestCase/getGenFeature.override.javajetinc
-    }
-    if (genFeature.isSet() && !genFeature.isSuppressedSetVisibility()) {
+    stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_76);
     stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
     stringBuffer.append(TEXT_77);
-    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_78);
-    stringBuffer.append(genFeature.getRawBoundType());
-    stringBuffer.append(TEXT_79);
-    stringBuffer.append(genFeature.getFormattedName());
-    stringBuffer.append(TEXT_80);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_81);
-    stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_82);
-    stringBuffer.append(genFeature.getRawBoundType());
-    stringBuffer.append(TEXT_83);
-    if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/setGenFeature.annotations.insert.javajetinc
+    if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/getGenFeature.annotations.insert.javajetinc
     }
+    stringBuffer.append(TEXT_79);
+    stringBuffer.append(genModel.capName(genFeature.getGetAccessor()));
+    stringBuffer.append(TEXT_80);
+    stringBuffer.append(TEXT_81);
+    //TestCase/getGenFeature.todo.override.javajetinc
+    stringBuffer.append(TEXT_82);
+    //TestCase/getGenFeature.override.javajetinc
+    }
+    if (genFeature.isSet() && !genFeature.isSuppressedSetVisibility()) {
+    stringBuffer.append(TEXT_83);
+    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
     stringBuffer.append(TEXT_84);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_85);
+    stringBuffer.append(genFeature.getRawBoundType());
     stringBuffer.append(TEXT_86);
-    //TestCase/setGenFeature.todo.override.javajetinc
+    stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_87);
+    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(TEXT_88);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_89);
+    stringBuffer.append(genFeature.getRawBoundType());
+    stringBuffer.append(TEXT_90);
+    if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/setGenFeature.annotations.insert.javajetinc
+    }
+    stringBuffer.append(TEXT_91);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_92);
+    stringBuffer.append(TEXT_93);
+    //TestCase/setGenFeature.todo.override.javajetinc
+    stringBuffer.append(TEXT_94);
     //TestCase/setGenFeature.override.javajetinc
     }
     if (genFeature.isUnset() && !genFeature.isSuppressedUnsetVisibility()) {
-    stringBuffer.append(TEXT_88);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_89);
-    stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_90);
-    stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_91);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_92);
-    stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_93);
-    if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/unsetGenFeature.annotations.insert.javajetinc
-    }
-    stringBuffer.append(TEXT_94);
-    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_95);
+    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
     stringBuffer.append(TEXT_96);
-    //TestCase/unsetGenFeature.todo.override.javajetinc
+    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_97);
-    //TestCase/unsetGenFeature.override.javajetinc
-    }
-    if (genFeature.isIsSet() && !genFeature.isSuppressedIsSetVisibility()) {
+    stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_98);
     stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
     stringBuffer.append(TEXT_99);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_100);
-    stringBuffer.append(genFeature.getAccessorName());
+    if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/unsetGenFeature.annotations.insert.javajetinc
+    }
     stringBuffer.append(TEXT_101);
-    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_102);
     stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_102);
     stringBuffer.append(TEXT_103);
+    //TestCase/unsetGenFeature.todo.override.javajetinc
+    stringBuffer.append(TEXT_104);
+    //TestCase/unsetGenFeature.override.javajetinc
+    }
+    if (genFeature.isIsSet() && !genFeature.isSuppressedIsSetVisibility()) {
+    stringBuffer.append(TEXT_105);
+    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(TEXT_106);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_107);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_108);
+    stringBuffer.append(genFeature.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(TEXT_109);
+    stringBuffer.append(genFeature.getAccessorName());
+    stringBuffer.append(TEXT_110);
     if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/isSetGenFeature.annotations.insert.javajetinc
     }
-    stringBuffer.append(TEXT_104);
+    stringBuffer.append(TEXT_111);
     stringBuffer.append(genFeature.getAccessorName());
-    stringBuffer.append(TEXT_105);
-    stringBuffer.append(TEXT_106);
+    stringBuffer.append(TEXT_112);
+    stringBuffer.append(TEXT_113);
     //TestCase/isSetGenFeature.todo.override.javajetinc
-    stringBuffer.append(TEXT_107);
+    stringBuffer.append(TEXT_114);
     //TestCase/isSetGenFeature.override.javajetinc
     }
     }
     //TestCase/implementedGenFeature.override.javajetinc
     }
     for (GenOperation genOperation : genClass.getImplementedGenOperations()) {
-    stringBuffer.append(TEXT_108);
-    stringBuffer.append(genOperation.getGenClass().getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_109);
-    stringBuffer.append(genOperation.getName());
-    stringBuffer.append(TEXT_110);
-    stringBuffer.append(genOperation.getParameterTypes(", "));
-    stringBuffer.append(TEXT_111);
-    stringBuffer.append(genOperation.getFormattedName());
-    stringBuffer.append(TEXT_112);
-    stringBuffer.append(genOperation.getGenClass().getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_113);
-    stringBuffer.append(genOperation.getName());
-    stringBuffer.append(TEXT_114);
-    stringBuffer.append(genOperation.getParameterTypes(", "));
     stringBuffer.append(TEXT_115);
+    stringBuffer.append(genOperation.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(TEXT_116);
+    stringBuffer.append(genOperation.getName());
+    stringBuffer.append(TEXT_117);
+    stringBuffer.append(genOperation.getParameterTypes(", "));
+    stringBuffer.append(TEXT_118);
+    stringBuffer.append(genOperation.getFormattedName());
+    stringBuffer.append(TEXT_119);
+    stringBuffer.append(genOperation.getGenClass().getQualifiedInterfaceName());
+    stringBuffer.append(TEXT_120);
+    stringBuffer.append(genOperation.getName());
+    stringBuffer.append(TEXT_121);
+    stringBuffer.append(genOperation.getParameterTypes(", "));
+    stringBuffer.append(TEXT_122);
     if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //TestCase/genOperation.annotations.insert.javajetinc
     }
-    stringBuffer.append(TEXT_116);
+    stringBuffer.append(TEXT_123);
     stringBuffer.append(genModel.capName(genOperation.getName()));
     stringBuffer.append(genOperation.getGenParameters().size() == 0 ? "" : "__" + genOperation.getParameterTypes("_", false));
-    stringBuffer.append(TEXT_117);
-    stringBuffer.append(TEXT_118);
+    stringBuffer.append(TEXT_124);
+    stringBuffer.append(TEXT_125);
     //TestCase/implementedGenOperation.todo.override.javajetinc
-    stringBuffer.append(TEXT_119);
+    stringBuffer.append(TEXT_126);
     //TestCase/implementedGenOperation.override.javajetinc
     }
-    stringBuffer.append(TEXT_120);
-    stringBuffer.append(TEXT_121);
+    stringBuffer.append(TEXT_127);
+    stringBuffer.append(TEXT_128);
     stringBuffer.append(genClass.getTestCaseClassName());
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_122);
+    stringBuffer.append(TEXT_129);
     return stringBuffer.toString();
   }
 }

@@ -152,9 +152,16 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 <%if (genModel.useClassOverrideAnnotation()) {%>
 	@Override
 <%}%>
+<%if (genModel.useGenerics() && genClass.isMapEntry()) {%>
+	@SuppressWarnings("unchecked")
+<%}%>
 	protected void setUp() throws Exception
 	{
+  <%if (genClass.isMapEntry()) {%>
+		setFixture((<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)<%=genPackage.getQualifiedEFactoryInternalInstanceAccessor()%>.create(<%=genClass.getQualifiedClassifierAccessor()%>));
+  <%} else {%>
 		setFixture(<%=genPackage.getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=genClass.getName()%>());
+  <%}%>
 	}
 
 	/**
