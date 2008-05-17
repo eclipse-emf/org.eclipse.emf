@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.17 2007/02/20 17:40:49 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.18 2008/05/17 21:42:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -369,7 +369,8 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
   @Override
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
-    if (uriFragmentSegment.length() > 0)
+    int length = uriFragmentSegment.length();
+    if (length > 0)
     {
       // Is the first character a special character, i.e., something other than '@'?
       //
@@ -383,7 +384,8 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
           // Find the closing '%'
           //
           int index = uriFragmentSegment.lastIndexOf("%");
-          if (index != -1)
+          boolean hasCount = false;
+          if (index == length - 1 || (hasCount = uriFragmentSegment.charAt(index + 1) == '.'))
           {
             // Decode all encoded characters.
             //
@@ -392,12 +394,11 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
             // Check for a count, i.e., a '.' followed by a number.
             //
             int count = 0;
-            ++index;
-            if (uriFragmentSegment.length() > index && uriFragmentSegment.charAt(index) == '.')
+            if (hasCount)
             {
               try
               {
-                count = Integer.parseInt(uriFragmentSegment.substring(index + 1));
+                count = Integer.parseInt(uriFragmentSegment.substring(index + 2));
               }
               catch (NumberFormatException exception)
               {
@@ -418,42 +419,41 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
                 }
               }
             }
+            return null;
           }
         }
-        else
-        {
-          // Look for trailing count.
-          //
-          int index = uriFragmentSegment.lastIndexOf(".");
-          String name = index == -1 ? uriFragmentSegment : uriFragmentSegment.substring(0, index);
-          int count = 0;
-          if (index != -1)
-          {
-            try
-            {
-              count = Integer.parseInt(uriFragmentSegment.substring(index + 1));
-            }
-            catch (NumberFormatException exception)
-            {
-              // Interpret it as part of the name.
-              //
-              name = uriFragmentSegment;
-            }
-          }
 
-          name = URI.decode(name);
-    
-          // Look for a matching named element.
-          //
-          for (Object object : eContents())
+        // Look for trailing count.
+        //
+        int index = uriFragmentSegment.lastIndexOf(".");
+        String name = index == -1 ? uriFragmentSegment : uriFragmentSegment.substring(0, index);
+        int count = 0;
+        if (index != -1)
+        {
+          try
           {
-            if (object instanceof ENamedElement)
+            count = Integer.parseInt(uriFragmentSegment.substring(index + 1));
+          }
+          catch (NumberFormatException exception)
+          {
+            // Interpret it as part of the name.
+            //
+            name = uriFragmentSegment;
+          }
+        }
+
+        name = URI.decode(name);
+    
+        // Look for a matching named element.
+        //
+        for (Object object : eContents())
+        {
+          if (object instanceof ENamedElement)
+          {
+            ENamedElement eNamedElement = (ENamedElement)object;
+            if (name.equals(eNamedElement.getName()) && count-- == 0)
             {
-              ENamedElement eNamedElement = (ENamedElement)object;
-              if (name.equals(eNamedElement.getName()) && count-- == 0)
-              {
-                return eNamedElement;
-              }
+              return eNamedElement;
             }
           }
         }
