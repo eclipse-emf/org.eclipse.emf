@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.13 2008/03/28 16:51:17 emerks Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.14 2008/05/17 14:59:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -388,7 +388,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
               URI genModelURI = genModel.eResource().getURI();
               if (genModelURI.isPlatformResource())
               {
-                IProject genModelProject = workspace.getRoot().getProject(genModelURI.segments()[1]);
+                IProject genModelProject = workspace.getRoot().getProject(URI.decode(genModelURI.segments()[1]));
                 projectLocation = getLocationURI(genModelProject);
               }
             }
