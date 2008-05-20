@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.91 2008/05/04 10:58:51 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.92 2008/05/20 14:44:46 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1428,7 +1428,10 @@ public class XSDEcoreBuilder extends MapBuilder
               eOperation.setEGenericType(returnType);
             }
 
+            // Since we included this by mistake, instead of the plural form, for the time being, we'd better accept either.
+            //
             eOperation.getEGenericExceptions().addAll(getGenericTypes(xsdComplexTypeDefinition, operation, eOperation, operation.getAttributeNS(null, "exception")));
+            eOperation.getEGenericExceptions().addAll(getGenericTypes(xsdComplexTypeDefinition, operation, eOperation, operation.getAttributeNS(null, "exceptions")));
 
             for (Element parameter : getElements(operation, "parameter"))
             {
