@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.91 2008/04/18 11:48:34 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.92 2008/05/20 14:39:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1254,6 +1254,18 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          implementedGenClasses,
          null, 
          new CollidingGenOperationFilter());
+  }
+
+  public boolean hasImplementedToStringGenOperation()
+  {
+    for (GenOperation genOperation : getImplementedGenOperations())
+    {
+      if ("toString".equals(genOperation.getName()) && genOperation.getGenParameters().isEmpty())
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   public List<GenClass> getExtendedGenClasses()

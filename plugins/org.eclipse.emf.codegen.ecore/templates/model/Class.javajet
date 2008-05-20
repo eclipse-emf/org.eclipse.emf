@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.74 2008/05/06 16:21:04 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.75 2008/05/20 14:39:35 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -1912,7 +1912,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     <%}%>
   <%}%>
 <%}%>
-<%if (isImplementation && !genModel.isReflectiveDelegation() && !genClass.getToStringGenFeatures().isEmpty()) {%>
+<%if (!genClass.hasImplementedToStringGenOperation() && isImplementation && !genModel.isReflectiveDelegation() && !genClass.getToStringGenFeatures().isEmpty()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
