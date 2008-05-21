@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.26 2008/05/16 23:33:40 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.27 2008/05/21 19:20:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1215,6 +1215,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       }
       catch (IOException exception)
       {
+        if (true) throw exception;
         Notification notification = setLoaded(true);
         isLoading = true;
         if (errors != null)
