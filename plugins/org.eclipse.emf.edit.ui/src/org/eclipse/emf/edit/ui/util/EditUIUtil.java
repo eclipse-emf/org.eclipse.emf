@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditUIUtil.java,v 1.7 2008/04/22 13:36:04 emerks Exp $
+ * $Id: EditUIUtil.java,v 1.8 2008/05/23 21:49:17 davidms Exp $
  */
 
 package org.eclipse.emf.edit.ui.util;
@@ -163,8 +163,13 @@ public class EditUIUtil
   private static IEditorDescriptor getDefaultEditor(String fileName, IContentType[] contentTypes)
   {
     IEditorRegistry editorRegistry = PlatformUI.getWorkbench().getEditorRegistry();
+
+    if (contentTypes.length == 0)
+    {
+      return editorRegistry.getDefaultEditor(fileName, null);
+    }
+
     IEditorDescriptor result = null;
-    
     for (int i = 0; result == null && i < contentTypes.length; i++)
     {
       result = editorRegistry.getDefaultEditor(fileName, contentTypes[i]);
@@ -268,8 +273,13 @@ public class EditUIUtil
   private static IEditorDescriptor[] getEditors(String fileName, IContentType[] contentTypes, boolean defaultsOnly)
   {
     IEditorRegistry editorRegistry = PlatformUI.getWorkbench().getEditorRegistry();
-    List<IEditorDescriptor> result = new UniqueEList<IEditorDescriptor>();
 
+    if (contentTypes.length == 0)
+    {
+      return editorRegistry.getEditors(fileName, null);
+    }
+
+    List<IEditorDescriptor> result = new UniqueEList<IEditorDescriptor>();
     for (IContentType contentType : contentTypes)
     {
       if (defaultsOnly)
@@ -286,7 +296,7 @@ public class EditUIUtil
       }
     }
     return result.toArray(new IEditorDescriptor[result.size()]);
-  } 
+  }
 
   /**
    * Returns the editors for a given URI. This method actually attempts to open an input stream for the URI and
