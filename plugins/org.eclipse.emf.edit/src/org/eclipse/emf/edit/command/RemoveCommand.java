@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: RemoveCommand.java,v 1.9 2008/04/22 19:46:15 emerks Exp $
+ * $Id: RemoveCommand.java,v 1.10 2008/05/25 17:18:39 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -522,7 +523,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
     result.append(" (feature: " + feature + ")");
     result.append(" (ownerList: " + ownerList + ")");
     result.append(" (collection: " + collection + ")");
-    result.append(" (indices: " + indices + ")");
+    result.append(" (indices: " + Arrays.toString(indices) + ")");
     result.append(" (affectedObjects: " + affectedObjects + ")");
 
     return result.toString();
