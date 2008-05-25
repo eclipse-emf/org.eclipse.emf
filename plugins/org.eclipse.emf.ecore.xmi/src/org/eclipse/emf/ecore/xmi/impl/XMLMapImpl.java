@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLMapImpl.java,v 1.4 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLMapImpl.java,v 1.5 2008/05/25 18:31:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -183,7 +183,7 @@ public class XMLMapImpl implements XMLResource.XMLMap
                 uri = namespaceURI;
               }
     
-              if (key instanceof EClassifier && info.getName() != null)
+              if (info.getName() != null)
               {
                 Map<String, EClassifier> namesToClassifiers = urisToNamesToClassifiers.get(uri);
     
