@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.38 2008/05/07 19:08:46 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.39 2008/05/25 17:43:35 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1685,9 +1685,9 @@ public class ItemProviderAdapter
     }
 
     Object sibling = selectionObject;
-    Object siblingFeature = getChildFeature(owner, sibling);
+    EStructuralFeature siblingFeature = getChildFeature(owner, sibling);
 
-    if (siblingFeature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)siblingFeature))
+    if (FeatureMapUtil.isFeatureMap(siblingFeature))
     {
       FeatureMap.Entry entry = (FeatureMap.Entry)sibling;
       siblingFeature = entry.getEStructuralFeature();
