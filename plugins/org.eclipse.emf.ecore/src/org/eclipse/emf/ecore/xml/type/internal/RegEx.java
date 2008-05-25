@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.14 2008/05/04 17:03:48 emerks Exp $
+ * $Id: RegEx.java,v 1.15 2008/05/25 16:43:35 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1265,7 +1265,7 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.14 2008/05/04 17:03:48 emerks Exp $
+   * @version $Id: RegEx.java,v 1.15 2008/05/25 16:43:35 emerks Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       private static final long serialVersionUID = 1L;
@@ -4533,7 +4533,7 @@ public final class RegEx
                                                 // src2:      o----o
                                                 // src2:          o----o
                                                 // src2:  o------------o
-                if (src2begin <= src2begin && src1end <= src2end) {
+                if (src2begin <= src1begin && src1end <= src2end) {
                                                 // src1:    o--------o
                                                 // src2:  o------------o
                                                 // res:     o--------o
@@ -7467,7 +7467,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.14 2008/05/04 17:03:48 emerks Exp $
+   * @version $Id: RegEx.java,v 1.15 2008/05/25 16:43:35 emerks Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {
