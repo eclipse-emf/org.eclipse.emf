@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.30 2008/05/04 17:03:33 emerks Exp $
+ * $Id: URI.java,v 1.31 2008/05/25 18:18:48 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -1065,7 +1065,7 @@ public final class URI
     }
     if (!validSegments(segments))
     {
-      String s = segments == null ? "invalid segments: " + segments :
+      String s = segments == null ? "invalid segments: null" :
         "invalid segment: " + firstInvalidSegment(segments);
       throw new IllegalArgumentException(s);
     }
@@ -2529,7 +2529,7 @@ public final class URI
   {
     if (!validSegments(segments))
     {
-      String s = segments == null ? "invalid segments: " + segments :
+      String s = segments == null ? "invalid segments: null" :
         "invalid segment: " + firstInvalidSegment(segments);
       throw new IllegalArgumentException(s);
     }
