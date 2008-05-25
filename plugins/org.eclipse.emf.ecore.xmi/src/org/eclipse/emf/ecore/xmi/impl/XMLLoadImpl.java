@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.25 2007/10/01 18:11:52 emerks Exp $
+ * $Id: XMLLoadImpl.java,v 1.26 2008/05/25 17:08:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -366,7 +366,7 @@ public class XMLLoadImpl implements XMLLoad
   {
     this.resource = resource;
     this.options = options;
-    this.namespaceAware = !Boolean.FALSE.equals(XMLResource.OPTION_USE_DEPRECATED_METHODS);
+    this.namespaceAware = !Boolean.FALSE.equals(options.get(XMLResource.OPTION_USE_DEPRECATED_METHODS));
     DefaultHandler handler;
     XMLParserPool pool = (XMLParserPool)options.get(XMLResource.OPTION_USE_PARSER_POOL);
     if (pool != null)
