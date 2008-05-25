@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataValue.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
+ * $Id: DataValue.java,v 1.12 2008/05/25 19:09:29 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1472,7 +1472,7 @@ public static class EncodingMap {
 * default port for a specific scheme). Rather, it only knows the
 * grammar and basic set of operations that can be applied to a URI.
 *
-* @version  $Id: DataValue.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
+* @version  $Id: DataValue.java,v 1.12 2008/05/25 19:09:29 emerks Exp $
 *
 **********************************************************************/
  public static final class URI implements Serializable {
@@ -2926,6 +2926,20 @@ public static class EncodingMap {
     return false;
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((m_fragment == null) ? 0 : m_fragment.hashCode());
+    result = prime * result + ((m_host == null) ? 0 : m_host.hashCode());
+    result = prime * result + ((m_path == null) ? 0 : m_path.hashCode());
+    result = prime * result + m_port;
+    result = prime * result + ((m_queryString == null) ? 0 : m_queryString.hashCode());
+    result = prime * result + ((m_scheme == null) ? 0 : m_scheme.hashCode());
+    result = prime * result + ((m_userinfo == null) ? 0 : m_userinfo.hashCode());
+    return result;
+  }
+
  /**
   * Get the URI as a string specification. See RFC 2396 Section 5.2.
   *
@@ -3497,7 +3511,7 @@ public static class EncodingMap {
   * @author Michael Glavassevich, IBM
   * @author Rahul Srivastava, Sun Microsystems Inc.
   *
-  * @version $Id: DataValue.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
+  * @version $Id: DataValue.java,v 1.12 2008/05/25 19:09:29 emerks Exp $
   */
  public static final class XMLChar {
 
