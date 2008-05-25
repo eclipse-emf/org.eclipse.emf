@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationImpl.java,v 1.8 2006/12/05 20:19:57 emerks Exp $
+ * $Id: NotificationImpl.java,v 1.9 2008/05/25 16:58:59 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -525,25 +525,25 @@ public class NotificationImpl implements Notification, NotificationChain
           oldValue = getOldBooleanValue() ? Boolean.TRUE : Boolean.FALSE;
           break;
         case PRIMITIVE_TYPE_BYTE:
-          oldValue = new Byte(getOldByteValue());
+          oldValue = getOldByteValue();
           break;
         case PRIMITIVE_TYPE_CHAR:
-          oldValue = new Character(getOldCharValue());
+          oldValue = getOldCharValue();
           break;
         case PRIMITIVE_TYPE_DOUBLE:
-          oldValue = new Double(getOldDoubleValue());
+          oldValue = getOldDoubleValue();
           break;
         case PRIMITIVE_TYPE_FLOAT:
-          oldValue = new Float(getOldFloatValue());
+          oldValue = getOldFloatValue();
           break;
         case PRIMITIVE_TYPE_LONG:
-          oldValue = new Long(getOldLongValue());
+          oldValue = getOldLongValue();
           break;
         case PRIMITIVE_TYPE_INT:
-          oldValue = new Integer(getOldIntValue());
+          oldValue = getOldIntValue();
           break;
         case PRIMITIVE_TYPE_SHORT:
-          oldValue = new Short(getOldShortValue());
+          oldValue = getOldShortValue();
           break;
       }
     }
@@ -560,25 +560,25 @@ public class NotificationImpl implements Notification, NotificationChain
           newValue = getNewBooleanValue() ? Boolean.TRUE : Boolean.FALSE;
           break;
         case PRIMITIVE_TYPE_BYTE:
-          newValue = new Byte(getNewByteValue());
+          newValue = getNewByteValue();
           break;
         case PRIMITIVE_TYPE_CHAR:
-          newValue = new Character(getNewCharValue());
+          newValue = getNewCharValue();
           break;
         case PRIMITIVE_TYPE_DOUBLE:
-          newValue = new Double(getNewDoubleValue());
+          newValue = getNewDoubleValue();
           break;
         case PRIMITIVE_TYPE_FLOAT:
-          newValue = new Float(getNewFloatValue());
+          newValue = getNewFloatValue();
           break;
         case PRIMITIVE_TYPE_LONG:
-          newValue = new Long(getNewLongValue());
+          newValue = getNewLongValue();
           break;
         case PRIMITIVE_TYPE_INT:
-          newValue = new Integer(getNewIntValue());
+          newValue = getNewIntValue();
           break;
         case PRIMITIVE_TYPE_SHORT:
-          newValue = new Short(getNewShortValue());
+          newValue = getNewShortValue();
           break;
       }
     }

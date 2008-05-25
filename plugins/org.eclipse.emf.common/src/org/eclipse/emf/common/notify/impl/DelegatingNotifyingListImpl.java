@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.19 2007/11/03 13:15:40 emerks Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.20 2008/05/25 16:58:59 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -1294,7 +1294,7 @@ public abstract class DelegatingNotifyingListImpl<E> extends DelegatingEList<E> 
       dispatchNotification
         (createNotification
            (Notification.MOVE, 
-            new Integer(sourceIndex),
+            sourceIndex,
             object, 
             targetIndex,
             oldIsSet));

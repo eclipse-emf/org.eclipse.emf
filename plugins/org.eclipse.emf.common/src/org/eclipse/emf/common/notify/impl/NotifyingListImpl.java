@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.18 2007/06/12 20:56:17 emerks Exp $
+ * $Id: NotifyingListImpl.java,v 1.19 2008/05/25 16:58:59 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -1309,7 +1309,7 @@ public class NotifyingListImpl<E> extends BasicEList<E> implements NotifyingList
       dispatchNotification
         (createNotification
            (Notification.MOVE, 
-            new Integer(sourceIndex),
+            sourceIndex,
             object, 
             targetIndex,
             oldIsSet));
