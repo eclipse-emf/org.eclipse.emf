@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.21 2008/05/04 10:58:45 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.22 2008/05/25 17:27:40 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -598,7 +598,7 @@ public class ReflectiveItemProvider
               }
               else if (instanceClass == Character.class)
               {
-                value = new Character('\u0000');
+                value = '\u0000';
               }
               else
               {

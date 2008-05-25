@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.30 2008/05/07 19:08:46 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.31 2008/05/25 17:27:40 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1069,37 +1069,37 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
         case EcorePackage.EBYTE:
         case EcorePackage.EBYTE_OBJECT:
         {
-          return new Byte((byte)0);
+          return (byte)0;
         }
         case EcorePackage.ECHAR:
         case EcorePackage.ECHARACTER_OBJECT:
         {
-          return new Character(' ');
+          return ' ';
         }
         case EcorePackage.EDOUBLE:
         case EcorePackage.EDOUBLE_OBJECT:
         {
-          return new Double(0.0);
+          return 0.0;
         }
         case EcorePackage.EFLOAT:
         case EcorePackage.EFLOAT_OBJECT:
         {
-          return new Float(0.0);
+          return 0.0F;
         }
         case EcorePackage.EINT:
         case EcorePackage.EINTEGER_OBJECT:
         {
-          return new Integer(0);
+          return 0;
         }
         case EcorePackage.ELONG:
         case EcorePackage.ELONG_OBJECT:
         {
-          return new Long(0);
+          return 0L;
         }
         case EcorePackage.ESHORT:
         case EcorePackage.ESHORT_OBJECT:
         {
-          return new Short((short)0);
+          return (short)0;
         }
         case EcorePackage.ESTRING:
         {
