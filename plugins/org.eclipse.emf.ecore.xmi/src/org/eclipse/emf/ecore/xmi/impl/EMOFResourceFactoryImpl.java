@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFResourceFactoryImpl.java,v 1.6 2008/05/04 10:58:48 emerks Exp $
+ * $Id: EMOFResourceFactoryImpl.java,v 1.7 2008/05/25 17:11:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -104,7 +104,7 @@ public class EMOFResourceFactoryImpl extends ResourceFactoryImpl
     result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
 
-    result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, new Integer(80));
+    result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, 80);
     result.getDefaultSaveOptions().put(XMIResource.OPTION_USE_XMI_TYPE, Boolean.TRUE);
 
     return result;

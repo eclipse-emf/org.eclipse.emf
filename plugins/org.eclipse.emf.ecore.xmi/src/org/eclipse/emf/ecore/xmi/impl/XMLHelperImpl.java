@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.53 2008/05/04 10:58:48 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.54 2008/05/25 17:11:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -63,10 +63,10 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  */
 public class XMLHelperImpl implements XMLHelper
 {
-  protected static final Integer INTEGER_DATATYPE_IS_MANY = new Integer(DATATYPE_IS_MANY);
-  protected static final Integer INTEGER_DATATYPE_SINGLE  = new Integer(DATATYPE_SINGLE);
-  protected static final Integer INTEGER_IS_MANY_ADD      = new Integer(IS_MANY_ADD);
-  protected static final Integer INTEGER_IS_MANY_MOVE     = new Integer(IS_MANY_MOVE);
+  protected static final Integer INTEGER_DATATYPE_IS_MANY = DATATYPE_IS_MANY;
+  protected static final Integer INTEGER_DATATYPE_SINGLE  = DATATYPE_SINGLE;
+  protected static final Integer INTEGER_IS_MANY_ADD      = IS_MANY_ADD;
+  protected static final Integer INTEGER_IS_MANY_MOVE     = IS_MANY_MOVE;
   protected static final Integer INTEGER_OTHER     = new Integer(OTHER);
 
   protected EPackage noNamespacePackage;
