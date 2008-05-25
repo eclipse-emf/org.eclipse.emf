@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeCommand.java,v 1.3 2008/04/29 22:27:35 davidms Exp $
+ * $Id: ChangeCommand.java,v 1.4 2008/05/25 17:16:00 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -47,7 +47,7 @@ abstract public class ChangeCommand extends AbstractCommand
   {
     if (changeRecorder.isRecording())
     {
-      new IllegalStateException("The changeRecorder cannot be currently recording.");
+      throw new IllegalStateException("The changeRecorder cannot be currently recording.");
     }
     this.changeRecorder = changeRecorder;
   }
