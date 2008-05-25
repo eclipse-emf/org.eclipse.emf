@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.30 2008/05/04 10:59:01 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.31 2008/05/25 16:37:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -446,7 +446,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
                (owner, 
                 Notification.MOVE, 
                 feature,
-                new Integer(featureSourceIndex), 
+                featureSourceIndex, 
                 sourceEntry.getValue(),
                 featureTargetIndex));
         }
@@ -1882,7 +1882,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
           (createNotification
              (Notification.MOVE, 
               feature,
-              new Integer(sourceIndex), 
+              sourceIndex, 
               result,
               targetIndex,
               true));

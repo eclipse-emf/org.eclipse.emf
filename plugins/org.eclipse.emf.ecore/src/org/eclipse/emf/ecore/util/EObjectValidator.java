@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.25 2008/05/12 20:14:12 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.26 2008/05/25 16:37:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -255,8 +255,8 @@ public class EObjectValidator implements EValidator
                   {
                     getFeatureLabel(eStructuralFeature, context),
                     getObjectLabel(eObject, context),
-                    new Integer(size),
-                    new Integer(lowerBound)
+                    size,
+                    lowerBound
                   },
                  new Object [] { eObject, eStructuralFeature },
                  context));
@@ -978,7 +978,7 @@ public class EObjectValidator implements EValidator
            Integer.toString(length),
            Integer.toString(bound)
          },
-         new Object [] { value, eDataType, new Integer(length), new Integer(bound) },
+         new Object [] { value, eDataType, length, bound },
          context));
   }
 
@@ -997,7 +997,7 @@ public class EObjectValidator implements EValidator
            Integer.toString(length),
            Integer.toString(bound)
          },
-         new Object [] { value, eDataType, new Integer(length), new Integer(bound) },
+         new Object [] { value, eDataType, length, bound },
          context));
   }
 
@@ -1013,9 +1013,9 @@ public class EObjectValidator implements EValidator
          new Object []
          {
            getValueLabel(eDataType, value, context),
-           new Integer(totalDigits)
+           totalDigits
          },
-         new Object [] { value, eDataType, new Integer(totalDigits) },
+         new Object [] { value, eDataType, totalDigits },
          context));
   }
 
@@ -1031,9 +1031,9 @@ public class EObjectValidator implements EValidator
          new Object []
          {
            getValueLabel(eDataType, value, context),
-           new Integer(fractionDigits)
+           fractionDigits
          },
-         new Object [] { value, eDataType, new Integer(fractionDigits) },
+         new Object [] { value, eDataType, fractionDigits },
          context));
   }
 
