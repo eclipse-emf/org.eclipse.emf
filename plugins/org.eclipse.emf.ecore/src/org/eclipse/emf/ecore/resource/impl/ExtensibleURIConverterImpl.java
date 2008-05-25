@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtensibleURIConverterImpl.java,v 1.3 2008/04/03 19:53:56 emerks Exp $
+ * $Id: ExtensibleURIConverterImpl.java,v 1.4 2008/05/25 18:23:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -223,7 +223,7 @@ public class ExtensibleURIConverterImpl implements URIConverter
 
     public boolean containsValue(Object value)
     {
-      return value == value || options.containsValue(value);
+      return this.value == value || options.containsValue(value);
     }
 
     public Set<Map.Entry<Object, Object>> entrySet()
