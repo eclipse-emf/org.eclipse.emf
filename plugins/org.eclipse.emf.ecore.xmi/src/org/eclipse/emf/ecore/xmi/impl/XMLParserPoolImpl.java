@@ -12,9 +12,8 @@
  *
  * </copyright>
  *
- * $Id: XMLParserPoolImpl.java,v 1.9 2007/04/17 15:51:06 emerks Exp $
+ * $Id: XMLParserPoolImpl.java,v 1.10 2008/05/25 19:22:19 emerks Exp $
  */
-
 package org.eclipse.emf.ecore.xmi.impl;
 
 
@@ -140,16 +139,16 @@ public class XMLParserPoolImpl implements XMLParserPool
     // set parser features and properties
     if (features != null)
     {
-      for (String feature :  features.keySet())
+      for (Map.Entry<String, Boolean> entry : features.entrySet())
       {
-        parser.getXMLReader().setFeature(feature, features.get(feature).booleanValue());
+        parser.getXMLReader().setFeature(entry.getKey(), entry.getValue().booleanValue());
       }
     }
     if (properties != null)
     {
-      for (String property : properties.keySet())
+      for (Map.Entry<String, ?> entry : properties.entrySet())
       {
-        parser.getXMLReader().setProperty(property, properties.get(property));
+        parser.getXMLReader().setProperty(entry.getKey(), entry.getValue());
       }
     }
     return parser;

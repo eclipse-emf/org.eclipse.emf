@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.27 2008/05/25 19:07:10 emerks Exp $
+ * $Id: XMLLoadImpl.java,v 1.28 2008/05/25 19:22:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -146,16 +146,16 @@ public class XMLLoadImpl implements XMLLoad
         // set features and properties
         if (parserFeatures != null)
         {
-          for (String feature : parserFeatures.keySet())
+          for (Map.Entry<String, Boolean> entry : parserFeatures.entrySet())
           {
-            parser.getXMLReader().setFeature(feature, parserFeatures.get(feature).booleanValue());
+            parser.getXMLReader().setFeature(entry.getKey(), entry.getValue().booleanValue());
           }
         }
         if (parserProperties !=null)
         {
-          for (String property : parserProperties.keySet())
+          for (Map.Entry<String, ?> entry : parserProperties.entrySet())
           {
-            parser.getXMLReader().setProperty(property, parserProperties.get(property));
+            parser.getXMLReader().setProperty(entry.getKey(), entry.getValue());
           }
         }
       }
@@ -238,16 +238,16 @@ public class XMLLoadImpl implements XMLLoad
         // set features and properties
         if (parserFeatures != null)
         {
-          for (String feature : parserFeatures.keySet())
+          for (Map.Entry<String, Boolean> feature : parserFeatures.entrySet())
           {
-            parser.getXMLReader().setFeature(feature,  parserFeatures.get(feature).booleanValue());
+            parser.getXMLReader().setFeature(feature.getKey(),  feature.getValue().booleanValue());
           }
         }
         if (parserProperties !=null)
         {
-          for (String property : parserProperties.keySet())
+          for (Map.Entry<String, ?> property : parserProperties.entrySet())
           {
-            parser.getXMLReader().setProperty(property, parserProperties.get(property));
+            parser.getXMLReader().setProperty(property.getKey(), property.getValue());
           }
         }
       }
