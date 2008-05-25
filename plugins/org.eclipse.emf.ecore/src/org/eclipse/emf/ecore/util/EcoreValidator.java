@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.31 2008/04/27 20:26:01 davidms Exp $
+ * $Id: EcoreValidator.java,v 1.32 2008/05/25 16:27:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3527,7 +3527,7 @@ public class EcoreValidator extends EObjectValidator
   
           // I.e., the classifiers are considered equal if they wrap the same non-null type.
           //
-          if (instanceTypeName1 == null || !instanceTypeName2.equals(instanceTypeName2))
+          if (instanceTypeName1 == null || !instanceTypeName1.equals(instanceTypeName2))
           {
             return false;
           }
@@ -3669,7 +3669,7 @@ public class EcoreValidator extends EObjectValidator
 
           // I.e., the classifiers are considered equal if they wrap the same non-null type.
           //
-          if (instanceTypeName1 == null || !instanceTypeName2.equals(instanceTypeName2))
+          if (instanceTypeName1 == null || !instanceTypeName1.equals(instanceTypeName2))
           {
             return false;
           }
