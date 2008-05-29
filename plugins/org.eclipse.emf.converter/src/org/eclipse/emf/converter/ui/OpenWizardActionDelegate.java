@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: OpenWizardActionDelegate.java,v 1.2 2006/12/28 06:43:30 marcelop Exp $
+ * $Id: OpenWizardActionDelegate.java,v 1.3 2008/05/29 02:35:08 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui;
 
@@ -111,7 +111,7 @@ public abstract class OpenWizardActionDelegate extends ActionDelegate implements
 
     WizardDialog wizardDialog = new WizardDialog(shell, wizard);
     wizardDialog.create();
-    wizardDialog.getShell().setSize(540, 580);
+    wizardDialog.getShell().setSize(Math.max(540, wizardDialog.getShell().getSize().x), 580);
     wizardDialog.open();
   }
   
