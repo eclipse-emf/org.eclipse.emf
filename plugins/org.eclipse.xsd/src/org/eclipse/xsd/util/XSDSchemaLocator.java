@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaLocator.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDSchemaLocator.java,v 1.3 2008/05/29 14:56:36 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -69,7 +69,7 @@ public interface XSDSchemaLocator
    * @param rawSchemaLocationURI the suggested location of the namespace being resolved, i.e., {@link org.eclipse.xsd.XSDSchemaDirective#getSchemaLocation}.
    * @param resolvedSchemaLocationURI the {@link XSDSchemaLocationResolver#resolveSchemaLocation resolved} suggested location of the namespace.
    * @return the resolved schema.
-   * @see org.eclipse.xsd.util.XSDSchemaLocationResolver#resolveSchemaLocation(XSDSchema xsdSchema,String,String)
+   * @see org.eclipse.xsd.util.XSDSchemaLocationResolver#resolveSchemaLocation(XSDSchema, String, String)
    * @see org.eclipse.xsd.util.XSDConstants#resolveSchemaLocation(String,String,String)
    */
   XSDSchema locateSchema(XSDSchema xsdSchema, String namespaceURI,  String rawSchemaLocationURI, String resolvedSchemaLocationURI);

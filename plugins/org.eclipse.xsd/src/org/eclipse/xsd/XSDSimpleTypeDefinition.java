@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinition.java,v 1.10 2007/11/26 12:20:55 emerks Exp $
+ * $Id: XSDSimpleTypeDefinition.java,v 1.11 2008/05/29 14:56:36 marcelop Exp $
  */
 package org.eclipse.xsd;
 
@@ -1124,7 +1124,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * <p>
    * All time-based values are represented as in Xerces.
    * </p>
-   * @param the context in which to resolve prefixes of QNames.
+   * @param context the context in which to resolve prefixes of QNames.
    * @param literal a literal.
    * @return the <b>value</b> of the literal.
    * @since 2.4

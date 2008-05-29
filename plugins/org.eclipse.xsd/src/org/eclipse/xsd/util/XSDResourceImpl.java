@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.18 2006/12/15 18:59:56 emerks Exp $
+ * $Id: XSDResourceImpl.java,v 1.19 2008/05/29 14:56:36 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -770,7 +770,6 @@ public class XSDResourceImpl extends ResourceImpl
    * Loads a new {@link XSDResourceImpl} into the resource set.
    * @param inputStream the contents of the new resource.
    * @param options any options to influence loading behavior.
-   * @return a new XSDResourceImpl.
    */
   @Override
   protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
