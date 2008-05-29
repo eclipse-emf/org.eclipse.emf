@@ -9,7 +9,7 @@ import java.util.Iterator;
  * Class modelling a Java typesafe enumeration class.
  * 
  * @author Remko Popma
- * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
+ * @version $Revision: 1.3 $ ($Date: 2008/05/29 14:56:38 $)
  */
 public class TypesafeEnum
 {
@@ -317,7 +317,7 @@ public class TypesafeEnum
    * Returns whether this is the last attribute in the list.
    * 
    * @param attribute
-   * @return
+   * @return whether this is the last attribute in the list
    */
   public boolean isLast(Attribute attribute)
   {
@@ -328,7 +328,7 @@ public class TypesafeEnum
    * Returns whether this is the first attribute in the list.
    * 
    * @param attribute
-   * @return
+   * @return whether this is the first attribute in the list
    */
   public boolean isFirst(Attribute attribute)
   {
@@ -339,7 +339,7 @@ public class TypesafeEnum
    * Returns whether this is the last instance in the list.
    * 
    * @param instance
-   * @return
+   * @return whether this is the last instance in the list
    */
   public boolean isLast(Instance instance)
   {
@@ -350,7 +350,7 @@ public class TypesafeEnum
    * Returns whether this is the first instance in the list.
    * 
    * @param instance
-   * @return
+   * @return whether this is the first instance in the list
    */
   public boolean isFirst(Instance instance)
   {
@@ -358,14 +358,14 @@ public class TypesafeEnum
   }
 
   /**
-   * @param property
-   * @return
+   * @param attributeName
+   * @return whether there is an attribute with a specific name
    */
-  public boolean hasAttribute(String property)
+  public boolean hasAttribute(String attributeName)
   {
     for (Iterator<Attribute> i = attributes(); i.hasNext();)
     {
-      if (i.next().getName().equals(property))
+      if (i.next().getName().equals(attributeName))
       {
         return true;
       }

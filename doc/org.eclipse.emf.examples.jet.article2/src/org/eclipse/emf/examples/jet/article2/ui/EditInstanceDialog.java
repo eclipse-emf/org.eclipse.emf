@@ -23,7 +23,7 @@ import org.eclipse.emf.examples.jet.article2.model.Instance;
 /**
  * Dialog for editing an <code>Instance</code>.
  * 
- * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
+ * @version $Revision: 1.3 $ ($Date: 2008/05/29 14:56:38 $)
  * @author Remko Popma
  */
 public class EditInstanceDialog extends Dialog
@@ -239,7 +239,7 @@ public class EditInstanceDialog extends Dialog
   }
 
   /**
-   * @return
+   * @return the attribute array
    */
   public Attribute[] getAttributes()
   {
