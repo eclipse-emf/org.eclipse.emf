@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IItemPropertySource.java,v 1.4 2008/05/02 11:27:39 emerks Exp $
+ * $Id: IItemPropertySource.java,v 1.5 2008/05/29 14:56:37 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -35,7 +35,7 @@ public interface IItemPropertySource
 
   /**
    * This returns the property descriptor
-   * with an {@link IItemPropertyDescriptor#getId(Object) ID} or {@link IItemPropertyDescriptor.#getFeature(Object) feature} 
+   * with an {@link IItemPropertyDescriptor#getId(Object) ID} or {@link IItemPropertyDescriptor#getFeature(Object) feature} 
    * that matches the given ID.
    */
   IItemPropertyDescriptor getPropertyDescriptor(Object object, Object propertyID);
