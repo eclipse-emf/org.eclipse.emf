@@ -70,8 +70,6 @@ public class JMergerJDOMTest extends JMergerTest
 
   /**
    * Special test cases that are not in {@link JMergerTestSuite}
-   * 
-   * @return
    */
   public static Test suite()
   {

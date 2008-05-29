@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerASTTest.java,v 1.8 2008/04/22 13:35:39 emerks Exp $
+ * $Id: JMergerASTTest.java,v 1.9 2008/05/29 14:56:37 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -68,8 +68,6 @@ public class JMergerASTTest extends JMergerTest
   
   /**
    * Special test cases that are not in {@link JMergerTestSuite}
-   * 
-   * @return
    */
   public static Test suite()
   {
