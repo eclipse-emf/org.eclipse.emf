@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.20 2007/09/30 12:27:17 emerks Exp $
+ * $Id: GenEnumImpl.java,v 1.21 2008/05/31 11:55:10 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -436,6 +436,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
       setEcoreEnum(eEnum);
     }
 
+    int localEnumLiteralIndex = 0;
     LOOP:
     for (EEnumLiteral eEnumLiteral : eEnum.getELiterals())
     {
@@ -444,12 +445,13 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
         if (genEnumLiteral.getEcoreEnumLiteral() == eEnumLiteral)
         {
           genEnumLiteral.initialize(eEnumLiteral);
+          getGenEnumLiterals().move(localEnumLiteralIndex++, genEnumLiteral);
           continue LOOP;
         }
       }
 
       GenEnumLiteral genEnumLiteral = getGenModel().createGenEnumLiteral();
-      getGenEnumLiterals().add(genEnumLiteral);
+      getGenEnumLiterals().add(localEnumLiteralIndex++, genEnumLiteral);
       genEnumLiteral.initialize(eEnumLiteral);
     }
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.92 2008/05/20 14:39:35 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.93 2008/05/31 11:55:10 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1568,6 +1568,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
     }
     
+    int localOperationIndex = 0;
     OPERATION_LOOP:
     for (EOperation operation : eClass.getEOperations())
     {
@@ -1576,12 +1577,13 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         if (genOperation.getEcoreOperation() == operation)
         {
           genOperation.initialize(operation);
+          getGenOperations().move(localOperationIndex++, genOperation);
           continue OPERATION_LOOP;
         }
       }
 
       GenOperation genOperation = getGenModel().createGenOperation();
-      getGenOperations().add(genOperation);
+      getGenOperations().add(localOperationIndex++, genOperation);
       genOperation.initialize(operation);
     }
   }
