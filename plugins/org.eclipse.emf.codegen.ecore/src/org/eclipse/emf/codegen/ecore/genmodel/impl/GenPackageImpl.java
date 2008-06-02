@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.82 2008/04/27 19:11:30 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.83 2008/06/02 15:13:28 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,10 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.osgi.framework.Bundle;
-
 import org.eclipse.core.runtime.Platform;
-
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
@@ -89,6 +87,7 @@ import org.eclipse.emf.ecore.util.EcoreSwitch;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.osgi.framework.Bundle;
 
 
 /**
@@ -3358,18 +3357,69 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   
   protected String getQualifiedPackageName(String suffix)
   {
-    String name = getQualifiedPackageName();
-    return isBlank(suffix) ? name : name + "." + suffix;
+    // The "suffix" can actually be a substitution pattern for the package name.
+    //
+    return hasSubstitution(suffix) ?
+      addPackagePrefix(getRootGenPackage().getBasePackage(), MessageFormat.format(suffix, getPackageNameSubstitutions().toArray())) :
+      addPackageSuffix(getQualifiedPackageName(), suffix);
   }
-  
+
+  // TODO factor up into GenBaseImpl?
+  //
+  private static boolean hasSubstitution(String string)
+  {
+    return string != null && string.matches(".*\\{\\d+\\}.*");
+  }
+
+  /**
+   * Returns a list of package name substitution strings, which always includes at least one element.
+   * If the package is not nested, the list contains a single element, the EPackage name.
+   * If the package is nested, the first element is the full package name, consisting of dot-separated EPackage names,
+   * and it is followed by the individual names of the nested packages, beginning with the outer-most.  
+   */
+  private List<String> getPackageNameSubstitutions()
+  {
+    // Walk up the superpackages, collecting the package names.
+    // Because empty packages are ommitted from the GenModel, we need to walk up the EPackages.
+    //
+    List<String> names = new ArrayList<String>();
+    StringBuilder full = new StringBuilder();
+
+    for (EPackage ePackage = getEcorePackage(); ePackage != null; ePackage = ePackage.getESuperPackage())
+    {
+      String name = safeName(ePackage.getName());
+      names.add(0, name);
+      if (full.length() > 0)
+      {
+        full.insert(0, '.');
+      }
+      full.insert(0, name);
+    }
+
+    if (names.size() > 1)
+    {
+      names.add(0, full.toString());
+    }
+    return names;
+  }
+
+  // TODO factor up into GenBaseImpl
+  //
+  private String addPackagePrefix(String prefix, String name)
+  {
+    return !isBlank(prefix) ? prefix + "." + name : name;
+  }
+
+  // TODO factor up into GenBaseImpl
+  //
+  private String addPackageSuffix(String name, String suffix)
+  {
+    return !isBlank(suffix) ? name + "." + suffix : name;
+  }
+
   public String getQualifiedPackageName()
   {
-    String name = safeName(getPackageName());
-    if (!isBlank(getBasePackage()))
-    {
-      name = getBasePackage() + "." + name;
-    }    
-    return name;
+    return addPackagePrefix(getBasePackage(), safeName(getPackageName()));
   }
 
 //   public String getExtendedItemProviderClassName()
