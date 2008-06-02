@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.84 2008/06/02 19:09:22 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.85 2008/06/02 20:34:52 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -4536,6 +4536,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public boolean isContentType()
   {
     return getGenModel().getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE && !isBlank(getContentTypeIdentifier());
+  }
+
+  public String getQualifiedContentTypeIdentifier()
+  {
+    String rawID = getContentTypeIdentifier();
+    String pluginID = getGenModel().getModelPluginID();
+    return isBlank(pluginID) || isBlank(rawID) || rawID.indexOf('.') != -1 ? rawID : pluginID + "." + rawID;
   }
 
   public boolean isXMIResource()

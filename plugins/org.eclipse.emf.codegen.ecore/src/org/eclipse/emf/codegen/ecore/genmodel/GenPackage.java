@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.34 2008/05/04 17:03:27 emerks Exp $
+ * $Id: GenPackage.java,v 1.35 2008/06/02 20:34:52 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -927,6 +927,14 @@ public interface GenPackage extends GenBase
    * @since 2.4
    */
   boolean isContentType();
+
+  /**
+   * Returns the qualified content type identifier. Usually, this is the same as {@link #getContentTypeIdentifier()};
+   * however, if that value is unqualified, this will add the implicit model plug-in ID qualification.
+   * @see #getContentTypeIdentifier
+   * @since 2.4
+   */
+  String getQualifiedContentTypeIdentifier();
 
   /**
    * Returns whether the package's {@link #getResource() resource} produces an XMI serialization.
