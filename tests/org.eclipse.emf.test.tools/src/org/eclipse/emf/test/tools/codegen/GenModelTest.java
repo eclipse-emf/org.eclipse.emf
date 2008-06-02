@@ -17,6 +17,7 @@
 package org.eclipse.emf.test.tools.codegen;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import junit.framework.Test;
@@ -56,6 +57,9 @@ public class GenModelTest extends TestCase
     ts.addTest(new GenModelTest("testGetEditQualifiedPackageNames"));
     ts.addTest(new GenModelTest("testGetEditorQualifiedPackageNames"));
     ts.addTest(new GenModelTest("testReloadGenAnnotations"));
+    ts.addTest(new GenModelTest("testGenPackageSubstitutions"));
+    ts.addTest(new GenModelTest("testNestedGenPackageSubstitutions"));
+    ts.addTest(new GenModelTest("testGenModelClasses"));
     return ts;
   }
   
@@ -382,5 +386,174 @@ public class GenModelTest extends TestCase
     
     assertEquals(genAnnotation, nestedGenAnnotation.getReferences().get(3));
     assertEquals(nestedGenAnnotation, genAnnotation.getReferences().get(3));
+  }
+  
+  /*
+   * Bugzilla 234105
+   */
+  public void testGenPackageSubstitutions()
+  {
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    ePackage.setName("domain");
+
+    GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
+    genModel.initialize(Collections.singletonList(ePackage));
+    GenPackage genPackage = genModel.getGenPackages().get(0);
+
+    assertEquals("domain", genPackage.getInterfacePackageName());
+    assertEquals("domain", genPackage.getReflectionPackageName());
+    assertEquals("domain.impl", genPackage.getClassPackageName());
+    assertEquals("domain.util", genPackage.getUtilitiesPackageName());
+    assertEquals("domain.provider", genPackage.getProviderPackageName());
+    assertEquals("domain.presentation", genPackage.getPresentationPackageName());
+    assertEquals("domain.tests", genPackage.getTestsPackageName());
+
+    genPackage.setInterfacePackageSuffix("api.{0}");
+    genPackage.setMetaDataPackageSuffix("api.{0}.reflect");
+    genPackage.setClassPackageSuffix("internal.{0}.impl");
+    genPackage.setUtilityPackageSuffix("api.{0}.util");
+    genPackage.setProviderPackageSuffix("api.{0}.provider");
+    genPackage.setPresentationPackageSuffix("internal.{0}.presentation");
+    genPackage.setTestsPackageSuffix("internal.{0}.test");
+
+    assertEquals("api.domain", genPackage.getInterfacePackageName());
+    assertEquals("api.domain.reflect", genPackage.getReflectionPackageName());
+    assertEquals("internal.domain.impl", genPackage.getClassPackageName());
+    assertEquals("api.domain.util", genPackage.getUtilitiesPackageName());
+    assertEquals("api.domain.provider", genPackage.getProviderPackageName());
+    assertEquals("internal.domain.presentation", genPackage.getPresentationPackageName());
+    assertEquals("internal.domain.test", genPackage.getTestsPackageName());
+
+    genPackage.setBasePackage("org.eclipse.emf.tests");
+
+    assertEquals("org.eclipse.emf.tests.api.domain", genPackage.getInterfacePackageName());
+    assertEquals("org.eclipse.emf.tests.api.domain.reflect", genPackage.getReflectionPackageName());
+    assertEquals("org.eclipse.emf.tests.internal.domain.impl",genPackage.getClassPackageName());
+    assertEquals("org.eclipse.emf.tests.api.domain.util", genPackage.getUtilitiesPackageName());
+    assertEquals("org.eclipse.emf.tests.api.domain.provider",genPackage.getProviderPackageName());
+    assertEquals("org.eclipse.emf.tests.internal.domain.presentation",genPackage.getPresentationPackageName());
+    assertEquals("org.eclipse.emf.tests.internal.domain.test",genPackage.getTestsPackageName());
+  }
+
+  /*
+   * Bugzilla 234105
+   */
+  public void testNestedGenPackageSubstitutions()
+  {
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    ePackage.setName("domain");
+
+    EClass eClass = EcoreFactory.eINSTANCE.createEClass();
+    eClass.setName("DomainClass");
+    ePackage.getEClassifiers().add(eClass);
+
+    EPackage subEPackage = EcoreFactory.eINSTANCE.createEPackage();
+    subEPackage.setName("sub");
+    ePackage.getESubpackages().add(subEPackage);
+
+    EPackage subSubEPackage = EcoreFactory.eINSTANCE.createEPackage();
+    subSubEPackage.setName("subsub");
+    subEPackage.getESubpackages().add(subSubEPackage);
+
+    eClass = EcoreFactory.eINSTANCE.createEClass();
+    eClass.setName("SubSubClass");
+    subSubEPackage.getEClassifiers().add(eClass);
+
+    GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
+    genModel.initialize(Collections.singletonList(ePackage));
+
+    GenPackage genPackage = genModel.getGenPackages().get(0).getSubGenPackages().get(0);
+
+    assertEquals("domain.sub.subsub", genPackage.getInterfacePackageName());
+    assertEquals("domain.sub.subsub", genPackage.getReflectionPackageName());
+    assertEquals("domain.sub.subsub.impl", genPackage.getClassPackageName());
+    assertEquals("domain.sub.subsub.util", genPackage.getUtilitiesPackageName());
+    assertEquals("domain.sub.subsub.provider", genPackage.getProviderPackageName());
+    assertEquals("domain.sub.subsub.presentation", genPackage.getPresentationPackageName());
+    assertEquals("domain.sub.subsub.tests", genPackage.getTestsPackageName());
+
+    genPackage.setInterfacePackageSuffix("api.{0}");
+    genPackage.setMetaDataPackageSuffix("api.{0}.reflect");
+    genPackage.setClassPackageSuffix("internal.{1}.nested.{2}.{3}.impl");
+    genPackage.setUtilityPackageSuffix("api.{1}.{2}.{3}.util");
+    genPackage.setProviderPackageSuffix("api.{1}.provider");
+    genPackage.setPresentationPackageSuffix("internal.{3}.presentation");
+    genPackage.setTestsPackageSuffix("test");
+
+    assertEquals("api.domain.sub.subsub", genPackage.getInterfacePackageName());
+    assertEquals("api.domain.sub.subsub.reflect", genPackage.getReflectionPackageName());
+    assertEquals("internal.domain.nested.sub.subsub.impl", genPackage.getClassPackageName());
+    assertEquals("api.domain.sub.subsub.util", genPackage.getUtilitiesPackageName());
+    assertEquals("api.domain.provider", genPackage.getProviderPackageName());
+    assertEquals("internal.subsub.presentation", genPackage.getPresentationPackageName());
+    assertEquals("domain.sub.subsub.test", genPackage.getTestsPackageName());
+
+    genModel.getGenPackages().get(0).setBasePackage("org.eclipse.emf.tests");
+
+    assertEquals("org.eclipse.emf.tests.api.domain.sub.subsub", genPackage.getInterfacePackageName());
+    assertEquals("org.eclipse.emf.tests.api.domain.sub.subsub.reflect", genPackage.getReflectionPackageName());
+    assertEquals("org.eclipse.emf.tests.internal.domain.nested.sub.subsub.impl", genPackage.getClassPackageName());
+    assertEquals("org.eclipse.emf.tests.api.domain.sub.subsub.util", genPackage.getUtilitiesPackageName());
+    assertEquals("org.eclipse.emf.tests.api.domain.provider", genPackage.getProviderPackageName());
+    assertEquals("org.eclipse.emf.tests.internal.subsub.presentation", genPackage.getPresentationPackageName());
+    assertEquals("org.eclipse.emf.tests.domain.sub.subsub.test", genPackage.getTestsPackageName());
+  }
+
+  /*
+   * Bugzilla 234105
+   */
+  public void testGenModelClasses()
+  {
+    GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
+    genModel.setModelName("Domain");
+    genModel.setModelDirectory("/com.example.domain/src");
+
+    assertNull(genModel.getModelPluginClass());
+    assertEquals("com.example.domain.provider.DomainEditPlugin", genModel.getEditPluginClass());
+    assertEquals("com.example.domain.presentation.DomainEditorPlugin", genModel.getEditorPluginClass());
+    assertEquals("com.example.domain.tests.DomainAllTests", genModel.getTestSuiteClass());
+
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    ePackage.setName("domain");
+    genModel.initialize(Collections.singletonList(ePackage));
+
+    assertNull(genModel.getModelPluginClass());
+    assertEquals("domain.provider.DomainEditPlugin", genModel.getEditPluginClass());
+    assertEquals("domain.presentation.DomainEditorPlugin", genModel.getEditorPluginClass());
+    assertEquals("domain.tests.DomainAllTests", genModel.getTestSuiteClass());
+
+    GenPackage genPackage = genModel.getGenPackages().get(0);
+    genPackage.setProviderPackageSuffix("edit");
+    genPackage.setPresentationPackageSuffix("edit.ui");
+    genPackage.setTestsPackageSuffix("test");
+    
+    assertNull(genModel.getModelPluginClass());
+    assertEquals("domain.edit.DomainEditPlugin", genModel.getEditPluginClass());
+    assertEquals("domain.edit.ui.DomainEditorPlugin", genModel.getEditorPluginClass());
+    assertEquals("domain.test.DomainAllTests", genModel.getTestSuiteClass());
+
+    genPackage.setBasePackage("org.eclipse.example");
+
+    assertNull(genModel.getModelPluginClass());
+    assertEquals("org.eclipse.example.domain.edit.DomainEditPlugin", genModel.getEditPluginClass());
+    assertEquals("org.eclipse.example.domain.edit.ui.DomainEditorPlugin", genModel.getEditorPluginClass());
+    assertEquals("org.eclipse.example.domain.test.DomainAllTests", genModel.getTestSuiteClass());
+
+    genPackage.setBasePackage(null);
+    genPackage.setProviderPackageSuffix("internal.{0}.provider");
+    genPackage.setPresentationPackageSuffix("internal.{0}.presentation");
+    genPackage.setTestsPackageSuffix("internal.{0}.tests");
+
+    assertNull(genModel.getModelPluginClass());
+    assertEquals("internal.domain.provider.DomainEditPlugin", genModel.getEditPluginClass());
+    assertEquals("internal.domain.presentation.DomainEditorPlugin", genModel.getEditorPluginClass());
+    assertEquals("internal.domain.tests.DomainAllTests", genModel.getTestSuiteClass());
+
+    genPackage.setBasePackage("com.example");
+
+    assertNull(genModel.getModelPluginClass());
+    assertEquals("com.example.internal.domain.provider.DomainEditPlugin", genModel.getEditPluginClass());
+    assertEquals("com.example.internal.domain.presentation.DomainEditorPlugin", genModel.getEditorPluginClass());
+    assertEquals("com.example.internal.domain.tests.DomainAllTests", genModel.getTestSuiteClass());
   }
 }
