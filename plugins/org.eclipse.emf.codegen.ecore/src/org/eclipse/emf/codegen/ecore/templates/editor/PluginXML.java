@@ -351,7 +351,7 @@ public class PluginXML
     stringBuffer.append(TEXT_96);
     if (genPackage.isContentType()) {
     stringBuffer.append(TEXT_97);
-    stringBuffer.append(genPackage.getContentTypeIdentifier());
+    stringBuffer.append(genPackage.getQualifiedContentTypeIdentifier());
     stringBuffer.append(TEXT_98);
     }
     stringBuffer.append(TEXT_99);

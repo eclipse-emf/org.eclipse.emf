@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.25 2008/04/18 04:02:05 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.26 2008/06/02 20:35:40 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -237,7 +237,7 @@
             class="<%=genPackage.getQualifiedEditorClassName()%>"
             contributorClass="<%=genPackage.getQualifiedActionBarContributorClassName()%>">
     <%if (genPackage.isContentType()) {%>
-         <contentTypeBinding contentTypeId="<%=genPackage.getContentTypeIdentifier()%>"/>
+         <contentTypeBinding contentTypeId="<%=genPackage.getQualifiedContentTypeIdentifier()%>"/>
     <%}%>
       </editor>
    </extension>
