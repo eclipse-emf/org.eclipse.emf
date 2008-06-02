@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.83 2008/06/02 15:13:28 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.84 2008/06/02 19:09:22 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -67,6 +67,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
@@ -74,6 +75,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -2268,72 +2270,55 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       {
         initializationDependencies.add(i.next());
       }
-      for (GenClass genClass : getGenClasses())
+      for (GenClassifier genClassifier : getGenClassifiers())
       {
-        for (GenClass baseGenClass : genClass.getBaseGenClasses())
+        EClassifier eClassifier = genClassifier.getEcoreClassifier();
+        for (ETypeParameter eTypeParameter : eClassifier.getETypeParameters())
         {
-          initializationDependencies.add(baseGenClass.getGenPackage());
+          handle(eTypeParameter.getEBounds());
         }
-        for (GenFeature genFeature : genClass.getGenFeatures())
+        if (genClassifier instanceof GenClass)
         {
-          initializationDependencies.add(genFeature.getTypeGenPackage());
-          if (genFeature.isReferenceType())
+          GenClass genClass = (GenClass)genClassifier;
+          handle(genClass.getEcoreClass().getEGenericSuperTypes());
+          for (GenFeature genFeature : genClass.getGenFeatures())
           {
-            GenFeature reverseGenFeature = genFeature.getReverse();
-            if (reverseGenFeature != null)
+            handle(genFeature.getEcoreFeature().getEGenericType());
+            if (genFeature.isReferenceType())
             {
-              initializationDependencies.add(reverseGenFeature.getGenPackage());
+              GenFeature reverseGenFeature = genFeature.getReverse();
+              if (reverseGenFeature != null)
+              {
+                initializationDependencies.add(reverseGenFeature.getGenPackage());
+              }
+              for (GenFeature keyFeature : genFeature.getKeys())
+              {
+                initializationDependencies.add(keyFeature.getGenPackage());
+              }
             }
-            for (GenFeature keyFeature : genFeature.getKeys())
-            {
-              initializationDependencies.add(keyFeature.getGenPackage());
-            }
-          }
 
-          GenFeature delegateFeature = genFeature.getDelegateFeature();
-          if (delegateFeature != null)
-          {
-            initializationDependencies.add(delegateFeature.getGenPackage());
+            GenFeature delegateFeature = genFeature.getDelegateFeature();
+            if (delegateFeature != null)
+            {
+              initializationDependencies.add(delegateFeature.getGenPackage());
+            }
           }
-        }
-        for (GenOperation genOperation : genClass.getGenOperations())
-        {
-          if (!genOperation.isVoid())
+          for (GenOperation genOperation : genClass.getGenOperations())
           {
-            initializationDependencies.add(genOperation.getTypeGenPackage());
-          }
-          for (GenParameter genParameter : genOperation.getGenParameters())
-          {
-            initializationDependencies.add(genParameter.getTypeGenPackage());
-          }
-          for (GenClassifier genClassifier : genOperation.getGenExceptions())
-          {
-            initializationDependencies.add(genClassifier.getGenPackage());
+            EOperation eOperation = genOperation.getEcoreOperation();
+            for (ETypeParameter eTypeParameter : eOperation.getETypeParameters())
+            {
+              handle(eTypeParameter.getEBounds());
+            }
+            handle(eOperation.getEGenericType());
+            for (GenParameter genParameter : genOperation.getGenParameters())
+            {
+              handle(genParameter.getEcoreParameter().getEGenericType());
+            }
+            handle(eOperation.getEGenericExceptions());
           }
         }
       }
-
-      /*
-      for (Iterator i = getGenDataTypes().iterator(); i.hasNext(); )
-      {
-        GenDataType genDataType = (GenDataType)i.next();
-        GenDataType baseType = genDataType.getBaseType();
-        if (baseType != null)
-        {
-          initializationDependencies.add(baseType.getGenPackage());
-        }
-        GenDataType itemType = genDataType.getItemType();
-        if (itemType != null)
-        {
-          initializationDependencies.add(itemType.getGenPackage());
-        }
-        for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); )
-        {
-          GenDataType memberType = (GenDataType)j.next();
-          initializationDependencies.add(memberType.getGenPackage());
-        }
-      }
-      */
 
       if (initializationDependencies.contains(xmlTypeGenPackage) && !xmlTypeGenPackage.getNSURI().equals(getNSURI()))
       {
@@ -2346,6 +2331,29 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       initializationDependencies.remove(GenPackageImpl.this);
       initializationDependencies.remove(findGenPackage(EcorePackage.eINSTANCE));
+    }
+
+    protected void handle(EList<EGenericType> eGenericTypes)
+    {
+      for (EGenericType eGenericType : eGenericTypes)
+      {
+        handle(eGenericType);
+      }
+    }
+
+    protected void handle(EGenericType eGenericType)
+    {
+      if (eGenericType != null)
+      {
+        EClassifier eClassifier = eGenericType.getEClassifier();
+        if (eClassifier != null)
+        {
+          initializationDependencies.add(findGenClassifier(eClassifier).getGenPackage());
+        }
+        handle(eGenericType.getETypeArguments());
+        handle(eGenericType.getELowerBound());
+        handle(eGenericType.getEUpperBound());
+      }
     }
 
     @Override
