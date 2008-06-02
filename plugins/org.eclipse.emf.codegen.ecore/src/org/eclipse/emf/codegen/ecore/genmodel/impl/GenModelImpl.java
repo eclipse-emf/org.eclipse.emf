@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.97 2008/05/05 21:40:14 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.98 2008/06/02 15:12:41 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -4629,6 +4629,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return modelPluginClass;
   }
 
+  // TODO deprecate (since no longer used by getEditPluginClass(), getEditorPluginClass(), getTestSuiteClass())
+  //
   protected String getPluginClass(boolean isSet, String baseName, String packageSuffix, String classSuffix)
   {
     if (!isSet)
@@ -4651,7 +4653,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     return baseName;    
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4665,15 +4667,31 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__MODEL_PLUGIN_CLASS, oldModelPluginClass, modelPluginClass));
   }
 
+  // TODO factor up into GenBaseImpl?
+  //
+  private String addPackageSuffix(String name, String suffix)
+  {
+    return !isBlank(suffix) ? name + "." + suffix : name;
+  }
+
+  // If we change to pattern defaults, will have to specify plain suffix in no main package case.
+  //
   public String getEditPluginClass()
   {
-    String suffix = GenPackageImpl.PROVIDER_PACKAGE_SUFFIX_EDEFAULT;
-    GenPackage genPackage = getMainGenPackage();
-    if (genPackage != null)
+    if (!isSetEditPluginClass())
     {
-      suffix = genPackage.getProviderPackageSuffix();
+      String modelName = getModelName();
+      if (!isBlank(modelName))
+      {
+        GenPackage mainGenPackage = getMainGenPackage();
+        String packageName = mainGenPackage != null ?
+          mainGenPackage.getProviderPackageName() :
+          addPackageSuffix(getModelProject(), GenPackageImpl.PROVIDER_PACKAGE_SUFFIX_EDEFAULT);
+        StringBuilder result = new StringBuilder(packageName);
+        return result.append(".").append(CodeGenUtil.validJavaIdentifier(modelName)).append("EditPlugin").toString();
+      }
     }
-    return getPluginClass(isSetEditPluginClass(), getEditPluginClassGen(), suffix, "EditPlugin");
+    return getEditPluginClassGen();
   }
 
   /**
@@ -4696,9 +4714,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return null;
   }
 
+  // TODO deprecate (since getPluginClass() is no longer called)
+  //
   protected String getMainPackage()
   {
     GenPackage genPackage = getMainGenPackage();
+    // Second alternative should be getModelProject()?
     return genPackage != null ? genPackage.getQualifiedPackageName() : getModelDirectory();
   }
   
@@ -4756,15 +4777,24 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editPluginClassESet;
   }
 
+  // If we change to pattern defaults, will have to specify plain suffix in no main package case.
+  //
   public String getEditorPluginClass()
   {
-    String suffix = GenPackageImpl.PRESENTATION_PACKAGE_SUFFIX_EDEFAULT;
-    GenPackage genPackage = getMainGenPackage();
-    if (genPackage != null)
+    if (!isSetEditorPluginClass())
     {
-      suffix = genPackage.getPresentationPackageSuffix();
-    }    
-    return getPluginClass(isSetEditorPluginClass(), getEditorPluginClassGen(), suffix, "EditorPlugin");
+      String modelName = getModelName();
+      if (!isBlank(modelName))
+      {
+        GenPackage mainGenPackage = getMainGenPackage();
+        String packageName = mainGenPackage != null ?
+          mainGenPackage.getPresentationPackageName() :
+          addPackageSuffix(getModelProject(), GenPackageImpl.PRESENTATION_PACKAGE_SUFFIX_EDEFAULT);
+        StringBuilder result = new StringBuilder(packageName);
+        return result.append(".").append(CodeGenUtil.validJavaIdentifier(modelName)).append("EditorPlugin").toString();
+      }
+    }
+    return getEditorPluginClassGen();
   }
 
   /**
@@ -5377,15 +5407,24 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return testsDirectoryESet;
   }
 
+  // If we change to pattern defaults, will have to specify plain suffix in no main package case.
+  //
   public String getTestSuiteClass()
   {
-    String suffix = GenPackageImpl.TESTS_PACKAGE_SUFFIX_EDEFAULT;
-    GenPackage genPackage = getMainGenPackage();
-    if (genPackage != null)
+    if (!isSetTestSuiteClass())
     {
-      suffix = genPackage.getTestsPackageSuffix();
-    }        
-    return getPluginClass(isSetTestSuiteClass(), getTestSuiteClassGen(), suffix, "AllTests");
+      String modelName = getModelName();
+      if (!isBlank(modelName))
+      {
+        GenPackage mainGenPackage = getMainGenPackage();
+        String packageName = mainGenPackage != null ?
+          mainGenPackage.getTestsPackageName() :
+          addPackageSuffix(getModelProject(), GenPackageImpl.TESTS_PACKAGE_SUFFIX_EDEFAULT);
+        StringBuilder result = new StringBuilder(packageName);
+        return result.append(".").append(CodeGenUtil.validJavaIdentifier(modelName)).append("AllTests").toString();
+      }
+    }
+    return getTestSuiteClassGen();
   }
 
   /**
