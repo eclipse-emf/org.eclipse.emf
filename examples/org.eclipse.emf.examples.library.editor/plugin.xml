@@ -26,7 +26,7 @@
             class="org.eclipse.emf.examples.extlibrary.presentation.EXTLibraryEditor"
             contributorClass="org.eclipse.emf.examples.extlibrary.actions.EXTLibraryExtendedActionBarContributor"
             default="true">
-         <contentTypeBinding contentTypeId="extlibrary"/>
+         <contentTypeBinding contentTypeId="org.eclipse.emf.examples.library.extendedLibrary"/>
       </editor>
    </extension>
 </plugin>
