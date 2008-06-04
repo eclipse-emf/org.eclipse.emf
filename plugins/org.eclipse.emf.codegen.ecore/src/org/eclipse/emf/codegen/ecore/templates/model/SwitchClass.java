@@ -123,7 +123,7 @@ if (genModel.useGenerics())
   {
     usedNames.add(genEnum.getName());
   }
-  for (GenClass genClass : genPackage.getGenClasses())
+  for (GenClass genClass : genPackage.getAllSwitchGenClasses())
   {
     if (!genClass.isDynamic() && !genClass.isExternalInterface())
     {
