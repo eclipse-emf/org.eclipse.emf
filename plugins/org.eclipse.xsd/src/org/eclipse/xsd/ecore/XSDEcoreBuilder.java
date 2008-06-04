@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.92 2008/05/20 14:44:46 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.93 2008/06/04 17:11:01 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -87,6 +87,13 @@ import org.eclipse.xsd.util.XSDSwitch;
 
 public class XSDEcoreBuilder extends MapBuilder
 {
+  static
+  {
+    // Ensure that the extended meta data for XMLTypePackage and XMLNamespacePackage is cached once on first use.
+    //
+    new XSDEcoreBuilder(ExtendedMetaData.INSTANCE);
+  }
+
   protected XSDSchema rootSchema;
   protected List<List<String>> simpleDiagnostics;
   protected List<XSDDiagnostic> diagnostics;
