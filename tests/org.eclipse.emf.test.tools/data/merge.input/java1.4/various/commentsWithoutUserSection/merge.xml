@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+
+    <merge:dictionaryPattern
+      name="generatedMember" 
+      select="Member/getComment" 
+      match="\s*@\s*(gen)erated\s*\n"/>
+
+    <merge:dictionaryPattern
+      name="generatedUnmodifiableMembers" 
+      select="Member/getComment" 
+      match="\s*@\s*(unmod)ifiable\s*\n"/>
+
+		<!-- This example shows how to set a merge rule to pull Source comments -->
+		<!-- over target members that doesn't have the user-doc section -->
+
+    <merge:dictionaryPattern
+      name="targetCommentsWithoutUserSection" 
+      select="Member/getComment" 
+      match="/\*\*(?:(?!(?:\s*&lt;!--\s*begin-user-doc.*?end-user-doc\s*-->\s*)\n).)*(?:\s*@\s*generated\s*\n)"/>
+
+
+    <merge:sweep markup="^gen$" select="Member" action="remove"/>
+
+        
+    <!-- if target is generated, transfer -->
+    <!-- change to sourceMarkup if the source is the standard -->
+    <merge:pull 
+      targetMarkup="^gen$"
+      sourceGet="Method/getBody"
+      targetPut="Method/setBody"/>
+
+    <!-- field manipulation -->
+    <merge:pull 
+      targetMarkup="^gen$"
+      sourceGet="Field/getType"
+      targetPut="Field/setType"/>
+    <merge:pull 
+      targetMarkup="^gen$"
+      sourceGet="Field/getInitializer"
+      targetPut="Field/setInitializer"/>
+      
+    <merge:pull 
+      targetMarkup="^gen$"
+      sourceGet="Member/getFlags"
+      targetPut="Member/setFlags"/>
+      
+     <!-- if target is generated, transfer -->
+    <!-- change to sourceMarkup if the source is the standard -->
+	<merge:pull 
+   	  targetMarkup="^gen$"
+      sourceGet="Method/getBody"
+      sourceTransfer="(\s*//\s*begin-user-code.*?//\s*end-user-code\s*)\n"
+      targetPut="Method/setBody"/>
+      
+    <merge:pull 
+      targetMarkup="^gen$"
+      sourceGet="Field/getInitializer"
+      targetPut="Field/setInitializer"/>
+      
+    <merge:pull 
+      sourceGet="Type/getSuperclass"
+      targetMarkup="^gen$"
+      targetPut="Type/setSuperclass"/>
+      
+    <!-- copy comments except between the begin-user-doc
+         and end-user-doc tags -->
+    <merge:pull 
+      sourceMarkup="^gen$"
+      targetMarkup="^gen$"
+      sourceTransfer="(\s*&lt;!--\s*begin-user-doc.*?end-user-doc\s*-->\s*)\n"
+      sourceGet="Member/getComment"
+      targetPut="Member/setComment"/>
+
+    <merge:pull 
+      sourceMarkup="^gen$"
+      targetMarkup="targetCommentsWithoutUserSection"
+      sourceGet="Member/getComment"
+      targetPut="Member/setComment"/>
+
+    <!-- force transfer of all unmodifiable elements -->
+    <merge:pull 
+      sourceMarkup="^unmod$"
+      sourceGet="Member/getFlags"
+      targetPut="Member/setFlags"/>
+    <merge:pull 
+      sourceMarkup="^unmod$"
+      sourceGet="Method/getBody"
+      targetPut="Method/setBody"/>
+
+</merge:options>
