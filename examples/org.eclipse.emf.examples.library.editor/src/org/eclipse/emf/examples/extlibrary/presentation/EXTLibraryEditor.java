@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.14 2008/05/09 20:10:25 emerks Exp $
+ * $Id: EXTLibraryEditor.java,v 1.15 2008/06/05 15:57:08 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -560,7 +560,6 @@ public class EXTLibraryEditor extends MultiPageEditorPart
                    public void run()
                    {
                      getSite().getPage().closeEditor(EXTLibraryEditor.this, false);
-                     EXTLibraryEditor.this.dispose();
                    }
                  });
             }
@@ -611,7 +610,6 @@ public class EXTLibraryEditor extends MultiPageEditorPart
       if (handleDirtyConflict())
       {
         getSite().getPage().closeEditor(EXTLibraryEditor.this, false);
-        EXTLibraryEditor.this.dispose();
       }
       else
       {
