@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.55 2008/05/09 20:10:34 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.56 2008/06/05 15:57:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -546,7 +546,6 @@ public class EcoreEditor
                    public void run()
                    {
                      getSite().getPage().closeEditor(EcoreEditor.this, false);
-                     EcoreEditor.this.dispose();
                    }
                  });
             }
@@ -599,7 +598,6 @@ public class EcoreEditor
       if (handleDirtyConflict())
       {
         getSite().getPage().closeEditor(EcoreEditor.this, false);
-        EcoreEditor.this.dispose();
       }
       else
       {
