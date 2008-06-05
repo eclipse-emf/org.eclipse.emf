@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.59 2008/05/09 19:59:38 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.60 2008/06/05 15:57:13 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -665,7 +665,6 @@ public class <%=genPackage.getEditorClassName()%>
 									 public void run()
 									 {
 										 getSite().getPage().closeEditor(<%=genPackage.getEditorClassName()%>.this, false);
-										 <%=genPackage.getEditorClassName()%>.this.dispose();
 									 }
 								 });
 						}
@@ -719,7 +718,6 @@ public class <%=genPackage.getEditorClassName()%>
 			if (handleDirtyConflict())
 			{
 				getSite().getPage().closeEditor(<%=genPackage.getEditorClassName()%>.this, false);
-				<%=genPackage.getEditorClassName()%>.this.dispose();
 			}
 			else
 			{
