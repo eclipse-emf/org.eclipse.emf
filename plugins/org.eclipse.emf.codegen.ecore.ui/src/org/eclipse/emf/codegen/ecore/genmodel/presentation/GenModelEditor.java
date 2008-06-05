@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.52 2008/05/09 20:10:21 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.53 2008/06/05 15:56:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -510,7 +510,6 @@ public class GenModelEditor
                    public void run()
                    {
                      getSite().getPage().closeEditor(GenModelEditor.this, false);
-                     GenModelEditor.this.dispose();
                    }
                  });
             }
@@ -565,7 +564,6 @@ public class GenModelEditor
       if (handleDirtyConflict())
       {
         getSite().getPage().closeEditor(GenModelEditor.this, false);
-        GenModelEditor.this.dispose();
       }
       else
       {
