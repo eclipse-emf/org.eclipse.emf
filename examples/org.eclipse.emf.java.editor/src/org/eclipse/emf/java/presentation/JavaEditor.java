@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.24 2008/05/09 20:10:26 emerks Exp $
+ * $Id: JavaEditor.java,v 1.25 2008/06/05 15:57:03 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -540,7 +540,6 @@ public class JavaEditor
                    public void run()
                    {
                      getSite().getPage().closeEditor(JavaEditor.this, false);
-                     JavaEditor.this.dispose();
                    }
                  });
             }
@@ -592,7 +591,6 @@ public class JavaEditor
       if (handleDirtyConflict())
       {
         getSite().getPage().closeEditor(JavaEditor.this, false);
-        JavaEditor.this.dispose();
       }
       else
       {
