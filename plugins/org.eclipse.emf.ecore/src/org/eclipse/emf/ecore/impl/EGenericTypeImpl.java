@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeImpl.java,v 1.6 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EGenericTypeImpl.java,v 1.7 2008/06/06 17:48:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -216,7 +216,7 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EClassifier getERawType()
   {
@@ -228,6 +228,43 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
       {
         if (eNotificationRequired())
           eNotify(new ENotificationImpl(this, Notification.RESOLVE, EcorePackage.EGENERIC_TYPE__ERAW_TYPE, oldERawType, eRawType));
+
+        if (eContainer instanceof EOperation)
+        {
+          if (eContainerFeatureID == (EOPPOSITE_FEATURE_BASE - EcorePackage.EOPERATION__EGENERIC_EXCEPTIONS) && eContainer.eNotificationRequired())
+          {
+            new ENotificationImpl
+              (eContainer, 
+               Notification.RESOLVE, 
+               EcorePackage.EOPERATION__EEXCEPTIONS, 
+               oldERawType,
+               eRawType,
+               ((EOperation)eContainer).getEGenericExceptions().indexOf(this)).dispatch();
+          }
+        }
+        else if (eContainer instanceof EClass)
+        {
+          if (eContainerFeatureID == (EOPPOSITE_FEATURE_BASE - EcorePackage.ECLASS__EGENERIC_SUPER_TYPES) && eContainer.eNotificationRequired())
+          {
+            EClassifier newERawType = eRawType;
+            if (!(newERawType instanceof EClass))
+            {
+              newERawType = EcorePackage.Literals.EOBJECT;
+            }
+            if (!(oldERawType instanceof EClass))
+            {
+              oldERawType = (InternalEObject)EcorePackage.Literals.EOBJECT;
+            }
+
+            new ENotificationImpl
+              (eContainer, 
+               Notification.RESOLVE, 
+               EcorePackage.ECLASS__ESUPER_TYPES, 
+               oldERawType,
+               newERawType,
+               ((EClass)eContainer).getEGenericSuperTypes().indexOf(this)).dispatch();
+          }
+        }
       }
     }
     return eRawType;
