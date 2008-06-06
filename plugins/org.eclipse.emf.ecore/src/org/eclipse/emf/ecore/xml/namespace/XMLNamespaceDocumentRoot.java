@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRoot.java,v 1.9 2007/06/15 21:22:23 emerks Exp $
+ * $Id: XMLNamespaceDocumentRoot.java,v 1.10 2008/06/06 17:34:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -158,7 +158,6 @@ public interface XMLNamespaceDocumentRoot extends EObject
 
   /**
    * Returns the value of the '<em><b>Space</b></em>' attribute.
-   * The default value is <code>"preserve"</code>.
    * The literals are from the enumeration {@link org.eclipse.emf.ecore.xml.namespace.SpaceType}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -168,7 +167,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * @see #unsetSpace()
    * @see #setSpace(SpaceType)
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Space()
-   * @model default="preserve" unsettable="true"
+   * @model unsettable="true"
    *        extendedMetaData="kind='attribute' name='space' namespace='##targetNamespace'"
    * @generated
    */

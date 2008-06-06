@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRootImpl.java,v 1.11 2007/02/20 17:40:50 emerks Exp $
+ * $Id: XMLNamespaceDocumentRootImpl.java,v 1.12 2008/06/06 17:34:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -155,7 +155,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * @generated
    * @ordered
    */
-  protected static final SpaceType SPACE_EDEFAULT = SpaceType.PRESERVE_LITERAL;
+  protected static final SpaceType SPACE_EDEFAULT = SpaceType.DEFAULT_LITERAL;
 
   /**
    * The cached value of the '{@link #getSpace() <em>Space</em>}' attribute.
