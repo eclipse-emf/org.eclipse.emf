@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.93 2008/05/31 11:55:10 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.94 2008/06/06 17:20:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1683,6 +1683,20 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         (result, 
          "instanceClass", 
          getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 ? eClass.getInstanceClassName() : eClass.getInstanceTypeName());
+
+      if (!getGenTypeParameters().isEmpty())
+      {
+        StringBuilder typeParameterNames = new StringBuilder();
+        for (Iterator<GenTypeParameter> i = getGenTypeParameters().iterator(); i.hasNext(); )
+        {
+          typeParameterNames.append(i.next().getName());
+          if (i.hasNext())
+          {
+            typeParameterNames.append(' ');
+          }
+        }
+        appendModelSetting(result, "typeParameters", typeParameterNames.toString());
+      }
     }
     else
     {
