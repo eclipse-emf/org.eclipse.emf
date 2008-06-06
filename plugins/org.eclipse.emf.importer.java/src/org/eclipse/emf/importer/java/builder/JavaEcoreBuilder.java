@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.48 2008/03/14 21:46:10 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.49 2008/06/06 17:17:59 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1013,9 +1013,15 @@ public class JavaEcoreBuilder
         if (extend != null)
         {
           List<String> superInterfaceList = new ArrayList<String>(Arrays.asList(superInterfaces));
-          for (StringTokenizer stringTokenizer = new StringTokenizer(extend, " ,\t\n\r\f"); stringTokenizer.hasMoreTokens();)
+          Diagnostic diagnostic = EcoreValidator.EGenericTypeBuilder.INSTANCE.parseTypeArgumentList(extend);
+          if (diagnostic.getSeverity() == Diagnostic.OK)
           {
-            superInterfaceList.remove(stringTokenizer.nextToken());
+            @SuppressWarnings("unchecked")
+            List<EGenericType> eTypeArguments = (List<EGenericType>)diagnostic.getData().get(0);
+            for (EGenericType eGenericType : eTypeArguments)
+            {
+              superInterfaceList.remove(EcoreUtil.toJavaInstanceTypeName(eGenericType));
+            }
           }
           superInterfaces = new String [superInterfaceList.size()];
           superInterfaceList.toArray(superInterfaces);
@@ -2159,12 +2165,12 @@ public class JavaEcoreBuilder
   /**
    * The pattern for extracting the @extends annotations.
    */
-  protected static Pattern extendsAnnotationExpression = Pattern.compile("@\\s*extends\\s*(([.\\w]*\\s*,*\\s*)+)", Pattern.MULTILINE);
+  protected static Pattern extendsAnnotationExpression = Pattern.compile("@\\s*extends\\s*([.\\w<>,?\\s]+)", Pattern.MULTILINE);
 
   /**
    * The pattern for extracting the @implements annotations.
    */
-  protected static Pattern implementsAnnotationExpression = Pattern.compile("@\\s*implements\\s*(([.\\w]*\\s*,*\\s*)+)", Pattern.MULTILINE);
+  protected static Pattern implementsAnnotationExpression = Pattern.compile("@\\s*implements\\s*([.\\w<>,?\\s]+)", Pattern.MULTILINE);
 
   /**
    * Returns the @extends/@implements annotation contents, or null.
@@ -2177,15 +2183,21 @@ public class JavaEcoreBuilder
       Matcher extendsMatcher = extendsAnnotationExpression.matcher(comment);
       while (extendsMatcher.find())
       {
+        if (result.length() != 0)
+        {
+          result.append(',');
+        }
         result.append(comment.substring(extendsMatcher.start(1), extendsMatcher.end(1)));
-        result.append(' ');
       }
 
       Matcher implementsMatcher = implementsAnnotationExpression.matcher(comment);
       while (implementsMatcher.find())
       {
+        if (result.length() != 0)
+        {
+          result.append(',');
+        }
         result.append(comment.substring(implementsMatcher.start(1), implementsMatcher.end(1)));
-        result.append(' ');
       }
 
       return result.length() == 0 ? null : result.toString();
