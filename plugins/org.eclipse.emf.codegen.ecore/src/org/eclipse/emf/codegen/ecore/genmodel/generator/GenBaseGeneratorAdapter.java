@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.14 2008/05/17 14:59:33 emerks Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.15 2008/06/06 12:48:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -42,6 +42,8 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 
@@ -385,11 +387,20 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
             }
             else
             {
-              URI genModelURI = genModel.eResource().getURI();
+              Resource genModelResource = genModel.eResource();
+              URI genModelURI = genModelResource.getURI();
+              ResourceSet resourceSet = genModelResource.getResourceSet();
+              if (resourceSet != null)
+              {
+                genModelURI = resourceSet.getURIConverter().normalize(genModelURI);
+              }
               if (genModelURI.isPlatformResource())
               {
                 IProject genModelProject = workspace.getRoot().getProject(URI.decode(genModelURI.segments()[1]));
-                projectLocation = getLocationURI(genModelProject);
+                if (genModelProject.exists())
+                {
+                  projectLocation = getLocationURI(genModelProject);
+                }
               }
             }
 
