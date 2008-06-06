@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.49 2008/06/06 17:17:59 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.50 2008/06/06 17:20:22 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1278,6 +1278,30 @@ public class JavaEcoreBuilder
                     eClass.setAbstract(true);
                     eClass.setInstanceTypeName(instanceClass);
                     eClass.setName(method.getName().substring(3));
+
+                    String typeParameterNames = getModelAnnotationAttribute(methodAnnotation, "typeParameters");
+                    if (typeParameterNames != null)
+                    {
+                      for (StringTokenizer stringTokenizer = new StringTokenizer(typeParameterNames, " "); stringTokenizer.hasMoreTokens();)
+                      {
+                        String typeParameterName = stringTokenizer.nextToken();
+                        ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
+                        eTypeParameter.setName(typeParameterName);
+                        String typeParameterModelAnnotation = getFilteredModelAnnotations(methodAnnotation, typeParameterName);
+                        String bounds = getModelAnnotationAttribute(typeParameterModelAnnotation, "bounds");
+                        if (bounds != null)
+                        {
+                          eTypeParameter.getEBounds().addAll(analyzeEGenericTypes(bounds));
+                          for (EGenericType eBound : eTypeParameter.getEBounds())
+                          {
+                            ecoreEGenericTypeToJavaEGenericTypeMap.put(eBound, null);
+                          }
+                        }
+  
+                        eClass.getETypeParameters().add(eTypeParameter);
+                      }
+                    }
+
                     eClasses.add(eClass);
                   }
                   else
