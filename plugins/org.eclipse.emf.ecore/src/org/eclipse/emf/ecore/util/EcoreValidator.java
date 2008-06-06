@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.32 2008/05/25 16:27:49 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.33 2008/06/06 17:17:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -4111,6 +4111,30 @@ public class EcoreValidator extends EObjectValidator
            "_UI_EClassifierInstanceTypeNameAnalysisResult_diagnostic",
            new Object [] { typeParameterList },
            new Object [] { eTypeParameters, typeParameterList });
+      result.addAll(placeholder);
+      return result;
+    }
+
+    /**
+     * Parses a list of type arguments and returns a diagnostic representing the result of the analysis.
+     * The {@link Diagnostic#getData() data} of the diagnostic will contain as the first object, the resulting list of {@link EGenericType type arguments}.
+     * @param typeArgumentList a comma separated list of type arguments.
+     * @return the diagnostic result of the analysis.
+     * @since 2.4
+     */
+    public Diagnostic parseTypeArgumentList(final String typeArgumentList)
+    {
+      BasicDiagnostic placeholder = new BasicDiagnostic();
+      char [] instanceTypeNameCharacterArray = typeArgumentList.toCharArray();
+      List<EGenericType> eTypeArguments = handleTypeArguments(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, placeholder);
+      BasicDiagnostic result =
+        createDiagnostic
+          (placeholder.getSeverity(),
+           DIAGNOSTIC_SOURCE,
+           WELL_FORMED_INSTANCE_TYPE_NAME,
+           "_UI_EClassifierInstanceTypeNameAnalysisResult_diagnostic",
+           new Object [] { typeArgumentList },
+           new Object [] { eTypeArguments, typeArgumentList });
       result.addAll(placeholder);
       return result;
     }
