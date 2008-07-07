@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameTest.java,v 1.7 2007/12/01 19:16:55 emerks Exp $
+ * $Id: QNameTest.java,v 1.8 2008/07/07 18:59:39 davidms Exp $
  */
 package org.eclipse.emf.test.xml.xmi;
 
@@ -21,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -38,6 +39,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.models.qname.DocumentRoot;
 import org.eclipse.emf.test.models.qname.QNameFactory;
@@ -132,4 +134,36 @@ public class QNameTest extends TestCase
     assertEquals(qname.getPrefix(), "");
   }
 
+  public void testValidQNames()
+  {
+    QName qname = (QName)XMLTypeUtil.createQName("http://www.example.org/test", "name", "test");
+    assertEquals("http://www.example.org/test", qname.getNamespaceURI());
+    assertEquals("name", qname.getLocalPart());
+    assertEquals("test", qname.getPrefix());
+
+    qname = (QName)XMLTypeUtil.createQName(null, "name", "test");
+    assertEquals(XMLConstants.NULL_NS_URI, qname.getNamespaceURI());
+    assertEquals("name", qname.getLocalPart());
+    assertEquals("test", qname.getPrefix());
+
+    qname = (QName)XMLTypeUtil.createQName("http://www.example.org/test", "name", null);
+    assertEquals("http://www.example.org/test", qname.getNamespaceURI());
+    assertEquals("name", qname.getLocalPart());
+    assertEquals(XMLConstants.DEFAULT_NS_PREFIX, qname.getPrefix());
+
+    qname = (QName)XMLTypeUtil.createQName(null, "name", null);
+    assertEquals(XMLConstants.NULL_NS_URI, qname.getNamespaceURI());
+    assertEquals("name", qname.getLocalPart());
+    assertEquals(XMLConstants.DEFAULT_NS_PREFIX, qname.getPrefix());
+
+    try
+    {
+      qname = (QName)XMLTypeUtil.createQName("http://www.example.org/test", null, "test");
+      fail("null local part is invalid and should not be allowed");
+    }
+    catch (IllegalArgumentException e)
+    {
+      // This is expected: a null local part is not allowed.
+    }
+  }
 }
