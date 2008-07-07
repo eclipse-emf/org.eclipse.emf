@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QName.java,v 1.5 2007/04/04 20:03:27 emerks Exp $
+ * $Id: QName.java,v 1.6 2008/07/07 18:58:04 davidms Exp $
  */
 
 package org.eclipse.emf.ecore.xml.type.internal;
@@ -56,10 +56,10 @@ public final class QName extends javax.xml.namespace.QName
    */
   public QName(String namespaceURI, String localPart, String prefix)
   {
-    super(namespaceURI, localPart, prefix);
+    super(namespaceURI, localPart, prefix = prefix == null ? "" : prefix);
     setPrefix(prefix);
 
-    if (this.prefix.length() > 0 && !XMLChar.isValidNCName(this.prefix))
+    if (prefix.length() > 0 && !XMLChar.isValidNCName(prefix))
       throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.1: invalid QName: "+prefix);
 
     if (!XMLChar.isValidNCName(localPart))
