@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.13 2007/06/14 18:32:46 emerks Exp $
+ * $Id: XMLTypeUtil.java,v 1.14 2008/07/07 18:58:47 davidms Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -214,7 +214,7 @@ public final class XMLTypeUtil
    * Creates a new QName object with the specified values
    * @param namespaceUri namespace uri value or null
    * @param localPart localPart (not null)
-   * @param prefix prefix value or null
+   * @param prefix prefix value or null (if null, an empty string will actually be used in the resulting QName)
    * @return The newly created QName object
    */
   public static Object createQName(String namespaceUri, String localPart, String prefix)
