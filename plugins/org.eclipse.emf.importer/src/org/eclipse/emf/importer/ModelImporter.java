@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.38 2008/01/28 19:28:54 emerks Exp $
+ * $Id: ModelImporter.java,v 1.39 2008/07/09 01:16:12 davidms Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -854,8 +854,8 @@ public abstract class ModelImporter extends ModelConverter
     genModel.setModelName(modelName);
     genModel.setModelPluginID(getModelPluginID());
     genModel.setModelDirectory(getModelPluginDirectory());
-    genModel.getUsedGenPackages().addAll(genModel.computeMissingUsedGenPackages());
-    
+    genModel.reconcile();
+
     if (getOriginalGenModel() == null)
     {
       URI genModelURI = genModel.eResource().getURI();
