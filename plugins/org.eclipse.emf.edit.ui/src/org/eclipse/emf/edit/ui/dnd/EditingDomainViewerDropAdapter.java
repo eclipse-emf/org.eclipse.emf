@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainViewerDropAdapter.java,v 1.9 2008/05/07 19:08:40 emerks Exp $
+ * $Id: EditingDomainViewerDropAdapter.java,v 1.10 2008/07/09 00:56:41 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -246,6 +246,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
     command = null;
     commandTarget = null;
     source = null;
+    dragAndDropCommandInformation = null;
   }
 
   /**
@@ -267,7 +268,13 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
     if (source == null)
     {
       source = getDragSource(event);
-      if (source == null) return;
+      if (source == null)
+      {
+        // Clear out any old information from a previous drag.
+        //
+        dragAndDropCommandInformation = null;
+        return;
+      }
     }
 
     // Get the target object from the item widget and the mouse location in it.
