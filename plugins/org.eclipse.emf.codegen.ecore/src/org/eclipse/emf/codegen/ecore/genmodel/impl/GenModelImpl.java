@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.98 2008/06/02 15:12:41 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.99 2008/07/09 01:14:29 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -8278,8 +8278,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           GenPackage genPackage = genModel.findGenPackage(ePackage);
           if (genPackage != null)
           {
-            usedGenPackages.add(genPackage);
-            getMissingPackagesHelper(missingEPackages, Collections.singletonList(genPackage));
+            if (usedGenPackages.add(genPackage))
+            {
+              getMissingPackagesHelper(missingEPackages, Collections.singletonList(genPackage));
+            }
             missingEPackages.remove(i--);
             break;
           }
