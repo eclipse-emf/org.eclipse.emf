@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.50 2008/06/06 17:20:22 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.51 2008/07/09 01:06:43 davidms Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1068,7 +1068,7 @@ public class JavaEcoreBuilder
         if (!javaEGenericSuperTypes.isEmpty() &&
               javaEGenericSuperTypes.get(0).getERawType().getInstanceTypeName().endsWith("EObject") &&
               (ecoreEGenericSuperTypes == null ||
-                ecoreEGenericSuperTypes.size() > 1 && !ecoreEGenericSuperTypes.get(0).getERawType().getInstanceTypeName().endsWith("EObject")) &&
+                !ecoreEGenericSuperTypes.isEmpty() && !ecoreEGenericSuperTypes.get(0).getERawType().getInstanceTypeName().endsWith("EObject")) &&
               !EcorePackage.eNS_URI.equals(ePackage.getNsURI()))
         {
            EGenericType superType = resolve(eClass, javaEGenericSuperTypes.get(0).getERawType().getInstanceTypeName(), RequiredClassifierType.CLASS, false);
