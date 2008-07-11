@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementItemProvider.java,v 1.14 2008/04/27 20:27:57 davidms Exp $
+ * $Id: EModelElementItemProvider.java,v 1.15 2008/07/11 16:50:17 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -249,12 +249,12 @@ public class EModelElementItemProvider
         {
           if (item != null)
           {
-            labelToObjectMap.put("- " + EcoreUtil.getURI((EObject)item).deresolve(base), item);
+            labelToObjectMap.put("- " + getURI((EObject)item, base), item);
           }
         }
         else if (conflictingLabels.contains(label))
         {
-          labelToObjectMap.put(label + " - " + EcoreUtil.getURI((EObject)item).deresolve(base), item);
+          labelToObjectMap.put(label + " - " + getURI((EObject)item, base), item);
         }
         else
         {
@@ -263,8 +263,8 @@ public class EModelElementItemProvider
           {
             conflictingLabels.add(label);
             labelToObjectMap.remove(label);
-            labelToObjectMap.put(label + " - " + EcoreUtil.getURI((EObject)item).deresolve(base), item);
-            labelToObjectMap.put(label + " - " + EcoreUtil.getURI((EObject)collision).deresolve(base), collision);
+            labelToObjectMap.put(label + " - " + getURI((EObject)item, base), item);
+            labelToObjectMap.put(label + " - " + getURI((EObject)collision, base), collision);
           }
         }
       }
@@ -275,6 +275,12 @@ public class EModelElementItemProvider
         result.put(entry.getValue(), entry.getKey());
       }
       return result;
+    }
+
+    private URI getURI(EObject eObject, URI base)
+    {
+      URI uri = EcoreUtil.getURI(eObject);
+      return base.isHierarchical() && !base.isRelative() && !uri.isRelative() ? uri.deresolve(base) : uri;
     }
 
     @Override
