@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CopyCommand.java,v 1.7 2008/05/07 19:08:46 emerks Exp $
+ * $Id: CopyCommand.java,v 1.8 2008/07/11 03:09:51 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -24,6 +24,7 @@ import java.util.Iterator;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.common.command.IdentityCommand;
 import org.eclipse.emf.common.command.StrictCompoundCommand;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.ecore.EObject;
@@ -170,6 +171,12 @@ public class CopyCommand extends StrictCompoundCommand
           }
         };
       append(initializeCommand);
+    }
+    else if (!optimize)
+    {
+      // This ensures that the CreateCopyCommand will be executed by StrictCompoundCommand.prepare().
+      //
+      append(IdentityCommand.INSTANCE);
     }
 
     // This will execute the CreateCopyCommand's and then call canExecute on the InitializeCopyCommand's.
