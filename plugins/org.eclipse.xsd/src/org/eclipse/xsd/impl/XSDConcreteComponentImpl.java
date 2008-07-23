@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.26 2008/01/30 19:26:53 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.27 2008/07/23 18:20:09 davidms Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -676,7 +676,7 @@ public abstract class XSDConcreteComponentImpl
         {
           if (!mixed)
           {
-            String text = child.getTextContent();
+            String text = child.getNodeValue();
             if (text != null)
             {
               for (int i = 0, length = text.length(); i < length; ++i)
