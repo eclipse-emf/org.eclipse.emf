@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.75 2008/05/20 14:39:35 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.76 2008/07/29 21:43:24 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -393,9 +393,6 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	<%=genFeature.getListItemType(genClass)%>[] <%=genFeature.getGetArrayAccessor()%>();
 
     <%} else {%>
-      <%if (genModel.useGenerics()) {%>
-	@SuppressWarnings("unchecked")
-      <%}%>
 	public <%=genFeature.getListItemType(genClass)%>[] <%=genFeature.getGetArrayAccessor()%>()
 	{
       <%if (genFeature.isVolatile()) {%>
