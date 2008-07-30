@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.17 2008/06/05 15:56:58 emerks Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.18 2008/07/30 21:54:47 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -519,7 +519,7 @@ public class Ecore2XMLEditor
                 if (delta.getKind() == IResourceDelta.REMOVED ||
                     delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS)
                 {
-                  Resource resource = resourceSet.getResource(URI.createURI(delta.getFullPath().toString()), false);
+                  Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
                   if (resource != null)
                   {
                     if (delta.getKind() == IResourceDelta.REMOVED)
