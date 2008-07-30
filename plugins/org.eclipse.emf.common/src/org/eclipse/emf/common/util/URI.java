@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.31 2008/05/25 18:18:48 emerks Exp $
+ * $Id: URI.java,v 1.32 2008/07/30 21:16:37 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -268,7 +268,11 @@ public final class URI
   private static final long SEGMENT_END_HI = highBitmask("/?#");
   private static final long SEGMENT_END_LO = lowBitmask("/?#");
 
-  // We can't want to do encoding of platform resource URIs by default yet.   
+  // The intent of this was to switch over to encoding platform resource URIs
+  // by default, but allow people to use a system property to avoid this.
+  // However, that caused problems for people and we had to go back to not
+  // encoding and introduce yet another factory method that explicitly enables
+  // encoding.
   //
   private static final boolean ENCODE_PLATFORM_RESOURCE_URIS =
     System.getProperty("org.eclipse.emf.common.util.URI.encodePlatformResourceURIs") != null &&
@@ -519,9 +523,10 @@ public final class URI
    * href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>, and an
    * appropriate <code>URI</code> is created and returned.  Note that
    * validity testing is not as strict as in the RFC; essentially, only
-   * separator characters are considered.  So, for example, non-Latin
-   * alphabet characters appearing in the scheme would not be considered an
-   * error.
+   * separator characters are considered.  This method also does not perform
+   * encoding of invalid characters, so it should only be used when the URI
+   * string is known to have already been encoded, so as to avoid double 
+   * encoding.
    *
    * @exception java.lang.IllegalArgumentException if any component parsed
    * from <code>uri</code> is not valid according to {@link #validScheme
@@ -541,12 +546,14 @@ public final class URI
    * Appropriate encoding is performed for each component of the URI.
    * If more than one <code>#</code> is in the string, the last one is
    * assumed to be the fragment's separator, and any others are encoded.
+   * This method is the simplest way to safely parse an arbitrary URI string.
    *  
    * @param ignoreEscaped <code>true</code> to leave <code>%</code> characters
    * unescaped if they already begin a valid three-character escape sequence;
-   * <code>false</code> to encode all <code>%</code> characters.  Note that
-   * if a <code>%</code> is not followed by 2 hex digits, it will always be
-   * escaped. 
+   * <code>false</code> to encode all <code>%</code> characters.  This
+   * capability is provided to allow partially encoded URIs to be "fixed",
+   * while avoiding adding double encoding; however, it is usual just to
+   * specify <code>false</code> to perform ordinary encoding.
    *
    * @exception java.lang.IllegalArgumentException if any component parsed
    * from <code>uri</code> is not valid according to {@link #validScheme
@@ -590,12 +597,16 @@ public final class URI
    * Appropriate encoding is performed for each component of the URI.
    * Control is provided over which, if any, <code>#</code> should be 
    * taken as the fragment separator and which should be encoded.
-   *  
+   * This method is the preferred way to safely parse an arbitrary URI string
+   * that is known to contain <code>#</code> characters in the fragment or to
+   * have no fragment at all.
+   * 
    * @param ignoreEscaped <code>true</code> to leave <code>%</code> characters
    * unescaped if they already begin a valid three-character escape sequence;
-   * <code>false</code> to encode all <code>%</code> characters.  Note that
-   * if a <code>%</code> is not followed by 2 hex digits, it will always be
-   * escaped. 
+   * <code>false</code> to encode all <code>%</code> characters.  This
+   * capability is provided to allow partially encoded URIs to be "fixed",
+   * while avoiding adding double encoding; however, it is usual just to
+   * specify <code>false</code> to perform ordinary encoding.
    * 
    * @param fragmentLocationStyle one of {@link #FRAGMENT_NONE},
    * {@link #FRAGMENT_FIRST_SEPARATOR}, or {@link #FRAGMENT_LAST_SEPARATOR},
@@ -877,7 +888,7 @@ public final class URI
    *
    * @see org.eclipse.core.runtime.Platform#resolve
    * @see #createPlatformResourceURI(String, boolean)
-   * @deprecated org.eclipse.emf.common 2.3 Use {@link #createPlatformResourceURI(String, boolean)} instead.
+   * @deprecated Use {@link #createPlatformResourceURI(String, boolean)} instead.
    */
   @Deprecated
   public static URI createPlatformResourceURI(String pathName)
@@ -907,7 +918,9 @@ public final class URI
    * automatically encoded to escape all spaces, <code>#</code> characters,
    * and other characters disallowed in URIs, as well as <code>?</code>,
    * which would delimit a path from a query.  Decoding can be performed with
-   * the static {@link #decode(String) decode} method.
+   * the static {@link #decode(String) decode} method. It is strongly
+   * recommended to specify <code>true</code> to enable encoding, unless the
+   * path string has already been encoded.
    * 
    * @exception java.lang.IllegalArgumentException if any component parsed
    * from the path is not valid according to {@link #validDevice validDevice},
@@ -942,7 +955,9 @@ public final class URI
    * automatically encoded to escape all spaces, <code>#</code> characters,
    * and other characters disallowed in URIs, as well as <code>?</code>,
    * which would delimit a path from a query.  Decoding can be performed with
-   * the static {@link #decode(String) decode} method.
+   * the static {@link #decode(String) decode} method. It is strongly
+   * recommended to specify <code>true</code> to enable encoding, unless the
+   * path string has already been encoded.
    * 
    * @exception java.lang.IllegalArgumentException if any component parsed
    * from the path is not valid according to {@link #validDevice validDevice},
