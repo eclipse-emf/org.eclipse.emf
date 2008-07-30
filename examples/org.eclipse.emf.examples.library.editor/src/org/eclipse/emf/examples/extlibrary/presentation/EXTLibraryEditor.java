@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.15 2008/06/05 15:57:08 emerks Exp $
+ * $Id: EXTLibraryEditor.java,v 1.16 2008/07/30 21:50:18 davidms Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -517,7 +517,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
                 if (delta.getKind() == IResourceDelta.REMOVED ||
                     delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS)
                 {
-                  Resource resource = resourceSet.getResource(URI.createURI(delta.getFullPath().toString()), false);
+                  Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
                   if (resource != null)
                   {
                     if (delta.getKind() == IResourceDelta.REMOVED)
