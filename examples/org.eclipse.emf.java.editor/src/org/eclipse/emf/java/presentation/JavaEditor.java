@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.25 2008/06/05 15:57:03 emerks Exp $
+ * $Id: JavaEditor.java,v 1.26 2008/07/30 21:50:19 davidms Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -497,7 +497,7 @@ public class JavaEditor
                 if (delta.getKind() == IResourceDelta.REMOVED ||
                     delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS)
                 {
-                  Resource resource = resourceSet.getResource(URI.createURI(delta.getFullPath().toString()), false);
+                  Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
                   if (resource != null)
                   {
                     if (delta.getKind() == IResourceDelta.REMOVED)
