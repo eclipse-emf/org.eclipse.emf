@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.56 2008/06/05 15:57:09 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.57 2008/07/30 21:19:30 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -503,7 +503,7 @@ public class EcoreEditor
                 if (delta.getKind() == IResourceDelta.REMOVED ||
                     delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS)
                 {
-                  Resource resource = resourceSet.getResource(URI.createURI(delta.getFullPath().toString()), false);
+                  Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
                   if (resource != null)
                   {
                     if (delta.getKind() == IResourceDelta.REMOVED)
