@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.28 2008/07/30 16:31:50 davidms Exp $
+ * $Id: EClassifierImpl.java,v 1.27.2.1 2008/07/30 18:14:13 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
