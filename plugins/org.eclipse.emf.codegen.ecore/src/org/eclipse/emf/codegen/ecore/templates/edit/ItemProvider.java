@@ -223,30 +223,17 @@ public class ItemProvider
   protected final String TEXT_206 = NL + "\t\t\tchildFeature == ";
   protected final String TEXT_207 = NL + NL + "\t\tif (qualify)" + NL + "\t\t{" + NL + "\t\t\treturn getString" + NL + "\t\t\t\t(\"_UI_CreateChild_text2\",";
   protected final String TEXT_208 = NL + "\t\t\t\t new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });" + NL + "\t\t}" + NL + "\t\treturn super.getCreateChildText(owner, feature, child, selection);" + NL + "\t}" + NL;
-  protected final String TEXT_209 = NL + "\t/**" + NL + "\t * This returns the icon image for {@link org.eclipse.emf.edit.command.CreateChildCommand}." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_209 = NL + "\t/**" + NL + "\t * Return the resource locator for this item provider's resources." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
   protected final String TEXT_210 = NL + "\t@Override";
-  protected final String TEXT_211 = NL + "\tpublic Object getCreateChildImage(Object owner, Object feature, Object child, ";
-  protected final String TEXT_212 = " selection)" + NL + "\t{" + NL + "\t\tif (feature instanceof ";
-  protected final String TEXT_213 = " && ";
-  protected final String TEXT_214 = ".isFeatureMap((";
-  protected final String TEXT_215 = ")feature))" + NL + "\t\t{" + NL + "\t\t\t";
-  protected final String TEXT_216 = ".Entry entry = (";
-  protected final String TEXT_217 = ".Entry)child;" + NL + "\t\t\tfeature = entry.getEStructuralFeature();" + NL + "\t\t\tchild = entry.getValue();" + NL + "\t\t}" + NL + "" + NL + "\t\tif (feature instanceof ";
-  protected final String TEXT_218 = " && child instanceof ";
-  protected final String TEXT_219 = ")" + NL + "\t\t{" + NL + "\t\t\tString name = \"full/obj16/\" + ((EObject)child).eClass().getName();";
-  protected final String TEXT_220 = NL + NL + "\t\t\ttry" + NL + "\t\t\t{" + NL + "\t\t\t\treturn getResourceLocator().getImage(name);" + NL + "\t\t\t}" + NL + "\t\t\tcatch (Exception e)" + NL + "\t\t\t{" + NL + "\t\t\t\t";
-  protected final String TEXT_221 = ".INSTANCE.log(e);" + NL + "\t\t\t}" + NL + "\t\t}" + NL + "" + NL + "\t\treturn super.getCreateChildImage(owner, feature, child, selection);" + NL + "\t}" + NL;
-  protected final String TEXT_222 = NL + "\t/**" + NL + "\t * Return the resource locator for this item provider's resources." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_223 = NL + "\t@Override";
-  protected final String TEXT_224 = NL + "\tpublic ";
-  protected final String TEXT_225 = " getResourceLocator()" + NL + "\t{";
-  protected final String TEXT_226 = NL + "\t\treturn ((";
-  protected final String TEXT_227 = ")adapterFactory).getResourceLocator();";
-  protected final String TEXT_228 = NL + "\t\treturn ";
-  protected final String TEXT_229 = ".INSTANCE;";
-  protected final String TEXT_230 = NL + "\t}" + NL;
-  protected final String TEXT_231 = NL + "}";
-  protected final String TEXT_232 = NL;
+  protected final String TEXT_211 = NL + "\tpublic ";
+  protected final String TEXT_212 = " getResourceLocator()" + NL + "\t{";
+  protected final String TEXT_213 = NL + "\t\treturn ((";
+  protected final String TEXT_214 = ")adapterFactory).getResourceLocator();";
+  protected final String TEXT_215 = NL + "\t\treturn ";
+  protected final String TEXT_216 = ".INSTANCE;";
+  protected final String TEXT_217 = NL + "\t}" + NL;
+  protected final String TEXT_218 = NL + "}";
+  protected final String TEXT_219 = NL;
 
   public String generate(Object argument)
   {
@@ -767,56 +754,29 @@ public class ItemProvider
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_208);
     }
-    if (!genModel.isCreationIcons() && genClass.isModelRoot()) {
+    }
+    if (genClass.getProviderExtendsGenClass() == null || genClass.getProviderExtendsGenClass().getGenPackage() != genPackage && (!genPackage.isExtensibleProviderFactory() || genClass.getProviderExtendsGenClass().getGenPackage().isExtensibleProviderFactory() != genPackage.isExtensibleProviderFactory())) {
     stringBuffer.append(TEXT_209);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_210);
     }
     stringBuffer.append(TEXT_211);
-    stringBuffer.append(genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<?>" : "java.util.Collection"));
-    stringBuffer.append(TEXT_212);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature"));
-    stringBuffer.append(TEXT_213);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMapUtil"));
-    stringBuffer.append(TEXT_214);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature"));
-    stringBuffer.append(TEXT_215);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
-    stringBuffer.append(TEXT_216);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap"));
-    stringBuffer.append(TEXT_217);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EReference"));
-    stringBuffer.append(TEXT_218);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EObject"));
-    stringBuffer.append(TEXT_219);
-    stringBuffer.append(genModel.getNonNLS());
-    stringBuffer.append(TEXT_220);
-    stringBuffer.append(genClass.getGenPackage().getImportedEditPluginClassName());
-    stringBuffer.append(TEXT_221);
-    }
-    }
-    if (genClass.getProviderExtendsGenClass() == null || genClass.getProviderExtendsGenClass().getGenPackage() != genPackage && (!genPackage.isExtensibleProviderFactory() || genClass.getProviderExtendsGenClass().getGenPackage().isExtensibleProviderFactory() != genPackage.isExtensibleProviderFactory())) {
-    stringBuffer.append(TEXT_222);
-    if (genModel.useClassOverrideAnnotation()) {
-    stringBuffer.append(TEXT_223);
-    }
-    stringBuffer.append(TEXT_224);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.ResourceLocator"));
-    stringBuffer.append(TEXT_225);
+    stringBuffer.append(TEXT_212);
     if (genPackage.isExtensibleProviderFactory()) {
-    stringBuffer.append(TEXT_226);
+    stringBuffer.append(TEXT_213);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.edit.provider.IChildCreationExtender"));
-    stringBuffer.append(TEXT_227);
+    stringBuffer.append(TEXT_214);
     } else {
-    stringBuffer.append(TEXT_228);
+    stringBuffer.append(TEXT_215);
     stringBuffer.append(genPackage.getImportedEditPluginClassName());
-    stringBuffer.append(TEXT_229);
+    stringBuffer.append(TEXT_216);
     }
-    stringBuffer.append(TEXT_230);
+    stringBuffer.append(TEXT_217);
     }
-    stringBuffer.append(TEXT_231);
+    stringBuffer.append(TEXT_218);
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_232);
+    stringBuffer.append(TEXT_219);
     return stringBuffer.toString();
   }
 }
