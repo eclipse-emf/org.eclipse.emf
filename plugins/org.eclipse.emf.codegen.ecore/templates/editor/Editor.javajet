@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.60 2008/06/05 15:57:13 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.61 2008/07/30 21:14:01 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -622,7 +622,7 @@ public class <%=genPackage.getEditorClassName()%>
 								if (delta.getKind() == IResourceDelta.REMOVED ||
 								    delta.getKind() == IResourceDelta.CHANGED && delta.getFlags() != IResourceDelta.MARKERS)
 								{
-									Resource resource = resourceSet.getResource(URI.createURI(delta.getFullPath().toString()), false);
+									Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(delta.getFullPath().toString(), true), false);
 									if (resource != null)
 									{
 										if (delta.getKind() == IResourceDelta.REMOVED)
