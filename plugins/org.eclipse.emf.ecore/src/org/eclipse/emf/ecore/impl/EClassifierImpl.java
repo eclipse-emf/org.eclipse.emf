@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.27 2007/09/30 13:32:30 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.28 2008/07/30 16:31:50 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -400,16 +400,20 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   {
     if (instanceClass == null && (instanceClassName != null || generatedInstanceClassName != null))
     {
-      try
+      Class<?> primitiveClass = getPrimitiveOrArrayClass();
+      if (primitiveClass != null)
       {
-        setInstanceClassGen(getClassForName(getInstanceClassName()));
+        setInstanceClassGen(primitiveClass);
       }
-      catch (ClassNotFoundException e)
+      else
       {
-        Class<?> primitiveClass = getPrimitiveOrArrayClass();
-        if (primitiveClass != null)
+        try
         {
-          setInstanceClassGen(primitiveClass);
+          setInstanceClassGen(getClassForName(getInstanceClassName()));
+        }
+        catch (ClassNotFoundException e)
+        {
+          // Ignore exceptions.
         }
       }
     }
@@ -467,7 +471,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
         // Continue and return null.
       }
     }
-    else
+    else if (className.indexOf('.') == -1)
     {
       if (className.equals("boolean"))
         return java.lang.Boolean.TYPE;
