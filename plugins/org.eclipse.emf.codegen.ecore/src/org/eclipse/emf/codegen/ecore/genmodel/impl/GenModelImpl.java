@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.99 2008/07/09 01:14:29 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.100 2008/07/31 21:50:42 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -8208,6 +8208,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public boolean reconcile()
   {
+    clearCache();
     EList<GenPackage> genPackages = getGenPackages();
     for (Iterator<GenPackage> i = genPackages.iterator(); i.hasNext(); )
     {
@@ -8241,6 +8242,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
 
     return !genPackages.isEmpty();
+  }
+
+  private void clearCache()
+  {
+    if (eClassifierToGenClassifierMap != null)
+    {
+      eClassifierToGenClassifierMap.clear();
+    }
+    if (ePackageToGenPackageMap != null)
+    {
+      ePackageToGenPackageMap.clear();
+    }
   }
 
   public List<GenPackage> computeMissingUsedGenPackages()
