@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.9 2008/04/15 03:16:58 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.10 2008/08/02 16:25:21 marcelop Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -565,7 +565,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 			}
 			if (includeAllFilter)
 			{
-				allFilters[allFilters.length - 1] = "*.*";
+				allFilters[allFilters.length - 1] = "*.*";<%=genModel.getNonNLS()%>
 			}
 			
 			fileDialog.setFilterExtensions(allFilters);
@@ -606,7 +606,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 			if (extension != null)
 			{
 				int dot = filename.lastIndexOf('.');
-				if (dot == -1 || !Arrays.asList(fileExtensionFilters).contains("*" + filename.substring(dot)))
+				if (dot == -1 || !Arrays.asList(fileExtensionFilters).contains("*" + filename.substring(dot)))<%=genModel.getNonNLS()%>
 				{
 					filename += extension;
 				}
@@ -683,7 +683,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	}
 	
 	/**
-	 * @see org.eclipse.ui.application.WorkbenchAdvisor#createWorkbenchWindowAdvisor(org.eclipse.ui.application.IWorkbenchConfigurer)
+	 * @see org.eclipse.ui.application.WorkbenchAdvisor#createWorkbenchWindowAdvisor(org.eclipse.ui.application.IWorkbenchWindowConfigurer)
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
