@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.22 2008/04/16 20:22:16 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.22.2.1 2008/08/02 13:43:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -328,9 +328,10 @@ public class EcorePlugin  extends EMFPlugin
             IFile manifest = project.getFile("META-INF/MANIFEST.MF");
             if (manifest.exists())
             {
+              InputStream inputStream = null;
               try
               {
-                InputStream inputStream = manifest.getContents(); 
+                inputStream = manifest.getContents(); 
                 int available = inputStream.available();
                 if (bytes.length < available)
                 {
@@ -346,7 +347,21 @@ public class EcorePlugin  extends EMFPlugin
               }
               catch (Exception exception)
               {
-                EcorePlugin.INSTANCE.log(exception);
+                INSTANCE.log(exception);
+              }
+              finally
+              {
+                if (inputStream != null)
+                {
+                  try
+                  {
+                    inputStream.close();
+                  }
+                  catch (IOException exception)
+                  {
+                    INSTANCE.log(exception);
+                  }
+                }
               }
             }
             else if (parser != null)
