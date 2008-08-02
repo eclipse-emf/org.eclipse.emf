@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.14 2008/01/29 21:12:08 emerks Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.15 2008/08/02 13:56:21 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -257,7 +258,8 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         URI targetFile = toURI(targetPathName);
         ensureContainerExists(targetFile.trimSegments(1), createMonitor(monitor, 1));
 
-        Resource outputResource = genPackage.getEcorePackage().eResource();
+        EPackage ecorePackage = genPackage.getEcorePackage();
+        Resource outputResource = ecorePackage.eResource();
         ResourceSet set = outputResource.getResourceSet();
         URI targetURI = toPlatformResourceURI(targetFile);
 
@@ -335,6 +337,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
           };
         Map<Object, Object> options = new HashMap<Object, Object>();
         options.put(XMLResource.OPTION_URI_HANDLER, uriHandler);
+        options.put(XMLResource.OPTION_ROOT_OBJECTS, Collections.singletonList(ecorePackage));
 
         try
         {
