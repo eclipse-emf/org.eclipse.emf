@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.25 2008/08/01 05:58:27 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.26 2008/08/04 16:13:22 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -943,16 +943,16 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	}
 
 <%if (genModel.isRichClientPlatform()) {%>
-		/**
-		 * Get the URI from the page.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		*/
-		public URI getModelURI()
-		{
-			return initialObjectCreationPage.getFileURI();
-		}
+	/**
+	 * Get the URI from the page.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public URI getModelURI()
+	{
+		return initialObjectCreationPage.getFileURI();
+	}
 
 <%} else {%>
 	/**
