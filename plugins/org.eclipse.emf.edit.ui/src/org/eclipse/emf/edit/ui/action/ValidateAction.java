@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2007 IBM Corporation and others.
+ * Copyright (c) 2004-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.23 2007/06/06 14:44:31 davidms Exp $
+ * $Id: ValidateAction.java,v 1.24 2008/08/04 16:46:40 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -288,43 +288,40 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), title, message, diagnostic);
     }
 
-    if (eclipseResourcesUtil != null)
+    Resource resource = eclipseResourcesUtil != null ? domain.getResourceSet().getResources().get(0) : null;
+    if (resource != null)
     {
-      Resource resource = domain.getResourceSet().getResources().get(0);
-      if (resource != null)
-      {
-        eclipseResourcesUtil.deleteMarkers(resource);
-      }
+      eclipseResourcesUtil.deleteMarkers(resource);
+    }
     
-      if (result == Window.OK)
+    if (result == Window.OK)
+    {
+      if (!diagnostic.getChildren().isEmpty())
       {
-        if (!diagnostic.getChildren().isEmpty())
+        List<?> data = (diagnostic.getChildren().get(0)).getData();
+        if (!data.isEmpty() && data.get(0) instanceof EObject)
         {
-          List<?> data = (diagnostic.getChildren().get(0)).getData();
-          if (!data.isEmpty() && data.get(0) instanceof EObject)
+          Object part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
+          if (part instanceof ISetSelectionTarget)
           {
-            Object part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
-            if (part instanceof ISetSelectionTarget)
+            ((ISetSelectionTarget)part).selectReveal(new StructuredSelection(data.get(0)));
+          }
+          else if (part instanceof IViewerProvider)
+          {
+            Viewer viewer = ((IViewerProvider)part).getViewer();
+            if (viewer != null)
             {
-              ((ISetSelectionTarget)part).selectReveal(new StructuredSelection(data.get(0)));
-            }
-            else if (part instanceof IViewerProvider)
-            {
-              Viewer viewer = ((IViewerProvider)part).getViewer();
-              if (viewer != null)
-              {
-                viewer.setSelection(new StructuredSelection(data.get(0)), true);
-              }
+              viewer.setSelection(new StructuredSelection(data.get(0)), true);
             }
           }
         }
+      }
     
-        if (resource != null)
+      if (resource != null)
+      {
+        for (Diagnostic childDiagnostic : diagnostic.getChildren())
         {
-          for (Diagnostic childDiagnostic : diagnostic.getChildren())
-          {
-            eclipseResourcesUtil.createMarkers(resource, childDiagnostic);
-          }
+          eclipseResourcesUtil.createMarkers(resource, childDiagnostic);
         }
       }
     }
