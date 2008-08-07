@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementItemProvider.java,v 1.15 2008/07/11 16:50:17 davidms Exp $
+ * $Id: EModelElementItemProvider.java,v 1.16 2008/08/07 11:00:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -280,7 +280,7 @@ public class EModelElementItemProvider
     private URI getURI(EObject eObject, URI base)
     {
       URI uri = EcoreUtil.getURI(eObject);
-      return base.isHierarchical() && !base.isRelative() && !uri.isRelative() ? uri.deresolve(base) : uri;
+      return uri.deresolve(base);
     }
 
     @Override
