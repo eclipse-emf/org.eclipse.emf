@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.15 2008/08/02 13:56:21 emerks Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.16 2008/08/07 15:16:18 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,7 +34,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -44,7 +43,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
 
 /**
@@ -258,55 +260,54 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         URI targetFile = toURI(targetPathName);
         ensureContainerExists(targetFile.trimSegments(1), createMonitor(monitor, 1));
 
-        EPackage ecorePackage = genPackage.getEcorePackage();
-        Resource outputResource = ecorePackage.eResource();
-        ResourceSet set = outputResource.getResourceSet();
-        URI targetURI = toPlatformResourceURI(targetFile);
+        EPackage originalPackage = genPackage.getEcorePackage();
+        Resource originalResource = originalPackage.eResource();
 
-        Map<EModelElement, List<EAnnotation>> oldAnnotations = new HashMap<EModelElement, List<EAnnotation>>();
+        ResourceSet set = new ResourceSetImpl();
+        set.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new EcoreResourceFactoryImpl());
+        URI targetURI = toPlatformResourceURI(targetFile);        
+        Resource outputResource = set.createResource(targetFile);
+        EPackage outputPackage = (EPackage)EcoreUtil.copy(originalPackage);
+        outputResource.getContents().add(outputPackage);
+
+        // Remove unwanted annotations.
+        //
         for (Iterator<EObject> i = outputResource.getAllContents(); i.hasNext(); )
         {
           EObject eObject = i.next();
           if (eObject instanceof EModelElement)
           {
             EModelElement eModelElement = (EModelElement)eObject;
-            List<EAnnotation> eAnnotations = eModelElement.getEAnnotations();
-            List<EAnnotation> removedAnnotations = new ArrayList<EAnnotation>();
-            for (EAnnotation eAnnotation : eAnnotations)
+            for (Iterator<EAnnotation> j = eModelElement.getEAnnotations().iterator(); j.hasNext(); )
             {
+              EAnnotation eAnnotation = j.next();
               if (genModel.isSuppressedAnnotation(eAnnotation.getSource()))
               {
-                removedAnnotations.add(eAnnotation);
+                j.remove();
               }
-            }
-            if (!removedAnnotations.isEmpty())
-            {
-              oldAnnotations.put(eModelElement, removedAnnotations);
             }
           }
         }
 
-        for (Map.Entry<EModelElement, List<EAnnotation>> entry : oldAnnotations.entrySet())
-        {
-          List<EAnnotation> eAnnotations = entry.getKey().getEAnnotations();
-          eAnnotations.removeAll(entry.setValue(new ArrayList<EAnnotation>(eAnnotations)));
-        }
+        // Collapse any empty packages.
+        //
+        collapseEmptyPackages(outputPackage);
 
         // Compute a map of resource location URIs to logical namespace URIs
         // so that cross references will be resolved via package registry when deserialized. 
         //
         final Map<URI, URI> uriMap = new HashMap<URI, URI>();
-        for (Resource resource : set.getResources())
+        for (Resource resource : originalResource.getResourceSet().getResources())
         {
           List<EObject> contents = resource.getContents();
           if (!contents.isEmpty() && contents.get(0) instanceof EPackage)
           {
             EPackage ePackage = (EPackage)contents.get(0);
-            uriMap.put(resource.getURI(), resource == outputResource ? targetURI : URI.createURI(ePackage.getNsURI()));
+            uriMap.put(resource.getURI(), resource == originalResource ? targetURI : URI.createURI(ePackage.getNsURI()));
           }
         }
 
-        // This URI handler redirect the URI based on the mapping.
+        // This URI handler redirects the URI based on the mapping.
         //
         XMLResource.URIHandler uriHandler = 
           new URIHandlerImpl.PlatformSchemeAware()
@@ -337,21 +338,15 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
           };
         Map<Object, Object> options = new HashMap<Object, Object>();
         options.put(XMLResource.OPTION_URI_HANDLER, uriHandler);
-        options.put(XMLResource.OPTION_ROOT_OBJECTS, Collections.singletonList(ecorePackage));
 
         try
         {
-          outputResource.save(set.getURIConverter().createOutputStream(targetURI, options), options);
+          outputResource.save(options);
         }
         catch (IOException exception)
         {
           //DMS handle this well.
           CodeGenEcorePlugin.INSTANCE.log(exception);
-        }
-
-        for (Map.Entry<EModelElement, List<EAnnotation>> entry : oldAnnotations.entrySet())
-        {
-          ECollections.setEList(entry.getKey().getEAnnotations(), entry.getValue());
         }
       }
       finally
@@ -364,6 +359,32 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.worked(1);
     }
   }    
+
+  // Returns the change in number of immediate child packages.
+  //
+  protected int collapseEmptyPackages(EPackage ePackage)
+  {
+    EList<EPackage> subpackages = ePackage.getESubpackages();
+    for (int i = 0; i < subpackages.size(); i++)
+    {
+      EPackage subpackage = subpackages.get(i);
+      i += collapseEmptyPackages(subpackage);
+      subpackages = ePackage.getESubpackages();
+    }
+
+    EPackage superPackage = ePackage.getESuperPackage();
+    if (superPackage != null && ePackage.getEClassifiers().isEmpty())
+    {
+      int result = subpackages.size() - 1;
+
+      EList<EPackage> siblingPackages = superPackage.getESubpackages();
+      int i = siblingPackages.indexOf(ePackage);
+      siblingPackages.remove(i);
+      siblingPackages.addAll(i, subpackages);
+      return result;
+    }
+    return 0;
+  }
 
   protected void generatePackageInterface(GenPackage genPackage, Monitor monitor)
   {
