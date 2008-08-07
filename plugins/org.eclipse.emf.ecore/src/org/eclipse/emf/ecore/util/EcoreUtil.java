@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.62 2008/04/22 19:50:34 davidms Exp $
+ * $Id: EcoreUtil.java,v 1.63 2008/08/07 16:19:40 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -952,6 +952,43 @@ public class EcoreUtil
       }
     }
     return false;
+  }
+
+  /**
+   * Returns a subset of the objects such that no object in the result is an {@link #isAncestor(EObject, EObject) ancestor} of any other object in the result.
+   * @param eObjects the objects to be filtered.
+   * @return a subset of the objects such that no object in the result is an ancestor of any other object in the result.
+   * @since 2.5
+   */
+  public static List<EObject> filterDescendants(Collection<? extends EObject> eObjects)
+  {
+    List<EObject> result = new ArrayList<EObject>(eObjects.size());
+
+    LOOP:
+    for (EObject eObject : eObjects)
+    {
+      for (int i = 0, size = result.size(); i < size; )
+      {
+        EObject rootEObject = result.get(i);
+        if (rootEObject == eObject || EcoreUtil.isAncestor(rootEObject, eObject))
+        {
+          continue LOOP;
+        }
+
+        if (EcoreUtil.isAncestor(eObject, rootEObject))
+        {
+          result.remove(i);
+          --size;
+        }
+        else
+        {
+          ++i;
+        }
+      }
+      result.add(eObject);
+    }
+
+    return result;
   }
 
   /**
