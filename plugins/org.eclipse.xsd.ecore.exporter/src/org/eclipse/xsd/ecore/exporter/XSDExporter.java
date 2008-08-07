@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDExporter.java,v 1.9 2007/11/26 15:38:59 emerks Exp $
+ * $Id: XSDExporter.java,v 1.10 2008/08/07 11:00:22 emerks Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
@@ -109,10 +109,7 @@ public class XSDExporter extends ModelExporter
             GenPackage referencedGenPackage = genModel.findGenPackage(referencedEPackage);
             URI artifactURI = getReferencedGenPackageArtifactURI(exportData, referencedGenPackage);
             URI importLocationURI = URI.createURI(computeSchemaLocation(xsdImport, artifactURI));
-            if (!schemaLocationURI.isRelative() &&
-                  schemaLocationURI.isHierarchical() && 
-                  !importLocationURI.isRelative() &&
-                  schemaLocationURI.isPlatformResource() == importLocationURI.isPlatformResource() &&
+            if (schemaLocationURI.isPlatformResource() == importLocationURI.isPlatformResource() &&
                   schemaLocationURI.isPlatformPlugin() == importLocationURI.isPlatformPlugin())
             {
               importLocationURI = importLocationURI.deresolve(schemaLocationURI, true, true, false);
