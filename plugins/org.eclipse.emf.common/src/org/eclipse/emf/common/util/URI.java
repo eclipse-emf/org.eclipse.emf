@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.32 2008/07/30 21:16:37 davidms Exp $
+ * $Id: URI.java,v 1.33 2008/08/07 11:00:20 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -2080,11 +2080,9 @@ public final class URI
    * Finds the shortest relative or, if necessary, the absolute URI that,
    * when resolved against the given <code>base</code> absolute hierarchical
    * URI using {@link #resolve(URI) resolve}, will yield this absolute URI.  
-   *
-   * @exception java.lang.IllegalArgumentException if <code>base</code> is
-   * non-hierarchical or is relative.
-   * @exception java.lang.IllegalStateException if <code>this</code> is
-   * relative.
+   * If <code>base</code> is non-hierarchical or is relative,
+   * or <code>this</code> is non-hierarchical or is relative,
+   * <code>this</code> will be returned.
    */
   public URI deresolve(URI base)
   {
@@ -2095,6 +2093,9 @@ public final class URI
    * Finds an absolute URI that, when resolved against the given
    * <code>base</code> absolute hierarchical URI using {@link
    * #resolve(URI, boolean) resolve}, will yield this absolute URI.
+   * If <code>base</code> is non-hierarchical or is relative,
+   * or <code>this</code> is non-hierarchical or is relative,
+   * <code>this</code> will be returned.
    *
    * @param preserveRootParents the boolean argument to <code>resolve(URI,
    * boolean)</code> for which the returned URI should resolve to this URI.
@@ -2106,24 +2107,13 @@ public final class URI
    * any) will be relative, if one can be found that is no longer (by number
    * of segments) than the absolute path.  If both <code>anyRelPath</code>
    * and this parameter are <code>false</code>, it will be absolute.
-   *
-   * @exception java.lang.IllegalArgumentException if <code>base</code> is
-   * non-hierarchical or is relative.
-   * @exception java.lang.IllegalStateException if <code>this</code> is
-   * relative.
    */
   public URI deresolve(URI base, boolean preserveRootParents,
                        boolean anyRelPath, boolean shorterRelPath)
   {
-    if (!base.isHierarchical() || base.isRelative())
-    {
-      throw new IllegalArgumentException(
-        "deresolve against non-hierarchical or relative base");
-    }
-    if (isRelative())
-    {
-      throw new IllegalStateException("deresolve relative URI");
-    }
+    if (!base.isHierarchical() || base.isRelative()) return this;
+    
+    if (isRelative()) return this;
 
     // note: these assertions imply that neither this nor the base URI has a
     // relative path; thus, both have either an absolute path or no path
