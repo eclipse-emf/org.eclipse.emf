@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.1 2008/05/05 18:30:57 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.2 2008/08/07 14:02:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1474,7 +1474,7 @@ public class BinaryResourceImpl extends ResourceImpl
           for (int i = 0; i < size; ++i)
           {
             String literal = readString();
-            dataValues[i] = eStructuralFeatureData.eFactory.convertToString(eStructuralFeatureData.eDataType, literal);
+            dataValues[i] = eStructuralFeatureData.eFactory.createFromString(eStructuralFeatureData.eDataType, literal);
           }
           dataValueList.setData(size, dataValues);
           @SuppressWarnings("unchecked")
