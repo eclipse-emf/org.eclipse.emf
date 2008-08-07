@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.edit;singleton:=true
-Bundle-Version: 2.4.0.qualifier
+Bundle-Version: 2.5.0.qualifier
 Bundle-ClassPath: test.edit.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.eclipse.emf.edit,
  org.junit,
- org.eclipse.emf.test.common
+ org.eclipse.emf.test.common,
+ org.eclipse.emf.edit.ui
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy

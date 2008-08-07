@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.10 2007/01/18 15:52:53 marcelop Exp $
+ * $Id: AllSuites.java,v 1.11 2008/08/07 16:15:55 marcelop Exp $
  */
 package org.eclipse.emf.test.edit;
 
@@ -25,7 +25,7 @@ public class AllSuites extends TestSuite
 {
   public static final String PLUGIN_ID = "org.eclipse.emf.test.edit";
   
-  private static Test[] suites = new Test []{ 
+  private static Test[] suites = new Test []{
     org.eclipse.emf.test.edit.command.AddCommandTest.suite()
     ,org.eclipse.emf.test.edit.command.DeleteCommandTest.suite()
     ,org.eclipse.emf.test.edit.command.RemoveCommandTest.suite()
@@ -34,6 +34,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.edit.command.ChangeCommandTest.suite()
     ,org.eclipse.emf.test.edit.provider.ComposedAdapterFactoryTest.suite()
     ,org.eclipse.emf.test.edit.provider.TypeSearchTest.suite()
+    ,org.eclipse.emf.test.edit.TestValidateAction.suite()
   };
 
   public static Test suite()
