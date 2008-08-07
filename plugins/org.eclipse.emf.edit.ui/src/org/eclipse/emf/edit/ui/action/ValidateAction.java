@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.25 2008/08/07 16:18:45 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.26 2008/08/07 19:16:21 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -53,7 +53,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -215,7 +214,8 @@ public class ValidateAction extends Action implements ISelectionChangedListener
    */
   protected Diagnostic validate(IProgressMonitor progressMonitor)
   {
-    int count = selectedObjects.size();
+    int selectionSize = selectedObjects.size();
+    int count = selectionSize;
     for (EObject eObject : selectedObjects)
     {
       for (Iterator<?> i = eObject.eAllContents(); i.hasNext(); i.next())
@@ -231,26 +231,17 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     Diagnostician diagnostician = createDiagnostician(adapterFactory, progressMonitor);
     
     BasicDiagnostic diagnostic;
-    if (selectedObjects.size() == 1)
+    if (selectionSize == 1)
     {
       diagnostic = diagnostician.createDefaultDiagnostic(selectedObjects.get(0));
     }
     else
     {
-      StringBuilder label = new StringBuilder();
-      for (EObject eObject : selectedObjects)
-      {
-        if (label.length() != 0)
-        {
-          label.append(", ");
-        }
-        label.append(diagnostician.getObjectLabel(eObject));
-      }
       diagnostic =
         new BasicDiagnostic
           (EObjectValidator.DIAGNOSTIC_SOURCE,
            0,
-           EcorePlugin.INSTANCE.getString("_UI_DiagnosticRoot_diagnostic", new Object[] { "{" + label + "}"}),
+           EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { Integer.toString(selectionSize) }),
            new Object [] { new ArrayList<EObject>(selectedObjects) }); 
     }
     Map<Object, Object> context = diagnostician.createDefaultContext();
