@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.24 2008/08/04 16:46:40 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.25 2008/08/07 16:18:45 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -46,14 +46,17 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -142,16 +145,13 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   }
   
   protected ISelectionProvider selectionProvider;
-  protected List<Object> selectedObjects;
+  protected List<EObject> selectedObjects;
   protected EditingDomain domain;
   protected EclipseResourcesUtil eclipseResourcesUtil = 
     EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE ?
       new EclipseResourcesUtil() :
       null;
 
-  /**
-   * This contructs an instance.
-   */
   public ValidateAction()
   {
     super(EMFEditUIPlugin.INSTANCE.getString("_UI_Validate_menu_item"));
@@ -213,21 +213,58 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   /**
    * This simply execute the command.
    */
-  protected Diagnostic validate(final IProgressMonitor progressMonitor)
+  protected Diagnostic validate(IProgressMonitor progressMonitor)
   {
-    EObject eObject = (EObject)selectedObjects.iterator().next();
-    int count = 0;
-    for (Iterator<?> i = eObject.eAllContents(); i.hasNext(); i.next())
+    int count = selectedObjects.size();
+    for (EObject eObject : selectedObjects)
     {
-      ++count;
+      for (Iterator<?> i = eObject.eAllContents(); i.hasNext(); i.next())
+      {
+        ++count;
+      }
     }
 
     progressMonitor.beginTask("", count);
 
-    final AdapterFactory adapterFactory = 
+    AdapterFactory adapterFactory = 
       domain instanceof AdapterFactoryEditingDomain ? ((AdapterFactoryEditingDomain)domain).getAdapterFactory() : null;
+    Diagnostician diagnostician = createDiagnostician(adapterFactory, progressMonitor);
+    
+    BasicDiagnostic diagnostic;
+    if (selectedObjects.size() == 1)
+    {
+      diagnostic = diagnostician.createDefaultDiagnostic(selectedObjects.get(0));
+    }
+    else
+    {
+      StringBuilder label = new StringBuilder();
+      for (EObject eObject : selectedObjects)
+      {
+        if (label.length() != 0)
+        {
+          label.append(", ");
+        }
+        label.append(diagnostician.getObjectLabel(eObject));
+      }
+      diagnostic =
+        new BasicDiagnostic
+          (EObjectValidator.DIAGNOSTIC_SOURCE,
+           0,
+           EcorePlugin.INSTANCE.getString("_UI_DiagnosticRoot_diagnostic", new Object[] { "{" + label + "}"}),
+           new Object [] { new ArrayList<EObject>(selectedObjects) }); 
+    }
+    Map<Object, Object> context = diagnostician.createDefaultContext();
+    for (EObject eObject : selectedObjects)
+    {
+      progressMonitor.setTaskName(EMFEditUIPlugin.INSTANCE.getString("_UI_Validating_message", new Object [] {diagnostician.getObjectLabel(eObject)}));
+      diagnostician.validate(eObject, diagnostic, context);
+    }
+    return diagnostic;
+  }
 
-    Diagnostician diagnostician = 
+  protected Diagnostician createDiagnostician(final AdapterFactory adapterFactory, final IProgressMonitor progressMonitor)
+  {
+    return 
       new Diagnostician()
       {
         @Override
@@ -244,7 +281,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   
           return super.getObjectLabel(eObject);
         }
-
+  
         @Override
         public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
         {
@@ -252,11 +289,6 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           return super.validate(eClass, eObject, diagnostics, context);
         }
       };
-
-    progressMonitor.setTaskName
-      (EMFEditUIPlugin.INSTANCE.getString("_UI_Validating_message", new Object [] {diagnostician.getObjectLabel(eObject)}));
-
-    return diagnostician.validate(eObject);
   }
 
   protected void handleDiagnostic(Diagnostic diagnostic)
@@ -342,15 +374,25 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
   public boolean updateSelection(IStructuredSelection selection)
   {
-    selectedObjects = new ArrayList<Object>();
+    selectedObjects = new ArrayList<EObject>();
     for (Iterator<?> objects = selection.iterator(); objects.hasNext(); )
     {
-      selectedObjects.add(AdapterFactoryEditingDomain.unwrap(objects.next()));
+      Object object = AdapterFactoryEditingDomain.unwrap(objects.next());
+      if (object instanceof EObject)
+      {
+        selectedObjects.add((EObject)object);
+      }
+      else if (object instanceof Resource)
+      {
+        selectedObjects.addAll(((Resource)object).getContents());
+      }      
+      else
+      {
+        return false;
+      }
     }
-
-    return 
-      selectedObjects.size() == 1 && 
-        selectedObjects.get(0) instanceof EObject;
+    selectedObjects = EcoreUtil.filterDescendants(selectedObjects);
+    return !selectedObjects.isEmpty();
   }
 
   /**
