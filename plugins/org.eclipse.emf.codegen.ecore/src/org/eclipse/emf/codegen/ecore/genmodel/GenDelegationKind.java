@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenDelegationKind.java,v 1.3 2008/05/04 17:03:27 emerks Exp $
+ * $Id: GenDelegationKind.java,v 1.4 2008/08/07 11:10:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -49,7 +49,16 @@ public enum GenDelegationKind implements Enumerator
    * @generated
    * @ordered
    */
-  VIRTUAL_LITERAL(2, "Virtual", "Virtual");
+  VIRTUAL_LITERAL(2, "Virtual", "Virtual"), /**
+   * The '<em><b>Dynamic</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * @since 2.5
+   * <!-- end-user-doc -->
+   * @see #DYNAMIC
+   * @generated
+   * @ordered
+   */
+  DYNAMIC_LITERAL(3, "Dynamic", "Dynamic");
   /**
    * The '<em><b>None</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -84,6 +93,21 @@ public enum GenDelegationKind implements Enumerator
   public static final int VIRTUAL = 2;
 
   /**
+   * The '<em><b>Dynamic</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>Dynamic</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #DYNAMIC_LITERAL
+   * @model name="Dynamic"
+   * @generated
+   * @ordered
+   */
+  public static final int DYNAMIC = 3;
+
+  /**
    * An array of all the '<em><b>Gen Delegation Kind</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -95,6 +119,7 @@ public enum GenDelegationKind implements Enumerator
       NONE_LITERAL,
       REFLECTIVE_LITERAL,
       VIRTUAL_LITERAL,
+      DYNAMIC_LITERAL,
     };
 
   /**
@@ -156,6 +181,7 @@ public enum GenDelegationKind implements Enumerator
       case NONE: return NONE_LITERAL;
       case REFLECTIVE: return REFLECTIVE_LITERAL;
       case VIRTUAL: return VIRTUAL_LITERAL;
+      case DYNAMIC: return DYNAMIC_LITERAL;
     }
     return null;
   }

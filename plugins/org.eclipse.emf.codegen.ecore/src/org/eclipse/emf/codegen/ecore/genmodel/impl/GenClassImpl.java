@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.94 2008/06/06 17:20:25 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.95 2008/08/07 11:10:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3083,13 +3083,21 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public boolean isField(GenFeature genFeature)
   {
     GenModel genModel = getImplementingGenModel(genFeature);
-    return !genModel.isReflectiveDelegation() && (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) && genFeature.isField();
+    return
+      !genModel.isReflectiveDelegation() &&
+        !genModel.isDynamicDelegation() &&
+        (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) &&
+        genFeature.isField();
   }
 
   public boolean isESetField(GenFeature genFeature)
   {
     GenModel genModel = getImplementingGenModel(genFeature);
-    return !genModel.isReflectiveDelegation() && (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) && genFeature.isESetField();
+    return
+      !genModel.isReflectiveDelegation() &&
+        !genModel.isDynamicDelegation() &&
+        (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) &&
+        genFeature.isESetField();
   }
 
   public class CollidingGenOperationFilter implements GenOperationFilter

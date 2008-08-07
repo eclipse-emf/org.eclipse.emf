@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.60 2008/05/04 17:03:27 emerks Exp $
+ * $Id: GenModel.java,v 1.61 2008/08/07 11:10:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -2477,6 +2477,11 @@ public interface GenModel extends GenBase
   List<GenPackage> computeMissingUsedGenPackages();
 
   boolean isVirtualDelegation();
+  
+  /**
+   * @since 2.5
+   */
+  boolean isDynamicDelegation();
 
   /**
    * @since 2.3

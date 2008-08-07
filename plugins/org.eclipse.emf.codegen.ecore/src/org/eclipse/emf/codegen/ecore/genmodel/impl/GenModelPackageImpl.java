@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.55 2008/04/17 20:33:08 davidms Exp $
+ * $Id: GenModelPackageImpl.java,v 1.56 2008/08/07 11:10:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2354,6 +2354,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genDelegationKindEEnum, GenDelegationKind.NONE_LITERAL);
     addEEnumLiteral(genDelegationKindEEnum, GenDelegationKind.REFLECTIVE_LITERAL);
     addEEnumLiteral(genDelegationKindEEnum, GenDelegationKind.VIRTUAL_LITERAL);
+    addEEnumLiteral(genDelegationKindEEnum, GenDelegationKind.DYNAMIC_LITERAL);
 
     initEEnum(genJDKLevelEEnum, GenJDKLevel.class, "GenJDKLevel");
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK14_LITERAL);

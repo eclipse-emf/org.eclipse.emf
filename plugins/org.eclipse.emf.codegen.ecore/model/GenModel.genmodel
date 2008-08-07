@@ -34,6 +34,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDelegationKind/None"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDelegationKind/Reflective"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDelegationKind/Virtual"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDelegationKind/Dynamic"/>
     </genEnums>
     <genEnums ecoreEnum="GenModel.ecore#//GenJDKLevel">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK14"/>

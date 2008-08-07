@@ -277,6 +277,7 @@
     <eLiterals name="None"/>
     <eLiterals name="Reflective" value="1"/>
     <eLiterals name="Virtual" value="2"/>
+    <eLiterals name="Dynamic" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenAnnotation" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

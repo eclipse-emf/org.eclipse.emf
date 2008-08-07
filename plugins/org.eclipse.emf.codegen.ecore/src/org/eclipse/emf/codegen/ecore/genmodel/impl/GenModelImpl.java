@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.100 2008/07/31 21:50:42 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.101 2008/08/07 11:10:36 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -8593,6 +8593,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public boolean isVirtualDelegation()
   {
     return getFeatureDelegation() == GenDelegationKind.VIRTUAL_LITERAL;
+  }
+
+  public boolean isDynamicDelegation()
+  {
+    return getFeatureDelegation() == GenDelegationKind.DYNAMIC_LITERAL;
   }
   
   public boolean useClassOverrideAnnotation()

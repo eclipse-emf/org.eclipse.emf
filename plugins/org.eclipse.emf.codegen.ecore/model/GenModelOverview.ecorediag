@@ -790,7 +790,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_P4dCWUE6Ed2RRpDhhx0xkA" fontName="Microsoft Sans Serif" fontHeight="10" fillColor="8047085" lineColor="0"/>
     <element xmi:type="ecore:EEnum" href="GenModel.ecore#//GenRuntimeVersion"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_P4dCWkE6Ed2RRpDhhx0xkA" x="348" y="757"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_P4dCWkE6Ed2RRpDhhx0xkA" x="348" y="768"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_P4dCW0E6Ed2RRpDhhx0xkA"/>
   <element xmi:type="ecore:EPackage" href="GenModel.ecore#/"/>
@@ -930,9 +930,9 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_P4dCu0E6Ed2RRpDhhx0xkA" routing="Rectilinear" lineColor="0"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_P4dCvEE6Ed2RRpDhhx0xkA" fontName="Microsoft Sans Serif" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="GenModel.ecore#//GenClass/genFeatures"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_P4dCvUE6Ed2RRpDhhx0xkA" points="[7, 79, -164, -252]$[7, 119, -164, -212]$[71, 119, -100, -212]$[71, 156, -100, -175]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_-DIfkkFLEd2RRpDhhx0xkA" id="(0.5,0.0)"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_-DIfk0FLEd2RRpDhhx0xkA" id="(0.49773756,1.0)"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_P4dCvUE6Ed2RRpDhhx0xkA" points="[13, 79, -158, -252]$[13, 118, -158, -213]$[70, 118, -101, -213]$[70, 156, -101, -175]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_8i1BgGCnEd2UOtAsNVZpPQ" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_8i1BgWCnEd2UOtAsNVZpPQ" id="(0.49773756,1.0)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_P4dCwEE6Ed2RRpDhhx0xkA" type="3002" source="_P4dBVUE6Ed2RRpDhhx0xkA" target="_P4dBx0E6Ed2RRpDhhx0xkA">
     <children xmi:type="notation:Node" xmi:id="_P4dCwUE6Ed2RRpDhhx0xkA" type="4011">
@@ -980,7 +980,7 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_P4dC30E6Ed2RRpDhhx0xkA" routing="Rectilinear" lineColor="0"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_P4dC4EE6Ed2RRpDhhx0xkA" fontName="Microsoft Sans Serif" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="GenModel.ecore#//GenFeature/genClass"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_P4dC4UE6Ed2RRpDhhx0xkA" points="[-100, -175, 71, 156]$[-100, -212, 71, 119]$[-164, -212, 7, 119]$[-164, -252, 7, 79]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_P4dC4UE6Ed2RRpDhhx0xkA" points="[-101, -175, 70, 156]$[-101, -213, 70, 118]$[-158, -213, 13, 118]$[-158, -252, 13, 79]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_P4dC4kE6Ed2RRpDhhx0xkA" id="(0.49773756,1.0)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_P4dC40E6Ed2RRpDhhx0xkA" id="(0.5,0.0)"/>
   </edges>
