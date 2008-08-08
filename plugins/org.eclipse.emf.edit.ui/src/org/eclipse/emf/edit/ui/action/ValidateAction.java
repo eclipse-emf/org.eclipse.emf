@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.26 2008/08/07 19:16:21 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.27 2008/08/08 17:27:59 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -242,7 +242,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           (EObjectValidator.DIAGNOSTIC_SOURCE,
            0,
            EMFEditUIPlugin.INSTANCE.getString("_UI_DiagnosisOfNObjects_message", new String[] { Integer.toString(selectionSize) }),
-           new Object [] { new ArrayList<EObject>(selectedObjects) }); 
+           selectedObjects.toArray() ); 
     }
     Map<Object, Object> context = diagnostician.createDefaultContext();
     for (EObject eObject : selectedObjects)
