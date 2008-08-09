@@ -50,7 +50,7 @@ public class PluginXML
   protected final String TEXT_33 = NL + "   </extension>";
   protected final String TEXT_34 = NL + NL + "   <extension point=\"org.eclipse.emf.ecore.content_parser\">" + NL + "      <parser" + NL + "            contentTypeIdentifier=\"";
   protected final String TEXT_35 = "\"" + NL + "            class=\"";
-  protected final String TEXT_36 = "\"/>" + NL + "   </extension>" + NL + "" + NL + "   <extension point=\"org.eclipse.core.runtime.contentTypes\">" + NL + "      <content-type" + NL + "            base-type=\"";
+  protected final String TEXT_36 = "\"/>" + NL + "   </extension>" + NL + "" + NL + "   <extension point=\"org.eclipse.core.contenttype.contentTypes\">" + NL + "      <content-type" + NL + "            base-type=\"";
   protected final String TEXT_37 = "\"" + NL + "            file-extensions=\"";
   protected final String TEXT_38 = "\"" + NL + "            id=\"";
   protected final String TEXT_39 = "\"" + NL + "            name=\"%_UI_";
