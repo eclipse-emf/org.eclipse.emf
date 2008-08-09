@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.19 2008/05/29 14:56:36 marcelop Exp $
+ * $Id: XSDResourceImpl.java,v 1.20 2008/08/09 13:28:47 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -664,6 +664,7 @@ public class XSDResourceImpl extends ResourceImpl
       progressMonitor.subTask(getURI().toString());
     }
 
+    IOException ioException = null;
     Collection<XSDDiagnostic> errors = null;
     try
     {
@@ -683,8 +684,14 @@ public class XSDResourceImpl extends ResourceImpl
       else
       {
         DefaultErrorHandler errorHandler = new DefaultErrorHandler();
-        document = getDocument(inputSource, errorHandler, options);
-        errors = errorHandler.getDiagnostics();
+        try
+        {
+          document = getDocument(inputSource, errorHandler, options);
+        }
+        finally
+        {
+          errors = errorHandler.getDiagnostics();
+        }
       }
 
       if (document != null && document.getDocumentElement() != null)
@@ -713,10 +720,10 @@ public class XSDResourceImpl extends ResourceImpl
         handleSchemaElement(null, false);
       }
     }
-    catch (Exception exception)
+    catch (IOException exception)
     {
-      XSDPlugin.INSTANCE.log(exception);
       handleSchemaElement(null, false);
+      ioException = exception;
     }
 
     if (errors != null)
@@ -763,6 +770,11 @@ public class XSDResourceImpl extends ResourceImpl
     if (progressMonitor != null)
     {
       progressMonitor.worked(1);
+    }
+
+    if (ioException != null)
+    {
+      throw ioException;
     }
   }
 
