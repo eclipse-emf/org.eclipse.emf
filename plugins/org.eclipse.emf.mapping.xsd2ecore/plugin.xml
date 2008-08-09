@@ -20,7 +20,7 @@
             class="org.eclipse.emf.mapping.xsd2ecore.util.XSD2EcoreResourceFactoryImpl"/>
    </extension>
 
-   <extension point="org.eclipse.core.runtime.contentTypes">
+   <extension point="org.eclipse.core.contenttype.contentTypes">
       <content-type
             base-type="org.eclipse.emf.ecore.xmi"
             file-extensions="xsd2ecore"
