@@ -36,7 +36,7 @@
   </extension>
 
   <extension
-        point="org.eclipse.core.runtime.contentTypes">
+        point="org.eclipse.core.contenttype.contentTypes">
      <content-type
            base-type="org.eclipse.core.runtime.xml"
            file-extensions="xmi"
@@ -48,7 +48,7 @@
   </extension>
   
   <extension
-        point="org.eclipse.core.runtime.contentTypes">
+        point="org.eclipse.core.contenttype.contentTypes">
      <content-type
            base-type="org.eclipse.emf.ecore.xmi"
            file-extensions="ecore"
@@ -70,7 +70,7 @@
   </extension>
   
   <extension
-        point="org.eclipse.core.runtime.contentTypes">
+        point="org.eclipse.core.contenttype.contentTypes">
      <content-type
            base-type="org.eclipse.emf.ecore.xmi"
            file-extensions="emof,xmi"
