@@ -16,7 +16,7 @@
    </extension>
 
    <extension
-         point="org.eclipse.core.runtime.contentTypes">
+         point="org.eclipse.core.contenttype.contentTypes">
       <content-type
             base-type="org.eclipse.emf.ecore.xmi"
             file-extensions="extlibrary"
