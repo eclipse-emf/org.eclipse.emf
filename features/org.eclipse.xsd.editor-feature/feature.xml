@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.xsd.editor"
       label="%featureName"
-      version="2.4.0.qualifier"
+      version="2.5.0.qualifier"
       provider-name="%providerName">
 
    <description>
