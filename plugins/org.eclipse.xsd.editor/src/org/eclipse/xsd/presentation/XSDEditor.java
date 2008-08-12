@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.24 2007/05/28 18:28:23 emerks Exp $
+ * $Id: XSDEditor.java,v 1.25 2008/08/12 18:32:54 davidms Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -167,6 +167,7 @@ import org.eclipse.xsd.XSDDiagnosticSeverity;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDModelGroup;
 import org.eclipse.xsd.XSDModelGroupDefinition;
+import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDParticle;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
@@ -999,7 +1000,7 @@ public class XSDEditor
     editingDomain.getResourceSet().getLoadOptions().put(XSDResourceImpl.XSD_TRACK_LOCATION, Boolean.TRUE);
     try
     {
-      XSDResourceImpl xsdResource = (XSDResourceImpl)editingDomain.getResourceSet().createResource(URI.createURI(uri));
+      XSDResourceImpl xsdResource = (XSDResourceImpl)editingDomain.getResourceSet().createResource(URI.createURI(uri), XSDPackage.eCONTENT_TYPE);
       xsdResource.load(editingDomain.getResourceSet().getLoadOptions());
       xsdSchema = xsdResource.getSchema();
     }
