@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.31 2008/05/25 17:27:40 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.32 2008/08/13 15:11:42 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -916,36 +916,50 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
         result.add(object);
       }
 
-      EClass eClass = object.eClass();
-      for (EStructuralFeature eStructuralFeature : eClass.getEAllStructuralFeatures())
+      // Don't traverse the structure of the EcorePackage's EObject EClass instance.
+      // This avoids pulling in all the EcorePackage's meta data simply because EObject was used.
+      //
+      if (object != EcorePackage.Literals.EOBJECT)
       {
-        if (!eStructuralFeature.isDerived())
+        EClass eClass = object.eClass();
+        for (EStructuralFeature eStructuralFeature : eClass.getEAllStructuralFeatures())
         {
-          if (eStructuralFeature instanceof EReference)
+          if (!eStructuralFeature.isDerived())
           {
-            EReference eReference = (EReference)eStructuralFeature;
-            if (eReference.isMany())
+            if (eStructuralFeature instanceof EReference)
             {
-              @SuppressWarnings("unchecked")
-              List<EObject> list = ((List<EObject>)object.eGet(eReference));
-              itemQueue.addAll(list);
-            }
-            else
-            {
-              EObject eObject = (EObject)object.eGet(eReference);
-              if (eObject != null)
+              EReference eReference = (EReference)eStructuralFeature;
+              if (eReference.isMany())
               {
-                itemQueue.addLast(eObject);
+                @SuppressWarnings("unchecked")
+                List<EObject> list = ((List<EObject>)object.eGet(eReference));
+                itemQueue.addAll(list);
+              }
+              else
+              {
+                EObject eObject = (EObject)object.eGet(eReference);
+  
+                // Explicitly exclude walking up the container reference for EClassifiers of the EcorePackage instance
+                // except for EClass instances (other than EObject which was excluded above already).
+                // This avoids pulling in all the EcorePackage's meta data simply because an EDataType was used.
+                //
+                if (eObject != null && 
+                      (eObject != EcorePackage.eINSTANCE ||
+                         eStructuralFeature != EcorePackage.Literals.ECLASSIFIER__EPACKAGE ||
+                         object instanceof EClass))
+                {
+                  itemQueue.addLast(eObject);
+                }
               }
             }
-          }
-          else if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
-          {
-            for (FeatureMap.Entry entry : (FeatureMap)object.eGet(eStructuralFeature))
+            else if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
             {
-              if (entry.getEStructuralFeature() instanceof EReference && entry.getValue() != null)
+              for (FeatureMap.Entry entry : (FeatureMap)object.eGet(eStructuralFeature))
               {
-                itemQueue.addLast((EObject)entry.getValue());
+                if (entry.getEStructuralFeature() instanceof EReference && entry.getValue() != null)
+                {
+                  itemQueue.addLast((EObject)entry.getValue());
+                }
               }
             }
           }
