@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.16 2008/08/07 15:16:18 davidms Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.17 2008/08/13 02:57:31 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +40,8 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -251,7 +252,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       {
         monitor.beginTask("", 2);
 
-        GenModel genModel = genPackage.getGenModel();
+        final GenModel genModel = genPackage.getGenModel();
         String targetPathName = genModel.getModelDirectory() + "/" + genPackage.getClassPackageName().replace('.', '/') + "/" +
           genPackage.getSerializedPackageFilename();
         message = CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingPackageSerialization_message", new Object[] { targetPathName });
@@ -266,31 +267,38 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         ResourceSet set = new ResourceSetImpl();
         set.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new EcoreResourceFactoryImpl());
         URI targetURI = toPlatformResourceURI(targetFile);        
-        Resource outputResource = set.createResource(targetFile);
-        EPackage outputPackage = (EPackage)EcoreUtil.copy(originalPackage);
-        outputResource.getContents().add(outputPackage);
+        Resource outputResource = set.createResource(targetURI);
 
-        // Remove unwanted annotations.
+        // Copy the package, excluding unwanted annotations.
         //
-        for (Iterator<EObject> i = outputResource.getAllContents(); i.hasNext(); )
-        {
-          EObject eObject = i.next();
-          if (eObject instanceof EModelElement)
+        EcoreUtil.Copier copier =
+          new EcoreUtil.Copier()
           {
-            EModelElement eModelElement = (EModelElement)eObject;
-            for (Iterator<EAnnotation> j = eModelElement.getEAnnotations().iterator(); j.hasNext(); )
-            {
-              EAnnotation eAnnotation = j.next();
-              if (genModel.isSuppressedAnnotation(eAnnotation.getSource()))
-              {
-                j.remove();
-              }
-            }
-          }
-        }
+            private static final long serialVersionUID = 1L;
 
-        // Collapse any empty packages.
-        //
+            @Override
+            protected void copyContainment(EReference reference, EObject object, EObject copyEObject)
+            {
+              if (reference == EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS)
+              {
+                List<EAnnotation> result = ((EModelElement)copyEObject).getEAnnotations();
+                result.clear();
+
+                for (EAnnotation eAnnotation : ((EModelElement)object).getEAnnotations())
+                {
+                  if (!genModel.isSuppressedAnnotation(eAnnotation.getSource()))
+                  {
+                    result.add((EAnnotation)copy(eAnnotation));
+                  }
+                }
+                return;
+              }
+              super.copyContainment(reference, object, copyEObject);
+            }
+          };
+        EPackage outputPackage = (EPackage)copier.copy(originalPackage);
+        copier.copyReferences();
+        outputResource.getContents().add(outputPackage);
         collapseEmptyPackages(outputPackage);
 
         // Compute a map of resource location URIs to logical namespace URIs
@@ -302,8 +310,10 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
           List<EObject> contents = resource.getContents();
           if (!contents.isEmpty() && contents.get(0) instanceof EPackage)
           {
-            EPackage ePackage = (EPackage)contents.get(0);
-            uriMap.put(resource.getURI(), resource == originalResource ? targetURI : URI.createURI(ePackage.getNsURI()));
+            if (resource != originalResource)
+            {
+              uriMap.put(resource.getURI(), URI.createURI(((EPackage)contents.get(0)).getNsURI()));
+            }
           }
         }
 
@@ -338,6 +348,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
           };
         Map<Object, Object> options = new HashMap<Object, Object>();
         options.put(XMLResource.OPTION_URI_HANDLER, uriHandler);
+        options.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
 
         try
         {
