@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.26 2008/04/15 03:18:31 davidms Exp $
+ * $Id: GenPackageItemProvider.java,v 1.26.2.1 2008/08/13 15:21:08 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
@@ -683,7 +684,11 @@ public class GenPackageItemProvider
     String text = genPackage.getPrefix();
     if (text == null || text.length() == 0)
     {
-      text = "[" + genPackage.getEcorePackage().getName() + "]";
+      EPackage ecorePackage = genPackage.getEcorePackage();
+      if (ecorePackage != null)
+      {
+        text = "[" + ecorePackage.getName() + "]";
+      }
     }
     return text;
   }
