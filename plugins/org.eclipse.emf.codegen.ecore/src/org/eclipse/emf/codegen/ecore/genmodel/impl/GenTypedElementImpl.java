@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.20 2008/01/12 11:01:59 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.21 2008/08/13 15:27:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -401,7 +401,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
     EGenericType eGenericType = getEcoreTypedElement().getEGenericType();
     if (eGenericType.getETypeArguments().size() == 2)
     {
-      return getTypeArgument(context,eGenericType.getETypeArguments().get(0), true, false);
+      return getTypeArgument(context,eGenericType.getETypeArguments().get(1), true, false);
     }
     else
     {
