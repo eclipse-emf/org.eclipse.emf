@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.90 2008/04/23 19:30:42 emerks Exp $
+ * $Id: XMLHandler.java,v 1.90.2.1 2008/08/22 19:32:24 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2457,8 +2457,9 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         {
           String nsURI = entry.getKey();
           if (nsURI != null &&
-                nsURI.endsWith(uriString) &&
-                nsURI.charAt(nsURI.length() - uriString.length() - 1) == '/')
+              nsURI.length() > uriString.length() &&
+              nsURI.endsWith(uriString) &&
+              nsURI.charAt(nsURI.length() - uriString.length() - 1) == '/')
           {
             oldStyleProxyURIs = true;
             return (EPackage)entry.getValue();
