@@ -5,27 +5,54 @@
 		<title>genericsGoCrazy</title>
 		
 		<style>
-			body {font-size: 10pt; clip:   rect(   ); margin-top: 5mm; margin-left: 3mm}
+		<!--
+			body {font-size: 10pt; clip: rect(); margin-top: 5mm; margin-left: 3mm}
 			h1 {font-size: 22px; font-weight: bold; color:white; background-color:#595791}
 			h2 {font-size: 16pt; font-weight: bold ; line-height: 20px; background-color:#FFFFCF}
 			h3 {font-size: 12pt}
 			p, table, td, th {font-size: 10pt}
 			code {font-size: 10pt}
 			li {font-size: 10pt; line-height: 20px}
-		</style>		
+			
+			table.details {font: 11px/24px Verdana, Arial, Helvetica, sans-serif; border-collapse: collapse; width: 480px;}
+			table.details td.left  {order-bottom: 1px solid #CCC;	padding: 0 0.5em;}
+			table.details td.right {order-bottom: 1px solid #CCC;	padding: 0 0.5em; text-align: right;}
+			table.details tr.odd   {background: #e3f0f7;}
+			table.details tr.even  {background: #f7f7f7;}
+		-->
+		</style>
+		
+		<script language="JavaScript" type="text/javascript">
+		<!--
+			function openSection(sectionId, open)
+			{
+				var section = document.getElementById(sectionId);
+				section.style.display = open ? 'block' : 'none';
+			}
+			
+			function selectAllChechboxes(elements, select)
+			{
+				for (var i = 0; i < elements.length; i++)
+				{
+					elements[i].checked = select;
+					openSection(elements[i].value, select);
+				}
+			}
+		// -->
+		</script>
 	</head>
 
-	<body lang="EN-US">
+	<body lang="EN-US"><form name="packform" method="post">
 		<h1>Package: <i>genericsGoCrazy</i></h1>
 			<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
 			
 				<tr>
 					<td>Ecore URI</td>
-					<td>@ecoreuri@</td>
+					<td>file:/D:/emf/emf24/workspace/org.eclipse.emf.test.examples/data/htmlExporter/GenericsGoCrazy.ecore</td>
 				</tr>
 				<tr>
 					<td>GenModel URI</td>
-					<td>@genmodeluri@</td>
+					<td>file:/D:/emf/emf24/workspace/org.eclipse.emf.test.examples/data/htmlExporter/HTMLExportTest.genmodel</td>
 				</tr>
 				<tr>
 					<td>Namespace URI</td>
@@ -37,94 +64,319 @@
 				</tr>
 			</table>
 
+			<p><input type="checkbox" onclick="javascript:selectAllChechboxes(document.packform.detailCheckbox, this.checked)"/>expand all details</p>
+
 		<h1>Classes</h1>
 			<h2><a name="MyClass">MyClass</a>&lt;<a name="MyClass@@T">T</a> extends <i><b>EJavaObject</b></i> &amp; <a href="#Car" title="Class:Car">Car</a>&gt;</h2>
 				<h3>Details</h3>
-					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
-						<tr>
-							<td>Is Abstract</td>
-							<td><tt>false</tt></td>
-						</tr>
-						<tr>
-							<td>Is Interface</td>
-							<td><tt>false</tt></td>
-						</tr>
-					</table>
+				<dt>
+					<dd><table class="details">
+						<tr class="odd"><td class="left">abstract</td><td class="right"><tt>false</tt></td></tr>
+						<tr class="even"><td class="left">interface</td><td class="right"><tt>false</tt></td></tr>
+					</table></dd>
+				</dt>
 		
 		
 				<h3>Attributes</h3>
 					<ul>
-						<li><i><b>EEList</b></i>&lt;<i><b>EEList</b></i>&lt;<i><b>ECharacterObject</b></i>&gt;&gt; <a name="MyClass@a1">a1</a></li>
-						<li><i><b>EEList</b></i>&lt;<i><b>EDoubleObject</b></i>&gt; <a name="MyClass@a2">a2</a></li>
-						<li><i><b>EEList</b></i>&lt;<a href="#Car" title="Class:Car">Car</a>&gt; <a name="MyClass@a3">a3</a></li>
-						<li><a href="#MyClass@@T" title="TypeParameter:T">T</a> <a name="MyClass@theEObject">theEObject</a></li>
-						<li><a href="#MyMap" title="DataType:MyMap">MyMap</a>&lt;<i><b>EJavaObject</b></i>, <a href="#MyClass@@T" title="TypeParameter:T">T</a>&gt; <a name="MyClass@aMap">aMap</a></li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail1" onclick="javascript:openSection(this.value, this.checked)"/> <i><b>EEList</b></i>&lt;<i><b>EEList</b></i>&lt;<i><b>ECharacterObject</b></i>&gt;&gt; <a name="MyClass@a1">a1</a>
+							<div id="detail1" name="detail1" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">transient</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail2" onclick="javascript:openSection(this.value, this.checked)"/> <i><b>EEList</b></i>&lt;<i><b>EDoubleObject</b></i>&gt; <a name="MyClass@a2">a2</a>
+							<div id="detail2" name="detail2" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">transient</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail3" onclick="javascript:openSection(this.value, this.checked)"/> <i><b>EEList</b></i>&lt;<a href="#Car" title="Class:Car">Car</a>&gt; <a name="MyClass@a3">a3</a>
+							<div id="detail3" name="detail3" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">transient</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail4" onclick="javascript:openSection(this.value, this.checked)"/> <a href="#MyClass@@T" title="TypeParameter:MyClass.T">T</a> <a name="MyClass@theEObject">theEObject</a>
+							<div id="detail4" name="detail4" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail5" onclick="javascript:openSection(this.value, this.checked)"/> <a href="#MyMap" title="DataType:MyMap">MyMap</a>&lt;<i><b>EJavaObject</b></i>, <a href="#MyClass@@T" title="TypeParameter:MyClass.T">T</a>&gt; <a name="MyClass@aMap">aMap</a>
+							<div id="detail5" name="detail5" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
 					</ul>
 		
 		
 		
 				<h3>Operations</h3>
 					<ul>
-						<li>&lt;F&gt; void <a name="MyClass@bar">bar</a>(F aF, <a href="#MyClass@@T" title="TypeParameter:T">T</a> aT, <i><b>EEList</b></i>&lt;<a href="#MyClass@@T" title="TypeParameter:T">T</a>&gt; ts)</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail6" onclick="javascript:openSection(this.value, this.checked)"/> &lt;F&gt; void <a name="MyClass@bar">bar</a>(F aF, <a href="#MyClass@@T" title="TypeParameter:MyClass.T">T</a> aT, <i><b>EEList</b></i>&lt;<a href="#MyClass@@T" title="TypeParameter:MyClass.T">T</a>&gt; ts)
+							<div id="detail6" name="detail6" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
 					</ul>
 		
 	
 			<h2><a name="Car">Car</a></h2>
 				<h3>Details</h3>
-					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
-						<tr>
-							<td>Is Abstract</td>
-							<td><tt>false</tt></td>
-						</tr>
-						<tr>
-							<td>Is Interface</td>
-							<td><tt>false</tt></td>
-						</tr>
-					</table>
+				<dt>
+					<dd><table class="details">
+						<tr class="odd"><td class="left">abstract</td><td class="right"><tt>false</tt></td></tr>
+						<tr class="even"><td class="left">interface</td><td class="right"><tt>false</tt></td></tr>
+					</table></dd>
+				</dt>
 		
 		
 				<h3>Attributes</h3>
 					<ul>
-						<li><i><b>EString</b></i> <a name="Car@name">name</a></li>
-						<li><i><b>EString</b></i> <a name="Car@fullName">fullName</a> /</li>
-						<li><i><b>EJavaObject</b></i>* <a name="Car@doors">doors</a></li>
-						<li><a href="#Color" title="Enumeration:Color">Color</a> <a name="Car@color">color</a></li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail7" onclick="javascript:openSection(this.value, this.checked)"/> <i><b>EString</b></i> <a name="Car@name">name</a>
+							<div id="detail7" name="detail7" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail8" onclick="javascript:openSection(this.value, this.checked)"/> <i><b>EString</b></i> <a name="Car@fullName">fullName</a>
+							<div id="detail8" name="detail8" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="odd"><td class="left">derived</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail9" onclick="javascript:openSection(this.value, this.checked)"/> <i><b>EJavaObject</b></i>* <a name="Car@doors">doors</a>
+							<div id="detail9" name="detail9" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>-1</tt></td></tr>
+									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail10" onclick="javascript:openSection(this.value, this.checked)"/> <a href="#Color" title="Enumeration:Color">Color</a> <a name="Car@color">color</a>
+							<div id="detail10" name="detail10" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>red</tt></td></tr>
+									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
 					</ul>
 		
 		
 				<h3>References</h3>
 					<ul>
-						<li><a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;<a href="#Car" title="Class:Car">Car</a>&gt; <a name="Car@aMC">aMC</a></li>
-						<li><a href="#Car" title="Class:Car">Car</a> <a name="Car@previousCar">previousCar</a></li>
-						<li><a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;? super <i><b>EIntegerObject</b></i>&gt; <a name="Car@anotherMyClass">anotherMyClass</a></li>
-						<li><a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;? extends <a href="#SubCar" title="Class:SubCar">SubCar</a>&gt; <a name="Car@yetAnotherMyClass">yetAnotherMyClass</a></li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail11" onclick="javascript:openSection(this.value, this.checked)"/> <a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;<a href="#Car" title="Class:Car">Car</a>&gt; <a name="Car@aMC">aMC</a>
+							<div id="detail11" name="detail11" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">containment</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">container</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">resolveProxies</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="odd"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="even"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="odd"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="even"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail12" onclick="javascript:openSection(this.value, this.checked)"/> <a href="#Car" title="Class:Car">Car</a> <a name="Car@previousCar">previousCar</a>
+							<div id="detail12" name="detail12" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">containment</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">container</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">resolveProxies</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="odd"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="even"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="odd"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="even"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail13" onclick="javascript:openSection(this.value, this.checked)"/> <a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;? super <i><b>EIntegerObject</b></i>&gt; <a name="Car@anotherMyClass">anotherMyClass</a>
+							<div id="detail13" name="detail13" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">containment</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">container</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">resolveProxies</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="odd"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="even"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="odd"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="even"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail14" onclick="javascript:openSection(this.value, this.checked)"/> <a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;? extends <a href="#SubCar" title="Class:SubCar">SubCar</a>&gt; <a name="Car@yetAnotherMyClass">yetAnotherMyClass</a>
+							<div id="detail14" name="detail14" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">containment</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">container</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">resolveProxies</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="odd"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="even"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="odd"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="even"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
 					</ul>
 		
 		
 				<h3>Operations</h3>
 					<ul>
-						<li>void <a name="Car@foo">foo</a>(<i><b>EInt</b></i> a)</li>
-						<li>&lt;T extends <a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;?&gt;&gt; void <a name="Car@enhancedFoo">enhancedFoo</a>(T aT, <i><b>EInt</b></i> aInt)</li>
-						<li>&lt;K, V extends <i><b>EEList</b></i>&lt;? extends K&gt; &amp; <i><b>EObject</b></i>&gt; V* <a name="Car@superFoo">superFoo</a>(K key)</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail15" onclick="javascript:openSection(this.value, this.checked)"/> void <a name="Car@foo">foo</a>(<i><b>EInt</b></i> a)
+							<div id="detail15" name="detail15" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail16" onclick="javascript:openSection(this.value, this.checked)"/> &lt;T extends <a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;?&gt;&gt; void <a name="Car@enhancedFoo">enhancedFoo</a>(T aT, <i><b>EInt</b></i> aInt)
+							<div id="detail16" name="detail16" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail17" onclick="javascript:openSection(this.value, this.checked)"/> &lt;K, V extends <i><b>EEList</b></i>&lt;? extends K&gt; &amp; <i><b>EObject</b></i>&gt; V* <a name="Car@superFoo">superFoo</a>(K key)
+							<div id="detail17" name="detail17" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>-1</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
 					</ul>
 		
 	
 			<h2><a name="MySubClass">MySubClass</a>&lt;<a name="MySubClass@@N">N</a> extends <a href="#Car" title="Class:Car">Car</a>&gt;</h2>
 				<h3>Details</h3>
-					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
-						<tr>
-							<td>Is Abstract</td>
-							<td><tt>false</tt></td>
-						</tr>
-						<tr>
-							<td>Is Interface</td>
-							<td><tt>false</tt></td>
-						</tr>
-					</table>
+				<dt>
+					<dd><table class="details">
+						<tr class="odd"><td class="left">abstract</td><td class="right"><tt>false</tt></td></tr>
+						<tr class="even"><td class="left">interface</td><td class="right"><tt>false</tt></td></tr>
+					</table></dd>
+				</dt>
 		
 				<h3>Super Classes</h3>
 					<ul>
-						<li><tt><a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;<a href="#MySubClass@@N" title="TypeParameter:N">N</a>&gt;</tt></li>
+						<li><tt><a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;<a href="#MySubClass@@N" title="TypeParameter:MySubClass.N">N</a>&gt;</tt></li>
 						<li><tt><a href="#Car" title="Class:Car">Car</a></tt></li>
 					</ul>
 		
@@ -132,18 +384,14 @@
 		
 		
 	
-			<h2><a name="Comp">Comp</a>&lt;<a name="Comp@@E1">E1</a> extends <a href="#Car" title="Class:Car">Car</a> &amp; <a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;<a href="#Comp@@E1" title="TypeParameter:E1">E1</a>&gt;, <a name="Comp@@E2">E2</a> extends <a href="#Comp" title="Class:Comp">Comp</a>&lt;<a href="#Comp@@E1" title="TypeParameter:E1">E1</a>, <a href="#Comp@@E2" title="TypeParameter:E2">E2</a>&gt;&gt;</h2>
+			<h2><a name="Comp">Comp</a>&lt;<a name="Comp@@E1">E1</a> extends <a href="#Car" title="Class:Car">Car</a> &amp; <a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;<a href="#Comp@@E1" title="TypeParameter:Comp.E1">E1</a>&gt;, <a name="Comp@@E2">E2</a> extends <a href="#Comp" title="Class:Comp">Comp</a>&lt;<a href="#Comp@@E1" title="TypeParameter:Comp.E1">E1</a>, <a href="#Comp@@E2" title="TypeParameter:Comp.E2">E2</a>&gt;&gt;</h2>
 				<h3>Details</h3>
-					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
-						<tr>
-							<td>Is Abstract</td>
-							<td><tt>false</tt></td>
-						</tr>
-						<tr>
-							<td>Is Interface</td>
-							<td><tt>false</tt></td>
-						</tr>
-					</table>
+				<dt>
+					<dd><table class="details">
+						<tr class="odd"><td class="left">abstract</td><td class="right"><tt>false</tt></td></tr>
+						<tr class="even"><td class="left">interface</td><td class="right"><tt>false</tt></td></tr>
+					</table></dd>
+				</dt>
 		
 		
 		
@@ -151,16 +399,12 @@
 	
 			<h2><a name="SubCar">SubCar</a></h2>
 				<h3>Details</h3>
-					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
-						<tr>
-							<td>Is Abstract</td>
-							<td><tt>false</tt></td>
-						</tr>
-						<tr>
-							<td>Is Interface</td>
-							<td><tt>false</tt></td>
-						</tr>
-					</table>
+				<dt>
+					<dd><table class="details">
+						<tr class="odd"><td class="left">abstract</td><td class="right"><tt>false</tt></td></tr>
+						<tr class="even"><td class="left">interface</td><td class="right"><tt>false</tt></td></tr>
+					</table></dd>
+				</dt>
 		
 				<h3>Super Classes</h3>
 					<ul>
@@ -171,22 +415,18 @@
 		
 		
 	
-			<h2><a name="OtherClass">OtherClass</a>&lt;<a name="OtherClass@@K">K</a> extends <a href="#Car" title="Class:Car">Car</a> &amp; <a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;<a href="#OtherClass@@K" title="TypeParameter:K">K</a>&gt;, <a name="OtherClass@@T">T</a> extends <i><b>EEList</b></i>&lt;<a href="#OtherClass@@K" title="TypeParameter:K">K</a>&gt;&gt;</h2>
+			<h2><a name="OtherClass">OtherClass</a>&lt;<a name="OtherClass@@K">K</a> extends <a href="#Car" title="Class:Car">Car</a> &amp; <a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;<a href="#OtherClass@@K" title="TypeParameter:OtherClass.K">K</a>&gt;, <a name="OtherClass@@T">T</a> extends <i><b>EEList</b></i>&lt;<a href="#OtherClass@@K" title="TypeParameter:OtherClass.K">K</a>&gt;&gt;</h2>
 				<h3>Details</h3>
-					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
-						<tr>
-							<td>Is Abstract</td>
-							<td><tt>false</tt></td>
-						</tr>
-						<tr>
-							<td>Is Interface</td>
-							<td><tt>false</tt></td>
-						</tr>
-					</table>
+				<dt>
+					<dd><table class="details">
+						<tr class="odd"><td class="left">abstract</td><td class="right"><tt>false</tt></td></tr>
+						<tr class="even"><td class="left">interface</td><td class="right"><tt>false</tt></td></tr>
+					</table></dd>
+				</dt>
 		
 				<h3>Super Classes</h3>
 					<ul>
-						<li><tt><a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;<a href="#OtherClass@@K" title="TypeParameter:K">K</a>&gt;</tt></li>
+						<li><tt><a href="#MyClass" title="Class:MyClass">MyClass</a>&lt;<a href="#OtherClass@@K" title="TypeParameter:OtherClass.K">K</a>&gt;</tt></li>
 					</ul>
 		
 		
@@ -198,26 +438,37 @@
 			<h2><a name="Color">Color</a></h2>
 				<h3>Literals</h3>
 					<ul>
-						<li>RED</li>
-						<li>BLUE</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail18" onclick="javascript:openSection(this.value, this.checked)"/> RED
+							<div id="detail18" name="detail18" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">literal</td><td class="right"><tt>red</tt></td></tr>
+									<tr class="even"><td class="left">value</td><td class="right"><tt>1</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail19" onclick="javascript:openSection(this.value, this.checked)"/> BLUE
+							<div id="detail19" name="detail19" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">literal</td><td class="right"><tt>blue</tt></td></tr>
+									<tr class="even"><td class="left">value</td><td class="right"><tt>1</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
 					</ul>
 		
 		<h1>Data Types</h1>
-			<h2><a name="MyMap">MyMap</a>&lt;<a name="MyMap@@K">K</a>, <a name="MyMap@@V">V</a> extends <a href="#MyMap@@K" title="TypeParameter:K">K</a>&gt;</h2>
+			<h2><a name="MyMap">MyMap</a>&lt;<a name="MyMap@@K">K</a>, <a name="MyMap@@V">V</a> extends <a href="#MyMap@@K" title="TypeParameter:MyMap.K">K</a>&gt;</h2>
 				<h3>Details</h3>
-					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
-						<tr>
-							<td>Instance Class</td>
-							<td>org.example.MyMap</td>
-						</tr>
-						<tr>
-							<td>Instance Type</td>
-							<td>org.example.MyMap&lt;K, V&gt;</td>
-						</tr>
-						<tr>
-							<td>Is Serializable</td>
-							<td><tt>true</tt></td>
-						</tr>
-					</table>
-	</body>
+				<dt>
+					<dd>
+						<table class="details">
+							<tr class="odd"><td class="left">instanceClassName</td><td class="right"><tt>org.example.MyMap</tt></td></tr>
+							<tr class="even"><td class="left">instanceTypeName</td><td class="right"><tt>org.example.MyMap&lt;K, V&gt;</tt></td></tr>
+							<tr class="odd"><td class="left">serializable</td><td class="right"><tt>true</tt></td></tr>
+						</table>
+					</dd>
+				</dt>
+	</form></body>
 </html>

@@ -17,6 +17,9 @@
     <eLiterals name="Biography" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Library">
+    <eOperations name="reserve" eExceptions="#//LibraryException">
+      <eParameters name="books" upperBound="-1" eType="#//Book"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="writers" upperBound="-1"
         eType="#//people/Writer" containment="true" resolveProxies="false" eKeys="#//people/Writer/name"/>
@@ -28,6 +31,7 @@
       </eGenericType>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="LibraryException" instanceClassName="org.eclipse.example.library.LibraryException"/>
   <eSubpackages name="people" nsURI="http:///org/eclipse/example/library/people.ecore"
       nsPrefix="org.eclipse.example.library.people">
     <eClassifiers xsi:type="ecore:EClass" name="Writer">

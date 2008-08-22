@@ -5,17 +5,44 @@
 		<title>library.people</title>
 		
 		<style>
-			body {font-size: 10pt; clip:   rect(   ); margin-top: 5mm; margin-left: 3mm}
+		<!--
+			body {font-size: 10pt; clip: rect(); margin-top: 5mm; margin-left: 3mm}
 			h1 {font-size: 22px; font-weight: bold; color:white; background-color:#595791}
 			h2 {font-size: 16pt; font-weight: bold ; line-height: 20px; background-color:#FFFFCF}
 			h3 {font-size: 12pt}
 			p, table, td, th {font-size: 10pt}
 			code {font-size: 10pt}
 			li {font-size: 10pt; line-height: 20px}
-		</style>		
+			
+			table.details {font: 11px/24px Verdana, Arial, Helvetica, sans-serif; border-collapse: collapse; width: 480px;}
+			table.details td.left  {order-bottom: 1px solid #CCC;	padding: 0 0.5em;}
+			table.details td.right {order-bottom: 1px solid #CCC;	padding: 0 0.5em; text-align: right;}
+			table.details tr.odd   {background: #e3f0f7;}
+			table.details tr.even  {background: #f7f7f7;}
+		-->
+		</style>
+		
+		<script language="JavaScript" type="text/javascript">
+		<!--
+			function openSection(sectionId, open)
+			{
+				var section = document.getElementById(sectionId);
+				section.style.display = open ? 'block' : 'none';
+			}
+			
+			function selectAllChechboxes(elements, select)
+			{
+				for (var i = 0; i < elements.length; i++)
+				{
+					elements[i].checked = select;
+					openSection(elements[i].value, select);
+				}
+			}
+		// -->
+		</script>
 	</head>
 
-	<body lang="EN-US">
+	<body lang="EN-US"><form name="packform" method="post">
 		<h1>Package: <i>library.people</i></h1>
 			<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
 			
@@ -28,11 +55,11 @@
 			
 				<tr>
 					<td>Ecore URI</td>
-					<td>@ecoreuri@</td>
+					<td>file:/D:/emf/emf24/workspace/org.eclipse.emf.test.examples/data/htmlExporter/multipackage_library.ecore</td>
 				</tr>
 				<tr>
 					<td>GenModel URI</td>
-					<td>@genmodeluri@</td>
+					<td>file:/D:/emf/emf24/workspace/org.eclipse.emf.test.examples/data/htmlExporter/HTMLExportTest.genmodel</td>
 				</tr>
 				<tr>
 					<td>Namespace URI</td>
@@ -44,36 +71,84 @@
 				</tr>
 			</table>
 
+			<p><input type="checkbox" onclick="javascript:selectAllChechboxes(document.packform.detailCheckbox, this.checked)"/>expand all details</p>
+
 		<h1>Classes</h1>
 			<h2><a name="Writer">Writer</a></h2>
 				<h3>Details</h3>
-					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
-						<tr>
-							<td>Is Abstract</td>
-							<td><tt>false</tt></td>
-						</tr>
-						<tr>
-							<td>Is Interface</td>
-							<td><tt>false</tt></td>
-						</tr>
-					</table>
+				<dt>
+					<dd><table class="details">
+						<tr class="odd"><td class="left">abstract</td><td class="right"><tt>false</tt></td></tr>
+						<tr class="even"><td class="left">interface</td><td class="right"><tt>false</tt></td></tr>
+					</table></dd>
+				</dt>
 		
 		
 				<h3>Attributes</h3>
 					<ul>
-						<li><i><b>EString</b></i> <a name="Writer@name">name</a></li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail1" onclick="javascript:openSection(this.value, this.checked)"/> <i><b>EString</b></i> <a name="Writer@name">name</a>
+							<div id="detail1" name="detail1" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
 					</ul>
 		
 		
 				<h3>References</h3>
 					<ul>
-						<li><a href="multipackage_library.html#Book" title="Class:Book">Book</a>* <a name="Writer@books">books</a></li>
-						<li><a href="GenericsGoCrazy.html#Car" title="Class:Car">Car</a> <a name="Writer@car">car</a></li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail2" onclick="javascript:openSection(this.value, this.checked)"/> <a href="multipackage_library.html#Book" title="Class:Book">Book</a>* <a name="Writer@books">books</a>
+							<div id="detail2" name="detail2" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">opposite</td><td class="right"><a href="multipackage_library.html#Book@author" title="Reference:Book.author">author</a></td></tr> 
+									<tr class="even"><td class="left">containment</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">container</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">resolveProxies</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>-1</tt></td></tr>
+									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail3" onclick="javascript:openSection(this.value, this.checked)"/> <a href="GenericsGoCrazy.html#Car" title="Class:Car">Car</a> <a name="Writer@car">car</a>
+							<div id="detail3" name="detail3" style="overflow:hidden;display:none">
+								<table class="details">
+									<tr class="odd"><td class="left">containment</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">container</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">resolveProxies</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="odd"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="even"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="odd"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="even"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+								</table><br />
+							</div>
+						</li>
 					</ul>
 		
 		
 	
 
 
-	</body>
+	</form></body>
 </html>
