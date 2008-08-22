@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.exporter.html" imports="java.util.* org.eclipse.emf.common.util.URI org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.GenPackage" class="PackageHTML" version="$Id: package.htmljet,v 1.5 2008/05/06 00:13:45 nickb Exp $" %>
+<%@ jet package="org.eclipse.emf.exporter.html" imports="java.util.* org.eclipse.emf.common.util.URI org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.GenPackage" class="PackageHTML" version="$Id: package.htmljet,v 1.6 2008/08/22 22:30:18 marcelop Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2007 IBM Corporation and others.
+ * Copyright (c) 2006-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,17 +25,44 @@
 		<title><%=genPackage.getQualifiedPackageName()%></title>
 		
 		<style>
-			body {font-size: 10pt; clip:   rect(   ); margin-top: 5mm; margin-left: 3mm}
+		<!--
+			body {font-size: 10pt; clip: rect(); margin-top: 5mm; margin-left: 3mm}
 			h1 {font-size: 22px; font-weight: bold; color:white; background-color:#595791}
 			h2 {font-size: 16pt; font-weight: bold ; line-height: 20px; background-color:#FFFFCF}
 			h3 {font-size: 12pt}
 			p, table, td, th {font-size: 10pt}
 			code {font-size: 10pt}
 			li {font-size: 10pt; line-height: 20px}
-		</style>		
+			
+			table.details {font: 11px/24px Verdana, Arial, Helvetica, sans-serif; border-collapse: collapse; width: 480px;}
+			table.details td.left  {order-bottom: 1px solid #CCC;	padding: 0 0.5em;}
+			table.details td.right {order-bottom: 1px solid #CCC;	padding: 0 0.5em; text-align: right;}
+			table.details tr.odd   {background: #e3f0f7;}
+			table.details tr.even  {background: #f7f7f7;}
+		-->
+		</style>
+		
+		<script language="JavaScript" type="text/javascript">
+		<!--
+			function openSection(sectionId, open)
+			{
+				var section = document.getElementById(sectionId);
+				section.style.display = open ? 'block' : 'none';
+			}
+			
+			function selectAllChechboxes(elements, select)
+			{
+				for (var i = 0; i < elements.length; i++)
+				{
+					elements[i].checked = select;
+					openSection(elements[i].value, select);
+				}
+			}
+		// -->
+		</script>
 	</head>
 
-	<body lang="EN-US">
+	<body lang="EN-US"><form name="packform" method="post">
 		<h1>Package: <i><%=genPackage.getQualifiedPackageName()%></i></h1>
 			<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
 			<%GenPackage superGenPackage = genPackage.getSuperGenPackage(); if (superGenPackage != null) { URI packageArtifactURI = htmlExporter.getPackageArtifacttURI(superGenPackage.getEcorePackage());%>
@@ -66,21 +93,18 @@
 				</tr>
 			</table>
 
-<%Collection<EClass> eClasses = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.ECLASS);%>
+			<p><input type="checkbox" onclick="javascript:selectAllChechboxes(document.packform.detailCheckbox, this.checked)"/>expand all details</p>
+
+<%int detailsCounter=0; Collection<EClass> eClasses = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.ECLASS);%>
 <%if (!eClasses.isEmpty()) {%>
 		<h1>Classes</h1><%for (EClass eClass : eClasses) { %>
 			<h2><%=htmlExporter.computeClassifierLabel(eClass)%></h2>
 				<h3>Details</h3>
-					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
-						<tr>
-							<td>Is Abstract</td>
-							<td><tt><%=eClass.isAbstract()%></tt></td>
-						</tr>
-						<tr>
-							<td>Is Interface</td>
-							<td><tt><%=eClass.isInterface()%></tt></td>
-						</tr>
-					</table>
+				<dt>
+					<dd><table class="details"><%int row=0;for (EStructuralFeature detail : htmlExporter.getDetails(eClass)) {%>
+						<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left"><%=detail.getName()%></td><td class="right"><tt><%=HTMLExporter.escape(eClass.eGet(detail).toString())%></tt></td></tr><%}%>
+					</table></dd>
+				</dt>
 		<%if (!eClass.getEGenericSuperTypes().isEmpty()) {%>
 				<h3>Super Classes</h3>
 					<ul><%for (EGenericType eSuperType : eClass.getEGenericSuperTypes()) {%>
@@ -90,19 +114,42 @@
 		<%if (!eClass.getEAttributes().isEmpty()) {%>
 				<h3>Attributes</h3>
 					<ul><%for (EAttribute eAttribute : eClass.getEAttributes()) {%>
-						<li><%=htmlExporter.computeLabel(eAttribute)%></li><%}%>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail<%=++detailsCounter%>" onclick="javascript:openSection(this.value, this.checked)"/> <%=htmlExporter.computeTypedElementLabel(eAttribute)%>
+							<div id="detail<%=detailsCounter%>" name="detail<%=detailsCounter%>" style="overflow:hidden;display:none">
+								<table class="details"><%row=0; for (EStructuralFeature detail : htmlExporter.getDetails(eAttribute)) {%>
+									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left"><%=detail.getName()%></td><td class="right"><tt><%=eAttribute.eGet(detail)%></tt></td></tr><%}%>
+								</table><br />
+							</div>
+						</li><%}%>
 					</ul>
 		<%}%>
 		<%if (!eClass.getEReferences().isEmpty()) {%>
 				<h3>References</h3>
 					<ul><%for (EReference eReference : eClass.getEReferences()) {%>
-						<li><%=htmlExporter.computeLabel(eReference)%></li><%}%>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail<%=++detailsCounter%>" onclick="javascript:openSection(this.value, this.checked)"/> <%=htmlExporter.computeTypedElementLabel(eReference)%>
+							<div id="detail<%=detailsCounter%>" name="detail<%=detailsCounter%>" style="overflow:hidden;display:none">
+								<table class="details"><%row=0; if (eReference.getEOpposite() != null) {%>
+									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left">opposite</td><td class="right"><%=htmlExporter.computeLabel(eReference.getEOpposite())%></td></tr> <%} if (!eReference.getEKeys().isEmpty()) {%>
+									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left">key(s)</td><td class="right"><%=htmlExporter.computeEKeys(eReference)%></td></tr> <%} for (EStructuralFeature detail : htmlExporter.getDetails(eReference)) {%>
+									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left"><%=detail.getName()%></td><td class="right"><tt><%=eReference.eGet(detail)%></tt></td></tr><%}%>
+								</table><br />
+							</div>
+						</li><%}%>
 					</ul>
 		<%}%>
 		<%if (!eClass.getEOperations().isEmpty()) {%>
 				<h3>Operations</h3>
 					<ul><%for (EOperation eOperation : eClass.getEOperations()) {%>
-						<li><%=htmlExporter.computeLabel(eOperation)%></li><%}%>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail<%=++detailsCounter%>" onclick="javascript:openSection(this.value, this.checked)"/> <%=htmlExporter.computeLabel(eOperation)%>
+							<div id="detail<%=detailsCounter%>" name="detail<%=detailsCounter%>" style="overflow:hidden;display:none">
+								<table class="details"><%row = 0; for (EStructuralFeature detail : htmlExporter.getDetails(eOperation)) {%>
+									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left"><%=detail.getName()%></td><td class="right"><tt><%=eOperation.eGet(detail)%></tt></td></tr><%}%>
+								</table><br />
+							</div>
+						</li><%}%>
 					</ul>
 		<%}%>
 	<%}%>
@@ -114,7 +161,14 @@
 			<h2><a name="<%=eEnum.getName()%>"><%=eEnum.getName()%></a></h2><%if (!eEnum.getELiterals().isEmpty()) {%>
 				<h3>Literals</h3>
 					<ul><%for (EEnumLiteral eEnumLiteral : eEnum.getELiterals()) {%>
-						<li><%=htmlExporter.computeLabel(eEnumLiteral)%></li><%}%>
+						<li>
+							<input type="checkbox" name="detailCheckbox" value="detail<%=++detailsCounter%>" onclick="javascript:openSection(this.value, this.checked)"/> <%=htmlExporter.computeLabel(eEnumLiteral)%>
+							<div id="detail<%=detailsCounter%>" name="detail<%=detailsCounter%>" style="overflow:hidden;display:none">
+								<table class="details"><%int row = 0; for (EStructuralFeature detail : htmlExporter.getDetails(eEnumLiteral)) {%>
+									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left"><%=detail.getName()%></td><td class="right"><tt><%=eEnumLiteral.eGet(detail)%></tt></td></tr><%}%>
+								</table><br />
+							</div>
+						</li><%}%>
 					</ul><%}%><%}%>
 <%}%>
 
@@ -123,20 +177,13 @@
 		<h1>Data Types</h1><%for (EDataType eDataType : eDataTypes) {%>
 			<h2><%=htmlExporter.computeClassifierLabel(eDataType)%></h2>
 				<h3>Details</h3>
-					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
-						<tr>
-							<td>Instance Class</td>
-							<td><%=eDataType.getInstanceClassName()%></td>
-						</tr>
-						<tr>
-							<td>Instance Type</td>
-							<td><%=eDataType.getInstanceTypeName().replaceAll("<", "&lt;").replaceAll(">", "&gt;")%></td>
-						</tr>
-						<tr>
-							<td>Is Serializable</td>
-							<td><tt><%=eDataType.isSerializable()%></tt></td>
-						</tr>
-					</table><%}%>
+				<dt>
+					<dd>
+						<table class="details"><%int row = 0; for (EStructuralFeature detail : htmlExporter.getDetails(eDataType)) {%>
+							<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left"><%=detail.getName()%></td><td class="right"><tt><%=HTMLExporter.escape(eDataType.eGet(detail).toString())%></tt></td></tr><%}%>
+						</table>
+					</dd><%}%>
+				</dt>
 <%}%>
-	</body>
+	</form></body>
 </html>

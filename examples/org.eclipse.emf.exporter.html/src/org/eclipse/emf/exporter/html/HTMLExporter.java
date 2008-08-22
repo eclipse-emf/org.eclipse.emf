@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2007 IBM Corporation and others.
+ * Copyright (c) 2006-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporter.java,v 1.7 2007/09/29 16:44:21 emerks Exp $
+ * $Id: HTMLExporter.java,v 1.8 2008/08/22 22:30:18 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,6 +32,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EGenericType;
@@ -58,11 +60,20 @@ import org.eclipse.emf.exporter.ModelExporter;
  */
 public class HTMLExporter extends ModelExporter
 {
+  public static String escape(String string)
+  {
+    return string == null ? 
+      "" : 
+      string.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
+  }
+  
   private ModelExporter.ExportData exportData;
   private Map<EPackage, GenPackage> ePackageToGenPackage;
   
   private GenPackage currentGenPackage;
   private URI currentArtifactURI;
+  
+  private List<EStructuralFeature> defaultEStructuralFeatureDetails;
   
   @Override
   public String getID()
@@ -246,6 +257,33 @@ public class HTMLExporter extends ModelExporter
     return name;
   }
   
+  /**
+   * Returns the list of 'details', ie {@link EStructuralFeature}s, that should 
+   * presented for each {@link EClass}. 
+   * @return a list of {@link EStructuralFeature}s
+   */
+  public List<EStructuralFeature> getDetails(EClass eClass)
+  {
+    List<EStructuralFeature> details = new ArrayList<EStructuralFeature>();
+    details.add(EcorePackage.Literals.ECLASS__ABSTRACT);
+    details.add(EcorePackage.Literals.ECLASS__INTERFACE);
+    return details;
+  }
+  
+  /**
+   * Returns the list of 'details', ie {@link EStructuralFeature}s, that should 
+   * presented for each {@link EDataType}. 
+   * @return a list of {@link EStructuralFeature}s
+   */
+  public List<EStructuralFeature> getDetails(EDataType dataType)
+  {
+    List<EStructuralFeature> details = new ArrayList<EStructuralFeature>();
+    details.add(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME);
+    details.add(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME);
+    details.add(EcorePackage.Literals.EDATA_TYPE__SERIALIZABLE);
+    return details;
+  }
+  
   protected String computeLabel(ENamedElement namedElement)
   {
     boolean addedHyperlink = false;
@@ -256,7 +294,8 @@ public class HTMLExporter extends ModelExporter
     EObject container = namedElement.eContainer();
     if (container instanceof EClassifier)
     {
-      String classifierLabel = computeLabel((EClassifier)container);
+      EClassifier classifier = (EClassifier)container;
+      String classifierLabel = computeLabel(classifier);
       
       int index = classifierLabel.indexOf("href=\"");
       if (index > 0)
@@ -280,7 +319,7 @@ public class HTMLExporter extends ModelExporter
       {
         index += "title=\"".length();
         label.append(classifierLabel.substring(currentPos, index));
-        label.append(titleType).append(":").append(name);
+        label.append(titleType).append(':').append(classifier.getName()).append('.').append(name);
         currentPos = classifierLabel.indexOf('\"', index+1);        
       }
       
@@ -351,7 +390,7 @@ public class HTMLExporter extends ModelExporter
     }
   }
     
-  protected String computeLabel(ETypedElement typedElement)
+  public String computeTypedElementLabel(ETypedElement typedElement)
   {
     StringBuilder label = new StringBuilder();
     EGenericType genericType = typedElement.getEGenericType();
@@ -382,37 +421,68 @@ public class HTMLExporter extends ModelExporter
     {
       label.append(name);
     }
-    return label.toString();
+    return label.toString();    
   }
   
-  protected String computeLabel(EStructuralFeature feature)
+  /**
+   * Returns the list of 'details', ie {@link EStructuralFeature}s, that should 
+   * presented for each {@link EAttribute}. 
+   * @return a list of {@link EStructuralFeature}s
+   */
+  public List<EStructuralFeature> getDetails(EAttribute attribute)
   {
-    StringBuilder label = new StringBuilder(computeLabel((ETypedElement)feature));
-    if (feature.isDerived())
-    {
-      label.append(" /");
-    }    
-    return label.toString();
+    List<EStructuralFeature> details = new ArrayList<EStructuralFeature>(getDefaultEStructuralFeatureDetails());
+    details.add(EcorePackage.Literals.EATTRIBUTE__ID);
+    return details;
   }
 
-  public String computeLabel(EReference reference)
+  /**
+   * Returns the list of 'details', ie {@link EStructuralFeature}s, that should 
+   * presented for each {@link EReference}. 
+   * @return a list of {@link EStructuralFeature}s
+   */
+  public List<EStructuralFeature> getDetails(EReference reference)
   {
-    StringBuilder label = new StringBuilder(computeLabel((EStructuralFeature)reference));
+    List<EStructuralFeature> details = new ArrayList<EStructuralFeature>(getDefaultEStructuralFeatureDetails());
+    details.add(0,EcorePackage.Literals.EREFERENCE__CONTAINMENT);
+    details.add(1,EcorePackage.Literals.EREFERENCE__CONTAINER);
+    details.add(2,EcorePackage.Literals.EREFERENCE__RESOLVE_PROXIES);
+    return details;
+  }
+  
+  protected List<EStructuralFeature> getDefaultEStructuralFeatureDetails()
+  {
+    if (defaultEStructuralFeatureDetails == null)
+    {
+      defaultEStructuralFeatureDetails = new ArrayList<EStructuralFeature>();
+      defaultEStructuralFeatureDetails.add(EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND);
+      defaultEStructuralFeatureDetails.add(EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND);
+      defaultEStructuralFeatureDetails.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__CHANGEABLE);
+      defaultEStructuralFeatureDetails.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__DEFAULT_VALUE);
+      defaultEStructuralFeatureDetails.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__DERIVED);
+      defaultEStructuralFeatureDetails.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__TRANSIENT);
+      defaultEStructuralFeatureDetails.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE);
+      defaultEStructuralFeatureDetails.add(EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE);
+    }
+    return Collections.unmodifiableList(defaultEStructuralFeatureDetails);    
+  }
+
+  public String computeEKeys(EReference reference)
+  {
     if (!reference.getEKeys().isEmpty())
     {
-      label.append("<ul><li>key(s): ");
+      StringBuilder label = new StringBuilder();
       for (Iterator<EAttribute> i = reference.getEKeys().iterator(); i.hasNext();)
       {
         EAttribute attribute = i.next();
-        label.append(computeLabel((ENamedElement)attribute));
-        if (i.hasNext())
-        {
-          label.append(", ");
-        }
+        label.append(", ").append(computeLabel(attribute));
       }
-      label.append("</li></ul>");
+      return label.substring(", ".length());
     }
-    return label.toString();
+    else
+    {
+      return "";
+    }
   }
   
   public String computeLabel(EOperation operation)
@@ -438,7 +508,7 @@ public class HTMLExporter extends ModelExporter
     {
       label.append("void ");
     }
-    label.append(computeLabel((ETypedElement)operation));
+    label.append(computeTypedElementLabel(operation));
     
     if (!operation.getEParameters().isEmpty())
     {
@@ -446,7 +516,7 @@ public class HTMLExporter extends ModelExporter
       for (Iterator<EParameter> i = operation.getEParameters().iterator(); i.hasNext(); )
       {
         EParameter parameter = i.next();
-        label.append(computeLabel(parameter));
+        label.append(computeTypedElementLabel(parameter));
         if (i.hasNext())
         {
           label.append(", ");
@@ -454,8 +524,35 @@ public class HTMLExporter extends ModelExporter
       }
       label.append(")");
     }
+
+    if (!operation.getEExceptions().isEmpty())
+    {
+      label.append(" throws ");      
+      for (Iterator<EClassifier> i = operation.getEExceptions().iterator(); i.hasNext(); )
+      {
+        EClassifier exception = i.next();
+        label.append(computeLabel(exception));
+        if (i.hasNext())
+        {
+          label.append(", ");
+        }
+      }
+    }
     
     return label.toString();
+  }
+  
+  /**
+   * Returns the list of 'details', ie {@link EStructuralFeature}s, that should 
+   * presented for each {@link EOperation}. 
+   * @return a list of {@link EStructuralFeature}s
+   */
+  public List<EStructuralFeature> getDetails(EOperation operation)
+  {
+    List<EStructuralFeature> details = new ArrayList<EStructuralFeature>();
+    details.add(EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND);
+    details.add(EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND);
+    return details;
   }
   
   public String computeLabel(EEnumLiteral enumLiteral)
@@ -463,6 +560,19 @@ public class HTMLExporter extends ModelExporter
     StringBuilder label = new StringBuilder();
     label.append(enumLiteral.getName());
     return label.toString();
+  }
+  
+  /**
+   * Returns the list of 'details', ie {@link EStructuralFeature}s, that should 
+   * presented for each {@link EEnumLiteral}. 
+   * @return a list of {@link EStructuralFeature}s
+   */
+  public List<EStructuralFeature> getDetails(EEnumLiteral enumLiteral)
+  {
+    List<EStructuralFeature> details = new ArrayList<EStructuralFeature>();
+    details.add(EcorePackage.Literals.EENUM_LITERAL__LITERAL);
+    details.add(EcorePackage.Literals.EENUM_LITERAL__VALUE);
+    return details;
   }
 
   protected void save(String content) throws IOException
