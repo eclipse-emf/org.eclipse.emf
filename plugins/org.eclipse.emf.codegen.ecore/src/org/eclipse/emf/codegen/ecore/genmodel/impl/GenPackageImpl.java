@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.85 2008/06/02 20:34:52 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.86 2008/08/29 18:11:33 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1901,12 +1901,22 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getEcorePackage().getNsURI();
   }
 
+  public String getBasicPackageName()
+  {
+    return getPrefixedName("Package");
+  }
+
+  public String getUncapPackageName()
+  {
+    return uncapPrefixedName(getBasicPackageName(), true);
+  }
+
   public String getPackageInterfaceName()
   {
-    String result = getPrefixedName("Package");
-    if (getGenModel().isSuppressEMFMetaData() && !getGenModel().isSuppressInterfaces())
+    String result = getBasicPackageName();
+    if (!getGenModel().isSuppressInterfaces())
     {
-      result = getImplClassName(result);
+      result = getGenModel().isSuppressEMFMetaData() ? getImplClassName(result) : getInterfaceName(result);
     }
     return result;
   }
@@ -1928,14 +1938,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getPackageClassName()
   {
-    String result = getPackageInterfaceName();
-    if (!getGenModel().isSuppressEMFMetaData() && !getGenModel().isSuppressInterfaces())
-    {
-      result = getImplClassName(result);
-    }
-    return result;
+    return getGenModel().isSuppressInterfaces() ? getBasicPackageName() : getImplClassName(getBasicPackageName());
   }
-  
+
   public String getQualifiedPackageClassName()
   {
     return getReflectionClassPackageName() + "." + getPackageClassName();
@@ -1946,9 +1951,19 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getGenModel().getImportedName(getQualifiedPackageClassName());
   }
 
-  public String getFactoryInterfaceName()
+  public String getFactoryName()
   {
     return getPrefixedName("Factory");
+  }
+
+  public String getUncapFactoryName()
+  {
+    return uncapPrefixedName(getFactoryName(), true);
+  }
+
+  public String getFactoryInterfaceName()
+  {
+    return getGenModel().isSuppressInterfaces() ? getFactoryName() :  getInterfaceName(getFactoryName());
   }
 
   public String getQualifiedFactoryInterfaceName()
@@ -1968,12 +1983,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getFactoryClassName()
   {
-    String result = getFactoryInterfaceName();
-    if (!getGenModel().isSuppressInterfaces())
-    {
-      result = getImplClassName(result);
-    }
-    return result;
+    return getGenModel().isSuppressInterfaces() ? getFactoryName() : getImplClassName(getFactoryName());
   }
 
   public String getQualifiedFactoryClassName()
@@ -1985,30 +1995,39 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   {
     return getGenModel().getImportedName(getQualifiedFactoryClassName());
   }
-  
+
   public String getFactoryInstanceName()
   {
     return getGenModel().isSuppressEMFMetaData() ? "INSTANCE" : "eINSTANCE";
   }
-  
+
+  // eINSTANCE (or INSTANCE, if none) field of factory interface (or class, if none)
+  //
   public String getQualifiedFactoryInstanceAccessor()
   {
     return getImportedFactoryInterfaceName() + "." + getFactoryInstanceName();
   }
-  
+ 
+  // Same as getQualifiedFactoryInstanceAccessor(), but with EFactory cast if the interface
+  // doesn't already extend it (i.e. the case of suppressed metadata, but not interfaces).
+  //
   public String getQualifiedEFactoryInstanceAccessor()
   {
-    return 
-      getGenModel().isSuppressEMFMetaData() ? 
-        "((" + getGenModel().getImportedName("org.eclipse.emf.ecore.EFactory") + ")" + 
-          getImportedFactoryInterfaceName() + "." + getFactoryInstanceName() + ")" :
-        getQualifiedFactoryInstanceAccessor();
+    String result = getQualifiedFactoryInstanceAccessor();
+    if (getGenModel().isSuppressEMFMetaData() && !getGenModel().isSuppressInterfaces())
+    {
+      result = "((" + getGenModel().getImportedName("org.eclipse.emf.ecore.EFactory") + ")" + result + ")";
+    }
+    return result;
   }
-  
+
+  // Same as getQualifiedFactoryInstanceAccessor(), or the underlying eINSTANCE field
+  // of the class when the interface doesn't extend EFactory.
+  //
   public String getQualifiedEFactoryInternalInstanceAccessor()
   {
     return 
-      getGenModel().isSuppressEMFMetaData() ? 
+      getGenModel().isSuppressEMFMetaData() && !getGenModel().isSuppressInterfaces() ? 
         getImportedFactoryClassName() + ".eINSTANCE" :
         getQualifiedFactoryInstanceAccessor();
   }
@@ -2359,7 +2378,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     @Override
     protected String getName(Object o)
     {
-      return ((GenPackage)o).getPackageInterfaceName();
+      return ((GenPackage)o).getBasicPackageName();
     }
 
     public List<GenPackage> getSimpleDependencies()
@@ -2859,7 +2878,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       progressMonitor.beginTask("", 2 * getGenClasses().size() + 2 * getGenEnums().size() + 8 + getNestedGenPackages().size());
       progressMonitor.subTask
-        (CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingPackage_message", new Object [] { getPackageInterfaceName() }));
+        (CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingPackage_message", new Object [] { getBasicPackageName() }));
 
       prepareCache();
 
@@ -3649,7 +3668,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       progressMonitor.beginTask("", getGenClasses().size() + getNestedGenPackages().size() + 2); //TBD 
       progressMonitor.subTask
         (CodeGenEcorePlugin.INSTANCE.getString
-           ("_UI_GeneratingItemProvidersForPackage_message", new Object [] { getPackageInterfaceName() }));
+           ("_UI_GeneratingItemProvidersForPackage_message", new Object [] { getBasicPackageName() }));
 
       if (!getGenClasses().isEmpty())
       {
@@ -3705,7 +3724,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       progressMonitor.beginTask("", 7); //TBD 
       progressMonitor.subTask
         (CodeGenEcorePlugin.INSTANCE.getString
-           ("_UI_GeneratingEditorForPackage_message", new Object [] { getPackageInterfaceName() }));
+           ("_UI_GeneratingEditorForPackage_message", new Object [] { getBasicPackageName() }));
 
       if (hasConcreteClasses())
       {
@@ -4227,7 +4246,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getResourceClassName()
   {
-    return getPrefix() + "ResourceImpl";
+    return getImplClassName(getPrefixedName("Resource"));
   }
 
   public String getQualifiedResourceClassName()
@@ -4255,7 +4274,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getResourceFactoryClassName()
   {
-    return getPrefix() + "ResourceFactoryImpl";
+    return getImplClassName(getPrefixedName("ResourceFactory"));
   }
 
   public String getQualifiedResourceFactoryClassName()
