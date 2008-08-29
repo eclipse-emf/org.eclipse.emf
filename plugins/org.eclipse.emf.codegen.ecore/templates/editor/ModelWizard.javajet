@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.26 2008/08/04 16:13:22 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.27 2008/08/29 18:24:06 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -151,7 +151,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genModel.isSuppressEMFMetaData() ? genModel.getImportedName("org.eclipse.emf.ecore.EPackage") : genPackage.getPackageInterfaceName()%> <%=genPackage.getUncapPackageInterfaceName()%> = <%=genPackage.getPackageInterfaceName()%>.eINSTANCE;
+	protected <%=genModel.isSuppressEMFMetaData() ? genModel.getImportedName("org.eclipse.emf.ecore.EPackage") : genPackage.getPackageInterfaceName()%> <%=genPackage.getUncapPackageName()%> = <%=genPackage.getPackageInterfaceName()%>.eINSTANCE;
 
 	/**
 	 * This caches an instance of the model factory.
@@ -159,7 +159,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genModel.isSuppressEMFMetaData() ? genModel.getImportedName("org.eclipse.emf.ecore.EFactory") : genPackage.getFactoryInterfaceName()%> <%=genPackage.getUncapFactoryInterfaceName()%> = <%=genPackage.getUncapPackageInterfaceName()%>.get<%=genModel.isSuppressEMFMetaData() ? "EFactoryInstance" : genPackage.getFactoryInterfaceName()%>();
+	protected <%=genModel.isSuppressEMFMetaData() ? genModel.getImportedName("org.eclipse.emf.ecore.EFactory") : genPackage.getFactoryInterfaceName()%> <%=genPackage.getUncapFactoryName()%> = <%=genPackage.getUncapPackageName()%>.get<%=genModel.isSuppressEMFMetaData() ? "EFactoryInstance" : genPackage.getFactoryName()%>();
 
 <%if (!genModel.isRichClientPlatform()) {%>
 	/**
@@ -238,9 +238,9 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 			initialObjectNames = new <%=_ArrayListOfString%>();
 <%if (!genPackage.hasDocumentRoot()) {%>
   <%if (genModel.useGenerics()) {%>
-			for (EClassifier eClassifier : <%=genPackage.getUncapPackageInterfaceName()%>.getEClassifiers())
+			for (EClassifier eClassifier : <%=genPackage.getUncapPackageName()%>.getEClassifiers())
   <%} else {%>
-			for (Iterator classifiers = <%=genPackage.getUncapPackageInterfaceName()%>.getEClassifiers().iterator(); classifiers.hasNext(); )
+			for (Iterator classifiers = <%=genPackage.getUncapPackageName()%>.getEClassifiers().iterator(); classifiers.hasNext(); )
   <%}%>
 			{
   <%if (!genModel.useGenerics()) {%>
@@ -257,9 +257,9 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 			}
 <%} else {%>
   <%if (genModel.useGenerics()) {%>
-			for (<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%> eStructuralFeature : <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getAllElements(<%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getDocumentRoot(<%=genPackage.getUncapPackageInterfaceName()%>)))
+			for (<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%> eStructuralFeature : <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getAllElements(<%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getDocumentRoot(<%=genPackage.getUncapPackageName()%>)))
   <%} else {%>
-			for (Iterator elements = <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getAllElements(<%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getDocumentRoot(<%=genPackage.getUncapPackageInterfaceName()%>)).iterator(); elements.hasNext(); )
+			for (Iterator elements = <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getAllElements(<%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getDocumentRoot(<%=genPackage.getUncapPackageName()%>)).iterator(); elements.hasNext(); )
   <%}%>
 			{
   <%if (!genModel.useGenerics()) {%>
@@ -293,12 +293,12 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	protected EObject createInitialModel()
 	{
 <%if (!genPackage.hasDocumentRoot()) {%>
-		EClass eClass = (EClass)<%=genPackage.getUncapPackageInterfaceName()%>.getEClassifier(initialObjectCreationPage.getInitialObjectName());
-		EObject rootObject = <%=genPackage.getUncapFactoryInterfaceName()%>.create(eClass);
+		EClass eClass = (EClass)<%=genPackage.getUncapPackageName()%>.getEClassifier(initialObjectCreationPage.getInitialObjectName());
+		EObject rootObject = <%=genPackage.getUncapFactoryName()%>.create(eClass);
 <%} else {%>
-		EClass eClass = <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getDocumentRoot(<%=genPackage.getUncapPackageInterfaceName()%>);
+		EClass eClass = <%=genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData")%>.INSTANCE.getDocumentRoot(<%=genPackage.getUncapPackageName()%>);
 		EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(initialObjectCreationPage.getInitialObjectName());
-		EObject rootObject = <%=genPackage.getUncapFactoryInterfaceName()%>.create(eClass);
+		EObject rootObject = <%=genPackage.getUncapFactoryName()%>.create(eClass);
 		rootObject.eSet(eStructuralFeature, <%=genModel.getImportedName("org.eclipse.emf.ecore.util.EcoreUtil")%>.create((EClass)eStructuralFeature.getEType()));
 <%}%>
 		return rootObject;

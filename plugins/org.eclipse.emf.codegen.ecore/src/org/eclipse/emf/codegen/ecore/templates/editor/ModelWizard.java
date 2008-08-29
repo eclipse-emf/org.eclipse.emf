@@ -352,17 +352,17 @@ public class ModelWizard
     stringBuffer.append(TEXT_35);
     stringBuffer.append(genModel.isSuppressEMFMetaData() ? genModel.getImportedName("org.eclipse.emf.ecore.EPackage") : genPackage.getPackageInterfaceName());
     stringBuffer.append(TEXT_36);
-    stringBuffer.append(genPackage.getUncapPackageInterfaceName());
+    stringBuffer.append(genPackage.getUncapPackageName());
     stringBuffer.append(TEXT_37);
     stringBuffer.append(genPackage.getPackageInterfaceName());
     stringBuffer.append(TEXT_38);
     stringBuffer.append(genModel.isSuppressEMFMetaData() ? genModel.getImportedName("org.eclipse.emf.ecore.EFactory") : genPackage.getFactoryInterfaceName());
     stringBuffer.append(TEXT_39);
-    stringBuffer.append(genPackage.getUncapFactoryInterfaceName());
+    stringBuffer.append(genPackage.getUncapFactoryName());
     stringBuffer.append(TEXT_40);
-    stringBuffer.append(genPackage.getUncapPackageInterfaceName());
+    stringBuffer.append(genPackage.getUncapPackageName());
     stringBuffer.append(TEXT_41);
-    stringBuffer.append(genModel.isSuppressEMFMetaData() ? "EFactoryInstance" : genPackage.getFactoryInterfaceName());
+    stringBuffer.append(genModel.isSuppressEMFMetaData() ? "EFactoryInstance" : genPackage.getFactoryName());
     stringBuffer.append(TEXT_42);
     if (!genModel.isRichClientPlatform()) {
     stringBuffer.append(TEXT_43);
@@ -403,11 +403,11 @@ public class ModelWizard
     if (!genPackage.hasDocumentRoot()) {
     if (genModel.useGenerics()) {
     stringBuffer.append(TEXT_61);
-    stringBuffer.append(genPackage.getUncapPackageInterfaceName());
+    stringBuffer.append(genPackage.getUncapPackageName());
     stringBuffer.append(TEXT_62);
     } else {
     stringBuffer.append(TEXT_63);
-    stringBuffer.append(genPackage.getUncapPackageInterfaceName());
+    stringBuffer.append(genPackage.getUncapPackageName());
     stringBuffer.append(TEXT_64);
     }
     stringBuffer.append(TEXT_65);
@@ -424,7 +424,7 @@ public class ModelWizard
     stringBuffer.append(TEXT_70);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData"));
     stringBuffer.append(TEXT_71);
-    stringBuffer.append(genPackage.getUncapPackageInterfaceName());
+    stringBuffer.append(genPackage.getUncapPackageName());
     stringBuffer.append(TEXT_72);
     } else {
     stringBuffer.append(TEXT_73);
@@ -432,7 +432,7 @@ public class ModelWizard
     stringBuffer.append(TEXT_74);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData"));
     stringBuffer.append(TEXT_75);
-    stringBuffer.append(genPackage.getUncapPackageInterfaceName());
+    stringBuffer.append(genPackage.getUncapPackageName());
     stringBuffer.append(TEXT_76);
     }
     stringBuffer.append(TEXT_77);
@@ -454,17 +454,17 @@ public class ModelWizard
     stringBuffer.append(TEXT_85);
     if (!genPackage.hasDocumentRoot()) {
     stringBuffer.append(TEXT_86);
-    stringBuffer.append(genPackage.getUncapPackageInterfaceName());
+    stringBuffer.append(genPackage.getUncapPackageName());
     stringBuffer.append(TEXT_87);
-    stringBuffer.append(genPackage.getUncapFactoryInterfaceName());
+    stringBuffer.append(genPackage.getUncapFactoryName());
     stringBuffer.append(TEXT_88);
     } else {
     stringBuffer.append(TEXT_89);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.ExtendedMetaData"));
     stringBuffer.append(TEXT_90);
-    stringBuffer.append(genPackage.getUncapPackageInterfaceName());
+    stringBuffer.append(genPackage.getUncapPackageName());
     stringBuffer.append(TEXT_91);
-    stringBuffer.append(genPackage.getUncapFactoryInterfaceName());
+    stringBuffer.append(genPackage.getUncapFactoryName());
     stringBuffer.append(TEXT_92);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.util.EcoreUtil"));
     stringBuffer.append(TEXT_93);
