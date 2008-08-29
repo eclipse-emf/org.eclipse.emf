@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.52 2008/04/27 19:15:47 davidms Exp $
+ * $Id: GenModelPackage.java,v 1.53 2008/08/29 18:01:02 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -799,13 +799,31 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 73;
 
   /**
+   * The feature id for the '<em><b>Interface Name Pattern</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__INTERFACE_NAME_PATTERN = GEN_BASE_FEATURE_COUNT + 74;
+
+  /**
+   * The feature id for the '<em><b>Class Name Pattern</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__CLASS_NAME_PATTERN = GEN_BASE_FEATURE_COUNT + 75;
+
+  /**
    * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 74;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 76;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2700,6 +2718,28 @@ public interface GenModelPackage extends EPackage
   EReference getGenModel_UsedGenPackages();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getInterfaceNamePattern <em>Interface Name Pattern</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Interface Name Pattern</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getInterfaceNamePattern()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_InterfaceNamePattern();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getClassNamePattern <em>Class Name Pattern</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Class Name Pattern</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getClassNamePattern()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_ClassNamePattern();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage <em>Gen Package</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4261,6 +4301,22 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EReference GEN_MODEL__USED_GEN_PACKAGES = eINSTANCE.getGenModel_UsedGenPackages();
+
+    /**
+     * The meta object literal for the '<em><b>Interface Name Pattern</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__INTERFACE_NAME_PATTERN = eINSTANCE.getGenModel_InterfaceNamePattern();
+
+    /**
+     * The meta object literal for the '<em><b>Class Name Pattern</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__CLASS_NAME_PATTERN = eINSTANCE.getGenModel_ClassNamePattern();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.

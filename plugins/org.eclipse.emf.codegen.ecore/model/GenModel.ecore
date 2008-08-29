@@ -118,6 +118,8 @@
         eType="#//GenPackage" containment="true" eOpposite="#//GenPackage/genModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="usedGenPackages" upperBound="-1"
         eType="#//GenPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfaceNamePattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="classNamePattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenPackage" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

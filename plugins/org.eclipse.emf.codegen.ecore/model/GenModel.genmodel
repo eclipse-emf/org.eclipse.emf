@@ -190,6 +190,10 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/packedEnums"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Pattern for deriving interface names from model element names (&quot;{0}&quot; by default)"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/interfaceNamePattern"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Pattern for deriving class names from model element names (&quot;{0}Impl&quot; by default)"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/classNamePattern"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"

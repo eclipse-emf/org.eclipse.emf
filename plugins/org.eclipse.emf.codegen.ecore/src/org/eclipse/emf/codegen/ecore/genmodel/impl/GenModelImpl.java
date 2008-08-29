@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.101 2008/08/07 11:10:36 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.102 2008/08/29 18:01:02 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -182,6 +182,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isPackedEnums <em>Packed Enums</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getInterfaceNamePattern <em>Interface Name Pattern</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getClassNamePattern <em>Class Name Pattern</em>}</li>
  * </ul>
  * </p>
  *
@@ -1635,6 +1637,46 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    */
   protected EList<GenPackage> usedGenPackages;
   
+  /**
+   * The default value of the '{@link #getInterfaceNamePattern() <em>Interface Name Pattern</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getInterfaceNamePattern()
+   * @generated
+   * @ordered
+   */
+  protected static final String INTERFACE_NAME_PATTERN_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getInterfaceNamePattern() <em>Interface Name Pattern</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getInterfaceNamePattern()
+   * @generated
+   * @ordered
+   */
+  protected String interfaceNamePattern = INTERFACE_NAME_PATTERN_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getClassNamePattern() <em>Class Name Pattern</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getClassNamePattern()
+   * @generated
+   * @ordered
+   */
+  protected static final String CLASS_NAME_PATTERN_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getClassNamePattern() <em>Class Name Pattern</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getClassNamePattern()
+   * @generated
+   * @ordered
+   */
+  protected String classNamePattern = CLASS_NAME_PATTERN_EDEFAULT;
+
   protected boolean validateModel = false;
 
   /**
@@ -5990,6 +6032,52 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getInterfaceNamePattern()
+  {
+    return interfaceNamePattern;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setInterfaceNamePattern(String newInterfaceNamePattern)
+  {
+    String oldInterfaceNamePattern = interfaceNamePattern;
+    interfaceNamePattern = newInterfaceNamePattern;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__INTERFACE_NAME_PATTERN, oldInterfaceNamePattern, interfaceNamePattern));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getClassNamePattern()
+  {
+    return classNamePattern;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setClassNamePattern(String newClassNamePattern)
+  {
+    String oldClassNamePattern = classNamePattern;
+    classNamePattern = newClassNamePattern;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__CLASS_NAME_PATTERN, oldClassNamePattern, classNamePattern));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
@@ -6176,6 +6264,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
         return getUsedGenPackages();
+      case GenModelPackage.GEN_MODEL__INTERFACE_NAME_PATTERN:
+        return getInterfaceNamePattern();
+      case GenModelPackage.GEN_MODEL__CLASS_NAME_PATTERN:
+        return getClassNamePattern();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -6422,6 +6514,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         getUsedGenPackages().clear();
         getUsedGenPackages().addAll((Collection<? extends GenPackage>)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__INTERFACE_NAME_PATTERN:
+        setInterfaceNamePattern((String)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__CLASS_NAME_PATTERN:
+        setClassNamePattern((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -6658,6 +6756,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
         getUsedGenPackages().clear();
         return;
+      case GenModelPackage.GEN_MODEL__INTERFACE_NAME_PATTERN:
+        setInterfaceNamePattern(INTERFACE_NAME_PATTERN_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__CLASS_NAME_PATTERN:
+        setClassNamePattern(CLASS_NAME_PATTERN_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -6820,6 +6924,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
         return usedGenPackages != null && !usedGenPackages.isEmpty();
+      case GenModelPackage.GEN_MODEL__INTERFACE_NAME_PATTERN:
+        return INTERFACE_NAME_PATTERN_EDEFAULT == null ? interfaceNamePattern != null : !INTERFACE_NAME_PATTERN_EDEFAULT.equals(interfaceNamePattern);
+      case GenModelPackage.GEN_MODEL__CLASS_NAME_PATTERN:
+        return CLASS_NAME_PATTERN_EDEFAULT == null ? classNamePattern != null : !CLASS_NAME_PATTERN_EDEFAULT.equals(classNamePattern);
     }
     return super.eIsSet(featureID);
   }
@@ -6977,6 +7085,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(language);
     result.append(", packedEnums: ");
     result.append(packedEnums);
+    result.append(", interfaceNamePattern: ");
+    result.append(interfaceNamePattern);
+    result.append(", classNamePattern: ");
+    result.append(classNamePattern);
     result.append(')');
     return result.toString();
   }
@@ -8204,6 +8316,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     
     setLanguage(oldGenModelVersion.getLanguage());
     setPackedEnums(oldGenModelVersion.isPackedEnums());
+    setInterfaceNamePattern(oldGenModelVersion.getInterfaceNamePattern());
+    setClassNamePattern(oldGenModelVersion.getClassNamePattern());
   }
 
   public boolean reconcile()

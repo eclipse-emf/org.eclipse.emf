@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.61 2008/08/07 11:10:36 emerks Exp $
+ * $Id: GenModel.java,v 1.62 2008/08/29 18:01:02 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -119,6 +119,8 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isPackedEnums <em>Packed Enums</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getInterfaceNamePattern <em>Interface Name Pattern</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getClassNamePattern <em>Class Name Pattern</em>}</li>
  * </ul>
  * </p>
  *
@@ -1972,6 +1974,54 @@ public interface GenModel extends GenBase
    * @generated
    */
   EList<GenPackage> getUsedGenPackages();
+
+  /**
+   * Returns the value of the '<em><b>Interface Name Pattern</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.5
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Interface Name Pattern</em>' attribute.
+   * @see #setInterfaceNamePattern(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_InterfaceNamePattern()
+   * @model
+   * @generated
+   */
+  String getInterfaceNamePattern();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getInterfaceNamePattern <em>Interface Name Pattern</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.5
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Interface Name Pattern</em>' attribute.
+   * @see #getInterfaceNamePattern()
+   * @generated
+   */
+  void setInterfaceNamePattern(String value);
+
+  /**
+   * Returns the value of the '<em><b>Class Name Pattern</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.5
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Class Name Pattern</em>' attribute.
+   * @see #setClassNamePattern(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ClassNamePattern()
+   * @model
+   * @generated
+   */
+  String getClassNamePattern();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getClassNamePattern <em>Class Name Pattern</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.5
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Class Name Pattern</em>' attribute.
+   * @see #getClassNamePattern()
+   * @generated
+   */
+  void setClassNamePattern(String value);
 
   EList<GenPackage> getStaticGenPackages();
 
