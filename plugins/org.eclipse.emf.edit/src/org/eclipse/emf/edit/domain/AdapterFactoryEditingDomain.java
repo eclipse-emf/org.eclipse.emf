@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.25 2008/05/07 19:08:46 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.26 2008/08/29 16:13:24 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,7 +29,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CompoundCommand;
@@ -44,6 +42,7 @@ import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -797,24 +796,8 @@ public class AdapterFactoryEditingDomain implements EditingDomain
       Boolean result = resourceToReadOnlyMap.get(resource);
       if (result == null && resource != null)
       {
-        URI uri = (resource.getResourceSet() == null ? resourceSet : resource.getResourceSet()).getURIConverter().normalize(resource.getURI());
-        if (isReadOnlyURI(uri))
-        {
-          result = Boolean.TRUE;
-        }
-        else
-        {
-          result = Boolean.FALSE;
-          URI localURI = CommonPlugin.asLocalURI(uri);
-          if (localURI.isFile() && !localURI.isRelative())
-          {
-            File file = new File(localURI.toFileString());
-            if (file.exists() && !file.canWrite())
-            {
-              result = Boolean.TRUE;
-            }
-          }
-        }
+        Map<String, ?> attributes = (resource.getResourceSet() == null ? resourceSet : resource.getResourceSet()).getURIConverter().getAttributes(resource.getURI(), null);
+        result = Boolean.TRUE.equals(attributes.get(URIConverter.ATTRIBUTE_READ_ONLY));
         resourceToReadOnlyMap.put(resource, result);
       }
       return Boolean.TRUE.equals(result);
@@ -823,7 +806,9 @@ public class AdapterFactoryEditingDomain implements EditingDomain
 
   /**
    * Returns whether to expect that the resource corresponding to the given URI form will be read only.
+   * @deprecated this method is no longer called by {@link #isReadOnly(Resource)}
    */
+  @Deprecated
   protected boolean isReadOnlyURI(URI uri)
   {
     if (uri.isArchive())
