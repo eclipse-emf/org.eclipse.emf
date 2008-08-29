@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.35 2008/06/02 20:34:52 davidms Exp $
+ * $Id: GenPackage.java,v 1.36 2008/08/29 18:05:33 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -712,18 +712,56 @@ public interface GenPackage extends GenBase
   String getPackageName();
   String getQualifiedPackageName();
 
+  /**
+   * Returns the name of the single package class generated when interfaces are suppressed.
+   * It is simply the package {@link #getPrefix() prefix}, with "Package" appended.
+   * This method is analagous to {@link #getFactoryName()} and would be called
+   * <code>getPackageName()</code> if that name were not already taken.
+   * @since 2.5
+   */
+  String getBasicPackageName();
+
+  /**
+   * @since 2.5
+   */
+  String getUncapPackageName();
+
   String getPackageInterfaceName();
   String getQualifiedPackageInterfaceName();
   String getImportedPackageInterfaceName();
+
+  /**
+   * @deprecated Use {@link #getUncapFactoryName()}, which won't change with the interface name pattern, instead.
+   */
+  @Deprecated
   String getUncapPackageInterfaceName();
+
   String getPackageClassName();
   String getQualifiedPackageClassName();
   String getImportedPackageClassName();
 
+  /**
+   * Returns the name of the single factory class generated when interfaces are suppressed.
+   * It is simply the package {@link #getPrefix() prefix}, with "Factory" appended.
+   * @since 2.5
+   */
+  String getFactoryName();
+
+  /**
+   * @since 2.5
+   */
+  String getUncapFactoryName();
+
   String getFactoryInterfaceName();
   String getQualifiedFactoryInterfaceName();
   String getImportedFactoryInterfaceName();
+
+  /**
+   * @deprecated Use {@link #getUncapFactoryName()}, which won't change with the interface name pattern, instead.
+   */
+  @Deprecated
   String getUncapFactoryInterfaceName();
+
   String getFactoryClassName();
   String getQualifiedFactoryClassName();
   String getImportedFactoryClassName();
