@@ -347,7 +347,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_41);
     for (GenClass genClass : genPackage.getGenClasses()) {
     stringBuffer.append(TEXT_42);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_43);
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_44);
@@ -363,59 +363,59 @@ public class ResourceClass
     List<EStructuralFeature> attributes = extendedMetaData.getAllAttributes(genClass.getEcoreClass());
     List<EStructuralFeature> elements = extendedMetaData.getAllElements(genClass.getEcoreClass());
     stringBuffer.append(TEXT_48);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_49);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_50);
     stringBuffer.append(_StackFrame);
     stringBuffer.append(TEXT_51);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_52);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_53);
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_54);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_55);
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_56);
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_57);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_58);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_59);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_60);
     stringBuffer.append(genClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_61);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_62);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_63);
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_64);
     stringBuffer.append(genClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_65);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_66);
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_67);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_68);
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_69);
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_70);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_71);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_72);
     stringBuffer.append(_StackFrame);
     stringBuffer.append(TEXT_73);
     stringBuffer.append(genClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_74);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_75);
     for (GenFeature genFeature : genClass.getAllGenFeatures()) {
     String name = extendedMetaData.getName(genFeature.getEcoreFeature());
@@ -424,7 +424,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_76);
     stringBuffer.append(genFeature.getTypeGenClass().getGenPackage().getImportedResourceClassName());
     stringBuffer.append(TEXT_77);
-    stringBuffer.append(genFeature.getTypeGenClass().getInterfaceName());
+    stringBuffer.append(genFeature.getTypeGenClass().getName());
     stringBuffer.append(TEXT_78);
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_79);
@@ -463,7 +463,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_92);
     if (genClassifier.getGenPackage().isDataTypeConverters()) {
     stringBuffer.append(TEXT_93);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_94);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_95);
@@ -473,7 +473,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_97);
     } else {
     stringBuffer.append(TEXT_98);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_99);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_100);
@@ -543,7 +543,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_127);
     if (genFeature.isListType()) {
     stringBuffer.append(TEXT_128);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_129);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_130);
@@ -555,7 +555,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_133);
     } else {
     stringBuffer.append(TEXT_134);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_135);
     stringBuffer.append(genFeature.getAccessorName());
     stringBuffer.append(TEXT_136);
@@ -581,25 +581,25 @@ public class ResourceClass
     stringBuffer.append(TEXT_145);
     }
     stringBuffer.append(TEXT_146);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_147);
     stringBuffer.append(genPackage.getQualifiedFactoryInstanceAccessor());
     stringBuffer.append(TEXT_148);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_149);
     stringBuffer.append(genClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_150);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_151);
     stringBuffer.append(genClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_152);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_153);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_154);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_155);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_156);
     }
     for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {

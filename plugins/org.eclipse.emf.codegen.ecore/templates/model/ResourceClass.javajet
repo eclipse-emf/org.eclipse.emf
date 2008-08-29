@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.EStructuralFeature org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.14 2007/05/10 13:52:56 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.EStructuralFeature org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.15 2008/08/29 18:25:12 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -212,7 +212,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		protected <%=genClass.getInterfaceName()%>StackFrame <%=genClass.getSafeUncapName()%>;
+		protected <%=genClass.getName()%>StackFrame <%=genClass.getSafeUncapName()%>;
 
 <%}%>
 <%for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {%>
@@ -232,13 +232,13 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public <%=genClass.getInterfaceName()%>StackFrame push<%=genClass.getInterfaceName()%>(<%=_StackFrame%> previous, Attributes attributes)
+		public <%=genClass.getName()%>StackFrame push<%=genClass.getName()%>(<%=_StackFrame%> previous, Attributes attributes)
 		{
-			 <%=genClass.getInterfaceName()%>StackFrame result<%=genClass.getInterfaceName()%> = <%=genClass.getSafeUncapName()%> == null ? new <%=genClass.getInterfaceName()%>StackFrame() : <%=genClass.getSafeUncapName()%>;
+			 <%=genClass.getName()%>StackFrame result<%=genClass.getName()%> = <%=genClass.getSafeUncapName()%> == null ? new <%=genClass.getName()%>StackFrame() : <%=genClass.getSafeUncapName()%>;
 			 <%=genClass.getSafeUncapName()%> = null;
-			 result<%=genClass.getInterfaceName()%>.pushOnto(previous);
-			 result<%=genClass.getInterfaceName()%>.handleAttributes(attributes);
-			 return result<%=genClass.getInterfaceName()%>;
+			 result<%=genClass.getName()%>.pushOnto(previous);
+			 result<%=genClass.getName()%>.handleAttributes(attributes);
+			 return result<%=genClass.getName()%>;
 		}
 
 		/**
@@ -246,11 +246,11 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public <%=genClass.getImportedInterfaceName()%> pop<%=genClass.getInterfaceName()%>(<%=genClass.getInterfaceName()%>StackFrame <%=genClass.getSafeUncapName()%>)
+		public <%=genClass.getImportedInterfaceName()%> pop<%=genClass.getName()%>(<%=genClass.getName()%>StackFrame <%=genClass.getSafeUncapName()%>)
 		{
-			<%=genClass.getImportedInterfaceName()%> result<%=genClass.getInterfaceName()%>Value = <%=genClass.getSafeUncapName()%>.pop<%=genClass.getInterfaceName()%>();
+			<%=genClass.getImportedInterfaceName()%> result<%=genClass.getName()%>Value = <%=genClass.getSafeUncapName()%>.pop<%=genClass.getName()%>();
 			this.<%=genClass.getSafeUncapName()%> = <%=genClass.getSafeUncapName()%>;
-			return result<%=genClass.getInterfaceName()%>Value;
+			return result<%=genClass.getName()%>Value;
 		}
 
 		/**
@@ -258,14 +258,14 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public static class <%=genClass.getInterfaceName()%>StackFrame extends <%=_StackFrame%>
+		public static class <%=genClass.getName()%>StackFrame extends <%=_StackFrame%>
 		{
 			/**
 			 * <!-- begin-user-doc -->
 			 * <!-- end-user-doc -->
 			 * @generated
 			 */
-			protected <%=genClass.getImportedInterfaceName()%> the<%=genClass.getInterfaceName()%>;
+			protected <%=genClass.getImportedInterfaceName()%> the<%=genClass.getName()%>;
 		
 <%for (GenFeature genFeature : genClass.getAllGenFeatures()) {%>
 <%String name = extendedMetaData.getName(genFeature.getEcoreFeature());%>
@@ -276,7 +276,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 			 * <!-- end-user-doc -->
 			 * @generated
 			 */
-			protected <%=genFeature.getTypeGenClass().getGenPackage().getImportedResourceClassName()%>.FrameFactory.<%=genFeature.getTypeGenClass().getInterfaceName()%>StackFrame <%=genFeature.getSafeName()%>;
+			protected <%=genFeature.getTypeGenClass().getGenPackage().getImportedResourceClassName()%>.FrameFactory.<%=genFeature.getTypeGenClass().getName()%>StackFrame <%=genFeature.getSafeName()%>;
 
 <%} else {%>
 			/**
@@ -312,9 +312,9 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 				if (theValue != null)
 				{
 <%if (genClassifier.getGenPackage().isDataTypeConverters()) {%>
-					the<%=genClass.getInterfaceName()%>.set<%=genFeature.getAccessorName()%>(<%=genClassifier.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=genClassifier.getName()%>(theValue));
+					the<%=genClass.getName()%>.set<%=genFeature.getAccessorName()%>(<%=genClassifier.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=genClassifier.getName()%>(theValue));
 <%} else {%>
-					the<%=genClass.getInterfaceName()%>.set<%=genFeature.getAccessorName()%>((<%=genFeature.getImportedType(null)%>)<%=genClassifier.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=genClassifier.getQualifiedClassifierAccessor()%>, theValue));
+					the<%=genClass.getName()%>.set<%=genFeature.getAccessorName()%>((<%=genFeature.getImportedType(null)%>)<%=genClassifier.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=genClassifier.getQualifiedClassifierAccessor()%>, theValue));
 <%}%>
 				}
 <%}%>
@@ -371,9 +371,9 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 				<%if (count++ != 0) {%>else <%}%>if (child == <%=genFeature.getSafeName()%>)
 				{
 <%if (genFeature.isListType()) {%>
-					the<%=genClass.getInterfaceName()%>.<%=genFeature.getGetAccessor()%>().add(<%=genFeature.getTypeGenClassifier().getGenPackage().getImportedResourceClassName()%>.FrameFactory.INSTANCE.pop<%=genFeature.getTypeGenClassifier().getName()%>(<%=genFeature.getSafeName()%>));
+					the<%=genClass.getName()%>.<%=genFeature.getGetAccessor()%>().add(<%=genFeature.getTypeGenClassifier().getGenPackage().getImportedResourceClassName()%>.FrameFactory.INSTANCE.pop<%=genFeature.getTypeGenClassifier().getName()%>(<%=genFeature.getSafeName()%>));
 <%} else {%>
-					the<%=genClass.getInterfaceName()%>.set<%=genFeature.getAccessorName()%>(<%=genFeature.getTypeGenClassifier().getGenPackage().getImportedResourceClassName()%>.FrameFactory.INSTANCE.pop<%=genFeature.getTypeGenClassifier().getName()%>(<%=genFeature.getSafeName()%>));
+					the<%=genClass.getName()%>.set<%=genFeature.getAccessorName()%>(<%=genFeature.getTypeGenClassifier().getGenPackage().getImportedResourceClassName()%>.FrameFactory.INSTANCE.pop<%=genFeature.getTypeGenClassifier().getName()%>(<%=genFeature.getSafeName()%>));
 <%}%>
 					<%=genFeature.getSafeName()%> = null;
 				}
@@ -399,7 +399,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
   <%}%>
 			public void create()
 			{
-				the<%=genClass.getInterfaceName()%> = <%=genPackage.getQualifiedFactoryInstanceAccessor()%>.create<%=genClass.getInterfaceName()%>();
+				the<%=genClass.getName()%> = <%=genPackage.getQualifiedFactoryInstanceAccessor()%>.create<%=genClass.getName()%>();
 			}
 		
 			/**
@@ -407,12 +407,12 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 			 * <!-- end-user-doc -->
 			 * @generated
 			 */
-			protected <%=genClass.getImportedInterfaceName()%> pop<%=genClass.getInterfaceName()%>()
+			protected <%=genClass.getImportedInterfaceName()%> pop<%=genClass.getName()%>()
 			{
 				pop();
-				<%=genClass.getImportedInterfaceName()%> result<%=genClass.getInterfaceName()%>Value = the<%=genClass.getInterfaceName()%>;
-				the<%=genClass.getInterfaceName()%> = null;
-				return result<%=genClass.getInterfaceName()%>Value;
+				<%=genClass.getImportedInterfaceName()%> result<%=genClass.getName()%>Value = the<%=genClass.getName()%>;
+				the<%=genClass.getName()%> = null;
+				return result<%=genClass.getName()%>Value;
 			}
 		
 		}
