@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.42 2008/04/17 20:37:48 davidms Exp $
+ * $Id: GenModelItemProvider.java,v 1.43 2008/08/29 18:00:47 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -141,6 +141,8 @@ public class GenModelItemProvider
       addRuntimeVersionPropertyDescriptor(object);
       addLanguagePropertyDescriptor(object);
       addPackedEnumsPropertyDescriptor(object);
+      addInterfaceNamePatternPropertyDescriptor(object);
+      addClassNamePatternPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1710,6 +1712,52 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Interface Name Pattern feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addInterfaceNamePatternPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_interfaceNamePattern_feature"),
+         getString("_UI_GenModel_interfaceNamePattern_description"),
+         GenModelPackage.Literals.GEN_MODEL__INTERFACE_NAME_PATTERN,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Class Name Pattern feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addClassNamePatternPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_classNamePattern_feature"),
+         getString("_UI_GenModel_classNamePattern_description"),
+         GenModelPackage.Literals.GEN_MODEL__CLASS_NAME_PATTERN,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1847,6 +1895,8 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
       case GenModelPackage.GEN_MODEL__LANGUAGE:
       case GenModelPackage.GEN_MODEL__PACKED_ENUMS:
+      case GenModelPackage.GEN_MODEL__INTERFACE_NAME_PATTERN:
+      case GenModelPackage.GEN_MODEL__CLASS_NAME_PATTERN:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
