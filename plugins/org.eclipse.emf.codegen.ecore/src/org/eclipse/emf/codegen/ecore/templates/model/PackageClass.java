@@ -857,7 +857,7 @@ public class PackageClass
     stringBuffer.append(TEXT_92);
     stringBuffer.append(genPackage.getPackageClassName());
     stringBuffer.append(TEXT_93);
-    stringBuffer.append(genPackage.getPackageInterfaceName());
+    stringBuffer.append(genPackage.getBasicPackageName());
     stringBuffer.append(TEXT_94);
     stringBuffer.append(genPackage.getPackageClassName());
     stringBuffer.append(TEXT_95);
@@ -907,7 +907,7 @@ public class PackageClass
     stringBuffer.append(TEXT_116);
     if (genPackage.isLoadingInitialization()) {
     stringBuffer.append(TEXT_117);
-    stringBuffer.append(genPackage.getPackageInterfaceName());
+    stringBuffer.append(genPackage.getBasicPackageName());
     stringBuffer.append(TEXT_118);
     }
     for (GenPackage interdep : genPackage.getPackageLoadInterDependencies()) {
@@ -923,7 +923,7 @@ public class PackageClass
     stringBuffer.append(TEXT_122);
     if (!genPackage.isLoadedInitialization()) {
     stringBuffer.append(TEXT_123);
-    stringBuffer.append(genPackage.getPackageInterfaceName());
+    stringBuffer.append(genPackage.getBasicPackageName());
     stringBuffer.append(TEXT_124);
     }
     for (GenPackage interdep : genPackage.getPackageBuildInterDependencies()) {
@@ -934,7 +934,7 @@ public class PackageClass
     stringBuffer.append(TEXT_127);
     if (!genPackage.isLoadedInitialization()) {
     stringBuffer.append(TEXT_128);
-    stringBuffer.append(genPackage.getPackageInterfaceName());
+    stringBuffer.append(genPackage.getBasicPackageName());
     stringBuffer.append(TEXT_129);
     }
     for (GenPackage interdep : genPackage.getPackageBuildInterDependencies()) {
@@ -948,7 +948,7 @@ public class PackageClass
     stringBuffer.append(TEXT_133);
     if (genPackage.isLoadedInitialization()) {
     stringBuffer.append(TEXT_134);
-    stringBuffer.append(genPackage.getPackageInterfaceName());
+    stringBuffer.append(genPackage.getBasicPackageName());
     stringBuffer.append(TEXT_135);
     }
     for (GenPackage interdep : genPackage.getPackageLoadInterDependencies()) {
@@ -962,7 +962,7 @@ public class PackageClass
     stringBuffer.append(TEXT_139);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EValidator"));
     stringBuffer.append(TEXT_140);
-    stringBuffer.append(genPackage.getPackageInterfaceName());
+    stringBuffer.append(genPackage.getBasicPackageName());
     stringBuffer.append(TEXT_141);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EValidator"));
     stringBuffer.append(TEXT_142);
@@ -973,11 +973,11 @@ public class PackageClass
     }
     if (!genPackage.isEcorePackage()) {
     stringBuffer.append(TEXT_145);
-    stringBuffer.append(genPackage.getPackageInterfaceName());
+    stringBuffer.append(genPackage.getBasicPackageName());
     stringBuffer.append(TEXT_146);
     }
     stringBuffer.append(TEXT_147);
-    stringBuffer.append(genPackage.getPackageInterfaceName());
+    stringBuffer.append(genPackage.getBasicPackageName());
     stringBuffer.append(TEXT_148);
     }
     if (isInterface) { // TODO REMOVE THIS BOGUS EMPTY LINE
@@ -1151,7 +1151,7 @@ public class PackageClass
     stringBuffer.append(TEXT_220);
     stringBuffer.append(genPackage.getImportedFactoryInterfaceName());
     stringBuffer.append(TEXT_221);
-    stringBuffer.append(genPackage.getFactoryInterfaceName());
+    stringBuffer.append(genPackage.getFactoryName());
     stringBuffer.append(TEXT_222);
     stringBuffer.append(genPackage.getImportedFactoryInterfaceName());
     stringBuffer.append(TEXT_223);
@@ -1159,7 +1159,7 @@ public class PackageClass
     stringBuffer.append(TEXT_224);
     stringBuffer.append(genPackage.getFactoryInterfaceName());
     stringBuffer.append(TEXT_225);
-    stringBuffer.append(genPackage.getFactoryInterfaceName());
+    stringBuffer.append(genPackage.getFactoryName());
     stringBuffer.append(TEXT_226);
     }
     stringBuffer.append(TEXT_227);

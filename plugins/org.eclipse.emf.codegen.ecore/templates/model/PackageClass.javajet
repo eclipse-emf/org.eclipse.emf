@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.41 2008/04/15 03:14:38 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.42 2008/08/29 18:24:53 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -262,7 +262,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 		if (isInited) return (<%=genPackage.getImportedPackageInterfaceName()%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI);
 
 		// Obtain or create and register package
-		<%=genPackage.getPackageClassName()%> the<%=genPackage.getPackageInterfaceName()%> = (<%=genPackage.getPackageClassName()%>)(<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(eNS_URI) instanceof <%=genPackage.getPackageClassName()%> ? <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(eNS_URI) : new <%=genPackage.getPackageClassName()%>());
+		<%=genPackage.getPackageClassName()%> the<%=genPackage.getBasicPackageName()%> = (<%=genPackage.getPackageClassName()%>)(<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(eNS_URI) instanceof <%=genPackage.getPackageClassName()%> ? <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(eNS_URI) : new <%=genPackage.getPackageClassName()%>());
 
 		isInited = true;
 
@@ -283,7 +283,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
   <%if (genPackage.isLoadedInitialization() || !genPackage.getPackageLoadInterDependencies().isEmpty()) {%>
 		// Load packages
     <%if (genPackage.isLoadingInitialization()) {%>
-		the<%=genPackage.getPackageInterfaceName()%>.loadPackage();
+		the<%=genPackage.getBasicPackageName()%>.loadPackage();
     <%}%>
     <%for (GenPackage interdep : genPackage.getPackageLoadInterDependencies()) {%>
       <%if (interdep.isLoadingInitialization()) {%>
@@ -295,7 +295,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
   <%if (!genPackage.isLoadedInitialization() || !genPackage.getPackageBuildInterDependencies().isEmpty()) {%>
 		// Create package meta-data objects
     <%if (!genPackage.isLoadedInitialization()) {%>
-		the<%=genPackage.getPackageInterfaceName()%>.createPackageContents();
+		the<%=genPackage.getBasicPackageName()%>.createPackageContents();
     <%}%>
     <%for (GenPackage interdep : genPackage.getPackageBuildInterDependencies()) {%>
 		<%=genPackage.getPackageInstanceVariable(interdep)%>.createPackageContents();
@@ -303,7 +303,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 
 		// Initialize created meta-data
     <%if (!genPackage.isLoadedInitialization()) {%>
-		the<%=genPackage.getPackageInterfaceName()%>.initializePackageContents();
+		the<%=genPackage.getBasicPackageName()%>.initializePackageContents();
     <%}%>
     <%for (GenPackage interdep : genPackage.getPackageBuildInterDependencies()) {%>
 		<%=genPackage.getPackageInstanceVariable(interdep)%>.initializePackageContents();
@@ -313,7 +313,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
   <%if (genPackage.isLoadedInitialization() || !genPackage.getPackageLoadInterDependencies().isEmpty()) {%>
 		// Fix loaded packages
     <%if (genPackage.isLoadedInitialization()) {%>
-		the<%=genPackage.getPackageInterfaceName()%>.fixPackageContents();
+		the<%=genPackage.getBasicPackageName()%>.fixPackageContents();
     <%}%>
     <%for (GenPackage interdep : genPackage.getPackageLoadInterDependencies()) {%>
 		<%=genPackage.getPackageInstanceVariable(interdep)%>.fixPackageContents();
@@ -323,7 +323,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
   <%if (genPackage.hasConstraints()) {%>
 		// Register package validator
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%>.Registry.INSTANCE.put
-			(the<%=genPackage.getPackageInterfaceName()%>, 
+			(the<%=genPackage.getBasicPackageName()%>, 
 			 new <%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%>.Descriptor()
 			 {
 				 public <%=genModel.getImportedName("org.eclipse.emf.ecore.EValidator")%> getEValidator()
@@ -335,10 +335,10 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
   <%}%>
   <%if (!genPackage.isEcorePackage()) {%>
 		// Mark meta-data to indicate it can't be changed
-		the<%=genPackage.getPackageInterfaceName()%>.freeze();
+		the<%=genPackage.getBasicPackageName()%>.freeze();
 
   <%}%>
-		return the<%=genPackage.getPackageInterfaceName()%>;
+		return the<%=genPackage.getBasicPackageName()%>;
 	}
 
 <%}%>
@@ -463,12 +463,12 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 */
 <%}%>
 <%if (isImplementation) {%>
-	public <%=genPackage.getImportedFactoryInterfaceName()%> get<%=genPackage.getFactoryInterfaceName()%>()
+	public <%=genPackage.getImportedFactoryInterfaceName()%> get<%=genPackage.getFactoryName()%>()
 	{
 		return (<%=genPackage.getImportedFactoryInterfaceName()%>)getEFactoryInstance();
 	}
 <%} else {%>
-	<%=genPackage.getFactoryInterfaceName()%> get<%=genPackage.getFactoryInterfaceName()%>();
+	<%=genPackage.getFactoryInterfaceName()%> get<%=genPackage.getFactoryName()%>();
 <%}%>
 
 <%if (isImplementation) {%>
