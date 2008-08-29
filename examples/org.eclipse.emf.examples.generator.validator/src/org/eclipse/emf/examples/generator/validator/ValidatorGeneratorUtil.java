@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidatorGeneratorUtil.java,v 1.3 2006/12/29 22:37:42 marcelop Exp $
+ * $Id: ValidatorGeneratorUtil.java,v 1.4 2008/08/29 18:30:40 davidms Exp $
  */
 package org.eclipse.emf.examples.generator.validator;
 
@@ -47,7 +47,7 @@ public class ValidatorGeneratorUtil
 
   public static String getValidatorInterfaceName(GenClass genClass)
   {
-    return genClass.getInterfaceName() + "Validator";
+    return genClass.getName() + "Validator";
   }
 
   public static String getQualifiedValidatorInterfaceName(GenClass genClass)
