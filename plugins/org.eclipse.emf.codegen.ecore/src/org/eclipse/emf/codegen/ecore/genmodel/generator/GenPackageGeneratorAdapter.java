@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.17 2008/08/13 02:57:31 davidms Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.18 2008/08/29 18:23:37 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -206,7 +206,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
     GenPackage genPackage = (GenPackage)object;
     message = CodeGenEcorePlugin.INSTANCE.getString
-      ("_UI_GeneratingPackage_message", new Object[] { genPackage.getPackageInterfaceName() });
+      ("_UI_GeneratingPackage_message", new Object[] { genPackage.getBasicPackageName() });
     monitor.subTask(message);
 
     GenModel genModel = genPackage.getGenModel();
@@ -630,7 +630,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     monitor.beginTask("", 2 + countCreateChildIcons(genPackage));
 
     message = CodeGenEcorePlugin.INSTANCE.getString
-      ("_UI_GeneratingItemProvidersForPackage_message", new Object[] { genPackage.getPackageInterfaceName() });
+      ("_UI_GeneratingItemProvidersForPackage_message", new Object[] { genPackage.getBasicPackageName() });
     monitor.subTask(message);
 
     GenModel genModel = genPackage.getGenModel();
@@ -731,7 +731,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
     GenPackage genPackage = (GenPackage)object;
     message = CodeGenEcorePlugin.INSTANCE.getString
-      ("_UI_GeneratingEditorForPackage_message", new Object[] { genPackage.getPackageInterfaceName() });
+      ("_UI_GeneratingEditorForPackage_message", new Object[] { genPackage.getBasicPackageName() });
     monitor.subTask(message);
 
     GenModel genModel = genPackage.getGenModel();
@@ -859,7 +859,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
     GenPackage genPackage = (GenPackage)object;
     message = CodeGenEcorePlugin.INSTANCE.getString
-      ("_UI_GeneratingTestsForPackage_message", new Object[] { genPackage.getPackageInterfaceName() });
+      ("_UI_GeneratingTestsForPackage_message", new Object[] { genPackage.getBasicPackageName() });
     monitor.subTask(message);
 
     GenModel genModel = genPackage.getGenModel();
