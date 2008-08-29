@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.30 2007/04/26 20:54:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.31 2008/08/29 18:24:32 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -107,10 +107,10 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	{
 		try
 		{
-			<%=factoryType%> the<%=genPackage.getFactoryInterfaceName()%> = (<%=factoryType%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEFactory("<%=genPackage.getNSURI()%>");<%=genModel.getNonNLS()%> 
-			if (the<%=genPackage.getFactoryInterfaceName()%> != null)
+			<%=factoryType%> the<%=genPackage.getFactoryName()%> = (<%=factoryType%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEFactory("<%=genPackage.getNSURI()%>");<%=genModel.getNonNLS()%> 
+			if (the<%=genPackage.getFactoryName()%> != null)
 			{
-				return the<%=genPackage.getFactoryInterfaceName()%>;
+				return the<%=genPackage.getFactoryName()%>;
 			}
 		}
 		catch (Exception exception)
@@ -661,7 +661,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
-	<%=genPackage.getPackageInterfaceName()%> get<%=genPackage.getPackageInterfaceName()%>();
+	<%=genPackage.getPackageInterfaceName()%> get<%=genPackage.getBasicPackageName()%>();
 
 <%} else if (isImplementation) {%>
 	/**
@@ -669,7 +669,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public <%=genPackage.getImportedPackageInterfaceName()%> get<%=genPackage.getPackageInterfaceName()%>()
+	public <%=genPackage.getImportedPackageInterfaceName()%> get<%=genPackage.getBasicPackageName()%>()
 	{
 		return (<%=genPackage.getImportedPackageInterfaceName()%>)getEPackage();
 	}

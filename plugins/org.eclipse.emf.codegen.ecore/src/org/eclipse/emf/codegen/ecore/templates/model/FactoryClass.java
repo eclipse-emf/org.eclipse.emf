@@ -563,7 +563,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_38);
     stringBuffer.append(factoryType);
     stringBuffer.append(TEXT_39);
-    stringBuffer.append(genPackage.getFactoryInterfaceName());
+    stringBuffer.append(genPackage.getFactoryName());
     stringBuffer.append(TEXT_40);
     stringBuffer.append(factoryType);
     stringBuffer.append(TEXT_41);
@@ -573,9 +573,9 @@ public class FactoryClass
     stringBuffer.append(TEXT_43);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_44);
-    stringBuffer.append(genPackage.getFactoryInterfaceName());
+    stringBuffer.append(genPackage.getFactoryName());
     stringBuffer.append(TEXT_45);
-    stringBuffer.append(genPackage.getFactoryInterfaceName());
+    stringBuffer.append(genPackage.getFactoryName());
     stringBuffer.append(TEXT_46);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin"));
     stringBuffer.append(TEXT_47);
@@ -1418,13 +1418,13 @@ public class FactoryClass
     stringBuffer.append(TEXT_415);
     stringBuffer.append(genPackage.getPackageInterfaceName());
     stringBuffer.append(TEXT_416);
-    stringBuffer.append(genPackage.getPackageInterfaceName());
+    stringBuffer.append(genPackage.getBasicPackageName());
     stringBuffer.append(TEXT_417);
     } else if (isImplementation) {
     stringBuffer.append(TEXT_418);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_419);
-    stringBuffer.append(genPackage.getPackageInterfaceName());
+    stringBuffer.append(genPackage.getBasicPackageName());
     stringBuffer.append(TEXT_420);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_421);
