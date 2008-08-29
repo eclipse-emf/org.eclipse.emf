@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.95 2008/08/07 11:10:36 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.96 2008/08/29 18:08:20 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -367,7 +367,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getInterfaceName()
   {
-    return getName();
+    return getGenModel().isSuppressInterfaces() ? getName() : getInterfaceName(getName());
   }
 
   public String getQualifiedInterfaceName()
@@ -423,12 +423,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getClassName()
   {
-    String result = getInterfaceName();
-    if (!getGenModel().isSuppressInterfaces())
-    {
-      result = getImplClassName(result);
-    }
-    return result;
+    return getGenModel().isSuppressInterfaces() ? getName() : getImplClassName(getName());
   }
 
   public String getQualifiedClassName()
