@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLContentHandlerImpl.java,v 1.3 2008/04/15 15:25:27 emerks Exp $
+ * $Id: XMLContentHandlerImpl.java,v 1.4 2008/08/29 18:33:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -25,6 +25,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.ContentHandler;
@@ -40,6 +41,7 @@ import org.eclipse.emf.ecore.xmi.XMLParserPool;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -133,8 +135,24 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
                       if (depth == 1 && !isXMINameAndNamespace(localName, uri) ||
                             depth == 2 && !isXMINamespace(uri))
                       {
+                        endElement(uri, localName, name);
+                        if (depth == 2)
+                        {
+                          endElement(uri, localName, name);
+                        }
+                        endDocument();
                         throw new RuntimeException();
                       }
+                    }
+
+                    @Override
+                    protected EPackage handleMissingPackage(String uriString)
+                    {
+                      EPackage result = super.handleMissingPackage(uriString);
+                      return
+                        result == XMLTypePackage.eINSTANCE ?
+                          extendedMetaData.demandPackage(uriString) :
+                          result;
                     }
                   };
               }
