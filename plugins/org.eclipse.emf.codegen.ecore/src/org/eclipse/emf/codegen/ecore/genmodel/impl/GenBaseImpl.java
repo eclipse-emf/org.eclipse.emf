@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.65 2008/05/04 10:58:53 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.66 2008/08/29 18:06:41 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -337,9 +337,19 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return CodeGenUtil.safeName(name);
   }
 
-  protected String getImplClassName(String interfaceName)
+  /**
+   * @since 2.5
+   */
+  protected String getInterfaceName(String name)
   {
-    return interfaceName + "Impl";
+    String pattern = getGenModel().getInterfaceNamePattern();
+    return isBlank(pattern) ? name : MessageFormat.format(pattern, name);
+  }
+
+  protected String getImplClassName(String name)
+  {
+    String pattern = getGenModel().getClassNamePattern();
+    return isBlank(pattern) ? (name + "Impl") : MessageFormat.format(pattern, name);
   }
 
   public boolean canGenerate()
