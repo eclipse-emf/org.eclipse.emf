@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.93 2008/06/04 17:11:01 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.94 2008/08/29 16:24:47 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -199,8 +199,18 @@ public class XSDEcoreBuilder extends MapBuilder
         {
           containingXSDSchema = rootSchema;
         }
-        ePackage.setName(validName(containingXSDSchema.eResource().getURI().trimFileExtension().lastSegment(), true));
-        ePackage.setNsURI(containingXSDSchema.eResource().getURI().toString());
+        String nsURI = getEcoreAttribute(containingXSDSchema, "nsURI");
+        if (nsURI != null)
+        {
+          String qualifiedPackageName = qualifiedPackageName(nsURI);
+          ePackage.setName(qualifiedPackageName);
+          ePackage.setNsURI(nsURI);
+        }
+        else
+        {
+          ePackage.setName(validName(containingXSDSchema.eResource().getURI().trimFileExtension().lastSegment(), true));
+          ePackage.setNsURI(containingXSDSchema.eResource().getURI().toString());
+        }
 
         // Also register against the nsURI for the case that the target namespace is null.
         //
