@@ -54,7 +54,7 @@ public class TestCase
   protected final String TEXT_37 = " fixture = null;";
   protected final String TEXT_38 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic static void main(String[] args)" + NL + "\t{" + NL + "\t\t";
   protected final String TEXT_39 = ".run(";
-  protected final String TEXT_40 = "Test.class);" + NL + "\t}";
+  protected final String TEXT_40 = ".class);" + NL + "\t}";
   protected final String TEXT_41 = NL + NL + "\t/**" + NL + "\t * Constructs a new ";
   protected final String TEXT_42 = " test case with the given name." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
   protected final String TEXT_43 = "(String name)" + NL + "\t{" + NL + "\t\tsuper(name);" + NL + "\t}";
@@ -260,7 +260,7 @@ public class TestCase
     stringBuffer.append(TEXT_38);
     stringBuffer.append(genModel.getImportedName("junit.textui.TestRunner"));
     stringBuffer.append(TEXT_39);
-    stringBuffer.append(genClass.getInterfaceName());
+    stringBuffer.append(genClass.getTestCaseClassName());
     stringBuffer.append(TEXT_40);
     }
     stringBuffer.append(TEXT_41);

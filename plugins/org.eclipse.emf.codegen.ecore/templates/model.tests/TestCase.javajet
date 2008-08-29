@@ -96,7 +96,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 */
 	public static void main(String[] args)
 	{
-		<%=genModel.getImportedName("junit.textui.TestRunner")%>.run(<%=genClass.getInterfaceName()%>Test.class);
+		<%=genModel.getImportedName("junit.textui.TestRunner")%>.run(<%=genClass.getTestCaseClassName()%>.class);
 	}
 <%}%>
 
