@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.34 2008/01/20 16:31:04 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.35 2008/08/30 21:06:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -668,7 +668,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       }
 
       GenParameter genParameter = getGenModel().createGenParameter();
-      getGenParameters().add(genParameter);
+      getGenParameters().add(i, genParameter);
       genParameter.initialize(parameter);
     }
 
@@ -694,7 +694,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       }
 
       GenTypeParameter genTypeParameter = getGenModel().createGenTypeParameter();
-      getGenTypeParameters().add(genTypeParameter);
+      getGenTypeParameters().add(i, genTypeParameter);
       genTypeParameter.initialize(typeParameter);
     }
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.96 2008/08/29 18:08:20 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.97 2008/08/30 21:06:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1519,7 +1519,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
 
       GenTypeParameter genTypeParameter = getGenModel().createGenTypeParameter();
-      getGenTypeParameters().add(genTypeParameter);
+      getGenTypeParameters().add(i, genTypeParameter);
       genTypeParameter.initialize(typeParameter);
     }
 
