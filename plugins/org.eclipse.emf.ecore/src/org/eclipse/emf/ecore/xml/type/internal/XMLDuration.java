@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLDuration.java,v 1.7 2007/06/14 18:32:46 emerks Exp $
+ * $Id: XMLDuration.java,v 1.8 2008/09/05 19:25:21 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -73,6 +73,10 @@
  */
 package org.eclipse.emf.ecore.xml.type.internal;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
@@ -90,9 +94,11 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
  * <p> 
  * NOTE: this class is for internal use only. 
  */
-public final class XMLDuration extends Duration
+public final class XMLDuration extends Duration implements Serializable
 {
-  final Duration duration;
+  private static final long serialVersionUID = 1L;
+
+  Duration duration;
 
   public XMLDuration(String value)
   {
@@ -192,5 +198,15 @@ public final class XMLDuration extends Duration
   public Duration normalizeWith(Calendar startTimeInstant)
   {
     return duration.normalizeWith(startTimeInstant);
+  }
+
+  private void writeObject(ObjectOutputStream out) throws IOException
+  {
+    out.writeUTF(toString());
+  }
+
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+  {
+    duration = XMLCalendar.datatypeFactory.newDuration(in.readUTF());
   }
 }

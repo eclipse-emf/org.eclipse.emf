@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.16 2008/04/01 16:43:34 emerks Exp $
+ * $Id: XMLCalendar.java,v 1.17 2008/09/05 19:25:21 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -75,6 +75,10 @@
 package org.eclipse.emf.ecore.xml.type.internal;
 
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
@@ -103,8 +107,10 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
  * <p> 
  * NOTE: this class is for internal use only. 
  */
-public final class XMLCalendar extends XMLGregorianCalendar
+public final class XMLCalendar extends XMLGregorianCalendar implements Serializable
 {
+  private static final long serialVersionUID = 1L;
+
   public final static short DATETIME = 0;
   public final static short TIME = 1;
   public final static short DATE = 2;
@@ -131,8 +137,8 @@ public final class XMLCalendar extends XMLGregorianCalendar
   public final static int GREATER_THAN = 1;
   public final static int INDETERMINATE = 2;
   
-  final short dataType;
-  final private XMLGregorianCalendar xmlGregorianCalendar;
+  short dataType;
+  private XMLGregorianCalendar xmlGregorianCalendar;
   private Date date;
   
   static final DatatypeFactory datatypeFactory;
@@ -501,5 +507,19 @@ public final class XMLCalendar extends XMLGregorianCalendar
   public String toXMLFormat()
   {
     return xmlGregorianCalendar.toXMLFormat();
+  }
+
+  private void writeObject(ObjectOutputStream out) throws IOException 
+  {
+    out.writeShort(dataType);
+    out.writeUTF(toString());
+    out.writeObject(date);
+  }
+
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+  {
+    dataType = in.readShort();
+    xmlGregorianCalendar = datatypeFactory.newXMLGregorianCalendar(in.readUTF());
+    date = (Date)in.readObject();
   }
 }
