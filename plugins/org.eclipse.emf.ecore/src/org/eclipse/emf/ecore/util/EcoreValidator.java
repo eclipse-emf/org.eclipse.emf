@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.33 2008/06/06 17:17:56 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.34 2008/09/06 12:41:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -4069,6 +4069,8 @@ public class EcoreValidator extends EObjectValidator
      */
     public static final EGenericTypeBuilder INSTANCE = new EGenericTypeBuilder();
 
+    private static final char [] NO_CHARS = {};
+
     /**
      * Parses an instance type name and returns a diagnostic representing the result of the analysis.
      * The {@link Diagnostic#getData() data} of the diagnostic will contain as the first object, the resulting {@link EGenericType generic type}.
@@ -4078,7 +4080,7 @@ public class EcoreValidator extends EObjectValidator
     public Diagnostic parseInstanceTypeName(final String instanceTypeName)
     {
       BasicDiagnostic placeholder = new BasicDiagnostic();
-      char [] instanceTypeNameCharacterArray = instanceTypeName.toCharArray();
+      char [] instanceTypeNameCharacterArray = instanceTypeName == null ? NO_CHARS: instanceTypeName.toCharArray();
       EGenericType eGenericType = handleInstanceTypeName(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, placeholder);
       BasicDiagnostic result =
         createDiagnostic
@@ -4101,7 +4103,7 @@ public class EcoreValidator extends EObjectValidator
     public Diagnostic parseTypeParameterList(final String typeParameterList)
     {
       BasicDiagnostic placeholder = new BasicDiagnostic();
-      char [] instanceTypeNameCharacterArray = typeParameterList.toCharArray();
+      char [] instanceTypeNameCharacterArray = typeParameterList == null ? NO_CHARS : typeParameterList.toCharArray();
       List<ETypeParameter> eTypeParameters = handleTypeParameters(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, placeholder);
       BasicDiagnostic result =
         createDiagnostic
@@ -4125,7 +4127,7 @@ public class EcoreValidator extends EObjectValidator
     public Diagnostic parseTypeArgumentList(final String typeArgumentList)
     {
       BasicDiagnostic placeholder = new BasicDiagnostic();
-      char [] instanceTypeNameCharacterArray = typeArgumentList.toCharArray();
+      char [] instanceTypeNameCharacterArray = typeArgumentList == null ? NO_CHARS : typeArgumentList.toCharArray();
       List<EGenericType> eTypeArguments = handleTypeArguments(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, placeholder);
       BasicDiagnostic result =
         createDiagnostic
@@ -4148,7 +4150,7 @@ public class EcoreValidator extends EObjectValidator
     public Diagnostic parseTypeParameter(final String typeParameter)
     {
       BasicDiagnostic placeholder = new BasicDiagnostic();
-      char [] instanceTypeNameCharacterArray = typeParameter.toCharArray();
+      char [] instanceTypeNameCharacterArray = typeParameter == null ? NO_CHARS : typeParameter.toCharArray();
       ETypeParameter eTypeParameter = handleTypeParameter(instanceTypeNameCharacterArray, 0, instanceTypeNameCharacterArray.length, placeholder);
       BasicDiagnostic result =
         createDiagnostic
