@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.25 2008/05/04 17:03:21 emerks Exp $
+ * $Id: JMerger.java,v 1.26 2008/09/08 11:46:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -1097,14 +1097,19 @@ public class JMerger
     
     // Don't push method annotations into redirected methods.
     //
-    if (node instanceof JAnnotation && 
-          sourceParent instanceof JMethod &&
-          targetParent instanceof JMethod &&
-          getControlModel().getRedirect() != null &&
-          ((JMethod)targetParent).getName().endsWith(getControlModel().getRedirect()) &&
-          !((JMethod)sourceParent).getName().endsWith(getControlModel().getRedirect()))
+    String redirect = getControlModel().getRedirect();
+    if (redirect != null &&
+          node instanceof JAnnotation && 
+          sourceParent instanceof JMethod)
     {
-      return false;
+      JMethod sourceMethod = (JMethod)sourceParent;
+      if (!sourceMethod.isConstructor() &&
+            !sourceMethod.getName().endsWith(redirect) &&
+            targetParent instanceof JMethod &&
+            ((JMethod)targetParent).getName().endsWith(redirect))
+      {
+        return false;
+      }
     }
 
     // by default nodes are marked up
