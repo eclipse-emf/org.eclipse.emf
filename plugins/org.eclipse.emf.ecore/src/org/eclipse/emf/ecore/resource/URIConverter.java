@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.11 2007/10/31 16:57:01 emerks Exp $
+ * $Id: URIConverter.java,v 1.12 2008/09/08 16:02:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -338,7 +338,7 @@ public interface URIConverter
     }
 
     @Override
-    public void reset() throws IOException
+    public synchronized void reset() throws IOException
     {
       super.reset();
       reader.reset();
