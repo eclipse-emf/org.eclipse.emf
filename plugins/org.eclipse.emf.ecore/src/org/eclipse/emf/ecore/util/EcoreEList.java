@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.16 2007/10/28 12:00:53 emerks Exp $
+ * $Id: EcoreEList.java,v 1.17 2008/09/12 12:13:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -350,12 +350,13 @@ public abstract class EcoreEList<E> extends NotifyingInternalEListImpl<E> implem
         else if (isContainment())
         {
           InternalEObject eObject = (InternalEObject)object;
+          EObject eContainer = eObject.eContainer();
           boolean result = 
-            eObject.eInternalContainer() == owner && 
+            eContainer == owner && 
               (hasNavigableInverse() ? 
                  eObject.eBaseStructuralFeatureID(eObject.eContainerFeatureID(), dataClass) == getInverseFeatureID() :
                  InternalEObject.EOPPOSITE_FEATURE_BASE - eObject.eContainerFeatureID() == getFeatureID());
-          if (hasProxies() && !result)
+          if (hasProxies() && !result && eContainer == null && eObject.eDirectResource() != null)
           {
             for (int i = 0; i < size; ++i)
             {
