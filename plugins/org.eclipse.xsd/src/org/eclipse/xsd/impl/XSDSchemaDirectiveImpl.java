@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.20 2007/07/10 19:55:09 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.21 2008/09/15 15:10:30 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -285,23 +285,22 @@ public abstract class XSDSchemaDirectiveImpl
       resolved = false;
     }
 
-    if (isReconciling)
+    if (!isReconciling)
     {
-      return;
+      super.changeAttribute(eAttribute);
+      if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SCHEMA_DIRECTIVE__SCHEMA_LOCATION)
+      {
+        Element theElement = getElement();
+        if (theElement != null)
+        {
+          niceSetAttribute(theElement, XSDConstants.SCHEMALOCATION_ATTRIBUTE, getSchemaLocation());
+        }
+      }
     }
 
-    super.changeAttribute(eAttribute);
-    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SCHEMA_DIRECTIVE__SCHEMA_LOCATION)
+    if (eAttribute == XSDPackage.Literals.XSD_SCHEMA_DIRECTIVE__SCHEMA_LOCATION && getResolvedSchema() != null && getSchema().isIncrementalUpdate())
     {
-      Element theElement = getElement();
-      if (theElement != null)
-      {
-        niceSetAttribute(theElement, XSDConstants.SCHEMALOCATION_ATTRIBUTE, getSchemaLocation());
-      }
-      if (eAttribute != null && getResolvedSchema() != null && getSchema().isIncrementalUpdate())
-      {
-        getSchema().reset();
-      }
+      getSchema().reset();
     }
   }
   
