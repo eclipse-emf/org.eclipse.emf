@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIHandler.java,v 1.2 2007/10/31 16:57:01 emerks Exp $
+ * $Id: URIHandler.java,v 1.3 2008/09/17 16:25:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -91,7 +91,7 @@ public interface URIHandler
   /**
    * Deletes the contents of the given URI. 
    * @param uri the URI to consider.
-   * @param options options to influence how the contents are deleted, or <code>null</code> if there are no options.
+   * @param options options to influence how the contents are deleted.
    * @throws IOException if there is a problem deleting the contents.
    * @see URIConverter#delete(URI, Map) 
    */
@@ -101,7 +101,7 @@ public interface URIHandler
    * Returns a map from String properties to their corresponding values representing a description the given URI's contents.
    * See the {@link ContentHandler#contentDescription(URI, InputStream, Map, Map) content handler} for more details.
    * @param uri the URI to consider.
-   * @param options options to influence how the content description is determined, or <code>null</code> if there are no options.
+   * @param options options to influence how the content description is determined.
    * @return a map from String properties to their corresponding values representing a description the given URI's contents.
    * @throws IOException if there is a problem accessing the contents.
    * @see URIConverter#contentDescription(URI, Map)
@@ -114,7 +114,7 @@ public interface URIHandler
    * If the URI {@link #exists(URI, Map) exists}
    * it will be possible to {@link #createOutputStream(URI, Map) create} an input stream.
    * @param uri the URI to consider.
-   * @param options options to influence how the existence determined, or <code>null</code> if there are no options.
+   * @param options options to influence how the existence determined.
    * @return whether the given URI has contents.
    * @see URIConverter#exists(URI, Map)
    */
@@ -126,7 +126,7 @@ public interface URIHandler
    * without that option, all supported attributes will be fetched.
    * If the URI doesn't not support any particular attribute, an entry for that attribute will not be appear in the result.
    * @param uri the URI to consider.
-   * @param options options to influence how the attributes are determined, or <code>null</code> if there are no options.
+   * @param options options to influence how the attributes are determined.
    * @return a map from String attributes to their corresponding values representing information about various aspects of the URI's state.
    */
   Map<String, ?> getAttributes(URI uri, Map<?, ?> options);
@@ -136,7 +136,7 @@ public interface URIHandler
    * Unsupported or unchangeable attributes are ignored.
    * @param uri the URI to consider.
    * @param attributes the new values for the attributes.
-   * @param options options to influence how the attributes are updated, or <code>null</code> if there are no options.
+   * @param options options to influence how the attributes are updated.
    * @throws IOException if there is a problem updating the attributes.
    */
   void setAttributes(URI uri, Map<String, ?> attributes, Map<?, ?> options) throws IOException;
