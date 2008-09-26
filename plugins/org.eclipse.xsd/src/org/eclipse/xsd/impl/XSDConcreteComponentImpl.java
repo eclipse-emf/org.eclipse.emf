@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.27 2008/07/23 18:20:09 davidms Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.28 2008/09/26 20:06:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1384,18 +1384,35 @@ public abstract class XSDConcreteComponentImpl
 
     if (!isAttached)
     {
-      // Special rule for annotations that must appear first.
+      // Special rule for annotations that must appear first,
+      // or facets of simple types within a restriction which must appear before any attributes.
       //
-      if (referencedElement == null && 
-            XSDConstants.nodeType(childElement) == XSDConstants.ANNOTATION_ELEMENT &&
-            !eReference.isMany())
+      if (referencedElement == null)
       {
-        for (Node child = adoptionParent.getFirstChild(); child != null; child = child.getNextSibling())
+        if (eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__FACET_CONTENTS &&
+              XSDConstants.nodeType(adoptionParent) == XSDConstants.RESTRICTION_ELEMENT)
         {
-          if (child.getNodeType() == Node.ELEMENT_NODE)
+          for (Node child = adoptionParent.getFirstChild(); child != null; child = child.getNextSibling())
           {
-            referencedElement = (Element)child;
-            break;
+            int nodeType = XSDConstants.nodeType(child);
+            if (nodeType == XSDConstants.ATTRIBUTE_ELEMENT || 
+                  nodeType == XSDConstants.ATTRIBUTEGROUP_ELEMENT || 
+                  nodeType == XSDConstants.ANYATTRIBUTE_ELEMENT)
+            {
+              referencedElement = (Element)child;
+              break;
+            }
+          }
+        }
+        else if (XSDConstants.nodeType(childElement) == XSDConstants.ANNOTATION_ELEMENT && !eReference.isMany())
+        {
+          for (Node child = adoptionParent.getFirstChild(); child != null; child = child.getNextSibling())
+          {
+            if (child.getNodeType() == Node.ELEMENT_NODE)
+            {
+              referencedElement = (Element)child;
+              break;
+            }
           }
         }
       }
