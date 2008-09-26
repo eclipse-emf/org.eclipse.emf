@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.25 2007/12/04 16:43:50 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.26 2008/09/26 17:33:38 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -60,6 +60,7 @@ import org.eclipse.xsd.XSDFacet;
 import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDFeature;
 import org.eclipse.xsd.XSDForm;
+import org.eclipse.xsd.XSDFractionDigitsFacet;
 import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDLengthFacet;
 import org.eclipse.xsd.XSDMaxExclusiveFacet;
@@ -71,9 +72,13 @@ import org.eclipse.xsd.XSDMinLengthFacet;
 import org.eclipse.xsd.XSDModelGroup;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDParticle;
+import org.eclipse.xsd.XSDPatternFacet;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
+import org.eclipse.xsd.XSDTotalDigitsFacet;
 import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.xsd.XSDWhiteSpace;
+import org.eclipse.xsd.XSDWhiteSpaceFacet;
 import org.eclipse.xsd.XSDWildcard;
 import org.eclipse.xsd.ecore.MapBuilder;
 import org.eclipse.xsd.util.XSDConstants;
@@ -469,6 +474,68 @@ public class EcoreSchemaBuilder extends MapBuilder
         XSDMaxExclusiveFacet xsdMaxExclusiveFacet = XSDFactory.eINSTANCE.createXSDMaxExclusiveFacet();
         xsdMaxExclusiveFacet.setLexicalValue(maxExclusive);
         xsdSimpleTypeDefinition.getFacetContents().add(xsdMaxExclusiveFacet);
+      }
+
+      int length = extendedMetaData.getLengthFacet(eDataType);
+      if (length != -1)
+      {
+        XSDLengthFacet xsdLengthFacet = XSDFactory.eINSTANCE.createXSDLengthFacet();
+        xsdLengthFacet.setLexicalValue(Integer.toString(length));
+        xsdSimpleTypeDefinition.getFacetContents().add(xsdLengthFacet);
+      }
+
+      int maxLength = extendedMetaData.getMaxLengthFacet(eDataType);
+      if (maxLength != -1)
+      {
+        XSDMaxLengthFacet xsdMaxLengthFacet = XSDFactory.eINSTANCE.createXSDMaxLengthFacet();
+        xsdMaxLengthFacet.setLexicalValue(Integer.toString(maxLength));
+        xsdSimpleTypeDefinition.getFacetContents().add(xsdMaxLengthFacet);
+      }
+
+      int minLength = extendedMetaData.getMinLengthFacet(eDataType);
+      if (minLength != -1)
+      {
+        XSDMinLengthFacet xsdMinLengthFacet = XSDFactory.eINSTANCE.createXSDMinLengthFacet();
+        xsdMinLengthFacet.setLexicalValue(Integer.toString(minLength));
+        xsdSimpleTypeDefinition.getFacetContents().add(xsdMinLengthFacet);
+      }
+
+      int totalDigits = extendedMetaData.getTotalDigitsFacet(eDataType);
+      if (totalDigits != -1)
+      {
+        XSDTotalDigitsFacet xsdTotalDigitsFacet = XSDFactory.eINSTANCE.createXSDTotalDigitsFacet();
+        xsdTotalDigitsFacet.setLexicalValue(Integer.toString(totalDigits));
+        xsdSimpleTypeDefinition.getFacetContents().add(xsdTotalDigitsFacet);
+      }
+
+      int fractionDigits = extendedMetaData.getFractionDigitsFacet(eDataType);
+      if (fractionDigits != -1)
+      {
+        XSDFractionDigitsFacet xsdFractionDigitsFacet = XSDFactory.eINSTANCE.createXSDFractionDigitsFacet();
+        xsdFractionDigitsFacet.setLexicalValue(Integer.toString(fractionDigits));
+        xsdSimpleTypeDefinition.getFacetContents().add(xsdFractionDigitsFacet);
+      }
+
+      int whiteSpace = extendedMetaData.getWhiteSpaceFacet(eDataType);
+      if (whiteSpace != ExtendedMetaData.UNSPECIFIED_WHITE_SPACE)
+      {
+        XSDWhiteSpaceFacet xsdWhiteSpaceFacet = XSDFactory.eINSTANCE.createXSDWhiteSpaceFacet();
+        xsdWhiteSpaceFacet.setLexicalValue(XSDWhiteSpace.get(whiteSpace - 1).toString());
+        xsdSimpleTypeDefinition.getFacetContents().add(xsdWhiteSpaceFacet);
+      }
+
+      for (String pattern : extendedMetaData.getPatternFacet(eDataType))
+      {
+        XSDPatternFacet xsdPatternFacet = XSDFactory.eINSTANCE.createXSDPatternFacet();
+        xsdPatternFacet.setLexicalValue(pattern);
+        xsdSimpleTypeDefinition.getFacetContents().add(xsdPatternFacet);
+      }
+
+      for (String enumeration : extendedMetaData.getEnumerationFacet(eDataType))
+      {
+        XSDEnumerationFacet xsdEnumerationFacet = XSDFactory.eINSTANCE.createXSDEnumerationFacet();
+        xsdEnumerationFacet.setLexicalValue(enumeration);
+        xsdSimpleTypeDefinition.getFacetContents().add(xsdEnumerationFacet);
       }
 
       String ecoreName = eDataType.getName();
