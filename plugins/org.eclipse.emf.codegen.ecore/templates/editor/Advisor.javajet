@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.10 2008/08/02 16:25:21 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.11 2008/10/02 18:21:03 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -27,7 +27,7 @@ import java.util.Arrays;
 <%if (!genModel.useGenerics()) {%>
 import java.util.Iterator;
 <%}%>
-<%if (genModel.getAllGenPackagesWithClassifiers().size() > 1) {%>
+<%if (genModel.getAllGenPackagesWithConcreteClasses().size() > 1) {%>
 import java.util.List;
 <%}%>
 
@@ -68,7 +68,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.ui.action.WorkbenchWindowActionDelegate;
 import org.eclipse.emf.common.util.URI;
-<%if (genModel.getAllGenPackagesWithClassifiers().size() > 1) {%>
+<%if (genModel.getAllGenPackagesWithConcreteClasses().size() > 1) {%>
 import org.eclipse.emf.common.util.UniqueEList;
 <%}%>
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
@@ -101,8 +101,8 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%if (genModel.getAllGenPackagesWithClassifiers().size() == 1) {%>
-	private static final String[] FILE_EXTENSION_FILTERS = <%if (!genModel.useGenerics()) {%>(String[])<%}%><%=genModel.getAllGenPackagesWithClassifiers().get(0).getImportedEditorClassName()%>.FILE_EXTENSION_FILTERS.toArray(new String[0]);
+<%if (genModel.getAllGenPackagesWithConcreteClasses().size() == 1) {%>
+	private static final String[] FILE_EXTENSION_FILTERS = <%if (!genModel.useGenerics()) {%>(String[])<%}%><%=genModel.getAllGenPackagesWithConcreteClasses().get(0).getImportedEditorClassName()%>.FILE_EXTENSION_FILTERS.toArray(new String[0]);
 <%} else {%>
 	private static final String[] FILE_EXTENSION_FILTERS = getFileExtensionFilters();
 
@@ -115,7 +115,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	private static String[] getFileExtensionFilters()
 	{
 		<%=_ListOfString%> result = new <%=_UniqueEListOfString%>();
-  <%for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
+  <%for (GenPackage genPackage : genModel.getAllGenPackagesWithConcreteClasses()) {%>
 		result.addAll(<%=genPackage.getImportedEditorClassName()%>.FILE_EXTENSION_FILTERS);
   <%}%>
 		return <%if (!genModel.useGenerics()) {%>(String[])<%}%>result.toArray(new String[0]);

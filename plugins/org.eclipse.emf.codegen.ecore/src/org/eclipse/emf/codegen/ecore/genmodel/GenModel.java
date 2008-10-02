@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.62 2008/08/29 18:01:02 davidms Exp $
+ * $Id: GenModel.java,v 1.63 2008/10/02 18:21:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -2420,6 +2420,11 @@ public interface GenModel extends GenBase
   List<GenPackage> getAllUsedGenPackagesWithClassifiers();
   List<GenPackage> getAllGenAndUsedGenPackagesWithClassifiers();
   List<GenPackage> getAllGenUsedAndStaticGenPackagesWithClassifiers();
+
+  /**
+   * @since 2.5
+   */
+  List<GenPackage> getAllGenPackagesWithConcreteClasses();
 
   boolean hasModelPluginClass();
   boolean hasPluginSupport();

@@ -129,11 +129,11 @@ public class Advisor
     if (!genModel.useGenerics()) {
     stringBuffer.append(TEXT_9);
     }
-    if (genModel.getAllGenPackagesWithClassifiers().size() > 1) {
+    if (genModel.getAllGenPackagesWithConcreteClasses().size() > 1) {
     stringBuffer.append(TEXT_10);
     }
     stringBuffer.append(TEXT_11);
-    if (genModel.getAllGenPackagesWithClassifiers().size() > 1) {
+    if (genModel.getAllGenPackagesWithConcreteClasses().size() > 1) {
     stringBuffer.append(TEXT_12);
     }
     stringBuffer.append(TEXT_13);
@@ -151,12 +151,12 @@ public class Advisor
     stringBuffer.append(TEXT_19);
     }
     stringBuffer.append(TEXT_20);
-    if (genModel.getAllGenPackagesWithClassifiers().size() == 1) {
+    if (genModel.getAllGenPackagesWithConcreteClasses().size() == 1) {
     stringBuffer.append(TEXT_21);
     if (!genModel.useGenerics()) {
     stringBuffer.append(TEXT_22);
     }
-    stringBuffer.append(genModel.getAllGenPackagesWithClassifiers().get(0).getImportedEditorClassName());
+    stringBuffer.append(genModel.getAllGenPackagesWithConcreteClasses().get(0).getImportedEditorClassName());
     stringBuffer.append(TEXT_23);
     } else {
     stringBuffer.append(TEXT_24);
@@ -164,7 +164,7 @@ public class Advisor
     stringBuffer.append(TEXT_25);
     stringBuffer.append(_UniqueEListOfString);
     stringBuffer.append(TEXT_26);
-    for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
+    for (GenPackage genPackage : genModel.getAllGenPackagesWithConcreteClasses()) {
     stringBuffer.append(TEXT_27);
     stringBuffer.append(genPackage.getImportedEditorClassName());
     stringBuffer.append(TEXT_28);

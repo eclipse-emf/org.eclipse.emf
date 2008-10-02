@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.102 2008/08/29 18:01:02 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.103 2008/10/02 18:21:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -7796,7 +7796,20 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     getAllGenPackagesWithClassifiersHelper(result, getStaticGenPackages());
     return result;
   }
-  
+
+  public List<GenPackage> getAllGenPackagesWithConcreteClasses()
+  {
+    List<GenPackage> result = new ArrayList<GenPackage>(getAllGenAndUsedGenPackagesWithClassifiers());
+    for (Iterator<GenPackage> i = result.iterator(); i.hasNext(); )
+    {
+      if (!i.next().hasConcreteClasses())
+      {
+        i.remove();
+      }
+    }
+    return result;
+  }
+
   public List<String> getModelQualifiedPackageNames()
   {
     EList<String> packageNames = sameModelTestsProject() ?
