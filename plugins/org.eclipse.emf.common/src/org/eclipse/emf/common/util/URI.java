@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.33 2008/08/07 11:00:20 emerks Exp $
+ * $Id: URI.java,v 1.34 2008/10/02 16:06:51 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -139,7 +139,7 @@ public final class URI
 {
   // Common to all URI types.
   private final int hashCode;
-  private final boolean hierarchical;
+  private static final int HIERARICHICAL_FLAG = 0x0100;
   private final String scheme;  // null -> relative URI reference
   private final String authority;
   private final String fragment;
@@ -150,7 +150,7 @@ public final class URI
 
   // Applicable only to a hierarchical URI.
   private final String device;
-  private final boolean absolutePath;
+  private static final int ABSOLUTE_PATH_FLAG = 0x0010;
   private final String[] segments; // empty last segment -> trailing separator
   private final String query;
 
@@ -996,14 +996,6 @@ public final class URI
     int hashCode = 0;
     //boolean iri = false;
 
-    if (hierarchical)
-    {
-      ++hashCode;
-    }
-    if (absolutePath)
-    {
-      hashCode += 2;
-    }
     if (scheme != null)
     {
       hashCode ^= scheme.toLowerCase().hashCode();
@@ -1035,13 +1027,27 @@ public final class URI
       //iri = iri || containsNonASCII(segments[i]);
     }
 
+    if (hierarchical)
+    {
+      hashCode |= HIERARICHICAL_FLAG;
+    }
+    else
+    {
+      hashCode &= ~HIERARICHICAL_FLAG;
+    }
+    if (absolutePath)
+    {
+      hashCode |= ABSOLUTE_PATH_FLAG;
+    }
+    else
+    {
+      hashCode &= ~ABSOLUTE_PATH_FLAG;
+    }
     this.hashCode = hashCode;
     //this.iri = iri;
-    this.hierarchical = hierarchical;
     this.scheme = scheme == null ? null : scheme.intern();
     this.authority = authority;
     this.device = device;
-    this.absolutePath = absolutePath;
     this.segments = segments;
     this.query = query;
     this.fragment = fragment;
@@ -1348,7 +1354,7 @@ public final class URI
    */
   public boolean isHierarchical()
   {
-    return hierarchical;
+    return (hashCode & HIERARICHICAL_FLAG) != 0;
   }
 
   /**
@@ -1357,7 +1363,7 @@ public final class URI
    */
   public boolean hasAuthority()
   {
-    return hierarchical && authority != null;
+    return isHierarchical() && authority != null;
   }
 
   /**
@@ -1367,7 +1373,7 @@ public final class URI
   public boolean hasOpaquePart()
   {
     // note: hierarchical -> authority != null
-    return !hierarchical;
+    return !isHierarchical();
   }
 
   /**
@@ -1388,7 +1394,7 @@ public final class URI
   {
     // note: (absolutePath || authority == null) -> hierarchical
     // (authority == null && device == null && !absolutePath) -> scheme == null
-    return absolutePath || (authority == null && device == null);
+    return hasAbsolutePath() || (authority == null && device == null);
   }
 
   /**
@@ -1399,7 +1405,7 @@ public final class URI
   public boolean hasAbsolutePath()
   {
     // note: absolutePath -> hierarchical
-    return absolutePath;
+    return (hashCode & ABSOLUTE_PATH_FLAG) != 0;
   }
 
   /**
@@ -1411,7 +1417,7 @@ public final class URI
   {
     // note: authority == null -> hierarchical
     // (authority == null && device == null && !absolutePath) -> scheme == null
-    return authority == null && device == null && !absolutePath;
+    return authority == null && device == null && !hasAbsolutePath();
   }
 
   /**
@@ -1426,7 +1432,7 @@ public final class URI
   {
     // note: authority == null -> hierarchical
     // (authority == null && device == null && !absolutePath) -> scheme == null
-    return authority == null && device == null && !absolutePath &&
+    return authority == null && device == null && !hasAbsolutePath() &&
       segments.length == 0;
   }
 
@@ -1459,7 +1465,7 @@ public final class URI
   {
     // note: authority == null -> hierarchical
     // (authority == null && device == null && !absolutePath) -> scheme == null
-    return authority == null && device == null && !absolutePath &&
+    return authority == null && device == null && !hasAbsolutePath() &&
       segments.length == 0 && query == null;
   }
 
@@ -1474,7 +1480,7 @@ public final class URI
   {
     // note: authority == null -> hierarchical
     // (authority == null && device == null && !absolutePath) -> scheme == null
-    return authority == null && device == null && !absolutePath &&
+    return authority == null && device == null && !hasAbsolutePath() &&
       segments.length == 0 && query == null && fragment == null;
   }
 
@@ -1575,10 +1581,8 @@ public final class URI
     URI uri = (URI) object;
 
     return hashCode == uri.hashCode() &&
-      hierarchical == uri.isHierarchical() &&
-      absolutePath == uri.hasAbsolutePath() &&
       equals(scheme, uri.scheme(), true) &&
-      equals(authority, hierarchical ? uri.authority() : uri.opaquePart()) &&
+      equals(authority, isHierarchical() ? uri.authority() : uri.opaquePart()) &&
       equals(device, uri.device()) &&
       equals(query, uri.query()) && 
       equals(fragment, uri.fragment()) &&
@@ -1827,7 +1831,7 @@ public final class URI
       throw new IllegalArgumentException(
         "invalid query portion: " + query);
     }
-    return new URI(hierarchical, scheme, authority, device, absolutePath, segments, query, fragment); 
+    return new URI(isHierarchical(), scheme, authority, device, hasAbsolutePath(), segments, query, fragment); 
   }
 
   /**
@@ -1842,7 +1846,7 @@ public final class URI
     }
     else
     {
-      return new URI(hierarchical, scheme, authority, device, absolutePath, segments, null, fragment); 
+      return new URI(isHierarchical(), scheme, authority, device, hasAbsolutePath(), segments, null, fragment); 
     }
   }
 
@@ -1869,7 +1873,7 @@ public final class URI
       throw new IllegalArgumentException(
         "invalid fragment portion: " + fragment);
     }
-    URI result = new URI(hierarchical, scheme, authority, device, absolutePath, segments, query, fragment); 
+    URI result = new URI(isHierarchical(), scheme, authority, device, hasAbsolutePath(), segments, query, fragment); 
 
     if (!hasFragment())
     {
@@ -1890,7 +1894,7 @@ public final class URI
     }
     else if (cachedTrimFragment == null)
     {
-      cachedTrimFragment = new URI(hierarchical, scheme, authority, device, absolutePath, segments, query, null); 
+      cachedTrimFragment = new URI(isHierarchical(), scheme, authority, device, hasAbsolutePath(), segments, query, null); 
     }
 
     return cachedTrimFragment;
@@ -1954,7 +1958,7 @@ public final class URI
 
     String newAuthority = authority;
     String newDevice = device;
-    boolean newAbsolutePath = absolutePath;
+    boolean newAbsolutePath = hasAbsolutePath();
     String[] newSegments = segments;
     String newQuery = query;
     // note: it's okay for two URIs to share a segments array, since
@@ -2128,7 +2132,7 @@ public final class URI
 
     String newAuthority = authority;
     String newDevice = device;
-    boolean newAbsolutePath = absolutePath;
+    boolean newAbsolutePath = hasAbsolutePath();
     String[] newSegments = segments;
     String newQuery = query;
 
@@ -2397,7 +2401,7 @@ public final class URI
     StringBuffer result = new StringBuffer();
     if (includeSimpleForm) result.append(toString());
     result.append("\n hierarchical: ");
-    result.append(hierarchical);
+    result.append(isHierarchical());
     result.append("\n       scheme: ");
     result.append(scheme);
     result.append("\n    authority: ");
@@ -2405,7 +2409,7 @@ public final class URI
     result.append("\n       device: ");
     result.append(device);
     result.append("\n absolutePath: ");
-    result.append(absolutePath);
+    result.append(hasAbsolutePath());
     result.append("\n     segments: ");
     if (segments.length == 0) result.append("<empty>");
     for (int i = 0, len = segments.length; i < len; i++)
@@ -2579,7 +2583,7 @@ public final class URI
       newSegments = new String[len];
       System.arraycopy(segments, 0, newSegments, 0, len);
     }
-    return new URI(true, scheme, authority, device, absolutePath,
+    return new URI(true, scheme, authority, device, hasAbsolutePath(),
                    newSegments, query, fragment);
   }
 
@@ -2651,7 +2655,7 @@ public final class URI
     newSegments[len - 1] = newLastSegment.toString();
     
     // note: segments.length > 0 -> hierarchical
-    return new URI(true, scheme, authority, device, absolutePath,
+    return new URI(true, scheme, authority, device, hasAbsolutePath(),
                    newSegments, query, fragment); 
   }
 
@@ -2674,7 +2678,7 @@ public final class URI
     newSegments[len - 1] = newLastSegment;
 
     // note: segments.length > 0 -> hierarchical
-    return new URI(true, scheme, authority, device, absolutePath,
+    return new URI(true, scheme, authority, device, hasAbsolutePath(),
                    newSegments, query, fragment); 
   }
 
@@ -2686,8 +2690,8 @@ public final class URI
    */
   public boolean isPrefix()
   {
-    return hierarchical && query == null && fragment == null &&
-      (hasTrailingPathSeparator() || (absolutePath && segments.length == 0));
+    return isHierarchical() && query == null && fragment == null &&
+      (hasTrailingPathSeparator() || (hasAbsolutePath() && segments.length == 0));
   }
 
   /**
@@ -2752,11 +2756,11 @@ public final class URI
 
     // Don't even consider it unless this is hierarchical and has scheme,
     // authority, device and path absoluteness equal to those of the prefix.
-    if (!hierarchical ||
+    if (!isHierarchical() ||
         !equals(scheme, prefix.scheme(), true) ||
         !equals(authority, prefix.authority()) ||
         !equals(device, prefix.device()) ||
-        absolutePath != prefix.hasAbsolutePath())
+        hasAbsolutePath() != prefix.hasAbsolutePath())
     {
       return null;
     }
