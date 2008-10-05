@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaImporterApplication.java,v 1.1 2007/03/29 18:15:42 marcelop Exp $
+ * $Id: JavaImporterApplication.java,v 1.2 2008/10/05 23:48:33 marcelop Exp $
  */
 package org.eclipse.emf.importer.java;
 
@@ -90,7 +90,7 @@ public class JavaImporterApplication extends ModelImporterApplication
     appendLine(result, "For example:");
     appendLine(result, "");
     appendLine(result, "");
-    appendLine(result, "  ecore2genmodel");
+    appendLine(result, "  java2genmodel");
     appendLine(result, "    /library/model/lib.genmodel");
     appendLine(result, "    -modelProject result");
     appendLine(result, "    -editProject result.edit src");

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaGeneratorTask.java,v 1.2 2007/09/13 14:59:30 marcelop Exp $
+ * $Id: JavaGeneratorTask.java,v 1.3 2008/10/05 23:48:33 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.taskdefs;
 
@@ -30,7 +30,7 @@ import org.eclipse.emf.importer.java.JavaImporterApplication;
 
 /**
  * <p>
- * Generates source code from models specifed using <b>Annotated Java</b>.  Exposes some 
+ * Generates source code from models specified using <b>Annotated Java</b>.  Exposes some 
  * functionalities available on the {@link org.eclipse.emf.importer.java.JavaImporterApplication} 
  * class - check its <tt>printUsage()</tt> method for detailed information on the arguments 
  * you can use with this task.
