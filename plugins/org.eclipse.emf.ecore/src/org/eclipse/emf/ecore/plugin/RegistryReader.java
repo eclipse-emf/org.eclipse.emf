@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: RegistryReader.java,v 1.10 2008/05/04 17:03:48 emerks Exp $
+ * $Id: RegistryReader.java,v 1.11 2008/10/09 19:55:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -199,7 +201,24 @@ public abstract class RegistryReader
   {
     static class Dynamic extends EPackageDescriptor
     {
-      protected static ResourceSet resourceSet = new ResourceSetImpl();
+      protected static ResourceSet resourceSet =
+        new ResourceSetImpl()
+        {
+          protected Set<URI> uris = new HashSet<URI>();
+
+          @Override
+          protected Resource delegatedGetResource(URI uri, boolean loadOnDemand)
+          {
+            try
+            {
+              return uris.add(uri) ? super.delegatedGetResource(uri, loadOnDemand) : null;
+            }
+            finally
+            {
+              uris.remove(uri);
+            }
+          }
+        };
 
       public Dynamic(IConfigurationElement element, String attributeName)
       {
