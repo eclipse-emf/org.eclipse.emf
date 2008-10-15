@@ -12,13 +12,16 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.22 2008/10/15 15:53:30 davidms Exp $
+ * $Id: XSDValidateTest.java,v 1.23 2008/10/15 23:06:28 davidms Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -47,14 +50,13 @@ public class XSDValidateTest extends TestCase
 
   final static String BASE_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xsd/invalid/";
   
-  // prints to standard out detailed messages for failed test cases
+  // Print detailed messages to standard error.
   // 0: no debugging
   // 1: print failed comparisons only
   // 2: print all comparisons
   //
-  final static int DEBUG_STDOUT = 0;
+  final static int DEBUG = 0;
 
-  // specify file to validate and print messages to be added to "expectedMsg" array
   final static String xsdFile = "Bad.xsd";
 
   final static String[] xsdFiles = { "Bad.xsd", "BadMinExclusiveFacet.xsd", "BadAttributeDeclaration.xsd", "BadMinInclusiveFacet.xsd",
@@ -64,7 +66,9 @@ public class XSDValidateTest extends TestCase
       "BadSimpleTypeDefinition.xsd", "BadLengthFacet.xsd", "BadTotalDigitsFacet.xsd", "BadMaxExclusiveFacet.xsd", "BadWhiteSpaceFacet.xsd",
       "BadMaxInclusiveFacet.xsd", "BadWildcard.xsd", "BadMaxLengthFacet.xsd", };
 
-  final static String[] expectedMsg = {
+  final static String[] expectedMsg = adjustForJVM(
+    new String[]
+    {
       "XSD: The element '#junk' is not permitted as constrained by 'XML Schema '; expecting schema",
       "XSD: The minExclusive facet is not permitted in a type based on 'http://www.w3.org/2001/XMLSchema#string'",
       "XSD: The minExclusive facet cannot be repeated",
@@ -88,7 +92,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '13:20:00-05:00' of attribute 'value' must be less than '13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToTime_._base'",
       "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be less than '1999-05-31T13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToDateTime_._base'",
       "XSD: The value '1999' of attribute 'value' must be less than '1999' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGYear_._base'",
-      "XSD: The value '--12' of attribute 'value' must be less than '--12' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'",
+      "XSD: The value '--12' of attribute 'value' must be less than '--12' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'", // 23
       "XSD: The value '1999-12' of attribute 'value' must be less than '1999-12' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGYearMonth_._base'",
       "XSD: The value '---31' of attribute 'value' must be less than '---31' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGDay_._base'",
       "XSD: The value '--10-31' of attribute 'value' must be less than '--10-31' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonthDay_._base'",
@@ -99,7 +103,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '13:20:00-05:00' of attribute 'value' must be greater than '13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToTime_._base'",
       "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be greater than '1999-05-31T13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToDateTime_._base'",
       "XSD: The value '1999' of attribute 'value' must be greater than '1999' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGYear_._base'",
-      "XSD: The value '--12' of attribute 'value' must be greater than '--12' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'",
+      "XSD: The value '--12' of attribute 'value' must be greater than '--12' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'", // 34
       "XSD: The value '1999-12' of attribute 'value' must be greater than '1999-12' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGYearMonth_._base'",
       "XSD: The value '---31' of attribute 'value' must be greater than '---31' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGDay_._base'",
       "XSD: The value '--10-31' of attribute 'value' must be greater than '--10-31' as constrained by 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonthDay_._base'",
@@ -159,7 +163,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '13:20:00-04:59' of attribute 'value' must be greater than or equal to '13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToTime_._base'",
       "XSD: The value '1999-05-31T13:20:00-04:59' of attribute 'value' must be greater than or equal to '1999-05-31T13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToDateTime_._base'",
       "XSD: The value '1998' of attribute 'value' must be greater than or equal to '1999' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGYear_._base'",
-      "XSD: The value '--11' of attribute 'value' must be greater than or equal to '--12' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGMonth_._base'",
+      "XSD: The value '--11' of attribute 'value' must be greater than or equal to '--12' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGMonth_._base'", // 94
       "XSD: The value '1999-11' of attribute 'value' must be greater than or equal to '1999-12' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGYearMonth_._base'",
       "XSD: The value '---30' of attribute 'value' must be greater than or equal to '---31' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGDay_._base'",
       "XSD: The value '--10-30' of attribute 'value' must be greater than or equal to '--10-31' as constrained by 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGMonthDay_._base'",
@@ -280,7 +284,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gYear'",
       "XSD: The value '--13' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'",
       "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'",
-      "XSD: The value '1999-13' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gYearMonth'",
+      "XSD: The value '1999-13' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gYearMonth'", // 215
       "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gYearMonth'",
       "XSD: The value '---32' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gDay'",
       "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gDay'",
@@ -562,7 +566,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '13:20:00-05:00' of attribute 'value' must be less than '13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToTime_._base'",
       "XSD: The value '1999-05-31T13:20:00-05:00' of attribute 'value' must be less than '1999-05-31T13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToDateTime_._base'",
       "XSD: The value '1999' of attribute 'value' must be less than '1999' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGYear_._base'",
-      "XSD: The value '--12' of attribute 'value' must be less than '--12' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGMonth_._base'",
+      "XSD: The value '--12' of attribute 'value' must be less than '--12' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGMonth_._base'", // 497
       "XSD: The value '1999-12' of attribute 'value' must be less than '1999-12' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGYearMonth_._base'",
       "XSD: The value '---31' of attribute 'value' must be less than '---31' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGDay_._base'",
       "XSD: The value '--10-31' of attribute 'value' must be less than '--10-31' as constrained by 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGMonthDay_._base'",
@@ -594,7 +598,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value '13:20:00-05:01' of attribute 'value' must be less than or equal to '13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToTime_._base'",
       "XSD: The value '1999-05-31T13:20:00-05:01' of attribute 'value' must be less than or equal to '1999-05-31T13:20:00-05:00' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToDateTime_._base'",
       "XSD: The value '1999' of attribute 'value' must be less than or equal to '1998' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGYear_._base'",
-      "XSD: The value '--12' of attribute 'value' must be less than or equal to '--11' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGMonth_._base'",
+      "XSD: The value '--12' of attribute 'value' must be less than or equal to '--11' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGMonth_._base'", // 529
       "XSD: The value '1999-12' of attribute 'value' must be less than or equal to '1999-11' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGYearMonth_._base'",
       "XSD: The value '---31' of attribute 'value' must be less than or equal to '---30' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGDay_._base'",
       "XSD: The value '--10-31' of attribute 'value' must be less than or equal to '--10-30' as constrained by 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGMonthDay_._base'",
@@ -620,7 +624,31 @@ public class XSDValidateTest extends TestCase
       "XSD: The value 'abcd' of attribute 'value' must have length at most 3 as constrained by 'http://www.example.com/Bad#badMaxLengthFacetAppliedToString_._base'",
       "XSD: The value 'a b c d' of attribute 'value' must have length at most 3 as constrained by 'http://www.example.com/Bad#badMaxLengthFacetAppliedToList_._base'",
       "XSD: The value 'Aa11Bb22Cc33Dd44' of attribute 'value' must have length at most 9 as constrained by 'http://www.example.com/Bad#badMaxLengthFacetAppliedToBase64_._base'",
-      "XSD: The value 'a1b2c3d4' of attribute 'value' must have length at most 3 as constrained by 'http://www.example.com/Bad#badMaxLengthFacetAppliedToHexBinary_._base'", };
+      "XSD: The value 'a1b2c3d4' of attribute 'value' must have length at most 3 as constrained by 'http://www.example.com/Bad#badMaxLengthFacetAppliedToHexBinary_._base'"
+    });
+
+  static String[] adjustForJVM(String[] msg)
+  {
+    if ("Sun Microsystems Inc.".equals(System.getProperty("java.vm.vendor")))
+    {
+      // Adjusted entries above are marked with comments, e.g. // 23
+      //
+      List<String> list = new ArrayList<String>(Arrays.asList(msg));
+      list.set(529, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGMonth_._base'");
+      list.add(529, "XSD: The value '--11' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
+      list.set(497, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGMonth_._base'");
+      list.add(497, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
+      list.add(215, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
+      list.set(94, "XSD: The value '--11' of attribute 'value' must be of type 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGMonth_._base'");
+      list.add(94, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
+      list.set(34, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'");
+      list.add(34, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
+      list.set(23, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'");
+      list.add(23, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
+      msg = list.toArray(new String[list.size()]); 
+    }
+    return msg;
+  }
 
   public XSDValidateTest(String name)
   {
@@ -676,7 +704,7 @@ public class XSDValidateTest extends TestCase
 
   public void testValidateXSD() throws Exception
   {
-    // If printing debug output, we don't want to fail until we've finish, so we'll count the problems.
+    // If printing debug output, we don't want to fail until we've finished, so we'll count the problems.
     //
     int failures = 0;
     int msgIndex = 0;
@@ -691,7 +719,7 @@ public class XSDValidateTest extends TestCase
         if (resource instanceof XSDResourceImpl)
         {
           XSDResourceImpl xsdResource = (XSDResourceImpl)resource;
-          if (DEBUG_STDOUT > 0)
+          if (DEBUG > 0)
           {
             System.err.println("--> " + xsdResource.getURI().lastSegment());
           }
@@ -710,12 +738,13 @@ public class XSDValidateTest extends TestCase
             int index2 = actual.indexOf("The identity constraint");
             if (index > 0)
             {
-              // fixing invalid content messages "; expecting"
+              // Fix invalid content messages "; expecting".
+              //
               String substring = actual.substring(0, index);
               boolean result = expected.startsWith(substring);
-              if (DEBUG_STDOUT > 0)
+              if (DEBUG > 0)
               {
-                failures += handleResult(expected, actual, result, "match up to ;", position);
+                failures += handleResult(result, expected, actual, "match up to ;", position);
               }
               else
               {
@@ -724,12 +753,13 @@ public class XSDValidateTest extends TestCase
             }
             else if (index2 > 0)
             {
-              //fixing identity constraints
+              // Fix identity constraints.
+              //
               String substring = actual.substring(0, actual.indexOf("http:/"));
               boolean result = expected.startsWith(substring);
-              if (DEBUG_STDOUT > 0)
+              if (DEBUG > 0)
               {
-                failures += handleResult(expected, actual, result, "match up to http", position);
+                failures += handleResult(result, expected, actual, "match up to http", position);
               }
               else
               {
@@ -739,9 +769,9 @@ public class XSDValidateTest extends TestCase
             else 
             {
               boolean result = expected.equals(actual);
-              if (DEBUG_STDOUT > 0)
+              if (DEBUG > 0)
               {
-                failures += handleResult(expected, actual, result, "equal", position);
+                failures += handleResult(result, expected, actual, "equal", position);
               }
               else
               {
@@ -774,9 +804,9 @@ public class XSDValidateTest extends TestCase
     return resourceSet;
   }
 
-  protected int handleResult(String expected, String actual, boolean result, String test, String position)
+  protected int handleResult(boolean result, String expected, String actual, String test, String position)
   {
-    if (DEBUG_STDOUT == 2 || !result)
+    if (DEBUG == 2 || !result)
     {
       System.err.println("Expected: " + expected);
       System.err.println("Actual:   " + actual);
