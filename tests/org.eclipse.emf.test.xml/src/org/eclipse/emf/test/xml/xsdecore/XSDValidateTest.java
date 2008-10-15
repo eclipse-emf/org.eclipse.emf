@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.21 2008/03/10 14:22:48 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.22 2008/10/15 15:53:30 davidms Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -48,8 +48,11 @@ public class XSDValidateTest extends TestCase
   final static String BASE_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xsd/invalid/";
   
   // prints to standard out detailed messages for failed test cases
+  // 0: no debugging
+  // 1: print failed comparisons only
+  // 2: print all comparisons
   //
-  final static boolean DEBUG_STDOUT = false;
+  final static int DEBUG_STDOUT = 0;
 
   // specify file to validate and print messages to be added to "expectedMsg" array
   final static String xsdFile = "Bad.xsd";
@@ -673,7 +676,10 @@ public class XSDValidateTest extends TestCase
 
   public void testValidateXSD() throws Exception
   {
-    int msgErrorCounter = 0;
+    // If printing debug output, we don't want to fail until we've finish, so we'll count the problems.
+    //
+    int failures = 0;
+    int msgIndex = 0;
     for (int c = 0; c < xsdFiles.length; c++)
     {
       ResourceSet resourceSet = loadXSDResource(xsdFiles[c]);
@@ -685,8 +691,7 @@ public class XSDValidateTest extends TestCase
         if (resource instanceof XSDResourceImpl)
         {
           XSDResourceImpl xsdResource = (XSDResourceImpl)resource;
-          // print  xsdfile name
-          if (DEBUG_STDOUT)
+          if (DEBUG_STDOUT > 0)
           {
             System.err.println("--> " + xsdResource.getURI().lastSegment());
           }
@@ -698,57 +703,62 @@ public class XSDValidateTest extends TestCase
           
           for (XSDDiagnostic xsdDiagnostic : diagnostics)
           {
-            String message = xsdDiagnostic.getMessage();
-            int index = message.indexOf("; expecting");
-            int index2 = message.indexOf("The identity constraint");
+            String expected = expectedMsg[msgIndex++];
+            String actual = xsdDiagnostic.getMessage();
+            String position = xsdDiagnostic.getLine() + ", " + xsdDiagnostic.getColumn();
+            int index = actual.indexOf("; expecting");
+            int index2 = actual.indexOf("The identity constraint");
             if (index > 0)
             {
               // fixing invalid content messages "; expecting"
-              String substring = message.substring(0, index);
-              if (DEBUG_STDOUT && !expectedMsg[msgErrorCounter].startsWith(substring) )
-              {               
-                System.err.println("Wrong (start with): " + substring);
-                System.err.println("Expected: "+expectedMsg[msgErrorCounter]);
+              String substring = actual.substring(0, index);
+              boolean result = expected.startsWith(substring);
+              if (DEBUG_STDOUT > 0)
+              {
+                failures += handleResult(expected, actual, result, "match up to ;", position);
               }
               else
               {
-                assertTrue("'"+expectedMsg[msgErrorCounter]+"' does not start with '"+ substring, expectedMsg[msgErrorCounter].startsWith(substring));
+                assertTrue("'"+ expected + "' does not start with '" + substring, result);
               }
             }
             else if (index2 > 0)
             {
               //fixing identity constraints
-              String substring = message.substring(0, message.indexOf("http:/"));
-              if (DEBUG_STDOUT && !expectedMsg[msgErrorCounter].startsWith(substring))
+              String substring = actual.substring(0, actual.indexOf("http:/"));
+              boolean result = expected.startsWith(substring);
+              if (DEBUG_STDOUT > 0)
               {
-                System.err.println("Output (indexOf): " + substring);
-                System.err.println("Expected: "+expectedMsg[msgErrorCounter]);
+                failures += handleResult(expected, actual, result, "match up to http", position);
               }
               else
               {
-                assertTrue("'"+expectedMsg[msgErrorCounter]+"' does not start with '"+ substring, expectedMsg[msgErrorCounter].startsWith(substring));
+                assertTrue("'" + expected + "' does not start with '" + substring, result);
               }
             }
             else 
             {
-              if (DEBUG_STDOUT && !expectedMsg[msgErrorCounter].equals(message))
+              boolean result = expected.equals(actual);
+              if (DEBUG_STDOUT > 0)
               {
-                System.err.println("Output: " + message);
-                System.err.println("Expected: "+expectedMsg[msgErrorCounter]);
+                failures += handleResult(expected, actual, result, "equal", position);
               }
               else
               {
-                assertEquals(expectedMsg[msgErrorCounter], message);
+                assertEquals(expected, actual);
               }
             }
-            msgErrorCounter++;
           }
         }
       }
     }
+
+    if (failures > 0)
+    {
+      fail(failures + " comparison(s) failed. See output for details.");
+    }
   }
 
-  
   protected ResourceSet loadXSDResource(String xsd) throws IOException
   {
     File file = new File(BASE_URI + xsd);
@@ -762,5 +772,17 @@ public class XSDValidateTest extends TestCase
     xsdMainResource.setURI(uri);
     xsdMainResource.load(resourceSet.getLoadOptions());
     return resourceSet;
+  }
+
+  protected int handleResult(String expected, String actual, boolean result, String test, String position)
+  {
+    if (DEBUG_STDOUT == 2 || !result)
+    {
+      System.err.println("Expected: " + expected);
+      System.err.println("Actual:   " + actual);
+      System.err.println("Result (" + test +"): " + result);
+      System.err.println("Position: " + position);
+    }
+    return result ? 0 : 1;    
   }
 }
