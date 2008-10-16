@@ -12,16 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.23 2008/10/15 23:06:28 davidms Exp $
+ * $Id: XSDValidateTest.java,v 1.24 2008/10/16 17:48:01 davidms Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -66,8 +63,7 @@ public class XSDValidateTest extends TestCase
       "BadSimpleTypeDefinition.xsd", "BadLengthFacet.xsd", "BadTotalDigitsFacet.xsd", "BadMaxExclusiveFacet.xsd", "BadWhiteSpaceFacet.xsd",
       "BadMaxInclusiveFacet.xsd", "BadWildcard.xsd", "BadMaxLengthFacet.xsd", };
 
-  final static String[] expectedMsg = adjustForJVM(
-    new String[]
+  final static String[] expectedMsg =
     {
       "XSD: The element '#junk' is not permitted as constrained by 'XML Schema '; expecting schema",
       "XSD: The minExclusive facet is not permitted in a type based on 'http://www.w3.org/2001/XMLSchema#string'",
@@ -625,30 +621,7 @@ public class XSDValidateTest extends TestCase
       "XSD: The value 'a b c d' of attribute 'value' must have length at most 3 as constrained by 'http://www.example.com/Bad#badMaxLengthFacetAppliedToList_._base'",
       "XSD: The value 'Aa11Bb22Cc33Dd44' of attribute 'value' must have length at most 9 as constrained by 'http://www.example.com/Bad#badMaxLengthFacetAppliedToBase64_._base'",
       "XSD: The value 'a1b2c3d4' of attribute 'value' must have length at most 3 as constrained by 'http://www.example.com/Bad#badMaxLengthFacetAppliedToHexBinary_._base'"
-    });
-
-  static String[] adjustForJVM(String[] msg)
-  {
-    if ("Sun Microsystems Inc.".equals(System.getProperty("java.vm.vendor")))
-    {
-      // Adjusted entries above are marked with comments, e.g. // 23
-      //
-      List<String> list = new ArrayList<String>(Arrays.asList(msg));
-      list.set(529, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.example.com/Bad#badMaxInclusiveFacetAppliedToGMonth_._base'");
-      list.add(529, "XSD: The value '--11' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
-      list.set(497, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.example.com/Bad#badMaxExclusiveFacetAppliedToGMonth_._base'");
-      list.add(497, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
-      list.add(215, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
-      list.set(94, "XSD: The value '--11' of attribute 'value' must be of type 'http://www.example.com/Bad#badMinInclusiveFacetAppliedToGMonth_._base'");
-      list.add(94, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
-      list.set(34, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'");
-      list.add(34, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
-      list.set(23, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.example.com/Bad#badMinExclusiveFacetAppliedToGMonth_._base'");
-      list.add(23, "XSD: The value '--12' of attribute 'value' must be of type 'http://www.w3.org/2001/XMLSchema#gMonth'");
-      msg = list.toArray(new String[list.size()]); 
-    }
-    return msg;
-  }
+    };
 
   public XSDValidateTest(String name)
   {
