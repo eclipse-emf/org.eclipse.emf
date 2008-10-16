@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.16 2008/04/01 16:43:34 emerks Exp $
+ * $Id: XMLCalendar.java,v 1.16.2.1 2008/10/16 18:18:02 davidms Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -164,6 +164,25 @@ public final class XMLCalendar extends XMLGregorianCalendar
     EDATE_FORMATS[3].setTimeZone(TimeZone.getTimeZone("GMT"));    
   }
 
+  // The XMLGregorianCalendar implementation in some JREs are based on the wrong lexical representation for
+  // gMonth (--MM-- instead of --MM). This indicates whether a fix is necessary for parsing.
+  //
+  private static final boolean FIX_GMONTH_PARSE;
+
+  static
+  {
+    XMLGregorianCalendar test = null;
+    try
+    {
+      test = datatypeFactory.newXMLGregorianCalendar("--12");
+    }
+    catch (Exception e)
+    {
+      // Do nothing: test is null
+    }
+    FIX_GMONTH_PARSE = test == null;
+  }
+
   private XMLCalendar(XMLGregorianCalendar xmlGregorianCalendar, Date date, short dataType)
   {
     this.xmlGregorianCalendar = xmlGregorianCalendar;
@@ -181,6 +200,16 @@ public final class XMLCalendar extends XMLGregorianCalendar
     if (datatype < 0 || datatype > GMONTH)
     {
       throw new IllegalArgumentException("Illegal datatype value " + datatype);
+    }
+
+    if (datatype == GMONTH && FIX_GMONTH_PARSE)
+    {
+      if (value.length() < 6 || value.charAt(4) != '-' || value.charAt(5) != '-')
+      {
+        StringBuilder v = new StringBuilder(value);
+        v.insert(4, "--");
+        value = v.toString();
+      }
     }
 
     this.date = null;
