@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.17 2008/09/05 19:25:21 emerks Exp $
+ * $Id: XMLCalendar.java,v 1.18 2008/10/16 17:45:55 davidms Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -170,6 +170,27 @@ public final class XMLCalendar extends XMLGregorianCalendar implements Serializa
     EDATE_FORMATS[3].setTimeZone(TimeZone.getTimeZone("GMT"));    
   }
 
+  // The XMLGregorianCalendar implementation in some JREs are based on the wrong lexical representation for
+  // gMonth (--MM-- instead of --MM). These indicate whether a fix is necessary for parsing and/or printing.
+  //
+  private static final boolean FIX_GMONTH_PARSE;
+  private static final boolean FIX_GMONTH_PRINT;
+
+  static
+  {
+    XMLGregorianCalendar test = null;
+    try
+    {
+      test = datatypeFactory.newXMLGregorianCalendar("--12");
+    }
+    catch (Exception e)
+    {
+      // Do nothing: test is null
+    }
+    FIX_GMONTH_PARSE = test == null;
+    FIX_GMONTH_PRINT = test == null || test.toString().length() > 4;
+  }
+
   private XMLCalendar(XMLGregorianCalendar xmlGregorianCalendar, Date date, short dataType)
   {
     this.xmlGregorianCalendar = xmlGregorianCalendar;
@@ -187,6 +208,16 @@ public final class XMLCalendar extends XMLGregorianCalendar implements Serializa
     if (datatype < 0 || datatype > GMONTH)
     {
       throw new IllegalArgumentException("Illegal datatype value " + datatype);
+    }
+
+    if (datatype == GMONTH && FIX_GMONTH_PARSE)
+    {
+      if (value.length() < 6 || value.charAt(4) != '-' || value.charAt(5) != '-')
+      {
+        StringBuilder v = new StringBuilder(value);
+        v.insert(4, "--");
+        value = v.toString();
+      }
     }
 
     this.date = null;
@@ -242,7 +273,7 @@ public final class XMLCalendar extends XMLGregorianCalendar implements Serializa
   @Override
   public String toString()
   {
-    return xmlGregorianCalendar.toString();
+    return toXMLFormat();
   }
 
   public Date getDate()
@@ -506,6 +537,17 @@ public final class XMLCalendar extends XMLGregorianCalendar implements Serializa
   @Override
   public String toXMLFormat()
   {
+    if (dataType == GMONTH && FIX_GMONTH_PRINT)
+    {
+      String value = xmlGregorianCalendar.toXMLFormat();
+      if (value.length() > 5 && value.charAt(4) == '-' && value.charAt(5) == '-')
+      {
+        StringBuilder v = new StringBuilder(value);
+        v.delete(4, 6);
+        value = v.toString();
+      }
+      return value;
+    }
     return xmlGregorianCalendar.toXMLFormat();
   }
 
