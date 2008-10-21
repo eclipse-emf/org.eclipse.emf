@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectObservableMap.java,v 1.3 2008/01/26 20:56:46 emerks Exp $
+ * $Id: EObjectObservableMap.java,v 1.4 2008/10/21 11:03:56 emerks Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 /**
  * PROVISIONAL
@@ -62,7 +63,6 @@ public class EObjectObservableMap extends ComputedObservableMap
   {
     super(objects);
     this.eStructuralFeature = feature;
-    init();
   }
 
   @Override
@@ -80,7 +80,11 @@ public class EObjectObservableMap extends ComputedObservableMap
   @Override
   protected Object doGet(Object key)
   {
-    return ((EObject)key).eGet(eStructuralFeature);
+    EObject eObject = (EObject)key;
+    return  
+      ExtendedMetaData.INSTANCE.getAffiliation(eObject.eClass(), eStructuralFeature) == null ?
+        null :
+        eObject.eGet(eStructuralFeature);
   }
 
   @Override
