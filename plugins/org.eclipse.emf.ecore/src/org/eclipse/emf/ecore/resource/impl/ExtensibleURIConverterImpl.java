@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtensibleURIConverterImpl.java,v 1.4 2008/05/25 18:23:35 emerks Exp $
+ * $Id: ExtensibleURIConverterImpl.java,v 1.5 2008/10/22 14:44:58 davidms Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -280,7 +280,7 @@ public class ExtensibleURIConverterImpl implements URIConverter
     @Override
     public boolean equals(Object o)
     {
-      return mergedMap().equals(0);
+      return mergedMap().equals(o);
     }
   }
 
