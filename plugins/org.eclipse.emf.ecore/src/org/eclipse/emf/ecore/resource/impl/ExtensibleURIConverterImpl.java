@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtensibleURIConverterImpl.java,v 1.5 2008/10/22 14:44:58 davidms Exp $
+ * $Id: ExtensibleURIConverterImpl.java,v 1.6 2008/10/23 14:54:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -322,13 +322,13 @@ public class ExtensibleURIConverterImpl implements URIConverter
   public Map<String, ?> getAttributes(URI uri, Map<?, ?> options)
   {
     URI normalizedURI = normalize(uri);
-    return getURIHandler(normalizedURI).getAttributes(uri, new OptionsMap(OPTION_URI_CONVERTER, this, options));
+    return getURIHandler(normalizedURI).getAttributes(normalizedURI, new OptionsMap(OPTION_URI_CONVERTER, this, options));
   }
 
   public void setAttributes(URI uri, Map<String, ?> attributes, Map<?, ?> options) throws IOException
   {
     URI normalizedURI = normalize(uri);
-    getURIHandler(normalizedURI).setAttributes(uri, attributes, new OptionsMap(OPTION_URI_CONVERTER, this, options));
+    getURIHandler(normalizedURI).setAttributes(normalizedURI, attributes, new OptionsMap(OPTION_URI_CONVERTER, this, options));
   }
 
   private static IWorkspaceRoot workspaceRoot = EcorePlugin.getWorkspaceRoot();
