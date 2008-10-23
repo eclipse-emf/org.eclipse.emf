@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.13 2007/05/23 15:06:46 marcelop Exp $
+ * $Id: ChangePackageImpl.java,v 1.14 2008/10/23 17:22:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -679,7 +679,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
 
     initEClass(listChangeEClass, ListChange.class, "ListChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getListChange_Kind(), this.getChangeKind(), "kind", null, 0, 1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getListChange_DataValues(), ecorePackage.getEString(), "dataValues", null, 0, -1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getListChange_DataValues(), ecorePackage.getEString(), "dataValues", null, 0, -1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getListChange_Index(), ecorePackage.getEInt(), "index", "-1", 0, 1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getListChange_MoveToIndex(), ecorePackage.getEInt(), "moveToIndex", null, 0, 1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getListChange_Values(), theEcorePackage.getEJavaObject(), "values", null, 0, -1, ListChange.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);

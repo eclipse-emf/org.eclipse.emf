@@ -61,8 +61,8 @@
       </eParameters>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ChangeKind"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataValues" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataValues" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="-1"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="moveToIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>

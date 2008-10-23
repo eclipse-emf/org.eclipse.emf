@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChange.java,v 1.8 2007/06/12 15:07:31 emerks Exp $
+ * $Id: ListChange.java,v 1.9 2008/10/23 17:22:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -79,7 +79,7 @@ public interface ListChange extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Data Values</em>' attribute list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange_DataValues()
-   * @model
+   * @model unique="false"
    * @generated
    */
   EList<String> getDataValues();

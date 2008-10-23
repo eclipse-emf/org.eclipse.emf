@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.12 2007/02/20 17:43:02 emerks Exp $
+ * $Id: ListChangeImpl.java,v 1.13 2008/10/23 17:22:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -39,7 +39,7 @@ import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -231,7 +231,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
   {
     if (dataValues == null)
     {
-      dataValues = new EDataTypeUniqueEList<String>(String.class, this, ChangePackage.LIST_CHANGE__DATA_VALUES);
+      dataValues = new EDataTypeEList<String>(String.class, this, ChangePackage.LIST_CHANGE__DATA_VALUES);
     }
     return dataValues;
   }
