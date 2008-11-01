@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.28 2008/08/02 15:13:40 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.29 2008/11/01 10:42:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1614,26 +1614,9 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     @Override
     public void notifyChanged(Notification notification)
     {
-      switch (notification.getEventType())
+      if (!notification.isTouch())
       {
-        case Notification.SET:
-        case Notification.UNSET:
-        case Notification.MOVE:
-        {
-          if (!notification.isTouch())
-          {
-            setModified(true);
-          }
-          break;
-        }
-        case Notification.ADD:
-        case Notification.REMOVE:
-        case Notification.ADD_MANY:
-        case Notification.REMOVE_MANY:
-        {
-          setModified(true);
-          break;
-        }
+        setModified(true);
       }
     }
   }
