@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationImpl.java,v 1.9 2008/05/25 16:58:59 emerks Exp $
+ * $Id: NotificationImpl.java,v 1.10 2008/11/01 10:42:01 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -598,9 +598,12 @@ public class NotificationImpl implements Notification, NotificationChain
       case Notification.ADD_MANY:
       case Notification.REMOVE:
       case Notification.REMOVE_MANY:
-      case Notification.MOVE:
       {
         return false;
+      }
+      case Notification.MOVE:
+      {
+        return ((Integer)getOldValue()).intValue() == position;
       }
       case Notification.SET:
       case Notification.UNSET:
