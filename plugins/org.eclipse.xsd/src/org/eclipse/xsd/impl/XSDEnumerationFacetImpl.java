@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEnumerationFacetImpl.java,v 1.15 2007/11/26 12:20:54 emerks Exp $
+ * $Id: XSDEnumerationFacetImpl.java,v 1.16 2008/11/03 13:05:38 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -235,13 +235,17 @@ public class XSDEnumerationFacetImpl
       XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)getContainer();
       if (xsdSimpleTypeDefinition != null)
       {
-        try
+        XSDSimpleTypeDefinition baseTypeDefinition = xsdSimpleTypeDefinition.getBaseTypeDefinition();
+        if (baseTypeDefinition != null)
         {
-          newValue = xsdSimpleTypeDefinition.getValue(getElement(), theLexicalValue);
-        }
-        catch (RuntimeException exception)
-        {
-          // Ignore.
+          try
+          {
+            newValue = baseTypeDefinition.getValue(getElement(), theLexicalValue);
+          }
+          catch (RuntimeException exception)
+          {
+            // Ignore.
+          }
         }
       }
     }
