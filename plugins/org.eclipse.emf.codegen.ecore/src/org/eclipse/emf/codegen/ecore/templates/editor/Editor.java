@@ -689,7 +689,7 @@ String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute"
     stringBuffer.append(TEXT_147);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_148);
-    if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {
+    if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF23_VALUE) {
     stringBuffer.append(TEXT_149);
     } else if (genModel.isRichClientPlatform()) {
     stringBuffer.append(TEXT_150);
