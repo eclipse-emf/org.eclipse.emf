@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.76 2008/07/29 21:43:24 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.75.2.1 2008/11/03 11:51:41 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -393,6 +393,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	<%=genFeature.getListItemType(genClass)%>[] <%=genFeature.getGetArrayAccessor()%>();
 
     <%} else {%>
+      <%if (genModel.useGenerics()) {%>
+	@SuppressWarnings("unchecked")
+      <%}%>
 	public <%=genFeature.getListItemType(genClass)%>[] <%=genFeature.getGetArrayAccessor()%>()
 	{
       <%if (genFeature.isVolatile()) {%>
@@ -603,14 +606,14 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
           <%if (!genFeature.isBidirectional()) {%>
 				<%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs = old<%=genFeature.getCapName()%>.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - <%=genClass.getQualifiedFeatureID(genFeature)%><%=negativeOffsetCorrection%>, null, null);
           <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass(); String reverseOffsetCorrection = targetClass.hasOffsetCorrection() ? " + " + genClass.getOffsetCorrectionField(reverseFeature) : "";%>
-				<%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs =  old<%=genFeature.getCapName()%>.eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getImportedInterfaceName()%>.class, null);
+				<%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs =  old<%=genFeature.getCapName()%>.eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getRawImportedInterfaceName()%>.class, null);
           <%}%>
 				if (new<%=genFeature.getCapName()%>.eInternalContainer() == null)
 				{
           <%if (!genFeature.isBidirectional()) {%>
 					msgs = new<%=genFeature.getCapName()%>.eInverseAdd(this, EOPPOSITE_FEATURE_BASE - <%=genClass.getQualifiedFeatureID(genFeature)%><%=negativeOffsetCorrection%>, null, msgs);
           <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass(); String reverseOffsetCorrection = targetClass.hasOffsetCorrection() ? " + " + genClass.getOffsetCorrectionField(reverseFeature) : "";%>
-					msgs =  new<%=genFeature.getCapName()%>.eInverseAdd(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getImportedInterfaceName()%>.class, msgs);
+					msgs =  new<%=genFeature.getCapName()%>.eInverseAdd(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getRawImportedInterfaceName()%>.class, msgs);
           <%}%>
 				}
 				if (msgs != null) msgs.dispatch();
@@ -856,7 +859,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (new<%=genFeature.getCapName()%> != null)
-				msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)new<%=genFeature.getCapName()%>).eInverseAdd(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getImportedInterfaceName()%>.class, msgs);
+				msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)new<%=genFeature.getCapName()%>).eInverseAdd(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getRawImportedInterfaceName()%>.class, msgs);
 			msgs = basicSet<%=genFeature.getAccessorName()%>(<%=genFeature.getInternalTypeCast()%>new<%=genFeature.getCapName()%>, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -877,9 +880,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 			if (new<%=genFeature.getCapName()%> != null)
 				msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)new<%=genFeature.getCapName()%>).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - <%=genClass.getQualifiedFeatureID(genFeature)%><%=negativeOffsetCorrection%>, null, msgs);
         <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass(); String reverseOffsetCorrection = targetClass.hasOffsetCorrection() ? " + " + genClass.getOffsetCorrectionField(reverseFeature) : "";%>
-				msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getImportedInterfaceName()%>.class, msgs);
+				msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getRawImportedInterfaceName()%>.class, msgs);
 			if (new<%=genFeature.getCapName()%> != null)
-				msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)new<%=genFeature.getCapName()%>).eInverseAdd(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getImportedInterfaceName()%>.class, msgs);
+				msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)new<%=genFeature.getCapName()%>).eInverseAdd(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getRawImportedInterfaceName()%>.class, msgs);
         <%}%>
 			msgs = basicSet<%=genFeature.getAccessorName()%>(<%=genFeature.getInternalTypeCast()%>new<%=genFeature.getCapName()%>, msgs);
 			if (msgs != null) msgs.dispatch();
@@ -1111,7 +1114,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
         <%if (!genFeature.isBidirectional()) {%>
 			msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - <%=genClass.getQualifiedFeatureID(genFeature)%><%=negativeOffsetCorrection%>, null, msgs);
         <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass(); String reverseOffsetCorrection = targetClass.hasOffsetCorrection() ? " + " + genClass.getOffsetCorrectionField(reverseFeature) : "";%>
-			msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getImportedInterfaceName()%>.class, msgs);
+			msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getRawImportedInterfaceName()%>.class, msgs);
         <%}%>
 			msgs = basicUnset<%=genFeature.getAccessorName()%>(msgs);
 			if (msgs != null) msgs.dispatch();
@@ -1433,7 +1436,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     <%if (genFeature.isEffectiveContains()) {%>
 					msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - <%=genClass.getQualifiedFeatureID(genFeature)%><%=negativeOffsetCorrection%>, null, msgs);
     <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass(); String reverseOffsetCorrection = targetClass.hasOffsetCorrection() ? " + " + genClass.getOffsetCorrectionField(reverseFeature) : "";%>
-					msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getImportedInterfaceName()%>.class, msgs);
+					msgs = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getRawImportedInterfaceName()%>.class, msgs);
     <%}%>
 				return basicSet<%=genFeature.getAccessorName()%>((<%=genFeature.getImportedType(genClass)%>)otherEnd, msgs);
   <%}%>
@@ -1503,7 +1506,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 <%for (GenFeature genFeature : genClass.getEBasicRemoveFromContainerGenFeatures()) {%>
   <%GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass(); String reverseOffsetCorrection = targetClass.hasOffsetCorrection() ? " + " + genClass.getOffsetCorrectionField(reverseFeature) : "";%>
 			case <%=genClass.getQualifiedFeatureID(genFeature)%>:
-				return eInternalContainer().eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getImportedInterfaceName()%>.class, msgs);
+				return eInternalContainer().eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%><%=reverseOffsetCorrection%>, <%=targetClass.getRawImportedInterfaceName()%>.class, msgs);
 <%}%>
 		}
 <%if (genModel.isMinimalReflectiveMethods()) {%>
@@ -1779,7 +1782,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<%=singleWildcard%> baseClass)
 	{
     <%for (GenClass mixinGenClass : genClass.getMixinGenClasses()) {%>
-		if (baseClass == <%=mixinGenClass.getImportedInterfaceName()%>.class)
+		if (baseClass == <%=mixinGenClass.getRawImportedInterfaceName()%>.class)
 		{
 			switch (derivedFeatureID<%=negativeOffsetCorrection%>)
 			{
@@ -1805,7 +1808,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<%=singleWildcard%> baseClass)
 	{
   <%for (GenClass mixinGenClass : genClass.getMixinGenClasses()) {%>
-		if (baseClass == <%=mixinGenClass.getImportedInterfaceName()%>.class)
+		if (baseClass == <%=mixinGenClass.getRawImportedInterfaceName()%>.class)
 		{
 			switch (baseFeatureID)
 			{
@@ -1817,7 +1820,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 		}
   <%}%>
   <%if (genClass.hasOffsetCorrection() && !genClass.getGenFeatures().isEmpty()) {%>
-		if (baseClass == <%=genClass.getImportedInterfaceName()%>.class)
+		if (baseClass == <%=genClass.getRawImportedInterfaceName()%>.class)
 		{
 			switch (baseFeatureID<%=negativeOffsetCorrection%>)
 			{
