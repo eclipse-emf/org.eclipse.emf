@@ -578,7 +578,7 @@ public class ItemProvider
     stringBuffer.append(TEXT_133);
     if (!genClass.getLabelNotifyFeatures().isEmpty() || !genClass.getContentNotifyFeatures().isEmpty() || !genClass.getLabelAndContentNotifyFeatures().isEmpty()) {
     stringBuffer.append(TEXT_134);
-    stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getRawImportedInterfaceName());
     stringBuffer.append(TEXT_135);
     if (!genClass.getLabelNotifyFeatures().isEmpty()) {
     for (GenFeature genFeature : genClass.getLabelNotifyFeatures()) { 
