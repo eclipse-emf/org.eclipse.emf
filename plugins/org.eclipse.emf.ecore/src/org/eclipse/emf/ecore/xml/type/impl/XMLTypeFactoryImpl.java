@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.30 2008/04/01 16:43:34 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.30.2.1 2008/11/03 13:16:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -190,7 +190,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public byte createByte(String literal)
   {
-    return literal == null ? 0 : Byte.parseByte(collapseWhiteSpace(literal));
+    return literal == null ? 0 : Byte.parseByte(collapseWhiteSpaceAndLeadingPlus(literal));
   }
   
   /**
@@ -210,7 +210,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Byte createByteObject(String literal)
   {
-    return literal == null ? null : Byte.valueOf(collapseWhiteSpace(literal));
+    return literal == null ? null : Byte.valueOf(collapseWhiteSpaceAndLeadingPlus(literal));
   }
 
   /**
@@ -866,7 +866,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public int createInt(String initialValue)
   {
-    return initialValue == null ? 0 : Integer.parseInt(collapseWhiteSpace(initialValue));
+    return initialValue == null ? 0 : Integer.parseInt(collapseWhiteSpaceAndLeadingPlus(initialValue));
   }	
 
   /**
@@ -886,7 +886,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigInteger createInteger(String literal)
   {
-    return literal == null ? null : new BigInteger(collapseWhiteSpace(literal));
+    return literal == null ? null : new BigInteger(collapseWhiteSpaceAndLeadingPlus(literal));
   }
 
   /**
@@ -906,7 +906,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Integer createIntObject(String literal)
   {
-    return literal == null ? null : Integer.valueOf(collapseWhiteSpace(literal));
+    return literal == null ? null : Integer.valueOf(collapseWhiteSpaceAndLeadingPlus(literal));
   }
 
   /**
@@ -946,7 +946,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public long createLong(String literal)
   {
-    return literal == null ? 0L : Long.parseLong(literal);
+    return literal == null ? 0L : Long.parseLong(collapseWhiteSpaceAndLeadingPlus(literal));
   }
   
   /**
@@ -966,7 +966,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Long createLongObject(String literal)
   {
-    return literal == null ? null : Long.valueOf(collapseWhiteSpace(literal));
+    return literal == null ? null : Long.valueOf(collapseWhiteSpaceAndLeadingPlus(literal));
   }
 
   /**
@@ -1185,7 +1185,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigInteger createNonNegativeInteger(String literal)
   {
-    return literal == null ? null : new BigInteger(collapseWhiteSpace(literal));
+    return literal == null ? null : new BigInteger(collapseWhiteSpaceAndLeadingPlus(literal));
   }
 
   /**
@@ -1205,7 +1205,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigInteger createNonPositiveInteger(String literal)
   {
-    return literal == null ? null : new BigInteger(collapseWhiteSpace(literal));
+    return literal == null ? null : new BigInteger(collapseWhiteSpaceAndLeadingPlus(literal));
   }
 
   /**
@@ -1372,7 +1372,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public short createShort(String literal)
   {
-    return literal == null ? 0 : Short.parseShort(literal);
+    return literal == null ? 0 : Short.parseShort(collapseWhiteSpaceAndLeadingPlus(literal));
   }
   
   /**
@@ -1392,7 +1392,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Short createShortObject(String literal)
   {
-    return literal == null ? null : Short.valueOf(collapseWhiteSpace(literal));
+    return literal == null ? null : Short.valueOf(collapseWhiteSpaceAndLeadingPlus(literal));
   }
 
   /**
@@ -1478,7 +1478,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public short createUnsignedByte(String literal)
   {
-    return literal == null ? 0 : Short.parseShort(literal);
+    return literal == null ? 0 : Short.parseShort(collapseWhiteSpaceAndLeadingPlus(literal));
   }	
   
   /**
@@ -1498,7 +1498,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Short createUnsignedByteObject(String literal)
   {
-    return literal == null ? null : new Short(literal);
+    return literal == null ? null : Short.valueOf(collapseWhiteSpaceAndLeadingPlus(literal));
   }
 
   /**
@@ -1518,7 +1518,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public long createUnsignedInt(String literal)
   {
-    return literal == null ? 0 : Long.parseLong(literal);
+    return literal == null ? 0 : Long.parseLong(collapseWhiteSpaceAndLeadingPlus(literal));
   }
   
   /**
@@ -1538,7 +1538,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Long createUnsignedIntObject(String literal)
   {
-    return literal == null ? null : Long.valueOf(collapseWhiteSpace(literal));
+    return literal == null ? null : Long.valueOf(collapseWhiteSpaceAndLeadingPlus(literal));
   }
 
   /**
@@ -1598,7 +1598,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public int createUnsignedShort(String literal)
   {
-    return literal == null ? 0 : Integer.parseInt(literal);
+    return literal == null ? 0 : Integer.parseInt(collapseWhiteSpaceAndLeadingPlus(literal));
   }	
   
   /**
@@ -1618,7 +1618,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Integer createUnsignedShortObject(String literal)
   {
-    return literal == null ? null : Integer.valueOf(collapseWhiteSpace(literal));
+    return literal == null ? null : Integer.valueOf(collapseWhiteSpaceAndLeadingPlus(literal));
   }
 
   /**
@@ -3030,6 +3030,14 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
       result.insert(result.length() - 2, ":");
       return result;
     }
+  }
+
+  private String collapseWhiteSpaceAndLeadingPlus(String value)
+  {
+    // All calls guard for null value already.
+    //
+    String result = super.collapseWhiteSpace(value);
+    return result.length() > 0 && result.charAt(0) == '+' ? result.substring(1) : result;
   }
 
 } //XMLTypeFactoryImpl
