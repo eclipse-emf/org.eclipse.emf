@@ -105,7 +105,7 @@ sed -e "s/\@copydocfiles\@/${copydocfiles}/g" $currentPath/javadoc.xml.template2
 #cp javadoc.xml /tmp/emf-javadoc.xml
 
 # Executes the ant script
-ant	-f javadoc.xml \
+$ANT_HOME/bin/ant	-f javadoc.xml \
 	-DdestDir="$destDir" \
 	-Dclasspath="$classpath" \
 	-DeclipseDir="$eclipseDir" \
