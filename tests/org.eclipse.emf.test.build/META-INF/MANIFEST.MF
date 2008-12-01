@@ -14,8 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.junit,
  org.eclipse.emf.test.core,
  org.eclipse.emf.test.edit,
- org.eclipse.emf.test.sdo,
- org.eclipse.emf.test.xml,
+  org.eclipse.emf.test.xml,
  org.eclipse.emf.test.performance
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
