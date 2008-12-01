@@ -1,4 +1,8 @@
-# The current direcotry
+if [ "x"$ANT_HOME = "x" ]; then export ANT_HOME=/opt/apache-ant-1.6; fi
+if [ "x"$JAVA_HOME = "x" ]; then export JAVA_HOME=/opt/ibm-java2-1.4; fi
+export PATH=${PATH}:${ANT_HOME}/bin
+
+# current directory
 currentPath=$PWD
 
 # The eclipse directory
