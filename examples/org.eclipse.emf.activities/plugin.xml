@@ -47,12 +47,6 @@
     <defaultEnablement id="org.eclipse.emf.activities.JET" />
   </extension>
 
-  <!-- org.eclipse.emf.ecore.sdo.editor -->
-  <!-- Data Graph Model wizard and editor -->
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.ecore\.sdo\.editor/.*" />
-  </extension>
-
   <!-- org.eclipse.emf.ecore.editor -->
   <!-- Sample Ecore Model Editor and Ecore Model wizard -->
   <!-- Also, defines an activity for the reflective editors: -->
