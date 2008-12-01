@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.5.4.1 2007/07/16 02:43:08 nickb Exp $
+ * $Id: AllSuites.java,v 1.5.4.2 2008/12/01 06:24:43 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -25,7 +25,6 @@ public class AllSuites extends TestSuite
 {
   private static Test[] suites = new Test []{ 
     org.eclipse.emf.test.build.BuildTest.suite()
-    ,org.eclipse.emf.test.build.CheckPIITest.suite()
     ,org.eclipse.emf.test.build.StandaloneZipTest.suite()
     ,org.eclipse.emf.test.build.VersionAuditTest.suite()
   };
