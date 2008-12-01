@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.79 2008/11/03 11:29:56 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.80 2008/12/01 22:37:41 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -747,7 +747,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 		return msgs;
     <%} else if (genModel.isDynamicDelegation()) {%>
 <%@ include file="Class/basicSetGenFeature.pre.insert.javajetinc" fail="silent" %>
-		msgs = eDynamicInverseRemove((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)new<%=genFeature.getCapName()%>, <%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%>, msgs);
+		msgs = eDynamicInverseAdd((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)new<%=genFeature.getCapName()%>, <%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%>, msgs);
 <%@ include file="Class/basicSetGenFeature.post.insert.javajetinc" fail="silent" %>
 		return msgs;
     <%} else if (!genFeature.isVolatile()) {%>

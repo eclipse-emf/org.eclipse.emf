@@ -527,7 +527,7 @@ public class Class
   protected final String TEXT_510 = ", ";
   protected final String TEXT_511 = ", msgs);";
   protected final String TEXT_512 = NL + "\t\treturn msgs;";
-  protected final String TEXT_513 = NL + "\t\tmsgs = eDynamicInverseRemove((";
+  protected final String TEXT_513 = NL + "\t\tmsgs = eDynamicInverseAdd((";
   protected final String TEXT_514 = ")new";
   protected final String TEXT_515 = ", ";
   protected final String TEXT_516 = ", msgs);";
