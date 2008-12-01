@@ -96,7 +96,7 @@ excludes="resources.jar";
 includes="${pluginName}";
 pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | egrep "$includes" | egrep -v "$excludes" | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
 
-### TODO: missing emf/sdo/xsd plugins (?) in $eclipseDir - need to copy them over or reference source (?)
+### TODO: missing emf/xsd plugins (?) in $eclipseDir - need to copy them over or reference source (?)
 ### so that all classes/packages (and thus @links) can be resolved
 
 # All the jars in the plugins directory
