@@ -38,6 +38,7 @@ http://www.eclipse.org/legal/epl-v10.html
          install-size="0"
          version="0.0.0"/>
 
+   <!--
    <plugin
          id="org.eclipse.test.performance"
          download-size="0"
@@ -50,6 +51,7 @@ http://www.eclipse.org/legal/epl-v10.html
          install-size="0"
          version="0.0.0"
          fragment="true"/>
+	-->
 
    <plugin
          id="org.eclipse.ant.optional.junit"
@@ -60,12 +62,6 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.emf.tests"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.emf.test.performance"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
@@ -84,12 +80,6 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.emf.test.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.emf.test.sdo"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
