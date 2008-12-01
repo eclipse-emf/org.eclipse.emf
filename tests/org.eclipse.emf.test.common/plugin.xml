@@ -57,11 +57,6 @@
        class = "org.eclipse.emf.test.models.library.LibraryPackage"
        genModel = "models/Library/library.genmodel" /> 
 
-    <package 
-       uri = "http:///org.eclipse.emf.test.models/SDOLibrary" 
-       class = "org.eclipse.emf.test.models.sdo.library.impl.SDOLibraryPackageImpl"
-       genModel = "models/Library/sdoLibrary.genmodel" /> 
-
     <!-- MovieDB -->
 
     <package 
@@ -93,39 +88,6 @@
        class = "org.eclipse.emf.test.models.qname.QNamePackage"
        genModel = "models/QName/qname.genmodel" /> 
        
-    <!-- sdo.IPO -->
-    
-    <package 
-       uri = "http:///org.eclipse.emf.test.models/IPO" 
-       class = "org.eclipse.emf.test.models.ipo.impl.IPOPackageImpl"
-       genModel = "models/sdo.IPO/ipo.genmodel" /> 
-
-    <!-- sdo.Personal -->
-    
-    <package 
-       uri = "http:///org.eclipse.emf.test.models/personal" 
-       class = "org.eclipse.emf.test.models.personal.impl.PersonalPackageImpl"
-       genModel = "models/sdo.Personal/personal.genmodel" /> 
-
-    <package 
-       uri = "http:///org.eclipse.emf.test.models/personalMixed" 
-       class = "org.eclipse.emf.test.models.personal.mixed.impl.MixedPackageImpl"
-       genModel = "models/sdo.Personal/personalMixed.genmodel" /> 
-
-    <!-- sdo.Simple -->
-    
-    <package 
-       uri = "http:///org.eclipse.emf.test.models/simple" 
-       class = "org.eclipse.emf.test.models.sdo.simple.impl.SimplePackageImpl"
-       genModel = "models/sdo.Simple/simple.genmodel" /> 
-
-    <!-- sdo.Types -->
-    
-    <package 
-       uri = "http:///org.eclipse.emf.test.models/types" 
-       class = "org.eclipse.emf.test.models.types.impl.TypesPackageImpl"
-       genModel = "models/sdo.Types/types.genmodel" /> 
-
   </extension>
 
   <extension point="org.eclipse.emf.ecore.extension_parser">
