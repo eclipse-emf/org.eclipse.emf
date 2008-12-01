@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: VersionAuditTest.java,v 1.6 2008/12/01 00:56:13 nickb Exp $
+ * $Id: VersionAuditTest.java,v 1.7 2008/12/01 23:38:55 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -42,7 +42,6 @@ public class VersionAuditTest extends TestCase
     TestSuite ts = new TestSuite("EMF Plugin / Feature Version Auditing");
     //ts.addTest(new VersionAuditTest("testWhereAmI")); /* for debugging only */
     ts.addTest(new VersionAuditTest("testVersionEMF"));
-    ts.addTest(new VersionAuditTest("testVersionSDO"));
     ts.addTest(new VersionAuditTest("testVersionXSD"));
     return ts;
   }
