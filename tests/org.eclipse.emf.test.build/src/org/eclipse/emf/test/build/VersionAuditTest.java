@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: VersionAuditTest.java,v 1.5 2008/03/26 03:50:56 nickb Exp $
+ * $Id: VersionAuditTest.java,v 1.6 2008/12/01 00:56:13 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -31,7 +31,6 @@ public class VersionAuditTest extends TestCase
   
   private static String[] URLs = {
     "http://build.eclipse.org/modeling/emf/emf/versionaudit.php?branch=",
-    "http://build.eclipse.org/modeling/emf/sdo/versionaudit.php?branch=",
     "http://build.eclipse.org/modeling/mdt/xsd/versionaudit.php?branch="
   };
   private static String branch = "";

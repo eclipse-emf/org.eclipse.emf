@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.22 2008/03/28 18:42:29 emerks Exp $
+ * $Id: BuildTest.java,v 1.23 2008/12/01 00:56:13 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -319,9 +319,6 @@ public class BuildTest extends TestCase
   {
     Set<String> brandingPluginNames = new HashSet<String>();
     brandingPluginNames.add("org.eclipse.emf.doc");
-    brandingPluginNames.add("org.eclipse.emf.ecore.sdo.doc");
-    brandingPluginNames.add("org.eclipse.emf.ecore.sdo.source");
-    brandingPluginNames.add("org.eclipse.emf.ecore.sdo");
     brandingPluginNames.add("org.eclipse.emf.source");
     brandingPluginNames.add("org.eclipse.emf");
     brandingPluginNames.add("org.eclipse.xsd.doc");
