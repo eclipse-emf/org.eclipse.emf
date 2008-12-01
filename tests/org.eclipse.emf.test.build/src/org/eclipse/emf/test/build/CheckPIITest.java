@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CheckPIITest.java,v 1.3 2006/12/28 06:58:13 marcelop Exp $
+ * $Id: CheckPIITest.java,v 1.4 2008/12/01 00:47:38 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -412,8 +412,8 @@ public class CheckPIITest extends TestCase
     }
   }
 
-  public static final String[] BUILD_GENERATED_ZIP_FILES_PREFIX = { "emf-runtime", "emf-source", "emf-doc", "xsd-runtime", "xsd-source",
-      "xsd-doc", "sdo-runtime", "sdo-source", "sdo-doc", "emf-sdo-xsd-SDK" }; // last one changed 041104 to fix absentee chkpii testing
+  public static final String[] BUILD_GENERATED_ZIP_FILES_PREFIX = { "emf-runtime", "emf-sourcedoc", "xsd-runtime", "xsd-sourcedoc",
+      "emf-xsd-SDK" }; // last one changed 041104 to fix absentee chkpii testing
 
   // must include non-shipping
   // test plugins
