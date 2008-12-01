@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractExampleInstallerWizard.java,v 1.7 2008/05/05 17:29:03 marcelop Exp $
+ * $Id: AbstractExampleInstallerWizard.java,v 1.8 2008/12/01 21:47:46 emerks Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 
@@ -678,14 +678,36 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
 
   protected ImportOperation createZipImportOperation(ProjectDescriptor projectDescriptor, File file) throws Exception
   {
-    ZipFile zipFile = file.getName().endsWith(".jar") ? new JarFile(file) : new ZipFile(file);
+    final ZipFile zipFile = file.getName().endsWith(".jar") ? new JarFile(file) : new ZipFile(file);
     ZipFileStructureProvider zipFileStructureProvider = new ZipFileStructureProvider(zipFile);
 
-    return new ImportOperation(
-      projectDescriptor.getProject().getFullPath(),
-      zipFileStructureProvider.getRoot(),
-      zipFileStructureProvider,
-      OVERWRITE_ALL_QUERY);
+    return 
+      new ImportOperation
+        (projectDescriptor.getProject().getFullPath(),
+         zipFileStructureProvider.getRoot(),
+         zipFileStructureProvider,
+         OVERWRITE_ALL_QUERY)
+      {
+        @Override
+        protected void execute(IProgressMonitor progressMonitor)
+        {
+          try
+          {
+            super.execute(progressMonitor);
+          }
+          finally
+          {
+            try
+            {
+              zipFile.close();
+            }
+            catch (IOException exception)
+            {
+              // Ignore.
+            }
+          }
+        }
+      };
   }
   
   protected IWorkbench getWorkbench()
