@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.15 2008/04/22 19:46:16 emerks Exp $
+ * $Id: SetCommand.java,v 1.16 2008/12/02 15:13:24 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -156,17 +156,17 @@ public class SetCommand extends AbstractOverrideableCommand
               //
               List<Object> addedValues = new BasicEList.FastCompare<Object>(values);
               addedValues.removeAll(remainingValues);
-              for (ListIterator<?> i = values.listIterator(); i.hasNext(); )
+              int addIndex = remainingValues.size();
+              for (ListIterator<?> i = values.listIterator(values.size()); i.hasPrevious(); )
               {
-                Object object = i.next();
+                Object object = i.previous();
                 if (addedValues.contains(object))
                 {
-                  int addIndex = i.previousIndex();
-                  if (addIndex > oldValues.size())
-                  {
-                    addIndex = -1;
-                  }
                   compound.append(AddCommand.create(domain, owner, feature, object, addIndex));
+                }
+                else
+                {
+                  --addIndex;
                 }
               }
               return compound;
