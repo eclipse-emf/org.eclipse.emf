@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: VersionAuditTest.java,v 1.7 2008/12/01 23:38:55 nickb Exp $
+ * $Id: VersionAuditTest.java,v 1.8 2008/12/02 00:38:37 nickb Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -78,14 +78,9 @@ public class VersionAuditTest extends TestCase
     testVersion(URLs[0], branch);
   }
   
-  public void testVersionSDO() throws Exception
-  {
-    testVersion(URLs[1], branch);
-  }
-  
   public void testVersionXSD() throws Exception
   {
-    testVersion(URLs[2], branch);
+    testVersion(URLs[1], branch);
   }
   
   private void testVersion(final String URL, final String branch) throws Exception
