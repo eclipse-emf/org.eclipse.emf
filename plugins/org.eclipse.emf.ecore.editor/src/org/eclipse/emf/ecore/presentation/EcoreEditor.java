@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.57 2008/07/30 21:19:30 davidms Exp $
+ * $Id: EcoreEditor.java,v 1.58 2008/12/06 21:31:35 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -838,11 +838,6 @@ public class EcoreEditor
     //
     if (theSelection != null && !theSelection.isEmpty())
     {
-      // I don't know if this should be run this deferred
-      // because we might have to give the editor a chance to process the viewer update events
-      // and hence to update the views first.
-      //
-      //
       Runnable runnable =
         new Runnable()
         {
@@ -856,7 +851,7 @@ public class EcoreEditor
             }
           }
         };
-      runnable.run();
+      getSite().getShell().getDisplay().asyncExec(runnable);
     }
   }
 
