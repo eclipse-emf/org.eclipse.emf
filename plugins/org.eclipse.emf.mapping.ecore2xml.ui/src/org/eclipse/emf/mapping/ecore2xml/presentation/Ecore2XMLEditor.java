@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.18 2008/07/30 21:54:47 davidms Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.19 2008/12/06 21:31:37 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -849,11 +849,6 @@ public class Ecore2XMLEditor
     //
     if (theSelection != null && !theSelection.isEmpty())
     {
-      // I don't know if this should be run this deferred
-      // because we might have to give the editor a chance to process the viewer update events
-      // and hence to update the views first.
-      //
-      //
       Runnable runnable =
         new Runnable()
         {
@@ -867,7 +862,7 @@ public class Ecore2XMLEditor
             }
           }
         };
-      runnable.run();
+      getSite().getShell().getDisplay().asyncExec(runnable);
     }
   }
 
