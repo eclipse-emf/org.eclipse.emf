@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.54 2008/07/30 21:39:30 davidms Exp $
+ * $Id: GenModelEditor.java,v 1.55 2008/12/06 21:31:34 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -851,11 +851,6 @@ public class GenModelEditor
     //
     if (theSelection != null && !theSelection.isEmpty())
     {
-      // I don't know if this should be run this deferred
-      // because we might have to give the editor a chance to process the viewer update events
-      // and hence to update the views first.
-      //
-      //
       Runnable runnable =
         new Runnable()
         {
@@ -869,7 +864,7 @@ public class GenModelEditor
             }
           }
         };
-      runnable.run();
+      getSite().getShell().getDisplay().asyncExec(runnable);
     }
   }
 
