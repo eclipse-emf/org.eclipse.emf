@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.16 2008/07/30 21:50:18 davidms Exp $
+ * $Id: EXTLibraryEditor.java,v 1.17 2008/12/06 21:31:39 davidms Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -846,11 +846,6 @@ public class EXTLibraryEditor extends MultiPageEditorPart
     //
     if (theSelection != null && !theSelection.isEmpty())
     {
-      // I don't know if this should be run this deferred
-      // because we might have to give the editor a chance to process the viewer update events
-      // and hence to update the views first.
-      //
-      //
       Runnable runnable =
         new Runnable()
         {
@@ -864,7 +859,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
             }
           }
         };
-      runnable.run();
+      getSite().getShell().getDisplay().asyncExec(runnable);
     }
   }
 
