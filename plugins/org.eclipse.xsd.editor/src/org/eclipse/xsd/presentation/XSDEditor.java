@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.25 2008/08/12 18:32:54 davidms Exp $
+ * $Id: XSDEditor.java,v 1.26 2008/12/06 21:32:40 davidms Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -496,11 +496,6 @@ public class XSDEditor
     //
     if (collection != null && !collection.isEmpty())
     {
-      // I don't know if this should be run this deferred
-      // because we might have to give the editor a chance to process the viewer update events
-      // and hence to update the views first.
-      //
-      //
       Runnable runnable =
        new Runnable()
         {
@@ -514,7 +509,7 @@ public class XSDEditor
             }
           }
         };
-      runnable.run();
+      getSite().getShell().getDisplay().asyncExec(runnable);
     }
   }
 
