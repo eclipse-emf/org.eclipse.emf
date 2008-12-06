@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.11 2006/12/29 18:29:02 marcelop Exp $
+ * $Id: MappingEditor.java,v 1.12 2008/12/06 21:32:51 davidms Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -405,11 +405,6 @@ public abstract class MappingEditor
     //
     if (collection != null && !collection.isEmpty())
     {
-      // I don't know if we should be run this deferred 
-      // because we might have to give the editor a chance to process the viewer update events 
-      // and hence to update the views first.
-      // 
-      //
       Runnable runnable = 
        new Runnable()
         { 
@@ -494,7 +489,7 @@ public abstract class MappingEditor
             }
           }
         };
-      runnable.run();
+      getSite().getShell().getDisplay().asyncExec(runnable);
     }
     else
     {
