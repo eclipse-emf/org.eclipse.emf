@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.63 2008/11/03 13:51:20 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.64 2008/12/06 21:25:00 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -993,11 +993,6 @@ public class <%=genPackage.getEditorClassName()%>
 		//
 		if (theSelection != null && !theSelection.isEmpty())
 		{
-			// I don't know if this should be run this deferred
-			// because we might have to give the editor a chance to process the viewer update events
-			// and hence to update the views first.
-			//
-			//
 			Runnable runnable =
 				new Runnable()
 				{
@@ -1011,7 +1006,7 @@ public class <%=genPackage.getEditorClassName()%>
 						}
 					}
 				};
-			runnable.run();
+			getSite().getShell().getDisplay().asyncExec(runnable);
 		}
 	}
 
