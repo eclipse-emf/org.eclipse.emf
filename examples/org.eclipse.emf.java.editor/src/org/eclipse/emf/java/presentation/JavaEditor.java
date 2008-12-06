@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.26 2008/07/30 21:50:19 davidms Exp $
+ * $Id: JavaEditor.java,v 1.27 2008/12/06 21:31:41 davidms Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -827,11 +827,6 @@ public class JavaEditor
     //
     if (theSelection != null && !theSelection.isEmpty())
     {
-      // I don't know if this should be run this deferred
-      // because we might have to give the editor a chance to process the viewer update events
-      // and hence to update the views first.
-      //
-      //
       Runnable runnable =
         new Runnable()
         {
@@ -845,7 +840,7 @@ public class JavaEditor
             }
           }
         };
-      runnable.run();
+      getSite().getShell().getDisplay().asyncExec(runnable);
     }
   }
 
