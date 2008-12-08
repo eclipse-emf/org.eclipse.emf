@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.26 2008/05/25 16:37:42 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.27 2008/12/08 01:56:55 davidms Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -236,11 +236,20 @@ public class EObjectValidator implements EValidator
     boolean result = true;
     if (eStructuralFeature.isMany())
     {
-      int lowerBound = eStructuralFeature.getLowerBound();
-      if (lowerBound > 0)
+      if (FeatureMapUtil.isFeatureMap(eStructuralFeature) &&  ExtendedMetaData.INSTANCE.isDocumentRoot(eObject.eClass()))
       {
-        int size = ((List<?>)eObject.eGet(eStructuralFeature)).size();
-        if (size < lowerBound)
+        FeatureMap featureMap = (FeatureMap)eObject.eGet(eStructuralFeature);
+        int count = 0;
+        for (int i = 0, size = featureMap.size(); i < size; ++i)
+        {
+          int kind = ExtendedMetaData.INSTANCE.getFeatureKind(featureMap.getEStructuralFeature(i));
+          if (kind == ExtendedMetaData.ELEMENT_FEATURE && ++count > 1)
+          {
+            result = false;
+            break;
+          }
+        }
+        if (count != 1)
         {
           result = false;
           if (diagnostics != null)
@@ -250,37 +259,13 @@ public class EObjectValidator implements EValidator
                 (Diagnostic.ERROR,
                  DIAGNOSTIC_SOURCE,
                  EOBJECT__EVERY_MULTIPCITY_CONFORMS,
-                 "_UI_FeatureHasTooFewValues_diagnostic",
+                 "_UI_DocumentRootMustHaveOneElement_diagnostic",
                   new Object []
                   {
                     getFeatureLabel(eStructuralFeature, context),
                     getObjectLabel(eObject, context),
-                    size,
-                    lowerBound
+                    count
                   },
-                 new Object [] { eObject, eStructuralFeature },
-                 context));
-          }
-        }
-        int upperBound = eStructuralFeature.getUpperBound();
-        if (upperBound > 0 && size > upperBound)
-        {
-          result = false;
-          if (diagnostics != null)
-          {
-            diagnostics.add
-              (createDiagnostic
-                (Diagnostic.ERROR,
-                 DIAGNOSTIC_SOURCE,
-                 EOBJECT__EVERY_MULTIPCITY_CONFORMS,
-                 "_UI_FeatureHasTooManyValues_diagnostic",
-                 new Object []
-                 {
-                   getFeatureLabel(eStructuralFeature, context),
-                   getObjectLabel(eObject, context),
-                   new Integer(size),
-                   new Integer(upperBound)
-                 },
                  new Object [] { eObject, eStructuralFeature },
                  context));
           }
@@ -288,11 +273,34 @@ public class EObjectValidator implements EValidator
       }
       else
       {
-        int upperBound = eStructuralFeature.getUpperBound();
-        if (upperBound > 0)
+        int lowerBound = eStructuralFeature.getLowerBound();
+        if (lowerBound > 0)
         {
           int size = ((List<?>)eObject.eGet(eStructuralFeature)).size();
-          if (size > upperBound)
+          if (size < lowerBound)
+          {
+            result = false;
+            if (diagnostics != null)
+            {
+              diagnostics.add
+                (createDiagnostic
+                  (Diagnostic.ERROR,
+                   DIAGNOSTIC_SOURCE,
+                   EOBJECT__EVERY_MULTIPCITY_CONFORMS,
+                   "_UI_FeatureHasTooFewValues_diagnostic",
+                    new Object []
+                    {
+                      getFeatureLabel(eStructuralFeature, context),
+                      getObjectLabel(eObject, context),
+                      size,
+                      lowerBound
+                    },
+                   new Object [] { eObject, eStructuralFeature },
+                   context));
+            }
+          }
+          int upperBound = eStructuralFeature.getUpperBound();
+          if (upperBound > 0 && size > upperBound)
           {
             result = false;
             if (diagnostics != null)
@@ -312,6 +320,36 @@ public class EObjectValidator implements EValidator
                    },
                    new Object [] { eObject, eStructuralFeature },
                    context));
+            }
+          }
+        }
+        else
+        {
+          int upperBound = eStructuralFeature.getUpperBound();
+          if (upperBound > 0)
+          {
+            int size = ((List<?>)eObject.eGet(eStructuralFeature)).size();
+            if (size > upperBound)
+            {
+              result = false;
+              if (diagnostics != null)
+              {
+                diagnostics.add
+                  (createDiagnostic
+                    (Diagnostic.ERROR,
+                     DIAGNOSTIC_SOURCE,
+                     EOBJECT__EVERY_MULTIPCITY_CONFORMS,
+                     "_UI_FeatureHasTooManyValues_diagnostic",
+                     new Object []
+                     {
+                       getFeatureLabel(eStructuralFeature, context),
+                       getObjectLabel(eObject, context),
+                       new Integer(size),
+                       new Integer(upperBound)
+                     },
+                     new Object [] { eObject, eStructuralFeature },
+                     context));
+              }
             }
           }
         }
