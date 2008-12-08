@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteCommand.java,v 1.6 2006/12/28 06:48:55 marcelop Exp $
+ * $Id: DeleteCommand.java,v 1.7 2008/12/08 01:58:34 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -153,7 +153,7 @@ public class DeleteCommand extends CompoundCommand
             }
             else
             {
-              appendAndExecute(SetCommand.create(domain, referencingEObject, eStructuralFeature, null));
+              appendAndExecute(SetCommand.create(domain, referencingEObject, eStructuralFeature, SetCommand.UNSET_VALUE));
             }
           }
         }
