@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.40 2008/06/07 10:53:28 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.41 2008/12/08 02:00:01 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1260,9 +1260,9 @@ public class ItemProviderAdapter
           //
           if (o == value)
           {
-            // Create a command to set this to null and remove the object from the other list.
+            // Create a command to unset this and remove the object from the other list.
             //
-            Command setCommand = createSetCommand(domain, eObject, feature, null);
+            Command setCommand = createSetCommand(domain, eObject, feature, SetCommand.UNSET_VALUE);
             removeCommand.append
               (new CommandWrapper(setCommand)
                {
