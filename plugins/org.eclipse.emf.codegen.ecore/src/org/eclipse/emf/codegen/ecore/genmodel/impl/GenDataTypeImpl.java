@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.34 2007/12/22 20:02:02 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.35 2008/12/09 03:06:07 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -525,7 +525,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       {
         result.add((GenDataType)findGenClassifier(memberType));
       }
-      if (result.isEmpty())
+      if (!result.isEmpty())
       {
         return result;
       }
@@ -1094,7 +1094,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     }
     else if (EcorePackage.eNS_URI.equals(nsURI))
     {
-      // EDate is far too often overridden to provide a different mapping, and therefor the default is somewhat obscure.
+      // EDate is far too often overridden to provide a different mapping, and therefore the default is somewhat obscure.
       // So, it's best to delegate to the factory.
       //
       if ("EDate".equals(eDataType.getName()))
@@ -1108,15 +1108,11 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
         {
           if (!extendedMetaData.getMemberTypes(base).isEmpty())
           {
-            return false;
+            return true;
           }
         }
-        return true;
       }
-      else
-      {
-        return false;
-      }
+      return false;
     }
     return true;
   }
