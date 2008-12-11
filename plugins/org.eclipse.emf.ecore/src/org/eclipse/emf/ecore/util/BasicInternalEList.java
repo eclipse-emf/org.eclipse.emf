@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicInternalEList.java,v 1.3 2007/10/20 14:43:40 emerks Exp $
+ * $Id: BasicInternalEList.java,v 1.4 2008/12/11 19:34:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -44,14 +44,32 @@ public class BasicInternalEList<E> extends BasicEList<E> implements InternalELis
 
   public BasicInternalEList(Class<? extends E> dataClass, int initialCapacity)
   {
-    super(initialCapacity);
+    super();
     this.dataClass = dataClass;
+
+    if (initialCapacity < 0)
+    {
+      throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);  
+    }
+
+    data = newData(initialCapacity);
   }
 
   public BasicInternalEList(Class<? extends E> dataClass, Collection<? extends E> collection)
   {
-    super(collection);
+    super();
     this.dataClass = dataClass;
+    size = collection.size();
+
+    // Conditionally create the data.
+    //
+    if (size > 0)
+    { 
+      // Allow for a bit-shift of growth.
+      //
+      data = newData(size + size / 8 + 1); 
+      collection.toArray(data);
+    }
   }
 
   public BasicInternalEList(Class<? extends E> dataClass, int size, Object[] data)
