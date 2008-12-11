@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.103 2008/10/02 18:21:04 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.104 2008/12/11 01:54:29 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3397,7 +3397,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   
   public boolean hasTestSupport()
   {
-    return hasModelSupport() && !isBlank(getTestsDirectory());
+    return hasModelSupport() && hasPluginSupport() && !isBlank(getTestsDirectory());
   }
 
   @Override
@@ -7185,22 +7185,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       return getModelPluginID();
     }
-    else if (!isBlank(getEditPluginIDGen()))
+
+    String result = getEditPluginIDGen();
+    if (isBlank(result))
     {
-      return getEditPluginIDGen();
+      String model = getModelPluginID();
+      if (!isBlank(model))
+      {
+        result = model + ".edit";
+      }
     }
-    else if (sameEditTestsProject())
-    {
-      return getModelPluginID();
-    }
-    else if (sameEditorTestsProject())
-    {
-      return getModelPluginID();
-    }
-    else
-    {
-      return getModelPluginID() + ".edit";
-    }
+    return result;
   }
 
   /**
@@ -7242,18 +7237,25 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public String getEditorPluginID()
   {
+    if (sameModelEditorProject())
+    {
+      return getModelPluginID();
+    }
     if (sameEditEditorProject())
     {
       return getEditPluginID();
     }
-    else if (!isBlank(getEditorPluginIDGen()))
+
+    String result = getEditorPluginIDGen();
+    if (isBlank(result))
     {
-      return getEditorPluginIDGen();
+      String model = getModelPluginID();
+      if (!isBlank(model))
+      {
+        result = model + ".editor";
+      }
     }
-    else
-    {
-      return getModelPluginID() + ".editor";
-    }
+    return result;
   }
 
   /**
@@ -7299,14 +7301,25 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       return getModelPluginID();
     }
-    else if (!isBlank(getTestsPluginIDGen()))
+    if (sameEditTestsProject())
     {
-      return getTestsPluginIDGen();
+      return getEditPluginID();
     }
-    else
+    if (sameEditorTestsProject())
     {
-      return getModelPluginID() + ".tests";
+      return getEditorPluginID();
     }
+
+    String result = getTestsPluginIDGen();
+    if (isBlank(result))
+    {
+      String model = getModelPluginID();
+      if (!isBlank(model))
+      {
+        result = model + ".tests";
+      }
+    }
+    return result;
   }
 
   /**
@@ -7902,6 +7915,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     if (sameModelTestsProject())
     {
+      result.add("org.eclipse.emf.ecore.xmi");
       result.add("org.junit");
     }
 
@@ -7976,6 +7990,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     
     if (sameEditTestsProject())
     {
+      result.add("org.eclipse.emf.ecore.xmi");
       result.add("org.junit");
     }
 
