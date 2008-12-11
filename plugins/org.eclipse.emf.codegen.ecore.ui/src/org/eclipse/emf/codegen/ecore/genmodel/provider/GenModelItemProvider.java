@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.43 2008/08/29 18:00:47 davidms Exp $
+ * $Id: GenModelItemProvider.java,v 1.44 2008/12/11 01:52:14 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -327,7 +327,7 @@ public class GenModelItemProvider
          false,
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-         getString("_UI_AllPropertyCategory"),
+         getString("_UI_ModelPropertyCategory"),
          null));
   }
 
