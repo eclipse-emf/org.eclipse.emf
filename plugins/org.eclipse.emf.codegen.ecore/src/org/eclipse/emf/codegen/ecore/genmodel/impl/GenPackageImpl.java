@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.86 2008/08/29 18:11:33 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.87 2008/12/11 00:37:16 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2550,6 +2550,14 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       switchHelper = new SwitchHelper();
     }
+
+    if (genClass == null)
+    {
+      // Default (EObject) case. Need to qualify if there's already another EObject class.
+      //
+      return switchHelper.containsName("EObject") ? "Ecore_EObject" : "EObject";
+    }
+
     return switchHelper.getUniqueName(genClass);
   }
 
