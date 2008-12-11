@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.67 2008/12/11 00:36:04 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.68 2008/12/11 18:36:50 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1107,22 +1107,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected boolean isPrimitiveType(EClassifier eType)
   {
-    try
-    {
-      // J9 2.2 has problems assigning null to a Class variable.
-      // 
-      Object result = eType.getInstanceClass();
-      if (result == null)
-      {
-        return false;
-      }
-      Class<?> instanceClass = (Class<?>)result;
-      return instanceClass.isPrimitive();
-    }
-    catch (Exception e)
-    {
-      return false;
-    }
+    return CodeGenUtil.isJavaPrimitiveType(eType.getInstanceClassName());
   }
 
   protected String getPrimitiveObjectType(EClassifier eType)
