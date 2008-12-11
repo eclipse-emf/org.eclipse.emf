@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PlatformResourceURIHandlerImpl.java,v 1.3 2007/11/03 13:15:46 emerks Exp $
+ * $Id: PlatformResourceURIHandlerImpl.java,v 1.3.2.1 2008/12/11 18:23:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -456,6 +456,28 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
       }
 
       throw new IOException("The path '" + platformResourcePath + "' is unmapped");
+    }
+  }
+
+  @Override
+  public void delete(URI uri, Map<?, ?> options) throws IOException
+  {
+    String platformResourcePath = uri.toPlatformString(true);
+    if (workspaceRoot != null)
+    {
+      WorkbenchHelper.delete(platformResourcePath, options);
+    }
+    else
+    {
+      URI resolvedLocation = EcorePlugin.resolvePlatformResourcePath(platformResourcePath);
+      if (resolvedLocation != null)
+      {
+        getURIConverter(options).delete(resolvedLocation, options);
+      }
+      else
+      {
+        throw new IOException("The path '" + platformResourcePath + "' is unmapped");
+      }
     }
   }
 
