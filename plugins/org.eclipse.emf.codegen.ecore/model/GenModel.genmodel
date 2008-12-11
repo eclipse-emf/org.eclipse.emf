@@ -61,7 +61,7 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editDirectory"/>
       <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="The target directory for generated editor code"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/editorDirectory"/>
-      <genFeatures createChild="false" propertyCategory="All" propertyDescription="The unique string that identifies the model plug-in to Eclipse (also the base of edit and editor plug-in IDs)"
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The unique string that identifies the model plug-in to Eclipse"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/modelPluginID"/>
       <genFeatures createChild="false" propertyCategory="JET" propertyDescription="The location of the dynamic templates directory"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/templateDirectory"/>
