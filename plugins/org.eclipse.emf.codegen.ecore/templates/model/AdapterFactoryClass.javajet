@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="AdapterFactoryClass" version="$Id: AdapterFactoryClass.javajet,v 1.11 2007/10/27 10:28:56 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="AdapterFactoryClass" version="$Id: AdapterFactoryClass.javajet,v 1.12 2008/12/11 00:39:40 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -117,7 +117,7 @@ public class <%=genPackage.getAdapterFactoryClassName()%> extends AdapterFactory
   <%}%>
 			public <%=returnType%> defaultCase(EObject object)
 			{
-				return createEObjectAdapter();
+				return create<%=genPackage.getClassUniqueName(null)%>Adapter();
 			}
 		};
 
@@ -163,7 +163,7 @@ public class <%=genPackage.getAdapterFactoryClassName()%> extends AdapterFactory
 	 * @return the new adapter.
 	 * @generated
 	 */
-	public Adapter createEObjectAdapter()
+	public Adapter create<%=genPackage.getClassUniqueName(null)%>Adapter()
 	{
 		return null;
 	}

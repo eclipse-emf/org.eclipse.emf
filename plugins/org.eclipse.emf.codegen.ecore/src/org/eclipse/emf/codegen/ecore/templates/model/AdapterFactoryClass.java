@@ -46,17 +46,19 @@ public class AdapterFactoryClass
   protected final String TEXT_29 = "Adapter();" + NL + "\t\t\t}";
   protected final String TEXT_30 = NL + "\t\t\t@Override";
   protected final String TEXT_31 = NL + "\t\t\tpublic ";
-  protected final String TEXT_32 = " defaultCase(EObject object)" + NL + "\t\t\t{" + NL + "\t\t\t\treturn createEObjectAdapter();" + NL + "\t\t\t}" + NL + "\t\t};" + NL + "" + NL + "\t/**" + NL + "\t * Creates an adapter for the <code>target</code>." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @param target the object to adapt." + NL + "\t * @return the adapter for the <code>target</code>." + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_33 = NL + "\t@Override";
-  protected final String TEXT_34 = NL + "\tpublic Adapter createAdapter(Notifier target)" + NL + "\t{" + NL + "\t\treturn ";
-  protected final String TEXT_35 = "modelSwitch.doSwitch((EObject)target);" + NL + "\t}" + NL;
-  protected final String TEXT_36 = NL + NL + "\t/**" + NL + "\t * Creates a new adapter for an object of class '{@link ";
-  protected final String TEXT_37 = " <em>";
-  protected final String TEXT_38 = "</em>}'." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * This default implementation returns null so that we can easily ignore cases;" + NL + "\t * it's useful to ignore a case when inheritance will catch all the cases anyway." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the new adapter." + NL + "\t * @see ";
-  protected final String TEXT_39 = NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Adapter create";
-  protected final String TEXT_40 = "Adapter()" + NL + "\t{" + NL + "\t\treturn null;" + NL + "\t}";
-  protected final String TEXT_41 = NL + NL + "\t/**" + NL + "\t * Creates a new adapter for the default case." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * This default implementation returns null." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the new adapter." + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Adapter createEObjectAdapter()" + NL + "\t{" + NL + "\t\treturn null;" + NL + "\t}" + NL + "" + NL + "} //";
-  protected final String TEXT_42 = NL;
+  protected final String TEXT_32 = " defaultCase(EObject object)" + NL + "\t\t\t{" + NL + "\t\t\t\treturn create";
+  protected final String TEXT_33 = "Adapter();" + NL + "\t\t\t}" + NL + "\t\t};" + NL + "" + NL + "\t/**" + NL + "\t * Creates an adapter for the <code>target</code>." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @param target the object to adapt." + NL + "\t * @return the adapter for the <code>target</code>." + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_34 = NL + "\t@Override";
+  protected final String TEXT_35 = NL + "\tpublic Adapter createAdapter(Notifier target)" + NL + "\t{" + NL + "\t\treturn ";
+  protected final String TEXT_36 = "modelSwitch.doSwitch((EObject)target);" + NL + "\t}" + NL;
+  protected final String TEXT_37 = NL + NL + "\t/**" + NL + "\t * Creates a new adapter for an object of class '{@link ";
+  protected final String TEXT_38 = " <em>";
+  protected final String TEXT_39 = "</em>}'." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * This default implementation returns null so that we can easily ignore cases;" + NL + "\t * it's useful to ignore a case when inheritance will catch all the cases anyway." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the new adapter." + NL + "\t * @see ";
+  protected final String TEXT_40 = NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Adapter create";
+  protected final String TEXT_41 = "Adapter()" + NL + "\t{" + NL + "\t\treturn null;" + NL + "\t}";
+  protected final String TEXT_42 = NL + NL + "\t/**" + NL + "\t * Creates a new adapter for the default case." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * This default implementation returns null." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the new adapter." + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Adapter create";
+  protected final String TEXT_43 = "Adapter()" + NL + "\t{" + NL + "\t\treturn null;" + NL + "\t}" + NL + "" + NL + "} //";
+  protected final String TEXT_44 = NL;
 
   public String generate(Object argument)
   {
@@ -156,27 +158,31 @@ public class AdapterFactoryClass
     stringBuffer.append(TEXT_31);
     stringBuffer.append(returnType);
     stringBuffer.append(TEXT_32);
-    if (genModel.useClassOverrideAnnotation()) {
+    stringBuffer.append(genPackage.getClassUniqueName(null));
     stringBuffer.append(TEXT_33);
-    }
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_34);
-    stringBuffer.append(adapterCast);
-    stringBuffer.append(TEXT_35);
-    for (GenClass genClass : genPackage.getAllSwitchGenClasses()) {
-    stringBuffer.append(TEXT_36);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_37);
-    stringBuffer.append(genClass.getFormattedName());
-    stringBuffer.append(TEXT_38);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_39);
-    stringBuffer.append(genPackage.getClassUniqueName(genClass));
-    stringBuffer.append(TEXT_40);
     }
+    stringBuffer.append(TEXT_35);
+    stringBuffer.append(adapterCast);
+    stringBuffer.append(TEXT_36);
+    for (GenClass genClass : genPackage.getAllSwitchGenClasses()) {
+    stringBuffer.append(TEXT_37);
+    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(TEXT_38);
+    stringBuffer.append(genClass.getFormattedName());
+    stringBuffer.append(TEXT_39);
+    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(TEXT_40);
+    stringBuffer.append(genPackage.getClassUniqueName(genClass));
     stringBuffer.append(TEXT_41);
+    }
+    stringBuffer.append(TEXT_42);
+    stringBuffer.append(genPackage.getClassUniqueName(null));
+    stringBuffer.append(TEXT_43);
     stringBuffer.append(genPackage.getAdapterFactoryClassName());
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_42);
+    stringBuffer.append(TEXT_44);
     return stringBuffer.toString();
   }
 }
