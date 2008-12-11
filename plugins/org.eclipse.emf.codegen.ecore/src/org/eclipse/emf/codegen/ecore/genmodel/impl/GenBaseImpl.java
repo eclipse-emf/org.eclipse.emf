@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.66 2008/08/29 18:06:41 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.67 2008/12/11 00:36:04 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1919,7 +1919,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         List<String> alternates = getAlternateNames(o);
         for (String aName : alternates)
         {
-          if (!containsName(name)) 
+          if (!containsName(aName)) 
           {
             name = aName;
             break;
