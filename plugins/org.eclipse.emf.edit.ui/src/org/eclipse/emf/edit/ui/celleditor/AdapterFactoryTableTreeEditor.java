@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryTableTreeEditor.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
+ * $Id: AdapterFactoryTableTreeEditor.java,v 1.5 2008/12/13 15:56:53 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -20,8 +20,6 @@ package org.eclipse.emf.edit.ui.celleditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableTree;
 import org.eclipse.swt.custom.TableTreeItem;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -43,7 +41,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.celleditor.ExtendedTableTreeEditor;
@@ -293,200 +290,120 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
 
   protected void activate()
   {
-    // System.out.println("Activating...");
-    IItemPropertyDescriptor itemPropertyDescriptor = 
-      getColumnPropertyDescriptor(currentTableTreeItem.getData(), currentColumn);
-    if (itemPropertyDescriptor != null || currentColumn != 0 || true)
+    Rectangle itemBounds = currentTableItem.getBounds(currentColumn);
+    int x = 0;
+
+    // In column 0, the drop-down is indented past the collapse/expand icon.
+    //
+    if (currentColumn == 0)
     {
-      Rectangle itemBounds = currentTableItem.getBounds(currentColumn);
-      int x = 0;
+      Rectangle imageBounds = adjust(
+        getImageBounds(currentTableItem, currentColumn), itemBounds);
+      x += imageBounds.x + imageBounds.width;
+    }
 
-      // In column 0, the drop-down is indented past the collapse/expand icon.
-      //
-      if (currentColumn == 0)
-      {
-        Rectangle imageBounds = adjust(
-          getImageBounds(currentTableItem, currentColumn), itemBounds);
-        x += imageBounds.x + imageBounds.width;
-      }
+    Point point = currentTableItem.getParent().toDisplay(
+      new Point(itemBounds.x, itemBounds.y));
 
-      Point point = currentTableItem.getParent().toDisplay(
-        new Point(itemBounds.x, itemBounds.y));
+    final Shell dropDown = new Shell(
+      currentTableItem.getParent().getShell(), SWT.ON_TOP | SWT.NO_TRIM);
+    dropDown.setBackground(
+      dropDown.getDisplay().getSystemColor(SWT.COLOR_BLACK));
+    dropDown.setBounds(point.x + x, point.y + itemBounds.height,  itemBounds.width - x, itemBounds.height * 5);
 
-      final Shell dropDown = new Shell(
-        currentTableItem.getParent().getShell(), SWT.ON_TOP | SWT.NO_TRIM);
-      dropDown.setBackground(
-        dropDown.getDisplay().getSystemColor(SWT.COLOR_BLACK));
-      dropDown.setBounds(point.x + x, point.y + itemBounds.height,  itemBounds.width - x, itemBounds.height * 5);
+    final Control control = 
+      hasDropDownEditor(currentTableTreeItem.getData(), currentColumn) ?
+      createDropDownEditor(dropDown, currentTableTreeItem.getData(), currentColumn) :
+      null;
 
-      final Control control = 
-        hasDropDownEditor(currentTableTreeItem.getData(), currentColumn) ?
-        createDropDownEditor(dropDown, currentTableTreeItem.getData(), currentColumn) :
-        null;
+    if (control != null)
+    {
+      control.setBounds(1, 1, itemBounds.width - x - 2, itemBounds.height * 5 - 2);
 
-      if (control != null)
-      {
-        control.setBounds(1, 1, itemBounds.width - x - 2, itemBounds.height * 5 - 2);
+      dropDown.setVisible(true);
+      dropDown.layout();
+      control.setFocus();
 
-        dropDown.setVisible(true);
-        dropDown.layout();
-        control.setFocus();
-
-        Listener dropDownListener = 
-          new Listener()
+      Listener dropDownListener = 
+        new Listener()
+        {
+          public void handleEvent(Event e)
           {
-            public void handleEvent(Event e)
-            {
-              switch (e.type)
-              { 
-                case SWT.Close:
-                {
-                  // System.out.println("Close *");
-                  cancel();
-                  dropDown.dispose();
-                  break;
-                }
-                case SWT.Deactivate:
-                {
-                  // System.out.println("Deactivate *");
-                  apply();
-                  dropDown.dispose();
-                  break;
-                }
-/*
-                case SWT.Paint:
-                {
-  System.out.println("paint");
-                    // draw black rectangle around list
-                  Rectangle listRect = control.getBounds();
-                  Color black = currentTableItem.getParent().getDisplay().getSystemColor(SWT.COLOR_BLACK);
-                  e.gc.setForeground(black);
-                  e.gc.drawRectangle(0, 0, listRect.width + 1, listRect.height + 1);
-                  break;
-                }
-*/
-              }
-            }
-          };
-
-        dropDown.addListener(SWT.Close, dropDownListener);
-        // dropDown.addListener(SWT.Paint, dropDownListener);
-        dropDown.addListener(SWT.Deactivate, dropDownListener);
-
-        control.addMouseListener
-          (new MouseAdapter()
-           {
-             @Override
-            public void mouseDoubleClick(MouseEvent event)
-             {
-               if (event.button == 1)
-               {
-                 apply();
-                 dropDown.dispose();
-               }
-             }
-           });
-
-        control.addKeyListener
-         (new KeyAdapter()
-          {
-            @Override
-            public void keyPressed(KeyEvent e)
-            {
-              if (e.character == ' ' || e.character == '\r' || e.character == '\n')
+            switch (e.type)
+            { 
+              case SWT.Close:
               {
-                apply();
-                dropDown.dispose();
-              }
-              else if (e.character == '\033')
-              {
+                // System.out.println("Close *");
                 cancel();
                 dropDown.dispose();
+                break;
               }
+              case SWT.Deactivate:
+              {
+                // System.out.println("Deactivate *");
+                apply();
+                dropDown.dispose();
+                break;
+              }
+/*
+              case SWT.Paint:
+              {
+System.out.println("paint");
+                  // draw black rectangle around list
+                Rectangle listRect = control.getBounds();
+                Color black = currentTableItem.getParent().getDisplay().getSystemColor(SWT.COLOR_BLACK);
+                e.gc.setForeground(black);
+                e.gc.drawRectangle(0, 0, listRect.width + 1, listRect.height + 1);
+                break;
+              }
+*/
             }
-          });
-      }
-      else if (hasLaunchedEditor(currentTableTreeItem.getData(), currentColumn))
-      {
-        createLaunchedEditor(dropDown, currentTableTreeItem.getData(), currentColumn);
-      }
+          }
+        };
 
-      activeEditor = control;
-    }
-    else
-    {
-      final Text text = new Text(canvas, SWT.NULL);
-      canvas.setLayout
-        (new org.eclipse.swt.widgets.Layout()
+      dropDown.addListener(SWT.Close, dropDownListener);
+      // dropDown.addListener(SWT.Paint, dropDownListener);
+      dropDown.addListener(SWT.Deactivate, dropDownListener);
+
+      control.addMouseListener
+        (new MouseAdapter()
          {
            @Override
-          protected  Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) 
+          public void mouseDoubleClick(MouseEvent event)
            {
-             return canvas.getSize();
-           }
-
-           @Override
-          protected void layout(Composite composite, boolean flushCache) 
-           {
-             if (text.isDisposed())
+             if (event.button == 1)
              {
-               return;
+               apply();
+               dropDown.dispose();
              }
-
-             Rectangle itemBounds = currentTableItem.getBounds(currentColumn);
-             Rectangle imageBounds = adjust(
-               getImageBounds(currentTableItem, currentColumn), itemBounds);
-             int paddingWidth = 
-               currentColumn == 0 && currentTableTreeItem instanceof ExtendedTableTreeItem ?
-               ((ExtendedTableTreeItem)currentTableTreeItem).getImagePaddingWidth() :
-               0;
-             
-             // This should be consistent with paintControl().
-             // 
-             int x = paddingWidth == 0 ? 3 : paddingWidth;
-             x += imageBounds.x + imageBounds.width;
-             
-             text.setBounds(x, 1, itemBounds.width - 1 - x, itemBounds.height - 2);
            }
          });
-      String columnText = currentTableTreeItem.getText(currentColumn);
-      text.setText(columnText);
-      text.setVisible(true);
-      text.setFocus();
-      text.addKeyListener
+
+      control.addKeyListener
        (new KeyAdapter()
         {
           @Override
           public void keyPressed(KeyEvent e)
           {
-            if (e.character == '\r' || e.character == '\n')
+            if (e.character == ' ' || e.character == '\r' || e.character == '\n')
             {
               apply();
-              text.dispose();
+              dropDown.dispose();
             }
             else if (e.character == '\033')
             {
               cancel();
-              text.dispose();
+              dropDown.dispose();
             }
           }
         });
-      text.addFocusListener
-       (new FocusAdapter()
-        {
-          @Override
-          public void focusLost(FocusEvent e)
-          {
-            apply();
-            text.dispose();
-          }
-        });
-      canvas.layout();
-      text.setSelection(0, columnText.length());
-      text.showSelection();
-
-      activeEditor = text;
     }
+    else if (hasLaunchedEditor(currentTableTreeItem.getData(), currentColumn))
+    {
+      createLaunchedEditor(dropDown, currentTableTreeItem.getData(), currentColumn);
+    }
+
+    activeEditor = control;
   }
 
   public void cancel()
