@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeItemProviderAdapterFactory.java,v 1.5 2006/12/29 18:23:37 marcelop Exp $
+ * $Id: ChangeItemProviderAdapterFactory.java,v 1.6 2008/12/13 15:55:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -291,7 +291,7 @@ public class ChangeItemProviderAdapterFactory extends ChangeAdapterFactory imple
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
