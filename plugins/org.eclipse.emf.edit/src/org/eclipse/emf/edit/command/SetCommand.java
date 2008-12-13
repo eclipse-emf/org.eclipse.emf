@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.16 2008/12/02 15:13:24 davidms Exp $
+ * $Id: SetCommand.java,v 1.17 2008/12/13 15:56:01 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -551,7 +551,7 @@ public class SetCommand extends AbstractOverrideableCommand
           {
             result = true;
           }
-          else if (value instanceof Collection)
+          else if (value instanceof Collection<?>)
           {
             Collection<?> collection = (Collection<?>)value;
             result = true;
@@ -615,7 +615,7 @@ public class SetCommand extends AbstractOverrideableCommand
         // it might be the case that the state of the old value has changed by the time we get here,
         // and in that case, we don't want to duplicate the removals in this code.
         //
-        if (oldValue instanceof Collection)
+        if (oldValue instanceof Collection<?>)
         {
           oldValue = new BasicEList<Object>((Collection<?>)owner.eGet(feature));
         }
@@ -628,7 +628,7 @@ public class SetCommand extends AbstractOverrideableCommand
         {
           // If the other end is a many, then we should remove the owner from the old value's opposite feature so that undo will put it back.
           //
-          if (oldValue instanceof Collection)
+          if (oldValue instanceof Collection<?>)
           {
             @SuppressWarnings("unchecked")
             Collection<EObject> oldValues = (Collection<EObject>)oldValue;
@@ -651,7 +651,7 @@ public class SetCommand extends AbstractOverrideableCommand
         {
           // If the other end is single, then we should unset the owner from the old value's opposite feature so that undo will put it back.
           //
-          if (value instanceof Collection)
+          if (value instanceof Collection<?>)
           {
             @SuppressWarnings("unchecked")
             Collection<EObject> newValues = (Collection<EObject>)value;

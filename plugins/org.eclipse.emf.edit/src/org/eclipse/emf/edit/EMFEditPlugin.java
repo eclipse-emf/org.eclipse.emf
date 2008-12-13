@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPlugin.java,v 1.9 2008/01/29 21:13:13 emerks Exp $
+ * $Id: EMFEditPlugin.java,v 1.10 2008/12/13 15:56:01 emerks Exp $
  */
 package org.eclipse.emf.edit;
 
@@ -106,7 +106,7 @@ public final class EMFEditPlugin extends EMFPlugin
               {
                 stringTypes.add(((Package)key).getName());
               }
-              else if (key instanceof Class)
+              else if (key instanceof Class<?>)
               {
                 stringTypes.add(((Class<?>)key).getName());
               }

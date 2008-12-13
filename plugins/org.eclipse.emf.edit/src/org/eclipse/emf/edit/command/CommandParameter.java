@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommandParameter.java,v 1.4 2008/05/07 19:08:46 emerks Exp $
+ * $Id: CommandParameter.java,v 1.5 2008/12/13 15:56:01 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -219,7 +219,7 @@ public class CommandParameter
         }
       }
     }
-    else if (owner instanceof EList)
+    else if (owner instanceof EList<?>)
     {
       return (EList<?>)owner;
     }
@@ -244,7 +244,7 @@ public class CommandParameter
     return 
       collection == null ? 
         null : 
-        collection instanceof List ? 
+        collection instanceof List<?> ? 
           (List<?>)collection : 
           new ArrayList<Object>(collection);
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProviderAdapterFactory.java,v 1.4 2006/12/28 06:48:53 marcelop Exp $
+ * $Id: ReflectiveItemProviderAdapterFactory.java,v 1.5 2008/12/13 15:56:01 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -117,7 +117,7 @@ public class ReflectiveItemProviderAdapterFactory
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }

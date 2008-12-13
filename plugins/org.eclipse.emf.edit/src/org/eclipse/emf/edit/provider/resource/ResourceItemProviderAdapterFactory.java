@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProviderAdapterFactory.java,v 1.4 2006/12/28 06:48:57 marcelop Exp $
+ * $Id: ResourceItemProviderAdapterFactory.java,v 1.5 2008/12/13 15:56:01 emerks Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -181,7 +181,7 @@ public class ResourceItemProviderAdapterFactory
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.32 2008/08/13 15:11:42 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.33 2008/12/13 15:56:01 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -186,7 +186,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
         {
           if (isMany(object))
           {
-            if (object instanceof List)
+            if (object instanceof List<?>)
             {
               StringBuffer result = new StringBuffer();
               for (Iterator<?> i = ((List<?>)object).iterator(); i.hasNext(); )

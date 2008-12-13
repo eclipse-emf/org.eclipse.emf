@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedAdapterFactory.java,v 1.11 2008/01/29 21:13:13 emerks Exp $
+ * $Id: ComposedAdapterFactory.java,v 1.12 2008/12/13 15:56:01 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -264,7 +264,7 @@ public class ComposedAdapterFactory
       adapter = adapt((Notifier)target, type);
     }
 
-    if (!(type instanceof Class) || ((Class<?>)type).isInstance(adapter))
+    if (!(type instanceof Class<?>) || ((Class<?>)type).isInstance(adapter))
     {
       return adapter;
     }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryItemDelegator.java,v 1.5 2008/01/15 17:15:40 emerks Exp $
+ * $Id: AdapterFactoryItemDelegator.java,v 1.6 2008/12/13 15:56:01 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -67,7 +67,7 @@ public class AdapterFactoryItemDelegator
    */
   public String getText(Object object)
   {
-    if (object instanceof EList)
+    if (object instanceof EList<?>)
     {
       StringBuffer result = new StringBuffer();
       for (Object child : ((List<?>)object))
@@ -100,7 +100,7 @@ public class AdapterFactoryItemDelegator
    */
   public Object getImage(Object object)
   {
-    if (object instanceof EList)
+    if (object instanceof EList<?>)
     {
       for (Object child  : (List<?>)object)
       {
@@ -127,7 +127,7 @@ public class AdapterFactoryItemDelegator
    */
   public Object getFont(Object object)
   {
-    if (object instanceof EList)
+    if (object instanceof EList<?>)
     {
       for (Object child : (EList<?>)object)
       {
@@ -153,7 +153,7 @@ public class AdapterFactoryItemDelegator
    */
   public Object getForeground(Object object)
   {
-    if (object instanceof EList)
+    if (object instanceof EList<?>)
     {
       for (Object child : (EList<?>)object)
       {
@@ -180,7 +180,7 @@ public class AdapterFactoryItemDelegator
    */
   public Object getBackground(Object object)
   {
-    if (object instanceof EList)
+    if (object instanceof EList<?>)
     {
       for (Object child : (EList<?>)object)
       {

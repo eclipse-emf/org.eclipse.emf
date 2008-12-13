@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.26 2008/08/29 16:13:24 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.27 2008/12/13 15:56:01 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -108,7 +108,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
       IWrapperItemProvider wrapper = (IWrapperItemProvider)object;
       return isStale(wrapper.getValue()) || isStale(wrapper.getOwner());
     }
-    else if (object instanceof Collection)
+    else if (object instanceof Collection<?>)
     {
       for (Object item : (Collection<?>)object)
       {
