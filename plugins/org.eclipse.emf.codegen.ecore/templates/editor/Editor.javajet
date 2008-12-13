@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.65 2008/12/13 15:53:17 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.66 2008/12/13 16:54:39 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -652,39 +652,39 @@ public class <%=genPackage.getEditorClassName()%>
 						}
 					}
 
-					ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
+					final ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
 					delta.accept(visitor);
 
 					if (!visitor.getRemovedResources().isEmpty())
 					{
-						removedResources.addAll(visitor.getRemovedResources());
-						if (!isDirty())
-						{
-							getSite().getShell().getDisplay().asyncExec
-								(new Runnable()
+						getSite().getShell().getDisplay().asyncExec
+							(new Runnable()
+							 {
+								 public void run()
 								 {
-									 public void run()
+									 removedResources.addAll(visitor.getRemovedResources());
+									 if (!isDirty())
 									 {
 										 getSite().getPage().closeEditor(<%=genPackage.getEditorClassName()%>.this, false);
 									 }
-								 });
-						}
+								 }
+							 });
 					}
 
 					if (!visitor.getChangedResources().isEmpty())
 					{
-						changedResources.addAll(visitor.getChangedResources());
-						if (getSite().getPage().getActiveEditor() == <%=genPackage.getEditorClassName()%>.this)
-						{
-							getSite().getShell().getDisplay().asyncExec
-								(new Runnable()
+						getSite().getShell().getDisplay().asyncExec
+							(new Runnable()
+							 {
+								 public void run()
 								 {
-									 public void run()
+									 changedResources.addAll(visitor.getChangedResources());
+									 if (getSite().getPage().getActiveEditor() == <%=genPackage.getEditorClassName()%>.this)
 									 {
 										 handleActivate();
 									 }
-								 });
-						}
+								 }
+							 });
 					}
 				}
 				catch (CoreException exception)
