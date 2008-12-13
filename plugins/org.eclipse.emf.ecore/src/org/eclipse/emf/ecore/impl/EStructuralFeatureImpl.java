@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.33 2008/06/02 14:44:43 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.34 2008/12/13 15:55:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2855,14 +2855,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public boolean isSet()
     {
       return 
-        list instanceof InternalEList.Unsettable ? 
+        list instanceof InternalEList.Unsettable<?> ? 
           ((InternalEList.Unsettable<Object>)list).isSet() :
           !list.isEmpty();
     }
 
     public void unset()
     {
-      if (list instanceof InternalEList.Unsettable)
+      if (list instanceof InternalEList.Unsettable<?>)
       {
         ((InternalEList.Unsettable<Object>)list).unset();
       }

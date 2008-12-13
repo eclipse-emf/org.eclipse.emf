@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.18 2008/05/17 21:42:14 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.19 2008/12/13 15:55:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -137,7 +137,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
   {
     if (eAnnotations != null)
     {
-      if (eAnnotations instanceof BasicEList)
+      if (eAnnotations instanceof BasicEList<?>)
       {
         int size = eAnnotations.size();
         if (size > 0)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.10 2008/04/22 19:46:13 emerks Exp $
+ * $Id: EcoreEMap.java,v 1.11 2008/12/13 15:55:00 emerks Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
@@ -343,7 +343,7 @@ public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Un
 
   public void set(Object value)
   {
-    if (value instanceof Map)
+    if (value instanceof Map<?, ?>)
     {
       ((EStructuralFeature.Setting)delegateEList).unset();
       @SuppressWarnings("unchecked") Map<? extends K, ? extends V> mapValue = (Map<? extends K, ? extends V>)value;

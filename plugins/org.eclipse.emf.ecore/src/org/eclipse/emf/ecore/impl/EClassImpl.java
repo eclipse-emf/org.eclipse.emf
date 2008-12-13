@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.44 2008/06/06 17:48:41 emerks Exp $
+ * $Id: EClassImpl.java,v 1.45 2008/12/13 15:55:00 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -1596,7 +1596,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           @Override
           protected boolean delegateEquals(Object object)
           {
-            if (object instanceof List)
+            if (object instanceof List<?>)
             {
               List<?> list = (List<?>)object;
               if (list.size() == delegateSize())

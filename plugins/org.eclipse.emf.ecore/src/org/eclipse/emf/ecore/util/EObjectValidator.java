@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.27 2008/12/08 01:56:55 davidms Exp $
+ * $Id: EObjectValidator.java,v 1.28 2008/12/13 15:55:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -854,7 +854,7 @@ public class EObjectValidator implements EValidator
         int length =
           value instanceof String ?
             ((String)value).length() :
-             value instanceof Collection ?
+             value instanceof Collection<?> ?
                ((Collection<?>)value).size() :
                Array.getLength(value);
         if (length < effectiveMinLength)
@@ -869,7 +869,7 @@ public class EObjectValidator implements EValidator
         int length =
           value instanceof String ?
             ((String)value).length() :
-             value instanceof Collection ?
+             value instanceof Collection<?> ?
                ((Collection<?>)value).size() :
                Array.getLength(value);
         if (length > effectiveMaxLength)
@@ -1334,7 +1334,7 @@ public class EObjectValidator implements EValidator
   {
     boolean result = true;
     Object value = eObject.eGet(eReference);
-    if (value instanceof EMap)
+    if (value instanceof EMap<?, ?>)
     {
       EMap<?, ?> eMap = (EMap<?, ?>)value;
       for (int i = 0, size = eMap.size(); i < size; ++i)

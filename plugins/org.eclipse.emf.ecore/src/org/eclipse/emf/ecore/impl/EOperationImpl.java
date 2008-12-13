@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.20 2007/12/14 23:04:55 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.21 2008/12/13 15:55:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -276,7 +276,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
           @Override
           protected boolean delegateEquals(Object object)
           {
-            if (object instanceof List)
+            if (object instanceof List<?>)
             {
               List<?> list = (List<?>)object;
               if (list.size() == delegateSize())

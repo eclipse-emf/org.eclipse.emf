@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.15 2008/05/04 17:03:48 emerks Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.16 2008/12/13 15:55:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -308,7 +308,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
         return true;
       }
 
-      if (!(object instanceof List))
+      if (!(object instanceof List<?>))
       {
         return false;
       }
