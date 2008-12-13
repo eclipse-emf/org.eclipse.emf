@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.54 2008/05/25 17:11:32 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.55 2008/12/13 15:55:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1591,7 +1591,7 @@ public class XMLHelperImpl implements XMLHelper
   {
     if (extendedMetaData != null)
     {
-      if (value instanceof List)
+      if (value instanceof List<?>)
       {
         List<?> list = (List<?>)value;
         for (Object item : list)
@@ -1613,7 +1613,7 @@ public class XMLHelperImpl implements XMLHelper
     Object obj = eFactory.createFromString(eDataType, value);          
     if (extendedMetaData != null)
     {          
-      if (obj instanceof List)
+      if (obj instanceof List<?>)
       {
         @SuppressWarnings("unchecked")        
         List<Object> list = (List<Object>)obj;
