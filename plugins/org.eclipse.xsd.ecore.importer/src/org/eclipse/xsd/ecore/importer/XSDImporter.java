@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporter.java,v 1.11 2007/03/23 18:59:29 emerks Exp $
+ * $Id: XSDImporter.java,v 1.12 2008/12/13 15:58:46 emerks Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -127,7 +127,7 @@ public class XSDImporter extends ModelImporter
       List<Object> result = (List)ecoreBuilder.generate(locationURIs);
 
       Object lastElement = removeNonEPackageFromTheEnd(result);
-      if (lastElement instanceof List)
+      if (lastElement instanceof List<?>)
       {
         @SuppressWarnings("unchecked")
         List<List<?>> diagnostics = (List)lastElement;
