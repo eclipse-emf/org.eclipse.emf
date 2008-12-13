@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeItemProviderAdapterFactory.java,v 1.2 2007/01/18 22:06:47 marcelop Exp $
+ * $Id: TreeItemProviderAdapterFactory.java,v 1.3 2008/12/13 15:57:57 emerks Exp $
  */
 package org.eclipse.emf.test.models.tree.provider;
 
@@ -193,7 +193,7 @@ public class TreeItemProviderAdapterFactory extends TreeAdapterFactory implement
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }

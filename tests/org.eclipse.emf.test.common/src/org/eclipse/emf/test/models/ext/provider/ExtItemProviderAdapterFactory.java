@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtItemProviderAdapterFactory.java,v 1.2 2007/01/18 22:06:47 marcelop Exp $
+ * $Id: ExtItemProviderAdapterFactory.java,v 1.3 2008/12/13 15:57:57 emerks Exp $
  */
 package org.eclipse.emf.test.models.ext.provider;
 
@@ -193,7 +193,7 @@ public class ExtItemProviderAdapterFactory extends ExtAdapterFactory implements 
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
