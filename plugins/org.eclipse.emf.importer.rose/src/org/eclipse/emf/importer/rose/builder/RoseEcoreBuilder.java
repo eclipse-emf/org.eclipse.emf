@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.19 2008/01/17 18:46:40 emerks Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.20 2008/12/13 15:56:48 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -183,7 +183,7 @@ public class RoseEcoreBuilder implements RoseVisitor
         //
         ((EPackage)parent).getESubpackages().add(ePackage);
       }
-      else if (parent instanceof EList)
+      else if (parent instanceof EList<?>)
       {
         @SuppressWarnings("unchecked")
         EList<Object> list = (EList<Object>)parent;
@@ -2462,7 +2462,7 @@ public class RoseEcoreBuilder implements RoseVisitor
     {
       ((EPackage)parent).getEClassifiers().add((EClassifier)eNamedElement);
     }
-    else if (parent instanceof EList)
+    else if (parent instanceof EList<?>)
     {
       @SuppressWarnings("unchecked")
       EList<ENamedElement> namedElements = (EList<ENamedElement>)parent;
