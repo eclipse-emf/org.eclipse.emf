@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.24 2008/10/16 17:48:01 davidms Exp $
+ * $Id: XSDValidateTest.java,v 1.25 2008/12/13 15:57:59 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -52,7 +52,7 @@ public class XSDValidateTest extends TestCase
   // 1: print failed comparisons only
   // 2: print all comparisons
   //
-  final static int DEBUG = 0;
+  final static int DEBUG = new Integer(0);
 
   final static String xsdFile = "Bad.xsd";
 
