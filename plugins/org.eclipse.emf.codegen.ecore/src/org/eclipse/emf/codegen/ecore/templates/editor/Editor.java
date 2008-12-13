@@ -362,10 +362,9 @@ public class Editor
  * </copyright>
  */
 
-    GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();
-String importedOperationClassName = genModel.getImportedName(genModel.isRichClientPlatform() ? "org.eclipse.jface.operation.IRunnableWithProgress" : "org.eclipse.ui.actions.WorkspaceModifyOperation");
-String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute"; if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}
-
+    GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel(); /* Trick to import java.util.* without warnings */Iterator.class.getName(); 
+    String importedOperationClassName = genModel.getImportedName(genModel.isRichClientPlatform() ? "org.eclipse.jface.operation.IRunnableWithProgress" : "org.eclipse.ui.actions.WorkspaceModifyOperation");
+    String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute";
     String _ArrayListOfObject = "ArrayList" + (genModel.useGenerics() ? "<Object>" : "");
     String _ArrayListOfSelectionChangedListener = "ArrayList" + (genModel.useGenerics() ? "<ISelectionChangedListener>" : "");
     String _CollectionOfSelectionChangedListener = "Collection" + (genModel.useGenerics() ? "<ISelectionChangedListener>" : "");
