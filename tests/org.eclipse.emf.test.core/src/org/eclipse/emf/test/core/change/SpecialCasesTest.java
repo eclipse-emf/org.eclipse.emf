@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.26 2008/05/04 10:59:07 emerks Exp $
+ * $Id: SpecialCasesTest.java,v 1.27 2008/12/13 15:58:01 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -1104,10 +1104,11 @@ public class SpecialCasesTest  extends TestCase
     person.getEStructuralFeatures().add(father);
     
     URI maryURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/mary.xmi");
-    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/john.xmi");
 
-    if (false) //save
+    /*
     {
+      URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/john.xmi");
+
       EObject john = EcoreUtil.create(person);
       john.eSet(name, "John");
       Resource johnResource = new XMIResourceImpl(johnURI);
@@ -1122,6 +1123,7 @@ public class SpecialCasesTest  extends TestCase
       maryResource.save(null);
       johnResource.save(null);
     }
+    */
         
     ResourceSet resourceSet = new ResourceSetImpl();
     resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);

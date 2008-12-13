@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.17 2008/05/04 10:59:07 emerks Exp $
+ * $Id: PersistenceTest.java,v 1.18 2008/12/13 15:58:01 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -933,12 +933,14 @@ public class PersistenceTest extends TestCase
   {    
     class Tester
     {
+      boolean TRACE = false;
+
       public byte[] test(Map<String, Object> options) throws Exception
       {
         URI uri = URI.createFileURI("/home/foo/f1.xmi");
         byte[] bytes = testSave(uri, options);
         
-        if (false) System.out.println(getContents(options, bytes));
+        if (TRACE) System.out.println(getContents(options, bytes));
         
         testSaveOnlyIfChanged(options);
 

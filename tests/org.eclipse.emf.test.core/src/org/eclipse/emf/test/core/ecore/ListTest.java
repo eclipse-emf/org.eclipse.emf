@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListTest.java,v 1.3 2006/12/29 21:50:47 marcelop Exp $
+ * $Id: ListTest.java,v 1.4 2008/12/13 15:58:01 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -199,7 +199,7 @@ public class ListTest extends TestCase
           {
             assertEquals(Notification.REMOVE_MANY, msg.getEventType());
             assertEquals(trips, msg.getFeature());
-            assertTrue(msg.getOldValue() instanceof List);
+            assertTrue(msg.getOldValue() instanceof List<?>);
             assertEquals(1, msg.getPosition());
             break;
           }
