@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreItemProviderAdapterFactory.java,v 1.6 2006/12/29 18:29:16 marcelop Exp $
+ * $Id: Ecore2EcoreItemProviderAdapterFactory.java,v 1.7 2008/12/13 15:56:48 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.provider;
 
@@ -170,7 +170,7 @@ public class Ecore2EcoreItemProviderAdapterFactory extends Ecore2EcoreAdapterFac
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
