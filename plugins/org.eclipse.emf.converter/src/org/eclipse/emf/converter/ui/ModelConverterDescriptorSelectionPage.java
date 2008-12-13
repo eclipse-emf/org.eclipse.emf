@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterDescriptorSelectionPage.java,v 1.2 2006/12/28 06:43:30 marcelop Exp $
+ * $Id: ModelConverterDescriptorSelectionPage.java,v 1.3 2008/12/13 16:37:24 emerks Exp $
  */
 package org.eclipse.emf.converter.ui;
 
@@ -47,11 +47,15 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.converter.ConverterPlugin;
 import org.eclipse.emf.converter.ui.contribution.ModelConverterDescriptor;
 import org.eclipse.emf.converter.ui.contribution.ModelConverterManager;
 import org.eclipse.emf.converter.ui.contribution.ModelConverterManager.ModelConverterDescriptorWizardNode;
+import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * @since 2.2.0
@@ -127,16 +131,24 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
   
   public String getLastModelConverterDescriptorId()
   {
-    return ConverterPlugin.getPlugin().getPluginPreferences().getString(modelConverterManager.getClass().getName());
+    return Platform.getPreferencesService().getString(ConverterPlugin.ID, modelConverterManager.getClass().getName(), "", null);
   }
   
   public void performFinish()
   {
     if (descriptor != null)
     {
-      ConverterPlugin.getPlugin().getPluginPreferences().setValue(modelConverterManager.getClass().getName(), descriptor.getID());
-      ConverterPlugin.getPlugin().savePluginPreferences();
-    }    
+      IEclipsePreferences node = new InstanceScope().getNode(ConverterPlugin.ID);
+      node.put(modelConverterManager.getClass().getName(), descriptor.getID());
+      try
+      {
+        node.flush();
+      }
+      catch (BackingStoreException exception)
+      {
+        ConverterPlugin.INSTANCE.log(exception);
+      }
+    }
   }
 
   public void setModelConverterDescriptor(ModelConverterDescriptor descriptor)
