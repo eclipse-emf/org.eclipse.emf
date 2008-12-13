@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.58 2008/12/06 21:31:35 davidms Exp $
+ * $Id: EcoreEditor.java,v 1.59 2008/12/13 16:54:34 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -532,39 +532,39 @@ public class EcoreEditor
             }
           }
 
-          ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
+          final ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
           delta.accept(visitor);
 
           if (!visitor.getRemovedResources().isEmpty())
           {
-            removedResources.addAll(visitor.getRemovedResources());
-            if (!isDirty())
-            {
-              getSite().getShell().getDisplay().asyncExec
-                (new Runnable()
+            getSite().getShell().getDisplay().asyncExec
+              (new Runnable()
+               {
+                 public void run()
                  {
-                   public void run()
+                   removedResources.addAll(visitor.getRemovedResources());
+                   if (!isDirty())
                    {
                      getSite().getPage().closeEditor(EcoreEditor.this, false);
                    }
-                 });
-            }
+                 }
+               });
           }
 
           if (!visitor.getChangedResources().isEmpty())
           {
-            changedResources.addAll(visitor.getChangedResources());
-            if (getSite().getPage().getActiveEditor() == EcoreEditor.this)
-            {
-              getSite().getShell().getDisplay().asyncExec
-                (new Runnable()
+            getSite().getShell().getDisplay().asyncExec
+              (new Runnable()
+               {
+                 public void run()
                  {
-                   public void run()
+                   changedResources.addAll(visitor.getChangedResources());
+                   if (getSite().getPage().getActiveEditor() == EcoreEditor.this)
                    {
                      handleActivate();
                    }
-                 });
-            }
+                 }
+               });
           }
         }
         catch (CoreException exception)
