@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryMappingDomain.java,v 1.6 2006/12/29 18:29:09 marcelop Exp $
+ * $Id: AdapterFactoryMappingDomain.java,v 1.7 2008/12/13 15:56:51 emerks Exp $
  */
 package org.eclipse.emf.mapping.domain;
 
@@ -457,7 +457,7 @@ public class AdapterFactoryMappingDomain extends AdapterFactoryEditingDomain imp
           !(commandParameter.getOwner() instanceof Mapping) &&
           !(commandParameter.getOwner() instanceof MappedObjectItemProvider) &&
           commandParameter.getFeature() == null && 
-          commandParameter.getValue() instanceof Collection)
+          commandParameter.getValue() instanceof Collection<?>)
     {
       boolean inputToOutput = mappingRoot.isOutputObject(commandParameter.getOwner());
       boolean okay = true;

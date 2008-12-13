@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistentCommandStack.java,v 1.5 2007/03/23 17:37:08 marcelop Exp $
+ * $Id: PersistentCommandStack.java,v 1.6 2008/12/13 15:56:51 emerks Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -218,7 +218,7 @@ public class PersistentCommandStack extends BasicCommandStack
       {
         buffer.append("<null/>");
        }
-      else if (object instanceof Class)
+      else if (object instanceof Class<?>)
       {
         @SuppressWarnings("unchecked")
         Class<? extends Command> theClass = (Class<? extends Command>)object;
@@ -301,7 +301,7 @@ public class PersistentCommandStack extends BasicCommandStack
           }*/
         }
       }
-      else if (object instanceof Collection)
+      else if (object instanceof Collection<?>)
       {
         Collection<?> collection = (Collection<?>)object;
         buffer.append("<collection>");

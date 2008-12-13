@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingItemProvider.java,v 1.11 2008/05/02 11:27:40 emerks Exp $
+ * $Id: MappingItemProvider.java,v 1.12 2008/12/13 15:56:51 emerks Exp $
  */
 package org.eclipse.emf.mapping.provider;
 
@@ -363,7 +363,7 @@ public class MappingItemProvider
       }
     }
 
-    if (object instanceof Collection)
+    if (object instanceof Collection<?>)
     {
       Collection<Object> result = new ArrayList<Object>();
       LOOP: 
@@ -392,7 +392,7 @@ public class MappingItemProvider
     {
       return ((MappedObjectItemProvider)object).getMappedObject();
     }
-    else if (object instanceof Collection)
+    else if (object instanceof Collection<?>)
     {
       Collection<Object> result = new ArrayList<Object>();
       for (Object o : (Collection<?>)object)
@@ -418,7 +418,7 @@ public class MappingItemProvider
     {
       return Collections.EMPTY_LIST.iterator();
     }
-    else if (object instanceof Collection)
+    else if (object instanceof Collection<?>)
     {
       return ((Collection<?>)object).iterator();
     }
