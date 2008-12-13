@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.33 2008/05/04 17:03:41 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.34 2008/12/13 15:55:39 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -461,7 +461,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   {
     if (isSet() && getFeature().getUpperBound() != 1)
     {
-      if (value instanceof EList) // cached already?
+      if (value instanceof EList<?>) // cached already?
       {
         return (EList<?>)value;
       }
