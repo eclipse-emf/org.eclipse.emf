@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxLengthFacetImpl.java,v 1.12 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDMaxLengthFacetImpl.java,v 1.13 2008/12/13 15:58:50 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -270,7 +270,7 @@ public class XSDMaxLengthFacetImpl
   @Override
   public boolean isConstraintSatisfied(Object value)
   {
-    if (value instanceof List)
+    if (value instanceof List<?>)
     {
       return ((List<?>)value).size() <= getValue();
     }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.20 2008/08/09 13:28:47 emerks Exp $
+ * $Id: XSDResourceImpl.java,v 1.21 2008/12/13 15:58:50 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -463,14 +463,10 @@ public class XSDResourceImpl extends ResourceImpl
             try
             {
               inputSource = super.resolveEntity(publicId, systemId);
-              if (false)
-              {
-                throw new IOException();
-              }
             }
             catch (IOException exception)
             {
-               throw new SAXException(exception);
+              throw new SAXException(exception);
             }
           }
 

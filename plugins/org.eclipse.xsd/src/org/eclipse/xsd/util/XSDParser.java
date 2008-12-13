@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.16 2008/04/23 19:02:54 emerks Exp $
+ * $Id: XSDParser.java,v 1.17 2008/12/13 15:58:50 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -871,10 +871,6 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
       try
       {
         inputSource = super.resolveEntity(publicId, systemId);
-        if (false)
-        {
-          throw new IOException();
-        }
       }
       catch (IOException exception)
       {

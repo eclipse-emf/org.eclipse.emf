@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.95 2008/11/03 13:05:38 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.96 2008/12/13 15:58:50 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -594,7 +594,7 @@ public class XSDEcoreBuilder extends MapBuilder
             {
               String lexicalValue= xsdSimpleTypeDefinition.getNormalizedLiteral(xsdEnumerationFacet.getLexicalValue());
               Object value = values.get(0);
-              if (value instanceof List)
+              if (value instanceof List<?>)
               {
                 List<?> valueItems = (List<?>)value;
                 String[] lexicalItems = lexicalValue.split("[ \t\n\r]");
@@ -744,7 +744,7 @@ public class XSDEcoreBuilder extends MapBuilder
         {
           return null;
         }
-        else if (enumerator instanceof List)
+        else if (enumerator instanceof List<?>)
         {
           for (Object item : (List<?>)enumerator)
           {

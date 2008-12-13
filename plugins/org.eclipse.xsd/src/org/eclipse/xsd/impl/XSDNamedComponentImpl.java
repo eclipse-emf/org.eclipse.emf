@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponentImpl.java,v 1.17 2007/05/08 19:15:11 emerks Exp $
+ * $Id: XSDNamedComponentImpl.java,v 1.18 2008/12/13 15:58:50 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -267,7 +267,7 @@ public abstract class XSDNamedComponentImpl
 
   public static XSDNamedComponent findInSortedList(List<? extends XSDNamedComponent> xsdNamedComponents, String targetNamespace, String localName)
   {
-    if (xsdNamedComponents instanceof XSDNamedComponentList)
+    if (xsdNamedComponents instanceof XSDNamedComponentList<?>)
     {
       return ((XSDNamedComponentList<? extends XSDNamedComponent>)xsdNamedComponents).get(targetNamespace, localName);
     }
