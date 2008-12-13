@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEMap.java,v 1.9 2008/05/04 17:03:33 emerks Exp $
+ * $Id: BasicEMap.java,v 1.10 2008/12/13 15:54:18 emerks Exp $
  */
 package  org.eclipse.emf.common.util;
 
@@ -974,7 +974,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
         @Override
         public boolean contains(Object object) 
         {
-          if (BasicEMap.this.size > 0 && object instanceof Map.Entry)
+          if (BasicEMap.this.size > 0 && object instanceof Map.Entry<?, ?>)
           {
             BasicEMap.this.ensureEntryDataExists();
             @SuppressWarnings("unchecked") Map.Entry<K, V> otherEntry = (Map.Entry<K, V>)object;
@@ -1003,7 +1003,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
         @Override
         public boolean remove(Object object) 
         {
-          if (BasicEMap.this.size > 0 && object instanceof Map.Entry)
+          if (BasicEMap.this.size > 0 && object instanceof Map.Entry<?, ?>)
           {
             BasicEMap.this.ensureEntryDataExists();
             @SuppressWarnings("unchecked") Map.Entry<K, V> otherEntry = (Map.Entry<K, V>)object;
@@ -1127,7 +1127,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
     @Override
     public boolean equals(Object object) 
     {
-      if (object instanceof Map.Entry)
+      if (object instanceof Map.Entry<?, ?>)
       {
         @SuppressWarnings("unchecked") Map.Entry<K, V> entry = (Map.Entry<K, V>)object;
   
@@ -1658,7 +1658,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
    */
   public boolean remove(Object object)
   {
-    if (object instanceof Map.Entry)
+    if (object instanceof Map.Entry<?, ?>)
     {
       return delegateEList.remove(object);
     }
@@ -1763,7 +1763,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
   @Override
   public boolean equals(Object object)
   {
-    if (object instanceof EMap)
+    if (object instanceof EMap<?, ?>)
     {
       return delegateEList.equals(object);
     }

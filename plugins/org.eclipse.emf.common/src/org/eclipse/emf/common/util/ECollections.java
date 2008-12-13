@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECollections.java,v 1.7 2007/06/12 20:56:17 emerks Exp $
+ * $Id: ECollections.java,v 1.8 2008/12/13 15:54:18 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -48,7 +48,7 @@ public class ECollections
    */
   public static <T> void move(List<T> list, int newPosition, T object)
   {
-    if (list instanceof EList)
+    if (list instanceof EList<?>)
     {
       ((EList<T>)list).move(newPosition, object);
     }
@@ -68,7 +68,7 @@ public class ECollections
    */
   public static <T> T move(List<T> list, int targetIndex, int sourceIndex)
   {
-    if (list instanceof EList)
+    if (list instanceof EList<?>)
     {
       return ((EList<T>)list).move(targetIndex, sourceIndex);
     }

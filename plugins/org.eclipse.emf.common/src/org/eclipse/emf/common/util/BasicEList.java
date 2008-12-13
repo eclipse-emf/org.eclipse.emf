@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.16 2008/05/04 17:03:33 emerks Exp $
+ * $Id: BasicEList.java,v 1.17 2008/12/13 15:54:18 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -1182,7 +1182,7 @@ public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAc
       return true;
     }
 
-    if (!(object instanceof List))
+    if (!(object instanceof List<?>))
     {
       return false;
     }
