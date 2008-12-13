@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreItemProviderAdapterFactory.java,v 1.6 2006/12/29 18:29:00 marcelop Exp $
+ * $Id: XSD2EcoreItemProviderAdapterFactory.java,v 1.7 2008/12/13 15:56:52 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.provider;
 
@@ -168,7 +168,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
