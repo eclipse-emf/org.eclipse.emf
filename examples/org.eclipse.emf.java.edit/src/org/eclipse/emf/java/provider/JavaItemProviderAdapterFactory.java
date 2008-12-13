@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaItemProviderAdapterFactory.java,v 1.4 2006/12/29 18:27:30 marcelop Exp $
+ * $Id: JavaItemProviderAdapterFactory.java,v 1.5 2008/12/13 15:56:46 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -317,7 +317,7 @@ public class JavaItemProviderAdapterFactory extends JavaAdapterFactory implement
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
