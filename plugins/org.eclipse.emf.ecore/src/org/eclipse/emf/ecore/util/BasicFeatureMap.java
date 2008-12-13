@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.31 2008/12/09 02:29:46 davidms Exp $
+ * $Id: BasicFeatureMap.java,v 1.32 2008/12/13 16:09:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1220,11 +1220,28 @@ public class BasicFeatureMap
 
   protected boolean shouldUnset(EStructuralFeature feature, Object value)
   {
-    if (feature.getUpperBound() != ETypedElement.UNSPECIFIED_MULTIPLICITY && !feature.isUnsettable())
+    // If the feature is unsettable, then regardless of the value, we should not be unsetting the feature.
+    //
+    if (feature.isUnsettable())
+    {
+      return false;
+    }
+    // If it's not an open content element, unset the feature if the value is the same as the default value.
+    //
+    else if (feature.getUpperBound() != ETypedElement.UNSPECIFIED_MULTIPLICITY)
     {
       Object defaultValue = feature.getDefaultValue();
       return defaultValue == null ? value == null : defaultValue.equals(value);
     }
+    // If this is a feature of the document root itself, unset if the value is null.
+    // If it was a nillable element, it would have been unsettable.
+    //
+    else if (feature.getEContainingClass() == owner.eClass())
+    {
+      return value == null;
+    }
+    // Otherwise, return false.
+    //
     else
     {
       return false;
