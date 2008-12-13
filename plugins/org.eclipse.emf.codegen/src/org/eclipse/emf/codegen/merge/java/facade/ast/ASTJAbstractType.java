@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJAbstractType.java,v 1.5 2007/06/12 20:56:05 emerks Exp $
+ * $Id: ASTJAbstractType.java,v 1.6 2008/12/13 15:50:44 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -99,7 +99,7 @@ public abstract class ASTJAbstractType<T extends AbstractTypeDeclaration> extend
       return false;
     }
     
-    if (child instanceof ASTJMember)
+    if (child instanceof ASTJMember<?>)
     {
       insertLast(child, getASTNode().getBodyDeclarationsProperty());
       return true;
@@ -119,10 +119,10 @@ public abstract class ASTJAbstractType<T extends AbstractTypeDeclaration> extend
       return false;
     }    
     
-    if (newSibling instanceof ASTJMember)
+    if (newSibling instanceof ASTJMember<?>)
     {
       ChildListPropertyDescriptor property = getASTNode().getBodyDeclarationsProperty();
-      if (node instanceof ASTJMember)
+      if (node instanceof ASTJMember<?>)
       {
         insert(newSibling, property, node, before);
       }
@@ -156,7 +156,7 @@ public abstract class ASTJAbstractType<T extends AbstractTypeDeclaration> extend
       return false;
     }    
     
-    if (node instanceof ASTJMember)
+    if (node instanceof ASTJMember<?>)
     {
       remove(node, getASTNode().getBodyDeclarationsProperty());
       return true;

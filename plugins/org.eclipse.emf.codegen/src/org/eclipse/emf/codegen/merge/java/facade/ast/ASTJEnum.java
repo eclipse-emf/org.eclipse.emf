@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJEnum.java,v 1.3 2006/12/31 02:32:47 marcelop Exp $
+ * $Id: ASTJEnum.java,v 1.4 2008/12/13 15:50:44 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -128,7 +128,7 @@ public class ASTJEnum extends ASTJAbstractType<EnumDeclaration> implements JEnum
         insertLastAnnotation((ASTJAnnotation)newSibling);
         return true;
       }
-      else if (newSibling instanceof ASTJMember)
+      else if (newSibling instanceof ASTJMember<?>)
       {
         insertFirst(newSibling, getASTNode().getBodyDeclarationsProperty());
         return true;

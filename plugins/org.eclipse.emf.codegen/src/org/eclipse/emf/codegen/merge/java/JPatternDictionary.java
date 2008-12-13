@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.13 2007/06/12 20:56:05 emerks Exp $
+ * $Id: JPatternDictionary.java,v 1.14 2008/12/13 15:50:44 emerks Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java;
@@ -650,7 +650,7 @@ public class JPatternDictionary extends FacadeVisitor
           columnWidth = keyString.length() + 25;
         }
         sb.append(String.format("%s%-" + columnWidth + "s = ", lineIndent, keyString));
-        if (entry.getValue() instanceof Collection)
+        if (entry.getValue() instanceof Collection<?>)
         {
           sb.append("\n");
           Collection<?> values = (Collection<?>)entry.getValue();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.14 2007/06/12 20:56:05 emerks Exp $
+ * $Id: ASTFacadeHelper.java,v 1.15 2008/12/13 15:50:44 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -771,7 +771,7 @@ public class ASTFacadeHelper extends FacadeHelper
   @Override
   public String toString(Object object)
   {
-    if (object instanceof ASTJNode)
+    if (object instanceof ASTJNode<?>)
     {
       return toString(((ASTJNode<?>)object).getASTNode());
     }
