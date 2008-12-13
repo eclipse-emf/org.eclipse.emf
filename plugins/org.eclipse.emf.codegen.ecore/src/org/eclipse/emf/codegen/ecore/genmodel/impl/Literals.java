@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Literals.java,v 1.8 2007/06/12 20:56:34 emerks Exp $
+ * $Id: Literals.java,v 1.9 2008/12/13 15:50:59 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -139,7 +139,7 @@ public class Literals
     {
       return toDateLiteral((Date)o, genModel);
     }
-    if (o instanceof Class)
+    if (o instanceof Class<?>)
     {
       return toClassLiteral((Class<?>)o, genModel);
     }
