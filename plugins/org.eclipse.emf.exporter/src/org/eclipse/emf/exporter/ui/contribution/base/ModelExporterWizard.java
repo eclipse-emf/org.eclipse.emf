@@ -12,12 +12,15 @@
  *
  * </copyright>
  *
- * $Id: ModelExporterWizard.java,v 1.6 2008/04/04 17:44:38 marcelop Exp $
+ * $Id: ModelExporterWizard.java,v 1.7 2008/12/13 16:37:23 emerks Exp $
  */
 package org.eclipse.emf.exporter.ui.contribution.base;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.Preferences;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 
@@ -31,6 +34,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.converter.ui.contribution.base.ModelConverterWizard;
 import org.eclipse.emf.exporter.ExporterPlugin;
 import org.eclipse.emf.exporter.ModelExporter;
+import org.osgi.service.prefs.BackingStoreException;
 
 
 /**
@@ -90,21 +94,30 @@ public abstract class ModelExporterWizard extends ModelConverterWizard
 
   protected void readPreferencesSettings()
   {
-    Preferences preferences = ExporterPlugin.getPlugin().getPluginPreferences();
+    IPreferencesService preferencesService = Platform.getPreferencesService();
+    
     ModelExporter modelExporter = getModelExporter();
 
-    modelExporter.setSaveEPackageArtifactURI(preferences.getBoolean(PREFERENCE_SAVE_PACKAGE_URI));
-    modelExporter.setSaveExporter(preferences.getBoolean(PREFERENCE_SAVE_EXPORTER));    
+    modelExporter.setSaveEPackageArtifactURI(preferencesService.getBoolean(ExporterPlugin.ID, PREFERENCE_SAVE_PACKAGE_URI, false, null));
+    
+    modelExporter.setSaveExporter(preferencesService.getBoolean(ExporterPlugin.ID, PREFERENCE_SAVE_EXPORTER, false, null));
   }
 
   protected void writePreferencesSettings()
   {
-    Preferences preferences = ExporterPlugin.getPlugin().getPluginPreferences();
+    IEclipsePreferences node = new InstanceScope().getNode(ExporterPlugin.ID);
     ModelExporter modelExporter = getModelExporter();
 
-    preferences.setValue(PREFERENCE_SAVE_PACKAGE_URI, modelExporter.isSaveEPackageArtifactURI());
-    preferences.setValue(PREFERENCE_SAVE_EXPORTER, modelExporter.isSaveExporter());
-    ExporterPlugin.getPlugin().savePluginPreferences();
+    node.putBoolean(PREFERENCE_SAVE_PACKAGE_URI, modelExporter.isSaveEPackageArtifactURI());
+    node.putBoolean(PREFERENCE_SAVE_EXPORTER, modelExporter.isSaveExporter());
+    try
+    {
+      node.flush();
+    }
+    catch (BackingStoreException exception)
+    {
+      ExporterPlugin.INSTANCE.log(exception);
+    }
   }
 
   @Override
