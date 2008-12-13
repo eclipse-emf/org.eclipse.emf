@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryItemProviderAdapterFactory.java,v 1.3 2006/12/29 18:27:35 marcelop Exp $
+ * $Id: EXTLibraryItemProviderAdapterFactory.java,v 1.4 2008/12/13 15:56:45 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -343,7 +343,7 @@ public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFacto
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
