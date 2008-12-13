@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProviderAdapterFactory.java,v 1.7 2006/12/28 16:49:46 marcelop Exp $
+ * $Id: GenModelItemProviderAdapterFactory.java,v 1.8 2008/12/13 15:54:03 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -366,7 +366,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
