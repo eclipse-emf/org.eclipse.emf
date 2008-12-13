@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDItemProviderAdapterFactory.java,v 1.7 2008/04/22 13:35:59 emerks Exp $
+ * $Id: XSDItemProviderAdapterFactory.java,v 1.8 2008/12/13 15:58:45 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -1214,7 +1214,7 @@ public class XSDItemProviderAdapterFactory
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
+      if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
