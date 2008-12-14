@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.12 2007/10/20 14:43:40 emerks Exp $
+ * $Id: ResourceSetImpl.java,v 1.13 2008/12/14 17:29:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -593,6 +593,12 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
         }
       }
       return resource.basicSetResourceSet(null, notifications);
+    }
+
+    @Override
+    public boolean contains(Object object)
+    {
+      return size <= 4 ? super.contains(object) : object instanceof Resource && ((Resource)object).getResourceSet() == ResourceSetImpl.this;
     }
   }
 

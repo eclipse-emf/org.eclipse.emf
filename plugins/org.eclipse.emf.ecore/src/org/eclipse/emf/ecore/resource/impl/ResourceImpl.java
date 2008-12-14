@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.29 2008/11/01 10:42:40 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.30 2008/12/14 17:29:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -489,6 +489,12 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         setModified(true);
       }
+    }
+
+    @Override
+    public boolean contains(Object object)
+    {
+      return size <= 4 ? super.contains(object) : object instanceof InternalEObject && ((InternalEObject)object).eDirectResource() == ResourceImpl.this;
     }
   }
 
