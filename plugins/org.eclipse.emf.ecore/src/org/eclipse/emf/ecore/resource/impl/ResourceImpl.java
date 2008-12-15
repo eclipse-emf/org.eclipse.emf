@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.30 2008/12/14 17:29:10 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.31 2008/12/15 15:48:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -1024,7 +1025,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       InputStream oldContents = null;
       try
       {
-        oldContents = uriConverter.createInputStream(getURI(), defaultLoadOptions);
+        oldContents = getUnderlyingInputStream(uriConverter.createInputStream(getURI(), defaultLoadOptions), options);
       }
       catch (IOException exception)
       {
@@ -1035,7 +1036,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         try
         {
-          InputStream newContents = uriConverter.createInputStream(temporaryFileURI, null);
+          InputStream newContents = getUnderlyingInputStream(uriConverter.createInputStream(temporaryFileURI, null), options);
           try
           {
             byte [] oldContentBuffer = new byte [4000];
@@ -1132,12 +1133,34 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
 
     byte [] newContentBuffer = memoryBuffer.buffer();
     int length = memoryBuffer.length();
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(newContentBuffer);
+    InputStream underlyingInputStream = getUnderlyingInputStream(inputStream, options);
+    byte [] underlyingNewContentBuffer;
+    int underlyingLength;
+    if (inputStream == underlyingInputStream)
+    {
+      underlyingNewContentBuffer = newContentBuffer;
+      underlyingLength = length;
+    }
+    else
+    {
+      ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+      byte [] buffer = new byte[4000];
+      for (int count = underlyingInputStream.read(buffer); count > 0; count = underlyingInputStream.read(buffer))
+      {
+        bytes.write(buffer, 0, count);
+      }
+      bytes.close();
+      underlyingInputStream.close();
+      underlyingNewContentBuffer = bytes.toByteArray();
+      underlyingLength = underlyingNewContentBuffer.length;
+    }
 
     boolean equal = true;
     InputStream oldContents = null;
     try
     {
-      oldContents = uriConverter.createInputStream(getURI(), defaultLoadOptions);
+      oldContents = getUnderlyingInputStream(uriConverter.createInputStream(getURI(), defaultLoadOptions), options);
     }
     catch (IOException exception)
     {
@@ -1147,12 +1170,25 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     {
       try
       {
-        byte [] oldContentBuffer = new byte [length];
-        if (oldContents.read(oldContentBuffer) == length && oldContents.read() == -1)
+        byte [] oldContentBuffer = new byte [underlyingLength];
+        int count = oldContents.read(oldContentBuffer); 
+        while (count > 0 && count < underlyingLength)
         {
-          for (int i = 0; i < length; ++i)
+          int more = oldContents.read(oldContentBuffer, count, oldContentBuffer.length - count);
+          if (more <= 0)
           {
-            if (oldContentBuffer[i] != newContentBuffer[i])
+            break;
+          }
+          else
+          {
+            count += more;
+          }
+        }
+        if (count == underlyingLength && oldContents.read() == -1)
+        {
+          for (int i = 0; i < underlyingLength; ++i)
+          {
+            if (oldContentBuffer[i] != underlyingNewContentBuffer[i])
             {
               equal = false;
               break;
@@ -1267,6 +1303,26 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   protected ZipEntry newContentZipEntry()
   {
     return new ZipEntry("ResourceContents");
+  }
+
+  /**
+   * Returns the input stream for the zip entry, or the original input stream, as appropriate.
+   */
+  private InputStream getUnderlyingInputStream(InputStream inputStream, Map<?, ?> options) throws IOException
+  {
+    if (useZip() || (options != null && Boolean.TRUE.equals(options.get(Resource.OPTION_ZIP))))
+    {
+      ZipInputStream zipInputStream = new ZipInputStream(inputStream);
+      while (zipInputStream.available() != 0)
+      {
+        ZipEntry zipEntry = zipInputStream.getNextEntry();
+        if (isContentZipEntry(zipEntry))
+        {
+          return zipInputStream;
+        }
+      }
+    }
+    return inputStream;
   }
 
   /**
@@ -1416,20 +1472,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
 
       try
       {
-        if (useZip() || (options != null && Boolean.TRUE.equals(options.get(Resource.OPTION_ZIP))))
-        {
-          ZipInputStream zipInputStream = new ZipInputStream(inputStream);
-          while (zipInputStream.available() != 0)
-          {
-            ZipEntry zipEntry = zipInputStream.getNextEntry();
-            if (isContentZipEntry(zipEntry))
-            {
-              inputStream = zipInputStream;
-              break;
-            }
-          }
-        }
-
+        inputStream = getUnderlyingInputStream(inputStream, options);
         options = mergeMaps(options, defaultLoadOptions);
         URIConverter.Cipher cipher = options != null ?
           (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER) :
