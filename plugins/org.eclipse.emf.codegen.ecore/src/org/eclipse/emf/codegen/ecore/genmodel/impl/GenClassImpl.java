@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.97 2008/08/30 21:06:11 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.98 2008/12/15 17:27:07 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -41,6 +41,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -2736,6 +2737,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return result;
   }
 
+  /**
+   * @deprecated since 2.5
+   * @see #getIntrinsicConstraints()
+   */
+  @Deprecated
   public static final List<String> INTRINSIC_CONSTRAINTS = 
     Arrays.asList
       (new String [] 
@@ -2749,10 +2755,21 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         "EveryMapEntryUnique"
        });
 
+  protected List<String> getIntrinsicConstraints()
+  {
+    List<String> result = new ArrayList<String>(INTRINSIC_CONSTRAINTS);
+    if (getGenModel().getRuntimeVersion().getValue() <= GenRuntimeVersion.EMF22_VALUE)
+    {
+      result.remove("EveryKeyUnique");
+      result.remove("EveryMapEntryUnique");
+    }
+    return result;
+  }
+
   @Override
   public List<String> getAllGenConstraints()
   {
-    List<String> result = new ArrayList<String>(INTRINSIC_CONSTRAINTS);
+    List<String> result = new ArrayList<String>(getIntrinsicConstraints());
     result.addAll(collectGenConstraints(getAllBaseGenClasses(), getGenConstraints(), null));
     return result;
   }
