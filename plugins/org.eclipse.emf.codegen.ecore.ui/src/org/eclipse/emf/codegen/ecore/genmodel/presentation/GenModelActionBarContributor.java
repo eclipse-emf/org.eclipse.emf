@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2008 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,16 +12,13 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.22 2007/01/26 06:02:10 marcelop Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.23 2008/12/19 00:19:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
 
 import java.util.Collection;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
@@ -39,7 +36,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
@@ -52,11 +48,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.ui.action.ViewerFilterAction;
-import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.BasicMonitor;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -66,15 +58,6 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.CommandActionHandler;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
-//
-//import org.eclipse.emf.edit.ui.action.LoadResourceAction;
-//import org.eclipse.emf.edit.ui.action.ValidateAction;
-// import java.util.LinkedList;
-// import org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind;
-// import org.eclipse.jface.action.ActionContributionItem;
-// import org.eclipse.jface.action.IAction;
-// import org.eclipse.jface.action.IContributionManager;
-// import org.eclipse.jface.action.SubContributionItem;
 
 
 /**
@@ -348,73 +331,19 @@ public class GenModelActionBarContributor
     @Override
     public void run()
     {
-      // Do the work within an operation because this is a long running activity that modifies the workbench.
-      //
-      WorkspaceModifyOperation operation = new WorkspaceModifyOperation()
+      GeneratorUIUtil.GeneratorOperation operation = 
+        new GeneratorUIUtil.GeneratorOperation(activeEditorPart.getSite().getShell());
+      operation.setRootDiagnosticMessage(getText());
+
+      Collection<?> selection = ((IStructuredSelection)getActiveEditorSelection()).toList();
+      for (Object object : selection)
       {
-        // This is the method that gets invoked when the operation runs.
-        //
-        @Override
-        protected void execute(IProgressMonitor progressMonitor) throws CoreException
+        for (int i = 0; i < projectTypes.length; i++)
         {
-          Collection<?> selection = ((IStructuredSelection)getActiveEditorSelection()).toList();
-          progressMonitor.beginTask("", selection.size() * projectTypes.length);
-          try
-          {
-            BasicDiagnostic diagnostic = new BasicDiagnostic(GenModelEditPlugin.ID, 0, getText(), null);
-
-            LOOP:
-            for (Object object : selection)
-            {
-              for (int i = 0; i < projectTypes.length; i++)
-              {
-                diagnostic.add
-                  (generator.generate
-                     (object,
-                      projectTypes[i].getType(),
-                      projectTypes[i].getName(),
-                      BasicMonitor.toMonitor(new SubProgressMonitor(progressMonitor, 1))));
-
-                if (!canContinue(diagnostic))
-                {
-                  break LOOP;
-                }
-              }
-            }
-
-            if (diagnostic.getSeverity() != Diagnostic.OK)
-            {
-              final Diagnostic finalDiagnostic = diagnostic;
-              activeEditorPart.getSite().getShell().getDisplay().asyncExec
-                (new Runnable()
-                 {
-                   public void run()
-                   {
-                     DiagnosticDialog.openProblem
-                       (activeEditorPart.getSite().getShell(), 
-                        GenModelEditPlugin.INSTANCE.getString("_UI_GenerationProblems_title"),
-                        GenModelEditPlugin.INSTANCE.getString("_UI_GenerationProblems_message"),
-                        finalDiagnostic);              
-                   }
-                 });
-              
-            }
-          }
-          catch (Exception exception)
-          {
-            GenModelEditPlugin.INSTANCE.log(exception);
-          }
-          progressMonitor.done();
+          operation.addGeneratorAndArguments(generator, object, projectTypes[i].getType(), projectTypes[i].getName());
         }
+      }
 
-        // Stop only on cancel.
-        //
-        protected boolean canContinue(Diagnostic diagnostic)
-        {
-          return diagnostic.getSeverity() != Diagnostic.CANCEL;
-        }
-      };
-    
       // This runs the options, and shows progress.
       // (It appears to be a bad thing to fork this onto another thread.)
       //
