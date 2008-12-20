@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.36 2008/12/20 00:21:51 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.37 2008/12/20 17:51:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1020,6 +1020,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
+    assert eFeature != null : "Invalid featureID: " + featureID;
     int dynamicFeatureID = featureID - eStaticFeatureCount();
       
     return dynamicFeatureID < 0 ?
@@ -1079,6 +1080,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   public void eSet(int featureID, Object newValue)
   {
     EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
+    assert eFeature != null : "Invalid featureID: " + featureID;
     int dynamicFeatureID = featureID - eStaticFeatureCount();
     if (dynamicFeatureID < 0)
     {
@@ -1161,6 +1163,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   public void eUnset(int featureID)
   {
     EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
+    assert eFeature != null : "Invalid featureID: " + featureID;
     int dynamicFeatureID = featureID - eStaticFeatureCount();
     if (dynamicFeatureID < 0)
     {
@@ -1243,6 +1246,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   public boolean eIsSet(int featureID)
   {
     EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
+    assert eFeature != null : "Invalid featureID: " + featureID;
     int dynamicFeatureID = featureID - eStaticFeatureCount();
       
     return dynamicFeatureID < 0 ?
