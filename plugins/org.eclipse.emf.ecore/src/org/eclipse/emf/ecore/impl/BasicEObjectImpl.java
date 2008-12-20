@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.35 2007/12/23 18:29:25 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.36 2008/12/20 00:21:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1488,10 +1488,15 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   public int eDerivedStructuralFeatureID(EStructuralFeature eStructuralFeature)
   {
     Class<?> containerClass = eStructuralFeature.getContainerClass();
-    return 
-      containerClass == null ? 
-        eClass().getFeatureID(eStructuralFeature) : 
-        eDerivedStructuralFeatureID(eStructuralFeature.getFeatureID(), containerClass);
+    if (containerClass == null)
+    {
+      return eClass().getFeatureID(eStructuralFeature);
+    }
+    else
+    {
+      assert eClass().getEAllStructuralFeatures().contains(eStructuralFeature) : "The feature '" + eStructuralFeature.getName() + "' is not a valid feature";
+      return eDerivedStructuralFeatureID(eStructuralFeature.getFeatureID(), containerClass);
+    }
   }
 
   public EClass eClass()
