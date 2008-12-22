@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.17 2008/12/06 21:31:39 davidms Exp $
+ * $Id: EXTLibraryEditor.java,v 1.18 2008/12/22 14:26:01 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -546,39 +546,39 @@ public class EXTLibraryEditor extends MultiPageEditorPart
             }
           }
 
-          ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
+          final ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
           delta.accept(visitor);
 
           if (!visitor.getRemovedResources().isEmpty())
           {
-            removedResources.addAll(visitor.getRemovedResources());
-            if (!isDirty())
-            {
-              getSite().getShell().getDisplay().asyncExec
-                (new Runnable()
+            getSite().getShell().getDisplay().asyncExec
+              (new Runnable()
+               {
+                 public void run()
                  {
-                   public void run()
+                   removedResources.addAll(visitor.getRemovedResources());
+                   if (!isDirty())
                    {
                      getSite().getPage().closeEditor(EXTLibraryEditor.this, false);
                    }
-                 });
-            }
+                 }
+               });
           }
 
           if (!visitor.getChangedResources().isEmpty())
           {
-            changedResources.addAll(visitor.getChangedResources());
-            if (getSite().getPage().getActiveEditor() == EXTLibraryEditor.this)
-            {
-              getSite().getShell().getDisplay().asyncExec
-                (new Runnable()
+            getSite().getShell().getDisplay().asyncExec
+              (new Runnable()
+               {
+                 public void run()
                  {
-                   public void run()
+                   changedResources.addAll(visitor.getChangedResources());
+                   if (getSite().getPage().getActiveEditor() == EXTLibraryEditor.this)
                    {
                      handleActivate();
                    }
-                 });
-            }
+                 }
+               });
           }
         }
         catch (CoreException exception)
