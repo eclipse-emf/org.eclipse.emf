@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicModelWizard.java,v 1.7 2006/12/28 06:47:17 marcelop Exp $
+ * $Id: DynamicModelWizard.java,v 1.8 2008/12/22 14:25:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -156,7 +156,7 @@ public class DynamicModelWizard extends Wizard implements INewWizard
               //
               Map<Object, Object> options = new HashMap<Object, Object>();
               options.put("SCHEMA_LOCATION", Boolean.TRUE);
-              options.put("LINE_WIDTH", new Integer(80));
+              options.put("LINE_WIDTH", 80);
               resource.save(options);
             }
             catch (Exception exception)
