@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMainExample.java,v 1.5 2006/12/28 12:43:52 emerks Exp $
+ * $Id: XSDMainExample.java,v 1.6 2008/12/22 14:25:33 emerks Exp $
  */
 package org.eclipse.xsd.example;
 
@@ -95,7 +95,7 @@ public class XSDMainExample
    */
   public static void main(String args[]) 
   {
-    System.exit(((Integer)new XSDMainExample().run(args)).intValue());
+    System.exit((Integer)new XSDMainExample().run(args));
   }
 
   /**
@@ -238,12 +238,12 @@ public class XSDMainExample
         }
       }
 
-      return new Integer(0);
+      return 0;
     }
     catch (Exception exception)
     {
       exception.printStackTrace();
-      return new Integer(1);
+      return 1;
     }
   }
 
@@ -444,8 +444,8 @@ public class XSDMainExample
                  { 
                    localizedSeverity, 
                    xsdDiagnostic.getLocationURI(), 
-                   new Integer(xsdDiagnostic.getLine()), 
-                   new Integer(xsdDiagnostic.getColumn()) 
+                   xsdDiagnostic.getLine(), 
+                   xsdDiagnostic.getColumn() 
                  }));
 
             System.err.println(xsdDiagnostic.getMessage());

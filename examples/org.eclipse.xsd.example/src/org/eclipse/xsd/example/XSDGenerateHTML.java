@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGenerateHTML.java,v 1.4 2007/03/23 17:36:50 marcelop Exp $
+ * $Id: XSDGenerateHTML.java,v 1.5 2008/12/22 14:25:33 emerks Exp $
  */
 package org.eclipse.xsd.example;
 
@@ -697,12 +697,12 @@ public class XSDGenerateHTML implements IApplication
       }
       printFooter();
 
-      return new Integer(0);
+      return 0;
     }
     catch (Exception exception)
     {
       exception.printStackTrace();
-      return new Integer(1);
+      return 1;
     }
   }
 
@@ -888,8 +888,8 @@ public class XSDGenerateHTML implements IApplication
             if (oldInsertIndex != null)
             {
               String insertion = "<br>" + attributeDeclarationName;
-              attributeDocumentationBuffer.insert(oldInsertIndex.intValue(), insertion);
-              repeatedDocumentationMap.put(attributeDeclarationDocumentation, new Integer(oldInsertIndex.intValue() + insertion.length()));
+              attributeDocumentationBuffer.insert(oldInsertIndex, insertion);
+              repeatedDocumentationMap.put(attributeDeclarationDocumentation, oldInsertIndex + insertion.length());
             }
             else
             {
@@ -913,7 +913,7 @@ public class XSDGenerateHTML implements IApplication
               attributeDocumentationBuffer.append("</b></td>\n<td valign=top>\n");
               attributeDocumentationBuffer.append(attributeDeclarationDocumentation);
               attributeDocumentationBuffer.append("</td></tr>"); 
-              repeatedDocumentationMap.put(attributeDeclarationDocumentation, new Integer(insertIndex));
+              repeatedDocumentationMap.put(attributeDeclarationDocumentation, insertIndex);
             }
           }
 
