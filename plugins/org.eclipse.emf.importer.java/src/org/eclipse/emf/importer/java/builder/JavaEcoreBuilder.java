@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.51 2008/07/09 01:06:43 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.52 2008/12/22 14:26:06 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -2922,7 +2922,7 @@ public class JavaEcoreBuilder
 
     if (result != null)
     {
-      return result.intValue();
+      return result;
     }
 
     return Integer.MAX_VALUE;
