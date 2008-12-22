@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.25 2008/12/13 15:57:59 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.26 2008/12/22 14:25:56 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -52,7 +52,8 @@ public class XSDValidateTest extends TestCase
   // 1: print failed comparisons only
   // 2: print all comparisons
   //
-  final static int DEBUG = new Integer(0);
+  final static int DEBUG = 0;
+  final static boolean TRACE_FAILED_COMPARISON = DEBUG > 0;
 
   final static String xsdFile = "Bad.xsd";
 
@@ -692,7 +693,7 @@ public class XSDValidateTest extends TestCase
         if (resource instanceof XSDResourceImpl)
         {
           XSDResourceImpl xsdResource = (XSDResourceImpl)resource;
-          if (DEBUG > 0)
+          if (TRACE_FAILED_COMPARISON)
           {
             System.err.println("--> " + xsdResource.getURI().lastSegment());
           }
@@ -715,7 +716,7 @@ public class XSDValidateTest extends TestCase
               //
               String substring = actual.substring(0, index);
               boolean result = expected.startsWith(substring);
-              if (DEBUG > 0)
+              if (TRACE_FAILED_COMPARISON)
               {
                 failures += handleResult(result, expected, actual, "match up to ;", position);
               }
@@ -730,7 +731,7 @@ public class XSDValidateTest extends TestCase
               //
               String substring = actual.substring(0, actual.indexOf("http:/"));
               boolean result = expected.startsWith(substring);
-              if (DEBUG > 0)
+              if (TRACE_FAILED_COMPARISON)
               {
                 failures += handleResult(result, expected, actual, "match up to http", position);
               }
@@ -742,7 +743,7 @@ public class XSDValidateTest extends TestCase
             else 
             {
               boolean result = expected.equals(actual);
-              if (DEBUG > 0)
+              if (TRACE_FAILED_COMPARISON)
               {
                 failures += handleResult(result, expected, actual, "equal", position);
               }
