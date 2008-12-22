@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.55 2008/04/08 13:56:36 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.56 2008/12/22 14:25:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -696,11 +696,11 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__PROPERTY:
         return getProperty();
       case GenModelPackage.GEN_FEATURE__NOTIFY:
-        return isNotify() ? Boolean.TRUE : Boolean.FALSE;
+        return isNotify();
       case GenModelPackage.GEN_FEATURE__CHILDREN:
-        return isChildren() ? Boolean.TRUE : Boolean.FALSE;
+        return isChildren();
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
-        return isCreateChild() ? Boolean.TRUE : Boolean.FALSE;
+        return isCreateChild();
       case GenModelPackage.GEN_FEATURE__PROPERTY_CATEGORY:
         return getPropertyCategory();
       case GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS:
@@ -708,9 +708,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
         return getPropertyDescription();
       case GenModelPackage.GEN_FEATURE__PROPERTY_MULTI_LINE:
-        return isPropertyMultiLine() ? Boolean.TRUE : Boolean.FALSE;
+        return isPropertyMultiLine();
       case GenModelPackage.GEN_FEATURE__PROPERTY_SORT_CHOICES:
-        return isPropertySortChoices() ? Boolean.TRUE : Boolean.FALSE;
+        return isPropertySortChoices();
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         return getGenClass();
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
@@ -735,13 +735,13 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         setProperty((GenPropertyKind)newValue);
         return;
       case GenModelPackage.GEN_FEATURE__NOTIFY:
-        setNotify(((Boolean)newValue).booleanValue());
+        setNotify((Boolean)newValue);
         return;
       case GenModelPackage.GEN_FEATURE__CHILDREN:
-        setChildren(((Boolean)newValue).booleanValue());
+        setChildren((Boolean)newValue);
         return;
       case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
-        setCreateChild(((Boolean)newValue).booleanValue());
+        setCreateChild((Boolean)newValue);
         return;
       case GenModelPackage.GEN_FEATURE__PROPERTY_CATEGORY:
         setPropertyCategory((String)newValue);
@@ -754,10 +754,10 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         setPropertyDescription((String)newValue);
         return;
       case GenModelPackage.GEN_FEATURE__PROPERTY_MULTI_LINE:
-        setPropertyMultiLine(((Boolean)newValue).booleanValue());
+        setPropertyMultiLine((Boolean)newValue);
         return;
       case GenModelPackage.GEN_FEATURE__PROPERTY_SORT_CHOICES:
-        setPropertySortChoices(((Boolean)newValue).booleanValue());
+        setPropertySortChoices((Boolean)newValue);
         return;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         setGenClass((GenClass)newValue);

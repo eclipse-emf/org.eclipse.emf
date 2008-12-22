@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.104 2008/12/11 01:54:29 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.105 2008/12/22 14:25:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -6121,11 +6121,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__MODEL_DIRECTORY:
         return getModelDirectory();
       case GenModelPackage.GEN_MODEL__CREATION_COMMANDS:
-        return isCreationCommands() ? Boolean.TRUE : Boolean.FALSE;
+        return isCreationCommands();
       case GenModelPackage.GEN_MODEL__CREATION_ICONS:
-        return isCreationIcons() ? Boolean.TRUE : Boolean.FALSE;
+        return isCreationIcons();
       case GenModelPackage.GEN_MODEL__CREATION_SUBMENUS:
-        return isCreationSubmenus() ? Boolean.TRUE : Boolean.FALSE;
+        return isCreationSubmenus();
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
         return getEditDirectory();
       case GenModelPackage.GEN_MODEL__EDITOR_DIRECTORY:
@@ -6135,15 +6135,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__TEMPLATE_DIRECTORY:
         return getTemplateDirectory();
       case GenModelPackage.GEN_MODEL__RUNTIME_JAR:
-        return isRuntimeJar() ? Boolean.TRUE : Boolean.FALSE;
+        return isRuntimeJar();
       case GenModelPackage.GEN_MODEL__FOREIGN_MODEL:
         return getForeignModel();
       case GenModelPackage.GEN_MODEL__DYNAMIC_TEMPLATES:
-        return isDynamicTemplates() ? Boolean.TRUE : Boolean.FALSE;
+        return isDynamicTemplates();
       case GenModelPackage.GEN_MODEL__REDIRECTION:
         return getRedirection();
       case GenModelPackage.GEN_MODEL__FORCE_OVERWRITE:
-        return isForceOverwrite() ? Boolean.TRUE : Boolean.FALSE;
+        return isForceOverwrite();
       case GenModelPackage.GEN_MODEL__NON_EXTERNALIZED_STRING_TAG:
         return getNonExternalizedStringTag();
       case GenModelPackage.GEN_MODEL__MODEL_NAME:
@@ -6155,11 +6155,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__EDITOR_PLUGIN_CLASS:
         return getEditorPluginClass();
       case GenModelPackage.GEN_MODEL__UPDATE_CLASSPATH:
-        return isUpdateClasspath() ? Boolean.TRUE : Boolean.FALSE;
+        return isUpdateClasspath();
       case GenModelPackage.GEN_MODEL__GENERATE_SCHEMA:
-        return isGenerateSchema() ? Boolean.TRUE : Boolean.FALSE;
+        return isGenerateSchema();
       case GenModelPackage.GEN_MODEL__NON_NLS_MARKERS:
-        return isNonNLSMarkers() ? Boolean.TRUE : Boolean.FALSE;
+        return isNonNLSMarkers();
       case GenModelPackage.GEN_MODEL__STATIC_PACKAGES:
         return getStaticPackages();
       case GenModelPackage.GEN_MODEL__MODEL_PLUGIN_VARIABLES:
@@ -6171,13 +6171,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__ROOT_IMPLEMENTS_INTERFACE:
         return getRootImplementsInterface();
       case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_TYPES:
-        return isSuppressEMFTypes() ? Boolean.TRUE : Boolean.FALSE;
+        return isSuppressEMFTypes();
       case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_META_DATA:
-        return isSuppressEMFMetaData() ? Boolean.TRUE : Boolean.FALSE;
+        return isSuppressEMFMetaData();
       case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS:
-        return isSuppressEMFModelTags() ? Boolean.TRUE : Boolean.FALSE;
+        return isSuppressEMFModelTags();
       case GenModelPackage.GEN_MODEL__SUPPRESS_INTERFACES:
-        return isSuppressInterfaces() ? Boolean.TRUE : Boolean.FALSE;
+        return isSuppressInterfaces();
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE:
         return getFeatureMapWrapperInterface();
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE:
@@ -6185,13 +6185,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS:
         return getFeatureMapWrapperClass();
       case GenModelPackage.GEN_MODEL__RUNTIME_COMPATIBILITY:
-        return isRuntimeCompatibility() ? Boolean.TRUE : Boolean.FALSE;
+        return isRuntimeCompatibility();
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
-        return isRichClientPlatform() ? Boolean.TRUE : Boolean.FALSE;
+        return isRichClientPlatform();
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
-        return isReflectiveDelegation() ? Boolean.TRUE : Boolean.FALSE;
+        return isReflectiveDelegation();
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
-        return isCodeFormatting() ? Boolean.TRUE : Boolean.FALSE;
+        return isCodeFormatting();
       case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
         return getTestsDirectory();
       case GenModelPackage.GEN_MODEL__TEST_SUITE_CLASS:
@@ -6199,37 +6199,37 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_FIELD:
         return getBooleanFlagsField();
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
-        return new Integer(getBooleanFlagsReservedBits());
+        return getBooleanFlagsReservedBits();
       case GenModelPackage.GEN_MODEL__IMPORTER_ID:
         return getImporterID();
       case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
-        return isBundleManifest() ? Boolean.TRUE : Boolean.FALSE;
+        return isBundleManifest();
       case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
         return getFeatureDelegation();
       case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
-        return isContainmentProxies() ? Boolean.TRUE : Boolean.FALSE;
+        return isContainmentProxies();
       case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
-        return isMinimalReflectiveMethods() ? Boolean.TRUE : Boolean.FALSE;
+        return isMinimalReflectiveMethods();
       case GenModelPackage.GEN_MODEL__SUPPRESS_CONTAINMENT:
-        return isSuppressContainment() ? Boolean.TRUE : Boolean.FALSE;
+        return isSuppressContainment();
       case GenModelPackage.GEN_MODEL__SUPPRESS_NOTIFICATION:
-        return isSuppressNotification() ? Boolean.TRUE : Boolean.FALSE;
+        return isSuppressNotification();
       case GenModelPackage.GEN_MODEL__ARRAY_ACCESSORS:
-        return isArrayAccessors() ? Boolean.TRUE : Boolean.FALSE;
+        return isArrayAccessors();
       case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
-        return isSuppressUnsettable() ? Boolean.TRUE : Boolean.FALSE;
+        return isSuppressUnsettable();
       case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
         return getFacadeHelperClass();
       case GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL:
         return getComplianceLevel();
       case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
-        return isSuppressGenModelAnnotations() ? Boolean.TRUE : Boolean.FALSE;
+        return isSuppressGenModelAnnotations();
       case GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS:
-        return isCopyrightFields() ? Boolean.TRUE : Boolean.FALSE;
+        return isCopyrightFields();
       case GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS:
-        return isBinaryCompatibleReflectiveMethods() ? Boolean.TRUE : Boolean.FALSE;
+        return isBinaryCompatibleReflectiveMethods();
       case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
-        return isPublicConstructors() ? Boolean.TRUE : Boolean.FALSE;
+        return isPublicConstructors();
       case GenModelPackage.GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES:
         return getTemplatePluginVariables();
       case GenModelPackage.GEN_MODEL__PROVIDER_ROOT_EXTENDS_CLASS:
@@ -6247,19 +6247,19 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__TESTS_PLUGIN_VARIABLES:
         return getTestsPluginVariables();
       case GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN:
-        return isOptimizedHasChildren() ? Boolean.TRUE : Boolean.FALSE;
+        return isOptimizedHasChildren();
       case GenModelPackage.GEN_MODEL__TABLE_PROVIDERS:
-        return isTableProviders() ? Boolean.TRUE : Boolean.FALSE;
+        return isTableProviders();
       case GenModelPackage.GEN_MODEL__COLOR_PROVIDERS:
-        return isColorProviders() ? Boolean.TRUE : Boolean.FALSE;
+        return isColorProviders();
       case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
-        return isFontProviders() ? Boolean.TRUE : Boolean.FALSE;
+        return isFontProviders();
       case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
         return getRuntimeVersion();
       case GenModelPackage.GEN_MODEL__LANGUAGE:
         return getLanguage();
       case GenModelPackage.GEN_MODEL__PACKED_ENUMS:
-        return isPackedEnums() ? Boolean.TRUE : Boolean.FALSE;
+        return isPackedEnums();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -6290,13 +6290,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         setModelDirectory((String)newValue);
         return;
       case GenModelPackage.GEN_MODEL__CREATION_COMMANDS:
-        setCreationCommands(((Boolean)newValue).booleanValue());
+        setCreationCommands((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__CREATION_ICONS:
-        setCreationIcons(((Boolean)newValue).booleanValue());
+        setCreationIcons((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__CREATION_SUBMENUS:
-        setCreationSubmenus(((Boolean)newValue).booleanValue());
+        setCreationSubmenus((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__EDIT_DIRECTORY:
         setEditDirectory((String)newValue);
@@ -6311,20 +6311,20 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         setTemplateDirectory((String)newValue);
         return;
       case GenModelPackage.GEN_MODEL__RUNTIME_JAR:
-        setRuntimeJar(((Boolean)newValue).booleanValue());
+        setRuntimeJar((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__FOREIGN_MODEL:
         getForeignModel().clear();
         getForeignModel().addAll((Collection<? extends String>)newValue);
         return;
       case GenModelPackage.GEN_MODEL__DYNAMIC_TEMPLATES:
-        setDynamicTemplates(((Boolean)newValue).booleanValue());
+        setDynamicTemplates((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__REDIRECTION:
         setRedirection((String)newValue);
         return;
       case GenModelPackage.GEN_MODEL__FORCE_OVERWRITE:
-        setForceOverwrite(((Boolean)newValue).booleanValue());
+        setForceOverwrite((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__NON_EXTERNALIZED_STRING_TAG:
         setNonExternalizedStringTag((String)newValue);
@@ -6342,13 +6342,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         setEditorPluginClass((String)newValue);
         return;
       case GenModelPackage.GEN_MODEL__UPDATE_CLASSPATH:
-        setUpdateClasspath(((Boolean)newValue).booleanValue());
+        setUpdateClasspath((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__GENERATE_SCHEMA:
-        setGenerateSchema(((Boolean)newValue).booleanValue());
+        setGenerateSchema((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__NON_NLS_MARKERS:
-        setNonNLSMarkers(((Boolean)newValue).booleanValue());
+        setNonNLSMarkers((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__STATIC_PACKAGES:
         getStaticPackages().clear();
@@ -6368,16 +6368,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         setRootImplementsInterface((String)newValue);
         return;
       case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_TYPES:
-        setSuppressEMFTypes(((Boolean)newValue).booleanValue());
+        setSuppressEMFTypes((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_META_DATA:
-        setSuppressEMFMetaData(((Boolean)newValue).booleanValue());
+        setSuppressEMFMetaData((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS:
-        setSuppressEMFModelTags(((Boolean)newValue).booleanValue());
+        setSuppressEMFModelTags((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__SUPPRESS_INTERFACES:
-        setSuppressInterfaces(((Boolean)newValue).booleanValue());
+        setSuppressInterfaces((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE:
         setFeatureMapWrapperInterface((String)newValue);
@@ -6389,16 +6389,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         setFeatureMapWrapperClass((String)newValue);
         return;
       case GenModelPackage.GEN_MODEL__RUNTIME_COMPATIBILITY:
-        setRuntimeCompatibility(((Boolean)newValue).booleanValue());
+        setRuntimeCompatibility((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
-        setRichClientPlatform(((Boolean)newValue).booleanValue());
+        setRichClientPlatform((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
-        setReflectiveDelegation(((Boolean)newValue).booleanValue());
+        setReflectiveDelegation((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
-        setCodeFormatting(((Boolean)newValue).booleanValue());
+        setCodeFormatting((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__TESTS_DIRECTORY:
         setTestsDirectory((String)newValue);
@@ -6410,34 +6410,34 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         setBooleanFlagsField((String)newValue);
         return;
       case GenModelPackage.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS:
-        setBooleanFlagsReservedBits(((Integer)newValue).intValue());
+        setBooleanFlagsReservedBits((Integer)newValue);
         return;
       case GenModelPackage.GEN_MODEL__IMPORTER_ID:
         setImporterID((String)newValue);
         return;
       case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
-        setBundleManifest(((Boolean)newValue).booleanValue());
+        setBundleManifest((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
         setFeatureDelegation((GenDelegationKind)newValue);
         return;
       case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
-        setContainmentProxies(((Boolean)newValue).booleanValue());
+        setContainmentProxies((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
-        setMinimalReflectiveMethods(((Boolean)newValue).booleanValue());
+        setMinimalReflectiveMethods((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__SUPPRESS_CONTAINMENT:
-        setSuppressContainment(((Boolean)newValue).booleanValue());
+        setSuppressContainment((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__SUPPRESS_NOTIFICATION:
-        setSuppressNotification(((Boolean)newValue).booleanValue());
+        setSuppressNotification((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__ARRAY_ACCESSORS:
-        setArrayAccessors(((Boolean)newValue).booleanValue());
+        setArrayAccessors((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
-        setSuppressUnsettable(((Boolean)newValue).booleanValue());
+        setSuppressUnsettable((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
         setFacadeHelperClass((String)newValue);
@@ -6446,16 +6446,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         setComplianceLevel((GenJDKLevel)newValue);
         return;
       case GenModelPackage.GEN_MODEL__SUPPRESS_GEN_MODEL_ANNOTATIONS:
-        setSuppressGenModelAnnotations(((Boolean)newValue).booleanValue());
+        setSuppressGenModelAnnotations((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__COPYRIGHT_FIELDS:
-        setCopyrightFields(((Boolean)newValue).booleanValue());
+        setCopyrightFields((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__BINARY_COMPATIBLE_REFLECTIVE_METHODS:
-        setBinaryCompatibleReflectiveMethods(((Boolean)newValue).booleanValue());
+        setBinaryCompatibleReflectiveMethods((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__PUBLIC_CONSTRUCTORS:
-        setPublicConstructors(((Boolean)newValue).booleanValue());
+        setPublicConstructors((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__TEMPLATE_PLUGIN_VARIABLES:
         getTemplatePluginVariables().clear();
@@ -6486,16 +6486,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         getTestsPluginVariables().addAll((Collection<? extends String>)newValue);
         return;
       case GenModelPackage.GEN_MODEL__OPTIMIZED_HAS_CHILDREN:
-        setOptimizedHasChildren(((Boolean)newValue).booleanValue());
+        setOptimizedHasChildren((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__TABLE_PROVIDERS:
-        setTableProviders(((Boolean)newValue).booleanValue());
+        setTableProviders((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__COLOR_PROVIDERS:
-        setColorProviders(((Boolean)newValue).booleanValue());
+        setColorProviders((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__FONT_PROVIDERS:
-        setFontProviders(((Boolean)newValue).booleanValue());
+        setFontProviders((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__RUNTIME_VERSION:
         setRuntimeVersion((GenRuntimeVersion)newValue);
@@ -6504,7 +6504,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         setLanguage((String)newValue);
         return;
       case GenModelPackage.GEN_MODEL__PACKED_ENUMS:
-        setPackedEnums(((Boolean)newValue).booleanValue());
+        setPackedEnums((Boolean)newValue);
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();

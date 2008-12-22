@@ -648,7 +648,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_178);
     stringBuffer.append(genDataType.getSafeUncapName());
     stringBuffer.append(TEXT_179);
-    } else if (genDataType.isPrimitiveType()) {
+    } else if (genDataType.isPrimitiveType() && genModel.getComplianceLevel().getValue() < GenJDKLevel.JDK50) {
     stringBuffer.append(TEXT_180);
     stringBuffer.append(genDataType.getImportedInstanceClassName());
     stringBuffer.append(TEXT_181);
@@ -670,7 +670,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_189);
     stringBuffer.append(genDataType.getName());
     stringBuffer.append(TEXT_190);
-    stringBuffer.append(genDataType.getImportedInstanceClassName());
+    stringBuffer.append(genDataType.getObjectInstanceClassName());
     stringBuffer.append(TEXT_191);
     stringBuffer.append(genDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor());
     stringBuffer.append(TEXT_192);

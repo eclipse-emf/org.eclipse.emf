@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.36 2008/03/31 15:14:39 emerks Exp $
+ * $Id: Generator.java,v 1.37 2008/12/22 14:25:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -298,9 +298,9 @@ public class Generator extends CodeGen
                   if (autoBuild != null)
                   {
                     IWorkspaceDescription description = workspace.getDescription();
-                    if (description.isAutoBuilding() != autoBuild.booleanValue())
+                    if (description.isAutoBuilding() != autoBuild)
                     {
-                      description.setAutoBuilding(autoBuild.booleanValue());
+                      description.setAutoBuilding(autoBuild);
                       try
                       {
                         workspace.setDescription(description);
@@ -457,14 +457,14 @@ public class Generator extends CodeGen
           };
         workspace.run(runnable, new CodeGenUtil.EclipseUtil.StreamProgressMonitor(System.out));
   
-        return new Integer(0);
+        return 0;
       }
       catch (Exception exception)
       {
         generator.printGenerateUsage();
         exception.printStackTrace();
         CodeGenEcorePlugin.INSTANCE.log(exception);
-        return new Integer(1);
+        return 1;
       }
     }
   }

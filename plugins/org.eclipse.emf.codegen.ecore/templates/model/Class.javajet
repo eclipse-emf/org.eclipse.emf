@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.80 2008/12/01 22:37:41 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.81 2008/12/22 14:25:18 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -16,9 +16,10 @@
  */
 %>
 <%final GenClass genClass = (GenClass)((Object[])argument)[0]; final GenPackage genPackage = genClass.getGenPackage(); final GenModel genModel=genPackage.getGenModel();%>
+<%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%final boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); final boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);%>
 <%final String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
-<%final String singleWildcard = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50 ? "<?>" : "";%>
+<%final String singleWildcard = isJDK50 ? "<?>" : "";%>
 <%final String negativeOffsetCorrection = genClass.hasOffsetCorrection() ? " - " + genClass.getOffsetCorrectionField(null) : "";%>
 <%final String positiveOffsetCorrection = genClass.hasOffsetCorrection() ? " + " + genClass.getOffsetCorrectionField(null) : "";%>
 <%@ include file="../Header.javajetinc"%>
@@ -237,7 +238,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int <%=genFeature.getUpperName()%>_EFLAG_DEFAULT = <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%><%=genFeature.getEDefault()%>.ordinal()<%} else {%><%=genFeature.getImportedType(genClass)%>.VALUES.indexOf(<%=genFeature.getEDefault()%>)<%}%> << <%=genFeature.getUpperName()%>_EFLAG_OFFSET;
+	protected static final int <%=genFeature.getUpperName()%>_EFLAG_DEFAULT = <%if (isJDK50) {%><%=genFeature.getEDefault()%>.ordinal()<%} else {%><%=genFeature.getImportedType(genClass)%>.VALUES.indexOf(<%=genFeature.getEDefault()%>)<%}%> << <%=genFeature.getUpperName()%>_EFLAG_OFFSET;
 
 	/**
 	 * The array of enumeration values for '{@link <%=genFeature.getImportedType(genClass)%> <%=genFeature.getTypeGenClassifier().getFormattedName()%>}'
@@ -246,7 +247,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
-	private static final <%=genFeature.getImportedType(genClass)%>[] <%=genFeature.getUpperName()%>_EFLAG_VALUES = <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%><%=genFeature.getImportedType(genClass)%>.values()<%} else {%>(<%=genFeature.getImportedType(genClass)%>[])<%=genFeature.getImportedType(genClass)%>.VALUES.toArray(new <%=genFeature.getImportedType(genClass)%>[<%=genFeature.getImportedType(genClass)%>.VALUES.size()])<%}%>;
+	private static final <%=genFeature.getImportedType(genClass)%>[] <%=genFeature.getUpperName()%>_EFLAG_VALUES = <%if (isJDK50) {%><%=genFeature.getImportedType(genClass)%>.values()<%} else {%>(<%=genFeature.getImportedType(genClass)%>[])<%=genFeature.getImportedType(genClass)%>.VALUES.toArray(new <%=genFeature.getImportedType(genClass)%>[<%=genFeature.getImportedType(genClass)%>.VALUES.size()])<%}%>;
 
           <%}%>
 	/**
@@ -554,7 +555,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //Class/getGenFeature.annotations.insert.javajetinc%>
+<%if (isJDK50) { //Class/getGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/getGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
 <%}%>
@@ -569,9 +570,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	{
 <%@ include file="Class/getGenFeature.pre.insert.javajetinc" fail="silent" %>
     <%if (genModel.isDynamicDelegation()) {%>
-		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType(genClass)%>)eDynamicGet(<%=genClass.getQualifiedFeatureID(genFeature)%>, <%=genFeature.getQualifiedFeatureAccessor()%>, true, <%=!genFeature.isEffectiveSuppressEMFTypes()%>)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+		return <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType(genClass)%>)eDynamicGet(<%=genClass.getQualifiedFeatureID(genFeature)%>, <%=genFeature.getQualifiedFeatureAccessor()%>, true, <%=!genFeature.isEffectiveSuppressEMFTypes()%>)<%if (!isJDK50 && genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
     <%} else if (genModel.isReflectiveDelegation()) {%>
-		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType(genClass)%>)eGet(<%=genFeature.getQualifiedFeatureAccessor()%>, true)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+		return <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType(genClass)%>)eGet(<%=genFeature.getQualifiedFeatureAccessor()%>, true)<%if (!isJDK50 && genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
     <%} else if (!genFeature.isVolatile()) {%>
       <%if (genFeature.isListType()) {%>
         <%if (genModel.isVirtualDelegation()) {%>
@@ -644,7 +645,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 		return <%=genFeature.getSafeName()%> != null && <%=genFeature.getSafeNameAsEObject()%>.eIsProxy() ? <%=genFeature.getNonEObjectInternalTypeCast(genClass)%>eResolveProxy((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>) : <%=genFeature.getSafeName()%>;
       <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
         <%if (genFeature.isFeatureMapType()) {%>
-        <%String featureMapEntryTemplateArgument = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50 ? "<" + genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap") + ".Entry>" : "";%>
+        <%String featureMapEntryTemplateArgument = isJDK50 ? "<" + genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap") + ".Entry>" : "";%>
           <%if (delegateFeature.isWrappedFeatureMapType()) {%>
 		return new <%=genFeature.getImportedEffectiveFeatureMapWrapperClass()%>((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal.Wrapper)get<%=delegateFeature.getAccessorName()%>()).featureMap().<%=featureMapEntryTemplateArgument%>list(<%=genFeature.getQualifiedFeatureAccessor()%>));
           <%} else {%>
@@ -658,9 +659,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
           <%}%>
         <%} else {%>
           <%if (delegateFeature.isWrappedFeatureMapType()) {%>
-		return <%if (genFeature.isPrimitiveType()) {%>(<%}%><%if (genFeature.getTypeGenDataType() == null || !genFeature.getTypeGenDataType().isObjectType()) {%>(<%=genFeature.getObjectType(genClass)%>)<%}%>((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal.Wrapper)get<%=delegateFeature.getAccessorName()%>()).featureMap().get(<%=genFeature.getQualifiedFeatureAccessor()%>, true)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+		return <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>(<%}%><%if (genFeature.getTypeGenDataType() == null || !genFeature.getTypeGenDataType().isObjectType()) {%>(<%=genFeature.getObjectType(genClass)%>)<%}%>((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal.Wrapper)get<%=delegateFeature.getAccessorName()%>()).featureMap().get(<%=genFeature.getQualifiedFeatureAccessor()%>, true)<%if (!isJDK50 && genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
           <%} else {%>
-		return <%if (genFeature.isPrimitiveType()) {%>(<%}%><%if (genFeature.getTypeGenDataType() == null || !genFeature.getTypeGenDataType().isObjectType()) {%>(<%=genFeature.getObjectType(genClass)%>)<%}%>get<%=delegateFeature.getAccessorName()%>().get(<%=genFeature.getQualifiedFeatureAccessor()%>, true)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+		return <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>(<%}%><%if (genFeature.getTypeGenDataType() == null || !genFeature.getTypeGenDataType().isObjectType()) {%>(<%=genFeature.getObjectType(genClass)%>)<%}%>get<%=delegateFeature.getAccessorName()%>().get(<%=genFeature.getQualifiedFeatureAccessor()%>, true)<%if (!isJDK50 && genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
           <%}%>
         <%}%>
       <%} else if (genClass.getGetAccessorOperation(genFeature) != null) {%>
@@ -691,7 +692,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //Class/basicGetGenFeature.annotations.insert.javajetinc%>
+<%if (isJDK50) { //Class/basicGetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/basicGetGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
 	public <%=genFeature.getImportedType(genClass)%> basicGet<%=genFeature.getAccessorName()%>()
@@ -735,7 +736,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //Class/basicSetGenFeature.annotations.insert.javajetinc%>
+<%if (isJDK50) { //Class/basicSetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/basicSetGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
 	public <%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> basicSet<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedInternalType(genClass)%> new<%=genFeature.getCapName()%>, <%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs)
@@ -842,7 +843,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //Class/setGenFeature.annotations.insert.javajetinc%>
+<%if (isJDK50) { //Class/setGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/setGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
 <%}%>
@@ -854,9 +855,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	{
 <%@ include file="Class/setGenFeature.pre.insert.javajetinc" fail="silent" %>
     <%if (genModel.isDynamicDelegation()) {%>
-		eDynamicSet(<%=genClass.getQualifiedFeatureID(genFeature)%>, <%=genFeature.getQualifiedFeatureAccessor()%>, <%if (genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()) {%>)<%}%>);
+		eDynamicSet(<%=genClass.getQualifiedFeatureID(genFeature)%>, <%=genFeature.getQualifiedFeatureAccessor()%>, <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (!isJDK50 && genFeature.isPrimitiveType()) {%>)<%}%>);
     <%} else if (genModel.isReflectiveDelegation()) {%>
-		eSet(<%=genFeature.getQualifiedFeatureAccessor()%>, <%if (genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()) {%>)<%}%>);
+		eSet(<%=genFeature.getQualifiedFeatureAccessor()%>, <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (!isJDK50 && genFeature.isPrimitiveType()) {%>)<%}%>);
     <%} else if (!genFeature.isVolatile()) {%>
       <%if (genFeature.isContainer()) { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass(); String reverseOffsetCorrection = targetClass.hasOffsetCorrection() ? " + " + genClass.getOffsetCorrectionField(reverseFeature) : "";%>
 		if (new<%=genFeature.getCapName()%> != eInternalContainer() || (eContainerFeatureID != <%=genClass.getQualifiedFeatureID(genFeature)%><%=positiveOffsetCorrection%> && new<%=genFeature.getCapName()%> != null))
@@ -935,7 +936,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 		if (new<%=genFeature.getCapName()%>) <%=genClass.getFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_EFLAG; else <%=genClass.getFlagsField(genFeature)%> &= ~<%=genFeature.getUpperName()%>_EFLAG;
           <%} else {%>
 		if (new<%=genFeature.getCapName()%> == null) new<%=genFeature.getCapName()%> = <%=genFeature.getUpperName()%>_EDEFAULT;
-		<%=genClass.getFlagsField(genFeature)%> = <%=genClass.getFlagsField(genFeature)%> & ~<%=genFeature.getUpperName()%>_EFLAG | <%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%>new<%=genFeature.getCapName()%>.ordinal()<%} else {%><%=genFeature.getImportedType(genClass)%>.VALUES.indexOf(new<%=genFeature.getCapName()%>)<%}%> << <%=genFeature.getUpperName()%>_EFLAG_OFFSET;
+		<%=genClass.getFlagsField(genFeature)%> = <%=genClass.getFlagsField(genFeature)%> & ~<%=genFeature.getUpperName()%>_EFLAG | <%if (isJDK50) {%>new<%=genFeature.getCapName()%>.ordinal()<%} else {%><%=genFeature.getImportedType(genClass)%>.VALUES.indexOf(new<%=genFeature.getCapName()%>)<%}%> << <%=genFeature.getUpperName()%>_EFLAG_OFFSET;
           <%}%>
         <%} else {%>
           <%if (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) {%>
@@ -988,9 +989,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 <%@ include file="Class/setGenFeature.post.insert.javajetinc" fail="silent" %>
     <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
       <%if (delegateFeature.isWrappedFeatureMapType()) {%>
-		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal.Wrapper)get<%=delegateFeature.getAccessorName()%>()).featureMap()).set(<%=genFeature.getQualifiedFeatureAccessor()%>, <%if (genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()) {%>)<%}%>);
+		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal.Wrapper)get<%=delegateFeature.getAccessorName()%>()).featureMap()).set(<%=genFeature.getQualifiedFeatureAccessor()%>, <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (!isJDK50 && genFeature.isPrimitiveType()) {%>)<%}%>);
       <%} else {%>
-		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)get<%=delegateFeature.getAccessorName()%>()).set(<%=genFeature.getQualifiedFeatureAccessor()%>, <%if (genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()) {%>)<%}%>);
+		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)get<%=delegateFeature.getAccessorName()%>()).set(<%=genFeature.getQualifiedFeatureAccessor()%>, <%if (!isJDK50 && genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType(genClass)%>(<%}%>new<%=genFeature.getCapName()%><%if (!isJDK50 && genFeature.isPrimitiveType()) {%>)<%}%>);
       <%}%>
     <%} else if (setAccessorOperation != null) {%>
 		<%=setAccessorOperation.getBody(genModel.getIndentation(stringBuffer))%>
@@ -1015,7 +1016,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //Class/basicUnsetGenFeature.annotations.insert.javajetinc%>
+<%if (isJDK50) { //Class/basicUnsetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/basicUnsetGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
 	public <%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> basicUnset<%=genFeature.getAccessorName()%>(<%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs)
@@ -1094,7 +1095,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //Class/unsetGenFeature.annotations.insert.javajetinc%>
+<%if (isJDK50) { //Class/unsetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/unsetGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
 <%}%>
@@ -1259,7 +1260,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //Class/isSetGenFeature.annotations.insert.javajetinc%>
+<%if (isJDK50) { //Class/isSetGenFeature.annotations.insert.javajetinc%>
 <%@ include file="Class/isSetGenFeature.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
 <%}%>
@@ -1356,7 +1357,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) { //Class/genOperation.annotations.insert.javajetinc%>
+<%if (isJDK50) { //Class/genOperation.annotations.insert.javajetinc%>
 <%@ include file="Class/genOperation.annotations.insert.javajetinc" fail="silent" %>
 <%}%>
 <%}%>
@@ -1545,7 +1546,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 <%for (GenFeature genFeature : genClass.getEGetGenFeatures()) {%>
 			case <%=genClass.getQualifiedFeatureID(genFeature)%>:
   <%if (genFeature.isPrimitiveType()) {%>
-    <%if (genFeature.isBooleanType()) {%>
+    <%if (isJDK50) {%>
+				return <%=genFeature.getGetAccessor()%>();
+    <%} else if (genFeature.isBooleanType()) {%>
 				return <%=genFeature.getGetAccessor()%>() ? Boolean.TRUE : Boolean.FALSE;
     <%} else {%>
 				return new <%=genFeature.getObjectType(genClass)%>(<%=genFeature.getGetAccessor()%>());
@@ -1615,12 +1618,12 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
         <%}%>
       <%} else {%>
 				<%=genFeature.getGetAccessor()%>().clear();
-				<%=genFeature.getGetAccessor()%>().addAll((<%=genModel.getImportedName("java.util.Collection")%><%if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%><? extends <%=genFeature.getListItemType(genClass)%>><%}%>)newValue);
+				<%=genFeature.getGetAccessor()%>().addAll((<%=genModel.getImportedName("java.util.Collection")%><%if (isJDK50) {%><? extends <%=genFeature.getListItemType(genClass)%>><%}%>)newValue);
       <%}%>
-    <%} else if (genFeature.isPrimitiveType()) {%>
+    <%} else if (!isJDK50 && genFeature.isPrimitiveType()) {%>
 				set<%=genFeature.getAccessorName()%>(((<%=genFeature.getObjectType(genClass)%>)newValue).<%=genFeature.getPrimitiveValueFunction()%>());
     <%} else {%>
-				set<%=genFeature.getAccessorName()%>(<%if (genFeature.getTypeGenDataType() == null || !genFeature.getTypeGenDataType().isObjectType() || !genFeature.getRawType().equals(genFeature.getType(genClass))) {%>(<%=genFeature.getImportedType(genClass)%>)<%}%>newValue);
+				set<%=genFeature.getAccessorName()%>(<%if (genFeature.getTypeGenDataType() == null || !genFeature.getTypeGenDataType().isObjectType() || !genFeature.getRawType().equals(genFeature.getType(genClass))) {%>(<%=genFeature.getObjectType(genClass)%>)<%}%>newValue);
     <%}%>
 				return;
   <%}%>
@@ -1983,9 +1986,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 <%}%>
 <%if (isImplementation && genClass.isMapEntry()) { GenFeature keyFeature = genClass.getMapEntryKeyFeature(); GenFeature valueFeature = genClass.getMapEntryValueFeature();%>
 <%String objectType = genModel.getImportedName("java.lang.Object");%>
-<%String keyType = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50 ? keyFeature.getObjectType(genClass) : objectType;%>
-<%String valueType = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50 ? valueFeature.getObjectType(genClass) : objectType;%>
-<%String eMapType = genModel.getImportedName("org.eclipse.emf.common.util.EMap") + (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50 ? "<" + keyType + ", " + valueType + ">" : "");%>
+<%String keyType = isJDK50 ? keyFeature.getObjectType(genClass) : objectType;%>
+<%String valueType = isJDK50 ? valueFeature.getObjectType(genClass) : objectType;%>
+<%String eMapType = genModel.getImportedName("org.eclipse.emf.common.util.EMap") + (isJDK50 ? "<" + keyType + ", " + valueType + ">" : "");%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2025,7 +2028,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	 */
 	public <%=keyType%> getKey()
 	{
-  <%if (keyFeature.isPrimitiveType()) {%>
+  <%if (!isJDK50 && keyFeature.isPrimitiveType()) {%>
 		return new <%=keyFeature.getObjectType(genClass)%>(getTypedKey());
   <%} else {%>
 		return getTypedKey();
@@ -2041,7 +2044,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	{
   <%if (keyFeature.isListType()) {%>
 		getTypedKey().addAll(<%if (!genModel.useGenerics()) {%>(<%=genModel.getImportedName("java.util.Collection")%>)<%}%>key);
-  <%} else if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%>
+  <%} else if (isJDK50) {%>
 		setTypedKey(key);
   <%} else if (keyFeature.isPrimitiveType()) {%>
 		setTypedKey(((<%=keyFeature.getObjectType(genClass)%>)key).<%=keyFeature.getPrimitiveValueFunction()%>());
@@ -2057,7 +2060,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	 */
 	public <%=valueType%> getValue()
 	{
-  <%if (valueFeature.isPrimitiveType()) {%>
+  <%if (!isJDK50 && valueFeature.isPrimitiveType()) {%>
 		return new <%=valueFeature.getObjectType(genClass)%>(getTypedValue());
   <%} else {%>
 		return getTypedValue();
@@ -2075,7 +2078,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
   <%if (valueFeature.isListType()) {%>
 		getTypedValue().clear();
 		getTypedValue().addAll(<%if (!genModel.useGenerics()) {%>(<%=genModel.getImportedName("java.util.Collection")%>)<%}%>value);
-  <%} else if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {%>
+  <%} else if (isJDK50) {%>
 		setTypedValue(value);
   <%} else if (valueFeature.isPrimitiveType()) {%>
 		setTypedValue(((<%=valueFeature.getObjectType(genClass)%>)value).<%=valueFeature.getPrimitiveValueFunction()%>());

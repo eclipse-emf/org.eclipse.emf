@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.98 2008/12/15 17:27:07 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.99 2008/12/22 14:25:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2316,9 +2316,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       case GenModelPackage.GEN_CLASS__PROVIDER:
         return getProvider();
       case GenModelPackage.GEN_CLASS__IMAGE:
-        return isImage() ? Boolean.TRUE : Boolean.FALSE;
+        return isImage();
       case GenModelPackage.GEN_CLASS__DYNAMIC:
-        return isDynamic() ? Boolean.TRUE : Boolean.FALSE;
+        return isDynamic();
       case GenModelPackage.GEN_CLASS__ECORE_CLASS:
         if (resolve) return getEcoreClass();
         return basicGetEcoreClass();
@@ -2348,10 +2348,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         setProvider((GenProviderKind)newValue);
         return;
       case GenModelPackage.GEN_CLASS__IMAGE:
-        setImage(((Boolean)newValue).booleanValue());
+        setImage((Boolean)newValue);
         return;
       case GenModelPackage.GEN_CLASS__DYNAMIC:
-        setDynamic(((Boolean)newValue).booleanValue());
+        setDynamic((Boolean)newValue);
         return;
       case GenModelPackage.GEN_CLASS__ECORE_CLASS:
         setEcoreClass((EClass)newValue);

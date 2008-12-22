@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.21 2008/05/31 11:55:10 emerks Exp $
+ * $Id: GenEnumImpl.java,v 1.22 2008/12/22 14:25:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -247,7 +247,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     switch (featureID)
     {
       case GenModelPackage.GEN_ENUM__TYPE_SAFE_ENUM_COMPATIBLE:
-        return isTypeSafeEnumCompatible() ? Boolean.TRUE : Boolean.FALSE;
+        return isTypeSafeEnumCompatible();
       case GenModelPackage.GEN_ENUM__ECORE_ENUM:
         if (resolve) return getEcoreEnum();
         return basicGetEcoreEnum();
@@ -269,7 +269,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     switch (featureID)
     {
       case GenModelPackage.GEN_ENUM__TYPE_SAFE_ENUM_COMPATIBLE:
-        setTypeSafeEnumCompatible(((Boolean)newValue).booleanValue());
+        setTypeSafeEnumCompatible((Boolean)newValue);
         return;
       case GenModelPackage.GEN_ENUM__ECORE_ENUM:
         setEcoreEnum((EEnum)newValue);

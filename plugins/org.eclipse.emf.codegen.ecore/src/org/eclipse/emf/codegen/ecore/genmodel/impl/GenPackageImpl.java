@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.87 2008/12/11 00:37:16 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.88 2008/12/22 14:25:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1457,11 +1457,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__RESOURCE:
         return getResource();
       case GenModelPackage.GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY:
-        return isDisposableProviderFactory() ? Boolean.TRUE : Boolean.FALSE;
+        return isDisposableProviderFactory();
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
-        return isAdapterFactory() ? Boolean.TRUE : Boolean.FALSE;
+        return isAdapterFactory();
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
-        return isLoadInitialization() ? Boolean.TRUE : Boolean.FALSE;
+        return isLoadInitialization();
       case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
         return getInterfacePackageSuffix();
       case GenModelPackage.GEN_PACKAGE__META_DATA_PACKAGE_SUFFIX:
@@ -1477,19 +1477,19 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
         return getTestsPackageSuffix();
       case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
-        return isGenerateExampleClass() ? Boolean.TRUE : Boolean.FALSE;
+        return isGenerateExampleClass();
       case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
-        return isLiteralsInterface() ? Boolean.TRUE : Boolean.FALSE;
+        return isLiteralsInterface();
       case GenModelPackage.GEN_PACKAGE__DATA_TYPE_CONVERTERS:
-        return isDataTypeConverters() ? Boolean.TRUE : Boolean.FALSE;
+        return isDataTypeConverters();
       case GenModelPackage.GEN_PACKAGE__MULTIPLE_EDITOR_PAGES:
-        return isMultipleEditorPages() ? Boolean.TRUE : Boolean.FALSE;
+        return isMultipleEditorPages();
       case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
-        return isGenerateModelWizard() ? Boolean.TRUE : Boolean.FALSE;
+        return isGenerateModelWizard();
       case GenModelPackage.GEN_PACKAGE__EXTENSIBLE_PROVIDER_FACTORY:
-        return isExtensibleProviderFactory() ? Boolean.TRUE : Boolean.FALSE;
+        return isExtensibleProviderFactory();
       case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
-        return isChildCreationExtenders() ? Boolean.TRUE : Boolean.FALSE;
+        return isChildCreationExtenders();
       case GenModelPackage.GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER:
         return getContentTypeIdentifier();
       case GenModelPackage.GEN_PACKAGE__FILE_EXTENSIONS:
@@ -1534,13 +1534,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         setResource((GenResourceKind)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY:
-        setDisposableProviderFactory(((Boolean)newValue).booleanValue());
+        setDisposableProviderFactory((Boolean)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
-        setAdapterFactory(((Boolean)newValue).booleanValue());
+        setAdapterFactory((Boolean)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
-        setLoadInitialization(((Boolean)newValue).booleanValue());
+        setLoadInitialization((Boolean)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
         setInterfacePackageSuffix((String)newValue);
@@ -1564,25 +1564,25 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         setTestsPackageSuffix((String)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
-        setGenerateExampleClass(((Boolean)newValue).booleanValue());
+        setGenerateExampleClass((Boolean)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
-        setLiteralsInterface(((Boolean)newValue).booleanValue());
+        setLiteralsInterface((Boolean)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__DATA_TYPE_CONVERTERS:
-        setDataTypeConverters(((Boolean)newValue).booleanValue());
+        setDataTypeConverters((Boolean)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__MULTIPLE_EDITOR_PAGES:
-        setMultipleEditorPages(((Boolean)newValue).booleanValue());
+        setMultipleEditorPages((Boolean)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
-        setGenerateModelWizard(((Boolean)newValue).booleanValue());
+        setGenerateModelWizard((Boolean)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__EXTENSIBLE_PROVIDER_FACTORY:
-        setExtensibleProviderFactory(((Boolean)newValue).booleanValue());
+        setExtensibleProviderFactory((Boolean)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__CHILD_CREATION_EXTENDERS:
-        setChildCreationExtenders(((Boolean)newValue).booleanValue());
+        setChildCreationExtenders((Boolean)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__CONTENT_TYPE_IDENTIFIER:
         setContentTypeIdentifier((String)newValue);

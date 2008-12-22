@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.EStructuralFeature org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.15 2008/08/29 18:25:12 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.EStructuralFeature org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.16 2008/12/22 14:25:18 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -442,10 +442,10 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		{
 <%if (genDataType.getGenPackage().isDataTypeConverters()) {%>
 			<%=genDataType.getImportedParameterizedInstanceClassName()%> result<%=genDataType.getName()%>Value = <%=genDataType.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=genDataType.getName()%>(<%=genDataType.getSafeUncapName()%>.popValue());
-<%} else if (genDataType.isPrimitiveType()) {%>
+<%} else if (genDataType.isPrimitiveType() && genModel.getComplianceLevel().getValue() < GenJDKLevel.JDK50) {%>
 			<%=genDataType.getImportedInstanceClassName()%> result<%=genDataType.getName()%>Value = ((<%=genDataType.getObjectInstanceClassName()%>)<%=genDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=genDataType.getQualifiedClassifierAccessor()%>, <%=genDataType.getSafeUncapName()%>.popValue())).<%=genDataType.getPrimitiveValueFunction()%>();
 <%} else {%>
-			<%=genDataType.getImportedInstanceClassName()%> result<%=genDataType.getName()%>Value = (<%=genDataType.getImportedInstanceClassName()%>)<%=genDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=genDataType.getQualifiedClassifierAccessor()%>, <%=genDataType.getSafeUncapName()%>.popValue());
+			<%=genDataType.getImportedInstanceClassName()%> result<%=genDataType.getName()%>Value = (<%=genDataType.getObjectInstanceClassName()%>)<%=genDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=genDataType.getQualifiedClassifierAccessor()%>, <%=genDataType.getSafeUncapName()%>.popValue());
 <%}%>
 			this.<%=genDataType.getSafeUncapName()%> = <%=genDataType.getSafeUncapName()%>;
 			return result<%=genDataType.getName()%>Value;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Literals.java,v 1.9 2008/12/13 15:50:59 emerks Exp $
+ * $Id: Literals.java,v 1.10 2008/12/22 14:25:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -87,40 +87,40 @@ public class Literals
   {
     if (o instanceof Boolean)
     {
-      return toBooleanLiteral(((Boolean)o).booleanValue(), boxPrimitive, genModel);
+      return toBooleanLiteral((Boolean)o, boxPrimitive, genModel);
     }
     if (o instanceof Byte)
     {
-      return toByteLiteral(((Byte)o).byteValue(), boxPrimitive, genModel);
+      return toByteLiteral((Byte)o, boxPrimitive, genModel);
     }
     if (o instanceof Short)
     {
-      String result = toShortLiteral(((Short)o).shortValue(), genModel);
+      String result = toShortLiteral((Short)o, genModel);
       return boxPrimitive ? box(result, "Short", "short", genModel) : result;
     }
     if (o instanceof Integer)
     {
-      String result =  toIntLiteral(((Integer)o).intValue(), genModel);
+      String result =  toIntLiteral((Integer)o, genModel);
       return boxPrimitive ? box(result, "Integer", null, genModel) : result;
     }
     if (o instanceof Long)
     {
-      String result = toLongLiteral(((Long)o).longValue(), genModel);
+      String result = toLongLiteral((Long)o, genModel);
       return boxPrimitive ? box(result, "Long", null, genModel) : result;
     }
     if (o instanceof Float)
     {
-      String result = toFloatLiteral(((Float)o).floatValue(), genModel);
+      String result = toFloatLiteral((Float)o, genModel);
       return boxPrimitive ? box(result, "Float", null, genModel) : result;
     }
     if (o instanceof Double)
     {
-      String result = toDoubleLiteral(((Double)o).doubleValue(), genModel);
+      String result = toDoubleLiteral((Double)o, genModel);
       return boxPrimitive ? box(result, "Double", null, genModel) : result;
     }
     if (o instanceof Character)
     {
-      String result = toCharLiteral(((Character)o).charValue(), genModel);
+      String result = toCharLiteral((Character)o, genModel);
       return boxPrimitive ? box(result, "Character", null, genModel) : result;
     }
     if (o instanceof String)
