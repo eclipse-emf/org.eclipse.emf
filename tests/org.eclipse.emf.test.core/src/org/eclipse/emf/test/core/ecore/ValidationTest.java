@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidationTest.java,v 1.6 2007/01/18 15:53:11 marcelop Exp $
+ * $Id: ValidationTest.java,v 1.7 2008/12/22 14:26:10 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -285,7 +285,7 @@ public class ValidationTest extends TestCase
     numberOfChildren.setName("numberOfChildren");
     numberOfChildren.setEType(EcorePackage.Literals.EINT);
     numberOfChildren.setLowerBound(1);
-    numberOfChildren.setDefaultValue(new Integer(0));
+    numberOfChildren.setDefaultValue(0);
     numberOfChildren.setUnsettable(true);
     
     EAttribute leftHanded = EcoreFactory.eINSTANCE.createEAttribute();
@@ -303,12 +303,12 @@ public class ValidationTest extends TestCase
     
     EObject john = EcoreUtil.create(person);
     assertEquals(Diagnostic.ERROR, Diagnostician.INSTANCE.validate(john).getSeverity());
-    john.eSet(numberOfChildren, new Integer(0)); //<== default value
+    john.eSet(numberOfChildren, 0); //<== default value
     assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
     
     john.eUnset(age); //<== uses the int intrinsic default
     assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
-    john.eSet(age, new Integer(30));
+    john.eSet(age, 30);
     assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
     
     john.eSet(name, null);
@@ -322,7 +322,7 @@ public class ValidationTest extends TestCase
     
     john.eUnset(numberOfChildren);
     assertEquals(Diagnostic.ERROR, Diagnostician.INSTANCE.validate(john).getSeverity());
-    john.eSet(numberOfChildren, new Integer(4));
+    john.eSet(numberOfChildren, 4);
     assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
     john.eSet(numberOfChildren, null);
     assertEquals(Diagnostic.ERROR, Diagnostician.INSTANCE.validate(john).getSeverity());

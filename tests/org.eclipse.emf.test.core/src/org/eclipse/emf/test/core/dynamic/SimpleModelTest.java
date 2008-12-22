@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleModelTest.java,v 1.17 2007/03/20 13:54:50 emerks Exp $
+ * $Id: SimpleModelTest.java,v 1.18 2008/12/22 14:26:10 emerks Exp $
  */
 package org.eclipse.emf.test.core.dynamic;
 
@@ -200,8 +200,8 @@ public class SimpleModelTest extends TestCase
     EObject department = companyFactory.create(departmentClass);
     department.eSet(departmentName, "ABC");
     assertEquals("ABC", department.eGet(departmentName));
-    department.eSet(departmentNumber, new Integer(123));
-    assertEquals(new Integer(123), department.eGet(departmentNumber));
+    department.eSet(departmentNumber, 123);
+    assertEquals(123, department.eGet(departmentNumber));
   }
 
   public void testReference()

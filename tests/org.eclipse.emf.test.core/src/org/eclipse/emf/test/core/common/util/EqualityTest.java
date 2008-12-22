@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EqualityTest.java,v 1.7 2007/06/02 19:36:04 emerks Exp $
+ * $Id: EqualityTest.java,v 1.8 2008/12/22 14:26:10 emerks Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -193,17 +193,17 @@ public class EqualityTest extends TestCase
     List<Integer> ratings1 = (List<Integer>)employee1.eGet(ratingsAttr);
     @SuppressWarnings("unchecked")
     List<Integer> ratings2 = (List<Integer>)employee2.eGet(ratingsAttr);
-    ratings1.add(new Integer(456));
-    ratings1.add(new Integer(123));
-    ratings2.add(new Integer(123));
-    ratings2.add(new Integer(456));
+    ratings1.add(456);
+    ratings1.add(123);
+    ratings2.add(123);
+    ratings2.add(456);
     assertTrue(!EcoreUtil.equals(employee1, employee2));
     ratings1.clear();
     ratings2.clear();
-    ratings1.add(new Integer(123));
-    ratings1.add(new Integer(456));
-    ratings2.add(new Integer(123));
-    ratings2.add(new Integer(456));
+    ratings1.add(123);
+    ratings1.add(456);
+    ratings2.add(123);
+    ratings2.add(456);
     assertTrue(EcoreUtil.equals(employee1, employee2));
   }
 

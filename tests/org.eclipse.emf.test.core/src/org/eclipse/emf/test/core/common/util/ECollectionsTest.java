@@ -179,11 +179,11 @@ public class ECollectionsTest extends TestCase
   {
     list.add(null);            //0
     list.add(Boolean.FALSE);   //1
-    list.add(new Integer(1));  //2
-    list.add(new Integer(2));  //3
+    list.add(1);  //2
+    list.add(2);  //3
     list.add(null);            //4
     list.add("String");        //5
-    list.add(new Integer(1));  //6
+    list.add(1);  //6
     list.add("String");        //7
     list.add(Boolean.FALSE);   //8
 
@@ -201,9 +201,9 @@ public class ECollectionsTest extends TestCase
     assertEquals(-1, ECollections.indexOf(list, Boolean.FALSE, 9));
     assertEquals(1, ECollections.indexOf(list, Boolean.FALSE, -2));
     
-    assertEquals(2, ECollections.indexOf(list, new Integer(1), 0));
-    assertEquals(2, ECollections.indexOf(list, new Integer(1), 2));
-    assertEquals(6, ECollections.indexOf(list, new Integer(1), 3));
+    assertEquals(2, ECollections.indexOf(list, 1, 0));
+    assertEquals(2, ECollections.indexOf(list, 1, 2));
+    assertEquals(6, ECollections.indexOf(list, 1, 3));
     
     assertEquals(5, ECollections.indexOf(list, "String", 3));
     
@@ -248,7 +248,7 @@ public class ECollectionsTest extends TestCase
     EList<Object> originalList = new BasicEList<Object>();
     originalList.add("pos0");
     originalList.add("pos1");
-    originalList.add(new Integer(2));
+    originalList.add(2);
     originalList.add("pos3");
     
     EList<Object> eList = new BasicEList<Object>(originalList);
@@ -291,7 +291,7 @@ public class ECollectionsTest extends TestCase
     EList<Object> originalList = new BasicEList<Object>();
     originalList.add("pos0");
     originalList.add("pos1");
-    originalList.add(new Integer(2));
+    originalList.add(2);
     originalList.add("pos3");
     
     EList<Object> eList = new BasicEList<Object>(originalList);

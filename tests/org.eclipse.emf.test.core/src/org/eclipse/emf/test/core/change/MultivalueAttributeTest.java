@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MultivalueAttributeTest.java,v 1.12 2008/05/04 10:59:07 emerks Exp $
+ * $Id: MultivalueAttributeTest.java,v 1.13 2008/12/22 14:26:10 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -120,12 +120,12 @@ public class MultivalueAttributeTest extends TestCase
    
   public void testMultiValueAttributeChange() throws Exception
   {
-    getManyInt().add(new Integer(1));
+    getManyInt().add(1);
     
     ChangeRecorder changeRecorder = new ChangeRecorder(thing);
     
-    getManyInt().add(new Integer(2));
-    getManyInt().add(new Integer(3));
+    getManyInt().add(2);
+    getManyInt().add(3);
     getManyInt().remove(0);
     
     ChangeDescription changeDescription = changeRecorder.endRecording();
@@ -147,7 +147,7 @@ public class MultivalueAttributeTest extends TestCase
         {
           assertEquals(0, listChange.getIndex());
           assertEquals(1, listChange.getValues().size());
-          assertEquals(new Integer(1), listChange.getValues().get(0));
+          assertEquals(1, listChange.getValues().get(0));
           break;
         }
         case ChangeKind.REMOVE:
@@ -160,10 +160,10 @@ public class MultivalueAttributeTest extends TestCase
     assertEquals(2, count);
         
     assertEquals(2, getManyInt().size());
-    assertFalse(getManyInt().contains(new Integer(1)));
+    assertFalse(getManyInt().contains(1));
     changeDescription.apply();
     assertEquals(1, getManyInt().size());
-    assertTrue(getManyInt().contains(new Integer(1)));
+    assertTrue(getManyInt().contains(1));
   }
   
   /*
@@ -174,8 +174,8 @@ public class MultivalueAttributeTest extends TestCase
     List<Integer> beforeChange = new ArrayList<Integer>(getManyInt());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(thing);
-    getManyInt().add(new Integer(2));
-    getManyInt().add(new Integer(3));
+    getManyInt().add(2);
+    getManyInt().add(3);
     ChangeDescription changeDescription = changeRecorder.endRecording();
     
     List<Integer> afterChange = new ArrayList<Integer>(getManyInt());
@@ -200,14 +200,14 @@ public class MultivalueAttributeTest extends TestCase
    */
   public void testSerialization() throws Exception
   {
-    getManyInt().add(new Integer(1));
+    getManyInt().add(1);
     getManyString().add("a");
     List<Integer> intBeforeChange = new ArrayList<Integer>(getManyInt());
     List<String> stringBeforeChange = new ArrayList<String>(getManyString());
     
     ChangeRecorder changeRecorder = new ChangeRecorder(thing);
-    getManyInt().add(new Integer(2));
-    getManyInt().add(new Integer(3));
+    getManyInt().add(2);
+    getManyInt().add(3);
     getManyString().add("b");
     getManyString().add("c");
     ChangeDescription changeDescription = changeRecorder.endRecording();

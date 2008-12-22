@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationTest.java,v 1.4 2008/11/01 10:43:26 emerks Exp $
+ * $Id: NotificationTest.java,v 1.5 2008/12/22 14:26:10 emerks Exp $
  */
 package org.eclipse.emf.test.core.common;
 
@@ -233,16 +233,16 @@ public class NotificationTest extends TestCase
         new NotificationResult(c, Notification.ADD_MANY, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, null, Arrays.asList(a2, a3, a4, a5), true, false, false, 1),
         new NotificationResult(c, Notification.REMOVE, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, a2, null, true, false, false, 1),
         new NotificationResult(c, Notification.REMOVE_MANY, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, Arrays.asList(a3, a4), new int[] { 1, 2 }, true, false, false, 1),
-        new NotificationResult(c, Notification.MOVE, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, new Integer(1), a5, true, false, false, 0),
-        new NotificationResult(c, Notification.MOVE, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, new Integer(0), a5, true, true, false, 0),
+        new NotificationResult(c, Notification.MOVE, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, 1, a5, true, false, false, 0),
+        new NotificationResult(c, Notification.MOVE, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, 0, a5, true, true, false, 0),
         new NotificationResult(c, Notification.SET, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, a5, a2, true, false, false, 0),
         new NotificationResult(c, Notification.SET, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, a2, a2, true, true, false, 0),
         new NotificationResult(a1, Notification.SET, EAttribute.class, nameInt, name, "a1", "a1", true, true, false, -1),
         new NotificationResult(a1, Notification.SET, EAttribute.class, nameInt, name, "a1", null, true, false, true, -1),
         new NotificationResult(a1, Notification.SET, EAttribute.class, nameInt, name, null, null, false, true, true, -1),
-        new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, new Integer(1), new Integer(1), false, true, true, -1),
-        new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, new Integer(1), new Integer(-1), false, false, false, -1),
-        new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, new Integer(-1), new Integer(-1), true, true, false, -1)
+        new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, 1, 1, false, true, true, -1),
+        new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, 1, -1, false, false, false, -1),
+        new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, -1, -1, true, true, false, -1)
       };
     NotificationTester tester = new NotificationTester(expected);
 
