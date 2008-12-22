@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverter.java,v 1.5 2007/05/07 14:42:05 emerks Exp $
+ * $Id: ModelConverter.java,v 1.6 2008/12/22 14:24:37 emerks Exp $
  */
 package org.eclipse.emf.converter;
 
@@ -490,7 +490,7 @@ public abstract class ModelConverter
             Integer counterObject = dataToCounter.get(data);
             if (counterObject != null)
             {
-              int counter = counterObject.intValue();
+              int counter = counterObject;
               int index = data.lastIndexOf(".");
               StringBuffer newValue = null;
               do
@@ -500,12 +500,12 @@ public abstract class ModelConverter
               while (dataToCounter.containsKey(newValue.toString()));
               
               packageInfo.setConvertData(newValue.toString());
-              counterObject = new Integer(counter);
-              dataToCounter.put(newValue.toString(), new Integer(1));
+              counterObject = counter;
+              dataToCounter.put(newValue.toString(), 1);
             }
             else
             {
-              counterObject = new Integer(1);
+              counterObject = 1;
             }        
             dataToCounter.put(data, counterObject);
           }
