@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: BookImpl.java,v 1.4 2007/06/04 18:49:09 emerks Exp $
+ * $Id: BookImpl.java,v 1.5 2008/12/22 14:25:59 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -370,7 +370,7 @@ public class BookImpl extends EObjectImpl implements Book
       case ElementsPackage.BOOK__TITLE:
         return getTitle();
       case ElementsPackage.BOOK__PAGES:
-        return new Integer(getPages());
+        return getPages();
       case ElementsPackage.BOOK__CATEGORY:
         return getCategory();
       case ElementsPackage.BOOK__AUTHOR:
@@ -396,7 +396,7 @@ public class BookImpl extends EObjectImpl implements Book
         setTitle((String)newValue);
         return;
       case ElementsPackage.BOOK__PAGES:
-        setPages(((Integer)newValue).intValue());
+        setPages((Integer)newValue);
         return;
       case ElementsPackage.BOOK__CATEGORY:
         setCategory((BookCategory)newValue);

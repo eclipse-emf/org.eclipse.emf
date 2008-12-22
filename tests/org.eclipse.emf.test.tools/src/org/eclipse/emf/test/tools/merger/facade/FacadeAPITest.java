@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeAPITest.java,v 1.3 2007/01/18 15:53:00 marcelop Exp $
+ * $Id: FacadeAPITest.java,v 1.4 2008/12/22 14:25:59 emerks Exp $
  */
 
 package org.eclipse.emf.test.tools.merger.facade;
@@ -138,10 +138,10 @@ public class FacadeAPITest extends TestCase
       @Override
      protected boolean basicVisit(JNode node)
      {
-       String message = "bool:" + bool.get(0).booleanValue() 
+       String message = "bool:" + bool.get(0)
          + " node:" + node.getClass().getName() 
          + " disposed: " + facadeHelper.isDisposed(node);
-       assertTrue(message, bool.get(0).booleanValue() == facadeHelper.isDisposed(node));
+       assertTrue(message, bool.get(0) == facadeHelper.isDisposed(node));
        return true;
      }
     };
