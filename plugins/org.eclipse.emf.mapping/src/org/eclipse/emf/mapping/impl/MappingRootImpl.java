@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootImpl.java,v 1.10 2006/12/29 18:29:09 marcelop Exp $
+ * $Id: MappingRootImpl.java,v 1.11 2008/12/22 14:26:20 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -248,9 +248,9 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     switch (featureID)
     {
       case MappingPackage.MAPPING_ROOT__OUTPUT_READ_ONLY:
-        return isOutputReadOnly() ? Boolean.TRUE : Boolean.FALSE;
+        return isOutputReadOnly();
       case MappingPackage.MAPPING_ROOT__TOP_TO_BOTTOM:
-        return isTopToBottom() ? Boolean.TRUE : Boolean.FALSE;
+        return isTopToBottom();
       case MappingPackage.MAPPING_ROOT__COMMAND_STACK:
         return getCommandStack();
     }
@@ -268,10 +268,10 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
     switch (featureID)
     {
       case MappingPackage.MAPPING_ROOT__OUTPUT_READ_ONLY:
-        setOutputReadOnly(((Boolean)newValue).booleanValue());
+        setOutputReadOnly((Boolean)newValue);
         return;
       case MappingPackage.MAPPING_ROOT__TOP_TO_BOTTOM:
-        setTopToBottom(((Boolean)newValue).booleanValue());
+        setTopToBottom((Boolean)newValue);
         return;
       case MappingPackage.MAPPING_ROOT__COMMAND_STACK:
         setCommandStack((String)newValue);

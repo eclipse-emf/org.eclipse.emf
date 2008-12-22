@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistentCommandStack.java,v 1.6 2008/12/13 15:56:51 emerks Exp $
+ * $Id: PersistentCommandStack.java,v 1.7 2008/12/22 14:26:20 emerks Exp $
  */
 package org.eclipse.emf.mapping.command;
 
@@ -419,8 +419,8 @@ public class PersistentCommandStack extends BasicCommandStack
           index = string.indexOf(">", index) + 1;
 
           float location = ((Float)decode()).floatValue();
-          int operations = ((Integer)decode()).intValue();
-          int operation = ((Integer)decode()).intValue();
+          int operations = (Integer)decode();
+          int operation = (Integer)decode();
 
           index = string.indexOf(">", index) + 1;
 
@@ -434,7 +434,7 @@ public class PersistentCommandStack extends BasicCommandStack
           Object feature = decode();
           Collection<?> collection = (Collection<?>)decode();
           Object value = decode();
-          int theIndex = ((Integer)decode()).intValue();
+          int theIndex = (Integer)decode();
 
           index = string.indexOf(">", index) + 1;
 
@@ -498,7 +498,7 @@ public class PersistentCommandStack extends BasicCommandStack
         {
           index = string.indexOf(">", index) + 1;
           Collection<?> mappedObjects = (Collection<?>)decode();
-          int value = ((Integer)decode()).intValue();
+          int value = (Integer)decode();
           index = string.indexOf(">", index) + 1;
 
           Collection<?> collection = mappingRoot.getExactMappings(mappedObjects);
