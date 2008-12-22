@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.35 2008/12/22 14:24:54 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.36 2008/12/22 19:51:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -342,12 +342,17 @@ public class EcoreValidator extends EObjectValidator
   public static final int WELL_FORMED_MAP_ENTRY_NO_INSTANCE_CLASS_NAME = 49;
 
   /**
+   * @see #validateEReference_ConsistentUnique(EReference, DiagnosticChain, Map)
+   */
+  public static final int CONSISTENT_UNIQUE = 40;
+  
+  /**
    * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected static final int DIAGNOSTIC_CODE_COUNT = WELL_FORMED_MAP_ENTRY_NO_INSTANCE_CLASS_NAME;
+  protected static final int DIAGNOSTIC_CODE_COUNT = CONSISTENT_UNIQUE;
 
   /**
    * The cached base package validator.
@@ -2223,6 +2228,7 @@ public class EcoreValidator extends EObjectValidator
     if (result || diagnostics != null) result &= validateEReference_ConsistentOpposite(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validateEReference_SingleContainer(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validateEReference_ConsistentKeys(eReference, diagnostics, context);
+    if (result || diagnostics != null) result &= validateEReference_ConsistentUnique(eReference, diagnostics, context);
     return result;
   }
 
@@ -2399,6 +2405,38 @@ public class EcoreValidator extends EObjectValidator
             }
           }
         }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Validates the ConsistentUnique constraint of '<em>EReference</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean validateEReference_ConsistentUnique(EReference eReference, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    // Multi-valued references that are containment or bidirectional must be unique.
+    //
+    boolean result = true;
+    if (eReference.isMany() && 
+          (eReference.isContainment() || eReference.getEOpposite() != null) &&
+          !eReference.isUnique())
+    {
+      result = false;
+      if (diagnostics != null)
+      {
+        diagnostics.add
+          (createDiagnostic
+            (Diagnostic.ERROR,
+             DIAGNOSTIC_SOURCE,
+             CONSISTENT_UNIQUE,
+             "_UI_EReferenceConsistentUnique_diagnostic",
+             null,
+             new Object[] { eReference },
+             context));
       }
     }
     return result;

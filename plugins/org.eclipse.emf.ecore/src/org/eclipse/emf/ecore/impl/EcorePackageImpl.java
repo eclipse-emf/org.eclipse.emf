@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.26 2008/08/02 15:22:20 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.27 2008/12/22 19:51:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2462,7 +2462,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        source, 
        new String[] 
        {
-       "constraints", "ConsistentOpposite SingleContainer ConsistentKeys"
+       "constraints", "ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique"
        });		
     addAnnotation
       (eStructuralFeatureEClass, 
