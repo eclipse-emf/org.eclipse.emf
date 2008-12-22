@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.26 2008/09/08 11:46:49 emerks Exp $
+ * $Id: JMerger.java,v 1.27 2008/12/22 14:25:30 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -1208,12 +1208,11 @@ public class JMerger
       System.out.println("**********************************************");
       System.out.println(contents);
 
-      return new Integer(0);
+      return 0;
     }
     catch (Exception exception)
     {
-      // exception.printStackTrace();
-      return new Integer(1);
+      return 1;
     }
   }
 

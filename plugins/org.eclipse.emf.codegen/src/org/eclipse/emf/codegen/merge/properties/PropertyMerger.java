@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.6 2007/04/09 18:04:00 emerks Exp $
+ * $Id: PropertyMerger.java,v 1.7 2008/12/22 14:25:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.properties;
 
@@ -274,12 +274,11 @@ public class PropertyMerger
       System.out.println("**********************************************");
       System.out.println(targetProperties);
 
-      return new Integer(0);
+      return 0;
     }
     catch (Exception exception)
     {
-      // exception.printStackTrace();
-      return new Integer(1);
+      return 1;
     }
   }
   

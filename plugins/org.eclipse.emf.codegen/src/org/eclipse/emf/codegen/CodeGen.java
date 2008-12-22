@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGen.java,v 1.13 2006/12/28 12:35:19 emerks Exp $
+ * $Id: CodeGen.java,v 1.14 2008/12/22 14:25:31 emerks Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -237,13 +237,13 @@ public class CodeGen
             }
           };
         workspace.run(runnable, new CodeGenUtil.EclipseUtil.StreamProgressMonitor(System.out));
-        return new Integer(0);
+        return 0;
       }
       catch (Exception exception)
       {
         System.err.println(CodeGenPlugin.getPlugin().getString("_UI_UsageArguments_message"));
         exception.printStackTrace();
-        return new Integer(1);
+        return 1;
       }
     }
   }

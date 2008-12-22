@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETMark.java,v 1.6 2006/12/29 18:03:52 marcelop Exp $
+ * $Id: JETMark.java,v 1.7 2008/12/22 14:25:30 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -248,9 +248,9 @@ public final class JETMark
          new Object [] 
          { 
            getLocalFile(),
-           new Integer(line + 1),
-           new Integer(col + 1),
-           new Integer(cursor)
+           line + 1,
+           col + 1,
+           cursor
          });
   }
 

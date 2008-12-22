@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJField.java,v 1.10 2008/05/04 17:03:21 emerks Exp $
+ * $Id: ASTJField.java,v 1.11 2008/12/22 14:25:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -325,7 +325,7 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
     performSplit();
     
     this.type = type;
-    setNodeProperty(variableDeclarationFragment, new Integer(0), VariableDeclarationFragment.EXTRA_DIMENSIONS_PROPERTY);
+    setNodeProperty(variableDeclarationFragment, 0, VariableDeclarationFragment.EXTRA_DIMENSIONS_PROPERTY);
     setTrackedNodeProperty(getASTNode(), type, FieldDeclaration.TYPE_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
