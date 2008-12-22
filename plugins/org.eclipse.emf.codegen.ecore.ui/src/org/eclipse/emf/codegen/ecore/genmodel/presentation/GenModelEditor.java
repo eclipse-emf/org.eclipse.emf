@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.58 2008/12/20 15:58:55 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.59 2008/12/22 14:26:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1510,14 +1510,13 @@ public class GenModelEditor
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   public void gotoMarker(IMarker marker)
   {
     try
     {
-      // TODO Hack that should be removed.
-      if (marker.exists() && marker.getType().equals(EValidator.MARKER))
+      if (marker.getType().equals(EValidator.MARKER))
       {
         String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
         if (uriAttribute != null)

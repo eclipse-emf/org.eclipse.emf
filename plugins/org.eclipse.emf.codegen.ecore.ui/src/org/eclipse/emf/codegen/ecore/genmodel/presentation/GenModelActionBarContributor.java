@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.23 2008/12/19 00:19:12 marcelop Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.24 2008/12/22 14:26:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -614,8 +614,8 @@ public class GenModelActionBarContributor
   public GenModelActionBarContributor()
   {
     super(ADDITIONS_LAST_STYLE);
-    showGenAnnotationsAction.setChecked(
-      Boolean.valueOf(GenModelEditPlugin.getPlugin().getDialogSettings().get("showGenAnnotationsAction")).booleanValue());
+    showGenAnnotationsAction.setChecked
+     (Boolean.parseBoolean(GenModelEditPlugin.getPlugin().getDialogSettings().get("showGenAnnotationsAction")));
   }
   
   @Override
