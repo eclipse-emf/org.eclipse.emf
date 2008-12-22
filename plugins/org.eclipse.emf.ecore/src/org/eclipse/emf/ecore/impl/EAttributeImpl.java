@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeImpl.java,v 1.14 2007/01/16 21:55:18 emerks Exp $
+ * $Id: EAttributeImpl.java,v 1.15 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -231,40 +231,40 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
       case EcorePackage.EATTRIBUTE__NAME:
         return getName();
       case EcorePackage.EATTRIBUTE__ORDERED:
-        return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
+        return isOrdered();
       case EcorePackage.EATTRIBUTE__UNIQUE:
-        return isUnique() ? Boolean.TRUE : Boolean.FALSE;
+        return isUnique();
       case EcorePackage.EATTRIBUTE__LOWER_BOUND:
-        return new Integer(getLowerBound());
+        return getLowerBound();
       case EcorePackage.EATTRIBUTE__UPPER_BOUND:
-        return new Integer(getUpperBound());
+        return getUpperBound();
       case EcorePackage.EATTRIBUTE__MANY:
-        return isMany() ? Boolean.TRUE : Boolean.FALSE;
+        return isMany();
       case EcorePackage.EATTRIBUTE__REQUIRED:
-        return isRequired() ? Boolean.TRUE : Boolean.FALSE;
+        return isRequired();
       case EcorePackage.EATTRIBUTE__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();
       case EcorePackage.EATTRIBUTE__EGENERIC_TYPE:
         return getEGenericType();
       case EcorePackage.EATTRIBUTE__CHANGEABLE:
-        return isChangeable() ? Boolean.TRUE : Boolean.FALSE;
+        return isChangeable();
       case EcorePackage.EATTRIBUTE__VOLATILE:
-        return isVolatile() ? Boolean.TRUE : Boolean.FALSE;
+        return isVolatile();
       case EcorePackage.EATTRIBUTE__TRANSIENT:
-        return isTransient() ? Boolean.TRUE : Boolean.FALSE;
+        return isTransient();
       case EcorePackage.EATTRIBUTE__DEFAULT_VALUE_LITERAL:
         return getDefaultValueLiteral();
       case EcorePackage.EATTRIBUTE__DEFAULT_VALUE:
         return getDefaultValue();
       case EcorePackage.EATTRIBUTE__UNSETTABLE:
-        return isUnsettable() ? Boolean.TRUE : Boolean.FALSE;
+        return isUnsettable();
       case EcorePackage.EATTRIBUTE__DERIVED:
-        return isDerived() ? Boolean.TRUE : Boolean.FALSE;
+        return isDerived();
       case EcorePackage.EATTRIBUTE__ECONTAINING_CLASS:
         return getEContainingClass();
       case EcorePackage.EATTRIBUTE__ID:
-        return isID() ? Boolean.TRUE : Boolean.FALSE;
+        return isID();
       case EcorePackage.EATTRIBUTE__EATTRIBUTE_TYPE:
         if (resolve) return getEAttributeType();
         return basicGetEAttributeType();
@@ -291,16 +291,16 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
         setName((String)newValue);
         return;
       case EcorePackage.EATTRIBUTE__ORDERED:
-        setOrdered(((Boolean)newValue).booleanValue());
+        setOrdered((Boolean)newValue);
         return;
       case EcorePackage.EATTRIBUTE__UNIQUE:
-        setUnique(((Boolean)newValue).booleanValue());
+        setUnique((Boolean)newValue);
         return;
       case EcorePackage.EATTRIBUTE__LOWER_BOUND:
-        setLowerBound(((Integer)newValue).intValue());
+        setLowerBound((Integer)newValue);
         return;
       case EcorePackage.EATTRIBUTE__UPPER_BOUND:
-        setUpperBound(((Integer)newValue).intValue());
+        setUpperBound((Integer)newValue);
         return;
       case EcorePackage.EATTRIBUTE__ETYPE:
         setEType((EClassifier)newValue);
@@ -309,25 +309,25 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
         setEGenericType((EGenericType)newValue);
         return;
       case EcorePackage.EATTRIBUTE__CHANGEABLE:
-        setChangeable(((Boolean)newValue).booleanValue());
+        setChangeable((Boolean)newValue);
         return;
       case EcorePackage.EATTRIBUTE__VOLATILE:
-        setVolatile(((Boolean)newValue).booleanValue());
+        setVolatile((Boolean)newValue);
         return;
       case EcorePackage.EATTRIBUTE__TRANSIENT:
-        setTransient(((Boolean)newValue).booleanValue());
+        setTransient((Boolean)newValue);
         return;
       case EcorePackage.EATTRIBUTE__DEFAULT_VALUE_LITERAL:
         setDefaultValueLiteral((String)newValue);
         return;
       case EcorePackage.EATTRIBUTE__UNSETTABLE:
-        setUnsettable(((Boolean)newValue).booleanValue());
+        setUnsettable((Boolean)newValue);
         return;
       case EcorePackage.EATTRIBUTE__DERIVED:
-        setDerived(((Boolean)newValue).booleanValue());
+        setDerived((Boolean)newValue);
         return;
       case EcorePackage.EATTRIBUTE__ID:
-        setID(((Boolean)newValue).booleanValue());
+        setID((Boolean)newValue);
         return;
     }
     eDynamicSet(featureID, newValue);

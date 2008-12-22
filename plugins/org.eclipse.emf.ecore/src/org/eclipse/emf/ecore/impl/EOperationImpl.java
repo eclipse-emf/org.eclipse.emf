@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.21 2008/12/13 15:55:00 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.22 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -672,7 +672,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
                    (EOperationImpl.this,
                     Notification.MOVE, 
                     EcorePackage.Literals.EOPERATION__EEXCEPTIONS,
-                    new Integer(sourceIndex),
+                    sourceIndex,
                     unwrap(result), 
                     targetIndex));
             }
@@ -827,17 +827,17 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
       case EcorePackage.EOPERATION__NAME:
         return getName();
       case EcorePackage.EOPERATION__ORDERED:
-        return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
+        return isOrdered();
       case EcorePackage.EOPERATION__UNIQUE:
-        return isUnique() ? Boolean.TRUE : Boolean.FALSE;
+        return isUnique();
       case EcorePackage.EOPERATION__LOWER_BOUND:
-        return new Integer(getLowerBound());
+        return getLowerBound();
       case EcorePackage.EOPERATION__UPPER_BOUND:
-        return new Integer(getUpperBound());
+        return getUpperBound();
       case EcorePackage.EOPERATION__MANY:
-        return isMany() ? Boolean.TRUE : Boolean.FALSE;
+        return isMany();
       case EcorePackage.EOPERATION__REQUIRED:
-        return isRequired() ? Boolean.TRUE : Boolean.FALSE;
+        return isRequired();
       case EcorePackage.EOPERATION__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();
@@ -876,16 +876,16 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
         setName((String)newValue);
         return;
       case EcorePackage.EOPERATION__ORDERED:
-        setOrdered(((Boolean)newValue).booleanValue());
+        setOrdered((Boolean)newValue);
         return;
       case EcorePackage.EOPERATION__UNIQUE:
-        setUnique(((Boolean)newValue).booleanValue());
+        setUnique((Boolean)newValue);
         return;
       case EcorePackage.EOPERATION__LOWER_BOUND:
-        setLowerBound(((Integer)newValue).intValue());
+        setLowerBound((Integer)newValue);
         return;
       case EcorePackage.EOPERATION__UPPER_BOUND:
-        setUpperBound(((Integer)newValue).intValue());
+        setUpperBound((Integer)newValue);
         return;
       case EcorePackage.EOPERATION__ETYPE:
         setEType((EClassifier)newValue);

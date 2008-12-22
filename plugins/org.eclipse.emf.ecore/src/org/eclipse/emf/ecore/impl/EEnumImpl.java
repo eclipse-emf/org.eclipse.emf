@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumImpl.java,v 1.19 2007/08/28 18:23:46 emerks Exp $
+ * $Id: EEnumImpl.java,v 1.20 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -171,7 +171,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
       case EcorePackage.EENUM__ETYPE_PARAMETERS:
         return getETypeParameters();
       case EcorePackage.EENUM__SERIALIZABLE:
-        return isSerializable() ? Boolean.TRUE : Boolean.FALSE;
+        return isSerializable();
       case EcorePackage.EENUM__ELITERALS:
         return getELiterals();
     }
@@ -207,7 +207,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
         getETypeParameters().addAll((Collection<? extends ETypeParameter>)newValue);
         return;
       case EcorePackage.EENUM__SERIALIZABLE:
-        setSerializable(((Boolean)newValue).booleanValue());
+        setSerializable((Boolean)newValue);
         return;
       case EcorePackage.EENUM__ELITERALS:
         getELiterals().clear();

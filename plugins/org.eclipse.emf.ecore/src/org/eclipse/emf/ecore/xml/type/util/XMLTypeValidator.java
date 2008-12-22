@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.14 2008/04/08 14:05:21 emerks Exp $
+ * $Id: XMLTypeValidator.java,v 1.15 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -134,11 +134,11 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.BASE64_BINARY:
         return validateBase64Binary((byte[])value, diagnostics, context);
       case XMLTypePackage.BOOLEAN:
-        return validateBoolean(((Boolean)value).booleanValue(), diagnostics, context);
+        return validateBoolean((Boolean)value, diagnostics, context);
       case XMLTypePackage.BOOLEAN_OBJECT:
         return validateBooleanObject((Boolean)value, diagnostics, context);
       case XMLTypePackage.BYTE:
-        return validateByte(((Byte)value).byteValue(), diagnostics, context);
+        return validateByte((Byte)value, diagnostics, context);
       case XMLTypePackage.BYTE_OBJECT:
         return validateByteObject((Byte)value, diagnostics, context);
       case XMLTypePackage.DATE:
@@ -148,7 +148,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.DECIMAL:
         return validateDecimal((BigDecimal)value, diagnostics, context);
       case XMLTypePackage.DOUBLE:
-        return validateDouble(((Double)value).doubleValue(), diagnostics, context);
+        return validateDouble((Double)value, diagnostics, context);
       case XMLTypePackage.DOUBLE_OBJECT:
         return validateDoubleObject((Double)value, diagnostics, context);
       case XMLTypePackage.DURATION:
@@ -160,7 +160,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.ENTITY:
         return validateENTITY((String)value, diagnostics, context);
       case XMLTypePackage.FLOAT:
-        return validateFloat(((Float)value).floatValue(), diagnostics, context);
+        return validateFloat((Float)value, diagnostics, context);
       case XMLTypePackage.FLOAT_OBJECT:
         return validateFloatObject((Float)value, diagnostics, context);
       case XMLTypePackage.GDAY:
@@ -184,7 +184,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.IDREFS_BASE:
         return validateIDREFSBase((List<?>)value, diagnostics, context);
       case XMLTypePackage.INT:
-        return validateInt(((Integer)value).intValue(), diagnostics, context);
+        return validateInt((Integer)value, diagnostics, context);
       case XMLTypePackage.INTEGER:
         return validateInteger((BigInteger)value, diagnostics, context);
       case XMLTypePackage.INT_OBJECT:
@@ -192,7 +192,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.LANGUAGE:
         return validateLanguage((String)value, diagnostics, context);
       case XMLTypePackage.LONG:
-        return validateLong(((Long)value).longValue(), diagnostics, context);
+        return validateLong((Long)value, diagnostics, context);
       case XMLTypePackage.LONG_OBJECT:
         return validateLongObject((Long)value, diagnostics, context);
       case XMLTypePackage.NAME:
@@ -220,7 +220,7 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.QNAME:
         return validateQName((QName)value, diagnostics, context);
       case XMLTypePackage.SHORT:
-        return validateShort(((Short)value).shortValue(), diagnostics, context);
+        return validateShort((Short)value, diagnostics, context);
       case XMLTypePackage.SHORT_OBJECT:
         return validateShortObject((Short)value, diagnostics, context);
       case XMLTypePackage.STRING:
@@ -230,17 +230,17 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.TOKEN:
         return validateToken((String)value, diagnostics, context);
       case XMLTypePackage.UNSIGNED_BYTE:
-        return validateUnsignedByte(((Short)value).shortValue(), diagnostics, context);
+        return validateUnsignedByte((Short)value, diagnostics, context);
       case XMLTypePackage.UNSIGNED_BYTE_OBJECT:
         return validateUnsignedByteObject((Short)value, diagnostics, context);
       case XMLTypePackage.UNSIGNED_INT:
-        return validateUnsignedInt(((Long)value).longValue(), diagnostics, context);
+        return validateUnsignedInt((Long)value, diagnostics, context);
       case XMLTypePackage.UNSIGNED_INT_OBJECT:
         return validateUnsignedIntObject((Long)value, diagnostics, context);
       case XMLTypePackage.UNSIGNED_LONG:
         return validateUnsignedLong((BigInteger)value, diagnostics, context);
       case XMLTypePackage.UNSIGNED_SHORT:
-        return validateUnsignedShort(((Integer)value).intValue(), diagnostics, context);
+        return validateUnsignedShort((Integer)value, diagnostics, context);
       case XMLTypePackage.UNSIGNED_SHORT_OBJECT:
         return validateUnsignedShortObject((Integer)value, diagnostics, context);
       default:
@@ -1270,7 +1270,7 @@ public class XMLTypeValidator extends EObjectValidator
   {
     boolean result = unsignedByte >= UNSIGNED_BYTE__MIN__VALUE;
     if (!result && diagnostics != null)
-      reportMinViolation(XMLTypePackage.Literals.UNSIGNED_BYTE, new Short(unsignedByte), new Short(UNSIGNED_BYTE__MIN__VALUE), true, diagnostics, context);
+      reportMinViolation(XMLTypePackage.Literals.UNSIGNED_BYTE, unsignedByte, UNSIGNED_BYTE__MIN__VALUE, true, diagnostics, context);
     return result;
   }
 
@@ -1292,7 +1292,7 @@ public class XMLTypeValidator extends EObjectValidator
   {
     boolean result = unsignedByte <= UNSIGNED_BYTE__MAX__VALUE;
     if (!result && diagnostics != null)
-      reportMaxViolation(XMLTypePackage.Literals.UNSIGNED_BYTE, new Short(unsignedByte), new Short(UNSIGNED_BYTE__MAX__VALUE), true, diagnostics, context);
+      reportMaxViolation(XMLTypePackage.Literals.UNSIGNED_BYTE, unsignedByte, UNSIGNED_BYTE__MAX__VALUE, true, diagnostics, context);
     return result;
   }
 
@@ -1303,8 +1303,8 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateUnsignedByteObject(Short unsignedByteObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    boolean result = validateUnsignedByte_Min(unsignedByteObject.shortValue(), diagnostics, context);
-    if (result || diagnostics != null) result &= validateUnsignedByte_Max(unsignedByteObject.shortValue(), diagnostics, context);
+    boolean result = validateUnsignedByte_Min(unsignedByteObject, diagnostics, context);
+    if (result || diagnostics != null) result &= validateUnsignedByte_Max(unsignedByteObject, diagnostics, context);
     return result;
   }
 
@@ -1338,7 +1338,7 @@ public class XMLTypeValidator extends EObjectValidator
   {
     boolean result = unsignedInt >= UNSIGNED_INT__MIN__VALUE;
     if (!result && diagnostics != null)
-      reportMinViolation(XMLTypePackage.Literals.UNSIGNED_INT, new Long(unsignedInt), new Long(UNSIGNED_INT__MIN__VALUE), true, diagnostics, context);
+      reportMinViolation(XMLTypePackage.Literals.UNSIGNED_INT, unsignedInt, UNSIGNED_INT__MIN__VALUE, true, diagnostics, context);
     return result;
   }
 
@@ -1360,7 +1360,7 @@ public class XMLTypeValidator extends EObjectValidator
   {
     boolean result = unsignedInt <= UNSIGNED_INT__MAX__VALUE;
     if (!result && diagnostics != null)
-      reportMaxViolation(XMLTypePackage.Literals.UNSIGNED_INT, new Long(unsignedInt), new Long(UNSIGNED_INT__MAX__VALUE), true, diagnostics, context);
+      reportMaxViolation(XMLTypePackage.Literals.UNSIGNED_INT, unsignedInt, UNSIGNED_INT__MAX__VALUE, true, diagnostics, context);
     return result;
   }
 
@@ -1371,8 +1371,8 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateUnsignedIntObject(Long unsignedIntObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    boolean result = validateUnsignedInt_Min(unsignedIntObject.longValue(), diagnostics, context);
-    if (result || diagnostics != null) result &= validateUnsignedInt_Max(unsignedIntObject.longValue(), diagnostics, context);
+    boolean result = validateUnsignedInt_Min(unsignedIntObject, diagnostics, context);
+    if (result || diagnostics != null) result &= validateUnsignedInt_Max(unsignedIntObject, diagnostics, context);
     return result;
   }
 
@@ -1462,7 +1462,7 @@ public class XMLTypeValidator extends EObjectValidator
   {
     boolean result = unsignedShort >= UNSIGNED_SHORT__MIN__VALUE;
     if (!result && diagnostics != null)
-      reportMinViolation(XMLTypePackage.Literals.UNSIGNED_SHORT, new Integer(unsignedShort), new Integer(UNSIGNED_SHORT__MIN__VALUE), true, diagnostics, context);
+      reportMinViolation(XMLTypePackage.Literals.UNSIGNED_SHORT, unsignedShort, UNSIGNED_SHORT__MIN__VALUE, true, diagnostics, context);
     return result;
   }
 
@@ -1484,7 +1484,7 @@ public class XMLTypeValidator extends EObjectValidator
   {
     boolean result = unsignedShort <= UNSIGNED_SHORT__MAX__VALUE;
     if (!result && diagnostics != null)
-      reportMaxViolation(XMLTypePackage.Literals.UNSIGNED_SHORT, new Integer(unsignedShort), new Integer(UNSIGNED_SHORT__MAX__VALUE), true, diagnostics, context);
+      reportMaxViolation(XMLTypePackage.Literals.UNSIGNED_SHORT, unsignedShort, UNSIGNED_SHORT__MAX__VALUE, true, diagnostics, context);
     return result;
   }
 
@@ -1495,8 +1495,8 @@ public class XMLTypeValidator extends EObjectValidator
    */
   public boolean validateUnsignedShortObject(Integer unsignedShortObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    boolean result = validateUnsignedShort_Min(unsignedShortObject.intValue(), diagnostics, context);
-    if (result || diagnostics != null) result &= validateUnsignedShort_Max(unsignedShortObject.intValue(), diagnostics, context);
+    boolean result = validateUnsignedShort_Min(unsignedShortObject, diagnostics, context);
+    if (result || diagnostics != null) result &= validateUnsignedShort_Max(unsignedShortObject, diagnostics, context);
     return result;
   }
   

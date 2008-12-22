@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.45 2008/12/13 15:55:00 emerks Exp $
+ * $Id: EClassImpl.java,v 1.46 2008/12/22 14:24:54 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -307,7 +307,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
                    (EClassImpl.this,
                     Notification.MOVE, 
                     EcorePackage.Literals.ECLASS__ESUPER_TYPES,
-                    new Integer(sourceIndex),
+                    sourceIndex,
                     unwrap(result), 
                     targetIndex));
             }
@@ -962,9 +962,9 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       case EcorePackage.ECLASS__ETYPE_PARAMETERS:
         return getETypeParameters();
       case EcorePackage.ECLASS__ABSTRACT:
-        return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
+        return isAbstract();
       case EcorePackage.ECLASS__INTERFACE:
-        return isInterface() ? Boolean.TRUE : Boolean.FALSE;
+        return isInterface();
       case EcorePackage.ECLASS__ESUPER_TYPES:
         return getESuperTypes();
       case EcorePackage.ECLASS__EOPERATIONS:
@@ -1026,10 +1026,10 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
         getETypeParameters().addAll((Collection<? extends ETypeParameter>)newValue);
         return;
       case EcorePackage.ECLASS__ABSTRACT:
-        setAbstract(((Boolean)newValue).booleanValue());
+        setAbstract((Boolean)newValue);
         return;
       case EcorePackage.ECLASS__INTERFACE:
-        setInterface(((Boolean)newValue).booleanValue());
+        setInterface((Boolean)newValue);
         return;
       case EcorePackage.ECLASS__ESUPER_TYPES:
         getESuperTypes().clear();

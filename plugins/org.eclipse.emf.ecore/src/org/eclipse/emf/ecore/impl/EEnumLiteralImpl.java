@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.12 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.13 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -304,7 +304,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
       case EcorePackage.EENUM_LITERAL__NAME:
         return getName();
       case EcorePackage.EENUM_LITERAL__VALUE:
-        return new Integer(getValue());
+        return getValue();
       case EcorePackage.EENUM_LITERAL__INSTANCE:
         return getInstance();
       case EcorePackage.EENUM_LITERAL__LITERAL:
@@ -334,7 +334,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
         setName((String)newValue);
         return;
       case EcorePackage.EENUM_LITERAL__VALUE:
-        setValue(((Integer)newValue).intValue());
+        setValue((Integer)newValue);
         return;
       case EcorePackage.EENUM_LITERAL__INSTANCE:
         setInstance((Enumerator)newValue);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.31 2008/11/03 13:05:35 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.32 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -180,7 +180,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertBooleanObject(Boolean instanceValue)
   {
-    return instanceValue == null ? null : convertBoolean(instanceValue.booleanValue());
+    return instanceValue == null ? null : convertBoolean(instanceValue);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementImpl.java,v 1.13 2007/03/28 18:08:35 emerks Exp $
+ * $Id: ETypedElementImpl.java,v 1.14 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -542,17 +542,17 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
       case EcorePackage.ETYPED_ELEMENT__NAME:
         return getName();
       case EcorePackage.ETYPED_ELEMENT__ORDERED:
-        return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
+        return isOrdered();
       case EcorePackage.ETYPED_ELEMENT__UNIQUE:
-        return isUnique() ? Boolean.TRUE : Boolean.FALSE;
+        return isUnique();
       case EcorePackage.ETYPED_ELEMENT__LOWER_BOUND:
-        return new Integer(getLowerBound());
+        return getLowerBound();
       case EcorePackage.ETYPED_ELEMENT__UPPER_BOUND:
-        return new Integer(getUpperBound());
+        return getUpperBound();
       case EcorePackage.ETYPED_ELEMENT__MANY:
-        return isMany() ? Boolean.TRUE : Boolean.FALSE;
+        return isMany();
       case EcorePackage.ETYPED_ELEMENT__REQUIRED:
-        return isRequired() ? Boolean.TRUE : Boolean.FALSE;
+        return isRequired();
       case EcorePackage.ETYPED_ELEMENT__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();
@@ -581,16 +581,16 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
         setName((String)newValue);
         return;
       case EcorePackage.ETYPED_ELEMENT__ORDERED:
-        setOrdered(((Boolean)newValue).booleanValue());
+        setOrdered((Boolean)newValue);
         return;
       case EcorePackage.ETYPED_ELEMENT__UNIQUE:
-        setUnique(((Boolean)newValue).booleanValue());
+        setUnique((Boolean)newValue);
         return;
       case EcorePackage.ETYPED_ELEMENT__LOWER_BOUND:
-        setLowerBound(((Integer)newValue).intValue());
+        setLowerBound((Integer)newValue);
         return;
       case EcorePackage.ETYPED_ELEMENT__UPPER_BOUND:
-        setUpperBound(((Integer)newValue).intValue());
+        setUpperBound((Integer)newValue);
         return;
       case EcorePackage.ETYPED_ELEMENT__ETYPE:
         setEType((EClassifier)newValue);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.15 2006/12/09 18:05:20 emerks Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.16 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -399,15 +399,14 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
     char charValue = 0;
     try
     {
-      Integer value = new Integer(initialValue);
-      charValue = (char) value.intValue();
+      charValue = (char)Integer.parseInt(initialValue);
     }
     catch (NumberFormatException e)
     {
       char[] carray = initialValue.toCharArray();
       charValue = carray[0];
     }
-    return new Character(charValue);
+    return charValue;
   }
 
   /**
@@ -419,9 +418,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   {
     if (instanceValue instanceof Character)
     {
-      int charInt = ((Character) instanceValue).charValue();
-      Integer value = new Integer(charInt);
-      return value.toString();
+      return Integer.toString((Character)instanceValue);
     }
 
     return instanceValue == null ? null : instanceValue.toString();
@@ -748,15 +745,14 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
     char charValue = 0;
     try
     {
-      Integer value = new Integer(initialValue);
-      charValue = (char) value.intValue();
+      charValue = (char)Integer.parseInt(initialValue);
     }
     catch (NumberFormatException e)
     {
       char[] carray = initialValue.toCharArray();
       charValue = carray[0];
     }
-    return new Character(charValue);
+    return charValue;
   }
 
   /**
@@ -768,9 +764,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   {
     if (instanceValue instanceof Character)
     {
-      int charInt = ((Character) instanceValue).charValue();
-      Integer value = new Integer(charInt);
-      return value.toString();
+      return Integer.toString((Character)instanceValue);
     }
 
     return instanceValue == null ? null : instanceValue.toString();

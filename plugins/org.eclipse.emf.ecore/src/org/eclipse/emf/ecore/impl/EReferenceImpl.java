@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.14 2007/07/26 19:23:56 emerks Exp $
+ * $Id: EReferenceImpl.java,v 1.15 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -336,44 +336,44 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       case EcorePackage.EREFERENCE__NAME:
         return getName();
       case EcorePackage.EREFERENCE__ORDERED:
-        return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
+        return isOrdered();
       case EcorePackage.EREFERENCE__UNIQUE:
-        return isUnique() ? Boolean.TRUE : Boolean.FALSE;
+        return isUnique();
       case EcorePackage.EREFERENCE__LOWER_BOUND:
-        return new Integer(getLowerBound());
+        return getLowerBound();
       case EcorePackage.EREFERENCE__UPPER_BOUND:
-        return new Integer(getUpperBound());
+        return getUpperBound();
       case EcorePackage.EREFERENCE__MANY:
-        return isMany() ? Boolean.TRUE : Boolean.FALSE;
+        return isMany();
       case EcorePackage.EREFERENCE__REQUIRED:
-        return isRequired() ? Boolean.TRUE : Boolean.FALSE;
+        return isRequired();
       case EcorePackage.EREFERENCE__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();
       case EcorePackage.EREFERENCE__EGENERIC_TYPE:
         return getEGenericType();
       case EcorePackage.EREFERENCE__CHANGEABLE:
-        return isChangeable() ? Boolean.TRUE : Boolean.FALSE;
+        return isChangeable();
       case EcorePackage.EREFERENCE__VOLATILE:
-        return isVolatile() ? Boolean.TRUE : Boolean.FALSE;
+        return isVolatile();
       case EcorePackage.EREFERENCE__TRANSIENT:
-        return isTransient() ? Boolean.TRUE : Boolean.FALSE;
+        return isTransient();
       case EcorePackage.EREFERENCE__DEFAULT_VALUE_LITERAL:
         return getDefaultValueLiteral();
       case EcorePackage.EREFERENCE__DEFAULT_VALUE:
         return getDefaultValue();
       case EcorePackage.EREFERENCE__UNSETTABLE:
-        return isUnsettable() ? Boolean.TRUE : Boolean.FALSE;
+        return isUnsettable();
       case EcorePackage.EREFERENCE__DERIVED:
-        return isDerived() ? Boolean.TRUE : Boolean.FALSE;
+        return isDerived();
       case EcorePackage.EREFERENCE__ECONTAINING_CLASS:
         return getEContainingClass();
       case EcorePackage.EREFERENCE__CONTAINMENT:
-        return isContainment() ? Boolean.TRUE : Boolean.FALSE;
+        return isContainment();
       case EcorePackage.EREFERENCE__CONTAINER:
-        return isContainer() ? Boolean.TRUE : Boolean.FALSE;
+        return isContainer();
       case EcorePackage.EREFERENCE__RESOLVE_PROXIES:
-        return isResolveProxies() ? Boolean.TRUE : Boolean.FALSE;
+        return isResolveProxies();
       case EcorePackage.EREFERENCE__EOPPOSITE:
         if (resolve) return getEOpposite();
         return basicGetEOpposite();
@@ -405,16 +405,16 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
         setName((String)newValue);
         return;
       case EcorePackage.EREFERENCE__ORDERED:
-        setOrdered(((Boolean)newValue).booleanValue());
+        setOrdered((Boolean)newValue);
         return;
       case EcorePackage.EREFERENCE__UNIQUE:
-        setUnique(((Boolean)newValue).booleanValue());
+        setUnique((Boolean)newValue);
         return;
       case EcorePackage.EREFERENCE__LOWER_BOUND:
-        setLowerBound(((Integer)newValue).intValue());
+        setLowerBound((Integer)newValue);
         return;
       case EcorePackage.EREFERENCE__UPPER_BOUND:
-        setUpperBound(((Integer)newValue).intValue());
+        setUpperBound((Integer)newValue);
         return;
       case EcorePackage.EREFERENCE__ETYPE:
         setEType((EClassifier)newValue);
@@ -423,28 +423,28 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
         setEGenericType((EGenericType)newValue);
         return;
       case EcorePackage.EREFERENCE__CHANGEABLE:
-        setChangeable(((Boolean)newValue).booleanValue());
+        setChangeable((Boolean)newValue);
         return;
       case EcorePackage.EREFERENCE__VOLATILE:
-        setVolatile(((Boolean)newValue).booleanValue());
+        setVolatile((Boolean)newValue);
         return;
       case EcorePackage.EREFERENCE__TRANSIENT:
-        setTransient(((Boolean)newValue).booleanValue());
+        setTransient((Boolean)newValue);
         return;
       case EcorePackage.EREFERENCE__DEFAULT_VALUE_LITERAL:
         setDefaultValueLiteral((String)newValue);
         return;
       case EcorePackage.EREFERENCE__UNSETTABLE:
-        setUnsettable(((Boolean)newValue).booleanValue());
+        setUnsettable((Boolean)newValue);
         return;
       case EcorePackage.EREFERENCE__DERIVED:
-        setDerived(((Boolean)newValue).booleanValue());
+        setDerived((Boolean)newValue);
         return;
       case EcorePackage.EREFERENCE__CONTAINMENT:
-        setContainment(((Boolean)newValue).booleanValue());
+        setContainment((Boolean)newValue);
         return;
       case EcorePackage.EREFERENCE__RESOLVE_PROXIES:
-        setResolveProxies(((Boolean)newValue).booleanValue());
+        setResolveProxies((Boolean)newValue);
         return;
       case EcorePackage.EREFERENCE__EOPPOSITE:
         setEOpposite((EReference)newValue);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.28 2008/12/13 15:55:00 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.29 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -315,8 +315,8 @@ public class EObjectValidator implements EValidator
                    {
                      getFeatureLabel(eStructuralFeature, context),
                      getObjectLabel(eObject, context),
-                     new Integer(size),
-                     new Integer(upperBound)
+                     size,
+                     upperBound
                    },
                    new Object [] { eObject, eStructuralFeature },
                    context));
@@ -344,8 +344,8 @@ public class EObjectValidator implements EValidator
                      {
                        getFeatureLabel(eStructuralFeature, context),
                        getObjectLabel(eObject, context),
-                       new Integer(size),
-                       new Integer(upperBound)
+                       size,
+                       upperBound
                      },
                      new Object [] { eObject, eStructuralFeature },
                      context));

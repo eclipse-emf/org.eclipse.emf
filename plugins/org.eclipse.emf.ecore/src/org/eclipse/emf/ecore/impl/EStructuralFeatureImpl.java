@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.34 2008/12/13 15:55:00 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.35 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -566,36 +566,36 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       case EcorePackage.ESTRUCTURAL_FEATURE__NAME:
         return getName();
       case EcorePackage.ESTRUCTURAL_FEATURE__ORDERED:
-        return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
+        return isOrdered();
       case EcorePackage.ESTRUCTURAL_FEATURE__UNIQUE:
-        return isUnique() ? Boolean.TRUE : Boolean.FALSE;
+        return isUnique();
       case EcorePackage.ESTRUCTURAL_FEATURE__LOWER_BOUND:
-        return new Integer(getLowerBound());
+        return getLowerBound();
       case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
-        return new Integer(getUpperBound());
+        return getUpperBound();
       case EcorePackage.ESTRUCTURAL_FEATURE__MANY:
-        return isMany() ? Boolean.TRUE : Boolean.FALSE;
+        return isMany();
       case EcorePackage.ESTRUCTURAL_FEATURE__REQUIRED:
-        return isRequired() ? Boolean.TRUE : Boolean.FALSE;
+        return isRequired();
       case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();
       case EcorePackage.ESTRUCTURAL_FEATURE__EGENERIC_TYPE:
         return getEGenericType();
       case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
-        return isChangeable() ? Boolean.TRUE : Boolean.FALSE;
+        return isChangeable();
       case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
-        return isVolatile() ? Boolean.TRUE : Boolean.FALSE;
+        return isVolatile();
       case EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT:
-        return isTransient() ? Boolean.TRUE : Boolean.FALSE;
+        return isTransient();
       case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
         return getDefaultValueLiteral();
       case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE:
         return getDefaultValue();
       case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
-        return isUnsettable() ? Boolean.TRUE : Boolean.FALSE;
+        return isUnsettable();
       case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:
-        return isDerived() ? Boolean.TRUE : Boolean.FALSE;
+        return isDerived();
       case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
         return getEContainingClass();
     }
@@ -621,16 +621,16 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         setName((String)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__ORDERED:
-        setOrdered(((Boolean)newValue).booleanValue());
+        setOrdered((Boolean)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__UNIQUE:
-        setUnique(((Boolean)newValue).booleanValue());
+        setUnique((Boolean)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__LOWER_BOUND:
-        setLowerBound(((Integer)newValue).intValue());
+        setLowerBound((Integer)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
-        setUpperBound(((Integer)newValue).intValue());
+        setUpperBound((Integer)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
         setEType((EClassifier)newValue);
@@ -639,22 +639,22 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         setEGenericType((EGenericType)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
-        setChangeable(((Boolean)newValue).booleanValue());
+        setChangeable((Boolean)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
-        setVolatile(((Boolean)newValue).booleanValue());
+        setVolatile((Boolean)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT:
-        setTransient(((Boolean)newValue).booleanValue());
+        setTransient((Boolean)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
         setDefaultValueLiteral((String)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
-        setUnsettable(((Boolean)newValue).booleanValue());
+        setUnsettable((Boolean)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:
-        setDerived(((Boolean)newValue).booleanValue());
+        setDerived((Boolean)newValue);
         return;
     }
     eDynamicSet(featureID, newValue);

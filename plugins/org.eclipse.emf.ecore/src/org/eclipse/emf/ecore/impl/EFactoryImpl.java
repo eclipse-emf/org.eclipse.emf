@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.26 2008/04/01 16:43:34 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.27 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -344,8 +344,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       char charValue = 0;
       try
       {
-        Integer value = new Integer(stringValue);
-        charValue = (char) value.intValue();
+        charValue = (char)Integer.parseInt(stringValue);
       }
       catch (NumberFormatException e)
       {
@@ -353,7 +352,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
         charValue = carray[0];
       }
 
-      return new Character(charValue);
+      return charValue;
     }
 
     if (c == Date.class)
@@ -507,9 +506,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     }
     else if (objectValue instanceof Character)
     {
-      int charInt = ((Character) objectValue).charValue();
-      Integer value = new Integer(charInt);
-      return value.toString();
+      return Integer.toString((Character)objectValue);
     }
     else if (objectValue.getClass() == Date.class)
     {

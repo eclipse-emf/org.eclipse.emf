@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.34 2008/09/06 12:41:48 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.35 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -437,17 +437,17 @@ public class EcoreValidator extends EObjectValidator
       case EcorePackage.EBIG_INTEGER:
         return validateEBigInteger((BigInteger)value, diagnostics, context);
       case EcorePackage.EBOOLEAN:
-        return validateEBoolean(((Boolean)value).booleanValue(), diagnostics, context);
+        return validateEBoolean((Boolean)value, diagnostics, context);
       case EcorePackage.EBOOLEAN_OBJECT:
         return validateEBooleanObject((Boolean)value, diagnostics, context);
       case EcorePackage.EBYTE:
-        return validateEByte(((Byte)value).byteValue(), diagnostics, context);
+        return validateEByte((Byte)value, diagnostics, context);
       case EcorePackage.EBYTE_ARRAY:
         return validateEByteArray((byte[])value, diagnostics, context);
       case EcorePackage.EBYTE_OBJECT:
         return validateEByteObject((Byte)value, diagnostics, context);
       case EcorePackage.ECHAR:
-        return validateEChar(((Character)value).charValue(), diagnostics, context);
+        return validateEChar((Character)value, diagnostics, context);
       case EcorePackage.ECHARACTER_OBJECT:
         return validateECharacterObject((Character)value, diagnostics, context);
       case EcorePackage.EDATE:
@@ -455,7 +455,7 @@ public class EcoreValidator extends EObjectValidator
       case EcorePackage.EDIAGNOSTIC_CHAIN:
         return validateEDiagnosticChain((DiagnosticChain)value, diagnostics, context);
       case EcorePackage.EDOUBLE:
-        return validateEDouble(((Double)value).doubleValue(), diagnostics, context);
+        return validateEDouble((Double)value, diagnostics, context);
       case EcorePackage.EDOUBLE_OBJECT:
         return validateEDoubleObject((Double)value, diagnostics, context);
       case EcorePackage.EE_LIST:
@@ -467,11 +467,11 @@ public class EcoreValidator extends EObjectValidator
       case EcorePackage.EFEATURE_MAP_ENTRY:
         return validateEFeatureMapEntry((FeatureMap.Entry)value, diagnostics, context);
       case EcorePackage.EFLOAT:
-        return validateEFloat(((Float)value).floatValue(), diagnostics, context);
+        return validateEFloat((Float)value, diagnostics, context);
       case EcorePackage.EFLOAT_OBJECT:
         return validateEFloatObject((Float)value, diagnostics, context);
       case EcorePackage.EINT:
-        return validateEInt(((Integer)value).intValue(), diagnostics, context);
+        return validateEInt((Integer)value, diagnostics, context);
       case EcorePackage.EINTEGER_OBJECT:
         return validateEIntegerObject((Integer)value, diagnostics, context);
       case EcorePackage.EJAVA_CLASS:
@@ -479,7 +479,7 @@ public class EcoreValidator extends EObjectValidator
       case EcorePackage.EJAVA_OBJECT:
         return validateEJavaObject(value, diagnostics, context);
       case EcorePackage.ELONG:
-        return validateELong(((Long)value).longValue(), diagnostics, context);
+        return validateELong((Long)value, diagnostics, context);
       case EcorePackage.ELONG_OBJECT:
         return validateELongObject((Long)value, diagnostics, context);
       case EcorePackage.EMAP:
@@ -489,7 +489,7 @@ public class EcoreValidator extends EObjectValidator
       case EcorePackage.ERESOURCE_SET:
         return validateEResourceSet((ResourceSet)value, diagnostics, context);
       case EcorePackage.ESHORT:
-        return validateEShort(((Short)value).shortValue(), diagnostics, context);
+        return validateEShort((Short)value, diagnostics, context);
       case EcorePackage.ESHORT_OBJECT:
         return validateEShortObject((Short)value, diagnostics, context);
       case EcorePackage.ESTRING:

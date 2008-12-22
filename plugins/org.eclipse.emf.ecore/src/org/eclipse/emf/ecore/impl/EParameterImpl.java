@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterImpl.java,v 1.12 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EParameterImpl.java,v 1.13 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -144,17 +144,17 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
       case EcorePackage.EPARAMETER__NAME:
         return getName();
       case EcorePackage.EPARAMETER__ORDERED:
-        return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
+        return isOrdered();
       case EcorePackage.EPARAMETER__UNIQUE:
-        return isUnique() ? Boolean.TRUE : Boolean.FALSE;
+        return isUnique();
       case EcorePackage.EPARAMETER__LOWER_BOUND:
-        return new Integer(getLowerBound());
+        return getLowerBound();
       case EcorePackage.EPARAMETER__UPPER_BOUND:
-        return new Integer(getUpperBound());
+        return getUpperBound();
       case EcorePackage.EPARAMETER__MANY:
-        return isMany() ? Boolean.TRUE : Boolean.FALSE;
+        return isMany();
       case EcorePackage.EPARAMETER__REQUIRED:
-        return isRequired() ? Boolean.TRUE : Boolean.FALSE;
+        return isRequired();
       case EcorePackage.EPARAMETER__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();

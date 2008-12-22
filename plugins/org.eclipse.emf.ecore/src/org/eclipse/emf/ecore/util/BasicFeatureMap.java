@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.32 2008/12/13 16:09:57 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.33 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -429,7 +429,7 @@ public class BasicFeatureMap
                (owner, 
                 Notification.MOVE, 
                 feature,
-                new Integer(featureSourceIndex), 
+                featureSourceIndex, 
                 sourceEntry.getValue(),
                 featureTargetIndex));
         }
@@ -2043,7 +2043,7 @@ public class BasicFeatureMap
           (createNotification
              (Notification.MOVE, 
               feature,
-              new Integer(sourceIndex), 
+              sourceIndex, 
               result,
               targetIndex,
               true));

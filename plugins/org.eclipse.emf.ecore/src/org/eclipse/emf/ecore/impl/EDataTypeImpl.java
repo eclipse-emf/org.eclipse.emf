@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EDataTypeImpl.java,v 1.11 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EDataTypeImpl.java,v 1.12 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -97,19 +97,19 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
         if (instanceClass == Boolean.TYPE)
           defaultValue = Boolean.FALSE;
         else if (instanceClass == Integer.TYPE)
-          defaultValue = new Integer(0);
+          defaultValue = 0;
         else if (instanceClass == Float.TYPE)
-          defaultValue = new Float(0.0F);
+          defaultValue = 0.0F;
         else if (instanceClass == Double.TYPE)
-          defaultValue = new Double(0.0);
+          defaultValue = 0.0;
         else if (instanceClass == Long.TYPE)
-          defaultValue = new Long(0);
+          defaultValue = 0L;
         else if (instanceClass == Short.TYPE)
-          defaultValue = new Short((short)0);
+          defaultValue = (short)0;
         else if (instanceClass == Byte.TYPE)
-          defaultValue = new Byte((byte)0);
+          defaultValue = (byte)0;
         else // if (instanceClass == Character.TYPE)
-          defaultValue = new Character('\u0000');
+          defaultValue = '\u0000';
       }
       defaultValueIsSet = true;
     }
@@ -205,7 +205,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
       case EcorePackage.EDATA_TYPE__ETYPE_PARAMETERS:
         return getETypeParameters();
       case EcorePackage.EDATA_TYPE__SERIALIZABLE:
-        return isSerializable() ? Boolean.TRUE : Boolean.FALSE;
+        return isSerializable();
     }
     return eDynamicGet(featureID, resolve, coreType);
   }
@@ -239,7 +239,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
         getETypeParameters().addAll((Collection<? extends ETypeParameter>)newValue);
         return;
       case EcorePackage.EDATA_TYPE__SERIALIZABLE:
-        setSerializable(((Boolean)newValue).booleanValue());
+        setSerializable((Boolean)newValue);
         return;
     }
     eDynamicSet(featureID, newValue);

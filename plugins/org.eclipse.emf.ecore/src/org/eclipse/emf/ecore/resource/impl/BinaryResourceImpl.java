@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.2 2008/08/07 14:02:52 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.3 2008/12/22 14:24:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -544,42 +544,42 @@ public class BinaryResourceImpl extends ResourceImpl
         }
         case BOOLEAN:
         {
-          writeBoolean(((Boolean)value).booleanValue());
+          writeBoolean((Boolean)value);
           break;
         }
         case BYTE:
         {
-          writeByte(((Byte)value).byteValue());
+          writeByte((Byte)value);
           break;
         }
         case CHAR:
         {
-          writeChar(((Character)value).charValue());
+          writeChar((Character)value);
           break;
         }
         case DOUBLE:
         {
-          writeDouble(((Double)value).doubleValue());
+          writeDouble((Double)value);
           break;
         }
         case FLOAT:
         {
-          writeFloat(((Float)value).floatValue());
+          writeFloat((Float)value);
           break;
         }
         case INT:
         {
-          writeInt(((Integer)value).intValue());
+          writeInt((Integer)value);
           break;
         }
         case LONG:
         {
-          writeLong(((Long)value).longValue());
+          writeLong((Long)value);
           break;
         }
         case SHORT:
         {
-          writeShort(((Short)value).shortValue());
+          writeShort((Short)value);
           break;
         }
         case STRING:
@@ -734,42 +734,42 @@ public class BinaryResourceImpl extends ResourceImpl
           }
           case BOOLEAN:
           {
-            writeBoolean(((Boolean)value).booleanValue());
+            writeBoolean((Boolean)value);
             break;
           }
           case BYTE:
           {
-            writeByte(((Byte)value).byteValue());
+            writeByte((Byte)value);
             break;
           }
           case CHAR:
           {
-            writeChar(((Character)value).charValue());
+            writeChar((Character)value);
             break;
           }
           case DOUBLE:
           {
-            writeDouble(((Double)value).doubleValue());
+            writeDouble((Double)value);
             break;
           }
           case FLOAT:
           {
-            writeFloat(((Float)value).floatValue());
+            writeFloat((Float)value);
             break;
           }
           case INT:
           {
-            writeInt(((Integer)value).intValue());
+            writeInt((Integer)value);
             break;
           }
           case LONG:
           {
-            writeLong(((Long)value).longValue());
+            writeLong((Long)value);
             break;
           }
           case SHORT:
           {
-            writeShort(((Short)value).shortValue());
+            writeShort((Short)value);
             break;
           }
           case STRING:
