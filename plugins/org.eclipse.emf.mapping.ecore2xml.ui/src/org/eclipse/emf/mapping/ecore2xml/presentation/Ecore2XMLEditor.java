@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.19 2008/12/06 21:31:37 davidms Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.20 2008/12/22 14:25:20 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -548,39 +548,39 @@ public class Ecore2XMLEditor
             }
           }
 
-          ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
+          final ResourceDeltaVisitor visitor = new ResourceDeltaVisitor();
           delta.accept(visitor);
 
           if (!visitor.getRemovedResources().isEmpty())
           {
-            removedResources.addAll(visitor.getRemovedResources());
-            if (!isDirty())
-            {
-              getSite().getShell().getDisplay().asyncExec
-                (new Runnable()
+            getSite().getShell().getDisplay().asyncExec
+              (new Runnable()
+               {
+                 public void run()
                  {
-                   public void run()
+                   removedResources.addAll(visitor.getRemovedResources());
+                   if (!isDirty())
                    {
                      getSite().getPage().closeEditor(Ecore2XMLEditor.this, false);
                    }
-                 });
-            }
+                 }
+               });
           }
 
           if (!visitor.getChangedResources().isEmpty())
           {
-            changedResources.addAll(visitor.getChangedResources());
-            if (getSite().getPage().getActiveEditor() == Ecore2XMLEditor.this)
-            {
-              getSite().getShell().getDisplay().asyncExec
-                (new Runnable()
+            getSite().getShell().getDisplay().asyncExec
+              (new Runnable()
+               {
+                 public void run()
                  {
-                   public void run()
+                   changedResources.addAll(visitor.getChangedResources());
+                   if (getSite().getPage().getActiveEditor() == Ecore2XMLEditor.this)
                    {
                      handleActivate();
                    }
-                 });
-            }
+                 }
+               });
           }
         }
         catch (CoreException exception)
