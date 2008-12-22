@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PeriodicalImpl.java,v 1.3 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: PeriodicalImpl.java,v 1.4 2008/12/22 14:25:22 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -162,7 +162,7 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
       case EXTLibraryPackage.PERIODICAL__TITLE:
         return getTitle();
       case EXTLibraryPackage.PERIODICAL__ISSUES_PER_YEAR:
-        return new Integer(getIssuesPerYear());
+        return getIssuesPerYear();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -181,7 +181,7 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
         setTitle((String)newValue);
         return;
       case EXTLibraryPackage.PERIODICAL__ISSUES_PER_YEAR:
-        setIssuesPerYear(((Integer)newValue).intValue());
+        setIssuesPerYear((Integer)newValue);
         return;
     }
     super.eSet(featureID, newValue);

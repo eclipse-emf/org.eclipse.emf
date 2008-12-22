@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.4 2007/02/20 17:41:55 emerks Exp $
+ * $Id: BookImpl.java,v 1.5 2008/12/22 14:25:21 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -360,7 +360,7 @@ public class BookImpl extends CirculatingItemImpl implements Book
       case EXTLibraryPackage.BOOK__TITLE:
         return getTitle();
       case EXTLibraryPackage.BOOK__PAGES:
-        return new Integer(getPages());
+        return getPages();
       case EXTLibraryPackage.BOOK__CATEGORY:
         return getCategory();
       case EXTLibraryPackage.BOOK__AUTHOR:
@@ -384,7 +384,7 @@ public class BookImpl extends CirculatingItemImpl implements Book
         setTitle((String)newValue);
         return;
       case EXTLibraryPackage.BOOK__PAGES:
-        setPages(((Integer)newValue).intValue());
+        setPages((Integer)newValue);
         return;
       case EXTLibraryPackage.BOOK__CATEGORY:
         setCategory((BookCategory)newValue);

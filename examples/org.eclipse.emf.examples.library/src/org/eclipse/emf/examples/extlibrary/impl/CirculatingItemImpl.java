@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CirculatingItemImpl.java,v 1.4 2007/02/20 17:41:55 emerks Exp $
+ * $Id: CirculatingItemImpl.java,v 1.5 2008/12/22 14:25:22 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -185,7 +185,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
     switch (featureID)
     {
       case EXTLibraryPackage.CIRCULATING_ITEM__COPIES:
-        return new Integer(getCopies());
+        return getCopies();
       case EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS:
         return getBorrowers();
     }
@@ -204,7 +204,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
     switch (featureID)
     {
       case EXTLibraryPackage.CIRCULATING_ITEM__COPIES:
-        setCopies(((Integer)newValue).intValue());
+        setCopies((Integer)newValue);
         return;
       case EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS:
         getBorrowers().clear();

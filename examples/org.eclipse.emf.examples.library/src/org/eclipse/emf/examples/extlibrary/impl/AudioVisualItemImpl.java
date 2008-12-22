@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AudioVisualItemImpl.java,v 1.2 2006/12/29 18:27:44 marcelop Exp $
+ * $Id: AudioVisualItemImpl.java,v 1.3 2008/12/22 14:25:21 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -206,9 +206,9 @@ public abstract class AudioVisualItemImpl extends CirculatingItemImpl implements
       case EXTLibraryPackage.AUDIO_VISUAL_ITEM__TITLE:
         return getTitle();
       case EXTLibraryPackage.AUDIO_VISUAL_ITEM__MINUTES_LENGTH:
-        return new Integer(getMinutesLength());
+        return getMinutesLength();
       case EXTLibraryPackage.AUDIO_VISUAL_ITEM__DAMAGED:
-        return isDamaged() ? Boolean.TRUE : Boolean.FALSE;
+        return isDamaged();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -227,10 +227,10 @@ public abstract class AudioVisualItemImpl extends CirculatingItemImpl implements
         setTitle((String)newValue);
         return;
       case EXTLibraryPackage.AUDIO_VISUAL_ITEM__MINUTES_LENGTH:
-        setMinutesLength(((Integer)newValue).intValue());
+        setMinutesLength((Integer)newValue);
         return;
       case EXTLibraryPackage.AUDIO_VISUAL_ITEM__DAMAGED:
-        setDamaged(((Boolean)newValue).booleanValue());
+        setDamaged((Boolean)newValue);
         return;
     }
     super.eSet(featureID, newValue);
