@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerPane.java,v 1.8 2007/06/14 18:32:41 emerks Exp $
+ * $Id: ViewerPane.java,v 1.9 2008/12/22 14:26:02 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -699,7 +699,7 @@ static public Color getColor(RGB rgbValue) {
  * Returns a system color identified by a SWT constant.
  */
 static public Color getSystemColor(int swtId) {
-  Integer bigInt = new Integer(swtId);
+  Integer bigInt = swtId;
   Color clr = colorMap.get(bigInt);
   if (clr == null) {
     Display disp = Display.getDefault();

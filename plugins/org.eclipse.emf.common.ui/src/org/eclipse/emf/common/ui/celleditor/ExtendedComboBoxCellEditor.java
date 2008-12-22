@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedComboBoxCellEditor.java,v 1.7 2008/05/04 17:03:35 emerks Exp $
+ * $Id: ExtendedComboBoxCellEditor.java,v 1.8 2008/12/22 14:26:02 emerks Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -226,8 +226,8 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
   {
     // Get the index into the list via this call to super.
     //
-    int index = ((Integer)super.doGetValue()).intValue();
-    return index < list.size() && index >= 0 ? list.get(((Integer)super.doGetValue()).intValue()) : null;
+    int index = (Integer)super.doGetValue();
+    return index < list.size() && index >= 0 ? list.get((Integer)super.doGetValue()) : null;
   }
 
   @Override
@@ -238,7 +238,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
     int index = list.indexOf(value);
     if (index != -1)
     {
-      super.doSetValue(new Integer(list.indexOf(value)));
+      super.doSetValue(list.indexOf(value));
     }
   }
 
