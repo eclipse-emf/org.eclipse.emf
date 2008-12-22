@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxLengthFacetImpl.java,v 1.13 2008/12/13 15:58:50 emerks Exp $
+ * $Id: XSDMaxLengthFacetImpl.java,v 1.14 2008/12/22 14:25:47 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -142,7 +142,7 @@ public class XSDMaxLengthFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_MAX_LENGTH_FACET__VALUE:
-        return new Integer(getValue());
+        return getValue();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -158,7 +158,7 @@ public class XSDMaxLengthFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_MAX_LENGTH_FACET__VALUE:
-        setValue(((Integer)newValue).intValue());
+        setValue((Integer)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -233,7 +233,7 @@ public class XSDMaxLengthFacetImpl
            "maxLength-valid-restriction",
            getElement(),
            XSDConstants.VALUE_ATTRIBUTE,
-           new Object [] { new Integer(getValue()), xsdFixedFacet.getEffectiveValue(), xsdFixedFacet.getSimpleTypeDefinition().getURI() });
+           new Object [] { getValue(), xsdFixedFacet.getEffectiveValue(), xsdFixedFacet.getSimpleTypeDefinition().getURI() });
       xsdDiagnostic.getComponents().add(xsdFixedFacet);
     }
   }
@@ -291,7 +291,7 @@ public class XSDMaxLengthFacetImpl
   @Override
   public Object getEffectiveValue()
   {
-    return new Integer(getValue());
+    return getValue();
   }
 
   @Override

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxFacetImpl.java,v 1.12 2007/11/26 12:20:54 emerks Exp $
+ * $Id: XSDMaxFacetImpl.java,v 1.13 2008/12/22 14:25:47 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -183,9 +183,9 @@ public abstract class XSDMaxFacetImpl
       case XSDPackage.XSD_MAX_FACET__VALUE:
         return getValue();
       case XSDPackage.XSD_MAX_FACET__INCLUSIVE:
-        return isInclusive() ? Boolean.TRUE : Boolean.FALSE;
+        return isInclusive();
       case XSDPackage.XSD_MAX_FACET__EXCLUSIVE:
-        return isExclusive() ? Boolean.TRUE : Boolean.FALSE;
+        return isExclusive();
     }
     return super.eGet(featureID, resolve, coreType);
   }

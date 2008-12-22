@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.18 2008/02/28 21:03:37 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.19 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -962,7 +962,7 @@ public class XSDAttributeGroupDefinitionImpl
     switch (featureID)
     {
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_GROUP_DEFINITION_REFERENCE:
-        return isAttributeGroupDefinitionReference() ? Boolean.TRUE : Boolean.FALSE;
+        return isAttributeGroupDefinitionReference();
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ANNOTATION:
         return getAnnotation();
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__CONTENTS:

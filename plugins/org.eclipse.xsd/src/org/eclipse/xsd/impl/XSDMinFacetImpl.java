@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinFacetImpl.java,v 1.12 2007/11/26 12:20:55 emerks Exp $
+ * $Id: XSDMinFacetImpl.java,v 1.13 2008/12/22 14:25:47 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -184,9 +184,9 @@ public abstract class XSDMinFacetImpl
       case XSDPackage.XSD_MIN_FACET__VALUE:
         return getValue();
       case XSDPackage.XSD_MIN_FACET__INCLUSIVE:
-        return isInclusive() ? Boolean.TRUE : Boolean.FALSE;
+        return isInclusive();
       case XSDPackage.XSD_MIN_FACET__EXCLUSIVE:
-        return isExclusive() ? Boolean.TRUE : Boolean.FALSE;
+        return isExclusive();
     }
     return super.eGet(featureID, resolve, coreType);
   }

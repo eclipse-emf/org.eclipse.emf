@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFractionDigitsFacetImpl.java,v 1.11 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDFractionDigitsFacetImpl.java,v 1.12 2008/12/22 14:25:47 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -142,7 +142,7 @@ public class XSDFractionDigitsFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_FRACTION_DIGITS_FACET__VALUE:
-        return new Integer(getValue());
+        return getValue();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -158,7 +158,7 @@ public class XSDFractionDigitsFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_FRACTION_DIGITS_FACET__VALUE:
-        setValue(((Integer)newValue).intValue());
+        setValue((Integer)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -237,7 +237,7 @@ public class XSDFractionDigitsFacetImpl
            "fractionDigits-less-than-equal-to-totalDigits",
            getElement(),
            XSDConstants.VALUE_ATTRIBUTE,
-           new Object [] { new Integer(getValue()), new Integer(xsdTotalDigitsFacet.getValue()) });
+           new Object [] { getValue(), xsdTotalDigitsFacet.getValue() });
       xsdDiagnostic.getComponents().add(xsdTotalDigitsFacet);
     }
   }
@@ -266,7 +266,7 @@ public class XSDFractionDigitsFacetImpl
            "fractionDigits-valid-restriction",
            getElement(),
            XSDConstants.VALUE_ATTRIBUTE,
-           new Object [] { new Integer(getValue()), xsdFixedFacet.getEffectiveValue(), xsdFixedFacet.getSimpleTypeDefinition().getURI() });
+           new Object [] { getValue(), xsdFixedFacet.getEffectiveValue(), xsdFixedFacet.getSimpleTypeDefinition().getURI() });
       xsdDiagnostic.getComponents().add(xsdFixedFacet);
     }
   }
@@ -309,7 +309,7 @@ public class XSDFractionDigitsFacetImpl
   @Override
   public Object getEffectiveValue()
   {
-    return new Integer(getValue());
+    return getValue();
   }
 
   @Override

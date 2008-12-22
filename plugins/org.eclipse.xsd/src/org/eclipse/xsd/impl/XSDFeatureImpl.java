@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFeatureImpl.java,v 1.15 2008/04/18 15:44:12 emerks Exp $
+ * $Id: XSDFeatureImpl.java,v 1.16 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -655,9 +655,9 @@ public abstract class XSDFeatureImpl
       case XSDPackage.XSD_FEATURE__LEXICAL_VALUE:
         return getLexicalValue();
       case XSDPackage.XSD_FEATURE__GLOBAL:
-        return isGlobal() ? Boolean.TRUE : Boolean.FALSE;
+        return isGlobal();
       case XSDPackage.XSD_FEATURE__FEATURE_REFERENCE:
-        return isFeatureReference() ? Boolean.TRUE : Boolean.FALSE;
+        return isFeatureReference();
       case XSDPackage.XSD_FEATURE__SCOPE:
         return getScope();
       case XSDPackage.XSD_FEATURE__RESOLVED_FEATURE:

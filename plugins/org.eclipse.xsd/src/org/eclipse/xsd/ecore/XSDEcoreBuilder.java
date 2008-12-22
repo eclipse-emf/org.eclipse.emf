@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.96 2008/12/13 15:58:50 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.97 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -3574,8 +3574,8 @@ public class XSDEcoreBuilder extends MapBuilder
                  {
                    localizedSeverity + ": " + xsdDiagnostic.getMessage() + " ",
                    xsdDiagnostic.getLocationURI(),
-                   new Integer(xsdDiagnostic.getLine()),
-                   new Integer(xsdDiagnostic.getColumn())
+                   xsdDiagnostic.getLine(),
+                   xsdDiagnostic.getColumn()
                  }));
 
             simpleDiagnostics.add(tuple);

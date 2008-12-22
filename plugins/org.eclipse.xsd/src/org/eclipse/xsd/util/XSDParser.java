@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.17 2008/12/13 15:58:50 emerks Exp $
+ * $Id: XSDParser.java,v 1.18 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -113,7 +113,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 
     protected int objectToInt(Object value)
     {
-      return value == null ? UNSET : ((Integer)value).intValue();
+      return value == null ? UNSET : (Integer)value;
     }
 
     protected Object intToObject(int value)

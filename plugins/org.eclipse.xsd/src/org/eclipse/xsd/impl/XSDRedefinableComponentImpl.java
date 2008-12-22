@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefinableComponentImpl.java,v 1.11 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDRedefinableComponentImpl.java,v 1.12 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -101,7 +101,7 @@ public abstract class XSDRedefinableComponentImpl
     switch (featureID)
     {
       case XSDPackage.XSD_REDEFINABLE_COMPONENT__CIRCULAR:
-        return isCircular() ? Boolean.TRUE : Boolean.FALSE;
+        return isCircular();
     }
     return super.eGet(featureID, resolve, coreType);
   }

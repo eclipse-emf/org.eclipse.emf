@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseImpl.java,v 1.14 2008/04/18 15:44:13 emerks Exp $
+ * $Id: XSDAttributeUseImpl.java,v 1.15 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -608,7 +608,7 @@ public class XSDAttributeUseImpl
     switch (featureID)
     {
       case XSDPackage.XSD_ATTRIBUTE_USE__REQUIRED:
-        return isRequired() ? Boolean.TRUE : Boolean.FALSE;
+        return isRequired();
       case XSDPackage.XSD_ATTRIBUTE_USE__VALUE:
         return getValue();
       case XSDPackage.XSD_ATTRIBUTE_USE__CONSTRAINT:
@@ -636,7 +636,7 @@ public class XSDAttributeUseImpl
     switch (featureID)
     {
       case XSDPackage.XSD_ATTRIBUTE_USE__REQUIRED:
-        setRequired(((Boolean)newValue).booleanValue());
+        setRequired((Boolean)newValue);
         return;
       case XSDPackage.XSD_ATTRIBUTE_USE__VALUE:
         setValue(newValue);

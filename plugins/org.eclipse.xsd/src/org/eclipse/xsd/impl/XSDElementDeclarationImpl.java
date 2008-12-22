@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.30 2008/04/18 15:44:12 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.31 2008/12/22 14:25:47 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2045,21 +2045,21 @@ public class XSDElementDeclarationImpl
     switch (featureID)
     {
       case XSDPackage.XSD_ELEMENT_DECLARATION__NILLABLE:
-        return isNillable() ? Boolean.TRUE : Boolean.FALSE;
+        return isNillable();
       case XSDPackage.XSD_ELEMENT_DECLARATION__DISALLOWED_SUBSTITUTIONS:
         return getDisallowedSubstitutions();
       case XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP_EXCLUSIONS:
         return getSubstitutionGroupExclusions();
       case XSDPackage.XSD_ELEMENT_DECLARATION__ABSTRACT:
-        return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
+        return isAbstract();
       case XSDPackage.XSD_ELEMENT_DECLARATION__LEXICAL_FINAL:
         return getLexicalFinal();
       case XSDPackage.XSD_ELEMENT_DECLARATION__BLOCK:
         return getBlock();
       case XSDPackage.XSD_ELEMENT_DECLARATION__ELEMENT_DECLARATION_REFERENCE:
-        return isElementDeclarationReference() ? Boolean.TRUE : Boolean.FALSE;
+        return isElementDeclarationReference();
       case XSDPackage.XSD_ELEMENT_DECLARATION__CIRCULAR:
-        return isCircular() ? Boolean.TRUE : Boolean.FALSE;
+        return isCircular();
       case XSDPackage.XSD_ELEMENT_DECLARATION__ANNOTATION:
         return getAnnotation();
       case XSDPackage.XSD_ELEMENT_DECLARATION__ANONYMOUS_TYPE_DEFINITION:
@@ -2090,7 +2090,7 @@ public class XSDElementDeclarationImpl
     switch (featureID)
     {
       case XSDPackage.XSD_ELEMENT_DECLARATION__NILLABLE:
-        setNillable(((Boolean)newValue).booleanValue());
+        setNillable((Boolean)newValue);
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__DISALLOWED_SUBSTITUTIONS:
         getDisallowedSubstitutions().clear();
@@ -2101,7 +2101,7 @@ public class XSDElementDeclarationImpl
         getSubstitutionGroupExclusions().addAll((Collection<? extends XSDSubstitutionGroupExclusions>)newValue);
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__ABSTRACT:
-        setAbstract(((Boolean)newValue).booleanValue());
+        setAbstract((Boolean)newValue);
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__LEXICAL_FINAL:
         getLexicalFinal().clear();

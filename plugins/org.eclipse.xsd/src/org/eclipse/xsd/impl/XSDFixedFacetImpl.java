@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFixedFacetImpl.java,v 1.13 2008/01/30 19:26:53 emerks Exp $
+ * $Id: XSDFixedFacetImpl.java,v 1.14 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -211,7 +211,7 @@ public abstract class XSDFixedFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_FIXED_FACET__FIXED:
-        return isFixed() ? Boolean.TRUE : Boolean.FALSE;
+        return isFixed();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -227,7 +227,7 @@ public abstract class XSDFixedFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_FIXED_FACET__FIXED:
-        setFixed(((Boolean)newValue).booleanValue());
+        setFixed((Boolean)newValue);
         return;
     }
     super.eSet(featureID, newValue);

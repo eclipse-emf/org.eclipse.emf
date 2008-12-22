@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTotalDigitsFacetImpl.java,v 1.11 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDTotalDigitsFacetImpl.java,v 1.12 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -140,7 +140,7 @@ public class XSDTotalDigitsFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_TOTAL_DIGITS_FACET__VALUE:
-        return new Integer(getValue());
+        return getValue();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -156,7 +156,7 @@ public class XSDTotalDigitsFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_TOTAL_DIGITS_FACET__VALUE:
-        setValue(((Integer)newValue).intValue());
+        setValue((Integer)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -244,7 +244,7 @@ public class XSDTotalDigitsFacetImpl
            "totalDigits-valid-restriction",
            getElement(),
            XSDConstants.VALUE_ATTRIBUTE,
-           new Object [] { new Integer(getValue()), xsdFixedFacet.getEffectiveValue(), xsdFixedFacet.getSimpleTypeDefinition().getURI() });
+           new Object [] { getValue(), xsdFixedFacet.getEffectiveValue(), xsdFixedFacet.getSimpleTypeDefinition().getURI() });
       xsdDiagnostic.getComponents().add(xsdFixedFacet);
     }
   }
@@ -287,7 +287,7 @@ public class XSDTotalDigitsFacetImpl
   @Override
   public Object getEffectiveValue()
   {
-    return new Integer(getValue());
+    return getValue();
   }
 
   @Override

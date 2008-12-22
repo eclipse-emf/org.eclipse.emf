@@ -45,7 +45,7 @@ public class DefaultJAXPConfiguration implements JAXPConfiguration
 
     try
     {
-      transformerFactory.setAttribute("indent-number", new Integer(2));
+      transformerFactory.setAttribute("indent-number", 2);
     }
     catch (IllegalArgumentException exception)
     {

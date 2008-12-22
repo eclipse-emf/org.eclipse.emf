@@ -12,15 +12,15 @@
  *
  * </copyright>
  *
- * $Id: XSDDoubleType.java,v 1.8 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDDoubleType.java,v 1.9 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
 public class XSDDoubleType extends XSDAnySimpleType
 {
-  protected static final Double NaN = new Double(Double.NaN);
-  protected static final Double NEGATIVE_INFINITY = new Double(Double.NEGATIVE_INFINITY);
-  protected static final Double POSITIVE_INFINITY = new Double(Double.POSITIVE_INFINITY);
+  protected static final Double NaN = Double.NaN;
+  protected static final Double NEGATIVE_INFINITY = Double.NEGATIVE_INFINITY;
+  protected static final Double POSITIVE_INFINITY = Double.POSITIVE_INFINITY;
 
   @Override
   public Object getValue(String literal)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.20 2007/10/20 16:25:08 emerks Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.21 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -882,7 +882,7 @@ public class XSDAttributeDeclarationImpl
     switch (featureID)
     {
       case XSDPackage.XSD_ATTRIBUTE_DECLARATION__ATTRIBUTE_DECLARATION_REFERENCE:
-        return isAttributeDeclarationReference() ? Boolean.TRUE : Boolean.FALSE;
+        return isAttributeDeclarationReference();
       case XSDPackage.XSD_ATTRIBUTE_DECLARATION__ANNOTATION:
         return getAnnotation();
       case XSDPackage.XSD_ATTRIBUTE_DECLARATION__ANONYMOUS_TYPE_DEFINITION:

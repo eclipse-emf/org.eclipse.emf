@@ -12,15 +12,15 @@
  *
  * </copyright>
  *
- * $Id: XSDFloatType.java,v 1.8 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDFloatType.java,v 1.9 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
 public class XSDFloatType extends XSDAnySimpleType
 {
-  protected static final Float NaN = new Float(Float.NaN);
-  protected static final Float NEGATIVE_INFINITY = new Float(Float.NEGATIVE_INFINITY);
-  protected static final Float POSITIVE_INFINITY = new Float(Float.POSITIVE_INFINITY);
+  protected static final Float NaN = Float.NaN;
+  protected static final Float NEGATIVE_INFINITY = Float.NEGATIVE_INFINITY;
+  protected static final Float POSITIVE_INFINITY = Float.POSITIVE_INFINITY;
   
   @Override
   public Object getValue(String literal)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDLengthFacetImpl.java,v 1.13 2008/12/13 15:58:50 emerks Exp $
+ * $Id: XSDLengthFacetImpl.java,v 1.14 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -145,7 +145,7 @@ public class XSDLengthFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_LENGTH_FACET__VALUE:
-        return new Integer(getValue());
+        return getValue();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -161,7 +161,7 @@ public class XSDLengthFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_LENGTH_FACET__VALUE:
-        setValue(((Integer)newValue).intValue());
+        setValue((Integer)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -264,7 +264,7 @@ public class XSDLengthFacetImpl
            "length-valid-restriction",
            getElement(),
            XSDConstants.VALUE_ATTRIBUTE,
-           new Object [] { new Integer(getValue()), xsdFixedFacet.getEffectiveValue(), xsdFixedFacet.getSimpleTypeDefinition().getURI() });
+           new Object [] { getValue(), xsdFixedFacet.getEffectiveValue(), xsdFixedFacet.getSimpleTypeDefinition().getURI() });
       xsdDiagnostic.getComponents().add(xsdFixedFacet);
     }
   }
@@ -322,7 +322,7 @@ public class XSDLengthFacetImpl
   @Override
   public Object getEffectiveValue()
   {
-    return new Integer(getValue());
+    return getValue();
   }
 
   @Override

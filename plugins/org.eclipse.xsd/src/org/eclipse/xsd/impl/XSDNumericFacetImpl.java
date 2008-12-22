@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNumericFacetImpl.java,v 1.10 2006/12/29 18:16:22 marcelop Exp $
+ * $Id: XSDNumericFacetImpl.java,v 1.11 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -117,7 +117,7 @@ public class XSDNumericFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_NUMERIC_FACET__VALUE:
-        return isValue() ? Boolean.TRUE : Boolean.FALSE;
+        return isValue();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -133,7 +133,7 @@ public class XSDNumericFacetImpl
     switch (featureID)
     {
       case XSDPackage.XSD_NUMERIC_FACET__VALUE:
-        setValue(((Boolean)newValue).booleanValue());
+        setValue((Boolean)newValue);
         return;
     }
     super.eSet(featureID, newValue);

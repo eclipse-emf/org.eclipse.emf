@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.28 2008/04/18 15:44:12 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.29 2008/12/22 14:25:47 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2980,7 +2980,7 @@ public class XSDComplexTypeDefinitionImpl
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__FINAL:
         return getFinal();
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ABSTRACT:
-        return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
+        return isAbstract();
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_TYPE_CATEGORY:
         return getContentTypeCategory();
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__PROHIBITED_SUBSTITUTIONS:
@@ -2990,7 +2990,7 @@ public class XSDComplexTypeDefinitionImpl
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__BLOCK:
         return getBlock();
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__MIXED:
-        return isMixed() ? Boolean.TRUE : Boolean.FALSE;
+        return isMixed();
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_ANNOTATION:
         return getContentAnnotation();
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__BASE_TYPE_DEFINITION:
@@ -3036,7 +3036,7 @@ public class XSDComplexTypeDefinitionImpl
         getFinal().addAll((Collection<? extends XSDComplexFinal>)newValue);
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ABSTRACT:
-        setAbstract(((Boolean)newValue).booleanValue());
+        setAbstract((Boolean)newValue);
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_TYPE_CATEGORY:
         setContentTypeCategory((XSDContentTypeCategory)newValue);
@@ -3054,7 +3054,7 @@ public class XSDComplexTypeDefinitionImpl
         getBlock().addAll((Collection<? extends XSDProhibitedSubstitutions>)newValue);
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__MIXED:
-        setMixed(((Boolean)newValue).booleanValue());
+        setMixed((Boolean)newValue);
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_ANNOTATION:
         setContentAnnotation((XSDAnnotation)newValue);

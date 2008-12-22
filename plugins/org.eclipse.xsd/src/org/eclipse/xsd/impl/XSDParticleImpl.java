@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.20 2008/01/26 12:33:48 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.21 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -394,9 +394,9 @@ public class XSDParticleImpl
     switch (featureID)
     {
       case XSDPackage.XSD_PARTICLE__MIN_OCCURS:
-        return new Integer(getMinOccurs());
+        return getMinOccurs();
       case XSDPackage.XSD_PARTICLE__MAX_OCCURS:
-        return new Integer(getMaxOccurs());
+        return getMaxOccurs();
       case XSDPackage.XSD_PARTICLE__CONTENT:
         return getContent();
       case XSDPackage.XSD_PARTICLE__TERM:
@@ -416,10 +416,10 @@ public class XSDParticleImpl
     switch (featureID)
     {
       case XSDPackage.XSD_PARTICLE__MIN_OCCURS:
-        setMinOccurs(((Integer)newValue).intValue());
+        setMinOccurs((Integer)newValue);
         return;
       case XSDPackage.XSD_PARTICLE__MAX_OCCURS:
-        setMaxOccurs(((Integer)newValue).intValue());
+        setMaxOccurs((Integer)newValue);
         return;
       case XSDPackage.XSD_PARTICLE__CONTENT:
         setContent((XSDParticleContent)newValue);
@@ -1224,7 +1224,7 @@ public class XSDParticleImpl
                 //       new Object [] 
                 //       {
                 //         XSDPlugin.INSTANCE.getString
-                //           ("coss-particle.0.2", new Object [] { new Integer(xsdModelGroup.getParticles().size()) })
+                //           ("coss-particle.0.2", new Object [] { xsdModelGroup.getParticles().size() })
                 //       }));
                 // diagnostics.add(xsdDiagnostic);
 
@@ -1922,7 +1922,7 @@ public class XSDParticleImpl
                ("_UI_XSDError_message", 
                 new Object [] 
                 { 
-                  populateDiagnostic(xsdDiagnostic, "coss-particle.0.1", new Object [] { new Integer(getStates().size()) })
+                  populateDiagnostic(xsdDiagnostic, "coss-particle.0.1", new Object [] { getStates().size() })
                 }));
           diagnostics.add(xsdDiagnostic);
         }

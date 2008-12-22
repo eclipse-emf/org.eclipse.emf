@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticImpl.java,v 1.14 2008/04/18 15:44:13 emerks Exp $
+ * $Id: XSDDiagnosticImpl.java,v 1.15 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -611,9 +611,9 @@ public class XSDDiagnosticImpl
       case XSDPackage.XSD_DIAGNOSTIC__LOCATION_URI:
         return getLocationURI();
       case XSDPackage.XSD_DIAGNOSTIC__LINE:
-        return new Integer(getLine());
+        return getLine();
       case XSDPackage.XSD_DIAGNOSTIC__COLUMN:
-        return new Integer(getColumn());
+        return getColumn();
       case XSDPackage.XSD_DIAGNOSTIC__NODE:
         return getNode();
       case XSDPackage.XSD_DIAGNOSTIC__ANNOTATION_URI:
@@ -651,10 +651,10 @@ public class XSDDiagnosticImpl
         setLocationURI((String)newValue);
         return;
       case XSDPackage.XSD_DIAGNOSTIC__LINE:
-        setLine(((Integer)newValue).intValue());
+        setLine((Integer)newValue);
         return;
       case XSDPackage.XSD_DIAGNOSTIC__COLUMN:
-        setColumn(((Integer)newValue).intValue());
+        setColumn((Integer)newValue);
         return;
       case XSDPackage.XSD_DIAGNOSTIC__NODE:
         setNode((Node)newValue);

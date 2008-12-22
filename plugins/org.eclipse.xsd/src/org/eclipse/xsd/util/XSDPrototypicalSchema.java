@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPrototypicalSchema.java,v 1.9 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDPrototypicalSchema.java,v 1.10 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -2874,8 +2874,8 @@ public class XSDPrototypicalSchema
                  { 
                    localizedSeverity, 
                    xsdDiagnostic./*{@link XSDDiagnostic#getLocationURI */getLocationURI/*}*/(), 
-                   new Integer(xsdDiagnostic./*{@link XSDDiagnostic#getLine */getLine/*}*/()), 
-                   new Integer(xsdDiagnostic./*{@link XSDDiagnostic#getColumn */getColumn/*}*/()) 
+                   xsdDiagnostic./*{@link XSDDiagnostic#getLine */getLine/*}*/(), 
+                   xsdDiagnostic./*{@link XSDDiagnostic#getColumn */getColumn/*}*/() 
                  }));
 
             System.out.println(xsdDiagnostic./*{@link XSDDiagnostic#getMessage */getMessage/*}*/());

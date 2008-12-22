@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.17 2008/02/28 21:03:37 emerks Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.18 2008/12/22 14:25:48 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -636,7 +636,7 @@ public class XSDModelGroupDefinitionImpl
     switch (featureID)
     {
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP_DEFINITION_REFERENCE:
-        return isModelGroupDefinitionReference() ? Boolean.TRUE : Boolean.FALSE;
+        return isModelGroupDefinitionReference();
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ANNOTATION:
         return getAnnotation();
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP:
