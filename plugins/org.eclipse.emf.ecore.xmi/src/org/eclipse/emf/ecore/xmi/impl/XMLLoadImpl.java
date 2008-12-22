@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.28 2008/05/25 19:22:19 emerks Exp $
+ * $Id: XMLLoadImpl.java,v 1.29 2008/12/22 14:25:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -148,7 +148,7 @@ public class XMLLoadImpl implements XMLLoad
         {
           for (Map.Entry<String, Boolean> entry : parserFeatures.entrySet())
           {
-            parser.getXMLReader().setFeature(entry.getKey(), entry.getValue().booleanValue());
+            parser.getXMLReader().setFeature(entry.getKey(), entry.getValue());
           }
         }
         if (parserProperties !=null)
@@ -240,7 +240,7 @@ public class XMLLoadImpl implements XMLLoad
         {
           for (Map.Entry<String, Boolean> feature : parserFeatures.entrySet())
           {
-            parser.getXMLReader().setFeature(feature.getKey(),  feature.getValue().booleanValue());
+            parser.getXMLReader().setFeature(feature.getKey(),  feature.getValue());
           }
         }
         if (parserProperties !=null)

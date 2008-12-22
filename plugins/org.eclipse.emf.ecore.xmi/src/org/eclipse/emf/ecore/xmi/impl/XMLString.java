@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.12 2007/03/20 13:54:22 emerks Exp $
+ * $Id: XMLString.java,v 1.13 2008/12/22 14:25:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -468,7 +468,7 @@ public class XMLString extends StringSegment
   protected String removeLast()
   {
     int end = elementNames.size();
-    isMixed = mixed.remove(end - 1).booleanValue();
+    isMixed = mixed.remove(end - 1);
     String result = elementNames.remove(end - 1);
     if (result != null)
     {

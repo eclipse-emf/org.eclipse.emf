@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.78 2008/03/29 14:35:51 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.79 2008/12/22 14:25:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -395,7 +395,7 @@ public class XMLSaveImpl implements XMLSave
     
       if (options.get(XMLResource.OPTION_FLUSH_THRESHOLD) instanceof Integer)
       {
-        flushThreshold = ((Integer)options.get(XMLResource.OPTION_FLUSH_THRESHOLD)).intValue();
+        flushThreshold = (Integer)options.get(XMLResource.OPTION_FLUSH_THRESHOLD);
       }
 
       String temporaryFileName = null;
@@ -412,7 +412,7 @@ public class XMLSaveImpl implements XMLSave
       }
       
       Integer lineWidth = (Integer)options.get(XMLResource.OPTION_LINE_WIDTH);
-      int effectiveLineWidth = lineWidth == null ? Integer.MAX_VALUE : lineWidth.intValue();
+      int effectiveLineWidth = lineWidth == null ? Integer.MAX_VALUE : lineWidth;
       String publicId = null, systemId = null;
       if (resource != null && Boolean.TRUE.equals(options.get(XMLResource.OPTION_SAVE_DOCTYPE)))
       {

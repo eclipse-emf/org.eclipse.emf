@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreResourceFactoryImpl.java,v 1.7 2007/01/15 22:22:33 marcelop Exp $
+ * $Id: EcoreResourceFactoryImpl.java,v 1.8 2008/12/22 14:25:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -48,7 +48,7 @@ public class EcoreResourceFactoryImpl extends ResourceFactoryImpl
     result.setEncoding("UTF-8");
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
-    result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, new Integer(80));
+    result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, 80);
     result.getDefaultSaveOptions().put(XMLResource.OPTION_URI_HANDLER, new URIHandlerImpl.PlatformSchemeAware());
     return result;
   }
