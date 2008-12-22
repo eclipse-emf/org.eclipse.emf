@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfoImpl.java,v 1.7 2006/12/29 18:29:11 marcelop Exp $
+ * $Id: XMLInfoImpl.java,v 1.8 2008/12/22 14:26:16 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -179,7 +179,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
       case Ecore2XMLPackage.XML_INFO__TARGET_NAMESPACE:
         return getTargetNamespace();
       case Ecore2XMLPackage.XML_INFO__XML_REPRESENTATION:
-        return new Integer(getXMLRepresentation());
+        return getXMLRepresentation();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -201,7 +201,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
         setTargetNamespace((String)newValue);
         return;
       case Ecore2XMLPackage.XML_INFO__XML_REPRESENTATION:
-        setXMLRepresentation(((Integer)newValue).intValue());
+        setXMLRepresentation((Integer)newValue);
         return;
     }
     super.eSet(featureID, newValue);
