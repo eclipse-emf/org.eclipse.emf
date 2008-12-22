@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.41 2008/12/08 02:00:01 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.42 2008/12/22 14:26:12 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1995,7 +1995,7 @@ public class ItemProviderAdapter
         }
       }
     }
-    return wrappingNeeded.booleanValue();
+    return wrappingNeeded;
   }
 
   /**
@@ -2629,7 +2629,7 @@ public class ItemProviderAdapter
           }
           case Notification.MOVE:
           {
-            int oldIndex = ((Integer)notification.getOldValue()).intValue();
+            int oldIndex = (Integer)notification.getOldValue();
             EList<?> values = (EList<?>)object.eGet(feature);
             boolean didMove = true;
 
