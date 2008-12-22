@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DocumentRootImpl.java,v 1.5 2007/05/07 17:26:29 marcelop Exp $
+ * $Id: DocumentRootImpl.java,v 1.6 2008/12/22 14:25:24 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname.impl;
 
@@ -462,7 +462,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
       case QNamePackage.DOCUMENT_ROOT__RESOURCE:
         return getResource();
       case QNamePackage.DOCUMENT_ROOT__AINT:
-        return new Integer(getAInt());
+        return getAInt();
       case QNamePackage.DOCUMENT_ROOT__AQNAME:
         return getAQname();
       case QNamePackage.DOCUMENT_ROOT__AUNION:
@@ -501,7 +501,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
         setResource((ResourceType)newValue);
         return;
       case QNamePackage.DOCUMENT_ROOT__AINT:
-        setAInt(((Integer)newValue).intValue());
+        setAInt((Integer)newValue);
         return;
       case QNamePackage.DOCUMENT_ROOT__AQNAME:
         setAQname((QName)newValue);

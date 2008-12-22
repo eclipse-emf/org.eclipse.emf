@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: USAddressImpl.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: USAddressImpl.java,v 1.3 2008/12/22 14:25:24 emerks Exp $
  */
 package org.eclipse.emf.test.models.ppo.impl;
 
@@ -367,7 +367,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
       case PPOPackage.US_ADDRESS__STATE:
         return getState();
       case PPOPackage.US_ADDRESS__ZIP:
-        return new Integer(getZip());
+        return getZip();
       case PPOPackage.US_ADDRESS__COUNTRY:
         return getCountry();
     }
@@ -397,7 +397,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
         setState((String)newValue);
         return;
       case PPOPackage.US_ADDRESS__ZIP:
-        setZip(((Integer)newValue).intValue());
+        setZip((Integer)newValue);
         return;
     }
     super.eSet(featureID, newValue);

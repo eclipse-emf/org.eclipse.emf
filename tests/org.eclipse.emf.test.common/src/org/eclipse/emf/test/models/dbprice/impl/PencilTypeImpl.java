@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PencilTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: PencilTypeImpl.java,v 1.4 2008/12/22 14:25:24 emerks Exp $
  */
 package org.eclipse.emf.test.models.dbprice.impl;
 
@@ -152,7 +152,7 @@ public class PencilTypeImpl extends EObjectImpl implements PencilType
     switch (featureID)
     {
       case DBPricePackage.PENCIL_TYPE__PRICE:
-        return new Integer(getPrice());
+        return getPrice();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -168,7 +168,7 @@ public class PencilTypeImpl extends EObjectImpl implements PencilType
     switch (featureID)
     {
       case DBPricePackage.PENCIL_TYPE__PRICE:
-        setPrice(((Integer)newValue).intValue());
+        setPrice((Integer)newValue);
         return;
     }
     super.eSet(featureID, newValue);

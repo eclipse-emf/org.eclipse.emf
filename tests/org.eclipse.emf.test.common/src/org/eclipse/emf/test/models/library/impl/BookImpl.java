@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: BookImpl.java,v 1.4 2008/12/22 14:25:24 emerks Exp $
  */
 package org.eclipse.emf.test.models.library.impl;
 
@@ -323,7 +323,7 @@ public class BookImpl extends EObjectImpl implements Book
       case LibraryPackage.BOOK__TITLE:
         return getTitle();
       case LibraryPackage.BOOK__PAGES:
-        return new Integer(getPages());
+        return getPages();
       case LibraryPackage.BOOK__CATEGORY:
         return getCategory();
       case LibraryPackage.BOOK__AUTHOR:
@@ -347,7 +347,7 @@ public class BookImpl extends EObjectImpl implements Book
         setTitle((String)newValue);
         return;
       case LibraryPackage.BOOK__PAGES:
-        setPages(((Integer)newValue).intValue());
+        setPages((Integer)newValue);
         return;
       case LibraryPackage.BOOK__CATEGORY:
         setCategory((BookCategory)newValue);

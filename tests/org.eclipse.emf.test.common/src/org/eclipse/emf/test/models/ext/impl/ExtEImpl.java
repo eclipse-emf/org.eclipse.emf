@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtEImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: ExtEImpl.java,v 1.4 2008/12/22 14:25:24 emerks Exp $
  */
 package org.eclipse.emf.test.models.ext.impl;
 
@@ -185,7 +185,7 @@ public class ExtEImpl extends EImpl implements ExtE
     switch (featureID)
     {
       case ExtPackage.EXT_E__VALUE:
-        return new Integer(getValue());
+        return getValue();
       case ExtPackage.EXT_E__F:
         return getF();
     }
@@ -204,7 +204,7 @@ public class ExtEImpl extends EImpl implements ExtE
     switch (featureID)
     {
       case ExtPackage.EXT_E__VALUE:
-        setValue(((Integer)newValue).intValue());
+        setValue((Integer)newValue);
         return;
       case ExtPackage.EXT_E__F:
         getF().clear();

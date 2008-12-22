@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceTypeImpl.java,v 1.4 2007/05/07 17:26:29 marcelop Exp $
+ * $Id: ResourceTypeImpl.java,v 1.5 2008/12/22 14:25:24 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname.impl;
 
@@ -365,7 +365,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
       case QNamePackage.RESOURCE_TYPE__QNAMELIST:
         return getQnamelist();
       case QNamePackage.RESOURCE_TYPE__INTVALUE:
-        return new Integer(getIntvalue());
+        return getIntvalue();
       case QNamePackage.RESOURCE_TYPE__ANY:
         if (coreType) return getAny();
         return ((FeatureMap.Internal)getAny()).getWrapper();
@@ -396,7 +396,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
         setQnamelist((List<QName>)newValue);
         return;
       case QNamePackage.RESOURCE_TYPE__INTVALUE:
-        setIntvalue(((Integer)newValue).intValue());
+        setIntvalue((Integer)newValue);
         return;
       case QNamePackage.RESOURCE_TYPE__ANY:
         ((FeatureMap.Internal)getAny()).set(newValue);

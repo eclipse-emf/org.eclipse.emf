@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemImpl.java,v 1.2 2007/01/18 22:06:38 marcelop Exp $
+ * $Id: ItemImpl.java,v 1.3 2008/12/22 14:25:24 emerks Exp $
  */
 package org.eclipse.emf.test.models.ppo.impl;
 
@@ -340,9 +340,9 @@ public class ItemImpl extends EObjectImpl implements Item
       case PPOPackage.ITEM__PRODUCT_NAME:
         return getProductName();
       case PPOPackage.ITEM__QUANTITY:
-        return new Integer(getQuantity());
+        return getQuantity();
       case PPOPackage.ITEM__US_PRICE:
-        return new Integer(getUSPrice());
+        return getUSPrice();
       case PPOPackage.ITEM__COMMENT:
         return getComment();
       case PPOPackage.ITEM__SHIP_DATE:
@@ -367,10 +367,10 @@ public class ItemImpl extends EObjectImpl implements Item
         setProductName((String)newValue);
         return;
       case PPOPackage.ITEM__QUANTITY:
-        setQuantity(((Integer)newValue).intValue());
+        setQuantity((Integer)newValue);
         return;
       case PPOPackage.ITEM__US_PRICE:
-        setUSPrice(((Integer)newValue).intValue());
+        setUSPrice((Integer)newValue);
         return;
       case PPOPackage.ITEM__COMMENT:
         setComment((String)newValue);

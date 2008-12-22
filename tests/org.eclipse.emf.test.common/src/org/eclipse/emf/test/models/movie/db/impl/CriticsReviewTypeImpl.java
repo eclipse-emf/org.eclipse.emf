@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CriticsReviewTypeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: CriticsReviewTypeImpl.java,v 1.4 2008/12/22 14:25:24 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -196,7 +196,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
     switch (featureID)
     {
       case DBPackage.CRITICS_REVIEW_TYPE__RATING:
-        return new Integer(getRating());
+        return getRating();
       case DBPackage.CRITICS_REVIEW_TYPE__REVIEWED_BY:
         return getReviewedBy();
     }
@@ -214,7 +214,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
     switch (featureID)
     {
       case DBPackage.CRITICS_REVIEW_TYPE__RATING:
-        setRating(((Integer)newValue).intValue());
+        setRating((Integer)newValue);
         return;
       case DBPackage.CRITICS_REVIEW_TYPE__REVIEWED_BY:
         setReviewedBy((String)newValue);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBValidator.java,v 1.4 2008/05/09 20:10:32 emerks Exp $
+ * $Id: DBValidator.java,v 1.5 2008/12/22 14:25:24 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.util;
 
@@ -136,11 +136,11 @@ public class DBValidator extends EObjectValidator
       case DBPackage.GENRE_TYPES_OBJECT:
         return validateGenreTypesObject((GenreTypes)value, diagnostics, context);
       case DBPackage.RATING_TYPE:
-        return validateRatingType(((Integer)value).intValue(), diagnostics, context);
+        return validateRatingType((Integer)value, diagnostics, context);
       case DBPackage.RATING_TYPE_OBJECT:
         return validateRatingTypeObject((Integer)value, diagnostics, context);
       case DBPackage.RATING_VALUES:
-        return validateRatingValues(((Integer)value).intValue(), diagnostics, context);
+        return validateRatingValues((Integer)value, diagnostics, context);
       case DBPackage.RATING_VALUES_OBJECT:
         return validateRatingValuesObject((Integer)value, diagnostics, context);
       default:
@@ -284,7 +284,7 @@ public class DBValidator extends EObjectValidator
   {
     boolean result = ratingType >= RATING_TYPE__MIN__VALUE;
     if (!result && diagnostics != null)
-      reportMinViolation(DBPackage.Literals.RATING_TYPE, new Integer(ratingType), new Integer(RATING_TYPE__MIN__VALUE), true, diagnostics, context);
+      reportMinViolation(DBPackage.Literals.RATING_TYPE, ratingType, RATING_TYPE__MIN__VALUE, true, diagnostics, context);
     return result;
   }
 
@@ -306,7 +306,7 @@ public class DBValidator extends EObjectValidator
   {
     boolean result = ratingType <= RATING_TYPE__MAX__VALUE;
     if (!result && diagnostics != null)
-      reportMaxViolation(DBPackage.Literals.RATING_TYPE, new Integer(ratingType), new Integer(RATING_TYPE__MAX__VALUE), true, diagnostics, context);
+      reportMaxViolation(DBPackage.Literals.RATING_TYPE, ratingType, RATING_TYPE__MAX__VALUE, true, diagnostics, context);
     return result;
   }
 
@@ -317,8 +317,8 @@ public class DBValidator extends EObjectValidator
    */
   public boolean validateRatingTypeObject(Integer ratingTypeObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    boolean result = validateRatingType_Min(ratingTypeObject.intValue(), diagnostics, context);
-    if (result || diagnostics != null) result &= validateRatingType_Max(ratingTypeObject.intValue(), diagnostics, context);
+    boolean result = validateRatingType_Min(ratingTypeObject, diagnostics, context);
+    if (result || diagnostics != null) result &= validateRatingType_Max(ratingTypeObject, diagnostics, context);
     return result;
   }
 
@@ -352,7 +352,7 @@ public class DBValidator extends EObjectValidator
   {
     boolean result = ratingValues >= RATING_VALUES__MIN__VALUE;
     if (!result && diagnostics != null)
-      reportMinViolation(DBPackage.Literals.RATING_VALUES, new Integer(ratingValues), new Integer(RATING_VALUES__MIN__VALUE), true, diagnostics, context);
+      reportMinViolation(DBPackage.Literals.RATING_VALUES, ratingValues, RATING_VALUES__MIN__VALUE, true, diagnostics, context);
     return result;
   }
 
@@ -374,7 +374,7 @@ public class DBValidator extends EObjectValidator
   {
     boolean result = ratingValues <= RATING_VALUES__MAX__VALUE;
     if (!result && diagnostics != null)
-      reportMaxViolation(DBPackage.Literals.RATING_VALUES, new Integer(ratingValues), new Integer(RATING_VALUES__MAX__VALUE), true, diagnostics, context);
+      reportMaxViolation(DBPackage.Literals.RATING_VALUES, ratingValues, RATING_VALUES__MAX__VALUE, true, diagnostics, context);
     return result;
   }
 
@@ -385,8 +385,8 @@ public class DBValidator extends EObjectValidator
    */
   public boolean validateRatingValuesObject(Integer ratingValuesObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    boolean result = validateRatingValues_Min(ratingValuesObject.intValue(), diagnostics, context);
-    if (result || diagnostics != null) result &= validateRatingValues_Max(ratingValuesObject.intValue(), diagnostics, context);
+    boolean result = validateRatingValues_Min(ratingValuesObject, diagnostics, context);
+    if (result || diagnostics != null) result &= validateRatingValues_Max(ratingValuesObject, diagnostics, context);
     return result;
   }
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNameValidator.java,v 1.6 2008/05/09 20:10:32 emerks Exp $
+ * $Id: QNameValidator.java,v 1.7 2008/12/22 14:25:24 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname.util;
 
@@ -183,7 +183,7 @@ public class QNameValidator extends EObjectValidator
       BasicDiagnostic tempDiagnostics = new BasicDiagnostic();
       if (XMLTypePackage.Literals.INT.isInstance(intQNameUnion))
       {
-        if (xmlTypeValidator.validateInt(((Integer)intQNameUnion).intValue(), tempDiagnostics, context)) return true;
+        if (xmlTypeValidator.validateInt((Integer)intQNameUnion, tempDiagnostics, context)) return true;
       }
       if (XMLTypePackage.Literals.QNAME.isInstance(intQNameUnion))
       {
@@ -198,7 +198,7 @@ public class QNameValidator extends EObjectValidator
     {
       if (XMLTypePackage.Literals.INT.isInstance(intQNameUnion))
       {
-        if (xmlTypeValidator.validateInt(((Integer)intQNameUnion).intValue(), null, context)) return true;
+        if (xmlTypeValidator.validateInt((Integer)intQNameUnion, null, context)) return true;
       }
       if (XMLTypePackage.Literals.QNAME.isInstance(intQNameUnion))
       {
@@ -304,7 +304,7 @@ public class QNameValidator extends EObjectValidator
       BasicDiagnostic tempDiagnostics = new BasicDiagnostic();
       if (XMLTypePackage.Literals.BOOLEAN.isInstance(union))
       {
-        if (xmlTypeValidator.validateBoolean(((Boolean)union).booleanValue(), tempDiagnostics, context)) return true;
+        if (xmlTypeValidator.validateBoolean((Boolean)union, tempDiagnostics, context)) return true;
       }
       if (QNamePackage.Literals.INT_QNAME_UNION.isInstance(union))
       {
@@ -319,7 +319,7 @@ public class QNameValidator extends EObjectValidator
     {
       if (XMLTypePackage.Literals.BOOLEAN.isInstance(union))
       {
-        if (xmlTypeValidator.validateBoolean(((Boolean)union).booleanValue(), null, context)) return true;
+        if (xmlTypeValidator.validateBoolean((Boolean)union, null, context)) return true;
       }
       if (QNamePackage.Literals.INT_QNAME_UNION.isInstance(union))
       {
