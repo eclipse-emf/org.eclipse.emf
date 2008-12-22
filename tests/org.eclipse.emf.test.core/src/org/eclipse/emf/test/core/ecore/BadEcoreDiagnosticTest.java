@@ -68,7 +68,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("org.eclipse.emf.ecore", diagnostic1.getSource());
     assertEquals("Diagnosis of org.eclipse.emf.ecore.impl.EPackageImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#/}", removeObjectHashCode(diagnostic1.getMessage()));
     assertEquals(0, diagnostic1.getCode());
-    assertEquals(111, diagnostic1.getChildren().size());
+    assertEquals(113, diagnostic1.getChildren().size());
     assertEquals(1, diagnostic1.getData().size());
     assertNull(diagnostic1.getException());
 
@@ -1029,25 +1029,25 @@ public class BadEcoreDiagnosticTest extends TestCase
     Diagnostic diagnostic108 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic108.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic108.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/f/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/U}'", removeObjectHashCode(diagnostic108.getMessage()));
-    assertEquals(3, diagnostic108.getCode());
+    assertEquals("A containment or bidirectional reference must be unique if its upper bound is different from 1", removeObjectHashCode(diagnostic108.getMessage()));
+    assertEquals(40, diagnostic108.getCode());
     assertEquals(0, diagnostic108.getChildren().size());
-    assertEquals(3, diagnostic108.getData().size());
+    assertEquals(1, diagnostic108.getData().size());
     assertNull(diagnostic108.getException());
 
     Diagnostic diagnostic109 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic109.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic109.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/f/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/U}'", removeObjectHashCode(diagnostic109.getMessage()));
-    assertEquals(3, diagnostic109.getCode());
+    assertEquals("A containment or bidirectional reference must be unique if its upper bound is different from 1", removeObjectHashCode(diagnostic109.getMessage()));
+    assertEquals(40, diagnostic109.getCode());
     assertEquals(0, diagnostic109.getChildren().size());
-    assertEquals(3, diagnostic109.getData().size());
+    assertEquals(1, diagnostic109.getData().size());
     assertNull(diagnostic109.getException());
 
     Diagnostic diagnostic110 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic110.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic110.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/f/g//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/V}'", removeObjectHashCode(diagnostic110.getMessage()));
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/f/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/U}'", removeObjectHashCode(diagnostic110.getMessage()));
     assertEquals(3, diagnostic110.getCode());
     assertEquals(0, diagnostic110.getChildren().size());
     assertEquals(3, diagnostic110.getData().size());
@@ -1056,7 +1056,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     Diagnostic diagnostic111 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic111.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic111.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/g/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/U}'", removeObjectHashCode(diagnostic111.getMessage()));
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/f/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/U}'", removeObjectHashCode(diagnostic111.getMessage()));
     assertEquals(3, diagnostic111.getCode());
     assertEquals(0, diagnostic111.getChildren().size());
     assertEquals(3, diagnostic111.getData().size());
@@ -1065,7 +1065,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     Diagnostic diagnostic112 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic112.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic112.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/g/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/U}'", removeObjectHashCode(diagnostic112.getMessage()));
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/f/g//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container/V}'", removeObjectHashCode(diagnostic112.getMessage()));
     assertEquals(3, diagnostic112.getCode());
     assertEquals(0, diagnostic112.getChildren().size());
     assertEquals(3, diagnostic112.getData().size());
@@ -1074,7 +1074,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     Diagnostic diagnostic113 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic113.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic113.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic113.getMessage()));
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/g/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/U}'", removeObjectHashCode(diagnostic113.getMessage()));
     assertEquals(3, diagnostic113.getCode());
     assertEquals(0, diagnostic113.getChildren().size());
     assertEquals(3, diagnostic113.getData().size());
@@ -1083,7 +1083,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     Diagnostic diagnostic114 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic114.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic114.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic114.getMessage()));
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/g/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container2/U}'", removeObjectHashCode(diagnostic114.getMessage()));
     assertEquals(3, diagnostic114.getCode());
     assertEquals(0, diagnostic114.getChildren().size());
     assertEquals(3, diagnostic114.getData().size());
@@ -1092,7 +1092,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     Diagnostic diagnostic115 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic115.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic115.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/g//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic115.getMessage()));
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic115.getMessage()));
     assertEquals(3, diagnostic115.getCode());
     assertEquals(0, diagnostic115.getChildren().size());
     assertEquals(3, diagnostic115.getData().size());
@@ -1101,43 +1101,43 @@ public class BadEcoreDiagnosticTest extends TestCase
     Diagnostic diagnostic116 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic116.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic116.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/j//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic116.getMessage()));
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic116.getMessage()));
     assertEquals(3, diagnostic116.getCode());
     assertEquals(0, diagnostic116.getChildren().size());
     assertEquals(3, diagnostic116.getData().size());
     assertNull(diagnostic116.getException());
 
     Diagnostic diagnostic117 = diagnosticIterator.next();
-    assertEquals(Diagnostic.WARNING, diagnostic117.getSeverity());
+    assertEquals(Diagnostic.ERROR, diagnostic117.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic117.getSource());
-    assertEquals("The generic type associated with the 'A' classifier should have 1 type argument(s) to match the number of type parameter(s) of the classifier ", removeObjectHashCode(diagnostic117.getMessage()));
-    assertEquals(4, diagnostic117.getCode());
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/g//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic117.getMessage()));
+    assertEquals(3, diagnostic117.getCode());
     assertEquals(0, diagnostic117.getChildren().size());
-    assertEquals(1, diagnostic117.getData().size());
+    assertEquals(3, diagnostic117.getData().size());
     assertNull(diagnostic117.getException());
 
     Diagnostic diagnostic118 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic118.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic118.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic118.getMessage()));
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/g/j//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic118.getMessage()));
     assertEquals(3, diagnostic118.getCode());
     assertEquals(0, diagnostic118.getChildren().size());
     assertEquals(3, diagnostic118.getData().size());
     assertNull(diagnostic118.getException());
 
     Diagnostic diagnostic119 = diagnosticIterator.next();
-    assertEquals(Diagnostic.ERROR, diagnostic119.getSeverity());
+    assertEquals(Diagnostic.WARNING, diagnostic119.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic119.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic119.getMessage()));
-    assertEquals(3, diagnostic119.getCode());
+    assertEquals("The generic type associated with the 'A' classifier should have 1 type argument(s) to match the number of type parameter(s) of the classifier ", removeObjectHashCode(diagnostic119.getMessage()));
+    assertEquals(4, diagnostic119.getCode());
     assertEquals(0, diagnostic119.getChildren().size());
-    assertEquals(3, diagnostic119.getData().size());
+    assertEquals(1, diagnostic119.getData().size());
     assertNull(diagnostic119.getException());
 
     Diagnostic diagnostic120 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic120.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic120.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/g//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic120.getMessage()));
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/b//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic120.getMessage()));
     assertEquals(3, diagnostic120.getCode());
     assertEquals(0, diagnostic120.getChildren().size());
     assertEquals(3, diagnostic120.getData().size());
@@ -1146,47 +1146,65 @@ public class BadEcoreDiagnosticTest extends TestCase
     Diagnostic diagnostic121 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic121.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic121.getSource());
-    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/j//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic121.getMessage()));
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/d//.1}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/U}'", removeObjectHashCode(diagnostic121.getMessage()));
     assertEquals(3, diagnostic121.getCode());
     assertEquals(0, diagnostic121.getChildren().size());
     assertEquals(3, diagnostic121.getData().size());
     assertNull(diagnostic121.getException());
 
     Diagnostic diagnostic122 = diagnosticIterator.next();
-    assertEquals(Diagnostic.WARNING, diagnostic122.getSeverity());
+    assertEquals(Diagnostic.ERROR, diagnostic122.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic122.getSource());
-    assertEquals("The generic type associated with the 'B' classifier should have 1 type argument(s) to match the number of type parameter(s) of the classifier ", removeObjectHashCode(diagnostic122.getMessage()));
-    assertEquals(4, diagnostic122.getCode());
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/g//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic122.getMessage()));
+    assertEquals(3, diagnostic122.getCode());
     assertEquals(0, diagnostic122.getChildren().size());
-    assertEquals(1, diagnostic122.getData().size());
+    assertEquals(3, diagnostic122.getData().size());
     assertNull(diagnostic122.getException());
 
     Diagnostic diagnostic123 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic123.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic123.getSource());
-    assertEquals("The default value literal '256' must be a valid literal of the attribute's type", removeObjectHashCode(diagnostic123.getMessage()));
-    assertEquals(39, diagnostic123.getCode());
-    assertEquals(1, diagnostic123.getChildren().size());
-    assertEquals(1, diagnostic123.getData().size());
+    assertEquals("The generic type 'org.eclipse.emf.ecore.impl.EGenericTypeImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/h/j//.2}' is not a valid substitution for type parameter 'org.eclipse.emf.ecore.impl.ETypeParameterImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#//substitution/Container3/V}'", removeObjectHashCode(diagnostic123.getMessage()));
+    assertEquals(3, diagnostic123.getCode());
+    assertEquals(0, diagnostic123.getChildren().size());
+    assertEquals(3, diagnostic123.getData().size());
     assertNull(diagnostic123.getException());
 
     Diagnostic diagnostic124 = diagnosticIterator.next();
-    assertEquals(Diagnostic.ERROR, diagnostic124.getSeverity());
-    assertEquals("org.eclipse.emf.ecore", diagnostic124.getSource());
-    assertEquals("The value '256' must be less than or equal to '255' ", removeObjectHashCode(diagnostic124.getMessage()));
-    assertEquals(5, diagnostic124.getCode());
+    assertEquals(Diagnostic.WARNING, diagnostic124.getSeverity());
+    assertEquals("org.eclipse.emf.ecore.model", diagnostic124.getSource());
+    assertEquals("The generic type associated with the 'B' classifier should have 1 type argument(s) to match the number of type parameter(s) of the classifier ", removeObjectHashCode(diagnostic124.getMessage()));
+    assertEquals(4, diagnostic124.getCode());
     assertEquals(0, diagnostic124.getChildren().size());
-    assertEquals(3, diagnostic124.getData().size());
+    assertEquals(1, diagnostic124.getData().size());
     assertNull(diagnostic124.getException());
 
     Diagnostic diagnostic125 = diagnosticIterator.next();
     assertEquals(Diagnostic.ERROR, diagnostic125.getSeverity());
     assertEquals("org.eclipse.emf.ecore.model", diagnostic125.getSource());
-    assertEquals("The default value literal '' must be a valid literal of the attribute's type", removeObjectHashCode(diagnostic125.getMessage()));
+    assertEquals("The default value literal '256' must be a valid literal of the attribute's type", removeObjectHashCode(diagnostic125.getMessage()));
     assertEquals(39, diagnostic125.getCode());
-    assertEquals(0, diagnostic125.getChildren().size());
+    assertEquals(1, diagnostic125.getChildren().size());
     assertEquals(1, diagnostic125.getData().size());
     assertNull(diagnostic125.getException());
+
+    Diagnostic diagnostic126 = diagnosticIterator.next();
+    assertEquals(Diagnostic.ERROR, diagnostic126.getSeverity());
+    assertEquals("org.eclipse.emf.ecore", diagnostic126.getSource());
+    assertEquals("The value '256' must be less than or equal to '255' ", removeObjectHashCode(diagnostic126.getMessage()));
+    assertEquals(5, diagnostic126.getCode());
+    assertEquals(0, diagnostic126.getChildren().size());
+    assertEquals(3, diagnostic126.getData().size());
+    assertNull(diagnostic126.getException());
+
+    Diagnostic diagnostic127 = diagnosticIterator.next();
+    assertEquals(Diagnostic.ERROR, diagnostic127.getSeverity());
+    assertEquals("org.eclipse.emf.ecore.model", diagnostic127.getSource());
+    assertEquals("The default value literal '' must be a valid literal of the attribute's type", removeObjectHashCode(diagnostic127.getMessage()));
+    assertEquals(39, diagnostic127.getCode());
+    assertEquals(0, diagnostic127.getChildren().size());
+    assertEquals(1, diagnostic127.getData().size());
+    assertNull(diagnostic127.getException());
     
     assertFalse(diagnosticIterator.hasNext());
   }
@@ -1210,8 +1228,3 @@ public class BadEcoreDiagnosticTest extends TestCase
     return string.replaceAll("@\\w+", "");
   }
 }
-
-
-
-
-

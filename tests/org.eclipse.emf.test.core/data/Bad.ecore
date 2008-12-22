@@ -492,6 +492,19 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
     </eClassifiers>
   </eSubpackages>
+  <eSubpackages name="unique" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//unique"
+      nsPrefix="bad.unique">
+    <eClassifiers xsi:type="ecore:EClass" name="ReferenceWithInconsistentUnique">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nonUniqueMultiValuedContainment"
+          unique="false" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nonUniqueMultiValuedBidirectionalA"
+          unique="false" upperBound="10" eType="#//unique/ReferenceWithInconsistentUnique"
+          eOpposite="#//unique/ReferenceWithInconsistentUnique/nonUniqueMultiValuedBidirectionalB"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nonUniqueMultiValuedBidirectionalB"
+          eType="#//unique/ReferenceWithInconsistentUnique" eOpposite="#//unique/ReferenceWithInconsistentUnique/nonUniqueMultiValuedBidirectionalA"/>
+    </eClassifiers>
+  </eSubpackages>
   <eSubpackages name="substitution" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//substitution"
       nsPrefix="bad.substitution">
     <eClassifiers xsi:type="ecore:EDataType" name="A" instanceClassName="example.A">
