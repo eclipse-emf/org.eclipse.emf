@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreResourceFactoryImpl.java,v 1.4 2006/12/29 18:29:00 marcelop Exp $
+ * $Id: XSD2EcoreResourceFactoryImpl.java,v 1.5 2008/12/22 14:24:56 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.util;
 
@@ -64,7 +64,7 @@ public class XSD2EcoreResourceFactoryImpl extends ResourceFactoryImpl
     }
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
-    result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, new Integer(80));
+    result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, 80);
 
     return result;
   }
