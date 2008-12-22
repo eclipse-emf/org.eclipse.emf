@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationImpl.java,v 1.10 2008/11/01 10:42:01 emerks Exp $
+ * $Id: NotificationImpl.java,v 1.11 2008/12/22 14:25:28 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -603,7 +603,7 @@ public class NotificationImpl implements Notification, NotificationChain
       }
       case Notification.MOVE:
       {
-        return ((Integer)getOldValue()).intValue() == position;
+        return (Integer)getOldValue() == position;
       }
       case Notification.SET:
       case Notification.UNSET:
@@ -653,21 +653,21 @@ public class NotificationImpl implements Notification, NotificationChain
         switch (primitiveType)
         {
           case PRIMITIVE_TYPE_BOOLEAN:
-            return defaultValue != null && ((Boolean)defaultValue).booleanValue() == (newSimplePrimitiveValue != 0);
+            return defaultValue != null && (Boolean)defaultValue == (newSimplePrimitiveValue != 0);
           case PRIMITIVE_TYPE_BYTE:
-            return defaultValue != null && ((Byte)defaultValue).byteValue() == (byte)newSimplePrimitiveValue;
+            return defaultValue != null && (Byte)defaultValue == (byte)newSimplePrimitiveValue;
           case PRIMITIVE_TYPE_CHAR:
-            return defaultValue != null && ((Character)defaultValue).charValue() == (char)newSimplePrimitiveValue;
+            return defaultValue != null && (Character)defaultValue == (char)newSimplePrimitiveValue;
           case PRIMITIVE_TYPE_LONG:
-            return defaultValue != null && ((Long)defaultValue).longValue() == newSimplePrimitiveValue;
+            return defaultValue != null && (Long)defaultValue == newSimplePrimitiveValue;
           case PRIMITIVE_TYPE_INT:
-            return defaultValue != null && ((Integer)defaultValue).intValue() == (int)newSimplePrimitiveValue;
+            return defaultValue != null && (Integer)defaultValue == (int)newSimplePrimitiveValue;
           case PRIMITIVE_TYPE_SHORT:
-            return defaultValue != null && ((Short)defaultValue).shortValue() == (short)newSimplePrimitiveValue;
+            return defaultValue != null && (Short)defaultValue == (short)newSimplePrimitiveValue;
           case PRIMITIVE_TYPE_DOUBLE:
-            return defaultValue != null && ((Double)defaultValue).doubleValue() == newIEEEPrimitiveValue;
+            return defaultValue != null && (Double)defaultValue == newIEEEPrimitiveValue;
           case PRIMITIVE_TYPE_FLOAT:
-            return defaultValue != null && ((Float)defaultValue).floatValue() == (float)newIEEEPrimitiveValue;
+            return defaultValue != null && (Float)defaultValue == (float)newIEEEPrimitiveValue;
           default:
             return defaultValue == null ? newValue == null : defaultValue.equals(newValue);
         }
@@ -716,21 +716,21 @@ public class NotificationImpl implements Notification, NotificationChain
     switch (primitiveType)
     {
       case PRIMITIVE_TYPE_BOOLEAN:
-        return defaultValue != null && ((Boolean)defaultValue).booleanValue() != (oldSimplePrimitiveValue != 0);
+        return defaultValue != null && (Boolean)defaultValue != (oldSimplePrimitiveValue != 0);
       case PRIMITIVE_TYPE_BYTE:
-        return defaultValue != null && ((Byte)defaultValue).byteValue() != (byte)oldSimplePrimitiveValue;
+        return defaultValue != null && (Byte)defaultValue != (byte)oldSimplePrimitiveValue;
       case PRIMITIVE_TYPE_CHAR:
-        return defaultValue != null && ((Character)defaultValue).charValue() != (char)oldSimplePrimitiveValue;
+        return defaultValue != null && (Character)defaultValue != (char)oldSimplePrimitiveValue;
       case PRIMITIVE_TYPE_LONG:
-        return defaultValue != null && ((Long)defaultValue).longValue() != oldSimplePrimitiveValue;
+        return defaultValue != null && (Long)defaultValue != oldSimplePrimitiveValue;
       case PRIMITIVE_TYPE_INT:
-        return defaultValue != null && ((Integer)defaultValue).intValue() != (int)oldSimplePrimitiveValue;
+        return defaultValue != null && (Integer)defaultValue != (int)oldSimplePrimitiveValue;
       case PRIMITIVE_TYPE_SHORT:
-        return defaultValue != null && ((Short)defaultValue).shortValue() != (short)oldSimplePrimitiveValue;
+        return defaultValue != null && (Short)defaultValue != (short)oldSimplePrimitiveValue;
       case PRIMITIVE_TYPE_DOUBLE:
-        return defaultValue != null && ((Double)defaultValue).doubleValue() != oldIEEEPrimitiveValue;
+        return defaultValue != null && (Double)defaultValue != oldIEEEPrimitiveValue;
       case PRIMITIVE_TYPE_FLOAT:
-        return defaultValue != null && ((Float)defaultValue).floatValue() != (float)oldIEEEPrimitiveValue;
+        return defaultValue != null && (Float)defaultValue != (float)oldIEEEPrimitiveValue;
       default:
         return defaultValue == null ? oldValue != null : !defaultValue.equals(oldValue);
     }
