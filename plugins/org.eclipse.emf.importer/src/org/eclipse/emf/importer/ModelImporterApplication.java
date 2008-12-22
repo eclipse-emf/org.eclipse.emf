@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.29 2007/09/06 19:46:46 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.30 2008/12/22 14:25:54 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -139,7 +139,7 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
         };
 
       ResourcesPlugin.getWorkspace().run(runnable, getProgressMonitor());
-      return new Integer(0);
+      return 0;
     }
     catch (Exception exception)
     {
@@ -148,7 +148,7 @@ public abstract class ModelImporterApplication implements IApplication, Deprecat
         exception.printStackTrace();
       }
       ImporterPlugin.INSTANCE.log(exception);
-      return new Integer(1);
+      return 1;
     }
   }
 
