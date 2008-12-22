@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.34 2008/12/13 15:55:39 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.35 2008/12/22 14:26:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -669,7 +669,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       case ChangePackage.FEATURE_CHANGE__DATA_VALUE:
         return getDataValue();
       case ChangePackage.FEATURE_CHANGE__SET:
-        return isSet() ? Boolean.TRUE : Boolean.FALSE;
+        return isSet();
       case ChangePackage.FEATURE_CHANGE__VALUE:
         return getValue();
       case ChangePackage.FEATURE_CHANGE__FEATURE:
@@ -702,7 +702,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
         setDataValue((String)newValue);
         return;
       case ChangePackage.FEATURE_CHANGE__SET:
-        setSet(((Boolean)newValue).booleanValue());
+        setSet((Boolean)newValue);
         return;
       case ChangePackage.FEATURE_CHANGE__FEATURE:
         setFeature((EStructuralFeature)newValue);

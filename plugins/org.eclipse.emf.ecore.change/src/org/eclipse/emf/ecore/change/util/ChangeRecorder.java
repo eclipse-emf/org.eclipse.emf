@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.47 2008/05/04 17:03:41 emerks Exp $
+ * $Id: ChangeRecorder.java,v 1.48 2008/12/22 14:26:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -443,7 +443,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
         {
           EList<Object> oldValue = new BasicEList<Object>((Collection<?>)eObject.eGet(feature));
           int position = notification.getPosition();
-          int oldPosition = ((Integer)notification.getOldValue()).intValue();
+          int oldPosition = (Integer)notification.getOldValue();
           oldValue.move(oldPosition, position);
           change = createFeatureChange(eObject, feature, oldValue, notification.wasSet());
           ((InternalEList<FeatureChange>)changes).addUnique(change);
@@ -569,7 +569,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
         {
           EList<Object> oldValue = new BasicEList<Object>(resource.getContents());
           int position = notification.getPosition();
-          int oldPosition = ((Integer)notification.getOldValue()).intValue();
+          int oldPosition = (Integer)notification.getOldValue();
           oldValue.move(oldPosition, position);
           change = createResourceChange(resource, oldValue);
           getResourceChanges().add(change);

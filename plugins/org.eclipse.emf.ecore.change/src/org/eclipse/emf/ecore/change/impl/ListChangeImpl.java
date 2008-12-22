@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.13 2008/10/23 17:22:40 emerks Exp $
+ * $Id: ListChangeImpl.java,v 1.14 2008/12/22 14:26:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -581,9 +581,9 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
       case ChangePackage.LIST_CHANGE__DATA_VALUES:
         return getDataValues();
       case ChangePackage.LIST_CHANGE__INDEX:
-        return new Integer(getIndex());
+        return getIndex();
       case ChangePackage.LIST_CHANGE__MOVE_TO_INDEX:
-        return new Integer(getMoveToIndex());
+        return getMoveToIndex();
       case ChangePackage.LIST_CHANGE__VALUES:
         return getValues();
       case ChangePackage.LIST_CHANGE__REFERENCE_VALUES:
@@ -616,10 +616,10 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
         getDataValues().addAll((Collection<? extends String>)newValue);
         return;
       case ChangePackage.LIST_CHANGE__INDEX:
-        setIndex(((Integer)newValue).intValue());
+        setIndex((Integer)newValue);
         return;
       case ChangePackage.LIST_CHANGE__MOVE_TO_INDEX:
-        setMoveToIndex(((Integer)newValue).intValue());
+        setMoveToIndex((Integer)newValue);
         return;
       case ChangePackage.LIST_CHANGE__VALUES:
         getValues().clear();
