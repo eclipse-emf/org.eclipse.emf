@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.26 2008/12/06 21:32:40 davidms Exp $
+ * $Id: XSDEditor.java,v 1.27 2008/12/22 14:24:39 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -2502,7 +2502,7 @@ public class XSDEditor
 
       result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
 
-      result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, new Integer(80));
+      result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, 80);
 
       result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
       return result;
