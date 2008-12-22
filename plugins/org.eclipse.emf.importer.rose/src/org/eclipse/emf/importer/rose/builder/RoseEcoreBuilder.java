@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.20 2008/12/13 15:56:48 emerks Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.21 2008/12/22 14:26:15 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -905,7 +905,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       int numberValue = 0;
       if (!number.equals(""))
       {
-        numberValue = new Integer(number).intValue();
+        numberValue = Integer.parseInt(number);
       }
       else if (!eLiterals.isEmpty())
       {

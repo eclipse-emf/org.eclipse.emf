@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseParser.java,v 1.5 2007/03/23 17:37:00 marcelop Exp $
+ * $Id: RoseParser.java,v 1.6 2008/12/22 14:26:15 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -88,9 +88,9 @@ public class RoseParser
   public void parse()
   {
     baseId = null;
-    idStack.push(new Integer(0));
+    idStack.push(0);
     versionTree = parseExpr("");
-    idStack.push(new Integer(0));
+    idStack.push(0);
     baseId = null;
     modelTree = parseExpr("");
   }
@@ -111,7 +111,7 @@ public class RoseParser
       }
       List<RoseNode> nodes = node.getNodes();
       Integer integ = path.get(i);
-      int j = integ.intValue();
+      int j = integ;
       if (j < 1 || j > nodes.size())
         break;
       node = nodes.get(j - 1);
@@ -183,9 +183,9 @@ public class RoseParser
   private RoseNode parseObject(String key)
   {
     Integer topInt = idStack.pop();
-    int top = topInt.intValue();
-    idStack.push(new Integer(++top));
-    idStack.push(new Integer(0));
+    int top = topInt;
+    idStack.push(++top);
+    idStack.push(0);
     if (baseId == null)
     {
       baseId = "id";
@@ -264,10 +264,10 @@ public class RoseParser
   private RoseNode parseValue(String key)
   {
     Integer topInt = idStack.pop();
-    int top = topInt.intValue();
+    int top = topInt;
     //    top++;
-    idStack.push(new Integer(++top));
-    idStack.push(new Integer(0));
+    idStack.push(++top);
+    idStack.push(0);
     if (baseId == null)
     {
       baseId = "id";

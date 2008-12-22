@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseComponent.java,v 1.3 2006/12/28 06:56:06 marcelop Exp $
+ * $Id: RoseComponent.java,v 1.4 2008/12/22 14:26:15 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -38,8 +38,8 @@ public class RoseComponent
   {
     for (PropertyChangeListener propertyChangeListener : listeners)
     {
-      Integer oldInt = new Integer(oldValue);
-      Integer newInt = new Integer(newValue);
+      Integer oldInt = oldValue;
+      Integer newInt = newValue;
       PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(this, propertyName, oldInt, newInt);
       propertyChangeListener.propertyChange(propertyChangeEvent);
     }
