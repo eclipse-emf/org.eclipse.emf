@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LocalTransfer.java,v 1.5 2007/06/14 18:32:37 emerks Exp $
+ * $Id: LocalTransfer.java,v 1.6 2008/12/22 14:26:18 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -123,7 +123,7 @@ public class LocalTransfer extends ByteArrayTransfer
     
     try
     {
-      long startTime = Long.valueOf(new String(bytes)).longValue();
+      long startTime = Long.parseLong(new String(bytes));
       return this.startTime == startTime ? object : null;
     }
     catch (NumberFormatException exception)

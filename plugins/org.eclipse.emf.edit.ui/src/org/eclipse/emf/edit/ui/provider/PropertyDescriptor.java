@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.17 2008/01/10 21:53:48 emerks Exp $
+ * $Id: PropertyDescriptor.java,v 1.18 2008/12/22 14:26:18 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -338,7 +338,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
     @Override
     public Object doGetValue()
     {
-      return new Integer(Integer.parseInt((String)super.doGetValue()));
+      return Integer.parseInt((String)super.doGetValue());
     }
 
     @Override
