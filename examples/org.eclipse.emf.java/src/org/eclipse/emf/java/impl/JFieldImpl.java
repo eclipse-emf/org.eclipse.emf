@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JFieldImpl.java,v 1.10 2007/02/20 17:43:25 emerks Exp $
+ * $Id: JFieldImpl.java,v 1.11 2008/12/22 14:26:08 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -352,11 +352,11 @@ public class JFieldImpl extends JMemberImpl implements JField
     switch (featureID)
     {
       case JavaPackage.JFIELD__FINAL:
-        return isFinal() ? Boolean.TRUE : Boolean.FALSE;
+        return isFinal();
       case JavaPackage.JFIELD__TRANSIENT:
-        return isTransient() ? Boolean.TRUE : Boolean.FALSE;
+        return isTransient();
       case JavaPackage.JFIELD__VOLATILE:
-        return isVolatile() ? Boolean.TRUE : Boolean.FALSE;
+        return isVolatile();
       case JavaPackage.JFIELD__JAVA_FIELD:
         return getJavaField();
       case JavaPackage.JFIELD__INITIALIZER:
@@ -379,13 +379,13 @@ public class JFieldImpl extends JMemberImpl implements JField
     switch (featureID)
     {
       case JavaPackage.JFIELD__FINAL:
-        setFinal(((Boolean)newValue).booleanValue());
+        setFinal((Boolean)newValue);
         return;
       case JavaPackage.JFIELD__TRANSIENT:
-        setTransient(((Boolean)newValue).booleanValue());
+        setTransient((Boolean)newValue);
         return;
       case JavaPackage.JFIELD__VOLATILE:
-        setVolatile(((Boolean)newValue).booleanValue());
+        setVolatile((Boolean)newValue);
         return;
       case JavaPackage.JFIELD__JAVA_FIELD:
         setJavaField((Field)newValue);

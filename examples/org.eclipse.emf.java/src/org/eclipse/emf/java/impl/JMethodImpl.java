@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodImpl.java,v 1.12 2007/02/20 17:43:25 emerks Exp $
+ * $Id: JMethodImpl.java,v 1.13 2008/12/22 14:26:08 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -567,17 +567,17 @@ public class JMethodImpl extends JMemberImpl implements JMethod
     switch (featureID)
     {
       case JavaPackage.JMETHOD__ABSTRACT:
-        return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
+        return isAbstract();
       case JavaPackage.JMETHOD__FINAL:
-        return isFinal() ? Boolean.TRUE : Boolean.FALSE;
+        return isFinal();
       case JavaPackage.JMETHOD__NATIVE:
-        return isNative() ? Boolean.TRUE : Boolean.FALSE;
+        return isNative();
       case JavaPackage.JMETHOD__SYNCHRONIZED:
-        return isSynchronized() ? Boolean.TRUE : Boolean.FALSE;
+        return isSynchronized();
       case JavaPackage.JMETHOD__JAVA_METHOD:
         return getJavaMethod();
       case JavaPackage.JMETHOD__CONSTRUCTOR:
-        return isConstructor() ? Boolean.TRUE : Boolean.FALSE;
+        return isConstructor();
       case JavaPackage.JMETHOD__JAVA_CONSTRUCTOR:
         return getJavaConstructor();
       case JavaPackage.JMETHOD__BODY:
@@ -605,22 +605,22 @@ public class JMethodImpl extends JMemberImpl implements JMethod
     switch (featureID)
     {
       case JavaPackage.JMETHOD__ABSTRACT:
-        setAbstract(((Boolean)newValue).booleanValue());
+        setAbstract((Boolean)newValue);
         return;
       case JavaPackage.JMETHOD__FINAL:
-        setFinal(((Boolean)newValue).booleanValue());
+        setFinal((Boolean)newValue);
         return;
       case JavaPackage.JMETHOD__NATIVE:
-        setNative(((Boolean)newValue).booleanValue());
+        setNative((Boolean)newValue);
         return;
       case JavaPackage.JMETHOD__SYNCHRONIZED:
-        setSynchronized(((Boolean)newValue).booleanValue());
+        setSynchronized((Boolean)newValue);
         return;
       case JavaPackage.JMETHOD__JAVA_METHOD:
         setJavaMethod((Method)newValue);
         return;
       case JavaPackage.JMETHOD__CONSTRUCTOR:
-        setConstructor(((Boolean)newValue).booleanValue());
+        setConstructor((Boolean)newValue);
         return;
       case JavaPackage.JMETHOD__JAVA_CONSTRUCTOR:
         setJavaConstructor((Constructor<?>)newValue);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.13 2007/02/20 17:43:25 emerks Exp $
+ * $Id: JClassImpl.java,v 1.14 2008/12/22 14:26:08 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -814,13 +814,13 @@ public class JClassImpl extends JMemberImpl implements JClass
     switch (featureID)
     {
       case JavaPackage.JCLASS__ABSTRACT:
-        return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
+        return isAbstract();
       case JavaPackage.JCLASS__FINAL:
-        return isFinal() ? Boolean.TRUE : Boolean.FALSE;
+        return isFinal();
       case JavaPackage.JCLASS__INTERFACE:
-        return isInterface() ? Boolean.TRUE : Boolean.FALSE;
+        return isInterface();
       case JavaPackage.JCLASS__THROWABLE:
-        return isThrowable() ? Boolean.TRUE : Boolean.FALSE;
+        return isThrowable();
       case JavaPackage.JCLASS__JAVA_CLASS:
         return getJavaClass();
       case JavaPackage.JCLASS__FIELDS:
@@ -866,16 +866,16 @@ public class JClassImpl extends JMemberImpl implements JClass
     switch (featureID)
     {
       case JavaPackage.JCLASS__ABSTRACT:
-        setAbstract(((Boolean)newValue).booleanValue());
+        setAbstract((Boolean)newValue);
         return;
       case JavaPackage.JCLASS__FINAL:
-        setFinal(((Boolean)newValue).booleanValue());
+        setFinal((Boolean)newValue);
         return;
       case JavaPackage.JCLASS__INTERFACE:
-        setInterface(((Boolean)newValue).booleanValue());
+        setInterface((Boolean)newValue);
         return;
       case JavaPackage.JCLASS__THROWABLE:
-        setThrowable(((Boolean)newValue).booleanValue());
+        setThrowable((Boolean)newValue);
         return;
       case JavaPackage.JCLASS__JAVA_CLASS:
         setJavaClass((Class<?>)newValue);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMemberImpl.java,v 1.8 2006/12/29 18:27:41 marcelop Exp $
+ * $Id: JMemberImpl.java,v 1.9 2008/12/22 14:26:08 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -303,7 +303,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
     switch (featureID)
     {
       case JavaPackage.JMEMBER__STATIC:
-        return isStatic() ? Boolean.TRUE : Boolean.FALSE;
+        return isStatic();
       case JavaPackage.JMEMBER__VISIBILITY:
         return getVisibility();
       case JavaPackage.JMEMBER__COMMENT:
@@ -325,7 +325,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
     switch (featureID)
     {
       case JavaPackage.JMEMBER__STATIC:
-        setStatic(((Boolean)newValue).booleanValue());
+        setStatic((Boolean)newValue);
         return;
       case JavaPackage.JMEMBER__VISIBILITY:
         setVisibility((JVisibility)newValue);

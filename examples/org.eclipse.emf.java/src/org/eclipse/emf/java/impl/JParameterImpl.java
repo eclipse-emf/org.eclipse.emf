@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameterImpl.java,v 1.9 2007/02/20 17:43:25 emerks Exp $
+ * $Id: JParameterImpl.java,v 1.10 2008/12/22 14:26:08 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -269,7 +269,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
     switch (featureID)
     {
       case JavaPackage.JPARAMETER__FINAL:
-        return isFinal() ? Boolean.TRUE : Boolean.FALSE;
+        return isFinal();
       case JavaPackage.JPARAMETER__METHOD:
         return getMethod();
       case JavaPackage.JPARAMETER__TYPE:
@@ -290,7 +290,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
     switch (featureID)
     {
       case JavaPackage.JPARAMETER__FINAL:
-        setFinal(((Boolean)newValue).booleanValue());
+        setFinal((Boolean)newValue);
         return;
       case JavaPackage.JPARAMETER__METHOD:
         setMethod((JMethod)newValue);
