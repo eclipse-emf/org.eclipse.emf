@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryLabelProvider.java,v 1.6 2008/05/07 19:08:40 emerks Exp $
+ * $Id: AdapterFactoryLabelProvider.java,v 1.7 2008/12/23 15:12:58 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -44,6 +44,7 @@ import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.ITableItemColorProvider;
 import org.eclipse.emf.edit.provider.ITableItemFontProvider;
 import org.eclipse.emf.edit.provider.ITableItemLabelProvider;
+import org.eclipse.emf.edit.provider.IViewerNotification;
 
 
 /**
@@ -177,6 +178,11 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
    * This keeps track of the label provider listeners.
    */
   protected Collection<ILabelProviderListener> labelProviderListeners;
+
+  /**
+   * Whether label update notifications are fired.
+   */
+  protected boolean isFireLabelUpdateNotifications;
 
   private static final Class<?> IItemLabelProviderClass = IItemLabelProvider.class;
   private static final Class<?> ITableItemLabelProviderClass = ITableItemLabelProvider.class;
@@ -644,6 +650,22 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
     return result;
   }
 
+  /**
+   * Returns whether this label provider fires {@link ILabelProviderListener#labelProviderChanged(LabelProviderChangedEvent) update notifications}.
+   */
+  public boolean isFireLabelUpdateNotifications()
+  {
+    return isFireLabelUpdateNotifications;
+  }
+
+  /**
+   * Sets whether this label provider fires {@link ILabelProviderListener#labelProviderChanged(LabelProviderChangedEvent) update notifications}.
+   */
+  public void setFireLabelUpdateNotifications(boolean isFireLabelUpdateNotifications)
+  {
+    this.isFireLabelUpdateNotifications = isFireLabelUpdateNotifications;
+  }
+
   public void fireLabelProviderChanged()
   {
     for (ILabelProviderListener labelProviderListener : labelProviderListeners)
@@ -654,6 +676,15 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
 
   public void notifyChanged(Notification notification)
   {
-    // fireLabelProviderChanged();
+    if (isFireLabelUpdateNotifications())
+    {
+      if (!(notification instanceof IViewerNotification) || ((IViewerNotification)notification).isLabelUpdate())
+      {
+        for (ILabelProviderListener labelProviderListener : labelProviderListeners)
+        {
+          labelProviderListener.labelProviderChanged(new LabelProviderChangedEvent(this, notification.getNotifier()));
+        }
+      }
+    }
   }
 }
