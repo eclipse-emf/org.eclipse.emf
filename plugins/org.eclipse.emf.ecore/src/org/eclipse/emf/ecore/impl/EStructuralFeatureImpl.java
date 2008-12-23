@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.35 2008/12/22 14:24:54 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.36 2008/12/23 15:27:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -846,6 +846,12 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
                       (InternalSettingDelegateMany.CONTAINMENT_UNSETTABLE_DYNAMIC, this);
                 }
               }
+              else if (dataClass == Map.Entry.class)
+              {
+                settingDelegate = 
+                  new InternalSettingDelegateMany
+                    (InternalSettingDelegateMany.EMAP_UNSETTABLE, BasicEMap.Entry.class, this);
+              }
               else
               {
                 if (isResolveProxies())
@@ -1525,6 +1531,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public static final int CONTAINMENT_INVERSE_UNSETTABLE_RESOLVE = 47;
     public static final int CONTAINMENT_INVERSE_DYNAMIC_RESOLVE = 48;
     public static final int CONTAINMENT_INVERSE_RESOLVE = 49;
+    public static final int EMAP_UNSETTABLE = 50;
 
     protected int style;
     protected int dynamicKind;
@@ -1603,6 +1610,8 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           return new EObjectContainmentEList.Resolving<Object>(dataClass, owner, owner.eClass().getFeatureID(feature));
         case EMAP:
           return new EcoreEMap<Object, Object>((EClass)feature.getEType(), dataClass, owner, owner.eClass().getFeatureID(feature));
+        case EMAP_UNSETTABLE:
+          return new EcoreEMap.Unsettable<Object, Object>((EClass)feature.getEType(), dataClass, owner, owner.eClass().getFeatureID(feature));
         case CONTAINMENT_INVERSE_UNSETTABLE:
           return new EObjectContainmentWithInverseEList.Unsettable<Object>(dataClass, owner, owner.eClass().getFeatureID(feature), inverseFeature.getFeatureID());
         case CONTAINMENT_INVERSE_UNSETTABLE_RESOLVE:
@@ -1680,6 +1689,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       {
         switch (style)
         {
+          case EMAP_UNSETTABLE:
           case EMAP : return ((EMap<?, ?>)result).map();
           case FEATURE_MAP : return ((FeatureMap.Internal)result).getWrapper();
         }
