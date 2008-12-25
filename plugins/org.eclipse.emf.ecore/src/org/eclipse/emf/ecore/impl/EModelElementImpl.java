@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.19 2008/12/13 15:55:00 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.20 2008/12/25 16:01:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -31,6 +33,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource.Internal;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -101,6 +104,13 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
   protected boolean isFrozen()
   {
     return (eFlags & EFROZEN) != 0;
+  }
+
+  @Override
+  protected void eSetDirectResource(Internal resource)
+  {
+    assert !isFrozen() : "A frozen model should not be modified";
+    super.eSetDirectResource(resource);
   }
 
   /**
