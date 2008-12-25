@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreTest.java,v 1.3 2007/12/14 23:04:58 emerks Exp $
+ * $Id: EcoreTest.java,v 1.4 2008/12/25 16:01:38 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -28,7 +28,10 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class EcoreTest extends TestCase
 {
@@ -61,6 +64,7 @@ public class EcoreTest extends TestCase
     ts.addTest(new EcoreTest("testESuperTypeLastIndexOf"));
     ts.addTest(new EcoreTest("testEExceptionNotificationCount"));
     ts.addTest(new EcoreTest("testEExceptionNotificationCount"));
+    ts.addTest(new EcoreTest("testFrozenModelChange"));
     return ts;
   }
 
@@ -127,5 +131,25 @@ public class EcoreTest extends TestCase
     eOperation.getEExceptions().add(aException);
     
     assertEquals(2, notificationCollector.getNotifications().size());
+  }
+
+  /**
+   * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=235992">Bugzilla 235992</a>.0
+   */
+  public void testFrozenModelChange() throws Exception
+  {
+    EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
+    EcoreUtil.freeze(ePackage);
+    boolean assertionFailure;
+    try
+    {
+      new ResourceImpl().getContents().add(ePackage);
+      assertionFailure = false;
+    }
+    catch (AssertionError exception) 
+    {
+      assertionFailure = true;
+    }
+    assertTrue(assertionFailure);
   }
 }
