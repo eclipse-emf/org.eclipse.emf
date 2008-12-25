@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.20 2008/12/25 16:01:38 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.21 2008/12/25 16:02:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
