@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.97 2008/12/22 14:25:48 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.98 2008/12/27 19:50:01 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -119,6 +119,9 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     };
 
+  public static final String OPTION_REUSE_REGISTERED_PACKAGES = "REUSE_REGISTERED_PACKAGES";
+  protected boolean reuseRegisteredPackages;
+
   public XSDEcoreBuilder()
   {
     this(new BasicExtendedMetaData(new EPackageRegistryImpl()));
@@ -126,9 +129,23 @@ public class XSDEcoreBuilder extends MapBuilder
 
   public XSDEcoreBuilder(ExtendedMetaData extendedMetaData)
   {
+    this(extendedMetaData, null);
+  }
+
+  public XSDEcoreBuilder(ExtendedMetaData extendedMetaData, Map<?, ?> options)
+  {
     this.extendedMetaData = extendedMetaData;
     populateTypeToTypeObjectMap(XMLTypePackage.eINSTANCE);
     populateTypeToTypeObjectMap(XMLNamespacePackage.eINSTANCE);
+    handleOptions(options);
+  }
+
+  protected void handleOptions(Map<?, ?> options)  
+  {
+    if (options != null)
+    {
+      reuseRegisteredPackages = Boolean.TRUE.equals(options.get(OPTION_REUSE_REGISTERED_PACKAGES));
+    }
   }
 
   protected void populateTypeToTypeObjectMap(EPackage ePackage)
@@ -326,6 +343,23 @@ public class XSDEcoreBuilder extends MapBuilder
     else if (xsdSimpleTypeDefinition.getContainer() == null)
     {
       return (EDataType)getBuiltInEClassifier(rootSchema.getSchemaForSchemaNamespace(), "anySimpleType");
+    }
+    else if (reuseRegisteredPackages)
+    {
+      String name= xsdSimpleTypeDefinition.getName();
+      EDataType eDataType = (EDataType)extendedMetaData.getType(xsdSimpleTypeDefinition.getTargetNamespace(), name);
+      if (eDataType != null)
+      {
+        if (name != null)
+        {
+          EClassifier objectType = extendedMetaData.getType(eDataType.getEPackage(), name + ":Object");
+          if (objectType != null)
+          {
+            typeToTypeObjectMap.put(eDataType, objectType);
+          }
+        }
+        return eDataType;
+      }
     }
 
     String explicitInstanceClassName = getEcoreAttribute(xsdSimpleTypeDefinition, "instanceClass");
@@ -838,6 +872,14 @@ public class XSDEcoreBuilder extends MapBuilder
     else if (xsdComplexTypeDefinition.getContainer() == null)
     {
       return (EClass)getBuiltInEClassifier(rootSchema.getSchemaForSchemaNamespace(), "anyType");
+    }
+    else if (reuseRegisteredPackages)
+    {
+      EClass eClass = (EClass)extendedMetaData.getType(xsdComplexTypeDefinition.getTargetNamespace(), xsdComplexTypeDefinition.getName());
+      if (eClass != null)
+      {
+        return eClass;
+      }
     }
 
     EClass eClass = EcoreFactory.eINSTANCE.createEClass();
@@ -2729,6 +2771,20 @@ public class XSDEcoreBuilder extends MapBuilder
   {
     if ("true".equals(getEcoreAttribute(xsdFeature, "ignore"))) return null;
     EStructuralFeature eStructuralFeature = (EStructuralFeature)xsdComponentToEModelElementMap.get(xsdFeature);
+    if (reuseRegisteredPackages && eStructuralFeature == null)
+    {
+      String namespace = xsdFeature.getTargetNamespace();
+      String name = xsdFeature.getName();
+      eStructuralFeature = 
+       xsdFeature instanceof XSDElementDeclaration ? 
+         extendedMetaData.getElement(namespace, name) :
+         extendedMetaData.getAttribute(namespace, name);
+      if (eStructuralFeature != null)
+      {
+        map(xsdFeature, eStructuralFeature);
+        return eStructuralFeature;
+      }
+    }
     if (eStructuralFeature == null)
     {
       EPackage ePackage = getEPackage(xsdFeature);
