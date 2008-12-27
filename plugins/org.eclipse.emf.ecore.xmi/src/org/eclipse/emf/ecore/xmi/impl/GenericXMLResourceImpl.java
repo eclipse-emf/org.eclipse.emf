@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenericXMLResourceImpl.java,v 1.4 2006/12/05 20:23:28 emerks Exp $
+ * $Id: GenericXMLResourceImpl.java,v 1.5 2008/12/27 19:49:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -20,6 +20,8 @@ package org.eclipse.emf.ecore.xmi.impl;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.CommonPlugin;
@@ -42,6 +44,8 @@ public class GenericXMLResourceImpl extends XMLResourceImpl
 
   protected static final Method xsdEcoreBuilderGenerateResourcesMethod;
 
+  protected static final Map<?, ?> xsdEcoreBuilderOptions;
+
   static
   {
     Class<?> theXSDEcoreBuilderClass = null;
@@ -51,8 +55,8 @@ public class GenericXMLResourceImpl extends XMLResourceImpl
     try
     {
       theXSDEcoreBuilderClass = CommonPlugin.loadClass("org.eclipse.xsd", "org.eclipse.xsd.ecore.XSDEcoreBuilder");
-      theXSDEcoreBuilderConstructor = theXSDEcoreBuilderClass.getConstructor(new Class []{ ExtendedMetaData.class });
-      theXSDEcoreBuilderGenerateResourcesMethod = theXSDEcoreBuilderClass.getMethod("generateResources", new Class []{ Collection.class });
+      theXSDEcoreBuilderConstructor = theXSDEcoreBuilderClass.getConstructor(new Class [] { ExtendedMetaData.class, Map.class });
+      theXSDEcoreBuilderGenerateResourcesMethod = theXSDEcoreBuilderClass.getMethod("generateResources", new Class [] { Collection.class });
     }
     catch (Exception exception)
     {
@@ -63,6 +67,10 @@ public class GenericXMLResourceImpl extends XMLResourceImpl
     xsdEcoreBuilderClass = theXSDEcoreBuilderClass;
     xsdEcoreBuilderConstructor = theXSDEcoreBuilderConstructor;
     xsdEcoreBuilderGenerateResourcesMethod = theXSDEcoreBuilderGenerateResourcesMethod;
+
+    Map<Object, Object> theXSDEcoreBuilderOptions = new HashMap<Object, Object>();
+    theXSDEcoreBuilderOptions.put("REUSE_REGISTERED_PACKAGES", Boolean.TRUE);
+    xsdEcoreBuilderOptions = Collections.unmodifiableMap(theXSDEcoreBuilderOptions);
   }
 
   public GenericXMLResourceImpl(URI uri)
@@ -102,7 +110,7 @@ public class GenericXMLResourceImpl extends XMLResourceImpl
       {
         try
         {
-          xsdEcoreBuilder = xsdEcoreBuilderConstructor.newInstance(new Object []{ extendedMetaData });
+          xsdEcoreBuilder = xsdEcoreBuilderConstructor.newInstance(new Object []{ extendedMetaData, xsdEcoreBuilderOptions });
           @SuppressWarnings("unchecked") Collection<? extends Resource> newGeneratedResources = 
             (Collection<? extends Resource>)xsdEcoreBuilderGenerateResourcesMethod.invoke
                (xsdEcoreBuilder, new Object []{ urisToLocations.values() });
