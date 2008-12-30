@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLDuration.java,v 1.8 2008/09/05 19:25:21 emerks Exp $
+ * $Id: XMLDuration.java,v 1.9 2008/12/30 17:04:31 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -174,6 +174,42 @@ public final class XMLDuration extends Duration implements Serializable
   public int getSign()
   {
     return duration.getSign();
+  }
+
+  @Override
+  public int getYears()
+  {
+    return duration.getYears();
+  }
+
+  @Override
+  public int getMonths() 
+  {
+    return duration.getMonths();
+  }
+
+  @Override
+  public int getDays()
+  {
+    return duration.getDays();
+  }
+
+  @Override
+  public int getHours()
+  {
+      return duration.getHours();
+  }
+
+  @Override
+  public int getMinutes()
+  {
+    return duration.getMinutes();
+  }
+
+  @Override
+  public int getSeconds()
+  {
+    return duration.getSeconds();
   }
 
   @Override
