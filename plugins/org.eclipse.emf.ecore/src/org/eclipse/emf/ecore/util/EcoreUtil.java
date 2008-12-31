@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.63 2008/08/07 16:19:40 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.64 2008/12/31 17:53:22 davidms Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1948,8 +1948,11 @@ public class EcoreUtil
    * the iterator will only yield settings with that as their {@link EStructuralFeature.Setting#getEStructuralFeature() feature}.
    * If an {@link EClass} is specified, 
    * the iterator will only yield settings with an {@link EStructuralFeature.Setting#getEObject() object} of that type.
+   * Use {@link EcoreUtil.FilteredSettingsIterator} to yield just the settings themselves,
+   * or to affect the yielded values, extend this class and implement {@link #yield}.
+   * @since 2.5
    */
-  public static class FilteredSettingsIterator implements Iterator<EStructuralFeature.Setting>
+  public static abstract class AbstractFilteredSettingsIterator<E> implements Iterator<E>
   {
     protected List<EStructuralFeature.Setting> list;
     protected int size;
@@ -1959,7 +1962,7 @@ public class EcoreUtil
     protected EReference eReference;
     protected EClass eClass;
 
-    public FilteredSettingsIterator(List<EStructuralFeature.Setting> list, EReference eReference, EClass eClass)
+    public AbstractFilteredSettingsIterator(List<EStructuralFeature.Setting> list, EReference eReference, EClass eClass)
     {
       if (list instanceof RandomAccess)
       {
@@ -1974,7 +1977,7 @@ public class EcoreUtil
       this.eClass = eClass;
     }
 
-    public FilteredSettingsIterator(Collection<EStructuralFeature.Setting> collection, EReference eReference, EClass eClass)
+    public AbstractFilteredSettingsIterator(Collection<EStructuralFeature.Setting> collection, EReference eReference, EClass eClass)
     {
       if (collection instanceof RandomAccess)
       {
@@ -1989,7 +1992,7 @@ public class EcoreUtil
       this.eClass = eClass;
     }
 
-    public FilteredSettingsIterator(Iterator<EStructuralFeature.Setting> iterator, EReference eReference, EClass eClass)
+    public AbstractFilteredSettingsIterator(Iterator<EStructuralFeature.Setting> iterator, EReference eReference, EClass eClass)
     {
       this.iterator = iterator;
       this.eReference = eReference;
@@ -2039,11 +2042,11 @@ public class EcoreUtil
       }
     }
 
-    public EStructuralFeature.Setting next()
+    public E next()
     {
       if (hasNext())
       {
-        EStructuralFeature.Setting result = yield(preparedResult);
+        E result = yield(preparedResult);
         preparedResult = null;
         return result;
       }
@@ -2053,10 +2056,7 @@ public class EcoreUtil
       }
     }
     
-    protected EStructuralFeature.Setting yield(EStructuralFeature.Setting setting)
-    {
-      return setting;
-    }
+    protected abstract E yield(EStructuralFeature.Setting setting);
 
     public void remove()
     {
@@ -2069,6 +2069,37 @@ public class EcoreUtil
         iterator.remove();
       }
     }
+  }
+
+  /**
+   * An iterator over {@link EStructuralFeature.Setting settings} that filters out the ones that aren't of interest.
+   * If an {@link EReference} is specified, 
+   * the iterator will only yield settings with that as their {@link EStructuralFeature.Setting#getEStructuralFeature() feature}.
+   * If an {@link EClass} is specified, 
+   * the iterator will only yield settings with an {@link EStructuralFeature.Setting#getEObject() object} of that type.
+   */
+  public static class FilteredSettingsIterator extends AbstractFilteredSettingsIterator<EStructuralFeature.Setting>
+  {
+    public FilteredSettingsIterator(List<EStructuralFeature.Setting> list, EReference eReference, EClass eClass)
+    {
+      super(list, eReference, eClass);
+    }
+
+    public FilteredSettingsIterator(Collection<EStructuralFeature.Setting> collection, EReference eReference, EClass eClass)
+    {
+      super(collection, eReference, eClass);
+    }
+
+    public FilteredSettingsIterator(Iterator<EStructuralFeature.Setting> iterator, EReference eReference, EClass eClass)
+    {
+      super(iterator, eReference, eClass);
+    }
+
+    @Override
+    protected EStructuralFeature.Setting yield(EStructuralFeature.Setting setting)
+    {
+      return setting;
+    }    
   }
 
   /**
