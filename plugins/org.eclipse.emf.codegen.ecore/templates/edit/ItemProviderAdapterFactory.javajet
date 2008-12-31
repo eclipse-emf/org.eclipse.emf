@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.11 2008/01/29 21:12:08 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.11.2.1 2008/12/31 18:03:07 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -185,6 +185,9 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public Adapter create<%=genClass.getName()%>Adapter()
 	{
 		return new <%=genClass.getProviderClassName()%>(this);
@@ -287,6 +290,9 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	protected void associate(Adapter adapter, Notifier target)
 	{
 		super.associate(adapter, target);
