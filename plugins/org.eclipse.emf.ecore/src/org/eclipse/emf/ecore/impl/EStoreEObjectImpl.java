@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.17 2009/01/02 11:35:20 emerks Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.18 2009/01/02 12:36:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -663,7 +663,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     }
     else
     {
-      eStore().set(this, eStructuralFeature, InternalEObject.EStore.NO_INDEX, value == NIL ? null : value);
+      eStore().set(this, eStructuralFeature, InternalEObject.EStore.NO_INDEX, value);
       if (eIsCaching())
       {
         eSettings[dynamicFeatureID] = value;
