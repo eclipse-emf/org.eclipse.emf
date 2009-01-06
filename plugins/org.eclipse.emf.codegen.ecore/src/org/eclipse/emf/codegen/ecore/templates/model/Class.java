@@ -355,7 +355,7 @@ public class Class
   protected final String TEXT_338 = ";";
   protected final String TEXT_339 = NL + "\t\t}" + NL + "\t\treturn ";
   protected final String TEXT_340 = ";";
-  protected final String TEXT_341 = NL + "\t\tif (eContainerFeatureID != ";
+  protected final String TEXT_341 = NL + "\t\tif (eContainerFeatureID() != ";
   protected final String TEXT_342 = ") return null;" + NL + "\t\treturn (";
   protected final String TEXT_343 = ")eContainer();";
   protected final String TEXT_344 = NL + "\t\t";
@@ -494,7 +494,7 @@ public class Class
   protected final String TEXT_477 = ", ";
   protected final String TEXT_478 = ", false, ";
   protected final String TEXT_479 = ");";
-  protected final String TEXT_480 = NL + "\t\tif (eContainerFeatureID != ";
+  protected final String TEXT_480 = NL + "\t\tif (eContainerFeatureID() != ";
   protected final String TEXT_481 = ") return null;" + NL + "\t\treturn (";
   protected final String TEXT_482 = ")eInternalContainer();";
   protected final String TEXT_483 = NL + "\t\treturn (";
@@ -637,7 +637,7 @@ public class Class
   protected final String TEXT_620 = ")";
   protected final String TEXT_621 = ");";
   protected final String TEXT_622 = NL + "\t\tif (new";
-  protected final String TEXT_623 = " != eInternalContainer() || (eContainerFeatureID != ";
+  protected final String TEXT_623 = " != eInternalContainer() || (eContainerFeatureID() != ";
   protected final String TEXT_624 = " && new";
   protected final String TEXT_625 = " != null))" + NL + "\t\t{" + NL + "\t\t\tif (";
   protected final String TEXT_626 = ".isAncestor(this, ";
@@ -1242,7 +1242,7 @@ public class Class
   protected final String TEXT_1225 = NL + "\t@Override";
   protected final String TEXT_1226 = NL + "\tpublic ";
   protected final String TEXT_1227 = " eBasicRemoveFromContainerFeature(";
-  protected final String TEXT_1228 = " msgs)" + NL + "\t{" + NL + "\t\tswitch (eContainerFeatureID";
+  protected final String TEXT_1228 = " msgs)" + NL + "\t{" + NL + "\t\tswitch (eContainerFeatureID()";
   protected final String TEXT_1229 = ")" + NL + "\t\t{";
   protected final String TEXT_1230 = NL + "\t\t\tcase ";
   protected final String TEXT_1231 = ":" + NL + "\t\t\t\treturn eInternalContainer().eInverseRemove(this, ";
