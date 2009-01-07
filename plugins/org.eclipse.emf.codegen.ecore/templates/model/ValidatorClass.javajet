@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.32 2008/12/22 14:25:18 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.33 2009/01/07 01:58:23 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -153,17 +153,21 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 		{
 <%for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
 			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genPackage.getClassifierID(genClassifier)%>:
-<%if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;%>
-<%if (genDataType.isPrimitiveType() && genModel.getComplianceLevel().getValue() < GenJDKLevel.JDK50) {%>
+  <%if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;%>
+    <%if (genDataType.isPrimitiveType()) {%>
+      <%if (genModel.getComplianceLevel().getValue() < GenJDKLevel.JDK50) {%>
 				return validate<%=genDataType.getName()%>(((<%=genDataType.getObjectInstanceClassName()%>)value).<%=genDataType.getPrimitiveValueFunction()%>(), diagnostics, context);
-<%} else if (genDataType.isObjectType()) {%>
+      <%} else {%>
+				return validate<%=genDataType.getName()%>((<%=genDataType.getObjectInstanceClassName()%>)value, diagnostics, context);
+      <%}%>
+    <%} else if (genDataType.isObjectType()) {%>
 				return validate<%=genDataType.getName()%>(value, diagnostics, context);
-<%} else {%>
+    <%} else {%>
 				return validate<%=genDataType.getName()%>((<%=genDataType.getObjectType().getImportedWildcardInstanceClassName()%>)value, diagnostics, context);
-<%}%>
-<%} else { GenClass genClass = (GenClass)genClassifier;%>
+    <%}%>
+  <%} else { GenClass genClass = (GenClass)genClassifier;%>
 				return validate<%=genClass.getName()%>((<%=genClass.getImportedWildcardInstanceClassName()%>)value, diagnostics, context);
-<%}%>
+  <%}%>
 <%}%>
 			default:
 				return true;
