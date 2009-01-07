@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactory.java,v 1.3 2005/06/08 06:19:08 nickb Exp $
+ * $Id: AdapterFactory.java,v 1.4 2009/01/07 12:29:50 emerks Exp $
  */
 package org.eclipse.emf.common.notify;
 
@@ -37,9 +37,11 @@ public interface AdapterFactory
    * depending on whether the object is a notifier that supports an adapter of the given type.
    * This is essentially just a convenience method 
    * that allows a factory to act as a filter for converting objects to adapters.
+   * If the type isn't supported or the specific object can't be adapted to it,
+   * <code>null</code> will typically be returned.
    * @param object arbitrary object to adapt.
    * @param type the key indicating the type of adapter required.
-   * @return either an associated adapter or the object itself.
+   * @return either an associated adapter, the object itself, or <code>null</code> if the type isn't supported or the object cannot be adapted to it.
    */
   Object adapt(Object object, Object type);
 
@@ -47,10 +49,10 @@ public interface AdapterFactory
    * Returns either a previously associated adapter or a newly associated adapter, as appropriate.
    * It will check if the right type of adapter is already associated with the target 
    * and will return it in that case;
-   * otherwise, it will {@link #adaptNew create} a new adapter.
+   * otherwise, it will {@link #adaptNew create} a new adapter if possible.
    * @param target the notifier to adapt.
    * @param type the key indicating the type of adapter required.
-   * @return an associated adapter.
+   * @return a previously existing associated adapter, a new associated adapter if possible, or <code>null</code> otherwise.
    * @see Adapter#setTarget
    * @see #adaptNew
    */
@@ -63,7 +65,7 @@ public interface AdapterFactory
    * This is typically not called directly by clients.
    * @param target the notifier to adapt.
    * @param type the key indicating the type of adapter required.
-   * @return a new associated adapter.
+   * @return a new associated adapter if possible, or <code>null</code> otherwise.
    * @see Adapter#setTarget
    * @see Notifier#eAdapters
    */
