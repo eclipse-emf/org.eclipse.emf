@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreTest.java,v 1.4 2008/12/25 16:01:38 emerks Exp $
+ * $Id: EcoreTest.java,v 1.5 2009/01/07 22:27:52 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -134,10 +134,19 @@ public class EcoreTest extends TestCase
   }
 
   /**
-   * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=235992">Bugzilla 235992</a>.0
+   * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=235992">Bugzilla 235992</a>.
    */
-  public void testFrozenModelChange() throws Exception
+  public void testFrozenModelChange()
   {
+    try
+    {
+      assert false;
+      fail("Assertions must be enabled via JVM flag -ea or -enableassertions");
+    }
+    catch (AssertionError exception)
+    {
+      // Ignore
+    }
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
     EcoreUtil.freeze(ePackage);
     boolean assertionFailure;
