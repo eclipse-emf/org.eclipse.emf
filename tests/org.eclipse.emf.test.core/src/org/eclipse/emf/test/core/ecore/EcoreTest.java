@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreTest.java,v 1.6 2009/01/08 00:41:36 nickb Exp $
+ * $Id: EcoreTest.java,v 1.7 2009/01/08 20:25:29 nickb Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -69,7 +69,7 @@ public class EcoreTest extends TestCase
   }
 
   /*
-   * Bug 169926
+   * <a href="http://bugs.eclipse.org/169926">Bug 169926</a>
    * This must be run before any other tests using Ecore, since it will always pass if EcorePackage has been initialized.
    */
   public void testCreateAnnotationOnInitialization()
@@ -81,7 +81,7 @@ public class EcoreTest extends TestCase
   }
 
   /*
-   * Bugzilla 170549
+   * <a href="http://bugs.eclipse.org/170549">Bugzilla 170549</a>
    */
   public void testESuperTypeNotificationCount() throws Exception
   {
@@ -100,7 +100,7 @@ public class EcoreTest extends TestCase
   }
 
   /**
-   * Bugzilla 212903
+   * <a href="http://bugs.eclipse.org/212903">Bugzilla 212903</a>
    */
   public void testESuperTypeLastIndexOf() throws Exception
   {
@@ -115,7 +115,7 @@ public class EcoreTest extends TestCase
   }
   
   /*
-   * Bugzilla 170549
+   * <a href="http://bugs.eclipse.org/170549">Bugzilla 170549</a>
    */
   public void testEExceptionNotificationCount() throws Exception
   {
@@ -134,14 +134,19 @@ public class EcoreTest extends TestCase
   }
 
   /**
-   * Bugzilla 235992
+   * <a href="http://bugs.eclipse.org/235992">Bugzilla 235992</a>
    */
   public void testFrozenModelChange()
   {
-    boolean assertsEnabled = false; 
-    assert assertsEnabled = true;
-    assertTrue("Assertions must be enabled via JVM flag -ea or -enableassertions", assertsEnabled);
-
+    try
+    {
+      assert false;
+      fail("Assertions must be enabled via JVM flag -ea or -enableassertions");
+    }
+    catch (AssertionError exception)
+    {
+      // Ignore
+    }
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
     EcoreUtil.freeze(ePackage);
     boolean assertionFailure;
