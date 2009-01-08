@@ -25,6 +25,7 @@
 		<property name="emf-folder" value="${eclipse-home}/emf_folder" />
 		<delete dir="${emf-folder}" quiet="true" />
 		<ant target="core-test" antfile="${library-file}" dir="${eclipse-home}">
+			<property name="extraVMargs" value=" -ea"/>
 			<property name="data-dir" value="${emf-folder}" />
 			<property name="plugin-name" value="${plugin-name}" />
 			<property name="classname" value="${classname}" />
