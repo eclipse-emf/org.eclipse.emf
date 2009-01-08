@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreTest.java,v 1.5 2009/01/07 22:27:52 emerks Exp $
+ * $Id: EcoreTest.java,v 1.6 2009/01/08 00:41:36 nickb Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -100,7 +100,7 @@ public class EcoreTest extends TestCase
   }
 
   /**
-   * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=212903">212903</a>
+   * Bugzilla 212903
    */
   public void testESuperTypeLastIndexOf() throws Exception
   {
@@ -134,19 +134,14 @@ public class EcoreTest extends TestCase
   }
 
   /**
-   * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=235992">Bugzilla 235992</a>.
+   * Bugzilla 235992
    */
   public void testFrozenModelChange()
   {
-    try
-    {
-      assert false;
-      fail("Assertions must be enabled via JVM flag -ea or -enableassertions");
-    }
-    catch (AssertionError exception)
-    {
-      // Ignore
-    }
+    boolean assertsEnabled = false; 
+    assert assertsEnabled = true;
+    assertTrue("Assertions must be enabled via JVM flag -ea or -enableassertions", assertsEnabled);
+
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
     EcoreUtil.freeze(ePackage);
     boolean assertionFailure;
