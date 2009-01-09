@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeCommandTest.java,v 1.2 2006/12/30 03:43:26 marcelop Exp $
+ * $Id: ChangeCommandTest.java,v 1.3 2009/01/09 12:45:40 emerks Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
@@ -132,12 +132,14 @@ public class ChangeCommandTest extends TestCase
   public void testResource()
   {
     final Resource r = new ResourceImpl(URI.createURI("r"));
-    r.getContents().add(refFactory);
+    final E initialE = refFactory.createE();
+    final E finalE = refFactory.createE();
+    r.getContents().add(initialE);
     final E e = refFactory.createE();
     
     // State 0
     assertEquals(1, r.getContents().size());
-    assertEquals(refFactory, r.getContents().get(0));
+    assertEquals(initialE, r.getContents().get(0));
     assertTrue(e.getIds().isEmpty());
     
     ChangeCommand changeCommand = new ChangeCommand(r)
@@ -145,7 +147,7 @@ public class ChangeCommandTest extends TestCase
       @Override
       protected void doExecute()
       {
-        r.getContents().set(0, refPackage);
+        r.getContents().set(0, finalE);
         r.getContents().add(e);
         
         EList<String> ids = e.getIds();
@@ -161,7 +163,7 @@ public class ChangeCommandTest extends TestCase
     
     // State 1
     assertEquals(2, r.getContents().size());
-    assertEquals(refPackage, r.getContents().get(0));
+    assertEquals(finalE, r.getContents().get(0));
     assertEquals(e, r.getContents().get(1));
     assertEquals(3, e.getIds().size());
     assertEquals("0", e.getIds().get(0));
@@ -174,7 +176,7 @@ public class ChangeCommandTest extends TestCase
     
     // State 0
     assertEquals(1, r.getContents().size());
-    assertEquals(refFactory, r.getContents().get(0));
+    assertEquals(initialE, r.getContents().get(0));
     assertTrue(e.getIds().isEmpty());
 
     editingDomain.getCommandStack().redo();
@@ -183,7 +185,7 @@ public class ChangeCommandTest extends TestCase
 
     // State 1
     assertEquals(2, r.getContents().size());
-    assertEquals(refPackage, r.getContents().get(0));
+    assertEquals(finalE, r.getContents().get(0));
     assertEquals(e, r.getContents().get(1));
     assertEquals(3, e.getIds().size());
     assertEquals("0", e.getIds().get(0));
@@ -195,13 +197,15 @@ public class ChangeCommandTest extends TestCase
   {
     final ResourceSet rs = new ResourceSetImpl();
     final Resource r = new ResourceImpl(URI.createURI("r"));
-    r.getContents().add(refFactory);
+    final E initialE = refFactory.createE();
+    final E finalE = refFactory.createE();
+    r.getContents().add(initialE);
     final E e = refFactory.createE();
     
     // State 0
     assertTrue(rs.getResources().isEmpty());
     assertEquals(1, r.getContents().size());
-    assertEquals(refFactory, r.getContents().get(0));
+    assertEquals(initialE, r.getContents().get(0));
     assertTrue(e.getIds().isEmpty());
     
     ChangeCommand changeCommand = new ChangeCommand(rs)
@@ -211,7 +215,7 @@ public class ChangeCommandTest extends TestCase
       {
         rs.getResources().add(r);
         
-        r.getContents().set(0, refPackage);
+        r.getContents().set(0, finalE);
         r.getContents().add(e);
         
         EList<String> ids = e.getIds();
@@ -229,7 +233,7 @@ public class ChangeCommandTest extends TestCase
     assertEquals(1, rs.getResources().size());
     assertEquals(r, rs.getResources().get(0));
     assertEquals(2, r.getContents().size());
-    assertEquals(refPackage, r.getContents().get(0));
+    assertEquals(finalE, r.getContents().get(0));
     assertEquals(e, r.getContents().get(1));
     assertEquals(3, e.getIds().size());
     assertEquals("0", e.getIds().get(0));
@@ -242,7 +246,7 @@ public class ChangeCommandTest extends TestCase
     
     // State 0
     assertEquals(1, r.getContents().size());
-    assertEquals(refFactory, r.getContents().get(0));
+    assertEquals(initialE, r.getContents().get(0));
     assertTrue(e.getIds().isEmpty());
 
     editingDomain.getCommandStack().redo();
@@ -253,7 +257,7 @@ public class ChangeCommandTest extends TestCase
     assertEquals(1, rs.getResources().size());
     assertEquals(r, rs.getResources().get(0));
     assertEquals(2, r.getContents().size());
-    assertEquals(refPackage, r.getContents().get(0));
+    assertEquals(finalE, r.getContents().get(0));
     assertEquals(e, r.getContents().get(1));
     assertEquals(3, e.getIds().size());
     assertEquals("0", e.getIds().get(0));
