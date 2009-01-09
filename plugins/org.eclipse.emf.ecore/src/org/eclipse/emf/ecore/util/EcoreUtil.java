@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.64 2008/12/31 17:53:22 davidms Exp $
+ * $Id: EcoreUtil.java,v 1.65 2009/01/09 12:40:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -460,32 +460,39 @@ public class EcoreUtil
      */
     public EObject copy(EObject eObject)
     {
-      EObject copyEObject = createCopy(eObject);
-      put(eObject, copyEObject);
-      EClass eClass = eObject.eClass();
-      for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
+      if (eObject == null)
       {
-        EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
-        if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived())
+        return null;
+      }
+      else
+      {
+        EObject copyEObject = createCopy(eObject);
+        put(eObject, copyEObject);
+        EClass eClass = eObject.eClass();
+        for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
         {
-          if (eStructuralFeature instanceof EAttribute)
+          EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+          if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived())
           {
-            copyAttribute((EAttribute)eStructuralFeature, eObject, copyEObject);
-          }
-          else
-          {
-            EReference eReference = (EReference)eStructuralFeature;
-            if (eReference.isContainment())
+            if (eStructuralFeature instanceof EAttribute)
             {
-              copyContainment(eReference, eObject, copyEObject);
+              copyAttribute((EAttribute)eStructuralFeature, eObject, copyEObject);
+            }
+            else
+            {
+              EReference eReference = (EReference)eStructuralFeature;
+              if (eReference.isContainment())
+              {
+                copyContainment(eReference, eObject, copyEObject);
+              }
             }
           }
         }
+  
+        copyProxyURI(eObject, copyEObject);
+  
+        return copyEObject;
       }
-
-      copyProxyURI(eObject, copyEObject);
-
-      return copyEObject;
     }
 
     /**
