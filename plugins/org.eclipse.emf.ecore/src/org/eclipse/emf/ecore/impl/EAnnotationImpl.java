@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.15 2007/04/24 21:52:48 emerks Exp $
+ * $Id: EAnnotationImpl.java,v 1.16 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -202,7 +202,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    */
   public EModelElement getEModelElement()
   {
-    if (eContainerFeatureID != EcorePackage.EANNOTATION__EMODEL_ELEMENT) return null;
+    if (eContainerFeatureID() != EcorePackage.EANNOTATION__EMODEL_ELEMENT) return null;
     return (EModelElement)eContainer();
   }
 
@@ -224,7 +224,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    */
   public void setEModelElement(EModelElement newEModelElement)
   {
-    if (newEModelElement != eInternalContainer() || (eContainerFeatureID != EcorePackage.EANNOTATION__EMODEL_ELEMENT && newEModelElement != null))
+    if (newEModelElement != eInternalContainer() || (eContainerFeatureID() != EcorePackage.EANNOTATION__EMODEL_ELEMENT && newEModelElement != null))
     {
       if (EcoreUtil.isAncestor(this, newEModelElement))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -319,7 +319,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
         return eInternalContainer().eInverseRemove(this, EcorePackage.EMODEL_ELEMENT__EANNOTATIONS, EModelElement.class, msgs);

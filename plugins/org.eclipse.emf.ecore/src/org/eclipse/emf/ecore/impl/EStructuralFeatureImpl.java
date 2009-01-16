@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.36 2008/12/23 15:27:17 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.37 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -233,7 +233,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   public EClass getEContainingClass()
   {
-    if (eContainerFeatureID != EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS) return null;
+    if (eContainerFeatureID() != EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS) return null;
     return (EClass)eContainer();
   }
 
@@ -543,7 +543,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
         return eInternalContainer().eInverseRemove(this, EcorePackage.ECLASS__ESTRUCTURAL_FEATURES, EClass.class, msgs);

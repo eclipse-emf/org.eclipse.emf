@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.36 2008/12/22 14:24:54 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.37 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -491,7 +491,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
         return eInternalContainer().eInverseRemove(this, EcorePackage.EPACKAGE__ESUBPACKAGES, EPackage.class, msgs);
@@ -516,11 +516,11 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated modifiable
+   * @generated NOT
    */
   public EPackage getESuperPackage()
   {
-    return (eContainerFeatureID == EcorePackage.EPACKAGE__ESUPER_PACKAGE) ? (EPackage)eContainer : null;
+    return (eContainerFeatureID() == EcorePackage.EPACKAGE__ESUPER_PACKAGE) ? (EPackage)eContainer : null;
   }
 
 
@@ -531,7 +531,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    */
   public EPackage basicGetESuperPackage()
   {
-    if (eContainerFeatureID != EcorePackage.EPACKAGE__ESUPER_PACKAGE) return null;
+    if (eContainerFeatureID() != EcorePackage.EPACKAGE__ESUPER_PACKAGE) return null;
     return (EPackage)eInternalContainer();
   }
 

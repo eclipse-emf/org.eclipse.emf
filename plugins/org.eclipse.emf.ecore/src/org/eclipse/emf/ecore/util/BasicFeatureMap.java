@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2007 IBM Corporation and others.
+ * Copyright (c) 2003-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.33 2008/12/22 14:24:54 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.34 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -26,6 +26,7 @@ import java.util.ListIterator;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
+import org.eclipse.emf.common.util.AbstractEList;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EDataType;
@@ -973,7 +974,7 @@ public class BasicFeatureMap
     return new ValueListIteratorImpl<Object>(index);
   }
   
-  protected class ValueListIteratorImpl<E1> extends EListIterator<E1> implements ValueListIterator<E1>
+  protected class ValueListIteratorImpl<E1> extends AbstractEList<FeatureMap.Entry>.EListIterator<E1> implements ValueListIterator<E1>
   {
     public ValueListIteratorImpl()
     {

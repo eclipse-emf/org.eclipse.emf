@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterImpl.java,v 1.13 2008/12/22 14:24:54 emerks Exp $
+ * $Id: EParameterImpl.java,v 1.14 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -69,7 +69,7 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    */
   public EOperation getEOperation()
   {
-    return (eContainerFeatureID == EcorePackage.EPARAMETER__EOPERATION) ? (EOperation)eContainer : null;
+    return (eContainerFeatureID() == EcorePackage.EPARAMETER__EOPERATION) ? (EOperation)eContainer : null;
   }
 
   /**
@@ -121,7 +121,7 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case EcorePackage.EPARAMETER__EOPERATION:
         return eInternalContainer().eInverseRemove(this, EcorePackage.EOPERATION__EPARAMETERS, EOperation.class, msgs);

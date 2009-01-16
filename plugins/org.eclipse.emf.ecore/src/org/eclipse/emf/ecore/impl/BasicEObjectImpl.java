@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.38 2008/12/30 23:45:36 davidms Exp $
+ * $Id: BasicEObjectImpl.java,v 1.39 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.BasicNotifierImpl;
@@ -1620,6 +1621,19 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   public void eSetStore(InternalEObject.EStore store)
   {
     throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Returns the {@link #eBasicAdapterArray() adapter array} of the {@link #eInternalContainer() container}.
+   * @return the adapter array of the container.
+   */
+  protected Adapter [] eContainerAdapterArray()
+  {
+    InternalEObject eInternalContainer = eInternalContainer();
+    return
+      eInternalContainer instanceof BasicEObjectImpl ?
+        ((BasicEObjectImpl)eInternalContainer).eBasicAdapterArray() :
+        null;
   }
 
   /**

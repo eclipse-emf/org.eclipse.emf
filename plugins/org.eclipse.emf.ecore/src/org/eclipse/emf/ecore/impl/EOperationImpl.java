@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.22 2008/12/22 14:24:54 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.23 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -141,11 +141,11 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated modifiable
+   * @generated NOT
    */
   public EClass getEContainingClass()
   {
-    return (eContainerFeatureID == EcorePackage.EOPERATION__ECONTAINING_CLASS) ? (EClass)eContainer : null;
+    return (eContainerFeatureID() == EcorePackage.EOPERATION__ECONTAINING_CLASS) ? (EClass)eContainer : null;
   }
 
   /**
@@ -804,7 +804,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case EcorePackage.EOPERATION__ECONTAINING_CLASS:
         return eInternalContainer().eInverseRemove(this, EcorePackage.ECLASS__EOPERATIONS, EClass.class, msgs);

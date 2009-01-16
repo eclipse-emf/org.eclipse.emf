@@ -12,21 +12,17 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryImpl.java,v 1.8 2007/04/24 21:53:06 emerks Exp $
+ * $Id: EStringToStringMapEntryImpl.java,v 1.9 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEMap;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.util.EContentsEList;
-import org.eclipse.emf.ecore.util.ECrossReferenceEList;
 
 
 /**
@@ -41,9 +37,9 @@ import org.eclipse.emf.ecore.util.ECrossReferenceEList;
  * </ul>
  * </p>
  *
- * @generated
+ * @generated not
  */
-public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
+public class EStringToStringMapEntryImpl extends MinimalEObjectImpl.Container implements BasicEMap.Entry<String,String>
 {
   /**
    * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
@@ -104,84 +100,6 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY;
-  }
-
-  protected static class EStringToStringMapEntryPropertiesHolderImpl extends EPropertiesHolderBaseImpl
-  {
-    protected EList<EObject> eContents;
-    protected EList<EObject> eCrossReferences;
-
-    @Override
-    public EList<EObject> getEContents()
-    {
-      return eContents;
-    }
-
-    @Override
-    public void setEContents(EList<EObject> eContents)
-    {
-      this.eContents = eContents;
-    }
-
-    @Override
-    public EList<EObject> getECrossReferences()
-    {
-      return eCrossReferences;
-    }
-
-    @Override
-    public void setECrossReferences(EList<EObject> eCrossReferences)
-    {
-      this.eCrossReferences = eCrossReferences;
-    }
-  }
-
-  @Override
-  protected EPropertiesHolder eProperties()
-  {
-    if (eProperties == null)
-    {
-      eProperties = new EPropertiesHolderImpl();
-    }
-    return eProperties;
-  }
-
-  protected URI eProxyURI;
-
-  @Override
-  public boolean eIsProxy()
-  {
-    return eProxyURI != null;
-  }
-
-  @Override
-  public URI eProxyURI()
-  {
-    return eProxyURI;
-  }
-  
-  @Override
-  public void eSetProxyURI(URI uri)
-  {
-    eProxyURI = uri;
-  }
-
-  @Override
-  public EList<EObject> eContents()
-  {
-    return
-      eClass() == EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY ?
-        EContentsEList.<EObject>emptyContentsEList() :
-        super.eContents();
-  }
-
-  @Override
-  public EList<EObject> eCrossReferences()
-  {
-    return
-      eClass() == EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY ?
-        ECrossReferenceEList.<EObject>emptyCrossReferenceEList() :
-        super.eContents();
   }
 
   /**

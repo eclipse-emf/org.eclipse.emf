@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2007 IBM Corporation and others.
+ * Copyright (c) 2003-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.31 2008/05/25 16:37:42 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.32 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -26,6 +26,7 @@ import java.util.ListIterator;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
+import org.eclipse.emf.common.util.AbstractEList;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
@@ -979,7 +980,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureM
     return new ValueListIteratorImpl<Object>(index);
   }
   
-  protected class ValueListIteratorImpl<E> extends EListIterator<E> implements ValueListIterator<E>
+  protected class ValueListIteratorImpl<E> extends AbstractEList<FeatureMap.Entry>.EListIterator<E> implements ValueListIterator<E>
   {
     public ValueListIteratorImpl()
     {

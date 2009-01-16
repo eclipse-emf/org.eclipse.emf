@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.21 2008/12/25 16:02:13 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.22 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -50,7 +50,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated not
  */
-public abstract class EModelElementImpl extends FlatEObjectImpl implements EModelElement
+public abstract class EModelElementImpl extends MinimalEObjectImpl.Container implements EModelElement
 {
   /**
    * The cached value of the '{@link #getEAnnotations() <em>EAnnotations</em>}' containment reference list.
@@ -61,6 +61,11 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
    * @ordered
    */
   protected EList<EAnnotation> eAnnotations;
+
+  /**
+   * An extensible set of bit flags.
+   */
+  protected int eFlags;
 
   /**
    * <!-- begin-user-doc -->
@@ -75,7 +80,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
   /**
    * The bit of {@link #eFlags} that is used to represent being {@link #freeze() frozen}.
    */
-  protected static final int EFROZEN = ELAST_EOBJECT_FLAG << 1;
+  protected static final int EFROZEN = 1;
 
   /**
    * The last bit used by this class; derived classes may use bit values higher than this.

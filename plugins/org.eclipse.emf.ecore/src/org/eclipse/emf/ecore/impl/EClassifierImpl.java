@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.28 2008/07/30 16:31:50 davidms Exp $
+ * $Id: EClassifierImpl.java,v 1.29 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -152,7 +152,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case EcorePackage.ECLASSIFIER__EPACKAGE:
         return eInternalContainer().eInverseRemove(this, EcorePackage.EPACKAGE__ECLASSIFIERS, EPackage.class, msgs);
@@ -692,7 +692,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    */
   public EPackage getEPackageGen()
   {
-    if (eContainerFeatureID != EcorePackage.ECLASSIFIER__EPACKAGE) return null;
+    if (eContainerFeatureID() != EcorePackage.ECLASSIFIER__EPACKAGE) return null;
     return (EPackage)eContainer();
   }
 
@@ -741,7 +741,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    */
   public EPackage basicGetEPackage()
   {
-    if (eContainerFeatureID != EcorePackage.ECLASSIFIER__EPACKAGE) return null;
+    if (eContainerFeatureID() != EcorePackage.ECLASSIFIER__EPACKAGE) return null;
     return (EPackage)eInternalContainer();
   }
 

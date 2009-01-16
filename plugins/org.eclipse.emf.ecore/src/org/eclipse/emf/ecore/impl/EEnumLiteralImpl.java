@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.13 2008/12/22 14:24:54 emerks Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.14 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -227,11 +227,11 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated modifiable
+   * @generated NOT
    */
   public EEnum getEEnum()
   {
-    return (eContainerFeatureID == EcorePackage.EENUM_LITERAL__EENUM) ? (EEnum)eContainer : null;
+    return (eContainerFeatureID() == EcorePackage.EENUM_LITERAL__EENUM) ? (EEnum)eContainer : null;
   }
 
   /**
@@ -281,7 +281,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case EcorePackage.EENUM_LITERAL__EENUM:
         return eInternalContainer().eInverseRemove(this, EcorePackage.EENUM__ELITERALS, EEnum.class, msgs);

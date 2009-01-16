@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeImpl.java,v 1.7 2008/06/06 17:48:41 emerks Exp $
+ * $Id: EGenericTypeImpl.java,v 1.8 2009/01/16 12:55:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -56,9 +56,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </ul>
  * </p>
  *
- * @generated
+ * @generated not
  */
-public class EGenericTypeImpl extends EObjectImpl implements EGenericType
+public class EGenericTypeImpl extends MinimalEObjectImpl.Container implements EGenericType
 {
   /**
    * The cached value of the '{@link #getEUpperBound() <em>EUpper Bound</em>}' containment reference.
@@ -231,7 +231,7 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
 
         if (eContainer instanceof EOperation)
         {
-          if (eContainerFeatureID == (EOPPOSITE_FEATURE_BASE - EcorePackage.EOPERATION__EGENERIC_EXCEPTIONS) && eContainer.eNotificationRequired())
+          if (eContainerFeatureID() == (EOPPOSITE_FEATURE_BASE - EcorePackage.EOPERATION__EGENERIC_EXCEPTIONS) && eContainer.eNotificationRequired())
           {
             new ENotificationImpl
               (eContainer, 
@@ -244,7 +244,7 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
         }
         else if (eContainer instanceof EClass)
         {
-          if (eContainerFeatureID == (EOPPOSITE_FEATURE_BASE - EcorePackage.ECLASS__EGENERIC_SUPER_TYPES) && eContainer.eNotificationRequired())
+          if (eContainerFeatureID() == (EOPPOSITE_FEATURE_BASE - EcorePackage.ECLASS__EGENERIC_SUPER_TYPES) && eContainer.eNotificationRequired())
           {
             EClassifier newERawType = eRawType;
             if (!(newERawType instanceof EClass))
@@ -305,11 +305,11 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
     {
       if (eContainer instanceof ETypedElementImpl)
       {
-        if (eContainerFeatureID == (EOPPOSITE_FEATURE_BASE - EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE))
+        if (eContainerFeatureID() == (EOPPOSITE_FEATURE_BASE - EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE))
         {
           msgs = ((ETypedElementImpl)eContainer).setEType(newERawType, msgs);
         }
-        else if (eContainerFeatureID == (EOPPOSITE_FEATURE_BASE - EcorePackage.EOPERATION__EGENERIC_EXCEPTIONS))
+        else if (eContainerFeatureID() == (EOPPOSITE_FEATURE_BASE - EcorePackage.EOPERATION__EGENERIC_EXCEPTIONS))
         {
           if (newERawType == null)
           {
@@ -345,7 +345,7 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
       }
       else if (eContainer instanceof EClass)
       {
-        if (eContainerFeatureID == (EOPPOSITE_FEATURE_BASE - EcorePackage.ECLASS__EGENERIC_SUPER_TYPES))
+        if (eContainerFeatureID() == (EOPPOSITE_FEATURE_BASE - EcorePackage.ECLASS__EGENERIC_SUPER_TYPES))
         {
           if (!(newERawType instanceof EClass))
           {
