@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicNotifierImpl.java,v 1.5 2006/12/05 20:19:58 emerks Exp $
+ * $Id: BasicNotifierImpl.java,v 1.6 2009/01/16 12:55:02 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -108,6 +108,19 @@ public class BasicNotifierImpl implements Notifier
     public Object [] data()
     {
       safe = true;
+      if (data != null && data.length != size)
+      {
+        if (size == 0)
+        {
+          data = null;
+        }
+        else
+        {
+          Object [] oldData = data;
+          data = newData(size);
+          System.arraycopy(oldData, 0, data, 0, size);
+        }
+      }
       return data;
     }
 
@@ -214,6 +227,30 @@ public class BasicNotifierImpl implements Notifier
     return null;
   }
 
+  /**
+   * Returns the underlying array of adapters.
+   * The length of this array reflects exactly the number of adapters
+   * where <code>null</code> represents the lack of any adapters.
+   * This array may not be modified by the caller 
+   * and must be guaranteed not to be modified even if the {@link #eAdapters() list of adapters} is modified.
+   * @return the underlying array of adapters.
+   */
+  protected Adapter[] eBasicAdapterArray()
+  {
+    BasicEList<Adapter> eBasicAdapters = eBasicAdapters();
+    return eBasicAdapters == null ? null : (Adapter[])eBasicAdapters.data();
+  }
+
+  /**
+   * Returns whether there are any adapters.
+   * @return whether there are any adapters.
+   */
+  protected boolean eBasicHasAdapters()
+  {
+    BasicEList<Adapter> eBasicAdapters = eBasicAdapters();
+    return eBasicAdapters != null && eBasicAdapters.size() != 0;
+  }
+
   /*
    * Javadoc copied from interface.
    */
@@ -235,17 +272,12 @@ public class BasicNotifierImpl implements Notifier
    */
   public void eNotify(Notification notification)
   {
-    BasicEList<Adapter> eAdapters = eBasicAdapters();
+    Adapter[] eAdapters = eBasicAdapterArray();
     if (eAdapters != null && eDeliver())
     {
-      int size = eAdapters.size();
-      if (size > 0)
+      for (int i = 0, size = eAdapters.length; i < size; ++i)
       {
-        Adapter [] adapters = (Adapter [])eAdapters.data();
-        for (int i = 0; i < size; ++i)
-        {
-          adapters[i].notifyChanged(notification);
-        }
+        eAdapters[i].notifyChanged(notification);
       }
     }
   }
@@ -258,7 +290,6 @@ public class BasicNotifierImpl implements Notifier
    */
   public boolean eNotificationRequired()
   {
-    BasicEList<Adapter> eAdapters = eBasicAdapters();
-    return eAdapters != null && eDeliver() && !eAdapters.isEmpty();
+    return eBasicHasAdapters() && eDeliver();
   }
 }
