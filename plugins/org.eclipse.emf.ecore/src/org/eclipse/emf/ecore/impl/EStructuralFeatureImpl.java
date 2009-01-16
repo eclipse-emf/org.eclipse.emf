@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.37 2009/01/16 12:55:11 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.38 2009/01/16 20:52:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1918,10 +1918,6 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public NotificationChain dynamicInverseRemove
       (InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, InternalEObject otherEnd, NotificationChain notifications)
     {
-      if (owner.eInternalContainer() != null)
-      {
-        notifications = owner.eBasicRemoveFromContainer(notifications);
-      }
       int featureID = owner.eClass().getFeatureID(feature);
       return owner.eBasicSetContainer(null, featureID, notifications);
     }
