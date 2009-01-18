@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.105 2008/12/22 14:25:18 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.106 2009/01/18 03:48:05 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1993,8 +1993,19 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   }
 
   protected ImportManager importManager;
+
+  /**
+   * @deprecated In 2.5, this is stored in the {@link #importManager import manager}.
+   */
+  @Deprecated
   protected StringBuffer importStringBuffer;
+
+  /**
+   * @deprecated In 2.5, this is stored in the {@link #importManager import manager}.
+   */
+  @Deprecated
   protected int importInsertionPoint;
+
   protected boolean canGenerate;
 
   public void markImportLocation(StringBuffer stringBuffer, GenPackage genPackage)
@@ -2007,62 +2018,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     importStringBuffer = stringBuffer;
     importInsertionPoint = stringBuffer.length();
-    importManager.addCompilationUnitImports(stringBuffer.toString());
+    importManager.markImportLocation(stringBuffer);
   }
 
   public void emitSortedImports()
   {
-    importStringBuffer.insert(importInsertionPoint, importManager.computeSortedImports());
+    importManager.emitSortedImports();
   }
 
   public String getImportedName(String qualifiedName)
   {
-    int index = qualifiedName.indexOf("<");
-    if (index >= 0)
-    {
-      String baseName = qualifiedName.substring(0, index);
-      StringBuilder result = new StringBuilder(getImportedName(baseName));
-      result.append("<");
-      for (int start = ++index,  end = qualifiedName.lastIndexOf(">") +  1; index < end; ++index)
-      {
-        char character = qualifiedName.charAt(index);
-        switch (character)
-        {
-          case ' ': 
-          case ',': 
-          case '<': 
-          case '>': 
-          case '&': 
-          {
-            if (start != index)
-            {
-              String segment = qualifiedName.substring(start, index);
-              result.append(getImportedName(segment));
-            }
-            result.append(character);
-            start = index + 1;
-            break;
-          }
-          default:
-          {
-            break;
-          }
-        }
-      }
-      return result.toString();
-    }
-   
-    index = qualifiedName.indexOf("$");
-    String baseName = index == -1 ? qualifiedName : qualifiedName.substring(0, index);
-    if (baseName.contains("."))
-    {
-      importManager.addImport(index == -1 ? qualifiedName : qualifiedName.substring(0, index));
-      return importManager.getImportedName(qualifiedName);
-    }
-    else
-    {
-      return qualifiedName;
-    }
+    return importManager.getImportedName(qualifiedName, true);
   }
 
   public void addImport(String qualifiedName)
@@ -2124,6 +2090,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public void setLineDelimiter(String lineDelimiter)
   {
     this.lineDelimiter = lineDelimiter;
+    if (importManager != null)
+    {
+      importManager.setLineDelimiter(lineDelimiter);
+    }
 
     // We also need to set it on any GenModels holding any used or static packages that may be refered to.
     //
