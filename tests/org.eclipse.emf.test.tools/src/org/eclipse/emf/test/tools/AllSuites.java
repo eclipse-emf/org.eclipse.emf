@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.18 2007/01/29 19:20:07 davidms Exp $
+ * $Id: AllSuites.java,v 1.19 2009/01/18 03:53:09 davidms Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -27,16 +27,17 @@ public class AllSuites extends TestSuite
   public static final String PLUGIN_ID = "org.eclipse.emf.test.tools";
   
   private static Test[] suites = new Test []{ 
-    org.eclipse.emf.test.tools.JETTest.suite()
+     org.eclipse.emf.test.tools.ImportManagerTest.suite()
+    ,org.eclipse.emf.test.tools.JETTest.suite()
+    ,org.eclipse.emf.test.tools.ToolsTest.suite()
     ,org.eclipse.emf.test.tools.ant.AntTest.suite()
+    ,org.eclipse.emf.test.tools.codegen.GenModelDefaultsTest.suite()
+    ,org.eclipse.emf.test.tools.codegen.GenModelTest.suite()
     ,org.eclipse.emf.test.tools.converter.ConverterUtilTest.suite()
     ,org.eclipse.emf.test.tools.importer.ImporterUtilTest.suite()
     ,org.eclipse.emf.test.tools.importer.ModelImporterTest.suite()
-    ,org.eclipse.emf.test.tools.codegen.GenModelTest.suite()
-    ,org.eclipse.emf.test.tools.codegen.GenModelDefaultsTest.suite()
     ,org.eclipse.emf.test.tools.merger.MergerAllSuites.suite()
     ,org.eclipse.emf.test.tools.merger.facade.FacadeAllSuites.suite()
-    ,ToolsTest.suite()
   };
 
   public static Test suite()
