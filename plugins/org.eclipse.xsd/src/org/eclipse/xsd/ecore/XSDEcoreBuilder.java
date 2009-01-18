@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.98 2008/12/27 19:50:01 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.99 2009/01/18 15:14:47 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2500,11 +2500,13 @@ public class XSDEcoreBuilder extends MapBuilder
     {
       XSDModelGroup xsdModelGroup = (XSDModelGroup)xsdTerm;
       List<XSDParticle> particles = xsdModelGroup.getParticles();
-      if (particles.size() == 0)
+      if (particles.size() == 0 ||
+            xsdModelGroup.getContainer() instanceof XSDModelGroupDefinition &&
+            ((XSDModelGroupDefinition)xsdModelGroup.getContainer()).isCircular())
       {
         return;
       }
-      else
+      else 
       {
         boolean isIgnored =
           effectiveMaxOccurs == 1 ||
