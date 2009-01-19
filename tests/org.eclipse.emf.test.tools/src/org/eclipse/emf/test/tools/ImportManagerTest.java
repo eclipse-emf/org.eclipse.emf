@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ImportManagerTest.java,v 1.1 2009/01/18 03:51:50 davidms Exp $
+ * $Id: ImportManagerTest.java,v 1.2 2009/01/19 06:58:43 davidms Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -315,6 +315,9 @@ public class ImportManagerTest extends TestCase
     assertEquals("MyClass <Map <a.Baz, String> >", importManager.getImportedName("a.b.c.MyClass <java.util.Map <a.Baz, java.lang.String> >"));
     assertEquals("Map  < MyClass < a.Baz > , String >", importManager.getImportedName("java.util.Map  < a.b.c.MyClass < a.Baz > , java.lang.String >"));
     assertEquals("  Map  <   MyClass < a .  Baz > ,   String >", importManager.getImportedName("java . util .  Map  < a . b . c .  MyClass < a .  Baz > , java . lang .  String >"));
+    assertEquals("Map<String, ?>", importManager.getImportedName("java.util.Map<java.lang.String, ?>"));
+    assertEquals("Map<String, ? extends MyClass & a.Baz>", importManager.getImportedName("java.util.Map<java.lang.String, ? extends a.b.c.MyClass & a.Baz>"));
+    assertEquals("Map<String, ? super MyClass & a.Baz>", importManager.getImportedName("java.util.Map<java.lang.String, ? super a.b.c.MyClass & a.Baz>"));
   }
 
   public void testAutoImport()
