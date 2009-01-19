@@ -339,9 +339,32 @@ public class ImportManager
           start = i + 1;
           break;
         }
-        case ' ':
+        case '?':
         {
-          if (start == i)
+          int j = i + 1;
+          while (j < end && Character.isWhitespace(qualifiedName.charAt(j)))
+          {
+            j++;
+          }
+          if (j + 6 < end && "extends".equals(qualifiedName.substring(j, j + 7)))
+          {
+            result.append(qualifiedName.substring(i, j + 7));
+            i = j + 6;
+          }
+          else if (j + 4 < end && "super".equals(qualifiedName.substring(j, j + 5)))
+          {
+            result.append(qualifiedName.substring(i, j + 5));
+            i = j + 4;
+          }
+          else
+          {
+            result.append(c);
+          }
+          start = i + 1;
+        }
+        default:
+        {
+          if (Character.isWhitespace(c) && start == i)
           {
             result.append(c);
             start++;
