@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.31 2008/12/15 15:48:20 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.32 2009/01/20 18:58:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1349,22 +1349,6 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     }
 
     options = mergeMaps(options, defaultSaveOptions);
-    URIConverter.Cipher cipher = options != null ?
-      (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER) :
-      null;
-
-    if (cipher != null)
-    {
-      try
-      {
-        outputStream = cipher.encrypt(outputStream);
-      }
-      catch (Exception e)
-      {
-        throw new IOWrappedException(e);
-      }
-    }
-
     ZipOutputStream zipOutputStream = null;
     if (useZip() || (options != null && Boolean.TRUE.equals(options.get(Resource.OPTION_ZIP))))
     {
@@ -1401,6 +1385,23 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       zipOutputStream.putNextEntry(newContentZipEntry());
       outputStream = zipOutputStream;
     }
+
+    URIConverter.Cipher cipher = options != null ?
+      (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER) :
+      null;
+
+    if (cipher != null)
+    {
+      try
+      {
+        outputStream = cipher.encrypt(outputStream);
+      }
+      catch (Exception e)
+      {
+        throw new IOWrappedException(e);
+      }
+    }
+
 
     doSave(outputStream, options);
 
