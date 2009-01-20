@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.18 2008/12/13 15:58:01 emerks Exp $
+ * $Id: PersistenceTest.java,v 1.19 2009/01/20 18:58:05 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -1044,8 +1044,14 @@ public class PersistenceTest extends TestCase
     aesCyperOptions.put(Resource.OPTION_CIPHER, new AESCipherImpl("a very long password indeed"));
     byte[] aesCypherBytes = tester.test(aesCyperOptions);
     
+    Map<String, Object> desCyperZipOptions = new HashMap<String, Object>(1);
+    desCyperZipOptions.put(Resource.OPTION_CIPHER, new DESCipherImpl("a very long key indeed"));
+    desCyperZipOptions.put(Resource.OPTION_ZIP, Boolean.TRUE);
+    byte[] desCypherZipBytes = tester.test(desCyperZipOptions);
+
     assertFalse(Arrays.equals(noCypherBytes, desCypherBytes));
     assertFalse(Arrays.equals(noCypherBytes, aesCypherBytes));
     assertFalse(Arrays.equals(aesCypherBytes, desCypherBytes));
+    assertFalse(Arrays.equals(desCypherBytes, desCypherZipBytes));
   }
 }
