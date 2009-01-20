@@ -40,52 +40,39 @@
                org.eclipse.emf.edit.provider.IItemPropertySource"/>
    </extension>
    
-  <extension point="org.eclipse.ui.commands">
-		<category
-			id="org.eclipse.emf.codegen.ecore.ui.Commands"
-			name="%_UI_EMFCodeGeneration_name"
-			description="%_UI_EMFCommandCategory_description">
-		</category>
-		<command
-			id="org.eclipse.emf.codegen.ecore.ui.Generate"
-			categoryId="org.eclipse.emf.codegen.ecore.ui.Commands"
-			name="%_UI_GenerateCommand_name"
-			description="%_UI_GenerateCommand_description">
+   <extension point="org.eclipse.ui.commands">
+      <category
+            id="org.eclipse.emf.codegen.ecore.ui.Commands"
+            name="%_UI_EMFCodeGeneration_name"
+            description="%_UI_EMFCommandCategory_description">
+      </category>
+      <command
+            id="org.eclipse.emf.codegen.ecore.ui.Generate"
+            categoryId="org.eclipse.emf.codegen.ecore.ui.Commands"
+            name="%_UI_GenerateCommand_name"
+            description="%_UI_GenerateCommand_description">
 		</command>
-  </extension>
+   </extension>
 
-  <extension point="org.eclipse.ui.commandImages">
-		<image
-			commandId="org.eclipse.emf.codegen.ecore.ui.Generate"
-			icon="icons/full/ctool16/Generate.gif">
-		</image>
-  </extension>   
+   <extension point="org.eclipse.ui.commandImages">
+      <image
+            commandId="org.eclipse.emf.codegen.ecore.ui.Generate"
+            icon="icons/full/ctool16/Generate.gif">
+      </image>
+   </extension>   
   
-	<extension point="org.eclipse.ui.handlers">
-		<handler
-			commandId="org.eclipse.emf.codegen.ecore.ui.Generate"
-			class="org.eclipse.emf.codegen.ecore.genmodel.handler.GenerateHandler">
-		</handler>
-	</extension>
-	
-  <extension point="org.eclipse.ui.bindings">
-		<key
-			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-			commandId="org.eclipse.emf.codegen.ecore.ui.Generate"
-			sequence="M3+M2+G">
-		</key>
-  </extension>
+   <extension point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.eclipse.emf.codegen.ecore.ui.Generate"
+            class="org.eclipse.emf.codegen.ecore.genmodel.handler.GenerateHandler">
+      </handler>
+   </extension>
 
-  <extension point="org.eclipse.ui.menus">
-		<menuContribution
-			locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-			<toolbar
-				id="org.eclipse.emf.codegen.ecore.ui.Toolbar">
-					<command
-						commandId="org.eclipse.emf.codegen.ecore.ui.Generate"
-						style="push">
-					</command>
-			</toolbar>
-		</menuContribution>
-	</extension>
+   <extension point="org.eclipse.ui.bindings">
+      <key
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            commandId="org.eclipse.emf.codegen.ecore.ui.Generate"
+            sequence="M3+M2+G">
+      </key>
+   </extension>
 </plugin>
