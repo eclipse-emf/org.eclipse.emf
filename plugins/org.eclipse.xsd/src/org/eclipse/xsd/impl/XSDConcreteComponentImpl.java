@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.28 2008/09/26 20:06:48 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.29 2009/01/20 17:02:57 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1880,18 +1880,21 @@ public abstract class XSDConcreteComponentImpl
         if (!schemaElement.hasAttributeNS(XSDConstants.XMLNS_URI_2000, "xsd"))
         {
           schemaElement.setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns:xsd", namespace);
+          xsdSchema.getQNamePrefixToNamespaceMap().put("xsd", namespace);
           return "xsd";
         }
       }
 
       String qualifier = "Q";
+      String result;
       int count = 1;
-      while (schemaElement.hasAttributeNS(XSDConstants.XMLNS_URI_2000, qualifier + count))
+      while (schemaElement.hasAttributeNS(XSDConstants.XMLNS_URI_2000, result = qualifier + count))
       {
         ++count;
       }
-      schemaElement.setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns:" + qualifier + count, namespace);
-      return qualifier + count;
+      schemaElement.setAttributeNS(XSDConstants.XMLNS_URI_2000, "xmlns:" + result, namespace);
+      xsdSchema.getQNamePrefixToNamespaceMap().put(result, namespace);
+      return result;
     }
     else
     {
