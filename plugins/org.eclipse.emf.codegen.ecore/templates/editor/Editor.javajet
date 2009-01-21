@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.60 2008/06/05 15:57:13 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.60.2.1 2009/01/21 05:22:20 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -213,7 +213,9 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF23_VALUE) {%>
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
+<%}%>
 <%if (!genModel.isRichClientPlatform()) {%>
 
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
@@ -778,10 +780,12 @@ public class <%=genPackage.getEditorClassName()%>
 				}
 			}
 
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE) {%>
 			if (AdapterFactoryEditingDomain.isStale(editorSelection))
 			{
 				setSelection(StructuredSelection.EMPTY);
 			}
+<%}%>
 
 			updateProblemIndication = true;
 			updateProblemIndication();
@@ -1197,7 +1201,11 @@ public class <%=genPackage.getEditorClassName()%>
 		contextMenu.addMenuListener(this);
 		Menu menu= contextMenu.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF23_VALUE) {%>
 		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
+<%} else {%>
+		getSite().registerContextMenu(contextMenu, viewer);
+<%}%>
 
 		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
 		Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
@@ -1904,7 +1912,9 @@ public class <%=genPackage.getEditorClassName()%>
 		// Save only resources that have actually changed.
 		//
 		final <%=_MapOfObjectToObject%> saveOptions = new <%=_HashMapOfObjectToObject%>();
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF23_VALUE) {%>
 		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+<%}%>
 
 		// Do the work within an operation because this is a long running activity that modifies the workbench.
 		//
@@ -1934,12 +1944,17 @@ public class <%=genPackage.getEditorClassName()%>
 						{
 							try
 							{
+<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE) {%>
 								long timeStamp = resource.getTimeStamp();
 								resource.save(saveOptions);
 								if (resource.getTimeStamp() != timeStamp)
 								{
 									savedResources.add(resource);
 								}
+<%} else {%>
+								resource.save(saveOptions);
+								savedResources.add(resource);
+<%}%>
 							}
 							catch (Exception exception)
 							{
