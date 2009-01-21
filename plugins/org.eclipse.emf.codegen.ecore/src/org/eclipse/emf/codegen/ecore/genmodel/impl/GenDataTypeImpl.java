@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.34.2.1 2008/12/09 03:13:25 davidms Exp $
+ * $Id: GenDataTypeImpl.java,v 1.34.2.2 2009/01/21 03:39:07 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -409,7 +409,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public boolean isObjectType()
   {
-    return "java.lang.Object".equals(getEcoreDataType().getInstanceClassName());
+    EDataType eDataType = getEcoreDataType();
+    return "java.lang.Object".equals(eDataType.getInstanceClassName()) || isRemappedXMLType(eDataType);
   }
 
   public String getPrimitiveValueFunction()
