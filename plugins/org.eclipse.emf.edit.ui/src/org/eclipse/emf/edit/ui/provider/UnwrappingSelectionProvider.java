@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: UnwrappingSelectionProvider.java,v 1.1 2007/04/23 13:26:55 emerks Exp $
+ * $Id: UnwrappingSelectionProvider.java,v 1.1.4.1 2009/01/21 05:25:47 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -27,6 +27,9 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 
+/**
+ * @since 2.3
+ */
 public class UnwrappingSelectionProvider implements ISelectionProvider
 {
   protected ISelection selection;
