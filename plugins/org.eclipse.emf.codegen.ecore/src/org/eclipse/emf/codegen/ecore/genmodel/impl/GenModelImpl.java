@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.99.2.1 2008/07/31 21:55:37 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.99.2.2 2009/01/21 03:40:17 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1681,6 +1681,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         ecoreGenModel.initialize(Collections.singleton(EcorePackage.eINSTANCE));
         ecoreGenModel.setImportManager(getImportManager());
         ecoreGenModel.setLanguage("en");
+        setMainGenModel(ecoreGenModel, this);
         ecoreGenPackage = ecoreGenModel.getGenPackages().get(0);
         ecoreGenPackage.setPrefix("Ecore");
         ecoreGenPackage.setBasePackage("org.eclipse.emf");
@@ -1695,6 +1696,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         xmlTypeGenModel.initialize(Collections.singleton(XMLTypePackage.eINSTANCE));
         xmlTypeGenModel.setImportManager(getImportManager());
         xmlTypeGenModel.setLanguage("en");
+        setMainGenModel(xmlTypeGenModel, this);
         xmlTypeGenPackage = xmlTypeGenModel.getGenPackages().get(0);
         xmlTypeGenPackage.setPrefix("XMLType");
         xmlTypeGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
@@ -1710,6 +1712,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         xmlNamespaceGenModel.initialize(Collections.singleton(XMLNamespacePackage.eINSTANCE));
         xmlNamespaceGenModel.setImportManager(getImportManager());
         xmlNamespaceGenModel.setLanguage("en");
+        setMainGenModel(xmlNamespaceGenModel, this);
         xmlNamespaceGenPackage = xmlNamespaceGenModel.getGenPackages().get(0);
         xmlNamespaceGenPackage.setPrefix("XMLNamespace");
         xmlNamespaceGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
@@ -4939,8 +4942,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           @Override
           protected void didChange()
           {
-            super.didChange();
-            staticGenPackages = null;
+            if (staticGenPackages != null)
+            {
+              for (GenPackage genPackage : staticGenPackages)
+              {
+                setMainGenModel(genPackage, null);
+              }
+              staticGenPackages = null;
+            }
           }
         };
     }
@@ -5921,6 +5930,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public EList<GenPackage> getStaticGenPackages()
   {
+    // Set the main GenModels for Ecore, XMLType, and XMLNamespace. Since this method is invoked by
+    // GenModelGeneratorAdapter.doPreGenerate(), it is a reasonable place to adequately configure these GenModels. 
+    //
+    if (ecoreGenPackage != null)
+    {
+      setMainGenModel(ecoreGenPackage, getMainGenModel());
+    }
+    if (xmlTypeGenPackage != null)
+    {
+    setMainGenModel(xmlTypeGenPackage, getMainGenModel());
+    }
+    if (xmlNamespaceGenPackage != null)
+    {
+      setMainGenModel(xmlNamespaceGenPackage, getMainGenModel());
+    }
+
     if (staticGenPackages == null)
     {
       staticGenPackages = new UniqueEList<GenPackage>();
@@ -5964,6 +5989,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             genModel.getGenPackages().add(staticGenPackage);
             staticGenPackage.initialize(staticEPackage);
           }
+
+          setMainGenModel(staticGenPackage, this);
           staticGenPackages.add(staticGenPackage);            
         }
       }
@@ -5971,16 +5998,55 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return staticGenPackages;
   }
 
+  private static void setMainGenModel(GenPackage genPackage, GenModel target)
+  {
+    if (!genPackage.eIsProxy())
+    {
+      setMainGenModel(genPackage.getGenModel(), target);
+    }
+  }
+
+  private static void setMainGenModel(GenModel genModel, GenModel target)
+  {
+    if (genModel instanceof GenModelImpl)
+    {
+      ((GenModelImpl)genModel).setMainGenModel(target);
+    }
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EList<GenPackage> getUsedGenPackages()
   {
     if (usedGenPackages == null)
     {
-      usedGenPackages = new EObjectResolvingEList<GenPackage>(GenPackage.class, this, GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES);
+      usedGenPackages =
+        new EObjectResolvingEList<GenPackage>(GenPackage.class, this, GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES)
+        {
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          protected void didSet(int index, GenPackage newObject, GenPackage oldObject)
+          {
+            setMainGenModel(oldObject, null);
+            setMainGenModel(newObject, GenModelImpl.this);
+          }
+
+          @Override
+          protected void didAdd(int index, GenPackage newObject)
+          {
+            setMainGenModel(newObject, GenModelImpl.this);
+          }
+
+          @Override
+          protected void didRemove(int index, GenPackage oldObject)
+          {
+            setMainGenModel(oldObject, null);
+          }
+        };
     }
     return usedGenPackages;
   }
@@ -8806,4 +8872,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return locale;
   }
 
+  private GenModel mainGenModel;
+
+  @Override
+  GenModel getMainGenModel()
+  {
+    return mainGenModel == null ? this : mainGenModel;
+  }
+
+  void setMainGenModel(GenModel genModel)
+  {
+    mainGenModel = genModel;
+  }
 } //GenModelImpl
