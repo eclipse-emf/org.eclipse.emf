@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.14 2007/11/03 13:33:16 emerks Exp $
+ * $Id: Resource.java,v 1.15 2009/01/21 05:24:19 davidms Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -142,6 +142,7 @@ public interface Resource extends Notifier
    * The value on this option can be either <code>null</code>, 
    * {@link #OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER},
    * or {@link #OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER}.
+   * @since 2.3
    */  
   String OPTION_SAVE_ONLY_IF_CHANGED = "SAVE_ONLY_IF_CHANGED";
 
@@ -149,6 +150,7 @@ public interface Resource extends Notifier
    * A value for {@link #OPTION_SAVE_ONLY_IF_CHANGED} 
    * to specify that an in-memory buffer should be used to compare the new contents with the actual contents.
    * This will be faster than {@link #OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER} but will use up more memory.
+   * @since 2.3
    */
   String OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER = "MEMORY_BUFFER";
 
@@ -156,6 +158,7 @@ public interface Resource extends Notifier
    * A value for {@link #OPTION_SAVE_ONLY_IF_CHANGED} 
    * to specify that a file buffer should be used to compare the new contents with the actual contents.
    * This will be slower than {@link #OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER} but will use up less memory.
+   * @since 2.3
    */
   String OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER = "FILE_BUFFER";
 
