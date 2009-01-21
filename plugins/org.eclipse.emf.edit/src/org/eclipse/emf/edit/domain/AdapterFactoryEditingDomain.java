@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.25 2008/05/07 19:08:46 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.25.2.1 2009/01/21 05:24:58 davidms Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -101,6 +101,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
    * a stale {@link Resource#unload() unloaded} {@link EObject#eIsProxy() object}.
    * It's best to stop using unloaded objects entirely because they ought to be garbage collected
    * and should be replaced by their {@link AdapterFactoryEditingDomain#resolve(Collection) resolved} result.
+   * @since 2.4
    */
   static public boolean isStale(Object object)
   {
@@ -640,7 +641,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
    * {@link EcoreUtil#resolve(EObject, ResourceSet) resolved}, 
    * and rewrapped before it's added to the result;
    * Other objects are passed through unchecked.
-   * 
+   * @since 2.4
    */
   public List<?> resolve(Collection<?> objects)
   {
