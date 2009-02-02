@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteCommand.java,v 1.7 2008/12/08 01:58:34 davidms Exp $
+ * $Id: DeleteCommand.java,v 1.8 2009/02/02 12:42:39 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -20,11 +20,11 @@ package org.eclipse.emf.edit.command;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
-import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -110,7 +110,7 @@ public class DeleteCommand extends CompoundCommand
   @Override
   public void execute()
   {
-    Collection<EObject> eObjects = new UniqueEList<EObject>();
+    Collection<EObject> eObjects = new LinkedHashSet<EObject>();
     for (Object wrappedObject : collection)
     {
       Object object = AdapterFactoryEditingDomain.unwrap(wrappedObject);
