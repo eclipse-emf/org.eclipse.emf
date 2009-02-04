@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.3 2008/12/22 14:24:54 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.4 2009/02/04 16:40:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -934,7 +934,7 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public void writeURI(URI uri) throws IOException
     {
-      writeURI(uri, uri.fragment());
+      writeURI(uri.trimFragment(), uri.fragment());
     }
 
     public void writeURI(URI uri, String fragment) throws IOException
