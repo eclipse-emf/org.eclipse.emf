@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.65.2.1 2009/01/21 03:38:38 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.65.2.2 2009/02/04 14:12:23 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -877,6 +877,29 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   protected static GenPackage ecoreGenPackage;
   protected static GenPackage xmlTypeGenPackage;
   protected static GenPackage xmlNamespaceGenPackage;
+
+  // We'll use this to keep track of whether the main GenModel has been set on the static Ecore, XMLType, and
+  // XMLNamespace GenModels. We'll set them in GenPackageImpl.prepareCache() and and clear them in clearCache(), since
+  // these methods are always called at the beginning and end, respectively, of code generation. This flag allows us to
+  // avoid setting and clearing them repeatedly when there are multiple packages in the main GenModel.
+  //
+  static boolean hasSetMainGenModel = false;
+
+  static void setMainGenModel(GenPackage genPackage, GenModel main)
+  {
+    if (genPackage != null && !genPackage.eIsProxy())
+    {
+      setMainGenModel(genPackage.getGenModel(), main);
+    }
+  }
+
+  static void setMainGenModel(GenModel genModel, GenModel main)
+  {
+    if (genModel instanceof GenModelImpl)
+    {
+      ((GenModelImpl)genModel).setMainGenModel(main);
+    }    
+  }
 
   public GenPackage findGenPackage(EPackage ePackage)
   {
