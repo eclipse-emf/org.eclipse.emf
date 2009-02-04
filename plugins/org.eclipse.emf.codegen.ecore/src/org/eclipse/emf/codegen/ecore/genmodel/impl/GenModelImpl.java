@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.99.2.2 2009/01/21 03:40:17 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.99.2.3 2009/02/04 14:13:48 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1681,7 +1681,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         ecoreGenModel.initialize(Collections.singleton(EcorePackage.eINSTANCE));
         ecoreGenModel.setImportManager(getImportManager());
         ecoreGenModel.setLanguage("en");
-        setMainGenModel(ecoreGenModel, this);
+        if (hasSetMainGenModel)
+        {
+          setMainGenModel(ecoreGenModel, getMainGenModel());
+        }
         ecoreGenPackage = ecoreGenModel.getGenPackages().get(0);
         ecoreGenPackage.setPrefix("Ecore");
         ecoreGenPackage.setBasePackage("org.eclipse.emf");
@@ -1696,7 +1699,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         xmlTypeGenModel.initialize(Collections.singleton(XMLTypePackage.eINSTANCE));
         xmlTypeGenModel.setImportManager(getImportManager());
         xmlTypeGenModel.setLanguage("en");
-        setMainGenModel(xmlTypeGenModel, this);
+        if (hasSetMainGenModel)
+        {
+          setMainGenModel(xmlTypeGenModel, getMainGenModel());
+        }
         xmlTypeGenPackage = xmlTypeGenModel.getGenPackages().get(0);
         xmlTypeGenPackage.setPrefix("XMLType");
         xmlTypeGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
@@ -1712,7 +1718,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         xmlNamespaceGenModel.initialize(Collections.singleton(XMLNamespacePackage.eINSTANCE));
         xmlNamespaceGenModel.setImportManager(getImportManager());
         xmlNamespaceGenModel.setLanguage("en");
-        setMainGenModel(xmlNamespaceGenModel, this);
+        if (hasSetMainGenModel)
+        {
+          setMainGenModel(xmlNamespaceGenModel, getMainGenModel());
+        }
         xmlNamespaceGenPackage = xmlNamespaceGenModel.getGenPackages().get(0);
         xmlNamespaceGenPackage.setPrefix("XMLNamespace");
         xmlNamespaceGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
@@ -5930,22 +5939,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public EList<GenPackage> getStaticGenPackages()
   {
-    // Set the main GenModels for Ecore, XMLType, and XMLNamespace. Since this method is invoked by
-    // GenModelGeneratorAdapter.doPreGenerate(), it is a reasonable place to adequately configure these GenModels. 
-    //
-    if (ecoreGenPackage != null)
-    {
-      setMainGenModel(ecoreGenPackage, getMainGenModel());
-    }
-    if (xmlTypeGenPackage != null)
-    {
-    setMainGenModel(xmlTypeGenPackage, getMainGenModel());
-    }
-    if (xmlNamespaceGenPackage != null)
-    {
-      setMainGenModel(xmlNamespaceGenPackage, getMainGenModel());
-    }
-
     if (staticGenPackages == null)
     {
       staticGenPackages = new UniqueEList<GenPackage>();
@@ -5996,22 +5989,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
     }
     return staticGenPackages;
-  }
-
-  private static void setMainGenModel(GenPackage genPackage, GenModel target)
-  {
-    if (!genPackage.eIsProxy())
-    {
-      setMainGenModel(genPackage.getGenModel(), target);
-    }
-  }
-
-  private static void setMainGenModel(GenModel genModel, GenModel target)
-  {
-    if (genModel instanceof GenModelImpl)
-    {
-      ((GenModelImpl)genModel).setMainGenModel(target);
-    }
   }
 
   /**
