@@ -51,6 +51,7 @@ public class BaseGenModelTest extends TestCase
     genModel.initialize(Collections.singletonList(ePackage));
     genModel.setComplianceLevel(GenJDKLevel.JDK50_LITERAL);
     assertEquals(1, genModel.getGenPackages().size());
+    genModel.getGenPackages().get(0).prepareCache();
 
     return genModel;
   }
