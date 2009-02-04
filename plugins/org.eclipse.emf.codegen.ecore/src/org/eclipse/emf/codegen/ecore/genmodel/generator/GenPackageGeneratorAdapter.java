@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.14 2008/01/29 21:12:08 emerks Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.14.2.1 2009/02/04 14:11:28 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -173,12 +173,8 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
   @Override
   protected Diagnostic doPreGenerate(Object object, Object projectType)
   {
-    if (MODEL_PROJECT_TYPE.equals(projectType))
-    {
-      ((GenPackage)object).prepareCache();
-      return Diagnostic.OK_INSTANCE;
-    }
-    return super.doPreGenerate(object, projectType);
+    ((GenPackage)object).prepareCache();
+    return Diagnostic.OK_INSTANCE;
   }
 
   /**
@@ -187,12 +183,8 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
   @Override
   protected Diagnostic doPostGenerate(Object object, Object projectType)
   {
-    if (MODEL_PROJECT_TYPE.equals(projectType))
-    {
-      ((GenPackage)object).clearCache();
-      return Diagnostic.OK_INSTANCE;
-    }
-    return super.doPostGenerate(object, projectType);
+    ((GenPackage)object).clearCache();
+    return Diagnostic.OK_INSTANCE;
   }
 
   @Override
