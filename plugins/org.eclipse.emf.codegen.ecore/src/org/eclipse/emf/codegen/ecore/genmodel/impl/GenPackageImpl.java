@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.85.2.1 2009/01/21 03:41:03 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.85.2.2 2009/02/04 14:14:31 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3053,7 +3053,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       progressMonitor.done();
     }
   }
-  
+
   /**
    * Create helpers to cache and supply information for unique naming.
    */
@@ -3064,6 +3064,20 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     validatorHelper = new ValidatorHelper();
     dependencyHelper = new DependencyHelper();
     annotationSourceHelper = new AnnotationSourceHelper();
+
+    // This is our best opportunity to set the main GenModel on the static Ecore, XMLType, and XMLNamespace GenModels.
+    //
+    if (!hasSetMainGenModel)
+    {
+      GenModel genModel = getGenModel();
+      if (genModel != null)
+      {
+        hasSetMainGenModel = true;
+        setMainGenModel(ecoreGenPackage, genModel);
+        setMainGenModel(xmlTypeGenPackage, genModel);
+        setMainGenModel(xmlNamespaceGenPackage, genModel);
+      }
+    }
   }
 
   /**
@@ -3075,6 +3089,16 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     validatorHelper = null;
     dependencyHelper = null;
     annotationSourceHelper = null;
+
+    // This is our best opportunity to clear the main GenModel on the static Ecore, XMLType, and XMLNamespace GenModels.
+    //
+    if (hasSetMainGenModel)
+    {
+      setMainGenModel(ecoreGenPackage, null);
+      setMainGenModel(xmlTypeGenPackage, null);
+      setMainGenModel(xmlNamespaceGenPackage, null);      
+      hasSetMainGenModel = false;
+    }
   }
 
   /**
