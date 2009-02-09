@@ -9,6 +9,12 @@
     </objectContribution>
   </extension>
 
+  <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution id="org.eclipse.emf.exporter.genModelObjectInstanceContribution" objectClass="org.eclipse.emf.codegen.ecore.genmodel.GenModel">
+      <action id="org.eclipse.emf.exporter.ui.GenModelInstanceExportActionDelegate.Popup" label="%_UI_Model_Export_label" menubarPath="additions" class="org.eclipse.emf.exporter.ui.GenModelExportActionDelegate" enablesFor="1" />
+    </objectContribution>
+  </extension>
+
   <extension point="org.eclipse.ui.editorActions">
     <editorContribution id="org.eclipse.emf.exporter.genModelEditorContribution" targetID="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditorID">
       <action id="org.eclipse.emf.exporter.ui.GenModelExportActionDelegate.Editor" label="%_UI_Model_Export_label" menubarPath="org.eclipse.emf.codegen.ecore.genmodelMenuID/global-actions" class="org.eclipse.emf.exporter.ui.GenModelExportActionDelegate" />
