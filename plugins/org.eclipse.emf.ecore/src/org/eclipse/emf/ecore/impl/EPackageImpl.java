@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.37 2009/01/16 12:55:11 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.38 2009/02/09 12:51:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1548,17 +1548,20 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
 
   protected void addAnnotation(ENamedElement eNamedElement, String source, String [] details)
   {
-    EAnnotation eAnnotation = ecoreFactory.createEAnnotation();
-    eAnnotation.setSource(source);
-    EMap<String, String> theDetails = eAnnotation.getDetails();
-    for (int i = 1; i < details.length; i += 2)
-    {
-      theDetails.put(details[i - 1], details[i]);
-    }
-    eNamedElement.getEAnnotations().add(eAnnotation);
+    addAnnotation(eNamedElement, source, details, null);
+  }
+
+  protected void addAnnotation(ENamedElement eNamedElement, String source, String [] details, URI [] references)
+  {
+    addAnnotation(eNamedElement, 0, source, details, references);
   }
 
   protected void addAnnotation(ENamedElement eNamedElement, int depth, String source, String [] details)
+  {
+    addAnnotation(eNamedElement, depth, source, details, null);
+  }
+
+  protected void addAnnotation(ENamedElement eNamedElement, int depth, String source, String [] details, URI [] references)
   {
     EAnnotation eAnnotation = ecoreFactory.createEAnnotation();
     eAnnotation.setSource(source);
@@ -1575,6 +1578,16 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       annotations = childAnnotations;
     }
     annotations.add(eAnnotation);
+    if (references != null)
+    {
+      InternalEList<EObject> eAnnotationReferences = (InternalEList<EObject>)eAnnotation.getReferences();
+      for (URI reference : references)
+      {
+        InternalEObject internalEObject = (InternalEObject)ecoreFactory.createEObject();
+        internalEObject.eSetProxyURI(reference);
+        eAnnotationReferences.addUnique(internalEObject);
+      }
+    }
   }
 
   protected void initializeFromLoadedEPackage(EPackage target, EPackage source)
