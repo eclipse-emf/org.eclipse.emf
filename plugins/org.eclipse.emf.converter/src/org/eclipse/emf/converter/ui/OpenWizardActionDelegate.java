@@ -12,11 +12,16 @@
  *
  * </copyright>
  *
- * $Id: OpenWizardActionDelegate.java,v 1.3 2008/05/29 02:35:08 marcelop Exp $
+ * $Id: OpenWizardActionDelegate.java,v 1.4 2009/02/09 10:58:50 emerks Exp $
  */
 package org.eclipse.emf.converter.ui;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -73,6 +78,24 @@ public abstract class OpenWizardActionDelegate extends ActionDelegate implements
         file = (IFile)object;
         action.setEnabled(true);
         return;
+      }
+      else if (object instanceof GenModel)
+      {
+        GenModel genModel = (GenModel)object;
+        Resource resource = genModel.eResource();
+        if (resource != null)
+        {
+          URI uri = resource.getURI();
+          if (uri.isPlatformResource())
+          {
+            file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true)));
+            if (file.exists())
+            {
+              action.setEnabled(true);
+              return;
+            }
+          }
+        }
       }
     }
     file = null;
