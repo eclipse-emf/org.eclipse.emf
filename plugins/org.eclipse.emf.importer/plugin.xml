@@ -20,6 +20,12 @@
     </objectContribution>
   </extension>
 
+  <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution id="org.eclipse.emf.importer.genModelInstanceObjectContribution" objectClass="org.eclipse.emf.codegen.ecore.genmodel.GenModel">
+      <action id="org.eclipse.emf.importer.ui.GenModelInstanceReloadActionDelegate.Popup" label="%_UI_Model_Reload_label" menubarPath="additions" class="org.eclipse.emf.importer.ui.GenModelReloadActionDelegate" enablesFor="1" />
+    </objectContribution>
+  </extension>
+
   <extension point="org.eclipse.ui.editorActions">
     <editorContribution id="org.eclipse.emf.importer.genModelEditorContribution" targetID="org.eclipse.emf.codegen.ecore.genmodel.presentation.GenModelEditorID">
       <action id="org.eclipse.emf.importer.ui.GenModelReloadActionDelegate.Editor" label="%_UI_Model_Reload_label" menubarPath="org.eclipse.emf.codegen.ecore.genmodelMenuID/global-actions" class="org.eclipse.emf.importer.ui.GenModelReloadActionDelegate" />
