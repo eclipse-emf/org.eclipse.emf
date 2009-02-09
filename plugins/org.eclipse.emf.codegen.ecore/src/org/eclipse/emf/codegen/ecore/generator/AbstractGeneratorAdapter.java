@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.17 2008/04/28 18:49:20 emerks Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.18 2009/02/09 11:01:16 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -498,20 +498,33 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     // Subclasses may override
   }
 
-  protected static final Class<?>[] OBJECT_ARGUMENT = new Class[]{ Object.class };
+  protected static final Class<?>[] OBJECT_ARGUMENT = new Class[] { Object.class };
 
   /**
-   * If {@link Generator.Options#dynamicTemplates dynamic templates} are not being used, attempts to set the emitter to
-   * use an existing, precompiled template class.
+   * If {@link Generator.Options#dynamicTemplates dynamic templates} are not being used, 
+   * attempts to set the emitter to use an existing, precompiled template class
+   * that has a method with signature <code>generate(Object)</code>.
+   * @see #setStaticTemplateClass(JETEmitter, String, String, Class[])
    */
   protected void setStaticTemplateClass(JETEmitter jetEmitter, String className)
+  {
+    setStaticTemplateClass(jetEmitter, className, "generate", OBJECT_ARGUMENT);
+  }
+
+  /**
+   * If {@link Generator.Options#dynamicTemplates dynamic templates} are not being used, 
+   * attempts to set the emitter to use an existing, precompiled template class
+   * that has the given method name and argument types.
+   * @since 2.5
+   */
+  protected void setStaticTemplateClass(JETEmitter jetEmitter, String className, String methodName, Class<?>[] arguments)
   {
     if (!getGenerator().getOptions().dynamicTemplates)
     {
       try
       {
         Class<?> templateClass = getClass().getClassLoader().loadClass(className);
-        Method emitterMethod = templateClass.getDeclaredMethod("generate", OBJECT_ARGUMENT);
+        Method emitterMethod = templateClass.getDeclaredMethod(methodName, arguments);
         jetEmitter.setMethod(emitterMethod);
       }
       catch (Exception exception)
