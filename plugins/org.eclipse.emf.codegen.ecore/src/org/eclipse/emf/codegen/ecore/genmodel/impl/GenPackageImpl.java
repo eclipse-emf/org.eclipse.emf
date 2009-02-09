@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.88 2008/12/22 14:25:18 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.89 2009/02/09 12:51:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -4247,6 +4247,39 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       else
       {
         i.prune();
+      }
+    }
+    return result;
+  }
+  
+  public List<AnnotationReferenceData> getReferenceData(EAnnotation eAnnotation)
+  {
+    ArrayList<AnnotationReferenceData> result = new ArrayList<AnnotationReferenceData>();
+    if (getGenModel().getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF25_VALUE)
+    {
+      for (EObject reference : eAnnotation.getReferences())
+      {
+        InternalEObject internalEObject = (InternalEObject)reference;
+        List<String> uriFragmentPath = new ArrayList<String>();
+        for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
+        {
+          uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
+          internalEObject = container;
+        }
+        if (internalEObject instanceof EPackage)
+        {
+          GenPackage genPackage = findGenPackage((EPackage)internalEObject);
+          if (genPackage != null)
+          {
+            StringBuilder fragment = new StringBuilder("/");
+            for (int i = uriFragmentPath.size() - 1; i >= 0; --i)
+            {
+              fragment.append('/');
+              fragment.append(uriFragmentPath.get(i));
+            }
+            result.add(new AnnotationReferenceData(genPackage, fragment.toString()));
+          }
+        }
       }
     }
     return result;

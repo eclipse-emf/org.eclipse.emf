@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.57 2008/08/29 18:01:02 davidms Exp $
+ * $Id: GenModelPackageImpl.java,v 1.58 2009/02/09 12:51:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2389,6 +2389,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF22);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF23);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF24);
+    addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF25);
 
     // Create resource
     createResource(eNS_URI);

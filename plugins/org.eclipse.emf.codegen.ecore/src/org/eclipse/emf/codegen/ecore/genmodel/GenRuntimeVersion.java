@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenRuntimeVersion.java,v 1.2 2008/05/04 17:03:27 emerks Exp $
+ * $Id: GenRuntimeVersion.java,v 1.3 2009/02/09 12:51:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -58,7 +58,15 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF24(2, "EMF24", "2.4");
+  EMF24(2, "EMF24", "2.4"), /**
+   * The '<em><b>EMF25</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #EMF25_VALUE
+   * @generated
+   * @ordered
+   */
+  EMF25(3, "EMF25", "2.5");
 
   /**
    * The '<em><b>EMF22</b></em>' literal value.
@@ -94,6 +102,18 @@ public enum GenRuntimeVersion implements Enumerator
   public static final int EMF24_VALUE = 2;
 
   /**
+   * The '<em><b>EMF25</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * @since 2.5
+   * <!-- end-user-doc -->
+   * @see #EMF25
+   * @model literal="2.5"
+   * @generated
+   * @ordered
+   */
+  public static final int EMF25_VALUE = 3;
+
+  /**
    * An array of all the '<em><b>Gen Runtime Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -105,6 +125,7 @@ public enum GenRuntimeVersion implements Enumerator
       EMF22,
       EMF23,
       EMF24,
+      EMF25,
     };
 
   /**
@@ -166,6 +187,7 @@ public enum GenRuntimeVersion implements Enumerator
       case EMF22_VALUE: return EMF22;
       case EMF23_VALUE: return EMF23;
       case EMF24_VALUE: return EMF24;
+      case EMF25_VALUE: return EMF25;
     }
     return null;
   }

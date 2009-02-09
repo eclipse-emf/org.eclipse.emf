@@ -307,5 +307,6 @@
     <eLiterals name="EMF22" literal="2.2"/>
     <eLiterals name="EMF23" value="1" literal="2.3"/>
     <eLiterals name="EMF24" value="2" literal="2.4"/>
+    <eLiterals name="EMF25" value="3" literal="2.5"/>
   </eClassifiers>
 </ecore:EPackage>
