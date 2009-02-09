@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.28 2009/01/21 05:25:15 davidms Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.29 2009/02/09 12:46:21 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -669,9 +669,21 @@ public class AdapterFactoryEditingDomain implements EditingDomain
 
   public Object getWrapper(Object object)
   {
+    return getWrapper(object, this);
+  }
+
+  /**
+   * Determine a wrapper associated with the given object in the given editing domain.
+   * @param object the object for which to determine a wrapper.
+   * @param domain the domain in which to find the wrapper.
+   * @return a wrapper or the object itself.
+   * @since 2.5
+   */
+  public static Object getWrapper(Object object, EditingDomain domain)
+  {
     if (object != null)
     {
-      for (Iterator<?> i = treeIterator(getRoot(object)); i.hasNext(); )
+      for (Iterator<?> i = domain.treeIterator(domain.getRoot(object)); i.hasNext(); )
       {
         Object element = i.next();
         Object elementValue = element; 
