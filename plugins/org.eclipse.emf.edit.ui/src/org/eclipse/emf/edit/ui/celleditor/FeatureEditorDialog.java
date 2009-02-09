@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureEditorDialog.java,v 1.11 2007/03/23 17:36:45 marcelop Exp $
+ * $Id: FeatureEditorDialog.java,v 1.12 2009/02/09 12:59:29 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -30,9 +31,12 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -41,10 +45,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.dialogs.PatternFilter;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -155,6 +161,22 @@ public class FeatureEditorDialog extends Dialog
     contentsGridData.horizontalAlignment = SWT.FILL;
     contentsGridData.verticalAlignment = SWT.FILL;
 
+    Text patternText = null;
+
+    if (choiceOfValues != null) 
+    {
+      Group filterGroupComposite = new Group(contents, SWT.NONE);
+      filterGroupComposite.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Choices_pattern_group"));
+      filterGroupComposite.setLayout(new GridLayout(2, false));
+      filterGroupComposite.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false, 3, 1));
+
+      Label label = new Label(filterGroupComposite, SWT.NONE);
+      label.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Choices_pattern_label"));
+
+      patternText = new Text(filterGroupComposite, SWT.BORDER);
+      patternText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+    }
+
     Composite choiceComposite = new Composite(contents, SWT.NONE);
     {
       GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -197,6 +219,26 @@ public class FeatureEditorDialog extends Dialog
     {
       choiceTableViewer.setContentProvider(new AdapterFactoryContentProvider(new AdapterFactoryImpl()));
       choiceTableViewer.setLabelProvider(labelProvider);
+      final PatternFilter filter =
+        new PatternFilter()
+        {
+          @Override
+          protected boolean isParentMatch(Viewer viewer, Object element)
+          {
+            return viewer instanceof AbstractTreeViewer && super.isParentMatch(viewer, element);
+          }
+        };
+      choiceTableViewer.addFilter(filter);
+      assert patternText != null;
+      patternText.addModifyListener
+        (new ModifyListener()
+         {
+           public void modifyText(ModifyEvent e)
+           {
+             filter.setPattern(((Text)e.widget).getText());
+             choiceTableViewer.refresh();
+           }
+         });
       choiceTableViewer.setInput(new ItemProvider(choiceOfValues));
     }
 
@@ -279,7 +321,7 @@ public class FeatureEditorDialog extends Dialog
       featureComposite.setLayout(layout);
     }
 
-    Label featureLabel = new Label(featureComposite,SWT.NONE);
+    Label featureLabel = new Label(featureComposite, SWT.NONE);
     featureLabel.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Feature_label"));
     GridData featureLabelGridData = new GridData();
     featureLabelGridData.horizontalSpan = 2;
