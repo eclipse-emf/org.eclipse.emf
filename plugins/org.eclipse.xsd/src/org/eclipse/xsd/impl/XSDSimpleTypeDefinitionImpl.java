@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.32 2008/04/18 15:44:13 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.33 2009/02/12 12:26:37 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -34,6 +34,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
@@ -3202,24 +3203,25 @@ public class XSDSimpleTypeDefinitionImpl
       }
 
       StringBuffer newLexicalValue = new StringBuffer();
-      List<Object> newValue = new ArrayList<Object>();
+      List<Object> newValue = new UniqueEList<Object>();
       List<XSDAnnotation> newAnnotations = new ArrayList<XSDAnnotation>();
 
       for (XSDEnumerationFacet enumerationFacet : enumerationFacets)
       {
-        newValue.addAll(enumerationFacet.getValue());
-
         XSDAnnotation xsdAnnotation = enumerationFacet.getAnnotation();
         if (xsdAnnotation != null)
         {
           newAnnotations.add(xsdAnnotation);
         }
 
-        if (newLexicalValue.length() != 0)
+        if (newValue.addAll(enumerationFacet.getValue()))
         {
-          newLexicalValue.append(", ");
+          if (newLexicalValue.length() != 0)
+          {
+            newLexicalValue.append(", ");
+          }
+          newLexicalValue.append(enumerationFacet.getLexicalValue());
         }
-        newLexicalValue.append(enumerationFacet.getLexicalValue());
       }
       String newLexicalValueString = newLexicalValue.toString();
 
