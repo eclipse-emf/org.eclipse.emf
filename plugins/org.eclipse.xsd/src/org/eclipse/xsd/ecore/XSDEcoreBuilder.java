@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.99 2009/01/18 15:14:47 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.100 2009/02/12 20:25:04 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1472,6 +1472,8 @@ public class XSDEcoreBuilder extends MapBuilder
             String operationName = operation.getAttributeNS(null, "name");
             eOperation.setName(operationName);
 
+            eClass.getEOperations().add(eOperation);
+
             for (Element typeParameter : getElements(operation, "typeParameter"))
             {
               ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
@@ -1512,7 +1514,6 @@ public class XSDEcoreBuilder extends MapBuilder
             }
 
             populateETypedElement(eOperation, operation);
-            eClass.getEOperations().add(eOperation);
           }
         }
       }
