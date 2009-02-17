@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.21 2008/05/04 10:58:48 emerks Exp $
+ * $Id: EMOFHelperImpl.java,v 1.22 2009/02/17 19:36:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -25,6 +25,7 @@ import java.util.Set;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -260,6 +261,14 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
             else
             {
               ((EStructuralFeature)copyEObject).getEAnnotations().addAll(((EStructuralFeature)eObject).getEAnnotations());
+            }
+          }
+          @Override
+          protected void copyAttribute(EAttribute eAttribute, EObject eObject, EObject copyEObject)
+          {
+            if (copyEObject.eClass().getEAllStructuralFeatures().contains(eAttribute))
+            {
+              super.copyAttribute(eAttribute, eObject, copyEObject);
             }
           }
         };
