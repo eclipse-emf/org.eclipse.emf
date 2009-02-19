@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.32 2009/01/20 18:58:06 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.33 2009/02/19 19:28:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -646,7 +646,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   protected String getURIFragmentRootSegment(EObject eObject)
   {
-    List<EObject> contents = getContents();
+    List<EObject> contents = unloadingContents != null ? unloadingContents : getContents();
     return contents.size() > 1 ?
       Integer.toString(contents.indexOf(eObject)) :
       "";
