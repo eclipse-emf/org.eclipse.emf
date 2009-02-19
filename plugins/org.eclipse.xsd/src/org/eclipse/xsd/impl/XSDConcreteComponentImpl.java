@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.29 2009/01/20 17:02:57 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.30 2009/02/19 19:38:42 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1361,11 +1361,13 @@ public abstract class XSDConcreteComponentImpl
       }
     }
 
-    if (childElement == null)
+    XSDConcreteComponentImpl xsdConcreteComponentImpl = (XSDConcreteComponentImpl)xsdConcreteComponent;
+    boolean newChild = childElement == null;
+    if (newChild)
     {
-      ((XSDConcreteComponentImpl)xsdConcreteComponent).isReconciling = true;
-      childElement = ((XSDConcreteComponentImpl)xsdConcreteComponent).createElement();
-      ((XSDConcreteComponentImpl)xsdConcreteComponent).isReconciling = false;
+      xsdConcreteComponentImpl.isReconciling = true;
+      childElement = xsdConcreteComponentImpl.createElement();
+      xsdConcreteComponentImpl.isReconciling = false;
       if (childElement == null)
       {
          System.out.println("not created! " + xsdConcreteComponent);
@@ -1418,6 +1420,12 @@ public abstract class XSDConcreteComponentImpl
       }
 
       niceInsertBefore(adoptionParent, childElement, referencedElement);
+      if (!newChild)
+      {
+        xsdConcreteComponentImpl.isReconciling = true;
+        xsdConcreteComponentImpl.reconcile(childElement);
+        xsdConcreteComponentImpl.isReconciling = false;
+      }
     }
     else
     {
