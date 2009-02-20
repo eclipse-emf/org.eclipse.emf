@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostician.java,v 1.9 2008/03/28 15:48:55 emerks Exp $
+ * $Id: Diagnostician.java,v 1.10 2009/02/20 12:44:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -159,10 +159,10 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
         eClass = eSuperTypes.get(0);
       }
     }
-
+    boolean circular = context.get(EObjectValidator.ROOT_OBJECT) == eObject;
     @SuppressWarnings("null")
     boolean result = ((EValidator)eValidator).validate(eClass, eObject, diagnostics, context);
-    if (result || diagnostics != null)
+    if ((result || diagnostics != null) && !circular)
     {
       result &= doValidateContents(eObject, diagnostics, context);
     }

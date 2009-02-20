@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.65 2009/01/09 12:40:12 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.66 2009/02/20 12:44:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2909,7 +2909,8 @@ public class EcoreUtil
         {
           InternalEObject internalEObject = (InternalEObject)eObject;
           List<String> uriFragmentPath = new ArrayList<String>();
-          for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
+          HashSet<InternalEObject> visited = new HashSet<InternalEObject>();
+          for (InternalEObject container = internalEObject.eInternalContainer(); container != null && visited.add(container); container = internalEObject.eInternalContainer())
           {
             uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
             internalEObject = container;

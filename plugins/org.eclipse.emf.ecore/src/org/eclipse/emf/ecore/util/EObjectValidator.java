@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.29 2008/12/22 14:24:54 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.30 2009/02/20 12:44:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -78,8 +78,20 @@ public class EObjectValidator implements EValidator
   public static final int EOBJECT__UNIQUE_ID = 12;
   public static final int EOBJECT__EVERY_KEY_UNIQUE = 13;
   public static final int EOBJECT__EVERY_MAP_ENTRY_UNIQUE = 14;
+  public static final int EOBJECT__NO_CIRCULAR_CONTAINMENT = 15;
   
-  static final int EOBJECT_DIAGNOSTIC_CODE_COUNT = EOBJECT__EVERY_MAP_ENTRY_UNIQUE;
+  static final int EOBJECT_DIAGNOSTIC_CODE_COUNT = EOBJECT__NO_CIRCULAR_CONTAINMENT;
+  
+  /**
+   * A key to be used in <code>context</code> maps to indicate the root object at which validation started.
+   * It's used to detect {@link #EOBJECT__NO_CIRCULAR_CONTAINMENT circular containment}
+   * and to prevent {@link Diagnostician#validate(EClass, EObject, DiagnosticChain, Map) infinite recursion}.
+   * The value of the entry must be the root{@link EObject}.
+   * @see EValidator#validate(EObject, DiagnosticChain, Map)
+   * @see #validate_NoCircularContainment(EObject, DiagnosticChain, Map)
+   * @since 2.5
+   */
+  public static final String ROOT_OBJECT = "org.eclipse.emf.ecore.EObject_NoCircularContainment";
 
   /**
    * @since 2.1.0
@@ -187,6 +199,10 @@ public class EObjectValidator implements EValidator
 
   public boolean validate_EveryDefaultConstraint(EObject object, DiagnosticChain theDiagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(object, theDiagnostics, context))
+    {
+      return false;
+    }
     boolean result = validate_EveryMultiplicityConforms(object, theDiagnostics, context);
     if (result || theDiagnostics != null)
     {
@@ -213,6 +229,38 @@ public class EObjectValidator implements EValidator
       result &= validate_EveryMapEntryUnique(object, theDiagnostics, context);
     }
     return result;
+  }
+
+  public boolean validate_NoCircularContainment(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    if (context != null)
+    {
+      Object root = context.get(ROOT_OBJECT);
+      if (root == null)
+      {
+        context.put(ROOT_OBJECT, eObject);
+      }
+      else if (root == eObject)
+      {
+        if (diagnostics != null)
+        {
+          diagnostics.add
+            (createDiagnostic
+              (Diagnostic.ERROR,
+               DIAGNOSTIC_SOURCE,
+               EOBJECT__NO_CIRCULAR_CONTAINMENT,
+               "_UI_CircularContainment_diagnostic",
+                new Object []
+                {
+                  getObjectLabel(eObject, context),
+                },
+               new Object [] { eObject },
+               context));
+        }
+        return false;
+      }
+    }
+    return true;
   }
 
   public boolean validate_EveryMultiplicityConforms(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
