@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.99 2008/12/22 14:25:18 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.100 2009/02/20 18:01:23 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -21,13 +21,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
@@ -448,33 +446,62 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   }
 
   public List<GenClass> getSwitchGenClasses()
-  {
-    // for Ecore or something that explicitly extends it, we need to exclude
-    // EObject, which is already handled by the default case
-    List<GenClass> result = 
-      collectGenClasses
-        (getEcoreClass().getESuperTypes(), 
-         new GenClassFilter()
-         {
-           public boolean accept(GenClass genClass) 
-           {
-             return !genClass.isEObject();
-           }
-         });
-    Set<GenClass> resultSet = new HashSet<GenClass>(result);
+  { 
+    // Traverse the supertypes to find the maximum depths.
+    // Exclude this class itself, which is handled separately in the template.
+    //
+    Map<EClass, Integer> maxDepths = new LinkedHashMap<EClass, Integer>();
+    findMaxSuperTypeDepths(maxDepths, getEcoreClass(), 0);
+    maxDepths.remove(getEcoreClass());
 
-    for (int i = 0; i < result.size(); i++)
+    // Order the results in a list of lists, indexed by maximum depth.
+    // Exclude EObject, which is handled by the default case.
+    //
+    List<List<GenClass>> ordered = new ArrayList<List<GenClass>>();
+    int resultSize = 0;
+    for (Map.Entry<EClass, Integer> entry : maxDepths.entrySet())
     {
-      GenClass base = result.get(i);
-      for (GenClass baseOfBase : base.getBaseGenClasses())
+      GenClass genClass = findGenClass(entry.getKey());
+      if (genClass != null && !genClass.isEObject())
       {
-        if (!baseOfBase.isEObject() && resultSet.add(baseOfBase))
+        int depth = entry.getValue();
+        while (ordered.size() <= depth)
         {
-          result.add(baseOfBase);
+          ordered.add(new ArrayList<GenClass>());
         }
+        ordered.get(depth).add(genClass);
+        resultSize++;
       }
     }
+
+    // Traverse the list of lists to build a final ordered result.
+    //
+    List<GenClass> result = new ArrayList<GenClass>(resultSize);
+    for (List<GenClass> genClasses : ordered)
+    {
+      result.addAll(genClasses);
+    }
     return result;
+  }
+
+  private void findMaxSuperTypeDepths(Map<EClass, Integer> maxDepths, EClass eClass, int depth)
+  {
+    Integer existing = maxDepths.get(eClass);
+    if (existing != null)
+    {
+      if (depth > existing)
+      {
+        maxDepths.put(eClass, depth);
+      }
+    }
+    else
+    {
+      maxDepths.put(eClass, depth);
+      for (EClass base : eClass.getESuperTypes())
+      {
+        findMaxSuperTypeDepths(maxDepths, base, depth + 1);
+      }
+    }
   }
 
   public GenClass getBaseGenClass()
