@@ -1633,6 +1633,7 @@ public class Class
     }
     stringBuffer.append(TEXT_12);
     genModel.markImportLocation(stringBuffer, genPackage);
+    if (isImplementation) { genClass.addClassPsuedoImports(); }
     stringBuffer.append(TEXT_13);
     if (isInterface) {
     stringBuffer.append(TEXT_14);
