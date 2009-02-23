@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.33 2008/05/20 14:39:35 emerks Exp $
+ * $Id: GenClass.java,v 1.34 2009/02/23 19:29:30 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -242,6 +242,11 @@ public interface GenClass extends GenClassifier
   String getClassImplements();
   String getInterfaceExtends();
   boolean needsRootExtendsInterfaceExtendsTag();
+  
+  /**
+   * @since 2.5
+   */
+  void addClassPsuedoImports();
   
   /**
    * @since 2.3

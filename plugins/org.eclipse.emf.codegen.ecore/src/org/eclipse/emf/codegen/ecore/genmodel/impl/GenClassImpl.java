@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.100 2009/02/20 18:01:23 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.101 2009/02/23 19:29:30 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -500,6 +500,34 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       for (EClass base : eClass.getESuperTypes())
       {
         findMaxSuperTypeDepths(maxDepths, base, depth + 1);
+      }
+    }
+  }
+
+  public void addClassPsuedoImports()
+  {
+    GenModel genModel = getGenModel();
+    for (GenClass rootGenClass = this;;)
+    {
+      GenClass baseGenClass = rootGenClass.getBaseGenClass();
+      if (baseGenClass == null)
+      {
+        String rootExtendsClass = rootGenClass.getGenModel().getRootExtendsClass();
+        if ("org.eclipse.emf.ecore.impl.MinimalEObjectImpl".equals(rootExtendsClass))
+        {
+          genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container");
+        }
+        else if ("org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container".equals(rootExtendsClass) ||
+                   "org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container$Dynamic".equals(rootExtendsClass))
+        {
+          genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container");
+          genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container.Dynamic");
+        }
+        break;
+      }
+      else
+      {
+        rootGenClass = baseGenClass;
       }
     }
   }
