@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.33 2008/12/22 14:25:18 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.34 2009/02/23 19:28:08 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -26,6 +26,8 @@ package <%=genPackage.getClassPackageName()%>;
 <%}%>
 
 <%if (isImplementation) {%>
+<%genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container");%>
+<%genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container.Dynamic");%>
 <%genModel.addImport("org.eclipse.emf.ecore.EClass");%>
 <%genModel.addImport("org.eclipse.emf.ecore.EObject");%>
 <%if (!genPackage.hasJavaLangConflict() && !genPackage.hasInterfaceImplConflict() && !genPackage.getClassPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");%>

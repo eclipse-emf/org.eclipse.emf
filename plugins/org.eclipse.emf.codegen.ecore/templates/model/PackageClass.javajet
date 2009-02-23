@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.43 2009/02/09 12:51:26 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.44 2009/02/23 19:28:08 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -31,6 +31,8 @@ package <%=genPackage.getReflectionPackageName()%>;
 <%if (isImplementation) {%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Registry");%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Descriptor");%>
+<%genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container");%>
+<%genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container.Dynamic");%>
   <%if (genPackage.isLiteralsInterface()) {%>
 <%genModel.addPseudoImport(genPackage.getQualifiedPackageInterfaceName() + ".Literals");%>
   <%}%>
