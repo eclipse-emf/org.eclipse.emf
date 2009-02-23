@@ -500,6 +500,8 @@ public class FactoryClass
     }
     stringBuffer.append(TEXT_12);
     if (isImplementation) {
+    genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container");
+    genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container.Dynamic");
     genModel.addImport("org.eclipse.emf.ecore.EClass");
     genModel.addImport("org.eclipse.emf.ecore.EObject");
     if (!genPackage.hasJavaLangConflict() && !genPackage.hasInterfaceImplConflict() && !genPackage.getClassPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");

@@ -672,6 +672,8 @@ public class PackageClass
     if (isImplementation) {
     genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Registry");
     genModel.addPseudoImport("org.eclipse.emf.ecore.EPackage.Descriptor");
+    genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container");
+    genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container.Dynamic");
     if (genPackage.isLiteralsInterface()) {
     genModel.addPseudoImport(genPackage.getQualifiedPackageInterfaceName() + ".Literals");
     }
