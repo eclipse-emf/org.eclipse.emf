@@ -194,7 +194,7 @@ public class ResourceFactoryClass
     stringBuffer.append(TEXT_47);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource"));
     stringBuffer.append(TEXT_48);
-    if (genPackage.isDataTypeConverters()) {
+    if (genPackage.isDataTypeConverters() && genPackage.hasDocumentRoot()) {
     stringBuffer.append(TEXT_49);
     stringBuffer.append(genPackage.getResourceClassName());
     stringBuffer.append(TEXT_50);
