@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.52 2008/12/22 14:26:06 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.53 2009/02/28 18:21:07 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -61,6 +61,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.JAbstractType;
+import org.eclipse.emf.codegen.merge.java.facade.JAnnotationType;
 import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 import org.eclipse.emf.codegen.merge.java.facade.JEnum;
 import org.eclipse.emf.codegen.merge.java.facade.JEnumConstant;
@@ -2580,25 +2581,58 @@ public class JavaEcoreBuilder
       JCompilationUnit compilationUnit = getJCompilationUnit(eModelElement);
       if (compilationUnit != null)
       {
-        // Find an explicit import or the first wildcard import.
-        //
-        boolean firstWildcard = true;
-        for (JImport jImport : facadeHelper.getChildren(compilationUnit, JImport.class))
+        boolean firstType = true;
+        LOOP:
+        for (JType jType : facadeHelper.getChildren(compilationUnit, JType.class))
         {
-          String importName = jImport.getName();
-          if (importName.endsWith("." + elementTypeName))
+          String name = jType.getName();
+          if (elementTypeName.equals(name))
           {
-            int importIndex = importName.lastIndexOf(".");
-            packageName = importName.substring(0, importIndex);
+            packageName = facadeHelper.getPackage(compilationUnit).getQualifiedName();
             typeName = packageName + "." + baseName;
             break;
           }
-          else if (firstWildcard && importName.endsWith(".*"))
+          else if (firstType)
           {
-            int importIndex = importName.lastIndexOf(".");
-            packageName = importName.substring(0, importIndex);
-            typeName = packageName + "." + baseName;
-            firstWildcard = false;
+            for (JAbstractType jAbstractType : facadeHelper.getChildren(jType, JAbstractType.class))
+            {
+              if (!(jAbstractType instanceof JAnnotationType))
+              {
+                String nestedName = jAbstractType.getName();
+                if (elementTypeName.equals(nestedName))
+                {
+                  packageName = facadeHelper.getPackage(compilationUnit).getQualifiedName();
+                  typeName = packageName + "." + name + '$' + baseName;
+                  break LOOP;
+                }
+              }
+            }
+            firstType = false;
+          }
+        }
+
+        // Find an explicit import or the first wildcard import.
+        //
+        if (packageName.length() == 0)
+        {
+          boolean firstWildcard = true;
+          for (JImport jImport : facadeHelper.getChildren(compilationUnit, JImport.class))
+          {
+            String importName = jImport.getName();
+            if (importName.endsWith("." + elementTypeName))
+            {
+              int importIndex = importName.lastIndexOf(".");
+              packageName = importName.substring(0, importIndex);
+              typeName = packageName + "." + baseName;
+              break;
+            }
+            else if (firstWildcard && importName.endsWith(".*"))
+            {
+              int importIndex = importName.lastIndexOf(".");
+              packageName = importName.substring(0, importIndex);
+              typeName = packageName + "." + baseName;
+              firstWildcard = false;
+            }
           }
         }
 
@@ -2642,34 +2676,48 @@ public class JavaEcoreBuilder
       // Find the modeled package for the name and look up the name there.
       //
       packageName = baseName.substring(0, index);
-      baseName = baseName.substring(index + 1);
-      EPackage otherEPackage = packageNameToEPackageMap.get(packageName);
-      if (otherEPackage == null)
+      if (eModelElement.eContainer() instanceof EClassifier &&
+            packageName.equals(((EClassifier)eModelElement.eContainer()).getName()))
       {
-        otherEPackage = externalPackageNameToEPackageMap.get(packageName);
-        if (otherEPackage == null)
+        JCompilationUnit compilationUnit = getJCompilationUnit(eModelElement);
+        if (compilationUnit != null)
         {
-          if ("org.eclipse.emf.ecore".equals(packageName))
-          {
-            otherEPackage = EcorePackage.eINSTANCE;
-          }
-          else if ("org.eclipse.emf.ecore.xml.type".equals(packageName))
-          {
-            otherEPackage = XMLTypePackage.eINSTANCE;
-          }
-          else if ("org.eclipse.emf.ecore.xml.namespace".equals(packageName))
-          {
-            otherEPackage = XMLNamespacePackage.eINSTANCE;
-          }
+          typeName = packageName;
+          packageName = facadeHelper.getPackage(compilationUnit).getQualifiedName();
+          typeName = packageName + "." + typeName + "$" + baseName.substring(index + 1);
         }
       }
-      if (otherEPackage != null)
+      else
       {
-        EClassifier eClassifier = otherEPackage.getEClassifier(baseName);
-        if (eClassifier != null)
+        baseName = baseName.substring(index + 1);
+        EPackage otherEPackage = packageNameToEPackageMap.get(packageName);
+        if (otherEPackage == null)
         {
-          eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
-          eGenericType.setEClassifier(eClassifier);
+          otherEPackage = externalPackageNameToEPackageMap.get(packageName);
+          if (otherEPackage == null)
+          {
+            if ("org.eclipse.emf.ecore".equals(packageName))
+            {
+              otherEPackage = EcorePackage.eINSTANCE;
+            }
+            else if ("org.eclipse.emf.ecore.xml.type".equals(packageName))
+            {
+              otherEPackage = XMLTypePackage.eINSTANCE;
+            }
+            else if ("org.eclipse.emf.ecore.xml.namespace".equals(packageName))
+            {
+              otherEPackage = XMLNamespacePackage.eINSTANCE;
+            }
+          }
+        }
+        if (otherEPackage != null)
+        {
+          EClassifier eClassifier = otherEPackage.getEClassifier(baseName);
+          if (eClassifier != null)
+          {
+            eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+            eGenericType.setEClassifier(eClassifier);
+          }
         }
       }
     }
