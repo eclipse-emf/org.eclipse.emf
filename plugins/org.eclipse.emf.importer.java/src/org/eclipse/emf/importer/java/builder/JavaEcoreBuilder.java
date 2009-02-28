@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.53 2009/02/28 18:21:07 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.54 2009/02/28 18:45:07 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1768,14 +1768,22 @@ public class JavaEcoreBuilder
         EGenericType eGenericType = (EGenericType)diagnostic.getData().get(0);
         if (eGenericType.getETypeArguments().size() == 1)
         {
-          type = eGenericTypeConverter.toJavaInstanceTypeName(eGenericType.getETypeArguments().get(0));
-          if (modelType == null)
+          EGenericType typeArgument = eGenericType.getETypeArguments().get(0);
+          if (typeArgument.getEClassifier() != null || typeArgument.getETypeParameter() != null)
           {
-            modelType = type;
+            type = eGenericTypeConverter.toJavaInstanceTypeName(typeArgument);
+            if (modelType == null)
+            {
+              modelType = type;
+            }
+          }  
+          else
+          {
+            eTypedElement.setUpperBound(1);
           }
         }
       }
-      if (modelType == null && !"false".equals(many))
+      if (modelType == null && !"false".equals(many) && eTypedElement.getUpperBound() != 1)
       {
         error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheTypeMustBeSpecifiedFor_message", new Object [] { identifierName }));
         modelType = "java.lang.Object";
