@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.54 2009/02/28 18:45:07 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.55 2009/03/01 21:56:50 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -2785,7 +2785,9 @@ public class JavaEcoreBuilder
         if (ecoreEClassifier instanceof EDataType)
         {
           String instanceClassName = ecoreEClassifier.getInstanceClassName();
-          if ((instanceClassName.equals(typeName) || instanceClassName.equals("java.lang." + typeName)) && ecoreEClassifier.getETypeParameters().isEmpty())
+          if ((instanceClassName.equals(typeName) || instanceClassName.equals("java.lang." + typeName)) && 
+                (ecoreEClassifier.getETypeParameters().isEmpty() ||
+                    ecoreEClassifier == EcorePackage.Literals.EJAVA_CLASS))
           {
             eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
             eGenericType.setEClassifier(ecoreEClassifier);
