@@ -12,20 +12,24 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.14 2008/10/23 17:22:40 emerks Exp $
+ * $Id: ChangePackageImpl.java,v 1.15 2009/03/06 21:24:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
 
 import java.util.Map;
 
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.ChangeFactory;
@@ -36,6 +40,7 @@ import org.eclipse.emf.ecore.change.FeatureMapEntry;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.ecore.util.EObjectValidator;
 
 
 /**
@@ -144,7 +149,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * @see #initializePackageContents()
    * @generated
    */
-  public static ChangePackage init()
+  public static ChangePackage initGen()
   {
     if (isInited) return (ChangePackage)EPackage.Registry.INSTANCE.getEPackage(ChangePackage.eNS_URI);
 
@@ -166,6 +171,44 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     theChangePackage.freeze();
 
     return theChangePackage;
+  }
+
+  public static ChangePackage init()
+  {
+    final ChangePackage changePackage = initGen();
+
+    // Register package validator
+    //
+    EValidator.Registry.INSTANCE.put
+      (changePackage, 
+       new EValidator.Descriptor()
+       {
+         public EValidator getEValidator()
+         {
+           return
+             new EObjectValidator()
+             {
+               @Override
+               protected EPackage getEPackage()
+               {
+                 return changePackage;
+               }
+
+               @Override
+               protected boolean validate_MultiplicityConforms
+                 (EObject eObject, EStructuralFeature eStructuralFeature, DiagnosticChain diagnostics, Map<Object, Object> context)
+               {
+                 // The "feature" feature doesn't have to be set because it can be computed from the feature name.  It only needs to be non-null.
+                 //
+                 return
+                   eStructuralFeature == ChangePackage.Literals.FEATURE_CHANGE__FEATURE && ((FeatureChange)eObject).getFeature() != null ||
+                     super.validate_MultiplicityConforms(eObject, eStructuralFeature, diagnostics, context);
+               }
+             };
+         }
+       });
+    
+    return changePackage;
   }
 
   /**
@@ -727,6 +770,28 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
 
     // Create resource
     createResource(eNS_URI);
+
+    // Create annotations
+    // http://www.eclipse.org/emf/2002/Ecore
+    createEcoreAnnotations();
+  }
+
+  /**
+   * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void createEcoreAnnotations()
+  {
+    String source = "http://www.eclipse.org/emf/2002/Ecore";		
+    addAnnotation
+      (featureChangeEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "FeatureDerivedFromFeatureName"
+       });
   }
 
 } //ChangePackageImpl
