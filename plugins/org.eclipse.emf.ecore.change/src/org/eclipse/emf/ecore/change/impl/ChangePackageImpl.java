@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.15 2009/03/06 21:24:57 emerks Exp $
+ * $Id: ChangePackageImpl.java,v 1.16 2009/03/07 11:48:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -770,28 +770,6 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
 
     // Create resource
     createResource(eNS_URI);
-
-    // Create annotations
-    // http://www.eclipse.org/emf/2002/Ecore
-    createEcoreAnnotations();
-  }
-
-  /**
-   * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected void createEcoreAnnotations()
-  {
-    String source = "http://www.eclipse.org/emf/2002/Ecore";		
-    addAnnotation
-      (featureChangeEClass, 
-       source, 
-       new String[] 
-       {
-       "constraints", "FeatureDerivedFromFeatureName"
-       });
   }
 
 } //ChangePackageImpl
