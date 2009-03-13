@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.89 2009/02/09 12:51:26 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.90 2009/03/13 21:10:48 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1260,7 +1260,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       genBaseContainer = (GenBase)eContainer;
     }
-    return genBaseContainer.getGenModel();
+    return genBaseContainer != null ? genBaseContainer.getGenModel() : null;
   }
 
   /**
@@ -2234,7 +2234,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public String getPackageInstanceVariable(GenPackage genPackage)
   {
     if (genPackage == this) return "this";
-    if (genPackage == ecoreGenPackage) return "ecorePackage";
+    if (genPackage == getGenModel().getEcoreGenPackage()) return "ecorePackage";
 
     return "the" + dependencyHelper.getUniqueName(genPackage);
   }
@@ -2339,13 +2339,16 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         }
       }
 
-      if (initializationDependencies.contains(xmlTypeGenPackage) && !xmlTypeGenPackage.getNSURI().equals(getNSURI()))
+      GenPackage xmlType = getGenModel().getXMLTypeGenPackage();
+      if (initializationDependencies.contains(xmlType) && !xmlType.getNSURI().equals(getNSURI()))
       {
-        simpleDependencies.add(xmlTypeGenPackage);
+        simpleDependencies.add(xmlType);
       }
-      if (initializationDependencies.contains(xmlNamespaceGenPackage))
+
+      GenPackage xmlNamespace = getGenModel().getXMLNamespaceGenPackage();
+      if (initializationDependencies.contains(xmlNamespace))
       {
-        simpleDependencies.add(xmlNamespaceGenPackage);
+        simpleDependencies.add(xmlNamespace);
       }
 
       initializationDependencies.remove(GenPackageImpl.this);
