@@ -12,11 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.14 2008/07/07 18:58:47 davidms Exp $
+ * $Id: XMLTypeUtil.java,v 1.15 2009/03/13 12:35:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
-
+ 
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -94,11 +94,36 @@ public final class XMLTypeUtil
   //
   private static class CharArrayThreadLocal extends ThreadLocal<char[]>
   {
+    private static final int MAX_CACHED_CAPACITY;
+    static
+    {
+      // Set a reasonably small default limit.
+      //
+      int result = 10000;
+      try
+      {
+        String property = System.getProperty("org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil.CharArrayThreadLocal.MAX_CACHE_CAPCITY");
+        if (property != null)
+        {
+          result = Integer.valueOf(property);
+        }
+      }
+      catch (Throwable throwable)
+      {
+        // Ignore all exceptions, including security exceptions.
+      }
+      MAX_CACHED_CAPACITY = result;
+    }
+
     private Thread cachedThread;
     private char [] cachedResult;
 
     public final char [] get(int capacity)
     {
+      if (capacity > MAX_CACHED_CAPACITY)
+      {
+        return new char [capacity];
+      }
       Thread currentThread = Thread.currentThread();
       char [] result = cachedResult;
       if (cachedThread != currentThread)
