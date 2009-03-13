@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.106 2009/01/18 03:48:05 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.107 2009/03/13 21:16:40 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1697,9 +1697,35 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   
   Map<EPackage, GenPackage> ePackageToGenPackageMap;
 
+  private GenPackage ecoreGenPackage;
+  private GenPackage xmlTypeGenPackage;
+  private GenPackage xmlNamespaceGenPackage;
+
+  public GenPackage getEcoreGenPackage()
+  {
+    return isMainGenModel() ? ecoreGenPackage : getMainGenModel().getEcoreGenPackage();
+  }
+
+  public GenPackage getXMLTypeGenPackage()
+  {
+    return isMainGenModel() ? xmlTypeGenPackage : getMainGenModel().getXMLTypeGenPackage();
+  }
+
+  public GenPackage getXMLNamespaceGenPackage()
+  {
+    return isMainGenModel() ? xmlNamespaceGenPackage : getMainGenModel().getXMLNamespaceGenPackage();
+  }
+
   @Override
   public GenPackage findGenPackage(EPackage ePackage)
   {
+    // We always delegate to the main GenModel, so that we keep the cached mappings and special packages in just one place.
+    //
+    if (!isMainGenModel())
+    {
+      return getMainGenModel().findGenPackage(ePackage);
+    }
+
     GenPackage result;
     if (ePackageToGenPackageMap == null)
     {
@@ -1721,6 +1747,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         GenModel ecoreGenModel = getGenModel().createGenModel();
         ecoreGenModel.initialize(Collections.singleton(EcorePackage.eINSTANCE));
+        ecoreGenModel.setMainGenModel(this);
         ecoreGenModel.setImportManager(getImportManager());
         ecoreGenModel.setLanguage("en");
         ecoreGenPackage = ecoreGenModel.getGenPackages().get(0);
@@ -1735,6 +1762,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         GenModel xmlTypeGenModel = getGenModel().createGenModel();
         xmlTypeGenModel.initialize(Collections.singleton(XMLTypePackage.eINSTANCE));
+        xmlTypeGenModel.setMainGenModel(this);
         xmlTypeGenModel.setImportManager(getImportManager());
         xmlTypeGenModel.setLanguage("en");
         xmlTypeGenPackage = xmlTypeGenModel.getGenPackages().get(0);
@@ -1750,6 +1778,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       {
         GenModel xmlNamespaceGenModel = getGenModel().createGenModel();
         xmlNamespaceGenModel.initialize(Collections.singleton(XMLNamespacePackage.eINSTANCE));
+        xmlNamespaceGenModel.setMainGenModel(this);
         xmlNamespaceGenModel.setImportManager(getImportManager());
         xmlNamespaceGenModel.setLanguage("en");
         xmlNamespaceGenPackage = xmlNamespaceGenModel.getGenPackages().get(0);
@@ -1777,6 +1806,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   protected GenClass findGenClass(EClass eClass)
   {
+    // We always delegate to the main GenModel, so that we keep the cached mappings in just one place.
+    //
+    if (!isMainGenModel())
+    {
+      return (GenClass)getMainGenModel().findGenClassifier(eClass);
+    }
+
     if (eClassifierToGenClassifierMap == null)
     {
       eClassifierToGenClassifierMap = new HashMap<EClassifier, GenClassifier>();
@@ -1814,6 +1850,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   protected GenEnum findGenEnum(EEnum eEnum)
   {
+    // We always delegate to the main GenModel, so that we keep the cached mappings in just one place.
+    //
+    if (!isMainGenModel())
+    {
+      return (GenEnum)getMainGenModel().findGenClassifier(eEnum);
+    }
+
     if (eClassifierToGenClassifierMap == null)
     {
       eClassifierToGenClassifierMap = new HashMap<EClassifier, GenClassifier>();
@@ -1845,6 +1888,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   protected GenDataType findGenDataType(EDataType eDataType)
   {
+    // We always delegate to the main GenModel, so that we keep the cached mappings in just one place.
+    //
+    if (!isMainGenModel())
+    {
+      return (GenDataType)getMainGenModel().findGenClassifier(eDataType);
+    }
+
     if (eClassifierToGenClassifierMap == null)
     {
       eClassifierToGenClassifierMap = new HashMap<EClassifier, GenClassifier>();
@@ -1992,53 +2042,57 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__CREATION_ICONS, oldCreationIcons, creationIcons));
   }
 
+  protected boolean canGenerate;
+
+  /**
+   * @deprecated In 2.5, access this via {@link #getImportManager()}, not directly. This may not be stored on every GenModel in later versions.
+   */
+  @Deprecated
   protected ImportManager importManager;
 
   /**
-   * @deprecated In 2.5, this is stored in the {@link #importManager import manager}.
+   * @deprecated In 2.5, this is stored in the {@link #getImportManager() import manager}.
    */
   @Deprecated
   protected StringBuffer importStringBuffer;
 
   /**
-   * @deprecated In 2.5, this is stored in the {@link #importManager import manager}.
+   * @deprecated In 2.5, this is stored in the {@link #getImportManager() import manager}.
    */
   @Deprecated
   protected int importInsertionPoint;
 
-  protected boolean canGenerate;
-
   public void markImportLocation(StringBuffer stringBuffer, GenPackage genPackage)
   {
     markImportLocation(stringBuffer);
-    importManager.addJavaLangImports(genPackage.getJavaLangConflicts());
+    getImportManager().addJavaLangImports(genPackage.getJavaLangConflicts());
   }
 
   public void markImportLocation(StringBuffer stringBuffer)
   {
     importStringBuffer = stringBuffer;
     importInsertionPoint = stringBuffer.length();
-    importManager.markImportLocation(stringBuffer);
+    getImportManager().markImportLocation(stringBuffer);
   }
 
   public void emitSortedImports()
   {
-    importManager.emitSortedImports();
+    getImportManager().emitSortedImports();
   }
 
   public String getImportedName(String qualifiedName)
   {
-    return importManager.getImportedName(qualifiedName, true);
+    return getImportManager().getImportedName(qualifiedName, true);
   }
 
   public void addImport(String qualifiedName)
   {
-    importManager.addImport(qualifiedName);
+    getImportManager().addImport(qualifiedName);
   }
 
   public void addPseudoImport(String qualifiedName)
   {
-    importManager.addPseudoImport(qualifiedName);
+    getImportManager().addPseudoImport(qualifiedName);
   }
 
   @Override
@@ -2066,20 +2120,27 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     // And we need to set it on any cached GenModels holding the special Ecore and XML packages.
     //
-    if (ecoreGenPackage != null && ecoreGenPackage.getGenModel().getImportManager() != importManager)
+    GenPackage ecore = getEcoreGenPackage();
+    if (ecore != null && ecore.getGenModel().getImportManager() != importManager)
     {
-      ecoreGenPackage.getGenModel().setImportManager(importManager);
+      ecore.getGenModel().setImportManager(importManager);
     }
-    if (xmlTypeGenPackage != null && xmlTypeGenPackage.getGenModel().getImportManager() != importManager)
+    GenPackage xmlType = getXMLTypeGenPackage();
+    if (xmlType != null && xmlType.getGenModel().getImportManager() != importManager)
     {
-      xmlTypeGenPackage.getGenModel().setImportManager(importManager);
+      xmlType.getGenModel().setImportManager(importManager);
     }
-    if (xmlNamespaceGenPackage != null && xmlNamespaceGenPackage.getGenModel().getImportManager() != importManager)
+    GenPackage xmlNamespace = getXMLNamespaceGenPackage();
+    if (xmlNamespace != null && xmlNamespace.getGenModel().getImportManager() != importManager)
     {
-      xmlNamespaceGenPackage.getGenModel().setImportManager(importManager);
+      xmlNamespace.getGenModel().setImportManager(importManager);
     }
   }
 
+  /**
+   * @deprecated In 2.5, access this via {@link #getLineDelimiter()}, not directly. This may not be stored on every GenModel in later versions.
+   */
+  @Deprecated
   protected String lineDelimiter;
 
   public String getLineDelimiter()
@@ -2107,23 +2168,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       genPackage.getGenModel().setLineDelimiter(lineDelimiter);
     }
 
-    // And we need to set it on any cached GenModels holding the special Ecore and XML packages.
-    //
-    if (ecoreGenPackage != null && 
-          (lineDelimiter == null ? ecoreGenPackage.getGenModel().getLineDelimiter() != null : !lineDelimiter.equals(ecoreGenPackage.getGenModel().getLineDelimiter())))
-    {
-      ecoreGenPackage.getGenModel().setImportManager(importManager);
-    }
-    if (xmlTypeGenPackage != null && 
-          (lineDelimiter == null ? xmlTypeGenPackage.getGenModel().getLineDelimiter() != null : !lineDelimiter.equals(xmlTypeGenPackage.getGenModel().getLineDelimiter())))
-    {
-      xmlTypeGenPackage.getGenModel().setImportManager(importManager);
-    }
-    if (xmlNamespaceGenPackage != null && 
-          (lineDelimiter == null ? xmlNamespaceGenPackage.getGenModel().getLineDelimiter() != null : !lineDelimiter.equals(xmlNamespaceGenPackage.getGenModel().getLineDelimiter())))
-    {
-      xmlNamespaceGenPackage.getGenModel().setImportManager(importManager);
-    }
+    // There was previously code intended to set it on the cached GenModels holding the special Ecore and XML packages,
+    // but it erroneously set the import manager. So, it seems that was not necessary.
   }
 
   public String getDriverNumber()
@@ -4951,8 +4997,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           @Override
           protected void didChange()
           {
-            super.didChange();
-            staticGenPackages = null;
+            if (staticGenPackages != null)
+            {
+              for (GenPackage genPackage : staticGenPackages)
+              {
+                setMainGenModel(genPackage, null);
+              }
+              staticGenPackages = null;
+            }
           }
         };
     }
@@ -5976,6 +6028,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             genModel.getGenPackages().add(staticGenPackage);
             staticGenPackage.initialize(staticEPackage);
           }
+
+          setMainGenModel(staticGenPackage, this);
           staticGenPackages.add(staticGenPackage);            
         }
       }
@@ -5983,16 +6037,51 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return staticGenPackages;
   }
 
+  private static void setMainGenModel(GenPackage genPackage, GenModel target)
+  {
+    if (!genPackage.eIsProxy())
+    {
+      GenModel genModel = genPackage.getGenModel();
+      if (genModel != null)
+      {
+        genModel.setMainGenModel(target);
+      }
+    }
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EList<GenPackage> getUsedGenPackages()
   {
     if (usedGenPackages == null)
     {
-      usedGenPackages = new EObjectResolvingEList<GenPackage>(GenPackage.class, this, GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES);
+      usedGenPackages =
+        new EObjectResolvingEList<GenPackage>(GenPackage.class, this, GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES)
+        {
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          protected void didSet(int index, GenPackage newObject, GenPackage oldObject)
+          {
+            setMainGenModel(oldObject, null);
+            setMainGenModel(newObject, GenModelImpl.this);
+          }
+
+          @Override
+          protected void didAdd(int index, GenPackage newObject)
+          {
+            setMainGenModel(newObject, GenModelImpl.this);
+          }
+
+          @Override
+          protected void didRemove(int index, GenPackage oldObject)
+          {
+            setMainGenModel(oldObject, null);
+          }
+        };
     }
     return usedGenPackages;
   }
@@ -8725,7 +8814,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public GenClassifier findGenClassifier(EClassifier classifier)
   {
-    return super.findGenClassifier(classifier);
+    // We always delegate to the main GenModel, so that we keep the cached mappings in just one place.
+    //
+    return isMainGenModel() ? super.findGenClassifier(classifier) : getMainGenModel().findGenClassifier(classifier);
   }
   
   public boolean isSuppressedAnnotation(String source)
@@ -8923,4 +9014,21 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return locale;
   }
 
+  protected GenModel mainGenModel;
+
+  @Override
+  public GenModel getMainGenModel()
+  {
+    return mainGenModel == null ? this : mainGenModel;
+  }
+
+  public void setMainGenModel(GenModel genModel)
+  {
+    mainGenModel = genModel;
+  }
+
+  protected boolean isMainGenModel()
+  {
+    return mainGenModel == null || mainGenModel == this;
+  }
 } //GenModelImpl
