@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="types"
+    nsURI="http://www.example.com/XMLTypes.xsd" nsPrefix="types">
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentRoot">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value=""/>
+      <details key="kind" value="mixed"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mixed" unique="false" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="elementWildcard"/>
+        <details key="name" value=":mixed"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xMLNSPrefixMap" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
+        transient="true" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xmlns:prefix"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xSISchemaLocation" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
+        transient="true" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="xsi:schemaLocation"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="item" upperBound="-2" eType="#//Item"
+        volatile="true" transient="true" derived="true" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="item"/>
+        <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Item">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="item"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="name"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="java.lang.String"/>
+        <details key="typeOld" value="java.lang.String"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Date">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="date"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="javax.xml.datatype.XMLGregorianCalendar"/>
+        <details key="typeOld" value="java.lang.Object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateTime" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="dateTime"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="javax.xml.datatype.XMLGregorianCalendar"/>
+        <details key="typeOld" value="java.lang.Object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gDay" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//GDay">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="gDay"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="javax.xml.datatype.XMLGregorianCalendar"/>
+        <details key="typeOld" value="java.lang.Object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gMonth" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//GMonth">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="gMonth"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="javax.xml.datatype.XMLGregorianCalendar"/>
+        <details key="typeOld" value="java.lang.Object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gMonthDay" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//GMonthDay">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="gMonthDay"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="javax.xml.datatype.XMLGregorianCalendar"/>
+        <details key="typeOld" value="java.lang.Object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gYear" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//GYear">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="gYear"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="javax.xml.datatype.XMLGregorianCalendar"/>
+        <details key="typeOld" value="java.lang.Object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gYearMonth" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//GYearMonth">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="gYearMonth"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="javax.xml.datatype.XMLGregorianCalendar"/>
+        <details key="typeOld" value="java.lang.Object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Time">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="time"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="javax.xml.datatype.XMLGregorianCalendar"/>
+        <details key="typeOld" value="java.lang.Object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Duration">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="duration"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="javax.xml.datatype.Duration"/>
+        <details key="typeOld" value="java.lang.Object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="notations" unique="false"
+        lowerBound="1" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//NOTATION">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="notation"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="org.eclipse.emf.common.util.EList&lt;javax.xml.namespace.QName>"/>
+        <details key="typeOld" value="org.eclipse.emf.common.util.EList&lt;java.lang.Object>"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qname" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//QName">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="qname"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="typeNew" value="javax.xml.namespace.QName"/>
+        <details key="typeOld" value="java.lang.Object"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>
