@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -48,6 +49,7 @@ public class BaseGenModelTest extends TestCase
     EPackage ePackage = (EPackage)resource.getContents().get(0);
     GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
     genModel.initialize(Collections.singletonList(ePackage));
+    genModel.setComplianceLevel(GenJDKLevel.JDK50_LITERAL);
     assertEquals(1, genModel.getGenPackages().size());
 
     return genModel;
