@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.68 2008/12/11 18:36:50 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.69 2009/03/13 21:09:02 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -69,6 +69,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
@@ -111,6 +112,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 /**
@@ -882,9 +884,9 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return null;
   }
 
-  protected static GenPackage ecoreGenPackage;
-  protected static GenPackage xmlTypeGenPackage;
-  protected static GenPackage xmlNamespaceGenPackage;
+//  protected static GenPackage ecoreGenPackage;
+//  protected static GenPackage xmlTypeGenPackage;
+//  protected static GenPackage xmlNamespaceGenPackage;
 
   public GenPackage findGenPackage(EPackage ePackage)
   {
@@ -1305,6 +1307,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           return genEnum.getQualifiedName();
         }
       }
+    }
+
+    if (isRemappedXMLType(eType))
+    {
+      return "java.lang.Object";
     }
 
     if (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50  || isPrimitiveType(eType) || erased && !eType.getInstanceTypeName().contains("."))
@@ -3379,5 +3386,55 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
       return result.toString();
     }
+  }
+
+  protected GenModel getMainGenModel()
+  {
+    return getGenModel().getMainGenModel();
+  }
+
+  protected boolean isDerivedType(EDataType eDataType, String baseNamespace, String baseName, Collection<String> baseNames)
+  {
+    for (ExtendedMetaData extendedMetaData = getExtendedMetaData(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
+    {
+      String namespace = extendedMetaData.getNamespace(eDataType);
+      String name = extendedMetaData.getName(eDataType);
+      if ((baseNamespace == null || baseNamespace.equals(namespace)) &&
+          (baseName == null || baseName.equals(name)) &&
+          (baseNames == null || baseNames.contains(name)))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static final List<String> REMAPPED_XML_TYPES = 
+    Arrays.asList
+      (new String[]
+       {
+         "date",
+         "dateTime",
+         "gDay",
+         "gMonth",
+         "gMonthDay",
+         "gYear",
+         "gYearMonth",
+         "time",
+         "duration",
+         "NOTATION",
+         "QName"
+       });
+
+  protected boolean isRemappedXMLType(EClassifier eClassifier)
+  {
+    if (getMainGenModel().getRuntimeVersion() == GenRuntimeVersion.EMF22)
+    {
+      if (eClassifier instanceof EDataType)
+      {
+        return isDerivedType((EDataType)eClassifier, XMLTypePackage.eNS_URI, null, REMAPPED_XML_TYPES);
+      }
+    }
+    return false;
   }
 }
