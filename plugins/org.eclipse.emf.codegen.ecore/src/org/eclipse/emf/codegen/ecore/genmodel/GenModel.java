@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.63 2008/10/02 18:21:02 emerks Exp $
+ * $Id: GenModel.java,v 1.64 2009/03/13 21:05:56 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -2609,4 +2609,34 @@ public interface GenModel extends GenBase
    * @since 2.4
    */
   Locale getLocale();
+
+  /**
+   * If this is the GenModel of a used or static GenPackage or of the Ecore, XMLType, or XMLNamespace GenPackage in
+   * another GenModel, this returns that GenModel. Otherwise, it returns this GenModel, itself.
+   * @since 2.5
+   */
+  GenModel getMainGenModel();
+
+  /**
+   * @since 2.5
+   */
+  void setMainGenModel(GenModel genModel);
+
+  /**
+   * Returns the cached GenPackage for the Ecore metamodel EPackage, or null if it has not yet been requested via {@link #findGenPackage(EPackage)}.
+   * @since 2.5
+   */
+  GenPackage getEcoreGenPackage();
+
+  /**
+   * Returns the cached GenPackage for the XMLType EPackage, or null if it has not yet been requested via {@link #findGenPackage(EPackage)}.
+   * @since 2.5
+   */
+  GenPackage getXMLTypeGenPackage();
+
+  /**
+   * Returns the cached GenPackage for the XMLNamespace EPackage, or null if it has not yet been requested via {@link #findGenPackage(EPackage)}.
+   * @since 2.5
+   */
+  GenPackage getXMLNamespaceGenPackage();
 }
