@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.35 2008/12/09 03:06:07 davidms Exp $
+ * $Id: GenDataTypeImpl.java,v 1.36 2009/03/13 21:09:47 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -409,7 +409,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public boolean isObjectType()
   {
-    return "java.lang.Object".equals(getEcoreDataType().getInstanceClassName());
+    EDataType eDataType = getEcoreDataType();
+    return "java.lang.Object".equals(eDataType.getInstanceClassName()) || isRemappedXMLType(eDataType);
   }
 
   public String getPrimitiveValueFunction()
@@ -782,47 +783,17 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public boolean isXMLCalendar()
   {
-    ExtendedMetaData extendedMetaData = getExtendedMetaData();
-    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
-    {
-      String namespace = extendedMetaData.getNamespace(eDataType);
-      String name = extendedMetaData.getName(eDataType);
-      if (XMLTypePackage.eNS_URI.equals(namespace) && xmlCalendarTypes.contains(name))
-      {
-        return true;
-      }
-    }
-    return false;
+    return isDerivedType(getEcoreDataType(), XMLTypePackage.eNS_URI, null, xmlCalendarTypes);
   }
 
   public boolean isXMLDuration()
   {
-    ExtendedMetaData extendedMetaData = getExtendedMetaData();
-    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
-    {
-      String namespace = extendedMetaData.getNamespace(eDataType);
-      String name = extendedMetaData.getName(eDataType);
-      if (XMLTypePackage.eNS_URI.equals(namespace) && "duration".equals(name))
-      {
-        return true;
-      }
-    }
-    return false;
+    return isDerivedType(getEcoreDataType(), XMLTypePackage.eNS_URI, "duration", null);
   }
 
   public boolean isXMLBoolean()
   {
-    ExtendedMetaData extendedMetaData = getExtendedMetaData();
-    for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
-    {
-      String namespace = extendedMetaData.getNamespace(eDataType);
-      String name = extendedMetaData.getName(eDataType);
-      if (XMLTypePackage.eNS_URI.equals(namespace) && "boolean".equals(name))
-      {
-        return true;
-      }
-    }
-    return false;
+    return isDerivedType(getEcoreDataType(), XMLTypePackage.eNS_URI, "boolean", null);
   }
 
   public List<List<String>> getPatterns()
