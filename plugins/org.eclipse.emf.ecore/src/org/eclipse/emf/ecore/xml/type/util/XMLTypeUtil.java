@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.15 2009/03/13 12:35:13 emerks Exp $
+ * $Id: XMLTypeUtil.java,v 1.16 2009/03/13 14:45:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -94,7 +94,7 @@ public final class XMLTypeUtil
   //
   private static class CharArrayThreadLocal extends ThreadLocal<char[]>
   {
-    private static final int MAX_CACHED_CAPACITY;
+    private static final int MAX_CACHE_CAPACITY;
     static
     {
       // Set a reasonably small default limit.
@@ -102,7 +102,7 @@ public final class XMLTypeUtil
       int result = 10000;
       try
       {
-        String property = System.getProperty("org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil.CharArrayThreadLocal.MAX_CACHE_CAPCITY");
+        String property = System.getProperty("org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil.CharArrayThreadLocal.MAX_CACHE_CAPACITY");
         if (property != null)
         {
           result = Integer.valueOf(property);
@@ -112,7 +112,7 @@ public final class XMLTypeUtil
       {
         // Ignore all exceptions, including security exceptions.
       }
-      MAX_CACHED_CAPACITY = result;
+      MAX_CACHE_CAPACITY = result;
     }
 
     private Thread cachedThread;
@@ -120,7 +120,7 @@ public final class XMLTypeUtil
 
     public final char [] get(int capacity)
     {
-      if (capacity > MAX_CACHED_CAPACITY)
+      if (capacity > MAX_CACHE_CAPACITY)
       {
         return new char [capacity];
       }
