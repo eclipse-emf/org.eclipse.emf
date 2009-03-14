@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.29 2008/12/22 14:25:47 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.30 2009/03/14 16:26:47 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1261,7 +1261,10 @@ public class XSDComplexTypeDefinitionImpl
 
           if (isEmptyContent)
           {
-            newContentTypeCategory = complexBaseTypeDefinition.getContentTypeCategory();
+            if (!isMixed())
+            {
+              newContentTypeCategory = complexBaseTypeDefinition.getContentTypeCategory();
+            }
             newContentType = complexBaseTypeDefinition.getContentType();
           }
           else
