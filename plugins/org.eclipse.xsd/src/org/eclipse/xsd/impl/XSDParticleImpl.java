@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.21 2008/12/22 14:25:48 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.22 2009/03/15 11:01:15 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1258,6 +1258,7 @@ public class XSDParticleImpl
             break;
           }
         }
+        visitedModelGroups.remove(xsdModelGroup);
       }
       else if (xsdComponent instanceof XSDParticle)
       {
