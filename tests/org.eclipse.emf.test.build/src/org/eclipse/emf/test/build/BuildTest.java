@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.24 2008/12/01 23:38:55 nickb Exp $
+ * $Id: BuildTest.java,v 1.25 2009/03/20 17:59:40 davidms Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -41,13 +41,9 @@ public class BuildTest extends TestCase
    {"toc.xml", "topics_Reference.xml"};  
   protected final static String[] REQUIRED_BRANDING_PLUGIN_FILES = 
    {"about.ini", "about.mappings", "about.properties", "modeling32.png"};
-  protected final static String[] REQUIRED_SOURCE_PLUGIN_FILES = 
-   {"src/"};
-  protected final static String[] REQUIRED_SRC_SUBDIR_FILES = 
-   {"about.html", REGEX_SYMBOL + "^.*src.zip$"};
   
   protected static int expectedNumberOfDocPlugins = 2;
-  protected static int expectedNumberOfSourcePlugins = 3;
+  protected static int expectedNumberOfSourcePlugins = 45;
   
   protected File featuresDir;
   protected File pluginsDir;
@@ -189,19 +185,11 @@ public class BuildTest extends TestCase
         if (isSourcePlugin(name))
         {
           sourcePluginsCounter++;
-          String missingFiles = getMissingFiles(plugin, REQUIRED_SOURCE_PLUGIN_FILES); 
-          if (missingFiles.length() > 0)
-          {
-            result.append(",").append(missingFiles);
-          }
-          else
-          {
-            String sourceDirResult = testSrcDir(plugin);
-            if (sourceDirResult.length() > 0)
-            {
-              result.append(",").append(sourceDirResult);
-            }
-          }          
+          File srcDir = new File(plugin, "src");
+
+          // Old multi-plugin source plugins had a src directory.
+          //
+          assertFalse("Source plugin '" + plugin + "' is not of new single-plugin style", srcDir.exists());
         }
         
         {
@@ -326,42 +314,4 @@ public class BuildTest extends TestCase
     brandingPluginNames.add("org.eclipse.xsd");
     return brandingPluginNames;
   }
-  
-  /*
-   * For example, looking for these folders, but should have no org/eclipse/ folder as well.
-   *
-   * nickb@emf:/tmp/xsd221/eclipse/plugins/org.eclipse.xsd.source_2.2.1.v200609210005/src $ 
-   *    ls . org.eclipse.emf.mapping.xsd2ecore.editor_2.1.0.v200609210005
-   * .:
-   * org.eclipse.emf.mapping.xsd2ecore.editor_2.1.0.v200609210005  org.eclipse.xsd.edit_2.2.1.v200609210005
-   * org.eclipse.emf.mapping.xsd2ecore_2.1.0.v200609210005         org.eclipse.xsd.editor_2.2.0.v200609210005
-   * org.eclipse.xsd.ecore.exporter_2.2.1.v200609210005            org.eclipse.xsd_2.2.1.v200609210005
-   * org.eclipse.xsd.ecore.importer_2.2.0.v200609210005
-   * 
-   * org.eclipse.emf.mapping.xsd2ecore.editor_2.1.0.v200609210005:
-   * about.html  src.zip
-   */
-  protected String testSrcDir(File pluginDir)
-  {
-    File srcDir = new File(pluginDir, "src");
-    assertTrue("Directory '" + srcDir + "' is not a directory", srcDir.isDirectory());
-    
-    StringBuffer result = new StringBuffer();
-    File[] files = srcDir.listFiles();
-    for (int i = 0; i < files.length; i++)
-    {
-      File dir = files[i];
-      assertTrue("Directory '" + dir + "' is not a directory", dir.isDirectory());
-      
-      String name = dir.getName(); 
-      assertTrue("Directory '" + dir + "' has name '" + name+ "' which does not contain an '_'", name.indexOf('_') >= 0);
-      
-      String missingFiles = getMissingFiles(dir, REQUIRED_SRC_SUBDIR_FILES);
-      if (missingFiles.length() > 0)
-      {
-        result.append(",").append(missingFiles);
-      }
-    }
-    return result.length() > 0 ? result.deleteCharAt(0).toString() : "";
-  }  
 }
