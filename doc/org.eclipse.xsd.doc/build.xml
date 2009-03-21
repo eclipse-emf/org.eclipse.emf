@@ -2,7 +2,7 @@
 <project name="org.eclipse.xsd.doc" default="build.jars" basedir=".">
 	
 	<!-- Plug-in information.  This is a HACK.  Do not forget to update version numbers, etc.. -->
-	<property name="pluginVersion" value="2.4.0"/>
+	<property name="pluginVersion" value="2.5.0"/>
 	<property name="docPlugin" value="org.eclipse.xsd.doc"/>
 	
 	<property name="filesToInclude" value="META-INF/**,about.*,modeling*.png,plugin.*,doc.zip,toc*.xml,topics_*.xml,index/**,images/**,tutorials/**,references/**,css/**"/>
