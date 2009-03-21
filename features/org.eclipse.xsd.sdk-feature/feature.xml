@@ -4,6 +4,7 @@
       label="%featureName"
       version="2.5.0.qualifier"
       provider-name="%providerName"
+      plugin="org.eclipse.xsd"
       image="eclipse_update_120.jpg">
    <!-- do not increment version here; instead, use feature.xml.template -->
    
