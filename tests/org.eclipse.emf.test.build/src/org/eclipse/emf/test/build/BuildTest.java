@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.25 2009/03/20 17:59:40 davidms Exp $
+ * $Id: BuildTest.java,v 1.26 2009/03/21 02:03:58 davidms Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -306,12 +306,39 @@ public class BuildTest extends TestCase
   protected Set<String> retrieveBrandingPluginNames()
   {
     Set<String> brandingPluginNames = new HashSet<String>();
-    brandingPluginNames.add("org.eclipse.emf.doc");
-    brandingPluginNames.add("org.eclipse.emf.source");
     brandingPluginNames.add("org.eclipse.emf");
-    brandingPluginNames.add("org.eclipse.xsd.doc");
-    brandingPluginNames.add("org.eclipse.xsd.source");
+    brandingPluginNames.add("org.eclipse.emf.codegen");
+    brandingPluginNames.add("org.eclipse.emf.codegen.ecore");
+    brandingPluginNames.add("org.eclipse.emf.codegen.ecore.ui");
+    brandingPluginNames.add("org.eclipse.emf.codegen.ui");
+    brandingPluginNames.add("org.eclipse.emf.common");
+    brandingPluginNames.add("org.eclipse.emf.common.ui");
+    brandingPluginNames.add("org.eclipse.emf.converter");
+    brandingPluginNames.add("org.eclipse.emf.databinding");
+    brandingPluginNames.add("org.eclipse.emf.databinding.edit");
+    brandingPluginNames.add("org.eclipse.emf.doc");
+    brandingPluginNames.add("org.eclipse.emf.ecore");
+    brandingPluginNames.add("org.eclipse.emf.ecore.edit");
+    brandingPluginNames.add("org.eclipse.emf.ecore.editor");
+    brandingPluginNames.add("org.eclipse.emf.edit");
+    brandingPluginNames.add("org.eclipse.emf.edit.ui");
+    brandingPluginNames.add("org.eclipse.emf.examples");
+    brandingPluginNames.add("org.eclipse.emf.examples.source");
+    brandingPluginNames.add("org.eclipse.emf.mapping");
+    brandingPluginNames.add("org.eclipse.emf.mapping.ecore");
+    brandingPluginNames.add("org.eclipse.emf.mapping.ecore.editor");
+    brandingPluginNames.add("org.eclipse.emf.mapping.ui");
+    brandingPluginNames.add("org.eclipse.emf.source");
+    brandingPluginNames.add("org.eclipse.emf.tests");
     brandingPluginNames.add("org.eclipse.xsd");
+    brandingPluginNames.add("org.eclipse.xsd.doc");
+    brandingPluginNames.add("org.eclipse.xsd.ecore.converter");
+    brandingPluginNames.add("org.eclipse.xsd.edit");
+    brandingPluginNames.add("org.eclipse.xsd.editor");
+    brandingPluginNames.add("org.eclipse.xsd.example");
+    brandingPluginNames.add("org.eclipse.xsd.mapping");
+    brandingPluginNames.add("org.eclipse.xsd.mapping.editor");
+    brandingPluginNames.add("org.eclipse.xsd.source");
     return brandingPluginNames;
   }
 }
