@@ -4,6 +4,7 @@
       label="%featureName"
       version="2.5.0.qualifier"
       provider-name="%providerName"
+      plugin="org.eclipse.emf"
       image="eclipse_update_120.jpg">
 
    <description>
