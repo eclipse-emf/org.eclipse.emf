@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.5 2007/03/23 17:37:17 marcelop Exp $
+ * $Id: TestUtil.java,v 1.6 2009/03/23 03:53:33 davidms Exp $
  */
 package org.eclipse.emf.test.common;
 
@@ -89,6 +89,22 @@ public class TestUtil
       if (EMFPlugin.IS_ECLIPSE_RUNNING)
       {
         Bundle bundle = Platform.getBundle(pluginID);
+
+        // A source bundle won't be installed by the platform at startup, so try installing it manually.
+        //
+        if (bundle == null && pluginID.endsWith(".source"))
+        {
+          String binaryPluginID = pluginID.substring(0, pluginID.length() - 7);
+          Bundle binaryBundle = Platform.getBundle(binaryPluginID);
+          String bundleLocation = binaryBundle.getLocation();
+          int i = bundleLocation.lastIndexOf(binaryPluginID);
+          if (i != -1)
+          {
+            bundleLocation = bundleLocation.substring(0, i) + pluginID + bundleLocation.substring(i + binaryPluginID.length());
+          }
+          bundle = binaryBundle.getBundleContext().installBundle(bundleLocation);
+        }
+
         if (bundle != null)
         {
           File file = new File(FileLocator.toFileURL(bundle.getEntry("/")).getFile());
