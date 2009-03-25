@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.28 2009/03/23 04:00:15 davidms Exp $
+ * $Id: BuildTest.java,v 1.29 2009/03/25 14:15:10 davidms Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -43,7 +43,7 @@ public class BuildTest extends TestCase
    {"about.ini", "about.mappings", "about.properties", "modeling32.png"};
   
   protected static int expectedNumberOfDocPlugins = 2;
-  protected static int expectedNumberOfSourcePlugins = 47;
+  protected static int expectedNumberOfSourcePlugins = 48;
   
   protected File featuresDir;
   protected File pluginsDir;
