@@ -172,6 +172,7 @@ public class CodeGenUtil
       result.add("Comparable");
       result.add("Compiler");
       result.add("Double");
+      result.add("Deprecated");
       result.add("Enum");
       result.add("Error");
       result.add("Exception");
@@ -205,6 +206,7 @@ public class CodeGenUtil
       result.add("Number");
       result.add("NumberFormatException");
       result.add("Object");
+      result.add("Override");
       result.add("OutOfMemoryError");
       result.add("Package");
       result.add("Process");
@@ -220,6 +222,7 @@ public class CodeGenUtil
       result.add("StringBuffer");
       result.add("StringBuilder");
       result.add("StringIndexOutOfBoundsException");
+      result.add("SuppressWarnings");
       result.add("System");
       result.add("Thread");
       result.add("ThreadDeath");
