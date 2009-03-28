@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.16 2009/03/13 14:45:37 emerks Exp $
+ * $Id: XMLTypeUtil.java,v 1.17 2009/03/28 00:38:55 davidms Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -115,7 +115,7 @@ public final class XMLTypeUtil
       MAX_CACHE_CAPACITY = result;
     }
 
-    private Thread cachedThread;
+    private long cachedThread = -1;
     private char [] cachedResult;
 
     public final char [] get(int capacity)
@@ -124,7 +124,7 @@ public final class XMLTypeUtil
       {
         return new char [capacity];
       }
-      Thread currentThread = Thread.currentThread();
+      long currentThread = Thread.currentThread().getId();
       char [] result = cachedResult;
       if (cachedThread != currentThread)
       {
