@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XSDImportImpl.java,v 1.12 2007/11/26 16:16:57 emerks Exp $
+ * $Id: XSDImportImpl.java,v 1.13 2009/03/31 13:55:44 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
+
+import java.util.List;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -433,6 +435,22 @@ public class XSDImportImpl
     {
       ((XSDSchemaImpl)xsdSchema).imported(this);
     }
+  }
+
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
+  {
+    XSDAnnotation xsdAnnotation = XSDAnnotationImpl.createAnnotation(child);
+    if (xsdAnnotation != null)
+    {
+      newContents.add(xsdAnnotation);
+    }
+  }
+
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
+  {
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_IMPORT__ANNOTATION, newContents, remainingContents);
   }
 
   @Override

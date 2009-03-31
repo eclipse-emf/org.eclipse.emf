@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineImpl.java,v 1.17 2008/02/28 21:03:36 emerks Exp $
+ * $Id: XSDRedefineImpl.java,v 1.18 2009/03/31 13:55:44 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -28,6 +28,7 @@ import org.w3c.dom.Node;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
@@ -566,6 +567,26 @@ public class XSDRedefineImpl
 
     @SuppressWarnings("unchecked") List<XSDRedefineContent> list = (List<XSDRedefineContent>)(List<?>)newContents;
     setListContentAndOrder(getContents(), list);
+  }
+
+  @Override
+  protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
+  {
+    super.adoptContent(eReference, xsdConcreteComponent);
+    if (xsdConcreteComponent instanceof XSDAnnotation)
+    {
+      getAnnotations().add((XSDAnnotation)xsdConcreteComponent);
+    }
+  }
+
+  @Override
+  protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
+  {
+    super.orphanContent(eReference, xsdConcreteComponent);
+    if (xsdConcreteComponent instanceof XSDAnnotation)
+    {
+      getAnnotations().remove(xsdConcreteComponent);
+    }
   }
 
   @Override
