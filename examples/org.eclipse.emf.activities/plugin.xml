@@ -1,92 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-  <!-- Defines the modeling category and the EMF activity -->
-  <extension point="org.eclipse.ui.activities">
-    <category id="org.eclipse.emf.categories.modelingCategory" description="%_UI_Category_Modeling_description" name="%_UI_Category_Modeling_name" />
-    <activity id="org.eclipse.EMF" description="%_UI_Activity_EMF_description" name="%_UI_Activity_EMF_name" />
-    <categoryActivityBinding activityId="org.eclipse.EMF" categoryId="org.eclipse.emf.categories.modelingCategory" />
-    <defaultEnablement id="org.eclipse.EMF" />
-  </extension>
+   <!-- Categories provided by org.eclipse.galileo -->
+   <!--
+   <extension point="org.eclipse.ui.activities">
+      <category
+            description="%activity.cat.modeling.desc"
+            id="org.eclipse.galileo.modeling.Category"
+            name="%activity.cat.modeling">
+     </category>
 
-  <!-- org.eclipse.emf.codegen.ecore.ui -->
-  <!-- Generator and Empty EMF Project wizard -->
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.codegen\.ecore\.ui/.*" />
-  </extension>
+     <category
+            description="%activity.cat.model.transformation.desc"
+            id="org.eclipse.galileo.model.transformation.Category"
+            name="%activity.cat.model.transformation">
+     </category>
+   </extension>
+   -->
 
-  <!-- org.eclipse.emf.importer -->
-  <!-- EMF Project and EMF Model wizards and Reload action -->
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.importer/.*" />
-  </extension>
+   <extension point="org.eclipse.ui.activities">
+      <!-- EMF MDD Tools -->
+      <activity
+            id="org.eclipse.emf.activity"
+            description="%activity.emf.desc"
+            name="%activity.emf">
+      </activity>
+      <!-- EMF Project and EMF Generator Model wizards and Reload action --> 
+      <activityPatternBinding
+            activityId="org.eclipse.emf.activity"
+            pattern="org\.eclipse\.emf\.codegen\.ecore\.ui/.*">
+      </activityPatternBinding>
+      <!-- Model importers -->
+      <activityPatternBinding
+            activityId="org.eclipse.emf.activity"
+            pattern="org\.eclipse\.emf\.importer/.*">
+      </activityPatternBinding>
+      <!-- Model exporters -->
+      <activityPatternBinding
+            activityId="org.eclipse.emf.activity"
+            pattern="org\.eclipse\.emf\.exporter/.*">
+      </activityPatternBinding>
+      <!-- Ecore editor -->
+      <activityPatternBinding
+            activityId="org.eclipse.emf.activity"
+            pattern="org\.eclipse\.emf\.ecore\.editor/.*Ecore.*">
+      </activityPatternBinding>
+      <!-- Create Dynamic Instance action -->
+      <activityPatternBinding
+            activityId="org.eclipse.emf.activity"
+            pattern="org\.eclipse\.emf\.ecore\.editor/.*CreateDynamic.*">
+      </activityPatternBinding>
+      <!-- XML Schema to Ecore mapping -->
+      <activityPatternBinding
+            activityId="org.eclipse.emf.activity"
+            pattern="org\.eclipse\.emf\.mapping\.xsd2ecore\.editor/.*">
+      </activityPatternBinding>
+      <!-- Ecore to Ecore mapping -->
+      <activityPatternBinding
+            activityId="org.eclipse.emf.activity"
+            pattern="org\.eclipse\.emf\.mapping\.ecore2ecore\.editor/.*">
+      </activityPatternBinding>
+      <!-- Ecore to XML mapping -->
+      <activityPatternBinding
+            activityId="org.eclipse.emf.activity"
+            pattern="org\.eclipse\.emf\.mapping\.ecore2xml\.ui/.*">
+      </activityPatternBinding>
 
-  <!-- org.eclipse.emf.exporter -->
-  <!-- Export Model action -->
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.exporter/.*" />
-  </extension>
+      <!-- Reflective Editors -->
+      <activity
+            id="org.eclipse.emf.reflective.activity"
+            description="%activity.emf.reflective.desc"
+            name="%activity.emf.reflective">
+      </activity>
+      <activityPatternBinding
+            activityId="org.eclipse.emf.reflective.activity"
+            pattern="org\.eclipse\.emf\.ecore\.editor/.Open*">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.emf.reflective.activity"
+            pattern="org\.eclipse\.emf\.ecore\.editor/.*Reflective.*">
+      </activityPatternBinding>
 
-  <!-- org.eclipse.emf.examples -->
-  <!-- Example Wizards -->
-  <extension point="org.eclipse.ui.activities">
-    <activity id="org.eclipse.emf.activities.Example" description="%_UI_Activity_Example_description" name="%_UI_Activity_Example_name" />
-    <categoryActivityBinding activityId="org.eclipse.emf.activities.Example" categoryId="org.eclipse.emf.categories.modelingCategory" />
-    <activityPatternBinding activityId="org.eclipse.emf.activities.Example" pattern="org\.eclipse\.emf\.example\.installer/.*" />
-    <activityPatternBinding activityId="org.eclipse.emf.activities.Example" pattern="org\.eclipse\.xsd\.example\.installer/.*" />
-    <activityPatternBinding activityId="org.eclipse.emf.activities.Example" pattern="org\.eclipse\.emf\.examples\.library\.editor/.*" />
-    <defaultEnablement id="org.eclipse.emf.activities.Example" />
-  </extension>
+      <!-- EMF JET -->
+      <activity
+            id="org.eclipse.emf.jet.activity"
+            description="%activity.emf.jet.desc"
+            name="%activity.emf.jet">
+      </activity>
+      <activityPatternBinding
+            activityId="org.eclipse.emf.jet.activity"
+            pattern="org\.eclipse\.emf\.codegen\.ui/.*">
+      </activityPatternBinding>
 
-  <!-- org.eclipse.emf.codegen.ui -->
-  <!-- Convert to JET Project wizard -->
-  <extension point="org.eclipse.ui.activities">
-    <activity id="org.eclipse.emf.activities.JET" description="%_UI_Activity_JET_description" name="%_UI_Activity_JET_name" />
-    <categoryActivityBinding activityId="org.eclipse.emf.activities.JET" categoryId="org.eclipse.emf.categories.modelingCategory" />
-    <activityPatternBinding activityId="org.eclipse.emf.activities.JET" pattern="org\.eclipse\.emf\.codegen\.ui/.*" />
-    <defaultEnablement id="org.eclipse.emf.activities.JET" />
-  </extension>
+      <!-- Sample XML Schema Editor -->
+      <activity
+            id="org.eclipse.xsd.activity"
+            description="%activity.xsd.desc"
+            name="%activity.xsd">
+      </activity>
+      <activityPatternBinding
+            activityId="org.eclipse.xsd.activity"
+            pattern="org\.eclipse\.xsd\.editor/.*">
+      </activityPatternBinding>
 
-  <!-- org.eclipse.emf.ecore.editor -->
-  <!-- Sample Ecore Model Editor and Ecore Model wizard -->
-  <!-- Also, defines an activity for the reflective editors: -->
-  <!--   Open As and Open With > Sample Reflective Ecore Model Editor actions --> 
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.ecore\.editor/.*Ecore.*" />
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.ecore\.editor/.*CreateDynamic.*" />
-    
-    <activity id="org.eclipse.emf.reflectiveEditing" description="%_UI_Activity_ReflectiveEditing_description" name="%_UI_Activity_ReflectiveEditing_name" />
-    <categoryActivityBinding activityId="org.eclipse.emf.reflectiveEditing" categoryId="org.eclipse.emf.categories.modelingCategory" />
-    <activityPatternBinding activityId="org.eclipse.emf.reflectiveEditing" pattern="org\.eclipse\.emf\.ecore\.editor/.Open*" />
-    <activityPatternBinding activityId="org.eclipse.emf.reflectiveEditing" pattern="org\.eclipse\.emf\.ecore\.editor/.*Reflective.*" />
-    
-    <defaultEnablement id="org.eclipse.emf.reflectiveEditing" />
-  </extension>
+      <!-- EMF Examples -->
+      <activity
+            id="org.eclipse.emf.examples.activity"
+            description="%activity.emf.examples.desc"
+            name="%activity.emf.examples">
+      </activity>
+      <activityPatternBinding
+            activityId="org.eclipse.emf.examples.activity"
+            pattern="org\.eclipse\.emf\.example\.installer/.*">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.emf.examples.activity"
+            pattern="org\.eclipse\.xsd\.example\.installer/.*">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.emf.examples.activity"
+            pattern="org\.eclipse\.emf\.examples\.library\.editor/.*">
+      </activityPatternBinding>
+   </extension>
 
-  <!-- org.eclipse.emf.mapping.xsd2ecore.editor -->
-  <!-- XSD to EMF mapping -->
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.mapping\.xsd2ecore\.editor/.*" />
-  </extension>
-
-  <!-- org.eclipse.emf.mapping.ecore2ecore.editor -->
-  <!-- Ecore to Ecore mapping -->
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.mapping\.ecore2ecore\.editor/.*" />
-  </extension>
-
-  <!-- org.eclipse.emf.mapping.ecore2xml.ui -->
-  <!-- Ecore to XML mapping -->
-  <extension point="org.eclipse.ui.activities">
-    <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.mapping\.ecore2xml\.ui/.*" />
-  </extension>
-
-  <!-- org.eclipse.xsd.editor -->
-  <!-- Sample XML Schema Editor and XSD Model wizard -->
-  <extension point="org.eclipse.ui.activities">
-    <activity id="org.eclipse.XSD" description="%_UI_Activity_XSD_description" name="%_UI_Activity_XSD_name" />
-    <categoryActivityBinding activityId="org.eclipse.XSD" categoryId="org.eclipse.emf.categories.modelingCategory" />
-    <activityPatternBinding activityId="org.eclipse.XSD" pattern="org\.eclipse\.xsd\.editor/.*" />
-    <defaultEnablement id="org.eclipse.XSD" />
-  </extension>
+   <!-- Category bindings and default enablement provided by org.eclipse.galileo -->
+   <!--
+   <extension point="org.eclipse.ui.activities">
+      <categoryActivityBinding
+            activityId="org.eclipse.emf.activity"
+            categoryId="org.eclipse.galileo.modeling.Category">
+      </categoryActivityBinding>
+      <categoryActivityBinding
+            activityId="org.eclipse.emf.reflective.activity"
+            categoryId="org.eclipse.galileo.modeling.Category">
+      </categoryActivityBinding>
+      <categoryActivityBinding
+            activityId="org.eclipse.emf.jet.activity"
+            categoryId="org.eclipse.galileo.model.transformation.Category">
+      </categoryActivityBinding>
+      <categoryActivityBinding
+            activityId="org.eclipse.xsd.activity"
+            categoryId="org.eclipse.galileo.modeling.Category">
+      </categoryActivityBinding>
+      <categoryActivityBinding
+            activityId="org.eclipse.emf.examples.activity"
+            categoryId="org.eclipse.galileo.modeling.Category">
+      </categoryActivityBinding>
+      <defaultEnablement
+            id="org.eclipse.emf.activity">
+      </defaultEnablement>
+      <defaultEnablement
+            id="org.eclipse.emf.reflective.activity">
+      </defaultEnablement>
+      <defaultEnablement
+            id="org.eclipse.emf.examples.activity">
+      </defaultEnablement>
+   </extension>
+   -->
 </plugin>
