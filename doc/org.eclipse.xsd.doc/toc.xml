@@ -2,17 +2,15 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="XSD Developer Guide">
-	<topic label="Programmer&apos;s Guides">
-		<topic label="Article: Analyzing XML schemas with the Schema Infoset Model" href="references/articles/dwtip1-scpw/index.html"/>
+	<topic label="Programmer&apos;s Guide">
 		<topic label="Diagrams and Animations" href="references/diagrams/diagrams.html"/>
-	</topic>
-	<topic label="Online Docs">
-		<topic label="Release Notes">
-			<topic label="What&apos;s New in v2.4" href="http://www.eclipse.org/modeling/mdt/news/relnotes.php?project=xsd&amp;version=2.4.x" />
-        </topic>
-		<topic label="XSD FAQ" href="http://wiki.eclipse.org/MDT/XSD/FAQ" />
 	</topic>
 	<topic label="Reference">
 		<link toc="topics_Reference.xml"/>
+	</topic>
+	<topic label="Online Docs">
+		<topic label="Analyzing XML schemas with the Schema Infoset Model" href="http://www.ibm.com/developerworks/library/x-schemimj/index.html"/>
+		<topic label="FAQ" href="http://wiki.eclipse.org/MDT/XSD/FAQ" />
+		<topic label="Release Notes" href="http://www.eclipse.org/modeling/mdt/news/relnotes.php?project=xsd&amp;version=2.5.x" />
 	</topic>
 </toc>
