@@ -16,19 +16,19 @@
   <table border="0" cellspacing="0" cellpadding="2" width="100%">
 
     <tr> 
-      <td align="left" valign="top" colspan="2" bgcolor="#0080C0"><b><font face="Arial,Helvetica"><font color="#FFFFFF">&nbsp;Eclipse 
-        Corner Article</font></font></b></td>
+      <td align="left" valign="top" colspan="2" bgcolor="#0080C0"><strong><font face="Arial,Helvetica"><font color="#FFFFFF">&nbsp;Eclipse 
+        Corner Article</font></font></strong></td>
     </tr>
   </table>
 </div>
 <div align="left"> 
-  <h1><img src="http://www.eclipse.org/images/Idea.jpg" align="middle" width="120" height="86"/></h1>
+  <h1><img src="http://www.eclipse.org/images/Idea.jpg" align="middle" width="120" height="86" alt=""/></h1>
 </div>
 
 <h1 align="center">JET Tutorial Part 2 (Write Code that Writes Code)</h1>
 
 <blockquote>
-<b>Summary</b>
+<strong>Summary</strong>
 
 <br/>
 <p>In Part 2 of this JET (Java Emitter Templates) tutorial, we will take a look 
@@ -45,20 +45,22 @@
 
 <hr width="100%"/>
 
-<h2>Source Code </h2>
-<p>To run the example or view the source for code for this article you can unzip 
-  <a href="images/../org.eclipse.emf.examples.jet.article2_2.3.0.zip">org.eclipse.emf.examples.jet.article2_2.3.0.zip</a> 
-  into your <i>plugins/</i> subdirectory. To use the example plug-in, you must 
-  have the <a href="http://www.eclipse.org/emf/" target="_blank">EMF</a> plug-in installed. 
-  I am using version 2.3.0 M4.</p>
+<h2>Contents</h2>
+<p><a href="#introduction">Introduction</a><br/>
+<a href="#classes">Some JET Classes</a><br/>
+<a href="#example">A Plug-in that Generates Source Code</a><br/>
+<a href="#conclusion">Conclusion</a><br/>
+<a href="#appendix">Appendix</a><br/>
+<a href="#resources">Resources</a></p>
 
-<h2>Introduction </h2>
+
+<h2><a name="introduction">Introduction</a></h2>
 <center>
   <table border="1" cellspacing="0" width="80%" cellpadding="3">
     <tbody> 
     <tr> 
     <td> 
-      <p><b>Translation vs. Generation</b></p>
+      <p><strong>Translation vs. Generation</strong></p>
         <p>An aspect of JET templates that is at first confusing is that generating 
           text takes two steps: translation and generation. The first step is 
           translating the template to a template implementation class. The second 
@@ -66,7 +68,7 @@
         </p>
       <p>If your goal with JET is to generate Java source code, it can be confusing 
         that the template translation step also results in Java source code. Remember 
-        that this source code is <i>not</i> the generated text. The source code 
+        that this source code is <em>not</em> the generated text. The source code 
         that is the result of the translation step is simply another form of the 
         template. </p>
 
@@ -93,13 +95,19 @@
   operate only on workspace projects, not on plug-ins. Plug-ins need to use the 
   classes in the JET package to translate their templates. </p>
 
+<p>To run the example or view the source for code for this article you can unzip 
+  <a href="images/../org.eclipse.emf.examples.jet.article2_2.3.0.zip">org.eclipse.emf.examples.jet.article2_2.3.0.zip</a> 
+  into your <i>plugins</i> subdirectory. To use the example plug-in, you must 
+  have <a href="http://www.eclipse.org/emf/" target="_blank">EMF</a> installed. 
+  I am using version 2.3.0 M4.</p>
+
 <p>The next section will discuss some of the classes in the <tt class="code">org.eclipse.emf.codegen</tt> 
   package. We will see what the steps are to generate source code with JET, and 
   how the JET engine classes fit in. If you are anxious to see some code that 
-  shows how to use these classes in practice, you can go straight to <a href="#example_plugin">A 
+  shows how to use these classes in practice, you can go straight to <a href="#example">A 
   Plug-in that Generates Source Code</a>. </p>
 
-<h2>Some JET Classes</h2>
+<h2><a name="classes">Some JET Classes</a></h2>
 <p>In this section, we will take a closer look at some of the classes in the JET 
   package. They can roughly be divided into two groups: </p>
 <ul>
@@ -144,16 +152,16 @@
 
 <p>A <tt class="code">JETEmitter</tt> object is constructed with the uri of the template used to generate 
   text. Any type of uri is acceptable as long as a protocol handler is available. 
-  This means that <tt class="code">file:/</tt> uris, <tt class="code">ftp:/</tt> uris and <tt class="code">http:/</tt><i> 
-  </i>uris can all be used. Eclipse adds special protocol handlers for <tt class="code">platform:/base</tt>/, 
+  This means that <tt class="code">file:/</tt> uris, <tt class="code">ftp:/</tt> uris and <tt class="code">http:/</tt> 
+  uris can all be used. Eclipse adds special protocol handlers for <tt class="code">platform:/base</tt>/, 
   <tt class="code">platform:/plugin/</tt>, <tt class="code">platform:/fragment/</tt> and <tt class="code">platform:/resource/</tt> 
   uris, so plug-ins can use a uri like <tt class="code">platform:/resource/myproject/myfolder/mytemplate.jet</tt> 
   to specify a template file.  Note: Eclipse 3.0 has introduced <tt class="code">bundleentry</tt> to its list
   of special protocols.  It should be used in references to Eclipse elements such as plug-ins and features.</p>
 
 <p>In our example plug-in, we will distribute our template file together with our 
-  plug-in, so the template file will be located in a <i>myplugin/templates/</i> 
-  folder under the Eclipse <i>plugins/</i> folder. The following code can then 
+  plug-in, so the template file will be located in a <i>myplugin/templates</i> 
+  folder under the Eclipse <i>plugins</i> folder. The following code can then 
   be used to locate and generate a template from this folder:</p>
 <pre> String pluginId = "myplugin.id";
  String base = Platform.getBundle(pluginId).getEntry("/").toString();
@@ -183,7 +191,7 @@ translation.  This value can be changed by the <tt class="code">setProjectName</
   source file in the workspace. The figure below shows the steps for generating 
   source code using <tt class="code">JETEmitter</tt>. </p>
 <p><img alt="Using JETEmitter to generate text from a plug-in" src="images/jetemitter.gif"/> </p>
-<h3><a name="jetemitter_gotchas"></a><tt class="code">JETEmitter</tt> Gotchas</h3>
+<h3><a name="jetemitter_gotchas"></a><tt>JETEmitter</tt> Gotchas</h3>
 <p>The <tt class="code">JETEmitter</tt> class combines template translation and text generation into 
   a single step, which makes it a very convenient tool. However, it is important 
   that you know what takes place under the hood, otherwise you might be in for 
@@ -196,7 +204,7 @@ translation.  This value can be changed by the <tt class="code">setProjectName</
   Eclipse &quot;headless&quot; application so that plug-in initialization takes 
   place. (The term headless refers to running Eclipse without the user interface.)</p>
 <p>This means that using <tt class="code">JETEmitter</tt> from a simple standalone application (a standard 
-  Java class with a <tt class="code">main</tt> method) <i>will not work</i>:</p>
+  Java class with a <tt class="code">main</tt> method) <em>will not work</em>:</p>
 <pre> // This fails: cannot use <tt class="code">JETEmitter</tt> from a standalone application
  public static void main(String[] args) {
      <tt class="code">JETEmitter</tt> emitter = new JETEmitter("/myproject/templates/HelloWorld.txtjet");
@@ -233,7 +241,7 @@ translation.  This value can be changed by the <tt class="code">setProjectName</
   <tt class="code">JETEmitter</tt> in your own project.)</p>
 <p>The example below shows an action class that translates and invokes a selected 
   template using <tt class="code">JETEmitter</tt>. The example shows how a <tt class="code">JETEmitter</tt> can be constructed 
-  <img src="images/tag_1.gif" width="24" height="13"/>with a class loader parameter or by <img src="images/tag_2.gif" width="24" height="13"/>constructing 
+  <img src="images/tag_1.gif" width="24" height="13" alt=""/>with a class loader parameter or by <img src="images/tag_2.gif" width="24" height="13" alt=""/>constructing 
   an anonymous subclass.</p>
 <pre>package org.eclipse.emf.examples.jet.article2.actionexample;
 // imports omitted
@@ -255,12 +263,12 @@ public class EmitAction implements IActionDelegate {
             IPath fullPath = file.getFullPath();
  
             String templateURI = "platform:/resource" + fullPath;
-            <b>Class</b><b>Loader classloader = getClass().getClassLoader();</b>
-<img src="images/tag_1.gif" width="24" height="13"/>         <tt class="code">JETEmitter</tt> emitter = new JETEmitter(templateURI, <b>classloader</b>);
+            <strong>ClassLoader classloader = getClass().getClassLoader();</strong>
+<img src="images/tag_1.gif" width="24" height="13" alt=""/>         <tt class="code">JETEmitter</tt> emitter = new JETEmitter(templateURI, <strong>classloader</strong>);
  
-            // <b>or: use an anonymous subclass</b>
+            // <strong>or: use an anonymous subclass</strong>
 
-<img src="images/tag_2.gif" width="24" height="13"/>         // emitter = <b>new JETEmitter(templateURI) {}</b>; // notice the brackets
+<img src="images/tag_2.gif" width="24" height="13" alt=""/>         // emitter = <strong>new JETEmitter(templateURI) {}</strong>; // notice the brackets
             
             try {
                 IProgressMonitor monitor = new NullProgressMonitor();
@@ -286,14 +294,14 @@ public class EmitAction implements IActionDelegate {
   plug-in, you will need to add these classes to the class path of the <i>.JETEmitters</i> 
   project, or the JavaBuilder cannot compile the template implementation source 
   files.  Fortunately, <tt class="code">JETEmitter</tt> provides a simple way to do this through the method 
-  <tt class="code">addVariable</tt> which adds a <i>Classpath Variable</i> to the <i>.JETEmitter</i> project.</p>
-<p>A <i>Classpath Variable</i> is a workspace-wide name that is used in Eclipse to refer to a JAR file or
+  <tt class="code">addVariable</tt> which adds a classpath variable to the <i>.JETEmitter</i> project.</p>
+<p>A <dfn>Classpath Variable</dfn> is a workspace-wide name that is used in Eclipse to refer to a JAR file or
 directory.  The list of all such variables can be seen using the Window &gt; Preferences &gt; Java &gt; 
 Classpath Variables menua action.. Your program will need to add a class path variable for each
   JAR file or directory that is needed on the class path of the <i>.JETEmitter</i> project.</p>
   
   
-<h2><a name="example_plugin"></a>A Plug-in that Generates Source Code </h2>
+<h2><a name="example">A Plug-in that Generates Source Code</a></h2>
 <p>In this part of the JET Tutorial, we will write an Eclipse plug-in that uses 
   a JET template to generate Java source code for typesafe enumerations, which were quite popular 
   before Java 5.0, when enums were introduced to the language.</p>
@@ -317,7 +325,7 @@ Classpath Variables menua action.. Your program will need to add a class path va
 <pre> // an example typesafe enum
  package x.y.z;
  public class Digit { 
-<img src="images/tag_1.gif" width="24" height="13"/>  public static final Digit ZERO = new Digit(0, "zero");
+<img src="images/tag_1.gif" width="24" height="13" alt=""/>  public static final Digit ZERO = new Digit(0, "zero");
      public static final Digit ONE = new Digit(1, "one");
      public static final Digit TWO = new Digit(2, "two");
      public static final Digit THREE = new Digit(3, "three");
@@ -328,7 +336,7 @@ Classpath Variables menua action.. Your program will need to add a class path va
          {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE};
  
 
-<img src="images/tag_2.gif" width="24" height="13"/>  private final int value;
+<img src="images/tag_2.gif" width="24" height="13" alt=""/>  private final int value;
      private final String name;
  
      private Digit(int value, String name) { 
@@ -336,13 +344,13 @@ Classpath Variables menua action.. Your program will need to add a class path va
          this.name = name; 
      }
  
-<img src="images/tag_3.gif" width="24" height="13"/>  public static Digit lookup(int key) {
+<img src="images/tag_3.gif" width="24" height="13" alt=""/>  public static Digit lookup(int key) {
          for (int i = 0; i &lt; ALL.length; i++) {
              if (key == ALL[i].getValue()) { return ALL[i]; }
          }
          // lookup failed:
          // we have no default Digit, so we throw an exception
-<img src="images/tag_4.gif" width="24" height="13"/>      throw new IllegalArgumentException("No digit exists for " + key);
+<img src="images/tag_4.gif" width="24" height="13" alt=""/>      throw new IllegalArgumentException("No digit exists for " + key);
      }
  
      public int getValue() { return value; }
@@ -350,27 +358,27 @@ Classpath Variables menua action.. Your program will need to add a class path va
      public String toString() { return getName(); }
  }</pre>
 <p>Let's take a closer look at this class. First of all, the Digit class has several 
-  <b><img src="images/tag_1.gif" width="24" height="13"/>instances</b> - the constants 
+  <strong><img src="images/tag_1.gif" width="24" height="13" alt=""/>instances</strong> - the constants 
   ZERO, ONE, TWO, etc. Each instance is defined by its Java variable name, "ZERO", 
-  "ONE", "TWO"..., and the values for each <b><img src="images/tag_2.gif" width="24" height="13"/>attribute</b> 
+  "ONE", "TWO"..., and the values for each <strong><img src="images/tag_2.gif" width="24" height="13" alt=""/>attribute</strong> 
   of the enumeration class. Most typesafe enums have one or more attributes. The 
   Digit class has two attributes: a <tt class="code">value</tt> integer and a <tt class="code">name</tt> 
   String.</p>
 
-<p>Our example Digit class also has a <b><img src="images/tag_3.gif" width="24" height="13"/><tt class="code">lookup</tt></b> 
+<p>Our example Digit class also has a <strong><img src="images/tag_3.gif" width="24" height="13" alt=""/><tt class="code">lookup</tt></strong> 
   method, which returns the instance whose <tt class="code">value</tt> attribute equals 
-  the specified int parameter. A lookup method introduces the concept of <b>key 
-  attributes</b>. Many typesafe enums have one or more attributes that uniquely 
+  the specified int parameter. A lookup method introduces the concept of <dfn>key 
+  attributes</dfn>. Many typesafe enums have one or more attributes that uniquely 
   distinguish one instance from another.</p>
-<p><i>Note that key attributes are not required: the Java VM guarantees that every 
+<p><em>Note that key attributes are not required: the Java VM guarantees that every 
   newly constructed object is unique, so it is possible to have typesafe enumerations 
   that have no attributes at all, and simply distinguish their instances with 
-  the <b>==</b> instance identity operator. This works fine, but often it is convenient 
+  the == instance identity operator. This works fine, but often it is convenient 
   to have a key attribute that uniquely identifies an instance, and a <tt class="code">lookup</tt> 
-  method that finds an instance for a specified key value.</i></p>
+  method that finds an instance for a specified key value.</em></p>
 
 <p>Our template does have a <tt class="code">lookup</tt> method, so we need to decide what 
-  to do if <img src="images/tag_4.gif" width="24" height="13"/>no instance is found 
+  to do if <img src="images/tag_4.gif" width="24" height="13" alt=""/>no instance is found 
   for the specified key value. Basically there are three options: throwing an 
   Exception, returning a designated &quot;default&quot; instance, or returning 
   <tt class="code">null</tt>. Which option is best depends on the application in which 
@@ -469,32 +477,32 @@ Classpath Variables menua action.. Your program will need to add a class path va
 
  <span class="highlight">&lt;%     Instance instance = i.next(); %&gt;</span>
  
-     // <b>instance definition</b>
+     // <strong>instance definition</strong>
      public static final <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span> <span class="highlight">&lt;%=instance.getName()%&gt;</span> = 
-<img src="images/tag_1.gif" width="24" height="13"/>      new <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=instance.constructorValues()%&gt;</span>);
+<img src="images/tag_1.gif" width="24" height="13" alt=""/>      new <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=instance.constructorValues()%&gt;</span>);
  <span class="highlight">&lt;% } %&gt;</span>
 
  
  <span class="highlight">&lt;% for (Iterator&lt;Attribute&gt; i = typesafeEnum.attributes(); i.hasNext(); ) { %&gt;</span>
  <span class="highlight">&lt;%     Attribute attribute = i.next(); %&gt;</span>
  
-     // <b>attribute declaration</b>
-<img src="images/tag_2.gif" width="24" height="13"/>  private final <span class="highlight">&lt;%=attribute.getType()%&gt;</span> m<span class="highlight">&lt;%=attribute.getCappedName()%&gt;</span>;
+     // <strong>attribute declaration</strong>
+<img src="images/tag_2.gif" width="24" height="13" alt=""/>  private final <span class="highlight">&lt;%=attribute.getType()%&gt;</span> m<span class="highlight">&lt;%=attribute.getCappedName()%&gt;</span>;
  <span class="highlight">&lt;% } %&gt;</span>
 
  
      /**
-      * Private <b>constructor</b>.
+      * Private <strong>constructor</strong>.
       */
-<img src="images/tag_3.gif" width="24" height="13"/>  private <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=typesafeEnum.constructorParameterDescription()%&gt;</span>) {
+<img src="images/tag_3.gif" width="24" height="13" alt=""/>  private <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=typesafeEnum.constructorParameterDescription()%&gt;</span>) {
  <span class="highlight">&lt;% for (Iterator&lt;Attribute&gt; i = typesafeEnum.attributes(); i.hasNext(); ) { %&gt;</span>
  <span class="highlight">&lt;%     Attribute attribute = i.next(); %&gt;</span>
-<img src="images/tag_4.gif" width="24" height="13"/>      m<span class="highlight">&lt;%=attribute.getCappedName()%&gt;</span> = <span class="highlight">&lt;%=attribute.getUncappedName()%&gt;</span>;
+<img src="images/tag_4.gif" width="24" height="13" alt=""/>      m<span class="highlight">&lt;%=attribute.getCappedName()%&gt;</span> = <span class="highlight">&lt;%=attribute.getUncappedName()%&gt;</span>;
  <span class="highlight">&lt;% } %&gt;</span>
 
      }
                
- // <b>getter accessor methods</b>
+ // <strong>getter accessor methods</strong>
  <span class="highlight">&lt;% for (Iterator&lt;Attribute&gt; i = typesafeEnum.attributes(); i.hasNext(); ) { %&gt;</span>
  <span class="highlight">&lt;%     Attribute attribute = i.next(); %&gt;</span>
      /**
@@ -513,11 +521,11 @@ Classpath Variables menua action.. Your program will need to add a class path va
 
 <p>As you can see, the template calls some methods that were not in the simple 
   model we introduced earlier. We have added a few convenience methods, like the 
-  <tt class="code"><img src="images/tag_2.gif" width="24" height="13"/>Attribute.getCappedName()</tt> 
-  and <tt class="code"><img src="images/tag_4.gif" width="24" height="13"/>getUncappedName()</tt> 
+  <tt class="code"><img src="images/tag_2.gif" width="24" height="13" alt=""/>Attribute.getCappedName()</tt> 
+  and <tt class="code"><img src="images/tag_4.gif" width="24" height="13" alt=""/>getUncappedName()</tt> 
   methods. Such methods help to keep the template simple.</p>
-<p>Another example of methods we added to the model are the <tt class="code"><img src="images/tag_3.gif" width="24" height="13"/>TypesafeEnum.constructorParameterDescription()</tt> 
-  method and the <tt class="code"><img src="images/tag_1.gif" width="24" height="13"/>Instance.constructorValues()</tt> 
+<p>Another example of methods we added to the model are the <tt class="code"><img src="images/tag_3.gif" width="24" height="13" alt=""/>TypesafeEnum.constructorParameterDescription()</tt> 
+  method and the <tt class="code"><img src="images/tag_1.gif" width="24" height="13" alt=""/>Instance.constructorValues()</tt> 
   method. The implementation of the <tt class="code">constructorValues</tt> method is shown 
   below. </p>
 
@@ -588,11 +596,11 @@ public String constructorValues() {
   in the first part of this article, and generate source code with our template.</p>
 
 <p>When a user presses Finish on the wizard, the <tt class="code">performFinish</tt> method 
-  in our wizard is called. The code below shows how we <img src="images/tag_1.gif" width="24" height="13"/>use 
-  a custom subclass of <tt class="code">JETEmitter</tt> to <img src="images/tag_2.gif" width="24" height="13"/>add 
+  in our wizard is called. The code below shows how we <img src="images/tag_1.gif" width="24" height="13" alt=""/>use 
+  a custom subclass of <tt class="code">JETEmitter</tt> to <img src="images/tag_2.gif" width="24" height="13" alt=""/>add 
   the JAR file of our plug-in to the class path of the <i>.JETEmitters</i> project 
-  before we <img src="images/tag_3.gif" width="24" height="13"/>call generate on 
-  the <tt class="code">JETEmitter</tt>. The generated typesafe enum source code is <img src="images/tag_4.gif" width="24" height="13"/>saved 
+  before we <img src="images/tag_3.gif" width="24" height="13" alt=""/>call generate on 
+  the <tt class="code">JETEmitter</tt>. The generated typesafe enum source code is <img src="images/tag_4.gif" width="24" height="13" alt=""/>saved 
   to the location in the workspace that the user specified.</p>
 <pre> // class NewTypesafeEnumCreationWizard
  protected void finishPage(IProgressMonitor monitor) 
@@ -601,16 +609,16 @@ public String constructorValues() {
      String pluginId = "org.eclipse.emf.examples.jet.article2";
      String base = Platform.getBundle(pluginId).getEntry("/").toString();
      String relativeUri = "templates/TypeSafeEnumeration.javajet";
-<img src="images/tag_1.gif" width="24" height="13"/>  <tt class="code">JETEmitter</tt> emitter = new JETEmitter(base + relativeUri, getClass().getClassLoader());
-<img src="images/tag_2.gif" width="24" height="13"/>  emitter.addClasspathVariable("JET_TUTORIAL", pluginId);
+<img src="images/tag_1.gif" width="24" height="13" alt=""/>  <tt class="code">JETEmitter</tt> emitter = new JETEmitter(base + relativeUri, getClass().getClassLoader());
+<img src="images/tag_2.gif" width="24" height="13" alt=""/>  emitter.addClasspathVariable("JET_TUTORIAL", pluginId);
  
      TypesafeEnum model = mPage1.getTypesafeEnumModel();
      IProgressMonitor sub = new SubProgressMonitor(monitor, 1);
 
-<img src="images/tag_3.gif" width="24" height="13"/>  String result = emitter.generate(sub, new Object[] { model });
+<img src="images/tag_3.gif" width="24" height="13" alt=""/>  String result = emitter.generate(sub, new Object[] { model });
      monitor.worked(1);
  
-<img src="images/tag_4.gif" width="24" height="13"/>  IFile file = save(monitor, result.getBytes());
+<img src="images/tag_4.gif" width="24" height="13" alt=""/>  IFile file = save(monitor, result.getBytes());
  
      selectAndReveal(file);
      openResource(file);
@@ -628,7 +636,7 @@ public String constructorValues() {
             Create a Typesafe Enumeration
          &lt;/description&gt;
          &lt;class class="org.eclipse.emf.examples.jet.article2.ui.NewTypesafeEnumCreationWizard"&gt;
-<img src="images/tag_1.gif" width="24" height="13"/>         &lt;parameter name="javatype" value="true"/&gt;
+<img src="images/tag_1.gif" width="24" height="13" alt=""/>         &lt;parameter name="javatype" value="true"/&gt;
          &lt;/class&gt;
       &lt;/wizard&gt;
    &lt;/extension&gt;
@@ -637,7 +645,7 @@ public String constructorValues() {
   Java &gt; Typesafe Enum from the workbench, as shown in the image below. </p>
 <p><img alt="Typesafe Enum wizard shows up in the New creation wizard" src="images/new_creation_wizard.gif"/> 
 </p>
-<p>Note that we set the <tt class="code"><img src="images/tag_1.gif" width="24" height="13"/>javatype</tt> 
+<p>Note that we set the <tt class="code"><img src="images/tag_1.gif" width="24" height="13" alt=""/>javatype</tt> 
   attribute to true in the wizard extension element in the <tt class="code">plugin.xml</tt> 
   file. This will cause our wizard to show up as an action on the toolbar in the 
   Java Perspective, as shown in the image below.</p>
@@ -645,7 +653,7 @@ public String constructorValues() {
 <p><img alt="Typesafe Enum wizard shows up as an action on the toolbar in the Java Perspective" src="images/new_toolbar.gif"/> 
 </p>
 <p></p>
-<h2><a name="conclusion"></a>Conclusion </h2>
+<h2><a name="conclusion">Conclusion</a></h2>
 JET can be a great help for applications that need to generate text. Templates 
 are as much of an improvement to code generation as JSP pages were to old style 
 servlets. 
@@ -666,15 +674,15 @@ servlets.
   below provides an overview of the JET API and shows how it can be used in headless 
   or standalone applications.</p>
 
-<h2><a name="appendix"></a>Appendix</h2>
+<h2><a name="appendix">Appendix</a></h2>
 <h3><a name="jet_api_overview"></a>JET API Overview </h3>
-<b>Package org.eclipse.emf.codegen</b> 
+<strong>Package org.eclipse.emf.codegen</strong> 
 <p></p>
 <table border="1" cellspacing="0">
   <tbody> 
   <tr> 
-    <td><b>Class</b></td>
-    <td><b>Description</b></td>
+    <th>Class</th>
+    <th>Description</th>
   </tr>
 
   <tr> 
@@ -704,13 +712,13 @@ servlets.
 </table>
 <p></p>
 
-<b>Package org.eclipse.emf.codegen.jet</b> 
+<strong>Package org.eclipse.emf.codegen.jet</strong> 
 <p></p>
 <table border="1" cellspacing="0">
   <tbody> 
   <tr> 
-    <td><b>Class</b></td>
-    <td><b>Description</b></td>
+    <th>Class</th>
+    <th>Description</th>
   </tr>
   <tr> 
     <td valign="top"><tt class="code">IJETNature</tt></td>
@@ -878,14 +886,13 @@ servlets.
   </tbody>
 </table>
 <p></p>
-<b>Package org.eclipse.emf.codegen.merge.java</b> 
+<strong>Package org.eclipse.emf.codegen.merge.java</strong> 
 <p></p>
 <table border="1" cellspacing="0">
   <tbody> 
   <tr> 
-    <td><b>Class</b></td>
-
-    <td><b>Description</b></td>
+    <th>Class</th>
+    <th>Description</th>
   </tr>
   <tr> 
     <td valign="top"><tt class="code">JControlModel</tt></td>
@@ -907,14 +914,13 @@ servlets.
 </table>
 
 <p></p>
-<b>Package org.eclipse.emf.codegen.merge.properties</b> 
+<strong>Package org.eclipse.emf.codegen.merge.properties</strong> 
 <p></p>
 <table border="1" cellspacing="0">
   <tbody> 
   <tr> 
-    <td><b>Class</b></td>
-
-    <td><b>Description</b></td>
+    <th>Class</th>
+    <th>Description</th>
   </tr>
   <tr> 
     <td valign="top"><tt class="code">PropertyMerger</tt></td>
@@ -934,12 +940,12 @@ servlets.
   CodeGen class as an Eclipse headless application. These scripts are in Unix 
   format.</p>
 
-<p><img src="images/win_only.gif" width="49" height="13"/> Below is an example 
+<p><img src="images/win_only.gif" width="49" height="13" alt=""/> Below is an example 
   script for Windows. Note that we pass two arguments to the CodeGen class:</p>
 <ul>
-  <li>the <img src="images/tag_1.gif" width="24" height="13"/>uri of the template 
+  <li>the <img src="images/tag_1.gif" width="24" height="13" alt=""/>uri of the template 
     to translate </li>
-  <li>the <img src="images/tag_2.gif" width="24" height="13"/>target path where 
+  <li>the <img src="images/tag_2.gif" width="24" height="13" alt=""/>target path where 
     the translation result should be saved </li>
 </ul>
 <p>If the target path already contains a previous translation result, and you 
@@ -953,8 +959,8 @@ servlets.
    set OPTS=-Xmx900M -Djava.compiler=NONE -verify -cp %ECLIPSE_HOME%\startup.jar
    set MAIN=org.eclipse.core.launcher.Main -noupdate -data %WORKSPACE% 
  
-<img src="images/tag_1.gif" width="24" height="13"/>set TEMPLATE_URI=test.javajet
-<img src="images/tag_2.gif" width="24" height="13"/>set TARGET_FOLDER=C:\temp\jetstandalone\MyProject
+<img src="images/tag_1.gif" width="24" height="13" alt=""/>set TEMPLATE_URI=test.javajet
+<img src="images/tag_2.gif" width="24" height="13" alt=""/>set TARGET_FOLDER=C:\temp\jetstandalone\MyProject
    set ARGUMENTS=%TEMPLATE_URI% %TARGET_FOLDER%
    
    echo Shut down Eclipse before running this script.
@@ -1027,7 +1033,7 @@ servlets.
     &lt;javac srcdir=&quot;jet-output&quot; destdir=&quot;classes&quot; /&gt;
   &lt;/target&gt;
 &lt;/project&gt;</pre>
-<h2>Resources </h2>
+<h2><a name="resources">Resources</a></h2>
 <p><a href="http://developer.java.sun.com/developer/Books/shiftintojava/page1.html#replaceenums" target="_blank">Substitutes 
   for Missing C Constructs</a> (By Joshua Bloch)</p>
 <a href="http://www.javaworld.com/javaworld/javatips/jw-javatip122.html" target="_blank"> 

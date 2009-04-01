@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link rel="stylesheet" href="images/../../../css/book.css" type="text/css"/>
 <link rel="stylesheet" href="images/../../../css/emf-book.css" type="text/css"/>
-<title>The Eclipse Modeling Framework (EMF) Overview</title>
+<title>EMF Overview</title>
 </head>
 <body lang="EN-US" xml:lang="EN-US">
 <h1>The Eclipse Modeling Framework (EMF) Overview</h1>
@@ -15,11 +15,19 @@ Last updated: June 16, 2005 (accessibility update)
 <p>
 This paper presents a basic overview of EMF and its code generator patterns. For 
 a more complete description of all the features of EMF, refer to
-<a href="http://www.awprofessional.com/titles/0131425420">Eclipse Modeling
-Framework</a> (Addison Wesley, 2003) or to the Javadoc for the framework
-classes themselves.
+<a href="http://www.informit.com/title/9780321331885">EMF: Eclipse Modeling
+Framework, Second Edition</a> (Addison-Wesley Professional, 2008) or to the
+Javadoc for the framework classes themselves.
 </p>
-<h2>Introduction</h2>
+
+<h2>Contents</h2>
+<p><a href="#introduction">Introduction</a><br/>
+<a href="#definition">Defining an EMF Model</a><br/>
+<a href="#generation">Generating a Java Implementation</a><br/>
+<a href="#programming">Using the Generated EMF Classes</a><br/>
+<a href="#advanced">Advanced Topics</a></p>
+
+<h2><a name="introduction">Introduction</a></h2>
 <p>
 EMF is a Java framework and code generation facility for building tools and 
 other applications based on a structured model. For those of you that have 
@@ -89,8 +97,7 @@ framework, adding support for generating adapter classes that enable viewing
 and command-based (undoable) editing of a model, and even a basic working 
 model editor. The following sections describe the main features of the core 
 EMF framework. EMF.Edit is described in a separate paper,
-<a href="../../references/overview/EMF.Edit.html">The EMF.Edit Framework
-Overview</a>. For instructions on how to run the EMF and EMF.Edit generator,
+<a href="../../references/overview/EMF.Edit.html">EMF.Edit Overview</a>. For instructions on how to run the EMF and EMF.Edit generator,
 refer to <a href="../../tutorials/clibmod/clibmod.html">Tutorial: Generating an
 EMF Model</a>.
 </p>
@@ -110,7 +117,7 @@ calls EMOF (Essential MOF), is separated out. There are small, mostly naming
 differences between Ecore and EMOF; however, EMF can transparently read and
 write serializations of EMOF.
 </p>
-<h2>Defining an EMF Model</h2>
+<h2><a name="definition">Defining an EMF Model</a></h2>
 <p>
 To help describe EMF, we'll start by assuming we have a trivial, one-class model 
 like this:
@@ -237,7 +244,7 @@ expressed using annotated Java or directly with XMI, and most have XML Schema
 equivalents. Regardless of how the information is provided, the code generated
 by EMF will be the same.
 </p>
-<h2>Generating a Java Implementation</h2>
+<h2><a name="generation">Generating a Java Implementation</a></h2>
 <p>
 For each class in the model, a Java interface and corresponding implementation 
 class will be generated. In our example, the generated interface for Book 
@@ -808,7 +815,7 @@ constant reference to its singleton implementation.
 Let's say we want to create a subclass, SchoolBook, of our Book model class,
 like this:
 </p>
-<img src="images/EMF/image007.gif" width="164" height="198" alt="Single inheritance: a SchoolBook is a kind of Book"/>
+<img src="images/EMF/image007.gif" width="164" height="198" alt="Single inheritance: a SchoolBook extends Book"/>
 <p>
 The EMF generator handles single inheritance as you'd expect: the generated 
 interface extends the super interface:
@@ -831,7 +838,7 @@ derived implementation class.
 <p>
 Consider the following example:
 </p>
-<img src="images/EMF/image008.gif" width="284" height="213" alt="Multiple inheritance: a SchoolBook is a kind of Book and a kind of Asset (has a value : float)"/>
+<img src="images/EMF/image008.gif" width="284" height="213" alt="Multiple inheritance: a SchoolBook extends Book and Asset (Asset has a value : float)"/>
 <p>
 Here we've made SchoolBook derive from two classes: Book and Asset. We've
 identified Book as the implementation base (extended) class as
@@ -968,7 +975,7 @@ dialog.  The code will then be stored in the EMF model as an annotation on the
 operation<sup><a class="footnote" href="#fn17">[17]</a><a name="ref17">&nbsp;</a></sup>,
 and will be generated into its body.
 </p>
-<h2>Using the Generated EMF Classes</h2>
+<h2><a name="programming">Using the Generated EMF Classes</a></h2>
 <h3>Creating and accessing instances</h3>
 <p>
 Using the generated classes, a client program can create and initialize a Book 
@@ -1256,8 +1263,8 @@ directly<sup><a class="footnote" href="#fn19">[19]</a><a name="ref19">&nbsp;</a>
 but opens up the model for completely generic access. For example, the
 reflective methods are used by the EMF.Edit framework to implement a full set of
 generic commands (for example, AddCommand, RemoveCommand, SetCommand) that can
-be used with any model. See <a href="../../references/overview/EMF.Edit.html">The
-EMF.Edit Framework Overview</a> for details.
+be used with any model. See the <a href="../../references/overview/EMF.Edit.html">EMF.Edit
+Overview</a> for details.
 </p>
 <p>
 In addition to eGet() and eSet(), the reflective API includes two other related
@@ -1268,15 +1275,15 @@ while eUnset() can be used to unset (or reset) it. The generic XMI serializer,
 for example, uses eIsSet() to determine which attributes need to be serialized
 during a resource save operation.
 </p>
-<h2>Advanced Topics</h2>
-<h3><a name="generation">Generation control flags</a></h3>
+<h2><a name="advanced">Advanced Topics</a></h2>
+<h3><a name="flags">Generation control flags</a></h3>
 <p>
 There are several flags that can be set on a model feature to control the 
 generated code pattern for that feature. Typically, the default settings of 
 these flags will be fine, so you shouldn't need to change them very often.
 </p>
 <ul>
-<li><p><b>Unsettable</b> (default is false)</p>
+<li><p><strong>Unsettable</strong> (default is false)</p>
 <p>
 A feature that is declared to be unsettable has a notion of an explicit unset or
 no-value state. For example, a boolean attribute that is not unsettable can take
@@ -1313,7 +1320,7 @@ returns true if the current value is different from the default value, and
 eUnset() sets the feature to the default value (more like a reset).
 </p>
 </li>
-<li><p><b>ResolveProxies</b> (default is true)</p>
+<li><p><strong>ResolveProxies</strong> (default is true)</p>
 <p>
 ResolveProxies only applies to non-containment references. ResolveProxies
 implies that the reference may span documents, and therefore needs to
@@ -1327,14 +1334,14 @@ In that case, the generated get method will be optimally
 efficient<sup><a class="footnote" href="#fn21">[21]</a><a name="ref21">&nbsp;</a></sup>.
 </p>
 </li>
-<li><p><b>Unique</b> (default is true)</p>
+<li><p><strong>Unique</strong> (default is true)</p>
 <p>
 Unique only applies to multiplicity-many attributes, indicating that such an
 attribute may not contain multiple equal objects. References are always treated
 as unique.
 </p>
 </li>
-<li><p><b>Changeable</b> (default is true)</p>
+<li><p><strong>Changeable</strong> (default is true)</p>
 <p>
 A feature that is not changeable will not include a generated set method, and
 the reflective eSet() method will throw an exception if you try to set it.
@@ -1345,7 +1352,7 @@ references or attributes to be not changeable usually implies that the feature
 will be set or changed by some other (user-written) code.
 </p>
 </li>
-<li><p><b>Volatile</b> (default is false)</p>
+<li><p><strong>Volatile</strong> (default is false)</p>
 <p>
 A feature that is declared volatile is generated without storage fields and with
 empty implementation method bodies, which you are required to fill in. Volatile
@@ -1354,7 +1361,7 @@ or for a feature that is to be implemented by hand using a different storage
 and implementation pattern.
 </p>
 </li>
-<li><p><b>Derived</b> (default is false)</p>
+<li><p><strong>Derived</strong> (default is false)</p>
 <p>
 The value of a derived feature is computed from other features, so it doesn't
 represent any additional object state. Framework classes, such as
@@ -1364,7 +1371,7 @@ except for the package implementation class, which initializes the metadata for
 the model. Derived features are typically also marked volatile and transient.
 </p>
 </li>
-<li><p><b>Transient</b> (default is false)</p>
+<li><p><strong>Transient</strong> (default is false)</p>
 <p>
 Transient features are used to declare (modeled) data whose lifetime never spans 
 application invocations and therefore doesn't need to be persisted. The (default 
@@ -1392,7 +1399,7 @@ with the javaclass stereotype, whose name is the fully qualified class being
 represented. With this data type defined, we  can now declare attributes of type
 java.util.Date like this:
 </p>
-<img src="images/EMF/image010.gif" width="173" height="122" alt="Attribute with data type as attribute type: Book has a publicationDate of type JavaDate"/>
+<img src="images/EMF/image010.gif" width="173" height="122" alt="Attribute with data type as attribute type: Book has a publicationDate : JavaDate"/>
 <p>
 If we regenerate, the publicationDate attribute will now appear in the Book
 interface:
@@ -1463,8 +1470,8 @@ abstract classes):
 </p>
 <img src="images/EMF/image011.gif" width="611" height="456" alt="Ecore class hierarchy"/>
 <p>
-As you can see, it introduces a small number of classes representing the EMF 
-artifacts described in this paper: classes (and their attributes, references and 
+This hierarchy includes the classes that represent the EMF model elements 
+described in this paper: classes (and their attributes, references and 
 operations) data types, enumerations, packages and factories.
 </p>
 <p>
@@ -1490,7 +1497,7 @@ uses a subset of the JavaBean simple property accessor naming patterns.
 <sup><a class="footnote" href="#ref4">[4]</a><a name="fn4">&nbsp;</a></sup>There
 are several user-specifiable options that can be used to change the generated
 patterns. We'll describe some of them later (see
-<a href="#generation">Generation control flags</a>, later in this document).
+<a href="#flags">Generation control flags</a>, later in this document).
 </p>
 <p>
 <sup><a class="footnote" href="#ref5">[5]</a><a name="fn5">&nbsp;</a></sup>Containment
@@ -1498,7 +1505,7 @@ references, which we'll describe later (see <a href="#containment">Containment
 references</a>), cannot span documents. There is also a flag that users can set
 in a reference's meta data to indicate that resolve does not need to be called
 because the reference will never be used in a cross document scenario (see
-<a href="#generation">Generation control flags</a>). In these cases, the
+<a href="#flags">Generation control flags</a>). In these cases, the
 generated get method simply returns the pointer.
 </p>
 <p>
@@ -1595,7 +1602,7 @@ methods.
 </p>
 <p>
 <sup><a class="footnote" href="#ref20">[20]</a><a name="fn20">&nbsp;</a></sup>See
-the Unsettable flag under <a href="#generation">Generation control flags</a> for
+the Unsettable flag under <a href="#flags">Generation control flags</a> for
 what constitutes a set attribute.
 </p>
 <p>

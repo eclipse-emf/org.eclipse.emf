@@ -6,23 +6,23 @@
 <link rel="stylesheet" href="images/../../../css/book.css" type="text/css"/>
 <link rel="stylesheet" href="images/../../../css/emf-book.css" type="text/css"/>
 
-<title>The Eclipse Modeling Framework (EMF) Validation Framework Overview</title>
+<title>EMF Validation Overview</title>
 </head>
 <body lang="EN-US" xml:lang="EN-US">
-<h1>The Eclipse Modeling Framework (EMF) Validation Framework Overview</h1>
+<h1>EMF Validation Overview</h1>
 <p>
 Last updated: June 23, 2005
 </p>
 <p>
-This paper presents a basic overview of EMF's Validation Framework and gives a few code samples to ease implementation. For 
+This paper presents a basic overview of EMF's validation framework and gives a few code samples to ease implementation. For 
 a more complete description of all the features of EMF, refer to
-<a href="http://www.awprofessional.com/titles/0131425420">Eclipse Modeling
-Framework</a>, Second Edition (Addison Wesley, 2006 - forthcoming!) or to the Javadoc for the framework
-classes themselves.
+<a href="http://www.informit.com/title/9780321331885">EMF: Eclipse Modeling
+Framework, Second Edition</a> (Addison-Wesley Professional, 2008) or to the
+Javadoc for the framework classes themselves.
 </p>
 <h2>Introduction</h2>
 
-<p>Want to ensure your model's data conforms to constraints placed on that data? In three quick steps, this overview will give you an idea of how EMF's Validation Framework will let you do just that.</p>
+<p>Want to ensure your model's data conforms to constraints placed on that data? In three quick steps, this overview will give you an idea of how EMF's validation framework will let you do just that.</p>
 
 <hr/>
 
@@ -30,29 +30,29 @@ classes themselves.
 
 <table><tr valign="top"><td>
 
-<p><b>Invariant</b> - Implemented as class method, defined on the model. Considered a "stronger" statement about validity than a constraint. Eg., <tt class="code">hasUSState()</tt></p>
+<p><strong>Invariant</strong> - Implemented as class method, defined on the model. Considered a "stronger" statement about validity than a constraint. Eg., <tt class="code">hasUSState()</tt></p>
 
 <p><a name="fig1"></a><img src="images/EMF.Validation/image001.gif" width="131" height="51" border="0" alt="Rose Model - Invariant"/><br/>
 <i>Figure 1. Rose Model - Invariant</i></p>
 
 </td>
-<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
-<td bgcolor="black" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="1" height="5"/></td>
-<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5" alt=""/></td>
+<td bgcolor="black" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="1" height="5" alt=""/></td>
+<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5" alt=""/></td>
 <td>
 
-<p><b>Named Constraint</b> - Implemented as a method on an external validator class, not on the model itself. Considered a "weaker" statement about validity than an invariant. Eg., <tt class="code">NonNegativeQuantity</tt>, <tt class="code">ValidShipDate</tt></p>
+<p><strong>Named Constraint</strong> - Implemented as a method on an external validator class, not on the model itself. Considered a "weaker" statement about validity than an invariant. Eg., <tt class="code">NonNegativeQuantity</tt>, <tt class="code">ValidShipDate</tt></p>
 
 <p><a name="fig2"></a><img src="images/EMF.Validation/image002.gif" width="242" height="300" border="0" alt="Rose Model - Constraint"/><br/>
 <i>Figure 2. Rose Model - Constraint</i></p>
 
 </td>
-<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
-<td bgcolor="black" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="1" height="5"/></td>
-<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5" alt=""/></td>
+<td bgcolor="black" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="1" height="5" alt=""/></td>
+<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5" alt=""/></td>
 <td>
 
-<p><b>Schema Based Constraint</b> - as with Named Constraint, but defined within schema. Eg., '<tt class="code">quantity</tt> must be an <tt class="code">int</tt> between 0 and 100'. Since these types of constraints have known behaviours, no additional work is required to implement them: all simple type constraints will be automatically implemented by the code generator.</p>
+<p><strong>Schema Based Constraint</strong> - as with Named Constraint, but defined within schema. Eg., '<tt class="code">quantity</tt> must be an <tt class="code">int</tt> between 0 and 100'. Since these types of constraints have known behaviours, no additional work is required to implement them: all simple type constraints will be automatically implemented by the code generator.</p>
 
 <p><pre>
   &lt;xsd:element name="quantity"&gt;
@@ -123,7 +123,7 @@ classes themselves.
 
 <table><tr valign="top"><td>
 
-<p><b>Invariant</b></p>
+<p><strong>Invariant</strong></p>
 
 <p><pre>
   /**
@@ -143,12 +143,12 @@ classes themselves.
 
 </td>
 
-<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
-<td bgcolor="black" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="1" height="5"/></td>
-<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5"/ alt=""></td>
+<td bgcolor="black" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="1" height="5" alt=""/></td>
+<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5" alt=""/></td>
 <td>
 
-<p><b>Constraint</b></p>
+<p><strong>Constraint</strong></p>
 
 <p><pre>
   /**
@@ -168,13 +168,13 @@ classes themselves.
 
 <h3>Step 2: Define Constraints</h3>
 
-<p>Import your model into EMF, then generate code as in <a href="http://www.eclipse.org/emf/docs.php?doc=tutorials/clibmod/clibmod.html#step2">Steps 2 - 3 of the Generating an EMF Model tutorial</a></p>
+<p>Import your model into EMF, then generate code as in <a href="../../tutorials/clibmod/clibmod.html#step2">Steps 2 - 3 of the Generating an EMF Model tutorial</a></p>
 
 <p>Generated code will look something like this:</p>
 
 <p><table><tr valign="top"><td>
 
-<p><b>Invariant</b>, com.example.ppo.impl.USAddressImpl</p>
+<p><strong>Invariant</strong>, com.example.ppo.impl.USAddressImpl</p>
 
 <p><pre>  public boolean hasUSState(
     DiagnosticChain diagnostics, 
@@ -211,12 +211,12 @@ classes themselves.
 
 </td>
 
-<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
-<td bgcolor="black" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="1" height="5"/></td>
-<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5"/></td>
+<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5" alt=""/></td>
+<td bgcolor="black" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="1" height="5" alt=""/></td>
+<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5" alt=""/></td>
 <td>
 
-<p><b>Constraint</b>, com.example.ppo.util.PPOValidator</p>
+<p><strong>Constraint</strong>, com.example.ppo.util.PPOValidator</p>
 
 <p><pre>  public boolean validateItem_ValidShipDate(
     Item item, DiagnosticChain diagnostics, 
@@ -273,7 +273,7 @@ classes themselves.
 
 <h3>Step 3: Generate &amp; Run</h3>
 
-<p>Once you're done defining constraints, launch a new workspace. For details, see <a href="http://www.eclipse.org/emf/docs.php?doc=tutorials/clibmod/clibmod.html#step4">Step 4 of the Generating an EMF Model tutorial</a>.</p>
+<p>Once you're done defining constraints, launch a new workspace. For details, see <a href="../../tutorials/clibmod/clibmod.html#step4">Step 4 of the Generating an EMF Model tutorial</a>.</p>
 
 <p>Your model will now have a 'Validate' item on its editor menu.</p>
 

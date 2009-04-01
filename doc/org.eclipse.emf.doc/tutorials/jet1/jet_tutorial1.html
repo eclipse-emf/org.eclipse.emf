@@ -16,19 +16,19 @@
   <table border="0" cellspacing="0" cellpadding="2" width="100%">
 
     <tr> 
-      <td align="left" valign="top" colspan="2" bgcolor="#0080C0"><b><font face="Arial,Helvetica"><font color="#FFFFFF">&nbsp;Eclipse 
-        Corner Article</font></font></b></td>
+      <td align="left" valign="top" colspan="2" bgcolor="#0080C0"><strong><font face="Arial,Helvetica"><font color="#FFFFFF">&nbsp;Eclipse 
+        Corner Article</font></font></strong></td>
     </tr>
   </table>
 </div>
 <div align="left"> 
-  <h1><img src="http://www.eclipse.org/images/Idea.jpg" align="middle" width="120" height="86"/></h1>
+  <h1><img src="http://www.eclipse.org/images/Idea.jpg" align="middle" width="120" height="86" alt=""/></h1>
 </div>
 
 <h1 align="center">JET Tutorial Part 1 (Introduction to JET) </h1>
 
 <blockquote>
-<b>Summary</b>
+<strong>Summary</strong>
 
 <br/>
 <p>
@@ -57,7 +57,14 @@
 
 <hr width="100%" />
 
-<h2>Getting Started</h2>
+<h2>Contents</h2>
+<p><a href="#introduction">Getting Started</a><br/>
+<a href="#model">The JET Model</a><br/>
+<a href="#directives">Directives</a><br/>
+<a href="#scripting">JET Scripting Elements</a><br/>
+<a href="#resources">Resources</a></p>
+
+<h2><a name="introduction">Getting Started</a></h2>
 <p>Before creating our first template, you'll need the EMF plug-in. If you haven't 
   installed it yet, install it now before continuing with this tutorial. </p>
 
@@ -125,12 +132,12 @@ Project wizard. Create a new Java project and add a source folder to it named
 
 <p><img src="images/img005.gif" alt="Add source container folder"/></p>
 
-<p> <i><img src="images/tip.gif" width="62" height="13" alt="Tip: "/>Note: you can specify 
+<p> <em><img src="images/tip.gif" width="62" height="13" alt="Tip: "/>Note: you can specify 
   multiple folders in the Template Containers field, separated by a space or a 
   semicolon. However, if templates in different folders have the same filename, 
   only the template in the first folder will be translated automatically by the 
   JET Builder. If you want all templates to be translated, make sure they have 
-  different file names.</i></p>
+  different file names.</em></p>
 
 <h4> Step 4. Create a JET Template File </h4>
 
@@ -149,7 +156,7 @@ Project wizard. Create a new Java project and add a source folder to it named
 <p><img src="images/img007.gif" alt="Create empty helloworld.txtjet file"/></p>
 
 <p>
-  With &quot;Build Automatically&quot; disabled, you will <b>not</b> get the following error when you press the 
+  With &quot;Build Automatically&quot; disabled, you will <em>not</em> get the following error when you press the 
   Finish button: &quot;The 'jet' directive is missing in 'helloworld.txtjet' at line 
   1 column 1&quot;, as shown in the image below.</p>
 
@@ -174,7 +181,7 @@ Project wizard. Create a new Java project and add a source folder to it named
 <p> <img src="images/img009.gif" alt="Package hello now contains class file HelloWorldTemplate.java" /> 
 </p>
 <p> This Java class is the result of translating the template and is called a 
-  <i>template implementation class</i>. This class has a method called <tt class="code">generate</tt>. 
+  <dfn>template implementation class</dfn>. This class has a method called <tt class="code">generate</tt>. 
   This is the method that generates the code indicated in the template.</p>
 <p><img src="images/tryit.gif" width="61" height="13" alt="Try it!"/>We can create an instance 
   of the <tt class="code">HelloWorldTemplate</tt> template implementation class and invoke 
@@ -234,7 +241,7 @@ console.
   attribute looks like this: </p>
 
 <pre>
- &lt;%@ jet package=&quot;hello&quot; <b><img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/>imports=&quot;java.util.*&quot;</b> class=&quot;ImportDemoTemplate&quot; %&gt;
+ &lt;%@ jet package=&quot;hello&quot; <strong><img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/>imports=&quot;java.util.*&quot;</strong> class=&quot;ImportDemoTemplate&quot; %&gt;
 </pre>
 <p> The JET Syntax Reference section of this article gives more details on the 
   <tt class="code">jet</tt> directive and its attributes.</p>
@@ -245,15 +252,15 @@ console.
   called <i>importdemo.xmljet</i>. Note that we pass the template a <tt class="code">java.util.List</tt> 
   object that contains the data to use when generating the XML.</p>
 <pre>
-   <span class="highlight">&lt;%@ jet package=&quot;hello&quot; <img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/><b>imports=&quot;java.util.*&quot;</b> class=&quot;XMLDemoTemplate&quot; %&gt;</span>
+   <span class="highlight">&lt;%@ jet package=&quot;hello&quot; <img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/><strong>imports=&quot;java.util.*&quot;</strong> class=&quot;XMLDemoTemplate&quot; %&gt;</span>
 
-<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/><b class="highlight">&lt;% List&lt;?&gt; elementList = (List&lt;?&gt;) argument; %&gt;</b>
- <b>  </b>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
- <b>  </b>&lt;demo&gt;
+<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/><strong class="highlight">&lt;% List&lt;?&gt; elementList = (List&lt;?&gt;) argument; %&gt;</strong>
+   &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+   &lt;demo&gt;
    <span class="highlight">&lt;% for (Iterator&lt;?&gt; i = elementList.iterator(); i.hasNext(); ) { %&gt;</span>
      &lt;element&gt;<span class="highlight">&lt;%=i.next().toString()%&gt;</span>&lt;/element&gt;
    <span class="highlight">&lt;% } %&gt;</span>
- <b>  </b>&lt;/demo&gt;
+   &lt;/demo&gt;
 </pre>
 <p> The code below shows how to invoke the template instance. We create a <img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>list 
   and <img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/>pass it to the <tt class="code">generate</tt> 
@@ -312,13 +319,13 @@ This prints the following XML result to the console:
   to the JET directive on the first line of the template, like in the example 
   below. </p>
 <pre>
- <span class="highlight">&lt;%@ jet package=&quot;tags.demo&quot; class=&quot;JspTemplate&quot; <img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/><b>startTag=&quot;&lt;$&quot; <img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>endTag=&quot;$&gt;&quot;</b> %&gt;</span>
+ <span class="highlight">&lt;%@ jet package=&quot;tags.demo&quot; class=&quot;JspTemplate&quot; <img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/><strong>startTag=&quot;&lt;$&quot; <img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>endTag=&quot;$&gt;&quot;</strong> %&gt;</span>
 
- <b><span class="highlight">&lt;$</span></b><span class="highlight"> String paramName = (String) argument; /* This is an executed scriptlet */ <b>$&gt;</b></span>
- <b><span class="highlight">&lt;$</span></b><span class="highlight"> if (paramName != null) { <b>$&gt;</b></span>
- <img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/>  &lt;%= request.getParameter(&quot;<b><span class="highlight">&lt;$=</span></b><span class="highlight">paramName<b>$&gt;</b></span>&quot;) %&gt; &lt;!-- this is generated JSP --&gt;
+ <strong><span class="highlight">&lt;$</span></strong><span class="highlight"> String paramName = (String) argument; /* This is an executed scriptlet */ <strong>$&gt;</strong></span>
+ <strong><span class="highlight">&lt;$</span></strong><span class="highlight"> if (paramName != null) { <strong>$&gt;</strong></span>
+ <img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/>  &lt;%= request.getParameter(&quot;<strong><span class="highlight">&lt;$=</span></strong><span class="highlight">paramName<strong>$&gt;</strong></span>&quot;) %&gt; &lt;!-- this is generated JSP --&gt;
 
- <b><span class="highlight">&lt;$</span></b><span class="highlight"> } <b>$&gt;</b></span>
+ <strong><span class="highlight">&lt;$</span></strong><span class="highlight"> } <strong>$&gt;</strong></span>
 </pre>
 <p> Again, we invoke this implementation class with a string argument, like below: 
 </p>
@@ -351,8 +358,8 @@ and how to use these Java implementation classes to generate code.
 <pre>
  <span class="highlight">&lt;%@ jet package=&quot;hello&quot; class=&quot;TranslationDemoTemplate&quot; %&gt;</span>
 
-<img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/> Hello, <span class="highlight">&lt;%=<b>argument</b>%&gt;</span>!
-<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/> <span class="highlight">&lt;% <b>stringBuffer.append(&quot;Hello again!&quot;);</b> %&gt;</span>
+<img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/> Hello, <span class="highlight">&lt;%=<strong>argument</strong>%&gt;</span>!
+<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/> <span class="highlight">&lt;% <strong>stringBuffer.append(&quot;Hello again!&quot;);</strong> %&gt;</span>
 </pre>
 <p> The template above is translated to a Java implementation class like below: 
 
@@ -375,14 +382,14 @@ and how to use these Java implementation classes to generate code.
    protected final String TEXT_1 = &quot;Hello, &quot;;
    protected final String TEXT_2 = &quot;!&quot;;
  
-   public String generate(Object <b>argument</b>)
+   public String generate(Object <strong>argument</strong>)
    {
-     StringBuffer <b>stringBuffer</b> = new StringBuffer();
+     StringBuffer <strong>stringBuffer</strong> = new StringBuffer();
      stringBuffer.append(TEXT_1);
-<img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/>  stringBuffer.append(<b>argument</b>);
+<img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/>  stringBuffer.append(<strong>argument</strong>);
      stringBuffer.append(TEXT_2);
 
-<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>  <b>stringBuffer.append(&quot;Hello again!&quot;);</b>
+<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>  <strong>stringBuffer.append(&quot;Hello again!&quot;);</strong>
      return stringBuffer.toString();
    }
  }
@@ -458,7 +465,7 @@ and how to use these Java implementation classes to generate code.
   your template, like this: </p>
 
 <pre>
- <span class="highlight">&lt;%@ jet package=&quot;hello&quot; class=&quot;GreetingTemplate&quot; <b>skeleton=&quot;generator.skeleton&quot;</b> %&gt;</span>
+ <span class="highlight">&lt;%@ jet package=&quot;hello&quot; class=&quot;GreetingTemplate&quot; <strong>skeleton=&quot;generator.skeleton&quot;</strong> %&gt;</span>
  Hello, <span class="highlight">&lt;%=argument%&gt;</span>!
  The current time is <span class="highlight">&lt;%=new java.util.Date()%&gt;</span>.
 
@@ -508,7 +515,7 @@ like this:
   not be much new here for you.</p>
 <p>This section provides a semi-formal description and reference of the JET syntax. 
 </p>
-<h2> The JET Model</h2>
+<h2><a name="model">The JET Model</a></h2>
 <p>A JET template is translated into a Java implementation class. This implementation 
   class has a method that can be called to obtain a result string. This method 
   is usually called <tt class="code">generate</tt> (see also the <i>skeleton</i> attribute 
@@ -518,14 +525,14 @@ like this:
   implementation class has the following implicit objects, which can be referenced 
   in the JET template: </p>
 <ul>
-  <li> <b>stringBuffer</b> the <tt class="code">java.lang.StringBuffer</tt> object 
+  <li> <strong>stringBuffer</strong> the <tt class="code">java.lang.StringBuffer</tt> object 
     used to build the result string when the <tt class="code">generate</tt> method is invoked</li>
 
-  <li> <b>argument</b> the <tt class="code">java.lang.Object</tt> passed to the <tt class="code">generate</tt> 
+  <li> <strong>argument</strong> the <tt class="code">java.lang.Object</tt> passed to the <tt class="code">generate</tt> 
     method</li>
 </ul>
 
-<h2> Directives </h2>
+<h2><a name="directives">Directives</a></h2>
 
 <p>Directives are messages to the JET engine. Directives have this syntax: 
 </p><p>
@@ -555,8 +562,8 @@ in the generated String when the template is invoked.
 </p>
 <table border="1" cellpadding="3" cellspacing="0">
   <tr>
-    <td><b>Attribute</b></td>
-    <td><b>Value</b></td>
+    <th>Attribute</th>
+    <th>Value</th>
   </tr>
   <tr>
     <td valign="top">package</td>
@@ -627,7 +634,7 @@ in the generated String when the template is invoked.
 <pre>
  &lt;%@ include file=&quot;copyright.jet&quot; %&gt;
 </pre>
-<p><i><img src="images/tip.gif" width="62" height="13" alt="Tip: "/>Note: JET supports the 
+<p><em><img src="images/tip.gif" width="62" height="13" alt="Tip: "/>Note: JET supports the 
   notion of overriding template paths. It is possible to configure the JET engine 
   to use multiple Template Containers. In that case, the first container takes 
   precedence over the second, the second over the third, and so on. This means 
@@ -635,9 +642,9 @@ in the generated String when the template is invoked.
   Template Containers, the file in the first folder will be used, and the other(s) 
   will be ignored. Clients of a JET-based application can use this mechanism to 
   provide custom include files that override the original include files without 
-  modifying the templates of the original application.</i><br/>
+  modifying the templates of the original application.</em><br/>
 </p>
-<h2>JET Scripting Elements </h2>
+<h2><a name="scripting">JET Scripting Elements</a></h2>
 
 <p>JET has two scripting language elements: scriptlets and expressions. A scriptlet 
 is a statement fragment, and an expression is a complete Java expression. 
@@ -673,7 +680,7 @@ Example:
  &lt;% } %&gt;
 </pre>
 
-<p> <b><i>Syntax</i></b> </p>
+<h4>Syntax</h4>
 <p> <i>&lt;% scriptlet %&gt;</i> </p>
 <h3> Expressions </h3>
 <p>A JET expression element is a Java expression that is evaluated and the result 
@@ -689,9 +696,9 @@ Example:
   result.</p>
 <pre>&lt;%= (new java.util.Date()).toLocaleString() %&gt; </pre>
 
-<p><b><i>Syntax</i></b> </p>
+<h4>Syntax</h4>
 <p><i>&lt;%= expression %&gt;</i> </p>
-<h2>Resources</h2>
+<h2><a name="resources">Resources</a></h2>
 <p><a href="http://www.javaworld.com/javaworld/jw-11-2001/jw-1102-codegen.html" target="_blank">http://www.javaworld.com/javaworld/jw-11-2001/jw-1102-codegen.html</a> 
 </p>
 <p> <a href="http://www.eclipse.org/emf/" target="_blank">http://www.eclipse.org/emf/</a> 

@@ -119,13 +119,13 @@ external .cat files.<br/>
 <img src="images/../../clibmod/images/img102.gif" alt="EMF Project"/><br/>
 &nbsp;</li>
 
-<li>Give the project a name, says, "schoollibrary", and then click the
+<li>Give the project a name, say, "schoollibrary", and then click the
 "Next" button.<br/>
 <img src="images/img101.gif" alt="Name the project"/><br/>
 &nbsp;</li>
 
 <li>Select "Rose class model" and click the "Next" button.<br/>
-<img src="images/../../clibmod/images/img104.gif" alt="Load from a Rose class model"/><br/>
+<img src="images/../../clibmod/images/img104.gif" alt="Rose class model"/><br/>
 &nbsp;</li>
 
 <li>Click on the "Browse" button and use the file dialog to locate the Rose
@@ -170,7 +170,7 @@ can generate the EMF model from these interface files, instead of a Rose
 model.</p>
 
 <blockquote>
-<b><a target="_code" href="images/../SchoolLibrary.java">SchoolLibrary.java</a></b><a name="schoollibrarysrc">&nbsp;</a><br/>
+<strong><a target="_code" href="images/../SchoolLibrary.java">SchoolLibrary.java</a></strong><a name="schoollibrarysrc">&nbsp;</a><br/>
 
 <table border="1" frame="box"><tr><td>
 <pre>package org.eclipse.example.schoollibrary;
@@ -190,7 +190,7 @@ public interface SchoolLibrary extends Library
 </blockquote>
 
 <blockquote>
-<b><a target="_code" href="images/../Asset.java">Asset.java</a></b><a name="assetsrc">&nbsp;</a><br/>
+<strong><a target="_code" href="images/../Asset.java">Asset.java</a></strong><a name="assetsrc">&nbsp;</a><br/>
 
 <table border="1" frame="box"><tr><td>
 <pre>package org.eclipse.example.schoollibrary;
@@ -209,7 +209,7 @@ public interface Asset
 </blockquote>
 
 <blockquote>
-<b><a target="_code" href="images/../SchoolBook.java">SchoolBook.java</a></b><a name="schoolbooksrc.java">&nbsp;</a><br/>
+<strong><a target="_code" href="images/../SchoolBook.java">SchoolBook.java</a></strong><a name="schoolbooksrc.java">&nbsp;</a><br/>
 
 <table border="1" frame="box"><tr><td>
 <pre>package org.eclipse.example.schoollibrary;
@@ -254,7 +254,7 @@ the "Next" button.<br/>
 &nbsp;</li>
 
 <li>Select the "library" plug-in and click the "OK" button.<br/>
-<img src="images/img123b.gif" alt="Select dependent plug-in - library"/><br/>
+<img src="images/img123b.gif" alt="Select dependent plug-in: library"/><br/>
 &nbsp;</li>
 
 <li>Save the change to the manifest file and close the editor.<br/>
@@ -307,11 +307,11 @@ menu.<br/>
 &nbsp;</li>
 
 <li>Select "Annotated Java" and click the "Next" button.<br/>
-<img src="images/../../clibmod/images/img134.gif" alt="Load from Annotated Java"/><br/>
+<img src="images/../../clibmod/images/img134.gif" alt="Annotated Java"/><br/>
 &nbsp;</li>
 
 <li>Select the "org.eclipse.example.schoollibrary" package and click the "Finish" button.<br/>
-<img src="images/img131.gif" alt="Check schoollibrary"/><br/>
+<img src="images/img131.gif" alt="Select package"/><br/>
 &nbsp;</li>
 
 <li>An Ecore model (schoollibrary.ecore) and a generator model
@@ -344,7 +344,7 @@ model in a single step by right-clicking on the root element and selecting
 <li>Code is generated into the schoollibrary, schoollibrary.edit, schoollibrary.editor,
 and schoollibrary.tests projects. No code for the referenced model, library, will
 be generated.<br/>
-<img src="images/img203.gif" alt="Gereated files"/><br/>
+<img src="images/img203.gif" alt="Generated files"/><br/>
 &nbsp;</li>
 </ul>
 
@@ -369,7 +369,7 @@ or toolbar drop-down.<br/>
 <li>Wait for a second instance of the Eclipse IDE to come up. Bring up the
 "Help/About Eclipse Platform" dialog, click on the "Plug-in Details" button, and
 verify that the generated plug-ins are there.<br/>
-<img src="images/img301.gif" alt="Plug-in Details"/><br/>
+<img src="images/img301.gif" alt="Generated plug-ins: schoollibrary.edit, schoollibrary.editor, schoollibrary"/><br/>
 &nbsp;</li>
 </ul>
 
@@ -626,7 +626,7 @@ open "SchoolLibraryItemProvider.java".<br/>
 class name string, from the return statement. To ensure the change is not lost
 when the code is regenerated, the "@generated" Javadoc tag needs to be removed
 as well.<br/>
-<img src="images/img407.gif" alt="Modified getText() implementation"/><br/>
+<img src="images/img407.gif" alt="Modified getText() implementation: @generated removed and final operand of ternary operator changed to label"/><br/>
 &nbsp;</li>
 
 <li>Save the change, launch the second instace of Eclipse again, and open
@@ -692,9 +692,9 @@ the Rose model or the set of annotated Java interfaces.</p>
 except that both packages are selected for code generation.</p>
 
 <ul>
-<li>On the last page of the New Project wizard, select both the "library" and
-"schoollibrary" packages, instead of referencing one.<br/>
-<img src="images/img501.gif" alt="Select the library and schoollibrary packages for code generation"/><br/>
+<li>On the last page of the New Project wizard, select both the "org.eclipse.example.library" and
+"org.eclipse.example.schoollibrary" packages, instead of referencing one.<br/>
+<img src="images/img501.gif" alt="Select both packages for code generation"/><br/>
 &nbsp;</li>
 </ul>
 
@@ -706,9 +706,9 @@ single empty EMF project before any code generation is done.</p>
 <a href="images/../schoollibrary.zip">schoollibrary.zip</a>.<br/>
 &nbsp;</li>
 
-<li>On the last page of the New Models wizard, select both the "library" and
-"schoollibrary" packages.<br/>
-<img src="images/img502.gif" alt="Select the library and schoollibrary packages for code generation"/><br/>
+<li>On the last page of the New Models wizard, select both the "org.eclipse.example.library" and
+"org.eclipse.example.schoollibrary" packages.<br/>
+<img src="images/img502.gif" alt="Select both packages for code generation"/><br/>
 &nbsp;</li>
 </ul>
 

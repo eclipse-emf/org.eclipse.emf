@@ -85,13 +85,12 @@ Eclipse environment:</p>
 
 <li>Click the "Plug-in Id" column heading to order the plug-ins by that field.
 Then, check that the highlighted set of plug-ins are present.<br/>
-<br /><img src="images/img003.gif" alt="Check EMF plug-ins"/><br/>
+<br /><img src="images/img003.gif" alt="Required EMF plug-ins: org.eclipse.emf, org.eclipse.emf.codegen, org.eclipse.emf.codegen.ecore, org.eclipse.emf.codegen.ecore.ui, org.eclipse.emf.codegen.ui, org.eclipse.emf.common, org.eclipse.emf.common.ui, org.eclipse.emf.converter, org.eclipse.emf.ecore, org.eclipse.emf.ecore.edit, org.eclipse.emf.ecore.editor, org.eclipse.emf.ecore.xmi, org.eclipse.emf.edit, org.eclipse.emf.edit.ui, org.eclipse.emf.importer, org.eclipse.emf.importer.java, org.eclipse.emf.importer.rose"/><br/>
 &nbsp;</li>
 </ul>
 
-<p>Additional EMF plug-ins, which are not highlighted above, are not required
-for this tutorial. They may or may not appear, depending on which EMF packages
-you installed.</p>
+<p>Additional EMF plug-ins are not required for this tutorial. They may or may
+not appear, depending on which EMF packages you installed.</p>
 
 <hr/>
 <p style="text-align: right"><a id="step1a" name="step1a">&nbsp;</a><a href="#top">contents</a></p>
@@ -118,7 +117,7 @@ somewhere on your workstation.</p>
 &nbsp;</li>
 
 <li>Select "Rose class model" and click the "Next" button.<br/>
-<br /><img src="images/img104.gif" alt="Load from a Rose class model"/><br/>
+<br /><img src="images/img104.gif" alt="Rose class model"/><br/>
 &nbsp;</li>
 
 <li>Click on the "Browse File System..." or "Browse Workspace..." button and locate the Rose model file.<br/>
@@ -167,7 +166,7 @@ is set to &quot;5.0&quot; or higher.</p>
 
 <blockquote>
 <table><tr>
-<td width="45%"><b><a name="librarysrc" target="_code" href="images/../Library.java">Library.java</a></b> (Java 1.4)<br/>
+<td width="45%"><strong><a name="librarysrc" target="_code" href="images/../Library.java">Library.java</a></strong> (Java 1.4)<br/>
 <table width="100%" border="1" frame="box"><tr><td>
 <pre>package org.eclipse.example.library;
 import java.util.List;
@@ -194,7 +193,7 @@ public interface Library
 }</pre>
 </td></tr></table></td>
 <td width="10%"></td>
-<td width="45%"><b><a target="_code" href="images/../java5/Library.java">Library.java</a></b> (Java 5.0)<br/>
+<td width="45%"><strong><a target="_code" href="images/../java5/Library.java">Library.java</a></strong> (Java 5.0)<br/>
 <table width="100%" border="1" frame="box"><tr><td>
 <pre>package org.eclipse.example.library;
 import java.util.List;
@@ -223,7 +222,7 @@ public interface Library
 </tr>
 <tr><td colspan="3">&nbsp;</td></tr>
 <tr>
-<td width="45%"><b><a name="booksrc" target="_code" href="images/../Book.java">Book.java</a></b><br/>
+<td width="45%"><strong><a name="booksrc" target="_code" href="images/../Book.java">Book.java</a></strong><br/>
 <table width="100%" border="1" frame="box"><tr><td>
 <pre>package org.eclipse.example.library;
 
@@ -258,7 +257,7 @@ public interface Book
 </tr>
 <tr><td colspan="3">&nbsp;</td></tr>
 <tr>
-<td width="45%"><b><a name="writersrc" target="_code" href="images/../Writer.java">Writer.java</a></b> (Java 1.4)<br/>
+<td width="45%"><strong><a name="writersrc" target="_code" href="images/../Writer.java">Writer.java</a></strong> (Java 1.4)<br/>
 <table width="100%" border="1" frame="box"><tr><td>
 <pre>package org.eclipse.example.library;
 
@@ -279,7 +278,7 @@ public interface Writer
 }</pre>
 </td></tr></table></td>
 <td width="10%"></td>
-<td width="45%"><b><a target="_code" href="images/../java5/Writer.java">Writer.java</a></b> (Java 5.0)<br/>
+<td width="45%"><strong><a target="_code" href="images/../java5/Writer.java">Writer.java</a></strong> (Java 5.0)<br/>
 <table width="100%" border="1" frame="box"><tr><td>
 <pre>package org.eclipse.example.library;
 
@@ -302,7 +301,7 @@ public interface Writer
 </tr>
 <tr><td colspan="3">&nbsp;</td></tr>
 <tr>
-<td width="45%"><b><a name="bookcategorysrc" target="_code" href="images/../BookCategory.java">BookCategory.java</a></b> (Java 1.4)<br/>
+<td width="45%"><strong><a name="bookcategorysrc" target="_code" href="images/../BookCategory.java">BookCategory.java</a></strong> (Java 1.4)<br/>
 <table width="100%" border="1" frame="box"><tr><td>
 <pre>package org.eclipse.example.library;
 
@@ -328,7 +327,7 @@ public class BookCategory
 }</pre>
 </td></tr></table></td>
 <td width="10%"></td>
-<td width="45%"><b><a target="_code" href="images/../java5/BookCategory.java">BookCategory.java</a></b> (Java 5.0)<br/>
+<td width="45%"><strong><a target="_code" href="images/../java5/BookCategory.java">BookCategory.java</a></strong> (Java 5.0)<br/>
 <table width="100%" border="1" frame="box"><tr><td>
 <pre>package org.eclipse.example.library;
 
@@ -419,7 +418,7 @@ to create the class, select "New/Class" from the pop-up menu, instead of
 
 <li>Expand "Eclipse Modeling Framework" and select "EMF Model". Click the
 "Next" button.<br/>
-<br /><img src="images/img131.gif" alt="EMF Models"/><br/>
+<br /><img src="images/img131.gif" alt="EMF Model"/><br/>
 &nbsp;</li>
 
 <li>Change the file name to "library.genmodel" and click the "Next" button.<br/>
@@ -427,11 +426,11 @@ to create the class, select "New/Class" from the pop-up menu, instead of
 &nbsp;</li>
 
 <li>Select "Annotated Java" and click the "Next" button.<br/>
-<br /><img src="images/img134.gif" alt="Load from annotated Java"/><br/>
+<br /><img src="images/img134.gif" alt="Annotated Java"/><br/>
 &nbsp;</li>
 
 <li>Select the "org.eclipse.example.library" package and click the "Finish" button.<br/>
-<br /><img src="images/img135.gif" alt="Check library"/><br/>
+<br /><img src="images/img135.gif" alt="Select package"/><br/>
 &nbsp;</li>
 
 <li>An Ecore model (library.ecore) and a generator model (library.genmodel) will
@@ -556,7 +555,7 @@ be no errors in the library, library.edit, and library.editor projects.<br/>
 
 <li>If you defined the model using annotated Java, there will be one warning in
 the library project.<br/>
-<br /><img src="images/img306.gif" alt="One warning"/><br/>
+<br /><img src="images/img306.gif" alt="One warning: The import java.util.List is never used"/><br/>
 &nbsp;</li>
 
 <li>Double click the warning to see the line of code that is causing it. It
@@ -584,7 +583,7 @@ from the "Run" menu or toolbar drop-down.<br/>
 <li>Wait for a second instance of the Eclipse platform to come up. Bring up the
 "Help/About Eclipse Platform" dialog, click on the "Plug-in Details" button, and
 verify that the generated plug-ins are there.<br/>
-<br /><img src="images/img402.gif" alt="Plug-in Details"/><br/>
+<br /><img src="images/img402.gif" alt="Generated plug-ins: library.editor, library.edit, library"/><br/>
 &nbsp;</li>
 </ul>
 

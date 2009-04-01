@@ -5,19 +5,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link rel="stylesheet" href="images/../../../css/book.css" type="text/css"/>
 <link rel="stylesheet" href="images/../../../css/emf-book.css" type="text/css"/>
-<title>The EMF.Edit Framework Overview</title>
+<title>EMF.Edit Overview</title>
 </head>
 <body lang="EN-US" xml:lang="EN-US">
-<h1>The EMF.Edit Framework Overview</h1>
+<h1>EMF.Edit Overview</h1>
 
 <p>Last updated: June 1, 2004</p>
 
 <p>This document assumes familiarity with basic EMF (Eclipse Modeling Framework)
-concepts. For more information on EMF, refer to
-<a href="../../references/overview/EMF.html">The Eclipse Modeling Framework
-(EMF) Overview</a>.</p>
+concepts. For more information on EMF, refer to the
+<a href="../../references/overview/EMF.html">EMF Overview</a>.</p>
 
-<h2>Introduction</h2>
+
+<h2>Contents</h2>
+<p><a href="#introduction">Introduction</a><br/>
+<a href="#jface">Displaying EMF Objects in JFace Viewers</a><br/>
+<a href="#providers">Item Provider Implementation Classes</a><br/>
+<a href="#commands">Modifying EMF Models Using Commands</a><br/>
+<a href="#generator">Using the EMF.Edit Code Generator</a></p>
+
+<h2><a name="introduction">Introduction</a></h2>
 
 <p>If you have an EMF-based model that you've generated code for using the EMF
 generator, and you are now ready to add user interfaces to your model and code,
@@ -44,7 +51,7 @@ and generator tool. For more in-depth information, you can refer to the
 documentation for the framework classes, which covers in detail their specific
 behaviors and capabilities.</p>
 
-<h2>Displaying EMF Objects in JFace Viewers</h2>
+<h2><a name="jface">Displaying EMF Objects in JFace Viewers</a></h2>
 
 <h3>What's a content provider?</h3>
 
@@ -54,8 +61,8 @@ models. Rather than requiring the model objects being viewed to adhere to some
 specific protocol (that is, implement some specific interface), JFace viewers
 work with any kind of object (that is, any java.lang.Object subclass). This is
 possible because the viewers, instead of navigating the model objects directly,
-access the model objects through an adapter object called a <i>content
-provider</i>.</p>
+access the model objects through an adapter object called a <dfn>content
+provider</dfn>.</p>
 
 <p>Each viewer class uses a content provider that implements a specific provider
 interface. For example, a TreeViewer uses a content provider that implements the
@@ -226,7 +233,7 @@ includes a code generator that generates most of the item provider and factory
 code for you. Before we get into that, we'll first take a look at how item
 providers do their job.</p>
 
-<h2>Item Provider Implementation Classes</h2>
+<h2><a name="providers">Item Provider Implementation Classes</a></h2>
 
 <p>As shown in the previous section, the real work of providing content for EMF
 models is done by the item provider adapters attached to the model. The number
@@ -295,7 +302,7 @@ alternative of having typed item provider classes, whose inheritance hierarchy
 mirrors the model's, provides a convenient dispatch point for implementing nice
 clean object-oriented view code for a model.</p>
 
-<h2>Modifying EMF Models Using Commands</h2>
+<h2><a name="commands">Modifying EMF Models Using Commands</a></h2>
 
 <p>So far we've only shown how to view EMF models using content and label
 providers. Another feature of the EMF.Edit framework is its support for
@@ -694,7 +701,7 @@ adapter factories, to which it simply delegates its implementation.</p>
   ...
 </pre>
 
-<h2>Using the EMF.Edit Code Generator</h2>
+<h2><a name="generator">Using the EMF.Edit Code Generator</a></h2>
 
 <p class="Note">Note: a step-by-step tutorial for generating an EMF model, as
 well as an EMF.Edit editor, can be found in

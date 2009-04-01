@@ -2,10 +2,10 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="EMF Developer Guide">
-	<topic label="Programmer&apos;s Guides">
-		<topic label="EMF Framework Programmer&apos;s Guide" href="references/overview/EMF.html" />
-		<topic label="EMF.Edit Framework Programmer&apos;s Guide" href="references/overview/EMF.Edit.html" />
-		<topic label="EMF Validation Framework Programmer&apos;s Guide" href="references/overview/EMF.Validation.html" />
+	<topic label="Programmer&apos;s Guide">
+		<topic label="EMF Overview" href="references/overview/EMF.html" />
+		<topic label="EMF.Edit Overview" href="references/overview/EMF.Edit.html" />
+		<topic label="EMF Validation Overview" href="references/overview/EMF.Validation.html" />
 	</topic>
 	<topic label="Tutorials">
 		<topic label="Generating an EMF Model" href="tutorials/clibmod/clibmod.html" />
@@ -15,13 +15,11 @@
 		<topic label="JET Tutorial Part 2 (Write Code that Writes Code)" href="tutorials/jet2/jet_tutorial2.html" />
 		<topic label="Specifying Package Information in Rose" href="tutorials/rosepkg/rosepkg.html" />
 	</topic>
-	<topic label="Online Docs">
-		<topic label="Release Notes">
-			<topic label="What&apos;s New in v2.4" href="http://www.eclipse.org/modeling/emf/news/relnotes.php?project=emf&amp;version=2.4.x" />
-		</topic>
-		<topic label="EMF FAQ" href="http://wiki.eclipse.org/EMF/FAQ" />
-	</topic>
 	<topic label="Reference">
 		<link toc="topics_Reference.xml"/>
+	</topic>
+	<topic label="Online Docs">
+		<topic label="FAQ" href="http://wiki.eclipse.org/EMF/FAQ" />
+		<topic label="Release Notes" href="http://www.eclipse.org/modeling/emf/news/relnotes.php?project=emf&amp;version=2.5.x" />
 	</topic>
 </toc>
