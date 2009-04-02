@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.107 2009/03/13 21:16:40 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.108 2009/04/02 19:07:27 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1719,13 +1719,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public GenPackage findGenPackage(EPackage ePackage)
   {
-    // We always delegate to the main GenModel, so that we keep the cached mappings and special packages in just one place.
-    //
-    if (!isMainGenModel())
-    {
-      return getMainGenModel().findGenPackage(ePackage);
-    }
-
     GenPackage result;
     if (ePackageToGenPackageMap == null)
     {
@@ -1741,7 +1734,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
     }
 
-    if (ePackage == EcorePackage.eINSTANCE)
+    // A single set of special packages should be cached by the main GenModel.
+    //
+    if (!isMainGenModel() &&
+        (ePackage == EcorePackage.eINSTANCE || ePackage == XMLTypePackage.eINSTANCE || ePackage == XMLNamespacePackage.eINSTANCE))
+    {
+      result = getMainGenModel().findGenPackage(ePackage);
+    }
+    else if (ePackage == EcorePackage.eINSTANCE)
     {
       if (ecoreGenPackage == null)
       {
@@ -1806,13 +1806,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   protected GenClass findGenClass(EClass eClass)
   {
-    // We always delegate to the main GenModel, so that we keep the cached mappings in just one place.
-    //
-    if (!isMainGenModel())
-    {
-      return (GenClass)getMainGenModel().findGenClassifier(eClass);
-    }
-
     if (eClassifierToGenClassifierMap == null)
     {
       eClassifierToGenClassifierMap = new HashMap<EClassifier, GenClassifier>();
@@ -1850,13 +1843,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   protected GenEnum findGenEnum(EEnum eEnum)
   {
-    // We always delegate to the main GenModel, so that we keep the cached mappings in just one place.
-    //
-    if (!isMainGenModel())
-    {
-      return (GenEnum)getMainGenModel().findGenClassifier(eEnum);
-    }
-
     if (eClassifierToGenClassifierMap == null)
     {
       eClassifierToGenClassifierMap = new HashMap<EClassifier, GenClassifier>();
@@ -1888,13 +1874,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   protected GenDataType findGenDataType(EDataType eDataType)
   {
-    // We always delegate to the main GenModel, so that we keep the cached mappings in just one place.
-    //
-    if (!isMainGenModel())
-    {
-      return (GenDataType)getMainGenModel().findGenClassifier(eDataType);
-    }
-
     if (eClassifierToGenClassifierMap == null)
     {
       eClassifierToGenClassifierMap = new HashMap<EClassifier, GenClassifier>();
@@ -8814,9 +8793,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   @Override
   public GenClassifier findGenClassifier(EClassifier classifier)
   {
-    // We always delegate to the main GenModel, so that we keep the cached mappings in just one place.
-    //
-    return isMainGenModel() ? super.findGenClassifier(classifier) : getMainGenModel().findGenClassifier(classifier);
+    return super.findGenClassifier(classifier);
   }
   
   public boolean isSuppressedAnnotation(String source)
