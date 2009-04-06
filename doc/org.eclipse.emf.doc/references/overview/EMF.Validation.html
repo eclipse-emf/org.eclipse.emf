@@ -54,7 +54,7 @@ Javadoc for the framework classes themselves.
 
 <p><strong>Schema Based Constraint</strong> - as with Named Constraint, but defined within schema. Eg., '<tt class="code">quantity</tt> must be an <tt class="code">int</tt> between 0 and 100'. Since these types of constraints have known behaviours, no additional work is required to implement them: all simple type constraints will be automatically implemented by the code generator.</p>
 
-<p><pre>
+<pre>
   &lt;xsd:element name="quantity"&gt;
     &lt;xsd:simpleType&gt;
       &lt;xsd:restriction base="xsd:int"&gt;
@@ -62,7 +62,7 @@ Javadoc for the framework classes themselves.
         &lt;xsd:maxInclusive value="100"/&gt;
       &lt;/xsd:restriction&gt;
     &lt;/xsd:simpleType&gt;
-  &lt;/xsd:element&gt;</pre></p>
+  &lt;/xsd:element&gt;</pre>
 
 </td></tr></table>
 
@@ -108,7 +108,7 @@ Javadoc for the framework classes themselves.
 
 <p>For Schema, you can define a <tt class="code">&lt;xsd:restriction/&gt;</tt> (as above) or named constraint:</p>
 
-<p><pre>
+<pre>
   &lt;xsd:complexType name="Item"&gt;
     &lt;xsd:annotation&gt;
        &lt;xsd:appinfo source="http://www.eclipse.org/emf/2002/Ecore" 
@@ -117,7 +117,7 @@ Javadoc for the framework classes themselves.
        &lt;/xsd:appinfo&gt;
     &lt;/xsd:annotation&gt;
   ...
-  &lt;/xsd:complexType&gt;</pre></p>
+  &lt;/xsd:complexType&gt;</pre>
 
 <p>For annotated Java, you can define invariants and constraints like this: </p>
 
@@ -125,7 +125,7 @@ Javadoc for the framework classes themselves.
 
 <p><strong>Invariant</strong></p>
 
-<p><pre>
+<pre>
   /**
     * @model
     */
@@ -139,18 +139,18 @@ Javadoc for the framework classes themselves.
         DiagnosticChain diagnostics, 
         Map context);
       ...
-    }</pre></p>
+    }</pre>
 
 </td>
 
-<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5"/ alt=""></td>
+<td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5" alt=""/></td>
 <td bgcolor="black" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="1" height="5" alt=""/></td>
 <td bgcolor="" width="1"><img src="http://www.eclipse.org/emf/images/c.gif" width="3" height="5" alt=""/></td>
 <td>
 
 <p><strong>Constraint</strong></p>
 
-<p><pre>
+<pre>
   /**
    * @model 
   annotation="http://www.eclipse.org/emf/2002/Ecore 
@@ -159,7 +159,7 @@ Javadoc for the framework classes themselves.
     public interface Item
     {
        ...
-    }</pre></p>
+    }</pre>
 
 </td></tr></table>
 
@@ -172,11 +172,11 @@ Javadoc for the framework classes themselves.
 
 <p>Generated code will look something like this:</p>
 
-<p><table><tr valign="top"><td>
+<table><tr valign="top"><td>
 
 <p><strong>Invariant</strong>, com.example.ppo.impl.USAddressImpl</p>
 
-<p><pre>  public boolean hasUSState(
+<pre>  public boolean hasUSState(
     DiagnosticChain diagnostics, 
     Map context)
   {
@@ -207,7 +207,7 @@ Javadoc for the framework classes themselves.
       return false;
     }
     return true;
-  }</pre></p>
+  }</pre>
 
 </td>
 
@@ -218,7 +218,7 @@ Javadoc for the framework classes themselves.
 
 <p><strong>Constraint</strong>, com.example.ppo.util.PPOValidator</p>
 
-<p><pre>  public boolean validateItem_ValidShipDate(
+<pre>  public boolean validateItem_ValidShipDate(
     Item item, DiagnosticChain diagnostics, 
     Map context)
   {
@@ -248,17 +248,17 @@ Javadoc for the framework classes themselves.
       return false;
     }
     return true;
-  }</pre></p>
+  }</pre>
 
-</td></tr></table></p>
+</td></tr></table>
 
 <p>Code is also generated in the validator, eg., in com.example.ppo.util.PPOValidator, for each defined invariant, but these method(s) simply delegate to the invariant method(s) on the objects themselves, eg.:</p>
 
-<p><pre>  public boolean validateUSAddress_hasUSState(USAddress usAddress, 
+<pre>  public boolean validateUSAddress_hasUSState(USAddress usAddress, 
     DiagnosticChain diagnostics, Map context)
   {
     return usAddress.hasUSState(diagnostics, context);
-  }</pre></p>
+  }</pre>
 
 <p>In both cases, generated code must be modified by hand in order to explain to EMF how to implement the invariant or constraint. For the first case, change the first line from:</p>
 
@@ -294,15 +294,15 @@ Javadoc for the framework classes themselves.
 
 <p>To implement validation in another way, such as when saving or opening a file, you need only do something like:</p>
 
-<p><pre>  public static boolean validateObject(EObject eObject)
+<pre>  public static boolean validateObject(EObject eObject)
   {
     Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
     return diagnostic.getSeverity() == Diagnostic.OK;
-  }</pre></p>
+  }</pre>
 
 <p>Using a <tt class="code">Diagnostician</tt>, the result of the evaluation is calculated based on a <tt class="code">Diagnostic</tt>, not a simple boolean return.  This allows you to decide which severity represents a failure, and to expose the information about the constraints and invariants that were not satisfied.  As an example, if you were interested only in errors and warnings, you could do something like this:</p>
 
-<p><pre>  public static boolean validateObject(EObject eObject)
+<pre>  public static boolean validateObject(EObject eObject)
   {
     Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
     if (diagnostic.getSeverity() == Diagnostic.ERROR || 
@@ -322,17 +322,17 @@ Javadoc for the framework classes themselves.
       return false;
     }
     return true;
-  }</pre></p>
+  }</pre>
 
 
 <p>Note that under the covers using <tt class="code">Diagnostician.INSTANCE.validate()</tt>, you get some intrinsic <tt class="code">Ecore</tt> constraint validation thanks to <tt class="code">EObjectValidator</tt>, the base for all generated package validator classes. These include:</p>
 
-<p><ul>
+<ul>
 <li>The actual multiplicities of the attributes and references match the bounds defined in the model.</li>
 <li>The defined data type of the attributes is respected.</li>
 <li>Any cross referenced objects are contained in resources.</li>
 <li>Every proxy is properly resolved.</li>
-</ul></p>
+</ul>
 
 <p>&nbsp;</p>
 
