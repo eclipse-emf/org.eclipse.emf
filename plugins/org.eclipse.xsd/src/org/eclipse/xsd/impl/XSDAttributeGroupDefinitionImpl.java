@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.19 2008/12/22 14:25:48 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.20 2009/04/06 12:07:12 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -32,6 +32,7 @@ import org.w3c.dom.Node;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -452,7 +453,7 @@ public class XSDAttributeGroupDefinitionImpl
   public static List<XSDAttributeUse> getAttributeUses
     (Collection<XSDAttributeGroupContent> xsdAttributeGroupContents, Collection<XSDAttributeUse> xsdAttributeUses)
   {
-    List<XSDAttributeUse> result = new ArrayList<XSDAttributeUse>();
+    List<XSDAttributeUse> result = new UniqueEList<XSDAttributeUse>();
     Set<String> localAttributeUses = new HashSet<String>();
     
     for (XSDAttributeGroupContent xsdAttributeGroupContent : xsdAttributeGroupContents)
