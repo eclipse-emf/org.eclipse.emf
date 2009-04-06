@@ -264,11 +264,11 @@ public class EmitAction implements IActionDelegate {
  
             String templateURI = "platform:/resource" + fullPath;
             <strong>ClassLoader classloader = getClass().getClassLoader();</strong>
-<img src="images/tag_1.gif" width="24" height="13" alt=""/>         <tt class="code">JETEmitter</tt> emitter = new JETEmitter(templateURI, <strong>classloader</strong>);
+<span><img src="images/tag_1.gif" width="24" height="13" alt=""/></span>         <tt class="code">JETEmitter</tt> emitter = new JETEmitter(templateURI, <strong>classloader</strong>);
  
             // <strong>or: use an anonymous subclass</strong>
 
-<img src="images/tag_2.gif" width="24" height="13" alt=""/>         // emitter = <strong>new JETEmitter(templateURI) {}</strong>; // notice the brackets
+<span><img src="images/tag_2.gif" width="24" height="13" alt=""/></span>         // emitter = <strong>new JETEmitter(templateURI) {}</strong>; // notice the brackets
             
             try {
                 IProgressMonitor monitor = new NullProgressMonitor();
@@ -325,7 +325,7 @@ Classpath Variables menua action.. Your program will need to add a class path va
 <pre> // an example typesafe enum
  package x.y.z;
  public class Digit { 
-<img src="images/tag_1.gif" width="24" height="13" alt=""/>  public static final Digit ZERO = new Digit(0, "zero");
+<span><img src="images/tag_1.gif" width="24" height="13" alt=""/></span>  public static final Digit ZERO = new Digit(0, "zero");
      public static final Digit ONE = new Digit(1, "one");
      public static final Digit TWO = new Digit(2, "two");
      public static final Digit THREE = new Digit(3, "three");
@@ -336,7 +336,7 @@ Classpath Variables menua action.. Your program will need to add a class path va
          {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE};
  
 
-<img src="images/tag_2.gif" width="24" height="13" alt=""/>  private final int value;
+<span><img src="images/tag_2.gif" width="24" height="13" alt=""/></span>  private final int value;
      private final String name;
  
      private Digit(int value, String name) { 
@@ -344,13 +344,13 @@ Classpath Variables menua action.. Your program will need to add a class path va
          this.name = name; 
      }
  
-<img src="images/tag_3.gif" width="24" height="13" alt=""/>  public static Digit lookup(int key) {
+<span><img src="images/tag_3.gif" width="24" height="13" alt=""/></span>  public static Digit lookup(int key) {
          for (int i = 0; i &lt; ALL.length; i++) {
              if (key == ALL[i].getValue()) { return ALL[i]; }
          }
          // lookup failed:
          // we have no default Digit, so we throw an exception
-<img src="images/tag_4.gif" width="24" height="13" alt=""/>      throw new IllegalArgumentException("No digit exists for " + key);
+<span><img src="images/tag_4.gif" width="24" height="13" alt=""/></span>      throw new IllegalArgumentException("No digit exists for " + key);
      }
  
      public int getValue() { return value; }
@@ -389,19 +389,19 @@ Classpath Variables menua action.. Your program will need to add a class path va
   <li>package name </li>
   <li>class name </li>
 
-  <li>attributes, where each attribute </li>
+  <li>attributes, where each attribute
   <ul>
     <li>has a type </li>
     <li>has a name </li>
     <li>may be a key attribute </li>
-  </ul>
-  <li>instances, where each instance </li>
+  </ul></li>
+  <li>instances, where each instance
 
   <ul>
     <li>has a name </li>
     <li>has a value for every attribute </li>
     <li>may be the default instance to return for failed lookups</li>
-  </ul>
+  </ul></li>
 </ul>
 <h3><a name="typesafe_enum_model"></a>A Simple Typesafe Enumeration Model </h3>
 <p>A simple model for the customizable parts of a typesafe enum could look something 
@@ -479,7 +479,7 @@ Classpath Variables menua action.. Your program will need to add a class path va
  
      // <strong>instance definition</strong>
      public static final <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span> <span class="highlight">&lt;%=instance.getName()%&gt;</span> = 
-<img src="images/tag_1.gif" width="24" height="13" alt=""/>      new <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=instance.constructorValues()%&gt;</span>);
+<span><img src="images/tag_1.gif" width="24" height="13" alt=""/></span>      new <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=instance.constructorValues()%&gt;</span>);
  <span class="highlight">&lt;% } %&gt;</span>
 
  
@@ -487,17 +487,17 @@ Classpath Variables menua action.. Your program will need to add a class path va
  <span class="highlight">&lt;%     Attribute attribute = i.next(); %&gt;</span>
  
      // <strong>attribute declaration</strong>
-<img src="images/tag_2.gif" width="24" height="13" alt=""/>  private final <span class="highlight">&lt;%=attribute.getType()%&gt;</span> m<span class="highlight">&lt;%=attribute.getCappedName()%&gt;</span>;
+<span><img src="images/tag_2.gif" width="24" height="13" alt=""/></span>  private final <span class="highlight">&lt;%=attribute.getType()%&gt;</span> m<span class="highlight">&lt;%=attribute.getCappedName()%&gt;</span>;
  <span class="highlight">&lt;% } %&gt;</span>
 
  
      /**
       * Private <strong>constructor</strong>.
       */
-<img src="images/tag_3.gif" width="24" height="13" alt=""/>  private <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=typesafeEnum.constructorParameterDescription()%&gt;</span>) {
+<span><img src="images/tag_3.gif" width="24" height="13" alt=""/></span>  private <span class="highlight">&lt;%=typesafeEnum.getClassName()%&gt;</span>(<span class="highlight">&lt;%=typesafeEnum.constructorParameterDescription()%&gt;</span>) {
  <span class="highlight">&lt;% for (Iterator&lt;Attribute&gt; i = typesafeEnum.attributes(); i.hasNext(); ) { %&gt;</span>
  <span class="highlight">&lt;%     Attribute attribute = i.next(); %&gt;</span>
-<img src="images/tag_4.gif" width="24" height="13" alt=""/>      m<span class="highlight">&lt;%=attribute.getCappedName()%&gt;</span> = <span class="highlight">&lt;%=attribute.getUncappedName()%&gt;</span>;
+<span><img src="images/tag_4.gif" width="24" height="13" alt=""/></span>      m<span class="highlight">&lt;%=attribute.getCappedName()%&gt;</span> = <span class="highlight">&lt;%=attribute.getUncappedName()%&gt;</span>;
  <span class="highlight">&lt;% } %&gt;</span>
 
      }
@@ -609,16 +609,16 @@ public String constructorValues() {
      String pluginId = "org.eclipse.emf.examples.jet.article2";
      String base = Platform.getBundle(pluginId).getEntry("/").toString();
      String relativeUri = "templates/TypeSafeEnumeration.javajet";
-<img src="images/tag_1.gif" width="24" height="13" alt=""/>  <tt class="code">JETEmitter</tt> emitter = new JETEmitter(base + relativeUri, getClass().getClassLoader());
-<img src="images/tag_2.gif" width="24" height="13" alt=""/>  emitter.addClasspathVariable("JET_TUTORIAL", pluginId);
+<span><img src="images/tag_1.gif" width="24" height="13" alt=""/></span>  <tt class="code">JETEmitter</tt> emitter = new JETEmitter(base + relativeUri, getClass().getClassLoader());
+<span><img src="images/tag_2.gif" width="24" height="13" alt=""/></span>  emitter.addClasspathVariable("JET_TUTORIAL", pluginId);
  
      TypesafeEnum model = mPage1.getTypesafeEnumModel();
      IProgressMonitor sub = new SubProgressMonitor(monitor, 1);
 
-<img src="images/tag_3.gif" width="24" height="13" alt=""/>  String result = emitter.generate(sub, new Object[] { model });
+<span><img src="images/tag_3.gif" width="24" height="13" alt=""/></span>  String result = emitter.generate(sub, new Object[] { model });
      monitor.worked(1);
  
-<img src="images/tag_4.gif" width="24" height="13" alt=""/>  IFile file = save(monitor, result.getBytes());
+<span><img src="images/tag_4.gif" width="24" height="13" alt=""/></span>  IFile file = save(monitor, result.getBytes());
  
      selectAndReveal(file);
      openResource(file);
@@ -636,7 +636,7 @@ public String constructorValues() {
             Create a Typesafe Enumeration
          &lt;/description&gt;
          &lt;class class="org.eclipse.emf.examples.jet.article2.ui.NewTypesafeEnumCreationWizard"&gt;
-<img src="images/tag_1.gif" width="24" height="13" alt=""/>         &lt;parameter name="javatype" value="true"/&gt;
+<span><img src="images/tag_1.gif" width="24" height="13" alt=""/></span>         &lt;parameter name="javatype" value="true"/&gt;
          &lt;/class&gt;
       &lt;/wizard&gt;
    &lt;/extension&gt;
@@ -959,8 +959,8 @@ servlets.
    set OPTS=-Xmx900M -Djava.compiler=NONE -verify -cp %ECLIPSE_HOME%\startup.jar
    set MAIN=org.eclipse.core.launcher.Main -noupdate -data %WORKSPACE% 
  
-<img src="images/tag_1.gif" width="24" height="13" alt=""/>set TEMPLATE_URI=test.javajet
-<img src="images/tag_2.gif" width="24" height="13" alt=""/>set TARGET_FOLDER=C:\temp\jetstandalone\MyProject
+<span><img src="images/tag_1.gif" width="24" height="13" alt=""/></span>set TEMPLATE_URI=test.javajet
+<span><img src="images/tag_2.gif" width="24" height="13" alt=""/></span>set TARGET_FOLDER=C:\temp\jetstandalone\MyProject
    set ARGUMENTS=%TEMPLATE_URI% %TARGET_FOLDER%
    
    echo Shut down Eclipse before running this script.
@@ -978,7 +978,6 @@ servlets.
     both this task as well as the jars of a number of Eclipse plug-ins (see the 
     example buildfile). </li>
   <li>There are two ways to tell the jetc task which template(s) it should translate: 
-  </li>
   <ul>
     <li>Use a nested fileset to specify the directory containing the template 
       files. </li>
@@ -988,7 +987,7 @@ servlets.
       overload the JET directives "class" and "package" in the template. It can 
       also be used if the JET directive is missing altogether. Use this attribute 
       when you want to specify the class to generate outside the template. </li>
-  </ul>
+  </ul></li>
 </ul>
 <p>Here's a simple Ant buildfile (the taskdef class path assumes you have Eclipse 
   3.3 and EMF 2.3.0): </p>

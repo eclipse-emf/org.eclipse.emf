@@ -254,7 +254,7 @@ console.
 <pre>
    <span class="highlight">&lt;%@ jet package=&quot;hello&quot; <img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/><strong>imports=&quot;java.util.*&quot;</strong> class=&quot;XMLDemoTemplate&quot; %&gt;</span>
 
-<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/><strong class="highlight">&lt;% List&lt;?&gt; elementList = (List&lt;?&gt;) argument; %&gt;</strong>
+<span><img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/></span><strong class="highlight">&lt;% List&lt;?&gt; elementList = (List&lt;?&gt;) argument; %&gt;</strong>
    &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
    &lt;demo&gt;
    <span class="highlight">&lt;% for (Iterator&lt;?&gt; i = elementList.iterator(); i.hasNext(); ) { %&gt;</span>
@@ -272,13 +272,13 @@ import java.util.ArrayList;
 
 public class XMLDemoImpl {
   public static void main(String[] args) {
-    <img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>List&lt;String&gt; data = new ArrayList&lt;String&gt;();
+    <span><img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/></span>List&lt;String&gt; data = new ArrayList&lt;String&gt;();
     data.add(&quot;first&quot;);
     data.add(&quot;second&quot;);
     data.add(&quot;third&quot;);
 
     XMLDemoTemplate generateXml = new XMLDemoTemplate();
-    String result = generateXml.generate(<img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/>data);
+    String result = generateXml.generate(<span><img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/></span>data);
     System.out.println(result);
   }
 }</pre>
@@ -323,7 +323,7 @@ This prints the following XML result to the console:
 
  <strong><span class="highlight">&lt;$</span></strong><span class="highlight"> String paramName = (String) argument; /* This is an executed scriptlet */ <strong>$&gt;</strong></span>
  <strong><span class="highlight">&lt;$</span></strong><span class="highlight"> if (paramName != null) { <strong>$&gt;</strong></span>
- <img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/>  &lt;%= request.getParameter(&quot;<strong><span class="highlight">&lt;$=</span></strong><span class="highlight">paramName<strong>$&gt;</strong></span>&quot;) %&gt; &lt;!-- this is generated JSP --&gt;
+ <span><img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/></span>  &lt;%= request.getParameter(&quot;<strong><span class="highlight">&lt;$=</span></strong><span class="highlight">paramName<strong>$&gt;</strong></span>&quot;) %&gt; &lt;!-- this is generated JSP --&gt;
 
  <strong><span class="highlight">&lt;$</span></strong><span class="highlight"> } <strong>$&gt;</strong></span>
 </pre>
@@ -337,7 +337,7 @@ are not interpreted as a JET scriptlet, but are simply inserted in the generated
 code. 
 
 <pre>
- <img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/>  &lt;%= request.getParameter(&quot;button&quot;) %&gt; &lt;!-- this is generated JSP --&gt;
+ <span><img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/></span>  &lt;%= request.getParameter(&quot;button&quot;) %&gt; &lt;!-- this is generated JSP --&gt;
 </pre>
 <h1> Under the Hood </h1>
 <p>In the previous section we have looked at creating JET templates, how to set up 
@@ -358,8 +358,8 @@ and how to use these Java implementation classes to generate code.
 <pre>
  <span class="highlight">&lt;%@ jet package=&quot;hello&quot; class=&quot;TranslationDemoTemplate&quot; %&gt;</span>
 
-<img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/> Hello, <span class="highlight">&lt;%=<strong>argument</strong>%&gt;</span>!
-<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/> <span class="highlight">&lt;% <strong>stringBuffer.append(&quot;Hello again!&quot;);</strong> %&gt;</span>
+<span><img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/></span> Hello, <span class="highlight">&lt;%=<strong>argument</strong>%&gt;</span>!
+<span><img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/></span> <span class="highlight">&lt;% <strong>stringBuffer.append(&quot;Hello again!&quot;);</strong> %&gt;</span>
 </pre>
 <p> The template above is translated to a Java implementation class like below: 
 
@@ -370,7 +370,7 @@ and how to use these Java implementation classes to generate code.
  public class TranslationDemoTemplate
  {
    protected static String nl;
-<img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/> public static synchronized TranslationDemoTemplate create(String lineSeparator)
+<span><img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/></span> public static synchronized TranslationDemoTemplate create(String lineSeparator)
    {
      nl = lineSeparator;
      TranslationDemoTemplate result = new TranslationDemoTemplate();
@@ -386,10 +386,10 @@ and how to use these Java implementation classes to generate code.
    {
      StringBuffer <strong>stringBuffer</strong> = new StringBuffer();
      stringBuffer.append(TEXT_1);
-<img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/>  stringBuffer.append(<strong>argument</strong>);
+<span><img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/></span>  stringBuffer.append(<strong>argument</strong>);
      stringBuffer.append(TEXT_2);
 
-<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>  <strong>stringBuffer.append(&quot;Hello again!&quot;);</strong>
+<span><img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/></span>  <strong>stringBuffer.append(&quot;Hello again!&quot;);</strong>
      return stringBuffer.toString();
    }
  }
@@ -443,12 +443,12 @@ and how to use these Java implementation classes to generate code.
 
 <p>Open the type or cut-and-paste the following content in it: </p>
 <pre>
- public class CLASS <img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/>implements IGenerator
+ public class CLASS <span><img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/></span>implements IGenerator
  {
-<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>/* (non-javadoc)
+<span><img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/></span>/* (non-javadoc)
     * @see IGenerator#generate(Object)
     */
-<img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/>public String generate(Object argument)
+<span><img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/></span>public String generate(Object argument)
    {
      return &quot;&quot;;
    }
@@ -476,7 +476,7 @@ like this:
 </p>
 <pre> package hello;
  
- public class GreetingTemplate <img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/>implements IGenerator
+ public class GreetingTemplate <span><img src="images/tag_1.gif" width="24" height="13" alt="Tag 1"/></span>implements IGenerator
  {
    protected final String NL = System.getProperties().getProperty(&quot;line.separator&quot;);
    protected final String TEXT_1 = &quot;Hello, &quot;;
@@ -485,10 +485,10 @@ like this:
    protected final String TEXT_4 = NL;
  
 
-<img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/>/* (non-javadoc)
+<span><img src="images/tag_2.gif" width="24" height="13" alt="Tag 2"/></span>/* (non-javadoc)
     * @see IGenerator#generate(Object)
     */
-<img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/>public String generate(Object argument)
+<span><img src="images/tag_3.gif" width="24" height="13" alt="Tag 3"/></span>public String generate(Object argument)
    {
      StringBuffer stringBuffer = new StringBuffer();
      stringBuffer.append(TEXT_1);
