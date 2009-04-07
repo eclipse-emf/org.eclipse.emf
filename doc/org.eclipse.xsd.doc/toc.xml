@@ -10,7 +10,7 @@
 	</topic>
 	<topic label="Online Docs">
 		<topic label="Analyzing XML schemas with the Schema Infoset Model" href="http://www.ibm.com/developerworks/library/x-schemimj/index.html"/>
-		<topic label="FAQ" href="http://wiki.eclipse.org/MDT/XSD/FAQ" />
+		<topic label="FAQ" href="http://wiki.eclipse.org/MDT-XSD-FAQ" />
 		<topic label="Release Notes" href="http://www.eclipse.org/modeling/mdt/news/relnotes.php?project=xsd&amp;version=2.5.x" />
 	</topic>
 </toc>
