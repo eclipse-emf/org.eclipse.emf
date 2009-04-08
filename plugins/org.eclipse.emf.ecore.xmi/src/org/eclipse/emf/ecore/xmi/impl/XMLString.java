@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.13 2008/12/22 14:25:53 emerks Exp $
+ * $Id: XMLString.java,v 1.14 2009/04/08 10:25:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -135,7 +135,8 @@ public class XMLString extends StringSegment
     isUnformatted = false;
     depth = 0;
     markedLineWidth = 0;
-    currentLineWidth = lineWidth;
+    this.lineWidth = lineWidth;
+    currentLineWidth = 0;
     firstElementMark = null;
   }
 
