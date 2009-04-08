@@ -65,6 +65,11 @@
             activityId="org.eclipse.emf.activity"
             pattern="org\.eclipse\.emf\.mapping\.ecore2xml\.ui/.*">
       </activityPatternBinding>
+      <!-- Validation -->
+      <activityPatternBinding
+            activityId="org.eclipse.emf.activity"
+            pattern="org\.eclipse\.emf\.validation\.ui/.*">
+      </activityPatternBinding>      
 
       <!-- Reflective Editors -->
       <activity
@@ -120,6 +125,18 @@
       <activityPatternBinding
             activityId="org.eclipse.emf.examples.activity"
             pattern="org\.eclipse\.emf\.examples\.library\.editor/.*">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.emf.examples.activity"
+            pattern="org\.eclipse\.emf\.query\.examples/.*">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.emf.examples.activity"
+            pattern="org\.eclipse\.emf\.transaction\.examples/.*">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="org.eclipse.emf.examples.activity"
+            pattern="org\.eclipse\.emf\.validation\.examples/.*">
       </activityPatternBinding>
    </extension>
 
