@@ -38,20 +38,20 @@ public class ImporterUtil
     for (int i = sb.length() - 1; i >= 0; i--)
     {
       char c = sb.charAt(i);
-      if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9') || c == '_' || c == '.')
+      if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9') || c == '_' || c == '-' || c == '.')
       {
         //do nothing
       }
       else if (c == ' ')
       {
-        sb.deleteCharAt(i);
-      }
-      else if (c == '-')
-      {
         sb.setCharAt(i, '_');
       }
+      else
+      {
+        sb.deleteCharAt(i);
+      }
     }
-    return sb.toString();
+    return sb.length() == 0 ? "_": sb.toString();
   }
   
   /**
