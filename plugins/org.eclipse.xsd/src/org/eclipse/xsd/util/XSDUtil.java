@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XSDUtil.java,v 1.7 2006/12/29 18:16:21 marcelop Exp $
+ * $Id: XSDUtil.java,v 1.8 2009/04/08 17:44:46 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -29,10 +30,22 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDDiagnostic;
+import org.eclipse.xsd.XSDDiagnosticSeverity;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDNamedComponent;
+import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.XSDParticle;
+import org.eclipse.xsd.XSDPlugin;
 import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.XSDTerm;
+import org.eclipse.xsd.XSDWildcard;
 import org.eclipse.xsd.impl.XSDNamedComponentImpl;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 
 /**
@@ -49,7 +62,7 @@ public final class XSDUtil extends XSDConstants
 
   /**
    * A cross referencer that finds each usage of an EObject or collection of EObjects,
-   * excluding unintesting derived references.
+   * excluding uninteresting derived references.
    */
   public static class UsageCrossReferencer extends EcoreUtil.UsageCrossReferencer 
   {
@@ -381,5 +394,194 @@ public final class XSDUtil extends XSDConstants
   public static XSDNamedComponent findInSortedList(List<? extends XSDNamedComponent> xsdNamedComponents, String namespace, String name)
   {
     return XSDNamedComponentImpl.findInSortedList(xsdNamedComponents, namespace, name);
+  }
+
+  /**
+   * Checks the given element's content against the complex type with a given name retrieved from the given schema.
+   * @param schema the schema used to retrieve the complex type definition.
+   * @param complexTypeName the name of the complex type.
+   * @param part annotation part.
+   * @param anchor annotation anchor.
+   * @param element the element whose content to check.
+   * @return a list of partially populated XSDDiagnostics---the primary component is not set---or the empty list if the content is valid.
+   * @since 2.5
+   */
+  public static List<XSDDiagnostic> checkComplexContent(XSDSchema schema, String complexTypeName, String part, String anchor, Element element)
+  {
+    XSDComplexTypeDefinition xsdComplexTypeDefinition = schema.resolveComplexTypeDefinition(complexTypeName);
+    return checkComplexContent(xsdComplexTypeDefinition, part, anchor, element);
+  }
+
+  /**
+   * Checks the given element's content against the given complex type.
+   * @param xsdComplexTypeDefinition the reference type.
+   * @param part annotation part.
+   * @param anchor annotation anchor.
+   * @param element the element whose content to check.
+   * @return a list of partially populated XSDDiagnostics---the primary component is not set---or the empty list if the content is valid.
+   * @since 2.5
+   */
+  public static List<XSDDiagnostic> checkComplexContent(XSDComplexTypeDefinition xsdComplexTypeDefinition, String part, String anchor, Element element)
+  {
+    List<XSDDiagnostic> result = new ArrayList<XSDDiagnostic>();
+    XSDParticle complexType = xsdComplexTypeDefinition.getComplexType();
+    boolean mixed = xsdComplexTypeDefinition.isMixed();
+    XSDParticle.DFA dfa = complexType.getDFA();
+    XSDParticle.DFA.State state = dfa.getInitialState();
+    XSDFactory xsdFactory = XSDPackage.eINSTANCE.getXSDFactory();
+    boolean invalidContentDetected = false;
+    for (Node child = element.getFirstChild(); child != null; child = child.getNextSibling())
+    {
+      switch (child.getNodeType())
+      {
+        case Node.ELEMENT_NODE:
+        {
+          if (invalidContentDetected)
+          {
+            continue;
+          }
+          XSDParticle.DFA.Transition transition = state.accept(child.getNamespaceURI(), child.getLocalName());
+          if (transition != null)
+          {
+            state = transition.getState();
+          }
+          else
+          {
+            XSDDiagnostic xsdDiagnostic = xsdFactory.createXSDDiagnostic();
+            xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
+            xsdDiagnostic.setMessage
+              (XSDPlugin.INSTANCE.getString
+                 ("_UI_XSDError_message", 
+                  new Object [] 
+                  {
+                    populateDiagnostic
+                      (xsdDiagnostic,
+                       "content-valid.1", 
+                       new Object [] { XSDConstants.uri(child), xsdComplexTypeDefinition.getURI(), getExpected(state) })
+                  }));
+            xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
+            xsdDiagnostic.setNode(child);            
+            result.add(xsdDiagnostic);
+            invalidContentDetected = true;
+          }
+          break;
+        }
+        case Node.TEXT_NODE:
+        case Node.CDATA_SECTION_NODE:
+        {
+          if (!mixed)
+          {
+            String text = child.getNodeValue();
+            if (text != null)
+            {
+              for (int i = 0, length = text.length(); i < length; ++i)
+              {
+                char character = text.charAt(i);
+                if (character != '\n' && character != '\r' && character != ' ' && character != '\t')
+                {
+                  XSDDiagnostic xsdDiagnostic = xsdFactory.createXSDDiagnostic();
+                  xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
+                  xsdDiagnostic.setMessage
+                    (XSDPlugin.INSTANCE.getString
+                       ("_UI_XSDError_message", 
+                        new Object [] 
+                        {
+                          populateDiagnostic
+                            (xsdDiagnostic,
+                             "content-valid.3", 
+                             new Object [] { text.substring(i), xsdComplexTypeDefinition.getURI() })
+                        }));
+                  xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
+                  xsdDiagnostic.setNode(child);            
+                  result.add(xsdDiagnostic);
+                  break;
+                }
+              }
+            }
+          }
+          break;
+        }
+      }
+    }
+
+    boolean incompleteContent = !invalidContentDetected && !state.isAccepting();
+    if (incompleteContent)
+    {
+      XSDDiagnostic xsdDiagnostic = xsdFactory.createXSDDiagnostic();
+      xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
+      xsdDiagnostic.setMessage
+        (XSDPlugin.INSTANCE.getString
+           ("_UI_XSDError_message", 
+            new Object [] 
+            { 
+              populateDiagnostic
+                (xsdDiagnostic,
+                 "content-valid.2", 
+                 new Object [] { xsdComplexTypeDefinition.getURI(), getExpected(state) }) 
+            }));
+      xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
+      xsdDiagnostic.setNode(element);   
+      result.add(xsdDiagnostic);
+    }
+    return result;
+  }
+
+  private static String getExpected(XSDParticle.DFA.State state)
+  {
+    StringBuffer result = new StringBuffer();
+    for (XSDParticle.DFA.Transition transition : state.getTransitions())
+    {
+      XSDParticle xsdParticle = transition.getParticle();
+      XSDTerm xsdTerm = xsdParticle.getTerm();
+      if (xsdTerm instanceof XSDElementDeclaration)
+      {
+        XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)xsdTerm;
+        if (result.length() != 0)
+        {
+          result.append(" | ");
+        }
+        result.append(xsdElementDeclaration.getName());
+      }
+      else if (xsdTerm instanceof XSDWildcard)
+      {
+        XSDWildcard xsdWildcard = (XSDWildcard)xsdTerm;
+        if (result.length() != 0)
+        {
+          result.append(" | ");
+        }
+        result.append(xsdWildcard.getStringLexicalNamespaceConstraint());
+      }
+    }
+
+    if (state.isAccepting()) 
+    {
+      if (result.length() != 0)
+      {
+        result.append(" | ");
+      }
+
+      result.append(XSDPlugin.INSTANCE.getString("expecting_nothing"));
+    }
+
+    return result.length() == 0 ? XSDPlugin.INSTANCE.getString("expecting_nothing") : result.toString();
+  }
+
+  private static String populateDiagnostic(XSDDiagnostic xsdDiagnostic, String key, Object [] substitutions)
+  {
+    xsdDiagnostic.setKey(key);
+    if (substitutions != null)
+    {
+      List<String> values = xsdDiagnostic.getSubstitutions();
+      for (int i = 0; i < substitutions.length; ++i)
+      {
+        Object value = substitutions[i];
+        values.add(value == null ? null : value.toString());
+      }
+      return XSDPlugin.INSTANCE.getString(key, substitutions);
+    }
+    else
+    {
+      return XSDPlugin.INSTANCE.getString(key);
+    }
   }
 }

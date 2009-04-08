@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.30 2009/02/19 19:38:42 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.31 2009/04/08 17:44:46 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -73,10 +73,10 @@ import org.eclipse.xsd.XSDParticle;
 import org.eclipse.xsd.XSDPlugin;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.XSDTerm;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.XSDVariety;
 import org.eclipse.xsd.util.XSDConstants;
+import org.eclipse.xsd.util.XSDUtil;
 
 
 /**
@@ -633,137 +633,13 @@ public abstract class XSDConcreteComponentImpl
      String anchor, 
      Element element)
   {
-    XSDParticle complexType = xsdComplexTypeDefinition.getComplexType();
-    boolean mixed = xsdComplexTypeDefinition.isMixed();
-    XSDParticle.DFA dfa = complexType.getDFA();
-    XSDParticle.DFA.State state = dfa.getInitialState();
-    for (Node child = element.getFirstChild(); child != null; child = child.getNextSibling())
+    List<XSDDiagnostic> xsdDiagnostics = XSDUtil.checkComplexContent(xsdComplexTypeDefinition, part, anchor, element);
+    for (XSDDiagnostic xsdDiagnostic : xsdDiagnostics)
     {
-      switch (child.getNodeType())
-      {
-        case Node.ELEMENT_NODE:
-        {
-          XSDParticle.DFA.Transition transition = state.accept(child.getNamespaceURI(), child.getLocalName());
-          if (transition != null)
-          {
-            state = transition.getState();
-          }
-          else
-          {
-            XSDDiagnostic xsdDiagnostic = getXSDFactory().createXSDDiagnostic();
-            xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
-            xsdDiagnostic.setMessage
-              (XSDPlugin.INSTANCE.getString
-                 ("_UI_XSDError_message", 
-                  new Object [] 
-                  {
-                    populateDiagnostic
-                      (xsdDiagnostic,
-                       "content-valid.1", 
-                       new Object [] { XSDConstants.uri(child), xsdComplexTypeDefinition.getURI(), getExpected(state) })
-                  }));
-            xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
-            xsdDiagnostic.setPrimaryComponent(this);
-            xsdDiagnostic.setNode(child);
-            getDiagnostics().add(xsdDiagnostic);
-  
-            return xsdDiagnostic;
-          }
-          break;
-        }
-        case Node.TEXT_NODE:
-        case Node.CDATA_SECTION_NODE:
-        {
-          if (!mixed)
-          {
-            String text = child.getNodeValue();
-            if (text != null)
-            {
-              for (int i = 0, length = text.length(); i < length; ++i)
-              {
-                char character = text.charAt(i);
-                if (character != '\n' && character != '\r' && character != ' ' && character != '\t')
-                {
-                  XSDDiagnostic xsdDiagnostic = getXSDFactory().createXSDDiagnostic();
-                  xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
-                  xsdDiagnostic.setMessage
-                    (XSDPlugin.INSTANCE.getString
-                       ("_UI_XSDError_message", 
-                        new Object [] 
-                        {
-                          populateDiagnostic
-                            (xsdDiagnostic,
-                             "content-valid.3", 
-                             new Object [] { text.substring(i), xsdComplexTypeDefinition.getURI() })
-                        }));
-                  xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
-                  xsdDiagnostic.setPrimaryComponent(this);
-                  xsdDiagnostic.setNode(child);
-                  getDiagnostics().add(xsdDiagnostic);
-                  break;
-                }
-              }
-            }
-          }
-          break;
-        }
-      }
-    }
-
-    if (!state.isAccepting())
-    {
-      XSDDiagnostic xsdDiagnostic = getXSDFactory().createXSDDiagnostic();
-      xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
-      xsdDiagnostic.setMessage
-        (XSDPlugin.INSTANCE.getString
-           ("_UI_XSDError_message", 
-            new Object [] 
-            { 
-              populateDiagnostic
-                (xsdDiagnostic,
-                 "content-valid.2", 
-                 new Object [] { xsdComplexTypeDefinition.getURI(), getExpected(state) }) 
-            }));
-      xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
       xsdDiagnostic.setPrimaryComponent(this);
-      xsdDiagnostic.setNode(element);
-      getDiagnostics().add(xsdDiagnostic);
-
-      return xsdDiagnostic;
     }
-
-    return null;
-  }
-
-  private static String getExpected(XSDParticle.DFA.State state)
-  {
-    StringBuffer result = new StringBuffer();
-    for (XSDParticle.DFA.Transition transition : state.getTransitions())
-    {
-      XSDParticle xsdParticle = transition.getParticle();
-      XSDTerm xsdTerm = xsdParticle.getTerm();
-      if (xsdTerm instanceof XSDElementDeclaration)
-      {
-        XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)xsdTerm;
-        if (result.length() != 0)
-        {
-          result.append(" | ");
-        }
-        result.append(xsdElementDeclaration.getName());
-      }
-    }
-
-    if (state.isAccepting()) 
-    {
-      if (result.length() != 0)
-      {
-        result.append(" | ");
-      }
-
-      result.append(XSDPlugin.INSTANCE.getString("expecting_nothing"));
-    }
-
-    return result.length() == 0 ? XSDPlugin.INSTANCE.getString("expecting_nothing") : result.toString();
+    getDiagnostics().addAll(xsdDiagnostics);
+    return xsdDiagnostics.isEmpty() ? null : xsdDiagnostics.get(xsdDiagnostics.size() - 1);
   }
 
   protected XSDDiagnostic checkAttributeTypeConstraint
