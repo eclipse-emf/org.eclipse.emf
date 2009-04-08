@@ -42,8 +42,10 @@ public class ImporterUtilTest extends TestCase
   public void testValidPluginID()
   {
     assertEquals("ab.c.12", ImporterUtil.validPluginID("ab.c.12"));
-    assertEquals("ab.c.12", ImporterUtil.validPluginID("a b. c. 1 2"));
-    assertEquals("a_b.c._12", ImporterUtil.validPluginID("a-b .c.-1 2"));
-    assertEquals("a_b�.c._1�2", ImporterUtil.validPluginID("a-b�.c.-1�2"));
+    assertEquals("AB-c_DE", ImporterUtil.validPluginID("AB-c_DE"));
+    assertEquals("a_b._c._1_2", ImporterUtil.validPluginID("a b. c. 1 2"));
+    assertEquals("a-b_.c.-1_2", ImporterUtil.validPluginID("a-b .c.-1 2"));
+    assertEquals("a-b.c.-12", ImporterUtil.validPluginID("a-b�.c.-1�2"));
+    assertEquals("_", ImporterUtil.validPluginID("� �"));
   }
 }
