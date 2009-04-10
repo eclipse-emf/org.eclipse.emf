@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.27 2008/12/22 14:24:39 emerks Exp $
+ * $Id: XSDEditor.java,v 1.28 2009/04/10 03:47:27 davidms Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -156,6 +156,7 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.edit.ui.provider.PropertyDescriptor;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
+import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeGroupDefinition;
@@ -1862,12 +1863,19 @@ public class XSDEditor
     if (propertySheetPage == null)
     {
       propertySheetPage =
-        new PropertySheetPage()
+        new ExtendedPropertySheetPage(editingDomain)
         {
           @Override
           public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
           {
             super.makeContributions(menuManager, toolBarManager, statusLineManager);
+          }
+
+          @Override
+          public void setSelectionToViewer(List<?> selection)
+          {
+            XSDEditor.this.setSelectionToViewer(selection);
+            XSDEditor.this.setFocus();
           }
 
           @Override
