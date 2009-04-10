@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.28 2009/04/10 03:47:27 davidms Exp $
+ * $Id: XSDEditor.java,v 1.29 2009/04/10 04:05:23 davidms Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -85,7 +85,6 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IActionBars;
@@ -1584,15 +1583,6 @@ public class XSDEditor
       setCurrentViewer((Viewer)sourceViewer);
     }
 
-    // This is a temporary workaround... EATM
-    //
-    Control control = getControl(pageIndex);
-    if (control != null)
-    {
-      control.setVisible(true);
-      control.setFocus();
-    }
-
     if (contentOutlinePage != null)
     {
       handleContentOutlineSelection(contentOutlinePage.getSelection());
@@ -2152,7 +2142,14 @@ public class XSDEditor
   @Override
   public void setFocus()
   {
-    getControl(getActivePage()).setFocus();
+    if (currentViewerPane != null)
+    {
+      currentViewerPane.setFocus();
+    }
+    else
+    {
+      getControl(getActivePage()).setFocus();
+    }
   }
 
   /**
