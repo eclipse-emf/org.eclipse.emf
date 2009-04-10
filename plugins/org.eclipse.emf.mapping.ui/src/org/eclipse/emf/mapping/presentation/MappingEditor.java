@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.12 2008/12/06 21:32:51 davidms Exp $
+ * $Id: MappingEditor.java,v 1.13 2009/04/10 03:37:38 davidms Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -134,6 +134,7 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
+import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.emf.mapping.MappedObjectState;
 import org.eclipse.emf.mapping.Mapping;
 import org.eclipse.emf.mapping.MappingFactory;
@@ -1815,8 +1816,15 @@ public abstract class MappingEditor
     if (propertySheetPage == null)
     {
       propertySheetPage =
-        new PropertySheetPage()
+        new ExtendedPropertySheetPage(mappingDomain)
         {
+          @Override
+          public void setSelectionToViewer(List<?> selection)
+          {
+            MappingEditor.this.setSelectionToViewer(selection);
+            MappingEditor.this.setFocus();
+          }
+
           @Override
           public void setActionBars(IActionBars actionBars)
           {
