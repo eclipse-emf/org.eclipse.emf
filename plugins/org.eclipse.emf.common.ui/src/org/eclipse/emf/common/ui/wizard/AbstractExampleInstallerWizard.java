@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractExampleInstallerWizard.java,v 1.8 2008/12/01 21:47:46 emerks Exp $
+ * $Id: AbstractExampleInstallerWizard.java,v 1.9 2009/04/16 18:41:06 davidms Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 
@@ -22,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.jar.JarFile;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
@@ -532,7 +531,16 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     }
     return Diagnostic.OK_INSTANCE;
   }
-  
+
+  /**
+   * Installs the projects described by {@link #getProjectDescriptors}.
+   * <p>
+   * In EMF 2.4, this worked by obtaining an {@link ImportOperation} for each descriptor from {@link #createImportOperation}, and then creating the project and running the operation.
+   * Beginning in EMF 2.5, {@link #createImportOperation} returns null by default, and {@link #installProject(ProjectDescriptor, IProgressMonitor)} is called to create the project, create the operation, and run it.
+   * This allows the same code that creates the operation to do any cleanup required after executing it. This change was needed to stop extending {@link ImportOperation}, which was an API violation.
+   * <p>
+   * Note that existing overrides of {@link #createImportOperation} and the methods it calls are still supported; however, it is recommended to switch over to the new design.
+   */
   protected void installExample(IProgressMonitor progressMonitor) throws Exception
   {
     List<ProjectDescriptor> projectDescriptors = getProjectDescriptors();
@@ -540,13 +548,18 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     for (ProjectDescriptor projectDescriptor : projectDescriptors)
     {
       ImportOperation importOperation = createImportOperation(projectDescriptor);
-      createProject(projectDescriptor, new SubProgressMonitor(progressMonitor, 1));
-      importOperation.setContext(getShell());
-      importOperation.run(new SubProgressMonitor(progressMonitor, 1));
+      if (importOperation != null)
+      {
+        installProject(projectDescriptor, importOperation, progressMonitor);
+      }
+      else
+      {
+        installProject(projectDescriptor, progressMonitor);
+      }
     }
     progressMonitor.done();
   }
-  
+
   protected void openFiles(IProgressMonitor progressMonitor)
   {
     List<FileToOpen> filesToOpen = getFilesToOpen();
@@ -578,6 +591,17 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     DiagnosticDialog.open(getShell(), CommonUIPlugin.INSTANCE.getString("_UI_Error_label"), message, BasicDiagnostic.toDiagnostic(throwable));
   }
 
+  /**
+   * Creates the project described by the given <code>projectDescriptor</code> and imports its contents using the given <code>importOperation</code>.
+   * @since 2.5
+   */
+  protected void installProject(ProjectDescriptor projectDescriptor, ImportOperation importOperation, IProgressMonitor progressMonitor) throws Exception
+  {
+    createProject(projectDescriptor, new SubProgressMonitor(progressMonitor, 1));
+    importOperation.setContext(getShell());
+    importOperation.run(new SubProgressMonitor(progressMonitor, 1));    
+  }
+
   protected void createProject(ProjectDescriptor projectDescriptor, IProgressMonitor monitor) throws CoreException
   {
     monitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_CreateProject_message", new String []{ projectDescriptor.getName() }), 3);
@@ -589,6 +613,31 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     monitor.done();
   }
 
+  /**
+   * Installs the project described by the given <code>projectDescriptor</code>.
+   * This implementation simply looks at the form of its content URI and delegates to {@link #installProjectFromDirectory}
+   * or {@link #installProjectFromFile}, as appropriate.
+   * @since 2.5
+   */
+  protected void installProject(ProjectDescriptor projectDescriptor, IProgressMonitor progressMonitor) throws Exception
+  {
+    URI contentURI = projectDescriptor.getContentURI();
+    if (contentURI.hasTrailingPathSeparator())
+    {
+      installProjectFromDirectory(projectDescriptor, progressMonitor);
+    }
+    else
+    {
+      installProjectFromFile(projectDescriptor, progressMonitor);
+    }
+  }
+
+  /**
+   * This method was used in EMF 2.4 and earlier to obtain an <code>ImportOperation</code> for installing a project.
+   * This implementation now merely returns null (or throws an exception for unsupported content forms). 
+   * @deprecated Use {@link #installProject(ProjectDescriptor, IProgressMonitor)}, which also actually creates the project and performs the import.
+   */
+  @Deprecated
   protected ImportOperation createImportOperation(ProjectDescriptor projectDescriptor) throws Exception
   {
     URI contentURI = projectDescriptor.getContentURI();
@@ -602,7 +651,12 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     }
   }
 
-  protected ImportOperation createDirectoryImportOperation(ProjectDescriptor projectDescriptor) throws Exception
+  /**
+   * Installs the project described by the given <code>projectDescriptor</code> from a directory.
+   * This implementation should handle the directory scenario completely, but will throw an exception if the specified directory is not found or readable.
+   * @since 2.5
+   */
+  protected void installProjectFromDirectory(ProjectDescriptor projectDescriptor, IProgressMonitor progressMonitor) throws Exception
   {
     URI contentURI = projectDescriptor.getContentURI();
     if (contentURI.isPlatform())
@@ -610,6 +664,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       contentURI = CommonPlugin.asLocalURI(contentURI);
     }
 
+    ImportOperation importOperation = null;
     String location = contentURI.toFileString();
     if (location != null)
     {
@@ -619,20 +674,104 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
         List<File> filesToImport = new ArrayList<File>();
         filesToImport.addAll(Arrays.asList(directory.listFiles()));
 
-        ImportOperation importOperation = new ImportOperation(
+        importOperation = new ImportOperation(
           projectDescriptor.getProject().getFullPath(),
           directory,
           FileSystemStructureProvider.INSTANCE,
           OVERWRITE_ALL_QUERY,
           filesToImport);
         importOperation.setCreateContainerStructure(false);
-        return importOperation;
       }
     }
 
-    throw new Exception(CommonUIPlugin.INSTANCE.getString("_UI_DirectoryError_message", new String []{ contentURI.toString() }));
+    if (importOperation != null)
+    {
+      installProject(projectDescriptor, importOperation, progressMonitor);
+    }
+    else
+    {
+      throw new Exception(CommonUIPlugin.INSTANCE.getString("_UI_DirectoryError_message", new String [] { contentURI.toString() }));
+    }
   }
 
+  /**
+   * This method was used in EMF 2.4 and earlier to obtain an <code>ImportOperation</code> for installing a project from a directory.
+   * This implementation now merely returns null. 
+   * @deprecated Use {@link #installProjectFromDirectory}, which also actually creates the project and performs the import.
+   */
+  @Deprecated
+  protected ImportOperation createDirectoryImportOperation(ProjectDescriptor projectDescriptor) throws Exception
+  {
+    return null;
+  }
+
+  /**
+   * Installs the project described by the given <code>projectDescriptor</code> from a file.
+   * This implementation only handles zip files, throwing an exception otherwise. It may be overridden to handle other cases.
+   * @since 2.5
+   */
+  protected void installProjectFromFile(ProjectDescriptor projectDescriptor, IProgressMonitor progressMonitor) throws Exception
+  {
+    URI contentURI = projectDescriptor.getContentURI();
+    if (contentURI.isPlatform())
+    {
+      contentURI = CommonPlugin.asLocalURI(contentURI);
+    }
+
+    ImportOperation importOperation = null;
+    ZipFile zipFile = null;
+    try
+    {
+      String location = contentURI.toFileString();
+      if (location != null)
+      {
+        File file = new File(location);
+        if (file.isFile() && file.canRead())
+        {
+          zipFile = createZipFile(file);
+          if (zipFile != null)
+          {
+            ZipFileStructureProvider structureProvider = new ZipFileStructureProvider(zipFile);
+            importOperation = new ImportOperation(
+              projectDescriptor.getProject().getFullPath(),
+              structureProvider.getRoot(),
+              structureProvider,
+              OVERWRITE_ALL_QUERY);
+          }
+        }
+      }
+  
+      if (importOperation != null)
+      {
+        installProject(projectDescriptor, importOperation, progressMonitor);
+      }
+      else
+      {
+        throw new Exception(CommonUIPlugin.INSTANCE.getString("_UI_FileError_message", new String [] { contentURI.toString() }));
+      }
+    }
+    finally
+    {
+      if (zipFile != null)
+      {
+        try
+        {
+          zipFile.close();
+        }
+        catch (IOException e)
+        {
+          // Ignore.
+        }
+      }      
+    }
+  }
+
+  /**
+   * This method was used in EMF 2.4 and earlier to obtain an <code>ImportOperation</code> for installing a project from a file.
+   * This implementation now merely returns null (or throws an exception for unsupported files).
+   * @deprecated Use {@link #installProjectFromFile}, which also actually creates the project and performs the import.
+   */
+  @Deprecated
   protected ImportOperation createFileImportOperation(ProjectDescriptor projectDescriptor) throws Exception
   {
     URI contentURI = projectDescriptor.getContentURI();
@@ -657,6 +796,33 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     throw new Exception(CommonUIPlugin.INSTANCE.getString("_UI_FileError_message", new String []{ contentURI.toString() }));
   }
 
+  /**
+   * Returns a <code>ZipFile</code> for reading from the given file, if it is in fact a zip file; null otherwise.
+   * The client is responsible for closing the zip file if it is non-null.
+   * @since 2.5
+   */
+  protected ZipFile createZipFile(File file)
+  {
+    try
+    {
+      return new ZipFile(file);
+    }
+    catch (ZipException e)
+    {
+      // Ignore
+    }
+    catch (IOException e)
+    {
+      // Ignore
+    }
+    return null;
+  }
+
+  /**
+   * This method was used in EMF 2.4 and earlier to test if a <code>File</code> represents a zip file.
+   * @deprecated Use {@link #createZipFile}, which doesn't require creating another {@link ZipFile}.
+   */
+  @Deprecated
   protected boolean isZipFile(File file)
   {
     try
@@ -676,38 +842,15 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     return false;
   }
 
+  /**
+   * This method was used in EMF 2.4 and earlier to obtain an <code>ImportOperation</code> for installing a project from a zip file.
+   * This implementation now merely returns null.
+   * @deprecated Use {@link #installProjectFromFile}, which handles zip files directly, and also actually creates the project and performs the import.
+   */
+  @Deprecated
   protected ImportOperation createZipImportOperation(ProjectDescriptor projectDescriptor, File file) throws Exception
   {
-    final ZipFile zipFile = file.getName().endsWith(".jar") ? new JarFile(file) : new ZipFile(file);
-    ZipFileStructureProvider zipFileStructureProvider = new ZipFileStructureProvider(zipFile);
-
-    return 
-      new ImportOperation
-        (projectDescriptor.getProject().getFullPath(),
-         zipFileStructureProvider.getRoot(),
-         zipFileStructureProvider,
-         OVERWRITE_ALL_QUERY)
-      {
-        @Override
-        protected void execute(IProgressMonitor progressMonitor)
-        {
-          try
-          {
-            super.execute(progressMonitor);
-          }
-          finally
-          {
-            try
-            {
-              zipFile.close();
-            }
-            catch (IOException exception)
-            {
-              // Ignore.
-            }
-          }
-        }
-      };
+    return null;
   }
   
   protected IWorkbench getWorkbench()
