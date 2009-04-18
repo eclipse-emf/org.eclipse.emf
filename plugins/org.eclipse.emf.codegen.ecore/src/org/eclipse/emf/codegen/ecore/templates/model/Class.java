@@ -4740,7 +4740,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_1345);
     stringBuffer.append(negativeOffsetCorrection);
     stringBuffer.append(TEXT_1346);
-    for (GenFeature genFeature : genClass.getEIsSetGenFeatures()) {
+    for (GenFeature genFeature : genClass.getEIsSetGenFeatures()) { String safeNameAccessor = genFeature.getSafeName(); if ("featureID".equals(safeNameAccessor)) { safeNameAccessor = "this." + safeNameAccessor; }
     stringBuffer.append(TEXT_1347);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1348);
@@ -4754,33 +4754,33 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_1351);
     } else {
     stringBuffer.append(TEXT_1352);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1353);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1354);
     }
     } else {
     if (genClass.isField(genFeature)) {
     stringBuffer.append(TEXT_1355);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1356);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1357);
     } else {
     if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
     stringBuffer.append(TEXT_1358);
     stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_1359);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1360);
     stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_1361);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(positiveOffsetCorrection);
     stringBuffer.append(TEXT_1362);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1363);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1364);
     } else {
     stringBuffer.append(TEXT_1365);
@@ -4796,7 +4796,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     } else if (genFeature.isResolveProxies()) {
     if (genClass.isField(genFeature)) {
     stringBuffer.append(TEXT_1369);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1370);
     } else {
     if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
@@ -4813,7 +4813,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     } else if (!genFeature.hasEDefault()) {
     if (genClass.isField(genFeature)) {
     stringBuffer.append(TEXT_1375);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1376);
     } else {
     if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
@@ -4849,7 +4849,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     }
     } else {
     stringBuffer.append(TEXT_1389);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1390);
     stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1391);
@@ -4877,18 +4877,18 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_1399);
     stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1400);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1401);
     stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1402);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1403);
     } else {
     if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
     stringBuffer.append(TEXT_1404);
     stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_1405);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1406);
     stringBuffer.append(genFeature.getImportedType(genClass));
     stringBuffer.append(TEXT_1407);
@@ -4899,11 +4899,11 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     stringBuffer.append(TEXT_1409);
     stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1410);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1411);
     stringBuffer.append(genFeature.getEDefault());
     stringBuffer.append(TEXT_1412);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(safeNameAccessor);
     stringBuffer.append(TEXT_1413);
     } else {
     stringBuffer.append(TEXT_1414);
