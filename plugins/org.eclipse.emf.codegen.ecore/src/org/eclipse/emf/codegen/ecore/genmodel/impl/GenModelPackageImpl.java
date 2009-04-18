@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.58 2009/02/09 12:51:26 emerks Exp $
+ * $Id: GenModelPackageImpl.java,v 1.59 2009/04/18 11:38:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -254,7 +254,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     if (isInited) return (GenModelPackage)EPackage.Registry.INSTANCE.getEPackage(GenModelPackage.eNS_URI);
 
     // Obtain or create and register package
-    GenModelPackageImpl theGenModelPackage = (GenModelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof GenModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new GenModelPackageImpl());
+    GenModelPackageImpl theGenModelPackage = (GenModelPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof GenModelPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new GenModelPackageImpl());
 
     isInited = true;
 

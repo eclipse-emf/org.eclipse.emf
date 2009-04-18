@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.90 2009/03/13 21:10:48 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.91 2009/04/18 11:38:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1272,7 +1272,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   @Deprecated
   public GenModel getGenModelGen()
   {
-    if (eContainerFeatureID != GenModelPackage.GEN_PACKAGE__GEN_MODEL) return null;
+    if (eContainerFeatureID() != GenModelPackage.GEN_PACKAGE__GEN_MODEL) return null;
     return (GenModel)eContainer();
   }
 
@@ -1294,7 +1294,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    */
   public void setGenModel(GenModel newGenModel)
   {
-    if (newGenModel != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_PACKAGE__GEN_MODEL && newGenModel != null))
+    if (newGenModel != eInternalContainer() || (eContainerFeatureID() != GenModelPackage.GEN_PACKAGE__GEN_MODEL && newGenModel != null))
     {
       if (EcoreUtil.isAncestor(this, newGenModel))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -1432,7 +1432,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
         return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_MODEL__GEN_PACKAGES, GenModel.class, msgs);
@@ -2576,11 +2576,6 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       super(3 * getGenClasses().size());
       initLocal();
       initBases();
-    }
-
-    protected SwitchHelper(int size)
-    {
-      super(size);
     }
 
     protected void initLocal()

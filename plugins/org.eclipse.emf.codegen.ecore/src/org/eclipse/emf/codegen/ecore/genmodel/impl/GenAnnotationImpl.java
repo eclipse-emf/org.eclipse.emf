@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenAnnotationImpl.java,v 1.5 2007/02/20 17:43:20 emerks Exp $
+ * $Id: GenAnnotationImpl.java,v 1.6 2009/04/18 11:38:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -162,7 +162,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    */
   public GenBase getGenBase()
   {
-    if (eContainerFeatureID != GenModelPackage.GEN_ANNOTATION__GEN_BASE) return null;
+    if (eContainerFeatureID() != GenModelPackage.GEN_ANNOTATION__GEN_BASE) return null;
     return (GenBase)eContainer();
   }
 
@@ -184,7 +184,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    */
   public void setGenBase(GenBase newGenBase)
   {
-    if (newGenBase != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_ANNOTATION__GEN_BASE && newGenBase != null))
+    if (newGenBase != eInternalContainer() || (eContainerFeatureID() != GenModelPackage.GEN_ANNOTATION__GEN_BASE && newGenBase != null))
     {
       if (EcoreUtil.isAncestor(this, newGenBase))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -274,7 +274,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case GenModelPackage.GEN_ANNOTATION__GEN_BASE:
         return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_BASE__GEN_ANNOTATIONS, GenBase.class, msgs);

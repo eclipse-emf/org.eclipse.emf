@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.35 2008/08/30 21:06:11 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.36 2009/04/18 11:38:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -125,7 +125,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    */
   public GenClass getGenClass()
   {
-    if (eContainerFeatureID != GenModelPackage.GEN_OPERATION__GEN_CLASS) return null;
+    if (eContainerFeatureID() != GenModelPackage.GEN_OPERATION__GEN_CLASS) return null;
     return (GenClass)eContainer();
   }
 
@@ -147,7 +147,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    */
   public void setGenClass(GenClass newGenClass)
   {
-    if (newGenClass != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_OPERATION__GEN_CLASS && newGenClass != null))
+    if (newGenClass != eInternalContainer() || (eContainerFeatureID() != GenModelPackage.GEN_OPERATION__GEN_CLASS && newGenClass != null))
     {
       if (EcoreUtil.isAncestor(this, newGenClass))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -283,7 +283,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case GenModelPackage.GEN_OPERATION__GEN_CLASS:
         return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_CLASS__GEN_OPERATIONS, GenClass.class, msgs);

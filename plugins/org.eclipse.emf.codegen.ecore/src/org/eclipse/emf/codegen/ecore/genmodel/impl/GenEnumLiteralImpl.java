@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.18 2008/03/10 19:10:25 emerks Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.19 2009/04/18 11:38:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -86,7 +86,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    */
   public GenEnum getGenEnum()
   {
-    if (eContainerFeatureID != GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM) return null;
+    if (eContainerFeatureID() != GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM) return null;
     return (GenEnum)eContainer();
   }
 
@@ -108,7 +108,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    */
   public void setGenEnum(GenEnum newGenEnum)
   {
-    if (newGenEnum != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM && newGenEnum != null))
+    if (newGenEnum != eInternalContainer() || (eContainerFeatureID() != GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM && newGenEnum != null))
     {
       if (EcoreUtil.isAncestor(this, newGenEnum))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -215,7 +215,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
         return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS, GenEnum.class, msgs);
