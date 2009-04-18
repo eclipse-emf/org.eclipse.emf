@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.91 2008/08/22 19:26:09 davidms Exp $
+ * $Id: XMLHandler.java,v 1.92 2009/04/18 12:09:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1092,6 +1092,20 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
                 holderContents.remove(proxyIndex > resolvedEObjectIndex ? proxyIndex  - 1 : proxyIndex + 1);
                 break LOOP;
               }
+            }
+
+            if (!oppositeEReference.getEType().isInstance(resolvedEObject))
+            {
+              error
+                (new IllegalValueException
+                   (proxyHolder,
+                    oppositeEReference,
+                    resolvedEObject,
+                    null,
+                    getLocation(),
+                    getLineNumber(),
+                    getColumnNumber()));
+              break LOOP;
             }
 
             // If the resolved object doesn't contain a reference to the proxy holder as it should.
