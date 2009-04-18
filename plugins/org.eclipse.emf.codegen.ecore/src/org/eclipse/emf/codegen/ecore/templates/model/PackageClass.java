@@ -113,9 +113,9 @@ public class PackageClass
   protected final String TEXT_93 = " the";
   protected final String TEXT_94 = " = (";
   protected final String TEXT_95 = ")(";
-  protected final String TEXT_96 = ".Registry.INSTANCE.getEPackage(eNS_URI) instanceof ";
+  protected final String TEXT_96 = ".Registry.INSTANCE.get(eNS_URI) instanceof ";
   protected final String TEXT_97 = " ? ";
-  protected final String TEXT_98 = ".Registry.INSTANCE.getEPackage(eNS_URI) : new ";
+  protected final String TEXT_98 = ".Registry.INSTANCE.get(eNS_URI) : new ";
   protected final String TEXT_99 = "());" + NL + "" + NL + "\t\tisInited = true;" + NL;
   protected final String TEXT_100 = NL + "\t\t// Initialize simple dependencies";
   protected final String TEXT_101 = NL + "\t\t";
