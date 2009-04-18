@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.7 2008/02/20 22:12:51 emerks Exp $
+ * $Id: LibraryImpl.java,v 1.8 2009/04/18 11:39:33 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -359,7 +359,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    */
   public Library getParentBranch()
   {
-    if (eContainerFeatureID != EXTLibraryPackage.LIBRARY__PARENT_BRANCH) return null;
+    if (eContainerFeatureID() != EXTLibraryPackage.LIBRARY__PARENT_BRANCH) return null;
     return (Library)eContainer();
   }
 
@@ -370,7 +370,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    */
   public Library basicGetParentBranch()
   {
-    if (eContainerFeatureID != EXTLibraryPackage.LIBRARY__PARENT_BRANCH) return null;
+    if (eContainerFeatureID() != EXTLibraryPackage.LIBRARY__PARENT_BRANCH) return null;
     return (Library)eInternalContainer();
   }
 
@@ -392,7 +392,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    */
   public void setParentBranch(Library newParentBranch)
   {
-    if (newParentBranch != eInternalContainer() || (eContainerFeatureID != EXTLibraryPackage.LIBRARY__PARENT_BRANCH && newParentBranch != null))
+    if (newParentBranch != eInternalContainer() || (eContainerFeatureID() != EXTLibraryPackage.LIBRARY__PARENT_BRANCH && newParentBranch != null))
     {
       if (EcoreUtil.isAncestor(this, newParentBranch))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString()); //$NON-NLS-1$
@@ -479,7 +479,7 @@ public class LibraryImpl extends EObjectImpl implements Library
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
         return eInternalContainer().eInverseRemove(this, EXTLibraryPackage.LIBRARY__BRANCHES, Library.class, msgs);

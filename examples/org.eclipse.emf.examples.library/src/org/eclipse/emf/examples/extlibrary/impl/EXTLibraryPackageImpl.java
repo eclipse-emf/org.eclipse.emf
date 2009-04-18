@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryPackageImpl.java,v 1.5 2008/02/20 22:12:51 emerks Exp $
+ * $Id: EXTLibraryPackageImpl.java,v 1.6 2009/04/18 11:39:33 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -211,7 +211,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
     if (isInited) return (EXTLibraryPackage)EPackage.Registry.INSTANCE.getEPackage(EXTLibraryPackage.eNS_URI);
 
     // Obtain or create and register package
-    EXTLibraryPackageImpl theEXTLibraryPackage = (EXTLibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof EXTLibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new EXTLibraryPackageImpl());
+    EXTLibraryPackageImpl theEXTLibraryPackage = (EXTLibraryPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EXTLibraryPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new EXTLibraryPackageImpl());
 
     isInited = true;
 
