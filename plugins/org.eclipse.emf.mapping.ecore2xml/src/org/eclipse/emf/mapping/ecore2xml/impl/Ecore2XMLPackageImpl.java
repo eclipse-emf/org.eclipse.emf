@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLPackageImpl.java,v 1.5 2006/12/29 18:29:11 marcelop Exp $
+ * $Id: Ecore2XMLPackageImpl.java,v 1.6 2009/04/18 11:46:04 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -114,7 +114,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
     if (isInited) return (Ecore2XMLPackage)EPackage.Registry.INSTANCE.getEPackage(Ecore2XMLPackage.eNS_URI);
 
     // Obtain or create and register package
-    Ecore2XMLPackageImpl theEcore2XMLPackage = (Ecore2XMLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof Ecore2XMLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new Ecore2XMLPackageImpl());
+    Ecore2XMLPackageImpl theEcore2XMLPackage = (Ecore2XMLPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof Ecore2XMLPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new Ecore2XMLPackageImpl());
 
     isInited = true;
 
