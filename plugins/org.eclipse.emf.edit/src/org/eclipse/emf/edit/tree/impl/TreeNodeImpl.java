@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeImpl.java,v 1.10 2007/02/20 17:43:27 emerks Exp $
+ * $Id: TreeNodeImpl.java,v 1.11 2009/04/18 11:39:02 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -99,7 +99,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    */
   public TreeNode getParent()
   {
-    if (eContainerFeatureID != TreePackage.TREE_NODE__PARENT) return null;
+    if (eContainerFeatureID() != TreePackage.TREE_NODE__PARENT) return null;
     return (TreeNode)eContainer();
   }
 
@@ -121,7 +121,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    */
   public void setParent(TreeNode newParent)
   {
-    if (newParent != eInternalContainer() || (eContainerFeatureID != TreePackage.TREE_NODE__PARENT && newParent != null))
+    if (newParent != eInternalContainer() || (eContainerFeatureID() != TreePackage.TREE_NODE__PARENT && newParent != null))
     {
       if (EcoreUtil.isAncestor(this, newParent))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -241,7 +241,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case TreePackage.TREE_NODE__PARENT:
         return eInternalContainer().eInverseRemove(this, TreePackage.TREE_NODE__CHILDREN, TreeNode.class, msgs);
