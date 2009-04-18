@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CUImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: CUImpl.java,v 1.4 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -126,7 +126,7 @@ public class CUImpl extends EObjectImpl implements CU
    */
   public C4U getC4u()
   {
-    if (eContainerFeatureID != URefPackage.CU__C4U) return null;
+    if (eContainerFeatureID() != URefPackage.CU__C4U) return null;
     return (C4U)eContainer();
   }
 
@@ -148,7 +148,7 @@ public class CUImpl extends EObjectImpl implements CU
    */
   public void setC4u(C4U newC4u)
   {
-    if (newC4u != eInternalContainer() || (eContainerFeatureID != URefPackage.CU__C4U && newC4u != null))
+    if (newC4u != eInternalContainer() || (eContainerFeatureID() != URefPackage.CU__C4U && newC4u != null))
     {
       if (EcoreUtil.isAncestor(this, newC4u))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -211,7 +211,7 @@ public class CUImpl extends EObjectImpl implements CU
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case URefPackage.CU__C4U:
         return eInternalContainer().eInverseRemove(this, URefPackage.C4U__CU, C4U.class, msgs);

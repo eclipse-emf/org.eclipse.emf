@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomerPackageImpl.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
+ * $Id: CustomerPackageImpl.java,v 1.4 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.customer.impl;
 
@@ -190,7 +190,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     if (isInited) return (CustomerPackage)EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI);
 
     // Obtain or create and register package
-    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new CustomerPackageImpl());
+    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new CustomerPackageImpl());
 
     isInited = true;
 

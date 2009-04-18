@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RefPackageImpl.java,v 1.2 2007/01/18 22:06:45 marcelop Exp $
+ * $Id: RefPackageImpl.java,v 1.3 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -159,7 +159,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
     if (isInited) return (RefPackage)EPackage.Registry.INSTANCE.getEPackage(RefPackage.eNS_URI);
 
     // Obtain or create and register package
-    RefPackageImpl theRefPackage = (RefPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof RefPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new RefPackageImpl());
+    RefPackageImpl theRefPackage = (RefPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof RefPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new RefPackageImpl());
 
     isInited = true;
 

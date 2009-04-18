@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtPackageImpl.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: ExtPackageImpl.java,v 1.3 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ext.impl;
 
@@ -111,7 +111,7 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
     if (isInited) return (ExtPackage)EPackage.Registry.INSTANCE.getEPackage(ExtPackage.eNS_URI);
 
     // Obtain or create and register package
-    ExtPackageImpl theExtPackage = (ExtPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof ExtPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new ExtPackageImpl());
+    ExtPackageImpl theExtPackage = (ExtPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ExtPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ExtPackageImpl());
 
     isInited = true;
 

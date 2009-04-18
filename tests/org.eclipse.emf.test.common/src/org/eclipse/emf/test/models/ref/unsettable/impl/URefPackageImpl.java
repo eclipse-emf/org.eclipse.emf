@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URefPackageImpl.java,v 1.2 2007/01/18 22:06:44 marcelop Exp $
+ * $Id: URefPackageImpl.java,v 1.3 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -159,7 +159,7 @@ public class URefPackageImpl extends EPackageImpl implements URefPackage
     if (isInited) return (URefPackage)EPackage.Registry.INSTANCE.getEPackage(URefPackage.eNS_URI);
 
     // Obtain or create and register package
-    URefPackageImpl theURefPackage = (URefPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof URefPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new URefPackageImpl());
+    URefPackageImpl theURefPackage = (URefPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof URefPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new URefPackageImpl());
 
     isInited = true;
 

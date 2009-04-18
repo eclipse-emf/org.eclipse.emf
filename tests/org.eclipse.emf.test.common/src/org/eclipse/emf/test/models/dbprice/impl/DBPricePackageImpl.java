@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBPricePackageImpl.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
+ * $Id: DBPricePackageImpl.java,v 1.4 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.dbprice.impl;
 
@@ -109,7 +109,7 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
     if (isInited) return (DBPricePackage)EPackage.Registry.INSTANCE.getEPackage(DBPricePackage.eNS_URI);
 
     // Obtain or create and register package
-    DBPricePackageImpl theDBPricePackage = (DBPricePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof DBPricePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new DBPricePackageImpl());
+    DBPricePackageImpl theDBPricePackage = (DBPricePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DBPricePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DBPricePackageImpl());
 
     isInited = true;
 

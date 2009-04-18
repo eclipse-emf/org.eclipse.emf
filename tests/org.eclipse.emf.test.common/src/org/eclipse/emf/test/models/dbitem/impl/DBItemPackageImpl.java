@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBItemPackageImpl.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: DBItemPackageImpl.java,v 1.3 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.dbitem.impl;
 
@@ -108,7 +108,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
     if (isInited) return (DBItemPackage)EPackage.Registry.INSTANCE.getEPackage(DBItemPackage.eNS_URI);
 
     // Obtain or create and register package
-    DBItemPackageImpl theDBItemPackage = (DBItemPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof DBItemPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new DBItemPackageImpl());
+    DBItemPackageImpl theDBItemPackage = (DBItemPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DBItemPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DBItemPackageImpl());
 
     isInited = true;
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FImpl.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: FImpl.java,v 1.3 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ext.impl;
 
@@ -118,7 +118,7 @@ public class FImpl extends EObjectImpl implements F
    */
   public ExtE getE()
   {
-    if (eContainerFeatureID != ExtPackage.F__E) return null;
+    if (eContainerFeatureID() != ExtPackage.F__E) return null;
     return (ExtE)eContainer();
   }
 
@@ -140,7 +140,7 @@ public class FImpl extends EObjectImpl implements F
    */
   public void setE(ExtE newE)
   {
-    if (newE != eInternalContainer() || (eContainerFeatureID != ExtPackage.F__E && newE != null))
+    if (newE != eInternalContainer() || (eContainerFeatureID() != ExtPackage.F__E && newE != null))
     {
       if (EcoreUtil.isAncestor(this, newE))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -198,7 +198,7 @@ public class FImpl extends EObjectImpl implements F
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case ExtPackage.F__E:
         return eInternalContainer().eInverseRemove(this, ExtPackage.EXT_E__F, ExtE.class, msgs);

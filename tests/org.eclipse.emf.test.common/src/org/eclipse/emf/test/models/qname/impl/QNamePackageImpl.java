@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: QNamePackageImpl.java,v 1.3 2007/06/15 21:22:18 emerks Exp $
+ * $Id: QNamePackageImpl.java,v 1.4 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.qname.impl;
 
@@ -140,7 +140,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
     if (isInited) return (QNamePackage)EPackage.Registry.INSTANCE.getEPackage(QNamePackage.eNS_URI);
 
     // Obtain or create and register package
-    QNamePackageImpl theQNamePackage = (QNamePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof QNamePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new QNamePackageImpl());
+    QNamePackageImpl theQNamePackage = (QNamePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof QNamePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new QNamePackageImpl());
 
     isInited = true;
 

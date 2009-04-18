@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonImpl.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: PersonImpl.java,v 1.3 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.lib.impl;
 
@@ -118,7 +118,7 @@ public class PersonImpl extends EObjectImpl implements Person
    */
   public Library getLibrary()
   {
-    if (eContainerFeatureID != LibPackage.PERSON__LIBRARY) return null;
+    if (eContainerFeatureID() != LibPackage.PERSON__LIBRARY) return null;
     return (Library)eContainer();
   }
 
@@ -129,7 +129,7 @@ public class PersonImpl extends EObjectImpl implements Person
    */
   public Library basicGetLibrary()
   {
-    if (eContainerFeatureID != LibPackage.PERSON__LIBRARY) return null;
+    if (eContainerFeatureID() != LibPackage.PERSON__LIBRARY) return null;
     return (Library)eInternalContainer();
   }
 
@@ -151,7 +151,7 @@ public class PersonImpl extends EObjectImpl implements Person
    */
   public void setLibrary(Library newLibrary)
   {
-    if (newLibrary != eInternalContainer() || (eContainerFeatureID != LibPackage.PERSON__LIBRARY && newLibrary != null))
+    if (newLibrary != eInternalContainer() || (eContainerFeatureID() != LibPackage.PERSON__LIBRARY && newLibrary != null))
     {
       if (EcoreUtil.isAncestor(this, newLibrary))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -209,7 +209,7 @@ public class PersonImpl extends EObjectImpl implements Person
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case LibPackage.PERSON__LIBRARY:
         return eInternalContainer().eInverseRemove(this, LibPackage.LIBRARY__WRITERS, Library.class, msgs);

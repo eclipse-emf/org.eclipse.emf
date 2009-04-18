@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: AImpl.java,v 1.4 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -166,7 +166,7 @@ public class AImpl extends EObjectImpl implements A
    */
   public C2 getC2()
   {
-    if (eContainerFeatureID != RefPackage.A__C2) return null;
+    if (eContainerFeatureID() != RefPackage.A__C2) return null;
     return (C2)eContainer();
   }
 
@@ -188,7 +188,7 @@ public class AImpl extends EObjectImpl implements A
    */
   public void setC2(C2 newC2)
   {
-    if (newC2 != eInternalContainer() || (eContainerFeatureID != RefPackage.A__C2 && newC2 != null))
+    if (newC2 != eInternalContainer() || (eContainerFeatureID() != RefPackage.A__C2 && newC2 != null))
     {
       if (EcoreUtil.isAncestor(this, newC2))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -295,7 +295,7 @@ public class AImpl extends EObjectImpl implements A
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case RefPackage.A__C2:
         return eInternalContainer().eInverseRemove(this, RefPackage.C2__A, C2.class, msgs);

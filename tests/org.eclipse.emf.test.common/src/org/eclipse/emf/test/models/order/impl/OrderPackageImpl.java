@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: OrderPackageImpl.java,v 1.3 2007/06/15 21:22:17 emerks Exp $
+ * $Id: OrderPackageImpl.java,v 1.4 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.order.impl;
 
@@ -122,7 +122,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
     if (isInited) return (OrderPackage)EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI);
 
     // Obtain or create and register package
-    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new OrderPackageImpl());
+    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new OrderPackageImpl());
 
     isInited = true;
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NodeImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: NodeImpl.java,v 1.4 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.tree.impl;
 
@@ -158,7 +158,7 @@ public class NodeImpl extends EObjectImpl implements Node
    */
   public Node getParent()
   {
-    if (eContainerFeatureID != TreePackage.NODE__PARENT) return null;
+    if (eContainerFeatureID() != TreePackage.NODE__PARENT) return null;
     return (Node)eContainer();
   }
 
@@ -180,7 +180,7 @@ public class NodeImpl extends EObjectImpl implements Node
    */
   public void setParent(Node newParent)
   {
-    if (newParent != eInternalContainer() || (eContainerFeatureID != TreePackage.NODE__PARENT && newParent != null))
+    if (newParent != eInternalContainer() || (eContainerFeatureID() != TreePackage.NODE__PARENT && newParent != null))
     {
       if (EcoreUtil.isAncestor(this, newParent))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -345,7 +345,7 @@ public class NodeImpl extends EObjectImpl implements Node
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case TreePackage.NODE__PARENT:
         return eInternalContainer().eInverseRemove(this, TreePackage.NODE__CHILDREN, Node.class, msgs);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibPackageImpl.java,v 1.2 2007/01/18 22:06:39 marcelop Exp $
+ * $Id: LibPackageImpl.java,v 1.3 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.lib.impl;
 
@@ -128,7 +128,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
     if (isInited) return (LibPackage)EPackage.Registry.INSTANCE.getEPackage(LibPackage.eNS_URI);
 
     // Obtain or create and register package
-    LibPackageImpl theLibPackage = (LibPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof LibPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new LibPackageImpl());
+    LibPackageImpl theLibPackage = (LibPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof LibPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new LibPackageImpl());
 
     isInited = true;
 

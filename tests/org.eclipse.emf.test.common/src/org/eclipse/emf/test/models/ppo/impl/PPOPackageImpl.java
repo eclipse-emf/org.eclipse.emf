@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PPOPackageImpl.java,v 1.3 2007/05/23 15:06:45 marcelop Exp $
+ * $Id: PPOPackageImpl.java,v 1.4 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ppo.impl;
 
@@ -134,7 +134,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
     if (isInited) return (PPOPackage)EPackage.Registry.INSTANCE.getEPackage(PPOPackage.eNS_URI);
 
     // Obtain or create and register package
-    PPOPackageImpl thePPOPackage = (PPOPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof PPOPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new PPOPackageImpl());
+    PPOPackageImpl thePPOPackage = (PPOPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof PPOPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new PPOPackageImpl());
 
     isInited = true;
 

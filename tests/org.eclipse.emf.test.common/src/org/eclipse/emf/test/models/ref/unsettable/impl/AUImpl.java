@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AUImpl.java,v 1.3 2007/02/20 17:42:40 emerks Exp $
+ * $Id: AUImpl.java,v 1.4 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.unsettable.impl;
 
@@ -243,7 +243,7 @@ public class AUImpl extends EObjectImpl implements AU
    */
   public C2U getC2u()
   {
-    if (eContainerFeatureID != URefPackage.AU__C2U) return null;
+    if (eContainerFeatureID() != URefPackage.AU__C2U) return null;
     return (C2U)eContainer();
   }
 
@@ -265,7 +265,7 @@ public class AUImpl extends EObjectImpl implements AU
    */
   public void setC2u(C2U newC2u)
   {
-    if (newC2u != eInternalContainer() || (eContainerFeatureID != URefPackage.AU__C2U && newC2u != null))
+    if (newC2u != eInternalContainer() || (eContainerFeatureID() != URefPackage.AU__C2U && newC2u != null))
     {
       if (EcoreUtil.isAncestor(this, newC2u))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -399,7 +399,7 @@ public class AUImpl extends EObjectImpl implements AU
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case URefPackage.AU__C2U:
         return eInternalContainer().eInverseRemove(this, URefPackage.C2U__AU, C2U.class, msgs);

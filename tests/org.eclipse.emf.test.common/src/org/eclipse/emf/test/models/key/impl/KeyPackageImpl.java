@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: KeyPackageImpl.java,v 1.2 2007/01/18 22:06:46 marcelop Exp $
+ * $Id: KeyPackageImpl.java,v 1.3 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.key.impl;
 
@@ -104,7 +104,7 @@ public class KeyPackageImpl extends EPackageImpl implements KeyPackage
     if (isInited) return (KeyPackage)EPackage.Registry.INSTANCE.getEPackage(KeyPackage.eNS_URI);
 
     // Obtain or create and register package
-    KeyPackageImpl theKeyPackage = (KeyPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof KeyPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new KeyPackageImpl());
+    KeyPackageImpl theKeyPackage = (KeyPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof KeyPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new KeyPackageImpl());
 
     isInited = true;
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DBPackageImpl.java,v 1.4 2008/05/09 20:10:32 emerks Exp $
+ * $Id: DBPackageImpl.java,v 1.5 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.movie.db.impl;
 
@@ -195,7 +195,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
     if (isInited) return (DBPackage)EPackage.Registry.INSTANCE.getEPackage(DBPackage.eNS_URI);
 
     // Obtain or create and register package
-    DBPackageImpl theDBPackage = (DBPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof DBPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new DBPackageImpl());
+    DBPackageImpl theDBPackage = (DBPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DBPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DBPackageImpl());
 
     isInited = true;
 

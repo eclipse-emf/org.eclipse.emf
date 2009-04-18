@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CImpl.java,v 1.3 2007/02/20 17:42:39 emerks Exp $
+ * $Id: CImpl.java,v 1.4 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.ref.impl;
 
@@ -106,7 +106,7 @@ public class CImpl extends EObjectImpl implements C
    */
   public C4 getC4()
   {
-    if (eContainerFeatureID != RefPackage.C__C4) return null;
+    if (eContainerFeatureID() != RefPackage.C__C4) return null;
     return (C4)eContainer();
   }
 
@@ -128,7 +128,7 @@ public class CImpl extends EObjectImpl implements C
    */
   public void setC4(C4 newC4)
   {
-    if (newC4 != eInternalContainer() || (eContainerFeatureID != RefPackage.C__C4 && newC4 != null))
+    if (newC4 != eInternalContainer() || (eContainerFeatureID() != RefPackage.C__C4 && newC4 != null))
     {
       if (EcoreUtil.isAncestor(this, newC4))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -191,7 +191,7 @@ public class CImpl extends EObjectImpl implements C
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case RefPackage.C__C4:
         return eInternalContainer().eInverseRemove(this, RefPackage.C4__C, C4.class, msgs);

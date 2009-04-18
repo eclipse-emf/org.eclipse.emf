@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreePackageImpl.java,v 1.2 2007/01/18 22:06:48 marcelop Exp $
+ * $Id: TreePackageImpl.java,v 1.3 2009/04/18 11:46:39 emerks Exp $
  */
 package org.eclipse.emf.test.models.tree.impl;
 
@@ -104,7 +104,7 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
     if (isInited) return (TreePackage)EPackage.Registry.INSTANCE.getEPackage(TreePackage.eNS_URI);
 
     // Obtain or create and register package
-    TreePackageImpl theTreePackage = (TreePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof TreePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new TreePackageImpl());
+    TreePackageImpl theTreePackage = (TreePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof TreePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TreePackageImpl());
 
     isInited = true;
 
