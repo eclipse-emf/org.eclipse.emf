@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.27 2008/12/22 19:51:05 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.28 2009/04/18 11:38:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -481,7 +481,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     if (isInited) return (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
     // Obtain or create and register package
-    EcorePackageImpl theEcorePackage = (EcorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof EcorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new EcorePackageImpl());
+    EcorePackageImpl theEcorePackage = (EcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EcorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new EcorePackageImpl());
 
     isInited = true;
 

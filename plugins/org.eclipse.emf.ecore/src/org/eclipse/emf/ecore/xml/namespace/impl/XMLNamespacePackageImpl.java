@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackageImpl.java,v 1.15 2008/06/06 17:34:51 emerks Exp $
+ * $Id: XMLNamespacePackageImpl.java,v 1.16 2009/04/18 11:38:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -130,7 +130,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     if (isInited) return (XMLNamespacePackage)EPackage.Registry.INSTANCE.getEPackage(XMLNamespacePackage.eNS_URI);
 
     // Obtain or create and register package
-    XMLNamespacePackageImpl theXMLNamespacePackage = (XMLNamespacePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof XMLNamespacePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new XMLNamespacePackageImpl());
+    XMLNamespacePackageImpl theXMLNamespacePackage = (XMLNamespacePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XMLNamespacePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XMLNamespacePackageImpl());
 
     isInited = true;
 
