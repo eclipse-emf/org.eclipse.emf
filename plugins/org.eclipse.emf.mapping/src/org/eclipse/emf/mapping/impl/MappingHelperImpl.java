@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelperImpl.java,v 1.12 2007/02/20 17:43:30 emerks Exp $
+ * $Id: MappingHelperImpl.java,v 1.13 2009/04/18 12:07:33 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -101,7 +101,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    */
   public Mapping getMapper()
   {
-    if (eContainerFeatureID != MappingPackage.MAPPING_HELPER__MAPPER) return null;
+    if (eContainerFeatureID() != MappingPackage.MAPPING_HELPER__MAPPER) return null;
     return (Mapping)eContainer();
   }
 
@@ -123,7 +123,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    */
   public void setMapper(Mapping newMapper)
   {
-    if (newMapper != eInternalContainer() || (eContainerFeatureID != MappingPackage.MAPPING_HELPER__MAPPER && newMapper != null))
+    if (newMapper != eInternalContainer() || (eContainerFeatureID() != MappingPackage.MAPPING_HELPER__MAPPER && newMapper != null))
     {
       if (EcoreUtil.isAncestor(this, newMapper))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -189,7 +189,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    */
   public MappingHelper getNestedIn()
   {
-    if (eContainerFeatureID != MappingPackage.MAPPING_HELPER__NESTED_IN) return null;
+    if (eContainerFeatureID() != MappingPackage.MAPPING_HELPER__NESTED_IN) return null;
     return (MappingHelper)eContainer();
   }
 
@@ -211,7 +211,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    */
   public void setNestedIn(MappingHelper newNestedIn)
   {
-    if (newNestedIn != eInternalContainer() || (eContainerFeatureID != MappingPackage.MAPPING_HELPER__NESTED_IN && newNestedIn != null))
+    if (newNestedIn != eInternalContainer() || (eContainerFeatureID() != MappingPackage.MAPPING_HELPER__NESTED_IN && newNestedIn != null))
     {
       if (EcoreUtil.isAncestor(this, newNestedIn))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -294,7 +294,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case MappingPackage.MAPPING_HELPER__MAPPER:
         return eInternalContainer().eInverseRemove(this, MappingPackage.MAPPING__HELPER, Mapping.class, msgs);

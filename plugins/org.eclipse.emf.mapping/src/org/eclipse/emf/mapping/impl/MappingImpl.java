@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingImpl.java,v 1.9 2007/02/20 17:43:30 emerks Exp $
+ * $Id: MappingImpl.java,v 1.10 2009/04/18 12:07:33 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -201,7 +201,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    */
   public Mapping getNestedIn()
   {
-    if (eContainerFeatureID != MappingPackage.MAPPING__NESTED_IN) return null;
+    if (eContainerFeatureID() != MappingPackage.MAPPING__NESTED_IN) return null;
     return (Mapping)eContainer();
   }
 
@@ -223,7 +223,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    */
   public void setNestedIn(Mapping newNestedIn)
   {
-    if (newNestedIn != eInternalContainer() || (eContainerFeatureID != MappingPackage.MAPPING__NESTED_IN && newNestedIn != null))
+    if (newNestedIn != eInternalContainer() || (eContainerFeatureID() != MappingPackage.MAPPING__NESTED_IN && newNestedIn != null))
     {
       if (EcoreUtil.isAncestor(this, newNestedIn))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -363,7 +363,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case MappingPackage.MAPPING__NESTED_IN:
         return eInternalContainer().eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
