@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJNode.java,v 1.9 2007/06/12 20:56:05 emerks Exp $
+ * $Id: ASTJNode.java,v 1.10 2009/04/18 11:16:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -147,11 +147,7 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
   @Override
   public void dispose()
   {
-    if (rewriter != null)
-    {
-      ((ASTFacadeHelper.ASTRewriteWithRemove)rewriter).dispose();
-      rewriter = null;
-    }
+    rewriter = null;
     trackedContentsMap.clear();
     wrappedObject = null;
     removedASTNode = null;
@@ -662,13 +658,8 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
       facadeHelper.logInfo("Removing node from list property <" + nodeToRemove + ">");
     }
 
-    // Bugzilla 164862
-    // listRewrite.remove(..) does not remove newly inserted nodes that were not a part of original tree (!!!)
-    //    ListRewrite listRewrite = getRewriter().getListRewrite(parentNode, property);
-    //    listRewrite.remove(nodeToRemove, null);
-
-    // call workaround
-    ((ASTFacadeHelper.ASTRewriteWithRemove)rewriter).remove(parentNode, property, nodeToRemove);
+    ListRewrite listRewrite = getRewriter().getListRewrite(parentNode, property);
+    listRewrite.remove(nodeToRemove, null);
   }
 
   /**
@@ -723,12 +714,7 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
     // clear old values
     for (ASTNode oldValue : oldValues)
     {
-      // Bugzilla 164862
-      // listRewrite.remove(..) does not remove newly inserted nodes that were not a part of original tree (!!!)
-      //listRewrite.remove(oldValue, null);
-      
-      // call the workaround
-      ((ASTFacadeHelper.ASTRewriteWithRemove)rewriter).remove(node, property, oldValue);
+      listRewrite.remove(oldValue, null);
     }
 
     // insert new values

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJMember.java,v 1.8 2007/06/12 20:56:05 emerks Exp $
+ * $Id: ASTJMember.java,v 1.9 2009/04/18 11:16:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -91,13 +91,7 @@ public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> 
     {
       if (modifier.isModifier())
       {
-        // Bugzilla 164862
-        // listRewrite.remove(..) does not remove newly inserted nodes that were not a part of original tree (!!!)
-        
-        //listRewrite.remove((ASTNode)modifier, null);
-        
-        // call workaround
-        ((ASTFacadeHelper.ASTRewriteWithRemove)rewriter).remove(bodyDeclaration, bodyDeclaration.getModifiersProperty(), (ASTNode)modifier);        
+        listRewrite.remove((ASTNode)modifier, null);
       }
     }
     

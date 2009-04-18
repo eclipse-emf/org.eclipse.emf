@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.15 2008/12/13 15:50:44 emerks Exp $
+ * $Id: ASTFacadeHelper.java,v 1.16 2009/04/18 11:16:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -70,6 +70,10 @@ import org.eclipse.emf.common.util.WrappedException;
  */
 public class ASTFacadeHelper extends FacadeHelper
 {
+  /**
+   * @deprecated Just use ASTRewrite directly.
+   */
+  @Deprecated
   public static class ASTRewriteWithRemove extends ASTRewrite
   {
     protected ASTRewriteWithRemove(AST ast)
@@ -284,7 +288,7 @@ public class ASTFacadeHelper extends FacadeHelper
     }
 
     // create rewriter to record changes
-    ASTRewrite rewriter = new ASTRewriteWithRemove(astCompilationUnit.getAST());
+    ASTRewrite rewriter = ASTRewrite.create(astCompilationUnit.getAST());
 
     // keep comments between nodes when removing or moving nodes
     rewriter.setTargetSourceRangeComputer(new CommentAwareSourceRangeComputer(astCompilationUnit, contents));
