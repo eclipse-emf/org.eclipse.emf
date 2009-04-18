@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: LibraryPackageImpl.java,v 1.3 2007/06/15 21:22:33 emerks Exp $
+ * $Id: LibraryPackageImpl.java,v 1.4 2009/04/18 11:49:55 emerks Exp $
  */
 package org.examples.library.impl;
 
@@ -91,7 +91,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     if (isInited) return (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 
     // Obtain or create and register package
-    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new LibraryPackageImpl());
+    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new LibraryPackageImpl());
 
     isInited = true;
 

@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: ElementsPackageImpl.java,v 1.5 2008/04/02 16:41:50 davidms Exp $
+ * $Id: ElementsPackageImpl.java,v 1.6 2009/04/18 11:49:55 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -116,7 +116,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     if (isInited) return (ElementsPackage)EPackage.Registry.INSTANCE.getEPackage(ElementsPackage.eNS_URI);
 
     // Obtain or create and register package
-    ElementsPackageImpl theElementsPackage = (ElementsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof ElementsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new ElementsPackageImpl());
+    ElementsPackageImpl theElementsPackage = (ElementsPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ElementsPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ElementsPackageImpl());
 
     isInited = true;
 

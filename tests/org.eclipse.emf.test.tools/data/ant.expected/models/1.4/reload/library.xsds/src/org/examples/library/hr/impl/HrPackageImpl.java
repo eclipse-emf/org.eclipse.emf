@@ -1,7 +1,7 @@
 /**
  * This is my code.
  *
- * $Id: HrPackageImpl.java,v 1.3 2007/06/15 21:22:34 emerks Exp $
+ * $Id: HrPackageImpl.java,v 1.4 2009/04/18 11:49:55 emerks Exp $
  */
 package org.examples.library.hr.impl;
 
@@ -95,7 +95,7 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
     if (isInited) return (HrPackage)EPackage.Registry.INSTANCE.getEPackage(HrPackage.eNS_URI);
 
     // Obtain or create and register package
-    HrPackageImpl theHrPackage = (HrPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof HrPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new HrPackageImpl());
+    HrPackageImpl theHrPackage = (HrPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof HrPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new HrPackageImpl());
 
     isInited = true;
 
