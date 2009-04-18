@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SupplierPackageImpl.java,v 1.3 2007/06/15 21:22:36 emerks Exp $
+ * $Id: SupplierPackageImpl.java,v 1.4 2009/04/18 11:49:00 emerks Exp $
  */
 package org.eclipse.emf.test.core.featuremap.supplier.impl;
 
@@ -96,7 +96,7 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
     if (isInited) return (SupplierPackage)EPackage.Registry.INSTANCE.getEPackage(SupplierPackage.eNS_URI);
 
     // Obtain or create and register package
-    SupplierPackageImpl theSupplierPackage = (SupplierPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof SupplierPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new SupplierPackageImpl());
+    SupplierPackageImpl theSupplierPackage = (SupplierPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof SupplierPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new SupplierPackageImpl());
 
     isInited = true;
 
