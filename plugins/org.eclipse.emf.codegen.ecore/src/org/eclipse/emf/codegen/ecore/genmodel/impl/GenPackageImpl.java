@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.91 2009/04/18 11:38:01 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.92 2009/04/18 12:07:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2234,7 +2234,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public String getPackageInstanceVariable(GenPackage genPackage)
   {
     if (genPackage == this) return "this";
-    if (genPackage == getGenModel().getEcoreGenPackage()) return "ecorePackage";
+    if (genPackage.getEcorePackage() == EcorePackage.eINSTANCE) return "ecorePackage";
 
     return "the" + dependencyHelper.getUniqueName(genPackage);
   }
