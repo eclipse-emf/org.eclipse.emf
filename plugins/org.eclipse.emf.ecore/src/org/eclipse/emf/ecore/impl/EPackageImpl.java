@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.38 2009/02/09 12:51:28 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.39 2009/04/18 11:23:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -149,11 +149,34 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * @param packageURI the registered {@link #getNsURI namespace URI} of the new package.
    * @param factory the factory of the new package.
    */
-  protected EPackageImpl(String packageURI, EFactory factory)
+  protected EPackageImpl(String packageURI, final EFactory factory)
   {
     super();
 
-    Registry.INSTANCE.put(packageURI, this);
+    Object registration = Registry.INSTANCE.get(packageURI);
+    if (registration instanceof Descriptor)
+    {
+      final Descriptor descriptor = (Descriptor)registration;
+      final long threadId = Thread.currentThread().getId();
+      Registry.INSTANCE.put
+        (packageURI, 
+         new Descriptor()
+         {
+           public EPackage getEPackage()
+           {
+             return Thread.currentThread().getId() == threadId ? EPackageImpl.this : descriptor.getEPackage();
+           }
+
+           public EFactory getEFactory()
+           {
+             return Thread.currentThread().getId() == threadId ? factory : descriptor.getEFactory();
+           }
+         });
+    }
+    else
+    {
+      Registry.INSTANCE.put(packageURI, this);
+    }
 
     setEFactoryInstance(factory);
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.14 2008/01/27 10:27:34 emerks Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.15 2009/04/18 11:23:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -133,8 +133,14 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
       EPackage result = ePackageDescriptor.getEPackage();
       if (result != null)
       {
-        put(nsURI, result);
-        initialize(result);
+        if (result.getNsURI() == null)
+        {
+          initialize(result);
+        }
+        else
+        {
+          put(nsURI, result);
+        }
       }
       return result;
     }
