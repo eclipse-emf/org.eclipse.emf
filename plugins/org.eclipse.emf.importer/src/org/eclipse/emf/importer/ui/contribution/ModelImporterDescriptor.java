@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * ModelImporterDescriptor.java,v 1.5 2005/12/14 07:48:48 marcelop Exp
+ * ModelImporterDescriptor.java,v 1.8 2009/04/18 11:40:04 emerks Exp
  */
 package org.eclipse.emf.importer.ui.contribution;
 
