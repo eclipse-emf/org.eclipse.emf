@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.18 2009/02/09 11:01:16 emerks Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.19 2009/04/18 11:37:30 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -1593,11 +1593,6 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
            Platform.PREF_LINE_SEPARATOR, 
            System.getProperty(Platform.PREF_LINE_SEPARATOR), 
            new IScopeContext[] { new ProjectScope(ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath)).getProject()), new InstanceScope() });
-    }
-
-    public static boolean exists(String workspacePath)
-    {
-      return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(workspacePath)).exists();
     }
 
     public static boolean isReadOnly(String workspacePath)
