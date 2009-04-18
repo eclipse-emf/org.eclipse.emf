@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameterImpl.java,v 1.10 2008/12/22 14:26:08 emerks Exp $
+ * $Id: JParameterImpl.java,v 1.11 2009/04/18 11:40:23 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -127,7 +127,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    */
   public JMethod getMethod()
   {
-    if (eContainerFeatureID != JavaPackage.JPARAMETER__METHOD) return null;
+    if (eContainerFeatureID() != JavaPackage.JPARAMETER__METHOD) return null;
     return (JMethod)eContainer();
   }
 
@@ -149,7 +149,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    */
   public void setMethod(JMethod newMethod)
   {
-    if (newMethod != eInternalContainer() || (eContainerFeatureID != JavaPackage.JPARAMETER__METHOD && newMethod != null))
+    if (newMethod != eInternalContainer() || (eContainerFeatureID() != JavaPackage.JPARAMETER__METHOD && newMethod != null))
     {
       if (EcoreUtil.isAncestor(this, newMethod))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -250,7 +250,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case JavaPackage.JPARAMETER__METHOD:
         return eInternalContainer().eInverseRemove(this, JavaPackage.JMETHOD__PARAMETERS, JMethod.class, msgs);

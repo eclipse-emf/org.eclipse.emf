@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMemberImpl.java,v 1.9 2008/12/22 14:26:08 emerks Exp $
+ * $Id: JMemberImpl.java,v 1.10 2009/04/18 11:40:23 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -204,7 +204,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    */
   public JClass getContainingType()
   {
-    if (eContainerFeatureID != JavaPackage.JMEMBER__CONTAINING_TYPE) return null;
+    if (eContainerFeatureID() != JavaPackage.JMEMBER__CONTAINING_TYPE) return null;
     return (JClass)eContainer();
   }
 
@@ -226,7 +226,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    */
   public void setContainingType(JClass newContainingType)
   {
-    if (newContainingType != eInternalContainer() || (eContainerFeatureID != JavaPackage.JMEMBER__CONTAINING_TYPE && newContainingType != null))
+    if (newContainingType != eInternalContainer() || (eContainerFeatureID() != JavaPackage.JMEMBER__CONTAINING_TYPE && newContainingType != null))
     {
       if (EcoreUtil.isAncestor(this, newContainingType))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -284,7 +284,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case JavaPackage.JMEMBER__CONTAINING_TYPE:
         return eInternalContainer().eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);

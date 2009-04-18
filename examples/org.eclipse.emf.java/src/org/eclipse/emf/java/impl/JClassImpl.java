@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.14 2008/12/22 14:26:08 emerks Exp $
+ * $Id: JClassImpl.java,v 1.15 2009/04/18 11:40:23 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -454,7 +454,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    */
   public JClass getComponentType()
   {
-    if (eContainerFeatureID != JavaPackage.JCLASS__COMPONENT_TYPE) return null;
+    if (eContainerFeatureID() != JavaPackage.JCLASS__COMPONENT_TYPE) return null;
     return (JClass)eContainer();
   }
 
@@ -476,7 +476,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    */
   public void setComponentType(JClass newComponentType)
   {
-    if (newComponentType != eInternalContainer() || (eContainerFeatureID != JavaPackage.JCLASS__COMPONENT_TYPE && newComponentType != null))
+    if (newComponentType != eInternalContainer() || (eContainerFeatureID() != JavaPackage.JCLASS__COMPONENT_TYPE && newComponentType != null))
     {
       if (EcoreUtil.isAncestor(this, newComponentType))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -547,7 +547,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    */
   public JCompilationUnit getUnit()
   {
-    if (eContainerFeatureID != JavaPackage.JCLASS__UNIT) return null;
+    if (eContainerFeatureID() != JavaPackage.JCLASS__UNIT) return null;
     return (JCompilationUnit)eContainer();
   }
 
@@ -569,7 +569,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    */
   public void setUnit(JCompilationUnit newUnit)
   {
-    if (newUnit != eInternalContainer() || (eContainerFeatureID != JavaPackage.JCLASS__UNIT && newUnit != null))
+    if (newUnit != eInternalContainer() || (eContainerFeatureID() != JavaPackage.JCLASS__UNIT && newUnit != null))
     {
       if (EcoreUtil.isAncestor(this, newUnit))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -793,7 +793,7 @@ public class JClassImpl extends JMemberImpl implements JClass
   @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    switch (eContainerFeatureID)
+    switch (eContainerFeatureID())
     {
       case JavaPackage.JCLASS__COMPONENT_TYPE:
         return eInternalContainer().eInverseRemove(this, JavaPackage.JCLASS__ARRAY_TYPE, JClass.class, msgs);
