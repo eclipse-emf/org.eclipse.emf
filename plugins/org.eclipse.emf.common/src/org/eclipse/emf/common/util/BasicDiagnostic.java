@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.14 2007/10/02 13:20:26 emerks Exp $
+ * $Id: BasicDiagnostic.java,v 1.15 2009/04/18 11:45:26 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -419,7 +419,6 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
   
   private static class DiagnosticWrapper implements Diagnostic
   {
-    protected Throwable throwable;
     protected IStatus status;
     protected List<Diagnostic> wrappedChildren;
     protected List<Diagnostic> unmodifiableWrappedChildren;
