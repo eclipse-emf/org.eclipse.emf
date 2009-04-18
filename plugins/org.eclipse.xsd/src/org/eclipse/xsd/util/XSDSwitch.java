@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSwitch.java,v 1.10 2007/06/12 21:15:22 emerks Exp $
+ * $Id: XSDSwitch.java,v 1.11 2009/04/18 11:51:27 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -114,8 +114,8 @@ public class XSDSwitch<T>
         T result = caseXSDAnnotation(xsdAnnotation);
         if (result == null) result = caseXSDComponent(xsdAnnotation);
         if (result == null) result = caseXSDRedefineContent(xsdAnnotation);
-        if (result == null) result = caseXSDConcreteComponent(xsdAnnotation);
         if (result == null) result = caseXSDSchemaContent(xsdAnnotation);
+        if (result == null) result = caseXSDConcreteComponent(xsdAnnotation);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -126,8 +126,8 @@ public class XSDSwitch<T>
         if (result == null) result = caseXSDFeature(xsdAttributeDeclaration);
         if (result == null) result = caseXSDSchemaContent(xsdAttributeDeclaration);
         if (result == null) result = caseXSDNamedComponent(xsdAttributeDeclaration);
-        if (result == null) result = caseXSDConcreteComponent(xsdAttributeDeclaration);
         if (result == null) result = caseXSDComponent(xsdAttributeDeclaration);
+        if (result == null) result = caseXSDConcreteComponent(xsdAttributeDeclaration);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -145,11 +145,11 @@ public class XSDSwitch<T>
         T result = caseXSDAttributeGroupDefinition(xsdAttributeGroupDefinition);
         if (result == null) result = caseXSDRedefinableComponent(xsdAttributeGroupDefinition);
         if (result == null) result = caseXSDAttributeGroupContent(xsdAttributeGroupDefinition);
-        if (result == null) result = caseXSDRedefineContent(xsdAttributeGroupDefinition);
         if (result == null) result = caseXSDNamedComponent(xsdAttributeGroupDefinition);
-        if (result == null) result = caseXSDConcreteComponent(xsdAttributeGroupDefinition);
-        if (result == null) result = caseXSDSchemaContent(xsdAttributeGroupDefinition);
+        if (result == null) result = caseXSDRedefineContent(xsdAttributeGroupDefinition);
         if (result == null) result = caseXSDComponent(xsdAttributeGroupDefinition);
+        if (result == null) result = caseXSDSchemaContent(xsdAttributeGroupDefinition);
+        if (result == null) result = caseXSDConcreteComponent(xsdAttributeGroupDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -201,9 +201,9 @@ public class XSDSwitch<T>
         if (result == null) result = caseXSDTypeDefinition(xsdComplexTypeDefinition);
         if (result == null) result = caseXSDScope(xsdComplexTypeDefinition);
         if (result == null) result = caseXSDRedefinableComponent(xsdComplexTypeDefinition);
+        if (result == null) result = caseXSDNamedComponent(xsdComplexTypeDefinition);
         if (result == null) result = caseXSDRedefineContent(xsdComplexTypeDefinition);
         if (result == null) result = caseXSDComponent(xsdComplexTypeDefinition);
-        if (result == null) result = caseXSDNamedComponent(xsdComplexTypeDefinition);
         if (result == null) result = caseXSDSchemaContent(xsdComplexTypeDefinition);
         if (result == null) result = caseXSDConcreteComponent(xsdComplexTypeDefinition);
         if (result == null) result = defaultCase(theEObject);
@@ -250,9 +250,9 @@ public class XSDSwitch<T>
         if (result == null) result = caseXSDSchemaContent(xsdElementDeclaration);
         if (result == null) result = caseXSDTerm(xsdElementDeclaration);
         if (result == null) result = caseXSDNamedComponent(xsdElementDeclaration);
-        if (result == null) result = caseXSDConcreteComponent(xsdElementDeclaration);
-        if (result == null) result = caseXSDComponent(xsdElementDeclaration);
         if (result == null) result = caseXSDParticleContent(xsdElementDeclaration);
+        if (result == null) result = caseXSDComponent(xsdElementDeclaration);
+        if (result == null) result = caseXSDConcreteComponent(xsdElementDeclaration);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -480,11 +480,11 @@ public class XSDSwitch<T>
         T result = caseXSDModelGroupDefinition(xsdModelGroupDefinition);
         if (result == null) result = caseXSDRedefinableComponent(xsdModelGroupDefinition);
         if (result == null) result = caseXSDParticleContent(xsdModelGroupDefinition);
-        if (result == null) result = caseXSDRedefineContent(xsdModelGroupDefinition);
         if (result == null) result = caseXSDNamedComponent(xsdModelGroupDefinition);
-        if (result == null) result = caseXSDConcreteComponent(xsdModelGroupDefinition);
-        if (result == null) result = caseXSDSchemaContent(xsdModelGroupDefinition);
+        if (result == null) result = caseXSDRedefineContent(xsdModelGroupDefinition);
         if (result == null) result = caseXSDComponent(xsdModelGroupDefinition);
+        if (result == null) result = caseXSDSchemaContent(xsdModelGroupDefinition);
+        if (result == null) result = caseXSDConcreteComponent(xsdModelGroupDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -656,9 +656,9 @@ public class XSDSwitch<T>
         if (result == null) result = caseXSDTypeDefinition(xsdSimpleTypeDefinition);
         if (result == null) result = caseXSDComplexTypeContent(xsdSimpleTypeDefinition);
         if (result == null) result = caseXSDRedefinableComponent(xsdSimpleTypeDefinition);
+        if (result == null) result = caseXSDNamedComponent(xsdSimpleTypeDefinition);
         if (result == null) result = caseXSDRedefineContent(xsdSimpleTypeDefinition);
         if (result == null) result = caseXSDComponent(xsdSimpleTypeDefinition);
-        if (result == null) result = caseXSDNamedComponent(xsdSimpleTypeDefinition);
         if (result == null) result = caseXSDSchemaContent(xsdSimpleTypeDefinition);
         if (result == null) result = caseXSDConcreteComponent(xsdSimpleTypeDefinition);
         if (result == null) result = defaultCase(theEObject);
@@ -691,10 +691,10 @@ public class XSDSwitch<T>
         XSDTypeDefinition xsdTypeDefinition = (XSDTypeDefinition)theEObject;
         T result = caseXSDTypeDefinition(xsdTypeDefinition);
         if (result == null) result = caseXSDRedefinableComponent(xsdTypeDefinition);
-        if (result == null) result = caseXSDRedefineContent(xsdTypeDefinition);
         if (result == null) result = caseXSDNamedComponent(xsdTypeDefinition);
-        if (result == null) result = caseXSDSchemaContent(xsdTypeDefinition);
+        if (result == null) result = caseXSDRedefineContent(xsdTypeDefinition);
         if (result == null) result = caseXSDComponent(xsdTypeDefinition);
+        if (result == null) result = caseXSDSchemaContent(xsdTypeDefinition);
         if (result == null) result = caseXSDConcreteComponent(xsdTypeDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
