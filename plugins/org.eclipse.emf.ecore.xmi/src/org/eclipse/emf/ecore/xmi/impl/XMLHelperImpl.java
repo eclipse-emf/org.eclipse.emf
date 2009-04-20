@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.56 2008/12/22 14:25:53 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.57 2009/04/20 22:27:14 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -868,7 +868,11 @@ public class XMLHelperImpl implements XMLHelper
         }
         else if (type instanceof EClass)
         {
-          newObject = eFactory.create((EClass)type);
+          EClass eClass = (EClass)type;
+          if (!eClass.isAbstract())
+          {
+            newObject = eFactory.create((EClass)type);
+          }
         }
         else
         {
@@ -881,7 +885,11 @@ public class XMLHelperImpl implements XMLHelper
       {
         if (type != null)
         {
-          newObject = eFactory.create((EClass)type);
+          EClass eClass = (EClass)type;
+          if (!eClass.isAbstract())
+          {
+            newObject = eFactory.create((EClass)type);
+          }
         }
       }
     }
