@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ClassNotFoundException.java,v 1.5 2006/12/05 20:23:28 emerks Exp $
+ * $Id: ClassNotFoundException.java,v 1.6 2009/04/20 22:27:56 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -27,7 +27,7 @@ public class ClassNotFoundException extends XMIException
 
   public ClassNotFoundException(String name, EFactory factory, String location, int line, int column) 
   {
-    super("Class '" + name + "' not found.", location, line, column);
+    super("Class '" + name + "' is not found or is abstract.", location, line, column);
     className = name;
     this.factory = factory;
   }
