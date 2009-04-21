@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 
 
 /**
@@ -32,28 +33,15 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
  */
 public class ImporterUtil
 {
+  /**
+   * @deprecated Moved to {@link CodeGenUtil#validPluginID(String)} in EMF 2.5.
+   */
+  @Deprecated
   public static String validPluginID(String base)
   {
-    StringBuffer sb = new StringBuffer(base);
-    for (int i = sb.length() - 1; i >= 0; i--)
-    {
-      char c = sb.charAt(i);
-      if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9') || c == '_' || c == '-' || c == '.')
-      {
-        //do nothing
-      }
-      else if (c == ' ')
-      {
-        sb.setCharAt(i, '_');
-      }
-      else
-      {
-        sb.deleteCharAt(i);
-      }
-    }
-    return sb.length() == 0 ? "_": sb.toString();
+    return CodeGenUtil.validPluginID(base);
   }
-  
+
   /**
    * <p>Removes any GenPackage from <tt>genPackages</tt> that has the same NSURI of a
    * genPackage in <tt>genPackagesToAdd</tt>.</p>
