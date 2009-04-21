@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.39 2008/07/09 01:16:12 davidms Exp $
+ * $Id: ModelImporter.java,v 1.40 2009/04/21 19:24:32 davidms Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -57,7 +57,6 @@ import org.eclipse.emf.converter.util.ConverterUtil;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
@@ -974,7 +973,7 @@ public abstract class ModelImporter extends ModelConverter
 
   public String getModelPluginID()
   {
-    return modelPluginID == null ? ImporterUtil.validPluginID(getModelProjectName()) : modelPluginID;
+    return modelPluginID == null ? CodeGenUtil.validPluginID(getModelProjectName()) : modelPluginID;
   }
 
   public void setModelPluginID(String modelPluginID)
