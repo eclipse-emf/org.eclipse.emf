@@ -123,7 +123,7 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
             manifest.print(genModelContainerPath.segment(0));
             manifest.println(" Plug-in");
             manifest.print("Bundle-SymbolicName: ");
-            manifest.println(genModelContainerPath.segment(0));
+            manifest.println(CodeGenUtil.validPluginID(genModelContainerPath.segment(0)));
             manifest.println("Bundle-Version: 0.1.0");
             manifest.println("Require-Bundle: org.eclipse.emf.ecore");
             manifest.close();
