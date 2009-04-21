@@ -917,6 +917,31 @@ public class CodeGenUtil
     return null;
   }
 
+  /**
+   * @since 2.5
+   */
+  public static String validPluginID(String base)
+  {
+    StringBuffer sb = new StringBuffer(base);
+    for (int i = sb.length() - 1; i >= 0; i--)
+    {
+      char c = sb.charAt(i);
+      if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9') || c == '_' || c == '-' || c == '.')
+      {
+        //do nothing
+      }
+      else if (c == ' ')
+      {
+        sb.setCharAt(i, '_');
+      }
+      else
+      {
+        sb.deleteCharAt(i);
+      }
+    }
+    return sb.length() == 0 ? "_": sb.toString();
+  }
+
   public static class EclipseUtil
   {
     public static class StreamProgressMonitor extends NullProgressMonitor
