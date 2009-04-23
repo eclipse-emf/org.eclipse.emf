@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.36 2008/12/22 19:51:05 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.37 2009/04/23 20:04:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3192,11 +3192,8 @@ public class EcoreValidator extends EObjectValidator
         {
           ETypeParameter eTypeParameter = eTypeParameters.get(i);
           EGenericType eTypeArgument = eTypeArguments.get(i);
-          if (isValidSubstitution(eTypeArgument, eTypeParameter, substitutions))
-          {
-            substitutions.put(eTypeParameter, eTypeArgument);
-          }
-          else
+          substitutions.put(eTypeParameter, eTypeArgument);
+          if (!isValidSubstitution(eTypeArgument, eTypeParameter, substitutions))
           {
             if (diagnostics == null)
             {
@@ -3382,7 +3379,11 @@ public class EcoreValidator extends EObjectValidator
         if (eTypeParameter != null)
         {
           EGenericType substitution = substitutions.get(eTypeParameter);
-          if (substitution != null)
+          if (substitution == eGenericType)
+          {
+            return true;
+          }
+          else if (substitution != null)
           {
             return isBounded(substitution, eBound, substitutions);
           }
@@ -3441,7 +3442,11 @@ public class EcoreValidator extends EObjectValidator
           else if (eTypeParameter != null)
           {
             substitution = substitutions.get(eTypeParameter);
-            if (substitution != null)
+            if (substitution == eGenericType)
+            {
+              return true;
+            }
+            else if (substitution != null)
             {
               return isBounded(substitution, eBound, substitutions);
             }
