@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.21 2007/06/14 18:32:40 emerks Exp $
+ * $Id: XMLResourceImpl.java,v 1.22 2009/04/28 14:48:33 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -178,6 +178,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
 
     xmlLoad.load(this, inputStream, options);
+    xmlLoad = null;
 
     if (handler != null)
     {
