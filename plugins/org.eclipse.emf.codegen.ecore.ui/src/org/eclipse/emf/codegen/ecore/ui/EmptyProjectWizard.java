@@ -116,12 +116,12 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
             PrintStream manifest = 
               new PrintStream
                 (URIConverter.INSTANCE.createOutputStream
-                   (URI.createPlatformResourceURI("/" + genModelContainerPath.segment(0) + "/META-INF/MANIFEST.MF", true), null));
+                   (URI.createPlatformResourceURI("/" + genModelContainerPath.segment(0) + "/META-INF/MANIFEST.MF", true), null),
+                 false, "UTF-8");
             manifest.println("Manifest-Version: 1.0");
             manifest.println("Bundle-ManifestVersion: 2");
             manifest.print("Bundle-Name: ");
-            manifest.print(genModelContainerPath.segment(0));
-            manifest.println(" Plug-in");
+            manifest.println(genModelContainerPath.segment(0));
             manifest.print("Bundle-SymbolicName: ");
             manifest.println(CodeGenUtil.validPluginID(genModelContainerPath.segment(0)));
             manifest.println("Bundle-Version: 0.1.0");
