@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.21 2009/04/21 19:26:06 davidms Exp $
+ * $Id: AllSuites.java,v 1.22 2009/04/30 14:56:21 davidms Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -34,6 +34,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.tools.codegen.CodeGenUtilTest.suite()
     ,org.eclipse.emf.test.tools.codegen.GenModelDefaultsTest.suite()
     ,org.eclipse.emf.test.tools.codegen.GenModelTest.suite()
+    ,org.eclipse.emf.test.tools.codegen.LiteralsTest.suite()
     ,org.eclipse.emf.test.tools.codegen.RemappedXMLTypesTest.suite()
     ,org.eclipse.emf.test.tools.converter.ConverterUtilTest.suite()
     ,org.eclipse.emf.test.tools.importer.ModelImporterTest.suite()
