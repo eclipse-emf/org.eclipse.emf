@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.108 2009/04/02 19:07:27 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.109 2009/04/30 14:55:26 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -8833,7 +8833,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (isCopyrightFields())
     {
       String copyright = getCopyrightText();
-      return isBlank(copyright) ? "null" : Literals.toStringLiteral(copyright, this);
+      return isBlank(copyright) ? "null" : Literals.toUnsafeStringLiteral(copyright, this);
     }
     else
     {
