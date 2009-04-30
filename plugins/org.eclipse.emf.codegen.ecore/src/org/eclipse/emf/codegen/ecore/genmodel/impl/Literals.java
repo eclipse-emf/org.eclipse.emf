@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Literals.java,v 1.10 2008/12/22 14:25:18 emerks Exp $
+ * $Id: Literals.java,v 1.11 2009/04/30 14:54:08 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -312,9 +312,26 @@ public class Literals
   {
     StringBuilder result = new StringBuilder(8);
     result.append('\'');
-    result.append(escapeChar(c));
+    result.append(escapeChar(c, false));
     result.append('\'');
     return result.toString();
+  }
+
+  /**
+   * Returns a literal expression for the given <code>char</code> value.
+   * This literal will be in its escaped form if it is backspace,
+   * horizontal tab, newline, form feed, carriage return, double quote,
+   * single quote, or backslash.  Otherwise, it will simply be the character
+   * literal. This result may not fall within the common printable range.
+   * @since 2.5
+   */
+  public static String toUnsafeCharLiteral(char c, GenModel genModel)
+  {
+    StringBuilder result = new StringBuilder(8);
+    result.append('\'');
+    result.append(escapeChar(c, true));
+    result.append('\'');
+    return result.toString();    
   }
 
   /**
@@ -324,19 +341,35 @@ public class Literals
    */
   public static String toStringLiteral(String s, GenModel genModel)
   {
+    return toStringLiteral(s, genModel, false);
+  }
+
+  /**
+   * Returns a literal expression for the given <code>String</code>.  Each
+   * of its characters will appear in the same form as if it was the
+   * argument to {@link #toUnsafeCharLiteral}.
+   * @since 2.5
+   */
+  public static String toUnsafeStringLiteral(String s, GenModel genModel)
+  {
+    return toStringLiteral(s, genModel, true);
+  }
+
+  private static String toStringLiteral(String s, GenModel genModel, boolean unsafe)
+  {
     if (s == null) return "null";
     int len = s.length();
     StringBuilder result = new StringBuilder(len + 16);
     result.append('\"');
     for (int i = 0; i < len; i++)
     {
-      result.append(escapeChar(s.charAt(i)));
+      result.append(escapeChar(s.charAt(i), unsafe));
     }
     result.append('\"');
     return result.toString();
   }
 
-  private static String escapeChar(char c)
+  private static String escapeChar(char c, boolean unsafe)
   {
     if (c == '\b') return "\\b";
     if (c == '\t') return "\\t";
@@ -346,7 +379,7 @@ public class Literals
     if (c == '\"') return "\\\"";
     if (c == '\'') return "\\\'";
     if (c == '\\') return "\\\\";
-    if (c >= 32 && c < 127) return String.valueOf(c);
+    if (unsafe || (c >= 32 && c < 127)) return String.valueOf(c);
 
     // escaped unicode form
     String num = Integer.toHexString(c);
