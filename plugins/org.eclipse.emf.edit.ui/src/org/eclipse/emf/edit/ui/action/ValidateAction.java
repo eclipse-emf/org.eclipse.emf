@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.27 2008/08/08 17:27:59 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.28 2009/04/30 14:24:52 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -71,7 +71,14 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   {
     public IRunnableWithProgress getWorkspaceModifyOperation(IRunnableWithProgress runnableWithProgress)
     {
-      return new WorkspaceModifyDelegatingOperation(runnableWithProgress);
+      try
+      {
+        return new WorkspaceModifyDelegatingOperation(runnableWithProgress);
+      }
+      catch (NoClassDefFoundError exception)
+      {
+        return runnableWithProgress;
+      }
     }
     
     @Override
