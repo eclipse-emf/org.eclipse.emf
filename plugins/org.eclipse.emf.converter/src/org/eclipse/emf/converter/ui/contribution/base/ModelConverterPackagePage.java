@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.14 2007/06/14 18:32:49 emerks Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.15 2009/05/10 17:32:53 davidms Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -62,6 +62,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -81,6 +82,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.common.ui.celleditor.ExtendedTableEditor;
+import org.eclipse.emf.common.ui.celleditor.SingleColumnTableEditor;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -225,7 +227,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
       packagesLabel.setLayoutData(data);
     }    
 
-    Table packagesTable = new Table(composite, SWT.CHECK | SWT.BORDER | SWT.SINGLE);
+    Table packagesTable = new Table(composite, SWT.CHECK | SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
     ePackagesCheckboxTableViewer = new CheckboxTableViewer(packagesTable);
     {
       FormData data = new FormData();
@@ -320,6 +322,52 @@ public class ModelConverterPackagePage extends ModelConverterPage
     addEPackagesTableColumns(ePackagesTableViewer);
   }
 
+  protected void createEPackagesTableEditor()
+  {
+    new SingleColumnTableEditor(ePackagesCheckboxTableViewer.getTable())
+    {
+      @Override
+      protected Control createEditor(final TableItem item, final int column)
+      {
+        if (item.getChecked())
+        {
+          validateEPackageData((EPackage)item.getData(), item.getText(column));
+        }
+
+        final Text text = super.createTextEditor(item, column);
+        text.addModifyListener(new ModifyListener()
+        {
+          public void modifyText(ModifyEvent event)
+          {
+            if (column == 1 && item.getChecked())
+            {
+              validateEPackageData((EPackage)item.getData(), text.getText());
+            }
+          }
+        });
+        isCellEditing = true;
+        setPageComplete(false);
+        return text;
+      }
+
+      @Override
+      protected void update(TableItem item, int column, Control editor)
+      {
+        String value = ((Text)editor).getText();
+        item.setText(column, value);
+        setEPackageData((EPackage)item.getData(), value);
+        isCellEditing = false;
+        validate();
+        setPageComplete(isPageComplete());
+      }
+    };
+  }
+
+  /**
+   * Leaking a non-API return type was an error. This method will be removed in a future release of EMF.
+   * @deprecated Use {@link #createEPackagesTableEditor()}.
+   */
+  @Deprecated
   protected ExtendedTableEditor createEPackageDataColumnTableEditor()
   {
     return new ExtendedTableEditor(ePackagesCheckboxTableViewer.getTable())
