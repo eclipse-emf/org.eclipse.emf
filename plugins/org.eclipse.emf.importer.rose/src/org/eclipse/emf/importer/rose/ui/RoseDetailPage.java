@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.15 2007/05/29 20:28:44 marcelop Exp $
+ * $Id: RoseDetailPage.java,v 1.16 2009/05/10 17:31:07 davidms Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -20,10 +20,6 @@ import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -32,6 +28,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -42,7 +39,7 @@ import org.eclipse.swt.widgets.Text;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.common.ui.celleditor.ExtendedTableEditor;
+import org.eclipse.emf.common.ui.celleditor.SingleColumnTableEditor;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -128,7 +125,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
     pathMapGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
     pathMapGroup.setText(RoseImporterPlugin.INSTANCE.getString("_UI_PathMap_label"));
 
-    pathMapTable = new Table(pathMapGroup, SWT.BORDER);
+    pathMapTable = new Table(pathMapGroup, SWT.BORDER | SWT.FULL_SELECTION);
     
     Composite buttonComposite = new Composite(pathMapGroup, SWT.NONE);
     {
@@ -182,75 +179,39 @@ public class RoseDetailPage extends ModelImporterDetailPage
     }
     pathMapTable.addListener(SWT.Selection, this);
 
-    new ExtendedTableEditor(pathMapTable)
+    new SingleColumnTableEditor(pathMapTable)
     {
       @Override
-      protected void editItem(final TableItem tableItem, final int column)
+      protected Control createEditor(TableItem item, int column)
       {
-        switch (column)
-        {
-          case 1: {
-            final String string = tableItem.getText(column);
-            horizontalAlignment = SWT.LEFT;
-            minimumWidth = Math.max(50, tableItem.getBounds(column).width);
- 
-            final Text text = new Text(table, SWT.NONE);
-            setEditor(text, tableItem, column);
-            text.setFocus();
-            text.setText(string);
-            text.setSelection(0, string.length());
- 
-            text.addFocusListener(new FocusAdapter()
-              {
-                @Override
-                public void focusLost(FocusEvent event)
-                {
-                  modify(tableItem, column, text);
-                }
-              });
- 
-            text.addKeyListener(new KeyAdapter()
-              {
-                @Override
-                public void keyPressed(KeyEvent event)
-                {
-                  if (event.character == '\r' || event.character == '\n')
-                  {
-                    modify(tableItem, column, text);
-                    setEditor(null);
-                    text.dispose();
-                  }
-                  else if (event.character == '\033')
-                  {
-                    setEditor(null);
-                    text.dispose();
-                  }
-                }
-              });
- 
-            isCellEditing = true;
-            setPageComplete(false);
-            break;
-          }
-        }
+        isCellEditing = true;
+        setPageComplete(false);
+        return createTextEditor(item, column);
       }
 
-      protected void modify(TableItem tableItem, int column, Text text)
+      @Override
+      protected void endEditing(TableItem item, int column, Control editor, boolean accept)
       {
-        tableItem.setText(column, text.getText());
-        String key = tableItem.getText();
-        String value = tableItem.getText(column);
-        text.setVisible(false);
-        if ("".equals(value))
-        {
-          value = null;
-        }
-        getRoseImporter().getPathMap().put(key, value);
+        super.endEditing(item, column, editor, accept);
 
         isCellEditing = false;
         setErrorMessage(null);
         setMessage(null);
         setPageComplete(isPageComplete());
+      }
+
+      @Override
+      protected void update(TableItem item, int column, Control editor)
+      {
+        item.setText(column, ((Text)editor).getText());
+
+        String key = item.getText(0);
+        String value = item.getText(1);
+        if ("".equals(value))
+        {
+          value = null;
+        }
+        getRoseImporter().getPathMap().put(key, value);
       }
     };
 
