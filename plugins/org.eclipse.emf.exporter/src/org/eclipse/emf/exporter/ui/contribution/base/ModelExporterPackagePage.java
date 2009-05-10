@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporterPackagePage.java,v 1.3 2006/12/28 06:50:54 marcelop Exp $
+ * $Id: ModelExporterPackagePage.java,v 1.4 2009/05/10 17:33:26 davidms Exp $
  */
 
 package org.eclipse.emf.exporter.ui.contribution.base;
@@ -168,7 +168,7 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
   protected void adjustEPackagesTableViewer(CheckboxTableViewer ePackagesTableViewer)
   {
     super.adjustEPackagesTableViewer(ePackagesTableViewer);
-    createEPackageDataColumnTableEditor();
+    createEPackagesTableEditor();
   }
 
   @Override
