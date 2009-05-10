@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedTableEditor.java,v 1.4 2006/12/28 06:42:02 marcelop Exp $
+ * $Id: ExtendedTableEditor.java,v 1.5 2009/05/10 17:29:24 davidms Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -37,7 +37,10 @@ import org.eclipse.swt.widgets.TableItem;
  * This base class for implementing a {@link TableEditor} that calls {@link #editItem}
  * when the cell editor potentially needs to be activated.
  * This API is under construction; please do not use it for anything more than experimentation.
+ * It also does not fully support keyboard navigation.
+ * @deprecated Use {@link SingleColumnTableEditor} or {@link MultiColumnTableEditor}.
  */
+@Deprecated
 public abstract class ExtendedTableEditor 
   extends TableEditor
   implements KeyListener, MouseListener, SelectionListener
