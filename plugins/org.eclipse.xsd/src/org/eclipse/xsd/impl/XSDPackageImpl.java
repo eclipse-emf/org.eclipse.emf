@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackageImpl.java,v 1.12 2009/04/18 11:51:27 emerks Exp $
+ * $Id: XSDPackageImpl.java,v 1.13 2009/05/12 15:54:47 davidms Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -4719,20 +4719,10 @@ public class XSDPackageImpl
   }
 
   /**
-   * Creates, registers, and initializes the <b>Package</b> for this
-   * model, and for any others upon which it depends.  Simple
-   * dependencies are satisfied by calling this method on all
-   * dependent packages before doing anything else.  This method drives
-   * initialization for interdependent packages directly, in parallel
-   * with this package, itself.
-   * <p>Of this package and its interdependencies, all packages which
-   * have not yet been registered by their URI values are first created
-   * and registered.  The packages are then initialized in two steps:
-   * meta-model objects for all of the packages are created before any
-   * are initialized, since one package's meta-model objects may refer to
-   * those of another.
-   * <p>Invocation of this method will not affect any packages that have
-   * already been initialized.
+   * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
+   * 
+   * <p>This method is used to initialize {@link XSDPackage#eINSTANCE} when that field is accessed.
+   * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #eNS_URI
@@ -4758,6 +4748,9 @@ public class XSDPackageImpl
     // Mark meta-data to indicate it can't be changed
     theXSDPackage.freeze();
 
+  
+    // Update the registry and return the package
+    EPackage.Registry.INSTANCE.put(XSDPackage.eNS_URI, theXSDPackage);
     return theXSDPackage;
   }
 
