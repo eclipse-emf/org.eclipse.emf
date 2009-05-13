@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-   <!-- Categories provided by org.eclipse.galileo -->
-   <!--
-   <extension point="org.eclipse.ui.activities">
-      <category
-            description="%activity.cat.modeling.desc"
-            id="org.eclipse.galileo.modeling.Category"
-            name="%activity.cat.modeling">
-     </category>
-
-     <category
-            description="%activity.cat.model.transformation.desc"
-            id="org.eclipse.galileo.model.transformation.Category"
-            name="%activity.cat.model.transformation">
-     </category>
-   </extension>
-   -->
-
    <extension point="org.eclipse.ui.activities">
       <!-- EMF MDD Tools -->
       <activity
@@ -138,30 +121,33 @@
             activityId="org.eclipse.emf.examples.activity"
             pattern="org\.eclipse\.emf\.validation\.examples/.*">
       </activityPatternBinding>
-   </extension>
 
-   <!-- Category bindings and default enablement provided by org.eclipse.galileo -->
-   <!--
-   <extension point="org.eclipse.ui.activities">
+      <!-- The category should be something that makes sense for the product -->
+      <category
+            description="%activity.cat.emf.desc"
+            id="org.eclipse.emf.Category"
+            name="%activity.cat.emf">
+      </category>
+
       <categoryActivityBinding
             activityId="org.eclipse.emf.activity"
-            categoryId="org.eclipse.galileo.modeling.Category">
+            categoryId="org.eclipse.emf.Category">
       </categoryActivityBinding>
       <categoryActivityBinding
             activityId="org.eclipse.emf.reflective.activity"
-            categoryId="org.eclipse.galileo.modeling.Category">
+            categoryId="org.eclipse.emf.Category">
       </categoryActivityBinding>
       <categoryActivityBinding
             activityId="org.eclipse.emf.jet.activity"
-            categoryId="org.eclipse.galileo.model.transformation.Category">
+            categoryId="org.eclipse.emf.Category">
       </categoryActivityBinding>
       <categoryActivityBinding
             activityId="org.eclipse.xsd.activity"
-            categoryId="org.eclipse.galileo.modeling.Category">
+            categoryId="org.eclipse.emf.Category">
       </categoryActivityBinding>
       <categoryActivityBinding
             activityId="org.eclipse.emf.examples.activity"
-            categoryId="org.eclipse.galileo.modeling.Category">
+            categoryId="org.eclipse.emf.Category">
       </categoryActivityBinding>
       <defaultEnablement
             id="org.eclipse.emf.activity">
@@ -170,8 +156,13 @@
             id="org.eclipse.emf.reflective.activity">
       </defaultEnablement>
       <defaultEnablement
+            id="org.eclipse.emf.jet.activity">
+      </defaultEnablement>
+      <defaultEnablement
+            id="org.eclipse.xsd.activity">
+      </defaultEnablement>
+      <defaultEnablement
             id="org.eclipse.emf.examples.activity">
       </defaultEnablement>
    </extension>
-   -->
 </plugin>
