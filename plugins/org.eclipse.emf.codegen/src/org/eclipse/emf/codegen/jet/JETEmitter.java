@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.28 2009/05/04 18:01:16 davidms Exp $
+ * $Id: JETEmitter.java,v 1.29 2009/05/13 14:11:03 davidms Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -63,7 +63,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaModel;
@@ -765,11 +764,6 @@ public class JETEmitter
             (CodeGenPlugin.getPlugin().getString("_UI_JETUpdating_message", new Object [] { targetFile.getFullPath() }));
           targetFile.setContents(contents, true, true, new SubProgressMonitor(subProgressMonitor, 1));
         }
-  
-        // Workaround for issue introduced in bug 261225. Platform fix coming in bug 274838.
-        // See bug 274769 for details.
-        //
-        Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
 
         subProgressMonitor.subTask
           (CodeGenPlugin.getPlugin().getString("_UI_JETBuilding_message", new Object [] { project.getName() }));
