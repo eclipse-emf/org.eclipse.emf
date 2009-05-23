@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainEObjectObservableList.java,v 1.1 2007/11/16 20:58:05 emerks Exp $
+ * $Id: EditingDomainEObjectObservableList.java,v 1.2 2009/05/23 11:11:30 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit;
 
@@ -30,25 +30,47 @@ import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+
 /**
- * PROVISIONAL
- * This API is subject to arbitrary change, including renaming or removal.
+ * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
  */
 public class EditingDomainEObjectObservableList extends EObjectObservableList
 {
+  /**
+   * The editing domain
+   */
   protected EditingDomain domain;
 
+  /**
+   * Observe a feature of the instance using the default realm
+   * @param domain
+   *            the editing domain
+   * @param eObject
+   *            the object
+   * @param eStructuralFeature
+   *            the feature
+   */
   public EditingDomainEObjectObservableList(EditingDomain domain, EObject eObject, EStructuralFeature eStructuralFeature)
   {
     this(Realm.getDefault(), domain, eObject, eStructuralFeature);
   }
 
+  /**
+   * Observe a feature of the instance using the realm
+   * @param domain
+   *            the editing domain
+   * @param realm
+   * 
+   * @param eObject
+   *            the object
+   * @param eStructuralFeature
+   *            the feature
+   */
   public EditingDomainEObjectObservableList(Realm realm, EditingDomain domain, EObject eObject, EStructuralFeature eStructuralFeature)
   {
     super(realm, eObject, eStructuralFeature);
     this.domain = domain;
   }
-  
 
   @Override
   public synchronized void dispose()
@@ -57,6 +79,11 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
     super.dispose();
   }
 
+  /**
+   * Execute a command
+   * @param command the command to execute
+   * @return <code>true</code> if execute else <code>false</code>
+   */
   protected boolean execute(Command command)
   {
     if (command.canExecute())
@@ -69,7 +96,6 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
       return false;
     }
   }
-
 
   @Override
   public boolean add(Object object)

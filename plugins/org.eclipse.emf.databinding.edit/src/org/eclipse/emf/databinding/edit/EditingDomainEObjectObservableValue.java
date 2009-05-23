@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainEObjectObservableValue.java,v 1.1 2007/11/16 20:58:05 emerks Exp $
+ * $Id: EditingDomainEObjectObservableValue.java,v 1.2 2009/05/23 11:11:30 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit;
 
@@ -24,18 +24,44 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+
 /**
- * PROVISIONAL
- * This API is subject to arbitrary change, including renaming or removal.
+ * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
  */
 public class EditingDomainEObjectObservableValue extends EObjectObservableValue
 {
+  /**
+   * The editing domain
+   */
   protected EditingDomain domain;
 
+  /**
+   * Observe a list feature using a default realm
+   * 
+   * @param domain 
+   *            the editing domain
+   * @param eObject
+   *            the object instance
+   * @param eStructuralFeature
+   *            the feature
+   */
   public EditingDomainEObjectObservableValue(EditingDomain domain, EObject eObject, EStructuralFeature eStructuralFeature)
   {
     this(Realm.getDefault(), domain, eObject, eStructuralFeature);
   }
+
+  /**
+   * Observe a list feature using a custom realm
+   * 
+   * @param realm
+   *            the realm
+   * @param domain 
+   *            the editing domain
+   * @param eObject
+   *            the object instance
+   * @param eStructuralFeature
+   *            the feature
+   */
   public EditingDomainEObjectObservableValue(Realm realm, EditingDomain domain, EObject eObject, EStructuralFeature eStructuralFeature)
   {
     super(realm, eObject, eStructuralFeature);

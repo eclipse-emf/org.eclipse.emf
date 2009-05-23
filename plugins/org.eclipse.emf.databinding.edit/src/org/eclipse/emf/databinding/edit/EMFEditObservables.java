@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFEditObservables.java,v 1.3 2008/04/22 13:35:52 emerks Exp $
+ * $Id: EMFEditObservables.java,v 1.4 2009/05/23 11:11:30 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit;
 
@@ -24,13 +24,14 @@ import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.masterdetail.MasterDetailObservables;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+
 /**
- * PROVISIONAL
- * This API is subject to arbitrary change, including renaming or removal.
+ * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
  */
 public class EMFEditObservables
 {
@@ -124,7 +125,11 @@ public class EMFEditObservables
    * @return an observable value that tracks the current value of the named property for the current value of the master observable value
    * @see MasterDetailObservables#detailValue(IObservableValue, IObservableFactory, Object)
    */
-  public static IObservableValue observeDetailValue(Realm realm, EditingDomain domain, IObservableValue value, EStructuralFeature eStructuralFeature)
+  public static IObservableValue observeDetailValue(
+    Realm realm,
+    EditingDomain domain,
+    IObservableValue value,
+    EStructuralFeature eStructuralFeature)
   {
     return MasterDetailObservables.detailValue(value, valueFactory(realm, domain, eStructuralFeature), eStructuralFeature);
   }
@@ -157,7 +162,11 @@ public class EMFEditObservables
    * @return an observable value that tracks the current value of the named property for the current value of the master observable value
    * @see MasterDetailObservables#detailList(IObservableValue, IObservableFactory, Object)
    */
-  public static IObservableList observeDetailList(Realm realm, EditingDomain domain, IObservableValue value, EStructuralFeature eStructuralFeature)
+  public static IObservableList observeDetailList(
+    Realm realm,
+    EditingDomain domain,
+    IObservableValue value,
+    EStructuralFeature eStructuralFeature)
   {
     return MasterDetailObservables.detailList(value, listFactory(realm, domain, eStructuralFeature), eStructuralFeature);
   }
@@ -172,8 +181,7 @@ public class EMFEditObservables
    */
   public static IObservableFactory listFactory(final Realm realm, final EditingDomain domain, final EStructuralFeature eStructuralFeature)
   {
-    return 
-      new IObservableFactory()
+    return new IObservableFactory()
       {
         public IObservable createObservable(Object target)
         {
@@ -191,13 +199,12 @@ public class EMFEditObservables
    */
   public static IObservableFactory mapFactory(final EditingDomain domain, final EStructuralFeature eStructuralFeature)
   {
-    return
-      new IObservableFactory()
+    return new IObservableFactory()
       {
         public IObservable createObservable(Object target)
         {
           return observeMap(domain, (IObservableSet)target, eStructuralFeature);
         }
       };
-   }
+  }
 }

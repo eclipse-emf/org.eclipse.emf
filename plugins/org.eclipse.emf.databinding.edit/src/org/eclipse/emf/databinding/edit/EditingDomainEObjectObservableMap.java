@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainEObjectObservableMap.java,v 1.1 2007/11/16 20:58:05 emerks Exp $
+ * $Id: EditingDomainEObjectObservableMap.java,v 1.2 2009/05/23 11:11:30 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit;
 
@@ -24,20 +24,32 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+
 /**
- * PROVISIONAL
- * This API is subject to arbitrary change, including renaming or removal.
+ * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
  */
 public class EditingDomainEObjectObservableMap extends EObjectObservableMap
 {
+  /**
+   * The editing domain
+   */
   protected EditingDomain domain;
 
+  /**
+   * Create a new observable for the set of features
+   * @param domain
+   *            the editing domain
+   * @param objects
+   *            the objects to observe
+   * @param eStructuralFeature
+   *            the feature
+   */
   public EditingDomainEObjectObservableMap(EditingDomain domain, IObservableSet objects, EStructuralFeature eStructuralFeature)
   {
     super(objects, eStructuralFeature);
     this.domain = domain;
   }
-  
+
   @Override
   protected Object doPut(Object key, Object value)
   {
@@ -45,7 +57,7 @@ public class EditingDomainEObjectObservableMap extends EObjectObservableMap
     Object result = eObject.eGet(eStructuralFeature);
     Command command = SetCommand.create(domain, eObject, eStructuralFeature, value);
     domain.getCommandStack().execute(command);
-    
+
     eObject.eSet(eStructuralFeature, value);
     return result;
   }
