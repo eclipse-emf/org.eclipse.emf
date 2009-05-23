@@ -9,10 +9,11 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Hasan Ceylan <hceylan@batoo.org> - Bug 277358
  *
  * </copyright>
  *
- * $Id: EObjectObservableValue.java,v 1.3 2009/05/23 11:11:33 tschindl Exp $
+ * $Id: EObjectObservableValue.java,v 1.4 2009/05/23 11:18:43 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -122,8 +123,10 @@ public class EObjectObservableValue extends AbstractObservableValue implements I
   @Override
   protected void lastListenerRemoved()
   {
-    eObject.eAdapters().remove(listener);
-    listener = null;
+	if (listener != null){
+	  eObject.eAdapters().remove(listener);
+	  listener = null;
+	}
   }
 
   @Override
