@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectObservableList.java,v 1.4 2008/02/21 15:26:16 emerks Exp $
+ * $Id: EObjectObservableList.java,v 1.5 2009/05/23 11:11:33 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -32,24 +32,52 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+
 /**
- * PROVISIONAL
- * This API is subject to arbitrary change, including renaming or removal.
+ * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
  */
 public class EObjectObservableList extends ObservableList implements IObserving, InternalRawEList
 {
+  /**
+   * The object owning the feature
+   */
   protected EObject eObject;
+  /**
+   * The structural feature
+   */
   protected EStructuralFeature eStructuralFeature;
+  /**
+   * The listener attached
+   */
   protected Adapter listener;
 
+  /**
+   * Observe a list feature using a default realm
+   * 
+   * @param eObject
+   *            the object instance
+   * @param eStructuralFeature
+   *            the feature
+   */
   public EObjectObservableList(EObject eObject, EStructuralFeature eStructuralFeature)
   {
     this(Realm.getDefault(), eObject, eStructuralFeature);
   }
 
+  /**
+   * Observe a list feature using a custom realm
+   * 
+   * @param realm
+   *            the realm
+   * 
+   * @param eObject
+   *            the object instance
+   * @param eStructuralFeature
+   *            the feature
+   */
   public EObjectObservableList(Realm realm, EObject eObject, EStructuralFeature eStructuralFeature)
   {
-    super(realm, (EList<?>)eObject.eGet(eStructuralFeature), eStructuralFeature);
+    super(realm, (EList< ? >)eObject.eGet(eStructuralFeature), eStructuralFeature);
     this.eObject = eObject;
     this.eStructuralFeature = eStructuralFeature;
   }
@@ -57,8 +85,7 @@ public class EObjectObservableList extends ObservableList implements IObserving,
   @Override
   protected void firstListenerAdded()
   {
-    listener =
-      new AdapterImpl()
+    listener = new AdapterImpl()
       {
         @Override
         public void notifyChanged(Notification notification)
@@ -68,15 +95,13 @@ public class EObjectObservableList extends ObservableList implements IObserving,
             final ListDiff diff;
             switch (notification.getEventType())
             {
-              case Notification.ADD:
-              {
+              case Notification.ADD: {
                 diff = Diffs.createListDiff(Diffs.createListDiffEntry(notification.getPosition(), true, notification.getNewValue()));
                 break;
               }
-              case Notification.ADD_MANY:
-              {
-                Collection<?> newValues = (Collection<?>)notification.getNewValue();
-                ListDiffEntry [] listDiffEntries = new ListDiffEntry [newValues.size()];
+              case Notification.ADD_MANY: {
+                Collection< ? > newValues = (Collection< ? >)notification.getNewValue();
+                ListDiffEntry[] listDiffEntries = new ListDiffEntry [newValues.size()];
                 int position = notification.getPosition();
                 int index = 0;
                 for (Object newValue : newValues)
@@ -86,15 +111,13 @@ public class EObjectObservableList extends ObservableList implements IObserving,
                 diff = Diffs.createListDiff(listDiffEntries);
                 break;
               }
-              case Notification.REMOVE:
-              {
+              case Notification.REMOVE: {
                 diff = Diffs.createListDiff(Diffs.createListDiffEntry(notification.getPosition(), false, notification.getOldValue()));
                 break;
               }
-              case Notification.REMOVE_MANY:
-              {
-                Collection<?> oldValues = (Collection<?>)notification.getOldValue();
-                ListDiffEntry [] listDiffEntries = new ListDiffEntry [oldValues.size()];
+              case Notification.REMOVE_MANY: {
+                Collection< ? > oldValues = (Collection< ? >)notification.getOldValue();
+                ListDiffEntry[] listDiffEntries = new ListDiffEntry [oldValues.size()];
                 int position = notification.getPosition();
                 int index = 0;
                 for (Object oldValue : oldValues)
@@ -105,36 +128,32 @@ public class EObjectObservableList extends ObservableList implements IObserving,
                 break;
               }
               case Notification.SET:
-              case Notification.RESOLVE:
-              {
-                ListDiffEntry [] listDiffEntries = new ListDiffEntry [2];
+              case Notification.RESOLVE: {
+                ListDiffEntry[] listDiffEntries = new ListDiffEntry [2];
                 listDiffEntries[0] = Diffs.createListDiffEntry(notification.getPosition(), false, notification.getOldValue());
                 listDiffEntries[1] = Diffs.createListDiffEntry(notification.getPosition(), true, notification.getNewValue());
                 diff = Diffs.createListDiff(listDiffEntries);
                 break;
               }
-              case Notification.MOVE:
-              {
+              case Notification.MOVE: {
                 Object movedValue = notification.getNewValue();
-                ListDiffEntry [] listDiffEntries = new ListDiffEntry [2];
+                ListDiffEntry[] listDiffEntries = new ListDiffEntry [2];
                 listDiffEntries[0] = Diffs.createListDiffEntry((Integer)notification.getOldValue(), false, movedValue);
                 listDiffEntries[1] = Diffs.createListDiffEntry(notification.getPosition(), true, movedValue);
                 diff = Diffs.createListDiff(listDiffEntries);
                 break;
               }
-              case Notification.UNSET:
-              {
-                // This just represents going back to the unset state, but that doesn't affect the contents of the list.
+              case Notification.UNSET: {
+                // This just represents going back to the unset state,
+                // but that doesn't affect the contents of the list.
                 //
                 return;
               }
-              default:
-              {
+              default: {
                 throw new RuntimeException("unhandled case");
               }
             }
-            getRealm().exec
-             (new Runnable()
+            getRealm().exec(new Runnable()
               {
                 public void run()
                 {
@@ -146,7 +165,7 @@ public class EObjectObservableList extends ObservableList implements IObserving,
       };
     eObject.eAdapters().add(listener);
   }
-  
+
   @Override
   protected void lastListenerRemoved()
   {
@@ -167,6 +186,9 @@ public class EObjectObservableList extends ObservableList implements IObserving,
     super.dispose();
   }
 
+  /**
+   * @return the wrapped list
+   */
   @SuppressWarnings("unchecked")
   protected final List<Object> wrappedList()
   {
@@ -256,7 +278,7 @@ public class EObjectObservableList extends ObservableList implements IObserving,
   public Object move(int newPosition, int oldPosition)
   {
     checkRealm();
-    return ((EList<?>)wrappedList).move(newPosition, oldPosition);
+    return ((EList< ? >)wrappedList).move(newPosition, oldPosition);
   }
 
   public void move(int newPosition, Object object)
@@ -290,5 +312,6 @@ public class EObjectObservableList extends ObservableList implements IObserving,
 @SuppressWarnings("unchecked")
 interface InternalRawEList extends EList
 {
-  // This is only at avoid needing an @SuppressWarnings("unchecked") on the EMFObservableList
+  // This is only at avoid needing an @SuppressWarnings("unchecked") on the
+  // EMFObservableList
 }

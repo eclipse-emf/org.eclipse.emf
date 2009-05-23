@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataBindingPlugin.java,v 1.1 2007/11/16 21:25:21 emerks Exp $
+ * $Id: DataBindingPlugin.java,v 1.2 2009/05/23 11:11:33 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -20,7 +20,9 @@ import org.eclipse.emf.common.EMFPlugin;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+
 /**
+ * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
  * This is the central singleton for the Data Binding plugin.
  */
 public final class DataBindingPlugin extends EMFPlugin
@@ -40,7 +42,7 @@ public final class DataBindingPlugin extends EMFPlugin
    */
   public DataBindingPlugin()
   {
-    super(new ResourceLocator [] {});
+    super(new ResourceLocator []{});
   }
 
   /**

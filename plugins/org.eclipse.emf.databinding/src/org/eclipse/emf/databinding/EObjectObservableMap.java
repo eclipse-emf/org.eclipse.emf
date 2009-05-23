@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectObservableMap.java,v 1.4 2008/10/21 11:03:56 emerks Exp $
+ * $Id: EObjectObservableMap.java,v 1.5 2009/05/23 11:11:33 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -27,16 +27,18 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
+
 /**
- * PROVISIONAL
- * This API is subject to arbitrary change, including renaming or removal.
+ * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
  */
 public class EObjectObservableMap extends ComputedObservableMap
 {
+  /**
+   * The feature to observe
+   */
   protected EStructuralFeature eStructuralFeature;
 
-  private Adapter elementListener = 
-    new AdapterImpl()
+  private Adapter elementListener = new AdapterImpl()
     {
       @Override
       public void notifyChanged(Notification notification)
@@ -44,21 +46,32 @@ public class EObjectObservableMap extends ComputedObservableMap
         if (eStructuralFeature == notification.getFeature() && !notification.isTouch())
         {
           // TODO
-          // This assumes we only get a SET notification, which isn't a good assumption.
+          // This assumes we only get a SET notification, which isn't a
+          // good assumption.
           //
-          final MapDiff diff = Diffs.createMapDiffSingleChange(notification.getNotifier(), notification.getOldValue(), notification.getNewValue());
-          getRealm().exec
-            (new Runnable()
-             {
-               public void run()
-               {
-                 fireMapChange(diff);
-               }
-             });
+          final MapDiff diff = Diffs.createMapDiffSingleChange(
+            notification.getNotifier(),
+            notification.getOldValue(),
+            notification.getNewValue());
+          getRealm().exec(new Runnable()
+            {
+              public void run()
+              {
+                fireMapChange(diff);
+              }
+            });
         }
       }
     };
 
+  /**
+   * Create a new observable for the set of features
+   * 
+   * @param objects
+   *            the objects to observe
+   * @param feature
+   *            the feature
+   */
   public EObjectObservableMap(IObservableSet objects, EStructuralFeature feature)
   {
     super(objects);
@@ -81,10 +94,7 @@ public class EObjectObservableMap extends ComputedObservableMap
   protected Object doGet(Object key)
   {
     EObject eObject = (EObject)key;
-    return  
-      ExtendedMetaData.INSTANCE.getAffiliation(eObject.eClass(), eStructuralFeature) == null ?
-        null :
-        eObject.eGet(eStructuralFeature);
+    return ExtendedMetaData.INSTANCE.getAffiliation(eObject.eClass(), eStructuralFeature) == null ? null : eObject.eGet(eStructuralFeature);
   }
 
   @Override

@@ -13,10 +13,9 @@
  *
  * </copyright>
  *
- * $Id: EMFObservables.java,v 1.3 2008/04/22 13:36:00 emerks Exp $
+ * $Id: EMFObservables.java,v 1.4 2009/05/23 11:11:33 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
-
 
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.Realm;
@@ -26,12 +25,15 @@ import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.masterdetail.MasterDetailObservables;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.common.notify.NotifyingList;
+import org.eclipse.emf.databinding.internal.EWritableList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+
 
 /**
- * PROVISIONAL
- * This API is subject to arbitrary change, including renaming or removal.
+ * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
  */
 public class EMFObservables
 {
@@ -132,8 +134,7 @@ public class EMFObservables
    */
   public static IObservableFactory valueFactory(final Realm realm, final EStructuralFeature eStructuralFeature)
   {
-    return 
-      new IObservableFactory()
+    return new IObservableFactory()
       {
         public IObservable createObservable(Object target)
         {
@@ -164,8 +165,7 @@ public class EMFObservables
    */
   public static IObservableFactory listFactory(final Realm realm, final EStructuralFeature eStructuralFeature)
   {
-    return 
-      new IObservableFactory()
+    return new IObservableFactory()
       {
         public IObservable createObservable(Object target)
         {
@@ -173,7 +173,7 @@ public class EMFObservables
         }
       };
   }
-  
+
   /**
    * Returns a factory for creating observable maps
    * tracking the value of the given feature of a particular {@link EObject object}.
@@ -182,13 +182,26 @@ public class EMFObservables
    */
   public static IObservableFactory mapFactory(final EStructuralFeature eStructuralFeature)
   {
-    return
-      new IObservableFactory()
+    return new IObservableFactory()
       {
         public IObservable createObservable(Object target)
         {
           return observeMap((IObservableSet)target, eStructuralFeature);
         }
       };
-   }
+  }
+
+  /**
+  	 * Returns an observable for the resource contents (
+  	 * {@link Resource#getContents()})
+  	 * 
+  	 * @param resource
+  	 *            the resources the content should be observed
+  	 * @return an observable list
+  	 */
+  public static IObservableList observeResourceContents(Resource resource)
+  {
+    return new EWritableList<EObject>((NotifyingList<EObject>)resource.getContents());
+  }
+
 }

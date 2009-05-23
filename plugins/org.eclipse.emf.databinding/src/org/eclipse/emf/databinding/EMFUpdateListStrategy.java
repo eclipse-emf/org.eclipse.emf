@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFUpdateListStrategy.java,v 1.1 2007/11/16 21:25:21 emerks Exp $
+ * $Id: EMFUpdateListStrategy.java,v 1.2 2009/05/23 11:11:33 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -23,27 +23,49 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 
+
 /**
- * PROVISIONAL
- * This API is subject to arbitrary change, including renaming or removal.
+ * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
  */
 public class EMFUpdateListStrategy extends UpdateListStrategy
 {
+  /**
+   * A list update strategy with default update policy
+   * {@link UpdateListStrategy#POLICY_UPDATE} and default converters and
+   * validators
+   */
   public EMFUpdateListStrategy()
   {
     this(true, POLICY_UPDATE);
   }
 
+  /**
+   * A list update strategy with a specific update policy but with default
+   * converters and validators
+   * 
+   * @param updatePolicy
+   *            the policy
+   */
   public EMFUpdateListStrategy(int updatePolicy)
   {
     this(true, updatePolicy);
   }
 
+  /**
+   * A list update strategy with a specific update policy and with the
+   * possibility to turn of default converters and validators
+   * 
+   * @param provideDefaults
+   *            <code>false</code> to turn of default converters and
+   *            validators
+   * @param updatePolicy
+   *            the policy
+   */
   public EMFUpdateListStrategy(boolean provideDefaults, int updatePolicy)
   {
     super(provideDefaults, updatePolicy);
   }
-  
+
   @Override
   protected IConverter createConverter(Object fromType, Object toType)
   {
@@ -54,8 +76,7 @@ public class EMFUpdateListStrategy extends UpdateListStrategy
         final EAttribute eAttribute = (EAttribute)toType;
         final EDataType eDataType = eAttribute.getEAttributeType();
         final EFactory eFactory = eDataType.getEPackage().getEFactoryInstance();
-        return
-          new Converter(fromType, toType)
+        return new Converter(fromType, toType)
           {
             public Object convert(Object fromObject)
             {
@@ -71,8 +92,7 @@ public class EMFUpdateListStrategy extends UpdateListStrategy
         final EAttribute eAttribute = (EAttribute)fromType;
         final EDataType eDataType = eAttribute.getEAttributeType();
         final EFactory eFactory = eDataType.getEPackage().getEFactoryInstance();
-        return
-          new Converter(fromType, toType)
+        return new Converter(fromType, toType)
           {
             public Object convert(Object fromObject)
             {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectObservableValue.java,v 1.2 2008/01/26 21:01:07 emerks Exp $
+ * $Id: EObjectObservableValue.java,v 1.3 2009/05/23 11:11:33 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -26,22 +26,50 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
+
 
 /**
- * PROVISIONAL
- * This API is subject to arbitrary change, including renaming or removal.
+ * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
  */
 public class EObjectObservableValue extends AbstractObservableValue implements IObserving
 {
+  /**
+   * The object instance
+   */
   protected EObject eObject;
+  /**
+   * The feature
+   */
   protected EStructuralFeature eStructuralFeature;
+  /**
+   * The listener
+   */
   protected Adapter listener;
 
+  /**
+   * Observe a feature of the instance using the default realm
+   * 
+   * @param eObject
+   *            the object
+   * @param eStructuralFeature
+   *            the feature
+   */
   public EObjectObservableValue(EObject eObject, EStructuralFeature eStructuralFeature)
   {
     this(Realm.getDefault(), eObject, eStructuralFeature);
   }
 
+  /**
+   * Observe a feature of the instance using the realm
+   * 
+   * @param realm
+   * 
+   * @param eObject
+   *            the object
+   * @param eStructuralFeature
+   *            the feature
+   */
   public EObjectObservableValue(Realm realm, EObject eObject, EStructuralFeature eStructuralFeature)
   {
     super(realm);
@@ -70,8 +98,7 @@ public class EObjectObservableValue extends AbstractObservableValue implements I
   @Override
   protected void firstListenerAdded()
   {
-    listener =
-      new AdapterImpl()
+    listener = new AdapterImpl()
       {
         @Override
         public void notifyChanged(Notification notification)
@@ -79,14 +106,13 @@ public class EObjectObservableValue extends AbstractObservableValue implements I
           if (eStructuralFeature == notification.getFeature() && !notification.isTouch())
           {
             final ValueDiff diff = Diffs.createValueDiff(notification.getOldValue(), notification.getNewValue());
-            getRealm().exec
-              (new Runnable()
-               {
-                 public void run()
-                 {
-                   fireValueChange(diff);
-                 }
-               });
+            getRealm().exec(new Runnable()
+              {
+                public void run()
+                {
+                  fireValueChange(diff);
+                }
+              });
           }
         }
       };
@@ -103,7 +129,7 @@ public class EObjectObservableValue extends AbstractObservableValue implements I
   @Override
   protected Object doGetValue()
   {
-    return eObject.eGet(eStructuralFeature);
+    return ExtendedMetaData.INSTANCE.getAffiliation(eObject.eClass(), eStructuralFeature) == null ? null : eObject.eGet(eStructuralFeature);
   }
 
   @Override
