@@ -12,6 +12,6 @@ Export-Package: org.eclipse.emf.databinding.edit
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.databinding;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
- org.eclipse.core.databinding.property;bundle-version="1.2.0"
+ org.eclipse.core.databinding.property
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
