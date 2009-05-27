@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.18 2009/01/02 12:36:20 emerks Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.19 2009/05/27 10:22:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -673,8 +673,16 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
 
   public void dynamicUnset(int dynamicFeatureID)
   {
-    eStore().unset(this, eDynamicFeature(dynamicFeatureID));
-    eSettings[dynamicFeatureID] = null;
+    EStructuralFeature eStructuralFeature = eDynamicFeature(dynamicFeatureID);
+    if (eStructuralFeature.isTransient())
+    {
+      eSettings[dynamicFeatureID] = null;
+    }
+    else
+    {
+      eStore().unset(this, eStructuralFeature);
+      eSettings[dynamicFeatureID] = null;
+    }
   }
 
   @Override
