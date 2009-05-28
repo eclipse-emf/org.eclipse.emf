@@ -13,7 +13,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFListPropertyDecorator.java,v 1.1 2009/05/23 11:11:33 tschindl Exp $
+ * $Id: EMFListPropertyDecorator.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -75,6 +75,7 @@ public class EMFListPropertyDecorator extends ListProperty implements IEMFListPr
     return eStructuralFeature;
   }
 
+  @Override
   public IObservableList observe(Object source)
   {
     return new EMFObservableListDecorator(delegate.observe(source), eStructuralFeature);
@@ -85,21 +86,25 @@ public class EMFListPropertyDecorator extends ListProperty implements IEMFListPr
     return new EMFObservableListDecorator(delegate.observe(realm, source), eStructuralFeature);
   }
 
+  @Override
   public IObservableFactory listFactory()
   {
     return delegate.listFactory();
   }
 
+  @Override
   public IObservableFactory listFactory(Realm realm)
   {
     return delegate.listFactory(realm);
   }
 
+  @Override
   public IObservableList observeDetail(IObservableValue master)
   {
     return new EMFObservableListDecorator(delegate.observeDetail(master), eStructuralFeature);
   }
 
+  @Override
   public String toString()
   {
     return delegate.toString();

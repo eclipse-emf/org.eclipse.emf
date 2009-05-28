@@ -13,7 +13,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFMapPropertyDecorator.java,v 1.1 2009/05/23 11:11:33 tschindl Exp $
+ * $Id: EMFMapPropertyDecorator.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -80,6 +80,7 @@ public class EMFMapPropertyDecorator extends MapProperty implements IEMFMapPrope
     return new EMFMapPropertyDecorator(super.values(property), property.getStructuralFeature());
   }
 
+  @Override
   public IObservableMap observe(Object source)
   {
     return new EMFObservableMapDecorator(delegate.observe(source), eStructuralFeature);
@@ -90,21 +91,25 @@ public class EMFMapPropertyDecorator extends MapProperty implements IEMFMapPrope
     return new EMFObservableMapDecorator(delegate.observe(realm, source), eStructuralFeature);
   }
 
+  @Override
   public IObservableFactory mapFactory()
   {
     return delegate.mapFactory();
   }
 
+  @Override
   public IObservableFactory mapFactory(Realm realm)
   {
     return delegate.mapFactory(realm);
   }
 
+  @Override
   public IObservableMap observeDetail(IObservableValue master)
   {
     return new EMFObservableMapDecorator(delegate.observeDetail(master), eStructuralFeature);
   }
 
+  @Override
   public String toString()
   {
     return delegate.toString();

@@ -13,7 +13,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFValuePropertyDecorator.java,v 1.1 2009/05/23 11:11:32 tschindl Exp $
+ * $Id: EMFValuePropertyDecorator.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -98,6 +98,7 @@ public class EMFValuePropertyDecorator extends ValueProperty implements IEMFValu
     return new EMFMapPropertyDecorator(super.map(property), property.getStructuralFeature());
   }
 
+  @Override
   public IObservableValue observe(Object source)
   {
     return new EMFObservableValueDecorator(delegate.observe(source), eStructuralFeature);
@@ -108,16 +109,19 @@ public class EMFValuePropertyDecorator extends ValueProperty implements IEMFValu
     return new EMFObservableValueDecorator(delegate.observe(realm, source), eStructuralFeature);
   }
 
+  @Override
   public IObservableFactory valueFactory()
   {
     return delegate.valueFactory();
   }
 
+  @Override
   public IObservableFactory valueFactory(Realm realm)
   {
     return delegate.valueFactory(realm);
   }
 
+  @Override
   public IObservableValue observeDetail(IObservableValue master)
   {
     return new EMFObservableValueDecorator(delegate.observeDetail(master), eStructuralFeature);
@@ -138,6 +142,7 @@ public class EMFValuePropertyDecorator extends ValueProperty implements IEMFValu
     return new EMFObservableMapDecorator(delegate.observeDetail(master), eStructuralFeature);
   }
 
+  @Override
   public String toString()
   {
     return delegate.toString();

@@ -13,7 +13,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFValueProperty.java,v 1.1 2009/05/23 11:11:33 tschindl Exp $
+ * $Id: EMFValueProperty.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -56,18 +56,21 @@ public class EMFValueProperty extends SimpleValueProperty
     return eStructuralFeature;
   }
 
+  @Override
   protected Object doGetValue(Object source)
   {
     EObject eObj = (EObject)source;
     return ExtendedMetaData.INSTANCE.getAffiliation(eObj.eClass(), eStructuralFeature) == null ? null : eObj.eGet(eStructuralFeature);
   }
 
+  @Override
   protected void doSetValue(Object source, Object value)
   {
     EObject eObject = (EObject)source;
     eObject.eSet(eStructuralFeature, value);
   }
 
+  @Override
   public INativePropertyListener adaptListener(final ISimplePropertyListener listener)
   {
     return new EMFPropertyListener.EMFValuePropertyListener()
@@ -93,6 +96,7 @@ public class EMFValueProperty extends SimpleValueProperty
       };
   }
 
+  @Override
   public String toString()
   {
     String s = EMFPropertyHelper.propertyName(eStructuralFeature);

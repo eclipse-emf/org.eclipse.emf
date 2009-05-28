@@ -13,7 +13,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFListProperty.java,v 1.1 2009/05/23 11:11:32 tschindl Exp $
+ * $Id: EMFListProperty.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -58,12 +58,14 @@ public class EMFListProperty extends SimpleListProperty
     return eStructuralFeature;
   }
 
+  @Override
   protected List< ? > doGetList(Object source)
   {
     EObject eObj = (EObject)source;
     return (List< ? >)eObj.eGet(eStructuralFeature);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   protected void doSetList(Object source, List list, ListDiff diff)
   {
@@ -71,6 +73,7 @@ public class EMFListProperty extends SimpleListProperty
     diff.applyTo(currentList);
   }
 
+  @Override
   public INativePropertyListener adaptListener(final ISimplePropertyListener listener)
   {
     return new EMFPropertyListener.EMFListPropertyListener()
@@ -96,6 +99,7 @@ public class EMFListProperty extends SimpleListProperty
       };
   }
 
+  @Override
   public String toString()
   {
     String s = EMFPropertyHelper.propertyName(eStructuralFeature) + "[]"; //$NON-NLS-1$

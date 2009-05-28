@@ -11,7 +11,7 @@
  *      Tom Schindl<tom.schindl@bestsolution.at> - Initial API and implementation in 262160
  * </copyright>
  *
- * $Id: EWritableList.java,v 1.1 2009/05/23 11:11:32 tschindl Exp $
+ * $Id: EWritableList.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -232,6 +232,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
     ObservableTracker.getterCalled(this);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public boolean add(Object o)
   {
@@ -239,6 +240,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
     return wrappedList.add((Type)o);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public boolean addAll(Collection c)
   {
@@ -246,6 +248,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
     return wrappedList.addAll(c);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public boolean addAll(int index, Collection c)
   {
@@ -253,12 +256,14 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
     return wrappedList.addAll(index, c);
   }
 
+  @Override
   public boolean contains(Object o)
   {
     getterCalled();
     return wrappedList.contains(o);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public boolean containsAll(Collection c)
   {
@@ -266,6 +271,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
     return wrappedList.containsAll(c);
   }
 
+  @Override
   public Object get(int index)
   {
     getterCalled();
@@ -278,60 +284,70 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
     return elementType;
   }
 
+  @Override
   public int indexOf(Object o)
   {
     getterCalled();
     return wrappedList.indexOf(o);
   }
 
+  @Override
   public boolean isEmpty()
   {
     getterCalled();
     return wrappedList.isEmpty();
   }
 
+  @Override
   public Iterator<Type> iterator()
   {
     getterCalled();
     return wrappedList.iterator();
   }
 
+  @Override
   public int lastIndexOf(Object o)
   {
     getterCalled();
     return wrappedList.lastIndexOf(o);
   }
 
+  @Override
   public ListIterator<Type> listIterator()
   {
     getterCalled();
     return wrappedList.listIterator();
   }
 
+  @Override
   public ListIterator<Type> listIterator(int index)
   {
     getterCalled();
     return wrappedList.listIterator(index);
   }
 
+  @Override
   public Object move(int oldIndex, int newIndex)
   {
     checkRealm();
     return wrappedList.move(oldIndex, newIndex);
   }
 
+  @Override
   public boolean remove(Object o)
   {
     checkRealm();
     return wrappedList.remove(o);
   }
 
+  @Override
   public Object remove(int index)
   {
     checkRealm();
     return wrappedList.remove(index);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public boolean removeAll(Collection c)
   {
@@ -339,6 +355,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
     return wrappedList.removeAll(c);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public boolean retainAll(Collection c)
   {
@@ -346,6 +363,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
     return wrappedList.retainAll(c);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public Object set(int index, Object element)
   {
@@ -353,30 +371,35 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
     return wrappedList.set(index, (Type)element);
   }
 
+  @Override
   public int doGetSize()
   {
     getterCalled();
     return wrappedList.size();
   }
 
+  @Override
   public List<Type> subList(int fromIndex, int toIndex)
   {
     getterCalled();
     return wrappedList.subList(fromIndex, toIndex);
   }
 
+  @Override
   public Object[] toArray()
   {
     getterCalled();
     return wrappedList.toArray();
   }
 
+  @Override
   public Object[] toArray(Object[] a)
   {
     getterCalled();
     return wrappedList.toArray();
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public void add(int index, Object element)
   {
@@ -384,12 +407,14 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
     wrappedList.add(index, (Type)element);
   }
 
+  @Override
   public void clear()
   {
     checkRealm();
     wrappedList.clear();
   }
 
+  @Override
   public boolean isStale()
   {
     getterCalled();

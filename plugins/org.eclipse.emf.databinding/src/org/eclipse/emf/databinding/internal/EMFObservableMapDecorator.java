@@ -13,7 +13,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFObservableMapDecorator.java,v 1.1 2009/05/23 11:11:32 tschindl Exp $
+ * $Id: EMFObservableMapDecorator.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -46,6 +46,7 @@ public class EMFObservableMapDecorator extends DecoratingObservableMap implement
     this.eStructuralFeature = eStructuralFeature;
   }
 
+  @Override
   public synchronized void dispose()
   {
     this.eStructuralFeature = null;

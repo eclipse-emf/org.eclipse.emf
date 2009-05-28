@@ -14,7 +14,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFMapProperty.java,v 1.1 2009/05/23 11:11:33 tschindl Exp $
+ * $Id: EMFMapProperty.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -85,12 +85,14 @@ public class EMFMapProperty extends SimpleMapProperty
     return null;
   }
 
+  @Override
   protected Map< ? , ? > doGetMap(Object source)
   {
     EObject eObj = (EObject)source;
     return (Map< ? , ? >)eObj.eGet(eStructuralFeature);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   protected void doSetMap(Object source, Map map, MapDiff diff)
   {
@@ -98,6 +100,7 @@ public class EMFMapProperty extends SimpleMapProperty
     eObject.eSet(eStructuralFeature, map);
   }
 
+  @Override
   public INativePropertyListener adaptListener(final ISimplePropertyListener listener)
   {
     return new EMFPropertyListener.EMFMapPropertyListener()
@@ -123,6 +126,7 @@ public class EMFMapProperty extends SimpleMapProperty
       };
   }
 
+  @Override
   public String toString()
   {
     String s = EMFPropertyHelper.propertyName(eStructuralFeature) + "{:}"; //$NON-NLS-1$
