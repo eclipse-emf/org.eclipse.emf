@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - Initial API and implementation (bug 262160)
  * </copyright>
  *
- * $Id: EMFEditMapPropertyDecorator.java,v 1.1 2009/05/23 11:11:30 tschindl Exp $
+ * $Id: EMFEditMapPropertyDecorator.java,v 1.2 2009/05/28 10:02:04 emerks Exp $
  */
 package org.eclipse.emf.databinding.edit.internal;
 
@@ -83,6 +83,7 @@ public class EMFEditMapPropertyDecorator extends MapProperty implements IEMFEdit
     return new EMFEditMapPropertyDecorator(editingDomain, super.values(property), property.getStructuralFeature());
   }
 
+  @Override
   public IObservableMap observe(Object source)
   {
     return new EMFEditObservableMapDecorator(editingDomain, delegate.observe(source), eStructuralFeature);
@@ -93,21 +94,25 @@ public class EMFEditMapPropertyDecorator extends MapProperty implements IEMFEdit
     return new EMFEditObservableMapDecorator(editingDomain, delegate.observe(realm, source), eStructuralFeature);
   }
 
+  @Override
   public IObservableFactory mapFactory()
   {
     return delegate.mapFactory();
   }
 
+  @Override
   public IObservableFactory mapFactory(Realm realm)
   {
     return delegate.mapFactory(realm);
   }
 
+  @Override
   public IObservableMap observeDetail(IObservableValue master)
   {
     return new EMFEditObservableMapDecorator(editingDomain, delegate.observeDetail(master), eStructuralFeature);
   }
 
+  @Override
   public String toString()
   {
     return delegate.toString();

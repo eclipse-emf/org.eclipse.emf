@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - Initial API and implementation (bug 262160)
  * </copyright>
  *
- * $Id: EMFEditListPropertyDecorator.java,v 1.1 2009/05/23 11:11:30 tschindl Exp $
+ * $Id: EMFEditListPropertyDecorator.java,v 1.2 2009/05/28 10:02:04 emerks Exp $
  */
 package org.eclipse.emf.databinding.edit.internal;
 
@@ -79,6 +79,7 @@ public class EMFEditListPropertyDecorator extends ListProperty implements IEMFEd
     return eStructuralFeature;
   }
 
+  @Override
   public IObservableList observe(Object source)
   {
     return new EMFEditObservableListDecorator(editingDomain, delegate.observe(source), eStructuralFeature);
@@ -89,21 +90,25 @@ public class EMFEditListPropertyDecorator extends ListProperty implements IEMFEd
     return new EMFEditObservableListDecorator(editingDomain, delegate.observe(realm, source), eStructuralFeature);
   }
 
+  @Override
   public IObservableFactory listFactory()
   {
     return delegate.listFactory();
   }
 
+  @Override
   public IObservableFactory listFactory(Realm realm)
   {
     return delegate.listFactory(realm);
   }
 
+  @Override
   public IObservableList observeDetail(IObservableValue master)
   {
     return new EMFEditObservableListDecorator(editingDomain, delegate.observeDetail(master), eStructuralFeature);
   }
 
+  @Override
   public String toString()
   {
     return delegate.toString();

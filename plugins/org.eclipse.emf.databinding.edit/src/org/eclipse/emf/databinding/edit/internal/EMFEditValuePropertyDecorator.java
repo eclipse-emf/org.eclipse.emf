@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - Initial API and implementation (bug 262160)
  * </copyright>
  *
- * $Id: EMFEditValuePropertyDecorator.java,v 1.1 2009/05/23 11:11:30 tschindl Exp $
+ * $Id: EMFEditValuePropertyDecorator.java,v 1.2 2009/05/28 10:02:04 emerks Exp $
  */
 package org.eclipse.emf.databinding.edit.internal;
 
@@ -103,6 +103,7 @@ public class EMFEditValuePropertyDecorator extends ValueProperty implements IEMF
     return new EMFEditMapPropertyDecorator(editingDomain, super.map(property), property.getStructuralFeature());
   }
 
+  @Override
   public IObservableValue observe(Object source)
   {
     return new EMFEditObservableValueDecorator(editingDomain, delegate.observe(source), eStructuralFeature);
@@ -113,16 +114,19 @@ public class EMFEditValuePropertyDecorator extends ValueProperty implements IEMF
     return new EMFEditObservableValueDecorator(editingDomain, delegate.observe(realm, source), eStructuralFeature);
   }
 
+  @Override
   public IObservableFactory valueFactory()
   {
     return delegate.valueFactory();
   }
 
+  @Override
   public IObservableFactory valueFactory(Realm realm)
   {
     return delegate.valueFactory(realm);
   }
 
+  @Override
   public IObservableValue observeDetail(IObservableValue master)
   {
     return new EMFEditObservableValueDecorator(editingDomain, delegate.observeDetail(master), eStructuralFeature);
@@ -143,6 +147,7 @@ public class EMFEditValuePropertyDecorator extends ValueProperty implements IEMF
     return new EMFEditObservableMapDecorator(editingDomain, delegate.observeDetail(master), eStructuralFeature);
   }
 
+  @Override
   public String toString()
   {
     return delegate.toString();
