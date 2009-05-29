@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectAdminViewPart.java,v 1.1 2009/05/29 15:06:30 tschindl Exp $
+ * $Id: ProjectAdminViewPart.java,v 1.2 2009/05/29 16:38:19 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -42,6 +42,7 @@ import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.core.runtime.IStatus;
@@ -204,7 +205,20 @@ public class ProjectAdminViewPart extends ViewPart
 
   private void createFormArea(Composite parent)
   {
-    final IObservableValue master = ViewerProperties.singleSelection().observe(viewer);
+//    final IObservableValue master = ViewerProperties.singleSelection().observe(viewer);
+    final IObservableValue master = new WritableValue();
+    IObservableValue treeObs = ViewerProperties.singleSelection().observe(viewer);
+    treeObs.addValueChangeListener(new IValueChangeListener(){
+    
+      public void handleValueChange(ValueChangeEvent event)
+      {
+        if( event.diff.getNewValue() instanceof Project ) {
+          master.setValue(event.diff.getNewValue());
+        }
+      }
+    });
+    
+    
     ctx = new EMFDataBindingContext();
     addStatusSupport(ctx);
 
@@ -379,7 +393,7 @@ public class ProjectAdminViewPart extends ViewPart
 
   private void handleStateChange(IStatus currentStatus, DataBindingContext ctx)
   {
-    if (form.isDisposed())
+    if (form.isDisposed() || form.getHead().isDisposed())
     {
       return;
     }
