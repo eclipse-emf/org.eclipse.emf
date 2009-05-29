@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.examples.databinding.project.core.model/src"
+    modelPluginID="org.eclipse.emf.examples.databinding.project.core.model" modelName="Project"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false">
+  <foreignModel>Project.ecore</foreignModel>
+  <genPackages prefix="Project" basePackage="org.eclipse.emf.examples.databinding.project.core.model"
+      disposableProviderFactory="true" ecorePackage="Project.ecore#/">
+    <genClasses ecoreClass="Project.ecore#//Foundation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Project.ecore#//Foundation/projects"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Project.ecore#//Foundation/persons"/>
+    </genClasses>
+    <genClasses ecoreClass="Project.ecore#//Project">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Project/shortname"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Project.ecore#//Project/subprojects"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Project.ecore#//Project/committers"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Project.ecore#//Project/parent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Project.ecore#//Project/projectleads"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Project/start"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Project/end"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Project/longname"/>
+    </genClasses>
+    <genClasses ecoreClass="Project.ecore#//CommitterShip">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//CommitterShip/start"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//CommitterShip/end"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Project.ecore#//CommitterShip/project"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Project.ecore#//CommitterShip/person"/>
+    </genClasses>
+    <genClasses ecoreClass="Project.ecore#//Person">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Person/lastname"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Person/firstname"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Project.ecore#//Person/email"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Project.ecore#//Person/committerships"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
