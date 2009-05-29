@@ -7,7 +7,7 @@
     <committers start="2000-01-01T00:00:00.000+0100" person="//@persons.0"/>
   </projects>
   <projects shortname="Platform" longname="Eclipse Platform">
-    <subprojects shortname="UFK" projectleads="//@persons.4" longname="UFaceKit">
+    <subprojects shortname="UFK" projectleads="//@persons.4" longname="UFaceKit" homepage="http://www.eclipse.org/ufk">
       <committers start="2008-12-01T00:00:00.000+0100" person="//@persons.4"/>
     </subprojects>
     <committers start="2006-01-01T00:00:00.000+0100" end="2008-01-01T00:00:00.000+0100" person="//@persons.3"/>
@@ -16,5 +16,5 @@
   <persons lastname="Stepper" firstname="Eike" email="" committerships="//@projects.0/@subprojects.0/@committers.0"/>
   <persons lastname="Hussey" firstname="Kenn"/>
   <persons lastname="Reynolds" firstname="Brad" committerships="//@projects.1/@committers.0"/>
-  <persons lastname="Schindl" firstname="Tom" email="" committerships="//@projects.1/@subprojects.0/@committers.0"/>
+  <persons lastname="Schindl" firstname="Tom" email="tom.schindl@bestsolution.at" committerships="//@projects.1/@subprojects.0/@committers.0"/>
 </project:Foundation>

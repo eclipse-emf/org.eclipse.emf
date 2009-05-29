@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectAdminViewPart.java,v 1.2 2009/05/29 16:38:19 tschindl Exp $
+ * $Id: ProjectAdminViewPart.java,v 1.3 2009/05/29 17:36:52 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -76,6 +76,7 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -85,6 +86,8 @@ import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.IMessage;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.ViewPart;
@@ -189,15 +192,19 @@ public class ProjectAdminViewPart extends ViewPart
     ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(new TreeFactoryImpl(), new TreeStructureAdvisorImpl());
     IObservableSet set = cp.getKnownElements();
 
-    IObservableMap[] map = new IObservableMap [2];
+    IObservableMap[] map = new IObservableMap [4];
     map[0] = EMFProperties.value(ProjectPackage.Literals.PROJECT__SHORTNAME).observeDetail(set);
     map[1] = EMFProperties.value(ProjectPackage.Literals.PROJECT__COMMITTERS).observeDetail(set);
+    map[2] = EMFProperties.value(
+      FeaturePath.fromList(ProjectPackage.Literals.COMMITTER_SHIP__PERSON, ProjectPackage.Literals.PERSON__FIRSTNAME)).observeDetail(set);
+    map[3] = EMFProperties.value(
+      FeaturePath.fromList(ProjectPackage.Literals.COMMITTER_SHIP__PERSON, ProjectPackage.Literals.PERSON__LASTNAME)).observeDetail(set);
 
     IEMFListProperty projects = EMFProperties.list(ProjectPackage.Literals.FOUNDATION__PROJECTS);
 
     viewer = new TreeViewer(parent);
     viewer.setContentProvider(cp);
-    viewer.setLabelProvider(new LabelProviderImpl(map));
+    viewer.setLabelProvider(new TreeLabelProviderImpl(map));
     viewer.setInput(projects.observe(resource.getContents().get(0)));
 
     ColumnViewerToolTipSupportImpl.enableFor(viewer, toolkit);
@@ -205,20 +212,21 @@ public class ProjectAdminViewPart extends ViewPart
 
   private void createFormArea(Composite parent)
   {
-//    final IObservableValue master = ViewerProperties.singleSelection().observe(viewer);
+    //    final IObservableValue master = ViewerProperties.singleSelection().observe(viewer);
     final IObservableValue master = new WritableValue();
     IObservableValue treeObs = ViewerProperties.singleSelection().observe(viewer);
-    treeObs.addValueChangeListener(new IValueChangeListener(){
-    
-      public void handleValueChange(ValueChangeEvent event)
+    treeObs.addValueChangeListener(new IValueChangeListener()
       {
-        if( event.diff.getNewValue() instanceof Project ) {
-          master.setValue(event.diff.getNewValue());
+
+        public void handleValueChange(ValueChangeEvent event)
+        {
+          if (event.diff.getNewValue() instanceof Project)
+          {
+            master.setValue(event.diff.getNewValue());
+          }
         }
-      }
-    });
-    
-    
+      });
+
     ctx = new EMFDataBindingContext();
     addStatusSupport(ctx);
 
@@ -518,7 +526,9 @@ public class ProjectAdminViewPart extends ViewPart
 
   private static class TreeFactoryImpl implements IObservableFactory
   {
-    private IEMFListProperty subproject = EMFProperties.list(ProjectPackage.Literals.PROJECT__SUBPROJECTS);
+    private IEMFListProperty multi = EMFProperties.multiList(
+      ProjectPackage.Literals.PROJECT__SUBPROJECTS,
+      ProjectPackage.Literals.PROJECT__COMMITTERS);
 
     public IObservable createObservable(final Object target)
     {
@@ -528,7 +538,7 @@ public class ProjectAdminViewPart extends ViewPart
       }
       else if (target instanceof Project)
       {
-        return subproject.observe(target);
+        return multi.observe(target);
       }
 
       return null;
@@ -559,7 +569,7 @@ public class ProjectAdminViewPart extends ViewPart
     }
   }
 
-  private static class LabelProviderImpl extends StyledCellLabelProvider
+  private static class TreeLabelProviderImpl extends StyledCellLabelProvider
   {
 
     private IMapChangeListener mapChangeListener = new IMapChangeListener()
@@ -567,12 +577,12 @@ public class ProjectAdminViewPart extends ViewPart
         public void handleMapChange(MapChangeEvent event)
         {
           Set< ? > affectedElements = event.diff.getChangedKeys();
-          LabelProviderChangedEvent newEvent = new LabelProviderChangedEvent(LabelProviderImpl.this, affectedElements.toArray());
+          LabelProviderChangedEvent newEvent = new LabelProviderChangedEvent(TreeLabelProviderImpl.this, affectedElements.toArray());
           fireLabelProviderChanged(newEvent);
         }
       };
 
-    public LabelProviderImpl(IObservableMap... attributeMaps)
+    public TreeLabelProviderImpl(IObservableMap... attributeMaps)
     {
       for (int i = 0; i < attributeMaps.length; i++)
       {
@@ -583,7 +593,7 @@ public class ProjectAdminViewPart extends ViewPart
     @Override
     public String getToolTipText(Object element)
     {
-      return "a";
+      return "#dummy#";
     }
 
     @Override
@@ -616,40 +626,127 @@ public class ProjectAdminViewPart extends ViewPart
     protected ColumnViewerToolTipSupportImpl(FormToolkit toolkit, ColumnViewer viewer, int style)
     {
       super(viewer, style, false);
+      setHideOnMouseDown(false);
       this.toolkit = toolkit;
     }
 
     @Override
     protected Composite createViewerToolTipContentArea(Event event, ViewerCell cell, Composite parent)
     {
-      Project p = (Project)cell.getElement();
-
-      StringBuilder b = new StringBuilder();
-      for (Person lead : p.getProjectleads())
+      if (cell.getElement() instanceof Project)
       {
-        if (b.length() > 0)
+        final Project p = (Project)cell.getElement();
+
+        StringBuilder b = new StringBuilder();
+        for (Person lead : p.getProjectleads())
         {
-          b.append(", ");
+          if (b.length() > 0)
+          {
+            b.append(", ");
+          }
+          b.append(lead.getFirstname() + " " + lead.getLastname());
         }
-        b.append(lead.getFirstname() + " " + lead.getLastname());
+
+        Form form = toolkit.createForm(parent);
+        toolkit.decorateFormHeading(form);
+        form.setText(p.getShortname() + " - " + p.getLongname());
+        Composite body = form.getBody();
+        body.setLayout(new GridLayout(2, false));
+
+        toolkit.createLabel(body, "Project creation:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
+        toolkit.createLabel(body, p.getStart() != null ? DateFormat.getDateInstance().format(p.getStart()) : "");
+
+        toolkit.createLabel(body, "Project lead:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
+        toolkit.createLabel(body, b.toString());
+
+        toolkit.createLabel(body, "Committers:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
+        toolkit.createLabel(body, p.getCommitters().size() + "");
+        
+        toolkit.createLabel(body, "Mailing-List:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
+        if( p.getDevmail() != null ) {
+          toolkit.createHyperlink(body, p.getDevmail(), SWT.NONE).addHyperlinkListener(new IHyperlinkListener(){
+            
+            public void linkExited(HyperlinkEvent e)
+            {
+            }
+          
+            public void linkEntered(HyperlinkEvent e)
+            {
+            }
+          
+            public void linkActivated(HyperlinkEvent e)
+            {
+              Program.launch(p.getDevmail());
+            }
+          });
+        } else {
+          toolkit.createLabel(body,"-");  
+        }
+        
+        toolkit.createLabel(body, "Homepage:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
+        if( p.getHomepage() != null ) {
+          toolkit.createHyperlink(body, p.getHomepage(), SWT.NONE).addHyperlinkListener(new IHyperlinkListener(){
+            
+            public void linkExited(HyperlinkEvent e)
+            {
+            }
+          
+            public void linkEntered(HyperlinkEvent e)
+            {
+            }
+          
+            public void linkActivated(HyperlinkEvent e)
+            {
+              Program.launch(p.getHomepage());
+            }
+          });
+        } else {
+          toolkit.createLabel(body,"-");  
+        }
+
+
+        return form;
       }
+      else
+      {
+        final CommitterShip committership = (CommitterShip)cell.getElement();
+        Form form = toolkit.createForm(parent);
+        toolkit.decorateFormHeading(form);
+        form.setText(committership.getPerson().getFirstname() + ", " + committership.getPerson().getLastname());
+        
+        Composite body = form.getBody();
+        body.setLayout(new GridLayout(2, false));
 
-      Form form = toolkit.createForm(parent);
-      toolkit.decorateFormHeading(form);
-      form.setText(p.getShortname() + " - " + p.getLongname());
-      Composite body = form.getBody();
-      body.setLayout(new GridLayout(2, false));
-
-      toolkit.createLabel(body, "Project creation:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-      toolkit.createLabel(body, p.getStart() != null ? DateFormat.getDateInstance().format(p.getStart()) : "");
-
-      toolkit.createLabel(body, "Project lead:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-      toolkit.createLabel(body, b.toString());
-
-      toolkit.createLabel(body, "Committers:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-      toolkit.createLabel(body, p.getCommitters().size() + "");
-
-      return form;
+        toolkit.createLabel(body, "Start:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
+        toolkit.createLabel(body, committership.getStart() != null ? DateFormat.getDateInstance().format(committership.getStart()) : "");
+        
+        toolkit.createLabel(body, "End:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
+        toolkit.createLabel(body, committership.getEnd() != null ? DateFormat.getDateInstance().format(committership.getEnd()) : "");
+        
+        toolkit.createLabel(body, "E-Mail:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
+        if( committership.getPerson().getEmail() != null ) {
+          toolkit.createHyperlink(body, committership.getPerson().getEmail(), SWT.NONE).addHyperlinkListener(new IHyperlinkListener(){
+          
+            public void linkExited(HyperlinkEvent e)
+            {
+            }
+          
+            public void linkEntered(HyperlinkEvent e)
+            {
+            }
+          
+            public void linkActivated(HyperlinkEvent e)
+            {
+              Program.launch(committership.getPerson().getEmail());
+            }
+          });
+        } else {
+          toolkit.createLabel(body,"");  
+        }
+        
+        
+        return form;
+      }
     }
 
     static void enableFor(ColumnViewer viewer, FormToolkit toolkit)
@@ -685,7 +782,7 @@ public class ProjectAdminViewPart extends ViewPart
           return;
         }
       }
-      cell.setText(MessageFormat.format(messagePattern, values)); 
+      cell.setText(MessageFormat.format(messagePattern, values));
     }
   }
 
