@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFPropertyListener.java,v 1.1 2009/05/23 11:11:33 tschindl Exp $
+ * $Id: EMFPropertyListener.java,v 1.2 2009/05/29 08:52:47 tschindl Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -41,12 +41,14 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
 
   public void addTo(Object source)
   {
-    ((EObject)source).eAdapters().add(this);
+    if (source != null)
+      ((EObject)source).eAdapters().add(this);
   }
 
   public void removeFrom(Object source)
   {
-    ((EObject)source).eAdapters().remove(this);
+    if (source != null)
+      ((EObject)source).eAdapters().remove(this);
   }
 
   @Override
