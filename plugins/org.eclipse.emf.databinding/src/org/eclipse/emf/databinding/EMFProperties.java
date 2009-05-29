@@ -14,13 +14,14 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFProperties.java,v 1.1 2009/05/23 11:11:33 tschindl Exp $
+ * $Id: EMFProperties.java,v 1.2 2009/05/29 17:02:10 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
 import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.core.databinding.property.map.IMapProperty;
 import org.eclipse.core.databinding.property.value.IValueProperty;
+import org.eclipse.emf.databinding.internal.EMFMultiListProperty;
 import org.eclipse.emf.databinding.internal.EMFListProperty;
 import org.eclipse.emf.databinding.internal.EMFListPropertyDecorator;
 import org.eclipse.emf.databinding.internal.EMFMapProperty;
@@ -125,6 +126,100 @@ public class EMFProperties
     IListProperty property;
     property = new EMFListProperty(feature);
     return new EMFListPropertyDecorator(property, feature);
+  }
+
+  /**
+   * Returns a list property for the given {@link FeaturePath}
+   * @param featurePath the feature path
+   * @return a list property for the given {@link FeaturePath}
+   */
+  public static IEMFListProperty list(FeaturePath featurePath)
+  {
+    int len = featurePath.getFeaturePath().length;
+    if (len > 1)
+    {
+      IValueProperty property;
+      property = new EMFValueProperty(featurePath.getFeaturePath()[0]);
+
+      IEMFValueProperty featureProperty = new EMFValuePropertyDecorator(property, featurePath.getFeaturePath()[0]);
+
+      for (int i = 1; i < featurePath.getFeaturePath().length - 1; i++)
+      {
+        featureProperty = featureProperty.value(featurePath.getFeaturePath()[i]);
+      }
+
+      return featureProperty.list(list(featurePath.getFeaturePath()[len - 1]));
+    }
+    else
+    {
+      return list(featurePath.getFeaturePath()[len - 1]);
+    }
+  }
+
+  /**
+   * Combine multiple multi-value features into one observable list property
+   * @param features the features to add to the list
+   * @return the list property
+   */
+  public static IEMFListProperty multiList(EStructuralFeature... features)
+  {
+    IEMFListProperty[] multi = new IEMFListProperty [features.length];
+    int i = 0;
+    for (EStructuralFeature feature : features)
+    {
+      multi[i++] = list(feature);
+    }
+
+    return multiList(multi);
+  }
+
+  /**
+   * Combine multiple features below a common path into one observable list property
+   * @param rootPath the root path
+   * @param features the features
+   * @return the list property
+   */
+  public static IEMFListProperty multiList(FeaturePath rootPath, EStructuralFeature... features)
+  {
+    IEMFListProperty[] multi = new IEMFListProperty [features.length];
+    int i = 0;
+    int l = rootPath.getFeaturePath().length;
+    for (EStructuralFeature f : features)
+    {
+      EStructuralFeature[] p = new EStructuralFeature [l + 1];
+      System.arraycopy(rootPath.getFeaturePath(), 0, p, 0, l);
+      p[l] = f;
+      multi[i++] = list(FeaturePath.fromList(p));
+    }
+    return multiList(multi);
+  }
+
+  /**
+   * Combine the features identified by the the path into one observable list property
+   * @param featurePaths the feature paths
+   * @return the list property
+   */
+  public static IEMFListProperty multiList(FeaturePath... featurePaths)
+  {
+    IEMFListProperty[] multi = new IEMFListProperty [featurePaths.length];
+    int i = 0;
+
+    for (FeaturePath path : featurePaths)
+    {
+      multi[i++] = list(path);
+    }
+
+    return multiList(multi);
+  }
+
+  /**
+   * Combine the given list properties into one observable list property
+   * @param properties the properties
+   * @return the list property
+   */
+  public static IEMFListProperty multiList(IEMFListProperty... properties)
+  {
+    return new EMFMultiListProperty(properties);
   }
 
   /**
