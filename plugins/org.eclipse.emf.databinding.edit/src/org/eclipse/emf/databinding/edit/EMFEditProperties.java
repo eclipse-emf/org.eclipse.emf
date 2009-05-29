@@ -14,7 +14,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFEditProperties.java,v 1.1 2009/05/23 11:11:30 tschindl Exp $
+ * $Id: EMFEditProperties.java,v 1.2 2009/05/29 17:02:12 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit;
 
@@ -26,6 +26,7 @@ import org.eclipse.emf.databinding.edit.internal.EMFEditListProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditListPropertyDecorator;
 import org.eclipse.emf.databinding.edit.internal.EMFEditMapProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditMapPropertyDecorator;
+import org.eclipse.emf.databinding.edit.internal.EMFEditMultiListProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditValueProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditValuePropertyDecorator;
 import org.eclipse.emf.ecore.EObject;
@@ -135,6 +136,105 @@ public class EMFEditProperties
     IListProperty property;
     property = new EMFEditListProperty(editingDomain, feature);
     return new EMFEditListPropertyDecorator(editingDomain, property, feature);
+  }
+
+  /**
+   * Returns a list property for the given {@link FeaturePath}
+   * @param editingDomain
+   * @param featurePath
+   * @return a list property for the given {@link FeaturePath}
+   */
+  public static IEMFEditListProperty list(EditingDomain editingDomain, FeaturePath featurePath)
+  {
+    int len = featurePath.getFeaturePath().length;
+    if (len > 1)
+    {
+      IValueProperty property;
+      property = new EMFEditValueProperty(editingDomain, featurePath.getFeaturePath()[0]);
+
+      IEMFEditValueProperty featureProperty = new EMFEditValuePropertyDecorator(editingDomain, property, featurePath.getFeaturePath()[0]);
+
+      for (int i = 1; i < featurePath.getFeaturePath().length - 1; i++)
+      {
+        featureProperty = featureProperty.value(featurePath.getFeaturePath()[i]);
+      }
+
+      return featureProperty.list(list(editingDomain, featurePath.getFeaturePath()[len - 1]));
+    }
+    else
+    {
+      return list(editingDomain, featurePath.getFeaturePath()[len - 1]);
+    }
+  }
+
+  /**
+   * Combine multiple multi-value features into one observable list property
+   * @param editingDomain the editing domain
+   * @param features the features to add to the list
+   * @return the list property
+   */
+  public static IEMFEditListProperty multiList(EditingDomain editingDomain, EStructuralFeature... features)
+  {
+    IEMFEditListProperty[] multi = new IEMFEditListProperty [features.length];
+    int i = 0;
+    for (EStructuralFeature feature : features)
+    {
+      multi[i++] = list(editingDomain, feature);
+    }
+
+    return multiList(editingDomain, multi);
+  }
+
+  /**
+   * Combine multiple features below a common path into one observable list property
+   * @param editingDomain the editing domain
+   * @param rootPath the root path
+   * @param features the features
+   * @return the list property
+   */
+  public static IEMFEditListProperty multiList(EditingDomain editingDomain, FeaturePath rootPath, EStructuralFeature... features)
+  {
+    IEMFEditListProperty[] multi = new IEMFEditListProperty [features.length];
+    int i = 0;
+    int l = rootPath.getFeaturePath().length;
+    for (EStructuralFeature f : features)
+    {
+      EStructuralFeature[] p = new EStructuralFeature [l + 1];
+      System.arraycopy(rootPath.getFeaturePath(), 0, p, 0, l);
+      p[l] = f;
+      multi[i++] = list(editingDomain, FeaturePath.fromList(p));
+    }
+    return multiList(editingDomain, multi);
+  }
+
+  /**
+   * Combine the features identified by the the path into one observable list property
+   * @param editingDomain the editing domain
+   * @param featurePaths the feature paths
+   * @return the list property
+   */
+  public static IEMFEditListProperty multiList(EditingDomain editingDomain, FeaturePath... featurePaths)
+  {
+    IEMFEditListProperty[] multi = new IEMFEditListProperty [featurePaths.length];
+    int i = 0;
+
+    for (FeaturePath path : featurePaths)
+    {
+      multi[i++] = list(editingDomain, path);
+    }
+
+    return multiList(editingDomain, multi);
+  }
+
+  /**
+   * Combine the given list properties into one observable list property
+   * @param editingDomain the editing domain
+   * @param properties the properties
+   * @return the list property
+   */
+  public static IEMFEditListProperty multiList(EditingDomain editingDomain, IEMFEditListProperty... properties)
+  {
+    return new EMFEditMultiListProperty(editingDomain, properties);
   }
 
   /**
