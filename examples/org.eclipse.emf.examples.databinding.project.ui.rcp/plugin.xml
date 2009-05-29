@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="org.eclipse.emf.example.databinding.project.ui.rcp.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="RCP Perspective"
+            class="org.eclipse.emf.example.databinding.project.ui.rcp.Perspective"
+            id="org.eclipse.emf.example.project.ui.rcp.perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.eclipse.emf.example.databinding.project.ui.rcp.views.ProjectAdminViewPart"
+            id="org.eclipse.emf.example.project.ui.rcp.views.ProjectAdminViewPart"
+            name="Project Administration"
+            restorable="true">
+      </view>
+   </extension>
+
+</plugin>
