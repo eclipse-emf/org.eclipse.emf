@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ProjectImpl.java,v 1.1 2009/05/29 15:03:43 tschindl Exp $
+ * $Id: ProjectImpl.java,v 1.2 2009/05/29 17:36:55 tschindl Exp $
  */
 package org.eclipse.emf.examples.databinding.project.core.model.project.impl;
 
@@ -46,6 +46,8 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.ProjectImpl#getStart <em>Start</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.ProjectImpl#getEnd <em>End</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.ProjectImpl#getLongname <em>Longname</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.ProjectImpl#getDevmail <em>Devmail</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.ProjectImpl#getHomepage <em>Homepage</em>}</li>
  * </ul>
  * </p>
  *
@@ -164,6 +166,46 @@ public class ProjectImpl extends EObjectImpl implements Project
   protected String longname = LONGNAME_EDEFAULT;
 
   /**
+   * The default value of the '{@link #getDevmail() <em>Devmail</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDevmail()
+   * @generated
+   * @ordered
+   */
+  protected static final String DEVMAIL_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getDevmail() <em>Devmail</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDevmail()
+   * @generated
+   * @ordered
+   */
+  protected String devmail = DEVMAIL_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getHomepage() <em>Homepage</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getHomepage()
+   * @generated
+   * @ordered
+   */
+  protected static final String HOMEPAGE_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getHomepage() <em>Homepage</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getHomepage()
+   * @generated
+   * @ordered
+   */
+  protected String homepage = HOMEPAGE_EDEFAULT;
+
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -216,11 +258,7 @@ public class ProjectImpl extends EObjectImpl implements Project
   {
     if (subprojects == null)
     {
-      subprojects = new EObjectContainmentWithInverseEList<Project>(
-        Project.class,
-        this,
-        ProjectPackage.PROJECT__SUBPROJECTS,
-        ProjectPackage.PROJECT__PARENT);
+      subprojects = new EObjectContainmentWithInverseEList<Project>(Project.class, this, ProjectPackage.PROJECT__SUBPROJECTS, ProjectPackage.PROJECT__PARENT);
     }
     return subprojects;
   }
@@ -234,11 +272,7 @@ public class ProjectImpl extends EObjectImpl implements Project
   {
     if (committers == null)
     {
-      committers = new EObjectContainmentWithInverseEList<CommitterShip>(
-        CommitterShip.class,
-        this,
-        ProjectPackage.PROJECT__COMMITTERS,
-        ProjectPackage.COMMITTER_SHIP__PROJECT);
+      committers = new EObjectContainmentWithInverseEList<CommitterShip>(CommitterShip.class, this, ProjectPackage.PROJECT__COMMITTERS, ProjectPackage.COMMITTER_SHIP__PROJECT);
     }
     return committers;
   }
@@ -250,17 +284,13 @@ public class ProjectImpl extends EObjectImpl implements Project
    */
   public Project getParent()
   {
-    if (eContainerFeatureID() != ProjectPackage.PROJECT__PARENT)
-      return null;
+    if (eContainerFeatureID() != ProjectPackage.PROJECT__PARENT) return null;
     return (Project)eContainer();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param newParent the new parent
-   * @param msgs the message chain
-   * @return the message chain
    * @generated
    */
   public NotificationChain basicSetParent(Project newParent, NotificationChain msgs)
@@ -286,8 +316,7 @@ public class ProjectImpl extends EObjectImpl implements Project
       if (newParent != null)
         msgs = ((InternalEObject)newParent).eInverseAdd(this, ProjectPackage.PROJECT__SUBPROJECTS, Project.class, msgs);
       msgs = basicSetParent(newParent, msgs);
-      if (msgs != null)
-        msgs.dispatch();
+      if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.PROJECT__PARENT, newParent, newParent));
@@ -381,6 +410,52 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getDevmail()
+  {
+    return devmail;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setDevmail(String newDevmail)
+  {
+    String oldDevmail = devmail;
+    devmail = newDevmail;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.PROJECT__DEVMAIL, oldDevmail, devmail));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getHomepage()
+  {
+    return homepage;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setHomepage(String newHomepage)
+  {
+    String oldHomepage = homepage;
+    homepage = newHomepage;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.PROJECT__HOMEPAGE, oldHomepage, homepage));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
@@ -388,9 +463,9 @@ public class ProjectImpl extends EObjectImpl implements Project
     switch (featureID)
     {
       case ProjectPackage.PROJECT__SUBPROJECTS:
-        return ((InternalEList<InternalEObject>)(InternalEList< ? >)getSubprojects()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getSubprojects()).basicAdd(otherEnd, msgs);
       case ProjectPackage.PROJECT__COMMITTERS:
-        return ((InternalEList<InternalEObject>)(InternalEList< ? >)getCommitters()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getCommitters()).basicAdd(otherEnd, msgs);
       case ProjectPackage.PROJECT__PARENT:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
@@ -410,9 +485,9 @@ public class ProjectImpl extends EObjectImpl implements Project
     switch (featureID)
     {
       case ProjectPackage.PROJECT__SUBPROJECTS:
-        return ((InternalEList< ? >)getSubprojects()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getSubprojects()).basicRemove(otherEnd, msgs);
       case ProjectPackage.PROJECT__COMMITTERS:
-        return ((InternalEList< ? >)getCommitters()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getCommitters()).basicRemove(otherEnd, msgs);
       case ProjectPackage.PROJECT__PARENT:
         return basicSetParent(null, msgs);
     }
@@ -461,6 +536,10 @@ public class ProjectImpl extends EObjectImpl implements Project
         return getEnd();
       case ProjectPackage.PROJECT__LONGNAME:
         return getLongname();
+      case ProjectPackage.PROJECT__DEVMAIL:
+        return getDevmail();
+      case ProjectPackage.PROJECT__HOMEPAGE:
+        return getHomepage();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -481,18 +560,18 @@ public class ProjectImpl extends EObjectImpl implements Project
         return;
       case ProjectPackage.PROJECT__SUBPROJECTS:
         getSubprojects().clear();
-        getSubprojects().addAll((Collection< ? extends Project>)newValue);
+        getSubprojects().addAll((Collection<? extends Project>)newValue);
         return;
       case ProjectPackage.PROJECT__COMMITTERS:
         getCommitters().clear();
-        getCommitters().addAll((Collection< ? extends CommitterShip>)newValue);
+        getCommitters().addAll((Collection<? extends CommitterShip>)newValue);
         return;
       case ProjectPackage.PROJECT__PARENT:
         setParent((Project)newValue);
         return;
       case ProjectPackage.PROJECT__PROJECTLEADS:
         getProjectleads().clear();
-        getProjectleads().addAll((Collection< ? extends Person>)newValue);
+        getProjectleads().addAll((Collection<? extends Person>)newValue);
         return;
       case ProjectPackage.PROJECT__START:
         setStart((Date)newValue);
@@ -502,6 +581,12 @@ public class ProjectImpl extends EObjectImpl implements Project
         return;
       case ProjectPackage.PROJECT__LONGNAME:
         setLongname((String)newValue);
+        return;
+      case ProjectPackage.PROJECT__DEVMAIL:
+        setDevmail((String)newValue);
+        return;
+      case ProjectPackage.PROJECT__HOMEPAGE:
+        setHomepage((String)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -541,6 +626,12 @@ public class ProjectImpl extends EObjectImpl implements Project
       case ProjectPackage.PROJECT__LONGNAME:
         setLongname(LONGNAME_EDEFAULT);
         return;
+      case ProjectPackage.PROJECT__DEVMAIL:
+        setDevmail(DEVMAIL_EDEFAULT);
+        return;
+      case ProjectPackage.PROJECT__HOMEPAGE:
+        setHomepage(HOMEPAGE_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -571,6 +662,10 @@ public class ProjectImpl extends EObjectImpl implements Project
         return END_EDEFAULT == null ? end != null : !END_EDEFAULT.equals(end);
       case ProjectPackage.PROJECT__LONGNAME:
         return LONGNAME_EDEFAULT == null ? longname != null : !LONGNAME_EDEFAULT.equals(longname);
+      case ProjectPackage.PROJECT__DEVMAIL:
+        return DEVMAIL_EDEFAULT == null ? devmail != null : !DEVMAIL_EDEFAULT.equals(devmail);
+      case ProjectPackage.PROJECT__HOMEPAGE:
+        return HOMEPAGE_EDEFAULT == null ? homepage != null : !HOMEPAGE_EDEFAULT.equals(homepage);
     }
     return super.eIsSet(featureID);
   }
@@ -583,8 +678,7 @@ public class ProjectImpl extends EObjectImpl implements Project
   @Override
   public String toString()
   {
-    if (eIsProxy())
-      return super.toString();
+    if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (shortname: ");
@@ -595,6 +689,10 @@ public class ProjectImpl extends EObjectImpl implements Project
     result.append(end);
     result.append(", longname: ");
     result.append(longname);
+    result.append(", devmail: ");
+    result.append(devmail);
+    result.append(", homepage: ");
+    result.append(homepage);
     result.append(')');
     return result.toString();
   }

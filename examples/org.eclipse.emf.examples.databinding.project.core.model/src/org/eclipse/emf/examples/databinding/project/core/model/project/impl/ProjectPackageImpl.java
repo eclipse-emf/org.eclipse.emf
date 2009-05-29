@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ProjectPackageImpl.java,v 1.1 2009/05/29 15:03:43 tschindl Exp $
+ * $Id: ProjectPackageImpl.java,v 1.2 2009/05/29 17:36:55 tschindl Exp $
  */
 package org.eclipse.emf.examples.databinding.project.core.model.project.impl;
 
@@ -101,7 +101,6 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * already been initialized.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the package
    * @see #eNS_URI
    * @see #createPackageContents()
    * @see #initializePackageContents()
@@ -109,12 +108,10 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    */
   public static ProjectPackage init()
   {
-    if (isInited)
-      return (ProjectPackage)EPackage.Registry.INSTANCE.getEPackage(ProjectPackage.eNS_URI);
+    if (isInited) return (ProjectPackage)EPackage.Registry.INSTANCE.getEPackage(ProjectPackage.eNS_URI);
 
     // Obtain or create and register package
-    ProjectPackageImpl theProjectPackage = (ProjectPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof ProjectPackageImpl
-      ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new ProjectPackageImpl());
+    ProjectPackageImpl theProjectPackage = (ProjectPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof ProjectPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new ProjectPackageImpl());
 
     isInited = true;
 
@@ -255,6 +252,26 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getProject_Devmail()
+  {
+    return (EAttribute)projectEClass.getEStructuralFeatures().get(8);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getProject_Homepage()
+  {
+    return (EAttribute)projectEClass.getEStructuralFeatures().get(9);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getCommitterShip()
   {
     return committerShipEClass;
@@ -376,8 +393,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    */
   public void createPackageContents()
   {
-    if (isCreated)
-      return;
+    if (isCreated) return;
     isCreated = true;
 
     // Create classes and their features
@@ -394,6 +410,8 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
     createEAttribute(projectEClass, PROJECT__START);
     createEAttribute(projectEClass, PROJECT__END);
     createEAttribute(projectEClass, PROJECT__LONGNAME);
+    createEAttribute(projectEClass, PROJECT__DEVMAIL);
+    createEAttribute(projectEClass, PROJECT__HOMEPAGE);
 
     committerShipEClass = createEClass(COMMITTER_SHIP);
     createEAttribute(committerShipEClass, COMMITTER_SHIP__START);
@@ -424,8 +442,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    */
   public void initializePackageContents()
   {
-    if (isInitialized)
-      return;
+    if (isInitialized) return;
     isInitialized = true;
 
     // Initialize package
@@ -441,318 +458,32 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(foundationEClass, Foundation.class, "Foundation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(
-      getFoundation_Projects(),
-      this.getProject(),
-      null,
-      "projects",
-      null,
-      0,
-      -1,
-      Foundation.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getFoundation_Persons(),
-      this.getPerson(),
-      null,
-      "persons",
-      null,
-      0,
-      -1,
-      Foundation.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEReference(getFoundation_Projects(), this.getProject(), null, "projects", null, 0, -1, Foundation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getFoundation_Persons(), this.getPerson(), null, "persons", null, 0, -1, Foundation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(projectEClass, Project.class, "Project", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getProject_Shortname(),
-      ecorePackage.getEString(),
-      "shortname",
-      null,
-      0,
-      1,
-      Project.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getProject_Subprojects(),
-      this.getProject(),
-      this.getProject_Parent(),
-      "subprojects",
-      null,
-      0,
-      -1,
-      Project.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getProject_Committers(),
-      this.getCommitterShip(),
-      this.getCommitterShip_Project(),
-      "committers",
-      null,
-      0,
-      -1,
-      Project.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getProject_Parent(),
-      this.getProject(),
-      this.getProject_Subprojects(),
-      "parent",
-      null,
-      0,
-      1,
-      Project.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getProject_Projectleads(),
-      this.getPerson(),
-      null,
-      "projectleads",
-      null,
-      0,
-      -1,
-      Project.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getProject_Start(),
-      ecorePackage.getEDate(),
-      "start",
-      null,
-      0,
-      1,
-      Project.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getProject_End(),
-      ecorePackage.getEDate(),
-      "end",
-      null,
-      0,
-      1,
-      Project.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getProject_Longname(),
-      ecorePackage.getEString(),
-      "longname",
-      null,
-      0,
-      1,
-      Project.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEAttribute(getProject_Shortname(), ecorePackage.getEString(), "shortname", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getProject_Subprojects(), this.getProject(), this.getProject_Parent(), "subprojects", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getProject_Committers(), this.getCommitterShip(), this.getCommitterShip_Project(), "committers", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getProject_Parent(), this.getProject(), this.getProject_Subprojects(), "parent", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getProject_Projectleads(), this.getPerson(), null, "projectleads", null, 0, -1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getProject_Start(), ecorePackage.getEDate(), "start", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getProject_End(), ecorePackage.getEDate(), "end", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getProject_Longname(), ecorePackage.getEString(), "longname", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getProject_Devmail(), ecorePackage.getEString(), "devmail", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getProject_Homepage(), ecorePackage.getEString(), "homepage", null, 0, 1, Project.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(committerShipEClass, CommitterShip.class, "CommitterShip", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getCommitterShip_Start(),
-      ecorePackage.getEDate(),
-      "start",
-      null,
-      0,
-      1,
-      CommitterShip.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getCommitterShip_End(),
-      ecorePackage.getEDate(),
-      "end",
-      null,
-      0,
-      1,
-      CommitterShip.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getCommitterShip_Project(),
-      this.getProject(),
-      this.getProject_Committers(),
-      "project",
-      null,
-      0,
-      1,
-      CommitterShip.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      !IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getCommitterShip_Person(),
-      this.getPerson(),
-      this.getPerson_Committerships(),
-      "person",
-      null,
-      0,
-      1,
-      CommitterShip.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEAttribute(getCommitterShip_Start(), ecorePackage.getEDate(), "start", null, 0, 1, CommitterShip.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getCommitterShip_End(), ecorePackage.getEDate(), "end", null, 0, 1, CommitterShip.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getCommitterShip_Project(), this.getProject(), this.getProject_Committers(), "project", null, 0, 1, CommitterShip.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getCommitterShip_Person(), this.getPerson(), this.getPerson_Committerships(), "person", null, 0, 1, CommitterShip.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(personEClass, Person.class, "Person", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(
-      getPerson_Lastname(),
-      ecorePackage.getEString(),
-      "lastname",
-      null,
-      0,
-      1,
-      Person.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getPerson_Firstname(),
-      ecorePackage.getEString(),
-      "firstname",
-      null,
-      0,
-      1,
-      Person.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEAttribute(
-      getPerson_Email(),
-      ecorePackage.getEString(),
-      "email",
-      null,
-      0,
-      1,
-      Person.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_UNSETTABLE,
-      !IS_ID,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
-    initEReference(
-      getPerson_Committerships(),
-      this.getCommitterShip(),
-      this.getCommitterShip_Person(),
-      "committerships",
-      null,
-      0,
-      -1,
-      Person.class,
-      !IS_TRANSIENT,
-      !IS_VOLATILE,
-      IS_CHANGEABLE,
-      !IS_COMPOSITE,
-      IS_RESOLVE_PROXIES,
-      !IS_UNSETTABLE,
-      IS_UNIQUE,
-      !IS_DERIVED,
-      IS_ORDERED);
+    initEAttribute(getPerson_Lastname(), ecorePackage.getEString(), "lastname", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getPerson_Firstname(), ecorePackage.getEString(), "firstname", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getPerson_Email(), ecorePackage.getEString(), "email", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getPerson_Committerships(), this.getCommitterShip(), this.getCommitterShip_Person(), "committerships", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);

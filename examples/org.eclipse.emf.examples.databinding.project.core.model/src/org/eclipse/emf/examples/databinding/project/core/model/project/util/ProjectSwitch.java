@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ProjectSwitch.java,v 1.1 2009/05/29 15:03:43 tschindl Exp $
+ * $Id: ProjectSwitch.java,v 1.2 2009/05/29 17:36:55 tschindl Exp $
  */
 package org.eclipse.emf.examples.databinding.project.core.model.project.util;
 
@@ -24,7 +24,6 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @param <T> the switch type
  * @see org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage
  * @generated
  */
@@ -56,7 +55,6 @@ public class ProjectSwitch<T>
    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param theEObject the object to switch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
@@ -69,8 +67,6 @@ public class ProjectSwitch<T>
    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param theEClass the class to switch to
-   * @param theEObject the object to switch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
@@ -83,7 +79,10 @@ public class ProjectSwitch<T>
     else
     {
       List<EClass> eSuperTypes = theEClass.getESuperTypes();
-      return eSuperTypes.isEmpty() ? defaultCase(theEObject) : doSwitch(eSuperTypes.get(0), theEObject);
+      return
+        eSuperTypes.isEmpty() ?
+          defaultCase(theEObject) :
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -91,8 +90,6 @@ public class ProjectSwitch<T>
    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param classifierID the classifier
-   * @param theEObject the object to switch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
@@ -100,36 +97,35 @@ public class ProjectSwitch<T>
   {
     switch (classifierID)
     {
-      case ProjectPackage.FOUNDATION: {
+      case ProjectPackage.FOUNDATION:
+      {
         Foundation foundation = (Foundation)theEObject;
         T result = caseFoundation(foundation);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ProjectPackage.PROJECT: {
+      case ProjectPackage.PROJECT:
+      {
         Project project = (Project)theEObject;
         T result = caseProject(project);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ProjectPackage.COMMITTER_SHIP: {
+      case ProjectPackage.COMMITTER_SHIP:
+      {
         CommitterShip committerShip = (CommitterShip)theEObject;
         T result = caseCommitterShip(committerShip);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ProjectPackage.PERSON: {
+      case ProjectPackage.PERSON:
+      {
         Person person = (Person)theEObject;
         T result = casePerson(person);
-        if (result == null)
-          result = defaultCase(theEObject);
+        if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      default:
-        return defaultCase(theEObject);
+      default: return defaultCase(theEObject);
     }
   }
 

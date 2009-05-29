@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ProjectFactoryImpl.java,v 1.1 2009/05/29 15:03:43 tschindl Exp $
+ * $Id: ProjectFactoryImpl.java,v 1.2 2009/05/29 17:36:55 tschindl Exp $
  */
 package org.eclipse.emf.examples.databinding.project.core.model.project.impl;
 
@@ -29,14 +29,13 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory
    * Creates the default factory implementation.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the factory
    * @generated
    */
   public static ProjectFactory init()
   {
     try
     {
-      ProjectFactory theProjectFactory = (ProjectFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/project/1.0.0");
+      ProjectFactory theProjectFactory = (ProjectFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/project/1.0.0"); 
       if (theProjectFactory != null)
       {
         return theProjectFactory;
@@ -70,14 +69,10 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory
   {
     switch (eClass.getClassifierID())
     {
-      case ProjectPackage.FOUNDATION:
-        return createFoundation();
-      case ProjectPackage.PROJECT:
-        return createProject();
-      case ProjectPackage.COMMITTER_SHIP:
-        return createCommitterShip();
-      case ProjectPackage.PERSON:
-        return createPerson();
+      case ProjectPackage.FOUNDATION: return createFoundation();
+      case ProjectPackage.PROJECT: return createProject();
+      case ProjectPackage.COMMITTER_SHIP: return createCommitterShip();
+      case ProjectPackage.PERSON: return createPerson();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -140,7 +135,6 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the package
    * @deprecated
    * @generated
    */

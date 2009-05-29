@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CommitterShipImpl.java,v 1.1 2009/05/29 15:03:43 tschindl Exp $
+ * $Id: CommitterShipImpl.java,v 1.2 2009/05/29 17:36:55 tschindl Exp $
  */
 package org.eclipse.emf.examples.databinding.project.core.model.project.impl;
 
@@ -167,17 +167,13 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
    */
   public Project getProject()
   {
-    if (eContainerFeatureID() != ProjectPackage.COMMITTER_SHIP__PROJECT)
-      return null;
+    if (eContainerFeatureID() != ProjectPackage.COMMITTER_SHIP__PROJECT) return null;
     return (Project)eContainer();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param newProject the new project
-   * @param msgs the message chain
-   * @return the modified notification chain
    * @generated
    */
   public NotificationChain basicSetProject(Project newProject, NotificationChain msgs)
@@ -203,8 +199,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
       if (newProject != null)
         msgs = ((InternalEObject)newProject).eInverseAdd(this, ProjectPackage.PROJECT__COMMITTERS, Project.class, msgs);
       msgs = basicSetProject(newProject, msgs);
-      if (msgs != null)
-        msgs.dispatch();
+      if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.COMMITTER_SHIP__PROJECT, newProject, newProject));
@@ -233,7 +228,6 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the person
    * @generated
    */
   public Person basicGetPerson()
@@ -244,9 +238,6 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param newPerson the new person
-   * @param msgs the message chain
-   * @return the notification chain
    * @generated
    */
   public NotificationChain basicSetPerson(Person newPerson, NotificationChain msgs)
@@ -255,16 +246,8 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
     person = newPerson;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(
-        this,
-        Notification.SET,
-        ProjectPackage.COMMITTER_SHIP__PERSON,
-        oldPerson,
-        newPerson);
-      if (msgs == null)
-        msgs = notification;
-      else
-        msgs.add(notification);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ProjectPackage.COMMITTER_SHIP__PERSON, oldPerson, newPerson);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
   }
@@ -284,8 +267,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
       if (newPerson != null)
         msgs = ((InternalEObject)newPerson).eInverseAdd(this, ProjectPackage.PERSON__COMMITTERSHIPS, Person.class, msgs);
       msgs = basicSetPerson(newPerson, msgs);
-      if (msgs != null)
-        msgs.dispatch();
+      if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.COMMITTER_SHIP__PERSON, newPerson, newPerson));
@@ -364,8 +346,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
       case ProjectPackage.COMMITTER_SHIP__PROJECT:
         return getProject();
       case ProjectPackage.COMMITTER_SHIP__PERSON:
-        if (resolve)
-          return getPerson();
+        if (resolve) return getPerson();
         return basicGetPerson();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -453,8 +434,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
   @Override
   public String toString()
   {
-    if (eIsProxy())
-      return super.toString();
+    if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (start: ");

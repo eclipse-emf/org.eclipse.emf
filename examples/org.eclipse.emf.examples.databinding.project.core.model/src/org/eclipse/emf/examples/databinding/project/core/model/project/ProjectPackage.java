@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ProjectPackage.java,v 1.1 2009/05/29 15:03:43 tschindl Exp $
+ * $Id: ProjectPackage.java,v 1.2 2009/05/29 17:36:55 tschindl Exp $
  */
 package org.eclipse.emf.examples.databinding.project.core.model.project;
 
@@ -180,13 +180,31 @@ public interface ProjectPackage extends EPackage
   int PROJECT__LONGNAME = 7;
 
   /**
+   * The feature id for the '<em><b>Devmail</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROJECT__DEVMAIL = 8;
+
+  /**
+   * The feature id for the '<em><b>Homepage</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROJECT__HOMEPAGE = 9;
+
+  /**
    * The number of structural features of the '<em>Project</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PROJECT_FEATURE_COUNT = 8;
+  int PROJECT_FEATURE_COUNT = 10;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.CommitterShipImpl <em>Committer Ship</em>}' class.
@@ -430,6 +448,28 @@ public interface ProjectPackage extends EPackage
   EAttribute getProject_Longname();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getDevmail <em>Devmail</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Devmail</em>'.
+   * @see org.eclipse.emf.examples.databinding.project.core.model.project.Project#getDevmail()
+   * @see #getProject()
+   * @generated
+   */
+  EAttribute getProject_Devmail();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getHomepage <em>Homepage</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Homepage</em>'.
+   * @see org.eclipse.emf.examples.databinding.project.core.model.project.Project#getHomepage()
+   * @see #getProject()
+   * @generated
+   */
+  EAttribute getProject_Homepage();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.examples.databinding.project.core.model.project.CommitterShip <em>Committer Ship</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -659,6 +699,22 @@ public interface ProjectPackage extends EPackage
      * @generated
      */
     EAttribute PROJECT__LONGNAME = eINSTANCE.getProject_Longname();
+
+    /**
+     * The meta object literal for the '<em><b>Devmail</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PROJECT__DEVMAIL = eINSTANCE.getProject_Devmail();
+
+    /**
+     * The meta object literal for the '<em><b>Homepage</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PROJECT__HOMEPAGE = eINSTANCE.getProject_Homepage();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.CommitterShipImpl <em>Committer Ship</em>}' class.

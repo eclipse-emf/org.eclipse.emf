@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Project.java,v 1.1 2009/05/29 15:03:43 tschindl Exp $
+ * $Id: Project.java,v 1.2 2009/05/29 17:36:55 tschindl Exp $
  */
 package org.eclipse.emf.examples.databinding.project.core.model.project;
 
@@ -28,6 +28,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getStart <em>Start</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getEnd <em>End</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getLongname <em>Longname</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getDevmail <em>Devmail</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getHomepage <em>Homepage</em>}</li>
  * </ul>
  * </p>
  *
@@ -220,5 +222,57 @@ public interface Project extends EObject
    * @generated
    */
   void setLongname(String value);
+
+  /**
+   * Returns the value of the '<em><b>Devmail</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Devmail</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Devmail</em>' attribute.
+   * @see #setDevmail(String)
+   * @see org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage#getProject_Devmail()
+   * @model
+   * @generated
+   */
+  String getDevmail();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getDevmail <em>Devmail</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Devmail</em>' attribute.
+   * @see #getDevmail()
+   * @generated
+   */
+  void setDevmail(String value);
+
+  /**
+   * Returns the value of the '<em><b>Homepage</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Homepage</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Homepage</em>' attribute.
+   * @see #setHomepage(String)
+   * @see org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage#getProject_Homepage()
+   * @model
+   * @generated
+   */
+  String getHomepage();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.examples.databinding.project.core.model.project.Project#getHomepage <em>Homepage</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Homepage</em>' attribute.
+   * @see #getHomepage()
+   * @generated
+   */
+  void setHomepage(String value);
 
 } // Project
