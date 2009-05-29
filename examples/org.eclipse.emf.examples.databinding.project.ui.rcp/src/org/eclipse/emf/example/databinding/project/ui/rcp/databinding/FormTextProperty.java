@@ -12,31 +12,23 @@
  *
  * </copyright>
  *
- * $Id: FormTextProperty.java,v 1.1 2009/05/29 15:06:30 tschindl Exp $
+ * $Id: FormTextProperty.java,v 1.2 2009/05/29 16:24:22 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.databinding;
 
-import org.eclipse.core.databinding.property.INativePropertyListener;
-import org.eclipse.core.databinding.property.ISimplePropertyListener;
 import org.eclipse.core.databinding.property.value.IValueProperty;
-import org.eclipse.core.databinding.property.value.SimpleValueProperty;
+import org.eclipse.jface.databinding.swt.WidgetValueProperty;
 import org.eclipse.ui.forms.widgets.Form;
 
 
 /**
  * Property to deal with {@link Form#setText(String)} and {@link Form#getText()}
  */
-public class FormTextProperty extends SimpleValueProperty
+public class FormTextProperty extends WidgetValueProperty
 {
   private FormTextProperty()
   {
     super();
-  }
-
-  @Override
-  public INativePropertyListener adaptListener(ISimplePropertyListener listener)
-  {
-    return null;
   }
 
   @Override
