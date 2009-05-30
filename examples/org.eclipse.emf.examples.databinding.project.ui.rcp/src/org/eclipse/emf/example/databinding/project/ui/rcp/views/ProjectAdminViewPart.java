@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectAdminViewPart.java,v 1.3 2009/05/29 17:36:52 tschindl Exp $
+ * $Id: ProjectAdminViewPart.java,v 1.4 2009/05/30 10:25:48 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -57,6 +57,7 @@ import org.eclipse.jface.databinding.viewers.ObservableMapCellLabelProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
@@ -74,6 +75,7 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.program.Program;
@@ -144,6 +146,9 @@ public class ProjectAdminViewPart extends ViewPart
   private DataBindingContext ctx;
   private ObservablesManager mgr;
   private static String END_DATE_PROPERTY = "enddate";
+  
+  private Image projectImage;
+  private Image committerImage;
 
   @Override
   public void init(IViewSite site, IMemento memento) throws PartInitException
@@ -152,6 +157,16 @@ public class ProjectAdminViewPart extends ViewPart
     if (memento != null && memento.getFloat(DIVIDER_KEY) != null)
     {
       divider = memento.getFloat(DIVIDER_KEY);
+    }
+    
+    ImageDescriptor desc = Activator.imageDescriptorFromPlugin("org.eclipse.ui", "icons/full/obj16/generic_elements.gif");
+    if( desc != null ) {
+      projectImage = desc.createImage();
+    }
+    
+    desc = Activator.imageDescriptorFromPlugin("org.eclipse.ui", "icons/full/obj16/signed_yes_tbl.gif");
+    if( desc != null ) {
+      committerImage = desc.createImage();
     }
   }
 
@@ -504,6 +519,14 @@ public class ProjectAdminViewPart extends ViewPart
     {
       mgr.dispose();
     }
+    
+    if( committerImage != null ) {
+      committerImage.dispose();
+    }
+    
+    if( projectImage != null ) {
+      projectImage.dispose();
+    }
 
     super.dispose();
   }
@@ -569,7 +592,7 @@ public class ProjectAdminViewPart extends ViewPart
     }
   }
 
-  private static class TreeLabelProviderImpl extends StyledCellLabelProvider
+  private class TreeLabelProviderImpl extends StyledCellLabelProvider
   {
 
     private IMapChangeListener mapChangeListener = new IMapChangeListener()
@@ -607,6 +630,7 @@ public class ProjectAdminViewPart extends ViewPart
         String decoration = " (" + p.getCommitters().size() + " Committers)";
         styledString.append(decoration, StyledString.COUNTER_STYLER);
         cell.setText(styledString.getString());
+        cell.setImage(projectImage);
         cell.setStyleRanges(styledString.getStyleRanges());
       }
       else if (cell.getElement() instanceof CommitterShip)
@@ -614,6 +638,8 @@ public class ProjectAdminViewPart extends ViewPart
         Person p = ((CommitterShip)cell.getElement()).getPerson();
         StyledString styledString = new StyledString(p.getLastname() + ", " + p.getFirstname(), null);
         cell.setText(styledString.getString());
+        cell.setForeground(cell.getControl().getDisplay().getSystemColor(SWT.COLOR_DARK_GRAY));
+        cell.setImage(committerImage);
         cell.setStyleRanges(styledString.getStyleRanges());
       }
     }
@@ -703,8 +729,7 @@ public class ProjectAdminViewPart extends ViewPart
         } else {
           toolkit.createLabel(body,"-");  
         }
-
-
+        
         return form;
       }
       else
