@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Core
+Bundle-SymbolicName: org.eclipse.emf.examples.databinding.project.core
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.emf.examples.databinding.project.core.internal.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.edit
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.eclipse.emf.examples.databinding.project.core
+Service-Component: META-INF/component.xml, META-INF/xmiprovider.xml
+Import-Package: org.eclipse.emf.examples.databinding.project.core.model.project

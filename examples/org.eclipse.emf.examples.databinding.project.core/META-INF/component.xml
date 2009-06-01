@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.emf.examples.databinding.project.core.loadservice">
+   <implementation class="org.eclipse.emf.examples.databinding.project.core.internal.ModelResourceComponent"/>
+   <reference bind="addProvider" cardinality="0..n" interface="org.eclipse.emf.examples.databinding.project.core.IModelResourceProvider" name="IModelResourceProvider" policy="dynamic" unbind="removeProvider"/>
+   <service>
+      <provide interface="org.eclipse.emf.examples.databinding.project.core.IModelLoadingService"/>
+   </service>
+</scr:component>
