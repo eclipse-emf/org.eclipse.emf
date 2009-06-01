@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2009 Tom Schindl and others.
+ * Copyright (c) 2009 BestSolution.at and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFPropertyListener.java,v 1.2 2009/05/29 08:52:47 tschindl Exp $
+ * $Id: EMFPropertyListener.java,v 1.3 2009/06/01 17:08:29 tschindl Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
