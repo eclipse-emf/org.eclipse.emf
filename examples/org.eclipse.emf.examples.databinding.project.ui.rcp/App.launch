@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launchConfiguration type="org.eclipse.pde.ui.RuntimeWorkbench">
+<booleanAttribute key="append.args" value="true"/>
+<stringAttribute key="application" value="org.eclipse.emf.examples.databinding.project.ui.rcp.application"/>
+<booleanAttribute key="askclear" value="false"/>
+<booleanAttribute key="automaticAdd" value="false"/>
+<booleanAttribute key="automaticValidate" value="false"/>
+<stringAttribute key="bootstrap" value=""/>
+<stringAttribute key="checked" value="[NONE]"/>
+<booleanAttribute key="clearConfig" value="false"/>
+<booleanAttribute key="clearws" value="false"/>
+<booleanAttribute key="clearwslog" value="false"/>
+<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/App"/>
+<booleanAttribute key="default" value="false"/>
+<booleanAttribute key="includeOptional" value="true"/>
+<stringAttribute key="location" value="${workspace_loc}/../runtime-org.eclipse.emf.examples.databinding.project.ui.rcp.application"/>
+<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JVM 1.6"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
+<booleanAttribute key="pde.generated.config" value="false"/>
+<stringAttribute key="pde.version" value="3.3"/>
+<stringAttribute key="product" value="org.eclipse.emf.cdo.server.product"/>
+<stringAttribute key="selected_target_plugins" value="com.ibm.icu@default:default,org.eclipse.osgi.services@default:default,org.eclipse.ui.forms@default:default,org.eclipse.equinox.app@default:default,org.eclipse.equinox.registry@default:default,org.eclipse.core.resources.compatibility@default:false,org.eclipse.osgi@-1:true,org.eclipse.core.jobs@default:default,org.eclipse.equinox.common@2:true,org.eclipse.core.contenttype@default:default,org.eclipse.core.commands@default:default,org.eclipse.core.runtime.compatibility.registry@default:false,org.eclipse.ui.cocoa@default:false,org.eclipse.core.runtime.compatibility.auth@default:default,org.eclipse.ant.core@default:default,org.eclipse.help@default:default,org.eclipse.core.filesystem.macosx@default:false,org.eclipse.core.filesystem@default:default,javax.servlet@default:default,org.eclipse.equinox.preferences@default:default,org.eclipse.swt.cocoa.macosx.x86_64@default:false,org.eclipse.ui.workbench@default:default,org.eclipse.core.expressions@default:default,org.eclipse.jface@default:default,org.eclipse.core.resources@default:default,org.eclipse.team.core@default:default,org.eclipse.swt@default:default,org.eclipse.core.runtime@default:true,org.eclipse.equinox.util@default:default,org.eclipse.ui@default:default,org.eclipse.core.variables@default:default,org.eclipse.equinox.ds@default:true"/>
+<stringAttribute key="selected_workspace_plugins" value="org.eclipse.emf.ecore.xmi@default:default,org.eclipse.emf.ecore.change@default:default,org.eclipse.emf.databinding.edit@default:default,org.eclipse.emf.databinding@default:default,org.eclipse.emf.examples.databinding.project.ui.rcp@default:default,org.eclipse.emf.ecore@default:default,org.eclipse.jface.databinding@default:default,org.eclipse.emf.examples.databinding.project.core.model@default:default,org.eclipse.core.databinding.observable@default:default,org.eclipse.core.databinding.property@default:default,org.eclipse.emf.edit@default:default,org.eclipse.emf.common@default:default,org.eclipse.emf.examples.databinding.project.core@default:default,org.eclipse.core.databinding@default:default"/>
+<booleanAttribute key="show_selected_only" value="false"/>
+<booleanAttribute key="tracing" value="false"/>
+<booleanAttribute key="useDefaultConfig" value="true"/>
+<booleanAttribute key="useDefaultConfigArea" value="true"/>
+<booleanAttribute key="useProduct" value="false"/>
+<booleanAttribute key="usefeatures" value="false"/>
+</launchConfiguration>

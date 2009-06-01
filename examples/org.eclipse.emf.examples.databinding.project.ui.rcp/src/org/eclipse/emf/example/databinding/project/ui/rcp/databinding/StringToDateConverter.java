@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StringToDateConverter.java,v 1.1 2009/05/29 15:06:30 tschindl Exp $
+ * $Id: StringToDateConverter.java,v 1.2 2009/06/01 17:04:02 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.databinding;
 
@@ -24,12 +24,17 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.databinding.conversion.Converter;
+import org.eclipse.core.databinding.validation.IValidator;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+
+import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
 
 
 /**
  * Convert a String to a date
  */
-public class StringToDateConverter extends Converter
+public class StringToDateConverter extends Converter implements IValidator
 {
   private List<DateFormat> formats = new ArrayList<DateFormat>();
   private String message;
@@ -66,5 +71,18 @@ public class StringToDateConverter extends Converter
     }
 
     throw new RuntimeException(message);
+  }
+
+  public IStatus validate(Object value)
+  {
+    try
+    {
+      convert(value);
+    }
+    catch (Exception e)
+    {
+      return new Status(IStatus.ERROR, Activator.PLUGIN_ID, message);
+    }
+    return Status.OK_STATUS;
   }
 }

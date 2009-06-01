@@ -12,162 +12,71 @@
  *
  * </copyright>
  *
- * $Id: ProjectAdminViewPart.java,v 1.4 2009/05/30 10:25:48 tschindl Exp $
+ * $Id: ProjectAdminViewPart.java,v 1.5 2009/06/01 17:04:02 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
-import java.text.DateFormat;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.eclipse.core.databinding.AggregateValidationStatus;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.ObservablesManager;
-import org.eclipse.core.databinding.ValidationStatusProvider;
-import org.eclipse.core.databinding.conversion.Converter;
-import org.eclipse.core.databinding.observable.IObservable;
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.map.IMapChangeListener;
-import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.core.databinding.observable.map.MapChangeEvent;
-import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
-import org.eclipse.core.databinding.observable.set.IObservableSet;
-import org.eclipse.core.databinding.observable.value.ComputedValue;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.databinding.observable.value.IValueChangeListener;
-import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
-import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.core.databinding.property.list.IListProperty;
-import org.eclipse.core.databinding.property.value.IValueProperty;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
-import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapCellLabelProvider;
-import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
-import org.eclipse.jface.databinding.viewers.ViewerProperties;
-import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ColumnViewer;
-import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
-import org.eclipse.jface.viewers.LabelProviderChangedEvent;
-import org.eclipse.jface.viewers.StyledCellLabelProvider;
-import org.eclipse.jface.viewers.StyledString;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.ISaveablePart2;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.forms.IFormColors;
-import org.eclipse.ui.forms.IMessage;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.events.IHyperlinkListener;
-import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.services.ISourceProviderService;
 
-import org.eclipse.emf.common.command.BasicCommandStack;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
-import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
-import org.eclipse.emf.databinding.FeaturePath;
-import org.eclipse.emf.databinding.IEMFListProperty;
-import org.eclipse.emf.databinding.IEMFValueProperty;
-import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.examples.databinding.project.core.model.project.CommitterShip;
-import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
+import org.eclipse.emf.examples.databinding.project.core.IModelResource;
 import org.eclipse.emf.examples.databinding.project.core.model.project.Project;
-import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
 import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
-import org.eclipse.emf.example.databinding.project.ui.rcp.NLSMessages;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.DateToStringConverter;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.FormTextProperty;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.StringToDateConverter;
+import org.eclipse.emf.example.databinding.project.ui.rcp.ResourceProvider;
 
 
 /**
- * @author Tom Schindl
+ * The workbench part displayed to the user
  */
-public class ProjectAdminViewPart extends ViewPart
+public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
 {
   /**
    * Id of the view
    */
-  public static final String ID = "org.eclipse.emf.example.project.ui.rcp.views.ProjectAdminViewPart";
+  public static final String ID = "org.eclipse.emf.example.databinding.project.ui.rcp.views.ProjectAdminViewPart";
 
-  private TreeViewer viewer;
   private SashForm sashForm;
 
   private FormToolkit toolkit;
-  private Form form;
 
   private float divider = 0.2f;
   private static final String DIVIDER_KEY = Activator.PLUGIN_ID + ".divider";
 
-  private Resource resource;
-  private EditingDomain editingDomain;
-
-  private DataBindingContext ctx;
   private ObservablesManager mgr;
-  private static String END_DATE_PROPERTY = "enddate";
-  
-  private Image projectImage;
-  private Image committerImage;
+  private IModelResource resource;
+
+  private ProjectExplorerPart projectExplorer;
+  private ProjectFormAreaPart projectDataForm;
+  private IPartListener2 listener;
+  private UndoAction undoAction;
+  private RedoAction redoAction;
 
   @Override
-  public void init(IViewSite site, IMemento memento) throws PartInitException
+  public void init(final IViewSite site, IMemento memento) throws PartInitException
   {
     super.init(site, memento);
     if (memento != null && memento.getFloat(DIVIDER_KEY) != null)
     {
       divider = memento.getFloat(DIVIDER_KEY);
     }
-    
-    ImageDescriptor desc = Activator.imageDescriptorFromPlugin("org.eclipse.ui", "icons/full/obj16/generic_elements.gif");
-    if( desc != null ) {
-      projectImage = desc.createImage();
-    }
-    
-    desc = Activator.imageDescriptorFromPlugin("org.eclipse.ui", "icons/full/obj16/signed_yes_tbl.gif");
-    if( desc != null ) {
-      committerImage = desc.createImage();
-    }
+
+    listener = new PartListenerImpl(site);
+    site.getPage().addPartListener(listener);
   }
 
   @Override
@@ -181,672 +90,178 @@ public class ProjectAdminViewPart extends ViewPart
   @Override
   public void createPartControl(Composite parent)
   {
+    String path = getViewSite().getSecondaryId().replaceFirst("_", ":");
+
+    resource = Activator.getDefault().loadResource(path); //FIXME This needs to be a real URI
+    resource.addListener(new IModelResource.Listener()
+      {
+
+        public void dirtyStateChanged()
+        {
+          firePropertyChange(PROP_DIRTY);
+        }
+        
+        public void commandStackChanged()
+        {
+        }
+
+      });
+
+    if (resource == null)
+    {
+      throw new RuntimeException("Could not load resource!");
+    }
+
     toolkit = new FormToolkit(parent.getDisplay());
-    loadModel();
     sashForm = new SashForm(parent, SWT.HORIZONTAL);
 
+    /* 
+     * Track the creation of observables so that we don't leak listeners 
+     * when the view part is closed
+     */
     mgr = new ObservablesManager();
     mgr.runAndCollect(new Runnable()
       {
 
         public void run()
         {
-          createTreeArea(sashForm);
-          createFormArea(sashForm);
+          projectExplorer = new ProjectExplorerPart(getViewSite(), sashForm, toolkit, resource.getFoundation());
+          projectDataForm = new ProjectFormAreaPart(getViewSite(), sashForm, toolkit, resource, projectExplorer.getProjectObservable());
         }
       });
 
     int left = (int)(100 * divider);
 
     sashForm.setWeights(new int []{ left, 100 - left });
+
+    makeActions();
+
   }
 
-  private void createTreeArea(Composite parent)
+  protected void makeActions()
   {
+    undoAction = new UndoAction(resource);
+    redoAction = new RedoAction(resource);
 
-    ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(new TreeFactoryImpl(), new TreeStructureAdvisorImpl());
-    IObservableSet set = cp.getKnownElements();
-
-    IObservableMap[] map = new IObservableMap [4];
-    map[0] = EMFProperties.value(ProjectPackage.Literals.PROJECT__SHORTNAME).observeDetail(set);
-    map[1] = EMFProperties.value(ProjectPackage.Literals.PROJECT__COMMITTERS).observeDetail(set);
-    map[2] = EMFProperties.value(
-      FeaturePath.fromList(ProjectPackage.Literals.COMMITTER_SHIP__PERSON, ProjectPackage.Literals.PERSON__FIRSTNAME)).observeDetail(set);
-    map[3] = EMFProperties.value(
-      FeaturePath.fromList(ProjectPackage.Literals.COMMITTER_SHIP__PERSON, ProjectPackage.Literals.PERSON__LASTNAME)).observeDetail(set);
-
-    IEMFListProperty projects = EMFProperties.list(ProjectPackage.Literals.FOUNDATION__PROJECTS);
-
-    viewer = new TreeViewer(parent);
-    viewer.setContentProvider(cp);
-    viewer.setLabelProvider(new TreeLabelProviderImpl(map));
-    viewer.setInput(projects.observe(resource.getContents().get(0)));
-
-    ColumnViewerToolTipSupportImpl.enableFor(viewer, toolkit);
-  }
-
-  private void createFormArea(Composite parent)
-  {
-    //    final IObservableValue master = ViewerProperties.singleSelection().observe(viewer);
-    final IObservableValue master = new WritableValue();
-    IObservableValue treeObs = ViewerProperties.singleSelection().observe(viewer);
-    treeObs.addValueChangeListener(new IValueChangeListener()
-      {
-
-        public void handleValueChange(ValueChangeEvent event)
-        {
-          if (event.diff.getNewValue() instanceof Project)
-          {
-            master.setValue(event.diff.getNewValue());
-          }
-        }
-      });
-
-    ctx = new EMFDataBindingContext();
-    addStatusSupport(ctx);
-
-    form = toolkit.createForm(parent);
-    toolkit.decorateFormHeading(form);
-    form.setText(" ");
-
-    Composite body = form.getBody();
-    body.setLayout(new GridLayout(2, false));
-
-    IWidgetValueProperty prop = WidgetProperties.text(SWT.Modify);
-
-    {
-      final IEMFValueProperty shortProp = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PROJECT__SHORTNAME);;
-      toolkit.createLabel(body, "&Short name");
-      Text t = toolkit.createText(body, "");
-      t.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-      ctx.bindValue(prop.observeDelayed(400, t), shortProp.observeDetail(master));
-
-      final IEMFValueProperty longProp = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PROJECT__LONGNAME);
-      toolkit.createLabel(body, "&Long name");
-      t = toolkit.createText(body, "");
-      t.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-      ctx.bindValue(prop.observeDelayed(400, t), longProp.observeDetail(master));
-
-      ctx.bindValue(FormTextProperty.create().observe(form), new ComputedValue()
-        {
-          private IObservableValue shortname = shortProp.observeDetail(master);
-          private IObservableValue longname = longProp.observeDetail(master);
-
-          @Override
-          protected Object calculate()
-          {
-            return shortname.getValue() + " - " + longname.getValue();
-          }
-        });
-    }
-
-    {
-      IEMFValueProperty mProp = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PROJECT__START);
-      toolkit.createLabel(body, "Start Date");
-      Text t = toolkit.createText(body, "");
-      t.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-      ctx.bindValue(
-        prop.observeDelayed(400, t),
-        mProp.observeDetail(master),
-        new EMFUpdateValueStrategy().setConverter(new StringToDateConverter(NLSMessages.ProjectAdminViewPart_StartDateNotParseable)),
-        new EMFUpdateValueStrategy().setConverter(new DateToStringConverter()));
-    }
-
-    {
-      IEMFValueProperty mProp = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PROJECT__END);
-      toolkit.createLabel(body, "End Date");
-      Text t = toolkit.createText(body, "");
-      t.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-      ctx.bindValue(
-        prop.observeDelayed(400, t),
-        mProp.observeDetail(master),
-        new EMFUpdateValueStrategy().setConverter(new StringToDateConverter(NLSMessages.ProjectAdminViewPart_EndDateNotParseable)),
-        new EMFUpdateValueStrategy().setConverter(new DateToStringConverter()));
-    }
-
-    addTabArea(ctx, master, body);
-    body.setBackgroundMode(SWT.INHERIT_DEFAULT);
-  }
-
-  private void addTabArea(DataBindingContext ctx, IObservableValue master, Composite parent)
-  {
-    CTabFolder folder = new CTabFolder(parent, SWT.BORDER);
-    folder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-    folder.setSelectionBackground(new Color []{
-      toolkit.getColors().getColor(IFormColors.H_GRADIENT_END),
-      toolkit.getColors().getColor(IFormColors.H_GRADIENT_START) }, new int []{ 25 }, true);
-    folder.setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-    folder.setSelectionForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-    folder.setSimple(false);
-
-    final TableViewer viewer = new TableViewer(folder, SWT.FULL_SELECTION);
-
-    {
-      IValueProperty prop = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PROJECT__COMMITTERS);
-      CTabItem item = new CTabItem(folder, SWT.NONE);
-      item.setControl(viewer.getControl());
-
-      ctx.bindValue(
-        WidgetProperties.text().observe(item),
-        prop.observeDetail(master),
-        new EMFUpdateValueStrategy(),
-        new EMFUpdateValueStrategy().setConverter(new LengthConverter()));
-    }
-
-    folder.setSelection(0);
-
-    viewer.getTable().setHeaderVisible(true);
-    ObservableListContentProvider cp = new ObservableListContentProvider();
-
-    {
-      IObservableMap[] attributeMap = new IObservableMap [2];
-      attributeMap[0] = EMFEditProperties.value(
-        editingDomain,
-        FeaturePath.fromList(ProjectPackage.Literals.COMMITTER_SHIP__PERSON, ProjectPackage.Literals.PERSON__LASTNAME)).observeDetail(
-        cp.getKnownElements());
-      attributeMap[1] = EMFEditProperties.value(
-        editingDomain,
-        FeaturePath.fromList(ProjectPackage.Literals.COMMITTER_SHIP__PERSON, ProjectPackage.Literals.PERSON__FIRSTNAME)).observeDetail(
-        cp.getKnownElements());
-
-      TableViewerColumn column = new TableViewerColumn(viewer, SWT.NONE);
-      column.getColumn().setText("Name");
-      column.getColumn().setWidth(150);
-      column.setLabelProvider(new ObservableMapCellLabelProviderImpl("{0}, {1}", attributeMap));
-    }
-
-    {
-      IObservableMap attributeMap = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.COMMITTER_SHIP__START).observeDetail(
-        cp.getKnownElements());
-      TableViewerColumn column = new TableViewerColumn(viewer, SWT.NONE);
-      column.getColumn().setText("Start");
-      column.getColumn().setWidth(100);
-      column.setLabelProvider(new ObservableMapCellLabelProviderImpl("{0,date,short}", attributeMap));
-    }
-
-    {
-      IObservableMap attributeMap = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.COMMITTER_SHIP__END).observeDetail(
-        cp.getKnownElements());
-      TableViewerColumn column = new TableViewerColumn(viewer, SWT.NONE);
-      column.getColumn().setText("End");
-      column.getColumn().setWidth(100);
-      column.setLabelProvider(new ObservableMapCellLabelProviderImpl("{0,date,short}", attributeMap));
-    }
-
-    IListProperty prop = EMFEditProperties.list(editingDomain, ProjectPackage.Literals.PROJECT__COMMITTERS);
-    viewer.setContentProvider(cp);
-    viewer.setInput(prop.observeDetail(master));
-
-    MenuManager mgr = new MenuManager();
-    mgr.add(new Action("Hide historic committers", IAction.AS_CHECK_BOX)
-      {
-        @Override
-        public void run()
-        {
-          if (isChecked())
-          {
-            viewer.addFilter(new ViewerFilterImpl());
-          }
-          else
-          {
-            viewer.setFilters(new ViewerFilter [0]);
-          }
-        }
-      });
-
-    viewer.getControl().setMenu(mgr.createContextMenu(viewer.getControl()));
-
-    getSite().registerContextMenu(Activator.PLUGIN_ID + ".committers", mgr, viewer);
-  }
-
-  private void addStatusSupport(final DataBindingContext ctx)
-  {
-    final AggregateValidationStatus aggregateStatus = new AggregateValidationStatus(
-      ctx.getValidationStatusProviders(),
-      AggregateValidationStatus.MAX_SEVERITY);
-
-    aggregateStatus.addValueChangeListener(new IValueChangeListener()
-      {
-        public void handleValueChange(ValueChangeEvent event)
-        {
-          handleStateChange((IStatus)event.diff.getNewValue(), ctx);
-        }
-      });
-  }
-
-  private void handleStateChange(IStatus currentStatus, DataBindingContext ctx)
-  {
-    if (form.isDisposed() || form.getHead().isDisposed())
-    {
-      return;
-    }
-
-    if (currentStatus != null && currentStatus.getSeverity() != IStatus.OK)
-    {
-      int type = convertType(currentStatus.getSeverity());
-
-      List<IMessage> list = new ArrayList<IMessage>();
-      for (Iterator< ? > it = ctx.getValidationStatusProviders().iterator(); it.hasNext();)
-      {
-        ValidationStatusProvider validationStatusProvider = (ValidationStatusProvider)it.next();
-        final IStatus status = (IStatus)validationStatusProvider.getValidationStatus().getValue();
-        if (!status.isOK())
-        {
-          list.add(new IMessage()
-            {
-
-              public Control getControl()
-              {
-                return null;
-              }
-
-              public Object getData()
-              {
-                return null;
-              }
-
-              public Object getKey()
-              {
-                return null;
-              }
-
-              public String getPrefix()
-              {
-                return null;
-              }
-
-              public String getMessage()
-              {
-                return status.getMessage();
-              }
-
-              public int getMessageType()
-              {
-                return convertType(status.getSeverity());
-              }
-
-            });
-        }
-      }
-
-      form.setMessage("Data invalid", type, list.toArray(new IMessage [0]));
-    }
-    else
-    {
-      form.setMessage(null);
-    }
-  }
-
-  private int convertType(int severity)
-  {
-    switch (severity)
-    {
-      case IStatus.OK:
-        return IMessageProvider.NONE;
-      case IStatus.CANCEL:
-        return IMessageProvider.NONE;
-      case IStatus.INFO:
-        return IMessageProvider.INFORMATION;
-      case IStatus.WARNING:
-        return IMessageProvider.WARNING;
-      case IStatus.ERROR:
-        return IMessageProvider.ERROR;
-      default:
-        return IMessageProvider.NONE;
-    }
+    getViewSite().getActionBars().setGlobalActionHandler(ActionFactory.UNDO.getId(), undoAction);
+    getViewSite().getActionBars().setGlobalActionHandler(ActionFactory.REDO.getId(), redoAction);
   }
 
   @Override
   public void setFocus()
   {
-    viewer.getControl().setFocus();
+    projectExplorer.setFocus();
   }
 
   @Override
   public void dispose()
   {
+    ISourceProviderService s = (ISourceProviderService)getSite().getService(ISourceProviderService.class);
+    ResourceProvider p = (ResourceProvider)s.getSourceProvider(ResourceProvider.MODEL_RESOURCE_NAME);
+    p.setModelResource(null);
+    getSite().getPage().removePartListener(listener);
+
+    projectDataForm.dispose();
+    projectExplorer.dispose();
+
     if (toolkit != null)
     {
       toolkit.dispose();
-    }
-
-    if (ctx != null)
-    {
-      ctx.dispose();
     }
 
     if (mgr != null)
     {
       mgr.dispose();
     }
-    
-    if( committerImage != null ) {
-      committerImage.dispose();
-    }
-    
-    if( projectImage != null ) {
-      projectImage.dispose();
-    }
 
     super.dispose();
   }
 
-  private void loadModel()
+  private class PartListenerImpl implements IPartListener2
   {
-    ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+    private IViewSite site;
 
-    ResourceSet resourceSet = new ResourceSetImpl();
-
-    BasicCommandStack commandStack = new BasicCommandStack();
-    //commandStack.addCommandStackListener(new CommandStackListenerImpl());
-    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, resourceSet);
-
-    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-      Resource.Factory.Registry.DEFAULT_EXTENSION,
-      new XMIResourceFactoryImpl());
-    resource = resourceSet.getResource(URI.createPlatformPluginURI(Activator.PLUGIN_ID + "/Foundation.xmi", true), true);
-  }
-
-  private static class TreeFactoryImpl implements IObservableFactory
-  {
-    private IEMFListProperty multi = EMFProperties.multiList(
-      ProjectPackage.Literals.PROJECT__SUBPROJECTS,
-      ProjectPackage.Literals.PROJECT__COMMITTERS);
-
-    public IObservable createObservable(final Object target)
+    public PartListenerImpl(IViewSite site)
     {
-      if (target instanceof IObservableList)
-      {
-        return (IObservable)target;
-      }
-      else if (target instanceof Project)
-      {
-        return multi.observe(target);
-      }
-
-      return null;
-    }
-  }
-
-  private static class TreeStructureAdvisorImpl extends TreeStructureAdvisor
-  {
-    @Override
-    public Object getParent(Object element)
-    {
-      if (element instanceof Project)
-      {
-        return ((Project)element).getParent();
-      }
-
-      return null;
+      this.site = site;
     }
 
-    @Override
-    public Boolean hasChildren(Object element)
+    public void partVisible(IWorkbenchPartReference partRef)
     {
-      if (element instanceof Project && ((Project)element).getCommitters().size() > 0)
-      {
-        return Boolean.TRUE;
-      }
-      return super.hasChildren(element);
+    }
+
+    public void partOpened(IWorkbenchPartReference partRef)
+    {
+    }
+
+    public void partInputChanged(IWorkbenchPartReference partRef)
+    {
+    }
+
+    public void partHidden(IWorkbenchPartReference partRef)
+    {
+    }
+
+    public void partDeactivated(IWorkbenchPartReference partRef)
+    {
+    }
+
+    public void partClosed(IWorkbenchPartReference partRef)
+    {
+    }
+
+    public void partBroughtToTop(IWorkbenchPartReference partRef)
+    {
+    }
+
+    public void partActivated(IWorkbenchPartReference partRef)
+    {
+      ISourceProviderService s = (ISourceProviderService)site.getService(ISourceProviderService.class);
+      ResourceProvider p = (ResourceProvider)s.getSourceProvider(ResourceProvider.MODEL_RESOURCE_NAME);
+      p.setModelResource(resource);
+      p.setCommitter(projectExplorer.getCommitter());
+      p.setProject((Project)projectExplorer.getProjectObservable().getValue());
     }
   }
 
-  private class TreeLabelProviderImpl extends StyledCellLabelProvider
+  public int promptToSaveOnClose()
   {
-
-    private IMapChangeListener mapChangeListener = new IMapChangeListener()
-      {
-        public void handleMapChange(MapChangeEvent event)
-        {
-          Set< ? > affectedElements = event.diff.getChangedKeys();
-          LabelProviderChangedEvent newEvent = new LabelProviderChangedEvent(TreeLabelProviderImpl.this, affectedElements.toArray());
-          fireLabelProviderChanged(newEvent);
-        }
-      };
-
-    public TreeLabelProviderImpl(IObservableMap... attributeMaps)
-    {
-      for (int i = 0; i < attributeMaps.length; i++)
-      {
-        attributeMaps[i].addMapChangeListener(mapChangeListener);
-      }
-    }
-
-    @Override
-    public String getToolTipText(Object element)
-    {
-      return "#dummy#";
-    }
-
-    @Override
-    public void update(ViewerCell cell)
-    {
-      if (cell.getElement() instanceof Project)
-      {
-        Project p = (Project)cell.getElement();
-
-        StyledString styledString = new StyledString(p.getShortname(), null);
-        String decoration = " (" + p.getCommitters().size() + " Committers)";
-        styledString.append(decoration, StyledString.COUNTER_STYLER);
-        cell.setText(styledString.getString());
-        cell.setImage(projectImage);
-        cell.setStyleRanges(styledString.getStyleRanges());
-      }
-      else if (cell.getElement() instanceof CommitterShip)
-      {
-        Person p = ((CommitterShip)cell.getElement()).getPerson();
-        StyledString styledString = new StyledString(p.getLastname() + ", " + p.getFirstname(), null);
-        cell.setText(styledString.getString());
-        cell.setForeground(cell.getControl().getDisplay().getSystemColor(SWT.COLOR_DARK_GRAY));
-        cell.setImage(committerImage);
-        cell.setStyleRanges(styledString.getStyleRanges());
-      }
-    }
+    return ISaveablePart2.DEFAULT;
   }
 
-  private static class ColumnViewerToolTipSupportImpl extends ColumnViewerToolTipSupport
+  public void doSave(IProgressMonitor monitor)
   {
-    private FormToolkit toolkit;
-
-    protected ColumnViewerToolTipSupportImpl(FormToolkit toolkit, ColumnViewer viewer, int style)
+    if (resource != null)
     {
-      super(viewer, style, false);
-      setHideOnMouseDown(false);
-      this.toolkit = toolkit;
-    }
-
-    @Override
-    protected Composite createViewerToolTipContentArea(Event event, ViewerCell cell, Composite parent)
-    {
-      if (cell.getElement() instanceof Project)
+      IStatus s = resource.save();
+      if (!s.isOK())
       {
-        final Project p = (Project)cell.getElement();
-
-        StringBuilder b = new StringBuilder();
-        for (Person lead : p.getProjectleads())
-        {
-          if (b.length() > 0)
-          {
-            b.append(", ");
-          }
-          b.append(lead.getFirstname() + " " + lead.getLastname());
-        }
-
-        Form form = toolkit.createForm(parent);
-        toolkit.decorateFormHeading(form);
-        form.setText(p.getShortname() + " - " + p.getLongname());
-        Composite body = form.getBody();
-        body.setLayout(new GridLayout(2, false));
-
-        toolkit.createLabel(body, "Project creation:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-        toolkit.createLabel(body, p.getStart() != null ? DateFormat.getDateInstance().format(p.getStart()) : "");
-
-        toolkit.createLabel(body, "Project lead:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-        toolkit.createLabel(body, b.toString());
-
-        toolkit.createLabel(body, "Committers:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-        toolkit.createLabel(body, p.getCommitters().size() + "");
-        
-        toolkit.createLabel(body, "Mailing-List:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-        if( p.getDevmail() != null ) {
-          toolkit.createHyperlink(body, p.getDevmail(), SWT.NONE).addHyperlinkListener(new IHyperlinkListener(){
-            
-            public void linkExited(HyperlinkEvent e)
-            {
-            }
-          
-            public void linkEntered(HyperlinkEvent e)
-            {
-            }
-          
-            public void linkActivated(HyperlinkEvent e)
-            {
-              Program.launch(p.getDevmail());
-            }
-          });
-        } else {
-          toolkit.createLabel(body,"-");  
-        }
-        
-        toolkit.createLabel(body, "Homepage:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-        if( p.getHomepage() != null ) {
-          toolkit.createHyperlink(body, p.getHomepage(), SWT.NONE).addHyperlinkListener(new IHyperlinkListener(){
-            
-            public void linkExited(HyperlinkEvent e)
-            {
-            }
-          
-            public void linkEntered(HyperlinkEvent e)
-            {
-            }
-          
-            public void linkActivated(HyperlinkEvent e)
-            {
-              Program.launch(p.getHomepage());
-            }
-          });
-        } else {
-          toolkit.createLabel(body,"-");  
-        }
-        
-        return form;
+        Activator.getDefault().getLog().log(s);
+        throw new RuntimeException();
       }
       else
       {
-        final CommitterShip committership = (CommitterShip)cell.getElement();
-        Form form = toolkit.createForm(parent);
-        toolkit.decorateFormHeading(form);
-        form.setText(committership.getPerson().getFirstname() + ", " + committership.getPerson().getLastname());
-        
-        Composite body = form.getBody();
-        body.setLayout(new GridLayout(2, false));
-
-        toolkit.createLabel(body, "Start:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-        toolkit.createLabel(body, committership.getStart() != null ? DateFormat.getDateInstance().format(committership.getStart()) : "");
-        
-        toolkit.createLabel(body, "End:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-        toolkit.createLabel(body, committership.getEnd() != null ? DateFormat.getDateInstance().format(committership.getEnd()) : "");
-        
-        toolkit.createLabel(body, "E-Mail:").setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-        if( committership.getPerson().getEmail() != null ) {
-          toolkit.createHyperlink(body, committership.getPerson().getEmail(), SWT.NONE).addHyperlinkListener(new IHyperlinkListener(){
-          
-            public void linkExited(HyperlinkEvent e)
-            {
-            }
-          
-            public void linkEntered(HyperlinkEvent e)
-            {
-            }
-          
-            public void linkActivated(HyperlinkEvent e)
-            {
-              Program.launch(committership.getPerson().getEmail());
-            }
-          });
-        } else {
-          toolkit.createLabel(body,"");  
-        }
-        
-        
-        return form;
+        firePropertyChange(PROP_DIRTY);
       }
-    }
-
-    static void enableFor(ColumnViewer viewer, FormToolkit toolkit)
-    {
-      new ColumnViewerToolTipSupportImpl(toolkit, viewer, ToolTip.NO_RECREATE);
     }
   }
 
-  private class ObservableMapCellLabelProviderImpl extends ObservableMapCellLabelProvider
+  public void doSaveAs()
   {
-    private IObservableMap[] attributeMaps;
-    private String messagePattern;
-
-    public ObservableMapCellLabelProviderImpl(String messagePattern, IObservableMap... attributeMaps)
-    {
-      super(attributeMaps);
-      this.messagePattern = messagePattern;
-      this.attributeMaps = attributeMaps;
-    }
-
-    @Override
-    public void update(ViewerCell cell)
-    {
-      Object element = cell.getElement();
-      Object[] values = new Object [attributeMaps.length];
-      int i = 0;
-      for (IObservableMap m : attributeMaps)
-      {
-        values[i++] = m.get(element);
-        if (values[i - 1] == null)
-        {
-          cell.setText("");
-          return;
-        }
-      }
-      cell.setText(MessageFormat.format(messagePattern, values));
-    }
   }
 
-  private class LengthConverter extends Converter
+  public boolean isDirty()
   {
-
-    public LengthConverter()
-    {
-      super(Collection.class, String.class);
-    }
-
-    public Object convert(Object fromObject)
-    {
-      return "Committers (" + (fromObject != null ? ((Collection< ? >)fromObject).size() : "0") + ")";
-    }
+    return resource.isDirty();
   }
 
-  private class ViewerFilterImpl extends ViewerFilter
+  public boolean isSaveAsAllowed()
   {
-    @Override
-    public boolean isFilterProperty(Object element, String property)
-    {
-      if (property != null && property == END_DATE_PROPERTY)
-      {
-        return true;
-      }
-      return super.isFilterProperty(element, property);
-    }
+    return false;
+  }
 
-    @Override
-    public boolean select(Viewer viewer, Object parentElement, Object element)
-    {
-      Date enddate = ((CommitterShip)element).getEnd();
-      if (enddate == null || enddate.getTime() > Calendar.getInstance().getTimeInMillis())
-      {
-        return true;
-      }
-      return false;
-    }
-
+  public boolean isSaveOnCloseNeeded()
+  {
+    return true;
   }
 }

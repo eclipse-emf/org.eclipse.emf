@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ApplicationActionBarAdvisor.java,v 1.2 2009/05/30 10:25:49 tschindl Exp $
+ * $Id: ApplicationActionBarAdvisor.java,v 1.3 2009/06/01 17:04:02 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp;
 
+import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -33,6 +34,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor
 {
   private IWorkbenchAction save;
   private IWorkbenchAction exit;
+  private IWorkbenchAction undo;
+  private IWorkbenchAction redo;
 
   /**
    * Create a new advisor
@@ -49,18 +52,37 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor
     save = ActionFactory.SAVE.create(window);
     register(save);
 
-    exit = ActionFactory.CLOSE.create(window);
+    exit = ActionFactory.QUIT.create(window);
     register(exit);
+
+    undo = ActionFactory.UNDO.create(window);
+    register(undo);
+
+    redo = ActionFactory.REDO.create(window);
+    register(redo);
   }
 
   @Override
   protected void fillMenuBar(IMenuManager menuBar)
   {
-    MenuManager file = new MenuManager("&File");
+    MenuManager file = new MenuManager("&File", "file");
+    MenuManager subnew = new MenuManager("&New", "new");
+    subnew.add(new Separator("after_resource"));
+    file.add(subnew);
+    MenuManager subopen = new MenuManager("&Open", "open");
+    subopen.add(new GroupMarker("additions"));
+    file.add(subopen);
+    file.add(new Separator());
     file.add(exit);
     file.add(new Separator());
     file.add(save);
 
     menuBar.add(file);
+
+    MenuManager edit = new MenuManager("&Edit", "edit");
+    edit.add(undo);
+    edit.add(redo);
+
+    menuBar.add(edit);
   }
 }

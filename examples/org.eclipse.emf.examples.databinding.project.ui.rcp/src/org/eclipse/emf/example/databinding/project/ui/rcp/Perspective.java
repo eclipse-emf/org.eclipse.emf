@@ -12,14 +12,12 @@
  *
  * </copyright>
  *
- * $Id: Perspective.java,v 1.1 2009/05/29 15:06:30 tschindl Exp $
+ * $Id: Perspective.java,v 1.2 2009/06/01 17:04:02 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp;
 
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
-
-import org.eclipse.emf.example.databinding.project.ui.rcp.views.ProjectAdminViewPart;
 
 
 /**
@@ -31,6 +29,5 @@ public class Perspective implements IPerspectiveFactory
   public void createInitialLayout(IPageLayout layout)
   {
     layout.setEditorAreaVisible(false);
-    layout.addStandaloneView(ProjectAdminViewPart.ID, true, IPageLayout.LEFT, 1.0f, layout.getEditorArea());
   }
 }

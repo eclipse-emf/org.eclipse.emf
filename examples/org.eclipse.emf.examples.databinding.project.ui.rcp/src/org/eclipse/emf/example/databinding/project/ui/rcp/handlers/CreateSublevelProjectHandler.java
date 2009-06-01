@@ -1,0 +1,68 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2005 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: CreateSublevelProjectHandler.java,v 1.1 2009/06/01 17:04:02 tschindl Exp $
+ */
+package org.eclipse.emf.example.databinding.project.ui.rcp.handlers;
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.expressions.IEvaluationContext;
+
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.example.databinding.project.ui.rcp.ResourceProvider;
+import org.eclipse.emf.examples.databinding.project.core.IModelResource;
+import org.eclipse.emf.examples.databinding.project.core.model.project.Project;
+import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectFactory;
+import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
+
+
+/**
+ * Create a new subproject
+ */
+public class CreateSublevelProjectHandler extends AbstractHandler
+{
+  /**
+   * The command id
+   */
+  public static final String ID = "org.eclipse.emf.examples.databinding.project.ui.rcp.createsubproject";
+
+  public Object execute(ExecutionEvent event) throws ExecutionException
+  {
+    IEvaluationContext ctx = (IEvaluationContext)event.getApplicationContext();
+    IModelResource resource = (IModelResource)ctx.getVariable(ResourceProvider.MODEL_RESOURCE_NAME);
+    Project parent = (Project)ctx.getVariable(ResourceProvider.PROJECT_NAME);
+
+    if (parent != null)
+    {
+      Project project = ProjectFactory.eINSTANCE.createProject();
+      Command cmd = AddCommand.create(resource.getEditingDomain(), parent, ProjectPackage.Literals.PROJECT__SUBPROJECTS, project);
+
+      if (cmd.canExecute())
+      {
+        resource.executeCmd(cmd);
+        return project;
+      }
+      else
+      {
+        throw new ExecutionException("Could not execute add command");
+      }
+    }
+
+    throw new ExecutionException("No Parent project");
+  }
+
+}
