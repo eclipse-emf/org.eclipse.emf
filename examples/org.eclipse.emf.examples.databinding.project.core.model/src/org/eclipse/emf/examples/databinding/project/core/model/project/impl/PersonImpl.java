@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PersonImpl.java,v 1.1 2009/05/29 15:03:43 tschindl Exp $
+ * $Id: PersonImpl.java,v 1.2 2009/06/01 17:03:59 tschindl Exp $
  */
 package org.eclipse.emf.examples.databinding.project.core.model.project.impl;
 
@@ -37,6 +37,7 @@ import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPa
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.PersonImpl#getFirstname <em>Firstname</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.PersonImpl#getEmail <em>Email</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.PersonImpl#getCommitterships <em>Committerships</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.impl.PersonImpl#getImage <em>Image</em>}</li>
  * </ul>
  * </p>
  *
@@ -113,6 +114,26 @@ public class PersonImpl extends EObjectImpl implements Person
    * @ordered
    */
   protected EList<CommitterShip> committerships;
+
+  /**
+   * The default value of the '{@link #getImage() <em>Image</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getImage()
+   * @generated
+   * @ordered
+   */
+  protected static final String IMAGE_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getImage() <em>Image</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getImage()
+   * @generated
+   * @ordered
+   */
+  protected String image = IMAGE_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -223,6 +244,29 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getImage()
+  {
+    return image;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setImage(String newImage)
+  {
+    String oldImage = image;
+    image = newImage;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.PERSON__IMAGE, oldImage, image));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
@@ -269,6 +313,8 @@ public class PersonImpl extends EObjectImpl implements Person
         return getEmail();
       case ProjectPackage.PERSON__COMMITTERSHIPS:
         return getCommitterships();
+      case ProjectPackage.PERSON__IMAGE:
+        return getImage();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -297,6 +343,9 @@ public class PersonImpl extends EObjectImpl implements Person
         getCommitterships().clear();
         getCommitterships().addAll((Collection<? extends CommitterShip>)newValue);
         return;
+      case ProjectPackage.PERSON__IMAGE:
+        setImage((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -323,6 +372,9 @@ public class PersonImpl extends EObjectImpl implements Person
       case ProjectPackage.PERSON__COMMITTERSHIPS:
         getCommitterships().clear();
         return;
+      case ProjectPackage.PERSON__IMAGE:
+        setImage(IMAGE_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -345,6 +397,8 @@ public class PersonImpl extends EObjectImpl implements Person
         return EMAIL_EDEFAULT == null ? email != null : !EMAIL_EDEFAULT.equals(email);
       case ProjectPackage.PERSON__COMMITTERSHIPS:
         return committerships != null && !committerships.isEmpty();
+      case ProjectPackage.PERSON__IMAGE:
+        return IMAGE_EDEFAULT == null ? image != null : !IMAGE_EDEFAULT.equals(image);
     }
     return super.eIsSet(featureID);
   }
@@ -366,6 +420,8 @@ public class PersonImpl extends EObjectImpl implements Person
     result.append(firstname);
     result.append(", email: ");
     result.append(email);
+    result.append(", image: ");
+    result.append(image);
     result.append(')');
     return result.toString();
   }

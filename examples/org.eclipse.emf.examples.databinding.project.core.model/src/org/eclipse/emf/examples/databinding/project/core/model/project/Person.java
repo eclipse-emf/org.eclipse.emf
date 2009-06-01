@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Person.java,v 1.1 2009/05/29 15:03:42 tschindl Exp $
+ * $Id: Person.java,v 1.2 2009/06/01 17:03:58 tschindl Exp $
  */
 package org.eclipse.emf.examples.databinding.project.core.model.project;
 
@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Person#getFirstname <em>Firstname</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Person#getEmail <em>Email</em>}</li>
  *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Person#getCommitterships <em>Committerships</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.databinding.project.core.model.project.Person#getImage <em>Image</em>}</li>
  * </ul>
  * </p>
  *
@@ -126,5 +127,31 @@ public interface Person extends EObject
    * @generated
    */
   EList<CommitterShip> getCommitterships();
+
+  /**
+   * Returns the value of the '<em><b>Image</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Image</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Image</em>' attribute.
+   * @see #setImage(String)
+   * @see org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage#getPerson_Image()
+   * @model
+   * @generated
+   */
+  String getImage();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.examples.databinding.project.core.model.project.Person#getImage <em>Image</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Image</em>' attribute.
+   * @see #getImage()
+   * @generated
+   */
+  void setImage(String value);
 
 } // Person

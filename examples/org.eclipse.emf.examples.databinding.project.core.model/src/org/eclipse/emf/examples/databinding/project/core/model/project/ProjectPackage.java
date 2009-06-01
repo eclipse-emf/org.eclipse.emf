@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ProjectPackage.java,v 1.2 2009/05/29 17:36:55 tschindl Exp $
+ * $Id: ProjectPackage.java,v 1.3 2009/06/01 17:03:59 tschindl Exp $
  */
 package org.eclipse.emf.examples.databinding.project.core.model.project;
 
@@ -308,13 +308,22 @@ public interface ProjectPackage extends EPackage
   int PERSON__COMMITTERSHIPS = 3;
 
   /**
+   * The feature id for the '<em><b>Image</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PERSON__IMAGE = 4;
+
+  /**
    * The number of structural features of the '<em>Person</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PERSON_FEATURE_COUNT = 4;
+  int PERSON_FEATURE_COUNT = 5;
 
 
   /**
@@ -578,6 +587,17 @@ public interface ProjectPackage extends EPackage
   EReference getPerson_Committerships();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.examples.databinding.project.core.model.project.Person#getImage <em>Image</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Image</em>'.
+   * @see org.eclipse.emf.examples.databinding.project.core.model.project.Person#getImage()
+   * @see #getPerson()
+   * @generated
+   */
+  EAttribute getPerson_Image();
+
+  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -799,6 +819,14 @@ public interface ProjectPackage extends EPackage
      * @generated
      */
     EReference PERSON__COMMITTERSHIPS = eINSTANCE.getPerson_Committerships();
+
+    /**
+     * The meta object literal for the '<em><b>Image</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERSON__IMAGE = eINSTANCE.getPerson_Image();
 
   }
 
