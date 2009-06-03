@@ -431,7 +431,7 @@ public class ImportManager
           }
           return baseName;
         }
-        else if (importedPackages.contains(getPackageName(importName)))
+        else if (importedPackages.contains(getPackageName(importName)) &&  (javaLangImports == null || !javaLangImports.contains(baseName)))
         {
           return baseName;
         }
