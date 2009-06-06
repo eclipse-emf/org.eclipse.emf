@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectAdminViewPart.java,v 1.7 2009/06/06 16:04:12 tschindl Exp $
+ * $Id: ProjectAdminViewPart.java,v 1.8 2009/06/06 17:59:03 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -90,7 +90,7 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
   @Override
   public void createPartControl(Composite parent)
   {
-    String path = getViewSite().getSecondaryId().replaceFirst("_", ":");
+    String path = getViewSite().getSecondaryId().replaceAll("#_#", ":");
 
     resource = Activator.getDefault().loadResource(path); //FIXME This needs to be a real URI
     modelListener = new IModelResource.Listener()

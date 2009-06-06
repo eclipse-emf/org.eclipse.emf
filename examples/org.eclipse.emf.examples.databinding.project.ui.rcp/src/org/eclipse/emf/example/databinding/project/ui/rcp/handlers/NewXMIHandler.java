@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NewXMIHandler.java,v 1.2 2009/06/01 17:19:26 tschindl Exp $
+ * $Id: NewXMIHandler.java,v 1.3 2009/06/06 17:59:03 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.handlers;
 
@@ -94,7 +94,7 @@ public class NewXMIHandler extends AbstractHandler
       {
         IWorkbenchWindow w = (IWorkbenchWindow)ctx.getVariable(ISources.ACTIVE_WORKBENCH_WINDOW_NAME);
         String path = f.toURL().toString();
-        path = path.replaceFirst(":", "_");
+        path = path.replaceFirst(":", "#_#");
 
         w.getActivePage().showView(ProjectAdminViewPart.ID, path, IWorkbenchPage.VIEW_ACTIVATE);
       }
