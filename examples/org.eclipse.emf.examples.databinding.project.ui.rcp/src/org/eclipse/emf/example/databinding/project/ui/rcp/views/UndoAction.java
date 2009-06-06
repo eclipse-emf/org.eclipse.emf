@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: UndoAction.java,v 1.2 2009/06/01 17:19:27 tschindl Exp $
+ * $Id: UndoAction.java,v 1.3 2009/06/06 16:04:12 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -24,11 +24,12 @@ import org.eclipse.emf.examples.databinding.project.core.IModelResource;
 public class UndoAction extends Action
 {
   private final IModelResource resource;
+  private final IModelResource.Listener listener;
 
   public UndoAction(IModelResource resource)
   {
     this.resource = resource;
-    resource.addListener(new IModelResource.Listener()
+    this.listener = new IModelResource.Listener()
       {
 
         public void dirtyStateChanged()
@@ -39,7 +40,8 @@ public class UndoAction extends Action
         {
           update();
         }
-      });
+      };
+    resource.addListener(listener);
     update();
   }
 
@@ -64,5 +66,13 @@ public class UndoAction extends Action
       setText("Undo");
       setEnabled(false);
     }
+  }
+
+  /**
+   * Clean up
+   */
+  public void dispose()
+  {
+    resource.removeListener(listener);
   }
 }

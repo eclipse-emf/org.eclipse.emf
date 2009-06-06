@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectAdminViewPart.java,v 1.6 2009/06/01 17:19:26 tschindl Exp $
+ * $Id: ProjectAdminViewPart.java,v 1.7 2009/06/06 16:04:12 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -64,6 +64,7 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
   private IPartListener2 listener;
   private UndoAction undoAction;
   private RedoAction redoAction;
+  private IModelResource.Listener modelListener;
 
   @Override
   public void init(final IViewSite site, IMemento memento) throws PartInitException
@@ -92,19 +93,21 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
     String path = getViewSite().getSecondaryId().replaceFirst("_", ":");
 
     resource = Activator.getDefault().loadResource(path); //FIXME This needs to be a real URI
-    resource.addListener(new IModelResource.Listener()
+    modelListener = new IModelResource.Listener()
       {
 
         public void dirtyStateChanged()
         {
           firePropertyChange(PROP_DIRTY);
         }
-        
+
         public void commandStackChanged()
         {
         }
 
-      });
+      };
+
+    resource.addListener(modelListener);
 
     if (resource == null)
     {
@@ -155,6 +158,15 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
   @Override
   public void dispose()
   {
+    if (undoAction != null)
+      undoAction.dispose();
+
+    if (redoAction != null)
+      redoAction.dispose();
+
+    if (modelListener != null && resource != null)
+      resource.removeListener(modelListener);
+
     ISourceProviderService s = (ISourceProviderService)getSite().getService(ISourceProviderService.class);
     ResourceProvider p = (ResourceProvider)s.getSourceProvider(ResourceProvider.MODEL_RESOURCE_NAME);
     p.setModelResource(null);

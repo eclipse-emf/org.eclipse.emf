@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ApplicationWorkbenchWindowAdvisor.java,v 1.2 2009/06/01 17:19:26 tschindl Exp $
+ * $Id: ApplicationWorkbenchWindowAdvisor.java,v 1.3 2009/06/06 16:04:12 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp;
 
@@ -51,6 +51,6 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
     configurer.setInitialSize(new Point(400, 300));
     configurer.setShowCoolBar(false);
     configurer.setShowStatusLine(false);
-    configurer.setTitle("Hello RCP");
+    configurer.setTitle("Eclipse Foundation - Project Administration");
   }
 }

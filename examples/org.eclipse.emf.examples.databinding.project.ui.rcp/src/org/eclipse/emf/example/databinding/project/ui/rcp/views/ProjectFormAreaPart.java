@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectFormAreaPart.java,v 1.2 2009/06/01 17:19:27 tschindl Exp $
+ * $Id: ProjectFormAreaPart.java,v 1.3 2009/06/06 16:04:12 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -175,6 +175,22 @@ public class ProjectFormAreaPart
         mProp.observeDetail(master),
         UpdateStrategyFactory.stringToDate(NLSMessages.ProjectAdminViewPart_EndDateNotParseable),
         UpdateStrategyFactory.dateToString());
+    }
+
+    {
+      IEMFValueProperty mProp = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PROJECT__HOMEPAGE);
+      toolkit.createLabel(body, "Homepage");
+      Text t = toolkit.createText(body, "");
+      t.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false, 2, 1));
+      ctx.bindValue(prop.observeDelayed(400, t), mProp.observeDetail(master));
+    }
+
+    {
+      IEMFValueProperty mProp = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PROJECT__DEVMAIL);
+      toolkit.createLabel(body, "Dev-Mail");
+      Text t = toolkit.createText(body, "");
+      t.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false, 2, 1));
+      ctx.bindValue(prop.observeDelayed(400, t), mProp.observeDetail(master));
     }
 
     {

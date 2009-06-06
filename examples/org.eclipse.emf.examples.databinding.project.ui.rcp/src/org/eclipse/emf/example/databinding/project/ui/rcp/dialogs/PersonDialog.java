@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonDialog.java,v 1.2 2009/06/01 17:19:27 tschindl Exp $
+ * $Id: PersonDialog.java,v 1.3 2009/06/06 16:04:12 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.dialogs;
 
@@ -27,7 +27,6 @@ import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.databinding.dialog.TitleAreaDialogSupport;
-import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -44,7 +43,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -56,7 +54,7 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
 import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Base64ToImageConverter;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.EmptyStringValidator;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.FormBuilder;
 import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
 import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
 
@@ -154,56 +152,14 @@ public class PersonDialog extends TitleAreaDialog
           }
         });
     }
-
-    Composite formContainer = new Composite(container, SWT.NONE);
-    formContainer.setLayout(new GridLayout(2, false));
+    
+    FormBuilder<IEMFEditValueProperty> builder = new FormBuilder<IEMFEditValueProperty>();
+    builder.addTextEntry("Firstname", EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__FIRSTNAME),"Firstname must not be empty");
+    builder.addTextEntry("Lastname", EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__LASTNAME),"Lastname must not be empty");
+    builder.addTextEntry("E-Mail", EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__EMAIL),"E-Mail must not be empty");
+    
+    Composite formContainer = builder.build(ctx, container, person);
     formContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-    IWidgetValueProperty textProp = WidgetProperties.text(SWT.Modify);
-    {
-      Label l = new Label(formContainer, SWT.NONE);
-      l.setText("Firstname");
-
-      IEMFEditValueProperty mprop = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__FIRSTNAME);
-
-      Text t = new Text(formContainer, SWT.BORDER);
-      t.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-      ctx.bindValue(
-        textProp.observeDelayed(400, t),
-        mprop.observe(person),
-        new EMFUpdateValueStrategy().setBeforeSetValidator(new EmptyStringValidator("Firstname must not be empty")),
-        null);
-    }
-
-    {
-      Label l = new Label(formContainer, SWT.NONE);
-      l.setText("Lastname");
-
-      IEMFEditValueProperty mprop = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__LASTNAME);
-
-      Text t = new Text(formContainer, SWT.BORDER);
-      t.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-      ctx.bindValue(
-        textProp.observeDelayed(400, t),
-        mprop.observe(person),
-        new EMFUpdateValueStrategy().setBeforeSetValidator(new EmptyStringValidator("Lastname must not be empty")),
-        null);
-    }
-
-    {
-      Label l = new Label(formContainer, SWT.NONE);
-      l.setText("E-Mail");
-
-      IEMFEditValueProperty mprop = EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__EMAIL);
-
-      Text t = new Text(formContainer, SWT.BORDER);
-      t.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-      ctx.bindValue(
-        textProp.observeDelayed(400, t),
-        mprop.observe(person),
-        new EMFUpdateValueStrategy().setBeforeSetValidator(new EmptyStringValidator("E-Mail must not be empty")),
-        null);
-    }
 
     TitleAreaDialogSupport.create(this, ctx);
 
