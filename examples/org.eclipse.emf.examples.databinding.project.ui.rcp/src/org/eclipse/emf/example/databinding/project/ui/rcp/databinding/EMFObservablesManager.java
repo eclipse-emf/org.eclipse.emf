@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EMFObservablesManager.java,v 1.2 2009/06/07 18:00:38 tschindl Exp $
+ * $Id: EMFObservablesManager.java,v 1.3 2009/06/07 18:10:43 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.databinding;
 
 import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.observable.IObservable;
-import org.eclipse.core.databinding.observable.value.ComputedValue;
 
 import org.eclipse.emf.databinding.IEMFObservable;
 
@@ -43,7 +42,7 @@ class EMFObservablesManager extends ObservablesManager
   @Override
   public void addObservable(IObservable observable)
   {
-    if (observable instanceof IEMFObservable || observable instanceof ComputedValue)
+    if (observable instanceof IEMFObservable)
     {
       super.addObservable(observable);
     }
