@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectAdminViewPart.java,v 1.11 2009/06/07 17:45:50 tschindl Exp $
+ * $Id: ProjectAdminViewPart.java,v 1.12 2009/06/07 17:54:37 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -128,8 +128,8 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
 
         public void run()
         {
-          projectExplorer = new ProjectExplorerPart(getViewSite(), sashForm, toolkit, resource.getFoundation());
-          projectDataForm = new ProjectFormAreaPart(getViewSite(), sashForm, toolkit, resource, projectExplorer.getProjectObservable());
+          projectExplorer = new ProjectExplorerPart(getViewSite(), sashForm, toolkit, resource.getFoundation(), mgr);
+          projectDataForm = new ProjectFormAreaPart(getViewSite(), sashForm, toolkit, resource, mgr, projectExplorer.getProjectObservable());
         }
       });
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectFormAreaPart.java,v 1.6 2009/06/07 17:45:50 tschindl Exp $
+ * $Id: ProjectFormAreaPart.java,v 1.7 2009/06/07 17:54:37 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.eclipse.core.databinding.AggregateValidationStatus;
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.ValidationStatusProvider;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -92,9 +93,16 @@ public class ProjectFormAreaPart
    * @param parent the parent composite
    * @param toolkit the form toolkit to use
    * @param resource the resource
+   * @param manager manager for observables to avoid leaks
    * @param master the master observable
    */
-  public ProjectFormAreaPart(IViewSite site, Composite parent, FormToolkit toolkit, IModelResource resource, IObservableValue master)
+  public ProjectFormAreaPart(
+    IViewSite site,
+    Composite parent,
+    FormToolkit toolkit,
+    IModelResource resource,
+    ObservablesManager manager,
+    IObservableValue master)
   {
     ImageDescriptor desc = Activator.imageDescriptorFromPlugin("org.eclipse.ui", "icons/full/obj16/generic_elements.gif");
     if (desc != null)
@@ -105,7 +113,7 @@ public class ProjectFormAreaPart
     {
       projectImage = null;
     }
-    createFormArea(site, parent, toolkit, resource, master);
+    createFormArea(site, parent, toolkit, resource, manager, master);
   }
 
   private void createFormArea(
@@ -113,6 +121,7 @@ public class ProjectFormAreaPart
     final Composite parent,
     FormToolkit toolkit,
     final IModelResource resource,
+    ObservablesManager manager,
     final IObservableValue master)
   {
 
@@ -147,7 +156,7 @@ public class ProjectFormAreaPart
       t.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false, 2, 1));
       ctx.bindValue(prop.observeDelayed(400, t), longProp.observeDetail(master));
 
-      ctx.bindValue(FormTextProperty.create().observe(form), new ComputedValue()
+      ComputedValue cVal = new ComputedValue()
         {
           private IObservableValue shortname = shortProp.observeDetail(master);
           private IObservableValue longname = longProp.observeDetail(master);
@@ -157,7 +166,9 @@ public class ProjectFormAreaPart
           {
             return shortname.getValue() + " - " + longname.getValue();
           }
-        });
+        };
+      manager.addObservable(cVal);
+      ctx.bindValue(FormTextProperty.create().observe(form), cVal);
     }
 
     {
@@ -274,7 +285,7 @@ public class ProjectFormAreaPart
         });
     }
 
-    addTabArea(site, body, toolkit, ctx, editingDomain, master);
+    addTabArea(site, body, toolkit, ctx, editingDomain, manager, master);
     body.setBackgroundMode(SWT.INHERIT_DEFAULT);
   }
 
@@ -284,6 +295,7 @@ public class ProjectFormAreaPart
     FormToolkit toolkit,
     DataBindingContext ctx,
     EditingDomain editingDomain,
+    ObservablesManager manager,
     IObservableValue master)
   {
     CTabFolder folder = new CTabFolder(parent, SWT.BORDER);
@@ -295,7 +307,7 @@ public class ProjectFormAreaPart
     folder.setSelectionForeground(toolkit.getColors().getColor(IFormColors.TITLE));
     folder.setSimple(false);
 
-    committerPart = new ProjectCommittersPart(site, folder, ctx, editingDomain, master);
+    committerPart = new ProjectCommittersPart(site, folder, ctx, editingDomain, manager, master);
   }
 
   private void addStatusSupport(final DataBindingContext ctx)

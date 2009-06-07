@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectExplorerPart.java,v 1.2 2009/06/01 17:19:26 tschindl Exp $
+ * $Id: ProjectExplorerPart.java,v 1.3 2009/06/07 17:54:37 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -25,6 +25,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IMapChangeListener;
@@ -108,8 +109,9 @@ public class ProjectExplorerPart
    * @param parent the parent control to renderer on
    * @param toolkit the toolkit
    * @param foundation the foundation instance
+   * @param manager manager for observables to avoid leaks
    */
-  public ProjectExplorerPart(IViewSite site, Composite parent, FormToolkit toolkit, Foundation foundation)
+  public ProjectExplorerPart(IViewSite site, Composite parent, FormToolkit toolkit, Foundation foundation, ObservablesManager manager)
   {
     this.toolkit = toolkit;
     this.site = site;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectCommittersPart.java,v 1.2 2009/06/01 17:19:27 tschindl Exp $
+ * $Id: ProjectCommittersPart.java,v 1.3 2009/06/07 17:54:37 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.conversion.Converter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -63,6 +64,7 @@ public class ProjectCommittersPart
    * @param folder the folder where shown
    * @param ctx the databinding context
    * @param editingDomain the editing domain to make changes
+   * @param manager manager for observables to avoid leaks
    * @param master the master observable
    */
   public ProjectCommittersPart(
@@ -70,6 +72,7 @@ public class ProjectCommittersPart
     CTabFolder folder,
     DataBindingContext ctx,
     EditingDomain editingDomain,
+    ObservablesManager manager,
     IObservableValue master)
   {
     init(site, folder, ctx, editingDomain, master);
