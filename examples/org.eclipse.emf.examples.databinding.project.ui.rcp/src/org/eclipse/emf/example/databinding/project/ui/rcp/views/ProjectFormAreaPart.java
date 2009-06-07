@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectFormAreaPart.java,v 1.7 2009/06/07 17:54:37 tschindl Exp $
+ * $Id: ProjectFormAreaPart.java,v 1.8 2009/06/07 18:17:40 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -85,7 +85,6 @@ public class ProjectFormAreaPart
   private Form form;
   private ProjectCommittersPart committerPart;
   private Image projectImage;
-  private AggregateValidationStatus aggregateStatus;
 
   /**
    * Create a new part instance
@@ -131,7 +130,7 @@ public class ProjectFormAreaPart
     // Fix for bug 278301
     Util.masterDetailFixup(ctx, master);
 
-    addStatusSupport(ctx);
+    addStatusSupport(manager, ctx);
 
     form = toolkit.createForm(parent);
     toolkit.decorateFormHeading(form);
@@ -310,9 +309,11 @@ public class ProjectFormAreaPart
     committerPart = new ProjectCommittersPart(site, folder, ctx, editingDomain, manager, master);
   }
 
-  private void addStatusSupport(final DataBindingContext ctx)
+  private void addStatusSupport(ObservablesManager mgr, final DataBindingContext ctx)
   {
-    aggregateStatus = new AggregateValidationStatus(ctx.getValidationStatusProviders(), AggregateValidationStatus.MAX_SEVERITY);
+    AggregateValidationStatus aggregateStatus = new AggregateValidationStatus(
+      ctx.getValidationStatusProviders(),
+      AggregateValidationStatus.MAX_SEVERITY);
 
     aggregateStatus.addValueChangeListener(new IValueChangeListener()
       {
@@ -410,11 +411,6 @@ public class ProjectFormAreaPart
    */
   public void dispose()
   {
-    if (aggregateStatus != null)
-    {
-      aggregateStatus.dispose();
-    }
-
     if (projectImage != null)
     {
       projectImage.dispose();
