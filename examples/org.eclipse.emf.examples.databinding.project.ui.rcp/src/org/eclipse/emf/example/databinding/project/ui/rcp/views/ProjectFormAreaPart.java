@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectFormAreaPart.java,v 1.4 2009/06/07 10:00:34 tschindl Exp $
+ * $Id: ProjectFormAreaPart.java,v 1.5 2009/06/07 13:58:56 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -23,8 +23,6 @@ import java.util.List;
 import org.eclipse.core.databinding.AggregateValidationStatus;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.ValidationStatusProvider;
-import org.eclipse.core.databinding.observable.ChangeEvent;
-import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
@@ -70,6 +68,7 @@ import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
 import org.eclipse.emf.example.databinding.project.ui.rcp.NLSMessages;
 import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.FormTextProperty;
 import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.UpdateStrategyFactory;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Util;
 import org.eclipse.emf.example.databinding.project.ui.rcp.dialogs.PersonFilterDialog;
 import org.eclipse.emf.examples.databinding.project.core.IModelResource;
 import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
@@ -108,28 +107,6 @@ public class ProjectFormAreaPart
     createFormArea(site, parent, toolkit, resource, master);
   }
 
-  private void masterDetailFixup(final DataBindingContext ctx, IObservableValue master)
-  {
-
-    master.addChangeListener(new IChangeListener()
-      {
-
-        public void handleChange(ChangeEvent event)
-        {
-          for (Object o : ctx.getValidationStatusProviders())
-          {
-            ValidationStatusProvider p = (ValidationStatusProvider)o;
-            IStatus s = (IStatus)p.getValidationStatus().getValue();
-            if (!s.isOK())
-            {
-              ctx.updateTargets();
-              break;
-            }
-          }
-        }
-      });
-  }
-
   private void createFormArea(
     IViewSite site,
     final Composite parent,
@@ -142,8 +119,8 @@ public class ProjectFormAreaPart
 
     ctx = new EMFDataBindingContext();
     // Fix for bug 278301
-    masterDetailFixup(ctx, master);
-    
+    Util.masterDetailFixup(ctx, master);
+
     addStatusSupport(ctx);
 
     form = toolkit.createForm(parent);

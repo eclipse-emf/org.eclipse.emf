@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomObservablesManager.java,v 1.1 2009/06/07 09:30:11 tschindl Exp $
+ * $Id: CustomObservablesManager.java,v 1.2 2009/06/07 13:58:56 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.databinding;
 
@@ -40,7 +40,7 @@ import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
  * This class provides a temporary workaround until we get an upstream fix
  */
 @SuppressWarnings("restriction")
-public class CustomObservablesManager extends ObservablesManager
+class CustomObservablesManager extends ObservablesManager
 {
   /**
    * Executes the specified runnable and adds to this manager all observables created while executing the runnable.
