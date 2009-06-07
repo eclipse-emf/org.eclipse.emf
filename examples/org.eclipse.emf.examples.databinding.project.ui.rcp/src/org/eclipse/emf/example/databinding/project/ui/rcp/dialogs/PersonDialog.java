@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonDialog.java,v 1.3 2009/06/06 16:04:12 tschindl Exp $
+ * $Id: PersonDialog.java,v 1.4 2009/06/07 15:43:48 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.dialogs;
 
@@ -55,6 +55,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
 import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Base64ToImageConverter;
 import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.FormBuilder;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Util;
 import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
 import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
 
@@ -91,7 +92,7 @@ public class PersonDialog extends TitleAreaDialog
 
     final Composite comp = (Composite)super.createDialogArea(parent);
 
-    ObservablesManager mgr = new ObservablesManager();
+    ObservablesManager mgr = Util.getObservableManager();
     mgr.runAndCollect(new Runnable()
       {
 
@@ -110,11 +111,11 @@ public class PersonDialog extends TitleAreaDialog
     container.setLayout(new GridLayout(2, false));
 
     final Composite imgContainer = new Composite(container, SWT.NONE);
-    
+
     {
       imgContainer.setLayout(new GridLayout());
       GridData gd = new GridData(200, SWT.DEFAULT);
-      gd.verticalAlignment=SWT.TOP;
+      gd.verticalAlignment = SWT.TOP;
       imgContainer.setLayoutData(gd);
 
       final Label l = new Label(imgContainer, SWT.BORDER);
@@ -148,16 +149,25 @@ public class PersonDialog extends TitleAreaDialog
           @Override
           public void widgetSelected(SelectionEvent e)
           {
-            showImageSelectionDialog(container.getShell(),container);
+            showImageSelectionDialog(container.getShell(), container);
           }
         });
     }
-    
+
     FormBuilder<IEMFEditValueProperty> builder = new FormBuilder<IEMFEditValueProperty>();
-    builder.addTextEntry("Firstname", EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__FIRSTNAME),"Firstname must not be empty");
-    builder.addTextEntry("Lastname", EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__LASTNAME),"Lastname must not be empty");
-    builder.addTextEntry("E-Mail", EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__EMAIL),"E-Mail must not be empty");
-    
+    builder.addTextEntry(
+      "Firstname",
+      EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__FIRSTNAME),
+      "Firstname must not be empty");
+    builder.addTextEntry(
+      "Lastname",
+      EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__LASTNAME),
+      "Lastname must not be empty");
+    builder.addTextEntry(
+      "E-Mail",
+      EMFEditProperties.value(editingDomain, ProjectPackage.Literals.PERSON__EMAIL),
+      "E-Mail must not be empty");
+
     Composite formContainer = builder.build(ctx, container, person);
     formContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
 
