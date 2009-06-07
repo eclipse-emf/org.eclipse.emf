@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Util.java,v 1.1 2009/06/07 13:58:56 tschindl Exp $
+ * $Id: Util.java,v 1.2 2009/06/07 17:45:50 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.databinding;
 
@@ -60,6 +60,6 @@ public class Util
    */
   public static ObservablesManager getObservableManager()
   {
-    return new CustomObservablesManager();
+    return new EMFObservablesManager();
   }
 }

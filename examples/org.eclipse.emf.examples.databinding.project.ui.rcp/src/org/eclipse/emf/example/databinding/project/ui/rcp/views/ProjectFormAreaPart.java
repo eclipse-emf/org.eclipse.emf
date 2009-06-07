@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectFormAreaPart.java,v 1.5 2009/06/07 13:58:56 tschindl Exp $
+ * $Id: ProjectFormAreaPart.java,v 1.6 2009/06/07 17:45:50 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -84,6 +84,7 @@ public class ProjectFormAreaPart
   private Form form;
   private ProjectCommittersPart committerPart;
   private Image projectImage;
+  private AggregateValidationStatus aggregateStatus;
 
   /**
    * Create a new part instance
@@ -299,9 +300,7 @@ public class ProjectFormAreaPart
 
   private void addStatusSupport(final DataBindingContext ctx)
   {
-    final AggregateValidationStatus aggregateStatus = new AggregateValidationStatus(
-      ctx.getValidationStatusProviders(),
-      AggregateValidationStatus.MAX_SEVERITY);
+    aggregateStatus = new AggregateValidationStatus(ctx.getValidationStatusProviders(), AggregateValidationStatus.MAX_SEVERITY);
 
     aggregateStatus.addValueChangeListener(new IValueChangeListener()
       {
@@ -399,6 +398,11 @@ public class ProjectFormAreaPart
    */
   public void dispose()
   {
+    if (aggregateStatus != null)
+    {
+      aggregateStatus.dispose();
+    }
+
     if (projectImage != null)
     {
       projectImage.dispose();

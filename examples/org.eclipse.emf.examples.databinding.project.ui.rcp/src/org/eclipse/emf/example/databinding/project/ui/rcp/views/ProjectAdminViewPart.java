@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectAdminViewPart.java,v 1.10 2009/06/07 13:58:56 tschindl Exp $
+ * $Id: ProjectAdminViewPart.java,v 1.11 2009/06/07 17:45:50 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -134,7 +134,6 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
       });
 
     int left = (int)(100 * divider);
-
     sashForm.setWeights(new int []{ left, 100 - left });
 
     makeActions();
