@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomObservablesManager.java,v 1.2 2009/06/07 13:58:56 tschindl Exp $
+ * $Id: CustomObservablesManager.java,v 1.3 2009/06/07 13:59:52 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.databinding;
 
@@ -105,7 +105,6 @@ class CustomObservablesManager extends ObservablesManager
           }
           catch (Exception e)
           {
-            e.printStackTrace();
             m.add(new Status(IStatus.WARNING, Activator.PLUGIN_ID, "Failed to dispose observable.", e));
           }
         }
