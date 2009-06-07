@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectExplorerPart.java,v 1.3 2009/06/07 17:54:37 tschindl Exp $
+ * $Id: ProjectExplorerPart.java,v 1.4 2009/06/07 23:41:06 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -251,7 +251,7 @@ public class ProjectExplorerPart
     @Override
     public Boolean hasChildren(Object element)
     {
-      if (element instanceof Project && ((Project)element).getCommitters().size() > 0)
+      if (element instanceof Project && (((Project)element).getCommitters().size() > 0 || ((Project)element).getSubprojects().size() > 0))
       {
         return Boolean.TRUE;
       }
