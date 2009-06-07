@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: Util.java,v 1.2 2009/06/07 17:45:50 tschindl Exp $
+ * $Id: Util.java,v 1.3 2009/06/07 18:19:40 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.databinding;
 
 import org.eclipse.core.databinding.AggregateValidationStatus;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -53,13 +52,5 @@ public class Util
           }
         }
       });
-  }
-
-  /**
-   * @return an observable manager where {@link ObservablesManager#runAndCollect(Runnable)} is working
-   */
-  public static ObservablesManager getObservableManager()
-  {
-    return new EMFObservablesManager();
   }
 }

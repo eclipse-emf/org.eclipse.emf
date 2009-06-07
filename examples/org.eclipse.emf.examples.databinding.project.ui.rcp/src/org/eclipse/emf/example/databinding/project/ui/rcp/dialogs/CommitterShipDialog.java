@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommitterShipDialog.java,v 1.3 2009/06/07 15:43:48 tschindl Exp $
+ * $Id: CommitterShipDialog.java,v 1.4 2009/06/07 18:19:40 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.dialogs;
 
@@ -44,8 +44,8 @@ import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.databinding.edit.IEMFEditValueProperty;
 import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.EMFObservablesManager;
 import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.UpdateStrategyFactory;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Util;
 import org.eclipse.emf.examples.databinding.project.core.IModelResource;
 import org.eclipse.emf.examples.databinding.project.core.model.project.CommitterShip;
 import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
@@ -87,7 +87,7 @@ public class CommitterShipDialog extends TitleAreaDialog
 
     final Composite comp = (Composite)super.createDialogArea(parent);
 
-    ObservablesManager mgr = Util.getObservableManager();
+    ObservablesManager mgr = new EMFObservablesManager();
     mgr.runAndCollect(new Runnable()
       {
 

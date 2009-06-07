@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonDialog.java,v 1.4 2009/06/07 15:43:48 tschindl Exp $
+ * $Id: PersonDialog.java,v 1.5 2009/06/07 18:19:40 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.dialogs;
 
@@ -54,8 +54,8 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
 import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Base64ToImageConverter;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.EMFObservablesManager;
 import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.FormBuilder;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Util;
 import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
 import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
 
@@ -92,7 +92,7 @@ public class PersonDialog extends TitleAreaDialog
 
     final Composite comp = (Composite)super.createDialogArea(parent);
 
-    ObservablesManager mgr = Util.getObservableManager();
+    ObservablesManager mgr = new EMFObservablesManager();
     mgr.runAndCollect(new Runnable()
       {
 

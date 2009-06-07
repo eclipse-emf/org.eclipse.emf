@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFObservablesManager.java,v 1.3 2009/06/07 18:10:43 tschindl Exp $
+ * $Id: EMFObservablesManager.java,v 1.4 2009/06/07 18:19:40 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.databinding;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.databinding.IEMFObservable;
  * 
  * This class is modified so that it only collects observable of type {@link IEMFObservable}
  */
-class EMFObservablesManager extends ObservablesManager
+public class EMFObservablesManager extends ObservablesManager
 {
   /**
    * Executes the specified runnable and adds to this manager all observables created while executing the runnable.

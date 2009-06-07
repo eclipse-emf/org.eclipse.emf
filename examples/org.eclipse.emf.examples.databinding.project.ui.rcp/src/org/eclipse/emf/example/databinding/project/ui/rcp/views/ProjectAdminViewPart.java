@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectAdminViewPart.java,v 1.13 2009/06/07 18:10:14 tschindl Exp $
+ * $Id: ProjectAdminViewPart.java,v 1.14 2009/06/07 18:19:40 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -37,7 +37,7 @@ import org.eclipse.emf.examples.databinding.project.core.IModelResource;
 import org.eclipse.emf.examples.databinding.project.core.model.project.Project;
 import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
 import org.eclipse.emf.example.databinding.project.ui.rcp.ResourceProvider;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Util;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.EMFObservablesManager;
 
 
 /**
@@ -123,7 +123,7 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
      * Track the creation of observables so that we don't leak listeners 
      * when the view part is closed
      */
-    mgr = Util.getObservableManager();
+    mgr = new EMFObservablesManager();
     defaultMgr = new ObservablesManager();
     mgr.runAndCollect(new Runnable()
       {
