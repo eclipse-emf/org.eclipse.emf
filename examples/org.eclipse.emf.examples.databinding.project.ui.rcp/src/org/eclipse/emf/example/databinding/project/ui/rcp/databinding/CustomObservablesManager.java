@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CustomObservablesManager.java,v 1.3 2009/06/07 13:59:52 tschindl Exp $
+ * $Id: CustomObservablesManager.java,v 1.4 2009/06/07 17:20:55 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.databinding;
 
@@ -110,7 +110,7 @@ class CustomObservablesManager extends ObservablesManager
         }
       }
 
-      if (!m.isOK())
+      if ( Activator.getDefault().isDebugging() && !m.isOK())
       {
         Activator.getDefault().getLog().log(m);
       }
