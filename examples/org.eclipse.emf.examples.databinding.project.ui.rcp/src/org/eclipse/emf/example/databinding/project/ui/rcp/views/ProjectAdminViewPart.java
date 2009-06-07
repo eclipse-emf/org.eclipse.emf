@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectAdminViewPart.java,v 1.12 2009/06/07 17:54:37 tschindl Exp $
+ * $Id: ProjectAdminViewPart.java,v 1.13 2009/06/07 18:10:14 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -58,6 +58,7 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
   private static final String DIVIDER_KEY = Activator.PLUGIN_ID + ".divider";
 
   private ObservablesManager mgr;
+  private ObservablesManager defaultMgr;
   private IModelResource resource;
 
   private ProjectExplorerPart projectExplorer;
@@ -123,13 +124,20 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
      * when the view part is closed
      */
     mgr = Util.getObservableManager();
+    defaultMgr = new ObservablesManager();
     mgr.runAndCollect(new Runnable()
       {
 
         public void run()
         {
-          projectExplorer = new ProjectExplorerPart(getViewSite(), sashForm, toolkit, resource.getFoundation(), mgr);
-          projectDataForm = new ProjectFormAreaPart(getViewSite(), sashForm, toolkit, resource, mgr, projectExplorer.getProjectObservable());
+          projectExplorer = new ProjectExplorerPart(getViewSite(), sashForm, toolkit, resource.getFoundation(), defaultMgr);
+          projectDataForm = new ProjectFormAreaPart(
+            getViewSite(),
+            sashForm,
+            toolkit,
+            resource,
+            defaultMgr,
+            projectExplorer.getProjectObservable());
         }
       });
 
@@ -178,6 +186,11 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
     if (toolkit != null)
     {
       toolkit.dispose();
+    }
+
+    if (defaultMgr != null)
+    {
+      defaultMgr.dispose();
     }
 
     if (mgr != null)
