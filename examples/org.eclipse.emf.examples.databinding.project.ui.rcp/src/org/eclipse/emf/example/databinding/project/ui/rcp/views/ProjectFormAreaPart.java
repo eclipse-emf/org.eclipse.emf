@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectFormAreaPart.java,v 1.3 2009/06/06 16:04:12 tschindl Exp $
+ * $Id: ProjectFormAreaPart.java,v 1.4 2009/06/07 10:00:34 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -23,6 +23,8 @@ import java.util.List;
 import org.eclipse.core.databinding.AggregateValidationStatus;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.ValidationStatusProvider;
+import org.eclipse.core.databinding.observable.ChangeEvent;
+import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
@@ -106,6 +108,28 @@ public class ProjectFormAreaPart
     createFormArea(site, parent, toolkit, resource, master);
   }
 
+  private void masterDetailFixup(final DataBindingContext ctx, IObservableValue master)
+  {
+
+    master.addChangeListener(new IChangeListener()
+      {
+
+        public void handleChange(ChangeEvent event)
+        {
+          for (Object o : ctx.getValidationStatusProviders())
+          {
+            ValidationStatusProvider p = (ValidationStatusProvider)o;
+            IStatus s = (IStatus)p.getValidationStatus().getValue();
+            if (!s.isOK())
+            {
+              ctx.updateTargets();
+              break;
+            }
+          }
+        }
+      });
+  }
+
   private void createFormArea(
     IViewSite site,
     final Composite parent,
@@ -117,6 +141,9 @@ public class ProjectFormAreaPart
     final EditingDomain editingDomain = resource.getEditingDomain();
 
     ctx = new EMFDataBindingContext();
+    // Fix for bug 278301
+    masterDetailFixup(ctx, master);
+    
     addStatusSupport(ctx);
 
     form = toolkit.createForm(parent);
