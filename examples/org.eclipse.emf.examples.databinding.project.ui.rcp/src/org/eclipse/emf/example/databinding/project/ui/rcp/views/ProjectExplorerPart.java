@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectExplorerPart.java,v 1.5 2009/06/09 07:35:17 tschindl Exp $
+ * $Id: ProjectExplorerPart.java,v 1.6 2009/06/09 07:36:38 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -269,7 +269,8 @@ public class ProjectExplorerPart
         public void handleMapChange(MapChangeEvent event)
         {
           Set< ? > affectedElements = event.diff.getChangedKeys();
-          if( !affectedElements.isEmpty() ) {
+          if (!affectedElements.isEmpty())
+          {
             LabelProviderChangedEvent newEvent = new LabelProviderChangedEvent(TreeLabelProviderImpl.this, affectedElements.toArray());
             fireLabelProviderChanged(newEvent);            
           }
