@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIHandler.java,v 1.14 2007/09/29 19:03:55 emerks Exp $
+ * $Id: XMIHandler.java,v 1.15 2009/06/09 21:23:02 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -121,15 +121,17 @@ public abstract class XMIHandler extends XMLHandler
     String id = attribs.getValue("xmi:idref");
     if (id != null)
     {
-      setValueFromId(peekObject, (EReference)feature, id);
-      objects.push(null);
-      mixedTargets.push(null);
-      types.push(OBJECT_TYPE);
+      EReference eReference = (EReference)feature;
+      if (!eReference.isContainment())
+      {
+        setValueFromId(peekObject, eReference, id);
+        objects.push(null);
+        mixedTargets.push(null);
+        types.push(OBJECT_TYPE);
+        return;
+      }
     }
-    else
-    {
-      super.createObject(peekObject, feature);
-    }
+    super.createObject(peekObject, feature);
   }
 
   @Override
