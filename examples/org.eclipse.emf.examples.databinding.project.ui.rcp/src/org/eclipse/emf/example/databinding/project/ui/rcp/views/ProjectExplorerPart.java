@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProjectExplorerPart.java,v 1.4 2009/06/07 23:41:06 tschindl Exp $
+ * $Id: ProjectExplorerPart.java,v 1.5 2009/06/09 07:35:17 tschindl Exp $
  */
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
@@ -145,7 +145,11 @@ public class ProjectExplorerPart
 
   private TreeViewer init(Composite parent, Foundation foundation)
   {
+    TreeViewer viewer = new TreeViewer(parent);
+    
     ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(new TreeFactoryImpl(), new TreeStructureAdvisorImpl());
+    viewer.setContentProvider(cp);
+    
     IObservableSet set = cp.getKnownElements();
 
     IObservableMap[] map = new IObservableMap [4];
@@ -156,11 +160,9 @@ public class ProjectExplorerPart
     map[3] = EMFProperties.value(
       FeaturePath.fromList(ProjectPackage.Literals.COMMITTER_SHIP__PERSON, ProjectPackage.Literals.PERSON__LASTNAME)).observeDetail(set);
 
-    IEMFListProperty projects = EMFProperties.list(ProjectPackage.Literals.FOUNDATION__PROJECTS);
-
-    TreeViewer viewer = new TreeViewer(parent);
-    viewer.setContentProvider(cp);
     viewer.setLabelProvider(new TreeLabelProviderImpl(map));
+    
+    IEMFListProperty projects = EMFProperties.list(ProjectPackage.Literals.FOUNDATION__PROJECTS);
     viewer.setInput(projects.observe(foundation));
 
     MenuManager mgr = new MenuManager();
@@ -267,8 +269,10 @@ public class ProjectExplorerPart
         public void handleMapChange(MapChangeEvent event)
         {
           Set< ? > affectedElements = event.diff.getChangedKeys();
-          LabelProviderChangedEvent newEvent = new LabelProviderChangedEvent(TreeLabelProviderImpl.this, affectedElements.toArray());
-          fireLabelProviderChanged(newEvent);
+          if( !affectedElements.isEmpty() ) {
+            LabelProviderChangedEvent newEvent = new LabelProviderChangedEvent(TreeLabelProviderImpl.this, affectedElements.toArray());
+            fireLabelProviderChanged(newEvent);            
+          }
         }
       };
 
