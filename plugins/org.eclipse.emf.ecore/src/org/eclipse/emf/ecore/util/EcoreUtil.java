@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.66 2009/02/20 12:44:50 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.67 2009/07/03 15:41:08 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -354,12 +354,14 @@ public class EcoreUtil
    * @return the copy.
    * @see Copier
    */
-  public static EObject copy(EObject eObject)
+  public static <T extends EObject> T copy(T eObject)
   {
     Copier copier = new Copier();
     EObject result = copier.copy(eObject);
     copier.copyReferences();
-    return result;
+    
+    @SuppressWarnings("unchecked")T t = (T)result;
+    return t;
   }
 
   /**
