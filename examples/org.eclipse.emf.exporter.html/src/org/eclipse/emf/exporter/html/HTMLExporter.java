@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2008 IBM Corporation and others.
+ * Copyright (c) 2006-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporter.java,v 1.8 2008/08/22 22:30:18 marcelop Exp $
+ * $Id: HTMLExporter.java,v 1.9 2009/07/22 13:55:26 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html;
 
@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -36,6 +37,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
@@ -47,6 +49,7 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.exporter.ModelExporter;
 
 /**
@@ -581,4 +584,62 @@ public class HTMLExporter extends ModelExporter
     outputStream.write(content.getBytes("UTF-8"));
     outputStream.close();
   }
+  
+  /**
+   * Returns a text that is suitable for displaying in HTML. This method analyzes the specified
+   * <code>string</code>, checking whether it is already formated for HTML. If it is not, it replaces
+   * line breaks by &lt;br /&gt;.
+   * @param string the string to be analyzed
+   * @return a text that is suitable for displaying in HTML
+   */
+  public String getLongText(String string)
+  {
+    if (string == null || string.length() == 0)
+    {
+      return "";
+    }
+    
+    // This is certainly not the most optimized way to do this...
+    //
+    if (string.contains("<p>") || 
+        string.contains("<br/>") || string.contains("<br />") ||
+        string.contains("<i>") || string.contains("<b>") ||
+        string.contains("<ul>") || string.contains("<ol>"))
+    {
+      return string;
+    }
+    
+    
+    // ...or this...
+    //
+    string = string.replace("\r\n", "\n").replace('\r', '\n');
+    StringBuilder sb = new StringBuilder("<p>");
+    for (StringTokenizer tokenizer = new StringTokenizer(string, "\n"); tokenizer.hasMoreElements();)
+    {
+      String line = tokenizer.nextElement().toString();
+      if (line != null)
+      {
+        sb.append(line).append("<br />\n");
+      }
+    }
+    return sb.append("</p>").toString();
+  }
+  
+  public String computeConstraints(EModelElement modelElement)
+  {
+    List<String> constraints = EcoreUtil.getConstraints(modelElement);
+    if (!constraints.isEmpty())
+    {
+      StringBuilder label = new StringBuilder();
+      for (String constraint : constraints)
+      {
+        label.append(", <tt>").append(constraint).append("</tt>");
+      }
+      return label.substring(", ".length());
+    }
+    else
+    {
+      return null; 
+    }   
+   }
 }

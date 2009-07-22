@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.exporter.html" imports="java.util.* org.eclipse.emf.common.util.URI org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.GenPackage" class="PackageHTML" version="$Id: package.htmljet,v 1.6 2008/08/22 22:30:18 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.exporter.html" imports="java.util.* org.eclipse.emf.common.util.URI org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.GenPackage" class="PackageHTML" version="$Id: package.htmljet,v 1.7 2009/07/22 13:55:26 marcelop Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2008 IBM Corporation and others.
+ * Copyright (c) 2006-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,10 +35,11 @@
 			li {font-size: 10pt; line-height: 20px}
 			
 			table.details {font: 11px/24px Verdana, Arial, Helvetica, sans-serif; border-collapse: collapse; width: 480px;}
-			table.details td.left  {order-bottom: 1px solid #CCC;	padding: 0 0.5em;}
-			table.details td.right {order-bottom: 1px solid #CCC;	padding: 0 0.5em; text-align: right;}
-			table.details tr.odd   {background: #e3f0f7;}
-			table.details tr.even  {background: #f7f7f7;}
+			table.details td.left  {order-bottom: 1px solid #CCC;	padding: 0 0.5em; vertical-align: text-top;}
+			table.details td.right {order-bottom: 1px solid #CCC;	padding: 0 0.5em; text-align: right; vertical-align: text-top;}
+			table.details tr.documentation {background: #f9fff9;}
+			table.details tr.odd           {background: #e3f0f7;}
+			table.details tr.even          {background: #f7f7f7;}
 		-->
 		</style>
 		
@@ -91,6 +92,12 @@
 					<td>Namespace Prefix</td>
 					<td><%=ePackage.getNsPrefix()%></td>
 				</tr>
+		<%String packageDocumentation = EcoreUtil.getDocumentation(ePackage); if (packageDocumentation != null) {%>
+				<tr>
+					<td>Documentation</td>
+					<td><%=htmlExporter.getLongText(packageDocumentation)%></td>
+				</tr>
+		<%}%>
 			</table>
 
 			<p><input type="checkbox" onclick="javascript:selectAllChechboxes(document.packform.detailCheckbox, this.checked)"/>expand all details</p>
@@ -99,9 +106,14 @@
 <%if (!eClasses.isEmpty()) {%>
 		<h1>Classes</h1><%for (EClass eClass : eClasses) { %>
 			<h2><%=htmlExporter.computeClassifierLabel(eClass)%></h2>
+		<%String classDocumentation = EcoreUtil.getDocumentation(eClass); if (classDocumentation != null) {%>
+				<h3>Documentation</h3>
+					<%=htmlExporter.getLongText(classDocumentation)%>
+		<%}%>
 				<h3>Details</h3>
 				<dt>
-					<dd><table class="details"><%int row=0;for (EStructuralFeature detail : htmlExporter.getDetails(eClass)) {%>
+					<dd><table class="details"><%int row=0; String classConstraints = htmlExporter.computeConstraints(eClass); if (classConstraints != null) {%>
+						<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left">constraints</td><td class="right"><%=classConstraints%></td></tr><%} for (EStructuralFeature detail : htmlExporter.getDetails(eClass)) {%>
 						<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left"><%=detail.getName()%></td><td class="right"><tt><%=HTMLExporter.escape(eClass.eGet(detail).toString())%></tt></td></tr><%}%>
 					</table></dd>
 				</dt>
@@ -117,7 +129,9 @@
 						<li>
 							<input type="checkbox" name="detailCheckbox" value="detail<%=++detailsCounter%>" onclick="javascript:openSection(this.value, this.checked)"/> <%=htmlExporter.computeTypedElementLabel(eAttribute)%>
 							<div id="detail<%=detailsCounter%>" name="detail<%=detailsCounter%>" style="overflow:hidden;display:none">
-								<table class="details"><%row=0; for (EStructuralFeature detail : htmlExporter.getDetails(eAttribute)) {%>
+								<table class="details"><%String attributeDocumentation = EcoreUtil.getDocumentation(eAttribute); if (attributeDocumentation != null) {%>
+									<tr class="documentation"><td class="left" colspan="2"><%=attributeDocumentation%></td></tr><%} row=0; String attributeConstraints = htmlExporter.computeConstraints(eAttribute); if (attributeConstraints != null) {%>
+									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left">constraints</td><td class="right"><%=attributeConstraints%></td></tr><%} for (EStructuralFeature detail : htmlExporter.getDetails(eAttribute)) {%>
 									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left"><%=detail.getName()%></td><td class="right"><tt><%=eAttribute.eGet(detail)%></tt></td></tr><%}%>
 								</table><br />
 							</div>
@@ -130,7 +144,9 @@
 						<li>
 							<input type="checkbox" name="detailCheckbox" value="detail<%=++detailsCounter%>" onclick="javascript:openSection(this.value, this.checked)"/> <%=htmlExporter.computeTypedElementLabel(eReference)%>
 							<div id="detail<%=detailsCounter%>" name="detail<%=detailsCounter%>" style="overflow:hidden;display:none">
-								<table class="details"><%row=0; if (eReference.getEOpposite() != null) {%>
+								<table class="details"><%String referenceDocumentation = EcoreUtil.getDocumentation(eReference); if (referenceDocumentation != null) {%>
+									<tr class="documentation"><td class="left" colspan="2"><%=referenceDocumentation%></td></tr><%} row=0; String referenceConstraints = htmlExporter.computeConstraints(eReference); if (referenceConstraints != null) {%>
+									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left">constraints</td><td class="right"><%=referenceConstraints%></td></tr><%} if (eReference.getEOpposite() != null) {%>
 									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left">opposite</td><td class="right"><%=htmlExporter.computeLabel(eReference.getEOpposite())%></td></tr> <%} if (!eReference.getEKeys().isEmpty()) {%>
 									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left">key(s)</td><td class="right"><%=htmlExporter.computeEKeys(eReference)%></td></tr> <%} for (EStructuralFeature detail : htmlExporter.getDetails(eReference)) {%>
 									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left"><%=detail.getName()%></td><td class="right"><tt><%=eReference.eGet(detail)%></tt></td></tr><%}%>
@@ -145,7 +161,9 @@
 						<li>
 							<input type="checkbox" name="detailCheckbox" value="detail<%=++detailsCounter%>" onclick="javascript:openSection(this.value, this.checked)"/> <%=htmlExporter.computeLabel(eOperation)%>
 							<div id="detail<%=detailsCounter%>" name="detail<%=detailsCounter%>" style="overflow:hidden;display:none">
-								<table class="details"><%row = 0; for (EStructuralFeature detail : htmlExporter.getDetails(eOperation)) {%>
+								<table class="details"><%String operationDocumentation = EcoreUtil.getDocumentation(eOperation); if (operationDocumentation != null) {%>
+									<tr class="documentation"><td class="left" colspan="2"><%=operationDocumentation%></td></tr><%} row=0; String operationConstraints = htmlExporter.computeConstraints(eOperation); if (operationConstraints != null) {%>
+									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left">constraints</td><td class="right"><%=operationConstraints%></td></tr><%} for (EStructuralFeature detail : htmlExporter.getDetails(eOperation)) {%>
 									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left"><%=detail.getName()%></td><td class="right"><tt><%=eOperation.eGet(detail)%></tt></td></tr><%}%>
 								</table><br />
 							</div>
@@ -159,12 +177,17 @@
 <%if (!eEnums.isEmpty()) {%>		
 		<h1>Enumerations</h1><%for (EEnum eEnum : eEnums) {%>
 			<h2><a name="<%=eEnum.getName()%>"><%=eEnum.getName()%></a></h2><%if (!eEnum.getELiterals().isEmpty()) {%>
+		<%String enumDocumentation = EcoreUtil.getDocumentation(eEnum); if (enumDocumentation != null) {%>
+				<h3>Documentation</h3>
+					<%=htmlExporter.getLongText(enumDocumentation)%>
+		<%}%>
 				<h3>Literals</h3>
 					<ul><%for (EEnumLiteral eEnumLiteral : eEnum.getELiterals()) {%>
 						<li>
 							<input type="checkbox" name="detailCheckbox" value="detail<%=++detailsCounter%>" onclick="javascript:openSection(this.value, this.checked)"/> <%=htmlExporter.computeLabel(eEnumLiteral)%>
 							<div id="detail<%=detailsCounter%>" name="detail<%=detailsCounter%>" style="overflow:hidden;display:none">
-								<table class="details"><%int row = 0; for (EStructuralFeature detail : htmlExporter.getDetails(eEnumLiteral)) {%>
+								<table class="details"><%String enumLiteralDocumentation = EcoreUtil.getDocumentation(eEnumLiteral); if (enumLiteralDocumentation != null) {%>
+									<tr class="documentation"><td class="left" colspan="2"><%=enumLiteralDocumentation%></td></tr><%} int row = 0; for (EStructuralFeature detail : htmlExporter.getDetails(eEnumLiteral)) {%>
 									<tr class="<%=(++row)%2 == 0 ? "even" : "odd"%>"><td class="left"><%=detail.getName()%></td><td class="right"><tt><%=eEnumLiteral.eGet(detail)%></tt></td></tr><%}%>
 								</table><br />
 							</div>
@@ -176,6 +199,10 @@
 <%if (!eDataTypes.isEmpty()) {%>		
 		<h1>Data Types</h1><%for (EDataType eDataType : eDataTypes) {%>
 			<h2><%=htmlExporter.computeClassifierLabel(eDataType)%></h2>
+		<%String dataTypeDocumentation = EcoreUtil.getDocumentation(eDataType); if (dataTypeDocumentation != null) {%>
+				<h3>Documentation</h3>
+					<%=htmlExporter.getLongText(dataTypeDocumentation)%>
+		<%}%>
 				<h3>Details</h3>
 				<dt>
 					<dd>
