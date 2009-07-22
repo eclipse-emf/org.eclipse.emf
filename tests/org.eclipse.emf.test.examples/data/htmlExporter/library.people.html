@@ -15,10 +15,11 @@
 			li {font-size: 10pt; line-height: 20px}
 			
 			table.details {font: 11px/24px Verdana, Arial, Helvetica, sans-serif; border-collapse: collapse; width: 480px;}
-			table.details td.left  {order-bottom: 1px solid #CCC;	padding: 0 0.5em;}
-			table.details td.right {order-bottom: 1px solid #CCC;	padding: 0 0.5em; text-align: right;}
-			table.details tr.odd   {background: #e3f0f7;}
-			table.details tr.even  {background: #f7f7f7;}
+			table.details td.left  {order-bottom: 1px solid #CCC;	padding: 0 0.5em; vertical-align: text-top;}
+			table.details td.right {order-bottom: 1px solid #CCC;	padding: 0 0.5em; text-align: right; vertical-align: text-top;}
+			table.details tr.documentation {background: #f9fff9;}
+			table.details tr.odd           {background: #e3f0f7;}
+			table.details tr.even          {background: #f7f7f7;}
 		-->
 		</style>
 		
@@ -69,12 +70,19 @@
 					<td>Namespace Prefix</td>
 					<td>org.eclipse.example.library.people</td>
 				</tr>
+		
+				<tr>
+					<td>Documentation</td>
+					<td>One more <i>formatted</i> comment, but now for &quot;people&quot;.</td>
+				</tr>
+		
 			</table>
 
 			<p><input type="checkbox" onclick="javascript:selectAllChechboxes(document.packform.detailCheckbox, this.checked)"/>expand all details</p>
 
 		<h1>Classes</h1>
 			<h2><a name="Writer">Writer</a></h2>
+		
 				<h3>Details</h3>
 				<dt>
 					<dd><table class="details">

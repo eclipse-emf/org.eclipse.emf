@@ -3,21 +3,61 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="library"
     nsURI="http:///org/eclipse/example/multipackage_library.ecore" nsPrefix="org.eclipse.example.library">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="This is a single line, non-formatted comment for the library package"/>
+  </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Book">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="This is a multiline, non-formatted comment&#xD;&#xA;for Book"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="BookConstraint1 BookConstraint2"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="Book_TitleConstraint1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pages" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="100"/>
+        defaultValueLiteral="100">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="&lt;p>A &lt;i>formatted&lt;/i> comment for book.&lt;tt>pages&lt;/tt>&lt;/p>"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="category" eType="#//BookCategory"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="author" eType="#//people/Writer"
-        eOpposite="#//people/Writer/books"/>
+        eOpposite="#//people/Writer/books">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A really, really long documentation for book.author. This text is not formatted. And it is written in a single line. We are using it to check if it is properly displayed. It certainly can get ugly but we will try to make it as pretty as possible. Oh my, more than 300 columns of pure mumbling... This should be a new record..."/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="Book_AuthorConstraint1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="BookCategory">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Enums can have documentaiton (or even &lt;b>formatted&lt;/b> documentation) too!"/>
+    </eAnnotations>
     <eLiterals name="Mystery"/>
-    <eLiterals name="ScienceFiction" value="1"/>
+    <eLiterals name="ScienceFiction" value="1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="EnumLiteral here ;-)"/>
+      </eAnnotations>
+    </eLiterals>
     <eLiterals name="Biography" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Library">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Another &lt;b>formatted&lt;/b> comment, but now for &amp;quot;Library&amp;quot;."/>
+    </eAnnotations>
     <eOperations name="reserve" eExceptions="#//LibraryException">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="&lt;p>A &lt;b>formatted&lt;/b> comment that includes &lt;br />&#xD;&#xA;some line&lt;br />&#xD;&#xA;breaks.&lt;/p>&#xD;&#xA;&lt;p>And a paragraph too!&lt;/p>"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="Library_ReserveConstraint1 Library_ReserveConstraint2 Library_ReserveConstraint3 Library_ReserveConstraint4"/>
+      </eAnnotations>
       <eParameters name="books" upperBound="-1" eType="#//Book"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -31,9 +71,16 @@
       </eGenericType>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="LibraryException" instanceClassName="org.eclipse.example.library.LibraryException"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="LibraryException" instanceClassName="org.eclipse.example.library.LibraryException">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Another &lt;b>formatted&lt;/b> comment, but now for &amp;quot;LibraryException&amp;quot;."/>
+    </eAnnotations>
+  </eClassifiers>
   <eSubpackages name="people" nsURI="http:///org/eclipse/example/library/people.ecore"
       nsPrefix="org.eclipse.example.library.people">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="One more &lt;i>formatted&lt;/i> comment, but now for &amp;quot;people&amp;quot;."/>
+    </eAnnotations>
     <eClassifiers xsi:type="ecore:EClass" name="Writer">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="books" upperBound="-1"

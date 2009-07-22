@@ -15,10 +15,11 @@
 			li {font-size: 10pt; line-height: 20px}
 			
 			table.details {font: 11px/24px Verdana, Arial, Helvetica, sans-serif; border-collapse: collapse; width: 480px;}
-			table.details td.left  {order-bottom: 1px solid #CCC;	padding: 0 0.5em;}
-			table.details td.right {order-bottom: 1px solid #CCC;	padding: 0 0.5em; text-align: right;}
-			table.details tr.odd   {background: #e3f0f7;}
-			table.details tr.even  {background: #f7f7f7;}
+			table.details td.left  {order-bottom: 1px solid #CCC;	padding: 0 0.5em; vertical-align: text-top;}
+			table.details td.right {order-bottom: 1px solid #CCC;	padding: 0 0.5em; text-align: right; vertical-align: text-top;}
+			table.details tr.documentation {background: #f9fff9;}
+			table.details tr.odd           {background: #e3f0f7;}
+			table.details tr.even          {background: #f7f7f7;}
 		-->
 		</style>
 		
@@ -62,17 +63,31 @@
 					<td>Namespace Prefix</td>
 					<td>org.eclipse.example.library</td>
 				</tr>
+		
+				<tr>
+					<td>Documentation</td>
+					<td><p>This is a single line, non-formatted comment for the library package<br />
+</p></td>
+				</tr>
+		
 			</table>
 
 			<p><input type="checkbox" onclick="javascript:selectAllChechboxes(document.packform.detailCheckbox, this.checked)"/>expand all details</p>
 
 		<h1>Classes</h1>
 			<h2><a name="Book">Book</a></h2>
+		
+				<h3>Documentation</h3>
+					<p>This is a multiline, non-formatted comment<br />
+for Book<br />
+</p>
+		
 				<h3>Details</h3>
 				<dt>
 					<dd><table class="details">
-						<tr class="odd"><td class="left">abstract</td><td class="right"><tt>false</tt></td></tr>
-						<tr class="even"><td class="left">interface</td><td class="right"><tt>false</tt></td></tr>
+						<tr class="odd"><td class="left">constraints</td><td class="right"><tt>BookConstraint1</tt>, <tt>BookConstraint2</tt></td></tr>
+						<tr class="even"><td class="left">abstract</td><td class="right"><tt>false</tt></td></tr>
+						<tr class="odd"><td class="left">interface</td><td class="right"><tt>false</tt></td></tr>
 					</table></dd>
 				</dt>
 		
@@ -83,15 +98,16 @@
 							<input type="checkbox" name="detailCheckbox" value="detail1" onclick="javascript:openSection(this.value, this.checked)"/> <i><b>EString</b></i> <a name="Book@title">title</a>
 							<div id="detail1" name="detail1" style="overflow:hidden;display:none">
 								<table class="details">
-									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
-									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
-									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
-									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
-									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
-									<tr class="even"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
-									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
-									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
-									<tr class="odd"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">constraints</td><td class="right"><tt>Book_TitleConstraint1</tt></td></tr>
+									<tr class="even"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="odd"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="even"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="odd"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="even"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">iD</td><td class="right"><tt>false</tt></td></tr>
 								</table><br />
 							</div>
 						</li>
@@ -99,6 +115,7 @@
 							<input type="checkbox" name="detailCheckbox" value="detail2" onclick="javascript:openSection(this.value, this.checked)"/> <i><b>EInt</b></i> <a name="Book@pages">pages</a>
 							<div id="detail2" name="detail2" style="overflow:hidden;display:none">
 								<table class="details">
+									<tr class="documentation"><td class="left" colspan="2"><p>A <i>formatted</i> comment for book.<tt>pages</tt></p></td></tr>
 									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
 									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
 									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
@@ -136,18 +153,20 @@
 							<input type="checkbox" name="detailCheckbox" value="detail4" onclick="javascript:openSection(this.value, this.checked)"/> <a href="library.people.html#Writer" title="Class:Writer">Writer</a> <a name="Book@author">author</a>
 							<div id="detail4" name="detail4" style="overflow:hidden;display:none">
 								<table class="details">
-									<tr class="odd"><td class="left">opposite</td><td class="right"><a href="library.people.html#Writer@books" title="Reference:Writer.books">books</a></td></tr> 
-									<tr class="even"><td class="left">containment</td><td class="right"><tt>false</tt></td></tr>
-									<tr class="odd"><td class="left">container</td><td class="right"><tt>false</tt></td></tr>
-									<tr class="even"><td class="left">resolveProxies</td><td class="right"><tt>true</tt></td></tr>
-									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
-									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
-									<tr class="odd"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
-									<tr class="even"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
-									<tr class="odd"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
-									<tr class="even"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
-									<tr class="odd"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
-									<tr class="even"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="documentation"><td class="left" colspan="2">A really, really long documentation for book.author. This text is not formatted. And it is written in a single line. We are using it to check if it is properly displayed. It certainly can get ugly but we will try to make it as pretty as possible. Oh my, more than 300 columns of pure mumbling... This should be a new record...</td></tr>
+									<tr class="odd"><td class="left">constraints</td><td class="right"><tt>Book_AuthorConstraint1</tt></td></tr>
+									<tr class="even"><td class="left">opposite</td><td class="right"><a href="library.people.html#Writer@books" title="Reference:Writer.books">books</a></td></tr> 
+									<tr class="odd"><td class="left">containment</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">container</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">resolveProxies</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="even"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="odd"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="even"><td class="left">changeable</td><td class="right"><tt>true</tt></td></tr>
+									<tr class="odd"><td class="left">defaultValue</td><td class="right"><tt>null</tt></td></tr>
+									<tr class="even"><td class="left">derived</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">transient</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="even"><td class="left">unsettable</td><td class="right"><tt>false</tt></td></tr>
+									<tr class="odd"><td class="left">volatile</td><td class="right"><tt>false</tt></td></tr>
 								</table><br />
 							</div>
 						</li>
@@ -156,6 +175,10 @@
 		
 	
 			<h2><a name="Library">Library</a></h2>
+		
+				<h3>Documentation</h3>
+					Another <b>formatted</b> comment, but now for &quot;Library&quot;.
+		
 				<h3>Details</h3>
 				<dt>
 					<dd><table class="details">
@@ -253,8 +276,13 @@
 							<input type="checkbox" name="detailCheckbox" value="detail9" onclick="javascript:openSection(this.value, this.checked)"/> void <a name="Library@reserve">reserve</a>(<a href="#Book" title="Class:Book">Book</a>* books) throws <a href="#LibraryException" title="DataType:LibraryException">LibraryException</a>
 							<div id="detail9" name="detail9" style="overflow:hidden;display:none">
 								<table class="details">
-									<tr class="odd"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
-									<tr class="even"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
+									<tr class="documentation"><td class="left" colspan="2"><p>A <b>formatted</b> comment that includes <br />
+some line<br />
+breaks.</p>
+<p>And a paragraph too!</p></td></tr>
+									<tr class="odd"><td class="left">constraints</td><td class="right"><tt>Library_ReserveConstraint1</tt>, <tt>Library_ReserveConstraint2</tt>, <tt>Library_ReserveConstraint3</tt>, <tt>Library_ReserveConstraint4</tt></td></tr>
+									<tr class="even"><td class="left">lowerBound</td><td class="right"><tt>0</tt></td></tr>
+									<tr class="odd"><td class="left">upperBound</td><td class="right"><tt>1</tt></td></tr>
 								</table><br />
 							</div>
 						</li>
@@ -264,6 +292,10 @@
 		
 		<h1>Enumerations</h1>
 			<h2><a name="BookCategory">BookCategory</a></h2>
+		
+				<h3>Documentation</h3>
+					Enums can have documentaiton (or even <b>formatted</b> documentation) too!
+		
 				<h3>Literals</h3>
 					<ul>
 						<li>
@@ -279,6 +311,7 @@
 							<input type="checkbox" name="detailCheckbox" value="detail11" onclick="javascript:openSection(this.value, this.checked)"/> ScienceFiction
 							<div id="detail11" name="detail11" style="overflow:hidden;display:none">
 								<table class="details">
+									<tr class="documentation"><td class="left" colspan="2">EnumLiteral here ;-)</td></tr>
 									<tr class="odd"><td class="left">literal</td><td class="right"><tt>ScienceFiction</tt></td></tr>
 									<tr class="even"><td class="left">value</td><td class="right"><tt>1</tt></td></tr>
 								</table><br />
@@ -297,6 +330,10 @@
 		
 		<h1>Data Types</h1>
 			<h2><a name="LibraryException">LibraryException</a></h2>
+		
+				<h3>Documentation</h3>
+					Another <b>formatted</b> comment, but now for &quot;LibraryException&quot;.
+		
 				<h3>Details</h3>
 				<dt>
 					<dd>
