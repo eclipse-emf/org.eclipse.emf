@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2005-2006 IBM Corporation and others.
+ * Copyright (c) 2005-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteCommand.java,v 1.8 2009/02/02 12:42:39 emerks Exp $
+ * $Id: DeleteCommand.java,v 1.9 2009/07/30 18:16:00 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -131,7 +132,7 @@ public class DeleteCommand extends CompoundCommand
       }
     }
     
-    Map<EObject, Collection<EStructuralFeature.Setting>> usages = EcoreUtil.UsageCrossReferencer.findAll(eObjects, domain.getResourceSet());
+    Map<EObject, Collection<EStructuralFeature.Setting>> usages = findReferences(eObjects);
     
     super.execute();
 
@@ -159,5 +160,16 @@ public class DeleteCommand extends CompoundCommand
         }
       }
     }
+  }
+
+  /**
+   * Returns the references to the objects in the given collection that are to be cleared.
+   * The default implementation uses {@link UsageCrossReferencer} to find all incoming cross references.
+   * @see UsageCrossReferencer
+   * @since 2.6
+   */
+  protected Map<EObject, Collection<EStructuralFeature.Setting>> findReferences(Collection<EObject> eObjects)
+  {
+    return EcoreUtil.UsageCrossReferencer.findAll(eObjects, domain.getResourceSet());
   }
 }
