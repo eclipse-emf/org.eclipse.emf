@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.18 2008/12/22 14:25:48 emerks Exp $
+ * $Id: XSDParser.java,v 1.19 2009/08/05 15:12:41 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -70,6 +70,21 @@ import org.eclipse.xsd.impl.XSDSchemaImpl;
 public class XSDParser extends DefaultHandler implements LexicalHandler
 {
   protected static final Map<Node, Map<Object, Object>> userDataMap = Collections.synchronizedMap(new WeakHashMap<Node, Map<Object, Object>>());
+  
+  private static class Flusher
+  {
+    @Override
+    protected void finalize() throws Throwable
+    {
+      userDataMap.size();
+      new Flusher();
+    }
+  }
+
+  static
+  {
+    new Flusher();
+  }
 
   private static final class LocationMap extends AbstractMap<Object,Object>
   {
