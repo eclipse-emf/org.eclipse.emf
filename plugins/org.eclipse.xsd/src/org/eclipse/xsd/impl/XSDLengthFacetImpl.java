@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XSDLengthFacetImpl.java,v 1.14 2008/12/22 14:25:48 emerks Exp $
+ * $Id: XSDLengthFacetImpl.java,v 1.15 2009/08/05 13:57:27 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
 import java.util.List;
+
+import javax.xml.namespace.QName;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -312,6 +314,14 @@ public class XSDLengthFacetImpl
     else if (value instanceof XSDUtil.ByteSequence)
     {
       return ((XSDUtil.ByteSequence)value).getBytes().length == getValue();
+    }
+    else if (value instanceof QName)
+    {
+      QName qName = (QName)value;
+      int size = qName.getPrefix().length();
+      if (size > 0) ++size;
+      size += qName.getLocalPart().length();
+      return size == getValue();
     }
     else
     {
