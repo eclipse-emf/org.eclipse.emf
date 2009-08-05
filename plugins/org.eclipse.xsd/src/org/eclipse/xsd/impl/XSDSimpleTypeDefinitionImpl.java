@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.33 2009/02/12 12:26:37 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.34 2009/08/05 15:28:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1717,16 +1717,24 @@ public class XSDSimpleTypeDefinitionImpl
           eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__CONTENTS ||
           eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION) 
     {
-      for (Node child = getElement().getFirstChild(); child != null; child = child.getNextSibling())
+      Element element = getElement();
+      if (element == null)
       {
-        switch (XSDConstants.nodeType(child))
+        return null;
+      }
+      else
+      {
+        for (Node child = element.getFirstChild(); child != null; child = child.getNextSibling())
         {
-          case XSDConstants.EXTENSION_ELEMENT:
-          case XSDConstants.RESTRICTION_ELEMENT:
-          case XSDConstants.LIST_ELEMENT:
-          case XSDConstants.UNION_ELEMENT:
+          switch (XSDConstants.nodeType(child))
           {
-            return child;
+            case XSDConstants.EXTENSION_ELEMENT:
+            case XSDConstants.RESTRICTION_ELEMENT:
+            case XSDConstants.LIST_ELEMENT:
+            case XSDConstants.UNION_ELEMENT:
+            {
+              return child;
+            }
           }
         }
       }
