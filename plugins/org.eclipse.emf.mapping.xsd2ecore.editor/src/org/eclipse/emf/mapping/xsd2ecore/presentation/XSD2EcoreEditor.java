@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreEditor.java,v 1.4 2006/12/29 18:29:15 marcelop Exp $
+ * $Id: XSD2EcoreEditor.java,v 1.5 2009/08/05 15:03:28 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.presentation;
 
@@ -26,6 +26,9 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.InitializeCopyCommand;
@@ -39,7 +42,6 @@ import org.eclipse.emf.mapping.domain.PluginAdapterFactoryMappingDomain;
 import org.eclipse.emf.mapping.presentation.MappingEditor;
 import org.eclipse.emf.mapping.provider.MappingItemProviderAdapterFactory;
 import org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreFactory;
-import org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMappingRoot;
 import org.eclipse.emf.mapping.xsd2ecore.provider.XSD2EcoreItemProviderAdapterFactory;
 
 import org.eclipse.xsd.provider.XSDItemProviderAdapterFactory;
@@ -169,10 +171,9 @@ public class XSD2EcoreEditor extends MappingEditor
     {
       IFile mappingModelFile =
         modelFile.getFile().getParent().getFile
-          (new Path(new Path(modelFile.getName()).removeFileExtension().toOSString() + ".mapper"));
+          (new Path(new Path(modelFile.getName()).removeFileExtension().toOSString() + ".xsd2ecore"));
 
-      MappingRoot originalRootObject =
-        (MappingRoot) (mappingDomain.getResourceSet().getResources().iterator().next()).getContents().get(0);
+      EObject originalRootObject = (mappingDomain.getResourceSet().getResources().iterator().next()).getContents().get(0);
 
       // Switch over.
       //
@@ -203,7 +204,7 @@ public class XSD2EcoreEditor extends MappingEditor
 
         IFile outputModelFile =
           modelFile.getFile().getParent().getFile
-            (new Path(new Path(modelFile.getName()).removeFileExtension().toOSString() + "_mapper_result.classside"));
+            (new Path(new Path(modelFile.getName()).removeFileExtension().toOSString() + ".ecore"));
 
         Resource outputResource = null;
 
@@ -217,9 +218,9 @@ public class XSD2EcoreEditor extends MappingEditor
           //
           outputResource = mappingDomain.getResourceSet().createResource(URI.createURI(getURIFromFile(outputModelFile)));
 
-          XSD2EcoreMappingRoot xsd2EcoreMappingRoot = XSD2EcoreFactory.eINSTANCE.createXSD2EcoreMappingRoot();
+          EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
 
-          outputResource.getContents().add(xsd2EcoreMappingRoot);
+          outputResource.getContents().add(ePackage);
 
           mappingRoot.getOutputs().addAll(outputResource.getContents());
         }
