@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.27 2008/12/22 14:24:54 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.28 2009/08/05 17:19:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -609,20 +609,27 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
 
   protected Object createFromString(String hexString)
   {
-    byte [] byteValue = hexStringToBytes(hexString);
-    ByteArrayInputStream bytes = new ByteArrayInputStream(byteValue);
-    try
+    if (hexString == null)
     {
-      ObjectInputStream in = new ObjectInputStream(bytes);
-      return in.readObject();
+      return null;
     }
-    catch (IOException exception)
+    else
     {
-      throw new RuntimeException(exception);
-    }
-    catch (ClassNotFoundException exception)
-    {
-      throw new RuntimeException(exception);
+      byte [] byteValue = hexStringToBytes(hexString);
+      ByteArrayInputStream bytes = new ByteArrayInputStream(byteValue);
+      try
+      {
+        ObjectInputStream in = new ObjectInputStream(bytes);
+        return in.readObject();
+      }
+      catch (IOException exception)
+      {
+        throw new RuntimeException(exception);
+      }
+      catch (ClassNotFoundException exception)
+      {
+        throw new RuntimeException(exception);
+      }
     }
   }
 
