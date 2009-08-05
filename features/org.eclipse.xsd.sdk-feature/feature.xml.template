@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.xsd.sdk"
       label="%featureName"
-      version="2.5.0.qualifier"
+      version="2.6.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
    <!-- do not increment version here; instead, use feature.xml.template -->
