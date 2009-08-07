@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.38 2009/01/16 20:52:06 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.39 2009/08/07 14:30:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -119,7 +119,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
     if (literal == null && eType != null)
     {
-      return eType.getDefaultValue();
+      return isMany()? null : eType.getDefaultValue();
     }
     else if (eType instanceof EDataType)
     {
