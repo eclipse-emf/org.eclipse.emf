@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.26 2008/09/26 17:33:38 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.27 2009/08/07 14:51:44 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1081,6 +1081,8 @@ public class EcoreSchemaBuilder extends MapBuilder
      XSDComponent xsdComponent,
      EStructuralFeature eStructuralFeature)
   {
+    List<EAttribute> eKeys = null;
+    
     if (referenceType == null && eStructuralFeature.isMany())
     {
       createEcoreAnnotation(xsdComponent, "many", "true");
@@ -1094,6 +1096,18 @@ public class EcoreSchemaBuilder extends MapBuilder
       {
         createEcoreAnnotation(xsdComponent, "opposite", eOpposite.getName());
       }
+      eKeys = eReference.getEKeys();
+    }
+    
+    if (eKeys != null && !eKeys.isEmpty())
+    {
+      StringBuilder keys = new StringBuilder();
+      for (EAttribute eKey : eKeys)
+      {
+        keys.append(eKey.getName());
+        keys.append(' ');
+      }
+      createEcoreAnnotation(xsdComponent, "keys", keys.toString().trim());
     }
 
     XSDAttributeUse xsdAttriuteUse = xsdComponent instanceof XSDAttributeUse ? (XSDAttributeUse)xsdComponent : null;
