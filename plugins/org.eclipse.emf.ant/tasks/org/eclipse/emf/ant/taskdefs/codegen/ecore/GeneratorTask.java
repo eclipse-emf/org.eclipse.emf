@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.18 2007/08/24 20:34:13 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.19 2009/08/11 14:34:43 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -197,6 +197,7 @@ public abstract class GeneratorTask extends EMFTask
   protected boolean generateModelProject = true;
   protected boolean generateEditProject = true;
   protected boolean generateEditorProject = true;
+  protected boolean generateTestsProject = true;
   
   protected Boolean autoBuild; 
 
@@ -266,6 +267,11 @@ public abstract class GeneratorTask extends EMFTask
   public void setGenerateEditorProject(boolean generate)
   {
     generateEditorProject = generate;
+  }
+
+  public void setGenerateTestsProject(boolean generate)
+  {
+    generateTestsProject = generate;
   }
 
   public Commandline.Argument createArg()
@@ -493,6 +499,7 @@ public abstract class GeneratorTask extends EMFTask
     generateModelProject &= arguments.indexOf("-modelProject") >= 0;
     generateEditProject &= arguments.indexOf("-editProject") >= 0;
     generateEditorProject &= arguments.indexOf("-editorProject") >= 0;
+    generateEditorProject &= arguments.indexOf("-testsProject") >= 0;
   }
 
   protected List<String> getGeneratorArguments()
@@ -502,6 +509,7 @@ public abstract class GeneratorTask extends EMFTask
     if (generateModelProject)  arguments.add("-model");
     if (generateEditProject)   arguments.add("-edit");
     if (generateEditorProject) arguments.add("-editor");
+    if (generateEditorProject) arguments.add("-tests");
     
     if (autoBuild != null)
     {
