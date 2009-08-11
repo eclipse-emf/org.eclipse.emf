@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.14 2007/06/14 18:32:37 emerks Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.15 2009/08/11 20:00:34 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -145,30 +145,91 @@ public class EditingDomainActionBarContributor
     super.init(actionBars);
     ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
 
-    deleteAction = new DeleteAction(removeAllReferencesOnDelete()); 
+    deleteAction = createDeleteAction(); 
     deleteAction.setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
     actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(), deleteAction);
 
-    cutAction = new CutAction();
+    cutAction = createCutAction();
     cutAction.setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
     actionBars.setGlobalActionHandler(ActionFactory.CUT.getId(), cutAction);
 
-    copyAction = new CopyAction();
+    copyAction = createCopyAction();
     copyAction.setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
     actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(), copyAction);
 
-    pasteAction = new PasteAction();
+    pasteAction = createPasteAction();
     pasteAction.setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
     actionBars.setGlobalActionHandler(ActionFactory.PASTE.getId(), pasteAction);
 
-    undoAction = new UndoAction();
+    undoAction = createUndoAction();
     undoAction.setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_UNDO));
     actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(), undoAction);
 
-    redoAction = new RedoAction();
+    redoAction = createRedoAction();
     redoAction.setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_REDO));
     actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redoAction);
   }
+
+  /**
+   * Returns the action used to implement delete.
+   * @see #deleteAction
+   * @since 2.6
+   */
+  protected DeleteAction createDeleteAction()
+  {
+    return new DeleteAction(removeAllReferencesOnDelete());
+  }
+
+  /**
+   * Returns the action used to implement cut.
+   * @see #cutAction
+   * @since 2.6
+   */
+  protected CutAction createCutAction()
+  {
+    return new CutAction();
+  }
+
+  /**
+   * Returns the action used to implement copy.
+   * @see #copyAction
+   * @since 2.6
+   */
+  protected CopyAction createCopyAction()
+  {
+    return new CopyAction();
+  }
+
+  /**
+   * Returns the action used to implement paste.
+   * @see #pasteAction
+   * @since 2.6
+   */
+  protected PasteAction createPasteAction()
+  {
+    return new PasteAction();
+  }
+
+  /**
+   * Returns the action used to implement undo.
+   * @see #undoAction
+   * @since 2.6
+   */
+  protected UndoAction createUndoAction()
+  {
+    return new UndoAction();
+  }
+
+  /**
+   * Returns the action used to implement redo.
+   * @see #redoAction
+   * @since 2.6
+   */
+  protected RedoAction createRedoAction()
+  {
+    return new RedoAction();
+  }
+
 
   /**
    * This determines whether or not the delete action should clean up all references to the deleted objects.
