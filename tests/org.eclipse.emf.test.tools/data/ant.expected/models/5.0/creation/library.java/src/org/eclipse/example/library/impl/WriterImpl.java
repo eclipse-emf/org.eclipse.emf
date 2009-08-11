@@ -1,7 +1,5 @@
 /**
  * This is my code.
- *
- * $Id: WriterImpl.java,v 1.3 2007/06/12 00:20:35 marcelop Exp $
  */
 package org.eclipse.example.library.impl;
 

@@ -1,7 +1,5 @@
 /**
  * This is my code.
- *
- * $Id: LibrarySwitch.java,v 1.4 2007/06/12 21:15:28 emerks Exp $
  */
 package org.examples.library.util;
 

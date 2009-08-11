@@ -1,7 +1,5 @@
 /**
  * This is my code.
- *
- * $Id: LibraryImpl.java,v 1.5 2007/06/11 21:12:19 emerks Exp $
  */
 package org.eclipse.example.library.impl;
 

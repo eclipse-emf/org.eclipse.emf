@@ -1,7 +1,5 @@
 /**
  * This is my code.
- *
- * $Id: ElementsValidator.java,v 1.4 2008/02/01 18:13:30 emerks Exp $
  */
 package org.examples.library.elements.util;
 

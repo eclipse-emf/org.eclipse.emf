@@ -1,7 +1,5 @@
 /**
  * This is my code.
- *
- * $Id: HRSwitch.java,v 1.4 2007/06/12 21:15:27 emerks Exp $
  */
 package org.examples.hr.util;
 

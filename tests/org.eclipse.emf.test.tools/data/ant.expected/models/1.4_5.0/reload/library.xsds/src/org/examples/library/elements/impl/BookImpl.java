@@ -1,7 +1,5 @@
 /**
  * This is my code.
- *
- * $Id: BookImpl.java,v 1.5 2008/12/22 14:25:59 emerks Exp $
  */
 package org.examples.library.elements.impl;
 

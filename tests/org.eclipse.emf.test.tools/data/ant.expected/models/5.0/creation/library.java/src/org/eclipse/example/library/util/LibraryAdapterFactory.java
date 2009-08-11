@@ -1,7 +1,5 @@
 /**
  * This is my code.
- *
- * $Id: LibraryAdapterFactory.java,v 1.7 2007/10/27 10:29:03 emerks Exp $
  */
 package org.eclipse.example.library.util;
 

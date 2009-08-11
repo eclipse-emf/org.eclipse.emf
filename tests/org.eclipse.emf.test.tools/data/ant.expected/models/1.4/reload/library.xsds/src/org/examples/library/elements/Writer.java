@@ -1,7 +1,5 @@
 /**
  * This is my code.
- *
- * $Id: Writer.java,v 1.3 2007/06/04 18:49:09 emerks Exp $
  */
 package org.examples.library.elements;
 

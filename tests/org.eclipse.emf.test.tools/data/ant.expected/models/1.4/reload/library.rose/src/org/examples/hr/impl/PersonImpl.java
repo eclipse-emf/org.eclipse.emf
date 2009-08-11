@@ -1,7 +1,5 @@
 /**
  * This is my code.
- *
- * $Id: PersonImpl.java,v 1.3 2007/04/26 20:57:15 emerks Exp $
  */
 package org.examples.hr.impl;
 

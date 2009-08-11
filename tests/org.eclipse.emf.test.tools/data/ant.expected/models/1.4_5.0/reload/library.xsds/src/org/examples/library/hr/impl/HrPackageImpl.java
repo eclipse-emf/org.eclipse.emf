@@ -1,7 +1,5 @@
 /**
  * This is my code.
- *
- * $Id: HrPackageImpl.java,v 1.5 2009/05/12 15:55:25 davidms Exp $
  */
 package org.examples.library.hr.impl;
 

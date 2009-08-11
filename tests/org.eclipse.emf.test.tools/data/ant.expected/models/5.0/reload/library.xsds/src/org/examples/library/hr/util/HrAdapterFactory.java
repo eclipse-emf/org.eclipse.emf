@@ -1,7 +1,5 @@
 /**
  * This is my code.
- *
- * $Id: HrAdapterFactory.java,v 1.5 2007/10/27 10:29:04 emerks Exp $
  */
 package org.examples.library.hr.util;
 
