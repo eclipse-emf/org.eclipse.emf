@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.18 2008/08/29 18:23:37 davidms Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.19 2009/08/11 18:32:21 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -261,13 +261,13 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         URI targetFile = toURI(targetPathName);
         ensureContainerExists(targetFile.trimSegments(1), createMonitor(monitor, 1));
 
+        final ResourceSet originalSet = genModel.eResource().getResourceSet();
         EPackage originalPackage = genPackage.getEcorePackage();
-        Resource originalResource = originalPackage.eResource();
 
-        ResourceSet set = new ResourceSetImpl();
-        set.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new EcoreResourceFactoryImpl());
+        ResourceSet outputSet = new ResourceSetImpl();
+        outputSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new EcoreResourceFactoryImpl());
         URI targetURI = toPlatformResourceURI(targetFile);        
-        Resource outputResource = set.createResource(targetURI);
+        Resource outputResource = outputSet.createResource(targetURI);
 
         // Copy the package, excluding unwanted annotations.
         //
@@ -301,31 +301,88 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         outputResource.getContents().add(outputPackage);
         collapseEmptyPackages(outputPackage);
 
-        // Compute a map of resource location URIs to logical namespace URIs
-        // so that cross references will be resolved via package registry when deserialized. 
-        //
-        final Map<URI, URI> uriMap = new HashMap<URI, URI>();
-        for (Resource resource : originalResource.getResourceSet().getResources())
-        {
-          List<EObject> contents = resource.getContents();
-          if (!contents.isEmpty() && contents.get(0) instanceof EPackage)
-          {
-            if (resource != originalResource)
-            {
-              uriMap.put(resource.getURI(), URI.createURI(((EPackage)contents.get(0)).getNsURI()));
-            }
-          }
-        }
-
-        // This URI handler redirects the URI based on the mapping.
+        // This URI handler redirects cross-document references to correct namespace-based values.
         //
         XMLResource.URIHandler uriHandler = 
           new URIHandlerImpl.PlatformSchemeAware()
           {
-            protected URI redirect(URI uri)
+            private EPackage getContainingPackage(EObject object)
             {
-              URI mappedURI = uriMap.get(uri.trimFragment());
-              return mappedURI == null ? uri : mappedURI.appendFragment(uri.fragment());
+              while (object != null)
+              {
+                if (object instanceof EPackage)
+                {
+                  return (EPackage)object;
+                }
+                object = object.eContainer();
+              }
+              return null;
+            }
+
+            private String getRelativeFragmentPath(Resource resource, EObject base, String path)
+            {
+              String basePath = resource.getURIFragment(base);
+              if (basePath != null && path.startsWith(basePath))
+              {
+                int i = basePath.length();
+                if (path.length() == i)
+                {
+                  return "";
+                }
+                else if (path.charAt(i) == '/')
+                {
+                  return path.substring(i);
+                }
+              }
+              return null;
+            }
+
+            private EPackage getNonEmptySuperPackage(EPackage ePackage)
+            {
+              EPackage result = ePackage.getESuperPackage();
+              while (result != null && result.getEClassifiers().isEmpty())
+              {
+                result = result.getESuperPackage();
+              }
+              return result;
+            }
+
+            private URI redirect(URI uri)
+            {
+              if (!uri.isCurrentDocumentReference() && uri.hasFragment())
+              {
+                URI base = uri.trimFragment();
+                String fragment = uri.fragment();
+                Resource resource = originalSet.getResource(base, false);
+                if (resource != null)
+                {
+                  EObject object = resource.getEObject(fragment);
+                  if (object != null)
+                  {
+                    EPackage ePackage = getContainingPackage(object);
+                    if (ePackage != null)
+                    {
+                      String relativePath = getRelativeFragmentPath(resource, ePackage, fragment);
+                      if (relativePath != null)
+                      {
+                        StringBuilder path = new StringBuilder();
+                        EPackage superPackage = getNonEmptySuperPackage(ePackage);
+                        while (superPackage != null)
+                        {
+                          path.insert(0, '/');
+                          path.insert(1, ePackage.getName());
+                          ePackage = superPackage;
+                          superPackage = getNonEmptySuperPackage(ePackage);
+                        }
+                        path.insert(0, '/');
+                        path.append(relativePath);
+                        return URI.createURI(ePackage.getNsURI()).appendFragment(path.toString());
+                      }
+                    }
+                  }
+                }
+              }
+              return uri;
             }
 
             @Override
