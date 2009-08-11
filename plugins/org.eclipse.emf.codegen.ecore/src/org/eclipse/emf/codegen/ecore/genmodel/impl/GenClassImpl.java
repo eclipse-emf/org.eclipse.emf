@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.101 2009/02/23 19:29:30 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.102 2009/08/11 19:46:07 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3341,10 +3341,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     for (GenClass baseGenClass : getAllBaseGenClasses())
     {
-      if ("java.io.Serializeable".equals(baseGenClass.getQualifiedInterfaceName()))
+      if ("java.io.Serializable".equals(baseGenClass.getQualifiedInterfaceName()))
       {
         return true;
-        
       }
     }
     GenClass rootImplementsInterfaceGenClass = getGenModel().getRootImplementsInterfaceGenClass();
@@ -3355,7 +3354,6 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         if ("java.io.Serializable".equals(baseGenClass.getQualifiedInterfaceName()))
         {
           return true;
-          
         }
       }
     }
