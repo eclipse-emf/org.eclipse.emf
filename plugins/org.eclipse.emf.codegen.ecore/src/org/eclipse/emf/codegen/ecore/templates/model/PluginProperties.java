@@ -15,16 +15,15 @@ public class PluginProperties
 
   public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "# ";
-  protected final String TEXT_2 = NL + "# <copyright>" + NL + "# </copyright>";
-  protected final String TEXT_3 = NL + "#" + NL + "# ";
-  protected final String TEXT_4 = "Id";
-  protected final String TEXT_5 = NL + NL + "pluginName = ";
-  protected final String TEXT_6 = " Model" + NL + "providerName = www.example.org";
-  protected final String TEXT_7 = NL;
-  protected final String TEXT_8 = NL + "_UI_";
-  protected final String TEXT_9 = "_content_type = ";
-  protected final String TEXT_10 = " File";
-  protected final String TEXT_11 = NL;
+  protected final String TEXT_2 = NL + "# <copyright>" + NL + "# </copyright>" + NL + "#" + NL + "# ";
+  protected final String TEXT_3 = "Id";
+  protected final String TEXT_4 = NL + NL + "pluginName = ";
+  protected final String TEXT_5 = " Model" + NL + "providerName = www.example.org";
+  protected final String TEXT_6 = NL;
+  protected final String TEXT_7 = NL + "_UI_";
+  protected final String TEXT_8 = "_content_type = ";
+  protected final String TEXT_9 = " File";
+  protected final String TEXT_10 = NL;
 
   public String generate(Object argument)
   {
@@ -52,27 +51,26 @@ public class PluginProperties
     stringBuffer.append(copyrightHolder.getCopyright(copyrightHolder.getGenModel().getIndentation(stringBuffer)));
     } else {
     stringBuffer.append(TEXT_2);
-    }}
+    stringBuffer.append("$");
     stringBuffer.append(TEXT_3);
     stringBuffer.append("$");
+    }}
     stringBuffer.append(TEXT_4);
-    stringBuffer.append("$");
-    stringBuffer.append(TEXT_5);
     stringBuffer.append(genModel.getModelName());
-    stringBuffer.append(TEXT_6);
+    stringBuffer.append(TEXT_5);
     boolean first = true; for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
     if (genPackage.isContentType()) {
     if (first) { first = false;
-    stringBuffer.append(TEXT_7);
+    stringBuffer.append(TEXT_6);
     }
+    stringBuffer.append(TEXT_7);
+    stringBuffer.append(genPackage.getPrefix());
     stringBuffer.append(TEXT_8);
     stringBuffer.append(genPackage.getPrefix());
     stringBuffer.append(TEXT_9);
-    stringBuffer.append(genPackage.getPrefix());
+    }
+    }
     stringBuffer.append(TEXT_10);
-    }
-    }
-    stringBuffer.append(TEXT_11);
     return stringBuffer.toString();
   }
 }
