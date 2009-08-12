@@ -94,13 +94,13 @@ groupPackage org.eclipse.emf.ant
 # The directory of the plugins in the order they were built
 excludes="resources.jar";
 includes="${pluginName}";
-pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | egrep "$includes" | egrep -v "$excludes" | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
+pluginDirs=`find -L $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | egrep "$includes" | egrep -v "$excludes" | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
 
 ### TODO: missing emf/xsd plugins (?) in $eclipseDir - need to copy them over or reference source (?)
 ### so that all classes/packages (and thus @links) can be resolved
 
 # All the jars in the plugins directory
-classpath=`find $eclipseDir/plugins \( -name "*.jar" -type f \) -o \( -name '@dot' -type d \) | tr '\n' ':'`; 
+classpath=`find -L $eclipseDir/plugins \( -name "*.jar" -type f \) -o \( -name '@dot' -type d \) | tr '\n' ':'`; 
 if [[ $debug -gt 1 ]]; then echo "Got classpath: "; echo $classpath | perl -pe "s#:#\n\t:#g"; fi
 
 # Calculates the packagesets and the calls to copyDocFiles (used in ${antScript}.template)
