@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicEObjectImpl.java,v 1.7 2006/12/05 20:22:26 emerks Exp $
+ * $Id: DynamicEObjectImpl.java,v 1.8 2009/08/25 08:08:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -33,7 +33,7 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
 {
   public static final class BasicEMapEntry<K, V> extends DynamicEObjectImpl implements BasicEMap.Entry<K, V>
   {
-    protected int hash;
+    protected int hash = -1;
     protected EStructuralFeature keyFeature;
     protected EStructuralFeature valueFeature;
 

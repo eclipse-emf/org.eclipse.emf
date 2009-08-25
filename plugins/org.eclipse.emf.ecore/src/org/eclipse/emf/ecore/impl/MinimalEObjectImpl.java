@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MinimalEObjectImpl.java,v 1.1 2009/01/16 12:55:11 emerks Exp $
+ * $Id: MinimalEObjectImpl.java,v 1.2 2009/08/25 08:08:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -47,7 +47,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EObject, ESt
     {
       public static final class BasicEMapEntry<K, V> extends Dynamic implements BasicEMap.Entry<K, V>
       {
-        protected int hash;
+        protected int hash = -1;
         protected EStructuralFeature keyFeature;
         protected EStructuralFeature valueFeature;
   
