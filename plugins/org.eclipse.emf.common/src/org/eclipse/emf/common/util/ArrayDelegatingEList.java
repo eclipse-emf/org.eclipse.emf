@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ArrayDelegatingEList.java,v 1.1 2009/01/16 12:55:02 emerks Exp $
+ * $Id: ArrayDelegatingEList.java,v 1.2 2009/08/25 07:58:57 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -116,7 +116,7 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
   @Override
   public boolean isEmpty()
   {
-    return data() != null;
+    return data() == null;
   }
 
   /**
