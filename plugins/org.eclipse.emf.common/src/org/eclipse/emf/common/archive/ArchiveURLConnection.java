@@ -241,6 +241,14 @@ public class ArchiveURLConnection extends URLConnection
       InputStream zipEntryInputStream = inputZipEntry == null ? null : zipFile.getInputStream(inputZipEntry);
       if (zipEntryInputStream == null)
       {
+        try
+        {
+          zipFile.close();
+        }
+        catch (Throwable throwable)
+        {
+          // Ignore because we'll throw a different IO exception
+        }
         throw new IOException("Archive entry not found " + urlString);
       }
       inputStream = 
