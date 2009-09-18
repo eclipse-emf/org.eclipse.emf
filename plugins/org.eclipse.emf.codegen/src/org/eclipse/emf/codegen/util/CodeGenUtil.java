@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -474,6 +474,22 @@ public class CodeGenUtil
   {
     if (CodeGenUtil.isJavaReservedWord(name)) return name + "_";
     return name;
+  }
+
+  /**
+   * @since 2.6
+   */
+  public static String upperName(String name, Locale locale)
+  {
+    return format(name, '_', null, false, true).toUpperCase(locale);
+  }
+
+  /**
+   * @since 2.6
+   */
+  public static String upperName(String name)
+  {
+    return upperName(name, Locale.getDefault());
   }
 
   /**
