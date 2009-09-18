@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostician.java,v 1.10 2009/02/20 12:44:50 emerks Exp $
+ * $Id: Diagnostician.java,v 1.11 2009/09/18 18:10:41 khussey Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -146,9 +146,10 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
   public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     Object eValidator;
-    while ((eValidator = eValidatorRegistry.get(eClass.eContainer())) == null)
+    EClass eType = eClass;
+    while ((eValidator = eValidatorRegistry.get(eType.eContainer())) == null)
     {
-      List<EClass> eSuperTypes = eClass.getESuperTypes();
+      List<EClass> eSuperTypes = eType.getESuperTypes();
       if (eSuperTypes.isEmpty())
       {
         eValidator = eValidatorRegistry.get(null);
@@ -156,7 +157,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
       }
       else
       {
-        eClass = eSuperTypes.get(0);
+        eType = eSuperTypes.get(0);
       }
     }
     boolean circular = context.get(EObjectValidator.ROOT_OBJECT) == eObject;

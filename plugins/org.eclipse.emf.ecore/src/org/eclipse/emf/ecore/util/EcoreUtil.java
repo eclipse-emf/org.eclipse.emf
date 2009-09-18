@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.67 2009/07/03 15:41:08 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.68 2009/09/18 18:10:41 khussey Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -4084,6 +4084,74 @@ public class EcoreUtil
     protected String getInstanceTypeName(EClassifier eClassifier)
     {
       return eClassifier.getInstanceTypeName();
+    }
+  }
+
+  /**
+   * @since 2.6
+   */
+  public static boolean isInvariant(EOperation eOperation)
+  {
+    return eOperation.getEType() == EcorePackage.Literals.EBOOLEAN &&
+      eOperation.getEParameters().size() == 2 &&
+      eOperation.getEParameters().get(0).getEType() == EcorePackage.Literals.EDIAGNOSTIC_CHAIN &&
+      eOperation.getEParameters().get(1).getEType() == EcorePackage.Literals.EMAP;
+  }
+
+  /**
+   * @since 2.6
+   */
+  public static List<String> getValidationDelegates(EPackage ePackage)
+  {
+    EAnnotation eAnnotation = ePackage.getEAnnotation(EcorePackage.eNS_URI);
+    if (eAnnotation != null)
+    {
+      String validationDelegates = eAnnotation.getDetails().get("validationDelegates");
+      if (validationDelegates != null)
+      {
+        List<String> result = new ArrayList<String>();
+        for (StringTokenizer stringTokenizer = new StringTokenizer(validationDelegates); stringTokenizer.hasMoreTokens();)
+        {
+          String validationDelegate = stringTokenizer.nextToken();
+          result.add(validationDelegate);
+        }
+        return result;
+      }
+    }
+    return Collections.emptyList();
+  }
+
+  /**
+   * @since 2.6
+   */
+  public static void setValidationDelegates(EPackage ePackage, List<String> validationDelegates)
+  {
+    EAnnotation eAnnotation = ePackage.getEAnnotation(EcorePackage.eNS_URI);
+    if (validationDelegates == null || validationDelegates.isEmpty())
+    {
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("validationDelegates");
+      }
+    }
+    else
+    {
+      if (eAnnotation == null)
+      {
+        eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        eAnnotation.setSource(EcorePackage.eNS_URI);
+        ePackage.getEAnnotations().add(eAnnotation);
+      }
+      StringBuffer value = new StringBuffer();
+      for (Iterator<String> i = validationDelegates.iterator(); i.hasNext();)
+      {
+        value.append(i.next());
+        if (i.hasNext())
+        {
+          value.append(' ');
+        }
+      }
+      eAnnotation.getDetails().put("validationDelegates", value.toString());
     }
   }
 

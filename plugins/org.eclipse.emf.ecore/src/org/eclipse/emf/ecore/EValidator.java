@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2006 IBM Corporation and others.
+ * Copyright (c) 2004-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EValidator.java,v 1.8 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EValidator.java,v 1.9 2009/09/18 18:10:41 khussey Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -114,6 +114,59 @@ public interface EValidator
      * Returns whether the string value matches the pattern.
      */
     boolean matches(String value);
+  }
+
+  /**
+   * An interface for delegating validation expression evaluation.
+   * @since 2.6
+   */
+  interface ValidationDelegate
+  {
+    /**
+     * A <code>ValidationDelegate</code> wrapper that is used by the {@link ValidationDelegate.Registry}.
+     */
+    public interface Descriptor
+    {
+      /**
+       * Returns the validation delegate.
+       * @return the validation delegate.
+       */
+      ValidationDelegate getValidationDelegate();
+    }
+
+    /**
+     * A map from {@link java.lang.String String} to {@link ValidationDelegate}.
+     */
+    interface Registry extends Map<String, Object>
+    {
+      /**
+       * Looks up the validation delegate in the map.
+       */
+      ValidationDelegate getValidationDelegate(String uri);
+
+      /**
+       * The global instance of a validation delegate registry.
+       */
+      Registry INSTANCE = new org.eclipse.emf.ecore.impl.ValidationDelegateRegistryImpl();
+    }
+
+    /**
+     * Evaluates the given invariant expression against the object in the given context.
+     * @return the result of the expression evaluation.
+     */
+    boolean validate(EClass eClass, EObject eObject, Map<Object, Object> context, EOperation invariant, String expression);
+
+    /**
+     * Evaluates the given constraint expression against the object in the given context.
+     * @return the result of the expression evaluation.
+     */
+    boolean validate(EClass eClass, EObject eObject, Map<Object, Object> context, String constraint, String expression);
+
+    /**
+     * Evaluates the given constraint expression against the value in the given context.
+     * @return the result of the expression evaluation.
+     */
+    boolean validate(EDataType eDataType, Object value, Map<Object, Object> context, String constraint, String expression);
   }
 
   /**
