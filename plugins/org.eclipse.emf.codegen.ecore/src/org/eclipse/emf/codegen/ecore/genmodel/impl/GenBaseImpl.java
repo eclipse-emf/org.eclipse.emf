@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.69 2009/03/13 21:09:02 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.70 2009/09/18 18:10:34 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2502,13 +2502,18 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected String indent(String text, String indentation)
   {
+    return indent(text, indentation, getGenModel().getLineDelimiter());
+  }
+
+  protected String indent(String text, String indentation, String lineDelimiter)
+  {
     if (text == null)
     {
       return null;
     }
     else
     {
-      String separator = getGenModel().getLineDelimiter() + indentation;
+      String separator = lineDelimiter + indentation;
       int increment = separator.length() - 1;
       StringBuffer stringBuffer = new StringBuffer(text);
       for (int i = 0; i < stringBuffer.length(); ++i)

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.37 2009/02/09 12:51:26 emerks Exp $
+ * $Id: GenPackage.java,v 1.38 2009/09/18 18:10:34 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -954,6 +954,11 @@ public interface GenPackage extends GenBase
   boolean hasTargetNamespace();
 
   boolean hasConstraints();
+
+  /**
+   * @since 2.6
+   */
+  boolean hasInvariantExpressions();
 
   String getSerializedPackageFilename();
   

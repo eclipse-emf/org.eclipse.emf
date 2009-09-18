@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.14 2008/03/10 19:10:25 emerks Exp $
+ * $Id: GenClassifierImpl.java,v 1.15 2009/09/18 18:10:34 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -302,5 +302,41 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
   public String getImportedBoundedWildcardInstanceClassName()
   {
     return getImportedInstanceClassName();
+  }
+
+  protected String getConstraintExpression(String constraint)
+  {
+    for (String validationDelegate : EcoreUtil.getValidationDelegates(getGenPackage().getEcorePackage()))
+    {
+      String expression = EcoreUtil.getAnnotation(getEcoreClassifier(), validationDelegate, constraint);
+      if (expression != null)
+      {
+        return expression;
+      }
+    }
+    return null;
+  }
+
+  public boolean hasConstraintExpression(String constraint)
+  {
+    return getConstraintExpression(constraint) != null;
+  }
+
+  public String getConstraintExpression(String constraint, String indentation)
+  {
+    return indent(getConstraintExpression(constraint), indentation);
+  }
+
+  public String getValidationDelegate(String constraint)
+  {
+    for (String validationDelegate : EcoreUtil.getValidationDelegates(getGenPackage().getEcorePackage()))
+    {
+      String expression = EcoreUtil.getAnnotation(getEcoreClassifier(), validationDelegate, constraint);
+      if (expression != null)
+      {
+        return validationDelegate;
+      }
+    }
+    return null;
   }
 }

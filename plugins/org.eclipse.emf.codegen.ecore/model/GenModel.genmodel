@@ -5,12 +5,10 @@
     creationCommands="false" editDirectory="/org.eclipse.emf.codegen.ecore.ui/src"
     editorDirectory="/org.eclipse.emf.codegen.ecore.ui/src" modelPluginID="org.eclipse.emf.codegen.ecore"
     runtimeJar="true" modelName="GenModel" editPluginClass="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin"
-    editorPluginClass="" updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
+    editorPluginClass="" updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="5.0" editPluginID="org.eclipse.emf.codegen.ecore.ui" language="en"
     usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
-  <foreignModel>GenModel.mdl</foreignModel>
-  <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
-  <foreignModel>../..</foreignModel>
+  <foreignModel>GenModel.ecore</foreignModel>
   <genPackages prefix="GenModel" basePackage="org.eclipse.emf.codegen.ecore" disposableProviderFactory="true"
       multipleEditorPages="false" generateModelWizard="false" contentTypeIdentifier="org.eclipse.emf.codegen.genmodel"
       ecorePackage="GenModel.ecore#/">
@@ -45,6 +43,8 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF22"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF23"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF24"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF25"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF26"/>
     </genEnums>
     <genClasses ecoreClass="GenModel.ecore#//GenModel">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="A copyright string to appear in the header of each generated artifact"

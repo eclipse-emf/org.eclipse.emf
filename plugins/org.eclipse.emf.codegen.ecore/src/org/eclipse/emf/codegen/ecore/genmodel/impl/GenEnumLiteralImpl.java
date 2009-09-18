@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.19 2009/04/18 11:38:01 emerks Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.20 2009/09/18 18:10:34 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -22,6 +22,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -328,7 +329,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
 
   public String getEnumLiteralID()
   {
-    return format(getName(), '_', null, false, true).toUpperCase(getGenModel().getLocale());
+    return CodeGenUtil.upperName(getName(), getGenModel().getLocale());
   }
   
   public String getEnumLiteralInstanceConstantName()

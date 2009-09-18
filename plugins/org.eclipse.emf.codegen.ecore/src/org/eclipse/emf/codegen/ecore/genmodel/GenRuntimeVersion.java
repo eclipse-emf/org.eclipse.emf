@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2008 IBM Corporation and others.
+ * Copyright (c) 2008-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenRuntimeVersion.java,v 1.3 2009/02/09 12:51:26 emerks Exp $
+ * $Id: GenRuntimeVersion.java,v 1.4 2009/09/18 18:10:34 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -66,7 +66,15 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF25(3, "EMF25", "2.5");
+  EMF25(3, "EMF25", "2.5"), /**
+   * The '<em><b>EMF26</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #EMF26_VALUE
+   * @generated
+   * @ordered
+   */
+  EMF26(4, "EMF26", "2.6");
 
   /**
    * The '<em><b>EMF22</b></em>' literal value.
@@ -114,6 +122,18 @@ public enum GenRuntimeVersion implements Enumerator
   public static final int EMF25_VALUE = 3;
 
   /**
+   * The '<em><b>EMF26</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * @since 2.6
+   * <!-- end-user-doc -->
+   * @see #EMF26
+   * @model literal="2.6"
+   * @generated
+   * @ordered
+   */
+  public static final int EMF26_VALUE = 4;
+
+  /**
    * An array of all the '<em><b>Gen Runtime Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -126,6 +146,7 @@ public enum GenRuntimeVersion implements Enumerator
       EMF23,
       EMF24,
       EMF25,
+      EMF26,
     };
 
   /**
@@ -188,6 +209,7 @@ public enum GenRuntimeVersion implements Enumerator
       case EMF23_VALUE: return EMF23;
       case EMF24_VALUE: return EMF24;
       case EMF25_VALUE: return EMF25;
+      case EMF26_VALUE: return EMF26;
     }
     return null;
   }

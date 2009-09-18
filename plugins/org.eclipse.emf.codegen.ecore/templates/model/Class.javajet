@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.85 2009/04/18 12:13:48 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.86 2009/09/18 18:10:34 khussey Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1320,6 +1320,17 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 <%for (GenOperation genOperation : (isImplementation ? genClass.getImplementedGenOperations() : genClass.getDeclaredGenOperations())) {%>
 <%@ include file="Class/genOperation.override.javajetinc" fail="alternative" %>
 <%@ start %>
+  <%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && isImplementation && genOperation.isInvariant() && genOperation.hasInvariantExpression()) {%>
+	/**
+	 * The cached validation expression for the '{@link #<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>) <em><%=genOperation.getFormattedName()%></em>}' invariant operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #<%=genOperation.getName()%>(<%=genOperation.getParameterTypes(", ")%>)
+	 * @generated
+	 */
+	protected static final <%=genModel.getImportedName("java.lang.String")%> <%=CodeGenUtil.upperName(genOperation.getName(), genModel.getLocale())%><%=genOperation.getGenParameters().size() == 0 ? "" : "__" + CodeGenUtil.upperName(genOperation.getParameterTypes("_", false), genModel.getLocale())%>__EEXPRESSION = "<%=genOperation.getInvariantExpression("\t\t")%>";<%=genModel.getNonNLS()%>
+
+  <%}%>
 <%if (isInterface) {%>
 <%@ include file="Class/genOperation.javadoc.override.javajetinc" fail="alternative" %>
 <%@ start %>
@@ -1373,6 +1384,20 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
   <%if (genOperation.hasBody()) {%>
 		<%=genOperation.getBody(genModel.getIndentation(stringBuffer))%>
   <%} else if (genOperation.isInvariant()) {GenClass opClass = genOperation.getGenClass(); String diagnostics = genOperation.getGenParameters().get(0).getName(); String context = genOperation.getGenParameters().get(1).getName();%>
+    <%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && genOperation.hasInvariantExpression()) {%>
+		return
+			<%=opClass.getGenPackage().getImportedValidatorClassName()%>.validate
+				(<%=genClass.getQualifiedClassifierAccessor()%>,
+				 this,
+				 <%=diagnostics%>,
+				 <%=context%>,
+				 "<%=genOperation.getValidationDelegate()%>",<%=genModel.getNonNLS()%>
+				 <%=opClass.getQualifiedClassifierAccessor()%>.getEOperations().get(<%=opClass.getEcoreClass().getEOperations().indexOf(genOperation.getEcoreOperation())%>),
+				 <%=CodeGenUtil.upperName(genOperation.getName(), genModel.getLocale())%><%=genOperation.getGenParameters().size() == 0 ? "" : "__" + CodeGenUtil.upperName(genOperation.getParameterTypes("_", false), genModel.getLocale())%>__EEXPRESSION,
+				 <%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
+				 <%=opClass.getGenPackage().getImportedValidatorClassName()%>.DIAGNOSTIC_SOURCE,
+				 <%=opClass.getGenPackage().getImportedValidatorClassName()%>.<%=opClass.getOperationID(genOperation)%>);
+    <%} else {%>
 		// TODO: implement this method
 		// -> specify the condition that violates the invariant
 		// -> verify the details of the diagnostic, including severity and message
@@ -1392,6 +1417,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 			return false;
 		}
 		return true;
+    <%}%>
   <%} else {%>
 <%@ include file="Class/implementedGenOperation.TODO.override.javajetinc" fail="alternative" %>
 <%@ start %>

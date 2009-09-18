@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.92 2009/04/18 12:07:12 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.93 2009/09/18 18:10:34 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2102,6 +2102,22 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return false;
   }
 
+  public boolean hasInvariantExpressions()
+  {
+    for (GenClass genClass : getGenClasses())
+    {
+      for (GenOperation genOperation : genClass.getGenOperations())
+      {
+        if (genOperation.isInvariant() && genOperation.hasInvariantExpression())
+        {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  
   public String getValidatorClassName()
   {
     return getPrefixedName("Validator");

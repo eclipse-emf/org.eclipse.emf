@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.36 2009/04/18 11:38:01 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.37 2009/09/18 18:10:34 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -925,6 +925,42 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     {
       return null;
     }
+  }
+
+  protected String getInvariantExpression()
+  {
+    for (String validationDelegate : EcoreUtil.getValidationDelegates(getGenPackage().getEcorePackage()))
+    {
+      String expression = EcoreUtil.getAnnotation(getEcoreOperation(), validationDelegate, "body");
+      if (expression != null)
+      {
+        return expression;
+      }
+    }
+    return null;
+  }
+
+  public boolean hasInvariantExpression()
+  {
+    return getInvariantExpression() != null;
+  }
+
+  public String getInvariantExpression(String indentation)
+  {
+    return indent(getInvariantExpression(), indentation + "\"", "\" +" + getGenModel().getNonNLS() + getGenModel().getLineDelimiter());
+  }
+
+  public String getValidationDelegate()
+  {
+    for (String validationDelegate : EcoreUtil.getValidationDelegates(getGenPackage().getEcorePackage()))
+    {
+      String expression = EcoreUtil.getAnnotation(getEcoreOperation(), validationDelegate, "body");
+      if (expression != null)
+      {
+        return validationDelegate;
+      }
+    }
+    return null;
   }
 
   public List<GenClassifier> getGenExceptions()
