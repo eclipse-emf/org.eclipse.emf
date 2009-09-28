@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.70 2009/09/18 18:10:34 khussey Exp $
+ * $Id: GenBaseImpl.java,v 1.71 2009/09/28 20:03:42 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3433,12 +3433,22 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected boolean isRemappedXMLType(EClassifier eClassifier)
   {
-    if (getMainGenModel().getRuntimeVersion() == GenRuntimeVersion.EMF22)
+    if (getMainGenModel().getRuntimeVersion() == GenRuntimeVersion.EMF22 && eClassifier instanceof EDataType)
     {
-      if (eClassifier instanceof EDataType)
+      EDataType eDataType = (EDataType)eClassifier;
+      List<EDataType> members = getExtendedMetaData().getMemberTypes(eDataType);
+      if (!members.isEmpty())
       {
-        return isDerivedType((EDataType)eClassifier, XMLTypePackage.eNS_URI, null, REMAPPED_XML_TYPES);
+        for (EDataType member : members)
+        {
+          if (!isRemappedXMLType(member))
+          {
+            return false;
+          }
+        }
+        return true;
       }
+      return isDerivedType(eDataType, XMLTypePackage.eNS_URI, null, REMAPPED_XML_TYPES);
     }
     return false;
   }
