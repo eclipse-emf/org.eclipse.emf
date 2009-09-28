@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.35 2008/05/04 10:59:01 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.36 2009/09/28 18:50:05 davidms Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2551,7 +2551,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         {
           derivationKind = LIST_DERIVATION;
         }
-        else if (!memberTypes.isEmpty())
+        else if (!getMemberTypes().isEmpty())
         {
           derivationKind = UNION_DERIVATION;
         }
