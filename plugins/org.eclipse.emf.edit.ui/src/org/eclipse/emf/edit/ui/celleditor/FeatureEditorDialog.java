@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureEditorDialog.java,v 1.12 2009/02/09 12:59:29 emerks Exp $
+ * $Id: FeatureEditorDialog.java,v 1.13 2009/09/29 13:43:54 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -79,7 +79,11 @@ public class FeatureEditorDialog extends Dialog
   protected List<?> choiceOfValues;
   protected EList<?> result;
   protected boolean multiLine;
+  protected boolean unique;
 
+  /**
+   * @since 2.6
+   */
   public FeatureEditorDialog
     (Shell parent, 
      ILabelProvider labelProvider, 
@@ -89,7 +93,8 @@ public class FeatureEditorDialog extends Dialog
      String displayName, 
      List<?> choiceOfValues,
      boolean multiLine,
-     boolean sortChoices)
+     boolean sortChoices,
+     boolean unique)
   {
     super(parent);
     setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX);
@@ -99,6 +104,7 @@ public class FeatureEditorDialog extends Dialog
     this.displayName = displayName;
     this.choiceOfValues = choiceOfValues;
     this.multiLine = multiLine;
+    this.unique = unique;
 
     AdapterFactory adapterFactory = new ComposedAdapterFactory(Collections.<AdapterFactory>emptyList());
     values = new ItemProvider(adapterFactory, currentValues);
@@ -110,6 +116,32 @@ public class FeatureEditorDialog extends Dialog
     }
   }
 
+  /**
+   * @deprecated Use {@link #FeatureEditorDialog(Shell, ILabelProvider, Object, EClassifier, List, String, List, boolean, boolean, boolean)},
+   * which provides proper behaviour for unique and non-unique features. This form retains the old behaviour, where
+   * specifying a list of choices enforces uniqueness.
+   */
+  @Deprecated
+  public FeatureEditorDialog
+  (Shell parent, 
+   ILabelProvider labelProvider, 
+   Object object, 
+   EClassifier eClassifier, 
+   List<?> currentValues, 
+   String displayName, 
+   List<?> choiceOfValues,
+   boolean multiLine,
+   boolean sortChoices)
+  {
+    this(parent, labelProvider, object, eClassifier, currentValues, displayName, choiceOfValues, multiLine, sortChoices, choiceOfValues != null);
+  }
+
+  /**
+   * @deprecated Use {@link #FeatureEditorDialog(Shell, ILabelProvider, Object, EClassifier, List, String, List, boolean, boolean, boolean)},
+   * which provides proper behaviour for unique and non-unique features. This form retains the old behaviour, where
+   * specifying a list of choices enforces uniqueness.
+   */
+  @Deprecated
   public FeatureEditorDialog
     (Shell parent, 
      ILabelProvider labelProvider, 
@@ -119,7 +151,7 @@ public class FeatureEditorDialog extends Dialog
      String displayName, 
      List<?> choiceOfValues)
   {
-    this(parent, labelProvider, object, eClassifier, currentValues, displayName, choiceOfValues, false, false);
+    this(parent, labelProvider, object, eClassifier, currentValues, displayName, choiceOfValues, false, false, choiceOfValues != null);
   }
 
   public FeatureEditorDialog
@@ -136,7 +168,10 @@ public class FeatureEditorDialog extends Dialog
          eStructuralFeature.getEType(),
          (List<?>)eObject.eGet(eStructuralFeature),
          displayName,
-         choiceOfValues);
+         choiceOfValues,
+         false,
+         false,
+         eStructuralFeature.isUnique());
   }
 
   @Override
@@ -452,7 +487,7 @@ public class FeatureEditorDialog extends Dialog
             for (Iterator<?> i = selection.iterator(); i.hasNext();)
             {
               Object value = i.next();
-              if (!values.getChildren().contains(value))
+              if (!unique || !values.getChildren().contains(value))
               {
                 values.getChildren().add(value);
               }
@@ -464,8 +499,11 @@ public class FeatureEditorDialog extends Dialog
             try
             {
               Object value = EcoreUtil.createFromString((EDataType)eClassifier, choiceText.getText());
-              values.getChildren().add(value);
-              choiceText.setText("");
+              if (!unique || !values.getChildren().contains(value))
+              {
+                values.getChildren().add(value);
+                choiceText.setText("");
+              }
               featureTableViewer.setSelection(new StructuredSelection(value));
             }
             catch (RuntimeException exception)
