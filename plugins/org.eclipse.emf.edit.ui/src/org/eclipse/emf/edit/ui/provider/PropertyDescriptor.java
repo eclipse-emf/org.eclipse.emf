@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.18 2008/12/22 14:26:18 emerks Exp $
+ * $Id: PropertyDescriptor.java,v 1.19 2009/09/29 13:44:23 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -458,7 +458,8 @@ public class PropertyDescriptor implements IPropertyDescriptor
                     getDisplayName(),
                     new ArrayList<Object>(choiceOfValues),
                     false,
-                    itemPropertyDescriptor.isSortChoices(object));
+                    itemPropertyDescriptor.isSortChoices(object),
+                    feature.isUnique());
                   dialog.open();
                   return dialog.getResult();
                 }
@@ -496,7 +497,8 @@ public class PropertyDescriptor implements IPropertyDescriptor
                     getDisplayName(),
                     null,
                     itemPropertyDescriptor.isMultiLine(object),
-                    false);
+                    false,
+                    feature.isUnique());
                   dialog.open();
                   return dialog.getResult();
                 }
