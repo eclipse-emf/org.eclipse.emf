@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.65.2.2 2009/02/04 14:12:23 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.65.2.3 2009/10/12 01:35:03 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3457,12 +3457,22 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   boolean isRemappedXMLType(EClassifier eClassifier)
   {
-    if (getMainGenModel().getRuntimeVersion() == GenRuntimeVersion.EMF22)
+    if (getMainGenModel().getRuntimeVersion() == GenRuntimeVersion.EMF22 && eClassifier instanceof EDataType)
     {
-      if (eClassifier instanceof EDataType)
+      EDataType eDataType = (EDataType)eClassifier;
+      List<EDataType> members = getExtendedMetaData().getMemberTypes(eDataType);
+      if (!members.isEmpty())
       {
-        return isDerivedType((EDataType)eClassifier, XMLTypePackage.eNS_URI, null, REMAPPED_XML_TYPES);
+        for (EDataType member : members)
+        {
+          if (!isRemappedXMLType(member))
+          {
+            return false;
+          }
+        }
+        return true;
       }
+      return isDerivedType(eDataType, XMLTypePackage.eNS_URI, null, REMAPPED_XML_TYPES);
     }
     return false;
   }
