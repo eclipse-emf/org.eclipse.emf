@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.14 2008/07/07 18:58:47 davidms Exp $
+ * $Id: XMLTypeUtil.java,v 1.14.2.1 2009/10/12 01:16:54 davidms Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -94,12 +94,12 @@ public final class XMLTypeUtil
   //
   private static class CharArrayThreadLocal extends ThreadLocal<char[]>
   {
-    private Thread cachedThread;
+    private long cachedThread;
     private char [] cachedResult;
 
     public final char [] get(int capacity)
     {
-      Thread currentThread = Thread.currentThread();
+      long currentThread = Thread.currentThread().getId();
       char [] result = cachedResult;
       if (cachedThread != currentThread)
       {
