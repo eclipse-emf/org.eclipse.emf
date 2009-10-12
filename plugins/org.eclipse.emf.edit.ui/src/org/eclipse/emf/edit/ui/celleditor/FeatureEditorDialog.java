@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureEditorDialog.java,v 1.11 2007/03/23 17:36:45 marcelop Exp $
+ * $Id: FeatureEditorDialog.java,v 1.11.4.1 2009/10/12 01:24:58 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -74,6 +74,11 @@ public class FeatureEditorDialog extends Dialog
   protected EList<?> result;
   protected boolean multiLine;
 
+  /**
+   * This is needed internally for a bug fix, and is not intended to be API. Client subclasses must not use it.
+   */
+  protected boolean _unique__;
+
   public FeatureEditorDialog
     (Shell parent, 
      ILabelProvider labelProvider, 
@@ -93,6 +98,7 @@ public class FeatureEditorDialog extends Dialog
     this.displayName = displayName;
     this.choiceOfValues = choiceOfValues;
     this.multiLine = multiLine;
+    this._unique__ = choiceOfValues != null;
 
     AdapterFactory adapterFactory = new ComposedAdapterFactory(Collections.<AdapterFactory>emptyList());
     values = new ItemProvider(adapterFactory, currentValues);
@@ -410,7 +416,7 @@ public class FeatureEditorDialog extends Dialog
             for (Iterator<?> i = selection.iterator(); i.hasNext();)
             {
               Object value = i.next();
-              if (!values.getChildren().contains(value))
+              if (!_unique__ || !values.getChildren().contains(value))
               {
                 values.getChildren().add(value);
               }
@@ -422,8 +428,11 @@ public class FeatureEditorDialog extends Dialog
             try
             {
               Object value = EcoreUtil.createFromString((EDataType)eClassifier, choiceText.getText());
-              values.getChildren().add(value);
-              choiceText.setText("");
+              if (!_unique__ || !values.getChildren().contains(value))
+              {
+                values.getChildren().add(value);
+                choiceText.setText("");
+              }
               featureTableViewer.setSelection(new StructuredSelection(value));
             }
             catch (RuntimeException exception)
