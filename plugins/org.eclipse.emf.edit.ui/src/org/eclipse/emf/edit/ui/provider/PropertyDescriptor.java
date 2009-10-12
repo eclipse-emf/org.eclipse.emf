@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.17 2008/01/10 21:53:48 emerks Exp $
+ * $Id: PropertyDescriptor.java,v 1.17.2.1 2009/10/12 01:25:40 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -449,7 +449,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
                 @Override
                 protected Object openDialogBox(Control cellEditorWindow)
                 {
-                  FeatureEditorDialog dialog = new FeatureEditorDialog(
+                  FeatureEditorDialog dialog = new PropertyDescriptorFeatureEditorDialog(
                     cellEditorWindow.getShell(),
                     editLabelProvider,
                     object,
@@ -458,7 +458,8 @@ public class PropertyDescriptor implements IPropertyDescriptor
                     getDisplayName(),
                     new ArrayList<Object>(choiceOfValues),
                     false,
-                    itemPropertyDescriptor.isSortChoices(object));
+                    itemPropertyDescriptor.isSortChoices(object),
+                    feature.isUnique());
                   dialog.open();
                   return dialog.getResult();
                 }
@@ -487,7 +488,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
                 @Override
                 protected Object openDialogBox(Control cellEditorWindow)
                 {
-                  FeatureEditorDialog dialog = new FeatureEditorDialog(
+                  FeatureEditorDialog dialog = new PropertyDescriptorFeatureEditorDialog(
                     cellEditorWindow.getShell(),
                     editLabelProvider,
                     object,
@@ -496,7 +497,8 @@ public class PropertyDescriptor implements IPropertyDescriptor
                     getDisplayName(),
                     null,
                     itemPropertyDescriptor.isMultiLine(object),
-                    false);
+                    false,
+                    feature.isUnique());
                   dialog.open();
                   return dialog.getResult();
                 }
@@ -519,5 +521,24 @@ public class PropertyDescriptor implements IPropertyDescriptor
     }
 
     return result;
+  }
+
+  private static class PropertyDescriptorFeatureEditorDialog extends FeatureEditorDialog
+  {
+    public PropertyDescriptorFeatureEditorDialog
+      (Shell parent,
+       ILabelProvider labelProvider,
+       Object object,
+       EClassifier eClassifier,
+       List<?> currentValues,
+       String displayName,
+       List<?> choiceOfValues,
+       boolean multiLine,
+       boolean sortChoices,
+       boolean unique)
+    {
+      super(parent, labelProvider, object, eClassifier, currentValues, displayName, choiceOfValues, multiLine, sortChoices);
+      _unique__ = unique;
+    }
   }
 }
