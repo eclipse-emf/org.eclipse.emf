@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.14 2009/01/16 12:55:11 emerks Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.15 2009/10/19 11:37:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -117,7 +117,6 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
   protected EEnumLiteralImpl()
   {
     super();
-    instance = this;
   }
 
   /**
@@ -157,11 +156,33 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Enumerator getInstance()
   {
-    return instance;
+    return instance != null ? instance : generatedInstance;
+  }
+
+  /**
+   * This stores the default or generated instance value.
+   */
+  protected Enumerator generatedInstance = this;
+
+  public void setGeneratedInstance(boolean isGenerated)
+  {
+    if (isGenerated)
+    {
+      if (generatedInstance == this)
+      {
+        generatedInstance = instance;
+        instance = null;
+      }
+    }
+    else if (generatedInstance != this)
+    {
+      instance = generatedInstance;
+      generatedInstance = this;
+    }
   }
 
   /**

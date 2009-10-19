@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.39 2009/04/18 11:23:10 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.40 2009/10/19 11:37:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1564,8 +1564,9 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
 
   protected void addEEnumLiteral(EEnum owner, Enumerator e)
   {
-    EEnumLiteral l = ecoreFactory.createEEnumLiteral();
+    EEnumLiteralImpl l = (EEnumLiteralImpl)ecoreFactory.createEEnumLiteral();
     l.setInstance(e);
+    l.setGeneratedInstance(true);
     owner.getELiterals().add(l);
   }
 
@@ -1722,6 +1723,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       {
         Enumerator instance = (Enumerator)getter.invoke(null, new Object[] { eEnumLiteral.getValue() });
         eEnumLiteral.setInstance(instance);
+        ((EEnumLiteralImpl)eEnumLiteral).setGeneratedInstance(true);
       }
     }
     catch (Exception e)
