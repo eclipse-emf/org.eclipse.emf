@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.58 2009/09/18 18:10:34 khussey Exp $
+ * $Id: GenFeatureImpl.java,v 1.59 2009/10/19 11:53:09 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1172,7 +1172,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
   public String getContainerClass()
   {
-    return getGenClass().isDocumentRoot() ? "null" : getGenClass().getImportedInterfaceName() + ".class";
+    GenClass genClass = getGenClass();
+    return genClass.isDocumentRoot() || genClass.isDynamic() ? "null" : genClass.getImportedInterfaceName() + ".class";
   }
 
   public String getDerivedFlag()
