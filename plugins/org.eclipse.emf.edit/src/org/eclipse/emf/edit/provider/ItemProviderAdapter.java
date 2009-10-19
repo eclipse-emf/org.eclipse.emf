@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.42 2008/12/22 14:26:12 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.43 2009/10/19 11:42:38 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1734,40 +1734,52 @@ public class ItemProviderAdapter
 
     if (feature instanceof EReference)
     {
-      EStructuralFeature eFeature = (EStructuralFeature)feature;
-      String name = "full/ctool16/Create" + eFeature.getEContainingClass().getName() + "_" + eFeature.getName();
-
-      if (child instanceof EObject)
+      if (!shouldComposeCreationImage()) 
       {
-        name += "_" + ((EObject)child).eClass().getName();
+        EStructuralFeature eFeature = (EStructuralFeature)feature;
+        String name = "full/ctool16/Create" + eFeature.getEContainingClass().getName() + "_" + eFeature.getName();
+
+        if (child instanceof EObject)
+        {
+          name += "_" + ((EObject)child).eClass().getName();
+        }
+
+        try
+        {
+          return getResourceLocator().getImage(name);
+        }
+        catch (Exception exception)
+        {
+          // Ignore the exception and compose an image.
+        }
       }
 
-      try
-      {
-        return getResourceLocator().getImage(name);
-      }
-      catch (Exception e)
-      {
-        List<Object> images = new ArrayList<Object>();
-        IItemLabelProvider itemLabelProvider = 
-          (IItemLabelProvider)((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory().adapt(child, IItemLabelProvider.class);
-        images.add(itemLabelProvider.getImage(child));
-        images.add(EMFEditPlugin.INSTANCE.getImage("full/ovr16/CreateChild"));
-        return 
-          new ComposedImage(images)
+      List<Object> images = new ArrayList<Object>();
+      IItemLabelProvider itemLabelProvider = 
+        (IItemLabelProvider)((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory().adapt(child, IItemLabelProvider.class);
+      images.add(itemLabelProvider.getImage(child));
+      images.add(EMFEditPlugin.INSTANCE.getImage("full/ovr16/CreateChild"));
+      return
+        new ComposedImage(images)
+        {
+          @Override
+          public List<Point> getDrawPoints(Size size)
           {
-            @Override
-            public List<Point> getDrawPoints(Size size)
-            {
-              List<Point> result = super.getDrawPoints(size);
-              result.get(1).x = size.width - 7;
-              return result;
-            }
-          };
-      }
+            List<Point> result = super.getDrawPoints(size);
+            result.get(1).x = size.width - 7;
+            return result;
+          }
+        };
     }
-
     return EMFEditPlugin.INSTANCE.getImage("full/ctool16/CreateChild");
+  }
+
+  /**
+   * Indicates whether creation icon images should always be composed in {@link #getCreateChildImage(Object, Object, Object, Collection)}.
+   */
+  protected boolean shouldComposeCreationImage()
+  {
+    return false;
   }
 
   /**
