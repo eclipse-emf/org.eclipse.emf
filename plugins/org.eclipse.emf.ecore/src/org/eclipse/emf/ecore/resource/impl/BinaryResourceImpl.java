@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.4 2009/02/04 16:40:23 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.5 2009/10/19 07:16:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1561,7 +1561,7 @@ public class BinaryResourceImpl extends ResourceImpl
 
     public long readLong() throws IOException
     {
-      return (long)readInt() << 32 | (long)readInt() & 0xFFFFFFFF;
+      return (long)readInt() << 32 | readInt() & 0xFFFFFFFFL;
     }
 
     public float readFloat() throws IOException
