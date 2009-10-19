@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.42 2008/11/03 11:29:56 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.43 2009/10/19 11:42:43 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -206,6 +206,21 @@ public class <%=genClass.getProviderClassName()%>
 	public Object getImage(Object object)
 	{
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/<%=genClass.getName()%>"));<%=genModel.getNonNLS()%>
+	}
+
+<%}%>
+<%if (!genModel.isCreationIcons()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
+	protected boolean shouldComposeCreationImage() 
+	{
+		return true;
 	}
 
 <%}%>
