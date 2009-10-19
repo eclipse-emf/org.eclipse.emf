@@ -78,7 +78,7 @@ public class <%=genPackage.getExampleClassName()%>
 		// Register the appropriate content handler for all file extensions and any element from the package's namespace.
 		//
 		resourceSet.getURIConverter().getContentHandlers().add
-			(new <%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl")%>(<%=genPackage.getImportedPackageInterfaceName()%>.eCONTENT_TYPE, null, null, <%if (genPackage.hasTargetNamespace()) {%><%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI<%} else {%>null<%}%>, null));
+			(new <%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl")%>(<%=genPackage.getImportedPackageInterfaceName()%>.eCONTENT_TYPE, null, null, <%if (genPackage.hasTargetNamespace()) {%><%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI<%} else {%>(<%=_String%>)null<%}%>, null));
 <%} else {%>
 		// Register the appropriate resource factory to handle all file extensions.
 		//
