@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.24 2008/01/22 11:29:03 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.25 2009/10/19 09:22:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -610,15 +610,18 @@ public class ECrossReferenceAdapter implements Adapter.Internal
       {
         EObject notifier = (EObject)notification.getNotifier();
         EReference feature = (EReference)notification.getFeature();
-        EObject oldValue = (EObject)notification.getOldValue();
-        if (oldValue != null)
+        if (notification.getPosition() != Notification.NO_INDEX)
         {
-          inverseCrossReferencer.remove(notifier, feature, oldValue);
-        }
-        EObject newValue = (EObject)notification.getNewValue();
-        if (newValue != null)
-        {
-          inverseCrossReferencer.add(notifier, feature, newValue);
+          EObject oldValue = (EObject)notification.getOldValue();
+          if (oldValue != null)
+          {
+            inverseCrossReferencer.remove(notifier, feature, oldValue);
+          }
+          EObject newValue = (EObject)notification.getNewValue();
+          if (newValue != null)
+          {
+            inverseCrossReferencer.add(notifier, feature, newValue);
+          }
         }
         break;
       }
