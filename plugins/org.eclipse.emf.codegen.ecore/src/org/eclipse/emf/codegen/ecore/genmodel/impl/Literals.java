@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Literals.java,v 1.11 2009/04/30 14:54:08 davidms Exp $
+ * $Id: Literals.java,v 1.12 2009/10/19 11:20:42 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -296,7 +296,7 @@ public class Literals
 
   private static String importName(String name, GenModel genModel)
   {
-    return genModel != null ? genModel.getImportedName(name) : name;
+    return genModel != null && genModel.getImportManager() != null ? genModel.getImportedName(name) : name;
   }
 
   /**

@@ -2,6 +2,7 @@ package org.eclipse.emf.codegen.ecore.templates.model;
 
 import java.util.*;
 import org.eclipse.emf.codegen.ecore.genmodel.*;
+import org.eclipse.emf.codegen.ecore.genmodel.impl.Literals;
 
 public class EnumClass
 {
@@ -47,8 +48,8 @@ public class EnumClass
   protected final String TEXT_30 = NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */" + NL + "\t";
   protected final String TEXT_31 = "(";
   protected final String TEXT_32 = ", \"";
-  protected final String TEXT_33 = "\", \"";
-  protected final String TEXT_34 = "\")";
+  protected final String TEXT_33 = "\", ";
+  protected final String TEXT_34 = ")";
   protected final String TEXT_35 = ",";
   protected final String TEXT_36 = ";";
   protected final String TEXT_37 = NL;
@@ -77,8 +78,8 @@ public class EnumClass
   protected final String TEXT_60 = " = new ";
   protected final String TEXT_61 = "(";
   protected final String TEXT_62 = ", \"";
-  protected final String TEXT_63 = "\", \"";
-  protected final String TEXT_64 = "\");";
+  protected final String TEXT_63 = "\", ";
+  protected final String TEXT_64 = ");";
   protected final String TEXT_65 = NL;
   protected final String TEXT_66 = NL + "\t/**" + NL + "\t * An array of all the '<em><b>";
   protected final String TEXT_67 = "</b></em>' enumerators." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate static final ";
@@ -227,7 +228,7 @@ public class EnumClass
     stringBuffer.append(TEXT_32);
     stringBuffer.append(genEnumLiteral.getName());
     stringBuffer.append(TEXT_33);
-    stringBuffer.append(genEnumLiteral.getLiteral());
+    stringBuffer.append(Literals.toStringLiteral(genEnumLiteral.getLiteral(), genModel));
     stringBuffer.append(TEXT_34);
     if (l.hasNext()) {
     stringBuffer.append(TEXT_35);
@@ -297,7 +298,7 @@ public class EnumClass
     stringBuffer.append(TEXT_62);
     stringBuffer.append(genEnumLiteral.getName());
     stringBuffer.append(TEXT_63);
-    stringBuffer.append(genEnumLiteral.getLiteral());
+    stringBuffer.append(Literals.toStringLiteral(genEnumLiteral.getLiteral(), genModel));
     stringBuffer.append(TEXT_64);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(genModel.getNonNLS(2));

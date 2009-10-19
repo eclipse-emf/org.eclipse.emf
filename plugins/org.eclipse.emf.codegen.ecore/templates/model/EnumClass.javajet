@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.15 2008/03/31 15:54:34 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="EnumClass" version="$Id: EnumClass.javajet,v 1.16 2009/10/19 11:20:42 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -61,7 +61,7 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * @generated
 	 * @ordered
 	 */
-	<%=genEnumLiteral.getEnumLiteralInstanceConstantName()%>(<%=genEnumLiteral.getValue()%>, "<%=genEnumLiteral.getName()%>", "<%=genEnumLiteral.getLiteral()%>")<%if (l.hasNext()) {%>,<%} else {%>;<%}%><%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+	<%=genEnumLiteral.getEnumLiteralInstanceConstantName()%>(<%=genEnumLiteral.getValue()%>, "<%=genEnumLiteral.getName()%>", <%=Literals.toStringLiteral(genEnumLiteral.getLiteral(), genModel)%>)<%if (l.hasNext()) {%>,<%} else {%>;<%}%><%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 
     <%}%>
   <%}%>
@@ -114,7 +114,7 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 	 * @generated
 	 * @ordered
 	 */
-	public static final <%=genEnum.getName()%> <%=genEnumLiteral.getEnumLiteralInstanceConstantName()%> = new <%=genEnum.getName()%>(<%=genEnumLiteral.getEnumLiteralValueConstantName()%>, "<%=genEnumLiteral.getName()%>", "<%=genEnumLiteral.getLiteral()%>");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+	public static final <%=genEnum.getName()%> <%=genEnumLiteral.getEnumLiteralInstanceConstantName()%> = new <%=genEnum.getName()%>(<%=genEnumLiteral.getEnumLiteralValueConstantName()%>, "<%=genEnumLiteral.getName()%>", <%=Literals.toStringLiteral(genEnumLiteral.getLiteral(), genModel)%>);<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 
 <%}%>
 	/**
