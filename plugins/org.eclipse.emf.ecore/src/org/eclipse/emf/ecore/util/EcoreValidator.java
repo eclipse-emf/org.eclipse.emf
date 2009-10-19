@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.38 2009/08/09 09:49:54 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.39 2009/10/19 11:27:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2002,9 +2002,9 @@ public class EcoreValidator extends EObjectValidator
   /**
    * Validates the WellFormedNsPrefix constraint of '<em>EPackage</em>'.
    * <!-- begin-user-doc -->
-   * The namespace prefix must be either <code>null</code>
+   * The namespace prefix must be either the empty string
    * or a {@link XMLTypeValidator#validateNCName(String, DiagnosticChain, Map) valid NCName}
-   * that does not start with the any case combination of the three letters
+   * that does not start with any case combination of the three letters
    * <a href="http://www.w3.org/TR/REC-xml-names/#xmlReserved">"xml"</a>.
    * <!-- end-user-doc -->
    * @generated NOT
