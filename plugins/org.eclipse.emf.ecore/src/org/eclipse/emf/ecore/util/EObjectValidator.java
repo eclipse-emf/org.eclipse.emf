@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.31 2009/09/18 18:10:41 khussey Exp $
+ * $Id: EObjectValidator.java,v 1.32 2009/10/19 10:58:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -79,6 +79,7 @@ public class EObjectValidator implements EValidator
   public static final int EOBJECT__EVERY_KEY_UNIQUE = 13;
   public static final int EOBJECT__EVERY_MAP_ENTRY_UNIQUE = 14;
   public static final int EOBJECT__NO_CIRCULAR_CONTAINMENT = 15;
+  public static final int EOBJECT__EVERY_BIDIRECTIONAL_REFERENCE_IS_PAIRED = 16;
   
   static final int EOBJECT_DIAGNOSTIC_CODE_COUNT = EOBJECT__NO_CIRCULAR_CONTAINMENT;
   
@@ -330,6 +331,10 @@ public class EObjectValidator implements EValidator
     }
     if (result || theDiagnostics != null)
     {
+      result &= validate_EveryBidirectionalReferenceIsPaired(object, theDiagnostics, context);
+    }
+    if (result || theDiagnostics != null)
+    {
       result &= validate_EveryDataValueConforms(object, theDiagnostics, context);
     }
     if (result || theDiagnostics != null)
@@ -377,6 +382,167 @@ public class EObjectValidator implements EValidator
       }
     }
     return true;
+  }
+
+  public boolean validate_EveryBidirectionalReferenceIsPaired(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = true;
+    for (EReference eReference : eObject.eClass().getEAllReferences())
+    {
+      if (eReference.isResolveProxies())
+      {
+        EReference eOpposite = eReference.getEOpposite();
+        if (eOpposite != null)
+        {
+          result &= validate_BidirectionalReferenceIsPaired(eObject, eReference, eOpposite, diagnostics, context);
+          if (!result && diagnostics == null)
+          {
+            return false;
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  public boolean validate_BidirectionalReferenceIsPaired(EObject eObject, EReference eReference, EReference eOpposite, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = true;
+    Object value = eObject.eGet(eReference);
+    if (eReference.isMany())
+    {
+      @SuppressWarnings("unchecked")
+      List<EObject> values = (List<EObject>)value;
+      if (eOpposite.isMany())
+      {
+        for (EObject oppositeEObject : values)
+        {
+          @SuppressWarnings("unchecked")
+          List<EObject> oppositeValues = (List<EObject>)oppositeEObject.eGet(eOpposite);
+          if (!oppositeValues.contains(eObject))
+          {
+            result = false;
+            if (diagnostics != null)
+            {
+              // TODO
+              diagnostics.add
+                (createDiagnostic
+                  (Diagnostic.ERROR,
+                   DIAGNOSTIC_SOURCE,
+                   EOBJECT__EVERY_BIDIRECTIONAL_REFERENCE_IS_PAIRED,
+                   "_UI_UnpairedBidirectionalReference_diagnostic",
+                    new Object []
+                    {
+                      getFeatureLabel(eReference, context),
+                      getObjectLabel(eObject, context),
+                      getFeatureLabel(eOpposite, context),
+                      getObjectLabel(oppositeEObject, context),
+                    },
+                   new Object [] { eObject, eReference, oppositeEObject, eOpposite },
+                   context));
+            }
+            else
+            {
+              break;
+            }
+          }
+        }
+      }
+      else
+      {
+        for (EObject oppositeEObject : values)
+        {
+          if (oppositeEObject.eGet(eOpposite) != eObject)
+          {
+            result = false; 
+            if (diagnostics != null)
+            {
+              // TODO
+              diagnostics.add
+                (createDiagnostic
+                  (Diagnostic.ERROR,
+                   DIAGNOSTIC_SOURCE,
+                   EOBJECT__EVERY_BIDIRECTIONAL_REFERENCE_IS_PAIRED,
+                   "_UI_UnpairedBidirectionalReference_diagnostic",
+                    new Object []
+                    {
+                      getFeatureLabel(eReference, context),
+                      getObjectLabel(eObject, context),
+                      getFeatureLabel(eOpposite, context),
+                      getObjectLabel(oppositeEObject, context),
+                    },
+                   new Object [] { eObject, eReference, oppositeEObject, eOpposite },
+                   context));
+            }
+            else
+            {
+              break;
+            }
+          }
+        }
+      }
+    }
+    else
+    {
+      EObject oppositeEObject = (EObject)value;
+      if (oppositeEObject != null)
+      {
+        if (eOpposite.isMany())
+        {
+          @SuppressWarnings("unchecked")
+          List<EObject> oppositeValues = (List<EObject>)oppositeEObject.eGet(eOpposite);
+          if (!oppositeValues.contains(eObject))
+          {
+            result = false;
+            if (diagnostics != null)
+            {
+              // TODO
+              diagnostics.add
+                (createDiagnostic
+                  (Diagnostic.ERROR,
+                   DIAGNOSTIC_SOURCE,
+                   EOBJECT__EVERY_BIDIRECTIONAL_REFERENCE_IS_PAIRED,
+                   "_UI_UnpairedBidirectionalReference_diagnostic",
+                    new Object []
+                    {
+                      getFeatureLabel(eReference, context),
+                      getObjectLabel(eObject, context),
+                      getFeatureLabel(eOpposite, context),
+                      getObjectLabel(oppositeEObject, context),
+                    },
+                   new Object [] { eObject, eReference, oppositeEObject, eOpposite },
+                   context));
+            }
+          }
+        }
+        else
+        {
+          if (oppositeEObject.eGet(eOpposite) != eObject)
+          {
+            result = false;
+            if (diagnostics != null)
+            {
+              diagnostics.add
+                (createDiagnostic
+                  (Diagnostic.ERROR,
+                   DIAGNOSTIC_SOURCE,
+                   EOBJECT__EVERY_BIDIRECTIONAL_REFERENCE_IS_PAIRED,
+                   "_UI_UnpairedBidirectionalReference_diagnostic",
+                    new Object []
+                    {
+                      getFeatureLabel(eReference, context),
+                      getObjectLabel(eObject, context),
+                      getFeatureLabel(eOpposite, context),
+                      getObjectLabel(oppositeEObject, context),
+                    },
+                   new Object [] { eObject, eReference, oppositeEObject, eOpposite },
+                   context));
+            }
+          }
+        }
+      }
+    }
+    return result;
   }
 
   public boolean validate_EveryMultiplicityConforms(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
