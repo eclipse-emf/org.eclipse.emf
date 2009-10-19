@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETSkeleton.java,v 1.10 2007/05/15 22:32:34 emerks Exp $
+ * $Id: JETSkeleton.java,v 1.11 2009/10/19 10:23:03 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
+import org.eclipse.jdt.core.jdom.IDOMImport;
 import org.eclipse.jdt.core.jdom.IDOMMethod;
 import org.eclipse.jdt.core.jdom.IDOMNode;
 
@@ -207,7 +208,11 @@ public class JETSkeleton
           {
             newImport += NL;
           }
-          node.insertSibling(jdomFactory.createImport(newImport));
+          IDOMImport imports = jdomFactory.createImport(newImport);
+          if (imports != null)
+          {
+            node.insertSibling(imports);
+          }
         }
         return;
       }
