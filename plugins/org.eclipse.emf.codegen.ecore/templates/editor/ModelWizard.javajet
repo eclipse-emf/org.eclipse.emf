@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.27 2008/08/29 18:24:06 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.28 2009/10/20 16:09:43 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -424,7 +424,10 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 			{
 				page.openEditor
 					(new FileEditorInput(modelFile),
-					 workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
+					 workbench.getEditorRegistry().getDefaultEditor<%if (!genPackage.isContentType()) {%>(modelFile.getFullPath().toString()).getId());<%} else {%>
+					 	(modelFile.getFullPath().toString(),
+					 	 <%=genModel.getImportedName("org.eclipse.core.runtime.Platform")%>.getContentTypeManager().getContentType(<%=genPackage.getImportedPackageInterfaceName()%>.eCONTENT_TYPE)).getId());
+<%}%>					 	 
 			}
 			catch (<%=genModel.getImportedName("org.eclipse.ui.PartInitException")%> exception)
 			{
