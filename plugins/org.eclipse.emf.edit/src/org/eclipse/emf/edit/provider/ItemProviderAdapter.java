@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.43 2009/10/19 11:42:38 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.44 2009/10/20 13:38:14 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1776,6 +1776,7 @@ public class ItemProviderAdapter
 
   /**
    * Indicates whether creation icon images should always be composed in {@link #getCreateChildImage(Object, Object, Object, Collection)}.
+   * @since 2.6
    */
   protected boolean shouldComposeCreationImage()
   {
