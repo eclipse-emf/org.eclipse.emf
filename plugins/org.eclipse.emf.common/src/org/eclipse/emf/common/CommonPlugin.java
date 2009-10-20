@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.13 2007/05/28 19:13:02 emerks Exp $
+ * $Id: CommonPlugin.java,v 1.14 2009/10/20 09:50:21 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -28,6 +28,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
+import org.osgi.framework.Bundle;
 
 
 /**
@@ -249,7 +250,15 @@ public final class CommonPlugin extends EMFPlugin
      */
     public static Class<?> loadClass(String pluginID, String className) throws ClassNotFoundException
     {
-      return Platform.getBundle(pluginID).loadClass(className);
+      Bundle bundle = Platform.getBundle(pluginID);
+      if (bundle == null)
+      {
+        throw new ClassNotFoundException(className + " cannot be loaded because because bundle " + pluginID + " cannot be resolved");
+      }
+      else
+      {
+        return bundle.loadClass(className);
+      }
     }
   }
 }
