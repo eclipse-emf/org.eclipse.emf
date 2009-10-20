@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLContentHandlerImpl.java,v 1.4 2008/08/29 18:33:44 emerks Exp $
+ * $Id: XMLContentHandlerImpl.java,v 1.5 2009/10/20 09:47:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -153,6 +153,12 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
                         result == XMLTypePackage.eINSTANCE ?
                           extendedMetaData.demandPackage(uriString) :
                           result;
+                    }
+
+                    @Override
+                    protected void processSchemaLocations(String prefix, String name)
+                    {
+                      // Completely ignore schema locations.
                     }
                   };
               }
