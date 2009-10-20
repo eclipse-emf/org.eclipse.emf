@@ -445,7 +445,7 @@ public class ItemProvider
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_80);
     }
-    if (!genModel.isCreationIcons()) {
+    if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && !genModel.isCreationIcons()) {
     stringBuffer.append(TEXT_81);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_82);
