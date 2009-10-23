@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.34 2009/08/05 15:28:40 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.35 2009/10/23 06:53:36 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -688,7 +688,7 @@ public class XSDSimpleTypeDefinitionImpl
           {
             XSDSimpleTypeDefinition newItemTypeDefinition = 
               resolveSimpleTypeDefinition(theItemTypeDefinition.getTargetNamespace(), theItemTypeDefinition.getName());
-            if (forceResolve || newItemTypeDefinition.getContainer() != null && newItemTypeDefinition != theItemTypeDefinition)
+            if ((forceResolve || newItemTypeDefinition.getContainer() != null) && newItemTypeDefinition != theItemTypeDefinition)
             {
               setItemTypeDefinition(newItemTypeDefinition);
             }
@@ -704,16 +704,9 @@ public class XSDSimpleTypeDefinitionImpl
             {
               XSDSimpleTypeDefinition newMemberTypeDefinition = 
                 resolveSimpleTypeDefinition(theMemberTypeDefinition.getTargetNamespace(), theMemberTypeDefinition.getName());
-              if (forceResolve || newMemberTypeDefinition.getContainer() != null && newMemberTypeDefinition != theMemberTypeDefinition)
+              if ((forceResolve || newMemberTypeDefinition.getContainer() != null) && newMemberTypeDefinition != theMemberTypeDefinition)
               {
-                if (getMemberTypeDefinitions().contains(newMemberTypeDefinition))
-                {
-                  theMemberTypeDefinitions.remove();
-                }
-                else
-                {
-                  theMemberTypeDefinitions.set(newMemberTypeDefinition);
-                }
+                theMemberTypeDefinitions.set(newMemberTypeDefinition);
               }
             }
           }
