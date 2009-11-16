@@ -3,10 +3,10 @@
 <schema targetNamespace="org.eclipse.emf.ecore" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.ecore" id="validation_delegate" name="Validation Delegate Registry"/>
+         <meta.schema plugin="org.eclipse.emf.ecore" id="setting_delegate" name="Setting Delegate Factory Registry"/>
       </appInfo>
       <documentation>
-         This extension point is used to define a delegate that evaluates validation expressions whose type is identified by a URI. The global EMF validation delegate registry, &lt;samp&gt;EValidator.ValidationDelegate.Factory.Registry.INSTANCE&lt;/samp&gt;, is used to record the registration.
+         This extension point is used to define a factory for setting delegates whose type is identified by a URI. The global EMF setting delegate factory registry, &lt;samp&gt;EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE&lt;/samp&gt;, is used to record the registration.
       </documentation>
    </annotation>
 
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="delegate" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="factory" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -44,7 +44,7 @@
       </complexType>
    </element>
 
-   <element name="delegate">
+   <element name="factory">
       <annotation>
          <appInfo>
             <meta.element labelAttribute="id"/>
@@ -54,17 +54,17 @@
          <attribute name="uri" type="string" use="required">
             <annotation>
                <documentation>
-                  A URI identifying the type of validation expressions that can be evaluated by the delegate.
+                  A URI identifying the type of setting delegates that can be created by the factory.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  The fully qualified name of a Java class implementing &lt;samp&gt;org.eclipse.emf.ecore.EValidator.ValidationDelegate&lt;/samp&gt;.
+                  The fully qualified name of a Java class implementing &lt;samp&gt;org.eclipse.emf.ecore.EStructuralFeature.Internal.SettingDelegate.Factory&lt;/samp&gt;.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.emf.ecore.EValidator.ValidationDelegate"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.emf.ecore.EStructuralFeature.Internal.SettingDelegate.Factory"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -85,10 +85,10 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         Following is an example of how a validation delegate can be registered: 
+         Following is an example of how a setting delegate factory can be registered: 
 &lt;pre&gt;
-  &lt;extension point=&quot;org.eclipse.emf.ecore.validation_delegate&quot; &gt;
-    &lt;delegate uri=&quot;org.eclipse.ocl.ecore.OCL&quot; class=&quot;org.eclipse.ocl.ecore.delegate.OCLValidationDelegate&quot;/&gt; 
+  &lt;extension point=&quot;org.eclipse.emf.ecore.setting_delegate&quot; &gt;
+    &lt;factory uri=&quot;org.eclipse.ocl.ecore.OCL&quot; class=&quot;org.eclipse.ocl.ecore.delegate.OCLSettingDelegateFactory&quot;/&gt; 
   &lt;/extension&gt;
 &lt;/pre&gt;
       </documentation>
@@ -99,12 +99,12 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         The value of the class attribute must represent a class that implements &lt;samp&gt;org.eclipse.emf.ecore.EValidator.ValidationDelegate&lt;/samp&gt; and has a no argument contructor.
+         The value of the class attribute must represent a class that implements &lt;samp&gt;org.eclipse.emf.ecore.EStructuralFeature.Internal.SettingDelegate.Factory&lt;/samp&gt; and has a no argument contructor.
 &lt;p&gt;
-A validation delegate can be also registered from the source code with the &lt;samp&gt;EValidator.ValidationDelegate.Registry.INSTANCE&lt;/samp&gt; as follows:
+A setting delegate factory can be also registered from the source code with the &lt;samp&gt;EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE&lt;/samp&gt; as follows:
 &lt;/p&gt;
 &lt;pre&gt;
-  EValidator.ValidationDelegate.Registry.INSTANCE.put(&quot;org.eclipse.ocl.ecore.OCL&quot;, new OCLValidationDelegate());
+  EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE.put(&quot;org.eclipse.ocl.ecore.OCL&quot;, new OCLSettingDelegateFactory());
 &lt;/pre&gt;
       </documentation>
    </annotation>

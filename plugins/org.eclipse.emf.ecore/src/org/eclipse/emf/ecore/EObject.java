@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,13 +9,16 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
+ *   Christian Damus (Zeligsoft) - 255469
  *
  * </copyright>
  *
- * $Id: EObject.java,v 1.11 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EObject.java,v 1.12 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore;
 
+
+import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
@@ -426,5 +429,30 @@ public interface EObject extends Notifier
    * @generated
    */
   void eUnset(EStructuralFeature feature);
+
+  /**
+   * <!-- begin-user-doc -->
+   * <p>
+   * Invokes the specified operation of the object.  If the operation has
+   * parameters, then corresponding arguments must be supplied.  There are no
+   * optional parameters in Ecore operations.
+   * </p><p>
+   * If the operation is a void operation, then on successful execution, the
+   * result of this invocation is <code>null</code>.  Otherwise, if the
+   * operation is {@link ETypedElement#isMany() multi-valued}, then an
+   * {@link EList} is returned (possibly empty).  If single-valued, then an
+   * instance of the operation's {@link ETypedElement#getEType() type} is
+   * returned, or possibly <code>null</code>.
+   * </p><p>
+   * If the invoked operation fails with an
+   * {@link EOperation#getEExceptions() exception}, then it is re-thrown,
+   * wrapped in an {@link InvocationTargetException}.
+   * </p>
+   * @since 2.6
+   * <!-- end-user-doc -->
+   * @model exceptions="org.eclipse.emf.ecore.EInvocationTargetException" argumentsMany="false"
+   * @generated
+   */
+  Object eInvoke(EOperation operation, EList<?> arguments) throws InvocationTargetException;
 
 }

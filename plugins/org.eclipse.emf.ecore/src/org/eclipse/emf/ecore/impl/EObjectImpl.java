@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EObjectImpl.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EObjectImpl.java,v 1.10 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
+
+import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.BasicEList;
@@ -23,6 +25,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 
@@ -111,6 +115,47 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
   protected EClass eStaticClass()
   {
     return EcorePackage.eINSTANCE.getEObject();
+  }
+
+  @Override
+  public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+  {
+    switch (operationID)
+    {
+      case EcorePackage.EOBJECT___ECLASS:
+        return eClass();
+      case EcorePackage.EOBJECT___EIS_PROXY:
+        return eIsProxy();
+      case EcorePackage.EOBJECT___ERESOURCE:
+        return eResource();
+      case EcorePackage.EOBJECT___ECONTAINER:
+        return eContainer();
+      case EcorePackage.EOBJECT___ECONTAINING_FEATURE:
+        return eContainingFeature();
+      case EcorePackage.EOBJECT___ECONTAINMENT_FEATURE:
+        return eContainmentFeature();
+      case EcorePackage.EOBJECT___ECONTENTS:
+        return eContents();
+      case EcorePackage.EOBJECT___EALL_CONTENTS:
+        return eAllContents();
+      case EcorePackage.EOBJECT___ECROSS_REFERENCES:
+        return eCrossReferences();
+      case EcorePackage.EOBJECT___EGET__ESTRUCTURALFEATURE:
+        return eGet((EStructuralFeature)arguments.get(0));
+      case EcorePackage.EOBJECT___EGET__ESTRUCTURALFEATURE_BOOLEAN:
+        return eGet((EStructuralFeature)arguments.get(0), (Boolean)arguments.get(1));
+      case EcorePackage.EOBJECT___ESET__ESTRUCTURALFEATURE_OBJECT:
+        eSet((EStructuralFeature)arguments.get(0), arguments.get(1));
+        return null;
+      case EcorePackage.EOBJECT___EIS_SET__ESTRUCTURALFEATURE:
+        return eIsSet((EStructuralFeature)arguments.get(0));
+      case EcorePackage.EOBJECT___EUNSET__ESTRUCTURALFEATURE:
+        eUnset((EStructuralFeature)arguments.get(0));
+        return null;
+      case EcorePackage.EOBJECT___EINVOKE__EOPERATION_ELIST:
+        return eInvoke((EOperation)arguments.get(0), (EList<?>)arguments.get(1));    
+    }
+    return eDynamicInvoke(operationID, arguments);
   }
 
   /*

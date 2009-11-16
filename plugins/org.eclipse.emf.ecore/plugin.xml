@@ -11,6 +11,8 @@
    <extension-point id="uri_mapping" name="%_UI_URIMappingRegistry_extensionpoint" schema="schema/uri_mapping.exsd"/>
    <extension-point id="package_registry_implementation" name="%_UI_PackageRegistryImplementation_extensionpoint" schema="schema/package_registry_implementation.exsd"/>
    <extension-point id="validation_delegate" name="%_UI_ValidationDelegateRegistry_extensionpoint" schema="schema/validation_delegate.exsd"/>
+   <extension-point id="setting_delegate" name="%_UI_SettingDelegateRegistry_extensionpoint" schema="schema/setting_delegate.exsd"/>
+   <extension-point id="invocation_delegate" name="%_UI_InvocationDelegateRegistry_extensionpoint" schema="schema/invocation_delegate.exsd"/>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package

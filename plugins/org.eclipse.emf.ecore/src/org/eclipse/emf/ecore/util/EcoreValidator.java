@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006-2007 IBM Corporation and others.
+ * Copyright (c) 2006-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,13 +9,15 @@
  *
  * Contributors:
  *   IBM - Initial API and implementation
+ *   Christian Damus (Zeligsoft) - 255469
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.39 2009/10/19 11:27:26 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.40 2009/11/16 19:27:14 khussey Exp $
  */
 package org.eclipse.emf.ecore.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -501,6 +503,8 @@ public class EcoreValidator extends EObjectValidator
         return validateEString((String)value, diagnostics, context);
       case EcorePackage.ETREE_ITERATOR:
         return validateETreeIterator((TreeIterator<?>)value, diagnostics, context);
+      case EcorePackage.EINVOCATION_TARGET_EXCEPTION:
+        return validateEInvocationTargetException((InvocationTargetException)value, diagnostics, context);
       default:
         return true;
     }
@@ -4082,6 +4086,16 @@ public class EcoreValidator extends EObjectValidator
    * @generated
    */
   public boolean validateETreeIterator(TreeIterator<?> eTreeIterator, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return true;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateEInvocationTargetException(InvocationTargetException eInvocationTargetException, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,10 +9,11 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
+ *   Christian Damus (Zeligsoft) - 255469
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.16 2008/04/27 20:26:15 davidms Exp $
+ * $Id: EcorePackage.java,v 1.17 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -82,15 +83,6 @@ public interface EcorePackage extends EPackage
   int EOBJECT = 10;
 
   /**
-   * The number of structural features of the '<em>EObject</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int EOBJECT_FEATURE_COUNT = 0;
-
-  /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.impl.EModelElementImpl <em>EModel Element</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -107,7 +99,7 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int EMODEL_ELEMENT__EANNOTATIONS = EOBJECT_FEATURE_COUNT + 0;
+  int EMODEL_ELEMENT__EANNOTATIONS = 0;
 
   /**
    * The number of structural features of the '<em>EModel Element</em>' class.
@@ -116,7 +108,25 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int EMODEL_ELEMENT_FEATURE_COUNT = EOBJECT_FEATURE_COUNT + 1;
+  int EMODEL_ELEMENT_FEATURE_COUNT = 1;
+
+  /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EMODEL_ELEMENT___GET_EANNOTATION__STRING = 0;
+
+  /**
+   * The number of operations of the '<em>EModel Element</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EMODEL_ELEMENT_OPERATION_COUNT = 1;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.impl.ENamedElementImpl <em>ENamed Element</em>}' class.
@@ -154,6 +164,24 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int ENAMED_ELEMENT_FEATURE_COUNT = EMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ENAMED_ELEMENT___GET_EANNOTATION__STRING = EMODEL_ELEMENT___GET_EANNOTATION__STRING;
+
+  /**
+   * The number of operations of the '<em>ENamed Element</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ENAMED_ELEMENT_OPERATION_COUNT = EMODEL_ELEMENT_OPERATION_COUNT + 0;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.impl.EStructuralFeatureImpl <em>EStructural Feature</em>}' class.
@@ -375,6 +403,24 @@ public interface EcorePackage extends EPackage
   int ETYPED_ELEMENT_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 8;
 
   /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ETYPED_ELEMENT___GET_EANNOTATION__STRING = ENAMED_ELEMENT___GET_EANNOTATION__STRING;
+
+  /**
+   * The number of operations of the '<em>ETyped Element</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ETYPED_ELEMENT_OPERATION_COUNT = ENAMED_ELEMENT_OPERATION_COUNT + 0;
+
+  /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -544,6 +590,42 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int ESTRUCTURAL_FEATURE_FEATURE_COUNT = ETYPED_ELEMENT_FEATURE_COUNT + 8;
+
+  /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ESTRUCTURAL_FEATURE___GET_EANNOTATION__STRING = ETYPED_ELEMENT___GET_EANNOTATION__STRING;
+
+  /**
+   * The operation id for the '<em>Get Feature ID</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ESTRUCTURAL_FEATURE___GET_FEATURE_ID = ETYPED_ELEMENT_OPERATION_COUNT + 0;
+
+  /**
+   * The operation id for the '<em>Get Container Class</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ESTRUCTURAL_FEATURE___GET_CONTAINER_CLASS = ETYPED_ELEMENT_OPERATION_COUNT + 1;
+
+  /**
+   * The number of operations of the '<em>EStructural Feature</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ESTRUCTURAL_FEATURE_OPERATION_COUNT = ETYPED_ELEMENT_OPERATION_COUNT + 2;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -735,6 +817,42 @@ public interface EcorePackage extends EPackage
   int EATTRIBUTE_FEATURE_COUNT = ESTRUCTURAL_FEATURE_FEATURE_COUNT + 2;
 
   /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EATTRIBUTE___GET_EANNOTATION__STRING = ESTRUCTURAL_FEATURE___GET_EANNOTATION__STRING;
+
+  /**
+   * The operation id for the '<em>Get Feature ID</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EATTRIBUTE___GET_FEATURE_ID = ESTRUCTURAL_FEATURE___GET_FEATURE_ID;
+
+  /**
+   * The operation id for the '<em>Get Container Class</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EATTRIBUTE___GET_CONTAINER_CLASS = ESTRUCTURAL_FEATURE___GET_CONTAINER_CLASS;
+
+  /**
+   * The number of operations of the '<em>EAttribute</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EATTRIBUTE_OPERATION_COUNT = ESTRUCTURAL_FEATURE_OPERATION_COUNT + 0;
+
+  /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.impl.EAnnotationImpl <em>EAnnotation</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -806,6 +924,24 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int EANNOTATION_FEATURE_COUNT = EMODEL_ELEMENT_FEATURE_COUNT + 5;
+
+  /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EANNOTATION___GET_EANNOTATION__STRING = EMODEL_ELEMENT___GET_EANNOTATION__STRING;
+
+  /**
+   * The number of operations of the '<em>EAnnotation</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EANNOTATION_OPERATION_COUNT = EMODEL_ELEMENT_OPERATION_COUNT + 0;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.impl.EClassifierImpl <em>EClassifier</em>}' class.
@@ -897,6 +1033,42 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int ECLASSIFIER_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 6;
+
+  /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASSIFIER___GET_EANNOTATION__STRING = ENAMED_ELEMENT___GET_EANNOTATION__STRING;
+
+  /**
+   * The operation id for the '<em>Is Instance</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASSIFIER___IS_INSTANCE__OBJECT = ENAMED_ELEMENT_OPERATION_COUNT + 0;
+
+  /**
+   * The operation id for the '<em>Get Classifier ID</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASSIFIER___GET_CLASSIFIER_ID = ENAMED_ELEMENT_OPERATION_COUNT + 1;
+
+  /**
+   * The number of operations of the '<em>EClassifier</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASSIFIER_OPERATION_COUNT = ENAMED_ELEMENT_OPERATION_COUNT + 2;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -1124,6 +1296,123 @@ public interface EcorePackage extends EPackage
   int ECLASS_FEATURE_COUNT = ECLASSIFIER_FEATURE_COUNT + 16;
 
   /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___GET_EANNOTATION__STRING = ECLASSIFIER___GET_EANNOTATION__STRING;
+
+  /**
+   * The operation id for the '<em>Is Instance</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___IS_INSTANCE__OBJECT = ECLASSIFIER___IS_INSTANCE__OBJECT;
+
+  /**
+   * The operation id for the '<em>Get Classifier ID</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___GET_CLASSIFIER_ID = ECLASSIFIER___GET_CLASSIFIER_ID;
+
+  /**
+   * The operation id for the '<em>Is Super Type Of</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___IS_SUPER_TYPE_OF__ECLASS = ECLASSIFIER_OPERATION_COUNT + 0;
+
+  /**
+   * The operation id for the '<em>Get Feature Count</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___GET_FEATURE_COUNT = ECLASSIFIER_OPERATION_COUNT + 1;
+
+  /**
+   * The operation id for the '<em>Get EStructural Feature</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___GET_ESTRUCTURAL_FEATURE__INT = ECLASSIFIER_OPERATION_COUNT + 2;
+
+  /**
+   * The operation id for the '<em>Get Feature ID</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___GET_FEATURE_ID__ESTRUCTURALFEATURE = ECLASSIFIER_OPERATION_COUNT + 3;
+
+  /**
+   * The operation id for the '<em>Get EStructural Feature</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___GET_ESTRUCTURAL_FEATURE__STRING = ECLASSIFIER_OPERATION_COUNT + 4;
+
+  /**
+   * The operation id for the '<em>Get Operation Count</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___GET_OPERATION_COUNT = ECLASSIFIER_OPERATION_COUNT + 5;
+
+  /**
+   * The operation id for the '<em>Get EOperation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___GET_EOPERATION__INT = ECLASSIFIER_OPERATION_COUNT + 6;
+
+  /**
+   * The operation id for the '<em>Get Operation ID</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___GET_OPERATION_ID__EOPERATION = ECLASSIFIER_OPERATION_COUNT + 7;
+
+  /**
+   * The operation id for the '<em>Get Override</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS___GET_OVERRIDE__EOPERATION = ECLASSIFIER_OPERATION_COUNT + 8;
+
+  /**
+   * The number of operations of the '<em>EClass</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS_OPERATION_COUNT = ECLASSIFIER_OPERATION_COUNT + 9;
+
+  /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1212,6 +1501,42 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int EDATA_TYPE_FEATURE_COUNT = ECLASSIFIER_FEATURE_COUNT + 1;
+
+  /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EDATA_TYPE___GET_EANNOTATION__STRING = ECLASSIFIER___GET_EANNOTATION__STRING;
+
+  /**
+   * The operation id for the '<em>Is Instance</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EDATA_TYPE___IS_INSTANCE__OBJECT = ECLASSIFIER___IS_INSTANCE__OBJECT;
+
+  /**
+   * The operation id for the '<em>Get Classifier ID</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EDATA_TYPE___GET_CLASSIFIER_ID = ECLASSIFIER___GET_CLASSIFIER_ID;
+
+  /**
+   * The number of operations of the '<em>EData Type</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EDATA_TYPE_OPERATION_COUNT = ECLASSIFIER_OPERATION_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -1313,6 +1638,69 @@ public interface EcorePackage extends EPackage
   int EENUM_FEATURE_COUNT = EDATA_TYPE_FEATURE_COUNT + 1;
 
   /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM___GET_EANNOTATION__STRING = EDATA_TYPE___GET_EANNOTATION__STRING;
+
+  /**
+   * The operation id for the '<em>Is Instance</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM___IS_INSTANCE__OBJECT = EDATA_TYPE___IS_INSTANCE__OBJECT;
+
+  /**
+   * The operation id for the '<em>Get Classifier ID</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM___GET_CLASSIFIER_ID = EDATA_TYPE___GET_CLASSIFIER_ID;
+
+  /**
+   * The operation id for the '<em>Get EEnum Literal</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM___GET_EENUM_LITERAL__STRING = EDATA_TYPE_OPERATION_COUNT + 0;
+
+  /**
+   * The operation id for the '<em>Get EEnum Literal</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM___GET_EENUM_LITERAL__INT = EDATA_TYPE_OPERATION_COUNT + 1;
+
+  /**
+   * The operation id for the '<em>Get EEnum Literal By Literal</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM___GET_EENUM_LITERAL_BY_LITERAL__STRING = EDATA_TYPE_OPERATION_COUNT + 2;
+
+  /**
+   * The number of operations of the '<em>EEnum</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM_OPERATION_COUNT = EDATA_TYPE_OPERATION_COUNT + 3;
+
+  /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1376,6 +1764,24 @@ public interface EcorePackage extends EPackage
   int EENUM_LITERAL_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 4;
 
   /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM_LITERAL___GET_EANNOTATION__STRING = ENAMED_ELEMENT___GET_EANNOTATION__STRING;
+
+  /**
+   * The number of operations of the '<em>EEnum Literal</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM_LITERAL_OPERATION_COUNT = ENAMED_ELEMENT_OPERATION_COUNT + 0;
+
+  /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1401,6 +1807,204 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int EFACTORY_FEATURE_COUNT = EMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EFACTORY___GET_EANNOTATION__STRING = EMODEL_ELEMENT___GET_EANNOTATION__STRING;
+
+  /**
+   * The operation id for the '<em>Create</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EFACTORY___CREATE__ECLASS = EMODEL_ELEMENT_OPERATION_COUNT + 0;
+
+  /**
+   * The operation id for the '<em>Create From String</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EFACTORY___CREATE_FROM_STRING__EDATATYPE_STRING = EMODEL_ELEMENT_OPERATION_COUNT + 1;
+
+  /**
+   * The operation id for the '<em>Convert To String</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EFACTORY___CONVERT_TO_STRING__EDATATYPE_OBJECT = EMODEL_ELEMENT_OPERATION_COUNT + 2;
+
+  /**
+   * The number of operations of the '<em>EFactory</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EFACTORY_OPERATION_COUNT = EMODEL_ELEMENT_OPERATION_COUNT + 3;
+
+  /**
+   * The number of structural features of the '<em>EObject</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT_FEATURE_COUNT = 0;
+
+  /**
+   * The operation id for the '<em>EClass</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___ECLASS = 0;
+
+  /**
+   * The operation id for the '<em>EIs Proxy</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___EIS_PROXY = 1;
+
+  /**
+   * The operation id for the '<em>EResource</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___ERESOURCE = 2;
+
+  /**
+   * The operation id for the '<em>EContainer</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___ECONTAINER = 3;
+
+  /**
+   * The operation id for the '<em>EContaining Feature</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___ECONTAINING_FEATURE = 4;
+
+  /**
+   * The operation id for the '<em>EContainment Feature</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___ECONTAINMENT_FEATURE = 5;
+
+  /**
+   * The operation id for the '<em>EContents</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___ECONTENTS = 6;
+
+  /**
+   * The operation id for the '<em>EAll Contents</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___EALL_CONTENTS = 7;
+
+  /**
+   * The operation id for the '<em>ECross References</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___ECROSS_REFERENCES = 8;
+
+  /**
+   * The operation id for the '<em>EGet</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___EGET__ESTRUCTURALFEATURE = 9;
+
+  /**
+   * The operation id for the '<em>EGet</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___EGET__ESTRUCTURALFEATURE_BOOLEAN = 10;
+
+  /**
+   * The operation id for the '<em>ESet</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___ESET__ESTRUCTURALFEATURE_OBJECT = 11;
+
+  /**
+   * The operation id for the '<em>EIs Set</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___EIS_SET__ESTRUCTURALFEATURE = 12;
+
+  /**
+   * The operation id for the '<em>EUnset</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___EUNSET__ESTRUCTURALFEATURE = 13;
+
+  /**
+   * The operation id for the '<em>EInvoke</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT___EINVOKE__EOPERATION_ELIST = 14;
+
+  /**
+   * The number of operations of the '<em>EObject</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOBJECT_OPERATION_COUNT = 15;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -1547,6 +2151,42 @@ public interface EcorePackage extends EPackage
   int EOPERATION_FEATURE_COUNT = ETYPED_ELEMENT_FEATURE_COUNT + 5;
 
   /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOPERATION___GET_EANNOTATION__STRING = ETYPED_ELEMENT___GET_EANNOTATION__STRING;
+
+  /**
+   * The operation id for the '<em>Get Operation ID</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOPERATION___GET_OPERATION_ID = ETYPED_ELEMENT_OPERATION_COUNT + 0;
+
+  /**
+   * The operation id for the '<em>Is Override Of</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOPERATION___IS_OVERRIDE_OF__EOPERATION = ETYPED_ELEMENT_OPERATION_COUNT + 1;
+
+  /**
+   * The number of operations of the '<em>EOperation</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOPERATION_OPERATION_COUNT = ETYPED_ELEMENT_OPERATION_COUNT + 2;
+
+  /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1626,6 +2266,33 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int EPACKAGE_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 6;
+
+  /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EPACKAGE___GET_EANNOTATION__STRING = ENAMED_ELEMENT___GET_EANNOTATION__STRING;
+
+  /**
+   * The operation id for the '<em>Get EClassifier</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EPACKAGE___GET_ECLASSIFIER__STRING = ENAMED_ELEMENT_OPERATION_COUNT + 0;
+
+  /**
+   * The number of operations of the '<em>EPackage</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EPACKAGE_OPERATION_COUNT = ENAMED_ELEMENT_OPERATION_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -1734,6 +2401,24 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int EPARAMETER_FEATURE_COUNT = ETYPED_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EPARAMETER___GET_EANNOTATION__STRING = ETYPED_ELEMENT___GET_EANNOTATION__STRING;
+
+  /**
+   * The number of operations of the '<em>EParameter</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EPARAMETER_OPERATION_COUNT = ETYPED_ELEMENT_OPERATION_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -1961,6 +2646,42 @@ public interface EcorePackage extends EPackage
   int EREFERENCE_FEATURE_COUNT = ESTRUCTURAL_FEATURE_FEATURE_COUNT + 6;
 
   /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EREFERENCE___GET_EANNOTATION__STRING = ESTRUCTURAL_FEATURE___GET_EANNOTATION__STRING;
+
+  /**
+   * The operation id for the '<em>Get Feature ID</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EREFERENCE___GET_FEATURE_ID = ESTRUCTURAL_FEATURE___GET_FEATURE_ID;
+
+  /**
+   * The operation id for the '<em>Get Container Class</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EREFERENCE___GET_CONTAINER_CLASS = ESTRUCTURAL_FEATURE___GET_CONTAINER_CLASS;
+
+  /**
+   * The number of operations of the '<em>EReference</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EREFERENCE_OPERATION_COUNT = ESTRUCTURAL_FEATURE_OPERATION_COUNT + 0;
+
+  /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl <em>EString To String Map Entry</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1998,6 +2719,15 @@ public interface EcorePackage extends EPackage
   int ESTRING_TO_STRING_MAP_ENTRY_FEATURE_COUNT = 2;
 
   /**
+   * The number of operations of the '<em>EString To String Map Entry</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ESTRING_TO_STRING_MAP_ENTRY_OPERATION_COUNT = 0;
+
+  /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.impl.EGenericTypeImpl <em>EGeneric Type</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2014,7 +2744,7 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int EGENERIC_TYPE__EUPPER_BOUND = EOBJECT_FEATURE_COUNT + 0;
+  int EGENERIC_TYPE__EUPPER_BOUND = 0;
 
   /**
    * The feature id for the '<em><b>EType Arguments</b></em>' containment reference list.
@@ -2023,7 +2753,7 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int EGENERIC_TYPE__ETYPE_ARGUMENTS = EOBJECT_FEATURE_COUNT + 1;
+  int EGENERIC_TYPE__ETYPE_ARGUMENTS = 1;
 
   /**
    * The feature id for the '<em><b>ERaw Type</b></em>' reference.
@@ -2032,7 +2762,7 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int EGENERIC_TYPE__ERAW_TYPE = EOBJECT_FEATURE_COUNT + 2;
+  int EGENERIC_TYPE__ERAW_TYPE = 2;
 
   /**
    * The feature id for the '<em><b>ELower Bound</b></em>' containment reference.
@@ -2041,7 +2771,7 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int EGENERIC_TYPE__ELOWER_BOUND = EOBJECT_FEATURE_COUNT + 3;
+  int EGENERIC_TYPE__ELOWER_BOUND = 3;
 
   /**
    * The feature id for the '<em><b>EType Parameter</b></em>' reference.
@@ -2050,7 +2780,7 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int EGENERIC_TYPE__ETYPE_PARAMETER = EOBJECT_FEATURE_COUNT + 4;
+  int EGENERIC_TYPE__ETYPE_PARAMETER = 4;
 
   /**
    * The feature id for the '<em><b>EClassifier</b></em>' reference.
@@ -2059,7 +2789,7 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int EGENERIC_TYPE__ECLASSIFIER = EOBJECT_FEATURE_COUNT + 5;
+  int EGENERIC_TYPE__ECLASSIFIER = 5;
 
   /**
    * The number of structural features of the '<em>EGeneric Type</em>' class.
@@ -2068,7 +2798,16 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int EGENERIC_TYPE_FEATURE_COUNT = EOBJECT_FEATURE_COUNT + 6;
+  int EGENERIC_TYPE_FEATURE_COUNT = 6;
+
+  /**
+   * The number of operations of the '<em>EGeneric Type</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EGENERIC_TYPE_OPERATION_COUNT = 0;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.impl.ETypeParameterImpl <em>EType Parameter</em>}' class.
@@ -2115,6 +2854,24 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int ETYPE_PARAMETER_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The operation id for the '<em>Get EAnnotation</em>' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ETYPE_PARAMETER___GET_EANNOTATION__STRING = ENAMED_ELEMENT___GET_EANNOTATION__STRING;
+
+  /**
+   * The number of operations of the '<em>EType Parameter</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ETYPE_PARAMETER_OPERATION_COUNT = ENAMED_ELEMENT_OPERATION_COUNT + 0;
 
   /**
    * The meta object id for the '<em>EBig Decimal</em>' data type.
@@ -2387,6 +3144,16 @@ public interface EcorePackage extends EPackage
    */
   int ETREE_ITERATOR = 51;
 
+
+  /**
+   * The meta object id for the '<em>EInvocation Target Exception</em>' data type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see java.lang.reflect.InvocationTargetException
+   * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEInvocationTargetException()
+   * @generated
+   */
+  int EINVOCATION_TARGET_EXCEPTION = 52;
 
   /**
    * The meta object id for the '<em>EFeature Map Entry</em>' data type.
@@ -2715,6 +3482,96 @@ public interface EcorePackage extends EPackage
   EReference getEClass_EAllGenericSuperTypes();
 
   /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClass#isSuperTypeOf(org.eclipse.emf.ecore.EClass) <em>Is Super Type Of</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Is Super Type Of</em>' operation.
+   * @see org.eclipse.emf.ecore.EClass#isSuperTypeOf(org.eclipse.emf.ecore.EClass)
+   * @generated
+   */
+  EOperation getEClass__IsSuperTypeOf__EClass();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClass#getFeatureCount() <em>Get Feature Count</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get Feature Count</em>' operation.
+   * @see org.eclipse.emf.ecore.EClass#getFeatureCount()
+   * @generated
+   */
+  EOperation getEClass__GetFeatureCount();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClass#getEStructuralFeature(int) <em>Get EStructural Feature</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get EStructural Feature</em>' operation.
+   * @see org.eclipse.emf.ecore.EClass#getEStructuralFeature(int)
+   * @generated
+   */
+  EOperation getEClass__GetEStructuralFeature__int();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClass#getFeatureID(org.eclipse.emf.ecore.EStructuralFeature) <em>Get Feature ID</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get Feature ID</em>' operation.
+   * @see org.eclipse.emf.ecore.EClass#getFeatureID(org.eclipse.emf.ecore.EStructuralFeature)
+   * @generated
+   */
+  EOperation getEClass__GetFeatureID__EStructuralFeature();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClass#getEStructuralFeature(java.lang.String) <em>Get EStructural Feature</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get EStructural Feature</em>' operation.
+   * @see org.eclipse.emf.ecore.EClass#getEStructuralFeature(java.lang.String)
+   * @generated
+   */
+  EOperation getEClass__GetEStructuralFeature__String();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClass#getOperationCount() <em>Get Operation Count</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get Operation Count</em>' operation.
+   * @see org.eclipse.emf.ecore.EClass#getOperationCount()
+   * @generated
+   */
+  EOperation getEClass__GetOperationCount();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClass#getEOperation(int) <em>Get EOperation</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get EOperation</em>' operation.
+   * @see org.eclipse.emf.ecore.EClass#getEOperation(int)
+   * @generated
+   */
+  EOperation getEClass__GetEOperation__int();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClass#getOperationID(org.eclipse.emf.ecore.EOperation) <em>Get Operation ID</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get Operation ID</em>' operation.
+   * @see org.eclipse.emf.ecore.EClass#getOperationID(org.eclipse.emf.ecore.EOperation)
+   * @generated
+   */
+  EOperation getEClass__GetOperationID__EOperation();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClass#getOverride(org.eclipse.emf.ecore.EOperation) <em>Get Override</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get Override</em>' operation.
+   * @see org.eclipse.emf.ecore.EClass#getOverride(org.eclipse.emf.ecore.EOperation)
+   * @generated
+   */
+  EOperation getEClass__GetOverride__EOperation();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.EDataType <em>EData Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2755,6 +3612,36 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EReference getEEnum_ELiterals();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EEnum#getEEnumLiteral(java.lang.String) <em>Get EEnum Literal</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get EEnum Literal</em>' operation.
+   * @see org.eclipse.emf.ecore.EEnum#getEEnumLiteral(java.lang.String)
+   * @generated
+   */
+  EOperation getEEnum__GetEEnumLiteral__String();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EEnum#getEEnumLiteral(int) <em>Get EEnum Literal</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get EEnum Literal</em>' operation.
+   * @see org.eclipse.emf.ecore.EEnum#getEEnumLiteral(int)
+   * @generated
+   */
+  EOperation getEEnum__GetEEnumLiteral__int();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EEnum#getEEnumLiteralByLiteral(java.lang.String) <em>Get EEnum Literal By Literal</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get EEnum Literal By Literal</em>' operation.
+   * @see org.eclipse.emf.ecore.EEnum#getEEnumLiteralByLiteral(java.lang.String)
+   * @generated
+   */
+  EOperation getEEnum__GetEEnumLiteralByLiteral__String();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.EEnumLiteral <em>EEnum Literal</em>}'.
@@ -2830,6 +3717,36 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EReference getEFactory_EPackage();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EFactory#create(org.eclipse.emf.ecore.EClass) <em>Create</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Create</em>' operation.
+   * @see org.eclipse.emf.ecore.EFactory#create(org.eclipse.emf.ecore.EClass)
+   * @generated
+   */
+  EOperation getEFactory__Create__EClass();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EFactory#createFromString(org.eclipse.emf.ecore.EDataType, java.lang.String) <em>Create From String</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Create From String</em>' operation.
+   * @see org.eclipse.emf.ecore.EFactory#createFromString(org.eclipse.emf.ecore.EDataType, java.lang.String)
+   * @generated
+   */
+  EOperation getEFactory__CreateFromString__EDataType_String();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EFactory#convertToString(org.eclipse.emf.ecore.EDataType, java.lang.Object) <em>Convert To String</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Convert To String</em>' operation.
+   * @see org.eclipse.emf.ecore.EFactory#convertToString(org.eclipse.emf.ecore.EDataType, java.lang.Object)
+   * @generated
+   */
+  EOperation getEFactory__ConvertToString__EDataType_Object();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.EClassifier <em>EClassifier</em>}'.
@@ -2908,6 +3825,26 @@ public interface EcorePackage extends EPackage
   EReference getEClassifier_ETypeParameters();
 
   /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClassifier#isInstance(java.lang.Object) <em>Is Instance</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Is Instance</em>' operation.
+   * @see org.eclipse.emf.ecore.EClassifier#isInstance(java.lang.Object)
+   * @generated
+   */
+  EOperation getEClassifier__IsInstance__Object();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EClassifier#getClassifierID() <em>Get Classifier ID</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get Classifier ID</em>' operation.
+   * @see org.eclipse.emf.ecore.EClassifier#getClassifierID()
+   * @generated
+   */
+  EOperation getEClassifier__GetClassifierID();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.EModelElement <em>EModel Element</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2927,6 +3864,16 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EReference getEModelElement_EAnnotations();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EModelElement#getEAnnotation(java.lang.String) <em>Get EAnnotation</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get EAnnotation</em>' operation.
+   * @see org.eclipse.emf.ecore.EModelElement#getEAnnotation(java.lang.String)
+   * @generated
+   */
+  EOperation getEModelElement__GetEAnnotation__String();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.ENamedElement <em>ENamed Element</em>}'.
@@ -2958,6 +3905,156 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EClass getEObject();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eClass() <em>EClass</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EClass</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eClass()
+   * @generated
+   */
+  EOperation getEObject__EClass();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eIsProxy() <em>EIs Proxy</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EIs Proxy</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eIsProxy()
+   * @generated
+   */
+  EOperation getEObject__EIsProxy();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eResource() <em>EResource</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EResource</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eResource()
+   * @generated
+   */
+  EOperation getEObject__EResource();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eContainer() <em>EContainer</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EContainer</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eContainer()
+   * @generated
+   */
+  EOperation getEObject__EContainer();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eContainingFeature() <em>EContaining Feature</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EContaining Feature</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eContainingFeature()
+   * @generated
+   */
+  EOperation getEObject__EContainingFeature();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eContainmentFeature() <em>EContainment Feature</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EContainment Feature</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eContainmentFeature()
+   * @generated
+   */
+  EOperation getEObject__EContainmentFeature();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eContents() <em>EContents</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EContents</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eContents()
+   * @generated
+   */
+  EOperation getEObject__EContents();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eAllContents() <em>EAll Contents</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EAll Contents</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eAllContents()
+   * @generated
+   */
+  EOperation getEObject__EAllContents();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eCrossReferences() <em>ECross References</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>ECross References</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eCrossReferences()
+   * @generated
+   */
+  EOperation getEObject__ECrossReferences();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eGet(org.eclipse.emf.ecore.EStructuralFeature) <em>EGet</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EGet</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eGet(org.eclipse.emf.ecore.EStructuralFeature)
+   * @generated
+   */
+  EOperation getEObject__EGet__EStructuralFeature();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eGet(org.eclipse.emf.ecore.EStructuralFeature, boolean) <em>EGet</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EGet</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eGet(org.eclipse.emf.ecore.EStructuralFeature, boolean)
+   * @generated
+   */
+  EOperation getEObject__EGet__EStructuralFeature_boolean();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eSet(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object) <em>ESet</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>ESet</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eSet(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+   * @generated
+   */
+  EOperation getEObject__ESet__EStructuralFeature_Object();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eIsSet(org.eclipse.emf.ecore.EStructuralFeature) <em>EIs Set</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EIs Set</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eIsSet(org.eclipse.emf.ecore.EStructuralFeature)
+   * @generated
+   */
+  EOperation getEObject__EIsSet__EStructuralFeature();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eUnset(org.eclipse.emf.ecore.EStructuralFeature) <em>EUnset</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EUnset</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eUnset(org.eclipse.emf.ecore.EStructuralFeature)
+   * @generated
+   */
+  EOperation getEObject__EUnset__EStructuralFeature();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EObject#eInvoke(org.eclipse.emf.ecore.EOperation, org.eclipse.emf.common.util.EList) <em>EInvoke</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>EInvoke</em>' operation.
+   * @see org.eclipse.emf.ecore.EObject#eInvoke(org.eclipse.emf.ecore.EOperation, org.eclipse.emf.common.util.EList)
+   * @generated
+   */
+  EOperation getEObject__EInvoke__EOperation_EList();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.EOperation <em>EOperation</em>}'.
@@ -3012,6 +4109,26 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EReference getEOperation_EGenericExceptions();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EOperation#getOperationID() <em>Get Operation ID</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get Operation ID</em>' operation.
+   * @see org.eclipse.emf.ecore.EOperation#getOperationID()
+   * @generated
+   */
+  EOperation getEOperation__GetOperationID();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EOperation#isOverrideOf(org.eclipse.emf.ecore.EOperation) <em>Is Override Of</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Is Override Of</em>' operation.
+   * @see org.eclipse.emf.ecore.EOperation#isOverrideOf(org.eclipse.emf.ecore.EOperation)
+   * @generated
+   */
+  EOperation getEOperation__IsOverrideOf__EOperation();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.ecore.EOperation#getETypeParameters <em>EType Parameters</em>}'.
@@ -3099,6 +4216,16 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EReference getEPackage_ESuperPackage();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EPackage#getEClassifier(java.lang.String) <em>Get EClassifier</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get EClassifier</em>' operation.
+   * @see org.eclipse.emf.ecore.EPackage#getEClassifier(java.lang.String)
+   * @generated
+   */
+  EOperation getEPackage__GetEClassifier__String();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.EParameter <em>EParameter</em>}'.
@@ -3294,6 +4421,26 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EReference getEStructuralFeature_EContainingClass();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EStructuralFeature#getFeatureID() <em>Get Feature ID</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get Feature ID</em>' operation.
+   * @see org.eclipse.emf.ecore.EStructuralFeature#getFeatureID()
+   * @generated
+   */
+  EOperation getEStructuralFeature__GetFeatureID();
+
+  /**
+   * Returns the meta object for the '{@link org.eclipse.emf.ecore.EStructuralFeature#getContainerClass() <em>Get Container Class</em>}' operation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the '<em>Get Container Class</em>' operation.
+   * @see org.eclipse.emf.ecore.EStructuralFeature#getContainerClass()
+   * @generated
+   */
+  EOperation getEStructuralFeature__GetContainerClass();
 
   /**
    * @deprecated
@@ -3877,6 +5024,17 @@ public interface EcorePackage extends EPackage
   EDataType getETreeIterator();
 
   /**
+   * Returns the meta object for data type '{@link java.lang.reflect.InvocationTargetException <em>EInvocation Target Exception</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for data type '<em>EInvocation Target Exception</em>'.
+   * @see java.lang.reflect.InvocationTargetException
+   * @model instanceClass="java.lang.reflect.InvocationTargetException" serializeable="false"
+   * @generated
+   */
+  EDataType getEInvocationTargetException();
+
+  /**
    * Returns the meta object for data type '{@link org.eclipse.emf.ecore.util.FeatureMap.Entry <em>EFeature Map Entry</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4159,6 +5317,78 @@ public interface EcorePackage extends EPackage
     EReference ECLASS__EALL_GENERIC_SUPER_TYPES = eINSTANCE.getEClass_EAllGenericSuperTypes();
 
     /**
+     * The meta object literal for the '<em><b>Is Super Type Of</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASS___IS_SUPER_TYPE_OF__ECLASS = eINSTANCE.getEClass__IsSuperTypeOf__EClass();
+
+    /**
+     * The meta object literal for the '<em><b>Get Feature Count</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASS___GET_FEATURE_COUNT = eINSTANCE.getEClass__GetFeatureCount();
+
+    /**
+     * The meta object literal for the '<em><b>Get EStructural Feature</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASS___GET_ESTRUCTURAL_FEATURE__INT = eINSTANCE.getEClass__GetEStructuralFeature__int();
+
+    /**
+     * The meta object literal for the '<em><b>Get Feature ID</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASS___GET_FEATURE_ID__ESTRUCTURALFEATURE = eINSTANCE.getEClass__GetFeatureID__EStructuralFeature();
+
+    /**
+     * The meta object literal for the '<em><b>Get EStructural Feature</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASS___GET_ESTRUCTURAL_FEATURE__STRING = eINSTANCE.getEClass__GetEStructuralFeature__String();
+
+    /**
+     * The meta object literal for the '<em><b>Get Operation Count</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASS___GET_OPERATION_COUNT = eINSTANCE.getEClass__GetOperationCount();
+
+    /**
+     * The meta object literal for the '<em><b>Get EOperation</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASS___GET_EOPERATION__INT = eINSTANCE.getEClass__GetEOperation__int();
+
+    /**
+     * The meta object literal for the '<em><b>Get Operation ID</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASS___GET_OPERATION_ID__EOPERATION = eINSTANCE.getEClass__GetOperationID__EOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Get Override</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASS___GET_OVERRIDE__EOPERATION = eINSTANCE.getEClass__GetOverride__EOperation();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EClassifierImpl <em>EClassifier</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4217,6 +5447,22 @@ public interface EcorePackage extends EPackage
     EReference ECLASSIFIER__ETYPE_PARAMETERS = eINSTANCE.getEClassifier_ETypeParameters();
 
     /**
+     * The meta object literal for the '<em><b>Is Instance</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASSIFIER___IS_INSTANCE__OBJECT = eINSTANCE.getEClassifier__IsInstance__Object();
+
+    /**
+     * The meta object literal for the '<em><b>Get Classifier ID</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ECLASSIFIER___GET_CLASSIFIER_ID = eINSTANCE.getEClassifier__GetClassifierID();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EDataTypeImpl <em>EData Type</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4251,6 +5497,30 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EReference EENUM__ELITERALS = eINSTANCE.getEEnum_ELiterals();
+
+    /**
+     * The meta object literal for the '<em><b>Get EEnum Literal</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EENUM___GET_EENUM_LITERAL__STRING = eINSTANCE.getEEnum__GetEEnumLiteral__String();
+
+    /**
+     * The meta object literal for the '<em><b>Get EEnum Literal</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EENUM___GET_EENUM_LITERAL__INT = eINSTANCE.getEEnum__GetEEnumLiteral__int();
+
+    /**
+     * The meta object literal for the '<em><b>Get EEnum Literal By Literal</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EENUM___GET_EENUM_LITERAL_BY_LITERAL__STRING = eINSTANCE.getEEnum__GetEEnumLiteralByLiteral__String();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EEnumLiteralImpl <em>EEnum Literal</em>}' class.
@@ -4313,6 +5583,30 @@ public interface EcorePackage extends EPackage
     EReference EFACTORY__EPACKAGE = eINSTANCE.getEFactory_EPackage();
 
     /**
+     * The meta object literal for the '<em><b>Create</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EFACTORY___CREATE__ECLASS = eINSTANCE.getEFactory__Create__EClass();
+
+    /**
+     * The meta object literal for the '<em><b>Create From String</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EFACTORY___CREATE_FROM_STRING__EDATATYPE_STRING = eINSTANCE.getEFactory__CreateFromString__EDataType_String();
+
+    /**
+     * The meta object literal for the '<em><b>Convert To String</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EFACTORY___CONVERT_TO_STRING__EDATATYPE_OBJECT = eINSTANCE.getEFactory__ConvertToString__EDataType_Object();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EModelElementImpl <em>EModel Element</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4329,6 +5623,14 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EReference EMODEL_ELEMENT__EANNOTATIONS = eINSTANCE.getEModelElement_EAnnotations();
+
+    /**
+     * The meta object literal for the '<em><b>Get EAnnotation</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EMODEL_ELEMENT___GET_EANNOTATION__STRING = eINSTANCE.getEModelElement__GetEAnnotation__String();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.ENamedElementImpl <em>ENamed Element</em>}' class.
@@ -4357,6 +5659,126 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EClass EOBJECT = eINSTANCE.getEObject();
+
+    /**
+     * The meta object literal for the '<em><b>EClass</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___ECLASS = eINSTANCE.getEObject__EClass();
+
+    /**
+     * The meta object literal for the '<em><b>EIs Proxy</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___EIS_PROXY = eINSTANCE.getEObject__EIsProxy();
+
+    /**
+     * The meta object literal for the '<em><b>EResource</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___ERESOURCE = eINSTANCE.getEObject__EResource();
+
+    /**
+     * The meta object literal for the '<em><b>EContainer</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___ECONTAINER = eINSTANCE.getEObject__EContainer();
+
+    /**
+     * The meta object literal for the '<em><b>EContaining Feature</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___ECONTAINING_FEATURE = eINSTANCE.getEObject__EContainingFeature();
+
+    /**
+     * The meta object literal for the '<em><b>EContainment Feature</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___ECONTAINMENT_FEATURE = eINSTANCE.getEObject__EContainmentFeature();
+
+    /**
+     * The meta object literal for the '<em><b>EContents</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___ECONTENTS = eINSTANCE.getEObject__EContents();
+
+    /**
+     * The meta object literal for the '<em><b>EAll Contents</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___EALL_CONTENTS = eINSTANCE.getEObject__EAllContents();
+
+    /**
+     * The meta object literal for the '<em><b>ECross References</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___ECROSS_REFERENCES = eINSTANCE.getEObject__ECrossReferences();
+
+    /**
+     * The meta object literal for the '<em><b>EGet</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___EGET__ESTRUCTURALFEATURE = eINSTANCE.getEObject__EGet__EStructuralFeature();
+
+    /**
+     * The meta object literal for the '<em><b>EGet</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___EGET__ESTRUCTURALFEATURE_BOOLEAN = eINSTANCE.getEObject__EGet__EStructuralFeature_boolean();
+
+    /**
+     * The meta object literal for the '<em><b>ESet</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___ESET__ESTRUCTURALFEATURE_OBJECT = eINSTANCE.getEObject__ESet__EStructuralFeature_Object();
+
+    /**
+     * The meta object literal for the '<em><b>EIs Set</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___EIS_SET__ESTRUCTURALFEATURE = eINSTANCE.getEObject__EIsSet__EStructuralFeature();
+
+    /**
+     * The meta object literal for the '<em><b>EUnset</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___EUNSET__ESTRUCTURALFEATURE = eINSTANCE.getEObject__EUnset__EStructuralFeature();
+
+    /**
+     * The meta object literal for the '<em><b>EInvoke</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOBJECT___EINVOKE__EOPERATION_ELIST = eINSTANCE.getEObject__EInvoke__EOperation_EList();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EOperationImpl <em>EOperation</em>}' class.
@@ -4399,6 +5821,22 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EReference EOPERATION__EGENERIC_EXCEPTIONS = eINSTANCE.getEOperation_EGenericExceptions();
+
+    /**
+     * The meta object literal for the '<em><b>Get Operation ID</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOPERATION___GET_OPERATION_ID = eINSTANCE.getEOperation__GetOperationID();
+
+    /**
+     * The meta object literal for the '<em><b>Is Override Of</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EOPERATION___IS_OVERRIDE_OF__EOPERATION = eINSTANCE.getEOperation__IsOverrideOf__EOperation();
 
     /**
      * The meta object literal for the '<em><b>EType Parameters</b></em>' containment reference list feature.
@@ -4465,6 +5903,14 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EReference EPACKAGE__ESUPER_PACKAGE = eINSTANCE.getEPackage_ESuperPackage();
+
+    /**
+     * The meta object literal for the '<em><b>Get EClassifier</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation EPACKAGE___GET_ECLASSIFIER__STRING = eINSTANCE.getEPackage__GetEClassifier__String();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EParameterImpl <em>EParameter</em>}' class.
@@ -4615,6 +6061,22 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EReference ESTRUCTURAL_FEATURE__ECONTAINING_CLASS = eINSTANCE.getEStructuralFeature_EContainingClass();
+
+    /**
+     * The meta object literal for the '<em><b>Get Feature ID</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ESTRUCTURAL_FEATURE___GET_FEATURE_ID = eINSTANCE.getEStructuralFeature__GetFeatureID();
+
+    /**
+     * The meta object literal for the '<em><b>Get Container Class</b></em>' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EOperation ESTRUCTURAL_FEATURE___GET_CONTAINER_CLASS = eINSTANCE.getEStructuralFeature__GetContainerClass();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.ETypedElementImpl <em>ETyped Element</em>}' class.
@@ -5102,6 +6564,16 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EDataType ETREE_ITERATOR = eINSTANCE.getETreeIterator();
+
+    /**
+     * The meta object literal for the '<em>EInvocation Target Exception</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.reflect.InvocationTargetException
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEInvocationTargetException()
+     * @generated
+     */
+    EDataType EINVOCATION_TARGET_EXCEPTION = eINSTANCE.getEInvocationTargetException();
 
   }
 

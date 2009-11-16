@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmi:id="_n9W9MD-IEd2DT6rVsxRmdQ" type="EcoreTools" measurementUnit="Pixel">
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_n9W9MD-IEd2DT6rVsxRmdQ" type="EcoreTools" measurementUnit="Pixel">
   <children xmi:type="notation:Node" xmi:id="_n9W9MT-IEd2DT6rVsxRmdQ" type="1004">
     <children xmi:type="notation:Node" xmi:id="_n9W9Mj-IEd2DT6rVsxRmdQ" type="4008"/>
     <children xmi:type="notation:Node" xmi:id="_n9W9Mz-IEd2DT6rVsxRmdQ" type="4009"/>
@@ -223,6 +223,13 @@
     <styles xmi:type="notation:ShapeStyle" xmi:id="_n9W9zz-IEd2DT6rVsxRmdQ" fontName="Microsoft Sans Serif" fontHeight="10" fillColor="8047085" lineColor="0"/>
     <element xmi:type="ecore:EDataType" href="Ecore.ecore#//ETreeIterator"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_n9W90D-IEd2DT6rVsxRmdQ" x="408" y="228"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_z-RYILP5Ed2JrdFLh2Y_ww" type="1004">
+    <children xmi:type="notation:Node" xmi:id="_z-VpkLP5Ed2JrdFLh2Y_ww" type="4008"/>
+    <children xmi:type="notation:Node" xmi:id="_z-VpkbP5Ed2JrdFLh2Y_ww" type="4009"/>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_z-RYIbP5Ed2JrdFLh2Y_ww" fontName="Lucida Grande" fontHeight="10" fillColor="8047085" lineColor="0"/>
+    <element xmi:type="ecore:EDataType" href="Ecore.ecore#//EInvocationTargetException"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_z-RYIrP5Ed2JrdFLh2Y_ww" x="168" y="576"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_n9W90T-IEd2DT6rVsxRmdQ"/>
   <element xmi:type="ecore:EPackage" href="Ecore.ecore#/"/>

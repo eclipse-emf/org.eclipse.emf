@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicEObjectImpl.java,v 1.8 2009/08/25 08:08:40 emerks Exp $
+ * $Id: DynamicEObjectImpl.java,v 1.9 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -247,6 +248,20 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
     }
 
     return this;
+  }
+
+  @Override
+  protected int eStaticOperationCount()
+  {
+    return 0;
+  }
+
+  @Override
+  public int eDerivedOperationID(EOperation eOperation)
+  {
+    EClass eClass = eClass();
+    EOperation override = eClass.getOverride(eOperation);
+    return eClass.getOperationID(override != null ? override : eOperation);
   }
 
   @Override

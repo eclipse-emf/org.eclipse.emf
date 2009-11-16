@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EEnumImpl.java,v 1.20 2008/12/22 14:24:54 emerks Exp $
+ * $Id: EEnumImpl.java,v 1.21 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -284,6 +285,32 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
         return eLiterals != null && !eLiterals.isEmpty();
     }
     return eDynamicIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+  {
+    switch (operationID)
+    {
+      case EcorePackage.EENUM___GET_EANNOTATION__STRING:
+        return getEAnnotation((String)arguments.get(0));
+      case EcorePackage.EENUM___IS_INSTANCE__OBJECT:
+        return isInstance(arguments.get(0));
+      case EcorePackage.EENUM___GET_CLASSIFIER_ID:
+        return getClassifierID();
+      case EcorePackage.EENUM___GET_EENUM_LITERAL__STRING:
+        return getEEnumLiteral((String)arguments.get(0));
+      case EcorePackage.EENUM___GET_EENUM_LITERAL__INT:
+        return getEEnumLiteral((Integer)arguments.get(0));
+      case EcorePackage.EENUM___GET_EENUM_LITERAL_BY_LITERAL__STRING:
+        return getEEnumLiteralByLiteral((String)arguments.get(0));
+    }
+    return eDynamicInvoke(operationID, arguments);
   }
 
   /**

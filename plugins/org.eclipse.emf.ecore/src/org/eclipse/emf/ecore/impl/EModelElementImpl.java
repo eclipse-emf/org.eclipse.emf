@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.22 2009/01/16 12:55:11 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.23 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -308,6 +309,22 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
         return eAnnotations != null && !eAnnotations.isEmpty();
     }
     return eDynamicIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+  {
+    switch (operationID)
+    {
+      case EcorePackage.EMODEL_ELEMENT___GET_EANNOTATION__STRING:
+        return getEAnnotation((String)arguments.get(0));
+    }
+    return eDynamicInvoke(operationID, arguments);
   }
 
   @Override

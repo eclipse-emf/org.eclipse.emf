@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: InternalEObject.java,v 1.7 2007/06/14 18:32:46 emerks Exp $
+ * $Id: InternalEObject.java,v 1.8 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore;
 
+
+import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -112,6 +114,15 @@ public interface InternalEObject extends EObject
    * @return the down-cast feature ID.
    */
   int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass);
+
+  /**
+   * Returns the operation ID relative to this derived object's actual class, given an operation ID relative to the given base class.
+   * @param baseOperationID the ID relative to a base class.
+   * @param baseClass the base class to which the ID is relative.
+   * @return the down-cast operation ID.
+   * @since 2.6
+   */
+  int eDerivedOperationID(int baseOperationID, Class<?> baseClass);
 
   /**
    * Sets this object to be directly contained by the resource 
@@ -413,26 +424,33 @@ public interface InternalEObject extends EObject
   public Object eGet(EStructuralFeature eFeature, boolean resolve, boolean coreType);
 
   /**
-   * Does the equivalent of <code>eObject.eGet(eObjecte.eClass().getEStructuralFeature(featureID), resolve, coreType)</code>.
+   * Does the equivalent of <code>eObject.eGet(eObject.eClass().getEStructuralFeature(featureID), resolve, coreType)</code>.
    * @see #eGet(EStructuralFeature, boolean, boolean)
    */
   Object eGet(int featureID, boolean resolve, boolean coreType);
 
   /**
-   * Does the equivalent of <code>eObject.eSet(eObjecte.eClass().getEStructuralFeature(featureID), newValue)</code>.
+   * Does the equivalent of <code>eObject.eSet(eObject.eClass().getEStructuralFeature(featureID), newValue)</code>.
    * @see #eSet(EStructuralFeature, Object)
    */
   void eSet(int featureID, Object newValue);
 
   /**
-   * Does the equivalent of <code>eObject.eUnset(eObjecte.eClass().getEStructuralFeature(featureID))</code>.
+   * Does the equivalent of <code>eObject.eUnset(eObject.eClass().getEStructuralFeature(featureID))</code>.
    * @see #eUnset(EStructuralFeature)
    */
   void eUnset(int featureID);
 
   /**
-   * Does the equivalent of <code>eObject.eIsSet(eObjecte.eClass().getEStructuralFeature(featureID))</code>.
+   * Does the equivalent of <code>eObject.eIsSet(eObject.eClass().getEStructuralFeature(featureID))</code>.
    * @see #eIsSet(EStructuralFeature)
    */
   boolean eIsSet(int featureID);
+
+  /**
+   * Does the equivalent of <code>eObject.eInvoke(eObject.eClass().getEOperation(featureID), arguments)</code>.
+   * @see #eInvoke(EOperation, EList<?>)
+   * @since 2.6
+   */
+  Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException;
 }

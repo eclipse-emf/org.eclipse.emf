@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,13 +9,18 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
+ *   Christian Damus (Zeligsoft) - 255469
  *
  * </copyright>
  *
- * $Id: EOperation.java,v 1.8 2007/06/12 15:07:48 emerks Exp $
+ * $Id: EOperation.java,v 1.9 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore;
 
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -111,6 +116,29 @@ public interface EOperation extends ETypedElement
   EList<EGenericType> getEGenericExceptions();
 
   /**
+   * <!-- begin-user-doc -->
+   * Returns the ID relative to the {@link #getEContainingClass containing} class.
+   * @return  the relative ID.
+   * @since 2.6
+   * <!-- end-user-doc -->
+   * @model kind="operation"
+   * @generated
+   */
+  int getOperationID();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Returns whether this operation is an override of some other operation.
+   * @param someOperation some other operation.
+   * @return whether this operation is an override of some other operation.
+   * @since 2.6
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  boolean isOverrideOf(EOperation someOperation);
+
+  /**
    * Returns the value of the '<em><b>EType Parameters</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.ETypeParameter}.
    * <!-- begin-user-doc -->
@@ -126,4 +154,106 @@ public interface EOperation extends ETypedElement
    */
   EList<ETypeParameter> getETypeParameters();
 
+  /**
+   * Internal API implemented by all operations.
+   * 
+   * @since 2.6
+   */
+  interface Internal extends EOperation, InternalEObject
+  {
+	/**
+	 * A pluggable, dynamic implementation of operation behavior.
+	 */
+    interface InvocationDelegate
+    {
+      /**
+       * A factory for creating invocation delegates.
+       */
+      interface Factory
+      {
+        /**
+         * Creates the invocation delegate for the specified <tt>operation</tt>.
+         * 
+         * @param operation the operation
+         * @return its invocation delegate
+         */
+        InvocationDelegate createInvocationDelegate(EOperation operation);
+
+        /**
+         * A <code>Factory</code> wrapper that is used by the {@link Factory.Registry}.
+         */
+        interface Descriptor
+        {
+          Factory getFactory();
+        }
+
+        /**
+         * A registry of invocation-delegate factories.
+         */
+        interface Registry extends Map<String, Object>
+        {
+          Registry INSTANCE = new Impl();
+          
+          Factory getFactory(String uri);
+          
+          class Impl extends HashMap<String, Object> implements Registry
+          {
+            private static final long serialVersionUID = 1L;
+            
+            @Override
+            public Object get(Object key)
+            {
+              Object factory = super.get(key);
+              if (factory instanceof Descriptor)
+              {
+                Descriptor factoryDescriptor = (Descriptor)factory;
+                factory = factoryDescriptor.getFactory();
+                put((String)key, factory);
+                return factory;
+              }
+              else
+              {
+                return factory;
+              }
+            }
+
+            public Factory getFactory(String uri)
+            {
+              return (Factory)get(uri);
+            }
+          }
+        }
+      }
+      
+      /**
+       * Invokes the operation behaviour for the specified <tt>target</tt>
+       * object.
+       * 
+       * @param target the object on which to invoke the operation
+       * @param arguments the arguments for the operation parameters (an
+       *    empty list if the operation has no parameters)
+       * @return the operation's return result, or <code>null</code> if it is
+       *    a void operation
+       * @throws InvocationTargetException in case of failure to execute the
+       *    operation behaviour, usually because of an exception
+       */
+      Object dynamicInvoke(InternalEObject target, EList<?> arguments) throws InvocationTargetException;
+    }
+    
+    /**
+     * Obtains the delegate for this operation.
+     * A default delegate is always available, so this should not return
+     * <code>null</code>.
+     * 
+     * @return the operation delegate
+     */
+    InvocationDelegate getInvocationDelegate();
+    
+    /**
+     * Assigns a delegate to this operation.
+     * 
+     * @param invocationDelegate the new operation delegate
+     */
+    void setInvocationDelegate(InvocationDelegate invocationDelegate);
+  }
 } //EOperation

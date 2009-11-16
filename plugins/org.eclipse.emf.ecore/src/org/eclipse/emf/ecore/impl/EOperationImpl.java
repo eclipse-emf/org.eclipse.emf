@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,14 +9,16 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
+ *   Christian Damus (Zeligsoft) - 255469
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.23 2009/01/16 12:55:11 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.24 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Array;
 import java.util.AbstractSequentialList;
 import java.util.Collection;
@@ -38,9 +40,11 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.BasicInvocationDelegate;
 import org.eclipse.emf.ecore.util.DelegatingEcoreEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 // import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -48,6 +52,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>EOperation</b></em>'.
+ * @extends EOperation.Internal
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -62,8 +67,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class EOperationImpl extends ETypedElementImpl implements EOperation
+public class EOperationImpl extends ETypedElementImpl implements EOperation, EOperation.Internal
 {
+  protected int operationID = -1;
+
   /**
    * The cached value of the '{@link #getETypeParameters() <em>EType Parameters</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -736,6 +743,49 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @generated modifiable
+   */
+  public int getOperationID()
+  {
+    return operationID;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean isOverrideOf(EOperation someOperation)
+  {
+    if (someOperation.getEContainingClass().isSuperTypeOf(getEContainingClass()) && someOperation.getName().equals(getName()))
+    {
+      EList<EParameter> parameters = getEParameters();
+      EList<EParameter> otherParameters = someOperation.getEParameters();
+      if (parameters.size() == otherParameters.size())
+      {
+        for (Iterator<EParameter> i = parameters.iterator(), j = otherParameters.iterator(); i.hasNext(); )
+        {
+          EParameter parameter = i.next();
+          EParameter otherParameter = j.next();
+          if (!parameter.getEType().getInstanceTypeName().equals(otherParameter.getEType().getInstanceTypeName()))
+          {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public void setOperationID(int operationID)
+  {
+    this.operationID = operationID;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   public EList<ETypeParameter> getETypeParameters()
@@ -1007,4 +1057,49 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
     return eDynamicIsSet(featureID);
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+  {
+    switch (operationID)
+    {
+      case EcorePackage.EOPERATION___GET_EANNOTATION__STRING:
+        return getEAnnotation((String)arguments.get(0));
+      case EcorePackage.EOPERATION___GET_OPERATION_ID:
+        return getOperationID();
+      case EcorePackage.EOPERATION___IS_OVERRIDE_OF__EOPERATION:
+        return isOverrideOf((EOperation)arguments.get(0));
+    }
+    return eDynamicInvoke(operationID, arguments);
+  }
+
+  protected EOperation.Internal.InvocationDelegate invocationDelegate;
+  
+  public InvocationDelegate getInvocationDelegate()
+  {
+    if (invocationDelegate == null)
+    {
+      InvocationDelegate.Factory factory = EcoreUtil.getInvocationDelegateFactory(this);
+      if (factory != null)
+      {
+        invocationDelegate = factory.createInvocationDelegate(this);
+      }
+      if (invocationDelegate == null)
+      {
+        invocationDelegate = new BasicInvocationDelegate(this);
+      }
+    }
+    
+    return invocationDelegate;
+  }
+  
+  public void setInvocationDelegate(InvocationDelegate invocationDelegate)
+  {
+    this.invocationDelegate = invocationDelegate;
+  }
+  
 }

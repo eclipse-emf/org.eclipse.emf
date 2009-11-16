@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClass.java,v 1.13 2008/01/08 12:21:48 emerks Exp $
+ * $Id: EClass.java,v 1.14 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -381,6 +381,50 @@ public interface EClass extends EClassifier
    * @generated
    */
   EStructuralFeature getEStructuralFeature(String featureName);
+
+  /**
+   * <!-- begin-user-doc -->
+   * Returns the number of operations.
+   * @return the number of operations.
+   * @since 2.6
+   * <!-- end-user-doc -->
+   * @model kind="operation"
+   * @generated
+   */
+  int getOperationCount();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Returns the operation with this ID.
+   * @return the operation with this ID.
+   * @since 2.6
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  EOperation getEOperation(int operationID);
+
+  /**
+   * <!-- begin-user-doc -->
+   * Returns the ID of the operation relative to this class, or -1 if the operation is not in this class.
+   * @return the ID of the operation relative to this class, or -1 if the operation is not in this class.
+   * @since 2.6
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  int getOperationID(EOperation operation);
+
+  /**
+   * <!-- begin-user-doc -->
+   * Returns the operation that overrides this operation.
+   * @return the operation that overrides this operation.
+   * @since 2.6
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  EOperation getOverride(EOperation operation);
 
   /**
    * <!-- begin-user-doc -->

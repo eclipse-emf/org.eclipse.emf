@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.29 2009/01/16 12:55:11 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.30 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -898,6 +899,26 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
         return eTypeParameters != null && !eTypeParameters.isEmpty();
     }
     return eDynamicIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+  {
+    switch (operationID)
+    {
+      case EcorePackage.ECLASSIFIER___GET_EANNOTATION__STRING:
+        return getEAnnotation((String)arguments.get(0));
+      case EcorePackage.ECLASSIFIER___IS_INSTANCE__OBJECT:
+        return isInstance(arguments.get(0));
+      case EcorePackage.ECLASSIFIER___GET_CLASSIFIER_ID:
+        return getClassifierID();
+    }
+    return eDynamicInvoke(operationID, arguments);
   }
 
   protected BasicExtendedMetaData.EClassifierExtendedMetaData eClassifierExtendedMetaData;

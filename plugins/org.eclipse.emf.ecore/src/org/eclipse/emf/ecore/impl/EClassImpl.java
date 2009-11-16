@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.46 2008/12/22 14:24:54 emerks Exp $
+ * $Id: EClassImpl.java,v 1.47 2009/11/16 19:27:13 khussey Exp $
  */
-
 package org.eclipse.emf.ecore.impl;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Array;
 import java.util.AbstractSequentialList;
 import java.util.Collection;
@@ -105,9 +105,11 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   protected EStructuralFeature[] eAllStructuralFeaturesData;
   protected BasicEList<EReference> eAllContainments;  
   protected BasicEList<EOperation> eAllOperations;
+  protected EOperation[] eAllOperationsData;
   protected BasicEList<EClass> eAllSuperTypes;
   protected BasicEList<EGenericType> eAllGenericSuperTypes;
   protected Map<String, EStructuralFeature> eNameToFeatureMap;
+  protected Map<EOperation, EOperation> eOperationToOverrideMap;
   protected ESuperAdapter eSuperAdapter;
 
   /**
@@ -923,16 +925,31 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
         }
         computationInProgress.remove(this);
       }
+      int operationID = result.size();
+      for (Iterator<EOperation> i = getEOperations().iterator(); i.hasNext(); ++operationID)
+      {
+        ((EOperationImpl)i.next()).setOperationID(operationID);
+      }
       result.addAll(getEOperations());
       result.shrink();
       eAllOperations = 
         new EcoreEList.UnmodifiableEList.FastCompare<EOperation>
           (this, EcorePackage.eINSTANCE.getEClass_EAllOperations(), result.size(), result.data());
+      eAllOperationsData = (EOperation[])result.data();
+      if (eAllOperationsData == null)
+      {
+        eAllOperationsData = NO_EALL_OPERATIONS_DATA;
+      }
+
+      eOperationToOverrideMap = null; 
+
       getESuperAdapter().setAllOperationsCollectionModified(false);
     }
 
     return eAllOperations;
   }
+
+  private static final EOperation[] NO_EALL_OPERATIONS_DATA = {};
 
   /**
    * <!-- begin-user-doc -->
@@ -1160,6 +1177,44 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return eDynamicIsSet(featureID);
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+  {
+    switch (operationID)
+    {
+      case EcorePackage.ECLASS___GET_EANNOTATION__STRING:
+        return getEAnnotation((String)arguments.get(0));
+      case EcorePackage.ECLASS___IS_INSTANCE__OBJECT:
+        return isInstance(arguments.get(0));
+      case EcorePackage.ECLASS___GET_CLASSIFIER_ID:
+        return getClassifierID();
+      case EcorePackage.ECLASS___IS_SUPER_TYPE_OF__ECLASS:
+        return isSuperTypeOf((EClass)arguments.get(0));
+      case EcorePackage.ECLASS___GET_FEATURE_COUNT:
+        return getFeatureCount();
+      case EcorePackage.ECLASS___GET_ESTRUCTURAL_FEATURE__INT:
+        return getEStructuralFeature((Integer)arguments.get(0));
+      case EcorePackage.ECLASS___GET_FEATURE_ID__ESTRUCTURALFEATURE:
+        return getFeatureID((EStructuralFeature)arguments.get(0));
+      case EcorePackage.ECLASS___GET_ESTRUCTURAL_FEATURE__STRING:
+        return getEStructuralFeature((String)arguments.get(0));
+      case EcorePackage.ECLASS___GET_OPERATION_COUNT:
+        return getOperationCount();
+      case EcorePackage.ECLASS___GET_EOPERATION__INT:
+        return getEOperation((Integer)arguments.get(0));
+      case EcorePackage.ECLASS___GET_OPERATION_ID__EOPERATION:
+        return getOperationID((EOperation)arguments.get(0));
+      case EcorePackage.ECLASS___GET_OVERRIDE__EOPERATION:
+        return getOverride((EOperation)arguments.get(0));
+    }
+    return eDynamicInvoke(operationID, arguments);
+  }
+
   public EList<EReference> getEAllContainments()
   {
     if (eAllContainments == null)
@@ -1213,6 +1268,89 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       eNameToFeatureMap = result;
     }
     return eNameToFeatureMap.get(name);
+  }
+
+  protected EOperation[] getEAllOperationsData()
+  {
+    if (eAllOperationsData == null)
+    {
+      getEAllOperations();
+    }
+    return eAllOperationsData;
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public int getOperationCount()
+  {
+    return getEAllOperationsData().length;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public EOperation getEOperation(int operationID)
+  {
+    EOperation [] eAllOperationsData  = getEAllOperationsData();
+    return 
+      operationID >= 0 && operationID < eAllOperationsData.length ? 
+        eAllOperationsData[operationID] : 
+        null;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public int getOperationID(EOperation operation)
+  {
+    EOperation [] eAllOperationsData  = getEAllOperationsData();
+    int index = operation.getOperationID();
+    if (index != -1)
+    {
+      for (int last = eAllOperationsData.length; index < last; ++index)
+      {
+        if (eAllOperationsData[index] == operation)
+        {
+          return index;
+        }
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public EOperation getOverride(EOperation operation)
+  {
+    EOperation [] eAllOperationsData  = getEAllOperationsData();
+    if (eOperationToOverrideMap == null)
+    {
+      Map<EOperation, EOperation> result = new HashMap<EOperation, EOperation>();
+      int length = eAllOperationsData.length;
+      for (int i = 0; i < length; ++i)
+      {
+        for (int j = length - 1; j > i; --j)
+        {
+          if (eAllOperationsData[j].isOverrideOf(eAllOperationsData[i]))
+          {
+            result.put(eAllOperationsData[i], eAllOperationsData[j]);
+            break;
+          }
+        }
+      }
+      eOperationToOverrideMap = result;
+    }
+    return eOperationToOverrideMap.get(operation);
   }
 
   /**
@@ -1285,6 +1423,11 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return getEAllStructuralFeaturesData().length;
   }
   
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
   public EStructuralFeature getEStructuralFeature(int featureID) 
   {
     EStructuralFeature [] eAllStructuralFeaturesData  = getEAllStructuralFeaturesData();
@@ -1984,6 +2127,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             if (isAllOperationsCollectionModified())
             {
               eAllOperations = null;
+              eAllOperationsData = null;
             }
             if (isAllContainmentsCollectionModified())
             {

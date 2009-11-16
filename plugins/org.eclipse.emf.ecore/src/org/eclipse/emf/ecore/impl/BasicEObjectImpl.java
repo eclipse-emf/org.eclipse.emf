@@ -9,14 +9,16 @@
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
+ *   Christian Damus (Zeligsoft) - 255469
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.39 2009/01/16 12:55:11 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.40 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +38,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
@@ -224,6 +227,11 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   protected int eStaticFeatureCount()
   {
     return eStaticClass().getFeatureCount();
+  }
+
+  protected int eStaticOperationCount()
+  {
+    return eStaticClass().getOperationCount();
   }
 
   protected EPropertiesHolder eProperties()
@@ -1504,6 +1512,27 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     }
   }
 
+  public int eDerivedOperationID(int baseOperationID, Class<?> baseClass)
+  {
+    return baseOperationID;
+  }
+
+  public int eDerivedOperationID(EOperation eOperation)
+  {
+    Class<?> containerClass = eOperation.getEContainingClass().getInstanceClass();
+    if (containerClass == null)
+    {
+      EClass eClass = eClass();
+      EOperation override = eClass.getOverride(eOperation);
+      return eClass.getOperationID(override != null ? override : eOperation);
+    }
+    else
+    {
+      assert eClass().getEAllOperations().contains(eOperation) : "The operation '" + eOperation.getName() + "' is not a valid operation";
+      return eDerivedOperationID(eOperation.getOperationID(), containerClass);
+    }
+  }
+
   public EClass eClass()
   {
     if (eBasicProperties() != null)
@@ -1611,6 +1640,11 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
         }
       };
     return setting;
+  }
+
+  protected EOperation.Internal.InvocationDelegate eInvocationDelegate(EOperation eOperation)
+  {
+    return ((EOperation.Internal)eOperation).getInvocationDelegate();
   }
 
   public InternalEObject.EStore eStore()
@@ -1993,6 +2027,37 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     {
       return eRemoveVirtualValue(index);
     }
+  }
+  
+  public Object eInvoke(EOperation eOperation, EList<?> arguments) throws InvocationTargetException
+  {
+    int operationID = eDerivedOperationID(eOperation);
+    if (operationID >= 0)
+    {
+      return eInvoke(operationID, arguments);
+    }
+    else
+    {
+      throw new IllegalArgumentException("The operation '" + eOperation.getName() + "' is not a valid operation");
+    }
+  }
+
+  public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+  {
+    EOperation eOperation = eClass().getEOperation(operationID);
+    assert eOperation != null : "Invalid operationID: " + operationID;
+      
+    return eInvocationDelegate(eOperation).dynamicInvoke(this, arguments);
+  }
+  
+  public Object eDynamicInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+  {
+    return eDynamicInvoke(eClass().getEOperation(operationID), arguments);
+  }
+
+  protected Object eDynamicInvoke(EOperation eOperation, EList<?> arguments) throws InvocationTargetException
+  {
+    return eInvocationDelegate(eOperation).dynamicInvoke(this, arguments);
   }
   
   @Override

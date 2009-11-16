@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.68 2009/09/18 18:10:41 khussey Exp $
+ * $Id: EcoreUtil.java,v 1.69 2009/11/16 19:27:14 khussey Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -4153,6 +4153,146 @@ public class EcoreUtil
       }
       eAnnotation.getDetails().put("validationDelegates", value.toString());
     }
+  }
+
+  /**
+   * @since 2.6
+   */
+  public static List<String> getSettingDelegates(EPackage ePackage)
+  {
+    EAnnotation eAnnotation = ePackage.getEAnnotation(EcorePackage.eNS_URI);
+    if (eAnnotation != null)
+    {
+      String settingDelegates = eAnnotation.getDetails().get("settingDelegates");
+      if (settingDelegates != null)
+      {
+        List<String> result = new ArrayList<String>();
+        for (StringTokenizer stringTokenizer = new StringTokenizer(settingDelegates); stringTokenizer.hasMoreTokens();)
+        {
+          String settingDelegate = stringTokenizer.nextToken();
+          result.add(settingDelegate);
+        }
+        return result;
+      }
+    }
+    return Collections.emptyList();
+  }
+
+  /**
+   * @since 2.6
+   */
+  public static void setSettingDelegates(EPackage ePackage, List<String> settingDelegates)
+  {
+    EAnnotation eAnnotation = ePackage.getEAnnotation(EcorePackage.eNS_URI);
+    if (settingDelegates == null || settingDelegates.isEmpty())
+    {
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("settingDelegates");
+      }
+    }
+    else
+    {
+      if (eAnnotation == null)
+      {
+        eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        eAnnotation.setSource(EcorePackage.eNS_URI);
+        ePackage.getEAnnotations().add(eAnnotation);
+      }
+      StringBuffer value = new StringBuffer();
+      for (Iterator<String> i = settingDelegates.iterator(); i.hasNext();)
+      {
+        value.append(i.next());
+        if (i.hasNext())
+        {
+          value.append(' ');
+        }
+      }
+      eAnnotation.getDetails().put("settingDelegates", value.toString());
+    }
+  }
+
+  /**
+   * @since 2.6
+   */
+  public static EStructuralFeature.Internal.SettingDelegate.Factory getSettingDelegateFactory(EStructuralFeature eStructuralFeature)
+  {
+    for (String settingDelegate : getSettingDelegates(eStructuralFeature.getEContainingClass().getEPackage()))
+    {
+      if (eStructuralFeature.getEAnnotation(settingDelegate) != null)
+        return EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE.getFactory(settingDelegate);
+    }
+    return null;
+  }
+
+  /**
+   * @since 2.6
+   */
+  public static List<String> getInvocationDelegates(EPackage ePackage)
+  {
+    EAnnotation eAnnotation = ePackage.getEAnnotation(EcorePackage.eNS_URI);
+    if (eAnnotation != null)
+    {
+      String invocationDelegates = eAnnotation.getDetails().get("invocationDelegates");
+      if (invocationDelegates != null)
+      {
+        List<String> result = new ArrayList<String>();
+        for (StringTokenizer stringTokenizer = new StringTokenizer(invocationDelegates); stringTokenizer.hasMoreTokens();)
+        {
+          String invocationDelegate = stringTokenizer.nextToken();
+          result.add(invocationDelegate);
+        }
+        return result;
+      }
+    }
+    return Collections.emptyList();
+  }
+
+  /**
+   * @since 2.6
+   */
+  public static void setInvocationDelegates(EPackage ePackage, List<String> invocationDelegates)
+  {
+    EAnnotation eAnnotation = ePackage.getEAnnotation(EcorePackage.eNS_URI);
+    if (invocationDelegates == null || invocationDelegates.isEmpty())
+    {
+      if (eAnnotation != null)
+      {
+        eAnnotation.getDetails().remove("invocationDelegates");
+      }
+    }
+    else
+    {
+      if (eAnnotation == null)
+      {
+        eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        eAnnotation.setSource(EcorePackage.eNS_URI);
+        ePackage.getEAnnotations().add(eAnnotation);
+      }
+      StringBuffer value = new StringBuffer();
+      for (Iterator<String> i = invocationDelegates.iterator(); i.hasNext();)
+      {
+        value.append(i.next());
+        if (i.hasNext())
+        {
+          value.append(' ');
+        }
+      }
+      eAnnotation.getDetails().put("invocationDelegates", value.toString());
+    }
+  }
+
+  /**
+   * @since 2.6
+   */
+  public static EOperation.Internal.InvocationDelegate.Factory getInvocationDelegateFactory(EOperation eOperation)
+  {
+    for (String invocationDelegate : getInvocationDelegates(eOperation.getEContainingClass().getEPackage()))
+    {
+      if (eOperation.getEAnnotation(invocationDelegate) != null)
+        return EOperation.Internal.InvocationDelegate.Factory.Registry.INSTANCE.getFactory(invocationDelegate);
+    }
+    return null;
   }
 
   /*

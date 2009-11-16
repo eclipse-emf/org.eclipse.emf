@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,17 +12,19 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.39 2009/08/07 14:30:00 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.40 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.notify.impl.NotificationChainImpl;
 import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EMap;
@@ -766,6 +768,26 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     return eDynamicIsSet(featureID);
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+  {
+    switch (operationID)
+    {
+      case EcorePackage.ESTRUCTURAL_FEATURE___GET_EANNOTATION__STRING:
+        return getEAnnotation((String)arguments.get(0));
+      case EcorePackage.ESTRUCTURAL_FEATURE___GET_FEATURE_ID:
+        return getFeatureID();
+      case EcorePackage.ESTRUCTURAL_FEATURE___GET_CONTAINER_CLASS:
+        return getContainerClass();
+    }
+    return eDynamicInvoke(operationID, arguments);
+  }
+
   public void setContainerClass(Class<?> containerClass)
   {
     this.containerClass = containerClass;
@@ -816,10 +838,15 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       Object intrinsicDefaultValue = eType.getDefaultValue();
 
       EStructuralFeature featureMapFeature;
-      if (isDerived() && 
-            (((featureMapFeature = ExtendedMetaData.INSTANCE.getMixedFeature(eClass)) != null && 
-               featureMapFeature != this) ||
-              ((featureMapFeature = ExtendedMetaData.INSTANCE.getGroup(this)) != null)))
+      SettingDelegate.Factory settingDelegateFactory;
+      if ((settingDelegateFactory = EcoreUtil.getSettingDelegateFactory(this)) != null)
+      {
+        settingDelegate = settingDelegateFactory.createSettingDelegate(this);
+      }
+      else if (isDerived() && 
+                 (((featureMapFeature = ExtendedMetaData.INSTANCE.getMixedFeature(eClass)) != null && 
+                    featureMapFeature != this) ||
+                    ((featureMapFeature = ExtendedMetaData.INSTANCE.getGroup(this)) != null)))
       {
         settingDelegate = new InternalSettingDelegateFeatureMapDelegator(this, featureMapFeature);
       }

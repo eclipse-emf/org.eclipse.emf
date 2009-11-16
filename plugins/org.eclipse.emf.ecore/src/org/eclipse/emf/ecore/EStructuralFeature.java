@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,10 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.14 2007/06/14 18:32:46 emerks Exp $
+ * $Id: EStructuralFeature.java,v 1.15 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore;
 
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -364,6 +367,65 @@ public interface EStructuralFeature extends ETypedElement
      */
     interface SettingDelegate
     {
+      /**
+       * A factory for creating setting delegates.
+       * @since 2.6
+       */
+      interface Factory
+      {
+        /**
+         * Creates a setting delegate for the given feature.
+         * @param eStructuralFeature the feature for which a setting delegate is to be created.
+         * @return a new a setting delegate for the given feature.
+         */
+        SettingDelegate createSettingDelegate(EStructuralFeature eStructuralFeature);
+
+        /**
+         * A <code>Factory</code> wrapper that is used by the {@link Factory.Registry}.
+         */
+        interface Descriptor
+        {
+          Factory getFactory();
+        }
+
+        /**
+         * A registry of factories for creating setting delegates.
+         */
+        interface Registry extends Map<String, Object>
+        {
+          Registry INSTANCE = new Impl();
+
+          Factory getFactory(String uri);
+
+          class Impl extends HashMap<String, Object> implements Registry
+          {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Object get(Object key)
+            {
+              Object factory = super.get(key);
+              if (factory instanceof Descriptor)
+              {
+                Descriptor factoryDescriptor = (Descriptor)factory;
+                factory = factoryDescriptor.getFactory();
+                put((String)key, factory);
+                return factory;
+              }
+              else
+              {
+                return factory;
+              }
+            }
+
+            public Factory getFactory(String uri)
+            {
+              return (Factory)get(uri);
+            }
+          }
+        }
+      }
+
       /**
        * Returns a setting that can be used to access the owner's feature.
        * @param owner the owner of the feature.

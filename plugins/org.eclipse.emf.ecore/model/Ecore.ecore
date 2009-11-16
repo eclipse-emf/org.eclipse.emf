@@ -42,6 +42,16 @@
     <eOperations name="getEStructuralFeature" eType="#//EStructuralFeature">
       <eParameters name="featureName" eType="#//EString"/>
     </eOperations>
+    <eOperations name="getOperationCount" eType="#//EInt"/>
+    <eOperations name="getEOperation" eType="#//EOperation">
+      <eParameters name="operationID" eType="#//EInt"/>
+    </eOperations>
+    <eOperations name="getOperationID" eType="#//EInt">
+      <eParameters name="operation" eType="#//EOperation"/>
+    </eOperations>
+    <eOperations name="getOverride" eType="#//EOperation">
+      <eParameters name="operation" eType="#//EOperation"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="interface" eType="#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eSuperTypes" upperBound="-1"
@@ -169,7 +179,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="ePackage" lowerBound="1"
         eType="#//EPackage" transient="true" resolveProxies="false" eOpposite="#//EPackage/eFactoryInstance"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EModelElement" abstract="true" eSuperTypes="#//EObject">
+  <eClassifiers xsi:type="ecore:EClass" name="EModelElement" abstract="true">
     <eOperations name="getEAnnotation" eType="#//EAnnotation">
       <eParameters name="source" eType="#//EString"/>
     </eOperations>
@@ -221,11 +231,23 @@
     <eOperations name="eUnset">
       <eParameters name="feature" eType="#//EStructuralFeature"/>
     </eOperations>
+    <eOperations name="eInvoke" eType="#//EJavaObject" eExceptions="#//EInvocationTargetException">
+      <eParameters name="operation" eType="#//EOperation"/>
+      <eParameters name="arguments">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+          <eTypeArguments/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EOperation" eSuperTypes="#//ETypedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid"/>
     </eAnnotations>
+    <eOperations name="getOperationID" eType="#//EInt"/>
+    <eOperations name="isOverrideOf" eType="#//EBoolean">
+      <eParameters name="someOperation" eType="#//EOperation"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eContainingClass" eType="#//EClass"
         changeable="false" transient="true" resolveProxies="false" eOpposite="#//EClass/eOperations"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eTypeParameters" upperBound="-1"
@@ -475,7 +497,7 @@
       serializable="false">
     <eTypeParameters name="E"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EGenericType" eSuperTypes="#//EObject">
+  <eClassifiers xsi:type="ecore:EClass" name="EGenericType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="ConsistentType ConsistentBounds ConsistentArguments"/>
     </eAnnotations>
@@ -495,4 +517,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="eBounds" upperBound="-1"
         eType="#//EGenericType" containment="true" resolveProxies="false"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="EInvocationTargetException" instanceClassName="java.lang.reflect.InvocationTargetException"
+      serializable="false"/>
 </ecore:EPackage>

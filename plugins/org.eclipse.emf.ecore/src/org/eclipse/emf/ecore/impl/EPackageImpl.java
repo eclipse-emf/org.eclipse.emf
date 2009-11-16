@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.40 2009/10/19 11:37:11 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.41 2009/11/16 19:27:13 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
@@ -699,6 +700,24 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * @generated
    */
   @Override
+  public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+  {
+    switch (operationID)
+    {
+      case EcorePackage.EPACKAGE___GET_EANNOTATION__STRING:
+        return getEAnnotation((String)arguments.get(0));
+      case EcorePackage.EPACKAGE___GET_ECLASSIFIER__STRING:
+        return getEClassifier((String)arguments.get(0));
+    }
+    return eDynamicInvoke(operationID, arguments);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -774,7 +793,17 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     r.setFeatureID(id);
     owner.getEStructuralFeatures().add(r);
   }
-  
+
+  /**
+   * @since 2.6
+   */
+  protected void createEOperation(EClass owner, int id)
+  {
+    EOperationImpl o = (EOperationImpl)ecoreFactory.createEOperation();
+    o.setOperationID(id);
+    owner.getEOperations().add(o);
+  }
+
   protected ETypeParameter addETypeParameter(EClassifier owner, String name)
   {
     ETypeParameter eTypeParameter = ecoreFactory.createETypeParameter();
@@ -1471,26 +1500,57 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   protected EOperation addEOperation(EClass owner, EClassifier type, String name)
   {
     EOperation o = ecoreFactory.createEOperation();
-    o.setEType(type);
-    o.setName(name);
+    initEOperation(o, type, name);
     owner.getEOperations().add(o);
     return o;
   }
 
   protected EOperation addEOperation(EClass owner, EClassifier type, String name, int lowerBound, int upperBound)
   {
-    EOperation o = addEOperation(owner, type, name);
-    o.setLowerBound(lowerBound);
-    o.setUpperBound(upperBound);
+    EOperation o = ecoreFactory.createEOperation();
+    initEOperation(o, type, name, lowerBound, upperBound);
+    owner.getEOperations().add(o);
     return o;
   }
 
   protected EOperation addEOperation(EClass owner, EClassifier type, String name, int lowerBound, int upperBound, boolean isUnique, boolean isOrdered)
   {
-    EOperation o = addEOperation(owner, type, name, lowerBound, upperBound);
-    o.setUnique(isUnique);
-    o.setOrdered(isOrdered);
+    EOperation o = ecoreFactory.createEOperation();
+    initEOperation(o, type, name, lowerBound, upperBound, isUnique, isOrdered);
+    owner.getEOperations().add(o);
     return o;
+  }
+
+  /**
+   * @since 2.6
+   */
+  protected EOperation initEOperation(EOperation eOperation, EClassifier type, String name)
+  {
+    eOperation.setEType(type);
+    eOperation.setName(name);
+    return eOperation;
+  }
+
+  /**
+   * @since 2.6
+   */
+  protected EOperation initEOperation(EOperation eOperation, EClassifier type, String name, int lowerBound, int upperBound)
+  {
+    initEOperation(eOperation, type, name);
+    eOperation.setLowerBound(lowerBound);
+    eOperation.setUpperBound(upperBound);
+    return eOperation;
+  }
+
+  /**
+   * @since 2.6
+   */
+  protected EOperation initEOperation(EOperation eOperation, EClassifier type, String name, int lowerBound, int upperBound, boolean isUnique, boolean isOrdered)
+  {
+    initEOperation(eOperation, type, name, lowerBound, upperBound);
+    eOperation.setUnique(isUnique);
+    eOperation.setOrdered(isOrdered);
+    return eOperation;
   }
 
   protected void initEOperation(EOperation eOperation, EGenericType eGenericType)
@@ -1643,6 +1703,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
         eClassifier.setClassifierID(id++);
         fixInstanceClass(eClassifier);
         fixEStructuralFeatures((EClass)eClassifier);
+        fixEOperations((EClass)eClassifier);
       }
     }
     
@@ -1707,6 +1768,24 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
         EStructuralFeatureImpl eStructuralFeature = (EStructuralFeatureImpl)i.next();
         eStructuralFeature.setFeatureID(id++);
         eStructuralFeature.setContainerClass(containerClass);
+      }
+    }
+  }
+
+  /**
+   * @since 2.6
+   */
+  protected void fixEOperations(EClass eClass)
+  {
+    List<EOperation> operations = eClass.getEOperations();
+    if (!operations.isEmpty())
+    {
+      int id = eClass.getOperationID(operations.get(0));
+      
+      for (Iterator<EOperation> i = operations.iterator(); i.hasNext(); )
+      {
+        EOperationImpl eOperation = (EOperationImpl)i.next();
+        eOperation.setOperationID(id++);
       }
     }
   }
