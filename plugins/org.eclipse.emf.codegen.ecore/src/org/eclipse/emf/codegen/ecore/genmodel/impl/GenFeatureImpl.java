@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.59 2009/10/19 11:53:09 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.60 2009/11/16 19:26:46 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1840,7 +1840,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
   public boolean isESetField()
   {
-    return !isContainer() && !isListType() && isUnsettable() && !isVolatile();
+    return !isContainer() && !isListType() && isUnsettable() && !isVolatile() && !hasSettingDelegate();
   }
 
   public boolean isGet()
@@ -1902,5 +1902,10 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   public boolean isTested()
   {
     return isVolatile() || isDerived();
+  }
+
+  public boolean hasSettingDelegate()
+  {
+    return EcoreUtil.getSettingDelegateFactory(getEcoreFeature()) != null;
   }
 } //GenFeatureImpl

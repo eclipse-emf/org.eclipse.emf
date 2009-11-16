@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.61 2009/09/18 18:10:34 khussey Exp $
+ * $Id: GenModelPackageImpl.java,v 1.62 2009/11/16 19:26:46 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1052,6 +1052,16 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenModel_OperationReflection()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(76);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getGenPackage()
   {
     return genPackageEClass;
@@ -2024,6 +2034,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEReference(genModelEClass, GEN_MODEL__USED_GEN_PACKAGES);
     createEAttribute(genModelEClass, GEN_MODEL__INTERFACE_NAME_PATTERN);
     createEAttribute(genModelEClass, GEN_MODEL__CLASS_NAME_PATTERN);
+    createEAttribute(genModelEClass, GEN_MODEL__OPERATION_REFLECTION);
 
     genPackageEClass = createEClass(GEN_PACKAGE);
     createEAttribute(genPackageEClass, GEN_PACKAGE__PREFIX);
@@ -2252,6 +2263,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEReference(getGenModel_UsedGenPackages(), this.getGenPackage(), null, "usedGenPackages", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_InterfaceNamePattern(), ecorePackage.getEString(), "interfaceNamePattern", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_ClassNamePattern(), ecorePackage.getEString(), "classNamePattern", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_OperationReflection(), ecorePackage.getEBoolean(), "operationReflection", "false", 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(genPackageEClass, GenPackage.class, "GenPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGenPackage_Prefix(), ecorePackage.getEString(), "prefix", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

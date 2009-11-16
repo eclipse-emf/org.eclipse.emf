@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2006 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.26 2008/05/04 17:03:27 emerks Exp $
+ * $Id: GenFeature.java,v 1.27 2009/11/16 19:26:45 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -446,4 +446,10 @@ public interface GenFeature extends GenTypedElement
    * @since 2.3
    */
   boolean isTested();
+  
+  /**
+   * Returns whether this feature is implemented with a registered setting delegate.
+   * @since 2.6
+   */
+  boolean hasSettingDelegate();
 }

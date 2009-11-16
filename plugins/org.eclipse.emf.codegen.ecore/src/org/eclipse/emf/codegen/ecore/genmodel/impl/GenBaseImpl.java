@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.71 2009/09/28 20:03:42 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.72 2009/11/16 19:26:46 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1586,6 +1586,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    */
   protected List<GenOperation> collectGenOperations(GenClass context, List<GenClass> genClasses, List<GenOperation> genOperations, GenOperationFilter filter)
   {
+    return collectGenOperations(context, genClasses, genOperations, filter, true);
+  }
+
+  /**
+   * @since 2.6
+   */
+  protected List<GenOperation> collectGenOperations(GenClass context, List<GenClass> genClasses, List<GenOperation> genOperations, GenOperationFilter filter, boolean excludeOverrides)
+  {
     List<GenOperation> result = new ArrayList<GenOperation>();
 
     if (genClasses != null)
@@ -1597,11 +1605,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         {
           if (filter == null || filter.accept(genOperation))
           {
-            for (GenOperation otherGenOperation : result)
+            if (excludeOverrides)
             {
-              if (otherGenOperation.isOverrideOf(context, genOperation))
+              for (GenOperation otherGenOperation : result)
               {
-                continue LOOP;
+                if (otherGenOperation.isOverrideOf(context, genOperation))
+                {
+                  continue LOOP;
+                }
               }
             }
             result.add(genOperation);
@@ -1617,11 +1628,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       {
         if (filter == null || filter.accept(genOperation))
         {
-          for (GenOperation otherGenOperation : result)
+          if (excludeOverrides)
           {
-            if (otherGenOperation.isOverrideOf(context, genOperation))
+            for (GenOperation otherGenOperation : result)
             {
-              continue LOOP;
+              if (otherGenOperation.isOverrideOf(context, genOperation))
+              {
+                continue LOOP;
+              }
             }
           }
           result.add(genOperation);

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.64 2009/03/13 21:05:56 davidms Exp $
+ * $Id: GenModel.java,v 1.65 2009/11/16 19:26:45 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -121,6 +121,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getInterfaceNamePattern <em>Interface Name Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getClassNamePattern <em>Class Name Pattern</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOperationReflection <em>Operation Reflection</em>}</li>
  * </ul>
  * </p>
  *
@@ -2023,6 +2024,31 @@ public interface GenModel extends GenBase
    */
   void setClassNamePattern(String value);
 
+  /**
+   * Returns the value of the '<em><b>Operation Reflection</b></em>' attribute.
+   * The default value is <code>"false"</code>.
+   * <!-- begin-user-doc -->
+   * @since 2.6
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Operation Reflection</em>' attribute.
+   * @see #setOperationReflection(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_OperationReflection()
+   * @model default="false"
+   * @generated
+   */
+  boolean isOperationReflection();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOperationReflection <em>Operation Reflection</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.6
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Operation Reflection</em>' attribute.
+   * @see #isOperationReflection()
+   * @generated
+   */
+  void setOperationReflection(boolean value);
+
   EList<GenPackage> getStaticGenPackages();
 
   void initialize(Collection<? extends EPackage> ePackages);
@@ -2047,6 +2073,7 @@ public interface GenModel extends GenBase
    * @since 2.3
    */
   String getLineDelimiter();
+
   /**
    * @since 2.3
    */
@@ -2532,7 +2559,7 @@ public interface GenModel extends GenBase
   List<GenPackage> computeMissingUsedGenPackages();
 
   boolean isVirtualDelegation();
-  
+
   /**
    * @since 2.5
    */

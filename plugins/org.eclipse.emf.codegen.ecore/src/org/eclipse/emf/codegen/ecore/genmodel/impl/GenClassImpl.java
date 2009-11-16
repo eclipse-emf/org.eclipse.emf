@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.102 2009/08/11 19:46:07 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.103 2009/11/16 19:26:46 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -745,7 +745,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
     if (getBaseGenClasses().isEmpty())
     {
-      if (!getGenPackage().isEcorePackage() && !isBlank(rootExtendsInterface))
+      if (!isEObject() && !isBlank(rootExtendsInterface))
       {
         result.add(rootExtendsInterface);
       }
@@ -932,7 +932,12 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List<GenOperation> getAllGenOperations()
   {
-    return collectGenOperations(this, getAllBaseGenClasses(), getGenOperations(), null);
+    return getAllGenOperations(true);
+  }
+
+  public List<GenOperation> getAllGenOperations(boolean excludeOverrides)
+  {
+    return collectGenOperations(this, getAllBaseGenClasses(), getGenOperations(), null, excludeOverrides);
   }
 
   public String getFeatureID(GenFeature genFeature)
@@ -947,7 +952,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getOperationID(GenOperation genOperation)
   {
-    return getClassifierID() + "__" + format(genOperation.getName(), '_', null, false, false).toUpperCase(getGenModel().getLocale());
+    return getOperationID(genOperation, true);
   }
 
   public String getFeatureValue(GenFeature genFeature)
@@ -976,6 +981,69 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public String getLocalFeatureIndex(GenFeature genFeature)
   {
     return Integer.toString(getEcoreClass().getEStructuralFeatures().indexOf(genFeature.getEcoreFeature()));
+  }
+
+  private class OperationHelper extends GenBaseImpl.UniqueNameHelper
+  {
+    @Override
+    protected String getName(Object o)
+    {
+      GenOperation genOperation = (GenOperation)o;
+      return genOperation.getCapName() + (genOperation.getGenParameters().size() > 0 ? "__" : "") + genOperation.getParameterTypes("_", false);
+    }
+  }
+
+  private OperationHelper operationHelper = new OperationHelper();
+
+  public String getUniqueName(GenOperation genOperation)
+  {
+    return operationHelper.getUniqueName(genOperation);
+  }
+
+  public String getOperationID(GenOperation genOperation, boolean diagnosticCode)
+  {
+    if (diagnosticCode)
+    {
+      return getClassifierID() + "__" + format(genOperation.getName(), '_', null, false, false).toUpperCase(getGenModel().getLocale());
+    }
+    else
+    {
+      String uniqueName = getUniqueName(genOperation);
+      return getClassifierID() + "___" + (format(genOperation.getName(), '_', null, false, false) + (genOperation.getGenParameters().size() > 0 ? uniqueName.substring(uniqueName.indexOf("__")) : "")).toUpperCase(getGenModel().getLocale());
+    }
+  }
+
+  public String getQualifiedOperationID(GenOperation genOperation)
+  {
+    return getGenPackage().getImportedPackageInterfaceName() + "." + getOperationID(genOperation, false);
+  }
+
+  public String getOperationValue(GenOperation genOperation)
+  {
+    List<GenOperation> allOperations = getAllGenOperations(false);
+    int i = allOperations.indexOf(genOperation);
+    GenClass base = getBaseGenClass();
+
+    if (base == null)
+    {
+      return Integer.toString(i);
+    }
+
+    int baseCount = base.getOperationCount();    
+    if (i < baseCount)
+    {
+      return getGenPackage() == base.getGenPackage() ?
+        base.getOperationID(genOperation, false) : base.getQualifiedOperationID(genOperation);
+    }
+
+    String baseCountID = getGenPackage() == base.getGenPackage() ?
+      base.getOperationCountID() : base.getQualifiedOperationCountID();
+    return baseCountID + " + " + Integer.toString(i - baseCount);
+  }
+
+  public String getLocalOperationIndex(GenOperation genOperation)
+  {
+    return Integer.toString(getEcoreClass().getEOperations().indexOf(genOperation.getEcoreOperation()));
   }
 
   public String getFlagsField(GenFeature genFeature)
@@ -1149,6 +1217,70 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public int getFeatureCount()
   {
     return getAllGenFeatures().size();
+  }
+
+  public String getOperationCountID()
+  {
+    return getClassifierID() + "_OPERATION_COUNT";
+  }
+
+  public String getQualifiedOperationCountID()
+  {
+    return getGenPackage().getImportedPackageInterfaceName() + "." + getOperationCountID();
+  }
+
+  public String getOperationCountValue()
+  {
+    GenClass base = getBaseGenClass();
+    if (base == null)
+    {
+      return Integer.toString(getOperationCount());
+    }
+
+    String baseCountID = getGenPackage() == base.getGenPackage() ?
+      base.getOperationCountID() : base.getQualifiedOperationCountID();
+    return baseCountID + " + " + Integer.toString(getOperationCount() - base.getOperationCount());
+  }
+
+  public int getOperationCount()
+  {
+    return getAllGenOperations(false).size();
+  }
+
+  public GenOperation getOverrideGenOperation(GenOperation genOperation)
+  {
+    List<GenOperation> allGenOperations = getAllGenOperations(false);
+    int index = allGenOperations.indexOf(genOperation);
+    if (index != -1)
+    {
+      for (int i = allGenOperations.size() - 1; i > index; --i)
+      {
+        GenOperation otherGenOperation = allGenOperations.get(i);
+        if (otherGenOperation.isOverrideOf(this, genOperation))
+        {
+          return otherGenOperation;
+        }
+      }
+    }
+    return null;
+  }
+
+  public List<GenOperation> getOverrideGenOperations(final List<GenOperation> baseGenOperations, List<GenOperation> derivedGenOperations)
+  {
+    return collectGenOperations(this, null, derivedGenOperations, new GenOperationFilter()
+    {
+      public boolean accept(GenOperation genOperation)
+      {
+        for (GenOperation baseGenOperation : baseGenOperations)
+        {
+          if (genOperation.isOverrideOf(GenClassImpl.this, baseGenOperation))
+          {
+            return true;
+          }
+        }
+        return false;
+      }
+    }, false);
   }
 
   public boolean isEObject()
@@ -3190,7 +3322,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
     public boolean accept(GenOperation genOperation)
     {
-      boolean hasBody = genOperation.hasBody();
+      boolean hasBody = genOperation.hasBody() || genOperation.hasInvocationDelegate();
 
       if (genOperation.getName().startsWith("isSet") && genOperation.getGenParameters().isEmpty())
       {

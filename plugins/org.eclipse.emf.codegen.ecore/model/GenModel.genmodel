@@ -194,6 +194,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/interfaceNamePattern"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Pattern for deriving class names from model element names (&quot;{0}Impl&quot; by default)"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/classNamePattern"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether support for reflective operation invocation should be generated."
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/operationReflection"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"

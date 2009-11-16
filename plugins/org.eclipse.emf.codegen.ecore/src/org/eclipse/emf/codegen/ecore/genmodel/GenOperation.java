@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.19 2009/09/18 18:10:34 khussey Exp $
+ * $Id: GenOperation.java,v 1.20 2009/11/16 19:26:45 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -123,6 +123,21 @@ public interface GenOperation extends GenTypedElement
   String getCapName();
   String getFormattedName();
 
+  /**
+   * @since 2.6
+   */
+  String getOperationAccessorName(); // returns the name of the operation get method in the package interface
+
+  /**
+   * @since 2.6
+   */
+  String getQualifiedOperationAccessorName(); // returns the name of the operation get method in the package interface
+
+  /**
+   * @since 2.6
+   */
+  String getQualifiedOperationAccessor();
+
   boolean isVoid();
 
   /**
@@ -179,6 +194,11 @@ public interface GenOperation extends GenTypedElement
   String getParameterTypes(String separator);
   String getParameterTypes(String separator, boolean qualified);
   String getParameterNames(String separator);
+
+  /**
+   * @since 2.6
+   */
+  String getParametersArray(GenClass context);
 
   String getImportedMetaType();
 
@@ -259,4 +279,10 @@ public interface GenOperation extends GenTypedElement
    * @since 2.4
    */
   boolean isSuppressedVisibility();
+
+  /**
+   * Returns whether this operation is implemented with a registered invocation delegate.
+   * @since 2.6
+   */
+  boolean hasInvocationDelegate();
 }

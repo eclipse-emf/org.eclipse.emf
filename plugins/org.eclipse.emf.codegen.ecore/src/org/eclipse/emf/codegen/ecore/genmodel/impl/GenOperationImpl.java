@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.37 2009/09/18 18:10:34 khussey Exp $
+ * $Id: GenOperationImpl.java,v 1.38 2009/11/16 19:26:46 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -29,6 +29,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -603,7 +604,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     {
       GenParameter genParameter = genParameterIterator.next();
       String type = genParameter.getRawType();
-
+      
       if (!qualified)
       {
         int firstBracket = type.indexOf("[");
@@ -618,7 +619,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         if (firstDollar != -1)
         {
           type = type.substring(0, firstDollar);
-        }
+        }          
       }
 
       parameterTypes.append(type);
@@ -630,6 +631,55 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     }
 
     return parameterTypes.toString();
+  }
+
+  public String getParametersArray(GenClass context)
+  {
+    boolean isJSK50 = getGenModel().getComplianceLevel().getValue() >= GenJDKLevel.JDK50;
+    StringBuffer parametersArray = new StringBuffer("new Object[]{");
+    for (Iterator<GenParameter> genParameterIterator = getGenParameters().iterator(); genParameterIterator.hasNext();)
+    {
+      GenParameter genParameter = genParameterIterator.next();
+      if (!isJSK50 && genParameter.isPrimitiveType())
+      {
+        parametersArray.append("new " + genParameter.getObjectType(context) + "(");
+      }
+      parametersArray.append(genParameter.getName());
+      if (!isJSK50 && genParameter.isPrimitiveType())
+      {
+        parametersArray.append(")");
+      }
+      if (genParameterIterator.hasNext())
+      {
+        parametersArray.append(", ");
+      }
+    }
+    parametersArray.append("}");
+
+    return parametersArray.toString();
+  }
+
+  public String getOperationAccessorName()
+  {
+    return getGenClass().getName() + "__" + getGenClass().getUniqueName(this);
+  }
+
+  public String getQualifiedOperationAccessorName()
+  {
+    return getGenPackage().getImportedPackageInterfaceName() + ".eINSTANCE.get" + getOperationAccessorName();
+  }
+
+  public String getQualifiedOperationAccessor()
+  {
+    if (getGenModel().isOperationReflection())
+    {
+      return getGenPackage().isLiteralsInterface() ? getGenPackage().getImportedPackageInterfaceName() + ".Literals."
+        + getGenClass().getOperationID(this, false) : getQualifiedOperationAccessorName() + "()";
+    }
+    else
+    {
+      return getGenClass().getQualifiedClassifierAccessor() + ".getEOperations().get(" + getGenClass().getLocalOperationIndex(this) + ")";
+    }
   }
 
   public String getImportedMetaType()
@@ -942,7 +992,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public boolean hasInvariantExpression()
   {
-    return getInvariantExpression() != null;
+    return getGenModel().getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && getInvariantExpression() != null;
   }
 
   public String getInvariantExpression(String indentation)
@@ -1056,7 +1106,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     }
     return false;
   }
-  
+
   public String getTypeParameters(GenClass context)
   {
     if (!getGenTypeParameters().isEmpty() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
@@ -1125,5 +1175,10 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   public boolean isSuppressedVisibility()
   {
     return EcoreUtil.isSuppressedVisibility(getEcoreOperation());
+  }
+
+  public boolean hasInvocationDelegate()
+  {
+    return getGenModel().getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && EcoreUtil.getInvocationDelegateFactory(getEcoreOperation()) != null;
   }
 }

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.34 2009/09/18 18:10:34 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.35 2009/11/16 19:26:45 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -105,7 +105,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	protected <%=baseGenPackage.getImportedValidatorClassName()%> <%=genPackage.getValidatorPackageUniqueSafeName(baseGenPackage)%>Validator;
 
 <%}%>
-<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && genPackage.hasInvariantExpressions()) {%>
+<%if (genPackage.hasInvariantExpressions()) {%>
 	/**
 	 * Delegates evaluation of the given invariant expression against the object in the given context.
 	 * <!-- begin-user-doc -->
@@ -297,7 +297,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 
 <%}%>
 <%}%>
-<%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && genClassifier.hasConstraintExpression(constraint)) {%>
+<%if (genClassifier.hasConstraintExpression(constraint)) {%>
 	/**
 	 * The cached validation expression for the <%=constraint%> constraint of '<em><%=genClassifier.getFormattedName()%></em>'.
 	 * <!-- begin-user-doc -->
@@ -504,7 +504,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 		}
 		return <%=delegate%>validate<%=constraintDelegate.getName()%>_<%=constraint%>(<%=genClassifier.getSafeUncapName()%><%=accessor%>, <%=diagnostics%>, <%=context%>);
 <%} else {%>
-  <%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && genClassifier.hasConstraintExpression(constraint)) {%>
+  <%if (genClassifier.hasConstraintExpression(constraint)) {%>
 		return
 			validate
 				(<%=genClassifier.getQualifiedClassifierAccessor()%>,
@@ -585,7 +585,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 <%} else { GenOperation genOperation = ((GenClass)genClassifier).getInvariantOperation(constraint); if (genOperation != null) {%>
 		return <%=genClassifier.getSafeUncapName()%>.<%=constraint%>(<%=diagnostics%>, <%=context%>);
 <%} else {%>
-  <%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && genClassifier.hasConstraintExpression(constraint)) {%>
+  <%if (genClassifier.hasConstraintExpression(constraint)) {%>
 		return
 			validate
 				(<%=genClassifier.getQualifiedClassifierAccessor()%>,

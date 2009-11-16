@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.93 2009/09/18 18:10:34 khussey Exp $
+ * $Id: GenPackageImpl.java,v 1.94 2009/11/16 19:26:46 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2104,13 +2104,16 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public boolean hasInvariantExpressions()
   {
-    for (GenClass genClass : getGenClasses())
+    if (getGenModel().getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE)
     {
-      for (GenOperation genOperation : genClass.getGenOperations())
+      for (GenClass genClass : getGenClasses())
       {
-        if (genOperation.isInvariant() && genOperation.hasInvariantExpression())
+        for (GenOperation genOperation : genClass.getGenOperations())
         {
-          return true;
+          if (genOperation.isInvariant() && genOperation.hasInvariantExpression())
+          {
+            return true;
+          }
         }
       }
     }
@@ -4211,14 +4214,18 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           @Override
           public String caseEOperation(EOperation eOperation)
           {
-            EClass eClass = eOperation.getEContainingClass();
-            return 
-              (useGenerics ?  "" : "(" + getGenModel().getImportedName("org.eclipse.emf.ecore.EOperation") +  ")") + 
-                caseEClassifier(eClass) + 
-                ".getEOperations().get(" +
-                eClass.getEOperations().indexOf(eOperation) +
-                ")";
-          }
+            if (getGenModel().isOperationReflection())
+            {
+              return "get" + findGenOperation(eOperation).getOperationAccessorName() + "()";
+            }
+            else
+            {
+              EClass eClass = eOperation.getEContainingClass();
+              return (useGenerics ? "" : "(" + getGenModel().getImportedName("org.eclipse.emf.ecore.EOperation") + ")")
+                + caseEClassifier(eClass) + ".getEOperations().get(" + eClass.getEOperations().indexOf(eOperation) + ")";
+            }
+        }
+
           @Override
           public String caseEEnumLiteral(EEnumLiteral eEnumLiteral)
           {

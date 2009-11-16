@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.15 2009/09/18 18:10:34 khussey Exp $
+ * $Id: GenClassifierImpl.java,v 1.16 2009/11/16 19:26:46 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -319,7 +320,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
 
   public boolean hasConstraintExpression(String constraint)
   {
-    return getConstraintExpression(constraint) != null;
+    return getGenModel().getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && getConstraintExpression(constraint) != null;
   }
 
   public String getConstraintExpression(String constraint, String indentation)

@@ -711,7 +711,7 @@ public class ValidatorClass
     stringBuffer.append(genPackage.getValidatorPackageUniqueSafeName(baseGenPackage));
     stringBuffer.append(TEXT_30);
     }
-    if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && genPackage.hasInvariantExpressions()) {
+    if (genPackage.hasInvariantExpressions()) {
     stringBuffer.append(TEXT_31);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EClass"));
     stringBuffer.append(TEXT_32);
@@ -986,7 +986,7 @@ public class ValidatorClass
     stringBuffer.append(TEXT_150);
     }
     }
-    if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && genClassifier.hasConstraintExpression(constraint)) {
+    if (genClassifier.hasConstraintExpression(constraint)) {
     stringBuffer.append(TEXT_151);
     stringBuffer.append(constraint);
     stringBuffer.append(TEXT_152);
@@ -1702,7 +1702,7 @@ public class ValidatorClass
     stringBuffer.append(context);
     stringBuffer.append(TEXT_489);
     } else {
-    if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && genClassifier.hasConstraintExpression(constraint)) {
+    if (genClassifier.hasConstraintExpression(constraint)) {
     stringBuffer.append(TEXT_490);
     stringBuffer.append(genClassifier.getQualifiedClassifierAccessor());
     stringBuffer.append(TEXT_491);
@@ -1842,7 +1842,7 @@ public class ValidatorClass
     stringBuffer.append(context);
     stringBuffer.append(TEXT_556);
     } else {
-    if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && genClassifier.hasConstraintExpression(constraint)) {
+    if (genClassifier.hasConstraintExpression(constraint)) {
     stringBuffer.append(TEXT_557);
     stringBuffer.append(genClassifier.getQualifiedClassifierAccessor());
     stringBuffer.append(TEXT_558);

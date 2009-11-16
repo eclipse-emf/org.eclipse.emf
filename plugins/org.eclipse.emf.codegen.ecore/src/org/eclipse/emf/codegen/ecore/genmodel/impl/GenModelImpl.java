@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.109 2009/04/30 14:55:26 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.110 2009/11/16 19:26:46 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -184,6 +184,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getInterfaceNamePattern <em>Interface Name Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getClassNamePattern <em>Class Name Pattern</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isOperationReflection <em>Operation Reflection</em>}</li>
  * </ul>
  * </p>
  *
@@ -1676,6 +1677,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected String classNamePattern = CLASS_NAME_PATTERN_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isOperationReflection() <em>Operation Reflection</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isOperationReflection()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean OPERATION_REFLECTION_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isOperationReflection() <em>Operation Reflection</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isOperationReflection()
+   * @generated
+   * @ordered
+   */
+  protected boolean operationReflection = OPERATION_REFLECTION_EDEFAULT;
 
   protected boolean validateModel = false;
 
@@ -6116,6 +6137,34 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isOperationReflectionGen()
+  {
+    return operationReflection;
+  }
+
+  public boolean isOperationReflection()
+  {
+    return getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && isOperationReflectionGen();
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOperationReflection(boolean newOperationReflection)
+  {
+    boolean oldOperationReflection = operationReflection;
+    operationReflection = newOperationReflection;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__OPERATION_REFLECTION, oldOperationReflection, operationReflection));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
@@ -6306,6 +6355,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getInterfaceNamePattern();
       case GenModelPackage.GEN_MODEL__CLASS_NAME_PATTERN:
         return getClassNamePattern();
+      case GenModelPackage.GEN_MODEL__OPERATION_REFLECTION:
+        return isOperationReflection();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -6558,6 +6609,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CLASS_NAME_PATTERN:
         setClassNamePattern((String)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__OPERATION_REFLECTION:
+        setOperationReflection((Boolean)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -6800,6 +6854,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CLASS_NAME_PATTERN:
         setClassNamePattern(CLASS_NAME_PATTERN_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__OPERATION_REFLECTION:
+        setOperationReflection(OPERATION_REFLECTION_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -6966,6 +7023,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return INTERFACE_NAME_PATTERN_EDEFAULT == null ? interfaceNamePattern != null : !INTERFACE_NAME_PATTERN_EDEFAULT.equals(interfaceNamePattern);
       case GenModelPackage.GEN_MODEL__CLASS_NAME_PATTERN:
         return CLASS_NAME_PATTERN_EDEFAULT == null ? classNamePattern != null : !CLASS_NAME_PATTERN_EDEFAULT.equals(classNamePattern);
+      case GenModelPackage.GEN_MODEL__OPERATION_REFLECTION:
+        return operationReflection != OPERATION_REFLECTION_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -7127,6 +7186,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(interfaceNamePattern);
     result.append(", classNamePattern: ");
     result.append(classNamePattern);
+    result.append(", operationReflection: ");
+    result.append(operationReflection);
     result.append(')');
     return result.toString();
   }
@@ -8384,6 +8445,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setPackedEnums(oldGenModelVersion.isPackedEnums());
     setInterfaceNamePattern(oldGenModelVersion.getInterfaceNamePattern());
     setClassNamePattern(oldGenModelVersion.getClassNamePattern());
+    setOperationReflection(oldGenModelVersion.isOperationReflection());
   }
 
   public boolean reconcile()

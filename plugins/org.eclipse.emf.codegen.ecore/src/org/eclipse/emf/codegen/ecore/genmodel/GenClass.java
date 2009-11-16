@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2009 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.34 2009/02/23 19:29:30 davidms Exp $
+ * $Id: GenClass.java,v 1.35 2009/11/16 19:26:45 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -277,6 +277,11 @@ public interface GenClass extends GenClassifier
   List<GenFeature> getInheritedGenFeatures();
   List<GenOperation> getAllGenOperations();
 
+  /**
+   * @since 2.6
+   */
+  List<GenOperation> getAllGenOperations(boolean excludeOverrides);
+
   String getFeatureID(GenFeature genFeature);
   String getQualifiedFeatureID(GenFeature genFeature);
   String getOperationID(GenOperation genOperation);
@@ -284,10 +289,37 @@ public interface GenClass extends GenClassifier
   String getLocalFeatureIndex(GenFeature genFeature);
   String getFlagsField(GenFeature genFeature);
   int getFlagIndex(GenFeature genFeature);
+
+  /**
+   * @since 2.6
+   */
+  String getUniqueName(GenOperation genOperation);
+
+  /**
+   * @since 2.6
+   */
+  String getOperationID(GenOperation genOperation, boolean diagnosticCode);
+
+  /**
+   * @since 2.6
+   */
+  String getQualifiedOperationID(GenOperation genOperation);
+
+  /**
+   * @since 2.6
+   */
+  String getOperationValue(GenOperation genOperation);
+
+  /**
+   * @since 2.6
+   */
+  String getLocalOperationIndex(GenOperation genOperation);
+
   /**
    * @since 2.4
    */
   int getFlagSize(GenFeature genFeature);
+
   /**
    * @since 2.4
    */
@@ -299,6 +331,36 @@ public interface GenClass extends GenClassifier
   String getQualifiedFeatureCountID();
   String getFeatureCountValue();
   int getFeatureCount();
+
+  /**
+   * @since 2.6
+   */
+  String getOperationCountID();
+
+  /**
+   * @since 2.6
+   */
+  String getQualifiedOperationCountID();
+
+  /**
+   * @since 2.6
+   */
+  String getOperationCountValue();
+
+  /**
+   * @since 2.6
+   */
+  int getOperationCount();
+
+  /**
+   * @since 2.6
+   */
+  GenOperation getOverrideGenOperation(GenOperation genOperation);
+
+  /**
+   * @since 2.6
+   */
+  List<GenOperation> getOverrideGenOperations(List<GenOperation> baseGenOperations, List<GenOperation> derivedGenOperations);
 
   boolean isEObject();
   boolean isEObjectExtension();
