@@ -5503,7 +5503,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1605);
     }
-    LOOP: for (GenOperation genOperation : genClass.getGenOperations()) {
+    LOOP: for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) {
     for (GenParameter genParameter : genOperation.getGenParameters()) {
     if (genParameter.isUncheckedCast()) {
     stringBuffer.append(TEXT_1606);

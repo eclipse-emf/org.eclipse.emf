@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.87 2009/11/16 19:26:45 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.88 2009/11/16 21:23:54 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -2085,7 +2085,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
   <%if (genModel.useClassOverrideAnnotation()) {%>
 	@Override
   <%}%>
-  <%LOOP: for (GenOperation genOperation : genClass.getGenOperations()) {%>
+  <%LOOP: for (GenOperation genOperation : (genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenOperations() : genClass.getAllGenOperations())) {%>
     <%for (GenParameter genParameter : genOperation.getGenParameters()) {%>
       <%if (genParameter.isUncheckedCast()) {%>
 	@SuppressWarnings("unchecked")
