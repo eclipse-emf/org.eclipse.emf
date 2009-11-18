@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.24 2008/12/22 14:26:18 emerks Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.25 2009/11/18 12:00:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -656,7 +656,6 @@ public class GenModelActionBarContributor
     generateMenuManager.add(new Separator("annotation-actions"));
     generateMenuManager.add(showGenAnnotationsAction);    
     
-    generateMenuManager.add(new Separator("annotation-actions"));
     generateMenuManager.add(new Separator("global-actions"));
   }
 
