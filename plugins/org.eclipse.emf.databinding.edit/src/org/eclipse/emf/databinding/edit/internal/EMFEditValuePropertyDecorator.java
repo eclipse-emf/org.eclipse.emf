@@ -1,17 +1,17 @@
 /**
- * <copyright> 
+ * <copyright>
  *
  * Copyright (c) 2009 BestSolution.at and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Tom Schindl <tom.schindl@bestsolution.at> - Initial API and implementation (bug 262160)
  * </copyright>
  *
- * $Id: EMFEditValuePropertyDecorator.java,v 1.2 2009/05/28 10:02:04 emerks Exp $
+ * $Id: EMFEditValuePropertyDecorator.java,v 1.3 2009/11/25 09:15:02 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit.internal;
 
@@ -26,10 +26,12 @@ import org.eclipse.core.databinding.property.value.ValueProperty;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFMapProperty;
+import org.eclipse.emf.databinding.IEMFSetProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
 import org.eclipse.emf.databinding.edit.IEMFEditMapProperty;
+import org.eclipse.emf.databinding.edit.IEMFEditSetProperty;
 import org.eclipse.emf.databinding.edit.IEMFEditValueProperty;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -37,7 +39,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 /**
  * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
- * 
+ *
  * @since 2.5
  */
 public class EMFEditValuePropertyDecorator extends ValueProperty implements IEMFEditValueProperty
@@ -91,6 +93,16 @@ public class EMFEditValuePropertyDecorator extends ValueProperty implements IEMF
   public IEMFEditListProperty list(IEMFEditListProperty property)
   {
     return new EMFEditListPropertyDecorator(editingDomain, super.list(property), property.getStructuralFeature());
+  }
+
+  public IEMFEditSetProperty set(EStructuralFeature feature)
+  {
+    return set(EMFEditProperties.set(editingDomain, feature));
+  }
+
+  public IEMFEditSetProperty set(IEMFEditSetProperty property)
+  {
+    return new EMFEditSetPropertyDecorator(editingDomain, super.set(property), property.getStructuralFeature());
   }
 
   public IEMFEditMapProperty map(EStructuralFeature feature)
@@ -171,5 +183,10 @@ public class EMFEditValuePropertyDecorator extends ValueProperty implements IEMF
   public IEMFEditValueProperty value(IEMFValueProperty property)
   {
     return new EMFEditValuePropertyDecorator(editingDomain, super.value(property), property.getStructuralFeature());
+  }
+
+  public IEMFSetProperty set(IEMFSetProperty property)
+  {
+    return new EMFEditSetPropertyDecorator(editingDomain, super.set(property), property.getStructuralFeature());
   }
 }

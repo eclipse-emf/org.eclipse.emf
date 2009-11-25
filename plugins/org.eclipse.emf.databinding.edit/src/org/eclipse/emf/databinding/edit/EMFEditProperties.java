@@ -1,25 +1,26 @@
 /**
- * <copyright> 
+ * <copyright>
  *
  * Copyright (c) 2008 Matthew Hall and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Matthew Hall - initial API and implementation (bug 194734)
  *   Matthew Hall - bug 195222, 247997, 261843, 264307
  *   Hasan Ceylan  - patch in bug 262160
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFEditProperties.java,v 1.2 2009/05/29 17:02:12 tschindl Exp $
+ * $Id: EMFEditProperties.java,v 1.3 2009/11/25 09:15:02 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit;
 
 import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.core.databinding.property.map.IMapProperty;
+import org.eclipse.core.databinding.property.set.ISetProperty;
 import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.edit.internal.EMFEditListProperty;
@@ -27,6 +28,8 @@ import org.eclipse.emf.databinding.edit.internal.EMFEditListPropertyDecorator;
 import org.eclipse.emf.databinding.edit.internal.EMFEditMapProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditMapPropertyDecorator;
 import org.eclipse.emf.databinding.edit.internal.EMFEditMultiListProperty;
+import org.eclipse.emf.databinding.edit.internal.EMFEditSetProperty;
+import org.eclipse.emf.databinding.edit.internal.EMFEditSetPropertyDecorator;
 import org.eclipse.emf.databinding.edit.internal.EMFEditValueProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditValuePropertyDecorator;
 import org.eclipse.emf.ecore.EObject;
@@ -36,9 +39,9 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 /**
  * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
- * 
+ *
  * A factory to create property bound attributes for {@link EObject} which use an {@link EditingDomain} to make changes to the {@link EObject}
- * 
+ *
  * @since 2.5
  */
 public class EMFEditProperties
@@ -50,7 +53,7 @@ public class EMFEditProperties
 
   /**
    * Returns a value property for the given {@link EStructuralFeature}
-   * 
+   *
    * @param editingDomain the editing domain
    * @param feature
    *            the feature instance the property is created for
@@ -64,7 +67,7 @@ public class EMFEditProperties
   /**
    * Returns a value property for the given nested {@link EStructuralFeature}
    * feature like the <code>name</code> of a <code>person</code>
-   * 
+   *
    * @param editingDomain the editing domain
    * @param featurePath
    *            path to the feature
@@ -88,8 +91,8 @@ public class EMFEditProperties
   /**
    * Returns multiple value properties for the given
    * {@link EStructuralFeature}s
-   * 
-   * @param editingDomain 
+   *
+   * @param editingDomain
    *            the editing domain
    * @param features
    *            the feature instances the properties are created for
@@ -107,8 +110,8 @@ public class EMFEditProperties
    * Returns multiple value property for the given nested
    * {@link EStructuralFeature} features like the <code>name</code> of a
    * <code>person</code>
-   * 
-   * @param editingDomain 
+   *
+   * @param editingDomain
    *            the editing domain
    * @param featurePaths
    *            path to the feature
@@ -123,9 +126,54 @@ public class EMFEditProperties
   }
 
   /**
+   * Returns a set property for the given {@link EStructuralFeature}
+   * @param editingDomain
+   *            the editing domain
+   * @param feature
+   *            the feature instance the property is created for
+   * @return a list property for the given {@link EStructuralFeature}
+   */
+  public static IEMFEditSetProperty set(EditingDomain editingDomain, EStructuralFeature feature)
+  {
+    ISetProperty property;
+    property = new EMFEditSetProperty(editingDomain, feature);
+    return new EMFEditSetPropertyDecorator(editingDomain, property, feature);
+  }
+
+  /**
+   * Returns a set property for the given {@link FeaturePath}
+   * @param editingDomain
+   *            the editing domain
+   * @param featurePath the feature path
+   * @return a list property for the given {@link FeaturePath}
+   */
+  public static IEMFEditSetProperty set(EditingDomain editingDomain, FeaturePath featurePath)
+  {
+    int len = featurePath.getFeaturePath().length;
+    if (len > 1)
+    {
+      IValueProperty property;
+      property = new EMFEditValueProperty(editingDomain, featurePath.getFeaturePath()[0]);
+
+      IEMFEditValueProperty featureProperty = new EMFEditValuePropertyDecorator(editingDomain, property, featurePath.getFeaturePath()[0]);
+
+      for (int i = 1; i < featurePath.getFeaturePath().length - 1; i++)
+      {
+        featureProperty = featureProperty.value(featurePath.getFeaturePath()[i]);
+      }
+
+      return featureProperty.set(set(editingDomain, featurePath.getFeaturePath()[len - 1]));
+    }
+    else
+    {
+      return set(editingDomain, featurePath.getFeaturePath()[len - 1]);
+    }
+  }
+
+  /**
    * Returns a list property for the given {@link EStructuralFeature}
-   * 
-   * @param editingDomain 
+   *
+   * @param editingDomain
    *            the editing domain
    * @param feature
    *            the feature instance the property is created for
@@ -240,8 +288,8 @@ public class EMFEditProperties
   /**
    * Returns a map property for the given {@link EStructuralFeature}. Objects lacking the named property are treated the same as if the
    * property always contains an empty map.
-   * 
-   * @param editingDomain 
+   *
+   * @param editingDomain
    *            the editing domain
    * @param feature
    *            the feature the property is created for
