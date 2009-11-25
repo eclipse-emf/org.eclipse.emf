@@ -12,5 +12,11 @@ Export-Package: org.eclipse.emf.test.databinding,
  org.eclipse.emf.test.databinding.emfdb.impl,
  org.eclipse.emf.test.databinding.emfdb.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.junit,
+ org.eclipse.core.databinding,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.test.common,
+ org.eclipse.emf.databinding,
+ org.eclipse.core.databinding.property;bundle-version="1.2.0"
 Bundle-ActivationPolicy: lazy
