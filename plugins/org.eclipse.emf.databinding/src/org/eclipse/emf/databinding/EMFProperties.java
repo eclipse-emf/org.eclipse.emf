@@ -1,31 +1,34 @@
 /**
- * <copyright> 
+ * <copyright>
  *
  * Copyright (c) 2008 Matthew Hall and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Matthew Hall - initial API and implementation (bug 194734)
  *   Matthew Hall - bug 195222, 247997, 261843, 264307
  *   Hasan Ceylan  - patch in bug 262160
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFProperties.java,v 1.2 2009/05/29 17:02:10 tschindl Exp $
+ * $Id: EMFProperties.java,v 1.3 2009/11/25 09:15:05 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
 import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.core.databinding.property.map.IMapProperty;
+import org.eclipse.core.databinding.property.set.ISetProperty;
 import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.emf.databinding.internal.EMFMultiListProperty;
 import org.eclipse.emf.databinding.internal.EMFListProperty;
 import org.eclipse.emf.databinding.internal.EMFListPropertyDecorator;
 import org.eclipse.emf.databinding.internal.EMFMapProperty;
 import org.eclipse.emf.databinding.internal.EMFMapPropertyDecorator;
+import org.eclipse.emf.databinding.internal.EMFSetProperty;
+import org.eclipse.emf.databinding.internal.EMFSetPropertyDecorator;
 import org.eclipse.emf.databinding.internal.EMFValueProperty;
 import org.eclipse.emf.databinding.internal.EMFValuePropertyDecorator;
 import org.eclipse.emf.ecore.EObject;
@@ -34,9 +37,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
  * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
- * 
+ *
  * A factory to create property bound attributes for {@link EObject}
- * 
+ *
  * @since 2.5
  */
 public class EMFProperties
@@ -48,7 +51,7 @@ public class EMFProperties
 
   /**
    * Returns a value property for the given {@link EStructuralFeature}
-   * 
+   *
    * @param feature
    *            the feature instance the property is created for
    * @return a value property for the given {@link EStructuralFeature}
@@ -61,7 +64,7 @@ public class EMFProperties
   /**
    * Returns a value property for the given nested {@link EStructuralFeature}
    * feature like the <code>name</code> of a <code>person</code>
-   * 
+   *
    * @param featurePath
    *            path to the feature
    * @return a value property for the given {@link FeaturePath}
@@ -84,7 +87,7 @@ public class EMFProperties
   /**
    * Returns multiple value properties for the given
    * {@link EStructuralFeature}s
-   * 
+   *
    * @param features
    *            the feature instances the properties are created for
    * @return an array of properties for the given {@link EStructuralFeature}s
@@ -101,7 +104,7 @@ public class EMFProperties
    * Returns multiple value property for the given nested
    * {@link EStructuralFeature} features like the <code>name</code> of a
    * <code>person</code>
-   * 
+   *
    * @param featurePaths
    *            path to the feature
    * @return an array of properties for the given {@link FeaturePath}s
@@ -116,7 +119,7 @@ public class EMFProperties
 
   /**
    * Returns a list property for the given {@link EStructuralFeature}
-   * 
+   *
    * @param feature
    *            the feature instance the property is created for
    * @return a list property for the given {@link EStructuralFeature}
@@ -153,6 +156,48 @@ public class EMFProperties
     else
     {
       return list(featurePath.getFeaturePath()[len - 1]);
+    }
+  }
+
+  /**
+   * Returns a set property for the given {@link EStructuralFeature}
+   *
+   * @param feature
+   *            the feature instance the property is created for
+   * @return a list property for the given {@link EStructuralFeature}
+   */
+  public static IEMFSetProperty set(EStructuralFeature feature)
+  {
+    ISetProperty property;
+    property = new EMFSetProperty(feature);
+    return new EMFSetPropertyDecorator(property, feature);
+  }
+
+  /**
+   * Returns a set property for the given {@link FeaturePath}
+   * @param featurePath the feature path
+   * @return a list property for the given {@link FeaturePath}
+   */
+  public static IEMFSetProperty set(FeaturePath featurePath)
+  {
+    int len = featurePath.getFeaturePath().length;
+    if (len > 1)
+    {
+      IValueProperty property;
+      property = new EMFValueProperty(featurePath.getFeaturePath()[0]);
+
+      IEMFValueProperty featureProperty = new EMFValuePropertyDecorator(property, featurePath.getFeaturePath()[0]);
+
+      for (int i = 1; i < featurePath.getFeaturePath().length - 1; i++)
+      {
+        featureProperty = featureProperty.value(featurePath.getFeaturePath()[i]);
+      }
+
+      return featureProperty.set(set(featurePath.getFeaturePath()[len - 1]));
+    }
+    else
+    {
+      return set(featurePath.getFeaturePath()[len - 1]);
     }
   }
 
@@ -225,7 +270,7 @@ public class EMFProperties
   /**
    * Returns a map property for the given {@link EStructuralFeature}. Objects lacking the named property are treated the same as if the
    * property always contains an empty map.
-   * 
+   *
    * @param feature
    *            the feature the property is created for
    * @return a map property for the given {@link EStructuralFeature}

@@ -1,26 +1,29 @@
 /**
- * <copyright> 
+ * <copyright>
  *
  * Copyright (c) 2009 BestSolution.at and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFPropertyListener.java,v 1.3 2009/06/01 17:08:29 tschindl Exp $
+ * $Id: EMFPropertyListener.java,v 1.4 2009/11/25 09:15:05 tschindl Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.eclipse.core.databinding.observable.Diffs;
 import org.eclipse.core.databinding.observable.list.ListDiff;
 import org.eclipse.core.databinding.observable.list.ListDiffEntry;
+import org.eclipse.core.databinding.observable.set.SetDiff;
 import org.eclipse.core.databinding.property.INativePropertyListener;
 import org.eclipse.core.databinding.property.IProperty;
 import org.eclipse.core.databinding.property.ISimplePropertyListener;
@@ -33,7 +36,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
  * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
- * 
+ *
  * @since 2.5
  */
 public abstract class EMFPropertyListener extends AdapterImpl implements INativePropertyListener
@@ -70,7 +73,7 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
   protected abstract IProperty getOwner();
 
   /**
-   * 
+   *
    */
   public abstract static class EMFListPropertyListener extends EMFPropertyListener
   {
@@ -146,7 +149,59 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
   }
 
   /**
-   * 
+   *
+   */
+  public abstract static class EMFSetPropertyListener extends EMFPropertyListener
+  {
+    @Override
+    public void notifyChanged(Notification msg)
+    {
+      if (getFeature() == msg.getFeature() && !msg.isTouch())
+      {
+        final SetDiff diff;
+        switch (msg.getEventType())
+        {
+          case Notification.ADD: {
+            diff = Diffs.createSetDiff(Collections.singleton(msg.getNewValue()),Collections.emptySet());
+            break;
+          }
+          case Notification.ADD_MANY: {
+            Collection< ? > newValues = (Collection< ? >)msg.getNewValue();
+            diff = Diffs.createSetDiff(new HashSet<Object>(newValues), Collections.emptySet());
+            break;
+          }
+          case Notification.REMOVE: {
+            diff = Diffs.createSetDiff(Collections.emptySet(),Collections.singleton(msg.getOldValue()));
+            break;
+          }
+          case Notification.REMOVE_MANY: {
+            Collection< ? > oldValues = (Collection< ? >)msg.getOldValue();
+            diff = Diffs.createSetDiff(Collections.emptySet(), new HashSet<Object>(oldValues));
+            break;
+          }
+          case Notification.SET:
+          case Notification.RESOLVE: {
+            diff = Diffs.createSetDiff(Collections.singleton(msg.getNewValue()), Collections.singleton(msg.getOldValue()) );
+            break;
+          }
+          case Notification.MOVE:
+          case Notification.UNSET: {
+            // This just represents going back to the unset state, but
+            // that doesn't affect the contents of the list.
+            //
+            return;
+          }
+          default: {
+            throw new RuntimeException("unhandled case");
+          }
+        }
+        getListener().handleEvent((new SimplePropertyEvent(SimplePropertyEvent.CHANGE, msg.getNotifier(), getOwner(), diff)));
+      }
+    }
+  }
+
+  /**
+   *
    */
   public abstract static class EMFMapPropertyListener extends EMFPropertyListener
   {
@@ -164,7 +219,7 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
   }
 
   /**
-   * 
+   *
    */
   public abstract static class EMFValuePropertyListener extends EMFPropertyListener
   {

@@ -1,18 +1,18 @@
 /**
- * <copyright> 
+ * <copyright>
  *
  * Copyright (c) 2008 Matthew Hall and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   Matthew Hall - initial API and implementation (bug 195222)
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: IEMFValueProperty.java,v 1.1 2009/05/23 11:11:33 tschindl Exp $
+ * $Id: IEMFValueProperty.java,v 1.2 2009/11/25 09:15:05 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
  * <p><b>PROVISIONAL:</b> This API is subject to arbitrary change, including renaming or removal.</p>
- * 
+ *
  * An {@link IValueProperty} extension interface with convenience methods for
  * creating nested {@link EStructuralFeature} properties.
- * 
+ *
  * @since 2.5
  * @noextend This interface is not intended to be extended by clients.
  * @noimplement This interface is not intended to be implemented by clients.
@@ -35,7 +35,7 @@ public interface IEMFValueProperty extends IEMFProperty, IValueProperty
   /**
    * Returns a master-detail combination of this property and the specified
    * nested value feature.
-   * 
+   *
    * @param featurePath
    *            the nested value property to observe.
    * @return a master-detail combination of this property and the specified
@@ -47,7 +47,7 @@ public interface IEMFValueProperty extends IEMFProperty, IValueProperty
   /**
    * Returns a master-detail combination of this property and the specified
    * value feature.
-   * 
+   *
    * @param feature
    *            the nested value property to observe.
    * @return a master-detail combination of this property and the specified
@@ -62,7 +62,7 @@ public interface IEMFValueProperty extends IEMFProperty, IValueProperty
    * value property for the value of the master value property.
    * <p>
    * Example:
-   * 
+   *
    * <pre>
    * // Observes the Node-typed &quot;parent&quot; property of a Node object
    * IEMFValueProperty parent = EMFProperties.value(MyPackage.Literals.NODE_PARENT);
@@ -71,7 +71,7 @@ public interface IEMFValueProperty extends IEMFProperty, IValueProperty
    * // Observes the name of the parent of a Node object.
    * IEMFValueProperty parentName = parent.value(name);
    * </pre>
-   * 
+   *
    * @param property
    *            the detail property to observe
    * @return a master-detail combination of this property and the specified
@@ -82,7 +82,7 @@ public interface IEMFValueProperty extends IEMFProperty, IValueProperty
   /**
    * Returns a master-detail combination of this property and the specified
    * list feature.
-   * 
+   *
    * @param feature
    *            the list feature to observe
    * @return a master-detail combination of this property and the specified
@@ -97,7 +97,7 @@ public interface IEMFValueProperty extends IEMFProperty, IValueProperty
    * property for the value of the master property.
    * <p>
    * Example:
-   * 
+   *
    * <pre>
    * // Observes the Node-typed &quot;parent&quot; property of a Node object.
    * IEMFValueProperty parent = EMFProperties.value(MyPackage.Literals.NODE_PARENT);
@@ -107,7 +107,7 @@ public interface IEMFValueProperty extends IEMFProperty, IValueProperty
    * // Observes the children of the parent (siblings) of a Node object.
    * IEMFListProperty siblings = parent.list(children);
    * </pre>
-   * 
+   *
    * @param property
    *            the detail property to observe
    * @return a master-detail combination of this property and the specified
@@ -118,7 +118,7 @@ public interface IEMFValueProperty extends IEMFProperty, IValueProperty
   /**
    * Returns a master-detail combination of this property and the specified
    * map feature.
-   * 
+   *
    * @param feature
    *            the map property to observe
    * @return a master-detail combination of this property and the specified
@@ -133,10 +133,10 @@ public interface IEMFValueProperty extends IEMFProperty, IValueProperty
    * property for the value of the master property.
    * <p>
    * Example:
-   * 
+   *
    * <pre>
    * // Observes the Contact-typed &quot;supervisor&quot; property of a
-   * // Contact class 
+   * // Contact class
    * IEMFValueProperty supervisor = EMFProperties.value(MyPackage.Literals.CONTACT_SUPERVISOR);
    * // Observes the property &quot;phoneNumbers&quot; of a Contact object--a property mapping
    * // from PhoneNumberType to PhoneNumber &quot;set-typed &quot;children&quot;,
@@ -144,11 +144,47 @@ public interface IEMFValueProperty extends IEMFProperty, IValueProperty
    * // Observes the phone numbers of a contact's supervisor:
    * IEMFMapProperty supervisorPhoneNumbers = supervisor.map(phoneNumbers);
    * </pre>
-   * 
+   *
    * @param property
    *            the detail property to observe
    * @return a master-detail combination of this property and the specified
    *         map property.
    */
   public IEMFMapProperty map(IEMFMapProperty property);
+
+  /**
+   * Returns a master-detail combination of this property and the specified
+   * set property.
+   *
+   * @param feature
+   *            the set feature to observe
+   * @return a master-detail combination of this property and the specified
+   *         set property.
+   * @see #set(IEMFSetProperty)
+   */
+  public IEMFSetProperty set(EStructuralFeature feature);
+
+  /**
+   * Returns a master-detail combination of this property and the specified
+   * set property. The returned property will observe the specified set
+   * property for the value of the master property.
+   * <p>
+   * Example:
+   *
+   * <pre>
+   * // Observes the Node-typed &quot;parent&quot; property of a Node object.
+   * IEMFValueProperty parent = EMFProperties.value(MyPackage.Literals.NODE__PARENT);
+   * // Observes the Set-typed &quot;children&quot; property of a Node object
+   * // where the elements are Node objects
+   * IEMFSetProperty children = EMFProperties.set(MyPackage.Literals.NODE__CHILDREN);
+   * // Observes the children of the parent (siblings) of a Node object.
+   * IEMFSetProperty siblings = parent.set(children);
+   * </pre>
+   *
+   * @param property
+   *            the detail property to observe
+   * @return a master-detail combination of this property and the specified
+   *         set property.
+   */
+  public IEMFSetProperty set(IEMFSetProperty property);
 }
