@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.25 2009/10/19 09:22:31 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.26 2009/11/26 19:06:43 davidms Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -445,10 +445,10 @@ public class ECrossReferenceAdapter implements Adapter.Internal
         EReference reference = (EReference)feature;
         if (reference.isContainment())
         {
-        handleContainment(notification);
-      }
+          handleContainment(notification);
+        }
         else if (isIncluded(reference))
-      {
+        {
           handleCrossReference(reference, notification);
         }
       }
@@ -610,7 +610,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
       {
         EObject notifier = (EObject)notification.getNotifier();
         EReference feature = (EReference)notification.getFeature();
-        if (notification.getPosition() != Notification.NO_INDEX)
+        if (!feature.isMany() || notification.getPosition() != Notification.NO_INDEX)
         {
           EObject oldValue = (EObject)notification.getOldValue();
           if (oldValue != null)
