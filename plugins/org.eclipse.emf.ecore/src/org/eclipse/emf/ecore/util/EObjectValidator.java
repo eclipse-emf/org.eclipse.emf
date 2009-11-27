@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.32 2009/10/19 10:58:31 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.33 2009/11/27 19:13:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -52,6 +53,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 
@@ -933,6 +935,7 @@ public class EObjectValidator implements EValidator
     protected Object effectiveMax;
     protected boolean effectiveMaxIsInclusive;
     protected int effectiveTotalDigitsMax = -1;
+    protected EDataType builtinType;
     protected EDataType itemType;
     protected List<EDataType> memberTypes;
 
@@ -1047,7 +1050,17 @@ public class EObjectValidator implements EValidator
         if (baseType != null)
         {
           eDataType = baseType;
-          continue;
+          if (eDataType.getEPackage() == XMLTypePackage.eINSTANCE && eDataType.getInstanceClassName() == "javax.xml.datatype.XMLGregorianCalendar")
+          {
+            builtinType = eDataType;
+            itemType = null;
+            memberTypes = Collections.emptyList();
+            break;
+          }
+          else
+          {
+            continue;
+          }
         }
         else
         {
@@ -1252,6 +1265,12 @@ public class EObjectValidator implements EValidator
         }
       }
       
+      if (builtinType != null)
+      {
+        EValidator rootValidator = getRootEValidator(context);
+        result &= rootValidator.validate(builtinType, value, diagnostics, context);
+      }
+
       return result;
     }
 
