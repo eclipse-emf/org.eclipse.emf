@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.19 2009/05/27 10:22:08 emerks Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.20 2009/12/03 11:34:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.ECollections;
@@ -152,6 +153,27 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     protected EStore eStore()
     {
       return owner.eStore();
+    }
+
+    @Override
+    public boolean isSet()
+    {
+      return eStore().isSet(owner, eStructuralFeature);
+    }
+
+    @Override
+    public void unset()
+    {
+      if (isUnsettable() && isNotificationRequired())
+      {
+        boolean oldIsSet = isSet();
+        eStore().unset(owner, eStructuralFeature);
+        dispatchNotification(createNotification(Notification.UNSET, oldIsSet, false));
+      }
+      else
+      {
+        eStore().unset(owner, eStructuralFeature);
+      }
     }
 
     @Override
