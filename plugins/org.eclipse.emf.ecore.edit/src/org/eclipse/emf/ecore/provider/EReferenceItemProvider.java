@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.20 2008/04/27 20:27:57 davidms Exp $
+ * $Id: EReferenceItemProvider.java,v 1.21 2009/12/09 17:05:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -207,7 +207,8 @@ public class EReferenceItemProvider
                 {
                   EClass eOppositeContainingClass = eOpposite.getEContainingClass();
                   EClass eOppositeReferenceType = eOpposite.getEReferenceType();
-                  if (eOppositeContainingClass == null || 
+                  if (eOppositeContainingClass == null ||
+                        eOppositeReferenceType == null || 
                         !eOppositeContainingClass.isSuperTypeOf(eReferenceType)  || 
                         !eContainingClass.isSuperTypeOf(eOppositeReferenceType))
                   {
