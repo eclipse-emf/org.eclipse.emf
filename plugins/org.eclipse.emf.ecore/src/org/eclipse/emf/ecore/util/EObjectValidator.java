@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.33 2009/11/27 19:13:23 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.34 2009/12/28 15:49:01 khussey Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1389,7 +1389,9 @@ public class EObjectValidator implements EValidator
           List<EClass> eSuperTypes = eClass.getESuperTypes();
           result &= eSuperTypes.isEmpty() ?
             validate_EveryDefaultConstraint(eObject, diagnostics, context) :
-            validate(eSuperTypes.get(0), eObject, diagnostics, context);
+              eClass.eContainer() == getEPackage() ?
+                EObjectValidator.this.validate(eClass.getClassifierID(), eObject, diagnostics, context) :
+                validate(eSuperTypes.get(0), eObject, diagnostics, context);
         }
       }
 
