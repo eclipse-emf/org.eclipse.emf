@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.19 2007/06/12 20:56:05 emerks Exp $
+ * $Id: JETCompiler.java,v 1.20 2009/12/30 16:49:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -287,7 +287,8 @@ public class JETCompiler implements JETParseEventListener
             byte[] input = new byte [bufferedInputStream.available()];
             bufferedInputStream.read(input);
             bufferedInputStream.close();
-            skeleton.setCompilationUnitContents(new String(input));
+            String skeletonEncoding = attributes.get("skeletonEncoding");
+            skeleton.setCompilationUnitContents(skeletonEncoding == null ? new String(input) : new String(input, skeletonEncoding));
           }
           catch (IOException exception)
           {
