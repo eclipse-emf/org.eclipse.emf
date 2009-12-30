@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteCommand.java,v 1.9 2009/07/30 18:16:00 davidms Exp $
+ * $Id: DeleteCommand.java,v 1.10 2009/12/30 17:08:31 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -36,8 +36,10 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 
 /**
- * This uses one or more {@link RemoveCommand}s to remove an object from its parent container and to delete all other
- * references to it from within the editing domain.
+ * This {@link RemoveCommand removes} an object from its parent and, 
+ * if that leaves the object orphaned from any resource,
+ * i.e. in the usual case where its parent was its container, 
+ * additionally deletes all other references to it from within the editing domain.
  * @since 2.2
  */
 public class DeleteCommand extends CompoundCommand
@@ -79,7 +81,7 @@ public class DeleteCommand extends CompoundCommand
   }
 
   /**
-   * This is the editing doman in which this command operates.
+   * This is the editing domain in which this command operates.
    */
   protected EditingDomain domain;
 
@@ -139,22 +141,25 @@ public class DeleteCommand extends CompoundCommand
     for (Map.Entry<EObject, Collection<EStructuralFeature.Setting>> entry : usages.entrySet())
     {
       EObject eObject = entry.getKey();
-      Collection<EStructuralFeature.Setting> settings = entry.getValue();
-      for (EStructuralFeature.Setting setting : settings)
+      if (eObject.eResource() == null)
       {
-        EObject referencingEObject = setting.getEObject();
-        if (!eObjects.contains(referencingEObject))
+        Collection<EStructuralFeature.Setting> settings = entry.getValue();
+        for (EStructuralFeature.Setting setting : settings)
         {
-          EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
-          if (eStructuralFeature.isChangeable())
+          EObject referencingEObject = setting.getEObject();
+          if (!eObjects.contains(referencingEObject))
           {
-            if (eStructuralFeature.isMany())
+            EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
+            if (eStructuralFeature.isChangeable())
             {
-              appendAndExecute(RemoveCommand.create(domain, referencingEObject, eStructuralFeature, eObject));
-            }
-            else
-            {
-              appendAndExecute(SetCommand.create(domain, referencingEObject, eStructuralFeature, SetCommand.UNSET_VALUE));
+              if (eStructuralFeature.isMany())
+              {
+                appendAndExecute(RemoveCommand.create(domain, referencingEObject, eStructuralFeature, eObject));
+              }
+              else
+              {
+                appendAndExecute(SetCommand.create(domain, referencingEObject, eStructuralFeature, SetCommand.UNSET_VALUE));
+              }
             }
           }
         }
