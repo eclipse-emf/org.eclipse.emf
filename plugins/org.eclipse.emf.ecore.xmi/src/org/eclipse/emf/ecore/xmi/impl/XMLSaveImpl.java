@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.79 2008/12/22 14:25:53 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.80 2009/12/30 15:51:18 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -651,6 +651,7 @@ public class XMLSaveImpl implements XMLSave
       if (extendedMetaData == null || featureTable.getDocumentRoot(eClass.getEPackage()) != eClass)
       {
         EStructuralFeature rootFeature = null;
+        boolean shouldSaveType = false;
         if (elementHandler != null)
         {
           EClassifier eClassifier =
@@ -658,6 +659,10 @@ public class XMLSaveImpl implements XMLSave
               ((SimpleAnyType)top).getInstanceType() :
               eClass;
           rootFeature = featureTable.getRoot(eClassifier);
+          if (rootFeature != null && rootFeature.getEType() != eClassifier)
+          {
+            shouldSaveType = true;
+          }
         }
         String name = 
           rootFeature != null ?
@@ -668,6 +673,10 @@ public class XMLSaveImpl implements XMLSave
         doc.startElement(name);
         Object mark = doc.mark();
         root = top;
+        if (shouldSaveType)
+        {
+          saveTypeAttribute(eClass);
+        }
         saveElementID(top);
         return mark;
       }
@@ -684,6 +693,7 @@ public class XMLSaveImpl implements XMLSave
       if (extendedMetaData == null || featureTable.getDocumentRoot(eClass.getEPackage()) != eClass)
       {
         EStructuralFeature rootFeature = null;
+        boolean shouldSaveType = false;
         if (elementHandler != null)
         {
           EClassifier eClassifier =
@@ -691,6 +701,10 @@ public class XMLSaveImpl implements XMLSave
               ((SimpleAnyType)top).getInstanceType() :
               eClass;
           rootFeature = featureTable.getRoot(eClassifier);
+          if (rootFeature != null && rootFeature.getEType() != eClassifier)
+          {
+            shouldSaveType = true;
+          }
         }
         if (rootFeature != null)
         {
@@ -715,6 +729,10 @@ public class XMLSaveImpl implements XMLSave
         }
         handler.recordValues(currentNode, null, null, top);
         root = top;
+        if (shouldSaveType)
+        {
+          saveTypeAttribute(eClass);
+        }
         saveElementID(top);
         return null;
       }
