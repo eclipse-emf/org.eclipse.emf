@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFPropertyListener.java,v 1.4 2009/11/25 09:15:05 tschindl Exp $
+ * $Id: EMFPropertyListener.java,v 1.5 2009/12/30 18:10:55 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -108,11 +108,24 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
           case Notification.REMOVE_MANY: {
             Collection< ? > oldValues = (Collection< ? >)msg.getOldValue();
             ListDiffEntry[] listDiffEntries = new ListDiffEntry [oldValues.size()];
-            int position = msg.getPosition();
-            int index = 0;
-            for (Object oldValue : oldValues)
+            int[] positions = (int[])msg.getNewValue();
+            if (positions == null)
             {
-              listDiffEntries[index++] = Diffs.createListDiffEntry(position++, false, oldValue);
+              int index = 0;
+              for (Object oldValue : oldValues)
+              {
+                listDiffEntries[index] = Diffs.createListDiffEntry(0, false, oldValue);
+                ++index;
+              }
+            }
+            else
+            {
+              int index = 0;
+              for (Object oldValue : oldValues)
+              {
+                listDiffEntries[index] = Diffs.createListDiffEntry(positions[index] - index, false, oldValue);
+                ++index;
+              }
             }
             diff = Diffs.createListDiff(listDiffEntries);
             break;
