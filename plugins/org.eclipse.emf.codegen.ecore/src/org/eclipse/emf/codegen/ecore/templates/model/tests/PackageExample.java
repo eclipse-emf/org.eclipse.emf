@@ -86,7 +86,7 @@ public class PackageExample
   protected final String TEXT_70 = " file = new ";
   protected final String TEXT_71 = "(args[i]);" + NL + "\t\t\t\t";
   protected final String TEXT_72 = " uri = file.isFile() ? ";
-  protected final String TEXT_73 = ".createFileURI(file.getAbsolutePath()): URI.createURI(args[0]);" + NL + "" + NL + "\t\t\t\ttry" + NL + "\t\t\t\t{" + NL + "\t\t\t\t\t// Demand load resource for this file." + NL + "\t\t\t\t\t//" + NL + "\t\t\t\t\t";
+  protected final String TEXT_73 = ".createFileURI(file.getAbsolutePath()): URI.createURI(args[i]);" + NL + "" + NL + "\t\t\t\ttry" + NL + "\t\t\t\t{" + NL + "\t\t\t\t\t// Demand load resource for this file." + NL + "\t\t\t\t\t//" + NL + "\t\t\t\t\t";
   protected final String TEXT_74 = " resource = resourceSet.getResource(uri, true);" + NL + "\t\t\t\t\tSystem.out.println(\"Loaded \" + uri);";
   protected final String TEXT_75 = NL + NL + "\t\t\t\t\t// Validate the contents of the loaded resource." + NL + "\t\t\t\t\t//";
   protected final String TEXT_76 = NL + "\t\t\t\t\tfor (";

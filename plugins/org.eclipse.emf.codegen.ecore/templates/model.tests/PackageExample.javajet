@@ -140,7 +140,7 @@ public class <%=genPackage.getExampleClassName()%>
 				// Otherwise, it's directly treated as a URL.
 				//
 				<%=_File%> file = new <%=_File%>(args[i]);
-				<%=_URI%> uri = file.isFile() ? <%=_URI%>.createFileURI(file.getAbsolutePath()): URI.createURI(args[0]);
+				<%=_URI%> uri = file.isFile() ? <%=_URI%>.createFileURI(file.getAbsolutePath()): URI.createURI(args[i]);
 
 				try
 				{
