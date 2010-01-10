@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMISaveImpl.java,v 1.16 2008/12/13 15:55:37 emerks Exp $
+ * $Id: XMISaveImpl.java,v 1.17 2010/01/10 20:45:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -104,16 +104,16 @@ public class XMISaveImpl extends XMLSaveImpl
     else
     {
       // create dummy documentElement
-      currentNode = document.createElementNS(XMIResource.XMI_URI, XMI_TAG_NS);
-      document.appendChild(currentNode);
-      if (!contents.isEmpty())
+      Element xmiRootElement = document.createElementNS(XMIResource.XMI_URI, XMI_TAG_NS);
+      currentNode = document.appendChild(xmiRootElement);
+      for (int i = 0, size = contents.size(); i < size; i++)
       {
-        EObject top = contents.get(0);
+        EObject top = contents.get(i);
         EClass eClass = top.eClass();
         helper.populateNameInfo(nameInfo, eClass);
         if (extendedMetaData == null || extendedMetaData.getDocumentRoot(eClass.getEPackage()) != eClass)
         {
-          currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
+          currentNode = xmiRootElement.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
           handler.recordValues(currentNode, null, null, top);
           root = top;
           saveElementID(top);
@@ -121,7 +121,7 @@ public class XMISaveImpl extends XMLSaveImpl
         else
         {
           root = top;
-          currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
+          currentNode = xmiRootElement.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
           saveFeatures(top);
         }
       }
