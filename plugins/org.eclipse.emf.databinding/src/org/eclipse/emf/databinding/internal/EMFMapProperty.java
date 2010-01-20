@@ -14,7 +14,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFMapProperty.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
+ * $Id: EMFMapProperty.java,v 1.3 2010/01/20 20:36:26 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -25,6 +25,7 @@ import org.eclipse.core.databinding.property.INativePropertyListener;
 import org.eclipse.core.databinding.property.IProperty;
 import org.eclipse.core.databinding.property.ISimplePropertyListener;
 import org.eclipse.core.databinding.property.map.SimpleMapProperty;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -89,7 +90,7 @@ public class EMFMapProperty extends SimpleMapProperty
   protected Map< ? , ? > doGetMap(Object source)
   {
     EObject eObj = (EObject)source;
-    return (Map< ? , ? >)eObj.eGet(eStructuralFeature);
+    return ((EMap< ? , ? >)eObj.eGet(eStructuralFeature)).map();
   }
 
   @Override
