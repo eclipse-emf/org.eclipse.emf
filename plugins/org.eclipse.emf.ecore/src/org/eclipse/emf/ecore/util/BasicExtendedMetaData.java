@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.36 2009/09/28 18:50:05 davidms Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.37 2010/01/20 16:38:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1345,53 +1345,58 @@ public class BasicExtendedMetaData implements ExtendedMetaData
     {
       case ATTRIBUTE_FEATURE:
       {
-        String namespace = getNamespace(eStructuralFeature);
-        String name = getName(eStructuralFeature);
-        EStructuralFeature result = getLocalAttribute(eClass, namespace, name);
-        if (result != null)
+        if (isDocumentRoot(eStructuralFeature.getEContainingClass()))
         {
-          return result;
-        }
-
-        List<EStructuralFeature> allAttributes = getAllAttributes(eClass);
-        for (int i = 0, size = allAttributes.size(); i < size; ++i)
-        {
-          result = allAttributes.get(i);
-          if (matches(getWildcards(result), namespace))
-          {
-            return result;
-          }
-        }
-
-        return null;
-      }
-      case ELEMENT_FEATURE:
-      {
-        for (EStructuralFeature affiliation = eStructuralFeature; affiliation != null; affiliation = getAffiliation(affiliation))
-        {
-          String namespace = getNamespace(affiliation);
-          String name = getName(affiliation);
-          EStructuralFeature result = getLocalElement(eClass, namespace, name);
+          String namespace = getNamespace(eStructuralFeature);
+          String name = getName(eStructuralFeature);
+          EStructuralFeature result = getLocalAttribute(eClass, namespace, name);
           if (result != null)
           {
             return result;
           }
-        }
-
-        String namespace = getNamespace(eStructuralFeature);
-        if (XMLTypePackage.eNS_URI.equals(namespace))
-        {
-          return getMixedFeature(eClass);
-        }
-        else
-        {
-          List<EStructuralFeature> allElements = getAllElements(eClass);
-          for (int i = 0, size = allElements.size(); i < size; ++i)
+  
+          List<EStructuralFeature> allAttributes = getAllAttributes(eClass);
+          for (int i = 0, size = allAttributes.size(); i < size; ++i)
           {
-            EStructuralFeature result = allElements.get(i);
+            result = allAttributes.get(i);
             if (matches(getWildcards(result), namespace))
             {
               return result;
+            }
+          }
+        }
+        return null;
+      }
+      case ELEMENT_FEATURE:
+      {
+        if (isDocumentRoot(eStructuralFeature.getEContainingClass()))
+        {
+          for (EStructuralFeature affiliation = eStructuralFeature; affiliation != null; affiliation = getAffiliation(affiliation))
+          {
+            String namespace = getNamespace(affiliation);
+            String name = getName(affiliation);
+            EStructuralFeature result = getLocalElement(eClass, namespace, name);
+            if (result != null)
+            {
+              return result;
+            }
+          }
+  
+          String namespace = getNamespace(eStructuralFeature);
+          if (XMLTypePackage.eNS_URI.equals(namespace))
+          {
+            return getMixedFeature(eClass);
+          }
+          else
+          {
+            List<EStructuralFeature> allElements = getAllElements(eClass);
+            for (int i = 0, size = allElements.size(); i < size; ++i)
+            {
+              EStructuralFeature result = allElements.get(i);
+              if (matches(getWildcards(result), namespace))
+              {
+                return result;
+              }
             }
           }
         }
