@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.40 2009/11/16 19:27:14 khussey Exp $
+ * $Id: EcoreValidator.java,v 1.41 2010/01/20 20:17:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3387,7 +3387,7 @@ public class EcoreValidator extends EObjectValidator
           {
             return true;
           }
-          else if (substitution != null)
+          else if (substitution != null && substitution.getEUpperBound() != eGenericType && substitution.getELowerBound() != eGenericType)
           {
             return isBounded(substitution, eBound, substitutions);
           }
@@ -3450,7 +3450,7 @@ public class EcoreValidator extends EObjectValidator
             {
               return true;
             }
-            else if (substitution != null)
+            else if (substitution != null && substitution.getEUpperBound() != eGenericType && substitution.getELowerBound() != eGenericType)
             {
               return isBounded(substitution, eBound, substitutions);
             }
