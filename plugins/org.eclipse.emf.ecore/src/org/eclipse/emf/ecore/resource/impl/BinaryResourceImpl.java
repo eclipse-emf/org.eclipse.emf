@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.5 2009/10/19 07:16:59 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.6 2010/01/20 20:40:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -127,7 +127,7 @@ public class BinaryResourceImpl extends ResourceImpl
       if (++internalEObjectDataArrayBufferCount >= internalEObjectDataArrayBuffer.length)
       {
         InternalEObject [][] newInternalEObjectDataArrayBuffer = new InternalEObject[internalEObjectDataArrayBufferCount * 2][];
-        System.arraycopy(internalEObjectDataArrayBuffer, 0, internalEObjectDataArrayBuffer, 0, internalEObjectDataArrayBufferCount);
+        System.arraycopy(internalEObjectDataArrayBuffer, 0, newInternalEObjectDataArrayBuffer, 0, internalEObjectDataArrayBufferCount);
         internalEObjectDataArrayBuffer = newInternalEObjectDataArrayBuffer;
       }
       internalEObjectDataArrayBuffer[internalEObjectDataArrayBufferCount] = values;
@@ -155,7 +155,7 @@ public class BinaryResourceImpl extends ResourceImpl
       if (++featureMapEntryDataArrayBufferCount >= featureMapEntryDataArrayBuffer.length)
       {
         FeatureMap.Entry.Internal [][] newFeatureMapEntryDataArrayBuffer = new FeatureMap.Entry.Internal[featureMapEntryDataArrayBufferCount * 2][];
-        System.arraycopy(featureMapEntryDataArrayBuffer, 0, featureMapEntryDataArrayBuffer, 0, featureMapEntryDataArrayBufferCount);
+        System.arraycopy(featureMapEntryDataArrayBuffer, 0, newFeatureMapEntryDataArrayBuffer, 0, featureMapEntryDataArrayBufferCount);
         featureMapEntryDataArrayBuffer = newFeatureMapEntryDataArrayBuffer;
       }
       featureMapEntryDataArrayBuffer[featureMapEntryDataArrayBufferCount] = values;
@@ -1061,7 +1061,7 @@ public class BinaryResourceImpl extends ResourceImpl
       if (++intDataArrayBufferCount >= intDataArrayBuffer.length)
       {
         int [][] newIntDataArrayBuffer = new int[intDataArrayBufferCount * 2][];
-        System.arraycopy(intDataArrayBuffer, 0, intDataArrayBuffer, 0, intDataArrayBufferCount);
+        System.arraycopy(intDataArrayBuffer, 0, newIntDataArrayBuffer, 0, intDataArrayBufferCount);
         intDataArrayBuffer = newIntDataArrayBuffer;
       }
       intDataArrayBuffer[intDataArrayBufferCount] = values;
