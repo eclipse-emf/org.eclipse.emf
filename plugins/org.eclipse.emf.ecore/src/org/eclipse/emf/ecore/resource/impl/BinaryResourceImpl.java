@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BinaryResourceImpl.java,v 1.6 2010/01/20 20:40:52 emerks Exp $
+ * $Id: BinaryResourceImpl.java,v 1.7 2010/01/21 16:17:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1627,7 +1627,7 @@ public class BinaryResourceImpl extends ResourceImpl
           }
           else
           {
-            characters[i] = (char)value;
+            characters[i] = (char)(value & 0xFF);
           }
         }
         return new String(characters, 0, length);
