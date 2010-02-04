@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.13 2009/04/10 03:37:38 davidms Exp $
+ * $Id: MappingEditor.java,v 1.14 2010/02/04 20:56:10 emerks Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -1668,7 +1668,7 @@ public abstract class MappingEditor
   /**
    * This is how the framework determines which interfaces we implement.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public Object getAdapter(Class key)
   {
@@ -2976,7 +2976,7 @@ public abstract class MappingEditor
     /**
      * This override ensures the objects which aren't in the view don't cause a failure.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected void setSelectionToWidget(List list, boolean reveal)
     {
