@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIEditorInput.java,v 1.6 2007/10/02 16:13:53 emerks Exp $
+ * $Id: URIEditorInput.java,v 1.7 2010/02/04 20:56:59 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -135,7 +135,7 @@ public class URIEditorInput implements IEditorInput, IPersistableElement
     return this;
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   public Object getAdapter(Class adapter)
   {
     if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
