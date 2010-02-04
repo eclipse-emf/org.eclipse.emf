@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.17 2008/04/04 17:44:38 marcelop Exp $
+ * $Id: ModelExporter.java,v 1.18 2010/02/04 20:56:07 emerks Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -133,7 +133,7 @@ public abstract class ModelExporter extends ModelConverter
     @Override
     protected Iterator<GenPackage> getChildren(Object object)
     {
-      return object instanceof Collection ? 
+      return object instanceof Collection<?> ? 
         ((Collection<GenPackage>)object).iterator() :
         ((GenPackage)object).getNestedGenPackages().iterator();
     }
