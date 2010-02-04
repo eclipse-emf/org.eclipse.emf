@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.20 2008/12/22 14:25:20 emerks Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.21 2010/02/04 20:56:31 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -1456,7 +1456,7 @@ public class Ecore2XMLEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public Object getAdapter(Class key)
   {
