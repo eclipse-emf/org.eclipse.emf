@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.21 2008/05/04 17:03:41 emerks Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.22 2010/02/04 20:56:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -486,7 +486,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
     
     if (resourceChanges != null)
     {
-      @SuppressWarnings("unchecked") EList<ResourceChangeImpl> resourceChanges = (EList)getResourceChanges();
+      @SuppressWarnings({"unchecked", "rawtypes"}) EList<ResourceChangeImpl> resourceChanges = (EList)getResourceChanges();
       for (ResourceChangeImpl resourceChange : resourceChanges)
       {
         Resource resource = resourceChange.getResource();

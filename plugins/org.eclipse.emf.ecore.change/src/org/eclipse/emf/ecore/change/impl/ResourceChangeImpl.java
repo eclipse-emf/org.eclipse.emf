@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceChangeImpl.java,v 1.10 2007/11/03 13:16:00 emerks Exp $
+ * $Id: ResourceChangeImpl.java,v 1.11 2010/02/04 20:56:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -281,7 +281,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
     {
       EList<Object> value = getValue();
       
-      @SuppressWarnings("unchecked") EList<Object> result = (EList)resource.getContents();
+      @SuppressWarnings({"unchecked", "rawtypes"}) EList<Object> result = (EList)resource.getContents();
       ECollections.setEList(result, value);
       
       if (reverse)
