@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XSDImporter.java,v 1.12 2008/12/13 15:58:46 emerks Exp $
+ * $Id: XSDImporter.java,v 1.13 2010/02/04 20:56:58 emerks Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
@@ -124,13 +125,13 @@ public class XSDImporter extends ModelImporter
       }
       
       @SuppressWarnings("unchecked")
-      List<Object> result = (List)ecoreBuilder.generate(locationURIs);
+      List<Object> result = (List<Object>)(List<?>)(Collection<?>)ecoreBuilder.generate(locationURIs);
 
       Object lastElement = removeNonEPackageFromTheEnd(result);
       if (lastElement instanceof List<?>)
       {
         @SuppressWarnings("unchecked")
-        List<List<?>> diagnostics = (List)lastElement;
+        List<List<?>> diagnostics = (List<List<?>>)(List<?>)lastElement;
         if (!diagnostics.isEmpty())
         {
           BasicDiagnostic diagnostic = new BasicDiagnostic(
@@ -160,7 +161,7 @@ public class XSDImporter extends ModelImporter
       }
 
       @SuppressWarnings("unchecked")
-      List<EPackage> ePackages = (List)result;
+      List<EPackage> ePackages = (List<EPackage>)(List<?>)result;
       getEPackages().addAll(ePackages);
     }
 
