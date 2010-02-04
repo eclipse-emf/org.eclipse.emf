@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.29 2009/04/10 04:05:23 davidms Exp $
+ * $Id: XSDEditor.java,v 1.30 2010/02/04 20:56:20 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -1592,7 +1592,7 @@ public class XSDEditor
   /**
    * This is how the framework determines which interfaces we implement.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public Object getAdapter(Class key)
   {
