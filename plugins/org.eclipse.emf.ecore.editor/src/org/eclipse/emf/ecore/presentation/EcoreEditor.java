@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.60 2008/12/22 14:25:27 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.61 2010/02/04 20:56:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1257,7 +1257,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public Object getAdapter(Class key)
   {
