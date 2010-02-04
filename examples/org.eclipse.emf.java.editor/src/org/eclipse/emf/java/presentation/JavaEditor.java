@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.28 2008/12/13 16:54:41 emerks Exp $
+ * $Id: JavaEditor.java,v 1.29 2010/02/04 20:56:17 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -1526,7 +1526,7 @@ public class JavaEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public Object getAdapter(Class key)
   {
