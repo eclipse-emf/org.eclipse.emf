@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.21 2008/04/22 13:35:39 emerks Exp $
+ * $Id: JMergerTest.java,v 1.22 2010/02/04 20:56:32 emerks Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -143,7 +143,7 @@ public abstract class JMergerTest extends TestCase
   /**
    * @param javaVersion (one of {@link JavaCore#VERSION_1_1} to {@link JavaCore#VERSION_1_6}
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   protected void adjustSourceCompatibility(String javaVersion)
   {
     Hashtable map = JavaCore.getOptions();
@@ -215,7 +215,7 @@ public abstract class JMergerTest extends TestCase
   /**
    * @param jControlModel
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   protected void applyGenModelEditorFormattingSettings(org.eclipse.emf.codegen.merge.java.JControlModel jControlModel)
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BaseFacadeTest.java,v 1.3 2007/01/18 15:53:00 marcelop Exp $
+ * $Id: BaseFacadeTest.java,v 1.4 2010/02/04 20:56:33 emerks Exp $
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
@@ -98,7 +98,7 @@ public class BaseFacadeTest extends TestCase
     rewriteAndCompare(getName().substring(0, 1).toUpperCase() + getName().substring(1) + ".java");
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   protected void adjustJavaCoreOptions()
   {
     Hashtable options = JavaCore.getDefaultOptions();

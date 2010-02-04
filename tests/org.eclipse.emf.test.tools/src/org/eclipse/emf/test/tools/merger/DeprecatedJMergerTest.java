@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.16 2008/04/22 13:35:39 emerks Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.17 2010/02/04 20:56:32 emerks Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -116,7 +116,7 @@ public class DeprecatedJMergerTest extends TestCase
     JMergerTest.verifyMerge(expected, targetContents);
   }
   
-  @SuppressWarnings({"unchecked", "deprecation"})
+  @SuppressWarnings({"unchecked", "deprecation", "rawtypes"})
   protected String mergeFiles() throws Exception
   {   
     String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE);
