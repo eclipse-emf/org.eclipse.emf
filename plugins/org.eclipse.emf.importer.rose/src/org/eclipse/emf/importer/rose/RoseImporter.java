@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.14 2006/12/28 06:56:06 marcelop Exp $
+ * $Id: RoseImporter.java,v 1.15 2010/02/04 20:56:24 emerks Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -294,7 +295,7 @@ public class RoseImporter extends ModelImporter
   protected void traverseEPackages(UnitTreeNode subNode)
   {
     @SuppressWarnings("unchecked")
-    List<EPackage> ePackagesList = (List)subNode.getExtent();
+    List<EPackage> ePackagesList = (List<EPackage>)(EList<?>)subNode.getExtent();
     
     getEPackages().addAll(ePackagesList);
     for (EPackage ePackage : ePackagesList)
