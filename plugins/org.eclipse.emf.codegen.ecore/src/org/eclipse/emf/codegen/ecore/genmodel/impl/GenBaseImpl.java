@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.72 2009/11/16 19:26:46 khussey Exp $
+ * $Id: GenBaseImpl.java,v 1.73 2010/02/04 20:56:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -399,7 +399,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   protected void generate(Monitor progressMonitor, int style, List pluginVariables, String outputFilePath, JETEmitter jetEmitter)
   {
@@ -527,7 +527,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   protected void generate
     (Monitor progressMonitor, 
@@ -545,7 +545,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   protected void generate
     (Monitor progressMonitor,
@@ -590,7 +590,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   public void gen
     (Monitor progressMonitor, 
@@ -609,7 +609,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   protected void generate
     (Monitor progressMonitor, 
@@ -628,7 +628,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   protected void generate
     (Monitor progressMonitor, 
@@ -840,7 +840,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * Now, it simply returns an empty list.
    * @deprecated in 2.1.0.  Use {@link CodeGenUtil#parseName(String, char)} instead.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   protected final List parseName(String sourceName, char sourceSeparator)
   {
@@ -1449,7 +1449,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * 1.4.
    * @deprecated
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   protected static Set getJavaReservedWords()
   {
@@ -1460,7 +1460,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated
    */
   @Deprecated
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   protected static Set getJavaLangTypes()
   {
     return CodeGenUtil.getJavaDefaultTypes();
@@ -2239,7 +2239,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, this moved to {@link org.eclipse.emf.codegen.util.GIFEmitter GIFEmitter}.
    * This copy will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   @Deprecated
   public static class ColorInformation
   {
@@ -2578,7 +2578,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalents to the methods in this class. This class will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   @Deprecated
   protected static class EclipseUtil
   {
@@ -2981,7 +2981,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   public boolean findOrCreateContainer
     (Monitor progressMonitor, int style, List pluginVariables, URI outputURI, boolean forceStyle)

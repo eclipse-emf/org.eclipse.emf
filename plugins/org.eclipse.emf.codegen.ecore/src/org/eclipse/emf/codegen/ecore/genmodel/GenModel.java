@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.65 2009/11/16 19:26:45 khussey Exp $
+ * $Id: GenModel.java,v 1.66 2010/02/04 20:56:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -2515,7 +2515,7 @@ public interface GenModel extends GenBase
    * @deprecated In EMF 2.2, the {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} should be used to
    * record code formatter options in order to be used via the new Generator-based design. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   void setCodeFormatterOptions(Map options);
 

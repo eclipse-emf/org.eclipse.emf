@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.110 2009/11/16 19:26:46 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.111 2010/02/04 20:56:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2532,7 +2532,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   public void setMethod(JETEmitter jetEmitter, String className)
   {
@@ -3057,7 +3057,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   @Deprecated
   public void generate(Monitor progressMonitor)
@@ -3173,7 +3173,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   @Deprecated
   public void generateEdit(Monitor progressMonitor)
@@ -3283,7 +3283,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   @Deprecated
   public void generateEditor(Monitor progressMonitor)
@@ -3400,7 +3400,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   @Deprecated
   public void generateSchema(Monitor progressMonitor)
@@ -3425,7 +3425,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   @Deprecated
   public void generateTests(Monitor progressMonitor)
@@ -7937,7 +7937,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         @Override
         protected Iterator<GenPackage> getChildren(Object object)
         {
-          return object instanceof Collection ? 
+          return object instanceof Collection<?> ? 
             ((Collection<GenPackage>)object).iterator() :
             ((GenPackage)object).getNestedGenPackages().iterator();
         }
@@ -7993,7 +7993,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         @SuppressWarnings("unchecked")
         protected Iterator<GenPackage> getChildren(Object object)
         {
-          return object instanceof Collection ? 
+          return object instanceof Collection<?> ? 
             ((Collection<GenPackage>)object).iterator() :
             ((GenPackage)object).getNestedGenPackages().iterator();
         }
@@ -8038,7 +8038,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         @Override
         protected Iterator<GenPackage> getChildren(Object object)
         {
-          return object instanceof Collection ? 
+          return object instanceof Collection<?> ? 
             ((Collection<GenPackage>)object).iterator() :
             ((GenPackage)object).getNestedGenPackages().iterator();
         }
@@ -8122,7 +8122,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         @Override
         protected Iterator<GenPackage> getChildren(Object object)
         {
-          return object instanceof Collection ? 
+          return object instanceof Collection<?> ? 
             ((Collection<GenPackage>)object).iterator() :
             ((GenPackage)object).getNestedGenPackages().iterator();
         }
@@ -8212,7 +8212,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         @Override
         protected Iterator<GenPackage> getChildren(Object object)
         {
-          return object instanceof Collection ? 
+          return object instanceof Collection<?> ? 
             ((Collection<GenPackage>)object).iterator() :
             ((GenPackage)object).getNestedGenPackages().iterator();
         }
@@ -8679,7 +8679,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   protected Map codeFormatterOptions = null;
 
@@ -8689,7 +8689,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @deprecated In EMF 2.2, the {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} should be used to
    * record code formatter options in order to be used via the new Generator-based design. This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Deprecated
   public void setCodeFormatterOptions(Map options)
   {

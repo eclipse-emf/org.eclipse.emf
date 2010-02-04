@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.12 2007/06/12 20:56:35 emerks Exp $
+ * $Id: Generator.java,v 1.13 2010/02/04 20:56:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -467,8 +467,8 @@ public class Generator
       }
     }
     
-    @SuppressWarnings({"cast","unchecked"})
-    List<GeneratorData> list = (List<GeneratorData>)(List)result;
+    @SuppressWarnings("unchecked")
+    List<GeneratorData> list = (List<GeneratorData>)(List<?>)result;
     return list;
   }
 

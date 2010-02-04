@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.103 2009/11/16 19:26:46 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.104 2010/02/04 20:56:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2684,7 +2684,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   @Deprecated
   public void generateEdit(Monitor progressMonitor)
