@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMFacadeHelper.java,v 1.9 2008/04/02 19:07:28 marcelop Exp $
+ * $Id: JDOMFacadeHelper.java,v 1.10 2010/02/04 20:56:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -42,7 +42,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JPackage;
 import org.eclipse.emf.codegen.merge.java.facade.JType;
 import org.eclipse.emf.common.EMFPlugin;
 
-@SuppressWarnings({"deprecation", "unchecked"})
+@SuppressWarnings({"deprecation", "unchecked", "rawtypes"})
 public class JDOMFacadeHelper extends FacadeHelper
 {
   public static IDOMNode getIDOMNode(JNode node)

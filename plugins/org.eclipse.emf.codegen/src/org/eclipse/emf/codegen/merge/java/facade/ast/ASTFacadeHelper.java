@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.16 2009/04/18 11:16:26 emerks Exp $
+ * $Id: ASTFacadeHelper.java,v 1.17 2010/02/04 20:56:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -226,8 +226,7 @@ public class ASTFacadeHelper extends FacadeHelper
   /**
    * Map of options set by default from <code>JavaCore.getOptions()</code>
    */
-  @SuppressWarnings("unchecked")
-  protected Map javaCoreOptions = null;
+  protected Map<?, ?> javaCoreOptions = null;
 
   /**
    * Map of nodes to node contents. Used for caching only.
@@ -354,8 +353,7 @@ public class ASTFacadeHelper extends FacadeHelper
    * @return map of options
    * @see #getDefaultJavaCoreOptions()
    */
-  @SuppressWarnings("unchecked")
-  public Map getJavaCoreOptions()
+  public Map<?, ?> getJavaCoreOptions()
   {
     if (javaCoreOptions == null)
     {
@@ -374,9 +372,9 @@ public class ASTFacadeHelper extends FacadeHelper
    * @see JControlModel#getLeadingTabReplacement()
    */
   @SuppressWarnings("unchecked")
-  private Map getDefaultJavaCoreOptions()
+  private Map<?, ?> getDefaultJavaCoreOptions()
   {
-    Map javaCoreOptions = JavaCore.getDefaultOptions();
+    Map<Object, String> javaCoreOptions = JavaCore.getDefaultOptions();
 
     // Set of options that we want to copy from the current definition        
     useCurrentOption(javaCoreOptions, "org.eclipse.jdt.core.compiler.compliance");

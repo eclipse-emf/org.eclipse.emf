@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.6 2006/12/11 00:41:36 marcelop Exp $
+ * $Id: JControlModel.java,v 1.7 2010/02/04 20:56:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -38,8 +38,7 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
   @Deprecated
   public static class Feature extends org.eclipse.emf.codegen.merge.java.JControlModel.Feature
   {
-    @SuppressWarnings("unchecked")
-    public Feature(String path, Class [] parameterTypes)
+    public Feature(String path, Class<?> [] parameterTypes)
     {
       super(CLASS_PREFIX, path, parameterTypes);
     }
@@ -62,9 +61,8 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
       super(CLASS_PREFIX, element);
     }
     
-    @SuppressWarnings("unchecked")
     @Override
-    protected org.eclipse.emf.codegen.merge.java.JControlModel.Feature createFeature(String classPrefix, String path, Class [] parameterTypes)
+    protected org.eclipse.emf.codegen.merge.java.JControlModel.Feature createFeature(String classPrefix, String path, Class<?> [] parameterTypes)
     {
       return new Feature(path, parameterTypes);
     }    
@@ -88,9 +86,8 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
     }
 
     
-    @SuppressWarnings("unchecked")
     @Override
-    protected org.eclipse.emf.codegen.merge.java.JControlModel.Feature createFeature(String classPrefix, String path, Class [] parameterTypes)
+    protected org.eclipse.emf.codegen.merge.java.JControlModel.Feature createFeature(String classPrefix, String path, Class<?> [] parameterTypes)
     {
       return new Feature(path, parameterTypes);
     }    
@@ -147,8 +144,7 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
    * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel#classForClassName(String, String)} instead.
    */  
   @Deprecated
-  @SuppressWarnings("unchecked")
-  public static Class classForClassName(String className)
+  public static Class<?> classForClassName(String className)
   {
     return org.eclipse.emf.codegen.merge.java.JControlModel.classForClassName(CLASS_PREFIX, className);
   }

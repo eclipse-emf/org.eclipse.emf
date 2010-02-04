@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETBuilder.java,v 1.5 2006/12/29 18:03:52 marcelop Exp $
+ * $Id: JETBuilder.java,v 1.6 2010/02/04 20:56:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -37,7 +37,7 @@ public class JETBuilder extends IncrementalProjectBuilder
     super();
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   protected IProject[] build(int kind, Map arguments, IProgressMonitor monitor) throws CoreException 
   {

@@ -666,9 +666,9 @@ public class CodeGenUtil
    */
   @SuppressWarnings("unchecked")
   @Deprecated
-  public static void addClasspathEntries(Collection classpathEntries, String variableName, String pluginID) throws JETException
+  public static void addClasspathEntries(Collection<?> classpathEntries, String variableName, String pluginID) throws JETException
   {
-    EclipseUtil.addClasspathEntries(classpathEntries, variableName, pluginID);
+    EclipseUtil.addClasspathEntries((Collection<IClasspathEntry>)classpathEntries, variableName, pluginID);
   }
 
   /**
@@ -676,9 +676,9 @@ public class CodeGenUtil
    */
   @SuppressWarnings("unchecked")
   @Deprecated
-  public static void addClasspathEntries(Collection classpathEntries, String pluginID) throws Exception
+  public static void addClasspathEntries(Collection<?> classpathEntries, String pluginID) throws Exception
   {
-    EclipseUtil.addClasspathEntries(classpathEntries, pluginID);
+    EclipseUtil.addClasspathEntries((Collection<IClasspathEntry>)classpathEntries, pluginID);
   }
 
   /**

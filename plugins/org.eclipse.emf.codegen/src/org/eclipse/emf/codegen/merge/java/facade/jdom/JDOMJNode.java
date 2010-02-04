@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJNode.java,v 1.5 2007/06/12 20:56:06 emerks Exp $
+ * $Id: JDOMJNode.java,v 1.6 2010/02/04 20:56:37 emerks Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
@@ -32,7 +32,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JNode;
 /**
  * @since 2.2.0
  */
-@SuppressWarnings({"deprecation", "unchecked"})
+@SuppressWarnings({"deprecation", "unchecked", "rawtypes"})
 public abstract class JDOMJNode extends AbstractJNode
 {
   private JDOMFacadeHelper facadeHelper;

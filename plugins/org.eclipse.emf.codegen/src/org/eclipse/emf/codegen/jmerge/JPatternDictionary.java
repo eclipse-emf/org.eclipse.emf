@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.8 2007/03/23 19:31:16 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.9 2010/02/04 20:56:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -41,7 +41,7 @@ import org.eclipse.jdt.core.jdom.IDOMType;
  * @deprecated in 2.2.0. Use {@link org.eclipse.emf.codegen.merge.java.JPatternDictionary} instead.
  */
 @Deprecated
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class JPatternDictionary 
 {
   protected IDOMCompilationUnit compilationUnit;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.30 2008/12/22 14:25:30 emerks Exp $
+ * $Id: JMerger.java,v 1.31 2010/02/04 20:56:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -60,7 +60,7 @@ import org.eclipse.emf.codegen.util.CodeGenUtil;
  * @deprecated in 2.2.0. Use {@link org.eclipse.emf.codegen.merge.java.JMerger} instead.
  */
 @Deprecated
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class JMerger
 {
   protected DOMFactory jdomFactory = new DOMFactory();
