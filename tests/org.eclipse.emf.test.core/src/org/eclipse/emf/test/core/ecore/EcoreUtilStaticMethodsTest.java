@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtilStaticMethodsTest.java,v 1.14 2008/05/04 10:59:07 emerks Exp $
+ * $Id: EcoreUtilStaticMethodsTest.java,v 1.15 2010/02/04 20:56:00 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -61,7 +61,7 @@ public class EcoreUtilStaticMethodsTest extends TestCase
     XSDComplexTypeDefinition xsdComplexTypeDefinition = XSDFactory.eINSTANCE.createXSDComplexTypeDefinition();
     xsdComplexTypeDefinition.getLexicalFinal().clear();
     assertTrue(xsdComplexTypeDefinition.isSetLexicalFinal());
-    XSDComplexTypeDefinition xsdComplexTypeDefinitionCopy = (XSDComplexTypeDefinition)EcoreUtil.copy(xsdComplexTypeDefinition);
+    XSDComplexTypeDefinition xsdComplexTypeDefinitionCopy = EcoreUtil.copy(xsdComplexTypeDefinition);
     assertTrue(xsdComplexTypeDefinitionCopy.isSetLexicalFinal());
   }
     

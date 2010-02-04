@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionBuilder.java,v 1.1 2007/01/31 16:33:07 marcelop Exp $
+ * $Id: ChangeDescriptionBuilder.java,v 1.2 2010/02/04 20:56:00 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -90,8 +90,8 @@ public class ChangeDescriptionBuilder extends BasicChangeRecorder
         
         @SuppressWarnings("unchecked") EList<Object> oldValue = contents == null ?
           new BasicEList<Object>(0) :
-          contents instanceof EList ?
-            (EList<Object>)(EList)contents :
+          contents instanceof EList<?> ?
+            (EList<Object>)(EList<?>)contents :
             new BasicEList<Object>(contents);
         change = createResourceChange(resource, oldValue);
         getResourceChanges().add(change);

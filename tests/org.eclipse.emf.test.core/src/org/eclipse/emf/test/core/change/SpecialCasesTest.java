@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.27 2008/12/13 15:58:01 emerks Exp $
+ * $Id: SpecialCasesTest.java,v 1.28 2010/02/04 20:56:00 emerks Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -499,7 +499,7 @@ public class SpecialCasesTest  extends TestCase
     assertEquals(1, friendsOfJohn.size());
     assertEquals(mary, friendsOfJohn.get(0));
         
-    ChangeDescription copiedChangeDescription = (ChangeDescription)EcoreUtil.copy(changeDescription);
+    ChangeDescription copiedChangeDescription = EcoreUtil.copy(changeDescription);
 
     copiedChangeDescription.applyAndReverse();
 
@@ -1275,7 +1275,7 @@ public class SpecialCasesTest  extends TestCase
   
   public void testFeatureMapWithSingleValuedFeature()
   {
-    EPackage ePackage = (EPackage)EcoreUtil.copy(CustomerPackage.eINSTANCE);
+    EPackage ePackage = EcoreUtil.copy(CustomerPackage.eINSTANCE);
     EClass customersType = (EClass)ePackage.getEClassifier("CustomersType");
     EReference customerFeature = (EReference)customersType.getEStructuralFeature("customer");
     customerFeature.setUpperBound(1);

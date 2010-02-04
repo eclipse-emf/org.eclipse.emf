@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EqualityTest.java,v 1.8 2008/12/22 14:26:10 emerks Exp $
+ * $Id: EqualityTest.java,v 1.9 2010/02/04 20:56:00 emerks Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -225,10 +225,10 @@ public class EqualityTest extends TestCase
     assertTrue(EcoreUtil.equals(supplier1, supplier2));
     supplier1.getStandardOrders().add(po1);
     supplier1.getPreferredOrders().add(po2);
-    supplier1.getStandardOrders().add((PurchaseOrder)EcoreUtil.copy(po2));
-    supplier2.getStandardOrders().add((PurchaseOrder)EcoreUtil.copy(po1));
-    supplier2.getPreferredOrders().add((PurchaseOrder)EcoreUtil.copy(po2));
-    supplier2.getStandardOrders().add((PurchaseOrder)EcoreUtil.copy(po2));
+    supplier1.getStandardOrders().add(EcoreUtil.copy(po2));
+    supplier2.getStandardOrders().add(EcoreUtil.copy(po1));
+    supplier2.getPreferredOrders().add(EcoreUtil.copy(po2));
+    supplier2.getStandardOrders().add(EcoreUtil.copy(po2));
     assertTrue(EcoreUtil.equals(supplier1, supplier2));
 
     EObject employee1 = createEmployee("Mr. M. D.");
