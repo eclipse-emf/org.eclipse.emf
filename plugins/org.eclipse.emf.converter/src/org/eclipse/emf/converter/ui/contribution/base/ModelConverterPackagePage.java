@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.15 2009/05/10 17:32:53 davidms Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.16 2010/02/04 20:56:03 emerks Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -46,10 +46,6 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -81,7 +77,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.provider.GenPackageItemProvider;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.common.ui.celleditor.ExtendedTableEditor;
 import org.eclipse.emf.common.ui.celleditor.SingleColumnTableEditor;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
@@ -362,90 +357,6 @@ public class ModelConverterPackagePage extends ModelConverterPage
       }
     };
   }
-
-  /**
-   * Leaking a non-API return type was an error. This method will be removed in a future release of EMF.
-   * @deprecated Use {@link #createEPackagesTableEditor()}.
-   */
-  @Deprecated
-  protected ExtendedTableEditor createEPackageDataColumnTableEditor()
-  {
-    return new ExtendedTableEditor(ePackagesCheckboxTableViewer.getTable())
-    {
-      @Override
-      protected void editItem(final TableItem tableItem, final int index)
-      {
-        if (index == ePackageDataTableColumn)
-        {
-          final String string = tableItem.getText(index);
-          horizontalAlignment = SWT.LEFT;
-          minimumWidth = Math.max(50, tableItem.getBounds(index).width);
-
-          final Text text = new Text(table, SWT.NONE);
-          setEditor(text, tableItem, index);
-          text.setFocus();
-          text.setText(string);
-          text.setSelection(0, string.length());
-          if (tableItem.getChecked()) validateEPackageData((EPackage)tableItem.getData(), string);
-
-          text.addFocusListener(new FocusAdapter()
-            {
-              @Override
-              public void focusLost(FocusEvent event)
-              {
-                modify(tableItem, index, text);
-              }
-            });
-
-          text.addKeyListener(new KeyAdapter()
-            {
-              @Override
-              public void keyPressed(KeyEvent event)
-              {
-                if (event.character == '\r' || event.character == '\n')
-                {
-                  modify(tableItem, index, text);
-                  setEditor(null);
-                  text.dispose();
-                }
-                else if (event.character == '\033')
-                {
-                  setEditor(null);
-                  text.dispose();
-                }
-              }
-            });
-
-          text.addModifyListener(new ModifyListener()
-            {
-              public void modifyText(ModifyEvent event)
-              {
-                if (index == 1)
-                {
-                  if (tableItem.getChecked()) validateEPackageData((EPackage)tableItem.getData(), text.getText());
-                }
-              }
-            });
-
-          isCellEditing = true;
-          setPageComplete(false);
-        }
-      }
-
-      protected void modify(TableItem tableItem, int column, Text text)
-      {
-        String value = text.getText();
-        tableItem.setText(column, value);
-        text.setVisible(false);
-        
-        setEPackageData((EPackage)tableItem.getData(), value);
-
-        isCellEditing = false;
-        validate();
-        setPageComplete(isPageComplete());
-      }
-    };    
-  }
   
   protected boolean validateEPackageData(EPackage ePackage, String data)
   {
@@ -531,7 +442,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
   public List<EPackage> getCheckedEPackages()
   {
     return ePackagesCheckboxTableViewer != null ?
-      (List<EPackage>)(List)Arrays.asList(ePackagesCheckboxTableViewer.getCheckedElements())
+      (List<EPackage>)(List<?>)Arrays.asList(ePackagesCheckboxTableViewer.getCheckedElements())
       :  Collections.<EPackage>emptyList();
   }
 
