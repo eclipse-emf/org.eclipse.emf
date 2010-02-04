@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedImageRegistry.java,v 1.6 2008/01/15 17:15:43 emerks Exp $
+ * $Id: ExtendedImageRegistry.java,v 1.7 2010/02/04 18:59:30 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -38,6 +38,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.edit.EMFEditPlugin;
@@ -69,8 +70,10 @@ public class ExtendedImageRegistry
     hookDisplayDispose(display);
   }
 
-  protected static String resourceURLPrefix = 
-    EMFEditPlugin.INSTANCE.getImage("full/obj16/Resource").toString() + "#";
+  protected static Object resourceURL = 
+    EMFEditPlugin.INSTANCE.getImage("full/obj16/Resource");
+  
+  protected static String resourceURLPrefix = resourceURL.toString() + "#";
 
   protected static String itemURLPrefix = 
     EMFEditPlugin.INSTANCE.getImage("full/obj16/Item").toString() + "#";
@@ -100,9 +103,16 @@ public class ExtendedImageRegistry
           ImageDescriptor imageDescriptor = null;
           if (urlString.startsWith(resourceURLPrefix))
           {
-            imageDescriptor = 
-              PlatformUI.getWorkbench().getEditorRegistry().getImageDescriptor 
-                ("dummy." + urlString.substring(resourceURLPrefix.length()));
+            if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+            {
+              imageDescriptor = 
+                PlatformUI.getWorkbench().getEditorRegistry().getImageDescriptor 
+                  ("dummy." + urlString.substring(resourceURLPrefix.length()));
+            }
+            else
+            {
+              result = getImage(resourceURL);
+            }
           }
           else if (urlString.startsWith(itemURLPrefix))
           {
