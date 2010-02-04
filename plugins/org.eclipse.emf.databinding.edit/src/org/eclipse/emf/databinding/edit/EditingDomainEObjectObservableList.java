@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainEObjectObservableList.java,v 1.2 2009/05/23 11:11:30 tschindl Exp $
+ * $Id: EditingDomainEObjectObservableList.java,v 1.3 2010/02/04 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.databinding.edit;
 
@@ -111,7 +111,7 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
     execute(AddCommand.create(domain, eObject, eStructuralFeature, object, index));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public boolean addAll(Collection collection)
   {
@@ -119,7 +119,7 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
     return execute(AddCommand.create(domain, eObject, eStructuralFeature, collection));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public boolean addAll(int index, Collection collection)
   {
@@ -152,7 +152,7 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
     return execute(RemoveCommand.create(domain, eObject, eStructuralFeature, element));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public boolean removeAll(Collection collection)
   {
@@ -160,7 +160,7 @@ public class EditingDomainEObjectObservableList extends EObjectObservableList
     return execute(RemoveCommand.create(domain, eObject, eStructuralFeature, collection));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public boolean retainAll(Collection collection)
   {

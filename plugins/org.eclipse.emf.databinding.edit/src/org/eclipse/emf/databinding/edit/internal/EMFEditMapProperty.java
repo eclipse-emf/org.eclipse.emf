@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - Initial API and implementation (bug 262160)
  * </copyright>
  *
- * $Id: EMFEditMapProperty.java,v 1.1 2009/05/23 11:11:29 tschindl Exp $
+ * $Id: EMFEditMapProperty.java,v 1.2 2010/02/04 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.databinding.edit.internal;
 
@@ -45,7 +45,7 @@ public class EMFEditMapProperty extends EMFMapProperty
     this.editingDomain = editingDomain;
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   protected void doSetMap(Object source, Map map, MapDiff diff)
   {

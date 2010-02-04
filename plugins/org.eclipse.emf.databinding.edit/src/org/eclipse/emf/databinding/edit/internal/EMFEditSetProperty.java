@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 295683
  * </copyright>
  *
- * $Id: EMFEditSetProperty.java,v 1.2 2009/11/25 16:12:30 tschindl Exp $
+ * $Id: EMFEditSetProperty.java,v 1.3 2010/02/04 20:56:05 emerks Exp $
  */
 package org.eclipse.emf.databinding.edit.internal;
 
@@ -46,7 +46,7 @@ public class EMFEditSetProperty extends EMFSetProperty
     this.editingDomain = editingDomain;
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   protected void doSetSet(Object source, Set set, SetDiff diff)
   {
