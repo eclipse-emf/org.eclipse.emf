@@ -116,8 +116,7 @@ public class XMIExtendedMetadataTest extends TestCase
     EObject classification = resource.getContents().get(0);
     EStructuralFeature descriptorGroupFeature = classification.eClass().getEStructuralFeature("descriptorGroup");
     
-    @SuppressWarnings("unchecked")
-    EObject descriptorGroup = (EObject)((EList)classification.eGet(descriptorGroupFeature)).get(0);
+    EObject descriptorGroup = (EObject)((EList<?>)classification.eGet(descriptorGroupFeature)).get(0);
 
     EStructuralFeature descriptionFeature = descriptorGroup.eClass().getEStructuralFeature("description");
     EObject description = (EObject)descriptorGroup.eGet(descriptionFeature);

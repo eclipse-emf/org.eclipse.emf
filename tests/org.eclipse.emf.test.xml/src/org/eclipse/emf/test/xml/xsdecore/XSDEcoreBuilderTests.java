@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilderTests.java,v 1.6 2007/01/18 15:53:18 marcelop Exp $
+ * $Id: XSDEcoreBuilderTests.java,v 1.7 2010/02/04 20:56:59 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -84,7 +84,7 @@ public class XSDEcoreBuilderTests extends TestCase
   {
     // SET SCHEMA URI
     @SuppressWarnings("unchecked")
-    Collection<EPackage> packageList = (Collection)xsdEcoreBuilder.generate(URI.createURI(BASE_XSD_URI + "myipo.xsd"));
+    Collection<EPackage> packageList = (Collection<EPackage>)(Collection<?>)xsdEcoreBuilder.generate(URI.createURI(BASE_XSD_URI + "myipo.xsd"));
 
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl(true));

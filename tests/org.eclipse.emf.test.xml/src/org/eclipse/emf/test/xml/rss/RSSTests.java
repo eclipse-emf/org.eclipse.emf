@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RSSTests.java,v 1.4 2007/01/18 15:53:19 marcelop Exp $
+ * $Id: RSSTests.java,v 1.5 2010/02/04 20:56:59 emerks Exp $
  */
 package org.eclipse.emf.test.xml.rss;
 
@@ -132,7 +132,7 @@ public class RSSTests extends TestCase
     HashMap<String, Object> options = new HashMap<String, Object>();
     ResourceSet rs = new ResourceSetImpl();
     Registry packageRegistry = rs.getPackageRegistry();
-    @SuppressWarnings("unchecked") Collection<EPackage> packageList = (Collection)xsdEcoreBuilder.generate(schemaURI);
+    @SuppressWarnings("unchecked") Collection<EPackage> packageList = (Collection<EPackage>)(Collection<?>)xsdEcoreBuilder.generate(schemaURI);
     for (EPackage epackage : packageList)
     {
       String nsURI = epackage.getNsURI();
