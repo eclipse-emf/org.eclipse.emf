@@ -30,7 +30,7 @@
             nameFilter="*jet"
             id="emitTemplateContribution">
          <action
-               label="Emit Selected Template(s)"
+               label="%EmitSelectedTemplatesAction.label"
                class="org.eclipse.emf.examples.jet.article2.actionexample.EmitAction"
                enablesFor="*"
                id="emitTemplate">
