@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.18 2008/12/22 14:26:01 emerks Exp $
+ * $Id: EXTLibraryEditor.java,v 1.19 2010/02/04 20:56:29 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -1453,7 +1453,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public Object getAdapter(Class key)
   {
