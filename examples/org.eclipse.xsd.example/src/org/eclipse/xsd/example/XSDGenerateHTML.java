@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGenerateHTML.java,v 1.5 2008/12/22 14:25:33 emerks Exp $
+ * $Id: XSDGenerateHTML.java,v 1.6 2010/02/04 20:56:34 emerks Exp $
  */
 package org.eclipse.xsd.example;
 
@@ -62,6 +62,7 @@ import org.eclipse.xsd.XSDMinExclusiveFacet;
 import org.eclipse.xsd.XSDMinInclusiveFacet;
 import org.eclipse.xsd.XSDMinLengthFacet;
 import org.eclipse.xsd.XSDModelGroup;
+import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDParticle;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
@@ -784,7 +785,7 @@ public class XSDGenerateHTML implements IApplication
     }
 
     @SuppressWarnings("unchecked")
-    List<XSDElementDeclaration> aux = (List)XSDNamedComponentImpl.sortNamedComponents((List)all);
+    List<XSDElementDeclaration> aux = (List<XSDElementDeclaration>)(List<?>)XSDNamedComponentImpl.sortNamedComponents((List<XSDNamedComponent>)(List<?>)all);
     all = aux;
 
     for (XSDElementDeclaration xsdElementDeclaration : all)
