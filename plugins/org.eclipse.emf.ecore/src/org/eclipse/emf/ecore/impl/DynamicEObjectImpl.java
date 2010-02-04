@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicEObjectImpl.java,v 1.10 2009/12/29 15:34:33 khussey Exp $
+ * $Id: DynamicEObjectImpl.java,v 1.11 2010/02/04 20:56:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -266,6 +266,7 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
     return eClass.getOperationID(override != null ? override : eOperation);
   }
 
+  @Override
   public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
   {
     EOperation eOperation = eClass().getEOperation(operationID);

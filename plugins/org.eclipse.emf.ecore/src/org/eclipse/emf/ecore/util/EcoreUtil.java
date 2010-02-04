@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.69 2009/11/16 19:27:14 khussey Exp $
+ * $Id: EcoreUtil.java,v 1.70 2010/02/04 20:56:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1246,7 +1246,7 @@ public class EcoreUtil
       EList<EObject> contents = eObject.eContents();
       iterator = 
         (Iterator<E>)
-          (!isResolveProxies && contents instanceof InternalEList ?
+          (!isResolveProxies && contents instanceof InternalEList<?> ?
              ((InternalEList<EObject>)contents).basicIterator() :
              contents.iterator());
     }
