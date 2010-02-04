@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.59 2008/12/22 14:26:18 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.60 2010/02/04 20:56:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1187,7 +1187,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public Object getAdapter(Class key)
   {
