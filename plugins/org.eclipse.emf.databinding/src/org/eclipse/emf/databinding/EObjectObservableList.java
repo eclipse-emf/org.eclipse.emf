@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectObservableList.java,v 1.5 2009/05/23 11:11:33 tschindl Exp $
+ * $Id: EObjectObservableList.java,v 1.6 2010/02/04 20:56:28 emerks Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -214,7 +214,7 @@ public class EObjectObservableList extends ObservableList implements IObserving,
     wrappedList().add(index, object);
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   @Override
   public boolean addAll(Collection collection)
   {
@@ -222,7 +222,7 @@ public class EObjectObservableList extends ObservableList implements IObserving,
     return wrappedList().addAll(collection);
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   @Override
   public boolean addAll(int index, Collection collection)
   {
@@ -251,7 +251,7 @@ public class EObjectObservableList extends ObservableList implements IObserving,
     return wrappedList.remove(element);
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public boolean removeAll(Collection collection)
   {
@@ -259,7 +259,7 @@ public class EObjectObservableList extends ObservableList implements IObserving,
     return wrappedList().removeAll(collection);
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   public boolean retainAll(Collection collection)
   {
@@ -309,9 +309,9 @@ public class EObjectObservableList extends ObservableList implements IObserving,
   }
 }
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 interface InternalRawEList extends EList
 {
-  // This is only at avoid needing an @SuppressWarnings("unchecked") on the
+  // This is only at avoid needing an @SuppressWarnings("rawtypes") on the
   // EMFObservableList
 }

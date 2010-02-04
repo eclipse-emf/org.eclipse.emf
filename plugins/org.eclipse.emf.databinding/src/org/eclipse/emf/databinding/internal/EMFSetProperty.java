@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 295683
  * </copyright>
  *
- * $Id: EMFSetProperty.java,v 1.1 2009/11/25 09:15:05 tschindl Exp $
+ * $Id: EMFSetProperty.java,v 1.2 2010/02/04 20:56:28 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -58,7 +58,7 @@ public class EMFSetProperty extends SimpleSetProperty
     return eStructuralFeature;
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   @Override
   protected Set doGetSet(Object source)
   {
@@ -66,7 +66,7 @@ public class EMFSetProperty extends SimpleSetProperty
     return new DelegatingSet((List<?>)eObj.eGet(eStructuralFeature));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   @Override
   protected void doSetSet(Object source, Set set, SetDiff diff)
   {

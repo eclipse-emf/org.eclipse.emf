@@ -11,7 +11,7 @@
  *      Tom Schindl<tom.schindl@bestsolution.at> - Initial API and implementation in 262160
  * </copyright>
  *
- * $Id: EWritableList.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
+ * $Id: EWritableList.java,v 1.3 2010/02/04 20:56:28 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -241,7 +241,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public boolean addAll(Collection c)
   {
     checkRealm();
@@ -249,7 +249,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public boolean addAll(int index, Collection c)
   {
     checkRealm();
@@ -264,7 +264,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   public boolean containsAll(Collection c)
   {
     getterCalled();
@@ -348,7 +348,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   public boolean removeAll(Collection c)
   {
     checkRealm();
@@ -356,7 +356,7 @@ public class EWritableList<Type> extends AbstractObservableList implements IObse
   }
 
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   public boolean retainAll(Collection c)
   {
     checkRealm();

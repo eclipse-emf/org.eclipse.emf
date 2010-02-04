@@ -13,7 +13,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFListProperty.java,v 1.2 2009/05/28 10:02:03 emerks Exp $
+ * $Id: EMFListProperty.java,v 1.3 2010/02/04 20:56:28 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -66,7 +66,7 @@ public class EMFListProperty extends SimpleListProperty
   }
 
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   protected void doSetList(Object source, List list, ListDiff diff)
   {
     List< ? > currentList = doGetList(source);

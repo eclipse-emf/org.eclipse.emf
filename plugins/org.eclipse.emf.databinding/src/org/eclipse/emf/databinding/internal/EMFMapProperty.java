@@ -14,7 +14,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFMapProperty.java,v 1.3 2010/01/20 20:36:26 emerks Exp $
+ * $Id: EMFMapProperty.java,v 1.4 2010/02/04 20:56:28 emerks Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -94,7 +94,7 @@ public class EMFMapProperty extends SimpleMapProperty
   }
 
   @Override
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   protected void doSetMap(Object source, Map map, MapDiff diff)
   {
     EObject eObject = (EObject)source;
