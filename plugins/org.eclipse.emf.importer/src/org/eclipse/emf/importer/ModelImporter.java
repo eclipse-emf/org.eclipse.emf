@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.41 2009/08/12 14:08:54 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.42 2010/02/04 20:56:27 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -564,7 +564,7 @@ public abstract class ModelImporter extends ModelConverter
         @Override
         protected Iterator<EPackage> getChildren(Object object)
         {
-          return object instanceof Collection ? 
+          return object instanceof Collection<?> ? 
             ((Collection<EPackage>)object).iterator() :
             ((EPackage)object).getESubpackages().iterator();  
         }
