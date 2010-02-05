@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.41 2010/01/20 20:17:02 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.42 2010/02/05 21:11:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2790,7 +2790,8 @@ public class EcoreValidator extends EObjectValidator
       {
         // And even if it is contained, it must not be a forward reference.
         // eTypeParameterIndex == index is allowed when the type parameter is 
-        // the type argument of the bound, though
+        // the type argument of the bound, though,
+        // i.e., when the type argument is not nested directly as a child of the type parameter.
         //
         List<?> typeParameters = (List<?>)scope.eGet(eTypeParameter.eContainmentFeature());
         EObject usage = eGenericType; 
@@ -2802,7 +2803,7 @@ public class EcoreValidator extends EObjectValidator
         int eTypeParameterIndex = typeParameters.indexOf(eTypeParameter);
         inScope = index == -1 || 
           index > eTypeParameterIndex ||
-          (index == eTypeParameterIndex && eGenericType.eContainingFeature() == EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS);
+          (index == eTypeParameterIndex && eGenericType.eContainingFeature() != EcorePackage.Literals.ETYPE_PARAMETER__EBOUNDS);
       }
 
       if (!inScope)
