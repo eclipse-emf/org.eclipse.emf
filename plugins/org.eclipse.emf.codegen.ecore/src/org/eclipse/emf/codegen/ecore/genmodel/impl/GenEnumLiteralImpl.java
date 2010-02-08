@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.20 2009/09/18 18:10:34 khussey Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.21 2010/02/08 22:50:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -385,7 +385,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
     }
     if (!getName().equals(getLiteral()))
     {
-      appendModelSetting(result, "literal", getLiteral());
+      appendModelSetting(result, "literal", Literals.toStringLiteral(getLiteral(), getGenModel()));
     }
     appendAnnotationInfo(result, getEcoreEnumLiteral());
     return result.toString().trim();
