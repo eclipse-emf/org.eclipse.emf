@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentsEList.java,v 1.11 2007/10/20 14:43:40 emerks Exp $
+ * $Id: EContentsEList.java,v 1.12 2010/02/09 16:05:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -531,7 +531,11 @@ public class EContentsEList<E> extends AbstractSequentialInternalEList<E> implem
       {
         while (valueListIndex < valueListSize)
         {
-          FeatureMap.Entry entry = (FeatureMap.Entry)valueList.get(valueListIndex);
+          FeatureMap.Entry entry =
+            (FeatureMap.Entry)
+              (valueInternalEList == null ? 
+                 valueList.get(valueListIndex) : 
+                 valueInternalEList.basicGet(valueListIndex));
           EStructuralFeature entryFeature = entry.getEStructuralFeature();
           if (isIncludedEntry(entryFeature) && entry.getValue() != null)
           {
