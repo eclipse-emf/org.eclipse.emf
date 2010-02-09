@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.34 2009/12/28 15:49:01 khussey Exp $
+ * $Id: EObjectValidator.java,v 1.35 2010/02/09 12:17:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -574,8 +574,14 @@ public class EObjectValidator implements EValidator
         int count = 0;
         for (int i = 0, size = featureMap.size(); i < size; ++i)
         {
-          int kind = ExtendedMetaData.INSTANCE.getFeatureKind(featureMap.getEStructuralFeature(i));
-          if (kind == ExtendedMetaData.ELEMENT_FEATURE && ++count > 1)
+          EStructuralFeature feature = featureMap.getEStructuralFeature(i);
+          int kind = ExtendedMetaData.INSTANCE.getFeatureKind(feature);
+          if (kind == ExtendedMetaData.ELEMENT_FEATURE && 
+                feature != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA &&
+                feature != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT &&
+                feature != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT &&
+                feature != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION &&
+                ++count > 1)
           {
             result = false;
             break;
