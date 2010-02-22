@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2009 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.38 2009/11/16 19:26:46 khussey Exp $
+ * $Id: GenOperationImpl.java,v 1.39 2010/02/22 15:30:16 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1179,6 +1179,14 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public boolean hasInvocationDelegate()
   {
-    return getGenModel().getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF26_VALUE && EcoreUtil.getInvocationDelegateFactory(getEcoreOperation()) != null;
+    if (getGenModel().getRuntimeVersion().getValue() < GenRuntimeVersion.EMF26_VALUE)
+      return false;
+    EOperation ecoreOperation = getEcoreOperation();
+    for (String invocationDelegate : EcoreUtil.getInvocationDelegates(getGenPackage().getEcorePackage()))
+    {
+      if (ecoreOperation.getEAnnotation(invocationDelegate) != null)
+        return true;
+    }
+    return false;
   }
 }
