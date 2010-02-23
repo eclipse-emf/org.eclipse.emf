@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.40 2009/11/16 19:27:13 khussey Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.41 2010/02/23 17:10:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2562,6 +2562,8 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         oldValue = null;
       }
 
+      settings.dynamicSet(index, otherEnd);
+
       if (hasInverse())
       {
         if (oldValue != otherEnd && oldValue != null)
@@ -2587,8 +2589,6 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
                notifications);
         }
       }
-
-      settings.dynamicSet(index, otherEnd);
 
       if (owner.eNotificationRequired())
       {
