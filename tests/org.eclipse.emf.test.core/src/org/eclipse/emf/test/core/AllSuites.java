@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.43 2008/10/16 17:48:33 davidms Exp $
+ * $Id: AllSuites.java,v 1.44 2010/02/27 17:10:03 marcelop Exp $
  */
 package org.eclipse.emf.test.core;
 
@@ -48,6 +48,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.core.featuremap.FeatureMapTest.suite()
     ,org.eclipse.emf.test.core.ecore.BadEcoreDiagnosticTest.suite()
     ,org.eclipse.emf.test.core.ecore.XMLTypeTest.suite()
+    ,org.eclipse.emf.test.core.ecore.BinaryResourceTest.suite()
   };
 
   public static Test suite()
