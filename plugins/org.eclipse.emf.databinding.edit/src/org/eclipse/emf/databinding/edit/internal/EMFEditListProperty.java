@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - Initial API and implementation (bug 262160)
  * </copyright>
  *
- * $Id: EMFEditListProperty.java,v 1.3 2010/03/01 11:09:52 emerks Exp $
+ * $Id: EMFEditListProperty.java,v 1.4 2010/03/01 11:57:10 emerks Exp $
  */
 package org.eclipse.emf.databinding.edit.internal;
 
@@ -66,7 +66,7 @@ public class EMFEditListProperty extends EMFListProperty
          @Override
          protected boolean prepare()
          {
-           for (int size = visitor.commands.size(); ++index < size; ++index)
+           for (int size = visitor.commands.size(); index < size; ++index)
            {
              if (visitor.commands.get(index).canExecute())
              {
@@ -79,7 +79,7 @@ public class EMFEditListProperty extends EMFListProperty
          @Override
          public void execute()
          {
-           for (int size = visitor.commands.size(); ++index < size; ++index)
+           for (int size = visitor.commands.size(); index < size; ++index)
            {
              appendAndExecute(visitor.commands.get(index));
            }
