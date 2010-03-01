@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.104 2010/02/04 20:56:54 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.105 2010/03/01 17:47:24 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2933,9 +2933,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     Arrays.asList
       (new String [] 
        {
+        "NoCircularContainment",
         "EveryMultiplicityConforms", 
         "EveryDataValueConforms", 
         "EveryReferenceIsContained", 
+        "EveryBidirectionalReferenceIsPaired",
         "EveryProxyResolves",
         "UniqueID",
         "EveryKeyUnique",
@@ -2945,11 +2947,20 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   protected List<String> getIntrinsicConstraints()
   {
     List<String> result = new ArrayList<String>(INTRINSIC_CONSTRAINTS);
-    if (getGenModel().getRuntimeVersion().getValue() <= GenRuntimeVersion.EMF22_VALUE)
+    int runtimeVersion = getGenModel().getRuntimeVersion().getValue();
+	if (runtimeVersion <= GenRuntimeVersion.EMF22_VALUE)
     {
       result.remove("EveryKeyUnique");
       result.remove("EveryMapEntryUnique");
     }
+	else if (runtimeVersion < GenRuntimeVersion.EMF25_VALUE)
+	{
+      result.remove("NoCircularContainment");
+	}
+	else if (runtimeVersion < GenRuntimeVersion.EMF26_VALUE)
+	{
+      result.remove("EveryBidirectionalReferenceIsPaired");
+	}
     return result;
   }
 
