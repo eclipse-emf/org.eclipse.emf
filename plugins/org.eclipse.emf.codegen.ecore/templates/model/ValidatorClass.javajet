@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.35 2009/11/16 19:26:45 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.36 2010/03/01 17:47:46 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -204,7 +204,9 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
   String delegate = constraintImplementor == null || constraintImplementor.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(constraintImplementor.getGenPackage()) + "Validator.";
   String cast = constraintImplementor == null && genClassifier instanceof GenClass && !((GenClass)genClassifier).isEObjectExtension() ? "(" + genModel.getImportedName("org.eclipse.emf.ecore.EObject") + ")" : "";
   String accessor = constraintImplementor != null && genClassifier instanceof GenDataType && !((GenDataType)genClassifier).isPrimitiveType() && ((GenDataType)constraintImplementor).isPrimitiveType() && genModel.getComplianceLevel().getValue() < GenJDKLevel.JDK50 ? "." + ((GenDataType)constraintImplementor).getPrimitiveValueFunction() + "()" : "";%>
-<%if (first) { first = false;%>
+<%if ("NoCircularContainment".equals(constraint)) {%>
+		if (!validate_NoCircularContainment(<%if (!((GenClass)genClassifier).isEObjectExtension()){%>(<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)<%}%><%=genClassifier.getSafeUncapName()%>, <%=diagnostics%>, <%=context%>)) return false;
+<%} else if (first) { first = false;%>
 		boolean <%=result%> = <%=delegate%>validate<%=constraintImplementor == null ? "" : constraintImplementor.getName()%>_<%=constraint%>(<%=cast%><%=genClassifier.getSafeUncapName()%><%=accessor%>, <%=diagnostics%>, <%=context%>);
 <%} else {%>
 		if (<%=result%> || <%=diagnostics%> != null) result &= <%=delegate%>validate<%=constraintImplementor == null ? "" : constraintImplementor.getName()%>_<%=constraint%>(<%=cast%><%=genClassifier.getSafeUncapName()%><%=accessor%>, <%=diagnostics%>, <%=context%>);
