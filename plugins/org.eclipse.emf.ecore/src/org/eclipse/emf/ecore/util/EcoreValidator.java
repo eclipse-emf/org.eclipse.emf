@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.42 2010/02/05 21:11:43 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.43 2010/03/01 17:48:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -517,9 +517,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEAttribute(EAttribute eAttribute, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eAttribute, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eAttribute, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eAttribute, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eAttribute, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eAttribute, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eAttribute, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eAttribute, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eAttribute, diagnostics, context);
@@ -588,9 +590,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEAnnotation(EAnnotation eAnnotation, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eAnnotation, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eAnnotation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eAnnotation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eAnnotation, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eAnnotation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eAnnotation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eAnnotation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eAnnotation, diagnostics, context);
@@ -654,9 +658,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEClass(EClass eClass, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eClass, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eClass, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eClass, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eClass, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eClass, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eClass, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eClass, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eClass, diagnostics, context);
@@ -1400,9 +1406,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEClassifier(EClassifier eClassifier, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eClassifier, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eClassifier, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eClassifier, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eClassifier, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eClassifier, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eClassifier, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eClassifier, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eClassifier, diagnostics, context);
@@ -1558,9 +1566,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEDataType(EDataType eDataType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eDataType, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eDataType, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eDataType, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eDataType, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eDataType, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eDataType, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eDataType, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eDataType, diagnostics, context);
@@ -1578,9 +1588,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEEnum(EEnum eEnum, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eEnum, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eEnum, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eEnum, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eEnum, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eEnum, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eEnum, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eEnum, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eEnum, diagnostics, context);
@@ -1704,9 +1716,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEEnumLiteral(EEnumLiteral eEnumLiteral, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eEnumLiteral, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eEnumLiteral, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eEnumLiteral, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eEnumLiteral, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eEnumLiteral, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eEnumLiteral, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eEnumLiteral, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eEnumLiteral, diagnostics, context);
@@ -1742,9 +1756,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateENamedElement(ENamedElement eNamedElement, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eNamedElement, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eNamedElement, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eNamedElement, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eNamedElement, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eNamedElement, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eNamedElement, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eNamedElement, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eNamedElement, diagnostics, context);
@@ -1821,9 +1837,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEOperation(EOperation eOperation, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eOperation, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eOperation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eOperation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eOperation, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eOperation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eOperation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eOperation, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eOperation, diagnostics, context);
@@ -1961,9 +1979,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEPackage(EPackage ePackage, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(ePackage, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(ePackage, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(ePackage, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(ePackage, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(ePackage, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(ePackage, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(ePackage, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(ePackage, diagnostics, context);
@@ -2194,9 +2214,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEParameter(EParameter eParameter, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eParameter, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eParameter, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eParameter, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eParameter, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eParameter, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eParameter, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eParameter, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eParameter, diagnostics, context);
@@ -2216,9 +2238,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEReference(EReference eReference, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eReference, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eReference, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eReference, diagnostics, context);
@@ -2453,9 +2477,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEStructuralFeature(EStructuralFeature eStructuralFeature, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eStructuralFeature, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eStructuralFeature, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eStructuralFeature, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eStructuralFeature, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eStructuralFeature, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eStructuralFeature, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eStructuralFeature, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eStructuralFeature, diagnostics, context);
@@ -2568,9 +2594,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateETypedElement(ETypedElement eTypedElement, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eTypedElement, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eTypedElement, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eTypedElement, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eTypedElement, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eTypedElement, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eTypedElement, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eTypedElement, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eTypedElement, diagnostics, context);
@@ -2717,9 +2745,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateEGenericType(EGenericType eGenericType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eGenericType, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eGenericType, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eGenericType, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eGenericType, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eGenericType, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eGenericType, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eGenericType, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eGenericType, diagnostics, context);
@@ -3760,9 +3790,11 @@ public class EcoreValidator extends EObjectValidator
    */
   public boolean validateETypeParameter(ETypeParameter eTypeParameter, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(eTypeParameter, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(eTypeParameter, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(eTypeParameter, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(eTypeParameter, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(eTypeParameter, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(eTypeParameter, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(eTypeParameter, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(eTypeParameter, diagnostics, context);
