@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.35 2010/02/09 12:17:32 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.36 2010/03/01 17:48:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -297,13 +297,42 @@ public class EObjectValidator implements EValidator
 
   public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    if (eClass.eContainer() == getEPackage())
+	if (eObject.eIsProxy())
+    {
+      if (context != null && context.get(ROOT_OBJECT) != null)
+      {
+        if (diagnostics != null)
+        {
+          diagnostics.add
+            (createDiagnostic
+              (Diagnostic.ERROR,
+               DIAGNOSTIC_SOURCE,
+               EOBJECT__EVERY_PROXY_RESOLVES,
+               "_UI_UnresolvedProxy_diagnostic",
+               new Object []
+               {
+                 getFeatureLabel(eObject.eContainmentFeature(), context),
+                 getObjectLabel(eObject.eContainer(), context),
+                 getObjectLabel(eObject, context)
+               },
+               new Object [] { eObject.eContainer(), eObject.eContainmentFeature(), eObject },
+               context));
+        }
+        return false;
+      }
+      else
+      {
+        return true;
+      }
+    }
+	else if (eClass.eContainer() == getEPackage())
     {
       return validate(eClass.getClassifierID(), eObject, diagnostics, context);
     }
     else
     {
-      return new DynamicEClassValidator()
+      return
+        new DynamicEClassValidator()
         {
           // Ensure that the class loader for this class will be used downstream.
           //
