@@ -956,4 +956,5 @@
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject" defaultValueLiteral=""/>
     </eClassifiers>
   </eSubpackages>
+  <eSubpackages href="#/1"/>
 </ecore:EPackage>

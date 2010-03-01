@@ -68,7 +68,7 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals("org.eclipse.emf.ecore", diagnostic1.getSource());
     assertEquals("Diagnosis of org.eclipse.emf.ecore.impl.EPackageImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#/}", removeObjectHashCode(diagnostic1.getMessage()));
     assertEquals(0, diagnostic1.getCode());
-    assertEquals(113, diagnostic1.getChildren().size());
+    assertEquals(114, diagnostic1.getChildren().size());
     assertEquals(1, diagnostic1.getData().size());
     assertNull(diagnostic1.getException());
 
@@ -1205,6 +1205,15 @@ public class BadEcoreDiagnosticTest extends TestCase
     assertEquals(0, diagnostic127.getChildren().size());
     assertEquals(1, diagnostic127.getData().size());
     assertNull(diagnostic127.getException());
+
+    Diagnostic diagnostic128 = diagnosticIterator.next();
+    assertEquals(Diagnostic.ERROR, diagnostic128.getSeverity());
+    assertEquals("org.eclipse.emf.ecore", diagnostic128.getSource());
+    assertEquals("The feature 'eSubpackages' of 'org.eclipse.emf.ecore.impl.EPackageImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#/}' contains an unresolved proxy 'org.eclipse.emf.ecore.impl.EPackageImpl{platform:/plugin/platform:/plugin/org.eclipse.emf.test.core/data/Bad.ecore#/1}'", removeObjectHashCode(diagnostic128.getMessage()));
+    assertEquals(4, diagnostic128.getCode());
+    assertEquals(0, diagnostic128.getChildren().size());
+    assertEquals(3, diagnostic128.getData().size());
+    assertNull(diagnostic128.getException());
     
     assertFalse(diagnosticIterator.hasNext());
   }
