@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.27 2009/08/07 14:51:44 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.28 2010/03/05 16:58:05 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1853,7 +1853,7 @@ public class EcoreSchemaBuilder extends MapBuilder
     {
       uniquePrefix = preferredPrefix + "_" + i;
     }
-    namespaces.put(uniquePrefix, namespace);
+    namespaces.put("".equals(uniquePrefix) ? null : uniquePrefix, namespace);
     return uniquePrefix;
   }
 
