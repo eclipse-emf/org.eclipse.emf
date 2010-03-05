@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicNotifierImpl.java,v 1.6 2009/01/16 12:55:02 emerks Exp $
+ * $Id: BasicNotifierImpl.java,v 1.7 2010/03/05 15:50:31 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -40,11 +40,54 @@ public class BasicNotifierImpl implements Notifier
     super();
   }
 
-  public static class EAdapterList<E extends Object & Adapter> extends BasicEList<E>
+  /**
+   * An interface implemented by {@link BasicNotifierImpl#eAdapters() adapter lists}
+   * that allows {@link BasicNotifierImpl.EObservableAdapterList.Listener listeners} to observe {@link Adapter adapters} being added and removed.
+   * @since 2.6
+   */
+  public interface EObservableAdapterList
+  {
+    /**
+     * An interface implemented by clients wishing to observe {@link Adapter adapters} being added and removed from an {@link BasicNotifierImpl#eAdapters() adapter lists}.
+     * @since 2.6
+     */
+    interface Listener
+    {
+      /**
+       * Called when the given adapter is added to the given notifier.
+       * @param notifier the notifier being adapted.
+       * @param adapter the adapter being added to the notifier.
+       */
+      void added(Notifier notifier, Adapter adapter);
+
+      /**
+       * Called when the given adapter is remove from the given notifier.
+       * @param notifier the notifier that was being adapted.
+       * @param adapter the adapter being removed from the notifier.
+       */
+      void removed(Notifier notifier, Adapter adapter);
+    }
+
+    /**
+     * Adds another listener from the adapter list.
+     * @param listener the listener being added.
+     */
+    void addListener(Listener listener);
+
+    /**
+     * Remove the listener from the adapter list.
+     * @param listener the listener being removed.
+     */
+    void removeListener(Listener listener);
+  }
+
+  public static class EAdapterList<E extends Object & Adapter> extends BasicEList<E> implements EObservableAdapterList
   {
     private static final long serialVersionUID = 1L;
 
     protected Notifier notifier;
+
+    protected Listener [] listeners;
 
     public EAdapterList(Notifier notifier)
     {
@@ -74,12 +117,26 @@ public class BasicNotifierImpl implements Notifier
     @Override
     protected void didAdd(int index, E newObject)
     {
+      if (listeners != null)
+      {
+        for (Listener listener : listeners)
+        {
+          listener.added(notifier, newObject);
+        }
+      }
       newObject.setTarget(notifier);
     }
 
     @Override
     protected void didRemove(int index, E oldObject)
     {
+      if (listeners != null)
+      {
+        for (Listener listener : listeners)
+        {
+          listener.removed(notifier, oldObject);
+        }
+      }
       E adapter = oldObject;
       if (notifier.eDeliver())
       {
@@ -210,6 +267,49 @@ public class BasicNotifierImpl implements Notifier
     {
       ensureSafety();
       return super.move(newPosition, oldPosition);
+    }
+
+    public void addListener(Listener listener)
+    {
+      if (listeners == null)
+      {
+        listeners = new Listener [] { listener };
+      }
+      else
+      {
+        Listener[] newListeners = new Listener[listeners.length + 1];
+        System.arraycopy(listeners, 0, newListeners, 0, listeners.length);
+        newListeners[listeners.length] = listener;
+        listeners = newListeners;
+      }
+    }
+
+    public void removeListener(Listener listener)
+    {
+      if (listeners != null)
+      {
+        for (int i = 0; i < listeners.length; ++i)
+        {
+          if (listeners[i] == listener)
+          {
+            if (listeners.length == 1)
+            {
+              listeners = null;
+            }
+            else
+            {
+              Listener[] newListeners = new Listener[listeners.length - 1];
+              System.arraycopy(listeners, 0, newListeners, 0, i);
+              if (i != newListeners.length)
+              {
+                System.arraycopy(listeners, i + 1, newListeners, i, newListeners.length - i);
+              } 
+              listeners = newListeners;
+            }
+            break;
+          }
+        }
+      }
     }
   }
 
