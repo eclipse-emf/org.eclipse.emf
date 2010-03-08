@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.42 2008/04/18 15:44:13 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.43 2010/03/08 17:01:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1610,7 +1610,10 @@ public class XSDSchemaImpl
       circularResolveDependencies = null;
       for (XSDSchemaImpl circularSchema : localCircularResolveDependencies)
       {
-        circularSchema.patch();
+        if (circularSchema != this)
+        {
+          circularSchema.patch();
+        }
       }
     }
 
