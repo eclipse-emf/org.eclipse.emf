@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2009 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.111 2010/02/04 20:56:54 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.112 2010/03/11 02:31:38 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -185,6 +185,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getInterfaceNamePattern <em>Interface Name Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getClassNamePattern <em>Class Name Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isOperationReflection <em>Operation Reflection</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRichAjaxPlatform <em>Rich Ajax Platform</em>}</li>
  * </ul>
  * </p>
  *
@@ -1697,6 +1698,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean operationReflection = OPERATION_REFLECTION_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isRichAjaxPlatform() <em>Rich Ajax Platform</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isRichAjaxPlatform()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean RICH_AJAX_PLATFORM_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isRichAjaxPlatform() <em>Rich Ajax Platform</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isRichAjaxPlatform()
+   * @generated
+   * @ordered
+   */
+  protected boolean richAjaxPlatform = RICH_AJAX_PLATFORM_EDEFAULT;
 
   protected boolean validateModel = false;
 
@@ -5334,7 +5355,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public boolean needsRuntimeCompatibility()
   {
-    return isRuntimeCompatibility() && !isRichClientPlatform();
+    return isRuntimeCompatibility() && !isRichClientPlatform() && !isRichAjaxPlatform();
   }
 
   /**
@@ -5355,9 +5376,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean isRichClientPlatform()
+  public boolean isRichClientPlatformGen()
   {
     return richClientPlatform;
+  }
+
+  public boolean isRichClientPlatform()
+  {
+    return isRichClientPlatformGen() || isRichAjaxPlatform();
   }
 
   /**
@@ -6165,6 +6191,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isRichAjaxPlatform()
+  {
+    return richAjaxPlatform;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setRichAjaxPlatform(boolean newRichAjaxPlatform)
+  {
+    boolean oldRichAjaxPlatform = richAjaxPlatform;
+    richAjaxPlatform = newRichAjaxPlatform;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__RICH_AJAX_PLATFORM, oldRichAjaxPlatform, richAjaxPlatform));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @SuppressWarnings("unchecked")
   @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
@@ -6357,6 +6406,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getClassNamePattern();
       case GenModelPackage.GEN_MODEL__OPERATION_REFLECTION:
         return isOperationReflection();
+      case GenModelPackage.GEN_MODEL__RICH_AJAX_PLATFORM:
+        return isRichAjaxPlatform();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -6612,6 +6663,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__OPERATION_REFLECTION:
         setOperationReflection((Boolean)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__RICH_AJAX_PLATFORM:
+        setRichAjaxPlatform((Boolean)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -6857,6 +6911,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__OPERATION_REFLECTION:
         setOperationReflection(OPERATION_REFLECTION_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__RICH_AJAX_PLATFORM:
+        setRichAjaxPlatform(RICH_AJAX_PLATFORM_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -7025,6 +7082,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return CLASS_NAME_PATTERN_EDEFAULT == null ? classNamePattern != null : !CLASS_NAME_PATTERN_EDEFAULT.equals(classNamePattern);
       case GenModelPackage.GEN_MODEL__OPERATION_REFLECTION:
         return operationReflection != OPERATION_REFLECTION_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__RICH_AJAX_PLATFORM:
+        return richAjaxPlatform != RICH_AJAX_PLATFORM_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -7188,6 +7247,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(classNamePattern);
     result.append(", operationReflection: ");
     result.append(operationReflection);
+    result.append(", richAjaxPlatform: ");
+    result.append(richAjaxPlatform);
     result.append(')');
     return result.toString();
   }
@@ -8177,7 +8238,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       result.addAll(getEditRequiredPlugins());
     }
     result.add("org.eclipse.emf.ecore.xmi");
-    result.add("org.eclipse.emf.edit.ui");
+    if (isRichAjaxPlatform())
+    {
+      result.add("org.eclipse.core.commands");
+    }
+    else
+    {
+      result.add("org.eclipse.emf.edit.ui");
+    }
     if (!isRichClientPlatform())
     {
       result.add("org.eclipse.ui.ide");
@@ -8446,6 +8514,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setInterfaceNamePattern(oldGenModelVersion.getInterfaceNamePattern());
     setClassNamePattern(oldGenModelVersion.getClassNamePattern());
     setOperationReflection(oldGenModelVersion.isOperationReflection());
+    setRichAjaxPlatform(oldGenModelVersion.isRichAjaxPlatform());
   }
 
   public boolean reconcile()

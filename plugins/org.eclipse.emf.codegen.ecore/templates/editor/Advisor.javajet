@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.11 2008/10/02 18:21:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.12 2010/03/11 02:31:37 khussey Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2008 IBM Corporation and others.
+ * Copyright (c) 2004-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,8 +22,10 @@
 <%@ include file="../Header.javajetinc"%>
 package <%=genModel.getEditorPluginPackageName()%>;
 
+<%if (!genModel.isRichAjaxPlatform()) {%>
 import java.io.File;
 import java.util.Arrays;
+<%}%>
 <%if (!genModel.useGenerics()) {%>
 import java.util.Iterator;
 <%}%>
@@ -41,11 +43,15 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
+<%if (!genModel.isRichAjaxPlatform()) {%>
 import org.eclipse.swt.SWT;
+<%}%>
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
+<%if (!genModel.isRichAjaxPlatform()) {%>
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
+<%}%>
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
@@ -57,7 +63,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
+<%if (!genModel.isRichAjaxPlatform()) {%>
 import org.eclipse.ui.actions.ContributionItemFactory;
+<%}%>
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
@@ -95,15 +103,16 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	public static final String copyright = <%=genModel.getCopyrightFieldLiteral()%>;<%=genModel.getNonNLS()%>
 
 <%}%>
+<%if (!genModel.isRichAjaxPlatform()) {%>
 	/**
 	 * The default file extension filters for use in dialogs.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%if (genModel.getAllGenPackagesWithConcreteClasses().size() == 1) {%>
+  <%if (genModel.getAllGenPackagesWithConcreteClasses().size() == 1) {%>
 	private static final String[] FILE_EXTENSION_FILTERS = <%if (!genModel.useGenerics()) {%>(String[])<%}%><%=genModel.getAllGenPackagesWithConcreteClasses().get(0).getImportedEditorClassName()%>.FILE_EXTENSION_FILTERS.toArray(new String[0]);
-<%} else {%>
+  <%} else {%>
 	private static final String[] FILE_EXTENSION_FILTERS = getFileExtensionFilters();
 
 	/**
@@ -115,12 +124,13 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	private static String[] getFileExtensionFilters()
 	{
 		<%=_ListOfString%> result = new <%=_UniqueEListOfString%>();
-  <%for (GenPackage genPackage : genModel.getAllGenPackagesWithConcreteClasses()) {%>
+    <%for (GenPackage genPackage : genModel.getAllGenPackagesWithConcreteClasses()) {%>
 		result.addAll(<%=genPackage.getImportedEditorClassName()%>.FILE_EXTENSION_FILTERS);
-  <%}%>
+    <%}%>
 		return <%if (!genModel.useGenerics()) {%>(String[])<%}%>result.toArray(new String[0]);
 	}
-<%}%> 
+  <%}%> 
+<%}%>
 
 	/**
 	 * This looks up a string in the plugin's plugin.properties file.
@@ -395,7 +405,9 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	
 			addToMenuAndRegister(menu, ActionFactory.OPEN_NEW_WINDOW.create(window));
 			menu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+<%if (!genModel.isRichAjaxPlatform()) {%>
 			menu.add(ContributionItemFactory.OPEN_WINDOWS.create(window));
+<%}%>
 	
 			return menu;
 		}
@@ -453,6 +465,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		}
 	}
 	
+<%if (!genModel.isRichAjaxPlatform()) {%>
 	/**
 	 * Open action for the objects from the <%=genModel.getModelName()%> model.
 	 * <!-- begin-user-doc -->
@@ -476,6 +489,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 			}
 		}
 	}
+<%}%>
 	
 	/**
 	 * Open URI action for the objects from the <%=genModel.getModelName()%> model.
@@ -511,6 +525,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		}
 	}
 	
+<%if (!genModel.isRichAjaxPlatform()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -615,7 +630,8 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		}
 		return result;
 	}
-	
+<%}%>
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

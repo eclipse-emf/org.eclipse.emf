@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2009 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.54 2009/11/16 19:26:45 khussey Exp $
+ * $Id: GenModelPackage.java,v 1.55 2010/03/11 02:31:37 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -826,13 +826,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__OPERATION_REFLECTION = GEN_BASE_FEATURE_COUNT + 76;
 
   /**
+   * The feature id for the '<em><b>Rich Ajax Platform</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__RICH_AJAX_PLATFORM = GEN_BASE_FEATURE_COUNT + 77;
+
+  /**
    * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 77;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 78;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2760,6 +2769,17 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_OperationReflection();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichAjaxPlatform <em>Rich Ajax Platform</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Rich Ajax Platform</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichAjaxPlatform()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_RichAjaxPlatform();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage <em>Gen Package</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4345,6 +4365,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__OPERATION_REFLECTION = eINSTANCE.getGenModel_OperationReflection();
+
+    /**
+     * The meta object literal for the '<em><b>Rich Ajax Platform</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__RICH_AJAX_PLATFORM = eINSTANCE.getGenModel_RichAjaxPlatform();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.

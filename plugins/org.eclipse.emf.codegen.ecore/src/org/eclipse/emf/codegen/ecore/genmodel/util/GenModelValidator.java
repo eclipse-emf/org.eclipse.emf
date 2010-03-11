@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelValidator.java,v 1.4 2008/03/10 19:10:26 emerks Exp $
+ * $Id: GenModelValidator.java,v 1.5 2010/03/11 02:31:38 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -217,9 +217,11 @@ public class GenModelValidator extends EObjectValidator
    */
   public boolean validateGenEnum(GenEnum genEnum, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
+    if (!validate_NoCircularContainment(genEnum, diagnostics, context)) return false;
     boolean result = validate_EveryMultiplicityConforms(genEnum, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryDataValueConforms(genEnum, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(genEnum, diagnostics, context);
+    if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(genEnum, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryProxyResolves(genEnum, diagnostics, context);
     if (result || diagnostics != null) result &= validate_UniqueID(genEnum, diagnostics, context);
     if (result || diagnostics != null) result &= validate_EveryKeyUnique(genEnum, diagnostics, context);

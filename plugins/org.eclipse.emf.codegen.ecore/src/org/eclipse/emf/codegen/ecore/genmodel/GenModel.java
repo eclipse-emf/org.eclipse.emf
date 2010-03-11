@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2009 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.66 2010/02/04 20:56:54 emerks Exp $
+ * $Id: GenModel.java,v 1.67 2010/03/11 02:31:37 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -122,6 +122,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getInterfaceNamePattern <em>Interface Name Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getClassNamePattern <em>Class Name Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOperationReflection <em>Operation Reflection</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichAjaxPlatform <em>Rich Ajax Platform</em>}</li>
  * </ul>
  * </p>
  *
@@ -2048,6 +2049,32 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setOperationReflection(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Rich Ajax Platform</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Rich Ajax Platform</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Rich Ajax Platform</em>' attribute.
+   * @see #setRichAjaxPlatform(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RichAjaxPlatform()
+   * @model
+   * @generated
+   */
+  boolean isRichAjaxPlatform();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichAjaxPlatform <em>Rich Ajax Platform</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Rich Ajax Platform</em>' attribute.
+   * @see #isRichAjaxPlatform()
+   * @generated
+   */
+  void setRichAjaxPlatform(boolean value);
 
   EList<GenPackage> getStaticGenPackages();
 
