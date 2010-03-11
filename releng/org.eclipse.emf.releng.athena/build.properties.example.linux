@@ -1,0 +1,39 @@
+## BEGIN PROJECT BUILD PROPERTIES ##
+
+thirdPartyDownloadLicenseAcceptance="I accept"
+
+projectid=tools.emf
+zipPrefix=EMF
+incubation=
+version=2.6.0
+branch=HEAD
+buildType=N
+mainFeatureToBuildID=org.eclipse.emf.all
+testFeatureToBuildID=org.eclipse.emf.tests
+
+# for windows, do testLocal instead of test
+build.steps=buildUpdate,buildZips,buildTests,generateDigests,test,publish,cleanup
+
+localSourceCheckoutDir=/home/nboldt/workspace36/org.eclipse.emf.tree
+relengBaseBuilderDir=/home/nboldt/workspace/org.eclipse.releng.basebuilder
+relengCommonBuilderDir=/home/nboldt/workspace/org.eclipse.dash.common.releng
+
+flattenDependencies=true
+parallelCompilation=true
+generateFeatureVersionSuffix=true
+individualSourceBundles=true
+
+noclean=false
+skipSign=true
+skipPack=true
+
+dependencyURLs=http://download.eclipse.org/eclipse/downloads/drops/S-3.6M4-200912101301/eclipse-SDK-3.6M4-linux-gtk.tar.gz
+
+JAVA_HOME=/usr/lib/jvm/java
+JAVA14_HOME=/usr/lib/jvm/java
+JAVA50_HOME=/usr/lib/jvm/java
+JAVA60_HOME=/usr/lib/jvm/java
+JAVADOC14_HOME=/usr/lib/jvm/java/bin
+compilerArg=-enableJavadoc -encoding ISO-8859-1
+
+## END PROJECT BUILD PROPERTIES ##

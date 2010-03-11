@@ -1,0 +1,50 @@
+## BEGIN PROJECT BUILD PROPERTIES ##
+
+# default settings for all this project's builds, for this branch; see also o.e.d.common.releng/build.properties for more overrideable defaults
+
+# To permit automatic downloads of non-EPL compatible code, set this to property to "I accept"
+thirdPartyDownloadLicenseAcceptance="I accept"
+
+projectid=tools.emf
+zipPrefix=EMF
+incubation=
+version=2.6.0
+branch=HEAD
+buildType=N
+mainFeatureToBuildID=org.eclipse.emf.all
+testFeatureToBuildID=org.eclipse.emf.tests
+
+# for windows, do testLocal instead of test
+build.steps=buildUpdate,buildZips,buildTests,generateDigests,test,publish,cleanup
+
+relengBuilderDir=C:/workspace/org.eclipse.emf.athena.releng
+relengBaseBuilderDir=C:/workspace/org.eclipse.releng.basebuilder
+relengCommonBuilderDir=C:/workspace/org.eclipse.dash.common.releng
+writableBuildRoot=C:/tmp/build
+
+flattenDependencies=true
+parallelCompilation=true
+generateFeatureVersionSuffix=true
+individualSourceBundles=true
+
+# don't suppress cleanup if tests fail
+noclean=false
+
+# do not sign  jars
+skipSign=true
+
+# use this to omit pack200 step (does not yet work on Windows - https://bugs.eclipse.org/bugs/show_bug.cgi?id=268405)
+skipPack=true
+
+dependencyURLs=http://download.eclipse.org/eclipse/downloads/drops/S-3.6M4-200912101301/eclipse-SDK-3.6M4-win32.zip
+
+JAVA_HOME=C:/Progra~1/Java/jdk1.6.0_11
+JAVA14_HOME=C:/Progra~1/Java/jdk1.6.0_11
+JAVA50_HOME=C:/Progra~1/Java/jdk1.6.0_11
+JAVA60_HOME=C:/Progra~1/Java/jdk1.6.0_11
+
+# used by doc.isv builders; not all builds will need this... does this even work?
+JAVADOC14_HOME=C:/Progra~1/Java/jdk1.6.0_11/bin
+compilerArg=-enableJavadoc -encoding ISO-8859-1
+
+## END PROJECT BUILD PROPERTIES ##
