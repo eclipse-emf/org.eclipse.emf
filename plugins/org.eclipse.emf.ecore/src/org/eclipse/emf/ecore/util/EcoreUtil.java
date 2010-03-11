@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.70 2010/02/04 20:56:14 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.71 2010/03/11 14:35:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3605,7 +3605,7 @@ public class EcoreUtil
 
   /**
    * Generates a universally unique identifier, 
-   * i.e., a <a href="ftp://ietf.org/internet-drafts/draft-mealling-uuid-urn-02.txt">UUID</a>.
+   * i.e., a <a href="http://www.ietf.org/rfc/rfc4122.txt">UUID</a>.
    * It encodes the 128 bit UUID in <a href="http://www.ietf.org/rfc/rfc2045.txt">base 64</a>,
    * but rather than padding the encoding with two "=" characters, 
    * it prefixes the encoding with a single "_" character,
