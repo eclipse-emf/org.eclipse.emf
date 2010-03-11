@@ -1,0 +1,13 @@
+<!-- A sample build file for use with Hudson. Note that forceContextQualifier 
+	 is being set, which overrides tag/branch values found in *.map files 
+-->
+<project default="run">
+	<target name="run">
+		<tstamp>
+			<format property="buildTimestamp" pattern="yyyyMMddHHmm" />
+		</tstamp>
+
+		<property file="build.properties" />
+		<ant antfile="${relengCommonBuilderDir}/build.xml" />
+	</target>
+</project>
