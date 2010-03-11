@@ -1,6 +1,4 @@
-<!-- A sample build file for use with Hudson. Note that forceContextQualifier 
-	 is being set, which overrides tag/branch values found in *.map files 
--->
+<!-- A sample build file for use with Hudson. -->
 <project default="run">
 	<target name="run">
 		<tstamp>
