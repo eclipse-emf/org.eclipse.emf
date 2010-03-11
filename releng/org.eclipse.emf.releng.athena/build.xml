@@ -22,16 +22,16 @@
 			 3. You can also define absolute paths for these directories, if relative paths do not work.
 		-->
 		<condition property="relengCommonBuilderDir"
-		           value="${basedir}/../../org.eclipse.dash.common.releng"
+		           value="${basedir}/../../../org.eclipse.dash.common.releng"
 		           else="${basedir}/../org.eclipse.dash.common.releng"
 		>
-			<available file="${basedir}/../../org.eclipse.dash.common.releng" type="dir" />
+			<available file="${basedir}/../../../org.eclipse.dash.common.releng" type="dir" />
 		</condition>
 		<condition property="relengBaseBuilderDir"
-		           value="${basedir}/../../org.eclipse.releng.basebuilder"
+		           value="${basedir}/../../../org.eclipse.releng.basebuilder"
 		           else="${basedir}/../org.eclipse.releng.basebuilder"
 		>
-			<available file="${basedir}/../../org.eclipse.releng.basebuilder" type="dir" />
+			<available file="${basedir}/../../../org.eclipse.releng.basebuilder" type="dir" />
 		</condition>
 
 		<!-- 4. To build from CVS sources using information in the ./maps/*.map files, comment these next two properties
