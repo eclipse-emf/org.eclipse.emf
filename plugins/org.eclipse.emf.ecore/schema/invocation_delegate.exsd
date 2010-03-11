@@ -88,7 +88,7 @@
          Following is an example of how an invocation delegate factory can be registered: 
 &lt;pre&gt;
   &lt;extension point=&quot;org.eclipse.emf.ecore.invocation_delegate&quot; &gt;
-    &lt;factory uri=&quot;org.eclipse.ocl.ecore.OCL&quot; class=&quot;org.eclipse.ocl.ecore.delegate.OCLInvocationDelegateFactory&quot;/&gt; 
+    &lt;factory uri=&quot;http://www.eclipse.org/emf/2002/Ecore/OCL&quot; class=&quot;org.eclipse.ocl.ecore.delegate.OCLInvocationDelegateFactory&quot;/&gt; 
   &lt;/extension&gt;
 &lt;/pre&gt;
       </documentation>
@@ -104,7 +104,7 @@
 An invocation delegate factory can be also registered from the source code with the &lt;samp&gt;EOperation.Internal.InvocationDelegate.Factory.Registry.INSTANCE&lt;/samp&gt; as follows:
 &lt;/p&gt;
 &lt;pre&gt;
-  EOperation.Internal.InvocationDelegate.Factory.Registry.INSTANCE.put(&quot;org.eclipse.ocl.ecore.OCL&quot;, new OCLInvocationDelegateFactory());
+  EOperation.Internal.InvocationDelegate.Factory.Registry.INSTANCE.put(&quot;http://www.eclipse.org/emf/2002/Ecore/OCL&quot;, new OCLInvocationDelegateFactory());
 &lt;/pre&gt;
       </documentation>
    </annotation>

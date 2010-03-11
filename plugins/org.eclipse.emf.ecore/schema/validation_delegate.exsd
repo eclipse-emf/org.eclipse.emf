@@ -88,7 +88,7 @@
          Following is an example of how a validation delegate can be registered: 
 &lt;pre&gt;
   &lt;extension point=&quot;org.eclipse.emf.ecore.validation_delegate&quot; &gt;
-    &lt;delegate uri=&quot;org.eclipse.ocl.ecore.OCL&quot; class=&quot;org.eclipse.ocl.ecore.delegate.OCLValidationDelegate&quot;/&gt; 
+    &lt;delegate uri=&quot;http://www.eclipse.org/emf/2002/Ecore/OCL&quot; class=&quot;org.eclipse.ocl.ecore.delegate.OCLValidationDelegate&quot;/&gt; 
   &lt;/extension&gt;
 &lt;/pre&gt;
       </documentation>
@@ -104,7 +104,7 @@
 A validation delegate can be also registered from the source code with the &lt;samp&gt;EValidator.ValidationDelegate.Registry.INSTANCE&lt;/samp&gt; as follows:
 &lt;/p&gt;
 &lt;pre&gt;
-  EValidator.ValidationDelegate.Registry.INSTANCE.put(&quot;org.eclipse.ocl.ecore.OCL&quot;, new OCLValidationDelegate());
+  EValidator.ValidationDelegate.Registry.INSTANCE.put(&quot;http://www.eclipse.org/emf/2002/Ecore/OCL&quot;, new OCLValidationDelegate());
 &lt;/pre&gt;
       </documentation>
    </annotation>

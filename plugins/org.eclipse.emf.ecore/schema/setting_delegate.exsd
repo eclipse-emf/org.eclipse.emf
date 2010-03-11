@@ -88,7 +88,7 @@
          Following is an example of how a setting delegate factory can be registered: 
 &lt;pre&gt;
   &lt;extension point=&quot;org.eclipse.emf.ecore.setting_delegate&quot; &gt;
-    &lt;factory uri=&quot;org.eclipse.ocl.ecore.OCL&quot; class=&quot;org.eclipse.ocl.ecore.delegate.OCLSettingDelegateFactory&quot;/&gt; 
+    &lt;factory uri=&quot;http://www.eclipse.org/emf/2002/Ecore/OCL&quot; class=&quot;org.eclipse.ocl.ecore.delegate.OCLSettingDelegateFactory&quot;/&gt; 
   &lt;/extension&gt;
 &lt;/pre&gt;
       </documentation>
@@ -104,7 +104,7 @@
 A setting delegate factory can be also registered from the source code with the &lt;samp&gt;EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE&lt;/samp&gt; as follows:
 &lt;/p&gt;
 &lt;pre&gt;
-  EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE.put(&quot;org.eclipse.ocl.ecore.OCL&quot;, new OCLSettingDelegateFactory());
+  EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE.put(&quot;http://www.eclipse.org/emf/2002/Ecore/OCL&quot;, new OCLSettingDelegateFactory());
 &lt;/pre&gt;
       </documentation>
    </annotation>
