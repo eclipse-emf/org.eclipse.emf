@@ -1,10 +1,7 @@
 <!-- A sample build file for use with Hudson. -->
 <project default="run">
 	<target name="run">
-		<condition property="JAVA_HOME"
-		           value="${java.home}"
-		           else="${java.home}/.."
-		>
+		<condition property="JAVA_HOME" value="${java.home}" else="${java.home}/..">
 			<available file="${java.home}/bin/javac" type="file" />
 		</condition>
 		<tstamp>
