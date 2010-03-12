@@ -56,7 +56,7 @@
 		</zip>
 
 		<!-- create EMF runtime (new) -->
-		<zip destfile="${buildDirectory}/${buildLabel}/emf-runtime-${buildAlias}.zip" update="true" duplicate="preserve">
+		<zip destfile="${buildDirectory}/${buildLabel}/emf-runtime-${buildAlias}.zip" update="false" duplicate="preserve">
 			<zipfileset src="${buildDirectory}/${buildLabel}/${allZip}" dirmode="775" filemode="664">
 				<exclude name="**/org.eclipse.xsd*" />
 				<exclude name="**/org.eclipse.xsd*/**" />
