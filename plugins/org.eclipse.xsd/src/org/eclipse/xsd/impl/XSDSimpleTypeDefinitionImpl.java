@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.35 2009/10/23 06:53:36 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.36 2010/03/12 16:12:45 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -808,7 +808,10 @@ public class XSDSimpleTypeDefinitionImpl
 
     if (theBaseTypeDefinition != null && theBaseTypeDefinition.getContainer() != null)
     {
-      ((XSDTypeDefinitionImpl)theBaseTypeDefinition).analyze();
+      if (!((XSDConcreteComponentImpl)theBaseTypeDefinition).analyze() && !XSDConstants.isURType(theBaseTypeDefinition) && theBaseTypeDefinition.isCircular())
+      {
+        analysisState = CIRCULAR;
+      }
       if (theBaseTypeDefinition != this)
       {
         if (!XSDConstants.isURType(this))
@@ -873,6 +876,10 @@ public class XSDSimpleTypeDefinitionImpl
         newVariety = XSDVariety.LIST_LITERAL;
         newPrimitiveTypeDefinition = null;
         ((XSDTypeDefinitionImpl)theItemTypeDefinition).analyze();
+        if (!((XSDConcreteComponentImpl)theItemTypeDefinition).analyze() && !XSDConstants.isURType(theItemTypeDefinition) && theItemTypeDefinition.isCircular())
+        {
+          analysisState = CIRCULAR;
+        }
         newValidFacets = getValidFacetsForList();
         if (effectiveWhiteSpaceFacet == null)
         {
@@ -895,7 +902,10 @@ public class XSDSimpleTypeDefinitionImpl
         {
           if (theMemberTypeDefinition.getContainer() != null)
           {
-            ((XSDTypeDefinitionImpl)theMemberTypeDefinition).analyze();
+            if (!((XSDConcreteComponentImpl)theMemberTypeDefinition).analyze() && !XSDConstants.isURType(theMemberTypeDefinition) && theMemberTypeDefinition.isCircular())
+            {
+              analysisState = CIRCULAR;
+            }
             if (!theMemberTypeDefinition.getNumericFacet().isValue())
             {
               newNumeric = false;
