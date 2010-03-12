@@ -43,6 +43,8 @@
 				<exclude name="**/org.eclipse.emf.exporter.html*/**" />
 				<exclude name="**/org.eclipse.emf.java*" />
 				<exclude name="**/org.eclipse.emf.java*/**" />
+				<exclude name="**/org.eclipse.emf.rap*" />
+				<exclude name="**/org.eclipse.emf.rap*/**" />
 				<include name="**/org.eclipse.emf.cheatsheets*" />
 				<include name="**/org.eclipse.emf.cheatsheets*/**" />
 				<include name="**/*.emf.doc_*" />
