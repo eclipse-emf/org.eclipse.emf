@@ -70,6 +70,21 @@
 	<feature id="org.eclipse.emf.mapping" version="${org.eclipse.emf.mapping.version}" url="features/org.eclipse.emf.mapping_${org.eclipse.emf.mapping.version}.jar" patch="false">
 		<category name="EMF"/>
 	</feature>
+	<feature id="org.eclipse.emf.rap.common.ui" version="${org.eclipse.emf.rap.common.ui.version}" url="features/org.eclipse.emf.rap.common.ui_${org.eclipse.emf.rap.common.ui.version}.jar" patch="false">
+		<category name="EMF"/>
+	</feature>
+	<feature id="org.eclipse.emf.rap.edit.ui" version="${org.eclipse.emf.rap.edit.ui.version}" url="features/org.eclipse.emf.rap.edit.ui_${org.eclipse.emf.rap.edit.ui.version}.jar" patch="false">
+		<category name="EMF"/>
+	</feature>
+	<feature id="org.eclipse.emf.rap.sdk" version="${org.eclipse.emf.rap.sdk.version}" url="features/org.eclipse.emf.rap.sdk_${org.eclipse.emf.rap.sdk.version}.jar" patch="false">
+		<category name="EMF"/>
+	</feature>
+	<feature id="org.eclipse.emf.rap.source" version="${org.eclipse.emf.rap.source.version}" url="features/org.eclipse.emf.rap.source_${org.eclipse.emf.rap.source.version}.jar" patch="false">
+		<category name="EMF"/>
+	</feature>
+	<feature id="org.eclipse.emf.rap" version="${org.eclipse.emf.rap.version}" url="features/org.eclipse.emf.rap_${org.eclipse.emf.rap.version}.jar" patch="false">
+		<category name="EMF"/>
+	</feature>
 	<feature id="org.eclipse.emf.sdk" version="${org.eclipse.emf.sdk.version}" url="features/org.eclipse.emf.sdk_${org.eclipse.emf.sdk.version}.jar" patch="false">
 		<category name="EMF"/>
 	</feature>
