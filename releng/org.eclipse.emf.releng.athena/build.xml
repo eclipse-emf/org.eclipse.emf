@@ -5,10 +5,7 @@
 	<target name="run">
 		<!-- 0. Set a valid path to JAVA_HOME, if Eclipse's ${java.home}/../bin/javac (linux) or ${java.home}/bin/javac (mac) cannot be found
 		-->
-		<condition property="JAVA_HOME"
-		           value="${java.home}"
-		           else="${java.home}/.."
-		>
+		<condition property="JAVA_HOME" value="${java.home}" else="${java.home}/..">
 			<available file="${java.home}/bin/javac" type="file" />
 		</condition>
 
