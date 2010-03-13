@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.71 2010/03/11 14:35:29 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.72 2010/03/13 13:47:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3620,7 +3620,7 @@ public class EcoreUtil
 
   /**
    * Generates a universally unique identifier, 
-   * i.e., a <a href="ftp://ietf.org/internet-drafts/draft-mealling-uuid-urn-02.txt">UUID</a>.
+   * i.e., a <a href="http://tools.ietf.org/id/draft-mealling-uuid-urn-02.txt">UUID</a>.
    * The argument is filled in with the 128 bit UUID and hence must be at least 16 bytes in length.
    * @param uuid the value to receive the result.
    */
