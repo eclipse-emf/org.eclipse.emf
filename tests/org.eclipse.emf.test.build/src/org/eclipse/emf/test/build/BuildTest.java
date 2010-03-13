@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BuildTest.java,v 1.29 2009/03/25 14:15:10 davidms Exp $
+ * $Id: BuildTest.java,v 1.30 2010/03/13 18:59:22 khussey Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -43,7 +43,7 @@ public class BuildTest extends TestCase
    {"about.ini", "about.mappings", "about.properties", "modeling32.png"};
   
   protected static int expectedNumberOfDocPlugins = 2;
-  protected static int expectedNumberOfSourcePlugins = 48;
+  protected static int expectedNumberOfSourcePlugins = 51;
   
   protected File featuresDir;
   protected File pluginsDir;
@@ -328,6 +328,10 @@ public class BuildTest extends TestCase
     brandingPluginNames.add("org.eclipse.emf.mapping.ecore");
     brandingPluginNames.add("org.eclipse.emf.mapping.ecore.editor");
     brandingPluginNames.add("org.eclipse.emf.mapping.ui");
+    brandingPluginNames.add("org.eclipse.emf.rap");
+    brandingPluginNames.add("org.eclipse.emf.rap.common.ui");
+    brandingPluginNames.add("org.eclipse.emf.rap.edit.ui");
+    brandingPluginNames.add("org.eclipse.emf.rap.source");
     brandingPluginNames.add("org.eclipse.emf.source");
     brandingPluginNames.add("org.eclipse.emf.tests");
     brandingPluginNames.add("org.eclipse.xsd");
