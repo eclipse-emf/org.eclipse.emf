@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.45 2008/04/22 13:35:44 emerks Exp $
+ * $Id: XMLResource.java,v 1.46 2010/03/15 02:57:06 davidms Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -101,7 +101,8 @@ public interface XMLResource extends Resource
    *   <li>Escape class used during serialization</li>
    *   <li>Printer class used during serialization</li>
    *   <li>DocumentRoot class per EPackage - useful during loading of XML document</li>
-   *</ul>
+   * </ul>
+   * The default value is false.
    */
   String OPTION_CONFIGURATION_CACHE = "CONFIGURATION_CACHE";
   
@@ -358,7 +359,8 @@ public interface XMLResource extends Resource
   String OPTION_USE_FILE_BUFFER = "USE_FILE_BUFFER";
 
   /**
-   * Defer resolution of same document references until the end of the document is reached.
+   * Defer resolution of same document references until the end of the document being loaded is reached.
+   * The default value is false.
    */
   String OPTION_DEFER_IDREF_RESOLUTION = "DEFER_IDREF_RESOLUTION";
   
