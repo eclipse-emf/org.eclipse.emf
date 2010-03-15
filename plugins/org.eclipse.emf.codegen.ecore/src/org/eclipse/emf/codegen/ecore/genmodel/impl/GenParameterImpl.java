@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.20 2009/04/18 11:38:01 emerks Exp $
+ * $Id: GenParameterImpl.java,v 1.21 2010/03/15 20:38:38 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -304,7 +304,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
   @Override
   public String getName()
   {
-    return getEcoreParameter().getName();
+    return safeName(getEcoreParameter().getName());
   }
 
   public GenPackage getGenPackage()

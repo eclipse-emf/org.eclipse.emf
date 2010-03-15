@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.39 2010/02/22 15:30:16 khussey Exp $
+ * $Id: GenOperationImpl.java,v 1.40 2010/03/15 20:38:38 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -401,7 +401,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   @Override
   public String getName()
   {
-    return getEcoreOperation().getName();
+    return safeName(getEcoreOperation().getName());
   }
 
   public String getCapName()
