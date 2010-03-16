@@ -11,7 +11,7 @@
    </description>
 
    <copyright>
-      Copyright (c) 2004-2006 IBM Corporation and others.
+      Copyright (c) 2004-2010 IBM Corporation and others.
 All rights reserved.   This program and the accompanying materials
 are made available under the terms of the Eclipse Public License
 v1.0
@@ -28,10 +28,6 @@ http://www.eclipse.org/legal/epl-v10.html
       <discovery label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/updates/"/>
       <discovery label="%EMFTUpdateSiteName" url="http://download.eclipse.org/modeling/emft/updates/"/>
    </url>
-
-   <includes
-         id="org.eclipse.emf.examples.source"
-         version="0.0.0"/>
 
    <requires>
       <import feature="org.eclipse.emf" version="2.3.0"/>
@@ -110,6 +106,76 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.emf.examples.generator.validator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <!--plugin
+         id="org.eclipse.emf.examples.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/-->
+
+   <plugin
+         id="org.eclipse.emf.java.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.java.edit.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.java.editor.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.xsd.example.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.examples.library.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.examples.library.edit.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.examples.library.editor.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.exporter.html.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.examples.generator.validator.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
