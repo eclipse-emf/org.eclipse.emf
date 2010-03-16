@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.34 2009/10/21 09:54:57 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.35 2010/03/16 14:41:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -1473,8 +1473,8 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
 
       try
       {
-        inputStream = getUnderlyingInputStream(inputStream, options);
         options = mergeMaps(options, defaultLoadOptions);
+        inputStream = getUnderlyingInputStream(inputStream, options);
         URIConverter.Cipher cipher = options != null ?
           (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER) :
           null;
