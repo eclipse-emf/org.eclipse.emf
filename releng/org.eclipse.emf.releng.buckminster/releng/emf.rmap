@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rmap xmlns="http://www.eclipse.org/buckminster/RMap-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0">
+
+	<locator pattern="^org\.eclipse\.emf\.(?:releng|build)(?:\..+)?$" searchPathRef="releng"/>
+	<locator pattern="^org\.eclipse\.emf\.mapping\.xsd2ecore(?:\..+)?$" searchPathRef="xsd"/>
+	<locator pattern="^org\.eclipse\.emf(?:\..+)?$" searchPathRef="emf"/>
+	<locator pattern="^org\.eclipse\.xsd(?:\..+)?$" searchPathRef="xsd"/>
+
+	<searchPath name="emf">
+    	<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/plugins/{0}">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/features/{0}-feature">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/doc/{0}">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/doc/{0}-feature">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/examples/{0}">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/examples/{0}-feature">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/tests/{0}">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/tests/{0}-feature">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+	</searchPath>
+
+	<searchPath name="xsd">
+    	<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.mdt/org.eclipse.xsd/plugins/{0}">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.mdt/org.eclipse.xsd/features/{0}-feature">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.mdt/org.eclipse.xsd/doc/{0}">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.mdt/org.eclipse.xsd/doc/{0}-feature">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.mdt/org.eclipse.xsd/examples/{0}">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.mdt/org.eclipse.xsd/examples/{0}-feature">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+  	</searchPath>
+
+	<searchPath name="releng">
+    	<provider componentTypes="buckminster,unknown" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/releng/{0}">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+    	<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
+	      	<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/releng/{0}-feature">
+		        <bc:propertyRef key="buckminster.component"/>
+	    	</uri>
+   		</provider>
+  	</searchPath>
+</rmap>
