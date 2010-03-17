@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.101 2010/03/15 20:59:10 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.102 2010/03/17 15:32:17 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -470,7 +470,8 @@ public class XSDEcoreBuilder extends MapBuilder
 
             // Don't set up circular inheritance.
             //
-            if (XSDConstants.isOrIsDerivedFrom(baseTypeDefinition, xsdSimpleTypeDefinition.getName(), xsdSimpleTypeDefinition.getTargetNamespace()))
+            if (xsdSimpleTypeDefinition.getName() != null &&
+                  XSDConstants.isOrIsDerivedFrom(baseTypeDefinition, xsdSimpleTypeDefinition.getName(), xsdSimpleTypeDefinition.getTargetNamespace()))
             {
               eDataType.setInstanceTypeName
                 (instanceClassName == null ?
