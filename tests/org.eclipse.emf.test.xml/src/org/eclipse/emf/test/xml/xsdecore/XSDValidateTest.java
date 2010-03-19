@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.26 2008/12/22 14:25:56 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.27 2010/03/19 16:47:14 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -511,8 +511,10 @@ public class XSDValidateTest extends TestCase
       "XSD: The 'itemType' attribute or a contained item type must be present",
       "XSD: Type reference '#undefined' is unresolved",
       "XSD: The item type of the list is not atomic or union",
+      "XSD: The union type is circularly defined",
       "XSD: The type is circularly defined",
       "XSD: The type is circularly defined",
+      "XSD: The union type is circularly defined",
       "XSD: The type is circularly defined",
       "XSD: The value 'xx:xx' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#pattern' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#simpleExtensionType'; expecting attribute | attributeGroup | anyAttribute | annotation | nothing",
