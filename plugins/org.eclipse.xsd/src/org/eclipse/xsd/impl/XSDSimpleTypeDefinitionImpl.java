@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.36 2010/03/12 16:12:45 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.37 2010/03/19 16:45:38 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -875,7 +875,6 @@ public class XSDSimpleTypeDefinitionImpl
       {
         newVariety = XSDVariety.LIST_LITERAL;
         newPrimitiveTypeDefinition = null;
-        ((XSDTypeDefinitionImpl)theItemTypeDefinition).analyze();
         if (!((XSDConcreteComponentImpl)theItemTypeDefinition).analyze() && !XSDConstants.isURType(theItemTypeDefinition) && theItemTypeDefinition.isCircular())
         {
           analysisState = CIRCULAR;
