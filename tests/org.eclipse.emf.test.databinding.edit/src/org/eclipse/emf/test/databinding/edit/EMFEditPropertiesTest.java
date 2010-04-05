@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPropertiesTest.java,v 1.3 2009/11/25 09:15:04 tschindl Exp $
+ * $Id: EMFEditPropertiesTest.java,v 1.4 2010/04/05 15:31:46 emerks Exp $
  */
 package org.eclipse.emf.test.databinding.edit;
 
@@ -28,8 +28,6 @@ import org.eclipse.core.databinding.observable.set.SetDiff;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.databinding.EMFProperties;
-import org.eclipse.emf.databinding.IEMFSetProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
 import org.eclipse.emf.databinding.edit.IEMFEditSetProperty;
@@ -203,6 +201,42 @@ public class EMFEditPropertiesTest extends TestCase
 //  {
 //    fail("Not yet implemented");
 //  }
+  public void testMultiListEditingDomainEStructuralFeatureArray()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
+    {
+      public void run()
+      {
+        A a = (A)resource.getContents().get(0);
+        IEMFEditListProperty prop = EMFEditProperties.multiList(editingDomain, EmfdbPackage.Literals.A__STRING, EmfdbPackage.Literals.A__BLIST);
+        IObservableList list = prop.observe(a);
+        list.addListChangeListener(new IListChangeListener()
+          {
+            
+            public void handleListChange(ListChangeEvent event)
+            {
+              flag = true;
+              listEntries = event.diff.getDifferences();
+            }
+          });
+        assertEquals(a.getString(), list.get(0));
+        assertEquals(a.getBlist().size() + 1,list.size());
+        B b = EmfdbFactory.eINSTANCE.createB();
+        a.getBlist().add(b);
+        assertEquals(a.getBlist().size() + 1,list.size());
+        assertTrue(flag);
+        assertNotNull(listEntries);
+        assertEquals(1, listEntries.length);
+        assertTrue(listEntries[0].isAddition());
+        assertSame(b,listEntries[0].getElement());
+        assertEquals(a.getBlist().size(),listEntries[0].getPosition());
+        assertEquals(list.get(1), a.getBlist().get(0));
+        a.setString(null);
+        assertEquals(a.getBlist().size(),list.size());
+        assertEquals(list.get(0), a.getBlist().get(0));
+      }
+    });
+  }
 //
 //  public void testMultiListEditingDomainFeaturePathEStructuralFeatureArray()
 //  {
