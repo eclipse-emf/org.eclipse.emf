@@ -12,18 +12,16 @@
  *
  * </copyright>
  *
- * $Id: EMFPropertiesTest.java,v 1.1 2009/11/25 09:15:06 tschindl Exp $
+ * $Id: EMFPropertiesTest.java,v 1.2 2010/04/05 15:31:44 emerks Exp $
  */
 package org.eclipse.emf.test.databinding;
 
 import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.core.databinding.observable.list.ListDiffEntry;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.set.ISetChangeListener;
 import org.eclipse.core.databinding.observable.set.SetChangeEvent;
 import org.eclipse.core.databinding.observable.set.SetDiff;
 
-import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFSetProperty;
@@ -43,7 +41,6 @@ public class EMFPropertiesTest extends TestCase
 {
   private Resource resource;
   private Realm testRealm;
-  private boolean flag;
   private SetDiff diff;
 
   @Override
@@ -67,7 +64,6 @@ public class EMFPropertiesTest extends TestCase
           return true;
         }
       };
-    flag = false;
   }
 
   public void testSetProperty() {
