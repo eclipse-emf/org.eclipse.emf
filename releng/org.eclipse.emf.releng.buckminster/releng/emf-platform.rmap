@@ -17,16 +17,24 @@
 
 	<searchPath name="rap">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
-			<uri format="http://download.eclipse.org/rt/rap/1.3/runtime"/>
+			<uri format="{0}/rt/rap/1.3/runtime">
+				<bc:propertyRef key="eclipse.download"/>
+			</uri>
 		</provider>
 	</searchPath>
 
 	<searchPath name="eclipse.helios">
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
-			<uri format="http://download.eclipse.org/eclipse/updates/3.6milestones"/>
+			<uri format="{0}/eclipse/updates/3.6milestones">
+				<bc:propertyRef key="eclipse.download"/>
+			</uri>
 		</provider>
 		<provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
-			<uri format="http://download.eclipse.org/releases/helios"/>
+			<uri format="{0}/releases/helios">
+				<bc:propertyRef key="eclipse.download"/>
+			</uri>
 		</provider>
-  	</searchPath>
+	</searchPath>
+
+	<property key="eclipse.download" value="http://download.eclipse.org"/>
 </rmap>
