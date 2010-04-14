@@ -12,11 +12,17 @@
  *
  * </copyright>
  *
- * $Id: EMFPropertiesTest.java,v 1.2 2010/04/05 15:31:44 emerks Exp $
+ * $Id: EMFPropertiesTest.java,v 1.3 2010/04/14 15:44:49 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding;
 
+import java.util.Arrays;
+
 import org.eclipse.core.databinding.observable.Realm;
+import org.eclipse.core.databinding.observable.list.IListChangeListener;
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.ListChangeEvent;
+import org.eclipse.core.databinding.observable.list.ListDiff;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.set.ISetChangeListener;
 import org.eclipse.core.databinding.observable.set.SetChangeEvent;
@@ -24,6 +30,7 @@ import org.eclipse.core.databinding.observable.set.SetDiff;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFSetProperty;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -41,7 +48,8 @@ public class EMFPropertiesTest extends TestCase
 {
   private Resource resource;
   private Realm testRealm;
-  private SetDiff diff;
+  private SetDiff setDiff;
+  private ListDiff listDiff;
 
   @Override
   protected void setUp() throws Exception
@@ -66,6 +74,97 @@ public class EMFPropertiesTest extends TestCase
       };
   }
 
+  public void testResourceProperty() {
+    Realm.runWithDefault(testRealm, new Runnable()
+    {
+
+      public void run()
+      {
+        _testResourceProperty();
+      }
+    });
+  }
+
+  private void _testResourceProperty() {
+    IEMFListProperty prop = EMFProperties.resource();
+    IObservableList list = prop.observe(resource);
+    list.addListChangeListener(new IListChangeListener()
+      {
+
+        public void handleListChange(ListChangeEvent event)
+        {
+          listDiff = event.diff;
+        }
+      });
+    assertNull(listDiff);
+
+    // Adding
+    A a = EmfdbFactory.eINSTANCE.createA();
+    A a1 = EmfdbFactory.eINSTANCE.createA();
+
+    resource.getContents().add(a);
+    assertNotNull(listDiff);
+    assertEquals(1, listDiff.getDifferences().length);
+    assertSame(a, listDiff.getDifferences()[0].getElement());
+    assertEquals(1, listDiff.getDifferences()[0].getPosition());
+    assertTrue(listDiff.getDifferences()[0].isAddition());
+
+    // Moving
+    resource.getContents().move(0, a);
+    assertEquals(2, listDiff.getDifferences().length);
+    assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
+    assertEquals(1, listDiff.getDifferences()[0].getPosition());
+    assertTrue(listDiff.getDifferences()[1].isAddition());  // Addition
+    assertEquals(0, listDiff.getDifferences()[1].getPosition());
+
+    // Removing
+    resource.getContents().remove(a);
+    assertEquals(1, listDiff.getDifferences().length);
+    assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
+    assertEquals(0, listDiff.getDifferences()[0].getPosition());
+
+    // Adding many
+    resource.getContents().addAll(Arrays.asList(a, a1));
+    assertEquals(2, listDiff.getDifferences().length);
+
+    // Remove many
+    resource.getContents().removeAll(Arrays.asList(a, a1));
+    assertEquals(2, listDiff.getDifferences().length);
+
+    // =============================================================
+
+    // Changed through IObservableList
+    // Add
+    list.add(a);
+    assertNotNull(listDiff);
+    assertEquals(1, listDiff.getDifferences().length);
+    assertSame(a, listDiff.getDifferences()[0].getElement());
+    assertEquals(1, listDiff.getDifferences()[0].getPosition());
+    assertTrue(listDiff.getDifferences()[0].isAddition());
+
+    // Moving
+    list.move(1, 0);
+    assertEquals(2, listDiff.getDifferences().length);
+    assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
+    assertEquals(1, listDiff.getDifferences()[0].getPosition());
+    assertTrue(listDiff.getDifferences()[1].isAddition());  // Addition
+    assertEquals(0, listDiff.getDifferences()[1].getPosition());
+
+    // Removing
+    list.remove(a);
+    assertEquals(1, listDiff.getDifferences().length);
+    assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
+    assertEquals(0, listDiff.getDifferences()[0].getPosition());
+
+    // Adding many
+    list.addAll(Arrays.asList(a, a1));
+    assertEquals(2, listDiff.getDifferences().length);
+
+    // Remove many
+    list.removeAll(Arrays.asList(a, a1));
+    assertEquals(2, listDiff.getDifferences().length);
+  }
+
   public void testSetProperty() {
     Realm.runWithDefault(testRealm, new Runnable()
       {
@@ -87,14 +186,14 @@ public class EMFPropertiesTest extends TestCase
 
         public void handleSetChange(SetChangeEvent event)
         {
-          diff = event.diff;
+          setDiff = event.diff;
         }
       });
-    assertNull(diff);
+    assertNull(setDiff);
     B b = EmfdbFactory.eINSTANCE.createB();
     a.getBlist().add(b);
-    assertNotNull(diff);
-    assertEquals(1, diff.getAdditions().size());
-    assertSame(b, diff.getAdditions().iterator().next());
+    assertNotNull(setDiff);
+    assertEquals(1, setDiff.getAdditions().size());
+    assertSame(b, setDiff.getAdditions().iterator().next());
   }
 }
