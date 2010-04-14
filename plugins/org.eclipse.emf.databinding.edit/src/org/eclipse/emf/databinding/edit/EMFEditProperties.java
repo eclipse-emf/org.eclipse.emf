@@ -14,7 +14,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFEditProperties.java,v 1.3 2009/11/25 09:15:02 tschindl Exp $
+ * $Id: EMFEditProperties.java,v 1.4 2010/04/14 15:44:51 tschindl Exp $
  */
 package org.eclipse.emf.databinding.edit;
 
@@ -28,10 +28,12 @@ import org.eclipse.emf.databinding.edit.internal.EMFEditListPropertyDecorator;
 import org.eclipse.emf.databinding.edit.internal.EMFEditMapProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditMapPropertyDecorator;
 import org.eclipse.emf.databinding.edit.internal.EMFEditMultiListProperty;
+import org.eclipse.emf.databinding.edit.internal.EMFEditResourceContentProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditSetProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditSetPropertyDecorator;
 import org.eclipse.emf.databinding.edit.internal.EMFEditValueProperty;
 import org.eclipse.emf.databinding.edit.internal.EMFEditValuePropertyDecorator;
+import org.eclipse.emf.databinding.internal.EMFResourceContentProperty;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -300,5 +302,19 @@ public class EMFEditProperties
     IMapProperty property;
     property = new EMFEditMapProperty(editingDomain, feature);
     return new EMFEditMapPropertyDecorator(editingDomain, property, feature);
+  }
+
+  /**
+   * Returns a property to observe a resource-content
+   *
+   * @param editingDomain the editing domain
+   * @return the property
+   * @since 2.6
+   */
+  public static IEMFEditListProperty resource(EditingDomain editingDomain)
+  {
+    IListProperty property;
+    property = new EMFEditResourceContentProperty(editingDomain);
+    return new EMFEditListPropertyDecorator(editingDomain, property, null);
   }
 }
