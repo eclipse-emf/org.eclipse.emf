@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreValidator.java,v 1.43 2010/03/01 17:48:05 emerks Exp $
+ * $Id: EcoreValidator.java,v 1.44 2010/04/14 16:48:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -346,7 +346,12 @@ public class EcoreValidator extends EObjectValidator
   /**
    * @see #validateEReference_ConsistentUnique(EReference, DiagnosticChain, Map)
    */
-  public static final int CONSISTENT_UNIQUE = 40;
+  public static final int CONSISTENT_UNIQUE = 50;
+
+  /**
+   * @see #validateEReference_ConsistentContainer(EReference, DiagnosticChain, Map)
+   */
+  public static final int CONSISTENT_CONTAINER = 51;
   
   /**
    * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
@@ -354,7 +359,7 @@ public class EcoreValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected static final int DIAGNOSTIC_CODE_COUNT = CONSISTENT_UNIQUE;
+  protected static final int DIAGNOSTIC_CODE_COUNT = CONSISTENT_CONTAINER;
 
   /**
    * The cached base package validator.
@@ -2257,6 +2262,7 @@ public class EcoreValidator extends EObjectValidator
     if (result || diagnostics != null) result &= validateEReference_SingleContainer(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validateEReference_ConsistentKeys(eReference, diagnostics, context);
     if (result || diagnostics != null) result &= validateEReference_ConsistentUnique(eReference, diagnostics, context);
+    if (result || diagnostics != null) result &= validateEReference_ConsistentContainer(eReference, diagnostics, context);
     return result;
   }
 
@@ -2468,6 +2474,43 @@ public class EcoreValidator extends EObjectValidator
       }
     }
     return result;
+  }
+
+  /**
+   * Validates the ConsistentContainer constraint of '<em>EReference</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean validateEReference_ConsistentContainer(EReference eReference, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    if (eReference.isContainment() && eReference.getEContainingClass() != null)
+    {
+      EClass eClass = eReference.getEReferenceType();
+      if (eClass != null)
+      {
+        for (EReference otherEReference : eClass.getEAllReferences())
+        {
+          if (otherEReference.isRequired() && otherEReference.isContainer() && otherEReference.getEOpposite() != eReference)
+          {
+            if (diagnostics != null)
+            {
+              diagnostics.add
+                (createDiagnostic
+                  (Diagnostic.ERROR,
+                   DIAGNOSTIC_SOURCE,
+                   CONSISTENT_CONTAINER,
+                   "_UI_EReferenceConsistentContainer_diagnostic",
+                   new Object[] { getObjectLabel(otherEReference, context) },
+                   new Object[] { eReference, otherEReference },
+                   context));
+            }
+            return false;
+          }
+        }
+      }
+    }
+    return true; 
   }
 
   /**
