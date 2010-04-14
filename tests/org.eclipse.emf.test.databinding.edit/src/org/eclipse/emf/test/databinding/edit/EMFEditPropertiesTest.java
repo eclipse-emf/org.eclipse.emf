@@ -12,14 +12,17 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPropertiesTest.java,v 1.4 2010/04/05 15:31:46 emerks Exp $
+ * $Id: EMFEditPropertiesTest.java,v 1.5 2010/04/14 15:44:47 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding.edit;
+
+import java.util.Arrays;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
+import org.eclipse.core.databinding.observable.list.ListDiff;
 import org.eclipse.core.databinding.observable.list.ListDiffEntry;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.set.ISetChangeListener;
@@ -27,7 +30,11 @@ import org.eclipse.core.databinding.observable.set.SetChangeEvent;
 import org.eclipse.core.databinding.observable.set.SetDiff;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.command.CommandStack;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
 import org.eclipse.emf.databinding.edit.IEMFEditSetProperty;
@@ -35,6 +42,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -46,6 +54,7 @@ import org.eclipse.emf.test.databinding.emfdb.EmfdbPackage;
 
 import junit.framework.TestCase;
 
+
 public class EMFEditPropertiesTest extends TestCase
 {
   private Resource resource;
@@ -53,6 +62,7 @@ public class EMFEditPropertiesTest extends TestCase
   private Realm testRealm;
   private boolean flag;
   private ListDiffEntry[] listEntries;
+  private ListDiff listDiff;
   private SetDiff diff;
   private BasicCommandStack commandStack;
 
@@ -69,17 +79,17 @@ public class EMFEditPropertiesTest extends TestCase
       Resource.Factory.Registry.DEFAULT_EXTENSION,
       new XMIResourceFactoryImpl());
     editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, resourceSet);
-    URI uri = URI.createFileURI(TestUtil.getPluginDirectory("org.eclipse.emf.test.databinding")+"/model/A.xmi");
+    URI uri = URI.createFileURI(TestUtil.getPluginDirectory("org.eclipse.emf.test.databinding") + "/model/A.xmi");
     resource = resourceSet.getResource(uri, true);
     testRealm = new Realm()
-    {
-
-      @Override
-      public boolean isCurrent()
       {
-        return true;
-      }
-    };
+
+        @Override
+        public boolean isCurrent()
+        {
+          return true;
+        }
+      };
     flag = false;
     listEntries = null;
   }
@@ -90,27 +100,28 @@ public class EMFEditPropertiesTest extends TestCase
     super.tearDown();
   }
 
-//  public void testValueEditingDomainEStructuralFeature()
-//  {
-//    fail("Not yet implemented");
-//  }
-//
-//  public void testValueEditingDomainFeaturePath()
-//  {
-//    fail("Not yet implemented");
-//  }
-//
-//  public void testValuesEditingDomainEStructuralFeatureArray()
-//  {
-//    fail("Not yet implemented");
-//  }
-//
-//  public void testValuesEditingDomainFeaturePathArray()
-//  {
-//    fail("Not yet implemented");
-//  }
+  //  public void testValueEditingDomainEStructuralFeature()
+  //  {
+  //    fail("Not yet implemented");
+  //  }
+  //
+  //  public void testValueEditingDomainFeaturePath()
+  //  {
+  //    fail("Not yet implemented");
+  //  }
+  //
+  //  public void testValuesEditingDomainEStructuralFeatureArray()
+  //  {
+  //    fail("Not yet implemented");
+  //  }
+  //
+  //  public void testValuesEditingDomainFeaturePathArray()
+  //  {
+  //    fail("Not yet implemented");
+  //  }
 
-  public void testListEditingDomainEStructuralFeature() {
+  public void testListEditingDomainEStructuralFeature()
+  {
     Realm.runWithDefault(testRealm, new Runnable()
       {
 
@@ -135,21 +146,22 @@ public class EMFEditPropertiesTest extends TestCase
           listEntries = event.diff.getDifferences();
         }
       });
-    assertEquals(a.getBlist().size(),list.size());
+    assertEquals(a.getBlist().size(), list.size());
     B b = EmfdbFactory.eINSTANCE.createB();
     list.add(b);
     // a.getBlist().add(b);
-    assertEquals(a.getBlist().size(),list.size());
+    assertEquals(a.getBlist().size(), list.size());
     assertTrue(flag);
     assertNotNull(listEntries);
     assertEquals(1, listEntries.length);
     assertTrue(listEntries[0].isAddition());
-    assertSame(b,listEntries[0].getElement());
-    assertEquals(a.getBlist().size()-1,listEntries[0].getPosition());
+    assertSame(b, listEntries[0].getElement());
+    assertEquals(a.getBlist().size() - 1, listEntries[0].getPosition());
     assertEquals(list.get(0), a.getBlist().get(0));
   }
 
-  public void testSetProperty() {
+  public void testSetProperty()
+  {
     Realm.runWithDefault(testRealm, new Runnable()
       {
 
@@ -160,7 +172,8 @@ public class EMFEditPropertiesTest extends TestCase
       });
   }
 
-  public void _testSetProperty() {
+  public void _testSetProperty()
+  {
     A a = (A)resource.getContents().get(0);
     IEMFEditSetProperty prop = EMFEditProperties.set(editingDomain, EmfdbPackage.Literals.A__BLIST);
     IObservableSet set = prop.observe(a);
@@ -192,70 +205,202 @@ public class EMFEditPropertiesTest extends TestCase
     assertTrue(commandStack.canRedo());
   }
 
-//  public void testListEditingDomainFeaturePath()
-//  {
-//    fail("Not yet implemented");
-//  }
-//
-//  public void testMultiListEditingDomainEStructuralFeatureArray()
-//  {
-//    fail("Not yet implemented");
-//  }
+  //  public void testListEditingDomainFeaturePath()
+  //  {
+  //    fail("Not yet implemented");
+  //  }
+  //
+  //  public void testMultiListEditingDomainEStructuralFeatureArray()
+  //  {
+  //    fail("Not yet implemented");
+  //  }
   public void testMultiListEditingDomainEStructuralFeatureArray()
   {
     Realm.runWithDefault(testRealm, new Runnable()
-    {
-      public void run()
       {
-        A a = (A)resource.getContents().get(0);
-        IEMFEditListProperty prop = EMFEditProperties.multiList(editingDomain, EmfdbPackage.Literals.A__STRING, EmfdbPackage.Literals.A__BLIST);
-        IObservableList list = prop.observe(a);
-        list.addListChangeListener(new IListChangeListener()
-          {
-            
-            public void handleListChange(ListChangeEvent event)
+        public void run()
+        {
+          A a = (A)resource.getContents().get(0);
+          IEMFEditListProperty prop = EMFEditProperties.multiList(
+            editingDomain,
+            EmfdbPackage.Literals.A__STRING,
+            EmfdbPackage.Literals.A__BLIST);
+          IObservableList list = prop.observe(a);
+          list.addListChangeListener(new IListChangeListener()
             {
-              flag = true;
-              listEntries = event.diff.getDifferences();
-            }
-          });
-        assertEquals(a.getString(), list.get(0));
-        assertEquals(a.getBlist().size() + 1,list.size());
-        B b = EmfdbFactory.eINSTANCE.createB();
-        a.getBlist().add(b);
-        assertEquals(a.getBlist().size() + 1,list.size());
-        assertTrue(flag);
-        assertNotNull(listEntries);
-        assertEquals(1, listEntries.length);
-        assertTrue(listEntries[0].isAddition());
-        assertSame(b,listEntries[0].getElement());
-        assertEquals(a.getBlist().size(),listEntries[0].getPosition());
-        assertEquals(list.get(1), a.getBlist().get(0));
-        a.setString(null);
-        assertEquals(a.getBlist().size(),list.size());
-        assertEquals(list.get(0), a.getBlist().get(0));
-      }
-    });
+
+              public void handleListChange(ListChangeEvent event)
+              {
+                flag = true;
+                listEntries = event.diff.getDifferences();
+              }
+            });
+          assertEquals(a.getString(), list.get(0));
+          assertEquals(a.getBlist().size() + 1, list.size());
+          B b = EmfdbFactory.eINSTANCE.createB();
+          a.getBlist().add(b);
+          assertEquals(a.getBlist().size() + 1, list.size());
+          assertTrue(flag);
+          assertNotNull(listEntries);
+          assertEquals(1, listEntries.length);
+          assertTrue(listEntries[0].isAddition());
+          assertSame(b, listEntries[0].getElement());
+          assertEquals(a.getBlist().size(), listEntries[0].getPosition());
+          assertEquals(list.get(1), a.getBlist().get(0));
+          a.setString(null);
+          assertEquals(a.getBlist().size(), list.size());
+          assertEquals(list.get(0), a.getBlist().get(0));
+        }
+      });
   }
-//
-//  public void testMultiListEditingDomainFeaturePathEStructuralFeatureArray()
-//  {
-//    fail("Not yet implemented");
-//  }
-//
-//  public void testMultiListEditingDomainFeaturePathArray()
-//  {
-//    fail("Not yet implemented");
-//  }
-//
-//  public void testMultiListEditingDomainIEMFEditListPropertyArray()
-//  {
-//    fail("Not yet implemented");
-//  }
-//
-//  public void testMap()
-//  {
-//    fail("Not yet implemented");
-//  }
+
+  public void testResourceProperty()
+  {
+    Realm.runWithDefault(testRealm, new Runnable()
+      {
+
+        public void run()
+        {
+          _testResourceProperty();
+        }
+      });
+  }
+
+  private void _testResourceProperty()
+  {
+    IEMFListProperty prop = EMFEditProperties.resource(editingDomain);
+    IObservableList list = prop.observe(resource);
+    list.addListChangeListener(new IListChangeListener()
+      {
+
+        public void handleListChange(ListChangeEvent event)
+        {
+          listDiff = event.diff;
+        }
+      });
+    assertNull(listDiff);
+
+    // Adding
+    A a = EmfdbFactory.eINSTANCE.createA();
+    A a1 = EmfdbFactory.eINSTANCE.createA();
+
+    resource.getContents().add(a);
+    assertNotNull(listDiff);
+    assertEquals(1, listDiff.getDifferences().length);
+    assertSame(a, listDiff.getDifferences()[0].getElement());
+    assertEquals(1, listDiff.getDifferences()[0].getPosition());
+    assertTrue(listDiff.getDifferences()[0].isAddition());
+
+    // Moving
+    resource.getContents().move(0, a);
+    assertEquals(2, listDiff.getDifferences().length);
+    assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
+    assertEquals(1, listDiff.getDifferences()[0].getPosition());
+    assertTrue(listDiff.getDifferences()[1].isAddition());  // Addition
+    assertEquals(0, listDiff.getDifferences()[1].getPosition());
+
+    // Removing
+    resource.getContents().remove(a);
+    assertEquals(1, listDiff.getDifferences().length);
+    assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
+    assertEquals(0, listDiff.getDifferences()[0].getPosition());
+
+    // Adding many
+    resource.getContents().addAll(Arrays.asList(a, a1));
+    assertEquals(2, listDiff.getDifferences().length);
+
+    // Remove many
+    resource.getContents().removeAll(Arrays.asList(a, a1));
+    assertEquals(2, listDiff.getDifferences().length);
+
+    // =============================================================
+
+    // Changed through IObservableList
+    // Add
+    assertNull(commandStack.getUndoCommand());
+    list.add(a);
+    assertNotNull(listDiff);
+    assertEquals(1, listDiff.getDifferences().length);
+    assertSame(a, listDiff.getDifferences()[0].getElement());
+    assertEquals(1, listDiff.getDifferences()[0].getPosition());
+    assertTrue(listDiff.getDifferences()[0].isAddition());
+    assertNotNull(commandStack.getUndoCommand());
+    assertTrue( commandStack.canUndo() );
+    assertTrue( commandStack.getUndoCommand() instanceof CompoundCommand );
+    CompoundCommand cmd = (CompoundCommand)commandStack.getUndoCommand();
+    assertEquals( 1, cmd.getCommandList().size());
+    assertTrue(cmd.getCommandList().get(0) instanceof AddCommand);
+    commandStack.undo();
+    assertFalse( commandStack.canUndo() );
+    commandStack.redo();
+    commandStack.flush();
+
+    // Moving
+    list.move(1, 0);
+    assertEquals(2, listDiff.getDifferences().length);
+    assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
+    assertEquals(1, listDiff.getDifferences()[0].getPosition());
+    assertTrue(listDiff.getDifferences()[1].isAddition());  // Addition
+    assertEquals(0, listDiff.getDifferences()[1].getPosition());
+    assertTrue( commandStack.canUndo() );
+    assertTrue( commandStack.getUndoCommand() instanceof CompoundCommand );
+    commandStack.undo();
+    assertFalse( commandStack.canUndo() );
+    commandStack.redo();
+    commandStack.flush();
+
+    // Removing
+    list.remove(a);
+    assertEquals(1, listDiff.getDifferences().length);
+    assertFalse(listDiff.getDifferences()[0].isAddition()); // Removal
+    assertEquals(0, listDiff.getDifferences()[0].getPosition());
+    assertTrue( commandStack.canUndo() );
+    assertTrue( commandStack.getUndoCommand() instanceof CompoundCommand );
+    commandStack.undo();
+    assertFalse( commandStack.canUndo() );
+    commandStack.redo();
+    commandStack.flush();
+
+    // Adding many
+    list.addAll(Arrays.asList(a, a1));
+    assertEquals(2, listDiff.getDifferences().length);
+    assertTrue( commandStack.canUndo() );
+    assertTrue( commandStack.getUndoCommand() instanceof CompoundCommand );
+    commandStack.undo();
+    assertFalse( commandStack.canUndo() );
+    commandStack.redo();
+    commandStack.flush();
+
+    // Remove many
+    list.removeAll(Arrays.asList(a, a1));
+    assertEquals(2, listDiff.getDifferences().length);
+    assertTrue( commandStack.canUndo() );
+    assertTrue( commandStack.getUndoCommand() instanceof CompoundCommand );
+    commandStack.undo();
+    assertFalse( commandStack.canUndo() );
+    commandStack.redo();
+    commandStack.flush();
+  }
+
+  //
+  //  public void testMultiListEditingDomainFeaturePathEStructuralFeatureArray()
+  //  {
+  //    fail("Not yet implemented");
+  //  }
+  //
+  //  public void testMultiListEditingDomainFeaturePathArray()
+  //  {
+  //    fail("Not yet implemented");
+  //  }
+  //
+  //  public void testMultiListEditingDomainIEMFEditListPropertyArray()
+  //  {
+  //    fail("Not yet implemented");
+  //  }
+  //
+  //  public void testMap()
+  //  {
+  //    fail("Not yet implemented");
+  //  }
 
 }
