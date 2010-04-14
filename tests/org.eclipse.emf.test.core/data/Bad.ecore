@@ -321,6 +321,19 @@
             containment="true" eOpposite="#//opposite/oppositeBothContainment/AA/b"/>
       </eClassifiers>
     </eSubpackages>
+    <eSubpackages name="requiredToBeContainedElsewhere" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//requiredToBeContainedElsewhere"
+        nsPrefix="bad.opposite.both.containment">
+      <eClassifiers xsi:type="ecore:EClass" name="AA">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="b" eType="#//opposite/requiredToBeContainedElsewhere/BB"
+            containment="true" eOpposite="#//opposite/requiredToBeContainedElsewhere/BB/a"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="otherB" eType="#//opposite/requiredToBeContainedElsewhere/BB"
+            containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BB">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="a" lowerBound="1" eType="#//opposite/requiredToBeContainedElsewhere/AA"
+            eOpposite="#//opposite/requiredToBeContainedElsewhere/AA/b"/>
+      </eClassifiers>
+    </eSubpackages>
   </eSubpackages>
   <eSubpackages name="typedElementBounds" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//typedElementBounds"
       nsPrefix="bad.typed.element.bounds">
