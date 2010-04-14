@@ -14,7 +14,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFProperties.java,v 1.3 2009/11/25 09:15:05 tschindl Exp $
+ * $Id: EMFProperties.java,v 1.4 2010/04/14 15:44:50 tschindl Exp $
  */
 package org.eclipse.emf.databinding;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.databinding.internal.EMFListProperty;
 import org.eclipse.emf.databinding.internal.EMFListPropertyDecorator;
 import org.eclipse.emf.databinding.internal.EMFMapProperty;
 import org.eclipse.emf.databinding.internal.EMFMapPropertyDecorator;
+import org.eclipse.emf.databinding.internal.EMFResourceContentProperty;
 import org.eclipse.emf.databinding.internal.EMFSetProperty;
 import org.eclipse.emf.databinding.internal.EMFSetPropertyDecorator;
 import org.eclipse.emf.databinding.internal.EMFValueProperty;
@@ -280,5 +281,17 @@ public class EMFProperties
     IMapProperty property;
     property = new EMFMapProperty(feature);
     return new EMFMapPropertyDecorator(property, feature);
+  }
+
+  /**
+   * Returns a property to observe a resource-content
+   * @return the property
+   * @since 2.6
+   */
+  public static IEMFListProperty resource()
+  {
+    IListProperty property;
+    property = new EMFResourceContentProperty();
+    return new EMFListPropertyDecorator(property, null);
   }
 }
