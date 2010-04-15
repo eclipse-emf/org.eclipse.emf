@@ -15,9 +15,6 @@
 		<topic label="JET Tutorial Part 2 (Write Code that Writes Code)" href="tutorials/jet2/jet_tutorial2.html" />
 		<topic label="Specifying Package Information in Rose" href="tutorials/rosepkg/rosepkg.html" />
 	</topic>
-	<topic label="Reference">
-		<link toc="topics_Reference.xml"/>
-	</topic>
 	<topic label="Online Docs">
 		<topic label="FAQ" href="http://wiki.eclipse.org/EMF/FAQ" />
 		<topic label="Release Notes" href="http://www.eclipse.org/modeling/emf/news/relnotes.php?project=emf&amp;version=2.5.x" />
