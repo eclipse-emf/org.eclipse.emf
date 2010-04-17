@@ -5,9 +5,6 @@
 	<topic label="Programmer&apos;s Guide">
 		<topic label="Diagrams and Animations" href="references/diagrams/diagrams.html"/>
 	</topic>
-	<topic label="Reference">
-		<link toc="topics_Reference.xml"/>
-	</topic>
 	<topic label="Online Docs">
 		<topic label="Analyzing XML schemas with the Schema Infoset Model" href="http://www.ibm.com/developerworks/library/x-schemimj/index.html"/>
 		<topic label="FAQ" href="http://wiki.eclipse.org/MDT-XSD-FAQ" />
