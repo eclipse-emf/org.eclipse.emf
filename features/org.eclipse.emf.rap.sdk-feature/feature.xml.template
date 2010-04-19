@@ -29,10 +29,6 @@ http://www.eclipse.org/legal/epl-v10.html
       <discovery label="%EMFTUpdateSiteName" url="http://download.eclipse.org/modeling/emft/updates/"/>
    </url>
 
-   <requires>
-      <import feature="org.eclipse.rap.runtime.sdk" version="1.3.0" match="compatible"/>
-   </requires>
-   
    <includes id="org.eclipse.emf.rap" version="0.0.0"/>
    <includes id="org.eclipse.emf.rap.source" version="0.0.0"/>
 
