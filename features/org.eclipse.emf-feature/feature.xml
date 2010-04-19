@@ -28,10 +28,6 @@ http://www.eclipse.org/legal/epl-v10.html
       <discovery label="%EMFTUpdateSiteName" url="http://download.eclipse.org/modeling/emft/updates/"/>
    </url>
 
-   <requires>
-      <import feature="org.eclipse.platform" version="3.3.0.v20061208-Fj22sCYGm0XDWm3" match="compatible"/>
-   </requires>
-
    <includes
          id="org.eclipse.emf.common"
          version="0.0.0"/>
