@@ -4,10 +4,13 @@
 	xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0">
 
 	<cs:actions>
-		<cs:public name="tag" actor="buckminster.tag">
+		<cs:public name="build.and.tag" actor="buckminster.tag">
 			<cs:actorProperties>
 				<cs:property key="tag" value="build_${build.id}" />
 			</cs:actorProperties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" />
+			</cs:prerequisites>
 		</cs:public>
 	</cs:actions>
 </cs:cspecExtension>
