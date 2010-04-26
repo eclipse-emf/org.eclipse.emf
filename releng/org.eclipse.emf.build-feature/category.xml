@@ -1,113 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature id="org.eclipse.emf" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.all" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.codegen" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.codegen.ecore" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.codegen.ecore.ui" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.codegen.ui" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.common" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.common.ui" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.converter" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.databinding" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.databinding.edit" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.doc" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.ecore" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.ecore.edit" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.ecore.editor" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.edit" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.edit.ui" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.examples" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.mapping" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.mapping.ecore" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.mapping.ecore.editor" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.mapping.ui" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.rap" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.rap.common.ui" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.rap.edit.ui" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.rap.sdk" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.emf.sdk" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.xsd" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.xsd.doc" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.xsd.ecore.converter" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.xsd.edit" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.xsd.editor" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.xsd.mapping" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.xsd.mapping.editor" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <feature id="org.eclipse.xsd.sdk" version="0.0.0">
-      <category name="emd.xsd"/>
-   </feature>
-   <category-def name="emd.xsd" label="EMF SDK 2.6.0 (EMF + XSD)">
-      <description>
-         EMF SDK 2.6.0 (EMF + XSD): contains runtime, source, documentation and examples.
-      </description>
-   </category-def>
+<site>	
+	<description>To install these features, point Eclipse at this site.</description>
+
+	<!-- ${category.name} -->
+	<category-def label="${category.name}" name="${category.name}">
+		<description>${category.name}: contains all features in this build.</description>
+	</category-def>
+	<feature id="org.eclipse.emf.all" version="${org.eclipse.emf.all.version}" url="features/org.eclipse.emf.all_${org.eclipse.emf.all.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.codegen.ecore.ui" version="${org.eclipse.emf.codegen.ecore.ui.version}" url="features/org.eclipse.emf.codegen.ecore.ui_${org.eclipse.emf.codegen.ecore.ui.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.codegen.ecore" version="${org.eclipse.emf.codegen.ecore.version}" url="features/org.eclipse.emf.codegen.ecore_${org.eclipse.emf.codegen.ecore.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.codegen.ui" version="${org.eclipse.emf.codegen.ui.version}" url="features/org.eclipse.emf.codegen.ui_${org.eclipse.emf.codegen.ui.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.codegen" version="${org.eclipse.emf.codegen.version}" url="features/org.eclipse.emf.codegen_${org.eclipse.emf.codegen.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.common.ui" version="${org.eclipse.emf.common.ui.version}" url="features/org.eclipse.emf.common.ui_${org.eclipse.emf.common.ui.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.common" version="${org.eclipse.emf.common.version}" url="features/org.eclipse.emf.common_${org.eclipse.emf.common.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.converter" version="${org.eclipse.emf.converter.version}" url="features/org.eclipse.emf.converter_${org.eclipse.emf.converter.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.databinding.edit" version="${org.eclipse.emf.databinding.edit.version}" url="features/org.eclipse.emf.databinding.edit_${org.eclipse.emf.databinding.edit.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.databinding" version="${org.eclipse.emf.databinding.version}" url="features/org.eclipse.emf.databinding_${org.eclipse.emf.databinding.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.doc" version="${org.eclipse.emf.doc.version}" url="features/org.eclipse.emf.doc_${org.eclipse.emf.doc.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.ecore.edit" version="${org.eclipse.emf.ecore.edit.version}" url="features/org.eclipse.emf.ecore.edit_${org.eclipse.emf.ecore.edit.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.ecore.editor" version="${org.eclipse.emf.ecore.editor.version}" url="features/org.eclipse.emf.ecore.editor_${org.eclipse.emf.ecore.editor.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.ecore" version="${org.eclipse.emf.ecore.version}" url="features/org.eclipse.emf.ecore_${org.eclipse.emf.ecore.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.edit.ui" version="${org.eclipse.emf.edit.ui.version}" url="features/org.eclipse.emf.edit.ui_${org.eclipse.emf.edit.ui.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.edit" version="${org.eclipse.emf.edit.version}" url="features/org.eclipse.emf.edit_${org.eclipse.emf.edit.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.examples.source" version="${org.eclipse.emf.examples.source.version}" url="features/org.eclipse.emf.examples.source_${org.eclipse.emf.examples.source.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.examples" version="${org.eclipse.emf.examples.version}" url="features/org.eclipse.emf.examples_${org.eclipse.emf.examples.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.mapping.ecore.editor" version="${org.eclipse.emf.mapping.ecore.editor.version}" url="features/org.eclipse.emf.mapping.ecore.editor_${org.eclipse.emf.mapping.ecore.editor.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.mapping.ecore" version="${org.eclipse.emf.mapping.ecore.version}" url="features/org.eclipse.emf.mapping.ecore_${org.eclipse.emf.mapping.ecore.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.mapping.ui" version="${org.eclipse.emf.mapping.ui.version}" url="features/org.eclipse.emf.mapping.ui_${org.eclipse.emf.mapping.ui.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.mapping" version="${org.eclipse.emf.mapping.version}" url="features/org.eclipse.emf.mapping_${org.eclipse.emf.mapping.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.rap.common.ui" version="${org.eclipse.emf.rap.common.ui.version}" url="features/org.eclipse.emf.rap.common.ui_${org.eclipse.emf.rap.common.ui.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.rap.edit.ui" version="${org.eclipse.emf.rap.edit.ui.version}" url="features/org.eclipse.emf.rap.edit.ui_${org.eclipse.emf.rap.edit.ui.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.rap.sdk" version="${org.eclipse.emf.rap.sdk.version}" url="features/org.eclipse.emf.rap.sdk_${org.eclipse.emf.rap.sdk.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.rap.source" version="${org.eclipse.emf.rap.source.version}" url="features/org.eclipse.emf.rap.source_${org.eclipse.emf.rap.source.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.rap" version="${org.eclipse.emf.rap.version}" url="features/org.eclipse.emf.rap_${org.eclipse.emf.rap.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.sdk" version="${org.eclipse.emf.sdk.version}" url="features/org.eclipse.emf.sdk_${org.eclipse.emf.sdk.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf.source" version="${org.eclipse.emf.source.version}" url="features/org.eclipse.emf.source_${org.eclipse.emf.source.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.emf" version="${org.eclipse.emf.version}" url="features/org.eclipse.emf_${org.eclipse.emf.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.xsd.doc" version="${org.eclipse.xsd.doc.version}" url="features/org.eclipse.xsd.doc_${org.eclipse.xsd.doc.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.xsd.ecore.converter" version="${org.eclipse.xsd.ecore.converter.version}" url="features/org.eclipse.xsd.ecore.converter_${org.eclipse.xsd.ecore.converter.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.xsd.edit" version="${org.eclipse.xsd.edit.version}" url="features/org.eclipse.xsd.edit_${org.eclipse.xsd.edit.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.xsd.editor" version="${org.eclipse.xsd.editor.version}" url="features/org.eclipse.xsd.editor_${org.eclipse.xsd.editor.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.xsd.mapping.editor" version="${org.eclipse.xsd.mapping.editor.version}" url="features/org.eclipse.xsd.mapping.editor_${org.eclipse.xsd.mapping.editor.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.xsd.mapping" version="${org.eclipse.xsd.mapping.version}" url="features/org.eclipse.xsd.mapping_${org.eclipse.xsd.mapping.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.xsd.sdk" version="${org.eclipse.xsd.sdk.version}" url="features/org.eclipse.xsd.sdk_${org.eclipse.xsd.sdk.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.xsd.source" version="${org.eclipse.xsd.source.version}" url="features/org.eclipse.xsd.source_${org.eclipse.xsd.source.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+	<feature id="org.eclipse.xsd" version="${org.eclipse.xsd.version}" url="features/org.eclipse.xsd_${org.eclipse.xsd.version}.jar" patch="false">
+		<category name="${category.name}"/>
+	</feature>
+
 </site>
