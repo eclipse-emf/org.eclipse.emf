@@ -88,7 +88,7 @@
 			<cs:properties>
 				<cs:property key="feature" value="org.eclipse.emf.source" />
 				<cs:property key="extra.ius" value="org.eclipse.emf.doc.feature.group" />
-				<cs:property key="prerequisite.ius" value="org.eclipse.emf.cheatsheets" />
+				<cs:property key="prerequisite.ius" value="org.eclipse.emf.feature.group" />
 				<cs:property key="package.name" value="emf-sourcedoc" />
 			</cs:properties>
 			<cs:prerequisites>
@@ -126,7 +126,7 @@
 				<cs:property key="feature" value="org.eclipse.xsd.sdk.source" />
 				<cs:property key="extra.ius" value="org.eclipse.xsd.doc.feature.group" />
 				<cs:property key="prerequisite.ius"
-					value="org.eclipse.xsd.cheatsheets,org.eclipse.xsd.cheatsheets.source" />
+					value="org.eclipse.emf.feature.group,org.eclipse.emf.cheatsheets,org.eclipse.xsd.edit.feature.group,org.eclipse.xsd.mapping.feature.group,org.eclipse.xsd.ecore.converter.feature.group,org.eclipse.xsd.cheatsheets.source" />
 				<cs:property key="package.name" value="xsd-sourcedoc" />
 			</cs:properties>
 			<cs:prerequisites>
