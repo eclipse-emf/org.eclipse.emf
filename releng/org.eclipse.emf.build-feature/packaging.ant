@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Packaging">
+	<import file="${buckminster.pdetasks}" />
+
+	<target name="create.target.platform.repository">
+		<buckminster.targetPlatformLocation property="target.platform.location" />
+		<property name="target.platform.repository" value="file:/${sp:output}" />
+		<p2.publish.featuresAndBundles repository="${target.platform.repository}" source="${target.platform.location}" publishArtifacts="false" />
+		<buckminster.publishJRE repository="${target.platform.repository}" />
+	</target>
+
+	<target name="-locate.launcher.jar" unless="launcher.jar">
+		<pathconvert property="launcher.jar">
+			<first count="1">
+				<sort>
+					<fileset dir="${eclipse.home}/plugins" includes="**/org.eclipse.equinox.launcher_*.jar" />
+					<reverse xmlns="antlib:org.apache.tools.ant.types.resources.comparators">
+						<date />
+					</reverse>
+				</sort>
+			</first>
+		</pathconvert>
+	</target>
+
+	<target name="-define.common.properties" depends="-locate.launcher.jar">
+		<buckminster.targetPlatformLocation property="target.platform.location" />
+		<property name="bundle.pools.for.prerequisites" value="file:/${target.platform.location}" />
+		<property name="temp.directory" location="${sp:output}/${package.name}-temp/" />
+
+		<condition property="wildcard" value="&quot;*&quot;" else="*">
+			<os family="windows" />
+		</condition>
+	</target>
+
+	<target name="-install.prerequisite.ius" depends="-define.common.properties" if="prerequisite.ius">
+		<property name="prerequisites.destination" location="${temp.directory}/prerequisites" />
+		<property name="bundle.pools.for.install" value="${bundle.pools.for.prerequisites}|file:/${prerequisites.destination}" />
+
+		<delete dir="${prerequisites.destination}" />
+
+		<!--
+		  install the specified prerequisite IUs (which are not to be included
+		  in the resulting ZIP) in a separate directory  
+		-->
+		<java jar="${launcher.jar}" fork="true" failonerror="true">
+			<arg value="-consolelog" />
+			<arg value="-application" />
+			<arg value="org.eclipse.equinox.p2.director" />
+			<arg value="-repository" />
+			<arg value="file:/${sp:repository}" />
+			<arg value="-metadataRepository" />
+			<arg value="file:/${sp:target.platform.repository}" />
+			<arg value="-destination" />
+			<arg value="${prerequisites.destination}" />
+			<arg value="-profile" />
+			<arg value="Prerequisites" />
+			<arg value="-profileproperties" />
+			<arg value="org.eclipse.equinox.p2.cache.extensions=${bundle.pools.for.prerequisites},org.eclipse.update.install.features=true" />
+			<arg value="-installIU" />
+			<arg value="${prerequisite.ius}" />
+			<arg value="-p2.os" />
+			<arg value="${wildcard}" />
+			<arg value="-p2.ws" />
+			<arg value="${wildcard}" />
+			<arg value="-p2.arch" />
+			<arg value="${wildcard}" />
+		</java>
+
+		<!--
+		  remove the p2 metadata, as the prerequisites install location is only meant
+		  to be used as a secondary bundle pool during the install of the required IUs 
+		-->
+		<delete dir="${prerequisites.destination}" includeEmptyDirs="true">
+			<include name="p2/**" />
+		</delete>
+	</target>
+
+	<target name="package.feature" depends="-define.common.properties, -install.prerequisite.ius">
+		<property name="install.directory.name" value="eclipse" />
+		<property name="install.destination" location="${temp.directory}/${install.directory.name}" />
+		<!-- this may have already been defined in the install.prerequisite.ius target (if it ran) -->
+		<property name="bundle.pools.for.install" value="${bundle.pools.for.prerequisites}" />
+
+		<property name="feature.iu" value="${feature}.feature.group" />
+		<condition property="install.ius" value="${feature.iu},${extra.ius}" else="${feature.iu}">
+			<isset property="extra.ius" />
+		</condition>
+
+		<delete dir="${install.destination}" />
+
+		<!--
+		  install the required feature plus any extra IUs, referencing the target plafrom
+		  and possibly prerequisite install location as secondary bundle pools so that only
+		  the desired components are installed in the install destination directory
+		-->
+		<java jar="${launcher.jar}" fork="true" failonerror="true">
+			<arg value="-consolelog" />
+			<arg value="-application" />
+			<arg value="org.eclipse.equinox.p2.director" />
+			<arg value="-repository" />
+			<arg value="file:/${sp:repository}" />
+			<arg value="-metadataRepository" />
+			<arg value="file:/${sp:target.platform.repository}" />
+			<arg value="-destination" />
+			<arg value="${install.destination}" />
+			<arg value="-profile" />
+			<arg value="Install" />
+			<arg value="-profileproperties" />
+			<arg value="org.eclipse.equinox.p2.cache.extensions=${bundle.pools.for.install},org.eclipse.update.install.features=true" />
+			<arg value="-installIU" />
+			<arg value="${install.ius}" />
+			<arg value="-p2.os" />
+			<arg value="${wildcard}" />
+			<arg value="-p2.ws" />
+			<arg value="${wildcard}" />
+			<arg value="-p2.arch" />
+			<arg value="${wildcard}" />
+		</java>
+
+		<!-- remove the p2 metadata, as they will never be used -->
+		<delete dir="${install.destination}" includeEmptyDirs="true">
+			<include name="artifacts.xml" />
+			<include name="p2/**" />
+		</delete>
+
+		<!-- don't ever use a source feature to get the feature version -->
+		<buckminster.substitute value="${feature}" pattern="\.source(\.feature)?$" replacement="$$1" property="no.source.feature" />
+		<buckminster.componentVersion name="${no.source.feature}" property="feature.version" />
+		<!-- get rid of the ".qualifier" version suffix -->
+		<buckminster.substitute value="${feature.version}" pattern="\.qualifier$" replacement="" property="feature.version" />
+
+		<!-- create the desired ZIP file -->
+		<zip basedir="${temp.directory}" destfile="${sp:output}/${package.name}-${feature.version}.zip">
+			<include name="${install.directory.name}/**" />
+		</zip>
+
+		<!-- cleanup -->
+		<delete dir="${temp.directory}" />
+	</target>
+
+	<target name="package.model.files" depends="-define.common.properties">
+		<property name="install.destination" location="${temp.directory}/${top.directory}" />
+		<property name="bundle.pools.for.install" value="${bundle.pools.for.prerequisites}" />
+
+		<property name="feature.iu" value="${feature}.feature.group" />
+		<condition property="install.ius" value="${feature.iu},${extra.ius}" else="${feature.iu}">
+			<isset property="extra.ius" />
+		</condition>
+
+		<delete dir="${install.destination}" />
+
+		<!--
+		  install the required feature plus any extra IUs, referencing the target plafrom
+		  as secondary bundle pool so that only the desired components are installed
+		  in the install destination directory
+		-->
+		<java jar="${launcher.jar}" fork="true" failonerror="true">
+			<arg value="-consolelog" />
+			<arg value="-application" />
+			<arg value="org.eclipse.equinox.p2.director" />
+			<arg value="-repository" />
+			<arg value="file:/${sp:repository}" />
+			<arg value="-metadataRepository" />
+			<arg value="file:/${sp:target.platform.repository}" />
+			<arg value="-destination" />
+			<arg value="${install.destination}" />
+			<arg value="-profile" />
+			<arg value="Install" />
+			<arg value="-profileproperties" />
+			<arg value="org.eclipse.equinox.p2.cache.extensions=${bundle.pools.for.install}" />
+			<arg value="-installIU" />
+			<arg value="${install.ius}" />
+			<arg value="-p2.os" />
+			<arg value="${wildcard}" />
+			<arg value="-p2.ws" />
+			<arg value="${wildcard}" />
+			<arg value="-p2.arch" />
+			<arg value="${wildcard}" />
+		</java>
+
+		<!-- remove the p2 metadata, as they will never be used -->
+		<delete dir="${install.destination}" includeEmptyDirs="true">
+			<include name="artifacts.xml" />
+			<include name="p2/**" />
+		</delete>
+
+		<property name="plugin.directory" location="${install.destination}/plugins" />
+		<property name="target.directory.name" value="${top.directory}/models" />
+		<property name="target.directory" location="${temp.directory}/${target.directory.name}" />
+
+		<property name="model.directory.name" value="model" />
+		<property name="cache.directory.name" value="cache" />
+		<property name="about.file.name" value="about.html" />
+
+		<delete dir="${target.directory}" />
+
+		<!--
+		  create a single directory corresponding to every bundle found in the plugins
+		  subdirectory of the previous install operation destination 
+		-->
+		<touch mkdirs="true" verbose="true">
+			<fileset dir="${plugin.directory}">
+				<filename name="*.jar" />
+			</fileset>
+			<chainedmapper>
+				<flattenmapper />
+				<globmapper from="*.jar" to="${target.directory}/*/.stamp" />
+			</chainedmapper>
+		</touch>
+
+		<!--
+		  now call the "-extract.models" target for every directory created
+		  in the previous step
+		-->
+		<subant genericantfile="${ant.file}" target="-extract.models" inheritall="true">
+			<dirset dir="${target.directory}">
+				<include name="*/**" />
+			</dirset>
+		</subant>
+
+		<!--
+		  delete about files without corresponding model (or cache) directories
+		-->
+		<delete dir="${target.directory}" includeemptydirs="true">
+			<filename name="*/${about.file.name}" />
+			<none>
+				<present targetdir="${target.directory}">
+					<mapper>
+						<globmapper from="*${about.file.name}" to="*${model.directory.name}" />
+					</mapper>
+				</present>
+				<present targetdir="${target.directory}">
+					<mapper>
+						<globmapper from="*${about.file.name}" to="*${cache.directory.name}" />
+					</mapper>
+				</present>
+			</none>
+		</delete>
+		<!--
+		  delete any files other than those we want to keep, and delete also
+		  directories which become empty as a result of that action
+		-->
+		<delete dir="${target.directory}" includeemptydirs="true">
+			<include name="**/*" />
+			<exclude name="*/${about.file.name}" />
+			<exclude name="*/${model.directory.name}/**" />
+			<exclude name="*/${cache.directory.name}/**" />
+		</delete>
+
+		<!-- don't ever use a source feature to get the feature version -->
+		<buckminster.substitute value="${feature}" pattern="\.source(\.feature)?$" replacement="$$1" property="no.source.feature" />
+		<buckminster.componentVersion name="${no.source.feature}" property="feature.version" />
+		<!-- get rid of the ".qualifier" version suffix -->
+		<buckminster.substitute value="${feature.version}" pattern="\.qualifier$" replacement="" property="feature.version" />
+
+		<!-- create the desired ZIP file -->
+		<zip basedir="${temp.directory}" destfile="${sp:output}/${package.name}-${feature.version}.zip">
+			<include name="${target.directory.name}/**" />
+		</zip>
+
+		<!-- cleanup -->
+		<delete dir="${temp.directory}" />
+	</target>
+
+	<target name="-extract.models">
+		<pathconvert property="plugin.stem.path.name">
+			<path location="${basedir}" />
+			<map from="${target.directory}" to="${plugin.directory}" />
+		</pathconvert>
+
+		<copy todir="${basedir}">
+			<zipfileset src="${plugin.stem.path.name}.jar">
+				<include name="${about.file.name}" />
+				<include name="${model.directory.name}/**" />
+				<include name="${cache.directory.name}/**" />
+			</zipfileset>
+		</copy>
+	</target>
+</project>
