@@ -12,6 +12,21 @@
 			<cs:products alias="output" base="${buckminster.output}/site.tp/" />
 		</cs:private>
 
+		<cs:public name="package.emf-xsd-Update" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="packaging.ant" />
+				<cs:property key="targets" value="package.site" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="feature" value="org.eclipse.emf.sdk" />
+				<cs:property key="package.name" value="emf-xsd-Update" />
+			</cs:properties>
+			<cs:prerequisites>
+				<cs:attribute name="site.p2" alias="repository" />
+			</cs:prerequisites>
+			<cs:products alias="output" base="${buckminster.output}/zips/" />
+		</cs:public>
+
 		<cs:public name="package.emf-xsd-SDK" actor="ant">
 			<cs:actorProperties>
 				<cs:property key="buildFile" value="packaging.ant" />
@@ -152,7 +167,7 @@
 
 	<cs:groups>
 		<cs:public name="build">
-			<cs:attribute name="site.p2.zip" />
+			<cs:attribute name="package.emf-xsd-Update" />
 			<cs:attribute name="package.emf-xsd-SDK" />
 			<cs:attribute name="package.emf-xsd-Examples" />
 			<cs:attribute name="package.emf-runtime" />

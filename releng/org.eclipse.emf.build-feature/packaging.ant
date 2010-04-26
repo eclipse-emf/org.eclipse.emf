@@ -2,6 +2,19 @@
 <project name="Packaging">
 	<import file="${buckminster.pdetasks}" />
 
+	<macrodef name="componentVersion">
+		<attribute name="component" />
+		<attribute name="nameProperty" />
+		<attribute name="versionProperty" />
+		<sequential>
+			<!-- don't ever use a source feature to get the feature version -->
+			<buckminster.substitute value="@{component}" pattern="\.source(\.feature)?$" replacement="$$1" property="@{nameProperty}" />
+			<buckminster.componentVersion name="${@{nameProperty}}" property="@{versionProperty}" />
+			<!-- get rid of the ".qualifier" version suffix -->
+			<buckminster.substitute value="${@{versionProperty}}" pattern="\.qualifier$" replacement=".${build.id}" property="@{versionProperty}" />
+		</sequential>
+	</macrodef>
+
 	<target name="create.target.platform.repository">
 		<buckminster.targetPlatformLocation property="target.platform.location" />
 		<property name="target.platform.repository" value="file:/${sp:output}" />
@@ -26,10 +39,18 @@
 		<buckminster.targetPlatformLocation property="target.platform.location" />
 		<property name="bundle.pools.for.prerequisites" value="file:/${target.platform.location}" />
 		<property name="temp.directory" location="${sp:output}/${package.name}-temp/" />
+		<property name="build.id" value="" />
 
 		<condition property="wildcard" value="&quot;*&quot;" else="*">
 			<os family="windows" />
 		</condition>
+	</target>
+
+	<target name="package.site">
+		<componentVersion component="${feature}" nameProperty="no.source.feature" versionProperty="feature.version" />
+
+		<!-- create the desired ZIP file -->
+		<zip basedir="${sp:repository}" destfile="${sp:output}/${package.name}-${feature.version}.zip" />
 	</target>
 
 	<target name="-install.prerequisite.ius" depends="-define.common.properties" if="prerequisite.ius">
@@ -123,11 +144,7 @@
 			<include name="p2/**" />
 		</delete>
 
-		<!-- don't ever use a source feature to get the feature version -->
-		<buckminster.substitute value="${feature}" pattern="\.source(\.feature)?$" replacement="$$1" property="no.source.feature" />
-		<buckminster.componentVersion name="${no.source.feature}" property="feature.version" />
-		<!-- get rid of the ".qualifier" version suffix -->
-		<buckminster.substitute value="${feature.version}" pattern="\.qualifier$" replacement="" property="feature.version" />
+		<componentVersion component="${feature}" nameProperty="no.source.feature" versionProperty="feature.version" />
 
 		<!-- create the desired ZIP file -->
 		<zip basedir="${temp.directory}" destfile="${sp:output}/${package.name}-${feature.version}.zip">
@@ -219,39 +236,37 @@
 		</subant>
 
 		<!--
-		  delete about files without corresponding model (or cache) directories
-		-->
-		<delete dir="${target.directory}" includeemptydirs="true">
-			<filename name="*/${about.file.name}" />
-			<none>
-				<present targetdir="${target.directory}">
-					<mapper>
-						<globmapper from="*${about.file.name}" to="*${model.directory.name}" />
-					</mapper>
-				</present>
-				<present targetdir="${target.directory}">
-					<mapper>
-						<globmapper from="*${about.file.name}" to="*${cache.directory.name}" />
-					</mapper>
-				</present>
-			</none>
-		</delete>
-		<!--
 		  delete any files other than those we want to keep, and delete also
 		  directories which become empty as a result of that action
 		-->
 		<delete dir="${target.directory}" includeemptydirs="true">
-			<include name="**/*" />
-			<exclude name="*/${about.file.name}" />
-			<exclude name="*/${model.directory.name}/**" />
-			<exclude name="*/${cache.directory.name}/**" />
+			<filename name="**/*" />
+			<none>
+				<and>
+					<!--
+					  delete also the about files if not accompanied
+					  by either model or cache directories
+					-->
+					<filename name="*/${about.file.name}" />
+					<or>
+						<present targetdir="${target.directory}">
+							<mapper>
+								<globmapper from="*${about.file.name}" to="*${model.dir.name}" />
+							</mapper>
+						</present>
+						<present targetdir="${target.directory}">
+							<mapper>
+								<globmapper from="*${about.file.name}" to="*${cache.dir.name}" />
+							</mapper>
+						</present>
+					</or>
+				</and>
+				<filename name="*/${model.directory.name}/**" />
+				<filename name="*/${cache.directory.name}/**" />
+			</none>
 		</delete>
 
-		<!-- don't ever use a source feature to get the feature version -->
-		<buckminster.substitute value="${feature}" pattern="\.source(\.feature)?$" replacement="$$1" property="no.source.feature" />
-		<buckminster.componentVersion name="${no.source.feature}" property="feature.version" />
-		<!-- get rid of the ".qualifier" version suffix -->
-		<buckminster.substitute value="${feature.version}" pattern="\.qualifier$" replacement="" property="feature.version" />
+		<componentVersion component="${feature}" nameProperty="no.source.feature" versionProperty="feature.version" />
 
 		<!-- create the desired ZIP file -->
 		<zip basedir="${temp.directory}" destfile="${sp:output}/${package.name}-${feature.version}.zip">
