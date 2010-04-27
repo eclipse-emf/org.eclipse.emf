@@ -11,7 +11,7 @@
 			<buckminster.substitute value="@{component}" pattern="\.source(\.feature)?$" replacement="$$1" property="@{nameProperty}" />
 			<buckminster.componentVersion name="${@{nameProperty}}" property="@{versionProperty}" />
 			<!-- get rid of the ".qualifier" version suffix -->
-			<buckminster.substitute value="${@{versionProperty}}" pattern="\.qualifier$" replacement=".${build.id}" property="@{versionProperty}" />
+			<buckminster.substitute value="${@{versionProperty}}" pattern="\.qualifier$" replacement="-${build.id}" property="@{versionProperty}" />
 		</sequential>
 	</macrodef>
 
