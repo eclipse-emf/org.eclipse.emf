@@ -105,9 +105,9 @@
    <feature id="org.eclipse.xsd.sdk" version="0.0.0">
       <category name="emf+xsd"/>
    </feature>
-   <category-def name="emf+xsd" label="EMF 2.6.0 and XSD 2.6.0">
+   <category-def name="emf+xsd" label="EMF Core and MDT XSD">
       <description>
-         EMF 2.6.0 and XSD 2.6.0: contains all features in this build.
+         Eclipse Modeling Framework (EMF) Core and Model Development Tools (MDT) XML Schema Definition (XSD) features.
       </description>
    </category-def>
 </site>
