@@ -10,8 +10,8 @@
 			<!-- don't ever use a source feature to get the feature version -->
 			<buckminster.substitute value="@{component}" pattern="\.source(\.feature)?$" replacement="$$1" property="@{nameProperty}" />
 			<buckminster.componentVersion name="${@{nameProperty}}" property="@{versionProperty}" />
-			<!-- get rid of the ".qualifier" version suffix -->
-			<buckminster.substitute value="${@{versionProperty}}" pattern="\.qualifier$" replacement="-${build.id}" property="@{versionProperty}" />
+			<!-- replace the ".qualifier" version suffix with the package qualifier -->
+			<buckminster.substitute value="${@{versionProperty}}" pattern="\.qualifier$" replacement="${package.qualifier}" property="@{versionProperty}" />
 		</sequential>
 	</macrodef>
 
@@ -20,6 +20,22 @@
 		<property name="target.platform.repository" value="file:/${sp:output}" />
 		<p2.publish.featuresAndBundles repository="${target.platform.repository}" source="${target.platform.location}" publishArtifacts="false" />
 		<buckminster.publishJRE repository="${target.platform.repository}" />
+	</target>
+
+	<target name="-setup.build.id">
+		<property name="build.id" value="" />
+		<condition property="package.qualifier" value="-${build.id}" else="">
+			<length string="${build.id}" when="greater" length="0" />
+		</condition>
+	</target>
+
+	<target name="package.site" depends="-setup.build.id">
+		<componentVersion component="${feature}" nameProperty="no.source.feature" versionProperty="feature.version" />
+
+		<mkdir dir="${sp:output}" />
+
+		<!-- create the desired ZIP file -->
+		<zip basedir="${sp:repository}" destfile="${sp:output}/${package.name}-${feature.version}.zip" />
 	</target>
 
 	<target name="-locate.launcher.jar" unless="launcher.jar">
@@ -35,24 +51,14 @@
 		</pathconvert>
 	</target>
 
-	<target name="-define.common.properties" depends="-locate.launcher.jar">
+	<target name="-define.common.properties" depends="-setup.build.id,-locate.launcher.jar">
 		<buckminster.targetPlatformLocation property="target.platform.location" />
 		<property name="bundle.pools.for.prerequisites" value="file:/${target.platform.location}" />
 		<property name="temp.directory" location="${sp:output}/${package.name}-temp/" />
-		<property name="build.id" value="" />
 
 		<condition property="wildcard" value="&quot;*&quot;" else="*">
 			<os family="windows" />
 		</condition>
-	</target>
-
-	<target name="package.site">
-		<componentVersion component="${feature}" nameProperty="no.source.feature" versionProperty="feature.version" />
-
-		<mkdir dir="${sp:output}" />
-
-		<!-- create the desired ZIP file -->
-		<zip basedir="${sp:repository}" destfile="${sp:output}/${package.name}-${feature.version}.zip" />
 	</target>
 
 	<target name="-install.prerequisite.ius" depends="-define.common.properties" if="prerequisite.ius">
@@ -63,7 +69,7 @@
 
 		<!--
 		  install the specified prerequisite IUs (which are not to be included
-		  in the resulting ZIP) in a separate directory  
+		  in the resulting ZIP) in a separate directory
 		-->
 		<java jar="${launcher.jar}" fork="true" failonerror="true">
 			<arg value="-consolelog" />
@@ -91,7 +97,7 @@
 
 		<!--
 		  remove the p2 metadata, as the prerequisites install location is only meant
-		  to be used as a secondary bundle pool during the install of the required IUs 
+		  to be used as a secondary bundle pool during the install of the required IUs
 		-->
 		<delete dir="${prerequisites.destination}" includeEmptyDirs="true">
 			<include name="p2/**" />
@@ -215,23 +221,30 @@
 
 		<!--
 		  create a single directory corresponding to every bundle found in the plugins
-		  subdirectory of the previous install operation destination 
+		  subdirectory of the previous install operation destination
+		  (handle both - the directory based and the jar based plugins)
 		-->
-		<touch mkdirs="true" verbose="true">
+		<touch mkdirs="true" verbose="false">
 			<fileset dir="${plugin.directory}">
+				<depth max="0" />
+				<type type="file" />
 				<filename name="*.jar" />
 			</fileset>
-			<chainedmapper>
-				<flattenmapper />
-				<globmapper from="*.jar" to="${target.directory}/*/.stamp" />
-			</chainedmapper>
+			<globmapper from="*.jar" to="${target.directory}/*/.stamp" />
+		</touch>
+		<touch mkdirs="true" verbose="false">
+			<fileset dir="${plugin.directory}">
+				<depth max="0" />
+				<type type="dir" />
+			</fileset>
+			<globmapper from="*" to="${target.directory}/*/.stamp" />
 		</touch>
 
 		<!--
-		  now call the "-extract.models" target for every directory created
+		  now call the "-extract.model.files" target for every directory created
 		  in the previous step
 		-->
-		<subant genericantfile="${ant.file}" target="-extract.models" inheritall="true">
+		<subant genericantfile="${ant.file}" target="-extract.model.files" inheritall="true">
 			<dirset dir="${target.directory}">
 				<include name="*/**" />
 			</dirset>
@@ -253,12 +266,12 @@
 					<or>
 						<present targetdir="${target.directory}">
 							<mapper>
-								<globmapper from="*${about.file.name}" to="*${model.dir.name}" />
+								<globmapper from="*${about.file.name}" to="*${model.directory.name}" />
 							</mapper>
 						</present>
 						<present targetdir="${target.directory}">
 							<mapper>
-								<globmapper from="*${about.file.name}" to="*${cache.dir.name}" />
+								<globmapper from="*${about.file.name}" to="*${cache.directory.name}" />
 							</mapper>
 						</present>
 					</or>
@@ -279,18 +292,37 @@
 		<delete dir="${temp.directory}" />
 	</target>
 
-	<target name="-extract.models">
-		<pathconvert property="plugin.stem.path.name">
+	<target name="-extract.model.files">
+		<pathconvert property="plugin.location.stem">
 			<path location="${basedir}" />
 			<map from="${target.directory}" to="${plugin.directory}" />
 		</pathconvert>
+		<property name="plugin.location" value="${plugin.location.stem}.jar" />
 
+		<patternset id="model.files">
+			<include name="${about.file.name}" />
+			<include name="${model.directory.name}/**" />
+			<include name="${cache.directory.name}/**" />
+		</patternset>
+
+		<!-- define a resource set for a jar file based plugin -->
+		<zipfileset id="zip.resource.set" src="${plugin.location}">
+			<patternset refid="model.files" />
+		</zipfileset>
+
+		<!-- define a resource set for a directory based plugin -->
+		<fileset id="file.resource.set" dir="${plugin.location.stem}">
+			<patternset refid="model.files" />
+		</fileset>
+
+		<!-- decide which resource set to use -->
+		<condition property="resource.set" value="zip.resource.set" else="file.resource.set">
+			<available file="${plugin.location}" type="file" />
+		</condition>
+
+		<!-- now copy the selected resources -->
 		<copy todir="${basedir}">
-			<zipfileset src="${plugin.stem.path.name}.jar">
-				<include name="${about.file.name}" />
-				<include name="${model.directory.name}/**" />
-				<include name="${cache.directory.name}/**" />
-			</zipfileset>
+			<resources refid="${resource.set}" />
 		</copy>
 	</target>
 </project>
