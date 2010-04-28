@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.6 2009/03/23 03:53:33 davidms Exp $
+ * $Id: TestUtil.java,v 1.7 2010/04/28 14:50:58 emerks Exp $
  */
 package org.eclipse.emf.test.common;
 
@@ -204,9 +204,12 @@ public class TestUtil
     if (file.isDirectory())
     {
       File[] children = file.listFiles();
-      for (int i = 0, maxi = children.length; i < maxi; i++)
+      if (children != null)
       {
-        delete(children[i]);
+        for (int i = 0, maxi = children.length; i < maxi; i++)
+        {
+          delete(children[i]);
+        }
       }
     }
     
