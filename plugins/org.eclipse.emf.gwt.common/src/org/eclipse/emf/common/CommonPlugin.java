@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2007 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.1 2010/04/28 14:49:24 emerks Exp $
+ * $Id: CommonPlugin.java,v 1.2 2010/04/28 20:37:44 khussey Exp $
  */
 package org.eclipse.emf.common;
 
