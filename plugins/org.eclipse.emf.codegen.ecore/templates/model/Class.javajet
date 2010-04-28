@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.90 2010/04/28 14:50:49 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.91 2010/04/28 20:38:15 khussey Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2009 IBM Corporation and others.
+ * Copyright (c) 2002-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at

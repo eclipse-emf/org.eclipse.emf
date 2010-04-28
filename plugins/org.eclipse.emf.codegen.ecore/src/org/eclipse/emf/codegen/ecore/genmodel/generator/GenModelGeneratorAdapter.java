@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2006 IBM Corporation and others.
+ * Copyright (c) 2006-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapter.java,v 1.9 2010/04/28 14:50:51 emerks Exp $
+ * $Id: GenModelGeneratorAdapter.java,v 1.10 2010/04/28 20:38:16 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
