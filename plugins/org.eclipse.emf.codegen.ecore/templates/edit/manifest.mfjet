@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ManifestMF" version="$Id: manifest.mfjet,v 1.7 2008/04/18 04:01:30 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ManifestMF" version="$Id: manifest.mfjet,v 1.8 2010/04/28 14:50:50 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -22,7 +22,9 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: <%=genModel.getEditPluginID()%>;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-ClassPath: <%if (genModel.isRuntimeJar()) {%><%=genModel.getEditPluginID()%>.jar<%}else{%>.<%}%>
+<%if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {%>
 Bundle-Activator: <%=genModel.getQualifiedEditPluginClassName()%>$Implementation
+<%}%>
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 <%if (genModel.getComplianceLevel() == GenJDKLevel.JDK50_LITERAL) {%>

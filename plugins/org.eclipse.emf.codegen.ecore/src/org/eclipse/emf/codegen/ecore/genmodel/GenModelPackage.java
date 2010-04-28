@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.55 2010/03/11 02:31:37 khussey Exp $
+ * $Id: GenModelPackage.java,v 1.56 2010/04/28 14:50:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -835,13 +835,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__RICH_AJAX_PLATFORM = GEN_BASE_FEATURE_COUNT + 77;
 
   /**
+   * The feature id for the '<em><b>Runtime Platform</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__RUNTIME_PLATFORM = GEN_BASE_FEATURE_COUNT + 78;
+
+  /**
    * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 78;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 79;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -1912,6 +1921,17 @@ public interface GenModelPackage extends EPackage
 
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform <em>Gen Runtime Platform</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenRuntimePlatform()
+   * @generated
+   */
+  int GEN_RUNTIME_PLATFORM = 20;
+
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel <em>Gen Model</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2778,6 +2798,17 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EAttribute getGenModel_RichAjaxPlatform();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimePlatform <em>Runtime Platform</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Runtime Platform</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimePlatform()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_RuntimePlatform();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage <em>Gen Package</em>}'.
@@ -3718,6 +3749,16 @@ public interface GenModelPackage extends EPackage
   EEnum getGenRuntimeVersion();
 
   /**
+   * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform <em>Gen Runtime Platform</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Gen Runtime Platform</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform
+   * @generated
+   */
+  EEnum getGenRuntimePlatform();
+
+  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4373,6 +4414,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__RICH_AJAX_PLATFORM = eINSTANCE.getGenModel_RichAjaxPlatform();
+
+    /**
+     * The meta object literal for the '<em><b>Runtime Platform</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__RUNTIME_PLATFORM = eINSTANCE.getGenModel_RuntimePlatform();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -5107,6 +5156,16 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EEnum GEN_RUNTIME_VERSION = eINSTANCE.getGenRuntimeVersion();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform <em>Gen Runtime Platform</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenRuntimePlatform()
+     * @generated
+     */
+    EEnum GEN_RUNTIME_PLATFORM = eINSTANCE.getGenRuntimePlatform();
 
   }
 

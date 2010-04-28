@@ -46,6 +46,12 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF25"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF26"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenRuntimePlatform">
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimePlatform/IDE"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimePlatform/RCP"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimePlatform/RAP"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimePlatform/GWT"/>
+    </genEnums>
     <genClasses ecoreClass="GenModel.ecore#//GenModel">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="A copyright string to appear in the header of each generated artifact"
           propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/copyrightText"/>
@@ -198,6 +204,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/operationReflection"/>
       <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Whether to generate for Rich Ajax Platform"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/richAjaxPlatform"/>
+      <genFeatures createChild="false" propertyCategory="All" propertyDescription="The target runtime environment for which to generate"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/runtimePlatform"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"

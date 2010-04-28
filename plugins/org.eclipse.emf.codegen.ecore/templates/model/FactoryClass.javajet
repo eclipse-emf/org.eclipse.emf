@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.34 2009/02/23 19:28:08 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.35 2010/04/28 14:50:50 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -258,9 +258,15 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
     <%} else if (genDataType.getItemType() != null) { GenDataType genItemType = genDataType.getItemType(); %>
 		if (literal == null) return null;
 		<%=genDataType.getImportedParameterizedInstanceClassName()%> result = new <%=genModel.getImportedName("java.util.ArrayList")%><%if (genModel.useGenerics()) {%><<%=genItemType.getObjectType().getImportedParameterizedInstanceClassName()%>><%}%>();
+      <%if (genModel.getRuntimeVersion().getValue() < GenRuntimeVersion.EMF26_VALUE) {%>
 		for (<%=genModel.getImportedName("java.util.StringTokenizer")%> stringTokenizer = new <%=genModel.getImportedName("java.util.StringTokenizer")%>(literal); stringTokenizer.hasMoreTokens(); )
+      <%} else {%>
+		for (String item : split(literal))
+      <%}%>
 		{
+      <%if (genModel.getRuntimeVersion().getValue() < GenRuntimeVersion.EMF26_VALUE) {%>
 			String item = stringTokenizer.nextToken();
+      <%}%>
       <%if (genItemType.getGenPackage() == genPackage) {%>
         <%if (genPackage.isDataTypeConverters()) { genItemType = genItemType.getObjectType();%>
 			result.add(create<%=genItemType.getName()%>(item));
@@ -353,9 +359,15 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
       <%} else {%>
 		if (initialValue == null) return null;
 		<%=genDataType.getImportedParameterizedObjectInstanceClassName()%> result = new <%=genModel.getImportedName("java.util.ArrayList")%><%if (genModel.useGenerics()) {%><<%=genItemType.getObjectType().getImportedParameterizedInstanceClassName()%>><%}%>();
+        <%if (genModel.getRuntimeVersion().getValue() < GenRuntimeVersion.EMF26_VALUE) {%>
 		for (<%=genModel.getImportedName("java.util.StringTokenizer")%> stringTokenizer = new <%=genModel.getImportedName("java.util.StringTokenizer")%>(initialValue); stringTokenizer.hasMoreTokens(); )
+        <%} else {%>
+		for (String item : split(literal))
+        <%}%>
 		{
+        <%if (genModel.getRuntimeVersion().getValue() < GenRuntimeVersion.EMF26_VALUE) {%>
 			String item = stringTokenizer.nextToken();
+        <%}%>
       <%if (genItemType.getGenPackage() == genPackage) {%>
 			result.add(create<%=genItemType.getName()%>FromString(<%=genItemType.getQualifiedClassifierAccessor()%>, item));
       <%} else {%>

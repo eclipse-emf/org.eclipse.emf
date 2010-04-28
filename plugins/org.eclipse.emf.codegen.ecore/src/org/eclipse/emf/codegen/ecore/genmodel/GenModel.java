@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.67 2010/03/11 02:31:37 khussey Exp $
+ * $Id: GenModel.java,v 1.68 2010/04/28 14:50:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -123,6 +123,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getClassNamePattern <em>Class Name Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isOperationReflection <em>Operation Reflection</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRichAjaxPlatform <em>Rich Ajax Platform</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimePlatform <em>Runtime Platform</em>}</li>
  * </ul>
  * </p>
  *
@@ -1029,7 +1030,7 @@ public interface GenModel extends GenBase
    * @return the value of the '<em>Rich Client Platform</em>' attribute.
    * @see #setRichClientPlatform(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RichClientPlatform()
-   * @model
+   * @model transient="true" volatile="true" derived="true"
    * @generated
    */
   boolean isRichClientPlatform();
@@ -2054,14 +2055,13 @@ public interface GenModel extends GenBase
    * Returns the value of the '<em><b>Rich Ajax Platform</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Rich Ajax Platform</em>' attribute isn't clear,
-   * there really should be more of a description here...
+   * @since 2.6
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Rich Ajax Platform</em>' attribute.
    * @see #setRichAjaxPlatform(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RichAjaxPlatform()
-   * @model
+   * @model transient="true" volatile="true" derived="true"
    * @generated
    */
   boolean isRichAjaxPlatform();
@@ -2075,6 +2075,35 @@ public interface GenModel extends GenBase
    * @generated
    */
   void setRichAjaxPlatform(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Runtime Platform</b></em>' attribute.
+   * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * @since 2.6
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Runtime Platform</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform
+   * @see #setRuntimePlatform(GenRuntimePlatform)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_RuntimePlatform()
+   * @model
+   * @generated
+   */
+  GenRuntimePlatform getRuntimePlatform();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRuntimePlatform <em>Runtime Platform</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.6
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Runtime Platform</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform
+   * @see #getRuntimePlatform()
+   * @generated
+   */
+  void setRuntimePlatform(GenRuntimePlatform value);
 
   EList<GenPackage> getStaticGenPackages();
 
@@ -2693,4 +2722,40 @@ public interface GenModel extends GenBase
    * @since 2.5
    */
   GenPackage getXMLNamespaceGenPackage();
+
+  /**
+   * Get the qualified name of the model project's GWT Module.
+   * @since 2.6
+   */
+  String getQualifiedModelModuleName();
+
+  /**
+   * Get the source dependencies for the model project's GWT Module.
+   * @since 2.6
+   */
+  List<String> getModelModuleSources();
+
+  /**
+   * Get the inherits dependencies for the model project's GWT Module.
+   * @since 2.6
+   */
+  List<String> getModelModuleInherits();
+
+  /**
+   * Get the qualified name of the edit project's GWT Module.
+   * @since 2.6
+   */
+  String getQualifiedEditModuleName();
+
+  /**
+   * Get the source dependencies for the edit project's GWT Module.
+   * @since 2.6
+   */
+  List<String> getEditModuleSources();
+
+  /**
+   * Get the inherits dependencies for the dit project's GWT Module.
+   * @since 2.6
+   */
+  List<String> getEditModuleInherits();
 }

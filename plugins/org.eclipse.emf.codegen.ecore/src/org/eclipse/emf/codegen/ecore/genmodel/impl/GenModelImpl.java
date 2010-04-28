@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.112 2010/03/11 02:31:38 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.113 2010/04/28 14:50:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -51,6 +51,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
@@ -186,6 +187,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getClassNamePattern <em>Class Name Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isOperationReflection <em>Operation Reflection</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRichAjaxPlatform <em>Rich Ajax Platform</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getRuntimePlatform <em>Runtime Platform</em>}</li>
  * </ul>
  * </p>
  *
@@ -908,16 +910,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected static final boolean RICH_CLIENT_PLATFORM_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isRichClientPlatform() <em>Rich Client Platform</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isRichClientPlatform()
-   * @generated
-   * @ordered
-   */
-  protected boolean richClientPlatform = RICH_CLIENT_PLATFORM_EDEFAULT;
 
   /**
    * The default value of the '{@link #isReflectiveDelegation() <em>Reflective Delegation</em>}' attribute.
@@ -1710,14 +1702,24 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected static final boolean RICH_AJAX_PLATFORM_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isRichAjaxPlatform() <em>Rich Ajax Platform</em>}' attribute.
+   * The default value of the '{@link #getRuntimePlatform() <em>Runtime Platform</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #isRichAjaxPlatform()
+   * @see #getRuntimePlatform()
    * @generated
    * @ordered
    */
-  protected boolean richAjaxPlatform = RICH_AJAX_PLATFORM_EDEFAULT;
+  protected static final GenRuntimePlatform RUNTIME_PLATFORM_EDEFAULT = GenRuntimePlatform.IDE;
+
+  /**
+   * The cached value of the '{@link #getRuntimePlatform() <em>Runtime Platform</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRuntimePlatform()
+   * @generated
+   * @ordered
+   */
+  protected GenRuntimePlatform runtimePlatform = RUNTIME_PLATFORM_EDEFAULT;
 
   protected boolean validateModel = false;
 
@@ -5374,29 +5376,32 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
-  public boolean isRichClientPlatformGen()
-  {
-    return richClientPlatform;
-  }
-
   public boolean isRichClientPlatform()
   {
-    return isRichClientPlatformGen() || isRichAjaxPlatform();
+    GenRuntimePlatform runtimePlatform = getRuntimePlatform();
+    return runtimePlatform == GenRuntimePlatform.RAP || runtimePlatform == GenRuntimePlatform.RCP;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void setRichClientPlatform(boolean newRichClientPlatform)
   {
-    boolean oldRichClientPlatform = richClientPlatform;
-    richClientPlatform = newRichClientPlatform;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM, oldRichClientPlatform, richClientPlatform));
+    if (getRuntimePlatform() != GenRuntimePlatform.RAP)
+    {
+      if (newRichClientPlatform)
+      {
+        setRuntimePlatform(GenRuntimePlatform.RCP);
+      }
+      else if (getRuntimePlatform() == GenRuntimePlatform.RCP)
+      {
+        setRuntimePlatform(GenRuntimePlatform.IDE);
+      }
+    }
   }
 
   /**
@@ -6189,11 +6194,28 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public boolean isRichAjaxPlatform()
   {
-    return richAjaxPlatform;
+    return getRuntimePlatform() == GenRuntimePlatform.RAP;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void setRichAjaxPlatform(boolean newRichAjaxPlatform)
+  {
+    if (newRichAjaxPlatform)
+    {
+      setRuntimePlatform(GenRuntimePlatform.RAP);
+    }
+    else if (getRuntimePlatform() == GenRuntimePlatform.RAP)
+    {
+      setRuntimePlatform(GenRuntimePlatform.IDE);
+    }
   }
 
   /**
@@ -6201,12 +6223,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setRichAjaxPlatform(boolean newRichAjaxPlatform)
+  public GenRuntimePlatform getRuntimePlatform()
   {
-    boolean oldRichAjaxPlatform = richAjaxPlatform;
-    richAjaxPlatform = newRichAjaxPlatform;
+    return runtimePlatform;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setRuntimePlatform(GenRuntimePlatform newRuntimePlatform)
+  {
+    GenRuntimePlatform oldRuntimePlatform = runtimePlatform;
+    runtimePlatform = newRuntimePlatform == null ? RUNTIME_PLATFORM_EDEFAULT : newRuntimePlatform;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__RICH_AJAX_PLATFORM, oldRichAjaxPlatform, richAjaxPlatform));
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__RUNTIME_PLATFORM, oldRuntimePlatform, runtimePlatform));
   }
 
   /**
@@ -6408,6 +6440,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isOperationReflection();
       case GenModelPackage.GEN_MODEL__RICH_AJAX_PLATFORM:
         return isRichAjaxPlatform();
+      case GenModelPackage.GEN_MODEL__RUNTIME_PLATFORM:
+        return getRuntimePlatform();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -6666,6 +6700,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__RICH_AJAX_PLATFORM:
         setRichAjaxPlatform((Boolean)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__RUNTIME_PLATFORM:
+        setRuntimePlatform((GenRuntimePlatform)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -6914,6 +6951,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__RICH_AJAX_PLATFORM:
         setRichAjaxPlatform(RICH_AJAX_PLATFORM_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__RUNTIME_PLATFORM:
+        setRuntimePlatform(RUNTIME_PLATFORM_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -6999,7 +7039,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__RUNTIME_COMPATIBILITY:
         return runtimeCompatibility != RUNTIME_COMPATIBILITY_EDEFAULT;
       case GenModelPackage.GEN_MODEL__RICH_CLIENT_PLATFORM:
-        return richClientPlatform != RICH_CLIENT_PLATFORM_EDEFAULT;
+        return isRichClientPlatform() != RICH_CLIENT_PLATFORM_EDEFAULT;
       case GenModelPackage.GEN_MODEL__REFLECTIVE_DELEGATION:
         return isReflectiveDelegation() != REFLECTIVE_DELEGATION_EDEFAULT;
       case GenModelPackage.GEN_MODEL__CODE_FORMATTING:
@@ -7083,7 +7123,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__OPERATION_REFLECTION:
         return operationReflection != OPERATION_REFLECTION_EDEFAULT;
       case GenModelPackage.GEN_MODEL__RICH_AJAX_PLATFORM:
-        return richAjaxPlatform != RICH_AJAX_PLATFORM_EDEFAULT;
+        return isRichAjaxPlatform() != RICH_AJAX_PLATFORM_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__RUNTIME_PLATFORM:
+        return runtimePlatform != RUNTIME_PLATFORM_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -7169,8 +7211,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(featureMapWrapperClass);
     result.append(", runtimeCompatibility: ");
     result.append(runtimeCompatibility);
-    result.append(", richClientPlatform: ");
-    result.append(richClientPlatform);
     result.append(", codeFormatting: ");
     result.append(codeFormatting);
     result.append(", testsDirectory: ");
@@ -7247,8 +7287,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(classNamePattern);
     result.append(", operationReflection: ");
     result.append(operationReflection);
-    result.append(", richAjaxPlatform: ");
-    result.append(richAjaxPlatform);
+    result.append(", runtimePlatform: ");
+    result.append(runtimePlatform);
     result.append(')');
     return result.toString();
   }
@@ -8041,8 +8081,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public List<String> getModelRequiredPlugins()
   {
     List<String> result = new UniqueEList<String>();
-    result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
-    result.add("org.eclipse.emf.ecore");
+    if (getRuntimePlatform() == GenRuntimePlatform.GWT)
+    {
+      result.add("org.eclipse.emf.gwt.ecore");
+    }
+    else
+    {
+      result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
+      result.add("org.eclipse.emf.ecore");
+    }
     result.addAll(getEffectiveModelPluginIDs());
     
     TreeIterator<GenPackage> genPackagesIterator = 
@@ -8059,7 +8106,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
             ((GenPackage)object).getNestedGenPackages().iterator();
         }
       };
-    while(genPackagesIterator.hasNext())
+    while (genPackagesIterator.hasNext())
     {
       GenPackage genPackage = genPackagesIterator.next();
       if (genPackage.getResource() != GenResourceKind.NONE_LITERAL || genPackage.isLoadingInitialization() || genPackage.isContentType())
@@ -8131,7 +8178,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public List<String> getEditRequiredPlugins()
   {
     List<String> result = new UniqueEList<String>();
-    result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
+    if (getRuntimePlatform() != GenRuntimePlatform.GWT)
+    {
+      result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
+    }
     result.addAll(getEffectiveEditPluginIDs());
 
     if (!sameModelEditProject())
@@ -8146,7 +8196,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       result.addAll(getModelRequiredPlugins());
     }
     
-    result.add("org.eclipse.emf.edit");
+    result.add(getRuntimePlatform() == GenRuntimePlatform.GWT ? "org.eclipse.emf.gwt.edit" : "org.eclipse.emf.edit");
     
     if (sameEditTestsProject())
     {
@@ -8452,7 +8502,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setFeatureMapWrapperClass(oldGenModelVersion.getFeatureMapWrapperClass());
 
     setRuntimeCompatibility(oldGenModelVersion.isRuntimeCompatibility());
-    setRichClientPlatform(oldGenModelVersion.isRichClientPlatform());
     setCodeFormatting(oldGenModelVersion.isCodeFormatting());
         
     setBooleanFlagsField(oldGenModelVersion.getBooleanFlagsField());
@@ -8514,7 +8563,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setInterfaceNamePattern(oldGenModelVersion.getInterfaceNamePattern());
     setClassNamePattern(oldGenModelVersion.getClassNamePattern());
     setOperationReflection(oldGenModelVersion.isOperationReflection());
-    setRichAjaxPlatform(oldGenModelVersion.isRichAjaxPlatform());
+    setRuntimePlatform(oldGenModelVersion.getRuntimePlatform());
   }
 
   public boolean reconcile()
@@ -9139,4 +9188,122 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return mainGenModel == null || mainGenModel == this;
   }
+
+  public String getRootPackageName()
+  {
+    List<GenPackage> allGenPackagesWithClassifiers = getAllGenPackagesWithClassifiers();
+    int size = allGenPackagesWithClassifiers.size();
+    if (size > 1)
+    {
+      String[][] packageNames = new String[size][];
+      for (int i = 0; i < size; ++i)
+      {
+        packageNames[i] = allGenPackagesWithClassifiers.get(i).getQualifiedPackageName().split(".");
+      }
+      int count = 0;
+      LOOP:
+      for (; packageNames[0].length > count; ++count)
+      {
+        String segment = packageNames[0][count];
+        for (int i = 1; i < size; ++i)
+        {
+          if (packageNames[i].length <= count || !packageNames[i][count].equals(segment))
+          {
+            break LOOP;
+          }
+        }
+      }
+      StringBuilder result = new StringBuilder();
+      for (int j = 0; j < count; ++j)
+      {
+        if (result.length() != 0)
+        {
+          result.append(".");
+        }
+        result.append(packageNames[0][j]);
+      }
+      return result.toString();
+    }
+    else
+    {
+      return allGenPackagesWithClassifiers.get(0).getQualifiedPackageName();
+    }
+  }
+
+  public String getModelModuleName()
+  {
+    List<GenPackage> allGenPackagesWithClassifiers = getAllGenAndUsedGenPackagesWithClassifiers();
+    return  
+      allGenPackagesWithClassifiers.size() == 1 || isBlank(getModelName()) ?
+        allGenPackagesWithClassifiers.get(0).getPrefix() :
+        CodeGenUtil.validJavaIdentifier(getModelName());
+  }
+
+  public String getQualifiedModelModuleName()
+  {
+    String rootPackageName = getRootPackageName();
+    return isBlank(rootPackageName) ? getModelModuleName() : rootPackageName + "." + getModelModuleName();
+  }
+
+  public List<String> getModelModuleSources()
+  {
+    List<String> result = new ArrayList<String>();
+    int prefixLength = getRootPackageName().length();
+    for (String modelQualifiedPackageName : getModelQualifiedPackageNames())
+    {
+      result.add(modelQualifiedPackageName.length() == prefixLength ? ""  : modelQualifiedPackageName.substring(prefixLength + 1));
+    }
+    return result;
+  }
+
+  public List<String> getModelModuleInherits()
+  {
+    List<String> result = new UniqueEList<String>();
+    result.add("com.google.gwt.user.User");
+    result.add("org.eclipse.emf.ecore.Ecore");
+    for (GenPackage genPackage : getUsedGenPackages())
+    {
+      result.add(genPackage.getGenModel().getQualifiedModelModuleName());
+    }
+    return result;
+  }
+
+  public String getEditModuleName()
+  {
+    List<GenPackage> allGenPackagesWithClassifiers = getAllGenAndUsedGenPackagesWithClassifiers();
+    return  
+      (allGenPackagesWithClassifiers.size() == 1 || isBlank(getModelName()) ?
+         allGenPackagesWithClassifiers.get(0).getPrefix() :
+         CodeGenUtil.validJavaIdentifier(getModelName())) + "Edit";
+  }
+  
+  public String getQualifiedEditModuleName()
+  {
+    String rootPackageName = getRootPackageName();
+    return isBlank(rootPackageName) ? getEditModuleName() : rootPackageName + "." + getEditModuleName();
+  }
+
+  public List<String> getEditModuleSources()
+  {
+    List<String> result = new ArrayList<String>();
+    int prefixLength = getRootPackageName().length();
+    for (String editQualifiedPackageName : getEditQualifiedPackageNames())
+    {
+      result.add(editQualifiedPackageName.length() == prefixLength ? ""  : editQualifiedPackageName.substring(prefixLength + 1));
+    }
+    return result;
+  }
+
+  public List<String> getEditModuleInherits()
+  {
+    List<String> result = new UniqueEList<String>();
+    result.add("org.eclipse.emf.edit.Edit");
+    result.add(getQualifiedModelModuleName());
+    for (GenPackage genPackage : getUsedGenPackages())
+    {
+      result.add(genPackage.getGenModel().getQualifiedEditModuleName());
+    }
+    return result;
+  }
+
 } //GenModelImpl

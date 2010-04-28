@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.105 2010/03/01 17:47:24 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.106 2010/04/28 14:50:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -39,6 +39,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimePlatform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.notify.Notification;
@@ -1966,7 +1967,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getItemIconFileName()
   {
-    return getGenModel().getEditIconsDirectory() + "/full/obj16/" + getName() + ".gif";
+    GenModel genModel = getGenModel();
+    if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT)
+    {
+      return genModel.getEditDirectory() + "/" + genModel.getEditPluginPackageName().replace(".", "/") + "/icons/full/obj16/" + 
+        getName() + ".gif";
+    }
+    else
+    {
+      return genModel.getEditIconsDirectory() + "/full/obj16/" + getName() + ".gif";
+    }
   }
 
   public String getCreateChildIconFileName(GenFeature feature, GenClass childClass)
@@ -1977,8 +1987,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public String getCreateChildIconFileName(GenModel genModel, GenFeature feature, GenClass childClass)
   {
     GenClass parentClass = feature.getGenClass();
-    return genModel.getEditIconsDirectory() + "/full/ctool16/" + 
-      "Create" + parentClass.getName() + "_" + feature.getName() + "_" + childClass.getName() + ".gif";
+    if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT)
+    {
+      return genModel.getEditDirectory() + "/" + genModel.getEditPluginPackageName().replace(".", "/") + "/icons/full/ctool16/" + 
+        "Create" + parentClass.getName() + "_" + feature.getName() + "_" + childClass.getName() + ".gif";
+    }
+    else
+    {
+      return genModel.getEditIconsDirectory() + "/full/ctool16/" + 
+        "Create" + parentClass.getName() + "_" + feature.getName() + "_" + childClass.getName() + ".gif";
+    }
   }
 
   public GenClass getProviderExtendsGenClass()

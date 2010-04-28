@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.89 2009/11/26 19:40:18 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="Class" version="$Id: Class.javajet,v 1.90 2010/04/28 14:50:49 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -18,6 +18,7 @@
 <%final GenClass genClass = (GenClass)((Object[])argument)[0]; final GenPackage genPackage = genClass.getGenPackage(); final GenModel genModel=genPackage.getGenModel();%>
 <%final boolean isJDK50 = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50;%>
 <%final boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); final boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);%>
+<%final boolean isGWT = genModel.getRuntimePlatform() == GenRuntimePlatform.GWT;%>
 <%final String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
 <%final String singleWildcard = isJDK50 ? "<?>" : "";%>
 <%final String negativeOffsetCorrection = genClass.hasOffsetCorrection() ? " - " + genClass.getOffsetCorrectionField(null) : "";%>
@@ -134,6 +135,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+      <%if (isGWT) {%>
+	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
+      <%}%>
 	protected Object[] <%=eVirtualValuesField%>;
 
   <%}%>
@@ -146,6 +150,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+      <%if (isGWT) {%>
+	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
+      <%}%>
 	protected int <%=eVirtualIndexBitField%>;
 
       <%}%>
@@ -160,6 +167,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
+      <%if (isGWT) {%>
+	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
+      <%}%>
 	protected int <%=genModel.getBooleanFlagsField()%> = 0;
 
 <%}%>
@@ -176,6 +186,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
+      <%if (isGWT) {%>
+	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
+      <%}%>
 	protected <%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>.Internal.SettingDelegate <%=genFeature.getUpperName()%>__ESETTING_DELEGATE = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>.Internal)<%=genFeature.getQualifiedFeatureAccessor()%>).getSettingDelegate();
 
     <%} else if (genFeature.isListType() || genFeature.isReferenceType()) {%>
@@ -188,6 +201,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
+      <%if (isGWT) {%>
+	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
+      <%}%>
 	protected <%=genFeature.getImportedInternalType(genClass)%> <%=genFeature.getSafeName()%>;
 
       <%}%>
@@ -232,6 +248,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
+      <%if (isGWT) {%>
+	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
+      <%}%>
 	protected int <%=genClass.getFlagsField(genFeature)%> = 0;
 
           <%}%>
@@ -283,6 +302,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
+      <%if (isGWT) {%>
+	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
+      <%}%>
 	protected <%=genFeature.getImportedType(genClass)%> <%=genFeature.getSafeName()%><%if (genFeature.hasEDefault()) {%> = <%=genFeature.getEDefault()%><%}%>;
 
         <%}%>
@@ -298,6 +320,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
+      <%if (isGWT) {%>
+	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
+      <%}%>
 	protected int <%=genClass.getESetFlagsField(genFeature)%> = 0;
 
         <%}%>
@@ -318,6 +343,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getTypeParameters()
 	 * @generated
 	 * @ordered
 	 */
+      <%if (isGWT) {%>
+	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
+      <%}%>
 	protected boolean <%=genFeature.getUncapName()%>ESet;
 
       <%}%>
@@ -1473,7 +1501,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 			return <%if (!isJDK50 && genOperation.isPrimitiveType()) {%>(<%}%>(<%=genOperation.getObjectType(genClass)%>)<%=CodeGenUtil.upperName(genClass.getUniqueName(genOperation), genModel.getLocale())%>__EINVOCATION_DELEGATE.dynamicInvoke(this, <%if (size > 0) {%>new <%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%>.UnmodifiableEList<Object>(<%=size%>, <%=genOperation.getParametersArray(genClass)%>)<%} else {%>null<%}%>)<%if (!isJDK50 && genOperation.isPrimitiveType()) {%>).<%=genOperation.getPrimitiveValueFunction()%>()<%}%>;
     <%}%>
 		}
-		catch (<%=genModel.getImportedName("java.lang.reflect.InvocationTargetException")%> ite)
+		catch (<%=genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException" : "java.lang.reflect.InvocationTargetException")%> ite)
 		{
 			throw new <%=genModel.getImportedName("org.eclipse.emf.common.util.WrappedException")%>(ite);
 		}
@@ -2092,7 +2120,7 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
       <%break LOOP;}%>
     <%}%>
   <%}%>
-	public Object eInvoke(int operationID, <%=genModel.getImportedName("org.eclipse.emf.common.util.EList")%><%=singleWildcard%> arguments) throws <%=genModel.getImportedName("java.lang.reflect.InvocationTargetException")%>
+	public Object eInvoke(int operationID, <%=genModel.getImportedName("org.eclipse.emf.common.util.EList")%><%=singleWildcard%> arguments) throws <%=genModel.getImportedName(isGWT ? "org.eclipse.emf.common.util.InvocationTargetException" : "java.lang.reflect.InvocationTargetException")%>
 	{
 		switch (operationID<%=negativeOperationOffsetCorrection%>)
 		{
@@ -2181,6 +2209,9 @@ if (index != -1) { head = typeName.substring(0, index); tail = typeName.substrin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+      <%if (isGWT) {%>
+	@<%=genModel.getImportedName("com.google.gwt.user.client.rpc.GwtTransient")%>
+      <%}%>
 	protected int hash = -1;
 
 	/**

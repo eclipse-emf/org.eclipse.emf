@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* java.util.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.10 2008/01/08 17:09:53 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* java.util.*" class="BuildProperties" version="$Id: build.propertiesjet,v 1.11 2010/04/28 14:50:50 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -28,7 +28,9 @@ bin.includes = <%=pluginClassesLocation%>,\
 <%if (genModel.isBundleManifest()) {%>
                META-INF/,\
 <%}%>
+<%if (genModel.getRuntimePlatform() != GenRuntimePlatform.GWT) {%>
                plugin.xml,\
+<%}%>
                plugin.properties
 jars.compile.order = <%=pluginClassesLocation%>
 <% boolean first=true; for (Iterator<String> i = sourceFolders.iterator(); i.hasNext();) { String sourceFolder = i.next(); if (i.hasNext()){sourceFolder +=",\\";} if (first) {%>

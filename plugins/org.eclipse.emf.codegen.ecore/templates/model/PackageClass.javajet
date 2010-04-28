@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.47 2009/11/16 19:26:45 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.48 2010/04/28 14:50:50 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -280,6 +280,10 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	{
 		if (isInited) return (<%=genPackage.getImportedPackageInterfaceName()%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI);
 
+    <%if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT) {%>
+		initializeRegistryHelpers();
+
+    <%}%>
 		// Obtain or create and register package
 		<%=genPackage.getPackageClassName()%> the<%=genPackage.getBasicPackageName()%> = (<%=genPackage.getPackageClassName()%>)(<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.get(eNS_URI) instanceof <%=genPackage.getPackageClassName()%> ? <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.get(eNS_URI) : new <%=genPackage.getPackageClassName()%>());
 
@@ -362,6 +366,90 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.put(<%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI, the<%=genPackage.getBasicPackageName()%>);
 		return the<%=genPackage.getBasicPackageName()%>;
 	}
+  <%if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT) {%>
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static void initializeRegistryHelpers()
+	{
+    <%for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
+      <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
+        <%if (!genClass.isDynamic()) {%>
+		<%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.register
+			(<%=genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getRawImportedInterfaceName()%>.class, 
+			 new <%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.Helper() 
+			 {
+				 public boolean isInstance(Object instance)
+				 {
+					 return instance instanceof <%=genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getRawImportedInterfaceName() + genClass.getInterfaceWildTypeArguments()%>;
+				 }
+
+				 public Object newArrayInstance(int size)
+				 {
+					 return new <%=genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getRawImportedInterfaceName()%>[size];
+				 }
+			 });
+        <%}%>
+      <%} else if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;%>
+        <%if (!genDataType.isPrimitiveType() && !genDataType.isObjectType()) {%>
+		<%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.register
+			(<%=genDataType.getRawImportedInstanceClassName()%>.class, 
+			 new <%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.Helper() 
+			 {
+				 public boolean isInstance(Object instance)
+				 {
+					 return instance instanceof <%=genDataType.getImportedWildcardInstanceClassName()%>;
+				 }
+
+				 public Object newArrayInstance(int size)
+				 {
+        <%if (genDataType.isArrayType()) { String componentType = genDataType.getRawImportedInstanceClassName(); String indices = ""; while(componentType.endsWith("[]")) { componentType = componentType.substring(0, componentType.length() - 2); indices += "[]";}%>
+					 return new <%=componentType%>[size]<%=indices%>;
+        <%} else {%>
+					 return new <%=genDataType.getRawImportedInstanceClassName()%>[size];
+        <%}%>
+				 }
+		});
+        <%}%>
+      <%}%>
+    <%}%>
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static class WhiteList implements <%=genModel.getImportedName("com.google.gwt.user.client.rpc.IsSerializable")%>
+	{
+    <%for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
+      <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
+        <%if (!genClass.isDynamic()) {%>
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		protected <%=genClass.isMapEntry() ? genClass.getImportedClassName() : genClass.getImportedWildcardInstanceClassName()%> <%=genClass.getSafeUncapName()%>;
+
+        <%}%>
+      <%} else if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;%>
+        <%if (!genDataType.isObjectType()) {%>
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		protected <%=genDataType.getImportedWildcardInstanceClassName()%> <%=genDataType.getSafeUncapName()%>;
+
+        <%}%>
+      <%}%>
+    <%}%>
+	}
+  <%}%>
 
 <%}%>
 <%if (isInterface) { // TODO REMOVE THIS BOGUS EMPTY LINE%>

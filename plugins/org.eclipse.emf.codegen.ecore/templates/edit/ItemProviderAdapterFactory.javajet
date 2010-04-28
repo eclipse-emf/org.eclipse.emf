@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.13 2008/12/31 15:50:36 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.14 2010/04/28 14:50:50 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -274,7 +274,7 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 		if (isFactoryForType(type))
 		{
 			Object adapter = super.adapt(object, type);
-			if (!(type instanceof Class<%if (genModel.useGenerics()) {%><?><%}%>) || (((Class<%if (genModel.useGenerics()) {%><?><%}%>)type).isInstance(adapter)))
+			if (!(type instanceof Class<%if (genModel.useGenerics()) {%><?><%}%>) || <%if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT) {%><%=genModel.getImportedName("org.eclipse.emf.common.util.Reflect")%>.isInstance((Class<%if (genModel.useGenerics()) {%><?><%}%>)type, adapter)<%} else {%>(((Class<%if (genModel.useGenerics()) {%><?><%}%>)type).isInstance(adapter))<%}%>)
 			{
 				return adapter;
 			}

@@ -57,7 +57,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureMapWrapperClass"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="runtimeCompatibility" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="richClientPlatform" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="richClientPlatform" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="reflectiveDelegation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         volatile="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="codeFormatting" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -122,7 +123,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="classNamePattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="operationReflection" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="richAjaxPlatform" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="richAjaxPlatform" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="runtimePlatform" eType="#//GenRuntimePlatform"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenPackage" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -165,8 +168,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileExtensions" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecorePackage" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="genModel" lowerBound="1"
-        eType="#//GenModel" transient="true" eOpposite="#//GenModel/genPackages"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genModel" eType="#//GenModel"
+        transient="true" eOpposite="#//GenModel/genPackages"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genEnums" upperBound="-1"
         eType="#//GenEnum" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genDataTypes" upperBound="-1"
@@ -312,5 +315,11 @@
     <eLiterals name="EMF24" value="2" literal="2.4"/>
     <eLiterals name="EMF25" value="3" literal="2.5"/>
     <eLiterals name="EMF26" value="4" literal="2.6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GenRuntimePlatform">
+    <eLiterals name="IDE"/>
+    <eLiterals name="RCP" value="1"/>
+    <eLiterals name="RAP" value="2"/>
+    <eLiterals name="GWT" value="3"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.38 2009/09/18 18:10:34 khussey Exp $
+ * $Id: GenPackage.java,v 1.39 2010/04/28 14:50:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -622,7 +622,7 @@ public interface GenPackage extends GenBase
    * @see #setGenModel(GenModel)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_GenModel()
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages
-   * @model opposite="genPackages" required="true"
+   * @model opposite="genPackages"
    * @generated
    */
   GenModel getGenModel();

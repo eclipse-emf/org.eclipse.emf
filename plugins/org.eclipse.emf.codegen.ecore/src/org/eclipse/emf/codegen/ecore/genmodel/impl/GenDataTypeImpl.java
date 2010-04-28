@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.36 2009/03/13 21:09:47 davidms Exp $
+ * $Id: GenDataTypeImpl.java,v 1.37 2010/04/28 14:50:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -404,7 +404,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public boolean isArrayType()
   {
-    return getEcoreDataType().getInstanceClassName().indexOf('[') != -1;
+    String instanceClassName = getEcoreDataType().getInstanceClassName();
+    return instanceClassName != null && instanceClassName.indexOf('[') != -1;
   }
 
   public boolean isObjectType()
