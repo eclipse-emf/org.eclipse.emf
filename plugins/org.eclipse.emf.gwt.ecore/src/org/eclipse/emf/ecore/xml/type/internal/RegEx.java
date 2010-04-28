@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2007 IBM Corporation and others.
+ * Copyright (c) 2004-2010 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.1 2010/04/28 14:46:00 emerks Exp $
+ * $Id: RegEx.java,v 1.2 2010/04/28 20:40:01 khussey Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -1192,7 +1192,7 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.1 2010/04/28 14:46:00 emerks Exp $
+   * @version $Id: RegEx.java,v 1.2 2010/04/28 20:40:01 khussey Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
       private static final long serialVersionUID = 1L;
@@ -7398,7 +7398,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.1 2010/04/28 14:46:00 emerks Exp $
+   * @version $Id: RegEx.java,v 1.2 2010/04/28 20:40:01 khussey Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {
