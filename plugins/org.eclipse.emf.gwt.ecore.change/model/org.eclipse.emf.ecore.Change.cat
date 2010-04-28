@@ -1,0 +1,1614 @@
+
+(object Petal
+    version    	42
+    _written   	"Rose 4.5.8163.3"
+    charSet    	0)
+
+(object Class_Category "change"
+    is_unit    	TRUE
+    is_loaded  	TRUE
+    attributes 	(list Attribute_Set
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"nsPrefix"
+	    value      	"change")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"nsURI"
+	    value      	"http://www.eclipse.org/emf/2003/Change")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"basePackage"
+	    value      	"org.eclipse.emf.ecore")
+	(object Attribute
+	    tool       	"Ecore"
+	    name       	"prefix"
+	    value      	"Change"))
+    quid       	"4FAA8E8B0306"
+    exportControl 	"Public"
+    logical_models 	(list unit_reference_list
+	(object Class "ChangeDescription"
+	    quid       	"4FAB6F110198"
+	    operations 	(list Operations
+		(object Operation "apply"
+		    quid       	"3FD0B060005D"
+		    concurrency 	"Sequential"
+		    opExportControl 	"Public"
+		    uid        	0)
+		(object Operation "applyAndReverse"
+		    quid       	"40351FD8025A"
+		    concurrency 	"Sequential"
+		    opExportControl 	"Public"
+		    uid        	0)))
+	(object Class "EObjectToChangesMapEntry"
+	    quid       	"4FAD15770120"
+	    stereotype 	"MapEntry")
+	(object Class "FeatureChange"
+	    quid       	"4FC39D6D0177"
+	    operations 	(list Operations
+		(object Operation "apply"
+		    quid       	"4FC3A73B034D"
+		    parameters 	(list Parameters
+			(object Parameter "originalObject"
+			    type       	"EObject"))
+		    concurrency 	"Sequential"
+		    opExportControl 	"Public"
+		    uid        	0)
+		(object Operation "applyAndReverse"
+		    quid       	"40368EBA005F"
+		    parameters 	(list Parameters
+			(object Parameter "originalObject"
+			    type       	"EObject"))
+		    concurrency 	"Sequential"
+		    opExportControl 	"Public"
+		    uid        	0))
+	    class_attributes 	(list class_attribute_list
+		(object ClassAttribute "featureName"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isUnsettable"
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE))
+		    quid       	"4FC39D770316"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "dataValue"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE))
+		    quid       	"4FC3D98B0072"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "set"
+		    quid       	"4FC4C6CA0314"
+		    type       	"boolean"
+		    initv      	"true"
+		    exportControl 	"Public")
+		(object ClassAttribute "value"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isTransient"
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isChangeable"
+			    value      	FALSE))
+		    quid       	"3FDEF82800D5"
+		    type       	"EJavaObject"
+		    exportControl 	"Public"
+		    derived    	TRUE)))
+	(object Class "ListChange"
+	    quid       	"4FC3AC580114"
+	    operations 	(list Operations
+		(object Operation "apply"
+		    quid       	"4FC3AE2D00F1"
+		    parameters 	(list Parameters
+			(object Parameter "originalList"
+			    type       	"EEList<EJavaObject>"))
+		    concurrency 	"Sequential"
+		    opExportControl 	"Public"
+		    uid        	0)
+		(object Operation "applyAndReverse"
+		    quid       	"40368EEF0213"
+		    parameters 	(list Parameters
+			(object Parameter "originalList"
+			    type       	"EEList<EJavaObject>"))
+		    concurrency 	"Sequential"
+		    opExportControl 	"Public"
+		    uid        	0))
+	    class_attributes 	(list class_attribute_list
+		(object ClassAttribute "kind"
+		    quid       	"4FC3AFCB0010"
+		    type       	"ChangeKind"
+		    exportControl 	"Public")
+		(object ClassAttribute "dataValues"
+		    attributes 	(list Attribute_Set)
+		    quid       	"4FC3DA6703C2"
+		    stereotype 	"0..*"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "index"
+		    quid       	"4FC3B07402B2"
+		    type       	"int"
+		    initv      	"-1"
+		    exportControl 	"Public")
+		(object ClassAttribute "moveToIndex"
+		    quid       	"4FC3B0970095"
+		    type       	"int"
+		    exportControl 	"Public")
+		(object ClassAttribute "values"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isTransient"
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE))
+		    quid       	"3FDF44C7002F"
+		    stereotype 	"0..*"
+		    type       	"EJavaObject"
+		    exportControl 	"Public"
+		    derived    	TRUE)))
+	(object Class "ChangeKind"
+	    quid       	"4FC3B0190365"
+	    stereotype 	"enumeration"
+	    class_attributes 	(list class_attribute_list
+		(object ClassAttribute "ADD"
+		    quid       	"4FC3B03802F1"
+		    exportControl 	"Public")
+		(object ClassAttribute "REMOVE"
+		    quid       	"4FC3B04902A6"
+		    exportControl 	"Public")
+		(object ClassAttribute "MOVE"
+		    quid       	"4FC3B04C0156"
+		    exportControl 	"Public")))
+	(object Class "ResourceChange"
+	    quid       	"40351FED0214"
+	    operations 	(list Operations
+		(object Operation "apply"
+		    quid       	"40362BBC0249"
+		    concurrency 	"Sequential"
+		    opExportControl 	"Public"
+		    uid        	0)
+		(object Operation "applyAndReverse"
+		    quid       	"40368F1603B4"
+		    concurrency 	"Sequential"
+		    opExportControl 	"Public"
+		    uid        	0))
+	    class_attributes 	(list class_attribute_list
+		(object ClassAttribute "resourceURI"
+		    quid       	"40351FF9013F"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "resource"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isTransient"
+			    value      	TRUE))
+		    quid       	"4036404403BA"
+		    type       	"EResource"
+		    exportControl 	"Public"
+		    derived    	TRUE)
+		(object ClassAttribute "value"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isTransient"
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isChangeable"
+			    value      	FALSE))
+		    quid       	"40353363034E"
+		    type       	"EEList<?>"
+		    exportControl 	"Public"
+		    derived    	TRUE)))
+	(object Class "FeatureMapEntry"
+	    quid       	"426F82D30210"
+	    class_attributes 	(list class_attribute_list
+		(object ClassAttribute "featureName"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isUnsettable"
+			    value      	TRUE))
+		    quid       	"426F82DE0216"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "dataValue"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE))
+		    quid       	"426F82E3010E"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "value"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isTransient"
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isChangeable"
+			    value      	FALSE))
+		    quid       	"426F82E700D8"
+		    type       	"EJavaObject"
+		    exportControl 	"Public"
+		    derived    	TRUE)))
+	(object Association "$UNNAMED$0"
+	    quid       	"4FAD034903D3"
+	    roles      	(list role_list
+		(object Role "changeSummary"
+		    quid       	"4FAD034A033E"
+		    label      	"changeSummary"
+		    supplier   	"Logical View::change::ChangeDescription"
+		    quidu      	"4FAB6F110198"
+		    is_aggregate 	TRUE)
+		(object Role "objectChanges"
+		    quid       	"4FAD034A0348"
+		    label      	"objectChanges"
+		    supplier   	"Logical View::change::EObjectToChangesMapEntry"
+		    quidu      	"4FAD15770120"
+		    client_cardinality 	(value cardinality "0..n")
+		    Containment 	"By Value"
+		    is_navigable 	TRUE)))
+	(object Association "$UNNAMED$1"
+	    quid       	"4FAD03BD02DF"
+	    roles      	(list role_list
+		(object Role "$UNNAMED$2"
+		    quid       	"4FAD03BE01C8"
+		    supplier   	"Logical View::change::ChangeDescription"
+		    quidu      	"4FAB6F110198")
+		(object Role "objectsToDetach"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isTransient"
+			    value      	TRUE))
+		    quid       	"4FAD03BE01C9"
+		    label      	"objectsToDetach"
+		    supplier   	"Logical View::ecore::EObject"
+		    quidu      	"3C4F1C860123"
+		    client_cardinality 	(value cardinality "0..n")
+		    is_navigable 	TRUE))
+	    derived    	TRUE)
+	(object Association "$UNNAMED$3"
+	    quid       	"4FAD04280293"
+	    roles      	(list role_list
+		(object Role "$UNNAMED$4"
+		    quid       	"4FAD04290208"
+		    supplier   	"Logical View::change::EObjectToChangesMapEntry"
+		    quidu      	"4FAD15770120")
+		(object Role "key"
+		    quid       	"4FAD04290209"
+		    label      	"key"
+		    supplier   	"Logical View::ecore::EObject"
+		    quidu      	"3C4F1C860123"
+		    client_cardinality 	(value cardinality "1")
+		    is_navigable 	TRUE)))
+	(object Association "$UNNAMED$5"
+	    quid       	"4FAD161403E1"
+	    roles      	(list role_list
+		(object Role "$UNNAMED$6"
+		    quid       	"4FAD16160376"
+		    supplier   	"Logical View::change::EObjectToChangesMapEntry"
+		    quidu      	"4FAD15770120"
+		    is_aggregate 	TRUE)
+		(object Role "value"
+		    quid       	"4FAD16160380"
+		    label      	"value"
+		    supplier   	"Logical View::change::FeatureChange"
+		    quidu      	"4FC39D6D0177"
+		    client_cardinality 	(value cardinality "0..n")
+		    Containment 	"By Value"
+		    is_navigable 	TRUE)))
+	(object Association "$UNNAMED$7"
+	    quid       	"4FAD1D57013C"
+	    roles      	(list role_list
+		(object Role "$UNNAMED$8"
+		    quid       	"4FAD1D5A00FA"
+		    supplier   	"Logical View::change::ChangeDescription"
+		    quidu      	"4FAB6F110198"
+		    is_aggregate 	TRUE)
+		(object Role "objectsToAttach"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
+		    quid       	"4FAD1D5A0104"
+		    label      	"objectsToAttach"
+		    supplier   	"Logical View::ecore::EObject"
+		    quidu      	"3C4F1C860123"
+		    client_cardinality 	(value cardinality "0..n")
+		    Containment 	"By Value"
+		    is_navigable 	TRUE)))
+	(object Association "$UNNAMED$9"
+	    quid       	"4FC39DAE0383"
+	    roles      	(list role_list
+		(object Role "feature"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isUnsettable"
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE))
+		    quid       	"4FC39DB200B8"
+		    label      	"feature"
+		    supplier   	"Logical View::ecore::EStructuralFeature"
+		    quidu      	"3903D59D0230"
+		    client_cardinality 	(value cardinality "1")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$10"
+		    quid       	"4FC39DB200B9"
+		    supplier   	"Logical View::change::FeatureChange"
+		    quidu      	"4FC39D6D0177")))
+	(object Association "$UNNAMED$11"
+	    quid       	"4FC3AB31020B"
+	    roles      	(list role_list
+		(object Role "referenceValue"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE))
+		    quid       	"4FC3AB3202F2"
+		    label      	"referenceValue"
+		    supplier   	"Logical View::ecore::EObject"
+		    quidu      	"3C4F1C860123"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$12"
+		    quid       	"4FC3AB3202FC"
+		    supplier   	"Logical View::change::FeatureChange"
+		    quidu      	"4FC39D6D0177")))
+	(object Association "$UNNAMED$13"
+	    quid       	"4FC3AC8D0139"
+	    roles      	(list role_list
+		(object Role "$UNNAMED$14"
+		    quid       	"4FC3AC8E025D"
+		    supplier   	"Logical View::change::FeatureChange"
+		    quidu      	"4FC39D6D0177"
+		    is_aggregate 	TRUE)
+		(object Role "listChanges"
+		    attributes 	(list Attribute_Set)
+		    quid       	"4FC3AC8E025E"
+		    label      	"listChanges"
+		    supplier   	"Logical View::change::ListChange"
+		    quidu      	"4FC3AC580114"
+		    client_cardinality 	(value cardinality "0..n")
+		    Containment 	"By Value"
+		    is_navigable 	TRUE)))
+	(object Association "$UNNAMED$15"
+	    quid       	"4FC3B15301CC"
+	    roles      	(list role_list
+		(object Role "referenceValues"
+		    attributes 	(list Attribute_Set)
+		    quid       	"4FC3B15501BB"
+		    label      	"referenceValues"
+		    supplier   	"Logical View::ecore::EObject"
+		    quidu      	"3C4F1C860123"
+		    client_cardinality 	(value cardinality "0..n")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$16"
+		    quid       	"4FC3B15501C5"
+		    supplier   	"Logical View::change::ListChange"
+		    quidu      	"4FC3AC580114")))
+	(object Association "$UNNAMED$17"
+	    quid       	"4FC7BC400269"
+	    roles      	(list role_list
+		(object Role "feature"
+		    attributes 	(list Attribute_Set)
+		    quid       	"4FC7BC420095"
+		    label      	"feature"
+		    supplier   	"Logical View::ecore::EStructuralFeature"
+		    quidu      	"3903D59D0230"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$18"
+		    quid       	"4FC7BC4200B3"
+		    supplier   	"Logical View::change::ListChange"
+		    quidu      	"4FC3AC580114")))
+	(object Association "$UNNAMED$19"
+	    quid       	"4035206F02C5"
+	    roles      	(list role_list
+		(object Role "$UNNAMED$20"
+		    quid       	"403520710051"
+		    supplier   	"Logical View::change::ChangeDescription"
+		    quidu      	"4FAB6F110198"
+		    is_aggregate 	TRUE)
+		(object Role "resourceChanges"
+		    quid       	"403520710052"
+		    label      	"resourceChanges"
+		    supplier   	"Logical View::change::ResourceChange"
+		    quidu      	"40351FED0214"
+		    client_cardinality 	(value cardinality "0..n")
+		    Containment 	"By Value"
+		    is_navigable 	TRUE)))
+	(object Association "$UNNAMED$21"
+	    quid       	"403520B2027B"
+	    roles      	(list role_list
+		(object Role "$UNNAMED$22"
+		    quid       	"403520B401AC"
+		    supplier   	"Logical View::change::ResourceChange"
+		    quidu      	"40351FED0214"
+		    is_aggregate 	TRUE)
+		(object Role "listChanges"
+		    quid       	"403520B401AD"
+		    label      	"listChanges"
+		    supplier   	"Logical View::change::ListChange"
+		    quidu      	"4FC3AC580114"
+		    client_cardinality 	(value cardinality "0..n")
+		    Containment 	"By Value"
+		    is_navigable 	TRUE)))
+	(object Association "$UNNAMED$23"
+	    quid       	"426F8309000F"
+	    roles      	(list role_list
+		(object Role "feature"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isUnsettable"
+			    value      	TRUE))
+		    quid       	"426F830A0255"
+		    label      	"feature"
+		    supplier   	"Logical View::ecore::EStructuralFeature"
+		    quidu      	"3903D59D0230"
+		    client_cardinality 	(value cardinality "1")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$24"
+		    quid       	"426F830A0256"
+		    supplier   	"Logical View::change::FeatureMapEntry"
+		    quidu      	"426F82D30210")))
+	(object Association "$UNNAMED$25"
+	    quid       	"426F8354019D"
+	    roles      	(list role_list
+		(object Role "$UNNAMED$26"
+		    quid       	"426F83550221"
+		    supplier   	"Logical View::change::ListChange"
+		    quidu      	"4FC3AC580114"
+		    is_aggregate 	TRUE)
+		(object Role "featureMapEntryValues"
+		    quid       	"426F83550222"
+		    label      	"featureMapEntryValues"
+		    supplier   	"Logical View::change::FeatureMapEntry"
+		    quidu      	"426F82D30210"
+		    Containment 	"By Value"
+		    is_navigable 	TRUE)))
+	(object Association "$UNNAMED$27"
+	    quid       	"426F83810089"
+	    roles      	(list role_list
+		(object Role "referenceValue"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isVolatile"
+			    value      	TRUE))
+		    quid       	"426F838500C1"
+		    label      	"referenceValue"
+		    supplier   	"Logical View::ecore::EObject"
+		    quidu      	"3C4F1C860123"
+		    client_cardinality 	(value cardinality "0..1")
+		    is_navigable 	TRUE)
+		(object Role "$UNNAMED$28"
+		    quid       	"426F838500C2"
+		    supplier   	"Logical View::change::FeatureMapEntry"
+		    quidu      	"426F82D30210"))))
+    logical_presentations 	(list unit_reference_list
+	(object ClassDiagram "Main"
+	    quid       	"4FB5425600D8"
+	    title      	"Main"
+	    zoom       	100
+	    max_height 	28350
+	    max_width  	21600
+	    origin_x   	0
+	    origin_y   	0
+	    items      	(list diagram_item_list
+		(object ClassView "Class" "Logical View::change::ChangeKind" @1
+		    ShowCompartmentStereotypes 	TRUE
+		    SuppressOperation 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(480, 2320)
+		    label      	(object ItemLabel
+			Parent_View 	@1
+			location   	(317, 2236)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	326
+			justify    	0
+			label      	"ChangeKind")
+		    stereotype 	(object ItemLabel
+			Parent_View 	@1
+			location   	(317, 2186)
+			fill_color 	13434879
+			anchor     	10
+			nlines     	1
+			max_width  	326
+			justify    	0
+			label      	"<<enumeration>>")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"4FC3B0190365"
+		    compartment 	(object Compartment
+			Parent_View 	@1
+			location   	(317, 2296)
+			icon_style 	"Icon"
+			fill_color 	13434879
+			anchor     	2
+			nlines     	3
+			max_width  	237)
+		    width      	344
+		    height     	292
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object ClassView "Class" "Logical View::change::ResourceChange" @2
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(496, 880)
+		    label      	(object ItemLabel
+			Parent_View 	@2
+			location   	(260, 699)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	472
+			justify    	0
+			label      	"ResourceChange")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"40351FED0214"
+		    compartment 	(object Compartment
+			Parent_View 	@2
+			location   	(260, 759)
+			icon_style 	"Icon"
+			fill_color 	13434879
+			anchor     	2
+			nlines     	6
+			max_width  	469)
+		    width      	490
+		    height     	386
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object ClassView "Class" "Logical View::ecore::EStructuralFeature" @3
+		    ShowCompartmentStereotypes 	TRUE
+		    SuppressAttribute 	TRUE
+		    SuppressOperation 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(2240, 1536)
+		    font       	(object Font
+			italics    	TRUE)
+		    label      	(object ItemLabel
+			Parent_View 	@3
+			location   	(2051, 1486)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	378
+			justify    	0
+			label      	"EStructuralFeature")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"3903D59D0230"
+		    width      	396
+		    height     	124
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object ClassView "Class" "Logical View::change::EObjectToChangesMapEntry" @4
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(1296, 768)
+		    label      	(object ItemLabel
+			Parent_View 	@4
+			location   	(1019, 738)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	554
+			justify    	0
+			label      	"EObjectToChangesMapEntry")
+		    stereotype 	(object ItemLabel
+			Parent_View 	@4
+			location   	(1019, 688)
+			fill_color 	13434879
+			anchor     	10
+			nlines     	1
+			max_width  	554
+			justify    	0
+			label      	"<<MapEntry>>")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"4FAD15770120"
+		    width      	572
+		    height     	184
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object ClassView "Class" "Logical View::change::FeatureChange" @5
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    ShowOperationSignature 	TRUE
+		    location   	(1296, 1408)
+		    label      	(object ItemLabel
+			Parent_View 	@5
+			location   	(885, 1202)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	822
+			justify    	0
+			label      	"FeatureChange")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"4FC39D6D0177"
+		    compartment 	(object Compartment
+			Parent_View 	@5
+			location   	(885, 1262)
+			icon_style 	"Icon"
+			fill_color 	13434879
+			anchor     	2
+			nlines     	7
+			max_width  	828)
+		    width      	840
+		    height     	436
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object AssociationViewNew "$UNNAMED$5" @6
+		    location   	(1294, 1025)
+		    stereotype 	TRUE
+		    quidu      	"4FAD161403E1"
+		    roleview_list 	(list RoleViews
+			(object RoleView "$UNNAMED$6" @7
+			    Parent_View 	@6
+			    location   	(-82, -687)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FAD16160376"
+			    client     	@6
+			    supplier   	@4
+			    line_style 	3
+			    origin_attachment 	(1294, 1025)
+			    terminal_attachment 	(1294, 860))
+			(object RoleView "value" @8
+			    Parent_View 	@6
+			    location   	(-82, -687)
+			    label      	(object SegLabel @9
+				Parent_View 	@8
+				location   	(1214, 1080)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	120
+				justify    	0
+				label      	"+value"
+				pctDist    	0.333333
+				height     	81
+				orientation 	1)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FAD16160380"
+			    client     	@6
+			    supplier   	@5
+			    line_style 	3
+			    origin_attachment 	(1294, 1025)
+			    terminal_attachment 	(1294, 1190)
+			    label      	(object SegLabel @10
+				Parent_View 	@8
+				location   	(1359, 1081)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	70
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.342466
+				height     	65
+				orientation 	0))))
+		(object AssociationViewNew "$UNNAMED$9" @11
+		    location   	(1879, 1534)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"4FC39DAE0383"
+		    roleview_list 	(list RoleViews
+			(object RoleView "feature" @12
+			    Parent_View 	@11
+			    location   	(503, -786)
+			    label      	(object SegLabel @13
+				Parent_View 	@12
+				location   	(1912, 1494)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	144
+				justify    	0
+				label      	"+feature"
+				pctDist    	0.202454
+				height     	40
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FC39DB200B8"
+			    client     	@11
+			    supplier   	@3
+			    line_style 	3
+			    origin_attachment 	(1879, 1534)
+			    terminal_attachment 	(2042, 1534)
+			    label      	(object SegLabel @14
+				Parent_View 	@12
+				location   	(1970, 1581)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"1"
+				pctDist    	0.558282
+				height     	47
+				orientation 	1))
+			(object RoleView "$UNNAMED$10" @15
+			    Parent_View 	@11
+			    location   	(503, -786)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FC39DB200B9"
+			    client     	@11
+			    supplier   	@5
+			    line_style 	3
+			    origin_attachment 	(1879, 1534)
+			    terminal_attachment 	(1716, 1534))))
+		(object ClassView "Class" "Logical View::change::ChangeDescription" @16
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    ShowOperationSignature 	TRUE
+		    location   	(1296, 224)
+		    label      	(object ItemLabel
+			Parent_View 	@16
+			location   	(1101, 118)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	390
+			justify    	0
+			label      	"ChangeDescription")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"4FAB6F110198"
+		    compartment 	(object Compartment
+			Parent_View 	@16
+			location   	(1101, 178)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	3
+			max_width  	396)
+		    width      	408
+		    height     	236
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object AssociationViewNew "$UNNAMED$0" @17
+		    location   	(1294, 509)
+		    stereotype 	TRUE
+		    quidu      	"4FAD034903D3"
+		    roleview_list 	(list RoleViews
+			(object RoleView "changeSummary" @18
+			    Parent_View 	@17
+			    location   	(-434, -851)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FAD034A033E"
+			    client     	@17
+			    supplier   	@16
+			    line_style 	3
+			    origin_attachment 	(1294, 509)
+			    terminal_attachment 	(1294, 342))
+			(object RoleView "objectChanges" @19
+			    Parent_View 	@17
+			    location   	(-434, -851)
+			    label      	(object SegLabel @20
+				Parent_View 	@19
+				location   	(1129, 572)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	300
+				justify    	0
+				label      	"+objectChanges"
+				pctDist    	0.377246
+				height     	165
+				orientation 	1)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FAD034A0348"
+			    client     	@17
+			    supplier   	@4
+			    line_style 	3
+			    origin_attachment 	(1294, 509)
+			    terminal_attachment 	(1294, 676)
+			    label      	(object SegLabel @21
+				Parent_View 	@19
+				location   	(1355, 573)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	70
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.390244
+				height     	61
+				orientation 	0))))
+		(object AssociationViewNew "$UNNAMED$19" @22
+		    location   	(554, 222)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"4035206F02C5"
+		    roleview_list 	(list RoleViews
+			(object RoleView "$UNNAMED$20" @23
+			    Parent_View 	@22
+			    location   	(186, -498)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"403520710051"
+			    client     	@22
+			    supplier   	@16
+			    line_style 	3
+			    origin_attachment 	(554, 222)
+			    terminal_attachment 	(1092, 222))
+			(object RoleView "resourceChanges" @24
+			    Parent_View 	@22
+			    location   	(186, -498)
+			    label      	(object SegLabel @25
+				Parent_View 	@24
+				location   	(285, 578)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	348
+				justify    	0
+				label      	"+resourceChanges"
+				pctDist    	0.799242
+				height     	197
+				orientation 	1)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"403520710052"
+			    client     	@22
+			    supplier   	@2
+			    vertices   	(list Points
+				(554, 222)
+				(481, 222)
+				(481, 687))
+			    line_style 	3
+			    origin_attachment 	(554, 222)
+			    terminal_attachment 	(481, 687)
+			    label      	(object SegLabel @26
+				Parent_View 	@24
+				location   	(550, 577)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	112
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.797398
+				height     	69
+				orientation 	0))))
+		(object ClassView "Class" "Logical View::change::ListChange" @27
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    ShowOperationSignature 	TRUE
+		    location   	(1264, 2208)
+		    label      	(object ItemLabel
+			Parent_View 	@27
+			location   	(755, 1977)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	1018
+			justify    	0
+			label      	"ListChange")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"4FC3AC580114"
+		    compartment 	(object Compartment
+			Parent_View 	@27
+			location   	(755, 2037)
+			icon_style 	"Icon"
+			fill_color 	13434879
+			anchor     	2
+			nlines     	8
+			max_width  	1015)
+		    width      	1036
+		    height     	486
+		    annotation 	8
+		    autoResize 	TRUE)
+		(object AssociationViewNew "$UNNAMED$13" @28
+		    location   	(1280, 1795)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"4FC3AC8D0139"
+		    roleview_list 	(list RoleViews
+			(object RoleView "$UNNAMED$14" @29
+			    Parent_View 	@28
+			    location   	(368, -637)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FC3AC8E025D"
+			    client     	@28
+			    supplier   	@5
+			    line_style 	0)
+			(object RoleView "listChanges" @30
+			    Parent_View 	@28
+			    location   	(368, -637)
+			    label      	(object SegLabel @31
+				Parent_View 	@30
+				location   	(1138, 1841)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	240
+				justify    	0
+				label      	"+listChanges"
+				pctDist    	0.299363
+				height     	141
+				orientation 	1)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FC3AC8E025E"
+			    client     	@28
+			    supplier   	@27
+			    line_style 	0
+			    label      	(object SegLabel @32
+				Parent_View 	@30
+				location   	(1346, 1849)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	112
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.303571
+				height     	68
+				orientation 	0))))
+		(object AssociationViewNew "$UNNAMED$17" @33
+		    location   	(2122, 1943)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"4FC7BC400269"
+		    roleview_list 	(list RoleViews
+			(object RoleView "feature" @34
+			    Parent_View 	@33
+			    location   	(874, -345)
+			    label      	(object SegLabel @35
+				Parent_View 	@34
+				location   	(2023, 1652)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	144
+				justify    	0
+				label      	"+feature"
+				pctDist    	0.842779
+				height     	100
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FC7BC420095"
+			    client     	@33
+			    supplier   	@3
+			    line_style 	3
+			    origin_attachment 	(2122, 1943)
+			    terminal_attachment 	(2122, 1598)
+			    label      	(object SegLabel @36
+				Parent_View 	@34
+				location   	(2062, 1702)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.700422
+				height     	61
+				orientation 	0))
+			(object RoleView "$UNNAMED$18" @37
+			    Parent_View 	@33
+			    location   	(874, -345)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FC7BC4200B3"
+			    client     	@33
+			    supplier   	@27
+			    vertices   	(list Points
+				(2122, 1943)
+				(2122, 2003)
+				(1782, 2003))
+			    line_style 	3
+			    origin_attachment 	(2122, 1943)
+			    terminal_attachment 	(1782, 2003))))
+		(object AssociationViewNew "$UNNAMED$21" @38
+		    location   	(459, 1703)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"403520B2027B"
+		    roleview_list 	(list RoleViews
+			(object RoleView "$UNNAMED$22" @39
+			    Parent_View 	@38
+			    location   	(-805, -457)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"403520B401AC"
+			    client     	@38
+			    supplier   	@2
+			    line_style 	3
+			    origin_attachment 	(459, 1703)
+			    terminal_attachment 	(459, 1073))
+			(object RoleView "listChanges" @40
+			    Parent_View 	@38
+			    location   	(-805, -457)
+			    label      	(object SegLabel @41
+				Parent_View 	@40
+				location   	(589, 2007)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	240
+				justify    	0
+				label      	"+listChanges"
+				pctDist    	0.752407
+				height     	41
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"403520B401AD"
+			    client     	@38
+			    supplier   	@27
+			    vertices   	(list Points
+				(459, 1703)
+				(459, 2047)
+				(746, 2047))
+			    line_style 	3
+			    origin_attachment 	(459, 1703)
+			    terminal_attachment 	(746, 2047)
+			    label      	(object SegLabel @42
+				Parent_View 	@40
+				location   	(655, 2087)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.856563
+				height     	40
+				orientation 	1))))
+		(object ClassView "Class" "Logical View::ecore::EObject" @43
+		    ShowCompartmentStereotypes 	TRUE
+		    SuppressAttribute 	TRUE
+		    SuppressOperation 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(2448, 752)
+		    label      	(object ItemLabel
+			Parent_View 	@43
+			location   	(2239, 683)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	419
+			justify    	0
+			label      	"EObject")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"3C4F1C860123"
+		    width      	437
+		    height     	162
+		    annotation 	8)
+		(object AssociationViewNew "$UNNAMED$3" @44
+		    location   	(1906, 741)
+		    stereotype 	TRUE
+		    quidu      	"4FAD04280293"
+		    roleview_list 	(list RoleViews
+			(object RoleView "$UNNAMED$4" @45
+			    Parent_View 	@44
+			    location   	(1426, -1067)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FAD04290208"
+			    client     	@44
+			    supplier   	@4
+			    line_style 	3
+			    origin_attachment 	(1906, 741)
+			    terminal_attachment 	(1582, 741))
+			(object RoleView "key" @46
+			    Parent_View 	@44
+			    location   	(1426, -1067)
+			    label      	(object SegLabel @47
+				Parent_View 	@46
+				location   	(2124, 698)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	96
+				justify    	0
+				label      	"+key"
+				pctDist    	0.674923
+				height     	44
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FAD04290209"
+			    client     	@44
+			    supplier   	@43
+			    line_style 	3
+			    origin_attachment 	(1906, 741)
+			    terminal_attachment 	(2230, 741)
+			    label      	(object SegLabel @48
+				Parent_View 	@46
+				location   	(2156, 790)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"1"
+				pctDist    	0.774081
+				height     	49
+				orientation 	1))))
+		(object AssociationViewNew "$UNNAMED$11" @49
+		    location   	(2236, 1262)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"4FC3AB31020B"
+		    roleview_list 	(list RoleViews
+			(object RoleView "referenceValue" @50
+			    Parent_View 	@49
+			    location   	(700, -850)
+			    label      	(object SegLabel @51
+				Parent_View 	@50
+				location   	(2127, 1219)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	300
+				justify    	0
+				label      	"+referenceValue"
+				pctDist    	-1.195652
+				height     	44
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FC3AB3202F2"
+			    client     	@49
+			    supplier   	@43
+			    vertices   	(list Points
+				(2236, 1262)
+				(2328, 1262)
+				(2328, 833))
+			    line_style 	3
+			    origin_attachment 	(2236, 1262)
+			    terminal_attachment 	(2328, 833)
+			    label      	(object SegLabel @52
+				Parent_View 	@50
+				location   	(2392, 1240)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.218814
+				height     	64
+				orientation 	1))
+			(object RoleView "$UNNAMED$12" @53
+			    Parent_View 	@49
+			    location   	(700, -850)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FC3AB3202FC"
+			    client     	@49
+			    supplier   	@5
+			    line_style 	3
+			    origin_attachment 	(2236, 1262)
+			    terminal_attachment 	(1716, 1262))))
+		(object AssociationViewNew "$UNNAMED$7" @54
+		    location   	(2081, 276)
+		    stereotype 	TRUE
+		    quidu      	"4FAD1D57013C"
+		    roleview_list 	(list RoleViews
+			(object RoleView "$UNNAMED$8" @55
+			    Parent_View 	@54
+			    location   	(-191, -1564)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FAD1D5A00FA"
+			    client     	@54
+			    supplier   	@16
+			    line_style 	3
+			    origin_attachment 	(2081, 276)
+			    terminal_attachment 	(1500, 276))
+			(object RoleView "objectsToAttach" @56
+			    Parent_View 	@54
+			    location   	(-191, -1564)
+			    label      	(object SegLabel @57
+				Parent_View 	@56
+				location   	(2079, 324)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	324
+				justify    	0
+				label      	"+objectsToAttach"
+				pctDist    	-0.010811
+				height     	48
+				orientation 	1)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FAD1D5A0104"
+			    client     	@54
+			    supplier   	@43
+			    vertices   	(list Points
+				(2081, 276)
+				(2266, 276)
+				(2266, 671))
+			    line_style 	3
+			    origin_attachment 	(2081, 276)
+			    terminal_attachment 	(2266, 671)
+			    label      	(object SegLabel @58
+				Parent_View 	@56
+				location   	(2333, 326)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	113
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.405172
+				height     	67
+				orientation 	0))))
+		(object AssociationViewNew "$UNNAMED$1" @59
+		    location   	(2323, 148)
+		    stereotype 	TRUE
+		    quidu      	"4FAD03BD02DF"
+		    roleview_list 	(list RoleViews
+			(object RoleView "$UNNAMED$2" @60
+			    Parent_View 	@59
+			    location   	(1843, -1660)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FAD03BE01C8"
+			    client     	@59
+			    supplier   	@16
+			    line_style 	3
+			    origin_attachment 	(2323, 148)
+			    terminal_attachment 	(1500, 148))
+			(object RoleView "objectsToDetach" @61
+			    Parent_View 	@59
+			    location   	(1843, -1660)
+			    label      	(object SegLabel @62
+				Parent_View 	@61
+				location   	(2428, 191)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	336
+				justify    	0
+				label      	"+objectsToDetach"
+				pctDist    	0.127737
+				height     	43
+				orientation 	1)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FAD03BE01C9"
+			    client     	@59
+			    supplier   	@43
+			    vertices   	(list Points
+				(2323, 148)
+				(2622, 148)
+				(2622, 671))
+			    line_style 	3
+			    origin_attachment 	(2323, 148)
+			    terminal_attachment 	(2622, 671)
+			    label      	(object SegLabel @63
+				Parent_View 	@61
+				location   	(2680, 194)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	70
+				justify    	0
+				label      	"0..*"
+				pctDist    	0.420925
+				height     	58
+				orientation 	0))))
+		(object AssociationViewNew "$UNNAMED$15" @64
+		    location   	(2637, 2470)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"4FC3B15301CC"
+		    roleview_list 	(list RoleViews
+			(object RoleView "referenceValues" @65
+			    Parent_View 	@64
+			    location   	(1405, -218)
+			    label      	(object SegLabel @66
+				Parent_View 	@65
+				location   	(2438, 2539)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	324
+				justify    	0
+				label      	"+referenceValues"
+				pctDist    	-0.042417
+				height     	200
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FC3B15501BB"
+			    client     	@64
+			    supplier   	@43
+			    line_style 	3
+			    origin_attachment 	(2637, 2470)
+			    terminal_attachment 	(2637, 833)
+			    label      	(object SegLabel @67
+				Parent_View 	@65
+				location   	(2582, 2687)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"0..*"
+				pctDist    	-0.132962
+				height     	56
+				orientation 	0))
+			(object RoleView "$UNNAMED$16" @68
+			    Parent_View 	@64
+			    location   	(1405, -218)
+			    label      	(object SegLabel @69
+				Parent_View 	@68
+				location   	(1445, 2546)
+				hidden     	TRUE
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	60
+				justify    	0
+				label      	""
+				pctDist    	0.800000
+				height     	42
+				orientation 	1)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"4FC3B15501C5"
+			    client     	@64
+			    supplier   	@27
+			    vertices   	(list Points
+				(2637, 2470)
+				(2637, 2587)
+				(1253, 2587)
+				(1253, 2451))
+			    line_style 	3
+			    origin_attachment 	(2637, 2470)
+			    terminal_attachment 	(1253, 2451))))
+		(object ClassView "Class" "Logical View::change::FeatureMapEntry" @70
+		    ShowCompartmentStereotypes 	TRUE
+		    IncludeAttribute 	TRUE
+		    IncludeOperation 	TRUE
+		    location   	(2176, 2256)
+		    label      	(object ItemLabel
+			Parent_View 	@70
+			location   	(1904, 2124)
+			fill_color 	13434879
+			nlines     	1
+			max_width  	545
+			justify    	0
+			label      	"FeatureMapEntry")
+		    icon_style 	"Icon"
+		    line_color 	3342489
+		    fill_color 	13434879
+		    quidu      	"426F82D30210"
+		    compartment 	(object Compartment
+			Parent_View 	@70
+			location   	(1904, 2184)
+			icon_style 	"Icon"
+			fill_color 	13434879
+			anchor     	2
+			nlines     	4
+			max_width  	437)
+		    width      	563
+		    height     	288
+		    annotation 	8)
+		(object AssociationViewNew "$UNNAMED$23" @71
+		    location   	(2337, 1855)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"426F8309000F"
+		    roleview_list 	(list RoleViews
+			(object RoleView "feature" @72
+			    Parent_View 	@71
+			    location   	(289, -401)
+			    label      	(object SegLabel @73
+				Parent_View 	@72
+				location   	(2424, 1666)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	144
+				justify    	0
+				label      	"+feature"
+				pctDist    	0.739300
+				height     	87
+				orientation 	1)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"426F830A0255"
+			    client     	@71
+			    supplier   	@3
+			    line_style 	3
+			    origin_attachment 	(2337, 1855)
+			    terminal_attachment 	(2337, 1598)
+			    label      	(object SegLabel @74
+				Parent_View 	@72
+				location   	(2376, 1735)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"1"
+				pctDist    	0.470817
+				height     	39
+				orientation 	1))
+			(object RoleView "$UNNAMED$24" @75
+			    Parent_View 	@71
+			    location   	(289, -401)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"426F830A0256"
+			    client     	@71
+			    supplier   	@70
+			    line_style 	3
+			    origin_attachment 	(2337, 1855)
+			    terminal_attachment 	(2337, 2112))))
+		(object AssociationViewNew "$UNNAMED$25" @76
+		    location   	(1838, 2340)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"426F8354019D"
+		    roleview_list 	(list RoleViews
+			(object RoleView "$UNNAMED$26" @77
+			    Parent_View 	@76
+			    location   	(-322, 84)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"426F83550221"
+			    client     	@76
+			    supplier   	@27
+			    line_style 	3
+			    origin_attachment 	(1838, 2340)
+			    terminal_attachment 	(1782, 2340))
+			(object RoleView "featureMapEntryValues" @78
+			    Parent_View 	@76
+			    location   	(-322, 84)
+			    label      	(object SegLabel @79
+				Parent_View 	@78
+				location   	(1957, 2506)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	444
+				justify    	0
+				label      	"+featureMapEntryValues"
+				pctDist    	2.090909
+				height     	166
+				orientation 	1)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"426F83550222"
+			    client     	@76
+			    supplier   	@70
+			    line_style 	3
+			    origin_attachment 	(1838, 2340)
+			    terminal_attachment 	(1895, 2340))))
+		(object AssociationViewNew "$UNNAMED$27" @80
+		    location   	(2506, 1570)
+		    stereotype 	TRUE
+		    line_color 	3342489
+		    quidu      	"426F83810089"
+		    roleview_list 	(list RoleViews
+			(object RoleView "referenceValue" @81
+			    Parent_View 	@80
+			    location   	(346, -686)
+			    label      	(object SegLabel @82
+				Parent_View 	@81
+				location   	(2322, 1372)
+				anchor     	1
+				anchor_loc 	1
+				nlines     	1
+				max_width  	300
+				justify    	0
+				label      	"+referenceValue"
+				pctDist    	0.269231
+				height     	185
+				orientation 	0)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"426F838500C1"
+			    client     	@80
+			    supplier   	@43
+			    line_style 	3
+			    origin_attachment 	(2506, 1570)
+			    terminal_attachment 	(2506, 833)
+			    label      	(object SegLabel @83
+				Parent_View 	@81
+				location   	(2560, 1386)
+				anchor     	2
+				anchor_loc 	1
+				nlines     	1
+				max_width  	15
+				justify    	0
+				label      	"0..1"
+				pctDist    	0.251344
+				height     	54
+				orientation 	1))
+			(object RoleView "$UNNAMED$28" @84
+			    Parent_View 	@80
+			    location   	(346, -686)
+			    stereotype 	TRUE
+			    line_color 	3342489
+			    quidu      	"426F838500C2"
+			    client     	@80
+			    supplier   	@70
+			    vertices   	(list Points
+				(2506, 1570)
+				(2506, 2259)
+				(2457, 2259))
+			    line_style 	3
+			    origin_attachment 	(2506, 1570)
+			    terminal_attachment 	(2457, 2259))))))))

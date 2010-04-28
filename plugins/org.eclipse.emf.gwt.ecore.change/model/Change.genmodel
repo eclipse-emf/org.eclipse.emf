@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.ecore.change/src"
+    creationCommands="false" editorDirectory="" modelPluginID="org.eclipse.emf.ecore.change"
+    runtimeJar="true" modelName="Change" modelPluginClass="org.eclipse.emf.ecore.change.ChangePlugin"
+    updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
+    complianceLevel="5.0" language="en" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <foreignModel>Change.mdl</foreignModel>
+  <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
+  <foreignModel>../..</foreignModel>
+  <genPackages prefix="Change" basePackage="org.eclipse.emf.ecore" disposableProviderFactory="true"
+      ecorePackage="Change.ecore#/">
+    <genEnums ecoreEnum="Change.ecore#//ChangeKind">
+      <genEnumLiterals ecoreEnumLiteral="Change.ecore#//ChangeKind/ADD"/>
+      <genEnumLiterals ecoreEnumLiteral="Change.ecore#//ChangeKind/REMOVE"/>
+      <genEnumLiterals ecoreEnumLiteral="Change.ecore#//ChangeKind/MOVE"/>
+    </genEnums>
+    <genClasses ecoreClass="Change.ecore#//ChangeDescription">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Change.ecore#//ChangeDescription/objectChanges"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Change.ecore#//ChangeDescription/objectsToDetach"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Change.ecore#//ChangeDescription/objectsToAttach"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Change.ecore#//ChangeDescription/resourceChanges"/>
+      <genOperations ecoreOperation="Change.ecore#//ChangeDescription/apply"/>
+      <genOperations ecoreOperation="Change.ecore#//ChangeDescription/applyAndReverse"/>
+    </genClasses>
+    <genClasses ecoreClass="Change.ecore#//EObjectToChangesMapEntry">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Change.ecore#//EObjectToChangesMapEntry/key"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Change.ecore#//EObjectToChangesMapEntry/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Change.ecore#//FeatureChange">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//FeatureChange/featureName"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//FeatureChange/dataValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//FeatureChange/set"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//FeatureChange/value"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Change.ecore#//FeatureChange/feature"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Change.ecore#//FeatureChange/referenceValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Change.ecore#//FeatureChange/listChanges"/>
+      <genOperations ecoreOperation="Change.ecore#//FeatureChange/apply">
+        <genParameters ecoreParameter="Change.ecore#//FeatureChange/apply/originalObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="Change.ecore#//FeatureChange/applyAndReverse">
+        <genParameters ecoreParameter="Change.ecore#//FeatureChange/applyAndReverse/originalObject"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="Change.ecore#//ListChange">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//ListChange/kind"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//ListChange/dataValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//ListChange/index"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//ListChange/moveToIndex"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//ListChange/values"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Change.ecore#//ListChange/referenceValues"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Change.ecore#//ListChange/feature"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Change.ecore#//ListChange/featureMapEntryValues"/>
+      <genOperations ecoreOperation="Change.ecore#//ListChange/apply">
+        <genParameters ecoreParameter="Change.ecore#//ListChange/apply/originalList"/>
+      </genOperations>
+      <genOperations ecoreOperation="Change.ecore#//ListChange/applyAndReverse">
+        <genParameters ecoreParameter="Change.ecore#//ListChange/applyAndReverse/originalList"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="Change.ecore#//ResourceChange">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//ResourceChange/resourceURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//ResourceChange/resource"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//ResourceChange/value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Change.ecore#//ResourceChange/listChanges"/>
+      <genOperations ecoreOperation="Change.ecore#//ResourceChange/apply"/>
+      <genOperations ecoreOperation="Change.ecore#//ResourceChange/applyAndReverse"/>
+    </genClasses>
+    <genClasses ecoreClass="Change.ecore#//FeatureMapEntry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//FeatureMapEntry/featureName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//FeatureMapEntry/dataValue"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute Change.ecore#//FeatureMapEntry/value"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Change.ecore#//FeatureMapEntry/feature"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Change.ecore#//FeatureMapEntry/referenceValue"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

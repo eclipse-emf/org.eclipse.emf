@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="change"
+    nsURI="http://www.eclipse.org/emf/2003/Change" nsPrefix="change">
+  <eClassifiers xsi:type="ecore:EClass" name="ChangeDescription">
+    <eOperations name="apply"/>
+    <eOperations name="applyAndReverse"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectChanges" upperBound="-1"
+        eType="#//EObjectToChangesMapEntry" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectsToDetach" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        transient="true" derived="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectsToAttach" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true" resolveProxies="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceChanges" upperBound="-1"
+        eType="#//ResourceChange" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EObjectToChangesMapEntry" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="key" lowerBound="1" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
+        eType="#//FeatureChange" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureChange">
+    <eOperations name="apply">
+      <eParameters name="originalObject" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    </eOperations>
+    <eOperations name="applyAndReverse">
+      <eParameters name="originalObject" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true" unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="set" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"
+        volatile="true" unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referenceValue" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        volatile="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="listChanges" upperBound="-1"
+        eType="#//ListChange" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ListChange">
+    <eOperations name="apply">
+      <eParameters name="originalList">
+        <eGenericType eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEList">
+          <eTypeArguments eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eOperations name="applyAndReverse">
+      <eParameters name="originalList">
+        <eGenericType eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEList">
+          <eTypeArguments eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ChangeKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataValues" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="moveToIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" upperBound="-1"
+        eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"
+        volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referenceValues" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="featureMapEntryValues"
+        upperBound="-1" eType="#//FeatureMapEntry" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ChangeKind">
+    <eLiterals name="ADD"/>
+    <eLiterals name="REMOVE" value="1"/>
+    <eLiterals name="MOVE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceChange">
+    <eOperations name="apply"/>
+    <eOperations name="applyAndReverse"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EResource"
+        transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" changeable="false"
+        volatile="true" transient="true" derived="true">
+      <eGenericType eClassifier="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEList">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="listChanges" upperBound="-1"
+        eType="#//ListChange" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureMapEntry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true" unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        volatile="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feature" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"
+        volatile="true" unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referenceValue" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        volatile="true"/>
+  </eClassifiers>
+</ecore:EPackage>
