@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.eclipse.team.cvs.core.cvsnature">
+<project reference="1.0,:extssh:dev.eclipse.org:/cvsroot/tools,org.eclipse.orbit/com.google.gwt.servlet,com.google.gwt.servlet,v2_0_3"/>
+<project reference="1.0,:extssh:dev.eclipse.org:/cvsroot/tools,org.eclipse.orbit/com.google.gwt.user,com.google.gwt.user,v2_0_3"/>
+<project reference="1.0,:extssh:dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/plugins/org.eclipse.emf.gwt.common,org.eclipse.emf.gwt.common"/>
+<project reference="1.0,:extssh:dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/plugins/org.eclipse.emf.gwt.ecore,org.eclipse.emf.gwt.ecore"/>
+<project reference="1.0,:extssh:dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/plugins/org.eclipse.emf.gwt.ecore.change,org.eclipse.emf.gwt.ecore.change"/>
+<project reference="1.0,:extssh:dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/plugins/org.eclipse.emf.gwt.ecore.edit,org.eclipse.emf.gwt.ecore.edit"/>
+<project reference="1.0,:extssh:dev.eclipse.org:/cvsroot/modeling,org.eclipse.emf/org.eclipse.emf/plugins/org.eclipse.emf.gwt.edit,org.eclipse.emf.gwt.edit"/>
+</provider>
+</psf>
