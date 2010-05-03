@@ -2,14 +2,15 @@
 <rmap xmlns="http://www.eclipse.org/buckminster/RMap-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0">
 
-	<locator pattern="^org\.eclipse\.emf\.releng\.buckminster(?:\.feature)?$" searchPathRef="local.releng"/>
+	<locator pattern="^org\.eclipse\.emf\.releng\.buckminster$" searchPathRef="local.releng"/>
 	<locator pattern="^org\.eclipse\.rap(?:\..+)?$" searchPathRef="rap"/>
 	<locator searchPathRef="eclipse.helios"/>
 
 	<searchPath name="local.releng">
-		<provider componentTypes="buckminster,eclipse.feature" readerType="local" source="true" mutable="false">
-			<uri format="{0}org.eclipse.emf.releng.buckminster">
+		<provider componentTypes="buckminster" readerType="local" source="true" mutable="false">
+			<uri format="{0}{1}">
 				<bc:propertyRef key="checkout.location"/>
+				<bc:propertyRef key="buckminster.component"/>
 			</uri>
 		</provider>
 	</searchPath>
