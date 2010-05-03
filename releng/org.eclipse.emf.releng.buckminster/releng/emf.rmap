@@ -7,6 +7,9 @@
 	<locator pattern="^org\.eclipse\.emf(?:\..+)?$" searchPathRef="emf"/>
 	<locator pattern="^org\.eclipse\.xsd(?:\..+)?$" searchPathRef="xsd"/>
 
+	<locator pattern="^org\.eclipse\.test$" searchPathRef="eclipse.test"/>
+	<locator pattern="^org\.eclipse\.ant\.optional\.junit$" searchPathRef="eclipse.test"/>
+
 	<searchPath name="emf">
 		<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
 			<uri format="{0},org.eclipse.emf/org.eclipse.emf/plugins/{1}">
@@ -101,6 +104,19 @@
 		<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
 			<uri format="{0},org.eclipse.emf/org.eclipse.emf/releng/{1}-feature">
 				<bc:propertyRef key="source.repository.location"/>
+				<bc:propertyRef key="buckminster.component"/>
+			</uri>
+		</provider>
+	</searchPath>
+
+	<searchPath name="eclipse.test">
+		<provider componentTypes="osgi.bundle" readerType="cvs" source="true" mutable="false">
+			<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/eclipse,{0}">
+				<bc:propertyRef key="buckminster.component"/>
+			</uri>
+		</provider>
+		<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
+			<uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/eclipse,{0}-feature">
 				<bc:propertyRef key="buckminster.component"/>
 			</uri>
 		</provider>

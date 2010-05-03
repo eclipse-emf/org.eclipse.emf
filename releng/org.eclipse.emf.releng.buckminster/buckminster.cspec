@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="org.eclipse.emf.releng.buckminster" componentType="buckminster" version="0.1.0.qualifier">
+<cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" componentType="buckminster" name="org.eclipse.emf.releng.buckminster" version="0.1.0.qualifier" shortDesc="Buckminster component nature of the EMF releng project used to capture the target platform dependencies">
     <cs:dependencies>
         <cs:dependency name="org.eclipse.platform" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.jdt" componentType="eclipse.feature"/>
@@ -7,7 +7,7 @@
 
 		<!-- EMF RAP build requirements -->
         <cs:dependency name="org.eclipse.rap.ui" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.rap.ui.workbench" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.rap.ui.views" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.rap.ui.workbench" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
