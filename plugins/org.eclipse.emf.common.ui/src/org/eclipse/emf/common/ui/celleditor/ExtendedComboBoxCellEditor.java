@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedComboBoxCellEditor.java,v 1.9 2010/03/19 17:16:43 emerks Exp $
+ * $Id: ExtendedComboBoxCellEditor.java,v 1.10 2010/05/03 12:09:09 emerks Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -222,6 +222,10 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
         if (list.contains(previousValue))
         {
           setValue(previousValue);
+        }
+        else if (!list.isEmpty())
+        {
+          setValue(list.get(0));
         }
       }
     }
