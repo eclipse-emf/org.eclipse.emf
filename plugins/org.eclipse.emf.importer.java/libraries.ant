@@ -1,0 +1,107 @@
+<project name="Build libraries" default="build">
+	<macrodef name="propertyvalue">
+		<attribute name="property" />
+		<attribute name="name" />
+		<sequential>
+			<property name="@{property}" value="${@{name}}" />
+		</sequential>
+	</macrodef>
+
+	<target name="-define.properties">
+		<property prefix="build.properties." file="build.properties" />
+
+		<!-- remove the default entry (".") from the list -->
+		<pathconvert property="libraries">
+			<filelist dir="${basedir}" files="${build.properties.jars.compile.order}" />
+			<globmapper from="${basedir}/*" to="${basedir}/*" handledirsep="true" />
+		</pathconvert>
+
+		<path id="libraries" path="${libraries}" />
+
+		<pathconvert property="library.build.temp.dirs">
+			<path refid="libraries" />
+			<globmapper from="*" to="*-temp" />
+		</pathconvert>
+
+		<path id="library.build.temp.path" path="${library.build.temp.dirs}" />
+
+		<pathconvert property="library.build.stamps" refid="library.build.temp.path">
+			<globmapper from="*" to="*/.stamp" />
+		</pathconvert>
+
+		<path id="library.stamps.path" path="${library.build.stamps}" />
+	</target>
+
+	<target name="build" depends="-define.properties">
+		<touch mkdirs="true" verbose="false">
+			<path refid="library.stamps.path" />
+		</touch>
+
+		<subant genericantfile="${ant.file}" target="-build.library" inheritall="true">
+			<path refid="library.build.temp.path" />
+			<property name="original.basedir" value="${basedir}" />
+		</subant>
+
+		<delete includeemptydirs="true">
+			<path refid="library.stamps.path" />
+			<path refid="library.build.temp.path" />
+		</delete>
+	</target>
+
+	<target name="-build.library">
+		<pathconvert property="library" dirsep="/">
+			<path location="${basedir}" />
+			<globmapper from="${original.basedir}/*-temp" to="*" handledirsep="true" />
+		</pathconvert>
+
+		<propertyvalue property="source.dir" name="build.properties.source.${library}" />
+
+		<condition property="output.definition" value="build.properties.output.${library}" else="build.properties.output..">
+			<isset property="build.properties.output.${library}" />
+		</condition>
+
+		<propertyvalue property="target.dir" name="${output.definition}" />
+
+		<condition property="excludes" value="">
+			<not>
+				<isset property="build.properties.exclude.${library}" />
+			</not>
+		</condition>
+
+		<propertyvalue property="excludes" name="build.properties.exclude.${library}" />
+
+		<echo message="Library...: ${library}" />
+		<echo message="Source dir: ${source.dir}" />
+		<echo message="Target dir: ${target.dir}" />
+		<echo message="Excludes..: ${excludes}" />
+
+		<property name="library.path" location="${original.basedir}/${library}" />
+
+		<jar destfile="${library.path}">
+			<fileset dir="${original.basedir}/${target.dir}" excludes="${excludes}">
+				<present targetdir="${original.basedir}/${source.dir}">
+					<mapper>
+						<filtermapper>
+							<replaceregex pattern="(?:\$$.+)?\.class$$" replace=".java" />
+						</filtermapper>
+					</mapper>
+				</present>
+			</fileset>
+		</jar>
+
+		<eclipse.convertPath fileSystemPath="${library.path}" property="library.workspace.path" />
+		<eclipse.refreshLocal resource="${library.workspace.path}" depth="infinite" />
+	</target>
+
+	<target name="clean" depends="-define.properties">
+		<!-- remove the libaries -->
+		<delete includeemptydirs="true">
+			<path refid="library.stamps.path" />
+			<path refid="library.build.temp.path" />
+			<path refid="libraries" />
+		</delete>
+
+		<eclipse.convertPath fileSystemPath="${basedir}" property="project.workspace.path" />
+		<eclipse.refreshLocal resource="${project.workspace.path}" depth="infinite" />
+	</target>
+</project>
