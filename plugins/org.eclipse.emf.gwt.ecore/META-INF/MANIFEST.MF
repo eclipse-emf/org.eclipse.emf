@@ -21,7 +21,6 @@ Export-Package: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xml.type.internal,
  org.eclipse.emf.ecore.xml.type.util
 Require-Bundle: org.eclipse.emf.gwt.common;visibility:=reexport,
- org.eclipse.core.resources;resolution:=optional,
  com.google.gwt.user;bundle-version="2.0.3"
 Eclipse-BuddyPolicy: dependent
 Eclipse-LazyStart: true
