@@ -18,8 +18,8 @@
 	<target name="create.target.platform.repository">
 		<buckminster.targetPlatformLocation property="target.platform.location" />
 		<property name="target.platform.repository" value="file:/${sp:output}" />
-		<p2.publish.featuresAndBundles repository="${target.platform.repository}" source="${target.platform.location}" publishArtifacts="false" />
-		<buckminster.publishJRE repository="${target.platform.repository}" />
+		<p2.publish.featuresAndBundles metadataRepository="${target.platform.repository}" source="${target.platform.location}" publishArtifacts="false" />
+		<buckminster.publishJRE metadataRepository="${target.platform.repository}" publishArtifacts="false" />
 	</target>
 
 	<target name="-setup.build.id">
