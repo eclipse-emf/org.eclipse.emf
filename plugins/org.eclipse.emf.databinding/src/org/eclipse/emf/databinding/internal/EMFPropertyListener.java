@@ -11,7 +11,7 @@
  *   Tom Schindl <tom.schindl@bestsolution.at> - port to EMF in 262160
  * </copyright>
  *
- * $Id: EMFPropertyListener.java,v 1.5 2009/12/30 18:10:55 emerks Exp $
+ * $Id: EMFPropertyListener.java,v 1.6 2010/05/04 12:59:27 tschindl Exp $
  */
 package org.eclipse.emf.databinding.internal;
 
@@ -133,8 +133,14 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
           case Notification.SET:
           case Notification.RESOLVE: {
             ListDiffEntry[] listDiffEntries = new ListDiffEntry [2];
-            listDiffEntries[0] = Diffs.createListDiffEntry(msg.getPosition(), false, msg.getOldValue());
-            listDiffEntries[1] = Diffs.createListDiffEntry(msg.getPosition(), true, msg.getNewValue());
+            int pos = msg.getPosition();
+            // Looks like a single valued feature
+            if (pos == -1)
+            {
+              pos = 0;
+            }
+            listDiffEntries[0] = Diffs.createListDiffEntry(pos, false, msg.getOldValue());
+            listDiffEntries[1] = Diffs.createListDiffEntry(pos, true, msg.getNewValue());
             diff = Diffs.createListDiff(listDiffEntries);
             break;
           }
@@ -175,7 +181,7 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
         switch (msg.getEventType())
         {
           case Notification.ADD: {
-            diff = Diffs.createSetDiff(Collections.singleton(msg.getNewValue()),Collections.emptySet());
+            diff = Diffs.createSetDiff(Collections.singleton(msg.getNewValue()), Collections.emptySet());
             break;
           }
           case Notification.ADD_MANY: {
@@ -184,7 +190,7 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
             break;
           }
           case Notification.REMOVE: {
-            diff = Diffs.createSetDiff(Collections.emptySet(),Collections.singleton(msg.getOldValue()));
+            diff = Diffs.createSetDiff(Collections.emptySet(), Collections.singleton(msg.getOldValue()));
             break;
           }
           case Notification.REMOVE_MANY: {
@@ -194,7 +200,7 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
           }
           case Notification.SET:
           case Notification.RESOLVE: {
-            diff = Diffs.createSetDiff(Collections.singleton(msg.getNewValue()), Collections.singleton(msg.getOldValue()) );
+            diff = Diffs.createSetDiff(Collections.singleton(msg.getNewValue()), Collections.singleton(msg.getOldValue()));
             break;
           }
           case Notification.MOVE:
