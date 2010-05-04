@@ -1,41 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Packaging">
-	<import file="${buckminster.pdetasks}" />
-
-	<macrodef name="componentVersion">
-		<attribute name="component" />
-		<attribute name="nameProperty" />
-		<attribute name="versionProperty" />
-		<sequential>
-			<!-- don't ever use a source feature to get the feature version -->
-			<buckminster.substitute value="@{component}" pattern="\.source(\.feature)?$" replacement="$$1" property="@{nameProperty}" />
-			<buckminster.componentVersion name="${@{nameProperty}}" property="@{versionProperty}" />
-			<!-- replace the ".qualifier" version suffix with the package qualifier -->
-			<buckminster.substitute value="${@{versionProperty}}" pattern="\.qualifier$" replacement="${package.qualifier}" property="@{versionProperty}" />
-		</sequential>
-	</macrodef>
-
-	<target name="create.target.platform.repository">
+	<target name="create.target.platform.metadata">
 		<buckminster.targetPlatformLocation property="target.platform.location" />
 		<property name="target.platform.repository" value="file:/${sp:output}" />
 		<p2.publish.featuresAndBundles metadataRepository="${target.platform.repository}" source="${target.platform.location}" publishArtifacts="false" />
 		<buckminster.publishJRE metadataRepository="${target.platform.repository}" publishArtifacts="false" />
 	</target>
 
-	<target name="-setup.build.id">
-		<property name="build.id" value="" />
+	<target name="-define.package.qualifier">
+		<!-- if the build.alias is non-empty then use it in preference -->
+		<condition property="package.qualifier" value="-${build.alias}">
+			<and>
+				<isset property="build.alias" />
+				<length string="${build.alias}" when="greater" length="0" />
+			</and>
+		</condition>
+		<!-- otherwise use the build.id if defined, if not then fall back to an empty string -->
 		<condition property="package.qualifier" value="-${build.id}" else="">
-			<length string="${build.id}" when="greater" length="0" />
+			<and>
+				<isset property="build.id" />
+				<length string="${build.id}" when="greater" length="0" />
+			</and>
 		</condition>
 	</target>
 
-	<target name="package.site" depends="-setup.build.id">
-		<componentVersion component="${feature}" nameProperty="no.source.feature" versionProperty="feature.version" />
-
+	<target name="package.site" depends="-define.package.qualifier">
 		<mkdir dir="${sp:output}" />
 
 		<!-- create the desired ZIP file -->
-		<zip basedir="${sp:repository}" destfile="${sp:output}/${package.name}-${feature.version}.zip" />
+		<zip basedir="${sp:repository}" destfile="${sp:output}/${package.name}${package.qualifier}.zip" />
 	</target>
 
 	<target name="-locate.launcher.jar" unless="launcher.jar">
@@ -51,7 +44,7 @@
 		</pathconvert>
 	</target>
 
-	<target name="-define.common.properties" depends="-setup.build.id,-locate.launcher.jar">
+	<target name="-define.common.properties" depends="-define.package.qualifier,-locate.launcher.jar">
 		<buckminster.targetPlatformLocation property="target.platform.location" />
 		<property name="bundle.pools.for.prerequisites" value="file:/${target.platform.location}" />
 		<property name="temp.directory" location="${sp:output}/${package.name}-temp/" />
@@ -104,16 +97,11 @@
 		</delete>
 	</target>
 
-	<target name="package.feature" depends="-define.common.properties, -install.prerequisite.ius">
+	<target name="package.ius" depends="-define.common.properties, -install.prerequisite.ius">
 		<property name="install.directory.name" value="eclipse" />
 		<property name="install.destination" location="${temp.directory}/${install.directory.name}" />
 		<!-- this may have already been defined in the install.prerequisite.ius target (if it ran) -->
 		<property name="bundle.pools.for.install" value="${bundle.pools.for.prerequisites}" />
-
-		<property name="feature.iu" value="${feature}.feature.group" />
-		<condition property="install.ius" value="${feature.iu},${extra.ius}" else="${feature.iu}">
-			<isset property="extra.ius" />
-		</condition>
 
 		<delete dir="${install.destination}" />
 
@@ -137,7 +125,7 @@
 			<arg value="-profileproperties" />
 			<arg value="org.eclipse.equinox.p2.cache.extensions=${bundle.pools.for.install},org.eclipse.update.install.features=true" />
 			<arg value="-installIU" />
-			<arg value="${install.ius}" />
+			<arg value="${content.ius}" />
 			<arg value="-p2.os" />
 			<arg value="${wildcard}" />
 			<arg value="-p2.ws" />
@@ -152,10 +140,8 @@
 			<include name="p2/**" />
 		</delete>
 
-		<componentVersion component="${feature}" nameProperty="no.source.feature" versionProperty="feature.version" />
-
 		<!-- create the desired ZIP file -->
-		<zip basedir="${temp.directory}" destfile="${sp:output}/${package.name}-${feature.version}.zip">
+		<zip basedir="${temp.directory}" destfile="${sp:output}/${package.name}${package.qualifier}.zip">
 			<include name="${install.directory.name}/**" />
 		</zip>
 
@@ -163,14 +149,9 @@
 		<delete dir="${temp.directory}" />
 	</target>
 
-	<target name="package.model.files" depends="-define.common.properties">
+	<target name="package.models" depends="-define.common.properties">
 		<property name="install.destination" location="${temp.directory}/${top.directory}" />
 		<property name="bundle.pools.for.install" value="${bundle.pools.for.prerequisites}" />
-
-		<property name="feature.iu" value="${feature}.feature.group" />
-		<condition property="install.ius" value="${feature.iu},${extra.ius}" else="${feature.iu}">
-			<isset property="extra.ius" />
-		</condition>
 
 		<delete dir="${install.destination}" />
 
@@ -194,7 +175,7 @@
 			<arg value="-profileproperties" />
 			<arg value="org.eclipse.equinox.p2.cache.extensions=${bundle.pools.for.install}" />
 			<arg value="-installIU" />
-			<arg value="${install.ius}" />
+			<arg value="${content.ius}" />
 			<arg value="-p2.os" />
 			<arg value="${wildcard}" />
 			<arg value="-p2.ws" />
@@ -281,10 +262,8 @@
 			</none>
 		</delete>
 
-		<componentVersion component="${feature}" nameProperty="no.source.feature" versionProperty="feature.version" />
-
 		<!-- create the desired ZIP file -->
-		<zip basedir="${temp.directory}" destfile="${sp:output}/${package.name}-${feature.version}.zip">
+		<zip basedir="${temp.directory}" destfile="${sp:output}/${package.name}${package.qualifier}.zip">
 			<include name="${target.directory.name}/**" />
 		</zip>
 
