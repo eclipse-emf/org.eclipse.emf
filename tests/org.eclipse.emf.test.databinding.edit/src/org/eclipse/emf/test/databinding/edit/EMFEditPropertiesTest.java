@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPropertiesTest.java,v 1.5 2010/04/14 15:44:47 tschindl Exp $
+ * $Id: EMFEditPropertiesTest.java,v 1.6 2010/05/04 12:59:25 tschindl Exp $
  */
 package org.eclipse.emf.test.databinding.edit;
 
@@ -380,6 +380,46 @@ public class EMFEditPropertiesTest extends TestCase
     assertFalse( commandStack.canUndo() );
     commandStack.redo();
     commandStack.flush();
+  }
+
+
+  public void testListPropertyOnSingleFeature() {
+    Realm.runWithDefault(testRealm, new Runnable()
+    {
+
+      public void run()
+      {
+        _testListPropertyOnSingleFeature();
+      }
+    });
+  }
+
+  public void _testListPropertyOnSingleFeature() {
+    A a = (A)resource.getContents().get(0);
+    IEMFListProperty prop = EMFEditProperties.list(editingDomain, EmfdbPackage.Literals.A__STRING);
+    IObservableList l = prop.observe(a);
+    assertEquals(1, l.size());
+    assertEquals("Instance 1", l.get(0));
+    a.setString("Bla");
+    assertEquals("Bla", l.get(0));
+    l.addListChangeListener(new IListChangeListener()
+      {
+
+        public void handleListChange(ListChangeEvent event)
+        {
+          System.err.println("Done");
+          assertEquals(2, event.diff.getDifferences().length);
+
+          assertEquals(0, event.diff.getDifferences()[0].getPosition());
+          assertFalse(event.diff.getDifferences()[0].isAddition());
+          assertEquals("Bla", event.diff.getDifferences()[0].getElement());
+
+          assertEquals(0, event.diff.getDifferences()[1].getPosition());
+          assertTrue(event.diff.getDifferences()[1].isAddition());
+          assertEquals("Instance 1", event.diff.getDifferences()[1].getElement());
+        }
+      });
+    a.setString("Instance 1");
   }
 
   //
