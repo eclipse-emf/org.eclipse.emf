@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.emf.releng.buckminster.feature"
-      label="Feature nature of the EMF releng project used to capture the build content"
+      label="Feature nature of the EMF releng project used only for tagging"
       version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
@@ -18,10 +18,6 @@
 
    <includes
          id="org.eclipse.emf.build"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.emf.tests"
          version="0.0.0"/>
 
 </feature>

@@ -2,7 +2,7 @@
 <rmap xmlns="http://www.eclipse.org/buckminster/RMap-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0">
 
-	<locator pattern="^org\.eclipse\.emf\.build(?:\..+)?$" searchPathRef="releng"/>
+	<locator pattern="^org\.eclipse\.emf\.(?:releng|build)(?:\..+)?$" searchPathRef="releng"/>
 	<locator pattern="^org\.eclipse\.emf\.mapping\.xsd2ecore(?:\..+)?$" searchPathRef="xsd"/>
 	<locator pattern="^org\.eclipse\.emf(?:\..+)?$" searchPathRef="emf"/>
 	<locator pattern="^org\.eclipse\.xsd(?:\..+)?$" searchPathRef="xsd"/>
@@ -102,9 +102,13 @@
 
 	<searchPath name="releng">
 		<provider componentTypes="eclipse.feature" readerType="cvs" source="true" mutable="false">
-			<uri format="{0},org.eclipse.emf/org.eclipse.emf/releng/{1}-feature">
+			<uri format="{0},org.eclipse.emf/org.eclipse.emf/releng/{1}">
 				<bc:propertyRef key="source.repository.location"/>
-				<bc:propertyRef key="buckminster.component"/>
+				<bc:replace pattern="^(.*)\.feature-feature$" replacement="$1">
+					<bc:replace pattern="^(.*)$" replacement="$1-feature">
+						<bc:propertyRef key="buckminster.component"/>
+					</bc:replace>
+				</bc:replace>
 			</uri>
 		</provider>
 	</searchPath>
